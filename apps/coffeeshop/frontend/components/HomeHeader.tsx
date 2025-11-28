@@ -149,9 +149,8 @@ export function HomeHeader() {
                         e.stopPropagation();
                         handleLanguageSelect(lang.code);
                       }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-theme-bg-tertiary transition-colors ${
-                        lang.code === selectedLanguage ? 'bg-theme-bg-secondary' : ''
-                      }`}
+                      className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-theme-bg-tertiary transition-colors ${lang.code === selectedLanguage ? 'bg-theme-bg-secondary' : ''
+                        }`}
                       role="menuitem"
                       aria-label={`Select ${lang.name}`}
                       aria-current={lang.code === selectedLanguage ? 'true' : undefined}
@@ -206,9 +205,8 @@ export function HomeHeader() {
                           e.stopPropagation();
                           handleCurrencySelect(currency);
                         }}
-                        className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-theme-bg-tertiary transition-colors ${
-                          currency === selectedCurrency ? 'bg-theme-bg-secondary' : ''
-                        }`}
+                        className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-theme-bg-tertiary transition-colors ${currency === selectedCurrency ? 'bg-theme-bg-secondary' : ''
+                          }`}
                         role="menuitem"
                         aria-label={`Select ${currency}`}
                         aria-current={currency === selectedCurrency ? 'true' : undefined}

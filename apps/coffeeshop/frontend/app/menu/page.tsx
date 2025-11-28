@@ -214,7 +214,7 @@ export default function MenuPage() {
       color: 'bg-blue-500',
       icon: (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/>
+          <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z" />
         </svg>
       )
     },
@@ -244,7 +244,7 @@ export default function MenuPage() {
       color: 'bg-theme-brand-primary-hover',
       icon: (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.77 3.54 15.57 2 12 2zm0 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+          <path d="M12 2C8.43 2 5.23 3.54 3.01 6L12 22l8.99-16C18.77 3.54 15.57 2 12 2zm0 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
         </svg>
       )
     },
@@ -254,7 +254,7 @@ export default function MenuPage() {
       color: 'bg-purple-500',
       icon: (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z"/>
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z" />
         </svg>
       )
     },
@@ -275,7 +275,7 @@ export default function MenuPage() {
       color: 'bg-theme-brand-primary-hover',
       icon: (
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M2 21h18v-2H2v2zm2-8h10V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v8zm13.33-1H17V5h-.67c-.82 0-1.56.41-2 1.03V13h3.67a2.5 2.5 0 000-5z"/>
+          <path d="M2 21h18v-2H2v2zm2-8h10V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v8zm13.33-1H17V5h-.67c-.82 0-1.56.41-2 1.03V13h3.67a2.5 2.5 0 000-5z" />
         </svg>
       )
     },
@@ -372,16 +372,15 @@ export default function MenuPage() {
   const filteredItems = selectedCategory === 'all'
     ? menuTypeFilteredItems
     : selectedCategory === 'new'
-    ? menuTypeFilteredItems.filter(isItemNew)
-    : selectedCategory === 'favorites'
-    ? menuTypeFilteredItems.filter(item => favoritesStore.isFavorite(item.id))
-    : menuTypeFilteredItems.filter(item => item.category === selectedCategory);
+      ? menuTypeFilteredItems.filter(isItemNew)
+      : selectedCategory === 'favorites'
+        ? menuTypeFilteredItems.filter(item => favoritesStore.isFavorite(item.id))
+        : menuTypeFilteredItems.filter(item => item.category === selectedCategory);
 
-  // TIER 2 only - currently disabled for TIER 1
+  // Add to selections (works for both TIER 1 notepad and TIER 2+ ordering)
   const handleAddToCart = (dish: DishItem, quantity: number, extras: Extra[], saveAsPreference?: boolean) => {
-    console.log('⚠️ Cart is disabled for TIER 1');
-    // cartStore.add(dish, quantity, extras);
-    // console.log('✅ Added to cart:', { dish: dish.name, quantity, extras, saveAsPreference });
+    selectionsStore.add(dish, quantity, extras);
+    console.log('✅ Added to selections:', { dish: dish.name, quantity, extras, saveAsPreference });
 
     // TODO: If saveAsPreference is true, save to user preferences store (Phase 3)
     // if (saveAsPreference) {
@@ -562,7 +561,10 @@ export default function MenuPage() {
         <SelectionsSidebar
           isOpen={showSelectionsSidebar}
           onClose={() => setShowSelectionsSidebar(false)}
-          onEditProduct={(dish) => setSelectedProduct(dish)}
+          onEditProduct={(dish) => {
+            setShowSelectionsSidebar(false); // Close sidebar first
+            setSelectedProduct(dish); // Then open product modal
+          }}
         />
       )}
 

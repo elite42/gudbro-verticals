@@ -681,6 +681,154 @@ grep "menu.title" lib/translations.ts
 
 ---
 
+## Recent Fixes & Updates
+
+### 🔧 Session 2025-11-28: Critical Bug Fixes & UI Improvements
+
+**Overview**: Completed audit and resolved 4 critical issues in coffeeshop app.
+
+---
+
+#### Fix #1: Add to Cart Functionality Broken ✅
+
+**Issue**: "Add to Cart" button did nothing - items were never added to selections/cart.
+
+**Root Cause**:
+- `handleAddToCart()` in `app/menu/page.tsx` had `selectionsStore.add()` commented out with misleading message
+- `selectionsStore` didn't support extras/customizations (only dish + quantity)
+- Active tier is `'pre-ordering'` which has `enableCart: true`, but code was disabled
+
+**Fix Applied**:
+1. **Enhanced `selectionsStore`** (`lib/selections-store.ts`):
+   ```typescript
+   // Added extras field to interface
+   export interface SelectionItem {
+     id: string; // Unique: dish.id + extras hash
+     dish: DishItem;
+     quantity: number;
+     extras: Extra[]; // ✅ NEW
+     addedAt: number;
+   }
+   
+   // Added unique ID generator
+   function generateSelectionId(dishId: string, extras: Extra[]): string {
+     const extrasIds = extras.map(e => e.id).sort().join(',');
+     return `${dishId}-${extrasIds}`;
+   }
+   
+   // Updated methods to accept extras
+   add(dish, quantity, extras)
+   increment(dish, extras)
+   toggle(dish, extras)
+   ```
+
+2. **Fixed Menu Handler** (`app/menu/page.tsx` lines 381-390):
+   ```typescript
+   // BEFORE (broken)
+   const handleAddToCart = (...) => {
+     console.log('⚠️ Cart is disabled for TIER 1');
+     // cartStore.add(dish, quantity, extras); // ❌ COMMENTED
+   };
+   
+   // AFTER (working)
+   const handleAddToCart = (...) => {
+     selectionsStore.add(dish, quantity, extras); // ✅
+     console.log('✅ Added to selections:', ...);
+   };
+   ```
+
+**Impact**: Full ordering/selections flow now functional for both TIER 1 (notepad) and TIER 2+ (checkout).
+
+---
+
+#### Fix #2: Category "See All" Pages Crashing ✅
+
+**Issue**: Clicking category "See All" arrow resulted in error page: `selectionsStore.getItem is not a function`.
+
+**Root Cause**: Missing `getItem(dishId)` method in `selectionsStore`. Method was called by `useDishCardState` hook but didn't exist.
+
+**Fix Applied** (`lib/selections-store.ts`):
+```typescript
+getItem(dishId: string): SelectionItem | undefined {
+  const current = this.get();
+  return current.items.find(item => item.dish.id === dishId);
+}
+```
+
+**Impact**: Category navigation now works. Users can view all products in a category.
+
+---
+
+#### Fix #3: SelectionsSidebar UI Redesign (Compact Layout) ✅
+
+**Issue**: Large card design wasted space - only 2-3 items visible in viewport. Long orders were hard to scan.
+
+**Old Design**:
+- Each item: ~200px height
+- Large image (80x80px)
+- Full description text
+- Large "Modifica" and "Rimuovi" buttons
+- Only 2-3 items visible
+
+**New Design** (`components/SelectionsSidebar.tsx`):
+- Each item: ~50px height (4x more efficient!)
+- Compact single-line layout:
+  - Name + Extras (inline, truncated)
+  - Quantity badge (circular)
+  - Total price
+  - Edit icon (pencil, blue)
+  - Delete icon (trash, red)
+- 6-8 items visible in same space
+- Hover effects for better UX
+
+**Impact**: Much better space efficiency. Easier to scan long orders. Professional "list" appearance.
+
+---
+
+#### Fix #4: Edit Flow Z-Index Stacking Issue ✅
+
+**Issue**: Clicking "Edit" in SelectionsSidebar opened ProductBottomSheet UNDER the sidebar (double overlay). After editing, modal closed but sidebar stayed open.
+
+**Root Cause**:
+- **SelectionsSidebar**: `z-[9998]` (backdrop) / `z-[9999]` (content)
+- **ProductBottomSheet**: `z-40` (backdrop) / `z-50` (content) ❌ TOO LOW!
+- Even when closing sidebar before opening product, modal rendered under closing animation
+
+**Fix Applied**:
+1. **Close sidebar before opening product** (`app/menu/page.tsx`):
+   ```typescript
+   onEditProduct={(dish) => {
+     setShowSelectionsSidebar(false); // Close first
+     setSelectedProduct(dish);         // Then open
+   }}
+   ```
+
+2. **Increase ProductBottomSheet z-index** (`components/ProductBottomSheet.tsx`):
+   ```typescript
+   // Backdrop: z-40 → z-[10000]
+   // Content:  z-50 → z-[10001]
+   ```
+
+**Impact**: Correct modal stacking. Edit flow now smooth: sidebar closes → product modal opens on top → user edits → modal closes → returns to menu.
+
+---
+
+### Testing & Validation
+
+All fixes tested and confirmed working by user:
+- ✅ Add to Cart with extras/customizations
+- ✅ Category "See All" navigation
+- ✅ Compact selections list UI
+- ✅ Edit flow with proper modal layering
+
+### Documentation
+
+- **Audit Report**: `/audit_report.md` (artifacts)
+- **Walkthrough**: `/walkthrough.md` (artifacts)
+- **Task Tracking**: `/task.md` (artifacts)
+
+---
+
 **This file provides Coffeeshop-specific context for Claude Code sessions.**
 
-**Last Updated:** 2025-11-23
+**Last Updated:** 2025-11-28

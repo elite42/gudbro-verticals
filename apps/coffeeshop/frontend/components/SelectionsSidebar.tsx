@@ -112,85 +112,86 @@ export function SelectionsSidebar({
 
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto">
-          {/* Selections List */}
-        {selections.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-64 text-gray-400">
-            <svg className="w-20 h-20 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-            <p className="text-lg font-semibold">No selections yet</p>
-            <p className="text-sm">Browse the menu and select dishes</p>
-          </div>
-        ) : (
-          <div className="p-4 space-y-3">
-            {selections.map((selection) => (
-              <div
-                key={selection.id}
-                className="bg-theme-bg-secondary border border-theme-bg-tertiary rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="flex gap-3">
-                  {/* Dish Image */}
-                  <div className="flex-shrink-0">
-                    <img
-                      src={selection.dish.image}
-                      alt={selection.dish.name}
-                      className="w-20 h-20 rounded-lg object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop';
-                      }}
-                    />
-                  </div>
+          {/* Selections List - COMPACT DESIGN */}
+          {selections.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-64 text-gray-400">
+              <svg className="w-20 h-20 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              <p className="text-lg font-semibold">No selections yet</p>
+              <p className="text-sm">Browse the menu and select dishes</p>
+            </div>
+          ) : (
+            <div className="p-4">
+              {/* Compact List */}
+              <div className="space-y-2">
+                {selections.map((selection) => {
+                  const extrasText = selection.extras && selection.extras.length > 0
+                    ? selection.extras.map(e => e.name).join(', ')
+                    : null;
 
-                  {/* Dish Info */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-theme-text-primary mb-1">
-                      {selection.dish.name}
-                    </h3>
-                    <p className="text-theme-text-secondary text-sm mb-3 line-clamp-2">
-                      {selection.dish.description}
-                    </p>
-
-                    {/* Price and Quantity Info */}
-                    <div className="flex items-center justify-between mb-3">
+                  return (
+                    <div
+                      key={selection.id}
+                      className="bg-theme-bg-secondary border border-theme-bg-tertiary rounded-lg px-3 py-2.5 hover:border-theme-brand-primary transition-colors"
+                    >
                       <div className="flex items-center gap-2">
-                        <span className="text-primary font-bold">
-                          {formatPrice(selection.dish.price)}
-                        </span>
-                        <span className="text-theme-text-secondary text-sm font-semibold">
-                          x{selection.quantity}
-                        </span>
-                      </div>
-                      <span className="text-theme-brand-primary font-bold text-lg">
-                        {formatPrice(selection.dish.price * selection.quantity)}
-                      </span>
-                    </div>
+                        {/* Name + Extras */}
+                        <div className="flex-1 min-w-0">
+                          <div className="font-semibold text-theme-text-primary text-sm truncate">
+                            {selection.dish.name}
+                          </div>
+                          {extrasText && (
+                            <div className="text-xs text-theme-text-secondary truncate">
+                              {extrasText}
+                            </div>
+                          )}
+                        </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex items-center gap-2">
-                      {onEditProduct && (
+                        {/* Quantity Badge */}
+                        <div className="flex-shrink-0">
+                          <span className="inline-flex items-center justify-center bg-theme-brand-primary text-white text-xs font-bold rounded-full w-6 h-6">
+                            {selection.quantity}
+                          </span>
+                        </div>
+
+                        {/* Price */}
+                        <div className="flex-shrink-0 min-w-[50px] text-right">
+                          <span className="text-theme-brand-primary font-bold text-sm">
+                            {formatPrice(selection.dish.price * selection.quantity)}
+                          </span>
+                        </div>
+
+                        {/* Edit Icon */}
+                        {onEditProduct && (
+                          <button
+                            onClick={() => onEditProduct(selection.dish)}
+                            className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-blue-100 text-blue-600 transition-colors"
+                            aria-label="Edit"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                          </button>
+                        )}
+
+                        {/* Delete Icon */}
                         <button
-                          onClick={() => {
-                            onEditProduct(selection.dish);
-                          }}
-                          className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
+                          onClick={() => handleRemoveSelection(selection.id)}
+                          className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-100 text-red-600 transition-colors"
+                          aria-label="Remove"
                         >
-                          Modifica
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
                         </button>
-                      )}
-                      <button
-                        onClick={() => handleRemoveSelection(selection.id)}
-                        className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
-                      >
-                        Rimuovi
-                      </button>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          )}
         </div>
 
         {/* Footer Actions */}

@@ -157,9 +157,8 @@ export function MenuHeader({
                         e.stopPropagation();
                         handleLanguageSelect(lang.code);
                       }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors ${
-                        lang.code === selectedLanguage ? 'bg-gray-50' : ''
-                      }`}
+                      className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors ${lang.code === selectedLanguage ? 'bg-gray-50' : ''
+                        }`}
                       role="menuitem"
                       aria-label={`Select ${lang.name}`}
                       aria-current={lang.code === selectedLanguage ? 'true' : undefined}
@@ -214,9 +213,8 @@ export function MenuHeader({
                           e.stopPropagation();
                           handleCurrencySelect(currency);
                         }}
-                        className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors ${
-                          currency === selectedCurrency ? 'bg-gray-50' : ''
-                        }`}
+                        className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors ${currency === selectedCurrency ? 'bg-gray-50' : ''
+                          }`}
                         role="menuitem"
                         aria-label={`Select ${currency}`}
                         aria-current={currency === selectedCurrency ? 'true' : undefined}

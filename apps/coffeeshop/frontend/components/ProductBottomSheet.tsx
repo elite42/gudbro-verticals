@@ -126,13 +126,13 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 z-40 animate-fade-in"
+        className="fixed inset-0 bg-black/50 z-[10000] animate-fade-in"
         onClick={onClose}
       />
 
       {/* Bottom Sheet */}
       <div
-        className="fixed bottom-0 left-0 right-0 bg-theme-bg-elevated rounded-t-3xl shadow-2xl z-50 max-h-[90vh] overflow-y-auto animate-slide-up"
+        className="fixed bottom-0 left-0 right-0 bg-theme-bg-elevated rounded-t-3xl shadow-2xl z-[10001] max-h-[90vh] overflow-y-auto animate-slide-up"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -189,21 +189,19 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
               <div className="flex gap-2 mb-4 bg-theme-bg-secondary rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab('extra')}
-                  className={`flex-1 py-2.5 px-4 rounded-lg font-semibold transition-all ${
-                    activeTab === 'extra'
+                  className={`flex-1 py-2.5 px-4 rounded-lg font-semibold transition-all ${activeTab === 'extra'
                       ? 'bg-theme-brand-primary text-white shadow-md'
                       : 'text-theme-text-secondary hover:text-theme-text-primary'
-                  }`}
+                    }`}
                 >
                   EXTRA
                 </button>
                 <button
                   onClick={() => setActiveTab('nutrition')}
-                  className={`flex-1 py-2.5 px-4 rounded-lg font-semibold transition-all ${
-                    activeTab === 'nutrition'
+                  className={`flex-1 py-2.5 px-4 rounded-lg font-semibold transition-all ${activeTab === 'nutrition'
                       ? 'bg-theme-brand-primary text-white shadow-md'
                       : 'text-theme-text-secondary hover:text-theme-text-primary'
-                  }`}
+                    }`}
                 >
                   Nutrizione
                   {hasAllergens && activeTab !== 'nutrition' && <span className="ml-1 text-red-600">⚠️</span>}
@@ -382,19 +380,18 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
           {/* Action Button */}
           <button
             onClick={handleAddToCart}
-            className={`w-full text-white py-4 rounded-2xl font-bold text-lg shadow-lg transition-all transform active:scale-95 ${
-              isOrderingEnabled
+            className={`w-full text-white py-4 rounded-2xl font-bold text-lg shadow-lg transition-all transform active:scale-95 ${isOrderingEnabled
                 ? 'bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover'
                 : isInSelections
-                ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
-                : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
-            }`}
+                  ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
+                  : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
+              }`}
           >
             {isOrderingEnabled
               ? `Add to Cart • ${formatPriceCompact(dish.price * quantity + selectedExtras.reduce((sum, e) => sum + e.price, 0) * quantity)}`
               : isInSelections
-              ? 'Rimuovi dalle Selezioni'
-              : `Aggiungi${quantity > 1 ? ` (x${quantity})` : ''} • ${formatPriceCompact(dish.price * quantity)}`}
+                ? 'Rimuovi dalle Selezioni'
+                : `Aggiungi${quantity > 1 ? ` (x${quantity})` : ''} • ${formatPriceCompact(dish.price * quantity)}`}
           </button>
         </div>
       </div>

@@ -1,16 +1,19 @@
 /**
  * Selections Store
- * Manages customer's selected dishes (digital notepad) with localStorage persistence
- * This is NOT an ordering system - just a list to show the waiter
+ * Manages customer's selected dishes with localStorage persistence
+ * 
+ * TIER 1 (digital-menu): Digital notepad to show waiter (extras tracked for accuracy)
+ * TIER 2+ (pre-ordering): Full cart with checkout (extras required for order)
  */
 
-import { DishItem } from '../components/DishCard';
+import { DishItem, Extra } from '../components/DishCard';
 
 export interface SelectionItem {
-  id: string; // dish.id
+  id: string; // Unique ID: dish.id + extras hash
   dish: DishItem;
-  quantity: number; // Quantity selected
-  addedAt: number; // Timestamp
+  quantity: number;
+  extras: Extra[]; // Customizations (size, milk, add-ons, etc.)
+  addedAt: number;
 }
 
 export interface SelectionsData {
@@ -22,6 +25,15 @@ const STORAGE_KEY = 'roots-selections';
 const DEFAULT_SELECTIONS: SelectionsData = {
   items: [],
 };
+
+/**
+ * Generate unique ID for selection item based on dish and extras
+ * Same dish with different extras = different selection items
+ */
+function generateSelectionId(dishId: string, extras: Extra[]): string {
+  const extrasIds = extras.map(e => e.id).sort().join(',');
+  return `${dishId}-${extrasIds}`;
+}
 
 /**
  * Selections Store
@@ -54,28 +66,34 @@ export const selectionsStore = {
     }
   },
 
-  add(dish: DishItem): void {
+  add(dish: DishItem, quantity: number = 1, extras: Extra[] = []): void {
     const current = this.get();
+    const itemId = generateSelectionId(dish.id, extras);
 
-    // Check if dish is already selected
-    const existingIndex = current.items.findIndex(item => item.id === dish.id);
+    // Check if item with same dish AND extras already exists
+    const existingIndex = current.items.findIndex(item => item.id === itemId);
 
-    if (existingIndex < 0) {
-      // Add new selection with quantity 1
+    if (existingIndex >= 0) {
+      // Update quantity of existing item
+      current.items[existingIndex].quantity += quantity;
+    } else {
+      // Add new selection
       current.items.push({
-        id: dish.id,
+        id: itemId,
         dish,
-        quantity: 1,
+        quantity,
+        extras,
         addedAt: Date.now(),
       });
-
-      this.set(current);
     }
+
+    this.set(current);
   },
 
-  increment(dish: DishItem): void {
+  increment(dish: DishItem, extras: Extra[] = []): void {
     const current = this.get();
-    const existingIndex = current.items.findIndex(item => item.id === dish.id);
+    const itemId = generateSelectionId(dish.id, extras);
+    const existingIndex = current.items.findIndex(item => item.id === itemId);
 
     if (existingIndex >= 0) {
       // Increment quantity if already exists
@@ -83,7 +101,7 @@ export const selectionsStore = {
       this.set(current);
     } else {
       // Add new selection with quantity 1
-      this.add(dish);
+      this.add(dish, 1, extras);
     }
   },
 
@@ -117,17 +135,18 @@ export const selectionsStore = {
     this.set(updated);
   },
 
-  toggle(dish: DishItem): boolean {
+  toggle(dish: DishItem, extras: Extra[] = []): boolean {
     const current = this.get();
-    const existingIndex = current.items.findIndex(item => item.id === dish.id);
+    const itemId = generateSelectionId(dish.id, extras);
+    const existingIndex = current.items.findIndex(item => item.id === itemId);
 
     if (existingIndex >= 0) {
       // Remove if already selected
-      this.remove(dish.id);
+      this.remove(itemId);
       return false; // Not selected anymore
     } else {
       // Add if not selected
-      this.add(dish);
+      this.add(dish, 1, extras);
       return true; // Now selected
     }
   },
@@ -149,5 +168,10 @@ export const selectionsStore = {
 
   getItems(): SelectionItem[] {
     return this.get().items;
+  },
+
+  getItem(dishId: string): SelectionItem | undefined {
+    const current = this.get();
+    return current.items.find(item => item.dish.id === dishId);
   },
 };
