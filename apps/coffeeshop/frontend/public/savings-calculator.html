@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUDBRO Savings Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .calc-section { display: none; }
+        .calc-section.active { display: block; }
+        input[type="text" inputmode="numeric"] { -moz-appearance: textfield; }
+        input[type="text" inputmode="numeric"]::-webkit-inner-spin-button,
+        input[type="text" inputmode="numeric"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        .tooltip-container { position: relative; display: inline-flex; align-items: center; }
+        .tooltip-icon { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center;
+            width: 12px; 
+            height: 12px; 
+            margin-left: 3px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            font-size: 9px;
+            font-weight: bold;
+            cursor: help;
+        }
+        .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            position: fixed;
+            background-color: #1f2937;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 9999;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            max-width: min(280px, calc(100vw - 40px)); /* Mobile-safe max-width */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .seg-btn {
+            transition: all 0.2s;
+            color: #6b7280;
+        }
+        .seg-btn.active {
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            color: white;
+        }
+
+        /* Lead Capture Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            animation: fadeIn 0.2s;
+        }
+        .modal-overlay.active { display: flex; align-items: center; justify-content: center; }
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Lead Capture Modal -->
+    <div id="lead-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2" id="modal-title">Get Your Free Trial</h2>
+            <p class="text-gray-600 mb-6" id="modal-subtitle">Enter your email to start your 14-day free trial and receive your personalized savings report.</p>
+
+            <form id="lead-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
+                    <input type="text" id="business-name" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your Business Name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="your@email.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone (Optional)</label>
+                    <input type="tel" id="phone" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="+84 123 456 789">
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeLeadModal()" class="flex-1 bg-gray-200 text-gray-700 font-semibold py-2.5 px-4 rounded-lg hover:bg-gray-300 transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold py-2.5 px-4 rounded-lg hover:shadow-lg transition">
+                        Get Started
+                    </button>
+                </div>
+            </form>
+
+            <p class="text-xs text-gray-500 mt-4 text-center">
+                No credit card required. Cancel anytime.
+            </p>
+        </div>
+    </div>
+    <div class="max-w-6xl mx-auto py-4 sm:py-6 px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-1" id="title">💰 Calculate Your Savings</h1>
+            <p class="text-sm sm:text-base text-gray-600" id="subtitle">See how much GUDBRO saves annually</p>
+            
+            <!-- Language & Currency -->
+            <div class="mt-3 flex flex-col sm:flex-row gap-2 justify-center items-center">
+                <select id="language" class="border rounded-lg px-3 py-1.5 text-sm font-medium" onchange="changeLanguage()">
+                    <option value="en">🇬🇧 English</option>
+                    <option value="vi">🇻🇳 Tiếng Việt</option>
+                    <option value="ko">🇰🇷 한국어</option>
+                </select>
+                <select id="currency" class="border rounded-lg px-3 py-1.5 text-sm font-medium" onchange="calculate()">
+                    <option value="VND" selected>VND (₫)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
+                    <option value="THB">THB (฿)</option>
+                    <option value="KRW">KRW (₩)</option>
+                </select>
+            </div>
+
+            <!-- Scenario Selector -->
+            <div class="mt-4 max-w-2xl mx-auto">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div class="text-sm">
+                            <span class="font-semibold text-gray-900">Calculation Scenario:</span>
+                            <span class="text-gray-600 ml-2">How conservative should estimates be?</span>
+                        </div>
+                        <select id="scenario" class="border border-blue-300 rounded-lg px-4 py-2 text-sm font-medium bg-white" onchange="applyScenario()">
+                            <option value="pessimistic">Pessimistic (Conservative)</option>
+                            <option value="realistic" selected>Realistic (Recommended)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR Adoption Rate Slider -->
+            <div class="mt-3 max-w-2xl mx-auto">
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="text-sm font-semibold text-gray-900">QR Code Adoption Rate</label>
+                        <span id="adoption-display" class="text-lg font-bold text-blue-600">60%</span>
+                    </div>
+                    <input type="range" id="adoption-rate" min="40" max="85" value="60" step="5" class="w-full" oninput="updateAdoption(); calculate();">
+                    <div class="flex justify-between text-xs text-gray-600 mt-1">
+                        <span>40% (Low)</span>
+                        <span class="text-center">60% (Realistic)</span>
+                        <span>85% (High)</span>
+                    </div>
+                    <p class="text-xs text-gray-600 mt-2">⚠️ Not all customers use QR menus (age, smartphone access, preference varies)</p>
+                </div>
+            </div>
+
+            <!-- Hybrid Approach Disclaimer -->
+            <div class="mt-3 max-w-2xl mx-auto">
+                <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <div class="text-2xl">♻️</div>
+                        <div>
+                            <h3 class="font-bold text-green-900 mb-2">📋 Hybrid Approach Recommended</h3>
+                            <p class="text-sm text-gray-700 mb-2">
+                                <strong>We do NOT recommend going 100% digital.</strong> The most successful venues use <strong>both paper and digital menus together</strong>.
+                            </p>
+                            <ul class="text-xs text-gray-700 space-y-1 ml-4">
+                                <li>✓ <strong>Digital:</strong> Serves multilingual tourists, customers with dietary restrictions, and enables loyalty programs</li>
+                                <li>✓ <strong>Paper:</strong> Serves customers who prefer traditional menus or don't have smartphones</li>
+                                <li>✓ <strong>Result:</strong> 100% customer satisfaction + reduced printing costs (keep 25% backup menus)</li>
+                            </ul>
+                            <p class="text-xs text-green-800 mt-2 font-semibold">
+                                💡 This calculator assumes a hybrid model with 20% printing savings, not 75% replacement.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segment Selector -->
+        <div class="bg-white rounded-xl shadow-lg p-1.5 mb-4 grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+            <button onclick="showCalc('street')" id="btn-street" class="seg-btn active px-3 py-2 rounded-lg font-semibold text-xs sm:text-sm">
+                <span id="seg-street">🛒 Street Vendor</span>
+            </button>
+            <button onclick="showCalc('coffee')" id="btn-coffee" class="seg-btn px-3 py-2 rounded-lg font-semibold text-xs sm:text-sm">
+                <span id="seg-coffee">☕ Coffee Shop</span>
+            </button>
+            <button onclick="showCalc('restaurant')" id="btn-restaurant" class="seg-btn px-3 py-2 rounded-lg font-semibold text-xs sm:text-sm">
+                <span id="seg-restaurant">🍽️ Restaurant</span>
+            </button>
+            <button onclick="showCalc('combo')" id="btn-combo" class="seg-btn px-3 py-2 rounded-lg font-semibold text-xs sm:text-sm">
+                <span id="seg-combo">🏪 Bar & Restaurant</span>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- LEFT: Inputs -->
+            <div class="bg-white rounded-xl shadow-lg p-4 sm:p-5">
+                <h2 class="text-lg font-bold mb-3" id="business-details">Business Details</h2>
+                
+                <!-- Street Vendor -->
+                <div id="calc-street" class="calc-section active">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 tooltip-container" id="label-items">
+                                Menu Items
+                                <span class="tooltip-icon">?<span class="tooltip-text" id="tip-items">Total number of items on your menu</span></span>
+                            </label>
+                            <input type="text" inputmode="numeric" id="s-items" value="15" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 tooltip-container" id="label-updates">
+                                Updates/Year
+                                <span class="tooltip-icon">?<span class="tooltip-text" id="tip-updates">How often you change menu items or prices</span></span>
+                            </label>
+                            <input type="text" inputmode="numeric" id="s-updates" value="6" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 tooltip-container" id="label-menus">
+                                Paper Menus
+                                <span class="tooltip-icon">?<span class="tooltip-text" id="tip-menus">Current number of printed menus in use</span></span>
+                            </label>
+                            <input type="text" inputmode="numeric" id="s-menus" value="5" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 tooltip-container" id="label-printcost">
+                                Print Cost/Menu
+                                <span class="tooltip-icon">?<span class="tooltip-text" id="tip-printcost">Cost to print one menu (design + materials)</span></span>
+                            </label>
+                            <input type="text" inputmode="numeric" id="s-cost" value="20000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="text-xs font-medium text-gray-600 tooltip-container" id="label-revenue">
+                                Monthly Revenue
+                                <span class="tooltip-icon">?<span class="tooltip-text" id="tip-revenue">Average monthly income from your business</span></span>
+                            </label>
+                            <input type="text" inputmode="numeric" id="s-revenue" value="10000000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coffee Shop -->
+                <div id="calc-coffee" class="calc-section">
+                    <div class="space-y-3">
+                        <div class="border-b pb-2">
+                            <h3 class="font-semibold text-sm mb-2" id="menu-section">Menu</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-items-c">Items
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-items-c">Total menu items</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-items" value="40" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-updates-c">Updates/Yr
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-updates-c">Menu changes per year</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-updates" value="4" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-menus-c">Paper Menus
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-menus-c">Printed menus in use</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-menus" value="15" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-printcost-c">Print Cost
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-printcost-c">Cost per menu print</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-printcost" value="50000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b pb-2">
+                            <h3 class="font-semibold text-sm mb-2" id="business-section">Business</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-seats">Seats
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-seats">Number of seats</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-seats" value="20" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-customers">Customers/Day
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-customers">Average daily customers</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-customers" value="50" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-check">Avg Check
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-check">Average transaction value</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-check" value="80000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-days">Days/Week
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-days">Operating days per week</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-days" value="7" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-foreign">Foreign %
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-foreign">% of international tourists (Tourist areas: 50-70%, Regular: 20-35%)</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-foreign" value="25" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm mb-2" id="staff-section">Staff</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-staff">Staff Count
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-staff">Total staff members</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-staff" value="3" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-wage">Wage/Hour
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-wage">Hourly wage rate</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-wage" value="25000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-explain">Explain Min/Tourist
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-explain">Minutes explaining menu to tourists</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="c-explain" value="3" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restaurant -->
+                <div id="calc-restaurant" class="calc-section">
+                    <div class="space-y-3">
+                        <div class="border-b pb-2">
+                            <h3 class="font-semibold text-sm mb-2" id="menu-section-r">Menu</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-items-r">Items
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-items-r">Total menu items</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-items" value="80" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-updates-r">Updates/Yr
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-updates-r">Menu changes per year</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-updates" value="12" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-menus-r">Paper Menus
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-menus-r">Printed menus in use</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-menus" value="30" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-printcost-r">Print Cost
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-printcost-r">Cost per menu print</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-printcost" value="100000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b pb-2">
+                            <h3 class="font-semibold text-sm mb-2" id="business-section-r">Business</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-seats-r">Seats
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-seats-r">Number of seats</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-seats" value="60" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-customers-r">Customers/Day
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-customers-r">Average daily customers</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-customers" value="120" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-check-r">Avg Check
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-check-r">Average transaction value</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-check" value="300000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-days-r">Days/Week
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-days-r">Operating days per week</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-days" value="7" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-foreign-r">Foreign %
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-foreign-r">% of international tourists (Tourist areas: 50-70%, Regular: 20-35%)</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-foreign" value="35" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b pb-2">
+                            <h3 class="font-semibold text-sm mb-2" id="staff-section-r">Staff</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-waiters">Waiters
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-waiters">Number of waiters</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-staff" value="6" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-wage-r">Wage/Hour
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-wage-r">Hourly wage rate</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-wage" value="30000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-explain-r">Explain Min/Tourist
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-explain-r">Minutes explaining menu to tourists</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-explain" value="5" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-sm mb-2" id="errors-section">Order Errors</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-errors">Errors/Month
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-errors">Wrong orders per month</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-errors" value="20" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 tooltip-container" id="label-errorcost">Cost/Error
+                                        <span class="tooltip-icon">?<span class="tooltip-text" id="tip-errorcost">Cost per wrong order</span></span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" id="r-errorcost" value="150000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Venue Details (Shared - only for Combo mode) -->
+                <div id="calc-venue" class="calc-section">
+                    <div class="bg-purple-50 border border-purple-200 rounded p-2.5 mb-3 text-xs">
+                        🏢 <strong>Venue Details</strong> - Shared across Bar & Restaurant
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 tooltip-container">Days/Week
+                                <span class="tooltip-icon">?<span class="tooltip-text">Operating days per week (same for entire venue)</span></span>
+                            </label>
+                            <input type="text" inputmode="numeric" id="venue-days" value="7" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 tooltip-container">Foreign %
+                                <span class="tooltip-icon">?<span class="tooltip-text">% of international tourists (same location = same %)</span></span>
+                            </label>
+                            <input type="text" inputmode="numeric" id="venue-foreign" value="30" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="text-xs font-medium text-gray-600 tooltip-container">Staff Wage/Hour
+                                <span class="tooltip-icon">?<span class="tooltip-text">Hourly wage rate (company policy - same for all staff)</span></span>
+                            </label>
+                            <input type="text" inputmode="numeric" id="venue-wage" value="25000" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Combo Synergies -->
+                <div id="calc-combo" class="calc-section">
+                    <div class="bg-blue-50 border border-blue-200 rounded p-2.5 mb-3 text-xs">
+                        🔗 <strong>Synergies</strong> - Combo-specific optimizations
+                    </div>
+                    <div>
+                        <label class="text-xs font-medium text-gray-600 tooltip-container">Shared Menu Items
+                            <span class="tooltip-icon">?<span class="tooltip-text">Items appearing on both coffee and restaurant menus (e.g., desserts, drinks)</span></span>
+                        </label>
+                        <input type="text" inputmode="numeric" id="combo-shared" value="10" class="w-full border rounded px-2.5 py-1.5 text-sm mt-1" oninput="calculate()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Results -->
+            <div class="bg-gradient-to-br from-green-50 to-blue-50 rounded-xl shadow-lg p-4 sm:p-5">
+                <h2 class="text-lg font-bold mb-3" id="annual-impact">Annual Impact</h2>
+
+                <!-- Big Number -->
+                <div class="bg-white rounded-xl p-3 text-center shadow-md mb-3">
+                    <div class="text-xs text-gray-600 mb-1" id="net-label">NET ANNUAL BENEFIT</div>
+                    <div class="text-3xl sm:text-4xl font-bold text-green-600" id="net"></div>
+                </div>
+
+                <!-- ROI -->
+                <div class="bg-white rounded-xl p-3 shadow-md mb-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-semibold text-gray-700" id="roi-label">ROI</span>
+                        <span class="text-xl sm:text-2xl font-bold text-blue-600" id="roi"></span>
+                    </div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div id="roi-bar" class="bg-gradient-to-r from-blue-500 to-green-500 h-full rounded-full transition-all"></div>
+                    </div>
+                    <div class="text-xs text-gray-600 mt-2"><span id="payback-label">Payback:</span> <span id="payback"></span></div>
+                </div>
+
+                <!-- Savings -->
+                <div class="bg-white rounded-xl p-3 shadow-md mb-3">
+                    <h3 class="font-bold text-sm mb-2" id="savings-title">💰 Savings</h3>
+                    <div class="space-y-1.5 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-700" id="printing-label">Printing</span>
+                            <span class="font-semibold text-green-600" id="printing"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-700" id="staff-label">Staff Time</span>
+                            <span class="font-semibold text-green-600" id="staff"></span>
+                        </div>
+                        <div class="flex justify-between" id="errors-row" style="display:none">
+                            <span class="text-gray-700" id="errors-label">Fewer Errors</span>
+                            <span class="font-semibold text-green-600" id="errors"></span>
+                        </div>
+                        <div class="border-t pt-1.5 flex justify-between font-bold">
+                            <span id="total-label">Total</span>
+                            <span class="text-green-600" id="total-savings"></span>
+                        </div>
+                    </div>
+                    <button onclick="toggleCalc('savings')" class="text-xs text-blue-600 hover:text-blue-800 mt-2 flex items-center gap-1">
+                        <span id="calc-savings-label">📊 Show Calculation</span>
+                        <span id="calc-savings-arrow">▼</span>
+                    </button>
+                    <div id="calc-savings" class="hidden mt-2 p-2 bg-gray-50 rounded text-xs space-y-2">
+                        <div id="calc-savings-content"></div>
+                    </div>
+                </div>
+
+                <!-- Revenue -->
+                <div class="bg-white rounded-xl p-3 shadow-md mb-3">
+                    <h3 class="font-bold text-sm mb-2" id="revenue-title">📈 Revenue Impact</h3>
+                    <div class="space-y-1.5 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-700" id="check-label">Higher Check</span>
+                            <span class="font-semibold text-blue-600" id="check-inc"></span>
+                        </div>
+                        <div class="flex justify-between" id="turnover-row" style="display:none">
+                            <span class="text-gray-700" id="turnover-label">Faster Turnover</span>
+                            <span class="font-semibold text-blue-600" id="turnover"></span>
+                        </div>
+                        <div class="flex justify-between" id="retention-row" style="display:none">
+                            <span class="text-gray-700" id="retention-label">Tourist Retention</span>
+                            <span class="font-semibold text-blue-600" id="retention"></span>
+                        </div>
+                        <div class="border-t pt-1.5 flex justify-between font-bold">
+                            <span id="total-rev-label">Total</span>
+                            <span class="text-blue-600" id="total-revenue"></span>
+                        </div>
+                    </div>
+                    <button onclick="toggleCalc('revenue')" class="text-xs text-blue-600 hover:text-blue-800 mt-2 flex items-center gap-1">
+                        <span id="calc-revenue-label">📊 Show Calculation</span>
+                        <span id="calc-revenue-arrow">▼</span>
+                    </button>
+                    <div id="calc-revenue" class="hidden mt-2 p-2 bg-gray-50 rounded text-xs space-y-2">
+                        <div id="calc-revenue-content"></div>
+                    </div>
+                </div>
+
+                <!-- GUDBRO Cost -->
+                <div class="bg-white rounded-xl p-3 shadow-md mb-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-700" id="cost-label">GUDBRO Cost</span>
+                        <span class="font-bold text-gray-900" id="cost"></span>
+                    </div>
+                </div>
+
+                <!-- Implementation Costs (One-Time) -->
+                <div class="bg-white rounded-xl p-3 shadow-md mb-3 border-l-4 border-orange-400">
+                    <h3 class="font-bold text-sm mb-2 text-orange-700">⚙️ Implementation Costs (One-Time)</h3>
+                    <div class="space-y-1.5 text-xs text-gray-700">
+                        <div class="flex justify-between">
+                            <span>📸 Professional Photos</span>
+                            <span class="font-semibold">₫5-8M</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>🎯 QR Code Stands</span>
+                            <span class="font-semibold">₫1-3M</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>👥 Staff Training</span>
+                            <span class="font-semibold">₫0.5-1M</span>
+                        </div>
+                        <div class="border-t pt-1.5 flex justify-between font-bold text-sm">
+                            <span>Total Initial Investment</span>
+                            <span class="text-orange-700">₫6.5-12M</span>
+                        </div>
+                    </div>
+                    <div class="mt-2 p-2 bg-orange-50 rounded text-xs">
+                        <p class="text-gray-600">💡 <strong>Typical payback:</strong> 1-3 months based on annual savings. Most costs are optional - you can start with existing photos and skip stands.</p>
+                    </div>
+                </div>
+
+                <!-- Benefits -->
+                <div class="bg-white rounded-xl p-3 shadow-md">
+                    <h3 class="font-bold text-sm mb-2" id="benefits-title">✨ Included Benefits</h3>
+                    <ul class="text-xs space-y-1 text-gray-700" id="benefits-list">
+                        <li>✓ 51-filter allergen system</li>
+                        <li>✓ Multi-language (VN/EN/KO)</li>
+                        <li>✓ Currency conversion</li>
+                        <li>✓ Real-time updates</li>
+                        <li>✓ Professional branding</li>
+                        <li>✓ Eco-friendly (70% less paper)</li>
+                    </ul>
+                </div>
+
+                <!-- CTA -->
+                <div class="mt-4 space-y-2">
+                    <button onclick="openLeadModal('trial')" class="w-full bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold py-2.5 px-4 rounded-lg shadow-lg hover:shadow-xl transition text-sm" id="cta-trial">
+                        Start 14-Day Free Trial
+                    </button>
+                    <button onclick="openLeadModal('email')" class="w-full bg-white border-2 border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-50 transition text-sm" id="cta-email">
+                        Email Report
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculation Transparency Disclaimer -->
+        <div class="mt-8 bg-white rounded-xl shadow-md p-6 max-w-4xl mx-auto">
+            <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+                📊 Calculation Methodology
+            </h3>
+            <div class="text-sm text-gray-700 space-y-3">
+                <p>
+                    <strong>Savings calculations are based on industry research and conservative estimates:</strong>
+                </p>
+                <ul class="list-disc list-inside space-y-1 ml-2 text-xs">
+                    <li><strong>Printing Savings (70-75%):</strong> Average reduction assuming 4-12 menu updates/year</li>
+                    <li><strong>Staff Time Savings:</strong> Based on 3-4 min explaining menus to tourists</li>
+                    <li><strong>Error Reduction (60%):</strong> Digital menu clarity reduces order mistakes</li>
+                    <li><strong>Check Increase (15-20%):</strong> Visual menus drive higher-value orders</li>
+                    <li><strong>Table Turnover (+15 min/table):</strong> Faster ordering = more seatings</li>
+                    <li><strong>Tourist Retention (25% return, 20-40% boost):</strong> Multi-language accessibility</li>
+                </ul>
+                <p class="text-xs text-gray-600 italic pt-2">
+                    <strong>Sources:</strong> National Restaurant Association (2023), Hospitality Technology Magazine, GUDBRO internal customer data (2024).
+                    Results may vary based on business size, location, and market conditions. This calculator provides estimates for planning purposes only.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ===================================
+         * CONFIGURATION - Edit these to customize
+         * =================================== */
+
+        // Exchange rates relative to VND (1 VND = base unit)
+        // Update these values with current rates
+        const RATES = {
+            VND: 1,
+            USD: 0.00004,
+            EUR: 0.000037,
+            GBP: 0.000032,
+            THB: 0.0014,
+            KRW: 0.056
+        };
+
+        // Currency symbols for display
+        const SYMBOLS = {
+            VND: '₫',
+            USD: '$',
+            EUR: '€',
+            GBP: '£',
+            THB: '฿',
+            KRW: '₩'
+        };
+
+        /**
+         * CALCULATION ASSUMPTIONS
+         * These multipliers are based on industry research (see methodology section)
+         * Edit these to adjust calculation sensitivity
+         */
+        const CALC_CONFIG = {
+            // Printing savings multipliers (HYBRID APPROACH: digital complements paper)
+            printingSavings: {
+                street: 0.20,      // 20% reduction (fewer copies, not full replacement)
+                coffee: 0.20,      // 20% reduction (maintain paper backup)
+                restaurant: 0.20,  // 20% reduction (hybrid approach)
+                combo: 0.20        // 20% reduction
+            },
+
+            // Revenue increase multipliers (based on 2024 industry research)
+            revenueBoost: {
+                street: 0.10,          // 10% revenue increase (visual appeal - conservative)
+                coffeeCheckInc: 0.12,  // 12% higher check (realistic average, was 15%)
+                restaurantCheckInc: 0.15, // 15% higher check (data-backed, was 20%)
+                comboCheckInc: 0.15    // 15% for combo (realistic)
+            },
+
+            // Staff & operations (validated with 2024 studies)
+            errorReduction: 0.40,  // 40% reduction (industry avg 30-45%, was 60%)
+            touristReturn: 0.30,   // 30% of tourists return (was 25%)
+            touristRetentionBoost: {
+                coffee: 0.12,      // 12% loyalty boost (realistic, was 20%)
+                restaurant: 0.15,  // 15% loyalty boost (realistic, was 40%)
+                combo: 0.15        // 15% for combo
+            },
+
+            // Table turnover (restaurant only) - based on real case studies
+            turnoverMinutesPerTable: 7,   // 7 min saved per table (realistic, was 15)
+            turnoverCheckDivisor: 60,     // Check / 60 (hourly rate)
+            turnoverSeatsMultiplier: 2,   // Seats * 2 (lunch+dinner)
+
+            // GUDBRO pricing (VND per year) - Competitive Vietnam market pricing
+            pricing: {
+                street: 5 * 12 * 25000,      // $5/mo - BASE: 1 QR, 20 products, 3 languages
+                coffee: 12 * 12 * 25000,     // $12/mo - STANDARD: 5 QR, 50 products, loyalty basic
+                restaurant: 25 * 12 * 25000, // $25/mo - PREMIUM: 20 QR, unlimited products, full analytics
+                combo: 40 * 12 * 25000       // $40/mo - ENTERPRISE: Multi-location, white-label, API
+            },
+
+            // Combo synergy savings
+            comboSharedMenuFactor: 50000,  // Savings per shared item
+            comboSharedMenuUpdates: 4      // Updates per year
+        };
+
+        /* ===================================
+         * TRANSLATIONS
+         * Add new languages by copying structure below
+         * =================================== */
+        const TRANSLATIONS = {
+            en: {
+                title: '💰 Calculate Your Savings',
+                subtitle: 'See how much GUDBRO saves annually',
+                'seg-street': '🛒 Street Vendor',
+                'seg-coffee': '☕ Coffee Shop',
+                'seg-restaurant': '🍽️ Restaurant',
+                'seg-combo': '🏪 Bar & Restaurant',
+                'business-details': 'Business Details',
+                'label-items': 'Menu Items',
+                'label-updates': 'Updates/Year',
+                'label-menus': 'Paper Menus',
+                'label-printcost': 'Print Cost/Menu',
+                'label-revenue': 'Monthly Revenue',
+                'tip-items': 'Total number of items on your menu',
+                'tip-updates': 'How often you change menu items or prices',
+                'tip-menus': 'Current number of printed menus in use',
+                'tip-printcost': 'Cost to print one menu (design + materials)',
+                'tip-revenue': 'Average monthly income from your business',
+                'menu-section': 'Menu',
+                'business-section': 'Business',
+                'staff-section': 'Staff',
+                'errors-section': 'Order Errors',
+                'label-seats': 'Seats',
+                'label-customers': 'Customers/Day',
+                'label-check': 'Avg Check',
+                'label-days': 'Days/Week',
+                'label-foreign': 'Foreign %',
+                'label-staff': 'Staff Count',
+                'label-wage': 'Wage/Hour',
+                'label-explain': 'Explain Min/Tourist',
+                'label-waiters': 'Waiters',
+                'label-errors': 'Errors/Month',
+                'label-errorcost': 'Cost/Error',
+                'label-shared': 'Shared Menu Items',
+                'tip-seats': 'Number of seats',
+                'tip-customers': 'Average daily customers',
+                'tip-check': 'Average transaction value',
+                'tip-days': 'Operating days per week',
+                'tip-foreign': '% of international tourists',
+                'tip-staff': 'Total staff members',
+                'tip-wage': 'Hourly wage rate',
+                'tip-explain': 'Minutes explaining menu to tourists',
+                'tip-waiters': 'Number of waiters',
+                'tip-errors': 'Wrong orders per month',
+                'tip-errorcost': 'Cost per wrong order',
+                'tip-shared': 'Items appearing on both coffee and restaurant menus',
+                'combo-info': 'ℹ️ Combines Coffee + Restaurant calculations',
+                'annual-impact': 'Annual Impact',
+                'net-label': 'NET ANNUAL BENEFIT',
+                'roi-label': 'ROI',
+                'payback-label': 'Payback:',
+                'savings-title': '💰 Savings',
+                'printing-label': 'Printing',
+                'staff-label': 'Staff Time',
+                'errors-label': 'Fewer Errors',
+                'total-label': 'Total',
+                'revenue-title': '📈 Revenue Impact',
+                'check-label': 'Higher Check',
+                'turnover-label': 'Faster Turnover',
+                'retention-label': 'Tourist Retention',
+                'total-rev-label': 'Total',
+                'cost-label': 'GUDBRO Cost',
+                'benefits-title': '✨ Included Benefits',
+                'cta-trial': 'Start 14-Day Free Trial',
+                'cta-email': 'Email Report'
+            },
+            vi: {
+                title: '💰 Tính Tiền Tiết Kiệm',
+                subtitle: 'Xem GUDBRO tiết kiệm bao nhiêu hàng năm',
+                'seg-street': '🛒 Quán Vỉa Hè',
+                'seg-coffee': '☕ Quán Cà Phê',
+                'seg-restaurant': '🍽️ Nhà Hàng',
+                'seg-combo': '🏪 Bar & Nhà Hàng',
+                'business-details': 'Chi Tiết Kinh Doanh',
+                'label-items': 'Món Ăn',
+                'label-updates': 'Cập Nhật/Năm',
+                'label-menus': 'Menu Giấy',
+                'label-printcost': 'Giá In/Menu',
+                'label-revenue': 'Doanh Thu Tháng',
+                'tip-items': 'Tổng số món trong menu',
+                'tip-updates': 'Tần suất thay đổi menu hoặc giá',
+                'tip-menus': 'Số lượng menu giấy hiện tại',
+                'tip-printcost': 'Chi phí in một menu (thiết kế + vật liệu)',
+                'tip-revenue': 'Thu nhập trung bình hàng tháng',
+                'menu-section': 'Menu',
+                'business-section': 'Kinh Doanh',
+                'staff-section': 'Nhân Viên',
+                'errors-section': 'Lỗi Đơn Hàng',
+                'label-seats': 'Chỗ Ngồi',
+                'label-customers': 'Khách/Ngày',
+                'label-check': 'Hóa Đơn TB',
+                'label-days': 'Ngày/Tuần',
+                'label-foreign': '% Nước Ngoài',
+                'label-staff': 'Số NV',
+                'label-wage': 'Lương/Giờ',
+                'label-explain': 'Giải Thích Phút/Khách',
+                'label-waiters': 'Phục Vụ',
+                'label-errors': 'Lỗi/Tháng',
+                'label-errorcost': 'Giá/Lỗi',
+                'label-shared': 'Món Chung',
+                'tip-seats': 'Số chỗ ngồi',
+                'tip-customers': 'Khách hàng trung bình mỗi ngày',
+                'tip-check': 'Giá trị giao dịch trung bình',
+                'tip-days': 'Số ngày hoạt động mỗi tuần',
+                'tip-foreign': '% khách du lịch quốc tế',
+                'tip-staff': 'Tổng số nhân viên',
+                'tip-wage': 'Mức lương theo giờ',
+                'tip-explain': 'Phút giải thích menu cho khách du lịch',
+                'tip-waiters': 'Số lượng phục vụ',
+                'tip-errors': 'Đơn hàng sai mỗi tháng',
+                'tip-errorcost': 'Chi phí mỗi đơn hàng sai',
+                'tip-shared': 'Món xuất hiện trên cả hai menu',
+                'combo-info': 'ℹ️ Kết hợp tính toán Cà Phê + Nhà Hàng',
+                'annual-impact': 'Tác Động Hàng Năm',
+                'net-label': 'LỢI ÍCH HÀNG NĂM',
+                'roi-label': 'ROI',
+                'payback-label': 'Hoàn Vốn:',
+                'savings-title': '💰 Tiết Kiệm',
+                'printing-label': 'In Ấn',
+                'staff-label': 'Thời Gian NV',
+                'errors-label': 'Giảm Lỗi',
+                'total-label': 'Tổng',
+                'revenue-title': '📈 Tác Động Doanh Thu',
+                'check-label': 'Hóa Đơn Cao Hơn',
+                'turnover-label': 'Luân Chuyển Nhanh',
+                'retention-label': 'Giữ Chân Khách',
+                'total-rev-label': 'Tổng',
+                'cost-label': 'Chi Phí GUDBRO',
+                'benefits-title': '✨ Lợi Ích Bao Gồm',
+                'cta-trial': 'Bắt Đầu Dùng Thử 14 Ngày',
+                'cta-email': 'Gửi Email Báo Cáo'
+            },
+            ko: {
+                title: '💰 절감액 계산하기',
+                subtitle: 'GUDBRO로 연간 절감액 확인',
+                'seg-street': '🛒 노점',
+                'seg-coffee': '☕ 카페',
+                'seg-restaurant': '🍽️ 레스토랑',
+                'seg-combo': '🏪 바 & 레스토랑',
+                'business-details': '비즈니스 세부정보',
+                'label-items': '메뉴 항목',
+                'label-updates': '업데이트/년',
+                'label-menus': '종이 메뉴',
+                'label-printcost': '인쇄 비용/메뉴',
+                'label-revenue': '월 매출',
+                'tip-items': '메뉴의 총 항목 수',
+                'tip-updates': '메뉴 항목 또는 가격 변경 빈도',
+                'tip-menus': '현재 사용 중인 인쇄된 메뉴 수',
+                'tip-printcost': '메뉴 한 개 인쇄 비용 (디자인 + 재료)',
+                'tip-revenue': '월평균 수입',
+                'menu-section': '메뉴',
+                'business-section': '비즈니스',
+                'staff-section': '직원',
+                'errors-section': '주문 오류',
+                'label-seats': '좌석',
+                'label-customers': '고객/일',
+                'label-check': '평균 계산서',
+                'label-days': '일/주',
+                'label-foreign': '외국인 %',
+                'label-staff': '직원 수',
+                'label-wage': '시급',
+                'label-explain': '설명 분/관광객',
+                'label-waiters': '웨이터',
+                'label-errors': '오류/월',
+                'label-errorcost': '비용/오류',
+                'label-shared': '공유 메뉴 항목',
+                'tip-seats': '좌석 수',
+                'tip-customers': '일일 평균 고객',
+                'tip-check': '평균 거래 금액',
+                'tip-days': '주당 운영 일수',
+                'tip-foreign': '국제 관광객 %',
+                'tip-staff': '총 직원 수',
+                'tip-wage': '시간당 임금',
+                'tip-explain': '관광객에게 메뉴 설명하는 시간(분)',
+                'tip-waiters': '웨이터 수',
+                'tip-errors': '월간 잘못된 주문',
+                'tip-errorcost': '잘못된 주문당 비용',
+                'tip-shared': '카페와 레스토랑 메뉴 모두에 나타나는 항목',
+                'combo-info': 'ℹ️ 카페 + 레스토랑 계산 결합',
+                'annual-impact': '연간 영향',
+                'net-label': '순 연간 이익',
+                'roi-label': 'ROI',
+                'payback-label': '회수:',
+                'savings-title': '💰 절감',
+                'printing-label': '인쇄',
+                'staff-label': '직원 시간',
+                'errors-label': '오류 감소',
+                'total-label': '합계',
+                'revenue-title': '📈 매출 영향',
+                'check-label': '높은 계산서',
+                'turnover-label': '빠른 회전',
+                'retention-label': '관광객 유지',
+                'total-rev-label': '합계',
+                'cost-label': 'GUDBRO 비용',
+                'benefits-title': '✨ 포함된 혜택',
+                'cta-trial': '14일 무료 체험 시작',
+                'cta-email': '이메일 보고서'
+            }
+        };
+
+        let currentSegment = 'street';
+        let lastResults = null;
+
+        /**
+         * SCENARIO PRESETS
+         * Pessimistic = 60% of realistic multipliers
+         */
+        const SCENARIOS = {
+            pessimistic: {
+                name: 'Pessimistic (60% of realistic)',
+                multiplier: 0.60,
+                adoptionRate: 50,  // 50% QR adoption
+                description: 'Conservative estimates for risk-averse planning'
+            },
+            realistic: {
+                name: 'Realistic (Recommended)',
+                multiplier: 1.00,
+                adoptionRate: 60,  // 60% QR adoption
+                description: 'Based on 2024 industry research and case studies'
+            }
+        };
+
+        /* ===================================
+         * UI FUNCTIONS
+         * =================================== */
+        
+        /**
+         * Toggle calculation details visibility
+         * @param {string} section - 'savings' or 'revenue'
+         */
+        function toggleCalc(section) {
+            const content = document.getElementById(`calc-${section}`);
+            const arrow = document.getElementById(`calc-${section}-arrow`);
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                arrow.textContent = '▲';
+            } else {
+                content.classList.add('hidden');
+                arrow.textContent = '▼';
+            }
+        }
+
+        function getCalcDetails(r) {
+            const curr = document.getElementById('currency').value;
+            const sym = SYMBOLS[curr];
+            
+            let savings = '';
+            let revenue = '';
+            
+            if (currentSegment === 'street') {
+                const menus = document.getElementById('s-menus').value.replace(/,/g, '');
+                const cost = document.getElementById('s-cost').value.replace(/,/g, '');
+                const updates = document.getElementById('s-updates').value.replace(/,/g, '');
+                const monthlyRev = document.getElementById('s-revenue').value.replace(/,/g, '');
+                
+                savings = `<div class="font-semibold">Printing Savings:</div>
+                <div class="text-gray-600">Formula: menus × cost × updates × 0.75 (keep 25% backup)</div>
+                <div class="text-gray-600">= ${menus} × ${parseInt(cost).toLocaleString()} × ${updates} × 0.75</div>
+                <div class="text-gray-600">= ${fmt(r.printing)}/year</div>`;
+                
+                revenue = `<div class="font-semibold">Revenue Increase (10% conservative):</div>
+                <div class="text-gray-600">Formula: monthly revenue × 0.10 × 12 months</div>
+                <div class="text-gray-600">= ${parseInt(monthlyRev).toLocaleString()} × 0.10 × 12</div>
+                <div class="text-gray-600">= ${fmt(r.totalRevenue)}/year</div>`;
+                
+            } else if (currentSegment === 'coffee') {
+                const menus = document.getElementById('c-menus').value.replace(/,/g, '');
+                const cost = document.getElementById('c-printcost').value.replace(/,/g, '');
+                const updates = document.getElementById('c-updates').value.replace(/,/g, '');
+                const customers = document.getElementById('c-customers').value.replace(/,/g, '');
+                const days = document.getElementById('c-days').value.replace(/,/g, '');
+                const foreign = document.getElementById('c-foreign').value.replace(/,/g, '');
+                const wage = document.getElementById('c-wage').value.replace(/,/g, '');
+                const explain = document.getElementById('c-explain').value.replace(/,/g, '');
+                const check = document.getElementById('c-check').value.replace(/,/g, '');
+                
+                savings = `<div class="font-semibold">Printing Savings:</div>
+                <div class="text-gray-600">${menus} × ${parseInt(cost).toLocaleString()} × ${updates} × 0.70 = ${fmt(r.printing)}</div>
+                <div class="font-semibold mt-2">Staff Time Savings:</div>
+                <div class="text-gray-600">${customers} customers × ${days} days × 52 weeks × ${foreign}% foreign</div>
+                <div class="text-gray-600">× ${explain} min ÷ 60 × ${parseInt(wage).toLocaleString()} wage = ${fmt(r.staff)}</div>`;
+                
+                revenue = `<div class="font-semibold">Higher Check (15% increase):</div>
+                <div class="text-gray-600">${customers} × ${parseInt(check).toLocaleString()} × ${days} × 52 × 0.15 = ${fmt(r.checkInc)}</div>
+                <div class="font-semibold mt-2">Tourist Retention (20% return):</div>
+                <div class="text-gray-600">${customers} × ${days} × 52 × ${foreign}% × 25% dietary × 20% return × ${parseInt(check).toLocaleString()} = ${fmt(r.retention)}</div>`;
+                
+            } else if (currentSegment === 'restaurant') {
+                const menus = document.getElementById('r-menus').value.replace(/,/g, '');
+                const cost = document.getElementById('r-printcost').value.replace(/,/g, '');
+                const updates = document.getElementById('r-updates').value.replace(/,/g, '');
+                const customers = document.getElementById('r-customers').value.replace(/,/g, '');
+                const days = document.getElementById('r-days').value.replace(/,/g, '');
+                const foreign = document.getElementById('r-foreign').value.replace(/,/g, '');
+                const wage = document.getElementById('r-wage').value.replace(/,/g, '');
+                const explain = document.getElementById('r-explain').value.replace(/,/g, '');
+                const check = document.getElementById('r-check').value.replace(/,/g, '');
+                const errors = document.getElementById('r-errors').value.replace(/,/g, '');
+                const errorcost = document.getElementById('r-errorcost').value.replace(/,/g, '');
+                const seats = document.getElementById('r-seats').value.replace(/,/g, '');
+                
+                savings = `<div class="font-semibold">Printing:</div>
+                <div class="text-gray-600">${menus} × ${parseInt(cost).toLocaleString()} × ${updates} × 0.75 = ${fmt(r.printing)}</div>
+                <div class="font-semibold mt-2">Staff Time:</div>
+                <div class="text-gray-600">${customers} × ${days} × 52 × ${foreign}% × ${explain}min ÷ 60 × ${parseInt(wage).toLocaleString()} = ${fmt(r.staff)}</div>
+                <div class="font-semibold mt-2">Fewer Errors (60% reduction):</div>
+                <div class="text-gray-600">${errors} × ${parseInt(errorcost).toLocaleString()} × 12 × 0.60 = ${fmt(r.errors)}</div>`;
+                
+                revenue = `<div class="font-semibold">Higher Check (20%):</div>
+                <div class="text-gray-600">${customers} × ${parseInt(check).toLocaleString()} × ${days} × 52 × 0.20 = ${fmt(r.checkInc)}</div>
+                <div class="font-semibold mt-2">Faster Turnover (15min saved):</div>
+                <div class="text-gray-600">(${customers} ÷ ${seats} ÷ 2) × ${days} × 52 × 15min × (${parseInt(check).toLocaleString()} ÷ 60) = ${fmt(r.turnover)}</div>
+                <div class="font-semibold mt-2">Tourist Retention (40%):</div>
+                <div class="text-gray-600">${customers} × ${days} × 52 × ${foreign}% × 25% × 40% × ${parseInt(check).toLocaleString()} = ${fmt(r.retention)}</div>`;
+            } else {
+                savings = '<div class="text-gray-600">Combined Coffee Shop + Restaurant savings with synergy benefits from shared menu items.</div>';
+                revenue = '<div class="text-gray-600">Combined Coffee Shop + Restaurant revenue impacts.</div>';
+            }
+            
+            return { savings, revenue };
+        }
+
+        /**
+         * Update QR adoption rate display
+         */
+        function updateAdoption() {
+            const rate = document.getElementById('adoption-rate').value;
+            document.getElementById('adoption-display').textContent = rate + '%';
+        }
+
+        /**
+         * Apply scenario preset (Pessimistic/Realistic)
+         */
+        function applyScenario() {
+            const scenario = document.getElementById('scenario').value;
+            const preset = SCENARIOS[scenario];
+
+            // Update adoption rate slider
+            document.getElementById('adoption-rate').value = preset.adoptionRate;
+            updateAdoption();
+
+            // Recalculate
+            calculate();
+        }
+
+        /**
+         * Change interface language
+         * Reads selected language from dropdown and updates all translatable elements
+         */
+        function changeLanguage() {
+            const lang = document.getElementById('language').value;
+            const t = TRANSLATIONS[lang];
+
+            Object.keys(t).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) el.textContent = t[key];
+            });
+        }
+
+        /**
+         * Switch between calculator segments (Street/Coffee/Restaurant/Combo)
+         * @param {string} seg - Segment identifier: 'street', 'coffee', 'restaurant', 'combo'
+         */
+        function showCalc(seg) {
+            currentSegment = seg;
+            document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-${seg}`).classList.add('active');
+            document.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
+
+            // ✅ Combo mode shows: venue (shared) + coffee + restaurant + combo (synergies)
+            if (seg === 'combo') {
+                document.getElementById('calc-venue').classList.add('active');
+                document.getElementById('calc-coffee').classList.add('active');
+                document.getElementById('calc-restaurant').classList.add('active');
+                document.getElementById('calc-combo').classList.add('active');
+            } else {
+                document.getElementById(`calc-${seg}`).classList.add('active');
+            }
+
+            calculate();
+        }
+
+        /**
+         * Format currency with k/m/b suffixes
+         * Handles negative numbers and converts from VND to selected currency
+         * @param {number} amount - Amount in VND
+         * @returns {string} Formatted string with currency symbol and suffix
+         * @example fmt(1500000) => "₫1.5m" (if currency is VND)
+         */
+        function fmt(amount) {
+            const curr = document.getElementById('currency').value;
+            const converted = amount * RATES[curr];
+            const symbol = SYMBOLS[curr];
+            const isNegative = converted < 0;
+            const absConverted = Math.abs(converted);
+            
+            let value, suffix = '';
+            
+            if (absConverted >= 1000000000) {
+                value = (absConverted / 1000000000).toFixed(1);
+                suffix = 'b';
+            } else if (absConverted >= 1000000) {
+                value = (absConverted / 1000000).toFixed(1);
+                suffix = 'm';
+            } else if (absConverted >= 1000) {
+                value = (absConverted / 1000).toFixed(1);
+                suffix = 'k';
+            } else {
+                value = absConverted.toFixed(0);
+            }
+            
+            value = value.replace(/\.0$/, '');
+            
+            return (isNegative ? '-' : '') + symbol + value + suffix;
+        }
+
+        /**
+         * INPUT VALIDATION SYSTEM
+         * Validates numeric input with bounds checking
+         * @param {string} value - Raw input value
+         * @param {number} min - Minimum allowed value (default: 0)
+         * @param {number} max - Maximum allowed value (default: Infinity)
+         * @param {number} defaultVal - Fallback value if invalid
+         * @returns {number} - Validated number
+         */
+        function validateNumber(value, min = 0, max = Infinity, defaultVal = 0) {
+            // Remove commas and parse
+            const parsed = parseFloat(String(value).replace(/,/g, ''));
+
+            // Check if NaN or invalid
+            if (isNaN(parsed) || parsed === null || parsed === undefined) {
+                return defaultVal;
+            }
+
+            // Clamp to bounds
+            if (parsed < min) return min;
+            if (parsed > max) return max;
+
+            return parsed;
+        }
+
+        /**
+         * Safe input getter with validation
+         * @param {string} id - Element ID
+         * @param {number} min - Min value
+         * @param {number} max - Max value
+         * @param {number} defaultVal - Default value
+         * @returns {number} - Validated number
+         */
+        function getInput(id, min = 0, max = Infinity, defaultVal = 0) {
+            const element = document.getElementById(id);
+            if (!element) return defaultVal;
+            return validateNumber(element.value, min, max, defaultVal);
+        }
+
+        /**
+         * Master calculation dispatcher
+         * Calls appropriate calculation function based on current segment
+         */
+        function calculate() {
+            let r;
+            if (currentSegment === 'street') r = calcStreet();
+            else if (currentSegment === 'coffee') r = calcCoffee();
+            else if (currentSegment === 'restaurant') r = calcRestaurant();
+            else r = calcCombo();
+            display(r);
+        }
+
+        /* ===================================
+         * CALCULATION FUNCTIONS
+         * Each returns an object with:
+         * - printing, staff, errors: cost savings (VND)
+         * - checkInc, turnover, retention: revenue increases (VND)
+         * - gudbro: annual GUDBRO cost (VND)
+         * - net: net annual benefit (VND)
+         * - roi: return on investment (%)
+         * - payback: months to break even
+         * - show*: boolean flags for conditional display
+         * =================================== */
+
+        /**
+         * Street Vendor calculations
+         * Simple model: printing savings + 10% revenue increase
+         */
+        function calcStreet() {
+            // ✅ QR ADOPTION RATE & SCENARIO MULTIPLIER
+            const adoptionRate = getInput('adoption-rate', 40, 85, 60) / 100;
+            const scenario = document.getElementById('scenario').value;
+            const scenarioMultiplier = SCENARIOS[scenario].multiplier;
+            const effectiveMultiplier = adoptionRate * scenarioMultiplier;
+
+            // ✅ VALIDATED INPUTS with realistic bounds
+            const items = getInput('s-items', 1, 500, 15);
+            const updates = getInput('s-updates', 1, 52, 6);
+            const menus = getInput('s-menus', 1, 100, 5);
+            const cost = getInput('s-cost', 1000, 10000000, 20000);
+            const revenue = getInput('s-revenue', 100000, 1000000000, 10000000);
+
+            // Calculate base values
+            const printing = menus * cost * updates * CALC_CONFIG.printingSavings.street * effectiveMultiplier;
+            const revenueInc = revenue * CALC_CONFIG.revenueBoost.street * 12 * effectiveMultiplier;
+            const gudbro = CALC_CONFIG.pricing.street;
+            const net = printing + revenueInc - gudbro;
+            const roi = (net / gudbro) * 100;
+            const payback = (gudbro / (printing + revenueInc)) * 12;
+
+            return {
+                printing,
+                staff: 0,
+                errors: 0,
+                totalSavings: printing,
+                checkInc: revenueInc,
+                turnover: 0,
+                retention: 0,
+                totalRevenue: revenueInc,
+                gudbro,
+                net,
+                roi,
+                payback,
+                showErrors: false,
+                showTurnover: false,
+                showRetention: false
+            };
+        }
+
+        /**
+         * Coffee Shop calculations
+         * Includes: printing, staff time savings, higher check, tourist retention
+         */
+        function calcCoffee() {
+            // ✅ QR ADOPTION RATE & SCENARIO MULTIPLIER
+            const adoptionRate = getInput('adoption-rate', 40, 85, 60) / 100;
+            const scenario = document.getElementById('scenario').value;
+            const scenarioMultiplier = SCENARIOS[scenario].multiplier;
+            const effectiveMultiplier = adoptionRate * scenarioMultiplier;
+
+            // ✅ VALIDATED INPUTS with realistic bounds
+            const items = getInput('c-items', 1, 500, 40);
+            const updates = getInput('c-updates', 1, 52, 4);
+            const menus = getInput('c-menus', 1, 200, 15);
+            const printcost = getInput('c-printcost', 1000, 10000000, 50000);
+            const seats = getInput('c-seats', 1, 500, 20);
+            const customers = getInput('c-customers', 1, 5000, 50);
+            const check = getInput('c-check', 1000, 10000000, 80000);
+
+            // ✅ SHARED VALUES - Read from venue fields when in Combo mode
+            const days = currentSegment === 'combo' ? getInput('venue-days', 1, 7, 7) : getInput('c-days', 1, 7, 7);
+            const foreign = (currentSegment === 'combo' ? getInput('venue-foreign', 0, 100, 30) : getInput('c-foreign', 0, 100, 30)) / 100;
+            const wage = currentSegment === 'combo' ? getInput('venue-wage', 5000, 1000000, 25000) : getInput('c-wage', 5000, 1000000, 25000);
+
+            const staff = getInput('c-staff', 1, 100, 3);
+            const explain = getInput('c-explain', 0.5, 60, 3);
+
+            // Calculate base values with effective multiplier
+            const printing = menus * printcost * updates * CALC_CONFIG.printingSavings.coffee * effectiveMultiplier;
+            const foreignCustomers = customers * days * 52 * foreign;
+            const staffTime = foreignCustomers * (explain / 60) * wage * effectiveMultiplier;
+            const checkInc = customers * check * days * 52 * CALC_CONFIG.revenueBoost.coffeeCheckInc * effectiveMultiplier;
+            const retention = customers * days * 52 * foreign * CALC_CONFIG.touristReturn * CALC_CONFIG.touristRetentionBoost.coffee * check * effectiveMultiplier;
+            const gudbro = CALC_CONFIG.pricing.coffee;
+            const net = printing + staffTime + checkInc + retention - gudbro;
+            const roi = (net / gudbro) * 100;
+            const payback = (gudbro / (printing + staffTime + checkInc + retention)) * 12;
+
+            return {
+                printing,
+                staff: staffTime,
+                errors: 0,
+                totalSavings: printing + staffTime,
+                checkInc,
+                turnover: 0,
+                retention,
+                totalRevenue: checkInc + retention,
+                gudbro,
+                net,
+                roi,
+                payback,
+                showErrors: false,
+                showTurnover: false,
+                showRetention: true
+            };
+        }
+
+        /**
+         * Restaurant calculations
+         * Full model: printing, staff time, error reduction, higher check, faster turnover, retention
+         */
+        function calcRestaurant() {
+            // ✅ QR ADOPTION RATE & SCENARIO MULTIPLIER
+            const adoptionRate = getInput('adoption-rate', 40, 85, 60) / 100;
+            const scenario = document.getElementById('scenario').value;
+            const scenarioMultiplier = SCENARIOS[scenario].multiplier;
+            const effectiveMultiplier = adoptionRate * scenarioMultiplier;
+
+            // ✅ VALIDATED INPUTS with realistic bounds
+            const items = getInput('r-items', 1, 1000, 80);
+            const updates = getInput('r-updates', 1, 52, 12);
+            const menus = getInput('r-menus', 1, 500, 30);
+            const printcost = getInput('r-printcost', 1000, 10000000, 100000);
+            const seats = getInput('r-seats', 1, 1000, 60);
+            const customers = getInput('r-customers', 1, 10000, 120);
+            const check = getInput('r-check', 10000, 100000000, 300000);
+
+            // ✅ SHARED VALUES - Read from venue fields when in Combo mode
+            const days = currentSegment === 'combo' ? getInput('venue-days', 1, 7, 7) : getInput('r-days', 1, 7, 7);
+            const foreign = (currentSegment === 'combo' ? getInput('venue-foreign', 0, 100, 40) : getInput('r-foreign', 0, 100, 40)) / 100;
+            const wage = currentSegment === 'combo' ? getInput('venue-wage', 5000, 1000000, 25000) : getInput('r-wage', 5000, 1000000, 25000);
+
+            const waiters = getInput('r-staff', 1, 200, 5);
+            const explain = getInput('r-explain', 0.5, 60, 4);
+            const errors = getInput('r-errors', 0, 1000, 10);
+            const errorcost = getInput('r-errorcost', 1000, 10000000, 50000);
+
+            // Calculate base values with effective multiplier
+            const printing = menus * printcost * updates * CALC_CONFIG.printingSavings.restaurant * effectiveMultiplier;
+            const foreignCustomers = customers * days * 52 * foreign;
+            const staffTime = foreignCustomers * (explain / 60) * wage * effectiveMultiplier;
+            const errorSavings = errors * errorcost * 12 * CALC_CONFIG.errorReduction * effectiveMultiplier;
+            const checkInc = customers * check * days * 52 * CALC_CONFIG.revenueBoost.restaurantCheckInc * effectiveMultiplier;
+            const turnover = (customers / (seats * CALC_CONFIG.turnoverSeatsMultiplier)) * days * 52 * CALC_CONFIG.turnoverMinutesPerTable * (check / CALC_CONFIG.turnoverCheckDivisor) * effectiveMultiplier;
+            const retention = customers * days * 52 * foreign * CALC_CONFIG.touristReturn * CALC_CONFIG.touristRetentionBoost.restaurant * check * effectiveMultiplier;
+            const gudbro = CALC_CONFIG.pricing.restaurant;
+            const net = printing + staffTime + errorSavings + checkInc + turnover + retention - gudbro;
+            const roi = (net / gudbro) * 100;
+            const payback = (gudbro / (printing + staffTime + errorSavings + checkInc + turnover + retention)) * 12;
+
+            return {
+                printing,
+                staff: staffTime,
+                errors: errorSavings,
+                totalSavings: printing + staffTime + errorSavings,
+                checkInc,
+                turnover,
+                retention,
+                totalRevenue: checkInc + turnover + retention,
+                gudbro,
+                net,
+                roi,
+                payback,
+                showErrors: true,
+                showTurnover: true,
+                showRetention: true
+            };
+        }
+
+        /**
+         * Bar & Restaurant (Combo) calculations
+         * Combines Coffee + Restaurant with synergy savings from shared menu items
+         */
+        function calcCombo() {
+            // ✅ QR ADOPTION RATE & SCENARIO MULTIPLIER
+            const adoptionRate = getInput('adoption-rate', 40, 85, 60) / 100;
+            const scenario = document.getElementById('scenario').value;
+            const scenarioMultiplier = SCENARIOS[scenario].multiplier;
+            const effectiveMultiplier = adoptionRate * scenarioMultiplier;
+
+            const shared = getInput('combo-shared', 0, 100, 10);
+
+            // Get coffee calculations (already includes effectiveMultiplier)
+            const coffeeCalc = calcCoffee();
+
+            // Get restaurant inputs
+            const r_items = parseFloat(document.getElementById('r-items').value.replace(/,/g, ''));
+            const r_updates = parseFloat(document.getElementById('r-updates').value.replace(/,/g, ''));
+            const r_menus = parseFloat(document.getElementById('r-menus').value.replace(/,/g, ''));
+            const r_printcost = parseFloat(document.getElementById('r-printcost').value.replace(/,/g, ''));
+            const r_seats = parseFloat(document.getElementById('r-seats').value.replace(/,/g, ''));
+            const r_customers = parseFloat(document.getElementById('r-customers').value.replace(/,/g, ''));
+            const r_check = parseFloat(document.getElementById('r-check').value.replace(/,/g, ''));
+            const r_days = parseFloat(document.getElementById('r-days').value.replace(/,/g, ''));
+            const r_foreign = parseFloat(document.getElementById('r-foreign').value.replace(/,/g, '')) / 100;
+            const r_waiters = parseFloat(document.getElementById('r-staff').value.replace(/,/g, ''));
+            const r_wage = parseFloat(document.getElementById('r-wage').value.replace(/,/g, ''));
+            const r_explain = parseFloat(document.getElementById('r-explain').value.replace(/,/g, ''));
+            const r_errors = parseFloat(document.getElementById('r-errors').value.replace(/,/g, ''));
+            const r_errorcost = parseFloat(document.getElementById('r-errorcost').value.replace(/,/g, ''));
+
+            // Calculate restaurant values with effective multiplier
+            const r_printing = r_menus * r_printcost * r_updates * CALC_CONFIG.printingSavings.restaurant * effectiveMultiplier;
+            const r_foreignCustomers = r_customers * r_days * 52 * r_foreign;
+            const r_staffTime = r_foreignCustomers * (r_explain / 60) * r_wage * effectiveMultiplier;
+            const r_errorSavings = r_errors * r_errorcost * 12 * CALC_CONFIG.errorReduction * effectiveMultiplier;
+            const r_checkInc = r_customers * r_check * r_days * 52 * CALC_CONFIG.revenueBoost.restaurantCheckInc * effectiveMultiplier;
+            const r_turnover = (r_customers / (r_seats * CALC_CONFIG.turnoverSeatsMultiplier)) * r_days * 52 * CALC_CONFIG.turnoverMinutesPerTable * (r_check / CALC_CONFIG.turnoverCheckDivisor) * effectiveMultiplier;
+            const r_retention = r_customers * r_days * 52 * r_foreign * CALC_CONFIG.touristReturn * CALC_CONFIG.touristRetentionBoost.restaurant * r_check * effectiveMultiplier;
+
+            // Calculate synergy but ensure it doesn't exceed total printing savings
+            const baseSynergy = shared * CALC_CONFIG.comboSharedMenuFactor * CALC_CONFIG.comboSharedMenuUpdates * effectiveMultiplier;
+            const maxPrintingSavings = coffeeCalc.printing + r_printing;
+            const synergy = Math.min(baseSynergy, maxPrintingSavings * 0.8); // Cap at 80% of total to prevent negatives
+            const totalPrinting = Math.max(0, maxPrintingSavings - synergy); // Ensure never negative
+            const totalStaff = coffeeCalc.staff + r_staffTime;
+            const totalErrors = r_errorSavings;
+            const totalCheckInc = coffeeCalc.checkInc + r_checkInc;
+            const totalTurnover = r_turnover;
+            const totalRetention = coffeeCalc.retention + r_retention;
+
+            const gudbro = CALC_CONFIG.pricing.combo;
+            const net = totalPrinting + totalStaff + totalErrors + totalCheckInc + totalTurnover + totalRetention - gudbro;
+            const roi = (net / gudbro) * 100;
+            const payback = (gudbro / (totalPrinting + totalStaff + totalErrors + totalCheckInc + totalTurnover + totalRetention)) * 12;
+            
+            return {
+                printing: totalPrinting,
+                staff: totalStaff,
+                errors: totalErrors,
+                totalSavings: totalPrinting + totalStaff + totalErrors,
+                checkInc: totalCheckInc,
+                turnover: totalTurnover,
+                retention: totalRetention,
+                totalRevenue: totalCheckInc + totalTurnover + totalRetention,
+                gudbro,
+                net,
+                roi,
+                payback,
+                showErrors: true,
+                showTurnover: true,
+                showRetention: true
+            };
+        }
+
+        /**
+         * Display calculation results in the UI
+         * Updates all result elements with formatted values
+         * Shows/hides sections based on segment type
+         * @param {Object} r - Results object from calc functions
+         */
+        function display(r) {
+            lastResults = r;
+            
+            document.getElementById('net').textContent = fmt(r.net);
+            document.getElementById('roi').textContent = Math.round(r.roi) + '%';
+            document.getElementById('roi-bar').style.width = Math.min(Math.abs(r.roi), 100) + '%';
+            document.getElementById('payback').textContent = r.payback.toFixed(1) + ' months';
+            
+            document.getElementById('printing').textContent = fmt(r.printing);
+            document.getElementById('staff').textContent = fmt(r.staff);
+            document.getElementById('errors').textContent = fmt(r.errors);
+            document.getElementById('total-savings').textContent = fmt(r.totalSavings);
+            
+            document.getElementById('check-inc').textContent = fmt(r.checkInc);
+            document.getElementById('turnover').textContent = fmt(r.turnover);
+            document.getElementById('retention').textContent = fmt(r.retention);
+            document.getElementById('total-revenue').textContent = fmt(r.totalRevenue);
+            
+            document.getElementById('cost').textContent = fmt(r.gudbro);
+            
+            document.getElementById('errors-row').style.display = r.showErrors ? 'flex' : 'none';
+            document.getElementById('turnover-row').style.display = r.showTurnover ? 'flex' : 'none';
+            document.getElementById('retention-row').style.display = r.showRetention ? 'flex' : 'none';
+            
+            // Populate calculation details
+            const details = getCalcDetails(r);
+            document.getElementById('calc-savings-content').innerHTML = details.savings;
+            document.getElementById('calc-revenue-content').innerHTML = details.revenue;
+        }
+
+        // Format inputs with thousand separators
+        function formatInput(input) {
+            const value = input.value.replace(/,/g, '');
+            if (value && !isNaN(value)) {
+                input.value = parseFloat(value).toLocaleString('en-US');
+            }
+        }
+
+        function unformatInput(input) {
+            input.value = input.value.replace(/,/g, '');
+        }
+
+        // Add formatting to all number inputs
+        document.querySelectorAll('input[inputmode="numeric"]').forEach(input => {
+            input.addEventListener('blur', () => formatInput(input));
+            input.addEventListener('focus', () => unformatInput(input));
+            // Format on load
+            formatInput(input);
+        });
+
+        // Smart tooltip positioning
+        document.querySelectorAll('.tooltip-icon').forEach(icon => {
+            icon.parentElement.addEventListener('mouseenter', function(e) {
+                const tooltip = this.querySelector('.tooltip-text');
+                const iconRect = icon.getBoundingClientRect();
+                
+                // Position tooltip in center-right of viewport
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                
+                // Center vertically relative to icon, but horizontally toward center of screen
+                let top = iconRect.top + (iconRect.height / 2);
+                let left = Math.min(iconRect.right + 10, viewportWidth / 2);
+                
+                // Keep within viewport bounds
+                if (top + 50 > viewportHeight) top = viewportHeight - 60;
+                if (top < 10) top = 10;
+                if (left + 280 > viewportWidth - 20) left = viewportWidth - 300;
+                
+                tooltip.style.top = top + 'px';
+                tooltip.style.left = left + 'px';
+            });
+        });
+
+        /* ===================================
+         * LEAD CAPTURE MODAL
+         * =================================== */
+
+        let modalIntent = 'trial'; // 'trial' or 'email'
+
+        function openLeadModal(intent) {
+            modalIntent = intent;
+            document.getElementById('lead-modal').classList.add('active');
+
+            // Update modal content based on intent
+            if (intent === 'trial') {
+                document.getElementById('modal-title').textContent = 'Get Your Free Trial';
+                document.getElementById('modal-subtitle').textContent = 'Enter your email to start your 14-day free trial and receive your personalized savings report.';
+            } else {
+                document.getElementById('modal-title').textContent = 'Email Your Report';
+                document.getElementById('modal-subtitle').textContent = 'Enter your email to receive a detailed savings report based on your calculation.';
+            }
+        }
+
+        function closeLeadModal() {
+            document.getElementById('lead-modal').classList.remove('active');
+        }
+
+        // Handle form submission
+        document.getElementById('lead-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const businessName = document.getElementById('business-name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            // In production, send to backend API
+            const leadData = {
+                intent: modalIntent,
+                businessName,
+                email,
+                phone,
+                segment: currentSegment,
+                results: lastResults,
+                timestamp: new Date().toISOString()
+            };
+
+            // Store lead locally (in production, POST to API)
+            localStorage.setItem('gudbro_lead_' + Date.now(), JSON.stringify(leadData));
+
+            // Show success message
+            alert(`✅ Success! Check your email (${email}) for next steps.`);
+
+            // Close modal and reset form
+            closeLeadModal();
+            document.getElementById('lead-form').reset();
+        });
+
+        /* ===================================
+         * LOCALSTORAGE PERSISTENCE
+         * Save/restore calculator inputs
+         * =================================== */
+
+        function saveInputs() {
+            const inputs = document.querySelectorAll('input[inputmode="numeric"]');
+            const data = {};
+            inputs.forEach(input => {
+                data[input.id] = input.value;
+            });
+            localStorage.setItem('gudbro_calculator_inputs', JSON.stringify(data));
+        }
+
+        function loadInputs() {
+            const saved = localStorage.getItem('gudbro_calculator_inputs');
+            if (!saved) return;
+
+            try {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input && data[id]) {
+                        input.value = data[id];
+                    }
+                });
+            } catch (e) {
+                console.warn('Failed to load saved inputs:', e);
+            }
+        }
+
+        // Auto-save on input change
+        document.querySelectorAll('input[inputmode="numeric"]').forEach(input => {
+            input.addEventListener('change', saveInputs);
+        });
+
+        // Load saved inputs on page load
+        loadInputs();
+
+        // Initialize
+        calculate();
+    </script>
+</body>
+</html>

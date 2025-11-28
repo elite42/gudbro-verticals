@@ -1,0 +1,21 @@
+{
+  "name": "@gudbro/wellness",
+  "version": "1.0.0",
+  "description": "Wellness/Spa vertical for Gudbro platform - spa, massage, beauty services",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "node backend/index.js",
+    "dev": "nodemon backend/index.js"
+  },
+  "keywords": ["spa", "massage", "wellness", "beauty", "vietnam"],
+  "author": "Gudbro",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

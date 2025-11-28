@@ -1,0 +1,202 @@
+[
+  {
+    "id": "sample-espresso-001",
+    "name": {
+      "en": "Classic Espresso",
+      "it": "Espresso Classico",
+      "vi": "Cà phê Espresso"
+    },
+    "description": {
+      "en": "Rich, bold Italian espresso with a perfect crema layer. Our signature blend roasted to perfection.",
+      "it": "Espresso italiano ricco e deciso con uno strato di crema perfetta. La nostra miscela firmata tostata alla perfezione.",
+      "vi": "Cà phê Espresso Ý đậm đà với lớp crema hoàn hảo. Hỗn hợp đặc trưng rang chín hoàn hảo."
+    },
+    "category": "beverage",
+    "price": 35000,
+    "imageUrl": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&h=300&fit=crop",
+    "allergens": [],
+    "dietary": ["vegan", "gluten-free"],
+    "createdAt": "2025-11-23T10:00:00.000Z",
+    "updatedAt": "2025-11-23T10:00:00.000Z"
+  },
+  {
+    "id": "sample-cappuccino-002",
+    "name": {
+      "en": "Cappuccino",
+      "it": "Cappuccino",
+      "vi": "Cappuccino"
+    },
+    "description": {
+      "en": "Traditional Italian cappuccino with steamed milk and a light foam top. Made with fresh whole milk.",
+      "it": "Cappuccino tradizionale italiano con latte caldo e schiuma leggera. Preparato con latte fresco intero.",
+      "vi": "Cappuccino truyền thống Ý với sữa đánh nóng và bọt nhẹ. Làm từ sữa tươi nguyên kem."
+    },
+    "category": "beverage",
+    "price": 45000,
+    "imageUrl": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=300&fit=crop",
+    "allergens": ["milk"],
+    "dietary": ["vegetarian"],
+    "createdAt": "2025-11-23T10:05:00.000Z",
+    "updatedAt": "2025-11-23T10:05:00.000Z"
+  },
+  {
+    "id": "sample-croissant-003",
+    "name": {
+      "en": "Butter Croissant",
+      "it": "Cornetto al Burro",
+      "vi": "Bánh Sừng Bò Bơ"
+    },
+    "description": {
+      "en": "Flaky, buttery French croissant baked fresh daily. Golden and crispy on the outside, soft inside.",
+      "it": "Cornetto francese friabile e burroso cotto fresco ogni giorno. Dorato e croccante fuori, morbido dentro.",
+      "vi": "Bánh sừng bò Pháp giòn tan, thơm bơ nướng tươi hàng ngày. Vàng giòn bên ngoài, mềm bên trong."
+    },
+    "category": "food",
+    "price": 38000,
+    "imageUrl": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=300&fit=crop",
+    "allergens": ["gluten", "milk", "eggs"],
+    "dietary": ["vegetarian"],
+    "createdAt": "2025-11-23T10:10:00.000Z",
+    "updatedAt": "2025-11-23T10:10:00.000Z"
+  },
+  {
+    "id": "sample-avocado-toast-004",
+    "name": {
+      "en": "Avocado Toast",
+      "it": "Toast all'Avocado",
+      "vi": "Bánh Mì Bơ"
+    },
+    "description": {
+      "en": "Smashed avocado on sourdough with cherry tomatoes, olive oil, and sea salt. Healthy and delicious.",
+      "it": "Avocado schiacciato su pane a lievitazione naturale con pomodorini, olio d'oliva e sale marino. Sano e delizioso.",
+      "vi": "Bơ nghiền trên bánh mì men tự nhiên với cà chua cherry, dầu ô liu và muối biển. Lành mạnh và ngon miệng."
+    },
+    "category": "food",
+    "price": 65000,
+    "imageUrl": "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=400&h=300&fit=crop",
+    "allergens": ["gluten"],
+    "dietary": ["vegan", "vegetarian"],
+    "createdAt": "2025-11-23T10:15:00.000Z",
+    "updatedAt": "2025-11-23T10:15:00.000Z"
+  },
+  {
+    "id": "sample-tiramisu-005",
+    "name": {
+      "en": "Classic Tiramisu",
+      "it": "Tiramisù Classico",
+      "vi": "Tiramisu Cổ Điển"
+    },
+    "description": {
+      "en": "Traditional Italian dessert with ladyfingers, espresso, mascarpone cream, and cocoa powder.",
+      "it": "Dolce italiano tradizionale con savoiardi, caffè espresso, crema di mascarpone e cacao in polvere.",
+      "vi": "Món tráng miệng Ý truyền thống với bánh ladyfinger, espresso, kem mascarpone và bột ca cao."
+    },
+    "category": "dessert",
+    "price": 55000,
+    "imageUrl": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=300&fit=crop",
+    "allergens": ["gluten", "milk", "eggs"],
+    "dietary": ["vegetarian"],
+    "createdAt": "2025-11-23T10:20:00.000Z",
+    "updatedAt": "2025-11-23T10:20:00.000Z"
+  },
+  {
+    "id": "sample-matcha-latte-006",
+    "name": {
+      "en": "Matcha Latte",
+      "it": "Matcha Latte",
+      "vi": "Matcha Latte"
+    },
+    "description": {
+      "en": "Premium Japanese matcha green tea with steamed milk. Rich in antioxidants and smooth taste.",
+      "it": "Tè verde matcha giapponese premium con latte caldo. Ricco di antiossidanti e gusto morbido.",
+      "vi": "Trà xanh matcha Nhật Bản cao cấp với sữa đánh nóng. Giàu chất chống oxi hóa và vị êm dịu."
+    },
+    "category": "beverage",
+    "price": 52000,
+    "imageUrl": "https://images.unsplash.com/photo-1536013317145-f94de27bcfc2?w=400&h=300&fit=crop",
+    "allergens": ["milk"],
+    "dietary": ["vegetarian", "gluten-free"],
+    "createdAt": "2025-11-23T10:25:00.000Z",
+    "updatedAt": "2025-11-23T10:25:00.000Z"
+  },
+  {
+    "id": "sample-acai-bowl-007",
+    "name": {
+      "en": "Açaí Superfood Bowl",
+      "it": "Bowl di Açaí Superfood",
+      "vi": "Bát Açaí Siêu Thực Phẩm"
+    },
+    "description": {
+      "en": "Organic açaí blend topped with fresh fruits, granola, coconut, and honey. Perfect energy boost.",
+      "it": "Miscela di açaí biologico con frutta fresca, granola, cocco e miele. Carica di energia perfetta.",
+      "vi": "Hỗn hợp açaí hữu cơ với trái cây tươi, granola, dừa và mật ong. Tăng năng lượng hoàn hảo."
+    },
+    "category": "food",
+    "price": 72000,
+    "imageUrl": "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&h=300&fit=crop",
+    "allergens": ["nuts"],
+    "dietary": ["vegetarian", "gluten-free"],
+    "createdAt": "2025-11-23T10:30:00.000Z",
+    "updatedAt": "2025-11-23T10:30:00.000Z"
+  },
+  {
+    "id": "sample-brownie-008",
+    "name": {
+      "en": "Dark Chocolate Brownie",
+      "it": "Brownie al Cioccolato Fondente",
+      "vi": "Brownie Socola Đen"
+    },
+    "description": {
+      "en": "Rich, fudgy brownie made with premium dark chocolate. Served warm with a crispy top.",
+      "it": "Brownie ricco e morbido fatto con cioccolato fondente premium. Servito caldo con crosta croccante.",
+      "vi": "Brownie đậm đà, mềm mịn làm từ socola đen cao cấp. Phục vụ nóng với lớp giòn."
+    },
+    "category": "dessert",
+    "price": 48000,
+    "imageUrl": "https://images.unsplash.com/photo-1607920591413-4ec007e70023?w=400&h=300&fit=crop",
+    "allergens": ["gluten", "milk", "eggs"],
+    "dietary": ["vegetarian"],
+    "createdAt": "2025-11-23T10:35:00.000Z",
+    "updatedAt": "2025-11-23T10:35:00.000Z"
+  },
+  {
+    "id": "sample-green-smoothie-009",
+    "name": {
+      "en": "Green Detox Smoothie",
+      "it": "Frullato Verde Detox",
+      "vi": "Sinh Tố Xanh Detox"
+    },
+    "description": {
+      "en": "Healthy blend of spinach, banana, mango, chia seeds, and coconut water. Refreshing and nutritious.",
+      "it": "Miscela salutare di spinaci, banana, mango, semi di chia e acqua di cocco. Rinfrescante e nutriente.",
+      "vi": "Hỗn hợp lành mạnh từ rau bina, chuối, xoài, hạt chia và nước dừa. Tươi mát và bổ dưỡng."
+    },
+    "category": "beverage",
+    "price": 58000,
+    "imageUrl": "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=400&h=300&fit=crop",
+    "allergens": [],
+    "dietary": ["vegan", "vegetarian", "gluten-free", "dairy-free"],
+    "createdAt": "2025-11-23T10:40:00.000Z",
+    "updatedAt": "2025-11-23T10:40:00.000Z"
+  },
+  {
+    "id": "sample-banhmi-010",
+    "name": {
+      "en": "Vietnamese Banh Mi",
+      "it": "Banh Mi Vietnamita",
+      "vi": "Bánh Mì Việt Nam"
+    },
+    "description": {
+      "en": "Crispy baguette with grilled pork, pickled vegetables, cilantro, and house sauce. Authentic Vietnamese street food.",
+      "it": "Baguette croccante con maiale alla griglia, verdure in salamoia, coriandolo e salsa della casa. Autentico street food vietnamita.",
+      "vi": "Bánh mì giòn với thịt heo nướng, rau củ ngâm chua, rau mùi và nước sốt đặc biệt. Món ăn đường phố Việt Nam đích thực."
+    },
+    "category": "food",
+    "price": 42000,
+    "imageUrl": "https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=400&h=300&fit=crop",
+    "allergens": ["gluten", "soy"],
+    "dietary": [],
+    "createdAt": "2025-11-23T10:45:00.000Z",
+    "updatedAt": "2025-11-23T10:45:00.000Z"
+  }
+]

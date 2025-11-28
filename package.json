@@ -1,0 +1,38 @@
+{
+  "name": "gudbro-verticals",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GUDBRO vertical business applications - Coffeeshop, Wellness, Rentals",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:coffeeshop": "cd apps/coffeeshop/frontend && npm run dev",
+    "dev:wellness": "cd apps/wellness && npm start",
+    "dev:rentals": "cd apps/rentals && npm start",
+    "build:coffeeshop": "cd apps/coffeeshop/frontend && npm run build",
+    "build:wellness": "cd apps/wellness && npm run build",
+    "build:rentals": "cd apps/rentals && npm run build",
+    "lint:all": "npm run lint --workspaces",
+    "clean": "rm -rf apps/*/node_modules apps/*/.next apps/*/build node_modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/gudbro-verticals.git"
+  },
+  "keywords": [
+    "gudbro",
+    "verticals",
+    "coffeeshop",
+    "wellness",
+    "rentals",
+    "qr-menu",
+    "digital-menu"
+  ],
+  "author": "GUDBRO Team",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

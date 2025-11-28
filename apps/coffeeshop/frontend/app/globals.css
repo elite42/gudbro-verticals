@@ -1,0 +1,179 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Theme CSS Variables
+ * These are set dynamically by the ThemeProvider based on light/dark mode
+ * Default values below are for light mode
+ */
+:root {
+  /* Legacy variables (kept for compatibility) */
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+
+  /* Theme System - Light Mode (default) */
+  /* Background */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F8F9FA;
+  --color-bg-tertiary: #F1F3F5;
+  --color-bg-elevated: #FFFFFF;
+
+  /* Text */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #4B5563;
+  --color-text-tertiary: #9CA3AF;
+  --color-text-inverse: #FFFFFF;
+
+  /* Border */
+  --color-border-light: #F1F3F5;
+  --color-border-medium: #E5E7EB;
+  --color-border-heavy: #D1D5DB;
+
+  /* Interactive */
+  --color-interactive-primary: #2563EB;
+  --color-interactive-primary-hover: #1D4ED8;
+  --color-interactive-secondary: #6B7280;
+  --color-interactive-secondary-hover: #4B5563;
+  --color-interactive-danger: #DC2626;
+  --color-interactive-danger-hover: #B91C1C;
+  --color-interactive-success: #16A34A;
+  --color-interactive-warning: #F59E0B;
+
+  /* Status */
+  --color-status-favorite: #EF4444;
+  --color-status-badge: #EF4444;
+  --color-status-highlight: #FEF3C7;
+}
+
+body {
+  color: var(--color-text-primary);
+  background: var(--color-bg-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Safe area for mobile devices */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Animation for orders timeline */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Hide scrollbar for horizontal scroll containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* ========================================
+   ACCESSIBILITY IMPROVEMENTS (WCAG AA)
+   ======================================== */
+
+/* Enhanced focus indicators for keyboard navigation */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* High contrast focus for buttons */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+/* Focus for form elements */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Skip to main content link (for keyboard users) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: #2563eb;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 0 0 8px 0;
+  z-index: 10000;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Ensure minimum touch target size (44x44px for WCAG AA) */
+@media (pointer: coarse) {
+  button,
+  a,
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Improved text contrast for better readability */
+.text-gray-600 {
+  color: rgb(75 85 99) !important; /* Darker for better contrast */
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
