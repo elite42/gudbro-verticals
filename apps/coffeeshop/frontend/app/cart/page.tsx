@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { cartStore, CartItem } from '../../lib/cart-store';
 import { currencyPreferencesStore } from '../../lib/currency-preferences';
 import { formatConvertedPrice } from '../../lib/currency-converter';
+import { submitOrder, SubmittedOrder } from '../../lib/order-service';
+import { tableContextStore } from '../../lib/table-context-store';
 import { BottomNavLocal } from '../../components/BottomNavLocal';
 import { HomeHeader } from '../../components/HomeHeader';
 import { coffeeshopConfig } from '../../config/coffeeshop.config';
@@ -14,6 +16,9 @@ export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [currencyPrefs, setCurrencyPrefs] = useState(() => currencyPreferencesStore.get());
   const [isClient, setIsClient] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedOrder, setSubmittedOrder] = useState<SubmittedOrder | null>(null);
+  const [customerNotes, setCustomerNotes] = useState('');
 
   // Load cart client-side only (avoid hydration mismatch)
   useEffect(() => {
@@ -62,12 +67,74 @@ export default function CartPage() {
     cartStore.remove(itemId);
   };
 
-  const handlePlaceOrder = () => {
-    alert('Order functionality coming soon! 🚀\n\nYour order will be sent to the kitchen.');
+  const handlePlaceOrder = async () => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      const orderData = cartStore.getOrderData();
+      const result = await submitOrder({
+        ...orderData,
+        customer_notes: customerNotes || undefined,
+      });
+
+      setSubmittedOrder(result);
+      cartStore.clear();
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      alert('Failed to submit order. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const total = cartStore.getTotal();
   const itemCount = cartStore.count();
+
+  // Order submitted success state
+  if (submittedOrder) {
+    return (
+      <div className="min-h-screen bg-theme-bg-secondary pb-28">
+        <HomeHeader />
+
+        <div className="container mx-auto px-4 py-16">
+          <div className="text-center">
+            <div className="text-8xl mb-6">✅</div>
+            <h2 className="text-3xl font-bold text-theme-text-primary mb-4">
+              Order Submitted!
+            </h2>
+            <div className="bg-theme-bg-elevated rounded-2xl p-6 mb-8 inline-block">
+              <p className="text-theme-text-secondary mb-2">Your order number</p>
+              <p className="text-5xl font-bold text-amber-600">{submittedOrder.order_code}</p>
+            </div>
+            <p className="text-theme-text-secondary mb-8">
+              Your order has been sent to the kitchen.<br />
+              We&apos;ll notify you when it&apos;s ready!
+            </p>
+            <div className="space-y-3">
+              <button
+                onClick={() => router.push('/orders')}
+                className="w-full max-w-xs mx-auto bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover transition-all block"
+              >
+                Track Order Status
+              </button>
+              <button
+                onClick={() => {
+                  setSubmittedOrder(null);
+                  router.push('/menu');
+                }}
+                className="w-full max-w-xs mx-auto bg-theme-bg-tertiary text-theme-text-primary px-8 py-4 rounded-2xl font-bold text-lg block"
+              >
+                Back to Menu
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <BottomNavLocal />
+      </div>
+    );
+  }
 
   // Empty cart state
   if (!isClient || cartItems.length === 0) {
@@ -196,6 +263,20 @@ export default function CartPage() {
           })}
         </div>
 
+        {/* Special Instructions */}
+        <div className="bg-theme-bg-elevated rounded-xl shadow-md p-4 mb-4">
+          <label className="block text-sm font-medium text-theme-text-secondary mb-2">
+            Special Instructions (optional)
+          </label>
+          <textarea
+            value={customerNotes}
+            onChange={(e) => setCustomerNotes(e.target.value)}
+            placeholder="Allergies, special requests, etc."
+            className="w-full px-4 py-3 bg-theme-bg-secondary rounded-lg text-theme-text-primary placeholder-theme-text-tertiary resize-none"
+            rows={2}
+          />
+        </div>
+
         {/* Order Summary */}
         <div className="bg-theme-bg-elevated rounded-xl shadow-lg p-6 sticky bottom-20">
           <div className="flex items-center justify-between mb-6">
@@ -209,9 +290,20 @@ export default function CartPage() {
 
           <button
             onClick={handlePlaceOrder}
-            className="w-full bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover transition-all transform active:scale-95"
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Place Order
+            {isSubmitting ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Submitting...
+              </span>
+            ) : (
+              'Place Order'
+            )}
           </button>
 
           <button

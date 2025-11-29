@@ -42,13 +42,22 @@ Automatic compliance with food safety regulations in:
 ```
 packages/shared/database/
 ├── types/                    # TypeScript type definitions
-│   └── index.ts             # All types (30 allergens, 10 intolerances, 11 diets)
+│   ├── index.ts             # All types (30 allergens, 10 intolerances, 11 diets)
+│   └── menu-management.ts   # Menu management types
 ├── ingredients/             # Ingredient database
 │   └── common-ingredients.ts # 28 initial ingredients
 ├── products/                # Product templates
 │   └── example-products.ts  # 4 example products from ROOTS menu
 ├── utils/                   # Auto-computation functions
 │   └── auto-compute.ts      # Core auto-computation logic
+├── schema/                  # SQL Schema files for Supabase
+│   ├── 001-menu-management.sql    # Menu, categories, items
+│   ├── 002-orders-standalone.sql  # ✅ NEW: Orders system (standalone)
+│   └── 002-orders.sql             # Orders system (with menu FK)
+├── repositories/            # Data access layer
+│   ├── mock-data.ts         # Mock data for development
+│   ├── mock-menu-repository.ts
+│   └── supabase/            # Supabase-specific implementations
 ├── index.ts                 # Main entry point
 └── README.md               # This file
 ```
@@ -273,6 +282,14 @@ const myNewSmoothie: Product = {
 - [x] Auto-computation engine
 - [x] Initial ingredient database (28 ingredients)
 - [x] Example products (4 from ROOTS menu)
+
+### Phase 1.5: Orders System (COMPLETED ✅)
+- [x] Orders database schema (`002-orders-standalone.sql`)
+- [x] Order items with extras support
+- [x] Auto-generated order codes (A-001, A-002, etc.)
+- [x] Status tracking with timestamps
+- [x] Session-based anonymous ordering
+- [x] Realtime subscriptions via Supabase
 
 ### Phase 2: Expansion (NEXT)
 - [ ] Expand to 100+ ingredients
