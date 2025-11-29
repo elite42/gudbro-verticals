@@ -1,9 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { selectionsStore, SelectionItem } from '../lib/selections-store';
+import { cartStore } from '../lib/cart-store';
 import { currencyPreferencesStore } from '../lib/currency-preferences';
 import { formatConvertedPrice } from '../lib/currency-converter';
+import { submitOrder, SubmittedOrder } from '../lib/order-service';
+import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { DishItem } from './DishCard';
 
 interface SelectionsSidebarProps {
@@ -17,8 +21,15 @@ export function SelectionsSidebar({
   onClose,
   onEditProduct
 }: SelectionsSidebarProps) {
+  const router = useRouter();
   const [selections, setSelections] = useState<SelectionItem[]>([]);
   const [currencyPrefs, setCurrencyPrefs] = useState(() => currencyPreferencesStore.get());
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedOrder, setSubmittedOrder] = useState<SubmittedOrder | null>(null);
+  const [customerNotes, setCustomerNotes] = useState('');
+
+  // Check if ordering is enabled based on tier
+  const isOrderingEnabled = coffeeshopConfig.features.enableCart;
 
   useEffect(() => {
     if (isOpen) {
@@ -75,6 +86,60 @@ export function SelectionsSidebar({
     }
   };
 
+  // Calculate total
+  const calculateTotal = () => {
+    return selections.reduce((total, item) => {
+      const extrasTotal = item.extras?.reduce((sum, e) => sum + e.price, 0) || 0;
+      return total + (item.dish.price + extrasTotal) * item.quantity;
+    }, 0);
+  };
+
+  // Handle place order
+  const handlePlaceOrder = async () => {
+    if (isSubmitting || selections.length === 0) return;
+
+    setIsSubmitting(true);
+    try {
+      // Convert selections to CartItem format expected by order-service
+      const items = selections.map(s => ({
+        id: s.id,
+        dish: s.dish,
+        quantity: s.quantity,
+        extras: s.extras || [],
+        addedAt: s.addedAt || Date.now(),
+      }));
+
+      const result = await submitOrder({
+        items,
+        total: calculateTotal(),
+        table_context: {
+          table_number: null,
+          customer_name: null,
+          consumption_type: 'dine-in' as const,
+          service_type: 'counter-pickup' as const,
+        },
+        customer_notes: customerNotes || undefined,
+      });
+
+      setSubmittedOrder(result);
+      selectionsStore.clear();
+      setCustomerNotes('');
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      alert('Errore nell\'invio dell\'ordine. Riprova.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Reset submitted order when closing
+  const handleClose = () => {
+    if (submittedOrder) {
+      setSubmittedOrder(null);
+    }
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -82,7 +147,7 @@ export function SelectionsSidebar({
       {/* Overlay */}
       <div
         className="fixed inset-0 bg-black/50 z-[9998] transition-opacity"
-        onClick={onClose}
+        onClick={handleClose}
       />
 
       {/* Bottom Sheet */}
@@ -91,7 +156,7 @@ export function SelectionsSidebar({
         style={{ transform: isOpen ? 'translateY(0)' : 'translateY(100%)' }}
       >
         {/* Drag Handle */}
-        <div className="flex justify-center pt-3 pb-2 cursor-pointer" onClick={onClose}>
+        <div className="flex justify-center pt-3 pb-2 cursor-pointer" onClick={handleClose}>
           <div className="w-12 h-1.5 bg-theme-bg-tertiary rounded-full"></div>
         </div>
 
@@ -194,21 +259,101 @@ export function SelectionsSidebar({
           )}
         </div>
 
+        {/* Order Success State */}
+        {submittedOrder && (
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+            <div className="text-7xl mb-4">✅</div>
+            <h3 className="text-2xl font-bold text-theme-text-primary mb-2">
+              Ordine Inviato!
+            </h3>
+            <div className="bg-theme-bg-secondary rounded-2xl p-4 mb-4">
+              <p className="text-theme-text-secondary text-sm">Il tuo numero ordine</p>
+              <p className="text-4xl font-bold text-theme-brand-primary">{submittedOrder.order_code}</p>
+            </div>
+            <p className="text-theme-text-secondary mb-6">
+              Il tuo ordine è stato inviato in cucina.<br />
+              Ti avviseremo quando sarà pronto!
+            </p>
+            <button
+              onClick={() => {
+                router.push('/orders');
+                handleClose();
+              }}
+              className="w-full bg-theme-brand-primary text-white px-6 py-3 rounded-full font-bold mb-3"
+            >
+              Traccia Ordine
+            </button>
+            <button
+              onClick={handleClose}
+              className="w-full bg-theme-bg-secondary text-theme-text-primary px-6 py-3 rounded-full font-bold"
+            >
+              Torna al Menu
+            </button>
+          </div>
+        )}
+
         {/* Footer Actions */}
-        {selections.length > 0 && (
+        {selections.length > 0 && !submittedOrder && (
           <div className="bg-theme-bg-elevated border-t border-theme-bg-tertiary p-4 space-y-3">
-            <button
-              onClick={handleClearAll}
-              className="w-full bg-theme-bg-secondary text-theme-text-primary px-6 py-3 rounded-full font-bold hover:bg-theme-bg-tertiary transition-colors"
-            >
-              Clear All
-            </button>
-            <button
-              onClick={onClose}
-              className="w-full bg-primary text-white px-6 py-3 rounded-full font-bold hover:shadow-lg transition-all"
-            >
-              Continue Browsing
-            </button>
+            {/* Total */}
+            <div className="flex items-center justify-between px-2 mb-2">
+              <span className="text-theme-text-secondary font-medium">Totale</span>
+              <span className="text-2xl font-bold text-theme-brand-primary">
+                {formatPrice(calculateTotal())}
+              </span>
+            </div>
+
+            {/* Customer Notes (only if ordering enabled) */}
+            {isOrderingEnabled && (
+              <textarea
+                value={customerNotes}
+                onChange={(e) => setCustomerNotes(e.target.value)}
+                placeholder="Note speciali (allergie, richieste...)"
+                className="w-full px-4 py-2 bg-theme-bg-secondary rounded-lg text-theme-text-primary placeholder-theme-text-tertiary text-sm resize-none"
+                rows={2}
+              />
+            )}
+
+            {/* Place Order Button (only if ordering enabled) */}
+            {isOrderingEnabled && (
+              <button
+                onClick={handlePlaceOrder}
+                disabled={isSubmitting}
+                className="w-full bg-green-600 text-white px-6 py-4 rounded-full font-bold hover:bg-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Invio in corso...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    Invia Ordine
+                  </>
+                )}
+              </button>
+            )}
+
+            <div className="flex gap-2">
+              <button
+                onClick={handleClearAll}
+                className="flex-1 bg-theme-bg-secondary text-theme-text-secondary px-4 py-3 rounded-full font-medium hover:bg-theme-bg-tertiary transition-colors text-sm"
+              >
+                Svuota
+              </button>
+              <button
+                onClick={handleClose}
+                className="flex-1 bg-theme-brand-primary text-white px-4 py-3 rounded-full font-medium hover:opacity-90 transition-all text-sm"
+              >
+                Continua
+              </button>
+            </div>
           </div>
         )}
       </div>

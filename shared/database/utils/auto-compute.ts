@@ -23,7 +23,27 @@ import type {
   AllergenFlags,
   IntoleranceFlags,
   DietaryFlags,
+  NutritionPer100g,
 } from '../types';
+
+// ============================================================================
+// NUTRITION TYPES
+// ============================================================================
+
+/**
+ * Nutrition per serving for a complete product
+ */
+export interface NutritionPerServing {
+  servingSizeG: number;
+  calories: number;
+  protein: number;   // grams
+  carbs: number;     // grams
+  fat: number;       // grams
+  fiber: number;     // grams
+  sugar?: number;    // grams
+  sodium?: number;   // mg
+  saturatedFat?: number; // grams
+}
 
 // ============================================================================
 // ALLERGEN COMPUTATION
@@ -384,6 +404,252 @@ export function autoComputeProduct(
 }
 
 // ============================================================================
+// NUTRITION COMPUTATION
+// ============================================================================
+
+/**
+ * Ingredient with quantity for nutrition calculation
+ */
+export interface IngredientWithQuantity {
+  ingredient: IngredientMaster;
+  quantityG: number; // Weight in grams
+}
+
+/**
+ * Compute total nutrition from ingredients with quantities
+ *
+ * @param ingredients - List of ingredients with their quantities in grams
+ * @returns Nutrition per serving (sum of all ingredients)
+ *
+ * @example
+ * ```ts
+ * const nutrition = computeNutrition([
+ *   { ingredient: milk, quantityG: 150 },
+ *   { ingredient: espresso, quantityG: 30 },
+ *   { ingredient: sugar, quantityG: 10 },
+ * ]);
+ * // Returns: { calories: 95, protein: 5, carbs: 15, fat: 5, ... }
+ * ```
+ */
+export function computeNutrition(
+  ingredients: IngredientWithQuantity[]
+): NutritionPerServing {
+  let totalServingSize = 0;
+  let totalCalories = 0;
+  let totalProtein = 0;
+  let totalCarbs = 0;
+  let totalFat = 0;
+  let totalFiber = 0;
+  let totalSugar = 0;
+  let totalSodium = 0;
+  let totalSaturatedFat = 0;
+
+  let hasSugar = false;
+  let hasSodium = false;
+  let hasSaturatedFat = false;
+
+  ingredients.forEach(({ ingredient, quantityG }) => {
+    if (!ingredient.nutrition) return;
+
+    const nutrition = ingredient.nutrition;
+    const factor = quantityG / 100; // Nutrition is per 100g
+
+    totalServingSize += quantityG;
+    totalCalories += (nutrition.calories_kcal || 0) * factor;
+    totalProtein += (nutrition.protein_g || 0) * factor;
+    totalCarbs += (nutrition.carbs_g || 0) * factor;
+    totalFat += (nutrition.fat_g || 0) * factor;
+    totalFiber += (nutrition.fiber_g || 0) * factor;
+
+    if (nutrition.sugar_g !== undefined) {
+      totalSugar += nutrition.sugar_g * factor;
+      hasSugar = true;
+    }
+    if (nutrition.salt_g !== undefined) {
+      // Convert salt to sodium (salt = 40% sodium)
+      totalSodium += (nutrition.salt_g * 400) * factor; // mg
+      hasSodium = true;
+    }
+  });
+
+  return {
+    servingSizeG: Math.round(totalServingSize),
+    calories: Math.round(totalCalories),
+    protein: Math.round(totalProtein * 10) / 10,
+    carbs: Math.round(totalCarbs * 10) / 10,
+    fat: Math.round(totalFat * 10) / 10,
+    fiber: Math.round(totalFiber * 10) / 10,
+    sugar: hasSugar ? Math.round(totalSugar * 10) / 10 : undefined,
+    sodium: hasSodium ? Math.round(totalSodium) : undefined,
+    saturatedFat: hasSaturatedFat ? Math.round(totalSaturatedFat * 10) / 10 : undefined,
+  };
+}
+
+/**
+ * Compute calories only (quick calculation)
+ *
+ * @param ingredients - List of ingredients with their quantities in grams
+ * @returns Total calories for the serving
+ */
+export function computeCalories(
+  ingredients: IngredientWithQuantity[]
+): number {
+  let totalCalories = 0;
+
+  ingredients.forEach(({ ingredient, quantityG }) => {
+    if (!ingredient.nutrition?.calories_kcal) return;
+    const factor = quantityG / 100;
+    totalCalories += ingredient.nutrition.calories_kcal * factor;
+  });
+
+  return Math.round(totalCalories);
+}
+
+/**
+ * Get nutrition density rating
+ *
+ * High protein, high fiber, low sugar = healthy
+ * Low protein, low fiber, high sugar = less healthy
+ *
+ * @returns Rating from 1 (poor) to 5 (excellent)
+ */
+export function computeNutritionRating(nutrition: NutritionPerServing): number {
+  const { calories, protein, fiber, sugar, fat } = nutrition;
+
+  // Avoid division by zero
+  if (calories === 0) return 3;
+
+  // Calculate nutrient density per 100 calories
+  const proteinPer100Cal = (protein * 100) / calories;
+  const fiberPer100Cal = (fiber * 100) / calories;
+  const sugarPer100Cal = sugar !== undefined ? (sugar * 100) / calories : 0;
+
+  let score = 3; // Base score
+
+  // Protein scoring (high protein is good)
+  if (proteinPer100Cal > 5) score += 1;
+  else if (proteinPer100Cal > 3) score += 0.5;
+  else if (proteinPer100Cal < 1) score -= 0.5;
+
+  // Fiber scoring (high fiber is good)
+  if (fiberPer100Cal > 3) score += 1;
+  else if (fiberPer100Cal > 1) score += 0.5;
+
+  // Sugar scoring (high sugar is bad)
+  if (sugarPer100Cal > 10) score -= 1;
+  else if (sugarPer100Cal > 5) score -= 0.5;
+
+  // Clamp between 1 and 5
+  return Math.max(1, Math.min(5, Math.round(score)));
+}
+
+/**
+ * Get health labels based on nutrition
+ */
+export function computeHealthLabels(nutrition: NutritionPerServing): string[] {
+  const labels: string[] = [];
+  const { calories, protein, carbs, fat, fiber, sugar } = nutrition;
+
+  // Low calorie (under 100 kcal per serving)
+  if (calories <= 100) {
+    labels.push('low-calorie');
+  }
+
+  // High protein (more than 20% calories from protein)
+  // Protein = 4 kcal/g
+  if (protein * 4 / calories > 0.2) {
+    labels.push('high-protein');
+  }
+
+  // Low fat (less than 20% calories from fat)
+  // Fat = 9 kcal/g
+  if (fat * 9 / calories < 0.2) {
+    labels.push('low-fat');
+  }
+
+  // High fiber (more than 5g per serving)
+  if (fiber >= 5) {
+    labels.push('high-fiber');
+  }
+
+  // Low sugar (less than 5g per serving)
+  if (sugar !== undefined && sugar <= 5) {
+    labels.push('low-sugar');
+  }
+
+  // Sugar free (less than 0.5g per serving)
+  if (sugar !== undefined && sugar < 0.5) {
+    labels.push('sugar-free');
+  }
+
+  return labels;
+}
+
+/**
+ * Format nutrition as display string
+ */
+export function formatNutritionLabel(nutrition: NutritionPerServing): string {
+  const lines = [
+    `Calories: ${nutrition.calories} kcal`,
+    `Protein: ${nutrition.protein}g`,
+    `Carbohydrates: ${nutrition.carbs}g`,
+    `Fat: ${nutrition.fat}g`,
+    `Fiber: ${nutrition.fiber}g`,
+  ];
+
+  if (nutrition.sugar !== undefined) {
+    lines.push(`Sugar: ${nutrition.sugar}g`);
+  }
+
+  if (nutrition.sodium !== undefined) {
+    lines.push(`Sodium: ${nutrition.sodium}mg`);
+  }
+
+  return lines.join('\n');
+}
+
+// ============================================================================
+// EXTENDED AUTO-COMPUTATION WITH NUTRITION
+// ============================================================================
+
+/**
+ * Extended auto-computation result including nutrition
+ */
+export interface AutoComputationResultWithNutrition extends AutoComputationResult {
+  nutrition: NutritionPerServing;
+  nutritionRating: number;
+  healthLabels: string[];
+}
+
+/**
+ * AUTO-COMPUTE all safety data AND nutrition from ingredients
+ *
+ * @param ingredientsWithQuantity - Ingredients with their quantities in grams
+ * @returns Complete auto-computation result including nutrition
+ */
+export function autoComputeProductWithNutrition(
+  ingredientsWithQuantity: IngredientWithQuantity[]
+): AutoComputationResultWithNutrition {
+  // Extract just the ingredient masters for safety computation
+  const ingredientMasters = ingredientsWithQuantity.map(i => i.ingredient);
+
+  // 1. Compute all safety data (allergens, intolerances, diets, spice, compliance)
+  const safetyResult = autoComputeProduct(ingredientMasters);
+
+  // 2. Compute nutrition
+  const nutrition = computeNutrition(ingredientsWithQuantity);
+  const nutritionRating = computeNutritionRating(nutrition);
+  const healthLabels = computeHealthLabels(nutrition);
+
+  return {
+    ...safetyResult,
+    nutrition,
+    nutritionRating,
+    healthLabels,
+  };
+}
+
+// ============================================================================
 // HELPER: Get Ingredient Masters from Product Ingredients
 // ============================================================================
 
@@ -402,4 +668,61 @@ export async function getIngredientMasters(
   return ingredientDatabase.filter(ingredient =>
     ingredientIds.includes(ingredient.id)
   );
+}
+
+/**
+ * Convert ProductIngredient list to IngredientWithQuantity list
+ * for nutrition calculation
+ *
+ * @param productIngredients - Product ingredients with quantity info
+ * @param ingredientDatabase - Full ingredient database
+ * @returns List ready for nutrition computation
+ */
+export function prepareIngredientsForNutrition(
+  productIngredients: ProductIngredient[],
+  ingredientDatabase: IngredientMaster[]
+): IngredientWithQuantity[] {
+  const result: IngredientWithQuantity[] = [];
+
+  for (const pi of productIngredients) {
+    const ingredient = ingredientDatabase.find(i => i.id === pi.ingredient_id);
+    if (!ingredient) continue;
+
+    // Convert quantity to grams based on unit
+    let quantityG = 0;
+    if (pi.quantity) {
+      switch (pi.quantity.unit) {
+        case 'g':
+          quantityG = pi.quantity.amount;
+          break;
+        case 'ml':
+          // Approximate 1ml = 1g for most liquids
+          quantityG = pi.quantity.amount;
+          break;
+        case 'oz':
+          quantityG = pi.quantity.amount * 28.35;
+          break;
+        case 'cups':
+          quantityG = pi.quantity.amount * 240; // Approximate
+          break;
+        case 'tbsp':
+          quantityG = pi.quantity.amount * 15;
+          break;
+        case 'tsp':
+          quantityG = pi.quantity.amount * 5;
+          break;
+        case 'pieces':
+          // For pieces, we'd need average weight per piece from ingredient
+          // Default to 50g per piece as approximation
+          quantityG = pi.quantity.amount * 50;
+          break;
+        default:
+          quantityG = pi.quantity.amount; // Assume grams
+      }
+    }
+
+    result.push({ ingredient, quantityG });
+  }
+
+  return result;
 }

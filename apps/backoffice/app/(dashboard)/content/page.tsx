@@ -15,6 +15,22 @@ const contentTypes = [
     link: '/content/menu',
   },
   {
+    id: 'ingredients' as ContentType,
+    icon: '🥕',
+    title: 'Ingredients',
+    description: 'Master ingredient database with allergens and nutrition',
+    count: 7,
+    link: '/content/ingredients',
+  },
+  {
+    id: 'categories' as ContentType,
+    icon: '📂',
+    title: 'Categories',
+    description: 'Organize your menu with categories',
+    count: 4,
+    link: '/content/categories',
+  },
+  {
     id: 'services' as ContentType,
     icon: '🛎️',
     title: 'Services',

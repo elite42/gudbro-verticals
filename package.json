@@ -4,7 +4,8 @@
   "private": true,
   "description": "GUDBRO vertical business applications - Coffeeshop, Wellness, Rentals",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "shared/*"
   ],
   "scripts": {
     "dev:coffeeshop": "cd apps/coffeeshop/frontend && npm run dev",

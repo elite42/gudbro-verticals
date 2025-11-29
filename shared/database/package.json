@@ -1,0 +1,25 @@
+{
+  "name": "@gudbro/database",
+  "version": "1.0.0",
+  "description": "Database layer for GUDBRO - repositories, types, and provider adapters",
+  "main": "index.ts",
+  "types": "types/index.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "gudbro",
+    "database",
+    "supabase",
+    "repository"
+  ],
+  "author": "GUDBRO",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

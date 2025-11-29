@@ -479,3 +479,9 @@ export type {
   CustomizationOption,
   ProductCustomization,
 };
+
+// ============================================================================
+// RE-EXPORT MENU MANAGEMENT TYPES
+// ============================================================================
+
+export * from './menu-management';
