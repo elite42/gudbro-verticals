@@ -829,6 +829,135 @@ All fixes tested and confirmed working by user:
 
 ---
 
+### 🔧 Session 2025-11-29: PWA Order Submission + Supabase Integration
+
+**Overview**: Added complete order submission flow with Supabase backend integration.
+
+---
+
+#### Feature #1: Order Submission in SelectionsSidebar ✅
+
+**What**: Unified order submission directly from the Selections list.
+
+**Implementation**:
+- Added "Invia Ordine" button in `SelectionsSidebar.tsx` (tier-gated via `enableCart`)
+- Added customer notes textarea for special requests
+- Order success state displays order code (e.g., "A-002")
+- "Traccia Ordine" button navigates to orders page
+
+**Key Code** (`components/SelectionsSidebar.tsx`):
+```typescript
+const isOrderingEnabled = coffeeshopConfig.features.enableCart;
+
+const handlePlaceOrder = async () => {
+  const result = await submitOrder({
+    items,
+    total: calculateTotal(),
+    table_context: { ... },
+    customer_notes: customerNotes || undefined,
+  });
+  setSubmittedOrder(result);
+  selectionsStore.clear();
+};
+```
+
+---
+
+#### Feature #2: Supabase Order Service ✅
+
+**What**: Full order management with Supabase backend + localStorage fallback.
+
+**Files Created**:
+- `lib/order-service.ts` - Order submission, status tracking, realtime subscriptions
+- `lib/supabase.ts` - Supabase client with session management
+
+**Features**:
+- Auto-generated order codes (A-001, A-002, etc.)
+- Session-based anonymous ordering
+- Realtime order status updates via Supabase subscriptions
+- localStorage fallback when Supabase not configured
+
+**Key Code** (`lib/order-service.ts`):
+```typescript
+export async function submitOrder(orderData: SubmitOrderData): Promise<SubmittedOrder> {
+  if (isSupabaseConfigured && supabase) {
+    return submitToSupabase(orderData);
+  }
+  return submitToLocalStorage(orderData);
+}
+
+export function subscribeToOrderStatus(
+  orderId: string,
+  onStatusChange: (status: OrderStatus) => void
+): () => void {
+  // Realtime subscription via Supabase channels
+}
+```
+
+---
+
+#### Feature #3: Orders Page with Session History ✅
+
+**What**: View order history for current session with realtime status updates.
+
+**Implementation**:
+- `getSessionOrders()` fetches orders by session_id
+- Displays order code, status, items, total
+- Time-ago formatting (e.g., "5 min fa")
+- Expandable order details
+
+---
+
+#### Database Schema: Standalone Orders ✅
+
+**File**: `shared/database/schema/002-orders-standalone.sql`
+
+**Tables**:
+- `orders` - Main order data with auto-generated order_code
+- `order_items` - Line items with extras JSON
+- `order_status_history` - Audit trail of status changes
+
+**Key Features**:
+- Auto-increment order_number per merchant (resets daily)
+- Order code format: Letter + Number (A-001, B-050, etc.)
+- Auto-set timestamps on status changes (confirmed_at, prepared_at, etc.)
+- PostgreSQL triggers for all auto-computation
+
+---
+
+#### Tier Integration ✅
+
+**Tier-Gated Features**:
+- `digital-menu` (TIER 1): Selections as notepad only, no order submission
+- `pre-ordering` (TIER 2): Full ordering enabled
+- `full-suite` (TIER 3): All features including delivery
+
+**How It Works**:
+```typescript
+// In coffeeshop.config.ts
+const ACTIVE_TIER: TierLevel = 'pre-ordering';
+
+// In SelectionsSidebar.tsx
+const isOrderingEnabled = coffeeshopConfig.features.enableCart;
+{isOrderingEnabled && (
+  <button onClick={handlePlaceOrder}>Invia Ordine</button>
+)}
+```
+
+---
+
+#### Testing Checklist
+
+- ✅ Order submission to Supabase
+- ✅ Auto-generated order code display
+- ✅ Order success state with "Traccia Ordine" button
+- ✅ Orders page with session history
+- ✅ Correct timestamp formatting
+- ✅ localStorage fallback when Supabase not configured
+- ✅ Tier gating (button hidden for TIER 1)
+
+---
+
 **This file provides Coffeeshop-specific context for Claude Code sessions.**
 
-**Last Updated:** 2025-11-28
+**Last Updated:** 2025-11-29
