@@ -10,6 +10,7 @@ import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { SafetyBadgeList } from './ui/safety-badge';
 import { AllergenIcon, getIconNameFromFilterId } from './ui/allergen-icon';
 import { safetyFilters } from '@/../../shared/database/safety-filters';
+import { ProductIndicators } from './ProductIndicators';
 
 interface ProductBottomSheetProps {
   dish: DishItem;
@@ -190,8 +191,8 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                 <button
                   onClick={() => setActiveTab('extra')}
                   className={`flex-1 py-2.5 px-4 rounded-lg font-semibold transition-all ${activeTab === 'extra'
-                      ? 'bg-theme-brand-primary text-white shadow-md'
-                      : 'text-theme-text-secondary hover:text-theme-text-primary'
+                    ? 'bg-theme-brand-primary text-white shadow-md'
+                    : 'text-theme-text-secondary hover:text-theme-text-primary'
                     }`}
                 >
                   EXTRA
@@ -199,8 +200,8 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                 <button
                   onClick={() => setActiveTab('nutrition')}
                   className={`flex-1 py-2.5 px-4 rounded-lg font-semibold transition-all ${activeTab === 'nutrition'
-                      ? 'bg-theme-brand-primary text-white shadow-md'
-                      : 'text-theme-text-secondary hover:text-theme-text-primary'
+                    ? 'bg-theme-brand-primary text-white shadow-md'
+                    : 'text-theme-text-secondary hover:text-theme-text-primary'
                     }`}
                 >
                   Nutrizione
@@ -258,97 +259,7 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
               {/* Nutrizione Tab Content */}
               {activeTab === 'nutrition' && (
                 <div>
-                  {(hasDietary || hasAllergens) ? (
-                    <div className="space-y-4">
-                      {/* Calorie Card */}
-                      <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-xl p-4 text-white shadow-lg">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm opacity-90">Calorie Totali</p>
-                            <p className="text-3xl font-bold">{estimatedCalories}</p>
-                          </div>
-                          <div className="text-5xl opacity-30">🔥</div>
-                        </div>
-                        <p className="text-xs opacity-75 mt-2">Valori stimati per porzione standard</p>
-                      </div>
-
-                      {/* Compact Icon Display (48px, no background badge) */}
-                      <div>
-                        {hasDietary && (
-                          <div className="mb-4">
-                            <h4 className="text-sm font-semibold text-theme-text-secondary mb-3">Dieta</h4>
-                            <div className="flex flex-wrap gap-3">
-                              {(dish.dietary || []).slice(0, 8).map((filterId) => {
-                                const filter = safetyFilters.find(f => f.id === filterId);
-                                const iconName = getIconNameFromFilterId(filterId);
-
-                                if (!filter || !iconName) return null;
-
-                                return (
-                                  <div key={filterId} className="flex flex-col items-center gap-1.5">
-                                    <AllergenIcon
-                                      name={iconName}
-                                      size={48}
-                                      colorScheme="diet"
-                                    />
-                                    {showBadgeNames && (
-                                      <span className="text-xs text-theme-text-secondary text-center max-w-[60px] leading-tight">
-                                        {filter.label.en}
-                                      </span>
-                                    )}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
-
-                        {hasAllergens && (
-                          <div>
-                            <h4 className="text-sm font-semibold text-theme-text-secondary mb-3">Allergeni Presenti ⚠️</h4>
-                            <div className="flex flex-wrap gap-3">
-                              {(dish.allergens || []).map((filterId) => {
-                                const filter = safetyFilters.find(f => f.id === filterId);
-                                const iconName = getIconNameFromFilterId(filterId);
-
-                                if (!filter || !iconName) return null;
-
-                                return (
-                                  <div key={filterId} className="flex flex-col items-center gap-1.5">
-                                    <AllergenIcon
-                                      name={iconName}
-                                      size={48}
-                                      colorScheme="allergen"
-                                    />
-                                    {showBadgeNames && (
-                                      <span className="text-xs text-theme-text-secondary text-center max-w-[60px] leading-tight">
-                                        {filter.label.en}
-                                      </span>
-                                    )}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Toggle Button to Show/Hide Names */}
-                      <button
-                        onClick={() => setShowBadgeNames(!showBadgeNames)}
-                        className="w-full flex items-center justify-center gap-2 p-3 bg-theme-bg-secondary rounded-lg hover:bg-theme-bg-tertiary transition-colors text-theme-text-primary font-medium"
-                      >
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                        </svg>
-                        {showBadgeNames ? 'Nascondi nomi' : 'Mostra nomi'}
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center py-8 text-theme-text-secondary">
-                      Nessuna informazione nutrizionale disponibile
-                    </div>
-                  )}
+                  <ProductIndicators dish={dish} />
                 </div>
               )}
             </div>
@@ -381,10 +292,10 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
           <button
             onClick={handleAddToCart}
             className={`w-full text-white py-4 rounded-2xl font-bold text-lg shadow-lg transition-all transform active:scale-95 ${isOrderingEnabled
-                ? 'bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover'
-                : isInSelections
-                  ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
-                  : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
+              ? 'bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover'
+              : isInSelections
+                ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
+                : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
               }`}
           >
             {isOrderingEnabled

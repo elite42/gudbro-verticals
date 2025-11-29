@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// VENUE & USERS
+// ============================================================================
+
+model Venue {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  name        String
+  description String?
+  currency    String   @default("EUR")
+  
+  // Relations
+  products    Product[] // Local products owned by this venue
+  venueProducts VenueProduct[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ============================================================================
+// PRODUCT CATALOG
+// ============================================================================
+
+model Product {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  name        String   // MultiLangText (JSON)
+  description String?  // MultiLangText (JSON)
+  image       String?
+  
+  // Pricing
+  price       Float    @default(0)
+  currency    String   @default("EUR")
+  
+  // Categorization
+  categoryMain String
+  categorySub  String?
+  
+  // Ownership (Global vs Local)
+  venueId     String?
+  venue       Venue?   @relation(fields: [venueId], references: [id])
+  
+  // Venue-specific overrides/activation for Global Products
+  venueData   VenueProduct[]
+  
+  // Relations
+  ingredients ProductIngredient[]
+  
+  // Computed Data (JSONB for flexibility)
+  computed    String?  // AutoComputationResult (JSON)
+  
+  // Customizations (JSONB)
+  customizations String? // ProductCustomization[] (JSON)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([venueId])
+  @@index([categoryMain])
+}
+
+// Link table for Venues using Global Products
+model VenueProduct {
+  id          String   @id @default(uuid())
+  venueId     String
+  venue       Venue    @relation(fields: [venueId], references: [id])
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  
+  isActive    Boolean  @default(false)
+  priceOverride Float?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([venueId, productId])
+}
+
+model Ingredient {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  name        String   // MultiLangText (JSON)
+  
+  // Relations
+  products    ProductIngredient[]
+  
+  // Safety Flags
+  allergens   String?  // AllergenFlags (JSON)
+  intolerances String? // IntoleranceFlags (JSON)
+  diets       String?  // DietaryFlags (JSON)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ProductIngredient {
+  id           String     @id @default(uuid())
+  productId    String
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  ingredientId String
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  
+  quantity     Float?
+  unit         String?
+  optional     Boolean    @default(false)
+  
+  @@index([productId])
+  @@index([ingredientId])
+}

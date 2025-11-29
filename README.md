@@ -67,6 +67,37 @@ npm run build:rentals
 
 **Tech Stack:** Next.js 14, React 19, Tailwind CSS, TypeScript
 
+### Backoffice
+**Status:** ⚠️ Testing Required (Implementation Complete)
+**Port:** 3023
+**Features:**
+- **Global Catalog Management**: Search, filter, and detailed product views
+- **Multi-Language Product Forms**: EN/IT/VI support with tab-based UI
+- **Auto-Computed Safety Flags**: Allergens, diets, intolerances, calories, spiciness
+- **Ingredient Management**: Multi-select with real-time auto-computation
+- **Bulk Operations**: Checkbox selection, batch activate/deactivate, CSV export
+- **Image Upload**: URL-based with live preview
+- **Venue-Specific Overrides**: Price override and activation per venue
+
+**Tech Stack:** Next.js 14, Prisma, SQLite, TypeScript
+
+**Recent Updates (Nov 2025):**
+- Sprint 1: UX essentials (instant search, category filter, product detail modal)
+- Sprint 2: Complete product form (multi-language, auto-compute, ingredient linking)
+- Sprint 3: Bulk operations (select all, batch toggle, Excel-ready CSV export)
+
+**Database Status:**
+- 133 ingredients loaded and ready
+- 81 global products managed
+- Auto-computation utility for safety flags
+
+**⚠️ Manual Testing Required:**
+- [ ] Create complete product with all fields (multi-language, ingredients, image)
+- [ ] Edit existing product and verify data persistence
+- [ ] Test bulk operations on 20+ products
+- [ ] Verify PWA displays products with correct safety flags
+- [ ] Test CSV export in Excel for encoding compatibility
+
 ### Wellness
 **Status:** 🚧 Development
 **Port:** 3021
@@ -116,7 +147,8 @@ Reusable React components in `shared/menu-template/`:
 - Coffeeshop: 3020
 - Wellness: 3021
 - Rentals: 3022
-- Future verticals: 3023+
+- **Backoffice: 3023**
+- Future verticals: 3024+
 
 ## 🔗 Related Repositories
 
@@ -132,4 +164,4 @@ GUDBRO Development Team
 
 ---
 
-**Last Updated:** 2025-11-28
+**Last Updated:** 2025-11-29

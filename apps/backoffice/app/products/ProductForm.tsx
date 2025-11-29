@@ -1,0 +1,302 @@
+'use client';
+
+import { createLocalProduct, updateProduct, getIngredients, computeSafetyFlags } from '../actions';
+import { useTransition, useState, useEffect } from 'react';
+
+interface ProductFormProps {
+    initialData?: {
+        id: string;
+        name: any; // MultiLangText
+        description: any; // MultiLangText
+        price: number;
+        category: string;
+        image?: string;
+        ingredients?: any[];
+    };
+    onCancel?: () => void;
+    onSuccess?: () => void;
+}
+
+type Language = 'en' | 'it' | 'vi';
+
+export function ProductForm({ initialData, onCancel, onSuccess }: ProductFormProps) {
+    const [isPending, startTransition] = useTransition();
+    const isEditing = !!initialData;
+
+    // Multi-language state
+    const [currentLang, setCurrentLang] = useState<Language>('en');
+    const [nameTranslations, setNameTranslations] = useState({
+        en: initialData?.name?.en || '',
+        it: initialData?.name?.it || '',
+        vi: initialData?.name?.vi || ''
+    });
+    const [descTranslations, setDescTranslations] = useState({
+        en: initialData?.description?.en || '',
+        it: initialData?.description?.it || '',
+        vi: initialData?.description?.vi || ''
+    });
+
+    // Image state
+    const [imageUrl, setImageUrl] = useState(initialData?.image || '');
+    const [imagePreview, setImagePreview] = useState(initialData?.image || '');
+
+    // Ingredients state
+    const [availableIngredients, setAvailableIngredients] = useState<any[]>([]);
+    const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+    const [computedFlags, setComputedFlags] = useState<any>(null);
+
+    // Load ingredients on mount
+    useEffect(() => {
+        getIngredients().then(setAvailableIngredients);
+    }, []);
+
+    // Compute safety flags when ingredients change
+    useEffect(() => {
+        if (selectedIngredients.length > 0) {
+            computeSafetyFlags(selectedIngredients).then(setComputedFlags);
+        } else {
+            setComputedFlags(null);
+        }
+    }, [selectedIngredients]);
+
+    const handleImageChange = (url: string) => {
+        setImageUrl(url);
+        // Simple validation - check if it's a valid URL
+        try {
+            new URL(url);
+            setImagePreview(url);
+        } catch {
+            setImagePreview('');
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        // Add computed values as hidden fields
+        formData.set('nameJson', JSON.stringify(nameTranslations));
+        formData.set('descriptionJson', JSON.stringify(descTranslations));
+        formData.set('image', imageUrl);
+        formData.set('ingredientIds', selectedIngredients.join(','));
+
+        if (computedFlags) {
+            formData.set('computed', JSON.stringify(computedFlags));
+        }
+
+        startTransition(async () => {
+            if (isEditing) {
+                await updateProduct(initialData.id, formData);
+            } else {
+                await createLocalProduct(formData);
+            }
+            if (onSuccess) onSuccess();
+        });
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="space-y-6 p-6 border rounded-lg bg-white shadow-sm max-w-4xl">
+            <h3 className="text-2xl font-bold text-gray-900">{isEditing ? 'Edit Product' : 'Add New Product'}</h3>
+
+            {/* Language Tabs */}
+            <div className="border-b border-gray-200">
+                <div className="flex gap-2">
+                    <button
+                        type="button"
+                        onClick={() => setCurrentLang('en')}
+                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${currentLang === 'en'
+                                ? 'border-blue-500 text-blue-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                            }`}
+                    >
+                        🇬🇧 English
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setCurrentLang('it')}
+                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${currentLang === 'it'
+                                ? 'border-blue-500 text-blue-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                            }`}
+                    >
+                        🇮🇹 Italiano
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setCurrentLang('vi')}
+                        className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${currentLang === 'vi'
+                                ? 'border-blue-500 text-blue-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                            }`}
+                    >
+                        🇻🇳 Tiếng Việt
+                    </button>
+                </div>
+            </div>
+
+            {/* Name Field */}
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Product Name ({currentLang.toUpperCase()}) {currentLang === 'en' && <span className="text-red-500">*</span>}
+                </label>
+                <input
+                    type="text"
+                    value={nameTranslations[currentLang]}
+                    onChange={(e) => setNameTranslations({ ...nameTranslations, [currentLang]: e.target.value })}
+                    required={currentLang === 'en'}
+                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                    placeholder={`Enter product name in ${currentLang === 'en' ? 'English' : currentLang === 'it' ? 'Italian' : 'Vietnamese'}`}
+                />
+            </div>
+
+            {/* Description Field */}
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Description ({currentLang.toUpperCase()})
+                </label>
+                <textarea
+                    value={descTranslations[currentLang]}
+                    onChange={(e) => setDescTranslations({ ...descTranslations, [currentLang]: e.target.value })}
+                    rows={3}
+                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                    placeholder={`Enter description in ${currentLang === 'en' ? 'English' : currentLang === 'it' ? 'Italian' : 'Vietnamese'}`}
+                />
+            </div>
+
+            {/* Price and Category */}
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Price <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                        type="number"
+                        name="price"
+                        step="0.01"
+                        defaultValue={initialData?.price}
+                        required
+                        className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Category <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                        name="category"
+                        defaultValue={initialData?.category}
+                        required
+                        className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                    >
+                        <option value="coffee">Coffee</option>
+                        <option value="tea">Tea</option>
+                        <option value="smoothie">Smoothie</option>
+                        <option value="beverage">Beverage</option>
+                        <option value="food">Food</option>
+                        <option value="dessert">Dessert</option>
+                    </select>
+                </div>
+            </div>
+
+            {/* Image Upload */}
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
+                <input
+                    type="url"
+                    value={imageUrl}
+                    onChange={(e) => handleImageChange(e.target.value)}
+                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                    placeholder="https://images.unsplash.com/..."
+                />
+                {imagePreview && (
+                    <div className="mt-3 relative inline-block">
+                        <img
+                            src={imagePreview}
+                            alt="Preview"
+                            className="w-48 h-48 object-cover rounded-lg shadow-md"
+                            onError={() => setImagePreview('')}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => { setImageUrl(''); setImagePreview(''); }}
+                            className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 shadow"
+                        >
+                            ×
+                        </button>
+                    </div>
+                )}
+            </div>
+
+            {/* Ingredients */}
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Ingredients
+                </label>
+                <select
+                    multiple
+                    value={selectedIngredients}
+                    onChange={(e) => setSelectedIngredients(Array.from(e.target.selectedOptions).map(opt => opt.value))}
+                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border h-32"
+                >
+                    {availableIngredients.map((ing) => (
+                        <option key={ing.id} value={ing.id}>
+                            {ing.name.en}
+                        </option>
+                    ))}
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple ingredients</p>
+            </div>
+
+            {/* Auto-Computed Preview */}
+            {computedFlags && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 className="font-semibold text-blue-900 mb-3 flex items-center gap-2">
+                        <span>📊</span> Auto-Computed Safety Flags
+                    </h4>
+                    <div className="space-y-2 text-sm">
+                        {computedFlags.allergens.present.length > 0 && (
+                            <div className="flex items-center gap-2">
+                                <span className="font-medium text-red-700">⚠️ Allergens:</span>
+                                <span className="text-gray-700">{computedFlags.allergens.present.length} detected</span>
+                            </div>
+                        )}
+                        {computedFlags.intolerances.present.length > 0 && (
+                            <div className="flex items-center gap-2">
+                                <span className="font-medium text-yellow-700">🚫 Intolerances:</span>
+                                <span className="text-gray-700">{computedFlags.intolerances.present.length} detected</span>
+                            </div>
+                        )}
+                        {computedFlags.diets.compatible.length > 0 && (
+                            <div className="flex items-center gap-2">
+                                <span className="font-medium text-green-700">✅ Diets:</span>
+                                <span className="text-gray-700">{computedFlags.diets.compatible.join(', ')}</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* Actions */}
+            <div className="flex gap-3 pt-4">
+                {onCancel && (
+                    <button
+                        type="button"
+                        onClick={onCancel}
+                        className="flex-1 py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                        Cancel
+                    </button>
+                )}
+                <button
+                    type="submit"
+                    disabled={isPending}
+                    className="flex-1 py-2 px-4 border border-transparent rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    {isPending ? 'Saving...' : (isEditing ? 'Update Product' : 'Add Product')}
+                </button>
+            </div>
+        </form>
+    );
+}

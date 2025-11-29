@@ -21,6 +21,8 @@ export interface DishItem {
   suggestions?: DishItem[];
   dietary?: string[];
   allergens?: string[];
+  intolerances?: string[];
+  spiciness?: number; // 0-5
   calories?: number; // Nutritional info - estimated calories per serving
   isNew?: boolean;
   newUntil?: string;

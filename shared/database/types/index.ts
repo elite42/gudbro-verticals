@@ -247,29 +247,29 @@ export interface Product {
     // - Per PIATTI: Origine geografica (italiano, vietnamita, giapponese, etc.)
     // - Per BEVANDE: Tipo di bevanda (wine, beer, spirits, acqua, soft-drinks, etc.)
     sub?: 'italiano' | 'vietnamita' | 'giapponese' | 'thailandese' | 'cinese' | 'coreano' | 'americano' | 'messicano' | 'mediterraneo' |
-          // Bevande - Tipi principali
-          'acqua' | 'soft-drinks' | 'hot-beverages' | 'beer' | 'wine' | 'sparkling' | 'champagne' | 'cocktails' | 'spirits' |
-          // Spirits - Sottotipi
-          'whiskey' | 'vodka' | 'gin' | 'rum' | 'tequila-mezcal' | 'brandy-cognac' | 'grappa' | 'amari' | 'liqueurs' |
-          string;
+    // Bevande - Tipi principali
+    'acqua' | 'soft-drinks' | 'hot-beverages' | 'beer' | 'wine' | 'sparkling' | 'champagne' | 'cocktails' | 'spirits' |
+    // Spirits - Sottotipi
+    'whiskey' | 'vodka' | 'gin' | 'rum' | 'tequila-mezcal' | 'brandy-cognac' | 'grappa' | 'amari' | 'liqueurs' |
+    string;
 
     // Livello 3: Sottotipo (principalmente per bevande)
     // Esempi: 'red' (per wine), 'draft' (per beer), 'scotch' (per whiskey), 'brut' (per champagne)
     tertiary?: 'red' | 'white' | 'rose' | 'dessert-wine' | 'fortified' |  // Vini
-               'draft' | 'bottled' | 'lager' | 'ale' | 'ipa' | 'stout' | 'wheat' |  // Birre
-               'scotch' | 'irish' | 'bourbon' | 'tennessee' | 'japanese' | 'canadian' |  // Whiskey
-               'naturale' | 'frizzante' | 'tonica' |  // Acqua
-               'classic' | 'signature' | 'spritz' | 'mocktails' |  // Cocktails
-               'grappa-bianca' | 'grappa-invecchiata' | 'grappa-aromatica' |  // Grappa
-               'amaro' | 'fernet' | 'cynar' |  // Amari
-               'brut' | 'extra-brut' | 'demi-sec' |  // Champagne
-               string;
+    'draft' | 'bottled' | 'lager' | 'ale' | 'ipa' | 'stout' | 'wheat' |  // Birre
+    'scotch' | 'irish' | 'bourbon' | 'tennessee' | 'japanese' | 'canadian' |  // Whiskey
+    'naturale' | 'frizzante' | 'tonica' |  // Acqua
+    'classic' | 'signature' | 'spritz' | 'mocktails' |  // Cocktails
+    'grappa-bianca' | 'grappa-invecchiata' | 'grappa-aromatica' |  // Grappa
+    'amaro' | 'fernet' | 'cynar' |  // Amari
+    'brut' | 'extra-brut' | 'demi-sec' |  // Champagne
+    string;
 
     // Origine geografica (opzionale, separato dalla categorizzazione)
     // Utile per filtrare vini italiani, birre tedesche, whisky scozzesi, etc.
     origin?: 'italian' | 'french' | 'spanish' | 'german' | 'belgian' | 'irish' | 'scottish' |
-             'american' | 'mexican' | 'argentinian' | 'chilean' | 'australian' |
-             'japanese' | 'chinese' | 'vietnamese' | 'thai' | 'korean' | string;
+    'american' | 'mexican' | 'argentinian' | 'chilean' | 'australian' |
+    'japanese' | 'chinese' | 'vietnamese' | 'thai' | 'korean' | string;
   };
 
   // Ingredienti
@@ -384,6 +384,12 @@ export interface AutoComputationResult {
     Korea: boolean;
     Japan: boolean;
     warnings: string[];
+  };
+  nutrition?: {
+    calories: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
   };
 }
 
