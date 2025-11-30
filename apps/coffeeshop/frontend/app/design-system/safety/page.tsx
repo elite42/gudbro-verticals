@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { safetyFilters } from '@/../../shared/database/safety-filters';
+import { safetyFilters } from '../../../../../../shared/database/safety-filters';
 
 export default function SafetySystemPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -161,7 +161,7 @@ export default function SafetySystemPage() {
           </p>
           <div className="flex gap-4 text-sm text-gray-600">
             <div>
-              <strong className="text-gray-900">Usage:</strong> Import from <code className="text-xs bg-gray-100 px-2 py-0.5 rounded">@/../../shared/database/safety-filters</code>
+              <strong className="text-gray-900">Usage:</strong> Import from <code className="text-xs bg-gray-100 px-2 py-0.5 rounded">../../../../../../shared/database/safety-filters</code>
             </div>
           </div>
         </Card>
