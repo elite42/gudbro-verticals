@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useId, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useKeyboardNavigation } from '../hooks/useKeyboardNavigation';
 import { useSwipeToDismiss } from '../hooks/useSwipeToDismiss';
@@ -345,12 +346,13 @@ export function WelcomeModalV2({
 
           {/* Go to Menu Button - Inside scrollable area */}
           <div className="pt-4 pb-2">
-            <button
+            <Link
+              href="/menu"
               onClick={handleClose}
-              className="w-full px-6 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-base font-bold rounded-xl hover:from-blue-700 hover:to-indigo-700 active:scale-[0.98] transition-all shadow-lg"
+              className="block w-full px-6 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-base font-bold rounded-xl hover:from-blue-700 hover:to-indigo-700 active:scale-[0.98] transition-all shadow-lg text-center"
             >
               {t.auth.goToMenu}
-            </button>
+            </Link>
           </div>
         </div>
 
