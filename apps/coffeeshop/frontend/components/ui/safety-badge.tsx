@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Badge, BadgeProps } from './badge'
-import { safetyFilters, type SafetyFilter } from '../../../../../shared/database/safety-filters'
+import { safetyFilters, type SafetyFilter } from '@/database/safety-filters'
 import { AllergenIcon, getIconNameFromFilterId } from './allergen-icon'
 
 export interface SafetyBadgeProps extends Omit<BadgeProps, 'children'> {

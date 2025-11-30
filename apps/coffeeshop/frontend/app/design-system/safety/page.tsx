@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { safetyFilters } from '../../../../../../shared/database/safety-filters';
+import { safetyFilters } from '@/database/safety-filters';
 
 export default function SafetySystemPage() {
   const [searchQuery, setSearchQuery] = useState('');

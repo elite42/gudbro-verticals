@@ -9,7 +9,7 @@ import { selectionsStore } from '../lib/selections-store';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { SafetyBadgeList } from './ui/safety-badge';
 import { AllergenIcon, getIconNameFromFilterId } from './ui/allergen-icon';
-import { safetyFilters } from '@/../../shared/database/safety-filters';
+import { safetyFilters } from '@/database/safety-filters';
 import { ProductIndicators } from './ProductIndicators';
 
 interface ProductBottomSheetProps {

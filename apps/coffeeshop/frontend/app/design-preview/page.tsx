@@ -3,7 +3,7 @@
 import { Badge } from '@/components/ui/badge'
 import { SpicyLevel } from '@/components/ui/spicy-level'
 import { SafetyBadge, SafetyBadgeList } from '@/components/ui/safety-badge'
-import { safetyFilters } from '../../../../../shared/database/safety-filters'
+import { safetyFilters } from '@/database/safety-filters'
 import { useState } from 'react'
 
 export default function DesignPreviewPage() {
