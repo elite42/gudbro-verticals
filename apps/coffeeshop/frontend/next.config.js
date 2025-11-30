@@ -1,10 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Disable Turbopack for Vercel builds - using standard Webpack for better compatibility
-  experimental: {
-    turbo: false, // Explicitly disable Turbopack (Next.js 16 uses it by default)
-  },
   images: {
     domains: [
       'images.unsplash.com',  // Hero background images
