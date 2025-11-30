@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { safetyFilters } from '@/../../shared/database/safety-filters';
+import { safetyFilters } from '../../../../../shared/database/safety-filters';
 import sampleProducts from '@/data/sample-products.json';
 
 interface Product {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { DishItem } from '../../types/dish';
 import { AllergenIcon, getIconNameFromFilterId } from './ui/allergen-icon';
-import { safetyFilters } from '@/../../shared/database/safety-filters';
+import { safetyFilters } from '../../../../shared/database/safety-filters';
 
 interface ProductIndicatorsProps {
     dish: DishItem;

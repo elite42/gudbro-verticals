@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { safetyFilters } from '@/../../shared/database/safety-filters';
+import { safetyFilters } from '../../../../../../shared/database/safety-filters';
 
 type Language = 'en' | 'it' | 'vi';
 
