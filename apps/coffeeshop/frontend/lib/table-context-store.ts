@@ -15,6 +15,7 @@
 
 export interface TableContext {
   table_number: string | null;  // e.g., "12", "A5", null if no QR scanned
+  seat_number: number | null;   // e.g., 1, 2, 3, 4 for group ordering
   customer_name: string | null;  // e.g., "Marco", null if not set
   consumption_type: 'dine-in' | 'takeaway';  // Default: 'dine-in' if QR scanned
   scanned_at: string | null;     // ISO timestamp of QR scan
@@ -27,6 +28,7 @@ const STORAGE_KEY = 'table_context';
  */
 const defaultContext: TableContext = {
   table_number: null,
+  seat_number: null,
   customer_name: null,
   consumption_type: 'dine-in', // Default for no-QR browsing (counter/bar service)
   scanned_at: null
@@ -89,6 +91,35 @@ export function setCustomerName(name: string): void {
   setTableContext({
     customer_name: name
   });
+}
+
+/**
+ * Set seat number for group ordering
+ */
+export function setSeatNumber(seatNumber: number): void {
+  setTableContext({
+    seat_number: seatNumber
+  });
+}
+
+/**
+ * Set customer name and seat together (common flow)
+ */
+export function setCustomerIdentity(name: string, seatNumber: number): void {
+  setTableContext({
+    customer_name: name,
+    seat_number: seatNumber
+  });
+}
+
+/**
+ * Get next available seat number for a table
+ * In a real app, this would query the backend to see which seats are taken
+ * For now, returns seat_number + 1 or 1 if no seat assigned
+ */
+export function getNextAvailableSeat(): number {
+  const context = getTableContext();
+  return (context.seat_number || 0) + 1;
 }
 
 /**
@@ -157,6 +188,7 @@ export function getTableDisplay(): string | null {
  */
 export function getOrderContext(): {
   table_number: string | null;
+  seat_number: number | null;
   customer_name: string | null;
   consumption_type: 'dine-in' | 'takeaway';
   service_type: 'table-service' | 'counter-pickup' | 'takeaway';
@@ -175,9 +207,37 @@ export function getOrderContext(): {
 
   return {
     table_number: context.table_number,
+    seat_number: context.seat_number,
     customer_name: context.customer_name,
     consumption_type: context.consumption_type,
     service_type
+  };
+}
+
+/**
+ * Get formatted seat display
+ * e.g., "Seat 1", "Posto 2", null if no seat
+ */
+export function getSeatDisplay(): string | null {
+  const context = getTableContext();
+  if (!context.seat_number) return null;
+  return `Seat ${context.seat_number}`;
+}
+
+/**
+ * Get full context display for header
+ * e.g., "Table 12 • Seat 1 • Mario"
+ */
+export function getFullContextDisplay(): {
+  table: string | null;
+  seat: string | null;
+  name: string | null;
+} {
+  const context = getTableContext();
+  return {
+    table: context.table_number ? `Table ${context.table_number}` : null,
+    seat: context.seat_number ? `Seat ${context.seat_number}` : null,
+    name: context.customer_name
   };
 }
 
@@ -223,11 +283,16 @@ export const tableContextStore = {
   set: setTableContext,
   setFromQR: setTableFromQR,
   setName: setCustomerName,
+  setSeat: setSeatNumber,
+  setIdentity: setCustomerIdentity,
+  getNextSeat: getNextAvailableSeat,
   setConsumptionType: setConsumptionType,
   clear: clearTableContext,
   isAtTable: isAtTable,
   isNameRequired: isCustomerNameRequired,
   getDisplay: getTableDisplay,
+  getSeatDisplay: getSeatDisplay,
+  getFullDisplay: getFullContextDisplay,
   getOrderContext: getOrderContext,
   parseQR: parseQRCode
 };

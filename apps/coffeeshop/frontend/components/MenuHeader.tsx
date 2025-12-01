@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { languagePreferencesStore } from '../lib/language-preferences';
 import { currencyPreferencesStore } from '../lib/currency-preferences';
@@ -17,6 +18,7 @@ export function MenuHeader({
   selectionsCount,
   onSelectionsClick
 }: MenuHeaderProps) {
+  const router = useRouter();
   const { business, i18n } = coffeeshopConfig;
   const { themeMode, toggleTheme } = useTheme();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
@@ -234,8 +236,20 @@ export function MenuHeader({
             </div>
           </div>
 
-          {/* Right: Theme Toggle & Account Icon */}
+          {/* Right: AI Chat Toggle, Theme Toggle & Account Icon */}
           <div className="flex items-center gap-3">
+            {/* AI Chat Menu Toggle - redirects to /chat-v6 */}
+            <button
+              onClick={() => router.push('/chat-v6')}
+              className="relative bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full hover:bg-white/30 transition-colors flex items-center gap-1.5"
+              aria-label="Switch to AI Chat menu"
+            >
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              <span className="text-white text-xs font-bold">AI</span>
+            </button>
+
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
