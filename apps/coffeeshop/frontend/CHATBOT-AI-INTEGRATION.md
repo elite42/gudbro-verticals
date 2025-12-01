@@ -1,6 +1,46 @@
 # Chatbot AI Integration - Gemini File Search
 
-## Obiettivo
+## Current Implementation: ModernChatMenuV5
+
+### Disponibile su `/chat`
+
+La versione attuale del chatbot (V5) include:
+
+| Feature | Stato | Descrizione |
+|---------|-------|-------------|
+| **Dati reali** | ✅ | Integrato con `sample-products.json` via server actions |
+| **Multi-lingua** | ✅ | EN, IT, VI - sincronizzato con `languagePreferencesStore` |
+| **Multi-valuta** | ✅ | VND, EUR, USD, GBP - sincronizzato con `currencyPreferencesStore` |
+| **Carrello** | ✅ | Integrato con `selectionsStore` esistente |
+| **Persistenza** | ✅ | Conversazione salvata in localStorage (30 min) |
+| **Voice Input** | ✅ | Web Speech API con supporto multilingua |
+| **Suggerimenti contestuali** | ✅ | Saluti basati su ora del giorno |
+| **Filtro allergie** | ✅ | Gluten, Dairy, Nuts, Eggs, Soy |
+| **Merchandise** | ✅ | Tab dedicata se presente nel menu |
+
+### Versioni Disponibili
+
+| Versione | Path | Descrizione |
+|----------|------|-------------|
+| V5 (raccomandata) | `/chat` | Integrata con dati reali e store |
+| V4 | `/chat-preview` | Demo con dati hardcoded |
+
+### Come Usare
+
+```tsx
+// app/chat/page.tsx
+import { getMenuProducts } from '../actions';
+import { ModernChatMenuV5 } from '@/components/ModernChatMenuV5';
+
+export default async function ChatPage() {
+  const menuItems = await getMenuProducts();
+  return <ModernChatMenuV5 menuItems={menuItems} />;
+}
+```
+
+---
+
+## Obiettivo Futuro: Gemini AI
 Integrare Google Gemini AI con File Search per creare un chatbot conversazionale che risponde **solo** basandosi sulla documentazione del locale (menu, info, allergeni, ecc.).
 
 ## Perché Gemini?
