@@ -9,7 +9,7 @@ import { selectionsStore } from '@/lib/selections-store';
 import { languagePreferencesStore, AVAILABLE_LANGUAGES } from '@/lib/language-preferences';
 import { currencyPreferencesStore, AVAILABLE_CURRENCIES } from '@/lib/currency-preferences';
 import { tableContextStore, TableContext } from '@/lib/table-context-store';
-import { safetyFilters, SafetyFilter } from '@/../../shared/database/safety-filters';
+import { safetyFilters, SafetyFilter } from '@/lib/safety/safety-filters';
 
 // ============================================================================
 // TYPES & INTERFACES
