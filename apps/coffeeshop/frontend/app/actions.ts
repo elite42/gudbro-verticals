@@ -18,10 +18,13 @@ function normalizeMultilingualField(field: any, defaultLang = 'en'): string {
 
 export async function getMenuProducts() {
   // Transform multilingual fields to strings to prevent hydration errors
+  // Also map imageUrl to image for DishItem compatibility
   const products = sampleProducts.map((product: any) => ({
     ...product,
     name: normalizeMultilingualField(product.name),
     description: normalizeMultilingualField(product.description),
+    // Map imageUrl to image (DishItem uses 'image', sample data uses 'imageUrl')
+    image: product.imageUrl || product.image || '',
   }));
 
   return products as any[];

@@ -15,7 +15,11 @@
     "price": 35000,
     "imageUrl": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&h=300&fit=crop",
     "allergens": [],
+    "intolerances": ["caffeine"],
     "dietary": ["vegan", "gluten-free"],
+    "calories": 5,
+    "preparationTime": 2,
+    "spiciness": 0,
     "createdAt": "2025-11-23T10:00:00.000Z",
     "updatedAt": "2025-11-23T10:00:00.000Z"
   },
@@ -35,7 +39,11 @@
     "price": 45000,
     "imageUrl": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=300&fit=crop",
     "allergens": ["milk"],
+    "intolerances": ["caffeine", "lactose"],
     "dietary": ["vegetarian"],
+    "calories": 120,
+    "preparationTime": 3,
+    "spiciness": 0,
     "createdAt": "2025-11-23T10:05:00.000Z",
     "updatedAt": "2025-11-23T10:05:00.000Z"
   },
@@ -55,7 +63,11 @@
     "price": 38000,
     "imageUrl": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=300&fit=crop",
     "allergens": ["gluten", "milk", "eggs"],
+    "intolerances": ["lactose", "gluten-sensitivity"],
     "dietary": ["vegetarian"],
+    "calories": 280,
+    "preparationTime": 1,
+    "spiciness": 0,
     "createdAt": "2025-11-23T10:10:00.000Z",
     "updatedAt": "2025-11-23T10:10:00.000Z"
   },
@@ -75,7 +87,11 @@
     "price": 65000,
     "imageUrl": "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=400&h=300&fit=crop",
     "allergens": ["gluten"],
-    "dietary": ["vegan", "vegetarian"],
+    "intolerances": ["gluten-sensitivity", "fodmap"],
+    "dietary": ["vegan", "vegetarian", "dairy-free"],
+    "calories": 320,
+    "preparationTime": 5,
+    "spiciness": 0,
     "createdAt": "2025-11-23T10:15:00.000Z",
     "updatedAt": "2025-11-23T10:15:00.000Z"
   },
@@ -95,7 +111,11 @@
     "price": 55000,
     "imageUrl": "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=300&fit=crop",
     "allergens": ["gluten", "milk", "eggs"],
+    "intolerances": ["caffeine", "lactose", "gluten-sensitivity"],
     "dietary": ["vegetarian"],
+    "calories": 450,
+    "preparationTime": 1,
+    "spiciness": 0,
     "createdAt": "2025-11-23T10:20:00.000Z",
     "updatedAt": "2025-11-23T10:20:00.000Z"
   },
@@ -115,7 +135,11 @@
     "price": 52000,
     "imageUrl": "https://images.unsplash.com/photo-1536013317145-f94de27bcfc2?w=400&h=300&fit=crop",
     "allergens": ["milk"],
+    "intolerances": ["caffeine", "lactose"],
     "dietary": ["vegetarian", "gluten-free"],
+    "calories": 190,
+    "preparationTime": 4,
+    "spiciness": 0,
     "createdAt": "2025-11-23T10:25:00.000Z",
     "updatedAt": "2025-11-23T10:25:00.000Z"
   },
@@ -135,7 +159,11 @@
     "price": 72000,
     "imageUrl": "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&h=300&fit=crop",
     "allergens": ["nuts"],
+    "intolerances": ["fructose"],
     "dietary": ["vegetarian", "gluten-free"],
+    "calories": 380,
+    "preparationTime": 5,
+    "spiciness": 0,
     "createdAt": "2025-11-23T10:30:00.000Z",
     "updatedAt": "2025-11-23T10:30:00.000Z"
   },
@@ -155,7 +183,11 @@
     "price": 48000,
     "imageUrl": "https://images.unsplash.com/photo-1607920591413-4ec007e70023?w=400&h=300&fit=crop",
     "allergens": ["gluten", "milk", "eggs"],
+    "intolerances": ["lactose", "gluten-sensitivity", "caffeine"],
     "dietary": ["vegetarian"],
+    "calories": 420,
+    "preparationTime": 2,
+    "spiciness": 0,
     "createdAt": "2025-11-23T10:35:00.000Z",
     "updatedAt": "2025-11-23T10:35:00.000Z"
   },
@@ -175,7 +207,11 @@
     "price": 58000,
     "imageUrl": "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=400&h=300&fit=crop",
     "allergens": [],
+    "intolerances": ["fructose", "fodmap"],
     "dietary": ["vegan", "vegetarian", "gluten-free", "dairy-free"],
+    "calories": 180,
+    "preparationTime": 4,
+    "spiciness": 0,
     "createdAt": "2025-11-23T10:40:00.000Z",
     "updatedAt": "2025-11-23T10:40:00.000Z"
   },
@@ -195,8 +231,132 @@
     "price": 42000,
     "imageUrl": "https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=400&h=300&fit=crop",
     "allergens": ["gluten", "soy"],
+    "intolerances": ["gluten-sensitivity", "msg-intolerance"],
     "dietary": [],
+    "calories": 480,
+    "preparationTime": 8,
+    "spiciness": 1,
     "createdAt": "2025-11-23T10:45:00.000Z",
     "updatedAt": "2025-11-23T10:45:00.000Z"
+  },
+  {
+    "id": "sample-pho-011",
+    "name": {
+      "en": "Beef Pho",
+      "it": "Pho di Manzo",
+      "vi": "Phở Bò"
+    },
+    "description": {
+      "en": "Traditional Vietnamese beef noodle soup with rice noodles, tender beef slices, and aromatic herbs in a rich bone broth.",
+      "it": "Zuppa di noodle di manzo vietnamita tradizionale con noodle di riso, fette di manzo tenero e erbe aromatiche in un ricco brodo di ossa.",
+      "vi": "Phở bò truyền thống với bánh phở, thịt bò mềm và rau thơm trong nước dùng xương đậm đà."
+    },
+    "category": "food",
+    "price": 85000,
+    "imageUrl": "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=400&h=300&fit=crop",
+    "allergens": ["gluten", "soy", "beef"],
+    "intolerances": ["msg-intolerance", "histamine"],
+    "dietary": ["dairy-free"],
+    "calories": 520,
+    "preparationTime": 10,
+    "spiciness": 1,
+    "createdAt": "2025-11-23T10:50:00.000Z",
+    "updatedAt": "2025-11-23T10:50:00.000Z"
+  },
+  {
+    "id": "sample-spring-rolls-012",
+    "name": {
+      "en": "Fresh Spring Rolls",
+      "it": "Involtini Primavera Freschi",
+      "vi": "Gỏi Cuốn"
+    },
+    "description": {
+      "en": "Light rice paper rolls filled with shrimp, vermicelli, fresh herbs, and served with peanut dipping sauce.",
+      "it": "Leggeri involtini di carta di riso ripieni di gamberetti, vermicelli, erbe fresche e serviti con salsa di arachidi.",
+      "vi": "Gỏi cuốn tôm với bún, rau sống tươi, cuốn trong bánh tráng và chấm nước sốt đậu phộng."
+    },
+    "category": "food",
+    "price": 55000,
+    "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
+    "allergens": ["shrimp", "peanuts", "soy"],
+    "intolerances": [],
+    "dietary": ["gluten-free"],
+    "calories": 220,
+    "preparationTime": 6,
+    "spiciness": 0,
+    "createdAt": "2025-11-23T10:55:00.000Z",
+    "updatedAt": "2025-11-23T10:55:00.000Z"
+  },
+  {
+    "id": "sample-lemonade-013",
+    "name": {
+      "en": "Fresh Lemonade",
+      "it": "Limonata Fresca",
+      "vi": "Nước Chanh Tươi"
+    },
+    "description": {
+      "en": "Freshly squeezed lemonade with a hint of mint. Refreshing and naturally sweetened.",
+      "it": "Limonata appena spremuta con un tocco di menta. Rinfrescante e naturalmente dolce.",
+      "vi": "Nước chanh tươi vắt với một chút bạc hà. Tươi mát và ngọt tự nhiên."
+    },
+    "category": "beverage",
+    "price": 35000,
+    "imageUrl": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&h=300&fit=crop",
+    "allergens": [],
+    "intolerances": ["fructose"],
+    "dietary": ["vegan", "vegetarian", "gluten-free", "dairy-free"],
+    "calories": 90,
+    "preparationTime": 3,
+    "spiciness": 0,
+    "createdAt": "2025-11-23T11:00:00.000Z",
+    "updatedAt": "2025-11-23T11:00:00.000Z"
+  },
+  {
+    "id": "sample-spicy-wings-014",
+    "name": {
+      "en": "Spicy Buffalo Wings",
+      "it": "Alette di Pollo Piccanti",
+      "vi": "Cánh Gà Cay"
+    },
+    "description": {
+      "en": "Crispy fried chicken wings tossed in spicy buffalo sauce. Served with blue cheese dip and celery sticks.",
+      "it": "Alette di pollo croccanti fritte e condite con salsa buffalo piccante. Servite con salsa al gorgonzola e sedano.",
+      "vi": "Cánh gà chiên giòn trộn sốt buffalo cay. Ăn kèm sốt phô mai xanh và cần tây."
+    },
+    "category": "food",
+    "price": 95000,
+    "imageUrl": "https://images.unsplash.com/photo-1608039755401-742074f0548d?w=400&h=300&fit=crop",
+    "allergens": ["milk", "celery", "chicken"],
+    "intolerances": ["lactose", "spiciness"],
+    "dietary": ["gluten-free"],
+    "calories": 650,
+    "preparationTime": 12,
+    "spiciness": 3,
+    "createdAt": "2025-11-23T11:05:00.000Z",
+    "updatedAt": "2025-11-23T11:05:00.000Z"
+  },
+  {
+    "id": "sample-mango-sticky-015",
+    "name": {
+      "en": "Mango Sticky Rice",
+      "it": "Riso Glutinoso al Mango",
+      "vi": "Xôi Xoài"
+    },
+    "description": {
+      "en": "Sweet Thai dessert with ripe mango slices, coconut sticky rice, and coconut cream drizzle.",
+      "it": "Dolce tailandese con fette di mango maturo, riso glutinoso al cocco e crema di cocco.",
+      "vi": "Món tráng miệng Thái với xoài chín, xôi nếp dừa và nước cốt dừa."
+    },
+    "category": "dessert",
+    "price": 60000,
+    "imageUrl": "https://images.unsplash.com/photo-1621293954908-907159247fc8?w=400&h=300&fit=crop",
+    "allergens": [],
+    "intolerances": ["fructose"],
+    "dietary": ["vegan", "vegetarian", "gluten-free", "dairy-free"],
+    "calories": 350,
+    "preparationTime": 3,
+    "spiciness": 0,
+    "createdAt": "2025-11-23T11:10:00.000Z",
+    "updatedAt": "2025-11-23T11:10:00.000Z"
   }
 ]

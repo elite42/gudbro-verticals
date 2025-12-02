@@ -9,6 +9,7 @@ import { selectionsStore } from '@/lib/selections-store';
 import { languagePreferencesStore, AVAILABLE_LANGUAGES } from '@/lib/language-preferences';
 import { currencyPreferencesStore, AVAILABLE_CURRENCIES } from '@/lib/currency-preferences';
 import { tableContextStore, TableContext } from '@/lib/table-context-store';
+import { safetyFilters, SafetyFilter } from '@/../../shared/database/safety-filters';
 
 // ============================================================================
 // TYPES & INTERFACES
@@ -339,11 +340,31 @@ const translations: Record<Language, {
   }
 };
 
-// Allergen translations
+// Safety filters grouped by type
+const allergenFilters = safetyFilters.filter(f => f.type === 'allergen');
+const intoleranceFilters = safetyFilters.filter(f => f.type === 'intolerance');
+const dietFilters = safetyFilters.filter(f => f.type === 'diet');
+
+// Helper to get safety filter label by id and language
+const getSafetyFilterLabel = (id: string, lang: Language): string => {
+  const filter = safetyFilters.find(f => f.id === id);
+  return filter?.label[lang] || id;
+};
+
+// Helper to get safety filter icon by id
+const getSafetyFilterIcon = (id: string): string => {
+  const filter = safetyFilters.find(f => f.id === id);
+  return filter?.icon || '⚠️';
+};
+
+// Common allergens to show in quick selection (EU 14 + common ones)
+const commonAllergens = ['gluten', 'milk', 'eggs', 'peanuts', 'nuts', 'soy', 'fish', 'crustaceans', 'sesame'];
+
+// Backward compatibility - allergen translations (now dynamic from safetyFilters)
 const allergenTranslations: Record<Language, Record<string, string>> = {
-  en: { gluten: 'Gluten', dairy: 'Dairy', milk: 'Milk', nuts: 'Nuts', eggs: 'Eggs', soy: 'Soy', fish: 'Fish', shellfish: 'Shellfish', none: 'No allergies' },
-  it: { gluten: 'Glutine', dairy: 'Latticini', milk: 'Latte', nuts: 'Frutta secca', eggs: 'Uova', soy: 'Soia', fish: 'Pesce', shellfish: 'Crostacei', none: 'Nessuna allergia' },
-  vi: { gluten: 'Gluten', dairy: 'Sữa', milk: 'Sữa', nuts: 'Hạt', eggs: 'Trứng', soy: 'Đậu nành', fish: 'Cá', shellfish: 'Hải sản có vỏ', none: 'Không dị ứng' }
+  en: Object.fromEntries([...safetyFilters.map(f => [f.id, f.label.en]), ['none', 'No allergies'], ['dairy', 'Dairy']]),
+  it: Object.fromEntries([...safetyFilters.map(f => [f.id, f.label.it]), ['none', 'Nessuna allergia'], ['dairy', 'Latticini']]),
+  vi: Object.fromEntries([...safetyFilters.map(f => [f.id, f.label.vi]), ['none', 'Không dị ứng'], ['dairy', 'Sữa']])
 };
 
 // ============================================================================
@@ -520,6 +541,8 @@ const ProductCard = ({ item, onAdd, currency, index }: ProductCardProps) => {
   const imageUrl = item.image || (item as any).imageUrl;
   const categoryType = getCategoryType(item.category);
   const emoji = categoryType === 'drinks' ? '☕' : categoryType === 'dessert' ? '🍰' : categoryType === 'merchandise' ? '🎁' : '🍽️';
+  const calories = (item as any).calories;
+  const prepTime = (item as any).preparationTime;
 
   return (
     <motion.div
@@ -538,10 +561,17 @@ const ProductCard = ({ item, onAdd, currency, index }: ProductCardProps) => {
       )}
       <h4 className="font-bold text-gray-100 text-base mb-1">{item.name}</h4>
       <p className="text-xs text-gray-400 mb-2 flex-1 line-clamp-2">{item.description}</p>
+      {/* Calories & Prep Time */}
+      {(calories || prepTime) && (
+        <div className="flex items-center gap-2 mb-2 text-[10px] text-gray-500">
+          {calories && <span className="flex items-center gap-0.5">🔥 {calories} kcal</span>}
+          {prepTime && <span className="flex items-center gap-0.5">⏱️ {prepTime} min</span>}
+        </div>
+      )}
       {item.allergens && item.allergens.length > 0 && (
         <div className="flex flex-wrap gap-1 mb-2">
           {item.allergens.slice(0, 2).map(allergen => (
-            <span key={allergen} className="text-[8px] px-1.5 py-0.5 bg-orange-900/50 text-orange-300 rounded-full">{allergen}</span>
+            <span key={allergen} className="text-[8px] px-1.5 py-0.5 bg-orange-900/50 text-orange-300 rounded-full">{getSafetyFilterIcon(allergen)} {allergen}</span>
           ))}
         </div>
       )}
@@ -1079,6 +1109,113 @@ const BottomNavigation = ({ activeTab, onTabChange, cartCount, onPlusClick, isPl
 };
 
 // ============================================================================
+// DESKTOP SIDEBAR - Only visible on md+ screens
+// ============================================================================
+
+const DesktopSidebar = ({
+  activeTab,
+  onTabChange,
+  cartCount,
+  theme,
+  onNewChat,
+  venueName,
+  t
+}: {
+  activeTab: BottomTab;
+  onTabChange: (tab: BottomTab) => void;
+  cartCount: number;
+  theme: 'dark' | 'light';
+  onNewChat: () => void;
+  venueName: string;
+  t: typeof translations['en'];
+}) => {
+  const menuItems = [
+    { id: 'chat' as BottomTab, icon: '💬', label: 'Chat AI' },
+    { id: 'menu' as BottomTab, icon: '📖', label: t.tabs.menu },
+    { id: 'shop' as BottomTab, icon: '🛍️', label: t.tabs.shop },
+    { id: 'cart' as BottomTab, icon: '🛒', label: t.tabs.cart, badge: cartCount },
+  ];
+
+  return (
+    <div className={`hidden md:flex flex-col w-64 border-r h-full ${
+      theme === 'light'
+        ? 'bg-gray-50 border-gray-200'
+        : 'bg-gray-900/50 border-gray-800'
+    }`}>
+      {/* Logo/Brand */}
+      <div className={`p-4 border-b ${theme === 'light' ? 'border-gray-200' : 'border-gray-800'}`}>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-xl">
+            🍜
+          </div>
+          <div>
+            <h1 className={`font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{venueName}</h1>
+            <p className="text-xs text-purple-500">AI Menu Assistant</p>
+          </div>
+        </div>
+      </div>
+
+      {/* New Chat Button */}
+      <div className="p-3">
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={onNewChat}
+          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+            theme === 'light'
+              ? 'bg-white border border-gray-200 hover:border-purple-300 hover:shadow-md'
+              : 'bg-gray-800 border border-gray-700 hover:border-purple-500/50 hover:shadow-lg'
+          }`}
+        >
+          <span className="text-lg">✨</span>
+          <span className={`font-medium ${theme === 'light' ? 'text-gray-700' : 'text-gray-200'}`}>Nuova Chat</span>
+        </motion.button>
+      </div>
+
+      {/* Navigation Items */}
+      <nav className="flex-1 p-3 space-y-1">
+        {menuItems.map((item) => (
+          <motion.button
+            key={item.id}
+            whileHover={{ x: 4 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onTabChange(item.id)}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all relative ${
+              activeTab === item.id
+                ? 'bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30'
+                : theme === 'light'
+                  ? 'hover:bg-gray-100'
+                  : 'hover:bg-gray-800/50'
+            }`}
+          >
+            <span className="text-xl">{item.icon}</span>
+            <span className={`font-medium ${
+              activeTab === item.id
+                ? 'text-purple-400'
+                : theme === 'light' ? 'text-gray-700' : 'text-gray-300'
+            }`}>
+              {item.label}
+            </span>
+            {item.badge && item.badge > 0 && (
+              <span className="absolute right-3 px-2 py-0.5 text-xs font-bold bg-gradient-to-r from-pink-500 to-red-500 text-white rounded-full">
+                {item.badge}
+              </span>
+            )}
+          </motion.button>
+        ))}
+      </nav>
+
+      {/* Bottom section - Settings hint */}
+      <div className={`p-3 border-t ${theme === 'light' ? 'border-gray-200' : 'border-gray-800'}`}>
+        <div className={`text-xs text-center ${theme === 'light' ? 'text-gray-500' : 'text-gray-500'}`}>
+          🌐 Lingua • 💱 Valuta • 🎨 Tema
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
@@ -1127,32 +1264,44 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
   // Merchandise data (from V4)
   const merchandiseItems = menuItems.filter(item => getCategoryType(item.category) === 'merchandise');
 
-  // Category definitions with keywords for filtering
-  const categoryConfig = [
-    { name: '🍜 Phở & Noodles', keywords: ['pho', 'phở', 'noodle', 'bún', 'mì'] },
-    { name: '🥖 Bánh Mì', keywords: ['banh mi', 'bánh mì', 'sandwich', 'bread'] },
-    { name: '🍚 Rice Dishes', keywords: ['rice', 'cơm', 'com'] },
-    { name: '☕ Drinks', keywords: ['coffee', 'tea', 'drink', 'cà phê', 'trà', 'juice', 'smoothie'] },
-    { name: '🍨 Desserts', keywords: ['dessert', 'sweet', 'cake', 'ice cream', 'chè'] },
-  ];
-  const foodCategories = categoryConfig.map(c => c.name);
+  // Dynamic category configuration from database
+  // Maps DB category to display info (icon + translated name)
+  const categoryDisplayConfig: Record<string, { icon: string; name: Record<Language, string> }> = {
+    'beverage': {
+      icon: '☕',
+      name: { en: 'Drinks', it: 'Bevande', vi: 'Đồ Uống' }
+    },
+    'food': {
+      icon: '🍽️',
+      name: { en: 'Food', it: 'Cibo', vi: 'Món Ăn' }
+    },
+    'dessert': {
+      icon: '🍰',
+      name: { en: 'Desserts', it: 'Dolci', vi: 'Tráng Miệng' }
+    }
+  };
 
-  // Filter products by category
-  const getProductsByCategory = (categoryName: string): DishItem[] => {
-    const config = categoryConfig.find(c => c.name === categoryName);
-    if (!config) return [];
+  // Extract unique categories from menu items dynamically
+  const uniqueCategories = [...new Set(menuItems.map(item => item.category).filter(Boolean))];
 
-    return menuItems.filter(item => {
-      const itemName = item.name.toLowerCase();
-      const itemCategory = (item.category || '').toLowerCase();
-      const itemDescription = (item.description || '').toLowerCase();
-
-      return config.keywords.some(keyword =>
-        itemName.includes(keyword) ||
-        itemCategory.includes(keyword) ||
-        itemDescription.includes(keyword)
-      );
+  // Build category display list with icons and translated names
+  const foodCategories = uniqueCategories
+    .filter(cat => categoryDisplayConfig[cat]) // Only show categories we have config for
+    .map(cat => {
+      const config = categoryDisplayConfig[cat];
+      return `${config.icon} ${config.name[language]}`;
     });
+
+  // Filter products by category (using actual category field from DB)
+  const getProductsByCategory = (categoryDisplayName: string): DishItem[] => {
+    // Extract the icon to find the category key
+    const icon = categoryDisplayName.split(' ')[0];
+    const categoryKey = Object.entries(categoryDisplayConfig)
+      .find(([_, config]) => config.icon === icon)?.[0];
+
+    if (!categoryKey) return [];
+
+    return menuItems.filter(item => item.category === categoryKey);
   };
 
   // Initialize
@@ -1296,7 +1445,7 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
     // Menu/Browse
     else if (lower.includes('menu') || lower.includes('browse') || lower.includes('🍽️') || lower.includes('thực đơn')) {
       addBotMessage(t.responses.allCategories, foodCategories.map(cat => ({
-        label: cat, value: cat, icon: cat.split(' ')[0]
+        label: cat.replace(/^[^\w\s]+\s*/, ''), value: cat, icon: cat.split(' ')[0]
       })));
     }
     // Food
@@ -1323,24 +1472,55 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
         addBotMessage(t.responses.merchandise, [{ label: t.responses.keepBrowsing, value: 'menu', icon: '📖' }]);
       }
     }
-    // Allergies
+    // Allergies - show common allergens from safety-filters
     else if (lower.includes('allerg') || lower.includes('dị ứng') || lower.includes('⚠️')) {
-      const allergens = ['gluten', 'dairy', 'nuts', 'eggs', 'soy', 'none'];
-      addBotMessage(t.responses.allergies, allergens.map((a, i) => ({
-        label: allergenT[a] || a, value: a, icon: i === allergens.length - 1 ? '✅' : '⚠️'
-      })));
+      const allergenOptions = [...commonAllergens, 'none'].map((a, i) => ({
+        label: allergenT[a] || getSafetyFilterLabel(a, language),
+        value: a,
+        icon: a === 'none' ? '✅' : getSafetyFilterIcon(a)
+      }));
+      addBotMessage(t.responses.allergies, allergenOptions);
     }
-    // Specific allergens
-    else if (['gluten', 'dairy', 'nuts', 'eggs', 'soy', 'milk', 'glutine', 'latticini', 'frutta secca', 'uova', 'soia'].some(a => lower.includes(a))) {
-      const allergen = lower.includes('gluten') || lower.includes('glutine') ? 'gluten' :
-                       lower.includes('dairy') || lower.includes('milk') || lower.includes('latticini') ? 'milk' :
-                       lower.includes('nuts') || lower.includes('frutta secca') ? 'nuts' :
-                       lower.includes('eggs') || lower.includes('uova') ? 'eggs' : 'soy';
-      const safeItems = menuItems.filter(item => !item.allergens?.some(a => a.toLowerCase().includes(allergen))).slice(0, 8);
-      addBotMessage(t.responses.safeItems.replace('{allergen}', allergenT[allergen] || allergen), [
-        { label: t.responses.keepBrowsing, value: 'menu', icon: '📖' },
-        { label: t.responses.viewCart, value: 'cart', icon: '🛒' }
-      ], safeItems);
+    // Intolerances - show common intolerances
+    else if (lower.includes('intoleran') || lower.includes('sensib') || lower.includes('không dung nạp')) {
+      const intoleranceOptions = intoleranceFilters.slice(0, 8).map(f => ({
+        label: f.label[language],
+        value: f.id,
+        icon: f.icon || '⚠️'
+      }));
+      addBotMessage(t.responses.allergies.replace('allergies', 'intolerances'), intoleranceOptions);
+    }
+    // Specific allergens/intolerances - check against all safety filters
+    else if (safetyFilters.some(f =>
+      lower.includes(f.id) ||
+      lower.includes(f.label.en.toLowerCase()) ||
+      lower.includes(f.label.it.toLowerCase()) ||
+      lower.includes(f.label.vi.toLowerCase())
+    )) {
+      const matchedFilter = safetyFilters.find(f =>
+        lower.includes(f.id) ||
+        lower.includes(f.label.en.toLowerCase()) ||
+        lower.includes(f.label.it.toLowerCase()) ||
+        lower.includes(f.label.vi.toLowerCase())
+      );
+      if (matchedFilter) {
+        // Filter items based on type (allergen, intolerance, or diet)
+        const safeItems = menuItems.filter(item => {
+          if (matchedFilter.type === 'allergen') {
+            return !item.allergens?.some(a => a.toLowerCase() === matchedFilter.id);
+          } else if (matchedFilter.type === 'intolerance') {
+            return !item.intolerances?.some(i => i.toLowerCase() === matchedFilter.id);
+          } else if (matchedFilter.type === 'diet') {
+            return item.dietary?.some(d => d.toLowerCase() === matchedFilter.id);
+          }
+          return true;
+        }).slice(0, 8);
+
+        addBotMessage(t.responses.safeItems.replace('{allergen}', matchedFilter.label[language]), [
+          { label: t.responses.keepBrowsing, value: 'menu', icon: '📖' },
+          { label: t.responses.viewCart, value: 'cart', icon: '🛒' }
+        ], safeItems);
+      }
     }
     // No allergies
     else if (lower === 'none' || lower.includes('no allerg') || lower.includes('nessuna') || lower.includes('không dị ứng') || lower.includes('✅')) {
@@ -1349,15 +1529,15 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
         { label: t.categories.drinks, value: 'drinks', icon: '☕' }
       ], menuItems.slice(0, 8));
     }
-    // Category selection
+    // Category selection - matches dynamic categories from DB
     else if (foodCategories.some(cat => lower.includes(cat.toLowerCase().replace(/[^\w\s]/gi, '')))) {
       const category = foodCategories.find(cat => lower.includes(cat.toLowerCase().replace(/[^\w\s]/gi, '')));
-      // For now, show all food items as we don't have category matching
-      const items = menuItems.filter(item => getCategoryType(item.category) === 'food').slice(0, 8);
+      // Use getProductsByCategory which now filters by actual DB category
+      const items = category ? getProductsByCategory(category) : [];
       addBotMessage(`${category}:`, [
         { label: '⬅️ Back', value: 'menu', icon: '⬅️' },
         { label: t.responses.viewCart, value: 'cart', icon: '🛒' }
-      ], items);
+      ], items.slice(0, 8));
     }
     // Cart
     else if (lower.includes('cart') || lower.includes('carrello') || lower.includes('giỏ') || lower.includes('🛒')) {
@@ -1481,62 +1661,160 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
     );
   }
 
+  // Handle new chat - reset messages
+  const handleNewChat = () => {
+    setMessages([]);
+    setActiveTab('chat');
+    // Re-trigger welcome message
+    setTimeout(() => {
+      sendWelcomeMessage(language);
+    }, 300);
+  };
+
   return (
-    <div className={`h-screen flex flex-col ${theme === 'light' ? 'bg-gray-50' : 'bg-gradient-to-br from-gray-900 via-black to-gray-900'}`}>
-      {/* Header - Consistent padding */}
-      <motion.div initial={{ y: -100 }} animate={{ y: 0 }} className={`sticky top-0 z-50 backdrop-blur-2xl border-b shadow-lg ${theme === 'light' ? 'bg-white/90 border-gray-200' : 'bg-gray-900/90 border-gray-700/50'}`}>
-        <div className="px-4 py-3 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-2xl">🍜</div>
-          <div className="flex-1">
-            <h1 className={`text-lg font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{VENUE_CONFIG.name}</h1>
+    <div className={`h-screen flex ${theme === 'light' ? 'bg-gray-100' : 'bg-gradient-to-br from-gray-950 via-black to-gray-950'}`}>
+      {/* Desktop Sidebar - Hidden on mobile */}
+      <DesktopSidebar
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        cartCount={cartCount}
+        theme={theme}
+        onNewChat={handleNewChat}
+        venueName={VENUE_CONFIG.name}
+        t={t}
+      />
+
+      {/* Main Content Area */}
+      <div className={`flex-1 flex flex-col h-full overflow-hidden ${
+        theme === 'light' ? 'bg-white' : 'bg-gray-900'
+      }`}>
+        {/* Mobile Header - Hidden on desktop */}
+        <motion.div
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          className={`md:hidden sticky top-0 z-50 backdrop-blur-2xl border-b shadow-lg ${
+            theme === 'light' ? 'bg-white/90 border-gray-200' : 'bg-gray-900/90 border-gray-700/50'
+          }`}
+        >
+          <div className="px-4 py-3 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center text-2xl">🍜</div>
+            <div className="flex-1">
+              <h1 className={`text-lg font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{VENUE_CONFIG.name}</h1>
+              {tableContext.table_number && (
+                <p className="text-[11px] text-purple-500">Table {tableContext.table_number}</p>
+              )}
+            </div>
+
+            {/* Theme Toggle - SVG icons instead of emoji */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                theme === 'light'
+                  ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-white/20 backdrop-blur-sm text-white hover:bg-white/30'
+              }`}
+              title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+            >
+              {theme === 'dark' ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </motion.button>
+
+            {/* Menu Style Toggle - Just "AI" text, circular */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/menu')}
+              className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                theme === 'light'
+                  ? 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                  : 'bg-white/20 backdrop-blur-sm text-white hover:bg-white/30'
+              }`}
+              title="Switch to Classic menu"
+            >
+              AI
+            </motion.button>
+
+            {/* Account Avatar - Rounded full */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowSeatSetup(true)}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all overflow-hidden ${
+                theme === 'light'
+                  ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-white/20 backdrop-blur-sm text-white hover:bg-white/30'
+              }`}
+            >
+              {tableContext.customer_name ? (
+                <span className="font-bold text-sm">{tableContext.customer_name.charAt(0).toUpperCase()}</span>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              )}
+            </motion.button>
+          </div>
+        </motion.div>
+
+        {/* Desktop Header - Minimal, shown only on desktop */}
+        <div className={`hidden md:flex items-center justify-between px-6 py-3 border-b ${
+          theme === 'light' ? 'border-gray-200' : 'border-gray-800'
+        }`}>
+          <div className="flex items-center gap-2">
             {tableContext.table_number && (
-              <p className="text-[11px] text-purple-500">Table {tableContext.table_number}</p>
+              <span className={`px-3 py-1 rounded-full text-sm ${
+                theme === 'light' ? 'bg-purple-100 text-purple-700' : 'bg-purple-900/30 text-purple-400'
+              }`}>
+                📍 Table {tableContext.table_number}
+              </span>
+            )}
+            {tableContext.customer_name && (
+              <span className={`px-3 py-1 rounded-full text-sm ${
+                theme === 'light' ? 'bg-gray-100 text-gray-700' : 'bg-gray-800 text-gray-300'
+              }`}>
+                👤 {tableContext.customer_name}
+              </span>
             )}
           </div>
-
-          {/* Theme Toggle */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className={`w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all ${theme === 'light' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-gray-800 hover:bg-gray-700'}`}
-            title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
-          >
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </motion.button>
-
-          {/* Menu Style Toggle (New/Classic) - redirects to /menu */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => router.push('/menu')}
-            className={`h-9 px-3 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-gradient-to-r from-purple-600 to-pink-600 text-white`}
-            title="Switch to Classic menu"
-          >
-            AI
-          </motion.button>
-
-          {/* Account Avatar */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setShowSeatSetup(true)}
-            className={`w-10 h-10 rounded-full border-2 flex items-center justify-center text-lg transition-all overflow-hidden ${theme === 'light'
-              ? 'bg-purple-100 border-purple-300 hover:border-purple-400'
-              : 'bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-purple-500/50 hover:border-purple-400'
-            }`}
-          >
-            {tableContext.customer_name ? (
-              <span className={`font-bold text-sm ${theme === 'light' ? 'text-purple-700' : 'text-white'}`}>{tableContext.customer_name.charAt(0).toUpperCase()}</span>
-            ) : (
-              <span>👤</span>
-            )}
-          </motion.button>
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className={`w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all ${
+                theme === 'light' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-gray-800 hover:bg-gray-700'
+              }`}
+            >
+              {theme === 'dark' ? '☀️' : '🌙'}
+            </motion.button>
+            {/* Classic Menu Link */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/menu')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                theme === 'light'
+                  ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              Menu Classico →
+            </motion.button>
+          </div>
         </div>
-      </motion.div>
 
-      {/* Hamburger Menu */}
-      <HamburgerMenu isOpen={showHamburgerMenu} onClose={() => setShowHamburgerMenu(false)} onMenuAction={handleMenuAction} t={t} />
+        {/* Hamburger Menu */}
+        <HamburgerMenu isOpen={showHamburgerMenu} onClose={() => setShowHamburgerMenu(false)} onMenuAction={handleMenuAction} t={t} />
 
       {/* Shop View - Using MERCHANDISE_DATA */}
       {activeTab === 'shop' && (
@@ -1624,6 +1902,20 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
                         <div className="flex-1 min-w-0">
                           <h3 className={`font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{item.name}</h3>
                           <p className={`text-sm mt-1 line-clamp-2 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>{item.description}</p>
+                          {/* Calories, Prep Time, Allergens */}
+                          <div className="flex flex-wrap items-center gap-2 mt-2">
+                            {(item as any).calories && (
+                              <span className={`text-xs ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>🔥 {(item as any).calories} kcal</span>
+                            )}
+                            {(item as any).preparationTime && (
+                              <span className={`text-xs ${theme === 'light' ? 'text-gray-500' : 'text-gray-400'}`}>⏱️ {(item as any).preparationTime} min</span>
+                            )}
+                            {item.allergens && item.allergens.length > 0 && (
+                              <span className="text-xs px-2 py-0.5 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-300 rounded-full">
+                                {item.allergens.slice(0, 2).map(a => getSafetyFilterIcon(a)).join('')}
+                              </span>
+                            )}
+                          </div>
                           <div className="flex items-center justify-between mt-3">
                             <span className="text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
                               {formatPrice(item.price, currency)}
@@ -1746,8 +2038,10 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
         </div>
       </motion.div>
 
-      {/* Bottom Navigation */}
-      <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} cartCount={cartCount} onPlusClick={() => setShowQuickActions(true)} isPlusActive={showQuickActions} theme={theme} />
+      {/* Bottom Navigation - Mobile only */}
+      <div className="md:hidden">
+        <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} cartCount={cartCount} onPlusClick={() => setShowQuickActions(true)} isPlusActive={showQuickActions} theme={theme} />
+      </div>
 
       {/* Quick Actions Popup */}
       <QuickActionsPopup isOpen={showQuickActions} onClose={() => setShowQuickActions(false)} onAction={handleMenuAction} t={t} />
@@ -1779,6 +2073,7 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
           />
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 }
