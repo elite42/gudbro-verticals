@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { safetyFilters } from '@/../../shared/database/safety-filters';
+import { safetyFilters } from '@/lib/shared/safety-filters';
 
 interface ProductDetailModalProps {
     product: any;

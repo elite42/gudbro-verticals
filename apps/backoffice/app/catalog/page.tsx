@@ -1,6 +1,8 @@
 import { getGlobalProducts } from '../actions';
 import { CatalogClient } from './CatalogClient';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CatalogPage() {
     const products = await getGlobalProducts();
 

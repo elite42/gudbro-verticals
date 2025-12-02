@@ -240,7 +240,7 @@ export async function getIngredients() {
 }
 
 export async function computeSafetyFlags(ingredientIds: string[]) {
-    const { computeProductFlags } = await import('@/../../shared/database/utils/auto-compute');
+    const { computeProductFlags } = await import('@/lib/shared/utils/auto-compute');
     return await computeProductFlags(ingredientIds);
 }
 
