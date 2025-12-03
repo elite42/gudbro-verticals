@@ -159,19 +159,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
 - `shared/database/migrations/002-fix-function-search-path.sql` - Adds search_path to 8 functions
 - `shared/database/migrations/003-review-unused-indexes.sql` - Analysis script (no changes)
 
-**Status:**
-- 9 RLS Errors: Migration ready, run in Supabase SQL Editor
-- 8 Function Warnings: Migration ready, run in Supabase SQL Editor
-- 11 Index Suggestions: Analyzed, keeping all indexes (app is new, will be useful later)
+**Status: ALL RESOLVED** ✅
+- 9 RLS Errors → **0 Errors** (RLS enabled + 18 policies created)
+- 8 Function Warnings → **0 Warnings** (search_path added to all functions)
+- 11 Index Suggestions → **0 Suggestions** (indexes kept, Supabase cleared them)
 
-**To Apply Fixes:**
-```bash
-# In Supabase Dashboard → SQL Editor → New Query
-# Run migrations in order:
-# 1. 001-enable-rls-all-tables.sql
-# 2. 002-fix-function-search-path.sql
-# 3. (Optional) 003-review-unused-indexes.sql (analysis only)
-```
+**Applied via Supabase SQL Editor on 2025-12-03**
 
 ### 2025-12-01: Stack Standardization & Vercel Deployment
 
