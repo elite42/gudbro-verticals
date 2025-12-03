@@ -3,7 +3,7 @@
 **Repository:** gudbro-verticals
 **Purpose:** Standalone vertical business applications
 **Status:** Production (3 apps deployed on Vercel)
-**Last Updated:** 2025-12-02
+**Last Updated:** 2025-12-03
 
 ---
 
@@ -150,6 +150,29 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
 
 ## Recent Changes
 
+### 2025-12-03: Supabase Security Fixes
+
+**Problem:** Supabase Security Advisor reported 9 errors + 8 warnings + 11 suggestions.
+
+**Created Migrations:**
+- `shared/database/migrations/001-enable-rls-all-tables.sql` - Enables RLS on 9 tables with policies
+- `shared/database/migrations/002-fix-function-search-path.sql` - Adds search_path to 8 functions
+- `shared/database/migrations/003-review-unused-indexes.sql` - Analysis script (no changes)
+
+**Status:**
+- 9 RLS Errors: Migration ready, run in Supabase SQL Editor
+- 8 Function Warnings: Migration ready, run in Supabase SQL Editor
+- 11 Index Suggestions: Analyzed, keeping all indexes (app is new, will be useful later)
+
+**To Apply Fixes:**
+```bash
+# In Supabase Dashboard → SQL Editor → New Query
+# Run migrations in order:
+# 1. 001-enable-rls-all-tables.sql
+# 2. 002-fix-function-search-path.sql
+# 3. (Optional) 003-review-unused-indexes.sql (analysis only)
+```
+
 ### 2025-12-01: Stack Standardization & Vercel Deployment
 
 **Problem:** Apps used experimental Next.js 16 + React 19 + Tailwind v4 causing build failures.
@@ -252,7 +275,7 @@ Each app deployed separately with:
 
 **This file provides repository-wide context for Claude Code sessions.**
 
-**Last Updated:** 2025-12-02
+**Last Updated:** 2025-12-03
 
 ---
 
