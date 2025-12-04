@@ -45,7 +45,8 @@
     "originalImagePath": "/products/espresso-single.jpg",
     "subcategory": "espresso-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "espresso-single"
   },
   {
     "id": "espresso-double",
@@ -93,7 +94,8 @@
     "originalImagePath": "/products/espresso-double.jpg",
     "subcategory": "espresso-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "espresso-double"
   },
   {
     "id": "americano-hot",
@@ -141,7 +143,8 @@
     "originalImagePath": "/products/americano-hot.jpg",
     "subcategory": "espresso-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "americano-hot"
   },
   {
     "id": "latte-hot",
@@ -191,7 +194,8 @@
     "originalImagePath": "/products/latte-hot.jpg",
     "subcategory": "milk-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "latte-hot"
   },
   {
     "id": "iced-latte",
@@ -241,7 +245,8 @@
     "originalImagePath": "/products/iced-latte.jpg",
     "subcategory": "milk-based",
     "temperature": "iced",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "iced-latte"
   },
   {
     "id": "cappuccino",
@@ -291,7 +296,8 @@
     "originalImagePath": "/products/cappuccino.jpg",
     "subcategory": "milk-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "cappuccino"
   },
   {
     "id": "flat-white",
@@ -341,7 +347,8 @@
     "originalImagePath": "/products/flat-white.jpg",
     "subcategory": "milk-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "flat-white"
   },
   {
     "id": "macchiato",
@@ -391,7 +398,8 @@
     "originalImagePath": "/products/macchiato.jpg",
     "subcategory": "espresso-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "espresso-single"
   },
   {
     "id": "caf-mocha",
@@ -442,7 +450,8 @@
     "originalImagePath": "/products/caf-mocha.jpg",
     "subcategory": "milk-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "mocha"
   },
   {
     "id": "caramel-latte",
@@ -492,7 +501,8 @@
     "originalImagePath": "/products/caramel-latte.jpg",
     "subcategory": "milk-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "latte-hot"
   },
   {
     "id": "spanish-latte-hot",
@@ -542,7 +552,8 @@
     "originalImagePath": "/products/spanish-latte-hot.jpg",
     "subcategory": "milk-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "latte-hot"
   },
   {
     "id": "raf-coffee-classic",
@@ -592,7 +603,8 @@
     "originalImagePath": "/products/raf-coffee-classic.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "latte-hot"
   },
   {
     "id": "tiramisu-cappuccino",
@@ -642,7 +654,8 @@
     "originalImagePath": "/products/tiramisu-cappuccino.jpg",
     "subcategory": "milk-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "cappuccino"
   },
   {
     "id": "cream-cheese-latte",
@@ -692,7 +705,8 @@
     "originalImagePath": "/products/cream-cheese-latte.jpg",
     "subcategory": "milk-based",
     "temperature": "hot",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "latte-hot"
   },
   {
     "id": "espresso-tonic",
@@ -740,7 +754,8 @@
     "originalImagePath": "/products/espresso-tonic.jpg",
     "subcategory": "espresso-based",
     "temperature": "iced",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "espresso-tonic"
   },
   {
     "id": "affogato",
@@ -791,7 +806,8 @@
     "originalImagePath": "/products/affogato.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "espresso"
+    "legacyCategory": "espresso",
+    "recipeId": "espresso-single"
   },
   {
     "id": "nutella-coffee-iced",
@@ -842,7 +858,8 @@
     "originalImagePath": "/products/nutella-coffee-iced.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "iced-latte"
   },
   {
     "id": "kinder-coffee-iced",
@@ -894,7 +911,8 @@
     "originalImagePath": "/products/kinder-coffee-iced.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "iced-latte"
   },
   {
     "id": "oreo-coffee",
@@ -946,7 +964,8 @@
     "originalImagePath": "/products/oreo-coffee.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "mocha"
   },
   {
     "id": "bounty-coffee",
@@ -998,7 +1017,8 @@
     "originalImagePath": "/products/bounty-coffee.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "mocha"
   },
   {
     "id": "snickers-coffee",
@@ -1050,7 +1070,8 @@
     "originalImagePath": "/products/snickers-coffee.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "mocha"
   },
   {
     "id": "fantasy-coffee",
@@ -1101,7 +1122,8 @@
     "originalImagePath": "/products/fantasy-coffee.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "latte-hot"
   },
   {
     "id": "dolce-gusto-coffee",
@@ -1151,7 +1173,8 @@
     "originalImagePath": "/products/dolce-gusto-coffee.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "latte-hot"
   },
   {
     "id": "black-star",
@@ -1201,7 +1224,8 @@
     "originalImagePath": "/products/black-star.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "mocha"
   },
   {
     "id": "white-mocha-glace",
@@ -1253,7 +1277,8 @@
     "originalImagePath": "/products/white-mocha-glace.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "iced-latte"
   },
   {
     "id": "coffee-glace",
@@ -1304,7 +1329,8 @@
     "originalImagePath": "/products/coffee-glace.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "caffe-shakerato"
   },
   {
     "id": "cookie-coffee",
@@ -1357,7 +1383,8 @@
     "originalImagePath": "/products/cookie-coffee.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "latte-hot"
   },
   {
     "id": "iced-creamy-coffee",
@@ -1407,7 +1434,8 @@
     "originalImagePath": "/products/iced-creamy-coffee.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "iced-latte"
   },
   {
     "id": "iced-nutella-coffee",
@@ -1458,7 +1486,8 @@
     "originalImagePath": "/products/iced-nutella-coffee.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "iced-latte"
   },
   {
     "id": "kinder-white-cream",
@@ -1509,7 +1538,8 @@
     "originalImagePath": "/products/kinder-white-cream.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "mocha"
   },
   {
     "id": "dolce-glace",
@@ -1560,7 +1590,8 @@
     "originalImagePath": "/products/dolce-glace.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "iced-latte"
   },
   {
     "id": "white-mocha",
@@ -1611,7 +1642,8 @@
     "originalImagePath": "/products/white-mocha.jpg",
     "subcategory": "signature",
     "temperature": "hot",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "mocha"
   },
   {
     "id": "iced-white-mocha-coffee",
@@ -1661,7 +1693,8 @@
     "originalImagePath": "/products/iced-white-mocha-coffee.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "iced-latte"
   },
   {
     "id": "iced-black-star-coffee",
@@ -1711,7 +1744,8 @@
     "originalImagePath": "/products/iced-black-star-coffee.jpg",
     "subcategory": "signature",
     "temperature": "iced",
-    "legacyCategory": "signature-coffee"
+    "legacyCategory": "signature-coffee",
+    "recipeId": "iced-latte"
   },
   {
     "id": "matcha-latte-hot",
@@ -1761,7 +1795,8 @@
     "originalImagePath": "/products/matcha-latte-hot.jpg",
     "subcategory": "latte-grade",
     "temperature": "hot",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "iced-matcha-latte",
@@ -1811,7 +1846,8 @@
     "originalImagePath": "/products/iced-matcha-latte.jpg",
     "subcategory": "latte-grade",
     "temperature": "iced",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "salted-caramel-matcha-latte",
@@ -1861,7 +1897,8 @@
     "originalImagePath": "/products/salted-caramel-matcha-latte.jpg",
     "subcategory": "latte-grade",
     "temperature": "hot",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "cream-cheese-matcha-latte-aroma",
@@ -1911,7 +1948,8 @@
     "originalImagePath": "/products/cream-cheese-matcha-latte-aroma.jpg",
     "subcategory": "latte-grade",
     "temperature": "hot",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "sky-matcha",
@@ -1961,7 +1999,8 @@
     "originalImagePath": "/products/sky-matcha.jpg",
     "subcategory": "matcha-signature",
     "temperature": "hot",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "matcha-raspberry-iced",
@@ -2011,7 +2050,8 @@
     "originalImagePath": "/products/matcha-raspberry-iced.jpg",
     "subcategory": "matcha-signature",
     "temperature": "iced",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "matcha-strawberry-hot",
@@ -2061,7 +2101,8 @@
     "originalImagePath": "/products/matcha-strawberry-hot.jpg",
     "subcategory": "matcha-signature",
     "temperature": "hot",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "salted-caramel-matcha-iced",
@@ -2111,7 +2152,8 @@
     "originalImagePath": "/products/salted-caramel-matcha-iced.jpg",
     "subcategory": "matcha-signature",
     "temperature": "iced",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "matcha-latte-with-coconut-milk",
@@ -2162,7 +2204,8 @@
     "originalImagePath": "/products/matcha-latte-with-coconut-milk.jpg",
     "subcategory": "latte-grade",
     "temperature": "hot",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "creamy-vanilla-matcha-iced",
@@ -2212,7 +2255,8 @@
     "originalImagePath": "/products/creamy-vanilla-matcha-iced.jpg",
     "subcategory": "matcha-signature",
     "temperature": "iced",
-    "legacyCategory": "matcha"
+    "legacyCategory": "matcha",
+    "recipeId": "matcha-latte-hot"
   },
   {
     "id": "blue-moon-tea",
@@ -2260,7 +2304,8 @@
     "originalImagePath": "/products/blue-moon-tea.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "strawberry-carcade-tea",
@@ -2306,7 +2351,8 @@
     "originalImagePath": "/products/strawberry-carcade-tea.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "raspberry-tea",
@@ -2354,7 +2400,8 @@
     "originalImagePath": "/products/raspberry-tea.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "herbal-tea-house-blend",
@@ -2400,7 +2447,8 @@
     "originalImagePath": "/products/herbal-tea-house-blend.jpg",
     "subcategory": "herbal-tisane",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "green-tea-classic",
@@ -2448,7 +2496,8 @@
     "originalImagePath": "/products/green-tea-classic.jpg",
     "subcategory": "green-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "kiwi-lime-tea",
@@ -2496,7 +2545,8 @@
     "originalImagePath": "/products/kiwi-lime-tea.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "winter-punch-tea",
@@ -2544,7 +2594,8 @@
     "originalImagePath": "/products/winter-punch-tea.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "pomegranate-tea",
@@ -2592,7 +2643,8 @@
     "originalImagePath": "/products/pomegranate-tea.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "hibiscus-strawberry-tea",
@@ -2638,7 +2690,8 @@
     "originalImagePath": "/products/hibiscus-strawberry-tea.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "immuno-tea",
@@ -2684,7 +2737,8 @@
     "originalImagePath": "/products/immuno-tea.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "ice-tea-mix",
@@ -2732,7 +2786,8 @@
     "originalImagePath": "/products/ice-tea-mix.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "ice-tea-raspberry",
@@ -2780,7 +2835,8 @@
     "originalImagePath": "/products/ice-tea-raspberry.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "ice-tea-peach",
@@ -2828,7 +2884,8 @@
     "originalImagePath": "/products/ice-tea-peach.jpg",
     "subcategory": "black-tea",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "herbal-lemon-mint-tea",
@@ -2874,7 +2931,8 @@
     "originalImagePath": "/products/herbal-lemon-mint-tea.jpg",
     "subcategory": "herbal-tisane",
     "temperature": "hot",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "chai-latte"
   },
   {
     "id": "strawberry-hibiscus-cold-brew",
@@ -2920,7 +2978,8 @@
     "originalImagePath": "/products/strawberry-hibiscus-cold-brew.jpg",
     "subcategory": "black-tea",
     "temperature": "iced",
-    "legacyCategory": "tea"
+    "legacyCategory": "tea",
+    "recipeId": "cold-brew-classic"
   },
   {
     "id": "banana-smoothie",
@@ -2968,7 +3027,8 @@
     "originalImagePath": "/products/banana-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "strawberry-mango-smoothie"
   },
   {
     "id": "strawberry-smoothie",
@@ -3016,7 +3076,8 @@
     "originalImagePath": "/products/strawberry-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "strawberry-mango-smoothie"
   },
   {
     "id": "banana-kiwi-smoothie",
@@ -3064,7 +3125,8 @@
     "originalImagePath": "/products/banana-kiwi-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "green-detox-smoothie"
   },
   {
     "id": "orange-grapefruit-smoothie",
@@ -3110,7 +3172,8 @@
     "originalImagePath": "/products/orange-grapefruit-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "strawberry-mango-smoothie"
   },
   {
     "id": "lemon-smoothie",
@@ -3158,7 +3221,8 @@
     "originalImagePath": "/products/lemon-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "green-detox-smoothie"
   },
   {
     "id": "lime-smoothie",
@@ -3206,7 +3270,8 @@
     "originalImagePath": "/products/lime-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "green-detox-smoothie"
   },
   {
     "id": "apple-smoothie",
@@ -3254,7 +3319,8 @@
     "originalImagePath": "/products/apple-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "green-detox-smoothie"
   },
   {
     "id": "mango-smoothie",
@@ -3302,7 +3368,8 @@
     "originalImagePath": "/products/mango-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "strawberry-mango-smoothie"
   },
   {
     "id": "avocado-smoothie",
@@ -3350,7 +3417,8 @@
     "originalImagePath": "/products/avocado-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "green-detox-smoothie"
   },
   {
     "id": "berry-mix-smoothie",
@@ -3398,7 +3466,8 @@
     "originalImagePath": "/products/berry-mix-smoothie.jpg",
     "subcategory": "fruit",
     "temperature": "iced",
-    "legacyCategory": "smoothie"
+    "legacyCategory": "smoothie",
+    "recipeId": "strawberry-mango-smoothie"
   },
   {
     "id": "oreo-shake",
@@ -3449,7 +3518,8 @@
     "originalImagePath": "/products/oreo-shake.jpg",
     "subcategory": "gourmet",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "nutella-milkshake"
   },
   {
     "id": "cookies-shake",
@@ -3499,7 +3569,8 @@
     "originalImagePath": "/products/cookies-shake.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "classic-vanilla-milkshake"
   },
   {
     "id": "nutella-frappuccino",
@@ -3551,7 +3622,8 @@
     "originalImagePath": "/products/nutella-frappuccino.jpg",
     "subcategory": "gourmet",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "nutella-milkshake"
   },
   {
     "id": "caramel-frappuccino",
@@ -3601,7 +3673,8 @@
     "originalImagePath": "/products/caramel-frappuccino.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "mocha-frappuccino"
   },
   {
     "id": "berry-charge",
@@ -3650,7 +3723,8 @@
     "originalImagePath": "/products/berry-charge.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "classic-vanilla-milkshake"
   },
   {
     "id": "coffee-frappuccino",
@@ -3701,7 +3775,8 @@
     "originalImagePath": "/products/coffee-frappuccino.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "mocha-frappuccino"
   },
   {
     "id": "vanilla-shake",
@@ -3750,7 +3825,8 @@
     "originalImagePath": "/products/vanilla-shake.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "classic-vanilla-milkshake"
   },
   {
     "id": "chocolate-shake",
@@ -3800,7 +3876,8 @@
     "originalImagePath": "/products/chocolate-shake.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "nutella-milkshake"
   },
   {
     "id": "banana-shake",
@@ -3849,7 +3926,8 @@
     "originalImagePath": "/products/banana-shake.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "classic-vanilla-milkshake"
   },
   {
     "id": "salted-caramel-shake",
@@ -3898,7 +3976,8 @@
     "originalImagePath": "/products/salted-caramel-shake.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "classic-vanilla-milkshake"
   },
   {
     "id": "strawberry-shake",
@@ -3947,7 +4026,8 @@
     "originalImagePath": "/products/strawberry-shake.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "classic-vanilla-milkshake"
   },
   {
     "id": "peanut-butter-shake",
@@ -3998,6 +4078,7 @@
     "originalImagePath": "/products/peanut-butter-shake.jpg",
     "subcategory": "classic",
     "temperature": "iced",
-    "legacyCategory": "milkshake"
+    "legacyCategory": "milkshake",
+    "recipeId": "nutella-milkshake"
   }
 ]
