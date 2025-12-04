@@ -3,7 +3,7 @@
 **Repository:** gudbro-verticals
 **Purpose:** Standalone vertical business applications
 **Status:** Production (3 apps deployed on Vercel)
-**Last Updated:** 2025-12-03
+**Last Updated:** 2025-12-04
 
 ---
 
@@ -57,6 +57,9 @@ gudbro-verticals/
 │   └── database/
 │       ├── safety-filters.ts # 51 allergen/diet filters
 │       ├── types.ts          # Shared TypeScript types
+│       ├── recipes/
+│       │   └── recipes-database.json  # 22 professional barista recipes
+│       ├── migrations/       # SQL migrations for Supabase
 │       └── utils/
 │           └── auto-compute.ts
 │
@@ -91,6 +94,14 @@ gudbro-verticals/
 **Purpose:** Admin dashboard for managing restaurants
 **Tech:** Next.js 14 + React 18 + Tailwind v3 + Prisma
 **Database:** Supabase (PostgreSQL)
+**Features:**
+- Content management (Menu, Recipes, Ingredients, Categories)
+- Recipe management with 22 professional barista recipes
+- Order management with kitchen display
+- QR code generation
+- Multi-language translations
+- Analytics dashboard
+- Team and billing management
 
 ---
 
@@ -149,6 +160,46 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
 ---
 
 ## Recent Changes
+
+### 2025-12-04: Recipes Database & Backoffice Management
+
+**New Features:**
+- Created comprehensive recipes database (`shared/database/recipes/recipes-database.json`)
+- 22 professional barista recipes with detailed preparation methods
+- Added Recipe and ProductRecipe tables to Supabase
+- Implemented recipes management UI in backoffice
+
+**Recipes Include:**
+- Espresso-based: Espresso, Americano, Cappuccino, Latte, Flat White, Mocha
+- Cold coffee: Cold Brew, Nitro Cold Brew, Iced Latte, Espresso Tonic, Shakerato
+- Italian specialties: Marocchino, Bicerin
+- Vietnamese: Egg Coffee (Cà Phê Trứng), Cà Phê Sữa Đá
+- Matcha, Chai, Smoothies, Milkshakes
+
+**Each Recipe Contains:**
+- Multi-language names (EN/IT/VI)
+- Ingredients with exact quantities
+- Step-by-step method with timings
+- Equipment required
+- Technical parameters (temperature, pressure, ratios)
+- Nutrition info (calories, caffeine)
+- Professional barista tips
+- Variations and latte art suggestions
+
+**Backoffice Pages:**
+- `/content/recipes` - Recipe list with filters (category, temperature, search)
+- `/content/recipes/[slug]` - Detailed recipe view with tabs (Method, Ingredients, Tips)
+
+**Database:**
+- Created migration `003-recipes-tables.sql`
+- Tables: Recipe, ProductRecipe (FK to menu_items)
+- RLS policies enabled
+- 81 products linked to recipes via `recipeId` field
+
+**Coffeeshop Products Updated:**
+- New category structure: hot-coffee, iced-coffee, matcha, tea, smoothie, milkshake
+- Added subcategories and temperature field
+- Temperature icons (🔥/❄️) for visual differentiation
 
 ### 2025-12-03: Supabase Security Fixes
 
@@ -268,7 +319,7 @@ Each app deployed separately with:
 
 **This file provides repository-wide context for Claude Code sessions.**
 
-**Last Updated:** 2025-12-03
+**Last Updated:** 2025-12-04
 
 ---
 
