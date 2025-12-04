@@ -11,7 +11,7 @@
       "it": "Double = 18 g coffee / 50–60 ml",
       "vi": "Double = 18 g coffee / 50–60 ml"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 2.5,
     "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
     "mainIngredients": "Ground coffee",
@@ -42,7 +42,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 1,
-    "originalImagePath": "/products/espresso-single.jpg"
+    "originalImagePath": "/products/espresso-single.jpg",
+    "subcategory": "espresso-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "espresso-double",
@@ -56,7 +59,7 @@
       "it": "Use bottomless for training",
       "vi": "Use bottomless for training"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 3,
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
     "mainIngredients": "Ground coffee",
@@ -87,7 +90,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 2,
-    "originalImagePath": "/products/espresso-double.jpg"
+    "originalImagePath": "/products/espresso-double.jpg",
+    "subcategory": "espresso-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "americano-hot",
@@ -101,7 +107,7 @@
       "it": "Iced: 60 ml espresso + 150 g ice + 120 ml cold water",
       "vi": "Iced: 60 ml espresso + 150 g ice + 120 ml cold water"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 2.8,
     "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
     "mainIngredients": "Espresso, hot water",
@@ -132,7 +138,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 3,
-    "originalImagePath": "/products/americano-hot.jpg"
+    "originalImagePath": "/products/americano-hot.jpg",
+    "subcategory": "espresso-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "latte-hot",
@@ -146,7 +155,7 @@
       "it": "Flavor syrup +15 ml optional",
       "vi": "Flavor syrup +15 ml optional"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 3.5,
     "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
     "mainIngredients": "Espresso, milk",
@@ -179,7 +188,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 4,
-    "originalImagePath": "/products/latte-hot.jpg"
+    "originalImagePath": "/products/latte-hot.jpg",
+    "subcategory": "milk-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "iced-latte",
@@ -193,7 +205,7 @@
       "it": "Add whipped cream if desired",
       "vi": "Add whipped cream if desired"
     },
-    "category": "espresso",
+    "category": "iced-coffee",
     "price": 3.5,
     "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
     "mainIngredients": "Espresso, milk, ice",
@@ -226,7 +238,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 5,
-    "originalImagePath": "/products/iced-latte.jpg"
+    "originalImagePath": "/products/iced-latte.jpg",
+    "subcategory": "milk-based",
+    "temperature": "iced",
+    "legacyCategory": "espresso"
   },
   {
     "id": "cappuccino",
@@ -240,7 +255,7 @@
       "it": "Dust cocoa/cinnamon",
       "vi": "Dust cocoa/cinnamon"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 3.4,
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
     "mainIngredients": "Espresso, milk",
@@ -273,7 +288,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 6,
-    "originalImagePath": "/products/cappuccino.jpg"
+    "originalImagePath": "/products/cappuccino.jpg",
+    "subcategory": "milk-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "flat-white",
@@ -287,7 +305,7 @@
       "it": "Stronger ratio than cappuccino",
       "vi": "Stronger ratio than cappuccino"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 3.4,
     "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
     "mainIngredients": "Espresso, milk",
@@ -320,7 +338,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 7,
-    "originalImagePath": "/products/flat-white.jpg"
+    "originalImagePath": "/products/flat-white.jpg",
+    "subcategory": "milk-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "macchiato",
@@ -334,7 +355,7 @@
       "it": "Iced: espresso over ice + cold foam",
       "vi": "Iced: espresso over ice + cold foam"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 2.8,
     "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
     "mainIngredients": "Espresso, milk foam",
@@ -367,7 +388,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 8,
-    "originalImagePath": "/products/macchiato.jpg"
+    "originalImagePath": "/products/macchiato.jpg",
+    "subcategory": "espresso-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "caf-mocha",
@@ -381,7 +405,7 @@
       "it": "Chocolate drizzle",
       "vi": "Chocolate drizzle"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 4,
     "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
     "mainIngredients": "Espresso, chocolate syrup, milk, whipped cream",
@@ -415,7 +439,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 9,
-    "originalImagePath": "/products/caf-mocha.jpg"
+    "originalImagePath": "/products/caf-mocha.jpg",
+    "subcategory": "milk-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "caramel-latte",
@@ -429,7 +456,7 @@
       "it": "Caramel drizzle",
       "vi": "Caramel drizzle"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 3.9,
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
     "mainIngredients": "Espresso, milk, caramel syrup",
@@ -462,7 +489,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 10,
-    "originalImagePath": "/products/caramel-latte.jpg"
+    "originalImagePath": "/products/caramel-latte.jpg",
+    "subcategory": "milk-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "spanish-latte-hot",
@@ -476,7 +506,7 @@
       "it": "Iced: shake all with ice",
       "vi": "Iced: shake all with ice"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 4,
     "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
     "mainIngredients": "Espresso, milk, condensed milk",
@@ -509,7 +539,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 11,
-    "originalImagePath": "/products/spanish-latte-hot.jpg"
+    "originalImagePath": "/products/spanish-latte-hot.jpg",
+    "subcategory": "milk-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "raf-coffee-classic",
@@ -523,7 +556,7 @@
       "it": "Serve hot without foam",
       "vi": "Serve hot without foam"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 4.2,
     "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
     "mainIngredients": "Espresso, cream, sugar, vanilla syrup",
@@ -556,7 +589,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 12,
-    "originalImagePath": "/products/raf-coffee-classic.jpg"
+    "originalImagePath": "/products/raf-coffee-classic.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "tiramisu-cappuccino",
@@ -570,7 +606,7 @@
       "it": "Dessert-style",
       "vi": "Dessert-style"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 4.8,
     "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
     "mainIngredients": "Espresso, milk, cocoa, mascarpone cream",
@@ -603,7 +639,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 13,
-    "originalImagePath": "/products/tiramisu-cappuccino.jpg"
+    "originalImagePath": "/products/tiramisu-cappuccino.jpg",
+    "subcategory": "milk-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "cream-cheese-latte",
@@ -617,7 +656,7 @@
       "it": "Sprinkle sea salt",
       "vi": "Sprinkle sea salt"
     },
-    "category": "espresso",
+    "category": "hot-coffee",
     "price": 4.5,
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
     "mainIngredients": "Espresso, milk, cream cheese foam",
@@ -650,7 +689,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 14,
-    "originalImagePath": "/products/cream-cheese-latte.jpg"
+    "originalImagePath": "/products/cream-cheese-latte.jpg",
+    "subcategory": "milk-based",
+    "temperature": "hot",
+    "legacyCategory": "espresso"
   },
   {
     "id": "espresso-tonic",
@@ -664,7 +706,7 @@
       "it": "Garnish lemon",
       "vi": "Garnish lemon"
     },
-    "category": "espresso",
+    "category": "iced-coffee",
     "price": 4.2,
     "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
     "mainIngredients": "Espresso, tonic water, ice, lemon slice",
@@ -695,7 +737,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 15,
-    "originalImagePath": "/products/espresso-tonic.jpg"
+    "originalImagePath": "/products/espresso-tonic.jpg",
+    "subcategory": "espresso-based",
+    "temperature": "iced",
+    "legacyCategory": "espresso"
   },
   {
     "id": "affogato",
@@ -709,7 +754,7 @@
       "it": "Chocolate drizzle optional",
       "vi": "Chocolate drizzle optional"
     },
-    "category": "espresso",
+    "category": "iced-coffee",
     "price": 4,
     "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
     "mainIngredients": "Espresso, vanilla ice cream",
@@ -743,7 +788,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 16,
-    "originalImagePath": "/products/affogato.jpg"
+    "originalImagePath": "/products/affogato.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "espresso"
   },
   {
     "id": "nutella-coffee-iced",
@@ -757,7 +805,7 @@
       "it": "Hot: steam milk with Nutella",
       "vi": "Hot: steam milk with Nutella"
     },
-    "category": "signature-coffee",
+    "category": "iced-coffee",
     "price": 4.5,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, Nutella, milk, whipped cream, ice",
@@ -791,7 +839,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 17,
-    "originalImagePath": "/products/nutella-coffee-iced.jpg"
+    "originalImagePath": "/products/nutella-coffee-iced.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "kinder-coffee-iced",
@@ -805,7 +856,7 @@
       "it": "Garnish with Kinder flakes",
       "vi": "Garnish with Kinder flakes"
     },
-    "category": "signature-coffee",
+    "category": "iced-coffee",
     "price": 4.7,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, white chocolate syrup, Kinder chocolate, milk, ice",
@@ -840,7 +891,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 18,
-    "originalImagePath": "/products/kinder-coffee-iced.jpg"
+    "originalImagePath": "/products/kinder-coffee-iced.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "oreo-coffee",
@@ -854,7 +908,7 @@
       "it": "Add Oreo crumble",
       "vi": "Add Oreo crumble"
     },
-    "category": "signature-coffee",
+    "category": "hot-coffee",
     "price": 4.6,
     "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
     "mainIngredients": "Espresso, Oreo crumbs, milk, chocolate syrup, whipped cream",
@@ -889,7 +943,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 19,
-    "originalImagePath": "/products/oreo-coffee.jpg"
+    "originalImagePath": "/products/oreo-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "bounty-coffee",
@@ -903,7 +960,7 @@
       "it": "Shredded coconut rim",
       "vi": "Shredded coconut rim"
     },
-    "category": "signature-coffee",
+    "category": "hot-coffee",
     "price": 4.6,
     "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
     "mainIngredients": "Espresso, coconut cream, milk, chocolate syrup, ice",
@@ -938,7 +995,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 20,
-    "originalImagePath": "/products/bounty-coffee.jpg"
+    "originalImagePath": "/products/bounty-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "snickers-coffee",
@@ -952,7 +1012,7 @@
       "it": "Peanut crunch sprinkle",
       "vi": "Peanut crunch sprinkle"
     },
-    "category": "signature-coffee",
+    "category": "hot-coffee",
     "price": 4.8,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, caramel syrup, chocolate syrup, peanut butter, milk",
@@ -987,7 +1047,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 21,
-    "originalImagePath": "/products/snickers-coffee.jpg"
+    "originalImagePath": "/products/snickers-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "fantasy-coffee",
@@ -1001,7 +1064,7 @@
       "it": "Serve with straw",
       "vi": "Serve with straw"
     },
-    "category": "signature-coffee",
+    "category": "hot-coffee",
     "price": 4.5,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, vanilla ice cream, milk, whipped cream",
@@ -1035,7 +1098,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 22,
-    "originalImagePath": "/products/fantasy-coffee.jpg"
+    "originalImagePath": "/products/fantasy-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "dolce-gusto-coffee",
@@ -1049,7 +1115,7 @@
       "it": "Sweeter profile",
       "vi": "Sweeter profile"
     },
-    "category": "signature-coffee",
+    "category": "hot-coffee",
     "price": 4.2,
     "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
     "mainIngredients": "Espresso, condensed milk, milk, cream",
@@ -1082,7 +1148,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 23,
-    "originalImagePath": "/products/dolce-gusto-coffee.jpg"
+    "originalImagePath": "/products/dolce-gusto-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "black-star",
@@ -1096,7 +1165,7 @@
       "it": "Serve in transparent glass",
       "vi": "Serve in transparent glass"
     },
-    "category": "signature-coffee",
+    "category": "hot-coffee",
     "price": 4.5,
     "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
     "mainIngredients": "Espresso, black cocoa powder, milk, vanilla syrup",
@@ -1129,7 +1198,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 24,
-    "originalImagePath": "/products/black-star.jpg"
+    "originalImagePath": "/products/black-star.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "white-mocha-glace",
@@ -1143,7 +1215,7 @@
       "it": "Whipped cream optional",
       "vi": "Whipped cream optional"
     },
-    "category": "signature-coffee",
+    "category": "iced-coffee",
     "price": 4.7,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, white chocolate syrup, milk, ice cream",
@@ -1178,7 +1250,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 25,
-    "originalImagePath": "/products/white-mocha-glace.jpg"
+    "originalImagePath": "/products/white-mocha-glace.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "coffee-glace",
@@ -1192,7 +1267,7 @@
       "it": "Serve immediately",
       "vi": "Serve immediately"
     },
-    "category": "signature-coffee",
+    "category": "iced-coffee",
     "price": 4.2,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, vanilla ice cream, whipped cream",
@@ -1226,7 +1301,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 26,
-    "originalImagePath": "/products/coffee-glace.jpg"
+    "originalImagePath": "/products/coffee-glace.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "cookie-coffee",
@@ -1240,7 +1318,7 @@
       "it": "Cream & crumbs optional",
       "vi": "Cream & crumbs optional"
     },
-    "category": "signature-coffee",
+    "category": "hot-coffee",
     "price": 4.4,
     "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
     "mainIngredients": "Espresso, cookie crumble, milk, chocolate syrup",
@@ -1276,7 +1354,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 27,
-    "originalImagePath": "/products/cookie-coffee.jpg"
+    "originalImagePath": "/products/cookie-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "iced-creamy-coffee",
@@ -1290,7 +1371,7 @@
       "it": "Sugar to taste",
       "vi": "Sugar to taste"
     },
-    "category": "signature-coffee",
+    "category": "iced-coffee",
     "price": 4.2,
     "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
     "mainIngredients": "Espresso, cream, milk, ice",
@@ -1323,7 +1404,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 28,
-    "originalImagePath": "/products/iced-creamy-coffee.jpg"
+    "originalImagePath": "/products/iced-creamy-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "iced-nutella-coffee",
@@ -1337,7 +1421,7 @@
       "it": "Use crushed ice",
       "vi": "Use crushed ice"
     },
-    "category": "signature-coffee",
+    "category": "iced-coffee",
     "price": 4.7,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, Nutella, milk, ice, cream",
@@ -1371,7 +1455,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 29,
-    "originalImagePath": "/products/iced-nutella-coffee.jpg"
+    "originalImagePath": "/products/iced-nutella-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "kinder-white-cream",
@@ -1385,7 +1472,7 @@
       "it": "Serve hot or iced",
       "vi": "Serve hot or iced"
     },
-    "category": "signature-coffee",
+    "category": "hot-coffee",
     "price": 4.7,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, white chocolate, cream, milk",
@@ -1419,7 +1506,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 30,
-    "originalImagePath": "/products/kinder-white-cream.jpg"
+    "originalImagePath": "/products/kinder-white-cream.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "dolce-glace",
@@ -1433,7 +1523,7 @@
       "it": "Sweet, dessert-like",
       "vi": "Sweet, dessert-like"
     },
-    "category": "signature-coffee",
+    "category": "iced-coffee",
     "price": 4.5,
     "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
     "mainIngredients": "Espresso, condensed milk, ice cream, milk",
@@ -1467,7 +1557,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 31,
-    "originalImagePath": "/products/dolce-glace.jpg"
+    "originalImagePath": "/products/dolce-glace.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "white-mocha",
@@ -1481,7 +1574,7 @@
       "it": "Very sweet profile",
       "vi": "Very sweet profile"
     },
-    "category": "signature-coffee",
+    "category": "hot-coffee",
     "price": 4.3,
     "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
     "mainIngredients": "Espresso, white chocolate syrup, milk",
@@ -1515,7 +1608,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 32,
-    "originalImagePath": "/products/white-mocha.jpg"
+    "originalImagePath": "/products/white-mocha.jpg",
+    "subcategory": "signature",
+    "temperature": "hot",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "iced-white-mocha-coffee",
@@ -1529,7 +1625,7 @@
       "it": "Optional cream top",
       "vi": "Optional cream top"
     },
-    "category": "signature-coffee",
+    "category": "iced-coffee",
     "price": 4.5,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, white choc syrup, milk, ice",
@@ -1562,7 +1658,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 33,
-    "originalImagePath": "/products/iced-white-mocha-coffee.jpg"
+    "originalImagePath": "/products/iced-white-mocha-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "iced-black-star-coffee",
@@ -1576,7 +1675,7 @@
       "it": "Dark aesthetic",
       "vi": "Dark aesthetic"
     },
-    "category": "signature-coffee",
+    "category": "iced-coffee",
     "price": 4.5,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, black cocoa, milk, ice",
@@ -1609,7 +1708,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 34,
-    "originalImagePath": "/products/iced-black-star-coffee.jpg"
+    "originalImagePath": "/products/iced-black-star-coffee.jpg",
+    "subcategory": "signature",
+    "temperature": "iced",
+    "legacyCategory": "signature-coffee"
   },
   {
     "id": "matcha-latte-hot",
@@ -1656,7 +1758,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 35,
-    "originalImagePath": "/products/matcha-latte-hot.jpg"
+    "originalImagePath": "/products/matcha-latte-hot.jpg",
+    "subcategory": "latte-grade",
+    "temperature": "hot",
+    "legacyCategory": "matcha"
   },
   {
     "id": "iced-matcha-latte",
@@ -1703,7 +1808,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 36,
-    "originalImagePath": "/products/iced-matcha-latte.jpg"
+    "originalImagePath": "/products/iced-matcha-latte.jpg",
+    "subcategory": "latte-grade",
+    "temperature": "iced",
+    "legacyCategory": "matcha"
   },
   {
     "id": "salted-caramel-matcha-latte",
@@ -1750,7 +1858,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 37,
-    "originalImagePath": "/products/salted-caramel-matcha-latte.jpg"
+    "originalImagePath": "/products/salted-caramel-matcha-latte.jpg",
+    "subcategory": "latte-grade",
+    "temperature": "hot",
+    "legacyCategory": "matcha"
   },
   {
     "id": "cream-cheese-matcha-latte-aroma",
@@ -1797,7 +1908,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 38,
-    "originalImagePath": "/products/cream-cheese-matcha-latte-aroma.jpg"
+    "originalImagePath": "/products/cream-cheese-matcha-latte-aroma.jpg",
+    "subcategory": "latte-grade",
+    "temperature": "hot",
+    "legacyCategory": "matcha"
   },
   {
     "id": "sky-matcha",
@@ -1844,7 +1958,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 39,
-    "originalImagePath": "/products/sky-matcha.jpg"
+    "originalImagePath": "/products/sky-matcha.jpg",
+    "subcategory": "matcha-signature",
+    "temperature": "hot",
+    "legacyCategory": "matcha"
   },
   {
     "id": "matcha-raspberry-iced",
@@ -1891,7 +2008,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 40,
-    "originalImagePath": "/products/matcha-raspberry-iced.jpg"
+    "originalImagePath": "/products/matcha-raspberry-iced.jpg",
+    "subcategory": "matcha-signature",
+    "temperature": "iced",
+    "legacyCategory": "matcha"
   },
   {
     "id": "matcha-strawberry-hot",
@@ -1938,7 +2058,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 41,
-    "originalImagePath": "/products/matcha-strawberry-hot.jpg"
+    "originalImagePath": "/products/matcha-strawberry-hot.jpg",
+    "subcategory": "matcha-signature",
+    "temperature": "hot",
+    "legacyCategory": "matcha"
   },
   {
     "id": "salted-caramel-matcha-iced",
@@ -1985,7 +2108,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 42,
-    "originalImagePath": "/products/salted-caramel-matcha-iced.jpg"
+    "originalImagePath": "/products/salted-caramel-matcha-iced.jpg",
+    "subcategory": "matcha-signature",
+    "temperature": "iced",
+    "legacyCategory": "matcha"
   },
   {
     "id": "matcha-latte-with-coconut-milk",
@@ -2033,7 +2159,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 43,
-    "originalImagePath": "/products/matcha-latte-with-coconut-milk.jpg"
+    "originalImagePath": "/products/matcha-latte-with-coconut-milk.jpg",
+    "subcategory": "latte-grade",
+    "temperature": "hot",
+    "legacyCategory": "matcha"
   },
   {
     "id": "creamy-vanilla-matcha-iced",
@@ -2080,7 +2209,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 44,
-    "originalImagePath": "/products/creamy-vanilla-matcha-iced.jpg"
+    "originalImagePath": "/products/creamy-vanilla-matcha-iced.jpg",
+    "subcategory": "matcha-signature",
+    "temperature": "iced",
+    "legacyCategory": "matcha"
   },
   {
     "id": "blue-moon-tea",
@@ -2125,7 +2257,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 45,
-    "originalImagePath": "/products/blue-moon-tea.jpg"
+    "originalImagePath": "/products/blue-moon-tea.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "strawberry-carcade-tea",
@@ -2168,7 +2303,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 46,
-    "originalImagePath": "/products/strawberry-carcade-tea.jpg"
+    "originalImagePath": "/products/strawberry-carcade-tea.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "raspberry-tea",
@@ -2213,7 +2351,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 47,
-    "originalImagePath": "/products/raspberry-tea.jpg"
+    "originalImagePath": "/products/raspberry-tea.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "herbal-tea-house-blend",
@@ -2256,7 +2397,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 48,
-    "originalImagePath": "/products/herbal-tea-house-blend.jpg"
+    "originalImagePath": "/products/herbal-tea-house-blend.jpg",
+    "subcategory": "herbal-tisane",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "green-tea-classic",
@@ -2301,7 +2445,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 49,
-    "originalImagePath": "/products/green-tea-classic.jpg"
+    "originalImagePath": "/products/green-tea-classic.jpg",
+    "subcategory": "green-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "kiwi-lime-tea",
@@ -2346,7 +2493,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 50,
-    "originalImagePath": "/products/kiwi-lime-tea.jpg"
+    "originalImagePath": "/products/kiwi-lime-tea.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "winter-punch-tea",
@@ -2391,7 +2541,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 51,
-    "originalImagePath": "/products/winter-punch-tea.jpg"
+    "originalImagePath": "/products/winter-punch-tea.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "pomegranate-tea",
@@ -2436,7 +2589,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 52,
-    "originalImagePath": "/products/pomegranate-tea.jpg"
+    "originalImagePath": "/products/pomegranate-tea.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "hibiscus-strawberry-tea",
@@ -2479,7 +2635,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 53,
-    "originalImagePath": "/products/hibiscus-strawberry-tea.jpg"
+    "originalImagePath": "/products/hibiscus-strawberry-tea.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "immuno-tea",
@@ -2522,7 +2681,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 54,
-    "originalImagePath": "/products/immuno-tea.jpg"
+    "originalImagePath": "/products/immuno-tea.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "ice-tea-mix",
@@ -2567,7 +2729,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 55,
-    "originalImagePath": "/products/ice-tea-mix.jpg"
+    "originalImagePath": "/products/ice-tea-mix.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "ice-tea-raspberry",
@@ -2612,7 +2777,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 56,
-    "originalImagePath": "/products/ice-tea-raspberry.jpg"
+    "originalImagePath": "/products/ice-tea-raspberry.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "ice-tea-peach",
@@ -2657,7 +2825,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 57,
-    "originalImagePath": "/products/ice-tea-peach.jpg"
+    "originalImagePath": "/products/ice-tea-peach.jpg",
+    "subcategory": "black-tea",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "herbal-lemon-mint-tea",
@@ -2700,7 +2871,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 58,
-    "originalImagePath": "/products/herbal-lemon-mint-tea.jpg"
+    "originalImagePath": "/products/herbal-lemon-mint-tea.jpg",
+    "subcategory": "herbal-tisane",
+    "temperature": "hot",
+    "legacyCategory": "tea"
   },
   {
     "id": "strawberry-hibiscus-cold-brew",
@@ -2743,7 +2917,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 59,
-    "originalImagePath": "/products/strawberry-hibiscus-cold-brew.jpg"
+    "originalImagePath": "/products/strawberry-hibiscus-cold-brew.jpg",
+    "subcategory": "black-tea",
+    "temperature": "iced",
+    "legacyCategory": "tea"
   },
   {
     "id": "banana-smoothie",
@@ -2788,7 +2965,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 60,
-    "originalImagePath": "/products/banana-smoothie.jpg"
+    "originalImagePath": "/products/banana-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "strawberry-smoothie",
@@ -2833,7 +3013,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 61,
-    "originalImagePath": "/products/strawberry-smoothie.jpg"
+    "originalImagePath": "/products/strawberry-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "banana-kiwi-smoothie",
@@ -2878,7 +3061,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 62,
-    "originalImagePath": "/products/banana-kiwi-smoothie.jpg"
+    "originalImagePath": "/products/banana-kiwi-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "orange-grapefruit-smoothie",
@@ -2921,7 +3107,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 63,
-    "originalImagePath": "/products/orange-grapefruit-smoothie.jpg"
+    "originalImagePath": "/products/orange-grapefruit-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "lemon-smoothie",
@@ -2966,7 +3155,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 64,
-    "originalImagePath": "/products/lemon-smoothie.jpg"
+    "originalImagePath": "/products/lemon-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "lime-smoothie",
@@ -3011,7 +3203,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 65,
-    "originalImagePath": "/products/lime-smoothie.jpg"
+    "originalImagePath": "/products/lime-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "apple-smoothie",
@@ -3056,7 +3251,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 66,
-    "originalImagePath": "/products/apple-smoothie.jpg"
+    "originalImagePath": "/products/apple-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "mango-smoothie",
@@ -3101,7 +3299,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 67,
-    "originalImagePath": "/products/mango-smoothie.jpg"
+    "originalImagePath": "/products/mango-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "avocado-smoothie",
@@ -3146,7 +3347,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 68,
-    "originalImagePath": "/products/avocado-smoothie.jpg"
+    "originalImagePath": "/products/avocado-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "berry-mix-smoothie",
@@ -3191,7 +3395,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 69,
-    "originalImagePath": "/products/berry-mix-smoothie.jpg"
+    "originalImagePath": "/products/berry-mix-smoothie.jpg",
+    "subcategory": "fruit",
+    "temperature": "iced",
+    "legacyCategory": "smoothie"
   },
   {
     "id": "oreo-shake",
@@ -3239,7 +3446,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 70,
-    "originalImagePath": "/products/oreo-shake.jpg"
+    "originalImagePath": "/products/oreo-shake.jpg",
+    "subcategory": "gourmet",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "cookies-shake",
@@ -3286,7 +3496,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 71,
-    "originalImagePath": "/products/cookies-shake.jpg"
+    "originalImagePath": "/products/cookies-shake.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "nutella-frappuccino",
@@ -3335,7 +3548,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 72,
-    "originalImagePath": "/products/nutella-frappuccino.jpg"
+    "originalImagePath": "/products/nutella-frappuccino.jpg",
+    "subcategory": "gourmet",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "caramel-frappuccino",
@@ -3382,7 +3598,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 73,
-    "originalImagePath": "/products/caramel-frappuccino.jpg"
+    "originalImagePath": "/products/caramel-frappuccino.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "berry-charge",
@@ -3428,7 +3647,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 74,
-    "originalImagePath": "/products/berry-charge.jpg"
+    "originalImagePath": "/products/berry-charge.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "coffee-frappuccino",
@@ -3476,7 +3698,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 75,
-    "originalImagePath": "/products/coffee-frappuccino.jpg"
+    "originalImagePath": "/products/coffee-frappuccino.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "vanilla-shake",
@@ -3522,7 +3747,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 76,
-    "originalImagePath": "/products/vanilla-shake.jpg"
+    "originalImagePath": "/products/vanilla-shake.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "chocolate-shake",
@@ -3569,7 +3797,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 77,
-    "originalImagePath": "/products/chocolate-shake.jpg"
+    "originalImagePath": "/products/chocolate-shake.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "banana-shake",
@@ -3615,7 +3846,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 78,
-    "originalImagePath": "/products/banana-shake.jpg"
+    "originalImagePath": "/products/banana-shake.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "salted-caramel-shake",
@@ -3661,7 +3895,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 79,
-    "originalImagePath": "/products/salted-caramel-shake.jpg"
+    "originalImagePath": "/products/salted-caramel-shake.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "strawberry-shake",
@@ -3707,7 +3944,10 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 80,
-    "originalImagePath": "/products/strawberry-shake.jpg"
+    "originalImagePath": "/products/strawberry-shake.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   },
   {
     "id": "peanut-butter-shake",
@@ -3755,6 +3995,9 @@
     "isNew": false,
     "isVisible": true,
     "sortOrder": 81,
-    "originalImagePath": "/products/peanut-butter-shake.jpg"
+    "originalImagePath": "/products/peanut-butter-shake.jpg",
+    "subcategory": "classic",
+    "temperature": "iced",
+    "legacyCategory": "milkshake"
   }
 ]

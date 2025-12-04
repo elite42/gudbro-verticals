@@ -1,10 +1,36 @@
 /**
- * GUDBRO Coffee House - Categories Configuration
+ * GUDBRO Coffee House - Categories Configuration v2.0
  *
- * Defines menu categories for both:
+ * Hierarchical structure:
+ * - LEVEL 0: Temperature (hot/cold) - macro-category
+ * - LEVEL 1: Base category (coffee, tea, matcha, smoothie, milkshake)
+ * - LEVEL 2: Subcategory (espresso-based, milk-based, signature, etc.)
+ *
+ * Supports:
  * - Chat-style interface (conversational ordering)
  * - Classic menu interface (grid/list view)
+ * - Temperature-based filtering
  */
+
+// =============================================================================
+// TYPES
+// =============================================================================
+
+export type Temperature = 'hot' | 'iced' | 'both';
+
+export interface Subcategory {
+  id: string;
+  name: {
+    en: string;
+    it: string;
+    vi: string;
+  };
+  description?: {
+    en: string;
+    it: string;
+    vi: string;
+  };
+}
 
 export interface Category {
   id: string;
@@ -24,6 +50,13 @@ export interface Category {
   sortOrder: number;
   isVisible: boolean;
 
+  // Temperature info
+  temperature: Temperature;
+  temperatureIcon?: string; // 🔥 for hot, ❄️ for iced
+
+  // Subcategories
+  subcategories?: Subcategory[];
+
   // Chat-style quick prompts
   quickPrompts: {
     en: string[];
@@ -39,57 +72,254 @@ export interface Category {
   productCount?: number;
 }
 
-export const categories: Category[] = [
+// =============================================================================
+// SUBCATEGORIES DEFINITIONS
+// =============================================================================
+
+export const coffeeSubcategories: Subcategory[] = [
   {
-    id: 'espresso',
-    slug: 'espresso',
+    id: 'espresso-based',
+    name: { en: 'Espresso Based', it: 'A Base Espresso', vi: 'Nền Espresso' },
+    description: {
+      en: 'Pure espresso drinks - single, double, americano, macchiato',
+      it: 'Bevande a base espresso puro - singolo, doppio, americano, macchiato',
+      vi: 'Đồ uống espresso nguyên chất - đơn, đôi, americano, macchiato'
+    }
+  },
+  {
+    id: 'milk-based',
+    name: { en: 'Milk Based', it: 'Con Latte', vi: 'Có Sữa' },
+    description: {
+      en: 'Espresso with steamed milk - latte, cappuccino, flat white',
+      it: 'Espresso con latte - latte, cappuccino, flat white',
+      vi: 'Espresso với sữa - latte, cappuccino, flat white'
+    }
+  },
+  {
+    id: 'signature',
+    name: { en: 'Signature', it: 'Speciali', vi: 'Đặc Biệt' },
+    description: {
+      en: 'Creative house specialties with chocolate, caramel, and unique flavors',
+      it: 'Specialità della casa con cioccolato, caramello e sapori unici',
+      vi: 'Đặc sản của quán với socola, caramel và hương vị độc đáo'
+    }
+  },
+  {
+    id: 'cold-brew',
+    name: { en: 'Cold Brew', it: 'Cold Brew', vi: 'Cold Brew' },
+    description: {
+      en: 'Slow-steeped cold coffee - smooth, naturally sweet, low acidity',
+      it: 'Caffè estratto a freddo - morbido, dolce naturale, bassa acidità',
+      vi: 'Cà phê ủ lạnh - mượt, ngọt tự nhiên, ít axit'
+    }
+  },
+  {
+    id: 'blended',
+    name: { en: 'Blended / Frappé', it: 'Frappé', vi: 'Xay Đá' },
+    description: {
+      en: 'Ice-blended coffee drinks - frappuccino style',
+      it: 'Bevande al caffè frullate con ghiaccio - stile frappuccino',
+      vi: 'Đồ uống cà phê xay đá - kiểu frappuccino'
+    }
+  }
+];
+
+export const teaSubcategories: Subcategory[] = [
+  {
+    id: 'black-tea',
+    name: { en: 'Black Tea', it: 'Tè Nero', vi: 'Trà Đen' },
+    description: {
+      en: 'Fully oxidized teas - rich, malty, robust flavor',
+      it: 'Tè completamente ossidati - ricchi, maltati, sapore robusto',
+      vi: 'Trà oxy hóa hoàn toàn - đậm đà, hương lúa mạch'
+    }
+  },
+  {
+    id: 'green-tea',
+    name: { en: 'Green Tea', it: 'Tè Verde', vi: 'Trà Xanh' },
+    description: {
+      en: 'Unoxidized teas - fresh, grassy, delicate flavor',
+      it: 'Tè non ossidati - freschi, erbacei, sapore delicato',
+      vi: 'Trà không oxy hóa - tươi, hương cỏ, tinh tế'
+    }
+  },
+  {
+    id: 'herbal-tisane',
+    name: { en: 'Herbal & Tisane', it: 'Tisane', vi: 'Trà Thảo Mộc' },
+    description: {
+      en: 'Caffeine-free herbal infusions - chamomile, peppermint, hibiscus',
+      it: 'Infusi alle erbe senza caffeina - camomilla, menta, ibisco',
+      vi: 'Trà thảo mộc không caffeine - hoa cúc, bạc hà, dâm bụt'
+    }
+  },
+  {
+    id: 'chai',
+    name: { en: 'Chai & Spiced', it: 'Chai e Speziati', vi: 'Trà Chai' },
+    description: {
+      en: 'Spiced tea blends - masala chai, dirty chai, chai latte',
+      it: 'Miscele di tè speziato - masala chai, dirty chai, chai latte',
+      vi: 'Trà gia vị - masala chai, dirty chai, chai latte'
+    }
+  }
+];
+
+export const matchaSubcategories: Subcategory[] = [
+  {
+    id: 'ceremonial',
+    name: { en: 'Ceremonial Pure', it: 'Cerimoniale Puro', vi: 'Nguyên Chất' },
+    description: {
+      en: 'Highest grade matcha whisked with water only',
+      it: 'Matcha di grado più alto solo con acqua',
+      vi: 'Matcha cao cấp nhất chỉ với nước'
+    }
+  },
+  {
+    id: 'latte-grade',
+    name: { en: 'Matcha Latte', it: 'Matcha Latte', vi: 'Matcha Latte' },
+    description: {
+      en: 'Premium matcha blended with milk - hot or iced',
+      it: 'Matcha premium miscelato con latte - caldo o freddo',
+      vi: 'Matcha cao cấp với sữa - nóng hoặc đá'
+    }
+  },
+  {
+    id: 'matcha-signature',
+    name: { en: 'Matcha Creations', it: 'Creazioni Matcha', vi: 'Sáng Tạo Matcha' },
+    description: {
+      en: 'Creative matcha drinks with unique flavors',
+      it: 'Bevande matcha creative con sapori unici',
+      vi: 'Đồ uống matcha sáng tạo với hương vị độc đáo'
+    }
+  }
+];
+
+export const smoothieSubcategories: Subcategory[] = [
+  {
+    id: 'fruit',
+    name: { en: 'Fruit Smoothie', it: 'Smoothie alla Frutta', vi: 'Sinh Tố Trái Cây' },
+    description: {
+      en: 'Fresh fruit blends - berry, tropical, citrus',
+      it: 'Mix di frutta fresca - frutti di bosco, tropicale, agrumi',
+      vi: 'Sinh tố trái cây tươi - berry, nhiệt đới, cam quýt'
+    }
+  },
+  {
+    id: 'green-detox',
+    name: { en: 'Green & Detox', it: 'Verde e Detox', vi: 'Xanh & Detox' },
+    description: {
+      en: 'Healthy green smoothies with spinach, kale, and superfoods',
+      it: 'Smoothie verdi salutari con spinaci, cavolo e superfood',
+      vi: 'Sinh tố xanh lành mạnh với rau bina, cải xoăn và superfood'
+    }
+  },
+  {
+    id: 'protein',
+    name: { en: 'Protein', it: 'Proteico', vi: 'Protein' },
+    description: {
+      en: 'High protein smoothies for fitness and energy',
+      it: 'Smoothie ad alto contenuto proteico per fitness ed energia',
+      vi: 'Sinh tố giàu protein cho thể lực và năng lượng'
+    }
+  }
+];
+
+export const milkshakeSubcategories: Subcategory[] = [
+  {
+    id: 'classic',
+    name: { en: 'Classic', it: 'Classici', vi: 'Cổ Điển' },
+    description: {
+      en: 'Traditional milkshake flavors - vanilla, chocolate, strawberry',
+      it: 'Gusti classici - vaniglia, cioccolato, fragola',
+      vi: 'Hương vị cổ điển - vanilla, socola, dâu tây'
+    }
+  },
+  {
+    id: 'gourmet',
+    name: { en: 'Gourmet & Premium', it: 'Gourmet e Premium', vi: 'Cao Cấp' },
+    description: {
+      en: 'Indulgent specialty shakes - Nutella, Oreo, Kinder, Snickers',
+      it: 'Frappè speciali golosi - Nutella, Oreo, Kinder, Snickers',
+      vi: 'Milkshake đặc biệt - Nutella, Oreo, Kinder, Snickers'
+    }
+  }
+];
+
+// =============================================================================
+// MAIN CATEGORIES
+// =============================================================================
+
+export const categories: Category[] = [
+  // ─────────────────────────────────────────────────────────────────────────
+  // HOT COFFEE
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    id: 'hot-coffee',
+    slug: 'hot-coffee',
     name: {
-      en: 'Espresso',
-      it: 'Espresso',
-      vi: 'Espresso'
+      en: 'Hot Coffee',
+      it: 'Caffè Caldo',
+      vi: 'Cà Phê Nóng'
     },
     description: {
-      en: 'Classic Italian coffee drinks - the foundation of great coffee',
-      it: 'Classici italiani - la base del grande caffè',
-      vi: 'Cà phê Ý cổ điển - nền tảng của cà phê tuyệt vời'
+      en: 'Espresso-based hot drinks - from classic to creative',
+      it: 'Bevande calde a base espresso - dal classico al creativo',
+      vi: 'Đồ uống nóng từ espresso - từ cổ điển đến sáng tạo'
     },
     icon: '☕',
-    image: '/categories/espresso.jpg',
+    temperatureIcon: '🔥',
+    temperature: 'hot',
+    image: '/categories/hot-coffee.jpg',
     sortOrder: 1,
     isVisible: true,
+    subcategories: coffeeSubcategories.filter(s =>
+      ['espresso-based', 'milk-based', 'signature'].includes(s.id)
+    ),
     quickPrompts: {
-      en: ['I need a coffee', 'Something strong', 'Classic espresso'],
-      it: ['Vorrei un caffè', 'Qualcosa di forte', 'Un espresso classico'],
-      vi: ['Tôi cần cà phê', 'Gì đó đậm', 'Espresso cổ điển']
+      en: ['I need a coffee', 'Something hot', 'Classic espresso', 'Cappuccino please'],
+      it: ['Vorrei un caffè', 'Qualcosa di caldo', 'Un espresso classico', 'Un cappuccino'],
+      vi: ['Tôi cần cà phê', 'Gì đó nóng', 'Espresso cổ điển', 'Cappuccino']
     },
-    tags: ['coffee', 'caffeine', 'classic', 'italian'],
+    tags: ['coffee', 'caffeine', 'hot', 'espresso', 'milk'],
     defaultTimeSlots: ['breakfast', 'morning', 'afternoon']
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // ICED COFFEE
+  // ─────────────────────────────────────────────────────────────────────────
   {
-    id: 'signature-coffee',
-    slug: 'signature-coffee',
+    id: 'iced-coffee',
+    slug: 'iced-coffee',
     name: {
-      en: 'Signature Coffee',
-      it: 'Caffè Speciali',
-      vi: 'Cà Phê Đặc Biệt'
+      en: 'Iced Coffee',
+      it: 'Caffè Freddo',
+      vi: 'Cà Phê Đá'
     },
     description: {
-      en: 'Creative coffee creations with chocolate, caramel, and more',
-      it: 'Creazioni creative con cioccolato, caramello e altro',
-      vi: 'Sáng tạo cà phê với socola, caramel và nhiều hơn'
+      en: 'Cold coffee drinks - iced latte, cold brew, frappé',
+      it: 'Bevande al caffè fredde - latte ghiacciato, cold brew, frappé',
+      vi: 'Đồ uống cà phê lạnh - latte đá, cold brew, frappé'
     },
-    icon: '✨',
-    image: '/categories/signature.jpg',
+    icon: '🧊',
+    temperatureIcon: '❄️',
+    temperature: 'iced',
+    image: '/categories/iced-coffee.jpg',
     sortOrder: 2,
     isVisible: true,
+    subcategories: coffeeSubcategories.filter(s =>
+      ['cold-brew', 'blended', 'signature'].includes(s.id)
+    ),
     quickPrompts: {
-      en: ['Something special', 'With chocolate', 'Surprise me'],
-      it: ['Qualcosa di speciale', 'Con cioccolato', 'Sorprendimi'],
-      vi: ['Gì đó đặc biệt', 'Có socola', 'Gây ngạc nhiên cho tôi']
+      en: ['Iced coffee', 'Something cold', 'Cold brew', 'Frappuccino'],
+      it: ['Caffè freddo', 'Qualcosa di freddo', 'Cold brew', 'Frappuccino'],
+      vi: ['Cà phê đá', 'Gì đó lạnh', 'Cold brew', 'Frappuccino']
     },
-    tags: ['coffee', 'dessert', 'chocolate', 'creative', 'indulgent'],
-    defaultTimeSlots: ['afternoon', 'evening']
+    tags: ['coffee', 'caffeine', 'iced', 'cold', 'refreshing'],
+    defaultTimeSlots: ['morning', 'afternoon', 'evening']
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // MATCHA
+  // ─────────────────────────────────────────────────────────────────────────
   {
     id: 'matcha',
     slug: 'matcha',
@@ -99,47 +329,59 @@ export const categories: Category[] = [
       vi: 'Matcha'
     },
     description: {
-      en: 'Japanese green tea powder drinks - healthy and energizing',
-      it: 'Bevande al tè verde giapponese - salutari ed energizzanti',
-      vi: 'Đồ uống bột trà xanh Nhật Bản - lành mạnh và tràn đầy năng lượng'
+      en: 'Japanese green tea powder - ceremonial and latte styles',
+      it: 'Tè verde giapponese in polvere - cerimoniale e latte',
+      vi: 'Bột trà xanh Nhật Bản - nghi lễ và latte'
     },
     icon: '🍵',
+    temperature: 'both',
     image: '/categories/matcha.jpg',
     sortOrder: 3,
     isVisible: true,
+    subcategories: matchaSubcategories,
     quickPrompts: {
-      en: ['Matcha please', 'Something healthy', 'Green tea latte'],
-      it: ['Un matcha', 'Qualcosa di salutare', 'Latte al tè verde'],
-      vi: ['Matcha', 'Gì đó lành mạnh', 'Latte trà xanh']
+      en: ['Matcha please', 'Green tea latte', 'Something healthy', 'Iced matcha'],
+      it: ['Un matcha', 'Latte al tè verde', 'Qualcosa di salutare', 'Matcha freddo'],
+      vi: ['Matcha', 'Latte trà xanh', 'Gì đó lành mạnh', 'Matcha đá']
     },
-    tags: ['tea', 'healthy', 'japanese', 'antioxidant', 'caffeine'],
+    tags: ['tea', 'matcha', 'healthy', 'japanese', 'antioxidant', 'caffeine'],
     defaultTimeSlots: ['morning', 'afternoon']
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // TEA & INFUSIONS
+  // ─────────────────────────────────────────────────────────────────────────
   {
     id: 'tea',
     slug: 'tea',
     name: {
       en: 'Tea & Infusions',
-      it: 'Tè e Infusi',
-      vi: 'Trà & Trà Thảo Mộc'
+      it: 'Tè e Tisane',
+      vi: 'Trà & Thảo Mộc'
     },
     description: {
-      en: 'Hot and iced teas, herbal infusions, and fruit blends',
-      it: 'Tè caldi e freddi, infusi alle erbe e mix di frutta',
-      vi: 'Trà nóng và lạnh, trà thảo mộc và trà trái cây'
+      en: 'Black, green, herbal teas and spiced chai',
+      it: 'Tè nero, verde, tisane e chai speziato',
+      vi: 'Trà đen, xanh, thảo mộc và chai gia vị'
     },
     icon: '🫖',
+    temperature: 'both',
     image: '/categories/tea.jpg',
     sortOrder: 4,
     isVisible: true,
+    subcategories: teaSubcategories,
     quickPrompts: {
-      en: ['Tea please', 'No coffee', 'Something light', 'Caffeine free'],
-      it: ['Un tè', 'Niente caffè', 'Qualcosa di leggero', 'Senza caffeina'],
-      vi: ['Trà', 'Không cà phê', 'Gì đó nhẹ', 'Không caffeine']
+      en: ['Tea please', 'No coffee', 'Caffeine free', 'Chai latte'],
+      it: ['Un tè', 'Niente caffè', 'Senza caffeina', 'Chai latte'],
+      vi: ['Trà', 'Không cà phê', 'Không caffeine', 'Chai latte']
     },
-    tags: ['tea', 'herbal', 'fruit', 'caffeine-free-options', 'light'],
+    tags: ['tea', 'herbal', 'chai', 'caffeine-free-options', 'healthy'],
     defaultTimeSlots: ['all-day']
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // SMOOTHIES
+  // ─────────────────────────────────────────────────────────────────────────
   {
     id: 'smoothie',
     slug: 'smoothie',
@@ -149,22 +391,29 @@ export const categories: Category[] = [
       vi: 'Sinh Tố'
     },
     description: {
-      en: 'Fresh fruit smoothies - refreshing and nutritious',
-      it: 'Smoothie di frutta fresca - rinfrescanti e nutrienti',
-      vi: 'Sinh tố trái cây tươi - sảng khoái và bổ dưỡng'
+      en: 'Fresh fruit smoothies - fruit, green, and protein',
+      it: 'Smoothie di frutta fresca - frutta, verde e proteico',
+      vi: 'Sinh tố trái cây tươi - trái cây, xanh và protein'
     },
     icon: '🥤',
+    temperatureIcon: '❄️',
+    temperature: 'iced',
     image: '/categories/smoothie.jpg',
     sortOrder: 5,
     isVisible: true,
+    subcategories: smoothieSubcategories,
     quickPrompts: {
-      en: ['Something fresh', 'Fruit drink', 'Healthy option', 'No dairy'],
-      it: ['Qualcosa di fresco', 'Bevanda alla frutta', 'Opzione salutare', 'Senza latticini'],
-      vi: ['Gì đó tươi mát', 'Đồ uống trái cây', 'Lựa chọn lành mạnh', 'Không sữa']
+      en: ['Fresh smoothie', 'Fruit drink', 'Green detox', 'Protein shake'],
+      it: ['Smoothie fresco', 'Bevanda alla frutta', 'Detox verde', 'Shake proteico'],
+      vi: ['Sinh tố tươi', 'Đồ uống trái cây', 'Detox xanh', 'Shake protein']
     },
     tags: ['fruit', 'healthy', 'fresh', 'vitamins', 'caffeine-free'],
     defaultTimeSlots: ['morning', 'afternoon']
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // MILKSHAKES
+  // ─────────────────────────────────────────────────────────────────────────
   {
     id: 'milkshake',
     slug: 'milkshake',
@@ -174,25 +423,50 @@ export const categories: Category[] = [
       vi: 'Sữa Lắc'
     },
     description: {
-      en: 'Creamy ice cream shakes - indulgent dessert drinks',
-      it: 'Frappè cremosi al gelato - bevande dessert golose',
-      vi: 'Sữa lắc kem béo - đồ uống tráng miệng thưởng thức'
+      en: 'Creamy ice cream shakes - classic and gourmet',
+      it: 'Frappè cremosi al gelato - classici e gourmet',
+      vi: 'Sữa lắc kem béo - cổ điển và cao cấp'
     },
     icon: '🥛',
+    temperatureIcon: '❄️',
+    temperature: 'iced',
     image: '/categories/milkshake.jpg',
     sortOrder: 6,
     isVisible: true,
+    subcategories: milkshakeSubcategories,
     quickPrompts: {
-      en: ['Milkshake', 'Something sweet', 'Ice cream drink', 'Dessert'],
-      it: ['Un frappè', 'Qualcosa di dolce', 'Bevanda al gelato', 'Dessert'],
-      vi: ['Sữa lắc', 'Gì đó ngọt', 'Đồ uống kem', 'Tráng miệng']
+      en: ['Milkshake', 'Something sweet', 'Ice cream drink', 'Nutella shake'],
+      it: ['Un frappè', 'Qualcosa di dolce', 'Bevanda al gelato', 'Frappè Nutella'],
+      vi: ['Sữa lắc', 'Gì đó ngọt', 'Đồ uống kem', 'Shake Nutella']
     },
     tags: ['dessert', 'ice-cream', 'sweet', 'indulgent', 'creamy'],
     defaultTimeSlots: ['afternoon', 'evening']
   }
 ];
 
-// Helper functions
+// =============================================================================
+// TEMPERATURE HELPERS
+// =============================================================================
+
+export const TEMPERATURE_ICONS = {
+  hot: '🔥',
+  iced: '❄️',
+  both: '🔥❄️'
+} as const;
+
+export const getTemperatureIcon = (temp: Temperature): string =>
+  TEMPERATURE_ICONS[temp] || '';
+
+export const getHotCategories = (): Category[] =>
+  categories.filter(c => c.temperature === 'hot' || c.temperature === 'both');
+
+export const getIcedCategories = (): Category[] =>
+  categories.filter(c => c.temperature === 'iced' || c.temperature === 'both');
+
+// =============================================================================
+// CATEGORY HELPERS
+// =============================================================================
+
 export const getCategoryById = (id: string): Category | undefined =>
   categories.find(c => c.id === id);
 
@@ -208,13 +482,34 @@ export const getCategoryIcon = (categoryId: string): string =>
 export const getCategoryName = (categoryId: string, lang: 'en' | 'it' | 'vi' = 'en'): string =>
   getCategoryById(categoryId)?.name[lang] || categoryId;
 
-// Category stats
+export const getSubcategoryById = (categoryId: string, subcategoryId: string): Subcategory | undefined => {
+  const category = getCategoryById(categoryId);
+  return category?.subcategories?.find(s => s.id === subcategoryId);
+};
+
+// =============================================================================
+// LEGACY MAPPING (for backward compatibility)
+// =============================================================================
+
+// Maps old category IDs to new ones
+export const LEGACY_CATEGORY_MAP: Record<string, string> = {
+  'espresso': 'hot-coffee',
+  'signature-coffee': 'hot-coffee', // or 'iced-coffee' depending on product
+};
+
+export const mapLegacyCategory = (oldId: string): string =>
+  LEGACY_CATEGORY_MAP[oldId] || oldId;
+
+// =============================================================================
+// CATEGORY STATS
+// =============================================================================
+
 export const CATEGORY_COUNTS = {
-  espresso: 16,
-  'signature-coffee': 18,
-  matcha: 10,
-  tea: 15,
-  smoothie: 10,
-  milkshake: 12,
-  total: 81
+  'hot-coffee': 26,      // espresso-based + milk-based + some signature
+  'iced-coffee': 22,     // cold versions + cold brew + blended
+  'matcha': 10,
+  'tea': 15,
+  'smoothie': 10,
+  'milkshake': 12,
+  total: 81              // Note: some products count in both hot and iced
 };
