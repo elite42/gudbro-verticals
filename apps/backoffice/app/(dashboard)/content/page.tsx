@@ -11,8 +11,16 @@ const contentTypes = [
     icon: '🍽️',
     title: 'Menu & Products',
     description: 'Manage your menu items, categories, and prices',
-    count: 24,
+    count: 81,
     link: '/content/menu',
+  },
+  {
+    id: 'recipes' as ContentType,
+    icon: '📖',
+    title: 'Recipes',
+    description: 'Professional barista recipes with methods and tips',
+    count: 22,
+    link: '/content/recipes',
   },
   {
     id: 'ingredients' as ContentType,

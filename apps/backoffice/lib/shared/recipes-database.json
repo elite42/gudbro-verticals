@@ -1,0 +1,2255 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-12-04",
+  "recipes": [
+    {
+      "id": "espresso-single",
+      "name": {
+        "en": "Espresso (Single Shot)",
+        "it": "Espresso Singolo",
+        "vi": "Espresso Đơn"
+      },
+      "category": "hot-coffee",
+      "subcategory": "espresso-based",
+      "temperature": "hot",
+      "description": {
+        "en": "The foundation of all espresso drinks. A concentrated shot with rich crema.",
+        "it": "La base di tutte le bevande espresso. Uno shot concentrato con crema ricca.",
+        "vi": "Nền tảng của tất cả đồ uống espresso. Một shot đậm đặc với crema phong phú."
+      },
+      "servingSize": {
+        "volume": 30,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "ground-coffee",
+          "amount": 9,
+          "unit": "g",
+          "notes": "Fine grind, fresh roasted"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "portafilter",
+        "tamper",
+        "espresso-cup"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Dose 9g of freshly ground coffee into portafilter",
+            "duration": 10,
+            "tips": "Use a scale for consistency"
+          },
+          {
+            "order": 2,
+            "action": "Distribute grounds evenly and tamp with 15kg pressure",
+            "duration": 5,
+            "tips": "Keep tamper level"
+          },
+          {
+            "order": 3,
+            "action": "Lock portafilter and start extraction immediately",
+            "duration": 5,
+            "tips": "Purge group head first"
+          },
+          {
+            "order": 4,
+            "action": "Extract at 9 bar, 92-96°C for 25-30 seconds",
+            "duration": 28,
+            "tips": "Target 1:2 ratio (9g in → 18-20g out)"
+          }
+        ],
+        "totalTime": 48,
+        "difficulty": 2
+      },
+      "ratio": "1:2",
+      "ratioExplanation": "9g coffee yields 18-20g liquid espresso",
+      "parameters": {
+        "pressure": { "value": 9, "unit": "bar" },
+        "temperature": { "value": 93, "unit": "°C", "range": [91, 96] },
+        "extractionTime": { "value": 27, "unit": "seconds", "range": [25, 30] },
+        "grindSize": "fine"
+      },
+      "nutrition": {
+        "calories": 2,
+        "caffeine_mg": 63,
+        "protein_g": 0.1,
+        "carbs_g": 0.3,
+        "fat_g": 0
+      },
+      "baristaTips": [
+        "Fresh beans (7-21 days from roast) are essential",
+        "Adjust grind finer if extraction is too fast",
+        "Look for honey-like flow and tiger striping",
+        "Crema should be golden-brown, 2-3mm thick"
+      ],
+      "variations": [
+        {
+          "name": "Ristretto",
+          "modification": "Use same dose, extract only 15g (1:1.5 ratio)",
+          "result": "More concentrated, sweeter, less bitter"
+        },
+        {
+          "name": "Lungo",
+          "modification": "Extract to 45-50g (1:5 ratio)",
+          "result": "More volume, lighter body, more bitter notes"
+        }
+      ]
+    },
+    {
+      "id": "espresso-double",
+      "name": {
+        "en": "Espresso (Double Shot)",
+        "it": "Espresso Doppio",
+        "vi": "Espresso Đôi"
+      },
+      "category": "hot-coffee",
+      "subcategory": "espresso-based",
+      "temperature": "hot",
+      "description": {
+        "en": "Double the intensity. The standard base for most milk drinks.",
+        "it": "Doppia intensità. La base standard per la maggior parte delle bevande al latte.",
+        "vi": "Gấp đôi cường độ. Nền tảng tiêu chuẩn cho hầu hết đồ uống sữa."
+      },
+      "servingSize": {
+        "volume": 60,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "ground-coffee",
+          "amount": 18,
+          "unit": "g",
+          "notes": "Fine grind, fresh roasted"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "portafilter",
+        "tamper",
+        "espresso-cup"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Dose 18g of freshly ground coffee into portafilter",
+            "duration": 10,
+            "tips": "Use double basket"
+          },
+          {
+            "order": 2,
+            "action": "Distribute and tamp evenly",
+            "duration": 5,
+            "tips": "WDT tool helps distribution"
+          },
+          {
+            "order": 3,
+            "action": "Extract at 9 bar for 25-30 seconds",
+            "duration": 28,
+            "tips": "Target 36-40g output"
+          }
+        ],
+        "totalTime": 45,
+        "difficulty": 2
+      },
+      "ratio": "1:2",
+      "ratioExplanation": "18g coffee yields 36-40g liquid espresso",
+      "parameters": {
+        "pressure": { "value": 9, "unit": "bar" },
+        "temperature": { "value": 93, "unit": "°C" },
+        "extractionTime": { "value": 28, "unit": "seconds" },
+        "grindSize": "fine"
+      },
+      "nutrition": {
+        "calories": 4,
+        "caffeine_mg": 126,
+        "protein_g": 0.2,
+        "carbs_g": 0.6,
+        "fat_g": 0
+      }
+    },
+    {
+      "id": "americano-hot",
+      "name": {
+        "en": "Americano",
+        "it": "Caffè Americano",
+        "vi": "Americano"
+      },
+      "category": "hot-coffee",
+      "subcategory": "espresso-based",
+      "temperature": "hot",
+      "description": {
+        "en": "Espresso diluted with hot water. Similar strength to drip coffee but with espresso character.",
+        "it": "Espresso diluito con acqua calda. Forza simile al caffè filtro ma con carattere espresso.",
+        "vi": "Espresso pha loãng với nước nóng. Độ đậm tương tự cà phê phin nhưng có đặc trưng espresso."
+      },
+      "servingSize": {
+        "volume": 240,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-double",
+          "amount": 60,
+          "unit": "ml",
+          "notes": "Freshly extracted"
+        },
+        {
+          "item": "hot-water",
+          "amount": 180,
+          "unit": "ml",
+          "notes": "90-95°C, not boiling"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "tall-mug"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Pull double espresso shot",
+            "duration": 30,
+            "tips": "Into a separate cup first"
+          },
+          {
+            "order": 2,
+            "action": "Add hot water to mug",
+            "duration": 10,
+            "tips": "Water first preserves crema"
+          },
+          {
+            "order": 3,
+            "action": "Pour espresso gently over water",
+            "duration": 5,
+            "tips": "Crema floats on top"
+          }
+        ],
+        "totalTime": 50,
+        "difficulty": 1
+      },
+      "ratio": "1:3",
+      "ratioExplanation": "60ml espresso + 180ml water",
+      "nutrition": {
+        "calories": 4,
+        "caffeine_mg": 126,
+        "protein_g": 0.2,
+        "carbs_g": 0.6,
+        "fat_g": 0
+      },
+      "baristaTips": [
+        "Add water first to preserve crema layer",
+        "Don't use boiling water - it scalds the espresso",
+        "Adjust water ratio to customer preference"
+      ],
+      "variations": [
+        {
+          "name": "Long Black",
+          "modification": "Pour espresso over water (Australian style)",
+          "result": "Better crema preservation"
+        },
+        {
+          "name": "Iced Americano",
+          "modification": "Use cold water and ice",
+          "result": "Refreshing cold version"
+        }
+      ]
+    },
+    {
+      "id": "cappuccino",
+      "name": {
+        "en": "Cappuccino",
+        "it": "Cappuccino",
+        "vi": "Cappuccino"
+      },
+      "category": "hot-coffee",
+      "subcategory": "milk-based",
+      "temperature": "hot",
+      "description": {
+        "en": "The perfect balance of espresso, steamed milk, and velvety foam. A morning classic.",
+        "it": "L'equilibrio perfetto di espresso, latte caldo e schiuma vellutata. Un classico mattutino.",
+        "vi": "Sự cân bằng hoàn hảo của espresso, sữa nóng và bọt mịn như nhung. Một ly cổ điển buổi sáng."
+      },
+      "servingSize": {
+        "volume": 180,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-double",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 120,
+          "unit": "ml",
+          "notes": "Creates 60ml steamed milk + 60ml foam"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "steam-wand",
+        "milk-pitcher",
+        "cappuccino-cup"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Pour cold milk into pitcher",
+            "duration": 5,
+            "tips": "Fill to just below spout"
+          },
+          {
+            "order": 2,
+            "action": "Purge steam wand, position tip just below surface",
+            "duration": 5,
+            "tips": "Create whirlpool motion"
+          },
+          {
+            "order": 3,
+            "action": "Stretch milk (add air) for first 3-5 seconds",
+            "duration": 5,
+            "tips": "Listen for 'chirping' sound"
+          },
+          {
+            "order": 4,
+            "action": "Submerge tip, continue heating to 60-65°C",
+            "duration": 25,
+            "tips": "Pitcher should be hot but holdable"
+          },
+          {
+            "order": 5,
+            "action": "Pull double espresso into cup",
+            "duration": 28,
+            "tips": "Time with steaming"
+          },
+          {
+            "order": 6,
+            "action": "Tap pitcher, swirl to integrate foam",
+            "duration": 5,
+            "tips": "Remove large bubbles"
+          },
+          {
+            "order": 7,
+            "action": "Pour milk with 1cm layer of foam on top",
+            "duration": 10,
+            "tips": "Hold back foam, then spoon on top"
+          }
+        ],
+        "totalTime": 75,
+        "difficulty": 2
+      },
+      "ratio": "1:1:1",
+      "ratioExplanation": "Equal parts espresso, steamed milk, and foam (60ml each)",
+      "parameters": {
+        "milkTemperature": { "value": 62, "unit": "°C", "range": [60, 65] },
+        "foamThickness": { "value": 10, "unit": "mm" }
+      },
+      "nutrition": {
+        "calories": 80,
+        "caffeine_mg": 126,
+        "protein_g": 5,
+        "carbs_g": 6,
+        "fat_g": 4
+      },
+      "baristaTips": [
+        "Use cold, fresh milk for best foam",
+        "Never reheat milk - proteins break down",
+        "Foam should be glossy and paint-like",
+        "Traditional Italian: served only before 11am"
+      ],
+      "latteArt": {
+        "recommended": ["heart", "tulip", "rosetta"],
+        "difficulty": "medium"
+      }
+    },
+    {
+      "id": "latte-hot",
+      "name": {
+        "en": "Caffè Latte",
+        "it": "Caffè Latte",
+        "vi": "Cà Phê Latte"
+      },
+      "category": "hot-coffee",
+      "subcategory": "milk-based",
+      "temperature": "hot",
+      "description": {
+        "en": "Espresso with steamed milk and a thin layer of microfoam. Smooth and creamy.",
+        "it": "Espresso con latte caldo e un sottile strato di microschiuma. Morbido e cremoso.",
+        "vi": "Espresso với sữa nóng và một lớp bọt vi mô mỏng. Mượt mà và kem."
+      },
+      "servingSize": {
+        "volume": 300,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-double",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 240,
+          "unit": "ml",
+          "notes": "Steamed with thin microfoam"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "steam-wand",
+        "milk-pitcher",
+        "latte-glass"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Steam milk with minimal aeration",
+            "duration": 30,
+            "tips": "Only 1-2 seconds of stretching"
+          },
+          {
+            "order": 2,
+            "action": "Heat to 60-65°C with swirling motion",
+            "duration": 15,
+            "tips": "Milk should be silky, not frothy"
+          },
+          {
+            "order": 3,
+            "action": "Pull double espresso into glass",
+            "duration": 28,
+            "tips": "Use latte glass for presentation"
+          },
+          {
+            "order": 4,
+            "action": "Pour steamed milk, creating thin foam layer",
+            "duration": 15,
+            "tips": "Pour from height, finish close for art"
+          }
+        ],
+        "totalTime": 70,
+        "difficulty": 2
+      },
+      "ratio": "1:4",
+      "ratioExplanation": "60ml espresso + 240ml steamed milk",
+      "parameters": {
+        "milkTemperature": { "value": 62, "unit": "°C" },
+        "foamThickness": { "value": 5, "unit": "mm" }
+      },
+      "nutrition": {
+        "calories": 150,
+        "caffeine_mg": 126,
+        "protein_g": 8,
+        "carbs_g": 12,
+        "fat_g": 6
+      },
+      "latteArt": {
+        "recommended": ["heart", "tulip", "rosetta", "swan"],
+        "difficulty": "medium-hard"
+      },
+      "variations": [
+        {
+          "name": "Vanilla Latte",
+          "modification": "Add 15ml vanilla syrup",
+          "result": "Sweet vanilla flavor"
+        },
+        {
+          "name": "Oat Milk Latte",
+          "modification": "Use barista oat milk",
+          "result": "Slightly sweet, vegan option"
+        }
+      ]
+    },
+    {
+      "id": "flat-white",
+      "name": {
+        "en": "Flat White",
+        "it": "Flat White",
+        "vi": "Flat White"
+      },
+      "category": "hot-coffee",
+      "subcategory": "milk-based",
+      "temperature": "hot",
+      "description": {
+        "en": "Strong espresso with velvety microfoam. Smaller than latte, stronger coffee flavor.",
+        "it": "Espresso forte con microschiuma vellutata. Più piccolo del latte, sapore di caffè più intenso.",
+        "vi": "Espresso đậm với bọt vi mô mịn như nhung. Nhỏ hơn latte, hương vị cà phê đậm hơn."
+      },
+      "servingSize": {
+        "volume": 200,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-double-ristretto",
+          "amount": 60,
+          "unit": "ml",
+          "notes": "Double ristretto preferred"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 140,
+          "unit": "ml",
+          "notes": "Steamed to velvety microfoam"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "steam-wand",
+        "milk-pitcher",
+        "ceramic-cup"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Pull double ristretto (shorter extraction)",
+            "duration": 25,
+            "tips": "Target 30-35g output for 18g dose"
+          },
+          {
+            "order": 2,
+            "action": "Steam milk with very fine microfoam",
+            "duration": 25,
+            "tips": "Almost no visible bubbles"
+          },
+          {
+            "order": 3,
+            "action": "Pour with integrated milk and foam",
+            "duration": 15,
+            "tips": "Fold milk through espresso"
+          }
+        ],
+        "totalTime": 70,
+        "difficulty": 3
+      },
+      "ratio": "1:2.3",
+      "ratioExplanation": "60ml ristretto + 140ml microfoam milk",
+      "parameters": {
+        "milkTemperature": { "value": 60, "unit": "°C" },
+        "foamThickness": { "value": 3, "unit": "mm" }
+      },
+      "nutrition": {
+        "calories": 100,
+        "caffeine_mg": 130,
+        "protein_g": 6,
+        "carbs_g": 9,
+        "fat_g": 5
+      },
+      "baristaTips": [
+        "Microfoam should be glossy like wet paint",
+        "Ristretto gives sweeter, more intense flavor",
+        "Pour through the crema for integration",
+        "Originated in Australia/New Zealand"
+      ]
+    },
+    {
+      "id": "mocha",
+      "name": {
+        "en": "Caffè Mocha",
+        "it": "Mocaccino",
+        "vi": "Mocha"
+      },
+      "category": "hot-coffee",
+      "subcategory": "milk-based",
+      "temperature": "hot",
+      "description": {
+        "en": "Espresso with chocolate and steamed milk. The perfect dessert coffee.",
+        "it": "Espresso con cioccolato e latte caldo. Il caffè dessert perfetto.",
+        "vi": "Espresso với socola và sữa nóng. Cà phê tráng miệng hoàn hảo."
+      },
+      "servingSize": {
+        "volume": 300,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-double",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "item": "chocolate-sauce",
+          "amount": 20,
+          "unit": "ml",
+          "notes": "High quality, not too sweet"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 180,
+          "unit": "ml"
+        },
+        {
+          "item": "whipped-cream",
+          "amount": 30,
+          "unit": "g",
+          "optional": true
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "steam-wand",
+        "milk-pitcher",
+        "glass-mug"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Add chocolate sauce to cup",
+            "duration": 5,
+            "tips": "Warm the cup first"
+          },
+          {
+            "order": 2,
+            "action": "Pull double espresso over chocolate",
+            "duration": 28,
+            "tips": "Stir to combine"
+          },
+          {
+            "order": 3,
+            "action": "Steam milk to 60-65°C",
+            "duration": 25,
+            "tips": "Medium foam"
+          },
+          {
+            "order": 4,
+            "action": "Pour steamed milk, top with cream",
+            "duration": 15,
+            "tips": "Optional: chocolate drizzle"
+          }
+        ],
+        "totalTime": 90,
+        "difficulty": 2
+      },
+      "nutrition": {
+        "calories": 290,
+        "caffeine_mg": 126,
+        "protein_g": 8,
+        "carbs_g": 35,
+        "fat_g": 12
+      },
+      "variations": [
+        {
+          "name": "White Mocha",
+          "modification": "Use white chocolate sauce",
+          "result": "Sweeter, creamier"
+        },
+        {
+          "name": "Iced Mocha",
+          "modification": "Use cold milk and ice",
+          "result": "Refreshing summer drink"
+        }
+      ]
+    },
+    {
+      "id": "cold-brew-classic",
+      "name": {
+        "en": "Cold Brew Coffee",
+        "it": "Cold Brew",
+        "vi": "Cà Phê Cold Brew"
+      },
+      "category": "iced-coffee",
+      "subcategory": "cold-brew",
+      "temperature": "iced",
+      "description": {
+        "en": "Smooth, naturally sweet coffee steeped in cold water for 12-24 hours. Low acidity, high caffeine.",
+        "it": "Caffè morbido, naturalmente dolce, infuso in acqua fredda per 12-24 ore. Bassa acidità, alta caffeina.",
+        "vi": "Cà phê mượt mà, ngọt tự nhiên, ngâm trong nước lạnh 12-24 giờ. Ít axit, nhiều caffeine."
+      },
+      "servingSize": {
+        "volume": 350,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "coarse-ground-coffee",
+          "amount": 100,
+          "unit": "g",
+          "notes": "Coarse grind like sea salt"
+        },
+        {
+          "item": "cold-water",
+          "amount": 800,
+          "unit": "ml",
+          "notes": "Filtered, room temperature"
+        }
+      ],
+      "equipment": [
+        "cold-brew-maker",
+        "fine-mesh-filter",
+        "glass-container",
+        "refrigerator"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Combine coarse coffee and cold water in container",
+            "duration": 5,
+            "tips": "1:8 ratio for concentrate"
+          },
+          {
+            "order": 2,
+            "action": "Stir gently to ensure all grounds are wet",
+            "duration": 2,
+            "tips": "Don't agitate too much"
+          },
+          {
+            "order": 3,
+            "action": "Cover and refrigerate for 18-24 hours",
+            "duration": 86400,
+            "tips": "12h minimum, 24h maximum"
+          },
+          {
+            "order": 4,
+            "action": "Filter through fine mesh and paper filter",
+            "duration": 30,
+            "tips": "Double filter for clarity"
+          },
+          {
+            "order": 5,
+            "action": "Dilute concentrate 1:1 with water or milk",
+            "duration": 2,
+            "tips": "Adjust to taste"
+          }
+        ],
+        "totalTime": 86439,
+        "prepTime": 10,
+        "steepTime": 64800,
+        "difficulty": 1
+      },
+      "ratio": "1:8",
+      "ratioExplanation": "100g coffee : 800ml water (makes concentrate)",
+      "parameters": {
+        "grindSize": "coarse",
+        "steepTime": { "value": 18, "unit": "hours", "range": [12, 24] },
+        "temperature": { "value": 4, "unit": "°C", "notes": "Refrigerator" }
+      },
+      "nutrition": {
+        "calories": 5,
+        "caffeine_mg": 200,
+        "protein_g": 0.3,
+        "carbs_g": 0,
+        "fat_g": 0
+      },
+      "baristaTips": [
+        "Use medium-dark roast for best results",
+        "Concentrate keeps 2 weeks refrigerated",
+        "Don't steep beyond 24 hours - becomes bitter",
+        "Cold brew has 60% less acid than hot coffee"
+      ],
+      "batchInfo": {
+        "yield": "600ml concentrate",
+        "servings": 4,
+        "shelfLife": "14 days refrigerated"
+      }
+    },
+    {
+      "id": "nitro-cold-brew",
+      "name": {
+        "en": "Nitro Cold Brew",
+        "it": "Nitro Cold Brew",
+        "vi": "Nitro Cold Brew"
+      },
+      "category": "iced-coffee",
+      "subcategory": "cold-brew",
+      "temperature": "iced",
+      "description": {
+        "en": "Cold brew infused with nitrogen gas. Creamy, smooth, with a Guinness-like cascade.",
+        "it": "Cold brew infuso con azoto. Cremoso, morbido, con una cascata simile alla Guinness.",
+        "vi": "Cold brew được pha với khí nitơ. Kem, mượt, với dòng chảy như Guinness."
+      },
+      "servingSize": {
+        "volume": 350,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "cold-brew-concentrate",
+          "amount": 200,
+          "unit": "ml"
+        },
+        {
+          "item": "nitrogen-gas",
+          "amount": 1,
+          "unit": "charge",
+          "notes": "Via keg system or whip dispenser"
+        }
+      ],
+      "equipment": [
+        "nitro-keg-system",
+        "nitrogen-tank",
+        "stout-faucet",
+        "tall-glass"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Prepare cold brew concentrate (1:5 ratio)",
+            "duration": 5,
+            "tips": "Stronger than regular cold brew"
+          },
+          {
+            "order": 2,
+            "action": "Charge keg with nitrogen at 35-40 PSI",
+            "duration": 10,
+            "tips": "Keep keg cold"
+          },
+          {
+            "order": 3,
+            "action": "Pour through stout faucet",
+            "duration": 15,
+            "tips": "Pour at 45° angle, finish straight"
+          },
+          {
+            "order": 4,
+            "action": "Let cascade settle before serving",
+            "duration": 60,
+            "tips": "Beautiful visual effect"
+          }
+        ],
+        "totalTime": 90,
+        "difficulty": 3
+      },
+      "nutrition": {
+        "calories": 5,
+        "caffeine_mg": 280,
+        "protein_g": 0.5,
+        "carbs_g": 0,
+        "fat_g": 0
+      },
+      "baristaTips": [
+        "Serve without ice - nitrogen provides chill",
+        "The cascading effect is the visual appeal",
+        "Nitrogen creates creamy texture without dairy",
+        "Best consumed immediately"
+      ]
+    },
+    {
+      "id": "iced-latte",
+      "name": {
+        "en": "Iced Latte",
+        "it": "Latte Freddo",
+        "vi": "Latte Đá"
+      },
+      "category": "iced-coffee",
+      "subcategory": "signature",
+      "temperature": "iced",
+      "description": {
+        "en": "Espresso poured over cold milk and ice. Simple, refreshing, customizable.",
+        "it": "Espresso versato su latte freddo e ghiaccio. Semplice, rinfrescante, personalizzabile.",
+        "vi": "Espresso rót lên sữa lạnh và đá. Đơn giản, sảng khoái, tùy chỉnh được."
+      },
+      "servingSize": {
+        "volume": 400,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-double",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 200,
+          "unit": "ml",
+          "notes": "Cold, straight from fridge"
+        },
+        {
+          "item": "ice-cubes",
+          "amount": 150,
+          "unit": "g"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "tall-glass",
+        "straw"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Fill glass with ice cubes",
+            "duration": 5,
+            "tips": "Use large ice cubes for slower melt"
+          },
+          {
+            "order": 2,
+            "action": "Pour cold milk over ice",
+            "duration": 5,
+            "tips": "Leave room for espresso"
+          },
+          {
+            "order": 3,
+            "action": "Pull double espresso shot",
+            "duration": 28,
+            "tips": "Can cool slightly first"
+          },
+          {
+            "order": 4,
+            "action": "Pour espresso over milk - creates layers",
+            "duration": 5,
+            "tips": "Pour slowly for layered effect"
+          }
+        ],
+        "totalTime": 45,
+        "difficulty": 1
+      },
+      "ratio": "1:3.3",
+      "ratioExplanation": "60ml espresso + 200ml milk + ice",
+      "nutrition": {
+        "calories": 130,
+        "caffeine_mg": 126,
+        "protein_g": 7,
+        "carbs_g": 10,
+        "fat_g": 5
+      }
+    },
+    {
+      "id": "espresso-tonic",
+      "name": {
+        "en": "Espresso Tonic",
+        "it": "Espresso Tonic",
+        "vi": "Espresso Tonic"
+      },
+      "category": "iced-coffee",
+      "subcategory": "signature",
+      "temperature": "iced",
+      "description": {
+        "en": "Espresso meets tonic water over ice. Bitter, refreshing, effervescent. A summer sensation.",
+        "it": "Espresso incontra l'acqua tonica sul ghiaccio. Amaro, rinfrescante, effervescente.",
+        "vi": "Espresso gặp nước tonic trên đá. Đắng, sảng khoái, sủi bọt. Cảm giác mùa hè."
+      },
+      "servingSize": {
+        "volume": 300,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-double",
+          "amount": 60,
+          "unit": "ml"
+        },
+        {
+          "item": "tonic-water",
+          "amount": 150,
+          "unit": "ml",
+          "notes": "Premium quality, well-chilled"
+        },
+        {
+          "item": "ice-cubes",
+          "amount": 100,
+          "unit": "g"
+        },
+        {
+          "item": "lemon-slice",
+          "amount": 1,
+          "unit": "piece",
+          "optional": true
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "highball-glass"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Fill highball glass with ice",
+            "duration": 5,
+            "tips": "Use clear ice if available"
+          },
+          {
+            "order": 2,
+            "action": "Pour cold tonic water over ice",
+            "duration": 5,
+            "tips": "Pour gently to preserve carbonation"
+          },
+          {
+            "order": 3,
+            "action": "Pull double espresso",
+            "duration": 28,
+            "tips": "Let cool for 30 seconds"
+          },
+          {
+            "order": 4,
+            "action": "Float espresso on top slowly",
+            "duration": 10,
+            "tips": "Pour over back of spoon for layers"
+          },
+          {
+            "order": 5,
+            "action": "Garnish with lemon slice",
+            "duration": 5,
+            "tips": "Orange peel also works"
+          }
+        ],
+        "totalTime": 60,
+        "difficulty": 2
+      },
+      "nutrition": {
+        "calories": 45,
+        "caffeine_mg": 126,
+        "protein_g": 0.2,
+        "carbs_g": 11,
+        "fat_g": 0
+      },
+      "baristaTips": [
+        "Use high-quality tonic (Fever-Tree, Q Tonic)",
+        "The layering effect is part of the experience",
+        "Stir gently before drinking to combine",
+        "Try with flavored tonics for variation"
+      ]
+    },
+    {
+      "id": "caffe-shakerato",
+      "name": {
+        "en": "Caffè Shakerato",
+        "it": "Caffè Shakerato",
+        "vi": "Caffè Shakerato"
+      },
+      "category": "iced-coffee",
+      "subcategory": "signature",
+      "temperature": "iced",
+      "description": {
+        "en": "Italian shaken iced coffee. Espresso shaken with ice and sugar until frothy. Served in a martini glass.",
+        "it": "Caffè freddo italiano shakerato. Espresso agitato con ghiaccio e zucchero fino a diventare schiumoso.",
+        "vi": "Cà phê đá Ý lắc. Espresso lắc với đá và đường cho đến khi sủi bọt."
+      },
+      "servingSize": {
+        "volume": 120,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-double",
+          "amount": 60,
+          "unit": "ml",
+          "notes": "Hot, freshly pulled"
+        },
+        {
+          "item": "sugar",
+          "amount": 10,
+          "unit": "g",
+          "notes": "Or simple syrup 15ml"
+        },
+        {
+          "item": "ice-cubes",
+          "amount": 100,
+          "unit": "g"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "cocktail-shaker",
+        "strainer",
+        "martini-glass"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Pull double espresso into shaker",
+            "duration": 28,
+            "tips": "Use hot espresso"
+          },
+          {
+            "order": 2,
+            "action": "Add sugar while espresso is hot",
+            "duration": 5,
+            "tips": "Stir to dissolve"
+          },
+          {
+            "order": 3,
+            "action": "Add ice cubes to shaker",
+            "duration": 5,
+            "tips": "Fill generously"
+          },
+          {
+            "order": 4,
+            "action": "Shake vigorously for 15-20 seconds",
+            "duration": 18,
+            "tips": "Until shaker is very cold"
+          },
+          {
+            "order": 5,
+            "action": "Strain into chilled martini glass",
+            "duration": 5,
+            "tips": "Double strain for smoothness"
+          }
+        ],
+        "totalTime": 70,
+        "difficulty": 2
+      },
+      "nutrition": {
+        "calories": 45,
+        "caffeine_mg": 126,
+        "protein_g": 0.2,
+        "carbs_g": 10,
+        "fat_g": 0
+      },
+      "baristaTips": [
+        "The foam layer is the signature",
+        "Serve immediately - foam dissipates quickly",
+        "Can add Amaretto or Baileys for adults",
+        "Traditional Italian summer drink"
+      ],
+      "origin": "Italy"
+    },
+    {
+      "id": "marocchino",
+      "name": {
+        "en": "Marocchino",
+        "it": "Marocchino",
+        "vi": "Marocchino"
+      },
+      "category": "hot-coffee",
+      "subcategory": "signature",
+      "temperature": "hot",
+      "description": {
+        "en": "Italian specialty from Piedmont. Espresso with cocoa and frothed milk in a small glass.",
+        "it": "Specialità italiana del Piemonte. Espresso con cacao e latte schiumato in un bicchierino.",
+        "vi": "Đặc sản Ý từ Piedmont. Espresso với cacao và sữa đánh bông trong ly nhỏ."
+      },
+      "servingSize": {
+        "volume": 80,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-single",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "item": "cocoa-powder",
+          "amount": 3,
+          "unit": "g"
+        },
+        {
+          "item": "frothed-milk",
+          "amount": 40,
+          "unit": "ml"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "small-glass",
+        "milk-frother"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Dust bottom of glass with cocoa powder",
+            "duration": 5,
+            "tips": "Coat sides too"
+          },
+          {
+            "order": 2,
+            "action": "Pull single espresso into glass",
+            "duration": 25,
+            "tips": "Over the cocoa"
+          },
+          {
+            "order": 3,
+            "action": "Top with frothed milk",
+            "duration": 10,
+            "tips": "Dense, creamy foam"
+          },
+          {
+            "order": 4,
+            "action": "Dust top with more cocoa",
+            "duration": 5,
+            "tips": "Through a fine sieve"
+          }
+        ],
+        "totalTime": 50,
+        "difficulty": 2
+      },
+      "nutrition": {
+        "calories": 50,
+        "caffeine_mg": 63,
+        "protein_g": 2,
+        "carbs_g": 5,
+        "fat_g": 2
+      },
+      "baristaTips": [
+        "Use high-quality Dutch cocoa",
+        "In Alba, Nutella is often used instead",
+        "Named for leather color (marroncino)",
+        "Smaller than cappuccino, more intense"
+      ],
+      "origin": "Alessandria, Piedmont, Italy"
+    },
+    {
+      "id": "bicerin",
+      "name": {
+        "en": "Bicerin",
+        "it": "Bicerin",
+        "vi": "Bicerin"
+      },
+      "category": "hot-coffee",
+      "subcategory": "signature",
+      "temperature": "hot",
+      "description": {
+        "en": "Traditional Turin drink. Distinct layers of espresso, drinking chocolate, and cream. Not stirred.",
+        "it": "Bevanda tradizionale di Torino. Strati distinti di espresso, cioccolata e panna. Non mescolato.",
+        "vi": "Đồ uống truyền thống Turin. Các lớp riêng biệt của espresso, socola uống và kem. Không khuấy."
+      },
+      "servingSize": {
+        "volume": 150,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "drinking-chocolate",
+          "amount": 50,
+          "unit": "ml",
+          "notes": "Hot, thick Italian style"
+        },
+        {
+          "item": "espresso-single",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "item": "fresh-cream",
+          "amount": 30,
+          "unit": "ml",
+          "notes": "Lightly whipped"
+        }
+      ],
+      "equipment": [
+        "espresso-machine",
+        "small-rounded-glass",
+        "bar-spoon"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Pour hot chocolate into glass",
+            "duration": 5,
+            "tips": "Should be thick, not thin"
+          },
+          {
+            "order": 2,
+            "action": "Carefully layer espresso over chocolate",
+            "duration": 10,
+            "tips": "Pour over back of spoon"
+          },
+          {
+            "order": 3,
+            "action": "Float cream on top",
+            "duration": 10,
+            "tips": "Should remain separate"
+          }
+        ],
+        "totalTime": 40,
+        "difficulty": 3
+      },
+      "nutrition": {
+        "calories": 280,
+        "caffeine_mg": 63,
+        "protein_g": 4,
+        "carbs_g": 25,
+        "fat_g": 18
+      },
+      "baristaTips": [
+        "Do NOT stir - drink through the layers",
+        "Each sip combines all three flavors",
+        "Dating back to 18th century Turin",
+        "Served at Caffè al Bicerin since 1763"
+      ],
+      "origin": "Turin, Piedmont, Italy"
+    },
+    {
+      "id": "vietnamese-egg-coffee",
+      "name": {
+        "en": "Vietnamese Egg Coffee",
+        "it": "Caffè all'Uovo Vietnamita",
+        "vi": "Cà Phê Trứng"
+      },
+      "category": "hot-coffee",
+      "subcategory": "signature",
+      "temperature": "hot",
+      "description": {
+        "en": "Hanoi specialty. Rich egg yolk cream floated over strong Vietnamese coffee. Like liquid tiramisu.",
+        "it": "Specialità di Hanoi. Crema di tuorlo d'uovo su caffè vietnamita forte. Come tiramisù liquido.",
+        "vi": "Đặc sản Hà Nội. Kem trứng đặc nổi trên cà phê Việt đậm. Như tiramisu lỏng."
+      },
+      "servingSize": {
+        "volume": 150,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "vietnamese-coffee",
+          "amount": 60,
+          "unit": "ml",
+          "notes": "Strong, via phin filter"
+        },
+        {
+          "item": "egg-yolk",
+          "amount": 1,
+          "unit": "piece",
+          "notes": "Fresh, room temperature"
+        },
+        {
+          "item": "condensed-milk",
+          "amount": 30,
+          "unit": "ml"
+        }
+      ],
+      "equipment": [
+        "phin-filter",
+        "hand-mixer",
+        "small-bowl",
+        "cup-in-hot-water-bowl"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Brew strong Vietnamese coffee via phin",
+            "duration": 300,
+            "tips": "Use robusta or dark roast"
+          },
+          {
+            "order": 2,
+            "action": "Whip egg yolk with condensed milk",
+            "duration": 180,
+            "tips": "Until doubled in volume, soft peaks"
+          },
+          {
+            "order": 3,
+            "action": "Pour hot coffee into cup",
+            "duration": 5,
+            "tips": "Keep cup in hot water bath"
+          },
+          {
+            "order": 4,
+            "action": "Spoon egg cream on top",
+            "duration": 10,
+            "tips": "Should float on coffee"
+          },
+          {
+            "order": 5,
+            "action": "Dust with cocoa powder",
+            "duration": 5,
+            "tips": "Optional garnish"
+          }
+        ],
+        "totalTime": 510,
+        "difficulty": 3
+      },
+      "nutrition": {
+        "calories": 200,
+        "caffeine_mg": 100,
+        "protein_g": 5,
+        "carbs_g": 22,
+        "fat_g": 10
+      },
+      "baristaTips": [
+        "Invented in 1946 during milk shortage",
+        "Cup sits in hot water to stay warm",
+        "Egg must be very fresh (safety)",
+        "Whip until thick like meringue"
+      ],
+      "origin": "Hanoi, Vietnam"
+    },
+    {
+      "id": "ca-phe-sua-da",
+      "name": {
+        "en": "Vietnamese Iced Coffee",
+        "it": "Caffè Vietnamita Freddo",
+        "vi": "Cà Phê Sữa Đá"
+      },
+      "category": "iced-coffee",
+      "subcategory": "signature",
+      "temperature": "iced",
+      "description": {
+        "en": "Strong Vietnamese coffee with sweetened condensed milk over ice. Bold, sweet, refreshing.",
+        "it": "Caffè vietnamita forte con latte condensato zuccherato su ghiaccio. Forte, dolce, rinfrescante.",
+        "vi": "Cà phê Việt đậm với sữa đặc có đường trên đá. Đậm, ngọt, sảng khoái."
+      },
+      "servingSize": {
+        "volume": 300,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "vietnamese-coffee",
+          "amount": 60,
+          "unit": "ml",
+          "notes": "Via phin filter or espresso"
+        },
+        {
+          "item": "condensed-milk",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "item": "ice-cubes",
+          "amount": 150,
+          "unit": "g"
+        }
+      ],
+      "equipment": [
+        "phin-filter",
+        "tall-glass",
+        "long-spoon"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Add condensed milk to glass",
+            "duration": 5,
+            "tips": "Layer at bottom"
+          },
+          {
+            "order": 2,
+            "action": "Brew coffee directly over condensed milk",
+            "duration": 300,
+            "tips": "Using phin filter on glass"
+          },
+          {
+            "order": 3,
+            "action": "Stir to combine coffee and milk",
+            "duration": 10,
+            "tips": "Mix well while hot"
+          },
+          {
+            "order": 4,
+            "action": "Fill separate glass with ice",
+            "duration": 5,
+            "tips": "Full to top"
+          },
+          {
+            "order": 5,
+            "action": "Pour coffee mixture over ice",
+            "duration": 5,
+            "tips": "Creates beautiful layers"
+          }
+        ],
+        "totalTime": 330,
+        "difficulty": 1
+      },
+      "nutrition": {
+        "calories": 150,
+        "caffeine_mg": 100,
+        "protein_g": 3,
+        "carbs_g": 25,
+        "fat_g": 4
+      },
+      "origin": "Vietnam"
+    },
+    {
+      "id": "matcha-latte-hot",
+      "name": {
+        "en": "Matcha Latte",
+        "it": "Matcha Latte",
+        "vi": "Matcha Latte"
+      },
+      "category": "matcha",
+      "subcategory": "latte-grade",
+      "temperature": "hot",
+      "description": {
+        "en": "Ceremonial grade matcha whisked with hot water and steamed milk. Earthy, creamy, energizing.",
+        "it": "Matcha cerimoniale sbattuto con acqua calda e latte caldo. Terroso, cremoso, energizzante.",
+        "vi": "Matcha nghi lễ đánh với nước nóng và sữa nóng. Đất, kem, tràn đầy năng lượng."
+      },
+      "servingSize": {
+        "volume": 300,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "matcha-powder",
+          "amount": 4,
+          "unit": "g",
+          "notes": "Ceremonial or latte grade"
+        },
+        {
+          "item": "hot-water",
+          "amount": 60,
+          "unit": "ml",
+          "notes": "75-80°C, not boiling"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 200,
+          "unit": "ml"
+        }
+      ],
+      "equipment": [
+        "chasen-whisk",
+        "chawan-bowl",
+        "sifter",
+        "steam-wand"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Sift matcha powder into bowl",
+            "duration": 10,
+            "tips": "Prevents clumps"
+          },
+          {
+            "order": 2,
+            "action": "Add hot water (not boiling)",
+            "duration": 5,
+            "tips": "75-80°C ideal"
+          },
+          {
+            "order": 3,
+            "action": "Whisk in W motion until frothy",
+            "duration": 30,
+            "tips": "Use bamboo chasen"
+          },
+          {
+            "order": 4,
+            "action": "Steam milk to 60-65°C",
+            "duration": 25,
+            "tips": "Silky microfoam"
+          },
+          {
+            "order": 5,
+            "action": "Pour matcha into cup, add steamed milk",
+            "duration": 10,
+            "tips": "Can do latte art"
+          }
+        ],
+        "totalTime": 80,
+        "difficulty": 2
+      },
+      "ratio": "4g matcha : 60ml water : 200ml milk",
+      "nutrition": {
+        "calories": 140,
+        "caffeine_mg": 70,
+        "protein_g": 7,
+        "carbs_g": 12,
+        "fat_g": 6
+      },
+      "baristaTips": [
+        "Never use boiling water - destroys flavor",
+        "Sift matcha to avoid clumps",
+        "Use within 2-3 weeks of opening",
+        "Store in fridge in airtight container"
+      ],
+      "variations": [
+        {
+          "name": "Iced Matcha Latte",
+          "modification": "Use cold milk and ice instead",
+          "result": "Refreshing cold version"
+        },
+        {
+          "name": "Oat Matcha",
+          "modification": "Use oat milk",
+          "result": "Slightly sweeter, vegan"
+        }
+      ]
+    },
+    {
+      "id": "chai-latte",
+      "name": {
+        "en": "Chai Latte",
+        "it": "Chai Latte",
+        "vi": "Trà Chai Latte"
+      },
+      "category": "tea",
+      "subcategory": "chai",
+      "temperature": "hot",
+      "description": {
+        "en": "Spiced black tea simmered with aromatic spices and steamed milk. Warming and fragrant.",
+        "it": "Tè nero speziato con spezie aromatiche e latte caldo. Riscaldante e profumato.",
+        "vi": "Trà đen gia vị om với gia vị thơm và sữa nóng. Ấm áp và thơm ngát."
+      },
+      "servingSize": {
+        "volume": 350,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "black-tea",
+          "amount": 5,
+          "unit": "g",
+          "notes": "Assam or Darjeeling"
+        },
+        {
+          "item": "cinnamon-stick",
+          "amount": 1,
+          "unit": "piece"
+        },
+        {
+          "item": "cardamom-pods",
+          "amount": 3,
+          "unit": "pieces",
+          "notes": "Lightly crushed"
+        },
+        {
+          "item": "fresh-ginger",
+          "amount": 5,
+          "unit": "g",
+          "notes": "Sliced"
+        },
+        {
+          "item": "cloves",
+          "amount": 2,
+          "unit": "pieces"
+        },
+        {
+          "item": "black-peppercorns",
+          "amount": 3,
+          "unit": "pieces"
+        },
+        {
+          "item": "star-anise",
+          "amount": 1,
+          "unit": "piece"
+        },
+        {
+          "item": "water",
+          "amount": 150,
+          "unit": "ml"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 200,
+          "unit": "ml"
+        },
+        {
+          "item": "honey",
+          "amount": 15,
+          "unit": "ml",
+          "optional": true
+        }
+      ],
+      "equipment": [
+        "saucepan",
+        "strainer",
+        "milk-frother"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Toast whole spices in dry pan briefly",
+            "duration": 60,
+            "tips": "Until fragrant"
+          },
+          {
+            "order": 2,
+            "action": "Add water, bring to boil, add tea",
+            "duration": 180,
+            "tips": "Simmer 3-4 minutes"
+          },
+          {
+            "order": 3,
+            "action": "Add milk, simmer gently",
+            "duration": 180,
+            "tips": "Don't boil the milk"
+          },
+          {
+            "order": 4,
+            "action": "Strain into cup",
+            "duration": 15,
+            "tips": "Press spices for extra flavor"
+          },
+          {
+            "order": 5,
+            "action": "Add honey if desired, top with foam",
+            "duration": 15,
+            "tips": "Dust with cinnamon"
+          }
+        ],
+        "totalTime": 450,
+        "difficulty": 2
+      },
+      "nutrition": {
+        "calories": 180,
+        "caffeine_mg": 50,
+        "protein_g": 7,
+        "carbs_g": 22,
+        "fat_g": 6
+      },
+      "baristaTips": [
+        "Cardamom is essential - don't skip it",
+        "Use whole spices, not ground (gritty)",
+        "Make concentrate for faster service",
+        "Adjust spice level to preference"
+      ],
+      "variations": [
+        {
+          "name": "Dirty Chai",
+          "modification": "Add 30ml espresso",
+          "result": "Coffee kick with spice"
+        },
+        {
+          "name": "Iced Chai",
+          "modification": "Cool concentrate, serve over ice",
+          "result": "Refreshing summer version"
+        }
+      ]
+    },
+    {
+      "id": "mocha-frappuccino",
+      "name": {
+        "en": "Mocha Frappuccino",
+        "it": "Frappuccino al Cioccolato",
+        "vi": "Frappuccino Mocha"
+      },
+      "category": "iced-coffee",
+      "subcategory": "blended",
+      "temperature": "iced",
+      "description": {
+        "en": "Blended coffee with chocolate, milk, and ice. Topped with whipped cream and chocolate drizzle.",
+        "it": "Caffè frullato con cioccolato, latte e ghiaccio. Guarnito con panna e cioccolato.",
+        "vi": "Cà phê xay với socola, sữa và đá. Phủ kem tươi và rưới socola."
+      },
+      "servingSize": {
+        "volume": 450,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "espresso-double",
+          "amount": 60,
+          "unit": "ml",
+          "notes": "Cooled or cold brew"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 150,
+          "unit": "ml"
+        },
+        {
+          "item": "chocolate-sauce",
+          "amount": 30,
+          "unit": "ml"
+        },
+        {
+          "item": "ice-cubes",
+          "amount": 200,
+          "unit": "g"
+        },
+        {
+          "item": "whipped-cream",
+          "amount": 40,
+          "unit": "g"
+        },
+        {
+          "item": "xanthan-gum",
+          "amount": 0.5,
+          "unit": "g",
+          "optional": true,
+          "notes": "For smooth texture"
+        }
+      ],
+      "equipment": [
+        "blender",
+        "tall-glass",
+        "straw"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Add coffee, milk, chocolate, and xanthan to blender",
+            "duration": 10,
+            "tips": "Xanthan prevents separation"
+          },
+          {
+            "order": 2,
+            "action": "Add ice cubes",
+            "duration": 5,
+            "tips": "Use frozen coffee cubes for stronger flavor"
+          },
+          {
+            "order": 3,
+            "action": "Blend on low, then high speed",
+            "duration": 30,
+            "tips": "Until smooth and thick"
+          },
+          {
+            "order": 4,
+            "action": "Pour into glass, top with cream",
+            "duration": 10,
+            "tips": "Drizzle chocolate on top"
+          }
+        ],
+        "totalTime": 60,
+        "difficulty": 1
+      },
+      "nutrition": {
+        "calories": 380,
+        "caffeine_mg": 95,
+        "protein_g": 8,
+        "carbs_g": 52,
+        "fat_g": 16
+      },
+      "baristaTips": [
+        "Use high-quality chocolate sauce",
+        "Xanthan gum gives commercial smoothness",
+        "Frozen coffee cubes = stronger flavor",
+        "Don't over-blend - becomes watery"
+      ]
+    },
+    {
+      "id": "strawberry-mango-smoothie",
+      "name": {
+        "en": "Strawberry Mango Smoothie",
+        "it": "Smoothie Fragola e Mango",
+        "vi": "Sinh Tố Dâu Xoài"
+      },
+      "category": "smoothie",
+      "subcategory": "fruit",
+      "temperature": "iced",
+      "description": {
+        "en": "Tropical blend of sweet strawberries and ripe mango. Refreshing, vitamin-rich, naturally sweet.",
+        "it": "Mix tropicale di fragole dolci e mango maturo. Rinfrescante, ricco di vitamine, naturalmente dolce.",
+        "vi": "Hỗn hợp nhiệt đới của dâu tây ngọt và xoài chín. Sảng khoái, giàu vitamin, ngọt tự nhiên."
+      },
+      "servingSize": {
+        "volume": 400,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "frozen-strawberries",
+          "amount": 100,
+          "unit": "g"
+        },
+        {
+          "item": "frozen-mango",
+          "amount": 100,
+          "unit": "g"
+        },
+        {
+          "item": "banana",
+          "amount": 0.5,
+          "unit": "piece",
+          "notes": "For creaminess"
+        },
+        {
+          "item": "orange-juice",
+          "amount": 120,
+          "unit": "ml",
+          "notes": "Or pineapple juice"
+        },
+        {
+          "item": "greek-yogurt",
+          "amount": 50,
+          "unit": "g",
+          "optional": true
+        }
+      ],
+      "equipment": [
+        "blender",
+        "tall-glass"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Add liquid (juice) to blender first",
+            "duration": 5,
+            "tips": "Helps blending"
+          },
+          {
+            "order": 2,
+            "action": "Add frozen fruit and banana",
+            "duration": 5,
+            "tips": "Frozen = thicker smoothie"
+          },
+          {
+            "order": 3,
+            "action": "Add yogurt if using",
+            "duration": 5,
+            "tips": "Adds protein and creaminess"
+          },
+          {
+            "order": 4,
+            "action": "Blend until completely smooth",
+            "duration": 45,
+            "tips": "Scrape sides if needed"
+          },
+          {
+            "order": 5,
+            "action": "Pour and serve immediately",
+            "duration": 5,
+            "tips": "Garnish with fresh fruit"
+          }
+        ],
+        "totalTime": 70,
+        "difficulty": 1
+      },
+      "nutrition": {
+        "calories": 220,
+        "caffeine_mg": 0,
+        "protein_g": 6,
+        "carbs_g": 48,
+        "fat_g": 2,
+        "fiber_g": 5,
+        "vitamin_c_mg": 85
+      },
+      "baristaTips": [
+        "Frozen fruit makes it thick without ice",
+        "Citrus juice makes flavors pop",
+        "Add spinach for green boost (can't taste it)",
+        "Banana adds creaminess"
+      ]
+    },
+    {
+      "id": "green-detox-smoothie",
+      "name": {
+        "en": "Green Detox Smoothie",
+        "it": "Smoothie Detox Verde",
+        "vi": "Sinh Tố Detox Xanh"
+      },
+      "category": "smoothie",
+      "subcategory": "green-detox",
+      "temperature": "iced",
+      "description": {
+        "en": "Nutrient-packed green smoothie with spinach, banana, and ginger. Cleansing and energizing.",
+        "it": "Smoothie verde ricco di nutrienti con spinaci, banana e zenzero. Purificante ed energizzante.",
+        "vi": "Sinh tố xanh giàu dinh dưỡng với rau bina, chuối và gừng. Thanh lọc và tràn đầy năng lượng."
+      },
+      "servingSize": {
+        "volume": 400,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "baby-spinach",
+          "amount": 60,
+          "unit": "g"
+        },
+        {
+          "item": "banana",
+          "amount": 1,
+          "unit": "piece",
+          "notes": "Frozen for thickness"
+        },
+        {
+          "item": "cucumber",
+          "amount": 50,
+          "unit": "g"
+        },
+        {
+          "item": "fresh-ginger",
+          "amount": 5,
+          "unit": "g"
+        },
+        {
+          "item": "lemon-juice",
+          "amount": 15,
+          "unit": "ml"
+        },
+        {
+          "item": "coconut-water",
+          "amount": 200,
+          "unit": "ml"
+        },
+        {
+          "item": "ice",
+          "amount": 100,
+          "unit": "g"
+        }
+      ],
+      "equipment": [
+        "high-speed-blender",
+        "tall-glass"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Add coconut water to blender",
+            "duration": 5,
+            "tips": "Liquid first"
+          },
+          {
+            "order": 2,
+            "action": "Add spinach and blend briefly",
+            "duration": 15,
+            "tips": "Breaks down greens first"
+          },
+          {
+            "order": 3,
+            "action": "Add remaining ingredients",
+            "duration": 10,
+            "tips": "Ginger adds zing"
+          },
+          {
+            "order": 4,
+            "action": "Blend on high until smooth",
+            "duration": 60,
+            "tips": "No chunks"
+          }
+        ],
+        "totalTime": 95,
+        "difficulty": 1
+      },
+      "nutrition": {
+        "calories": 150,
+        "caffeine_mg": 0,
+        "protein_g": 4,
+        "carbs_g": 32,
+        "fat_g": 1,
+        "fiber_g": 6,
+        "vitamin_k_mcg": 180
+      },
+      "baristaTips": [
+        "Spinach flavor is undetectable",
+        "Ginger aids digestion",
+        "Lemon adds brightness and vitamin C",
+        "Can add protein powder"
+      ]
+    },
+    {
+      "id": "classic-vanilla-milkshake",
+      "name": {
+        "en": "Classic Vanilla Milkshake",
+        "it": "Frappè alla Vaniglia",
+        "vi": "Milkshake Vanilla Cổ Điển"
+      },
+      "category": "milkshake",
+      "subcategory": "classic",
+      "temperature": "iced",
+      "description": {
+        "en": "Creamy vanilla ice cream blended with milk. The timeless American classic.",
+        "it": "Gelato alla vaniglia cremoso frullato con latte. Il classico americano senza tempo.",
+        "vi": "Kem vanilla béo xay với sữa. Món cổ điển Mỹ vượt thời gian."
+      },
+      "servingSize": {
+        "volume": 400,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "vanilla-ice-cream",
+          "amount": 200,
+          "unit": "g",
+          "notes": "3 scoops"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 150,
+          "unit": "ml"
+        },
+        {
+          "item": "vanilla-extract",
+          "amount": 2,
+          "unit": "ml",
+          "optional": true
+        },
+        {
+          "item": "whipped-cream",
+          "amount": 30,
+          "unit": "g"
+        },
+        {
+          "item": "maraschino-cherry",
+          "amount": 1,
+          "unit": "piece"
+        }
+      ],
+      "equipment": [
+        "blender",
+        "milkshake-glass",
+        "straw"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Add ice cream and milk to blender",
+            "duration": 10,
+            "tips": "Slightly softened ice cream blends better"
+          },
+          {
+            "order": 2,
+            "action": "Blend until thick and smooth",
+            "duration": 30,
+            "tips": "Don't over-blend"
+          },
+          {
+            "order": 3,
+            "action": "Pour into chilled glass",
+            "duration": 5,
+            "tips": "Should be thick enough to stand straw"
+          },
+          {
+            "order": 4,
+            "action": "Top with whipped cream and cherry",
+            "duration": 10,
+            "tips": "Classic presentation"
+          }
+        ],
+        "totalTime": 60,
+        "difficulty": 1
+      },
+      "nutrition": {
+        "calories": 550,
+        "caffeine_mg": 0,
+        "protein_g": 12,
+        "carbs_g": 65,
+        "fat_g": 28
+      },
+      "baristaTips": [
+        "Use high-quality vanilla ice cream",
+        "Whole milk = creamiest result",
+        "Thick enough to need a spoon",
+        "Chill glass for longer cold"
+      ]
+    },
+    {
+      "id": "nutella-milkshake",
+      "name": {
+        "en": "Nutella Milkshake",
+        "it": "Frappè alla Nutella",
+        "vi": "Milkshake Nutella"
+      },
+      "category": "milkshake",
+      "subcategory": "gourmet",
+      "temperature": "iced",
+      "description": {
+        "en": "Indulgent hazelnut chocolate shake. Creamy Nutella blended with vanilla ice cream.",
+        "it": "Frappè goloso al cioccolato e nocciola. Nutella cremosa frullata con gelato alla vaniglia.",
+        "vi": "Milkshake socola hạt phỉ thưởng thức. Nutella béo xay với kem vanilla."
+      },
+      "servingSize": {
+        "volume": 450,
+        "unit": "ml"
+      },
+      "ingredients": [
+        {
+          "item": "vanilla-ice-cream",
+          "amount": 200,
+          "unit": "g"
+        },
+        {
+          "item": "nutella",
+          "amount": 40,
+          "unit": "g"
+        },
+        {
+          "item": "whole-milk",
+          "amount": 150,
+          "unit": "ml"
+        },
+        {
+          "item": "whipped-cream",
+          "amount": 40,
+          "unit": "g"
+        },
+        {
+          "item": "hazelnuts",
+          "amount": 10,
+          "unit": "g",
+          "notes": "Chopped, for garnish"
+        }
+      ],
+      "equipment": [
+        "blender",
+        "tall-glass"
+      ],
+      "method": {
+        "steps": [
+          {
+            "order": 1,
+            "action": "Add Nutella to blender with some milk",
+            "duration": 10,
+            "tips": "Helps Nutella blend smoothly"
+          },
+          {
+            "order": 2,
+            "action": "Add ice cream and remaining milk",
+            "duration": 5,
+            "tips": "Layer ingredients"
+          },
+          {
+            "order": 3,
+            "action": "Blend until smooth and thick",
+            "duration": 30,
+            "tips": "Scrape sides"
+          },
+          {
+            "order": 4,
+            "action": "Pour, top with cream and hazelnuts",
+            "duration": 10,
+            "tips": "Drizzle more Nutella"
+          }
+        ],
+        "totalTime": 60,
+        "difficulty": 1
+      },
+      "nutrition": {
+        "calories": 680,
+        "caffeine_mg": 0,
+        "protein_g": 14,
+        "carbs_g": 72,
+        "fat_g": 38
+      },
+      "baristaTips": [
+        "Warm Nutella slightly for easier blending",
+        "Rim glass with Nutella for presentation",
+        "Toast hazelnuts for extra flavor",
+        "Popular in Italian cafes"
+      ]
+    }
+  ],
+  "ingredients": {
+    "ground-coffee": { "category": "coffee", "unit": "g" },
+    "espresso-single": { "category": "coffee", "unit": "ml", "recipeRef": "espresso-single" },
+    "espresso-double": { "category": "coffee", "unit": "ml", "recipeRef": "espresso-double" },
+    "whole-milk": { "category": "dairy", "unit": "ml" },
+    "condensed-milk": { "category": "dairy", "unit": "ml" },
+    "fresh-cream": { "category": "dairy", "unit": "ml" },
+    "whipped-cream": { "category": "dairy", "unit": "g" },
+    "vanilla-ice-cream": { "category": "dairy", "unit": "g" },
+    "chocolate-sauce": { "category": "sweetener", "unit": "ml" },
+    "cocoa-powder": { "category": "flavoring", "unit": "g" },
+    "matcha-powder": { "category": "tea", "unit": "g" },
+    "black-tea": { "category": "tea", "unit": "g" },
+    "hot-water": { "category": "base", "unit": "ml" },
+    "cold-water": { "category": "base", "unit": "ml" },
+    "ice-cubes": { "category": "base", "unit": "g" },
+    "tonic-water": { "category": "mixer", "unit": "ml" },
+    "nutella": { "category": "flavoring", "unit": "g" }
+  },
+  "equipment": {
+    "espresso-machine": { "essential": true, "description": "Commercial or prosumer espresso machine" },
+    "portafilter": { "essential": true, "description": "58mm basket recommended" },
+    "tamper": { "essential": true, "description": "Match portafilter size" },
+    "steam-wand": { "essential": true, "description": "Part of espresso machine" },
+    "milk-pitcher": { "essential": true, "description": "12oz for single, 20oz for multiple" },
+    "blender": { "essential": true, "description": "High-speed for smoothies" },
+    "chasen-whisk": { "essential": false, "description": "Bamboo whisk for matcha" },
+    "phin-filter": { "essential": false, "description": "Vietnamese coffee filter" },
+    "cold-brew-maker": { "essential": false, "description": "Toddy or similar immersion system" }
+  },
+  "skillLevels": {
+    "1": "Beginner - Basic preparation, minimal technique",
+    "2": "Intermediate - Requires some barista skills",
+    "3": "Advanced - Requires practiced technique",
+    "4": "Expert - Competition-level execution"
+  }
+}

@@ -55,6 +55,7 @@ model Product {
 
   // Relations
   ingredients ProductIngredient[]
+  recipes     ProductRecipe[]
 
   // Computed Data (JSONB for flexibility)
   computed    String?  // AutoComputationResult (JSON)
@@ -116,4 +117,74 @@ model ProductIngredient {
 
   @@index([productId])
   @@index([ingredientId])
+}
+
+// ============================================================================
+// RECIPES
+// ============================================================================
+
+model Recipe {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  name        String   // MultiLangText (JSON)
+  description String?  // MultiLangText (JSON)
+
+  // Categorization
+  category    String   // hot-coffee, iced-coffee, matcha, tea, smoothie, milkshake
+  subcategory String?  // espresso-based, milk-based, signature, etc.
+  temperature String   // hot, iced
+
+  // Serving
+  servingSize String?  // JSON { volume: number, unit: string }
+
+  // Recipe Details (JSON)
+  ingredients String?  // RecipeIngredient[] - detailed ingredients with amounts
+  equipment   String?  // string[] - required equipment
+  method      String?  // RecipeMethod - steps with durations and tips
+
+  // Technical Parameters
+  ratio       String?  // e.g., "1:2", "1:1:1"
+  ratioExplanation String?
+  parameters  String?  // JSON - pressure, temperature, extraction time, etc.
+
+  // Nutrition (JSON)
+  nutrition   String?  // calories, caffeine_mg, protein_g, etc.
+
+  // Professional Tips
+  baristaTips String?  // JSON string[] - professional tips
+  variations  String?  // JSON RecipeVariation[] - alternative preparations
+  latteArt    String?  // JSON - recommended patterns, difficulty
+
+  // Metadata
+  difficulty  Int      @default(2) // 1-4 skill level
+  totalTime   Int?     // seconds
+  origin      String?  // e.g., "Italy", "Vietnam"
+
+  // Relations
+  products    ProductRecipe[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([temperature])
+}
+
+// Link table for Products using Recipes
+model ProductRecipe {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  recipeId  String
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  // Override fields for product-specific variations
+  notes     String?  // Product-specific preparation notes
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([productId, recipeId])
+  @@index([productId])
+  @@index([recipeId])
 }

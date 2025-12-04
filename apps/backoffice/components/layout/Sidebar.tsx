@@ -33,6 +33,7 @@ const navigation = [
     ),
     children: [
       { name: 'Menu', href: '/content/menu' },
+      { name: 'Recipes', href: '/content/recipes' },
       { name: 'Ingredients', href: '/content/ingredients' },
       { name: 'Categories', href: '/content/categories' },
     ],
