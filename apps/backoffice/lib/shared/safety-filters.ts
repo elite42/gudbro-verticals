@@ -52,6 +52,11 @@ export const safetyFilters: SafetyFilter[] = [
     { id: 'tomato', label: { en: 'Tomato', it: 'Pomodoro', vi: 'Cà chua' }, type: 'allergen', icon: '🍅' },
     { id: 'chicken', label: { en: 'Chicken', it: 'Pollo', vi: 'Gà' }, type: 'allergen', icon: '🐔' },
     { id: 'beef', label: { en: 'Beef', it: 'Manzo', vi: 'Bò' }, type: 'allergen', icon: '🐄' },
+    { id: 'seeds', label: { en: 'Seeds', it: 'Semi', vi: 'Hạt' }, type: 'allergen', icon: '🌻' },
+    { id: 'garlic', label: { en: 'Garlic', it: 'Aglio', vi: 'Tỏi' }, type: 'allergen', icon: '🧄' },
+    { id: 'onion', label: { en: 'Onion', it: 'Cipolla', vi: 'Hành' }, type: 'allergen', icon: '🧅' },
+    { id: 'coconut', label: { en: 'Coconut', it: 'Cocco', vi: 'Dừa' }, type: 'allergen', icon: '🥥' },
+    { id: 'corn', label: { en: 'Corn', it: 'Mais', vi: 'Ngô' }, type: 'allergen', icon: '🌽' },
 
     // --- LEVEL 2: INTOLERANCES (10) ---
     { id: 'lactose', label: { en: 'Lactose', it: 'Lattosio', vi: 'Lactose' }, type: 'intolerance', icon: '🥛' },
@@ -77,4 +82,26 @@ export const safetyFilters: SafetyFilter[] = [
     { id: 'gluten-free', label: { en: 'Gluten Free', it: 'Senza Glutine', vi: 'Không Gluten' }, type: 'diet', icon: '🌾' },
     { id: 'dairy-free', label: { en: 'Dairy Free', it: 'Senza Latticini', vi: 'Không sữa' }, type: 'diet', icon: '🥛' },
     { id: 'nut-free', label: { en: 'Nut Free', it: 'Senza Frutta a Guscio', vi: 'Không hạt' }, type: 'diet', icon: '🌰' },
+    { id: 'raw', label: { en: 'Raw', it: 'Crudo', vi: 'Sống' }, type: 'diet', icon: '🥬' },
+    { id: 'keto', label: { en: 'Keto', it: 'Chetogenica', vi: 'Keto' }, type: 'diet', icon: '🥓' },
+    { id: 'paleo', label: { en: 'Paleo', it: 'Paleo', vi: 'Paleo' }, type: 'diet', icon: '🦴' },
 ];
+
+// Helper functions
+export const getFilterById = (id: string): SafetyFilter | undefined =>
+    safetyFilters.find(f => f.id === id);
+
+export const getFiltersByType = (type: FilterType): SafetyFilter[] =>
+    safetyFilters.filter(f => f.type === type);
+
+export const getAllergens = (): SafetyFilter[] => getFiltersByType('allergen');
+export const getIntolerances = (): SafetyFilter[] => getFiltersByType('intolerance');
+export const getDiets = (): SafetyFilter[] => getFiltersByType('diet');
+
+// Count totals
+export const FILTER_COUNTS = {
+    allergens: safetyFilters.filter(f => f.type === 'allergen').length,
+    intolerances: safetyFilters.filter(f => f.type === 'intolerance').length,
+    diets: safetyFilters.filter(f => f.type === 'diet').length,
+    total: safetyFilters.length
+};

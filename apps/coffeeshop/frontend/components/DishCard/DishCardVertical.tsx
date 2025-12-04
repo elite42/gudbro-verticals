@@ -7,6 +7,8 @@ import { usePriceFormat } from '@/hooks/usePriceFormat';
 import { getOriginFlag, getCategoryColor } from '@/utils/dishCardHelpers';
 import { coffeeshopConfig } from '@/config/coffeeshop.config';
 import { ExtrasModal } from '../ExtrasModal';
+import { NutritionalInfo } from '../NutritionalInfo';
+import { SafetyFilterIcons, SafetyFilterBadge } from '../SafetyFilterIcons';
 
 interface DishCardVerticalProps {
   dish: DishItem;
@@ -92,16 +94,25 @@ export function DishCardVertical({ dish, onAddToCart, onCardClick }: DishCardVer
           )}
           <p className="text-sm text-theme-text-secondary mb-3 line-clamp-2">{dish.description}</p>
 
-          {/* Dietary tags */}
-          {dish.dietary && dish.dietary.length > 0 && (
-            <div className="flex flex-wrap gap-1 mb-3">
-              {dish.dietary.map((tag) => (
-                <span key={tag} className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded-full">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+          {/* Nutritional Info */}
+          <NutritionalInfo
+            calories={dish.calories}
+            protein_g={dish.protein_g}
+            carbs_g={dish.carbs_g}
+            fat_g={dish.fat_g}
+            variant="compact"
+            className="mb-2"
+          />
+
+          {/* Safety Filters (Allergens, Intolerances, Dietary) */}
+          <SafetyFilterIcons
+            allergens={dish.allergens}
+            intolerances={dish.intolerances}
+            dietary={dish.dietary}
+            variant="compact"
+            maxVisible={5}
+            className="mb-3"
+          />
 
           <div className="flex items-center justify-between">
             <span className="font-bold text-xl text-amber-700">{formatPrice(dish.price)}</span>

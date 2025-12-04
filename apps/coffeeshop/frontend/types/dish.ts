@@ -23,7 +23,14 @@ export interface DishItem {
   allergens?: string[];
   intolerances?: string[];
   spiciness?: number; // 0-5
-  calories?: number; // Nutritional info - estimated calories per serving
+
+  // Nutritional info (per serving)
+  calories?: number;
+  protein_g?: number;
+  carbs_g?: number;
+  fat_g?: number;
+  fiber_g?: number;
+
   isNew?: boolean;
   newUntil?: string;
   timeSlots?: ('breakfast' | 'lunch' | 'dinner' | 'aperitivo' | 'late-night' | 'all-day')[];

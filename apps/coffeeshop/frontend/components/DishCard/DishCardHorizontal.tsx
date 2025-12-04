@@ -7,6 +7,8 @@ import { usePriceFormat } from '@/hooks/usePriceFormat';
 import { getOriginFlag } from '@/utils/dishCardHelpers';
 import { coffeeshopConfig } from '@/config/coffeeshop.config';
 import { ExtrasModal } from '../ExtrasModal';
+import { NutritionalInfo } from '../NutritionalInfo';
+import { SafetyFilterIcons, SafetyFilterBadge } from '../SafetyFilterIcons';
 
 interface DishCardHorizontalProps {
   dish: DishItem;
@@ -61,7 +63,10 @@ export function DishCardHorizontal({ dish, onAddToCart, onCardClick }: DishCardH
   };
 
   const hasAllergens = dish.allergens && dish.allergens.length > 0;
+  const hasIntolerances = dish.intolerances && dish.intolerances.length > 0;
   const hasDietary = dish.dietary && dish.dietary.length > 0;
+  const hasNutritionalInfo = dish.calories || dish.protein_g || dish.carbs_g || dish.fat_g;
+  const hasSafetyInfo = hasAllergens || hasIntolerances || hasDietary || hasNutritionalInfo;
 
   return (
     <>
@@ -111,7 +116,7 @@ export function DishCardHorizontal({ dish, onAddToCart, onCardClick }: DishCardH
           <p className="text-sm text-theme-text-secondary line-clamp-2 mb-1">{dish.description}</p>
 
           {/* Info button */}
-          {(hasDietary || hasAllergens) && (
+          {hasSafetyInfo && (
             <button
               onClick={() => setShowDietaryInfo(!showDietaryInfo)}
               className="text-xs text-blue-600 hover:text-blue-700 font-medium mb-1 flex items-center gap-1"
@@ -120,30 +125,38 @@ export function DishCardHorizontal({ dish, onAddToCart, onCardClick }: DishCardH
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
               {showDietaryInfo ? 'Nascondi info' : 'Info nutrizionali'}
-              {hasAllergens && !showDietaryInfo && <span className="text-red-600">⚠️</span>}
+              {!showDietaryInfo && (
+                <SafetyFilterBadge
+                  allergens={dish.allergens}
+                  intolerances={dish.intolerances}
+                  dietary={dish.dietary}
+                />
+              )}
             </button>
           )}
 
-          {/* Dietary tags */}
-          {showDietaryInfo && hasDietary && (
-            <div className="flex flex-wrap gap-1 mt-1 mb-1">
-              {dish.dietary?.map((tag) => (
-                <span key={tag} className="text-xs bg-green-500 text-white px-2 py-0.5 rounded">
-                  🌱 {tag}
-                </span>
-              ))}
-            </div>
+          {/* Nutritional Info */}
+          {showDietaryInfo && (
+            <NutritionalInfo
+              calories={dish.calories}
+              protein_g={dish.protein_g}
+              carbs_g={dish.carbs_g}
+              fat_g={dish.fat_g}
+              variant="compact"
+              className="mt-1 mb-1"
+            />
           )}
 
-          {/* Allergen warnings */}
-          {showDietaryInfo && hasAllergens && (
-            <div className="flex flex-wrap gap-1 mt-1 mb-1">
-              {dish.allergens?.map((allergen) => (
-                <span key={allergen} className="text-xs bg-red-500 text-white px-2 py-0.5 rounded font-medium">
-                  ⚠️ {allergen}
-                </span>
-              ))}
-            </div>
+          {/* Safety Filters (Allergens, Intolerances, Dietary) */}
+          {showDietaryInfo && (
+            <SafetyFilterIcons
+              allergens={dish.allergens}
+              intolerances={dish.intolerances}
+              dietary={dish.dietary}
+              variant="compact"
+              maxVisible={4}
+              className="mt-1 mb-1"
+            />
           )}
 
           <div className="flex items-center justify-between mt-2">
