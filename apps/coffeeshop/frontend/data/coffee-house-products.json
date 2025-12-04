@@ -1,0 +1,3760 @@
+[
+  {
+    "id": "espresso-single",
+    "name": {
+      "en": "Espresso (Single)",
+      "it": "Espresso (Single)",
+      "vi": "Espresso (Single)"
+    },
+    "description": {
+      "en": "Double = 18 g coffee / 50–60 ml",
+      "it": "Double = 18 g coffee / 50–60 ml",
+      "vi": "Double = 18 g coffee / 50–60 ml"
+    },
+    "category": "espresso",
+    "price": 2.5,
+    "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
+    "mainIngredients": "Ground coffee",
+    "quantity": "9 g coffee, 25–30 ml espresso",
+    "preparationMethod": "Extract at 9 bar, 92 °C, ~25 s",
+    "calories": 1,
+    "protein_g": 0,
+    "carbs_g": 0.1,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 40,
+    "skillLevel": 1,
+    "servingGlass": "Espresso cup (60 ml)",
+    "decoration": {
+      "chain": "None or crema swirl",
+      "premium": "Cocoa dust on crema or minimalist latte art"
+    },
+    "ingredientCost": 0.35,
+    "profitMargin": 86,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 1,
+    "originalImagePath": "/products/espresso-single.jpg"
+  },
+  {
+    "id": "espresso-double",
+    "name": {
+      "en": "Espresso (Double)",
+      "it": "Espresso (Double)",
+      "vi": "Espresso (Double)"
+    },
+    "description": {
+      "en": "Use bottomless for training",
+      "it": "Use bottomless for training",
+      "vi": "Use bottomless for training"
+    },
+    "category": "espresso",
+    "price": 3,
+    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
+    "mainIngredients": "Ground coffee",
+    "quantity": "18 g coffee, 50–60 ml espresso",
+    "preparationMethod": "Extract at 9 bar, 92 °C, ~28 s",
+    "calories": 1,
+    "protein_g": 0.1,
+    "carbs_g": 0.2,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 45,
+    "skillLevel": 1,
+    "servingGlass": "Espresso cup (90 ml)",
+    "decoration": {
+      "chain": "None or crema swirl",
+      "premium": "Cocoa dust ring"
+    },
+    "ingredientCost": 0.5,
+    "profitMargin": 83.3,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 2,
+    "originalImagePath": "/products/espresso-double.jpg"
+  },
+  {
+    "id": "americano-hot",
+    "name": {
+      "en": "Americano (Hot)",
+      "it": "Americano (Hot)",
+      "vi": "Americano (Hot)"
+    },
+    "description": {
+      "en": "Iced: 60 ml espresso + 150 g ice + 120 ml cold water",
+      "it": "Iced: 60 ml espresso + 150 g ice + 120 ml cold water",
+      "vi": "Iced: 60 ml espresso + 150 g ice + 120 ml cold water"
+    },
+    "category": "espresso",
+    "price": 2.8,
+    "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
+    "mainIngredients": "Espresso, hot water",
+    "quantity": "60 ml espresso, 120 ml hot water",
+    "preparationMethod": "Pull espresso, add hot water",
+    "calories": 1,
+    "protein_g": 0.1,
+    "carbs_g": 0.2,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 50,
+    "skillLevel": 1,
+    "servingGlass": "Tall mug (300 ml)",
+    "decoration": {
+      "chain": "Lemon slice optional",
+      "premium": "Lemon twist + clear glass layering"
+    },
+    "ingredientCost": 0.4,
+    "profitMargin": 85.7,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 3,
+    "originalImagePath": "/products/americano-hot.jpg"
+  },
+  {
+    "id": "latte-hot",
+    "name": {
+      "en": "Latte (Hot)",
+      "it": "Latte (Hot)",
+      "vi": "Latte (Hot)"
+    },
+    "description": {
+      "en": "Flavor syrup +15 ml optional",
+      "it": "Flavor syrup +15 ml optional",
+      "vi": "Flavor syrup +15 ml optional"
+    },
+    "category": "espresso",
+    "price": 3.5,
+    "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
+    "mainIngredients": "Espresso, milk",
+    "quantity": "60 ml espresso, 180 ml steamed milk",
+    "preparationMethod": "Pour espresso, then steamed milk",
+    "calories": 77,
+    "protein_g": 6.2,
+    "carbs_g": 9.2,
+    "fat_g": 1.8,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 70,
+    "skillLevel": 1,
+    "servingGlass": "Latte glass (300 ml)",
+    "decoration": {
+      "chain": "Minimal foam art",
+      "premium": "Rosetta/Tulip latte art"
+    },
+    "ingredientCost": 0.6,
+    "profitMargin": 82.9,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 4,
+    "originalImagePath": "/products/latte-hot.jpg"
+  },
+  {
+    "id": "iced-latte",
+    "name": {
+      "en": "Iced Latte",
+      "it": "Iced Latte",
+      "vi": "Iced Latte"
+    },
+    "description": {
+      "en": "Add whipped cream if desired",
+      "it": "Add whipped cream if desired",
+      "vi": "Add whipped cream if desired"
+    },
+    "category": "espresso",
+    "price": 3.5,
+    "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
+    "mainIngredients": "Espresso, milk, ice",
+    "quantity": "60 ml espresso, 150 ml milk, 100 g ice",
+    "preparationMethod": "Pour milk over ice, float espresso",
+    "calories": 64,
+    "protein_g": 5.2,
+    "carbs_g": 7.7,
+    "fat_g": 1.5,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 60,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "No garnish",
+      "premium": "Layered pour + straw"
+    },
+    "ingredientCost": 0.6,
+    "profitMargin": 82.9,
+    "tags": [
+      "iced",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 5,
+    "originalImagePath": "/products/iced-latte.jpg"
+  },
+  {
+    "id": "cappuccino",
+    "name": {
+      "en": "Cappuccino",
+      "it": "Cappuccino",
+      "vi": "Cappuccino"
+    },
+    "description": {
+      "en": "Dust cocoa/cinnamon",
+      "it": "Dust cocoa/cinnamon",
+      "vi": "Dust cocoa/cinnamon"
+    },
+    "category": "espresso",
+    "price": 3.4,
+    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
+    "mainIngredients": "Espresso, milk",
+    "quantity": "60 ml espresso, 120 ml textured milk",
+    "preparationMethod": "Combine espresso and microfoam",
+    "calories": 52,
+    "protein_g": 4.1,
+    "carbs_g": 6.2,
+    "fat_g": 1.2,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 75,
+    "skillLevel": 1,
+    "servingGlass": "Cappuccino cup (180–200 ml)",
+    "decoration": {
+      "chain": "Cocoa powder dust",
+      "premium": "Latte art + cocoa edge dust"
+    },
+    "ingredientCost": 0.55,
+    "profitMargin": 83.8,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 6,
+    "originalImagePath": "/products/cappuccino.jpg"
+  },
+  {
+    "id": "flat-white",
+    "name": {
+      "en": "Flat White",
+      "it": "Flat White",
+      "vi": "Flat White"
+    },
+    "description": {
+      "en": "Stronger ratio than cappuccino",
+      "it": "Stronger ratio than cappuccino",
+      "vi": "Stronger ratio than cappuccino"
+    },
+    "category": "espresso",
+    "price": 3.4,
+    "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
+    "mainIngredients": "Espresso, milk",
+    "quantity": "60 ml espresso, 150 ml microfoamed milk",
+    "preparationMethod": "Pour thin microfoam layer",
+    "calories": 64,
+    "protein_g": 5.2,
+    "carbs_g": 7.7,
+    "fat_g": 1.5,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 70,
+    "skillLevel": 1,
+    "servingGlass": "Flat white cup (180 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Tight latte art"
+    },
+    "ingredientCost": 0.55,
+    "profitMargin": 83.8,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 7,
+    "originalImagePath": "/products/flat-white.jpg"
+  },
+  {
+    "id": "macchiato",
+    "name": {
+      "en": "Macchiato",
+      "it": "Macchiato",
+      "vi": "Macchiato"
+    },
+    "description": {
+      "en": "Iced: espresso over ice + cold foam",
+      "it": "Iced: espresso over ice + cold foam",
+      "vi": "Iced: espresso over ice + cold foam"
+    },
+    "category": "espresso",
+    "price": 2.8,
+    "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
+    "mainIngredients": "Espresso, milk foam",
+    "quantity": "60 ml espresso, 10 ml milk foam",
+    "preparationMethod": "Spoon foam over espresso",
+    "calories": 5,
+    "protein_g": 0.4,
+    "carbs_g": 0.7,
+    "fat_g": 0.1,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 40,
+    "skillLevel": 1,
+    "servingGlass": "Espresso cup (60 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Tiny foam dollop art"
+    },
+    "ingredientCost": 0.4,
+    "profitMargin": 85.7,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 8,
+    "originalImagePath": "/products/macchiato.jpg"
+  },
+  {
+    "id": "caf-mocha",
+    "name": {
+      "en": "Café Mocha",
+      "it": "Café Mocha",
+      "vi": "Café Mocha"
+    },
+    "description": {
+      "en": "Chocolate drizzle",
+      "it": "Chocolate drizzle",
+      "vi": "Chocolate drizzle"
+    },
+    "category": "espresso",
+    "price": 4,
+    "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
+    "mainIngredients": "Espresso, chocolate syrup, milk, whipped cream",
+    "quantity": "60 ml espresso, 20 ml choc syrup, 150 ml milk, 20 g cream",
+    "preparationMethod": "Mix syrup + espresso, add steamed milk, top with cream",
+    "calories": 184,
+    "protein_g": 5.6,
+    "carbs_g": 21.3,
+    "fat_g": 8.7,
+    "allergens": [
+      "milk",
+      "soy"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "Whipped cream + choc drizzle",
+      "premium": "Cocoa dust + chocolate shards"
+    },
+    "ingredientCost": 0.75,
+    "profitMargin": 81.2,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 9,
+    "originalImagePath": "/products/caf-mocha.jpg"
+  },
+  {
+    "id": "caramel-latte",
+    "name": {
+      "en": "Caramel Latte",
+      "it": "Caramel Latte",
+      "vi": "Caramel Latte"
+    },
+    "description": {
+      "en": "Caramel drizzle",
+      "it": "Caramel drizzle",
+      "vi": "Caramel drizzle"
+    },
+    "category": "espresso",
+    "price": 3.9,
+    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
+    "mainIngredients": "Espresso, milk, caramel syrup",
+    "quantity": "60 ml espresso, 150 ml milk, 15 ml caramel syrup",
+    "preparationMethod": "Steam milk with syrup, pour over espresso",
+    "calories": 103,
+    "protein_g": 5.2,
+    "carbs_g": 17.4,
+    "fat_g": 1.5,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 80,
+    "skillLevel": 1,
+    "servingGlass": "Latte glass (300 ml)",
+    "decoration": {
+      "chain": "Caramel drizzle",
+      "premium": "Criss-cross caramel art"
+    },
+    "ingredientCost": 0.65,
+    "profitMargin": 83.3,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 10,
+    "originalImagePath": "/products/caramel-latte.jpg"
+  },
+  {
+    "id": "spanish-latte-hot",
+    "name": {
+      "en": "Spanish Latte (Hot)",
+      "it": "Spanish Latte (Hot)",
+      "vi": "Spanish Latte (Hot)"
+    },
+    "description": {
+      "en": "Iced: shake all with ice",
+      "it": "Iced: shake all with ice",
+      "vi": "Iced: shake all with ice"
+    },
+    "category": "espresso",
+    "price": 4,
+    "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
+    "mainIngredients": "Espresso, milk, condensed milk",
+    "quantity": "60 ml espresso, 120 ml milk, 30 ml condensed milk",
+    "preparationMethod": "Mix condensed + milk, steam, pour espresso",
+    "calories": 64,
+    "protein_g": 5.2,
+    "carbs_g": 7.7,
+    "fat_g": 1.5,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 80,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Condensed milk swirl"
+    },
+    "ingredientCost": 0.7,
+    "profitMargin": 82.5,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 11,
+    "originalImagePath": "/products/spanish-latte-hot.jpg"
+  },
+  {
+    "id": "raf-coffee-classic",
+    "name": {
+      "en": "Raf Coffee (Classic)",
+      "it": "Raf Coffee (Classic)",
+      "vi": "Raf Coffee (Classic)"
+    },
+    "description": {
+      "en": "Serve hot without foam",
+      "it": "Serve hot without foam",
+      "vi": "Serve hot without foam"
+    },
+    "category": "espresso",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
+    "mainIngredients": "Espresso, cream, sugar, vanilla syrup",
+    "quantity": "60 ml espresso, 60 ml cream, 10 ml syrup, 5 g sugar",
+    "preparationMethod": "Steam all together until frothy",
+    "calories": 251,
+    "protein_g": 1.3,
+    "carbs_g": 13.5,
+    "fat_g": 21.6,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Vanilla bean piece"
+    },
+    "ingredientCost": 0.8,
+    "profitMargin": 81,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 12,
+    "originalImagePath": "/products/raf-coffee-classic.jpg"
+  },
+  {
+    "id": "tiramisu-cappuccino",
+    "name": {
+      "en": "Tiramisu Cappuccino",
+      "it": "Tiramisu Cappuccino",
+      "vi": "Tiramisu Cappuccino"
+    },
+    "description": {
+      "en": "Dessert-style",
+      "it": "Dessert-style",
+      "vi": "Dessert-style"
+    },
+    "category": "espresso",
+    "price": 4.8,
+    "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
+    "mainIngredients": "Espresso, milk, cocoa, mascarpone cream",
+    "quantity": "60 ml espresso, 120 ml milk, 15 g cocoa, 20 g mascarpone",
+    "preparationMethod": "Layer espresso, mascarpone, milk foam; dust cocoa",
+    "calories": 172,
+    "protein_g": 8.1,
+    "carbs_g": 15.7,
+    "fat_g": 12.1,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 110,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "Cocoa dust",
+      "premium": "Cocoa stencil + ladyfinger crumb"
+    },
+    "ingredientCost": 0.95,
+    "profitMargin": 80.2,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 13,
+    "originalImagePath": "/products/tiramisu-cappuccino.jpg"
+  },
+  {
+    "id": "cream-cheese-latte",
+    "name": {
+      "en": "Cream Cheese Latte",
+      "it": "Cream Cheese Latte",
+      "vi": "Cream Cheese Latte"
+    },
+    "description": {
+      "en": "Sprinkle sea salt",
+      "it": "Sprinkle sea salt",
+      "vi": "Sprinkle sea salt"
+    },
+    "category": "espresso",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
+    "mainIngredients": "Espresso, milk, cream cheese foam",
+    "quantity": "60 ml espresso, 150 ml milk, 20 g cream cheese foam",
+    "preparationMethod": "Pour milk over espresso, top cream cheese foam",
+    "calories": 132,
+    "protein_g": 5.6,
+    "carbs_g": 8.3,
+    "fat_g": 8.7,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (300 ml)",
+    "decoration": {
+      "chain": "Cream cheese cap",
+      "premium": "Sea salt flakes + microfoam layer"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 81.1,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 14,
+    "originalImagePath": "/products/cream-cheese-latte.jpg"
+  },
+  {
+    "id": "espresso-tonic",
+    "name": {
+      "en": "Espresso Tonic",
+      "it": "Espresso Tonic",
+      "vi": "Espresso Tonic"
+    },
+    "description": {
+      "en": "Garnish lemon",
+      "it": "Garnish lemon",
+      "vi": "Garnish lemon"
+    },
+    "category": "espresso",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
+    "mainIngredients": "Espresso, tonic water, ice, lemon slice",
+    "quantity": "60 ml espresso, 120 ml tonic, 120 g ice",
+    "preparationMethod": "Pour tonic over ice, float espresso",
+    "calories": 42,
+    "protein_g": 0.1,
+    "carbs_g": 11,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 80,
+    "skillLevel": 1,
+    "servingGlass": "Highball glass (350 ml)",
+    "decoration": {
+      "chain": "Lemon slice",
+      "premium": "Dehydrated lemon wheel + clear layering"
+    },
+    "ingredientCost": 0.75,
+    "profitMargin": 82.1,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 15,
+    "originalImagePath": "/products/espresso-tonic.jpg"
+  },
+  {
+    "id": "affogato",
+    "name": {
+      "en": "Affogato",
+      "it": "Affogato",
+      "vi": "Affogato"
+    },
+    "description": {
+      "en": "Chocolate drizzle optional",
+      "it": "Chocolate drizzle optional",
+      "vi": "Chocolate drizzle optional"
+    },
+    "category": "espresso",
+    "price": 4,
+    "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
+    "mainIngredients": "Espresso, vanilla ice cream",
+    "quantity": "60 ml espresso, 80 g ice cream",
+    "preparationMethod": "Pour hot espresso over ice cream",
+    "calories": 273,
+    "protein_g": 1.7,
+    "carbs_g": 2.6,
+    "fat_g": 28.8,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 50,
+    "skillLevel": 1,
+    "servingGlass": "Dessert bowl",
+    "decoration": {
+      "chain": "None",
+      "premium": "Chocolate shard on top"
+    },
+    "ingredientCost": 0.7,
+    "profitMargin": 82.5,
+    "tags": [
+      "hot",
+      "espresso-based"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 16,
+    "originalImagePath": "/products/affogato.jpg"
+  },
+  {
+    "id": "nutella-coffee-iced",
+    "name": {
+      "en": "Nutella Coffee (Iced)",
+      "it": "Nutella Coffee (Iced)",
+      "vi": "Nutella Coffee (Iced)"
+    },
+    "description": {
+      "en": "Hot: steam milk with Nutella",
+      "it": "Hot: steam milk with Nutella",
+      "vi": "Hot: steam milk with Nutella"
+    },
+    "category": "signature-coffee",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
+    "mainIngredients": "Espresso, Nutella, milk, whipped cream, ice",
+    "quantity": "60 ml espresso, 25 g Nutella, 150 ml milk, 100 g ice, 20 g cream",
+    "preparationMethod": "Blend Nutella + milk; add ice; pour espresso; top with cream",
+    "calories": 267,
+    "protein_g": 7.1,
+    "carbs_g": 22.8,
+    "fat_g": 16.5,
+    "allergens": [
+      "milk",
+      "nuts"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Whipped cream + Nutella drizzle",
+      "premium": "Whipped cream tower + hazelnut rim"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80,
+    "tags": [
+      "iced",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 17,
+    "originalImagePath": "/products/nutella-coffee-iced.jpg"
+  },
+  {
+    "id": "kinder-coffee-iced",
+    "name": {
+      "en": "Kinder Coffee (Iced)",
+      "it": "Kinder Coffee (Iced)",
+      "vi": "Kinder Coffee (Iced)"
+    },
+    "description": {
+      "en": "Garnish with Kinder flakes",
+      "it": "Garnish with Kinder flakes",
+      "vi": "Garnish with Kinder flakes"
+    },
+    "category": "signature-coffee",
+    "price": 4.7,
+    "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
+    "mainIngredients": "Espresso, white chocolate syrup, Kinder chocolate, milk, ice",
+    "quantity": "60 ml espresso, 20 ml white choc syrup, 1 bar Kinder, 150 ml milk, 100 g ice",
+    "preparationMethod": "Blend all except espresso; pour espresso on top",
+    "calories": 116,
+    "protein_g": 5.2,
+    "carbs_g": 20.7,
+    "fat_g": 1.5,
+    "allergens": [
+      "milk",
+      "soy",
+      "gluten"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 95,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Whipped cream + white choc drizzle",
+      "premium": "Rim with white choc shards"
+    },
+    "ingredientCost": 0.95,
+    "profitMargin": 79.8,
+    "tags": [
+      "iced",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 18,
+    "originalImagePath": "/products/kinder-coffee-iced.jpg"
+  },
+  {
+    "id": "oreo-coffee",
+    "name": {
+      "en": "Oreo Coffee",
+      "it": "Oreo Coffee",
+      "vi": "Oreo Coffee"
+    },
+    "description": {
+      "en": "Add Oreo crumble",
+      "it": "Add Oreo crumble",
+      "vi": "Add Oreo crumble"
+    },
+    "category": "signature-coffee",
+    "price": 4.6,
+    "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
+    "mainIngredients": "Espresso, Oreo crumbs, milk, chocolate syrup, whipped cream",
+    "quantity": "60 ml espresso, 2 Oreo, 150 ml milk, 15 ml choc syrup, 20 g cream",
+    "preparationMethod": "Blend Oreo + milk + syrup; add espresso; top with cream",
+    "calories": 181,
+    "protein_g": 5.6,
+    "carbs_g": 19.4,
+    "fat_g": 9.1,
+    "allergens": [
+      "milk",
+      "gluten",
+      "soy"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 95,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Whipped cream + choc drizzle",
+      "premium": "Oreo crumble rim"
+    },
+    "ingredientCost": 0.95,
+    "profitMargin": 79.3,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 19,
+    "originalImagePath": "/products/oreo-coffee.jpg"
+  },
+  {
+    "id": "bounty-coffee",
+    "name": {
+      "en": "Bounty Coffee",
+      "it": "Bounty Coffee",
+      "vi": "Bounty Coffee"
+    },
+    "description": {
+      "en": "Shredded coconut rim",
+      "it": "Shredded coconut rim",
+      "vi": "Shredded coconut rim"
+    },
+    "category": "signature-coffee",
+    "price": 4.6,
+    "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
+    "mainIngredients": "Espresso, coconut cream, milk, chocolate syrup, ice",
+    "quantity": "60 ml espresso, 20 ml coconut cream, 120 ml milk, 10 ml choc syrup, 80 g ice",
+    "preparationMethod": "Shake coconut cream + milk with ice; float espresso",
+    "calories": 146,
+    "protein_g": 4.5,
+    "carbs_g": 13.3,
+    "fat_g": 8.4,
+    "allergens": [
+      "milk",
+      "soy",
+      "coconut"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Coconut flakes",
+      "premium": "Chocolate-coconut rim"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80.4,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 20,
+    "originalImagePath": "/products/bounty-coffee.jpg"
+  },
+  {
+    "id": "snickers-coffee",
+    "name": {
+      "en": "Snickers Coffee",
+      "it": "Snickers Coffee",
+      "vi": "Snickers Coffee"
+    },
+    "description": {
+      "en": "Peanut crunch sprinkle",
+      "it": "Peanut crunch sprinkle",
+      "vi": "Peanut crunch sprinkle"
+    },
+    "category": "signature-coffee",
+    "price": 4.8,
+    "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
+    "mainIngredients": "Espresso, caramel syrup, chocolate syrup, peanut butter, milk",
+    "quantity": "60 ml espresso, 15 ml caramel, 10 ml choc, 10 g PB, 150 ml milk",
+    "preparationMethod": "Steam milk with syrups + PB; pour over espresso",
+    "calories": 64,
+    "protein_g": 5.2,
+    "carbs_g": 7.7,
+    "fat_g": 1.5,
+    "allergens": [
+      "milk",
+      "peanuts",
+      "soy"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Whipped cream + caramel",
+      "premium": "Crushed peanut rim"
+    },
+    "ingredientCost": 1,
+    "profitMargin": 79.2,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 21,
+    "originalImagePath": "/products/snickers-coffee.jpg"
+  },
+  {
+    "id": "fantasy-coffee",
+    "name": {
+      "en": "Fantasy Coffee",
+      "it": "Fantasy Coffee",
+      "vi": "Fantasy Coffee"
+    },
+    "description": {
+      "en": "Serve with straw",
+      "it": "Serve with straw",
+      "vi": "Serve with straw"
+    },
+    "category": "signature-coffee",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
+    "mainIngredients": "Espresso, vanilla ice cream, milk, whipped cream",
+    "quantity": "60 ml espresso, 1 scoop ice cream, 100 ml milk, 20 g cream",
+    "preparationMethod": "Blend all; top with whipped cream",
+    "calories": 383,
+    "protein_g": 5.5,
+    "carbs_g": 8.2,
+    "fat_g": 37,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 85,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Whipped cream",
+      "premium": "Chocolate flakes + straw"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 22,
+    "originalImagePath": "/products/fantasy-coffee.jpg"
+  },
+  {
+    "id": "dolce-gusto-coffee",
+    "name": {
+      "en": "Dolce Gusto Coffee",
+      "it": "Dolce Gusto Coffee",
+      "vi": "Dolce Gusto Coffee"
+    },
+    "description": {
+      "en": "Sweeter profile",
+      "it": "Sweeter profile",
+      "vi": "Sweeter profile"
+    },
+    "category": "signature-coffee",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
+    "mainIngredients": "Espresso, condensed milk, milk, cream",
+    "quantity": "60 ml espresso, 30 ml condensed milk, 100 ml milk, 20 g cream",
+    "preparationMethod": "Shake milk + condensed, add espresso, finish with cream",
+    "calories": 124,
+    "protein_g": 4.9,
+    "carbs_g": 7.3,
+    "fat_g": 8.5,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 80,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "Cream top",
+      "premium": "Cream spiral + cocoa dust"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 23,
+    "originalImagePath": "/products/dolce-gusto-coffee.jpg"
+  },
+  {
+    "id": "black-star",
+    "name": {
+      "en": "Black Star",
+      "it": "Black Star",
+      "vi": "Black Star"
+    },
+    "description": {
+      "en": "Serve in transparent glass",
+      "it": "Serve in transparent glass",
+      "vi": "Serve in transparent glass"
+    },
+    "category": "signature-coffee",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
+    "mainIngredients": "Espresso, black cocoa powder, milk, vanilla syrup",
+    "quantity": "60 ml espresso, 5 g black cocoa, 150 ml milk, 10 ml vanilla",
+    "preparationMethod": "Steam milk with cocoa; add espresso",
+    "calories": 76,
+    "protein_g": 6.2,
+    "carbs_g": 10.6,
+    "fat_g": 2.2,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "Cocoa dust",
+      "premium": "Black cocoa stencil"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 24,
+    "originalImagePath": "/products/black-star.jpg"
+  },
+  {
+    "id": "white-mocha-glace",
+    "name": {
+      "en": "White Mocha Glace",
+      "it": "White Mocha Glace",
+      "vi": "White Mocha Glace"
+    },
+    "description": {
+      "en": "Whipped cream optional",
+      "it": "Whipped cream optional",
+      "vi": "Whipped cream optional"
+    },
+    "category": "signature-coffee",
+    "price": 4.7,
+    "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
+    "mainIngredients": "Espresso, white chocolate syrup, milk, ice cream",
+    "quantity": "60 ml espresso, 20 ml white choc syrup, 120 ml milk, 1 scoop ice cream",
+    "preparationMethod": "Blend milk + syrup + ice cream; add espresso",
+    "calories": 376,
+    "protein_g": 5.7,
+    "carbs_g": 21.6,
+    "fat_g": 30,
+    "allergens": [
+      "milk",
+      "eggs",
+      "soy"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 95,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Whipped cream",
+      "premium": "White choc shards"
+    },
+    "ingredientCost": 0.95,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 25,
+    "originalImagePath": "/products/white-mocha-glace.jpg"
+  },
+  {
+    "id": "coffee-glace",
+    "name": {
+      "en": "Coffee Glace",
+      "it": "Coffee Glace",
+      "vi": "Coffee Glace"
+    },
+    "description": {
+      "en": "Serve immediately",
+      "it": "Serve immediately",
+      "vi": "Serve immediately"
+    },
+    "category": "signature-coffee",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
+    "mainIngredients": "Espresso, vanilla ice cream, whipped cream",
+    "quantity": "60 ml espresso, 1 scoop ice cream, 20 g cream",
+    "preparationMethod": "Pour espresso over ice cream; top with cream",
+    "calories": 341,
+    "protein_g": 2.1,
+    "carbs_g": 3.2,
+    "fat_g": 36,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 70,
+    "skillLevel": 1,
+    "servingGlass": "Dessert glass",
+    "decoration": {
+      "chain": "Whipped cream",
+      "premium": "Chocolate shard"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 26,
+    "originalImagePath": "/products/coffee-glace.jpg"
+  },
+  {
+    "id": "cookie-coffee",
+    "name": {
+      "en": "Cookie Coffee",
+      "it": "Cookie Coffee",
+      "vi": "Cookie Coffee"
+    },
+    "description": {
+      "en": "Cream & crumbs optional",
+      "it": "Cream & crumbs optional",
+      "vi": "Cream & crumbs optional"
+    },
+    "category": "signature-coffee",
+    "price": 4.4,
+    "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
+    "mainIngredients": "Espresso, cookie crumble, milk, chocolate syrup",
+    "quantity": "60 ml espresso, 20 g cookie, 150 ml milk, 15 ml syrup",
+    "preparationMethod": "Blend milk + cookie + syrup; add espresso",
+    "calories": 199,
+    "protein_g": 6.2,
+    "carbs_g": 30.4,
+    "fat_g": 6.1,
+    "allergens": [
+      "milk",
+      "gluten",
+      "eggs",
+      "soy"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Choc drizzle",
+      "premium": "Cookie rim"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 79.5,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 27,
+    "originalImagePath": "/products/cookie-coffee.jpg"
+  },
+  {
+    "id": "iced-creamy-coffee",
+    "name": {
+      "en": "Iced Creamy Coffee",
+      "it": "Iced Creamy Coffee",
+      "vi": "Iced Creamy Coffee"
+    },
+    "description": {
+      "en": "Sugar to taste",
+      "it": "Sugar to taste",
+      "vi": "Sugar to taste"
+    },
+    "category": "signature-coffee",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
+    "mainIngredients": "Espresso, cream, milk, ice",
+    "quantity": "60 ml espresso, 40 ml cream, 120 ml milk, 100 g ice",
+    "preparationMethod": "Shake milk + cream with ice; float espresso",
+    "calories": 188,
+    "protein_g": 4.9,
+    "carbs_g": 7.4,
+    "fat_g": 15.6,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 80,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Cream float layer"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 79.8,
+    "tags": [
+      "iced",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 28,
+    "originalImagePath": "/products/iced-creamy-coffee.jpg"
+  },
+  {
+    "id": "iced-nutella-coffee",
+    "name": {
+      "en": "Iced Nutella Coffee",
+      "it": "Iced Nutella Coffee",
+      "vi": "Iced Nutella Coffee"
+    },
+    "description": {
+      "en": "Use crushed ice",
+      "it": "Use crushed ice",
+      "vi": "Use crushed ice"
+    },
+    "category": "signature-coffee",
+    "price": 4.7,
+    "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
+    "mainIngredients": "Espresso, Nutella, milk, ice, cream",
+    "quantity": "60 ml espresso, 25 g Nutella, 150 ml milk, 80 g ice, 20 g cream",
+    "preparationMethod": "Blend milk + Nutella; add ice; pour espresso; top with cream",
+    "calories": 267,
+    "protein_g": 7.1,
+    "carbs_g": 22.8,
+    "fat_g": 16.5,
+    "allergens": [
+      "milk",
+      "nuts"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 95,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Whipped cream + Nutella drizzle",
+      "premium": "Hazelnut rim + drizzle"
+    },
+    "ingredientCost": 0.95,
+    "profitMargin": 79.8,
+    "tags": [
+      "iced",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 29,
+    "originalImagePath": "/products/iced-nutella-coffee.jpg"
+  },
+  {
+    "id": "kinder-white-cream",
+    "name": {
+      "en": "Kinder White Cream",
+      "it": "Kinder White Cream",
+      "vi": "Kinder White Cream"
+    },
+    "description": {
+      "en": "Serve hot or iced",
+      "it": "Serve hot or iced",
+      "vi": "Serve hot or iced"
+    },
+    "category": "signature-coffee",
+    "price": 4.7,
+    "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
+    "mainIngredients": "Espresso, white chocolate, cream, milk",
+    "quantity": "60 ml espresso, 20 g white choc, 20 g cream, 120 ml milk",
+    "preparationMethod": "Steam milk + chocolate; add espresso; top with cream",
+    "calories": 120,
+    "protein_g": 4.5,
+    "carbs_g": 6.8,
+    "fat_g": 8.4,
+    "allergens": [
+      "milk",
+      "soy"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 95,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "White choc drizzle",
+      "premium": "White choc curl"
+    },
+    "ingredientCost": 0.95,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 30,
+    "originalImagePath": "/products/kinder-white-cream.jpg"
+  },
+  {
+    "id": "dolce-glace",
+    "name": {
+      "en": "Dolce Glace",
+      "it": "Dolce Glace",
+      "vi": "Dolce Glace"
+    },
+    "description": {
+      "en": "Sweet, dessert-like",
+      "it": "Sweet, dessert-like",
+      "vi": "Sweet, dessert-like"
+    },
+    "category": "signature-coffee",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
+    "mainIngredients": "Espresso, condensed milk, ice cream, milk",
+    "quantity": "60 ml espresso, 20 ml condensed milk, 1 scoop ice cream, 120 ml milk",
+    "preparationMethod": "Blend cold ingredients; add espresso",
+    "calories": 332,
+    "protein_g": 6.4,
+    "carbs_g": 9.6,
+    "fat_g": 30.2,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "Cream top",
+      "premium": "Cocoa dust + wafer"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 31,
+    "originalImagePath": "/products/dolce-glace.jpg"
+  },
+  {
+    "id": "white-mocha",
+    "name": {
+      "en": "White Mocha",
+      "it": "White Mocha",
+      "vi": "White Mocha"
+    },
+    "description": {
+      "en": "Very sweet profile",
+      "it": "Very sweet profile",
+      "vi": "Very sweet profile"
+    },
+    "category": "signature-coffee",
+    "price": 4.3,
+    "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
+    "mainIngredients": "Espresso, white chocolate syrup, milk",
+    "quantity": "60 ml espresso, 20 ml white choc syrup, 150 ml milk",
+    "preparationMethod": "Steam milk with syrup; pour over espresso",
+    "calories": 116,
+    "protein_g": 5.2,
+    "carbs_g": 20.7,
+    "fat_g": 1.5,
+    "allergens": [
+      "milk",
+      "soy"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 85,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "White choc grate"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 80.2,
+    "tags": [
+      "hot",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 32,
+    "originalImagePath": "/products/white-mocha.jpg"
+  },
+  {
+    "id": "iced-white-mocha-coffee",
+    "name": {
+      "en": "Iced White Mocha Coffee",
+      "it": "Iced White Mocha Coffee",
+      "vi": "Iced White Mocha Coffee"
+    },
+    "description": {
+      "en": "Optional cream top",
+      "it": "Optional cream top",
+      "vi": "Optional cream top"
+    },
+    "category": "signature-coffee",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
+    "mainIngredients": "Espresso, white choc syrup, milk, ice",
+    "quantity": "60 ml espresso, 20 ml syrup, 150 ml milk, 100 g ice",
+    "preparationMethod": "Shake with ice; pour",
+    "calories": 116,
+    "protein_g": 5.2,
+    "carbs_g": 20.7,
+    "fat_g": 1.5,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "White choc drizzle"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80,
+    "tags": [
+      "iced",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 33,
+    "originalImagePath": "/products/iced-white-mocha-coffee.jpg"
+  },
+  {
+    "id": "iced-black-star-coffee",
+    "name": {
+      "en": "Iced Black Star Coffee",
+      "it": "Iced Black Star Coffee",
+      "vi": "Iced Black Star Coffee"
+    },
+    "description": {
+      "en": "Dark aesthetic",
+      "it": "Dark aesthetic",
+      "vi": "Dark aesthetic"
+    },
+    "category": "signature-coffee",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
+    "mainIngredients": "Espresso, black cocoa, milk, ice",
+    "quantity": "60 ml espresso, 5 g black cocoa, 150 ml milk, 100 g ice",
+    "preparationMethod": "Shake milk + cocoa with ice; pour espresso",
+    "calories": 76,
+    "protein_g": 6.2,
+    "carbs_g": 10.6,
+    "fat_g": 2.2,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Cocoa dust",
+      "premium": "Black cocoa art"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80,
+    "tags": [
+      "iced",
+      "coffee-mix"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 34,
+    "originalImagePath": "/products/iced-black-star-coffee.jpg"
+  },
+  {
+    "id": "matcha-latte-hot",
+    "name": {
+      "en": "Matcha Latte (Hot)",
+      "it": "Matcha Latte (Hot)",
+      "vi": "Matcha Latte (Hot)"
+    },
+    "description": {
+      "en": "Sweeten with 10 ml syrup",
+      "it": "Sweeten with 10 ml syrup",
+      "vi": "Sweeten with 10 ml syrup"
+    },
+    "category": "matcha",
+    "price": 4,
+    "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400",
+    "mainIngredients": "Matcha powder, milk, water",
+    "quantity": "2 g matcha, 60 ml hot water, 180 ml milk",
+    "preparationMethod": "Whisk matcha; steam milk; combine",
+    "calories": 82,
+    "protein_g": 6.7,
+    "carbs_g": 9.8,
+    "fat_g": 1.9,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 80,
+    "skillLevel": 1,
+    "servingGlass": "Mug (300 ml)",
+    "decoration": {
+      "chain": "Matcha powder dust",
+      "premium": "Foam art + bamboo whisk prop"
+    },
+    "ingredientCost": 0.8,
+    "profitMargin": 80,
+    "tags": [
+      "hot",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 35,
+    "originalImagePath": "/products/matcha-latte-hot.jpg"
+  },
+  {
+    "id": "iced-matcha-latte",
+    "name": {
+      "en": "Iced Matcha Latte",
+      "it": "Iced Matcha Latte",
+      "vi": "Iced Matcha Latte"
+    },
+    "description": {
+      "en": "Add 10 ml vanilla syrup",
+      "it": "Add 10 ml vanilla syrup",
+      "vi": "Add 10 ml vanilla syrup"
+    },
+    "category": "matcha",
+    "price": 4,
+    "image": "https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=400",
+    "mainIngredients": "Matcha, milk, water, ice",
+    "quantity": "2 g matcha, 60 ml water, 150 ml milk, 100 g ice",
+    "preparationMethod": "Shake vigorously; pour over ice",
+    "calories": 69,
+    "protein_g": 5.7,
+    "carbs_g": 8.3,
+    "fat_g": 1.6,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 75,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Layered green + straw"
+    },
+    "ingredientCost": 0.8,
+    "profitMargin": 80,
+    "tags": [
+      "iced",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 36,
+    "originalImagePath": "/products/iced-matcha-latte.jpg"
+  },
+  {
+    "id": "salted-caramel-matcha-latte",
+    "name": {
+      "en": "Salted Caramel Matcha Latte",
+      "it": "Salted Caramel Matcha Latte",
+      "vi": "Salted Caramel Matcha Latte"
+    },
+    "description": {
+      "en": "Iced or hot",
+      "it": "Iced or hot",
+      "vi": "Iced or hot"
+    },
+    "category": "matcha",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=400",
+    "mainIngredients": "Matcha, caramel syrup, milk, cream, salt",
+    "quantity": "2 g matcha, 15 ml caramel, 150 ml milk, 20 g cream, pinch salt",
+    "preparationMethod": "Whisk matcha; mix milk + syrup; top with cream + salt",
+    "calories": 137,
+    "protein_g": 6.1,
+    "carbs_g": 8.9,
+    "fat_g": 8.8,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Cream cap",
+      "premium": "Caramel drizzle + salt flakes"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80,
+    "tags": [
+      "hot",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 37,
+    "originalImagePath": "/products/salted-caramel-matcha-latte.jpg"
+  },
+  {
+    "id": "cream-cheese-matcha-latte-aroma",
+    "name": {
+      "en": "Cream Cheese Matcha Latte Aroma",
+      "it": "Cream Cheese Matcha Latte Aroma",
+      "vi": "Cream Cheese Matcha Latte Aroma"
+    },
+    "description": {
+      "en": "Dust matcha on top",
+      "it": "Dust matcha on top",
+      "vi": "Dust matcha on top"
+    },
+    "category": "matcha",
+    "price": 4.6,
+    "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400",
+    "mainIngredients": "Matcha, milk, cream cheese foam",
+    "quantity": "2 g matcha, 150 ml milk, 20 g cream cheese foam",
+    "preparationMethod": "Whisk matcha; pour milk; top with foam",
+    "calories": 137,
+    "protein_g": 6.1,
+    "carbs_g": 8.9,
+    "fat_g": 8.8,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "Cream cheese cap",
+      "premium": "Matcha dust art"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80.4,
+    "tags": [
+      "hot",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 38,
+    "originalImagePath": "/products/cream-cheese-matcha-latte-aroma.jpg"
+  },
+  {
+    "id": "sky-matcha",
+    "name": {
+      "en": "Sky Matcha",
+      "it": "Sky Matcha",
+      "vi": "Sky Matcha"
+    },
+    "description": {
+      "en": "Gradient look",
+      "it": "Gradient look",
+      "vi": "Gradient look"
+    },
+    "category": "matcha",
+    "price": 4.4,
+    "image": "https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=400",
+    "mainIngredients": "Matcha, butterfly pea extract, milk",
+    "quantity": "2 g matcha, 10 ml extract, 150 ml milk",
+    "preparationMethod": "Layer matcha with milk + blue extract",
+    "calories": 69,
+    "protein_g": 5.7,
+    "carbs_g": 8.3,
+    "fat_g": 1.6,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 85,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Blue-purple gradient"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 80.7,
+    "tags": [
+      "hot",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 39,
+    "originalImagePath": "/products/sky-matcha.jpg"
+  },
+  {
+    "id": "matcha-raspberry-iced",
+    "name": {
+      "en": "Matcha Raspberry (Iced)",
+      "it": "Matcha Raspberry (Iced)",
+      "vi": "Matcha Raspberry (Iced)"
+    },
+    "description": {
+      "en": "Raspberry garnish",
+      "it": "Raspberry garnish",
+      "vi": "Raspberry garnish"
+    },
+    "category": "matcha",
+    "price": 4.4,
+    "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=400",
+    "mainIngredients": "Matcha, raspberry syrup, milk, ice",
+    "quantity": "2 g matcha, 15 ml raspberry, 150 ml milk, 100 g ice",
+    "preparationMethod": "Shake matcha with syrup + milk; serve over ice",
+    "calories": 69,
+    "protein_g": 5.7,
+    "carbs_g": 8.3,
+    "fat_g": 1.6,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 85,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Mint leaf",
+      "premium": "Fresh raspberry garnish"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 80.7,
+    "tags": [
+      "iced",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 40,
+    "originalImagePath": "/products/matcha-raspberry-iced.jpg"
+  },
+  {
+    "id": "matcha-strawberry-hot",
+    "name": {
+      "en": "Matcha Strawberry (Hot)",
+      "it": "Matcha Strawberry (Hot)",
+      "vi": "Matcha Strawberry (Hot)"
+    },
+    "description": {
+      "en": "Cream optional",
+      "it": "Cream optional",
+      "vi": "Cream optional"
+    },
+    "category": "matcha",
+    "price": 4.4,
+    "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400",
+    "mainIngredients": "Matcha, strawberry syrup, milk",
+    "quantity": "2 g matcha, 15 ml strawberry, 150 ml milk",
+    "preparationMethod": "Whisk matcha; steam milk with syrup; combine",
+    "calories": 74,
+    "protein_g": 5.8,
+    "carbs_g": 9.5,
+    "fat_g": 1.6,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Mug (300 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Strawberry slice"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 80.7,
+    "tags": [
+      "hot",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 41,
+    "originalImagePath": "/products/matcha-strawberry-hot.jpg"
+  },
+  {
+    "id": "salted-caramel-matcha-iced",
+    "name": {
+      "en": "Salted Caramel Matcha (Iced)",
+      "it": "Salted Caramel Matcha (Iced)",
+      "vi": "Salted Caramel Matcha (Iced)"
+    },
+    "description": {
+      "en": "Less sweet version",
+      "it": "Less sweet version",
+      "vi": "Less sweet version"
+    },
+    "category": "matcha",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=400",
+    "mainIngredients": "Matcha, caramel syrup, milk, ice, cream",
+    "quantity": "2 g matcha, 15 ml caramel, 150 ml milk, 80 g ice, 20 g cream",
+    "preparationMethod": "Mix matcha + milk + syrup; pour over ice; top with cream",
+    "calories": 137,
+    "protein_g": 6.1,
+    "carbs_g": 8.9,
+    "fat_g": 8.8,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Cream cap",
+      "premium": "Caramel drizzle"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80,
+    "tags": [
+      "iced",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 42,
+    "originalImagePath": "/products/salted-caramel-matcha-iced.jpg"
+  },
+  {
+    "id": "matcha-latte-with-coconut-milk",
+    "name": {
+      "en": "Matcha Latte with Coconut Milk",
+      "it": "Matcha Latte with Coconut Milk",
+      "vi": "Matcha Latte with Coconut Milk"
+    },
+    "description": {
+      "en": "Vegan",
+      "it": "Vegan",
+      "vi": "Vegan"
+    },
+    "category": "matcha",
+    "price": 4.8,
+    "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=400",
+    "mainIngredients": "Matcha, coconut milk, water",
+    "quantity": "2 g matcha, 150 ml coconut milk, 60 ml hot water",
+    "preparationMethod": "Whisk matcha with water; mix with warm coconut milk",
+    "calories": 69,
+    "protein_g": 5.7,
+    "carbs_g": 8.3,
+    "fat_g": 1.6,
+    "allergens": [
+      "milk",
+      "coconut"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 85,
+    "skillLevel": 1,
+    "servingGlass": "Mug (300 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Toasted coconut pinch"
+    },
+    "ingredientCost": 0.95,
+    "profitMargin": 80.2,
+    "tags": [
+      "hot",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 43,
+    "originalImagePath": "/products/matcha-latte-with-coconut-milk.jpg"
+  },
+  {
+    "id": "creamy-vanilla-matcha-iced",
+    "name": {
+      "en": "Creamy Vanilla Matcha (Iced)",
+      "it": "Creamy Vanilla Matcha (Iced)",
+      "vi": "Creamy Vanilla Matcha (Iced)"
+    },
+    "description": {
+      "en": "Whipped cream optional",
+      "it": "Whipped cream optional",
+      "vi": "Whipped cream optional"
+    },
+    "category": "matcha",
+    "price": 4.5,
+    "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400",
+    "mainIngredients": "Matcha, vanilla syrup, milk, ice",
+    "quantity": "2 g matcha, 15 ml vanilla, 150 ml milk, 100 g ice",
+    "preparationMethod": "Shake together; pour over ice",
+    "calories": 69,
+    "protein_g": 5.7,
+    "carbs_g": 8.3,
+    "fat_g": 1.6,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 85,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Vanilla bean speck"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80,
+    "tags": [
+      "iced",
+      "matcha"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 44,
+    "originalImagePath": "/products/creamy-vanilla-matcha-iced.jpg"
+  },
+  {
+    "id": "blue-moon-tea",
+    "name": {
+      "en": "Blue Moon Tea",
+      "it": "Blue Moon Tea",
+      "vi": "Blue Moon Tea"
+    },
+    "description": {
+      "en": "Color change blue→purple",
+      "it": "Color change blue→purple",
+      "vi": "Color change blue→purple"
+    },
+    "category": "tea",
+    "price": 2.5,
+    "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
+    "mainIngredients": "Butterfly pea tea, honey, lemon",
+    "quantity": "3 g tea, 250 ml hot water, 10 ml honey, 5 ml lemon",
+    "preparationMethod": "Steep tea 4 min, add honey; lemon at service",
+    "calories": 32,
+    "protein_g": 0.1,
+    "carbs_g": 8.7,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall mug (350 ml)",
+    "decoration": {
+      "chain": "Lemon slice",
+      "premium": "Dehydrated citrus + glass teapot"
+    },
+    "ingredientCost": 0.3,
+    "profitMargin": 88,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 45,
+    "originalImagePath": "/products/blue-moon-tea.jpg"
+  },
+  {
+    "id": "strawberry-carcade-tea",
+    "name": {
+      "en": "Strawberry Carcade Tea",
+      "it": "Strawberry Carcade Tea",
+      "vi": "Strawberry Carcade Tea"
+    },
+    "description": {
+      "en": "Serve hot or iced",
+      "it": "Serve hot or iced",
+      "vi": "Serve hot or iced"
+    },
+    "category": "tea",
+    "price": 2.8,
+    "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
+    "mainIngredients": "Hibiscus petals, strawberry syrup, water",
+    "quantity": "3 g hibiscus, 250 ml water, 15 ml syrup",
+    "preparationMethod": "Steep 5 min; add syrup",
+    "calories": 39,
+    "protein_g": 0,
+    "carbs_g": 9.8,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall mug (350 ml)",
+    "decoration": {
+      "chain": "Strawberry slice",
+      "premium": "Fresh strawberry + mint"
+    },
+    "ingredientCost": 0.35,
+    "profitMargin": 87.5,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 46,
+    "originalImagePath": "/products/strawberry-carcade-tea.jpg"
+  },
+  {
+    "id": "raspberry-tea",
+    "name": {
+      "en": "Raspberry Tea",
+      "it": "Raspberry Tea",
+      "vi": "Raspberry Tea"
+    },
+    "description": {
+      "en": "—",
+      "it": "—",
+      "vi": "—"
+    },
+    "category": "tea",
+    "price": 2.8,
+    "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
+    "mainIngredients": "Black tea, raspberry syrup",
+    "quantity": "3 g black tea, 250 ml water, 15 ml syrup",
+    "preparationMethod": "Steep 3–4 min; mix syrup",
+    "calories": 39,
+    "protein_g": 0,
+    "carbs_g": 9.8,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall mug (350 ml)",
+    "decoration": {
+      "chain": "Mint leaf",
+      "premium": "Fresh raspberry + mint"
+    },
+    "ingredientCost": 0.35,
+    "profitMargin": 87.5,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 47,
+    "originalImagePath": "/products/raspberry-tea.jpg"
+  },
+  {
+    "id": "herbal-tea-house-blend",
+    "name": {
+      "en": "Herbal Tea (House Blend)",
+      "it": "Herbal Tea (House Blend)",
+      "vi": "Herbal Tea (House Blend)"
+    },
+    "description": {
+      "en": "Add honey if desired",
+      "it": "Add honey if desired",
+      "vi": "Add honey if desired"
+    },
+    "category": "tea",
+    "price": 2.5,
+    "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
+    "mainIngredients": "Chamomile, mint, lemongrass",
+    "quantity": "3 g herbal blend, 250 ml water",
+    "preparationMethod": "Steep 5–6 min covered",
+    "calories": 150,
+    "protein_g": 3,
+    "carbs_g": 20,
+    "fat_g": 5,
+    "allergens": [],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall mug (350 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Lemon wheel"
+    },
+    "ingredientCost": 0.3,
+    "profitMargin": 88,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 48,
+    "originalImagePath": "/products/herbal-tea-house-blend.jpg"
+  },
+  {
+    "id": "green-tea-classic",
+    "name": {
+      "en": "Green Tea (Classic)",
+      "it": "Green Tea (Classic)",
+      "vi": "Green Tea (Classic)"
+    },
+    "description": {
+      "en": "Avoid boiling water",
+      "it": "Avoid boiling water",
+      "vi": "Avoid boiling water"
+    },
+    "category": "tea",
+    "price": 2.5,
+    "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
+    "mainIngredients": "Green tea leaves, water",
+    "quantity": "2 g leaves, 250 ml water at 80 °C",
+    "preparationMethod": "Steep 2–3 min",
+    "calories": 150,
+    "protein_g": 3,
+    "carbs_g": 20,
+    "fat_g": 5,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall mug (350 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Matcha dust pinch"
+    },
+    "ingredientCost": 0.25,
+    "profitMargin": 90,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 49,
+    "originalImagePath": "/products/green-tea-classic.jpg"
+  },
+  {
+    "id": "kiwi-lime-tea",
+    "name": {
+      "en": "Kiwi Lime Tea",
+      "it": "Kiwi Lime Tea",
+      "vi": "Kiwi Lime Tea"
+    },
+    "description": {
+      "en": "Great iced",
+      "it": "Great iced",
+      "vi": "Great iced"
+    },
+    "category": "tea",
+    "price": 3,
+    "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
+    "mainIngredients": "Green tea, kiwi syrup, lime juice",
+    "quantity": "2 g green tea, 250 ml water, 10 ml kiwi syrup, 5 ml lime",
+    "preparationMethod": "Prepare tea, cool, add syrup + lime",
+    "calories": 8,
+    "protein_g": 0.1,
+    "carbs_g": 2.1,
+    "fat_g": 0.1,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Lime wheel",
+      "premium": "Kiwi slice + mint"
+    },
+    "ingredientCost": 0.35,
+    "profitMargin": 88.3,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 50,
+    "originalImagePath": "/products/kiwi-lime-tea.jpg"
+  },
+  {
+    "id": "winter-punch-tea",
+    "name": {
+      "en": "Winter Punch Tea",
+      "it": "Winter Punch Tea",
+      "vi": "Winter Punch Tea"
+    },
+    "description": {
+      "en": "Serve hot",
+      "it": "Serve hot",
+      "vi": "Serve hot"
+    },
+    "category": "tea",
+    "price": 3.2,
+    "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
+    "mainIngredients": "Black tea, apple juice, cinnamon, cloves",
+    "quantity": "3 g tea, 150 ml water, 100 ml apple juice, cinnamon, 2 cloves",
+    "preparationMethod": "Brew tea with spices, top warm juice",
+    "calories": 45,
+    "protein_g": 0.5,
+    "carbs_g": 10,
+    "fat_g": 0.2,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 150,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "Cinnamon stick",
+      "premium": "Dehydrated apple + star anise"
+    },
+    "ingredientCost": 0.45,
+    "profitMargin": 85.9,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 51,
+    "originalImagePath": "/products/winter-punch-tea.jpg"
+  },
+  {
+    "id": "pomegranate-tea",
+    "name": {
+      "en": "Pomegranate Tea",
+      "it": "Pomegranate Tea",
+      "vi": "Pomegranate Tea"
+    },
+    "description": {
+      "en": "Sweet-tart profile",
+      "it": "Sweet-tart profile",
+      "vi": "Sweet-tart profile"
+    },
+    "category": "tea",
+    "price": 3,
+    "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
+    "mainIngredients": "Black tea, pomegranate syrup, lemon",
+    "quantity": "3 g tea, 250 ml water, 15 ml syrup, 5 ml lemon",
+    "preparationMethod": "Steep 3 min; add syrup + lemon",
+    "calories": 40,
+    "protein_g": 0.1,
+    "carbs_g": 10.2,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Pomegranate seeds",
+      "premium": "Lemon twist + seeds"
+    },
+    "ingredientCost": 0.35,
+    "profitMargin": 88.3,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 52,
+    "originalImagePath": "/products/pomegranate-tea.jpg"
+  },
+  {
+    "id": "hibiscus-strawberry-tea",
+    "name": {
+      "en": "Hibiscus Strawberry Tea",
+      "it": "Hibiscus Strawberry Tea",
+      "vi": "Hibiscus Strawberry Tea"
+    },
+    "description": {
+      "en": "Bright red",
+      "it": "Bright red",
+      "vi": "Bright red"
+    },
+    "category": "tea",
+    "price": 3,
+    "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
+    "mainIngredients": "Hibiscus, strawberry syrup",
+    "quantity": "3 g hibiscus, 250 ml water, 15 ml syrup",
+    "preparationMethod": "Steep 5 min; mix syrup",
+    "calories": 39,
+    "protein_g": 0,
+    "carbs_g": 9.8,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Strawberry slice",
+      "premium": "Strawberry fan"
+    },
+    "ingredientCost": 0.35,
+    "profitMargin": 88.3,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 53,
+    "originalImagePath": "/products/hibiscus-strawberry-tea.jpg"
+  },
+  {
+    "id": "immuno-tea",
+    "name": {
+      "en": "Immuno Tea",
+      "it": "Immuno Tea",
+      "vi": "Immuno Tea"
+    },
+    "description": {
+      "en": "Serve hot",
+      "it": "Serve hot",
+      "vi": "Serve hot"
+    },
+    "category": "tea",
+    "price": 3.2,
+    "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
+    "mainIngredients": "Ginger, lemon, honey, mint",
+    "quantity": "3 slices ginger, 250 ml water, 10 ml honey, 5 ml lemon, mint leaves",
+    "preparationMethod": "Steep all 5–6 min",
+    "calories": 32,
+    "protein_g": 0.1,
+    "carbs_g": 8.7,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 150,
+    "skillLevel": 1,
+    "servingGlass": "Glass mug (300 ml)",
+    "decoration": {
+      "chain": "Lemon slice",
+      "premium": "Ginger slice + mint"
+    },
+    "ingredientCost": 0.4,
+    "profitMargin": 87.5,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 54,
+    "originalImagePath": "/products/immuno-tea.jpg"
+  },
+  {
+    "id": "ice-tea-mix",
+    "name": {
+      "en": "Ice Tea Mix",
+      "it": "Ice Tea Mix",
+      "vi": "Ice Tea Mix"
+    },
+    "description": {
+      "en": "Flavors: peach/raspberry/lemon",
+      "it": "Flavors: peach/raspberry/lemon",
+      "vi": "Flavors: peach/raspberry/lemon"
+    },
+    "category": "tea",
+    "price": 3,
+    "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
+    "mainIngredients": "Black tea base, fruit syrup, ice",
+    "quantity": "3 g black tea, 200 ml water, 15 ml syrup, 100 g ice",
+    "preparationMethod": "Brew strong tea, cool, pour over ice + syrup",
+    "calories": 39,
+    "protein_g": 0,
+    "carbs_g": 9.8,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Mint leaf",
+      "premium": "Fruit wedge + mint"
+    },
+    "ingredientCost": 0.35,
+    "profitMargin": 88.3,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 55,
+    "originalImagePath": "/products/ice-tea-mix.jpg"
+  },
+  {
+    "id": "ice-tea-raspberry",
+    "name": {
+      "en": "Ice Tea Raspberry",
+      "it": "Ice Tea Raspberry",
+      "vi": "Ice Tea Raspberry"
+    },
+    "description": {
+      "en": "Garnish with mint",
+      "it": "Garnish with mint",
+      "vi": "Garnish with mint"
+    },
+    "category": "tea",
+    "price": 3,
+    "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
+    "mainIngredients": "Black tea, raspberry syrup, ice",
+    "quantity": "3 g black tea, 200 ml water, 15 ml syrup, 100 g ice",
+    "preparationMethod": "Brew, cool, combine",
+    "calories": 39,
+    "protein_g": 0,
+    "carbs_g": 9.8,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Mint leaf",
+      "premium": "Raspberry + mint"
+    },
+    "ingredientCost": 0.35,
+    "profitMargin": 88.3,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 56,
+    "originalImagePath": "/products/ice-tea-raspberry.jpg"
+  },
+  {
+    "id": "ice-tea-peach",
+    "name": {
+      "en": "Ice Tea Peach",
+      "it": "Ice Tea Peach",
+      "vi": "Ice Tea Peach"
+    },
+    "description": {
+      "en": "Use sliced peach",
+      "it": "Use sliced peach",
+      "vi": "Use sliced peach"
+    },
+    "category": "tea",
+    "price": 3,
+    "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
+    "mainIngredients": "Black tea, peach syrup, ice",
+    "quantity": "3 g black tea, 200 ml water, 15 ml syrup, 100 g ice",
+    "preparationMethod": "Same process",
+    "calories": 39,
+    "protein_g": 0,
+    "carbs_g": 9.8,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Peach slice",
+      "premium": "Peach fan + mint"
+    },
+    "ingredientCost": 0.35,
+    "profitMargin": 88.3,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 57,
+    "originalImagePath": "/products/ice-tea-peach.jpg"
+  },
+  {
+    "id": "herbal-lemon-mint-tea",
+    "name": {
+      "en": "Herbal Lemon Mint Tea",
+      "it": "Herbal Lemon Mint Tea",
+      "vi": "Herbal Lemon Mint Tea"
+    },
+    "description": {
+      "en": "Caffeine-free",
+      "it": "Caffeine-free",
+      "vi": "Caffeine-free"
+    },
+    "category": "tea",
+    "price": 2.8,
+    "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
+    "mainIngredients": "Mint leaves, lemon, honey",
+    "quantity": "3 g mint, 250 ml water, 10 ml honey, 5 ml lemon",
+    "preparationMethod": "Steep mint; stir honey + lemon",
+    "calories": 32,
+    "protein_g": 0.1,
+    "carbs_g": 8.7,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall mug (350 ml)",
+    "decoration": {
+      "chain": "Mint sprig",
+      "premium": "Lemon wheel + mint"
+    },
+    "ingredientCost": 0.3,
+    "profitMargin": 89.3,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 58,
+    "originalImagePath": "/products/herbal-lemon-mint-tea.jpg"
+  },
+  {
+    "id": "strawberry-hibiscus-cold-brew",
+    "name": {
+      "en": "Strawberry Hibiscus Cold Brew",
+      "it": "Strawberry Hibiscus Cold Brew",
+      "vi": "Strawberry Hibiscus Cold Brew"
+    },
+    "description": {
+      "en": "Refreshing",
+      "it": "Refreshing",
+      "vi": "Refreshing"
+    },
+    "category": "tea",
+    "price": 3.2,
+    "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
+    "mainIngredients": "Hibiscus, strawberry pieces, cold water",
+    "quantity": "5 g hibiscus, 300 ml cold water, 2 strawberry slices",
+    "preparationMethod": "Steep 4–6 h refrigerated",
+    "calories": 1,
+    "protein_g": 0,
+    "carbs_g": 0.2,
+    "fat_g": 0,
+    "allergens": [],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 180,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (350 ml)",
+    "decoration": {
+      "chain": "Strawberry slice",
+      "premium": "Strawberry fan + pebble ice"
+    },
+    "ingredientCost": 0.4,
+    "profitMargin": 87.5,
+    "tags": [
+      "hot",
+      "tea"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 59,
+    "originalImagePath": "/products/strawberry-hibiscus-cold-brew.jpg"
+  },
+  {
+    "id": "banana-smoothie",
+    "name": {
+      "en": "Banana Smoothie",
+      "it": "Banana Smoothie",
+      "vi": "Banana Smoothie"
+    },
+    "description": {
+      "en": "Add oats 10 g",
+      "it": "Add oats 10 g",
+      "vi": "Add oats 10 g"
+    },
+    "category": "smoothie",
+    "price": 3.8,
+    "image": "https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=400",
+    "mainIngredients": "Banana, yogurt, milk, honey, ice",
+    "quantity": "1 banana (100 g), 80 g yogurt, 100 ml milk, 10 ml honey, 100 g ice",
+    "preparationMethod": "Blend all until creamy",
+    "calories": 120,
+    "protein_g": 11.4,
+    "carbs_g": 16.6,
+    "fat_g": 1.6,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Mint leaf or fruit slice",
+      "premium": "Layered fruit topping + chia"
+    },
+    "ingredientCost": 0.7,
+    "profitMargin": 81.6,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 60,
+    "originalImagePath": "/products/banana-smoothie.jpg"
+  },
+  {
+    "id": "strawberry-smoothie",
+    "name": {
+      "en": "Strawberry Smoothie",
+      "it": "Strawberry Smoothie",
+      "vi": "Strawberry Smoothie"
+    },
+    "description": {
+      "en": "Top with fresh strawberry",
+      "it": "Top with fresh strawberry",
+      "vi": "Top with fresh strawberry"
+    },
+    "category": "smoothie",
+    "price": 3.9,
+    "image": "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400",
+    "mainIngredients": "Strawberries, yogurt, milk, sugar, ice",
+    "quantity": "100 g strawberries, 80 g yogurt, 100 ml milk, 10 g sugar, 100 g ice",
+    "preparationMethod": "Blend until smooth",
+    "calories": 160,
+    "protein_g": 12.1,
+    "carbs_g": 26.2,
+    "fat_g": 1.9,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Mint leaf",
+      "premium": "Strawberry fan"
+    },
+    "ingredientCost": 0.75,
+    "profitMargin": 80.8,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 61,
+    "originalImagePath": "/products/strawberry-smoothie.jpg"
+  },
+  {
+    "id": "banana-kiwi-smoothie",
+    "name": {
+      "en": "Banana-Kiwi Smoothie",
+      "it": "Banana-Kiwi Smoothie",
+      "vi": "Banana-Kiwi Smoothie"
+    },
+    "description": {
+      "en": "Serve cold with mint",
+      "it": "Serve cold with mint",
+      "vi": "Serve cold with mint"
+    },
+    "category": "smoothie",
+    "price": 3.9,
+    "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400",
+    "mainIngredients": "Banana, kiwi, yogurt, honey, ice",
+    "quantity": "1 banana, 1 kiwi, 100 g yogurt, 10 ml honey, 100 g ice",
+    "preparationMethod": "Blend all together",
+    "calories": 91,
+    "protein_g": 10.1,
+    "carbs_g": 12.6,
+    "fat_g": 0.7,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Mint leaf",
+      "premium": "Kiwi wheel + mint"
+    },
+    "ingredientCost": 0.75,
+    "profitMargin": 80.8,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 62,
+    "originalImagePath": "/products/banana-kiwi-smoothie.jpg"
+  },
+  {
+    "id": "orange-grapefruit-smoothie",
+    "name": {
+      "en": "Orange-Grapefruit Smoothie",
+      "it": "Orange-Grapefruit Smoothie",
+      "vi": "Orange-Grapefruit Smoothie"
+    },
+    "description": {
+      "en": "Slightly bitter",
+      "it": "Slightly bitter",
+      "vi": "Slightly bitter"
+    },
+    "category": "smoothie",
+    "price": 3.8,
+    "image": "https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=400",
+    "mainIngredients": "Orange juice, grapefruit juice, honey, ice",
+    "quantity": "100 ml orange juice, 100 ml grapefruit juice, 10 ml honey, 100 g ice",
+    "preparationMethod": "Blend briefly for foam texture",
+    "calories": 120,
+    "protein_g": 1,
+    "carbs_g": 28.2,
+    "fat_g": 0.4,
+    "allergens": [],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Orange slice",
+      "premium": "Dehydrated citrus wheel"
+    },
+    "ingredientCost": 0.7,
+    "profitMargin": 81.6,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 63,
+    "originalImagePath": "/products/orange-grapefruit-smoothie.jpg"
+  },
+  {
+    "id": "lemon-smoothie",
+    "name": {
+      "en": "Lemon Smoothie",
+      "it": "Lemon Smoothie",
+      "vi": "Lemon Smoothie"
+    },
+    "description": {
+      "en": "Zest garnish",
+      "it": "Zest garnish",
+      "vi": "Zest garnish"
+    },
+    "category": "smoothie",
+    "price": 3.6,
+    "image": "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400",
+    "mainIngredients": "Lemon juice, honey, ice, yogurt",
+    "quantity": "20 ml lemon juice, 15 ml honey, 100 g yogurt, 100 g ice",
+    "preparationMethod": "Blend until thick",
+    "calories": 114,
+    "protein_g": 10.1,
+    "carbs_g": 18.3,
+    "fat_g": 0.7,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Lemon slice",
+      "premium": "Zest spiral"
+    },
+    "ingredientCost": 0.65,
+    "profitMargin": 81.9,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 64,
+    "originalImagePath": "/products/lemon-smoothie.jpg"
+  },
+  {
+    "id": "lime-smoothie",
+    "name": {
+      "en": "Lime Smoothie",
+      "it": "Lime Smoothie",
+      "vi": "Lime Smoothie"
+    },
+    "description": {
+      "en": "Add mint leaves",
+      "it": "Add mint leaves",
+      "vi": "Add mint leaves"
+    },
+    "category": "smoothie",
+    "price": 3.6,
+    "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400",
+    "mainIngredients": "Lime juice, sugar syrup, milk, ice",
+    "quantity": "15 ml lime juice, 10 ml syrup, 120 ml milk, 100 g ice",
+    "preparationMethod": "Blend quickly to avoid bitterness",
+    "calories": 83,
+    "protein_g": 4.2,
+    "carbs_g": 14,
+    "fat_g": 1.2,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Lime wheel",
+      "premium": "Mint sprig + lime zest"
+    },
+    "ingredientCost": 0.65,
+    "profitMargin": 81.9,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 65,
+    "originalImagePath": "/products/lime-smoothie.jpg"
+  },
+  {
+    "id": "apple-smoothie",
+    "name": {
+      "en": "Apple Smoothie",
+      "it": "Apple Smoothie",
+      "vi": "Apple Smoothie"
+    },
+    "description": {
+      "en": "Few drops lemon to prevent oxidation",
+      "it": "Few drops lemon to prevent oxidation",
+      "vi": "Few drops lemon to prevent oxidation"
+    },
+    "category": "smoothie",
+    "price": 3.6,
+    "image": "https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=400",
+    "mainIngredients": "Green apple, yogurt, honey, ice",
+    "quantity": "100 g apple, 80 g yogurt, 10 ml honey, 100 g ice",
+    "preparationMethod": "Blend and serve immediately",
+    "calories": 130,
+    "protein_g": 8.3,
+    "carbs_g": 25.4,
+    "fat_g": 0.8,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 90,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Apple slice",
+      "premium": "Apple fan + mint"
+    },
+    "ingredientCost": 0.65,
+    "profitMargin": 81.9,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 66,
+    "originalImagePath": "/products/apple-smoothie.jpg"
+  },
+  {
+    "id": "mango-smoothie",
+    "name": {
+      "en": "Mango Smoothie",
+      "it": "Mango Smoothie",
+      "vi": "Mango Smoothie"
+    },
+    "description": {
+      "en": "Add coconut milk for twist",
+      "it": "Add coconut milk for twist",
+      "vi": "Add coconut milk for twist"
+    },
+    "category": "smoothie",
+    "price": 4,
+    "image": "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400",
+    "mainIngredients": "Mango, yogurt, milk, sugar",
+    "quantity": "100 g mango, 80 g yogurt, 100 ml milk, 10 g sugar",
+    "preparationMethod": "Blend to smooth texture",
+    "calories": 188,
+    "protein_g": 12.2,
+    "carbs_g": 33.2,
+    "fat_g": 2,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Mint leaf",
+      "premium": "Mango cube skewer"
+    },
+    "ingredientCost": 0.8,
+    "profitMargin": 80,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 67,
+    "originalImagePath": "/products/mango-smoothie.jpg"
+  },
+  {
+    "id": "avocado-smoothie",
+    "name": {
+      "en": "Avocado Smoothie",
+      "it": "Avocado Smoothie",
+      "vi": "Avocado Smoothie"
+    },
+    "description": {
+      "en": "Creamy, Vietnam-favorite",
+      "it": "Creamy, Vietnam-favorite",
+      "vi": "Creamy, Vietnam-favorite"
+    },
+    "category": "smoothie",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400",
+    "mainIngredients": "Avocado, milk, condensed milk, ice",
+    "quantity": "½ avocado, 120 ml milk, 15 ml condensed milk, 100 g ice",
+    "preparationMethod": "Blend all ingredients",
+    "calories": 57,
+    "protein_g": 4.6,
+    "carbs_g": 6.8,
+    "fat_g": 1.3,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "None",
+      "premium": "Coconut flakes"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 68,
+    "originalImagePath": "/products/avocado-smoothie.jpg"
+  },
+  {
+    "id": "berry-mix-smoothie",
+    "name": {
+      "en": "Berry Mix Smoothie",
+      "it": "Berry Mix Smoothie",
+      "vi": "Berry Mix Smoothie"
+    },
+    "description": {
+      "en": "Antioxidant profile",
+      "it": "Antioxidant profile",
+      "vi": "Antioxidant profile"
+    },
+    "category": "smoothie",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=400",
+    "mainIngredients": "Mixed berries, yogurt, honey, ice",
+    "quantity": "100 g berries, 80 g yogurt, 10 ml honey, 100 g ice",
+    "preparationMethod": "Blend until smooth",
+    "calories": 135,
+    "protein_g": 8.7,
+    "carbs_g": 25.4,
+    "fat_g": 0.9,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (400 ml)",
+    "decoration": {
+      "chain": "Mint leaf",
+      "premium": "Berry skewer + mint"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "smoothie"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 69,
+    "originalImagePath": "/products/berry-mix-smoothie.jpg"
+  },
+  {
+    "id": "oreo-shake",
+    "name": {
+      "en": "Oreo Shake",
+      "it": "Oreo Shake",
+      "vi": "Oreo Shake"
+    },
+    "description": {
+      "en": "Add Oreo crumble",
+      "it": "Add Oreo crumble",
+      "vi": "Add Oreo crumble"
+    },
+    "category": "milkshake",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400",
+    "mainIngredients": "Oreo, vanilla ice cream, milk, whipped cream",
+    "quantity": "2 Oreo, 2 scoops ice cream, 150 ml milk, 20 g cream",
+    "preparationMethod": "Blend cookies + milk + ice cream; top with cream",
+    "calories": 685,
+    "protein_g": 8.8,
+    "carbs_g": 14.3,
+    "fat_g": 66.7,
+    "allergens": [
+      "milk",
+      "eggs",
+      "gluten",
+      "soy"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 110,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream + syrup drizzle",
+      "premium": "Whipped cream tower + Oreo crumble"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 70,
+    "originalImagePath": "/products/oreo-shake.jpg"
+  },
+  {
+    "id": "cookies-shake",
+    "name": {
+      "en": "Cookies Shake",
+      "it": "Cookies Shake",
+      "vi": "Cookies Shake"
+    },
+    "description": {
+      "en": "Cookie rim",
+      "it": "Cookie rim",
+      "vi": "Cookie rim"
+    },
+    "category": "milkshake",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1568901839119-631418a3910d?w=400",
+    "mainIngredients": "Cookie pieces, vanilla ice cream, milk",
+    "quantity": "30 g cookies, 2 scoops ice cream, 150 ml milk",
+    "preparationMethod": "Blend to thick consistency",
+    "calories": 751,
+    "protein_g": 9.8,
+    "carbs_g": 31.8,
+    "fat_g": 66,
+    "allergens": [
+      "milk",
+      "eggs",
+      "gluten"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 110,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream + syrup drizzle",
+      "premium": "Cookie rim + straw accent"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 71,
+    "originalImagePath": "/products/cookies-shake.jpg"
+  },
+  {
+    "id": "nutella-frappuccino",
+    "name": {
+      "en": "Nutella Frappuccino",
+      "it": "Nutella Frappuccino",
+      "vi": "Nutella Frappuccino"
+    },
+    "description": {
+      "en": "Top with whipped cream + drizzle",
+      "it": "Top with whipped cream + drizzle",
+      "vi": "Top with whipped cream + drizzle"
+    },
+    "category": "milkshake",
+    "price": 4.8,
+    "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400",
+    "mainIngredients": "Nutella, espresso, ice cream, milk",
+    "quantity": "25 g Nutella, 60 ml espresso, 2 scoops ice cream, 150 ml milk",
+    "preparationMethod": "Blend all until smooth",
+    "calories": 743,
+    "protein_g": 9.9,
+    "carbs_g": 27,
+    "fat_g": 66.9,
+    "allergens": [
+      "milk",
+      "eggs",
+      "nuts"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream + chocolate drizzle",
+      "premium": "Nutella drizzle + hazelnut crumb"
+    },
+    "ingredientCost": 0.95,
+    "profitMargin": 80.2,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 72,
+    "originalImagePath": "/products/nutella-frappuccino.jpg"
+  },
+  {
+    "id": "caramel-frappuccino",
+    "name": {
+      "en": "Caramel Frappuccino",
+      "it": "Caramel Frappuccino",
+      "vi": "Caramel Frappuccino"
+    },
+    "description": {
+      "en": "Caramel drizzle",
+      "it": "Caramel drizzle",
+      "vi": "Caramel drizzle"
+    },
+    "category": "milkshake",
+    "price": 4.6,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400",
+    "mainIngredients": "Espresso, caramel syrup, milk, ice, cream",
+    "quantity": "60 ml espresso, 15 ml caramel, 150 ml milk, 100 g ice, 20 g cream",
+    "preparationMethod": "Blend all ingredients",
+    "calories": 132,
+    "protein_g": 5.6,
+    "carbs_g": 8.3,
+    "fat_g": 8.7,
+    "allergens": [
+      "milk"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream + caramel",
+      "premium": "Caramel lattice art"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80.4,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 73,
+    "originalImagePath": "/products/caramel-frappuccino.jpg"
+  },
+  {
+    "id": "berry-charge",
+    "name": {
+      "en": "Berry Charge",
+      "it": "Berry Charge",
+      "vi": "Berry Charge"
+    },
+    "description": {
+      "en": "Use frozen berries for thickness",
+      "it": "Use frozen berries for thickness",
+      "vi": "Use frozen berries for thickness"
+    },
+    "category": "milkshake",
+    "price": 4.6,
+    "image": "https://images.unsplash.com/photo-1568901839119-631418a3910d?w=400",
+    "mainIngredients": "Mixed berries, milk, ice cream, honey",
+    "quantity": "100 g berries, 2 scoops ice cream, 150 ml milk, 10 ml honey",
+    "preparationMethod": "Blend all ingredients",
+    "calories": 694,
+    "protein_g": 9,
+    "carbs_g": 34.5,
+    "fat_g": 59.4,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 110,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream + syrup drizzle",
+      "premium": "Berry skewer + mint"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80.4,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 74,
+    "originalImagePath": "/products/berry-charge.jpg"
+  },
+  {
+    "id": "coffee-frappuccino",
+    "name": {
+      "en": "Coffee Frappuccino",
+      "it": "Coffee Frappuccino",
+      "vi": "Coffee Frappuccino"
+    },
+    "description": {
+      "en": "Add chocolate syrup optionally",
+      "it": "Add chocolate syrup optionally",
+      "vi": "Add chocolate syrup optionally"
+    },
+    "category": "milkshake",
+    "price": 4.3,
+    "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400",
+    "mainIngredients": "Espresso, milk, ice, ice cream, sugar",
+    "quantity": "60 ml espresso, 120 ml milk, 100 g ice, 1 scoop ice cream, 10 g sugar",
+    "preparationMethod": "Blend until frothy",
+    "calories": 362,
+    "protein_g": 5.7,
+    "carbs_g": 18.6,
+    "fat_g": 30,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [
+      "caffeine"
+    ],
+    "dietary": [],
+    "prepTime": 120,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream + syrup drizzle",
+      "premium": "Chocolate drizzle + cocoa dust"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 80.2,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 75,
+    "originalImagePath": "/products/coffee-frappuccino.jpg"
+  },
+  {
+    "id": "vanilla-shake",
+    "name": {
+      "en": "Vanilla Shake",
+      "it": "Vanilla Shake",
+      "vi": "Vanilla Shake"
+    },
+    "description": {
+      "en": "Base for add-ons",
+      "it": "Base for add-ons",
+      "vi": "Base for add-ons"
+    },
+    "category": "milkshake",
+    "price": 4,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400",
+    "mainIngredients": "Vanilla ice cream, milk, vanilla syrup",
+    "quantity": "2 scoops ice cream, 150 ml milk, 10 ml syrup",
+    "preparationMethod": "Blend all ingredients",
+    "calories": 633,
+    "protein_g": 8.3,
+    "carbs_g": 18.8,
+    "fat_g": 59.1,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream",
+      "premium": "Vanilla bean + wafer"
+    },
+    "ingredientCost": 0.8,
+    "profitMargin": 80,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 76,
+    "originalImagePath": "/products/vanilla-shake.jpg"
+  },
+  {
+    "id": "chocolate-shake",
+    "name": {
+      "en": "Chocolate Shake",
+      "it": "Chocolate Shake",
+      "vi": "Chocolate Shake"
+    },
+    "description": {
+      "en": "Add whipped cream",
+      "it": "Add whipped cream",
+      "vi": "Add whipped cream"
+    },
+    "category": "milkshake",
+    "price": 4.3,
+    "image": "https://images.unsplash.com/photo-1568901839119-631418a3910d?w=400",
+    "mainIngredients": "Chocolate syrup, chocolate ice cream, milk",
+    "quantity": "2 scoops ice cream, 20 ml syrup, 150 ml milk",
+    "preparationMethod": "Blend and serve",
+    "calories": 659,
+    "protein_g": 8.3,
+    "carbs_g": 25.3,
+    "fat_g": 59.1,
+    "allergens": [
+      "milk",
+      "eggs",
+      "soy"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream",
+      "premium": "Chocolate shards"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 80.2,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 77,
+    "originalImagePath": "/products/chocolate-shake.jpg"
+  },
+  {
+    "id": "banana-shake",
+    "name": {
+      "en": "Banana Shake",
+      "it": "Banana Shake",
+      "vi": "Banana Shake"
+    },
+    "description": {
+      "en": "Add cinnamon powder",
+      "it": "Add cinnamon powder",
+      "vi": "Add cinnamon powder"
+    },
+    "category": "milkshake",
+    "price": 4.2,
+    "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400",
+    "mainIngredients": "Banana, milk, ice cream, honey",
+    "quantity": "1 banana, 150 ml milk, 2 scoops ice cream, 10 ml honey",
+    "preparationMethod": "Blend until creamy",
+    "calories": 638,
+    "protein_g": 8.3,
+    "carbs_g": 20.7,
+    "fat_g": 59.1,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 110,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream",
+      "premium": "Cinnamon dust + banana slice"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 78,
+    "originalImagePath": "/products/banana-shake.jpg"
+  },
+  {
+    "id": "salted-caramel-shake",
+    "name": {
+      "en": "Salted Caramel Shake",
+      "it": "Salted Caramel Shake",
+      "vi": "Salted Caramel Shake"
+    },
+    "description": {
+      "en": "Sweet & salty",
+      "it": "Sweet & salty",
+      "vi": "Sweet & salty"
+    },
+    "category": "milkshake",
+    "price": 4.6,
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400",
+    "mainIngredients": "Caramel syrup, sea salt, ice cream, milk",
+    "quantity": "20 ml caramel, pinch salt, 2 scoops ice cream, 150 ml milk",
+    "preparationMethod": "Blend all; top with caramel drizzle",
+    "calories": 607,
+    "protein_g": 8.3,
+    "carbs_g": 12.3,
+    "fat_g": 59.1,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 110,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream + caramel",
+      "premium": "Caramel lattice + sea salt flakes"
+    },
+    "ingredientCost": 0.9,
+    "profitMargin": 80.4,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 79,
+    "originalImagePath": "/products/salted-caramel-shake.jpg"
+  },
+  {
+    "id": "strawberry-shake",
+    "name": {
+      "en": "Strawberry Shake",
+      "it": "Strawberry Shake",
+      "vi": "Strawberry Shake"
+    },
+    "description": {
+      "en": "—",
+      "it": "—",
+      "vi": "—"
+    },
+    "category": "milkshake",
+    "price": 4.3,
+    "image": "https://images.unsplash.com/photo-1568901839119-631418a3910d?w=400",
+    "mainIngredients": "Strawberries, ice cream, milk, sugar",
+    "quantity": "100 g strawberries, 2 scoops ice cream, 150 ml milk, 10 g sugar",
+    "preparationMethod": "Blend until smooth",
+    "calories": 678,
+    "protein_g": 9,
+    "carbs_g": 30.3,
+    "fat_g": 59.4,
+    "allergens": [
+      "milk",
+      "eggs"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 100,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream",
+      "premium": "Strawberry fan"
+    },
+    "ingredientCost": 0.85,
+    "profitMargin": 80.2,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 80,
+    "originalImagePath": "/products/strawberry-shake.jpg"
+  },
+  {
+    "id": "peanut-butter-shake",
+    "name": {
+      "en": "Peanut Butter Shake",
+      "it": "Peanut Butter Shake",
+      "vi": "Peanut Butter Shake"
+    },
+    "description": {
+      "en": "Protein-rich dessert",
+      "it": "Protein-rich dessert",
+      "vi": "Protein-rich dessert"
+    },
+    "category": "milkshake",
+    "price": 4.7,
+    "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400",
+    "mainIngredients": "Peanut butter, ice cream, milk, chocolate syrup",
+    "quantity": "10 g peanut butter, 2 scoops ice cream, 150 ml milk, 10 ml choc syrup",
+    "preparationMethod": "Blend until creamy",
+    "calories": 692,
+    "protein_g": 10.8,
+    "carbs_g": 20.8,
+    "fat_g": 64.1,
+    "allergens": [
+      "milk",
+      "eggs",
+      "peanuts",
+      "soy"
+    ],
+    "intolerances": [],
+    "dietary": [],
+    "prepTime": 110,
+    "skillLevel": 1,
+    "servingGlass": "Tall glass (450 ml)",
+    "decoration": {
+      "chain": "Whipped cream",
+      "premium": "Crushed peanut rim"
+    },
+    "ingredientCost": 0.95,
+    "profitMargin": 79.8,
+    "tags": [
+      "hot",
+      "milkshake"
+    ],
+    "isNew": false,
+    "isVisible": true,
+    "sortOrder": 81,
+    "originalImagePath": "/products/peanut-butter-shake.jpg"
+  }
+]
