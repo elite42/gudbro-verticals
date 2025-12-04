@@ -65,7 +65,7 @@ CREATE INDEX IF NOT EXISTS idx_recipe_difficulty ON "Recipe"(difficulty);
 
 CREATE TABLE IF NOT EXISTS "ProductRecipe" (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "productId" UUID NOT NULL REFERENCES "Product"(id) ON DELETE CASCADE,
+    "productId" UUID NOT NULL REFERENCES menu_items(id) ON DELETE CASCADE,
     "recipeId" UUID NOT NULL REFERENCES "Recipe"(id) ON DELETE CASCADE,
 
     -- Override fields for product-specific variations

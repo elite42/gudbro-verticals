@@ -55,7 +55,7 @@ model Product {
 
   // Relations
   ingredients ProductIngredient[]
-  recipes     ProductRecipe[]
+  // Note: recipes relation managed via menu_items table in Supabase
 
   // Computed Data (JSONB for flexibility)
   computed    String?  // AutoComputationResult (JSON)
@@ -170,11 +170,11 @@ model Recipe {
   @@index([temperature])
 }
 
-// Link table for Products using Recipes
+// Link table for Menu Items using Recipes
+// Note: References menu_items table (not Product) as per Supabase schema
 model ProductRecipe {
   id        String   @id @default(uuid())
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String   // References menu_items.id in Supabase
   recipeId  String
   recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
@@ -187,4 +187,5 @@ model ProductRecipe {
   @@unique([productId, recipeId])
   @@index([productId])
   @@index([recipeId])
+  @@map("ProductRecipe")
 }
