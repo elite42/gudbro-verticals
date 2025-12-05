@@ -1,33 +1,43 @@
 /**
  * Currency Converter Service
- * Handles exchange rates and price conversion
+ *
+ * Handles exchange rates and price conversion for tourist-friendly pricing.
+ *
+ * KEY CONCEPT:
+ * - Each locale has a BASE CURRENCY (the currency they set prices in)
+ * - Tourists can convert to their preferred currency for reference
+ * - Example: A cafe in Vietnam has prices in VND, tourists see USD/EUR equivalent
  */
 
+import { coffeeshopConfig } from '@/config/coffeeshop.config';
+
 export interface ExchangeRates {
-  base: string; // VND
+  base: string; // The base currency (from locale config)
   rates: Record<string, number>;
   lastUpdated: number; // timestamp
 }
 
-const STORAGE_KEY = 'roots-exchange-rates';
+const STORAGE_KEY = 'gudbro-exchange-rates';
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-// Fallback rates (approximate, will be replaced by API fetch)
-// Coffee House uses EUR as base currency
+// Get base currency from config
+const BASE_CURRENCY = coffeeshopConfig.i18n.baseCurrency;
+
+// Fallback rates - all rates are relative to VND (base currency for Vietnam locales)
+// These are approximate rates, will be replaced by API fetch in production
 const FALLBACK_RATES: ExchangeRates = {
-  base: 'EUR',
+  base: 'VND',
   rates: {
-    EUR: 1,
-    USD: 1.08, // 1 EUR ≈ 1.08 USD
-    GBP: 0.86, // 1 EUR ≈ 0.86 GBP
-    JPY: 160.5, // 1 EUR ≈ 160.5 JPY
-    CNY: 7.65, // 1 EUR ≈ 7.65 CNY
-    KRW: 1420, // 1 EUR ≈ 1420 KRW
-    AUD: 1.63, // 1 EUR ≈ 1.63 AUD
-    CAD: 1.47, // 1 EUR ≈ 1.47 CAD
-    SGD: 1.42, // 1 EUR ≈ 1.42 SGD
-    THB: 36.8, // 1 EUR ≈ 36.8 THB
-    VND: 26500, // 1 EUR ≈ 26500 VND
+    VND: 1,
+    USD: 0.00004,    // 1 VND ≈ 0.00004 USD (or 1 USD ≈ 25,000 VND)
+    EUR: 0.0000375,  // 1 VND ≈ 0.0000375 EUR (or 1 EUR ≈ 26,667 VND)
+    GBP: 0.0000316,  // 1 VND ≈ 0.0000316 GBP (or 1 GBP ≈ 31,646 VND)
+    AUD: 0.0000615,  // 1 VND ≈ 0.0000615 AUD (or 1 AUD ≈ 16,260 VND)
+    JPY: 0.006,      // 1 VND ≈ 0.006 JPY (or 1 JPY ≈ 167 VND)
+    KRW: 0.0556,     // 1 VND ≈ 0.0556 KRW (or 1 KRW ≈ 18 VND)
+    CNY: 0.000288,   // 1 VND ≈ 0.000288 CNY (or 1 CNY ≈ 3,472 VND)
+    SGD: 0.0000533,  // 1 VND ≈ 0.0000533 SGD (or 1 SGD ≈ 18,762 VND)
+    THB: 0.00138,    // 1 VND ≈ 0.00138 THB (or 1 THB ≈ 725 VND)
   },
   lastUpdated: Date.now(),
 };
@@ -115,41 +125,55 @@ export async function getExchangeRates(): Promise<ExchangeRates> {
 }
 
 /**
- * Convert EUR price to target currency
- * Coffee House menu uses EUR as base currency
+ * Convert price from base currency to target currency
+ *
+ * @param basePrice - Price in the locale's base currency (e.g., VND for Vietnam)
+ * @param targetCurrency - Currency to convert to (e.g., USD, EUR)
+ * @param rates - Optional exchange rates (uses cached/fallback if not provided)
  */
 export function convertPrice(
-  eurPrice: number,
+  basePrice: number,
   targetCurrency: string,
   rates?: ExchangeRates
 ): number {
-  if (targetCurrency === 'EUR') return eurPrice;
+  // If target is same as base, no conversion needed
+  if (targetCurrency === BASE_CURRENCY) return basePrice;
 
   const exchangeRates = rates || getCachedRates() || FALLBACK_RATES;
   const rate = exchangeRates.rates[targetCurrency];
 
   if (!rate) {
     console.warn(`No exchange rate found for ${targetCurrency}`);
-    return eurPrice;
+    return basePrice;
   }
 
-  return eurPrice * rate;
+  return basePrice * rate;
 }
 
 /**
- * Format converted price with currency symbol
- * Takes EUR price as input and formats in target currency
+ * Get the locale's base currency
+ */
+export function getBaseCurrency(): string {
+  return BASE_CURRENCY;
+}
+
+/**
+ * Format price for display
  *
- * Special handling for VND: Shows in "k" format without symbol
- * e.g., 66250 VND → "66k" (locals know it's VND, tourists see the value)
- * Note: VND minimum denomination is 1000, so we always round to whole "k"
+ * @param basePrice - Price in the locale's base currency
+ * @param targetCurrency - Currency to display in (defaults to base currency)
+ * @param rates - Optional exchange rates
+ *
+ * Display rules:
+ * - VND: Compact "k" format (65000 → "65k") - no symbol needed for locals
+ * - Other currencies: Standard format with symbol ($2.60, €2.40, etc.)
  */
 export function formatConvertedPrice(
-  eurPrice: number,
+  basePrice: number,
   targetCurrency: string,
   rates?: ExchangeRates
 ): string {
-  const converted = convertPrice(eurPrice, targetCurrency, rates);
+  const converted = convertPrice(basePrice, targetCurrency, rates);
 
   // Special handling for VND - show in "k" format for readability
   // Vietnamese prices are always in thousands, locals don't need the symbol
@@ -171,22 +195,27 @@ export function formatConvertedPrice(
 }
 
 /**
- * Format price with both currencies (converted + original EUR)
+ * Format price showing both converted price and original base currency
+ *
+ * Example for Vietnam locale (base=VND):
+ * - Tourist selects USD: "$2.60 (≈ 65k)"
+ * - Shows converted price first, original VND price in parentheses
  */
 export function formatDualPrice(
-  eurPrice: number,
+  basePrice: number,
   targetCurrency: string,
   rates?: ExchangeRates
 ): string {
-  const convertedPrice = formatConvertedPrice(eurPrice, targetCurrency, rates);
-  const eurFormatter = new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency: 'EUR',
-  });
-  const eurFormatted = eurFormatter.format(eurPrice);
+  const convertedPrice = formatConvertedPrice(basePrice, targetCurrency, rates);
+  const basePriceFormatted = formatConvertedPrice(basePrice, BASE_CURRENCY, rates);
 
-  // For VND, the format is already compact (66k), so just add EUR reference
-  return `${convertedPrice} (≈ ${eurFormatted})`;
+  // If target is same as base, just show one price
+  if (targetCurrency === BASE_CURRENCY) {
+    return convertedPrice;
+  }
+
+  // Show converted price with original base currency reference
+  return `${convertedPrice} (≈ ${basePriceFormatted})`;
 }
 
 /**

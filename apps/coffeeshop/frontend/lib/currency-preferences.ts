@@ -1,34 +1,45 @@
 /**
  * Currency Preferences Store
  * Manages user currency preferences for price display
+ *
+ * KEY CONCEPT:
+ * - baseCurrency: The locale's native currency (set in config, e.g., VND for Vietnam)
+ * - selectedCurrency: The currency tourists choose to see prices in
+ * - enabled: Whether currency conversion is active (tourists toggle this on)
  */
+
+import { coffeeshopConfig } from '@/config/coffeeshop.config';
 
 export interface CurrencyPreferences {
   enabled: boolean;
   selectedCurrency: string; // ISO 4217 code (EUR, USD, GBP, etc.)
-  baseCurrency: string; // Always VND for ROOTS
+  baseCurrency: string; // Locale's base currency from config
 }
 
+// Get base currency from config
+const BASE_CURRENCY = coffeeshopConfig.i18n.baseCurrency;
+
+// Available currencies for tourist conversion
+// Excludes base currency since that's the default display
 export const AVAILABLE_CURRENCIES = [
-  { code: 'EUR', symbol: '€', name: 'Euro' },
+  { code: 'VND', symbol: '₫', name: 'Vietnamese Dong' },
   { code: 'USD', symbol: '$', name: 'US Dollar' },
+  { code: 'EUR', symbol: '€', name: 'Euro' },
   { code: 'GBP', symbol: '£', name: 'British Pound' },
-  { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
-  { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
-  { code: 'KRW', symbol: '₩', name: 'South Korean Won' },
   { code: 'AUD', symbol: 'A$', name: 'Australian Dollar' },
-  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+  { code: 'JPY', symbol: '¥', name: 'Japanese Yen' },
+  { code: 'KRW', symbol: '₩', name: 'South Korean Won' },
+  { code: 'CNY', symbol: '¥', name: 'Chinese Yuan' },
   { code: 'SGD', symbol: 'S$', name: 'Singapore Dollar' },
   { code: 'THB', symbol: '฿', name: 'Thai Baht' },
-  { code: 'VND', symbol: '₫', name: 'Vietnamese Dong' },
 ] as const;
 
-const STORAGE_KEY = 'roots-currency-preferences';
+const STORAGE_KEY = 'gudbro-currency-preferences';
 
 const DEFAULT_PREFERENCES: CurrencyPreferences = {
   enabled: false,
-  selectedCurrency: 'EUR',
-  baseCurrency: 'EUR',
+  selectedCurrency: BASE_CURRENCY, // Default to base currency (VND for Vietnam)
+  baseCurrency: BASE_CURRENCY,
 };
 
 /**

@@ -2,13 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import { currencyPreferencesStore } from '@/lib/currency-preferences';
-import { formatConvertedPrice } from '@/lib/currency-converter';
+import { formatConvertedPrice, getBaseCurrency } from '@/lib/currency-converter';
 
 /**
  * Hook for formatting prices with currency conversion support
+ *
+ * KEY CONCEPT:
+ * - Prices in the database are in the locale's BASE CURRENCY (e.g., VND for Vietnam)
+ * - By default, prices display in base currency format (e.g., "65k" for VND)
+ * - Tourists can enable currency conversion to see prices in their preferred currency
  */
 export function usePriceFormat() {
   const [currencyPrefs, setCurrencyPrefs] = useState(currencyPreferencesStore.get());
+  const baseCurrency = getBaseCurrency();
 
   useEffect(() => {
     const handleCurrencyUpdate = () => {
@@ -22,39 +28,38 @@ export function usePriceFormat() {
   }, []);
 
   /**
-   * Format price with full currency symbol
+   * Format price for display
+   *
+   * @param price - Price in the locale's base currency (e.g., VND)
+   * @returns Formatted price string
+   *
+   * Examples (for Vietnam locale with baseCurrency=VND):
+   * - No conversion enabled: 65000 → "65k"
+   * - USD selected: 65000 → "$2.60"
+   * - EUR selected: 65000 → "€2.44"
    */
   const formatPrice = (price: number): string => {
-    // Check if currency conversion is enabled
-    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'EUR') {
-      // Show only converted price (clean UI)
+    // If currency conversion is enabled and a different currency is selected
+    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== baseCurrency) {
       return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
     }
 
-    // Default EUR formatting for Coffee House
-    return new Intl.NumberFormat('it-IT', {
-      style: 'currency',
-      currency: 'EUR'
-    }).format(price);
+    // Default: show in base currency format
+    return formatConvertedPrice(price, baseCurrency);
   };
 
   /**
-   * Compact price format for Coffee House (EUR)
+   * Compact price format (same as formatPrice for base currency)
+   * Kept for backwards compatibility
    */
   const formatPriceCompact = (price: number): string => {
-    // Check if currency conversion is enabled
-    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'EUR') {
-      // Use full formatting for converted currencies
-      return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
-    }
-
-    // Default EUR format for Coffee House menu
-    return `€${price.toFixed(2)}`;
+    return formatPrice(price);
   };
 
   return {
     formatPrice,
     formatPriceCompact,
-    currencyPrefs
+    currencyPrefs,
+    baseCurrency
   };
 }

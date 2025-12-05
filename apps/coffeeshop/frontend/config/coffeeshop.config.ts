@@ -194,7 +194,9 @@ export const coffeeshopConfig = {
     hidden: process.env.NEXT_PUBLIC_WIFI_HIDDEN === 'true'
   },
 
-  // Internationalization
+  // Internationalization & Currency
+  // 🏪 Base currency = the currency the locale sets their prices in
+  // 🌍 Supported currencies = currencies tourists can convert to for reference
   i18n: {
     defaultLanguage: 'en',
     supportedLanguages: [
@@ -202,8 +204,11 @@ export const coffeeshopConfig = {
       { code: 'vi', flag: '🇻🇳', name: 'Tiếng Việt', countryCode: 'vn' },
       { code: 'it', flag: '🇮🇹', name: 'Italiano', countryCode: 'it' }
     ],
-    defaultCurrency: 'EUR',
-    supportedCurrencies: ['EUR', 'USD', 'GBP', 'VND']
+    // Base currency: The currency prices are stored in (locale's native currency)
+    // ROOTS is in Da Nang, Vietnam - prices are set in VND
+    baseCurrency: 'VND',
+    // Supported currencies for tourist conversion
+    supportedCurrencies: ['VND', 'USD', 'EUR', 'GBP', 'AUD', 'JPY', 'KRW', 'CNY']
   }
 };
 

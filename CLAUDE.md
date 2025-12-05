@@ -3,7 +3,7 @@
 **Repository:** gudbro-verticals
 **Purpose:** Standalone vertical business applications
 **Status:** Production (3 apps deployed on Vercel)
-**Last Updated:** 2025-12-04
+**Last Updated:** 2025-12-05
 
 ---
 
@@ -160,6 +160,38 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
 ---
 
 ## Recent Changes
+
+### 2025-12-05: Modifiers System & Base Currency Architecture
+
+**Modifiers System (Backoffice):**
+- Created complete modifiers system for product customizations
+- Database: `modifier_groups`, `modifiers`, `category_modifier_groups` tables
+- Migration: `005-modifiers-system.sql` with RLS policies
+- UI: `/content/modifiers` page with two-column layout (groups + modifiers)
+- Features: Create/edit/delete groups and modifiers, link to categories
+- Category page updated to show modifier group assignments
+
+**Optimistic Updates (Backoffice):**
+- Implemented optimistic UI pattern for better UX
+- Modal closes immediately on save (no waiting for DB response)
+- UI updates optimistically, rollback on error
+- Applied to: `handleSaveGroup`, `handleSaveModifier`, `toggleGroupActive`, `toggleModifierAvailable`
+
+**Base Currency Architecture (PWA):**
+- Each locale now has a `baseCurrency` (the currency prices are stored in)
+- Vietnam locales use VND as base currency
+- Currency converter now converts FROM base currency TO tourist's selected currency
+- VND displays in compact "k" format (65000 → "65k")
+- Tourists can select USD/EUR/etc. to see equivalent prices
+
+**Key Files Modified:**
+- `coffeeshop.config.ts` - Added `baseCurrency: 'VND'`
+- `currency-converter.ts` - Rates relative to VND, `getBaseCurrency()` function
+- `currency-preferences.ts` - Default to base currency
+- `usePriceFormat.ts` - Format prices based on locale's base currency
+
+**Security Fix:**
+- Migration `006-fix-modifier-groups-rls.sql` - Enabled RLS on modifier_groups table
 
 ### 2025-12-04: Recipes Database & Backoffice Management
 
@@ -319,7 +351,7 @@ Each app deployed separately with:
 
 **This file provides repository-wide context for Claude Code sessions.**
 
-**Last Updated:** 2025-12-04
+**Last Updated:** 2025-12-05
 
 ---
 
