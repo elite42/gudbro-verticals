@@ -142,6 +142,7 @@ export function convertPrice(
  *
  * Special handling for VND: Shows in "k" format without symbol
  * e.g., 66250 VND → "66k" (locals know it's VND, tourists see the value)
+ * Note: VND minimum denomination is 1000, so we always round to whole "k"
  */
 export function formatConvertedPrice(
   eurPrice: number,
@@ -152,13 +153,10 @@ export function formatConvertedPrice(
 
   // Special handling for VND - show in "k" format for readability
   // Vietnamese prices are always in thousands, locals don't need the symbol
+  // Minimum VND denomination is 1000, so always round to whole numbers
   if (targetCurrency === 'VND') {
-    const inThousands = converted / 1000;
-    // Round to 1 decimal if not a whole number
-    if (inThousands % 1 === 0) {
-      return `${inThousands.toFixed(0)}k`;
-    }
-    return `${inThousands.toFixed(1)}k`;
+    const inThousands = Math.round(converted / 1000);
+    return `${inThousands}k`;
   }
 
   // Format based on currency
@@ -193,14 +191,12 @@ export function formatDualPrice(
 
 /**
  * Format VND price directly (for prices already in VND)
- * e.g., 66250 → "66k"
+ * e.g., 66250 → "66k", 79500 → "80k"
+ * Note: VND minimum denomination is 1000, so always round to whole "k"
  */
 export function formatVNDPrice(vndPrice: number): string {
-  const inThousands = vndPrice / 1000;
-  if (inThousands % 1 === 0) {
-    return `${inThousands.toFixed(0)}k`;
-  }
-  return `${inThousands.toFixed(1)}k`;
+  const inThousands = Math.round(vndPrice / 1000);
+  return `${inThousands}k`;
 }
 
 /**
