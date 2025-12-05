@@ -27,8 +27,8 @@ const STORAGE_KEY = 'roots-currency-preferences';
 
 const DEFAULT_PREFERENCES: CurrencyPreferences = {
   enabled: false,
-  selectedCurrency: 'VND',
-  baseCurrency: 'VND',
+  selectedCurrency: 'EUR',
+  baseCurrency: 'EUR',
 };
 
 /**

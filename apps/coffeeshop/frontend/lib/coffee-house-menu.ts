@@ -117,6 +117,34 @@ function getExtrasForCategory(category: string, productName: string): Extra[] {
     );
   }
 
+  // Food - Add-ons and sides
+  if (category === 'food') {
+    extras.push(
+      { id: 'add-egg', name: 'Add Poached Egg', price: 1.5, type: 'addon' },
+      { id: 'add-avocado', name: 'Extra Avocado', price: 2.0, type: 'addon' },
+      { id: 'side-salad', name: 'Side Salad', price: 2.5, type: 'side' },
+      { id: 'extra-sauce', name: 'Extra Sauce', price: 0.5, type: 'addon' },
+    );
+  }
+
+  // Dessert - Extras and accompaniments
+  if (category === 'dessert') {
+    extras.push(
+      { id: 'add-icecream', name: 'Add Ice Cream', price: 1.5, type: 'addon' },
+      { id: 'extra-cream', name: 'Extra Whipped Cream', price: 0.5, type: 'addon' },
+      { id: 'chocolate-sauce', name: 'Chocolate Sauce', price: 0.5, type: 'addon' },
+      { id: 'fresh-berries', name: 'Fresh Berries', price: 1.0, type: 'addon' },
+    );
+  }
+
+  // Merch - Gift wrapping
+  if (category === 'merch') {
+    extras.push(
+      { id: 'gift-wrap', name: 'Gift Wrapping', price: 2.0, type: 'addon' },
+      { id: 'gift-box', name: 'Premium Gift Box', price: 5.0, type: 'addon' },
+    );
+  }
+
   return extras;
 }
 

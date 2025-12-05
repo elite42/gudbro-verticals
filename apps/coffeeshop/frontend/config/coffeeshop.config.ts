@@ -202,8 +202,8 @@ export const coffeeshopConfig = {
       { code: 'vi', flag: '🇻🇳', name: 'Tiếng Việt', countryCode: 'vn' },
       { code: 'it', flag: '🇮🇹', name: 'Italiano', countryCode: 'it' }
     ],
-    defaultCurrency: 'USD',
-    supportedCurrencies: ['USD', 'EUR', 'GBP', 'VND']
+    defaultCurrency: 'EUR',
+    supportedCurrencies: ['EUR', 'USD', 'GBP', 'VND']
   }
 };
 

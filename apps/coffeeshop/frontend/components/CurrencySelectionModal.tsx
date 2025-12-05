@@ -23,8 +23,8 @@ export function CurrencySelectionModal({
   const [selectedCurrency, setSelectedCurrency] = useState(currentPrefs.selectedCurrency);
 
   const handleSave = () => {
-    // Always enable if user selects a currency different from VND
-    const enabled = selectedCurrency !== 'VND';
+    // Always enable if user selects a currency different from EUR (base currency)
+    const enabled = selectedCurrency !== 'EUR';
 
     currencyPreferencesStore.set({
       enabled,
@@ -39,10 +39,10 @@ export function CurrencySelectionModal({
   };
 
   const handleSkip = () => {
-    // Keep VND as default, disabled
+    // Keep EUR as default, disabled
     currencyPreferencesStore.set({
       enabled: false,
-      selectedCurrency: 'VND',
+      selectedCurrency: 'EUR',
     });
 
     if (onSave) {

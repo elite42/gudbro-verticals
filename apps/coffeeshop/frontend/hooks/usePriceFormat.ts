@@ -26,31 +26,30 @@ export function usePriceFormat() {
    */
   const formatPrice = (price: number): string => {
     // Check if currency conversion is enabled
-    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'VND') {
+    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'EUR') {
       // Show only converted price (clean UI)
       return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
     }
 
-    // Default VND formatting
-    return new Intl.NumberFormat('vi-VN', {
+    // Default EUR formatting for Coffee House
+    return new Intl.NumberFormat('it-IT', {
       style: 'currency',
-      currency: 'VND'
+      currency: 'EUR'
     }).format(price);
   };
 
   /**
-   * Compact price format: 35.000₫ → 35K (for VND only)
+   * Compact price format for Coffee House (EUR)
    */
   const formatPriceCompact = (price: number): string => {
     // Check if currency conversion is enabled
-    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'VND') {
-      // Use full formatting for non-VND currencies
+    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'EUR') {
+      // Use full formatting for converted currencies
       return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
     }
 
-    // VND compact format: divide by 1000 and add K
-    const priceInK = Math.round(price / 1000);
-    return `${priceInK}K`;
+    // Default EUR format for Coffee House menu
+    return `€${price.toFixed(2)}`;
   };
 
   return {

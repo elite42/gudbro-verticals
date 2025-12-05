@@ -61,11 +61,11 @@ export function SelectionsSidebar({
   };
 
   const formatPrice = (price: number) => {
-    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'VND') {
+    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'EUR') {
       return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
     }
-    const priceInK = Math.round(price / 1000);
-    return `${priceInK}K`;
+    // Default EUR format for Coffee House menu
+    return `€${price.toFixed(2)}`;
   };
 
   const handleRemoveSelection = (dishId: string) => {

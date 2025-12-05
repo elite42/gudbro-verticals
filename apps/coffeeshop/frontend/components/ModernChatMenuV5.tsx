@@ -237,16 +237,18 @@ function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
   return 'night';
 }
 
-function formatPrice(price: number, currency: string = 'VND'): string {
+function formatPrice(price: number, currency: string = 'EUR'): string {
   const currencyInfo = AVAILABLE_CURRENCIES.find(c => c.code === currency);
-  if (currency === 'VND') {
-    return `${(price / 1000).toFixed(0)}k ${currencyInfo?.symbol || '₫'}`;
+  // Coffee House uses EUR prices - no conversion needed for EUR
+  if (currency === 'EUR') {
+    return `€${price.toFixed(2)}`;
   }
-  // Simple conversion rates (in production, use real API)
-  const rates: Record<string, number> = {
-    USD: 0.000041, EUR: 0.000038, GBP: 0.000033
-  };
+  // Convert from EUR to other currencies
+  const rates: Record<string, number> = { USD: 1.08, GBP: 0.86, VND: 26500 };
   const converted = price * (rates[currency] || 1);
+  if (currency === 'VND') {
+    return `${(converted / 1000).toFixed(0)}k ${currencyInfo?.symbol || '₫'}`;
+  }
   return `${currencyInfo?.symbol || ''}${converted.toFixed(2)}`;
 }
 
@@ -653,7 +655,7 @@ export function ModernChatMenuV5({ menuItems }: ModernChatMenuV5Props) {
   const [cartCount, setCartCount] = useState(0);
   const [isListening, setIsListening] = useState(false);
   const [language, setLanguage] = useState<Language>('en');
-  const [currency, setCurrency] = useState('VND');
+  const [currency, setCurrency] = useState('EUR');
   const [isClient, setIsClient] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);

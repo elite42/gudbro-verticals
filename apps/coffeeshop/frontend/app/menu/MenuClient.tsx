@@ -23,19 +23,21 @@ import { PopularSection } from '../../components/PopularSection';
 import { CategorySection } from '../../components/CategorySection';
 import { SearchOverlay } from '../../components/SearchOverlay';
 import { useTranslation } from '@/lib/use-translation';
+import { useMemo } from 'react';
+import { MultilingualText } from '@/types/dish';
+import {
+  getProductMenuType,
+  validateProducts,
+  DYNAMIC_CATEGORIES,
+  getCategoryInfo,
+  isDynamicCategory
+} from '@/lib/category-system';
+import type { MenuType } from '@/data/categories';
 
-// Helper: Map category to menu type (food, drinks, or merchandise)
-function getCategoryMenuType(category: string): 'food' | 'drinks' | 'merchandise' {
-  const foodCategories = ['antipasti', 'primi', 'secondi', 'contorni', 'piatti-unici', 'pizza', 'dessert', 'bowl', 'lunch', 'breakfast'];
-  const drinkCategories = ['bevande', 'coffee', 'smoothie', 'wellness', 'tea', 'beverage'];
-  const merchandiseCategories = ['merchandise', 'merch', 'gadget', 'gift', 'retail'];
-
-  if (foodCategories.includes(category.toLowerCase())) return 'food';
-  if (drinkCategories.includes(category.toLowerCase())) return 'drinks';
-  if (merchandiseCategories.includes(category.toLowerCase())) return 'merchandise';
-
-  // Default to food if unknown
-  return 'food';
+// Helper: Get localized text from multilingual object
+function getLocalizedText(multi: MultilingualText | undefined, fallback: string, lang: string): string {
+  if (!multi) return fallback;
+  return multi[lang as keyof MultilingualText] || multi.en || fallback;
 }
 
 interface MenuClientProps {
@@ -43,11 +45,11 @@ interface MenuClientProps {
 }
 
 export default function MenuClient({ initialMenuItems }: MenuClientProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const router = useRouter();
   const { business, ui } = coffeeshopConfig;
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedMenuType, setSelectedMenuType] = useState<string>('food'); // Menu type filter: 'food', 'drinks', or 'merchandise'
+  const [selectedMenuType, setSelectedMenuType] = useState<string>('drinks'); // Menu type filter: 'food', 'drinks', or 'merchandise' (default to drinks for coffeeshop)
   const [showSearchOverlay, setShowSearchOverlay] = useState(false); // Search overlay
   const [showPreferencesModal, setShowPreferencesModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
@@ -64,8 +66,14 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
   const [showCustomerNameModal, setShowCustomerNameModal] = useState(false);
   const [tableContext, setTableContext] = useState(() => tableContextStore.get());
 
-  // Use passed props
-  const menuItems: DishItem[] = initialMenuItems;
+  // Localize menu items based on current language
+  const menuItems: DishItem[] = useMemo(() => {
+    return initialMenuItems.map(item => ({
+      ...item,
+      name: getLocalizedText(item.nameMulti, item.name, language),
+      description: getLocalizedText(item.descriptionMulti, item.description, language),
+    }));
+  }, [initialMenuItems, language]);
 
   // Load initial favorites count and selections count client-side only (avoid hydration mismatch)
   useEffect(() => {
@@ -89,6 +97,16 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
       }
     }
   }, []);
+
+  // Validate products on load (development only) - catches category issues early
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development' && initialMenuItems.length > 0) {
+      const validation = validateProducts(initialMenuItems, { logWarnings: true });
+      if (!validation.isValid) {
+        console.error('🚨 Product validation failed! Some products may not appear correctly.');
+      }
+    }
+  }, [initialMenuItems]);
 
   // Listen for selections changes
   useEffect(() => {
@@ -157,8 +175,12 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
   let itemsToDisplay = hasPreferences && showOnlyCompatible ? compatible : menuItems;
 
   // Filter by menu type (always applied)
+  // Uses getProductMenuType from category-system.ts which:
+  // 1. First checks categories.ts (single source of truth)
+  // 2. Falls back to legacy category mappings if not found
+  // 3. Defaults to 'drinks' for unknown categories in coffee shop
   itemsToDisplay = itemsToDisplay.filter(item => {
-    const itemMenuType = getCategoryMenuType(item.category);
+    const itemMenuType = getProductMenuType(item.category);
     return itemMenuType === selectedMenuType;
   });
 
@@ -394,7 +416,7 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
               {/* Table Info */}
               <div>
                 <div className="font-bold text-lg">
-                  Tavolo {tableContext.table_number}
+                  {t.menu.tableContext.table} {tableContext.table_number}
                 </div>
                 {tableContext.customer_name && (
                   <div className="text-sm opacity-90">
@@ -406,7 +428,7 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
 
             {/* Service Type Badge */}
             <div className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
-              {tableContext.consumption_type === 'dine-in' ? '🏠 Al Tavolo' : '📦 Da Portare Via'}
+              {tableContext.consumption_type === 'dine-in' ? `🏠 ${t.menu.tableContext.dineIn}` : `📦 ${t.menu.tableContext.takeaway}`}
             </div>
           </div>
         </div>
@@ -414,8 +436,8 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
 
       {/* Promotional Banner */}
       <PromotionalBanner
-        title="Happy Hour -10%"
-        description="Ogni giorno dalle 15:00 alle 18:00"
+        title={t.menu.promo.happyHour}
+        description={t.menu.promo.happyHourDesc}
         emoji="🎉"
         bgColor="bg-gradient-to-r from-green-500 to-emerald-600"
         dismissible={true}
@@ -441,17 +463,22 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
 
       {/* Category Sections - Horizontal scrollable cards for each category */}
       {isClient && (() => {
-        // Category mapping with names and icons
+        // Category mapping with translated names and icons
         const categoryMetadata: Record<string, { name: string; icon: string }> = {
-          'coffee': { name: 'Coffee', icon: '☕' },
-          'tea': { name: 'Tea', icon: '🍵' },
-          'smoothie': { name: 'Smoothies', icon: '🥤' },
-          'bowl': { name: 'Bowls', icon: '🥗' },
-          'lunch': { name: 'Food', icon: '🍽️' },
-          'dessert': { name: 'Desserts', icon: '🍰' },
-          'wellness': { name: 'Wellness', icon: '💚' },
-          'breakfast': { name: 'Breakfast', icon: '🍳' },
-          'beverage': { name: 'Beverages', icon: '🧃' },
+          'coffee': { name: t.menu.categories.coffee, icon: '☕' },
+          'hot-coffee': { name: t.menu.categories.hotCoffee, icon: '☕' },
+          'iced-coffee': { name: t.menu.categories.icedCoffee, icon: '🧊' },
+          'tea': { name: t.menu.categories.tea, icon: '🍵' },
+          'smoothie': { name: t.menu.categories.smoothies, icon: '🥤' },
+          'matcha': { name: t.menu.categories.matcha, icon: '🍵' },
+          'milkshake': { name: t.menu.categories.milkshake, icon: '🥛' },
+          'bowl': { name: t.menu.categories.bowls, icon: '🥗' },
+          'food': { name: t.menu.categories.food, icon: '🍽️' },
+          'lunch': { name: t.menu.categories.lunch, icon: '🍽️' },
+          'dessert': { name: t.menu.categories.desserts, icon: '🍰' },
+          'wellness': { name: t.menu.categories.wellness, icon: '💚' },
+          'breakfast': { name: t.menu.categories.breakfast, icon: '🍳' },
+          'beverage': { name: t.menu.categories.beverages, icon: '🧃' },
           'antipasti': { name: 'Antipasti', icon: '🥙' },
           'primi': { name: 'Primi', icon: '🍝' },
           'secondi': { name: 'Secondi', icon: '🥩' },

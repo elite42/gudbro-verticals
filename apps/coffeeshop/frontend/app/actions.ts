@@ -30,6 +30,22 @@ export async function getMenuProducts(lang: string = 'en') {
   return products as any[];
 }
 
+// Raw products with multilingual fields intact (for client-side language switching)
+export async function getMenuProductsRaw() {
+  const products = coffeeHouseProducts.map((product: any) => ({
+    ...product,
+    // Keep multilingual objects intact
+    nameMulti: product.name,
+    descriptionMulti: product.description,
+    // Default to English for SSR
+    name: typeof product.name === 'object' ? product.name.en : product.name,
+    description: typeof product.description === 'object' ? product.description.en : product.description,
+    temperatureIcon: product.temperature === 'hot' ? TEMPERATURE_ICONS.hot : TEMPERATURE_ICONS.iced,
+  }));
+
+  return products as any[];
+}
+
 export async function getMenuCategories(lang: string = 'en') {
   return categories.map(cat => ({
     ...cat,

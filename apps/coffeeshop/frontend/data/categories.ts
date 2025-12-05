@@ -16,7 +16,9 @@
 // TYPES
 // =============================================================================
 
-export type Temperature = 'hot' | 'iced' | 'both';
+// Temperature is either 'hot' or 'iced'
+// Products available in both temperatures should be created as separate items
+export type Temperature = 'hot' | 'iced';
 
 export interface Subcategory {
   id: string;
@@ -31,6 +33,8 @@ export interface Subcategory {
     vi: string;
   };
 }
+
+export type MenuType = 'food' | 'drinks' | 'merchandise';
 
 export interface Category {
   id: string;
@@ -50,8 +54,11 @@ export interface Category {
   sortOrder: number;
   isVisible: boolean;
 
-  // Temperature info
-  temperature: Temperature;
+  // Menu type for tab filtering (Food/Drinks/Merch)
+  menuType: MenuType;
+
+  // Temperature info (optional - only for drinks)
+  temperature?: Temperature;
   temperatureIcon?: string; // 🔥 for hot, ❄️ for iced
 
   // Subcategories
@@ -245,6 +252,109 @@ export const milkshakeSubcategories: Subcategory[] = [
 ];
 
 // =============================================================================
+// FOOD SUBCATEGORIES
+// =============================================================================
+
+export const foodSubcategories: Subcategory[] = [
+  {
+    id: 'breakfast',
+    name: { en: 'Breakfast', it: 'Colazione', vi: 'Bữa Sáng' },
+    description: {
+      en: 'Morning favorites - croissants, toast, eggs',
+      it: 'Preferiti del mattino - cornetti, toast, uova',
+      vi: 'Món sáng yêu thích - bánh sừng bò, bánh mì nướng, trứng'
+    }
+  },
+  {
+    id: 'sandwiches',
+    name: { en: 'Sandwiches & Wraps', it: 'Panini e Wrap', vi: 'Bánh Mì Kẹp' },
+    description: {
+      en: 'Fresh sandwiches and wraps - banh mi, panini, wraps',
+      it: 'Panini e wrap freschi - banh mi, panini, wrap',
+      vi: 'Bánh mì kẹp tươi - bánh mì, panini, wrap'
+    }
+  },
+  {
+    id: 'bowls',
+    name: { en: 'Bowls & Salads', it: 'Bowl e Insalate', vi: 'Tô & Salad' },
+    description: {
+      en: 'Healthy bowls and fresh salads',
+      it: 'Bowl salutari e insalate fresche',
+      vi: 'Tô lành mạnh và salad tươi'
+    }
+  },
+  {
+    id: 'mains',
+    name: { en: 'Main Dishes', it: 'Piatti Principali', vi: 'Món Chính' },
+    description: {
+      en: 'Hearty main courses - pho, pasta, rice dishes',
+      it: 'Piatti principali sostanziosi - pho, pasta, riso',
+      vi: 'Món chính đầy đặn - phở, mì ý, cơm'
+    }
+  }
+];
+
+export const dessertSubcategories: Subcategory[] = [
+  {
+    id: 'cakes',
+    name: { en: 'Cakes & Pastries', it: 'Torte e Pasticcini', vi: 'Bánh Ngọt' },
+    description: {
+      en: 'Cakes, brownies, and pastries',
+      it: 'Torte, brownie e pasticcini',
+      vi: 'Bánh, brownie và bánh ngọt'
+    }
+  },
+  {
+    id: 'asian-desserts',
+    name: { en: 'Asian Desserts', it: 'Dolci Asiatici', vi: 'Tráng Miệng Á' },
+    description: {
+      en: 'Traditional Asian sweets - mango sticky rice, che, mochi',
+      it: 'Dolci tradizionali asiatici - riso al mango, che, mochi',
+      vi: 'Tráng miệng Á truyền thống - xôi xoài, chè, mochi'
+    }
+  },
+  {
+    id: 'italian-desserts',
+    name: { en: 'Italian Desserts', it: 'Dolci Italiani', vi: 'Tráng Miệng Ý' },
+    description: {
+      en: 'Classic Italian sweets - tiramisu, panna cotta, cannoli',
+      it: 'Dolci italiani classici - tiramisù, panna cotta, cannoli',
+      vi: 'Tráng miệng Ý cổ điển - tiramisu, panna cotta, cannoli'
+    }
+  }
+];
+
+export const merchSubcategories: Subcategory[] = [
+  {
+    id: 'coffee-beans',
+    name: { en: 'Coffee Beans', it: 'Caffè in Grani', vi: 'Hạt Cà Phê' },
+    description: {
+      en: 'Premium coffee beans to take home',
+      it: 'Caffè in grani premium da portare a casa',
+      vi: 'Hạt cà phê cao cấp mang về'
+    }
+  },
+  {
+    id: 'equipment',
+    name: { en: 'Equipment', it: 'Attrezzature', vi: 'Dụng Cụ' },
+    description: {
+      en: 'Brewing equipment and accessories',
+      it: 'Attrezzature e accessori per caffè',
+      vi: 'Dụng cụ pha chế và phụ kiện'
+    }
+  },
+  {
+    id: 'branded',
+    name: { en: 'Branded Items', it: 'Articoli Brandizzati', vi: 'Đồ Thương Hiệu' },
+    description: {
+      en: 'Mugs, tumblers, apparel with our logo',
+      it: 'Tazze, thermos, abbigliamento con il nostro logo',
+      vi: 'Cốc, bình, quần áo với logo của chúng tôi'
+    }
+  }
+];
+
+// =============================================================================
 // MAIN CATEGORIES
 // =============================================================================
 
@@ -268,6 +378,7 @@ export const categories: Category[] = [
     icon: '☕',
     temperatureIcon: '🔥',
     temperature: 'hot',
+    menuType: 'drinks',
     image: '/categories/hot-coffee.jpg',
     sortOrder: 1,
     isVisible: true,
@@ -302,6 +413,7 @@ export const categories: Category[] = [
     icon: '🧊',
     temperatureIcon: '❄️',
     temperature: 'iced',
+    menuType: 'drinks',
     image: '/categories/iced-coffee.jpg',
     sortOrder: 2,
     isVisible: true,
@@ -334,7 +446,9 @@ export const categories: Category[] = [
       vi: 'Bột trà xanh Nhật Bản - nghi lễ và latte'
     },
     icon: '🍵',
-    temperature: 'both',
+    temperatureIcon: '🔥',
+    temperature: 'hot',
+    menuType: 'drinks',
     image: '/categories/matcha.jpg',
     sortOrder: 3,
     isVisible: true,
@@ -365,7 +479,9 @@ export const categories: Category[] = [
       vi: 'Trà đen, xanh, thảo mộc và chai gia vị'
     },
     icon: '🫖',
-    temperature: 'both',
+    temperatureIcon: '🔥',
+    temperature: 'hot',
+    menuType: 'drinks',
     image: '/categories/tea.jpg',
     sortOrder: 4,
     isVisible: true,
@@ -398,6 +514,7 @@ export const categories: Category[] = [
     icon: '🥤',
     temperatureIcon: '❄️',
     temperature: 'iced',
+    menuType: 'drinks',
     image: '/categories/smoothie.jpg',
     sortOrder: 5,
     isVisible: true,
@@ -430,6 +547,7 @@ export const categories: Category[] = [
     icon: '🥛',
     temperatureIcon: '❄️',
     temperature: 'iced',
+    menuType: 'drinks',
     image: '/categories/milkshake.jpg',
     sortOrder: 6,
     isVisible: true,
@@ -441,6 +559,99 @@ export const categories: Category[] = [
     },
     tags: ['dessert', 'ice-cream', 'sweet', 'indulgent', 'creamy'],
     defaultTimeSlots: ['afternoon', 'evening']
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // FOOD
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    id: 'food',
+    slug: 'food',
+    name: {
+      en: 'Food',
+      it: 'Cibo',
+      vi: 'Đồ Ăn'
+    },
+    description: {
+      en: 'Fresh food - breakfast, sandwiches, bowls, and mains',
+      it: 'Cibo fresco - colazione, panini, bowl e piatti principali',
+      vi: 'Đồ ăn tươi - bữa sáng, bánh mì, tô và món chính'
+    },
+    icon: '🍽️',
+    menuType: 'food',
+    image: '/categories/food.jpg',
+    sortOrder: 7,
+    isVisible: true,
+    subcategories: foodSubcategories,
+    quickPrompts: {
+      en: ['Something to eat', 'Breakfast', 'Lunch', 'Banh mi please'],
+      it: ['Qualcosa da mangiare', 'Colazione', 'Pranzo', 'Un panino'],
+      vi: ['Gì đó ăn', 'Bữa sáng', 'Bữa trưa', 'Bánh mì']
+    },
+    tags: ['food', 'breakfast', 'lunch', 'sandwich', 'bowl', 'savory'],
+    defaultTimeSlots: ['breakfast', 'lunch', 'dinner']
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // DESSERTS
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    id: 'dessert',
+    slug: 'dessert',
+    name: {
+      en: 'Desserts',
+      it: 'Dolci',
+      vi: 'Tráng Miệng'
+    },
+    description: {
+      en: 'Sweet treats - cakes, pastries, and traditional desserts',
+      it: 'Dolci - torte, pasticcini e dolci tradizionali',
+      vi: 'Đồ ngọt - bánh, bánh ngọt và tráng miệng truyền thống'
+    },
+    icon: '🍰',
+    menuType: 'food',
+    image: '/categories/dessert.jpg',
+    sortOrder: 8,
+    isVisible: true,
+    subcategories: dessertSubcategories,
+    quickPrompts: {
+      en: ['Something sweet', 'Dessert please', 'Tiramisu', 'Cake'],
+      it: ['Qualcosa di dolce', 'Un dessert', 'Tiramisù', 'Una torta'],
+      vi: ['Gì đó ngọt', 'Tráng miệng', 'Tiramisu', 'Bánh']
+    },
+    tags: ['dessert', 'sweet', 'cake', 'pastry', 'treat'],
+    defaultTimeSlots: ['afternoon', 'evening']
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // MERCH
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    id: 'merch',
+    slug: 'merch',
+    name: {
+      en: 'Merchandise',
+      it: 'Merchandise',
+      vi: 'Hàng Hóa'
+    },
+    description: {
+      en: 'Coffee beans, equipment, and branded items',
+      it: 'Caffè in grani, attrezzature e articoli brandizzati',
+      vi: 'Hạt cà phê, dụng cụ và đồ thương hiệu'
+    },
+    icon: '🛍️',
+    menuType: 'merchandise',
+    image: '/categories/merch.jpg',
+    sortOrder: 9,
+    isVisible: true,
+    subcategories: merchSubcategories,
+    quickPrompts: {
+      en: ['Coffee beans', 'Merchandise', 'Take home', 'Equipment'],
+      it: ['Caffè in grani', 'Merchandise', 'Da portare via', 'Attrezzature'],
+      vi: ['Hạt cà phê', 'Hàng hóa', 'Mang về', 'Dụng cụ']
+    },
+    tags: ['beans', 'equipment', 'merch', 'retail', 'take-home'],
+    defaultTimeSlots: ['all-day']
   }
 ];
 
@@ -450,18 +661,22 @@ export const categories: Category[] = [
 
 export const TEMPERATURE_ICONS = {
   hot: '🔥',
-  iced: '❄️',
-  both: '🔥❄️'
+  iced: '❄️'
 } as const;
 
-export const getTemperatureIcon = (temp: Temperature): string =>
-  TEMPERATURE_ICONS[temp] || '';
+export const getTemperatureIcon = (temp: Temperature | undefined): string => {
+  if (!temp) return '';
+  return TEMPERATURE_ICONS[temp] || '';
+};
 
 export const getHotCategories = (): Category[] =>
-  categories.filter(c => c.temperature === 'hot' || c.temperature === 'both');
+  categories.filter(c => c.temperature === 'hot');
 
 export const getIcedCategories = (): Category[] =>
-  categories.filter(c => c.temperature === 'iced' || c.temperature === 'both');
+  categories.filter(c => c.temperature === 'iced');
+
+export const getDrinkCategories = (): Category[] =>
+  categories.filter(c => c.menuType === 'drinks');
 
 // =============================================================================
 // CATEGORY HELPERS
@@ -488,6 +703,20 @@ export const getSubcategoryById = (categoryId: string, subcategoryId: string): S
 };
 
 // =============================================================================
+// MENU TYPE HELPERS
+// =============================================================================
+
+export const getCategoriesByMenuType = (menuType: MenuType): Category[] =>
+  categories.filter(c => c.menuType === menuType && c.isVisible).sort((a, b) => a.sortOrder - b.sortOrder);
+
+export const getCategoryMenuType = (categoryId: string): MenuType | undefined =>
+  getCategoryById(categoryId)?.menuType;
+
+export const getDrinksCategories = (): Category[] => getCategoriesByMenuType('drinks');
+export const getFoodCategories = (): Category[] => getCategoriesByMenuType('food');
+export const getMerchCategories = (): Category[] => getCategoriesByMenuType('merchandise');
+
+// =============================================================================
 // LEGACY MAPPING (for backward compatibility)
 // =============================================================================
 
@@ -511,5 +740,8 @@ export const CATEGORY_COUNTS = {
   'tea': 15,
   'smoothie': 10,
   'milkshake': 12,
-  total: 81              // Note: some products count in both hot and iced
+  'food': 10,            // breakfast, sandwiches, bowls, mains
+  'dessert': 6,          // cakes, asian desserts, italian desserts
+  'merch': 5,            // coffee beans, equipment, branded items
+  total: 102             // Updated with food, dessert, and merch
 };

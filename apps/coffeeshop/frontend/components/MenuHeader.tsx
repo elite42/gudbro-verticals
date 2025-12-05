@@ -99,7 +99,7 @@ export function MenuHeader({
     setSelectedCurrency(currency);
     currencyPreferencesStore.set({
       selectedCurrency: currency,
-      enabled: currency !== 'VND' // Enable conversion if not VND
+      enabled: currency !== 'EUR' // Enable conversion if not EUR (base currency)
     });
     setShowCurrencyMenu(false);
   };

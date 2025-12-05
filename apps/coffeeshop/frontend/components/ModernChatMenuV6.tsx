@@ -52,13 +52,56 @@ const VENUE_CONFIG = {
 };
 
 // Merchandise data (hardcoded since not in sample-products.json)
+// With multilingual support for name and description
 const MERCHANDISE_DATA: DishItem[] = [
-  { id: 'merch-001', name: 'GUDBRO T-Shirt', description: 'Premium cotton tee with logo', price: 250000, category: 'merchandise', image: '' },
-  { id: 'merch-002', name: 'Coffee Mug', description: 'Ceramic mug - 350ml', price: 120000, category: 'merchandise', image: '' },
-  { id: 'merch-003', name: 'Baseball Cap', description: 'Embroidered logo cap', price: 180000, category: 'merchandise', image: '' },
-  { id: 'merch-004', name: 'Tote Bag', description: 'Eco-friendly canvas bag', price: 150000, category: 'merchandise', image: '' },
-  { id: 'merch-005', name: 'Hoodie', description: 'Cozy fleece hoodie', price: 450000, category: 'merchandise', image: '' },
-  { id: 'merch-006', name: 'Sticker Pack', description: '10 vinyl stickers', price: 50000, category: 'merchandise', image: '' },
+  {
+    id: 'merch-001',
+    name: 'GUDBRO T-Shirt',
+    nameMulti: { en: 'GUDBRO T-Shirt', it: 'T-Shirt GUDBRO', vi: 'Áo GUDBRO' },
+    description: 'Premium cotton tee with logo',
+    descriptionMulti: { en: 'Premium cotton tee with logo', it: 'T-shirt in cotone premium con logo', vi: 'Áo cotton cao cấp với logo' },
+    price: 25, category: 'merchandise', image: ''
+  },
+  {
+    id: 'merch-002',
+    name: 'Coffee Mug',
+    nameMulti: { en: 'Coffee Mug', it: 'Tazza da Caffè', vi: 'Ly Cà Phê' },
+    description: 'Ceramic mug - 350ml',
+    descriptionMulti: { en: 'Ceramic mug - 350ml', it: 'Tazza in ceramica - 350ml', vi: 'Ly gốm - 350ml' },
+    price: 12, category: 'merchandise', image: ''
+  },
+  {
+    id: 'merch-003',
+    name: 'Baseball Cap',
+    nameMulti: { en: 'Baseball Cap', it: 'Cappellino', vi: 'Mũ Lưỡi Trai' },
+    description: 'Embroidered logo cap',
+    descriptionMulti: { en: 'Embroidered logo cap', it: 'Cappellino con logo ricamato', vi: 'Mũ thêu logo' },
+    price: 18, category: 'merchandise', image: ''
+  },
+  {
+    id: 'merch-004',
+    name: 'Tote Bag',
+    nameMulti: { en: 'Tote Bag', it: 'Borsa Tote', vi: 'Túi Tote' },
+    description: 'Eco-friendly canvas bag',
+    descriptionMulti: { en: 'Eco-friendly canvas bag', it: 'Borsa in tela ecologica', vi: 'Túi vải thân thiện môi trường' },
+    price: 15, category: 'merchandise', image: ''
+  },
+  {
+    id: 'merch-005',
+    name: 'Hoodie',
+    nameMulti: { en: 'Hoodie', it: 'Felpa', vi: 'Áo Hoodie' },
+    description: 'Cozy fleece hoodie',
+    descriptionMulti: { en: 'Cozy fleece hoodie', it: 'Felpa in pile morbida', vi: 'Áo hoodie lông cừu ấm áp' },
+    price: 45, category: 'merchandise', image: ''
+  },
+  {
+    id: 'merch-006',
+    name: 'Sticker Pack',
+    nameMulti: { en: 'Sticker Pack', it: 'Set di Adesivi', vi: 'Bộ Sticker' },
+    description: '10 vinyl stickers',
+    descriptionMulti: { en: '10 vinyl stickers', it: '10 adesivi in vinile', vi: '10 sticker vinyl' },
+    price: 5, category: 'merchandise', image: ''
+  },
 ];
 
 // ============================================================================
@@ -382,14 +425,33 @@ function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
   return 'night';
 }
 
-function formatPrice(price: number, currency: string = 'VND'): string {
+function formatPrice(price: number, currency: string = 'EUR'): string {
   const currencyInfo = AVAILABLE_CURRENCIES.find(c => c.code === currency);
-  if (currency === 'VND') {
-    return `${(price / 1000).toFixed(0)}k ${currencyInfo?.symbol || '₫'}`;
+  // Coffee House uses EUR prices - no conversion needed for EUR
+  if (currency === 'EUR') {
+    return `€${price.toFixed(2)}`;
   }
-  const rates: Record<string, number> = { USD: 0.000041, EUR: 0.000038, GBP: 0.000033 };
+  // Convert from EUR to other currencies
+  const rates: Record<string, number> = { USD: 1.08, GBP: 0.86, VND: 26500 };
   const converted = price * (rates[currency] || 1);
+  if (currency === 'VND') {
+    return `${(converted / 1000).toFixed(0)}k ${currencyInfo?.symbol || '₫'}`;
+  }
   return `${currencyInfo?.symbol || ''}${converted.toFixed(2)}`;
+}
+
+// Helper to get localized text from item (supports multilingual objects)
+function getLocalizedText(item: any, field: 'name' | 'description', lang: Language): string {
+  const multiField = field === 'name' ? 'nameMulti' : 'descriptionMulti';
+  const multiValue = item[multiField];
+
+  // If we have multilingual object, use it
+  if (multiValue && typeof multiValue === 'object') {
+    return multiValue[lang] || multiValue.en || item[field] || '';
+  }
+
+  // Fallback to direct field
+  return item[field] || '';
 }
 
 function generateId(): string {
@@ -535,14 +597,19 @@ interface ProductCardProps {
   onAdd: (item: DishItem) => void;
   currency: string;
   index: number;
+  language: Language;
 }
 
-const ProductCard = ({ item, onAdd, currency, index }: ProductCardProps) => {
+const ProductCard = ({ item, onAdd, currency, index, language }: ProductCardProps) => {
   const imageUrl = item.image || (item as any).imageUrl;
   const categoryType = getCategoryType(item.category);
   const emoji = categoryType === 'drinks' ? '☕' : categoryType === 'dessert' ? '🍰' : categoryType === 'merchandise' ? '🎁' : '🍽️';
   const calories = (item as any).calories;
   const prepTime = (item as any).preparationTime;
+
+  // Get localized name and description
+  const localizedName = getLocalizedText(item, 'name', language);
+  const localizedDesc = getLocalizedText(item, 'description', language);
 
   return (
     <motion.div
@@ -554,13 +621,13 @@ const ProductCard = ({ item, onAdd, currency, index }: ProductCardProps) => {
     >
       {imageUrl ? (
         <div className="relative h-24 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl mb-3 overflow-hidden">
-          <img src={imageUrl} alt={item.name} className="w-full h-full object-cover" />
+          <img src={imageUrl} alt={localizedName} className="w-full h-full object-cover" />
         </div>
       ) : (
         <div className="text-5xl mb-3 text-center drop-shadow-lg">{emoji}</div>
       )}
-      <h4 className="font-bold text-gray-100 text-base mb-1">{item.name}</h4>
-      <p className="text-xs text-gray-400 mb-2 flex-1 line-clamp-2">{item.description}</p>
+      <h4 className="font-bold text-gray-100 text-base mb-1">{localizedName}</h4>
+      <p className="text-xs text-gray-400 mb-2 flex-1 line-clamp-2">{localizedDesc}</p>
       {/* Calories & Prep Time */}
       {(calories || prepTime) && (
         <div className="flex items-center gap-2 mb-2 text-[10px] text-gray-500">
@@ -637,7 +704,7 @@ const MessageBubble = ({ message, onQuickReply, onAddToCart, currency, language,
         {message.items && message.items.length > 0 && (
           <div className="flex gap-3 overflow-x-auto pb-2 mt-2 scrollbar-hide max-w-full">
             {message.items.map((item, index) => (
-              <ProductCard key={item.id} item={item} onAdd={onAddToCart} currency={currency} index={index} />
+              <ProductCard key={item.id} item={item} onAdd={onAddToCart} currency={currency} index={index} language={language} />
             ))}
           </div>
         )}
@@ -770,11 +837,12 @@ const HamburgerMenu = ({ isOpen, onClose, onMenuAction, t }: {
 };
 
 // Cart Modal
-const CartModal = ({ isOpen, onClose, currency, t }: {
+const CartModal = ({ isOpen, onClose, currency, t, language }: {
   isOpen: boolean;
   onClose: () => void;
   currency: string;
   t: typeof translations['en'];
+  language: Language;
 }) => {
   const [items, setItems] = useState(selectionsStore.getItems());
 
@@ -813,7 +881,7 @@ const CartModal = ({ isOpen, onClose, currency, t }: {
                 <motion.div key={item.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ delay: index * 0.05 }} className="bg-gray-800/80 rounded-2xl p-4 mb-3 shadow-md border border-gray-700/50 flex items-center gap-4">
                   <div className="text-4xl">🍽️</div>
                   <div className="flex-1">
-                    <h4 className="font-bold text-white">{item.dish.name}</h4>
+                    <h4 className="font-bold text-white">{getLocalizedText(item.dish, 'name', language)}</h4>
                     <p className="text-sm bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-semibold">{formatPrice(item.dish.price, currency)}</p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -1236,7 +1304,7 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
   const [cartCount, setCartCount] = useState(0);
   const [isListening, setIsListening] = useState(false);
   const [language, setLanguage] = useState<Language>('en');
-  const [currency, setCurrency] = useState('VND');
+  const [currency, setCurrency] = useState('EUR');
   const [isClient, setIsClient] = useState(false);
 
   // Menu view state
@@ -1312,7 +1380,7 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
     const validLang = (['en', 'it', 'vi'] as Language[]).includes(langPrefs.selectedLanguage as Language)
       ? (langPrefs.selectedLanguage as Language) : 'en';
     setLanguage(validLang);
-    setCurrency(currPrefs.selectedCurrency || 'VND');
+    setCurrency(currPrefs.selectedCurrency || 'EUR');
 
     // Load table context
     const ctx = tableContextStore.get();
@@ -1352,7 +1420,7 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
     };
     const handleCurrencyUpdate = () => {
       const prefs = currencyPreferencesStore.get();
-      setCurrency(prefs.selectedCurrency || 'VND');
+      setCurrency(prefs.selectedCurrency || 'EUR');
     };
 
     window.addEventListener('selections-updated', handleSelectionsUpdate);
@@ -1543,6 +1611,49 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
     else if (lower.includes('cart') || lower.includes('carrello') || lower.includes('giỏ') || lower.includes('🛒')) {
       setShowCart(true);
     }
+    // Language selection
+    else if (lower.includes('change language') || lower.includes('lingua') || lower.includes('ngôn ngữ') || lower.includes('🌐')) {
+      const languageOptions = AVAILABLE_LANGUAGES.map(lang => ({
+        label: `${lang.flag} ${lang.name}`,
+        value: `set-lang-${lang.code}`,
+        icon: lang.flag
+      }));
+      addBotMessage(language === 'en' ? 'Select your language:' : language === 'it' ? 'Seleziona la lingua:' : 'Chọn ngôn ngữ:', languageOptions);
+    }
+    // Set language
+    else if (lower.startsWith('set-lang-')) {
+      const langCode = lower.replace('set-lang-', '') as Language;
+      if (['en', 'it', 'vi'].includes(langCode)) {
+        languagePreferencesStore.set({ selectedLanguage: langCode });
+        setLanguage(langCode);
+        const confirmMsg = langCode === 'en' ? '✅ Language changed to English!' :
+                          langCode === 'it' ? '✅ Lingua cambiata in Italiano!' :
+                          '✅ Đã chuyển sang Tiếng Việt!';
+        addBotMessage(confirmMsg, [{ label: t.tabs.menu, value: 'menu', icon: '🍽️' }]);
+      }
+    }
+    // Currency selection
+    else if (lower.includes('change currency') || lower.includes('valuta') || lower.includes('tiền tệ') || lower.includes('💱')) {
+      const currencyOptions = AVAILABLE_CURRENCIES.filter(c => ['EUR', 'USD', 'GBP', 'VND'].includes(c.code)).map(curr => ({
+        label: `${curr.symbol} ${curr.name}`,
+        value: `set-curr-${curr.code}`,
+        icon: curr.symbol
+      }));
+      addBotMessage(language === 'en' ? 'Select your currency:' : language === 'it' ? 'Seleziona la valuta:' : 'Chọn loại tiền:', currencyOptions);
+    }
+    // Set currency
+    else if (lower.startsWith('set-curr-')) {
+      const currCode = lower.replace('set-curr-', '').toUpperCase();
+      if (['EUR', 'USD', 'GBP', 'VND'].includes(currCode)) {
+        currencyPreferencesStore.set({ selectedCurrency: currCode, enabled: currCode !== 'EUR' });
+        setCurrency(currCode);
+        const currInfo = AVAILABLE_CURRENCIES.find(c => c.code === currCode);
+        const confirmMsg = language === 'en' ? `✅ Currency changed to ${currInfo?.name || currCode}!` :
+                          language === 'it' ? `✅ Valuta cambiata in ${currInfo?.name || currCode}!` :
+                          `✅ Đã chuyển sang ${currInfo?.name || currCode}!`;
+        addBotMessage(confirmMsg, [{ label: t.tabs.menu, value: 'menu', icon: '🍽️' }]);
+      }
+    }
     // Fallback
     else {
       addBotMessage(t.responses.help, t.quickStart.map((label, i) => ({
@@ -1568,8 +1679,8 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
       case 'orders': addBotMessage("Your orders:\n\n(Coming soon)", [{ label: t.tabs.menu, value: 'menu', icon: '🍽️' }]); break;
       case 'popular': handleIntent('popular'); break;
       case 'allergies': handleIntent('allergies'); break;
-      case 'language': addBotMessage("Language: Coming soon", [{ label: t.tabs.menu, value: 'menu', icon: '🍽️' }]); break;
-      case 'currency': addBotMessage("Currency: Coming soon", [{ label: t.tabs.menu, value: 'menu', icon: '🍽️' }]); break;
+      case 'language': handleIntent('change language'); break;
+      case 'currency': handleIntent('change currency'); break;
       case 'settings': addBotMessage("Settings: Coming soon", [{ label: t.tabs.menu, value: 'menu', icon: '🍽️' }]); break;
     }
   };
@@ -1837,15 +1948,15 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
                 }`}
               >
                 <div className="text-6xl mb-3 text-center">
-                  {item.name.includes('T-Shirt') ? '👕' :
-                   item.name.includes('Mug') ? '☕' :
-                   item.name.includes('Cap') ? '🧢' :
-                   item.name.includes('Tote') ? '👜' :
-                   item.name.includes('Hoodie') ? '🧥' :
-                   item.name.includes('Sticker') ? '🎨' : '🎁'}
+                  {getLocalizedText(item, 'name', language).includes('T-Shirt') ? '👕' :
+                   getLocalizedText(item, 'name', language).includes('Mug') ? '☕' :
+                   getLocalizedText(item, 'name', language).includes('Cap') ? '🧢' :
+                   getLocalizedText(item, 'name', language).includes('Tote') ? '👜' :
+                   getLocalizedText(item, 'name', language).includes('Hoodie') ? '🧥' :
+                   getLocalizedText(item, 'name', language).includes('Sticker') ? '🎨' : '🎁'}
                 </div>
-                <h3 className={`font-bold text-base mb-1 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{item.name}</h3>
-                <p className={`text-xs mb-3 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>{item.description}</p>
+                <h3 className={`font-bold text-base mb-1 ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{getLocalizedText(item, 'name', language)}</h3>
+                <p className={`text-xs mb-3 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>{getLocalizedText(item, 'description', language)}</p>
                 <div className="flex items-center justify-between mt-auto">
                   <span className="text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{formatPrice(item.price, currency)}</span>
                   <motion.button whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }} onClick={() => handleAddToCart(item)} className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">+</motion.button>
@@ -1896,12 +2007,12 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
                       <div className="flex gap-4">
                         {item.image && (
                           <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-700 flex-shrink-0">
-                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                            <img src={item.image} alt={getLocalizedText(item, 'name', language)} className="w-full h-full object-cover" />
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <h3 className={`font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{item.name}</h3>
-                          <p className={`text-sm mt-1 line-clamp-2 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>{item.description}</p>
+                          <h3 className={`font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'}`}>{getLocalizedText(item, 'name', language)}</h3>
+                          <p className={`text-sm mt-1 line-clamp-2 ${theme === 'light' ? 'text-gray-600' : 'text-gray-400'}`}>{getLocalizedText(item, 'description', language)}</p>
                           {/* Calories, Prep Time, Allergens */}
                           <div className="flex flex-wrap items-center gap-2 mt-2">
                             {(item as any).calories && (
@@ -2048,7 +2159,7 @@ export function ModernChatMenuV6({ menuItems }: ModernChatMenuV6Props) {
 
       {/* Cart Modal */}
       <AnimatePresence>
-        {showCart && <CartModal isOpen={showCart} onClose={() => setShowCart(false)} currency={currency} t={t} />}
+        {showCart && <CartModal isOpen={showCart} onClose={() => setShowCart(false)} currency={currency} t={t} language={language} />}
       </AnimatePresence>
 
       {/* Welcome Modal */}

@@ -13,20 +13,21 @@ const STORAGE_KEY = 'roots-exchange-rates';
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 // Fallback rates (approximate, will be replaced by API fetch)
+// Coffee House uses EUR as base currency
 const FALLBACK_RATES: ExchangeRates = {
-  base: 'VND',
+  base: 'EUR',
   rates: {
-    VND: 1,
-    EUR: 0.000038, // 1 VND ≈ 0.000038 EUR
-    USD: 0.000041, // 1 VND ≈ 0.000041 USD
-    GBP: 0.000032, // 1 VND ≈ 0.000032 GBP
-    JPY: 0.0061, // 1 VND ≈ 0.0061 JPY
-    CNY: 0.00029, // 1 VND ≈ 0.00029 CNY
-    KRW: 0.054, // 1 VND ≈ 0.054 KRW
-    AUD: 0.000062, // 1 VND ≈ 0.000062 AUD
-    CAD: 0.000056, // 1 VND ≈ 0.000056 CAD
-    SGD: 0.000054, // 1 VND ≈ 0.000054 SGD
-    THB: 0.0014, // 1 VND ≈ 0.0014 THB
+    EUR: 1,
+    USD: 1.08, // 1 EUR ≈ 1.08 USD
+    GBP: 0.86, // 1 EUR ≈ 0.86 GBP
+    JPY: 160.5, // 1 EUR ≈ 160.5 JPY
+    CNY: 7.65, // 1 EUR ≈ 7.65 CNY
+    KRW: 1420, // 1 EUR ≈ 1420 KRW
+    AUD: 1.63, // 1 EUR ≈ 1.63 AUD
+    CAD: 1.47, // 1 EUR ≈ 1.47 CAD
+    SGD: 1.42, // 1 EUR ≈ 1.42 SGD
+    THB: 36.8, // 1 EUR ≈ 36.8 THB
+    VND: 26500, // 1 EUR ≈ 26500 VND
   },
   lastUpdated: Date.now(),
 };
@@ -114,63 +115,65 @@ export async function getExchangeRates(): Promise<ExchangeRates> {
 }
 
 /**
- * Convert VND price to target currency
+ * Convert EUR price to target currency
+ * Coffee House menu uses EUR as base currency
  */
 export function convertPrice(
-  vndPrice: number,
+  eurPrice: number,
   targetCurrency: string,
   rates?: ExchangeRates
 ): number {
-  if (targetCurrency === 'VND') return vndPrice;
+  if (targetCurrency === 'EUR') return eurPrice;
 
   const exchangeRates = rates || getCachedRates() || FALLBACK_RATES;
   const rate = exchangeRates.rates[targetCurrency];
 
   if (!rate) {
     console.warn(`No exchange rate found for ${targetCurrency}`);
-    return vndPrice;
+    return eurPrice;
   }
 
-  return vndPrice * rate;
+  return eurPrice * rate;
 }
 
 /**
  * Format converted price with currency symbol
+ * Takes EUR price as input and formats in target currency
  */
 export function formatConvertedPrice(
-  vndPrice: number,
+  eurPrice: number,
   targetCurrency: string,
   rates?: ExchangeRates
 ): string {
-  const converted = convertPrice(vndPrice, targetCurrency, rates);
+  const converted = convertPrice(eurPrice, targetCurrency, rates);
 
   // Format based on currency
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: targetCurrency,
-    minimumFractionDigits: targetCurrency === 'JPY' || targetCurrency === 'KRW' ? 0 : 2,
-    maximumFractionDigits: targetCurrency === 'JPY' || targetCurrency === 'KRW' ? 0 : 2,
+    minimumFractionDigits: targetCurrency === 'JPY' || targetCurrency === 'KRW' || targetCurrency === 'VND' ? 0 : 2,
+    maximumFractionDigits: targetCurrency === 'JPY' || targetCurrency === 'KRW' || targetCurrency === 'VND' ? 0 : 2,
   });
 
   return formatter.format(converted);
 }
 
 /**
- * Format price with both currencies (converted + original)
+ * Format price with both currencies (converted + original EUR)
  */
 export function formatDualPrice(
-  vndPrice: number,
+  eurPrice: number,
   targetCurrency: string,
   rates?: ExchangeRates
 ): string {
-  const convertedPrice = formatConvertedPrice(vndPrice, targetCurrency, rates);
-  const vndFormatter = new Intl.NumberFormat('vi-VN', {
+  const convertedPrice = formatConvertedPrice(eurPrice, targetCurrency, rates);
+  const eurFormatter = new Intl.NumberFormat('de-DE', {
     style: 'currency',
-    currency: 'VND',
+    currency: 'EUR',
   });
-  const vndFormatted = vndFormatter.format(vndPrice);
+  const eurFormatted = eurFormatter.format(eurPrice);
 
-  return `${convertedPrice} (≈ ${vndFormatted})`;
+  return `${convertedPrice} (≈ ${eurFormatted})`;
 }
 
 /**

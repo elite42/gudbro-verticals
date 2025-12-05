@@ -15,6 +15,7 @@ interface MultiLangText {
   vi?: string;
   ko?: string;
   ja?: string;
+  it?: string;
 }
 
 interface Category {
@@ -27,16 +28,38 @@ interface Category {
   display_order: number;
   is_active: boolean;
   item_count?: number;
+  modifier_groups?: CategoryModifierGroup[];
+}
+
+interface ModifierGroup {
+  id: string;
+  slug: string;
+  name_multilang: MultiLangText;
+  selection_type: 'single' | 'multiple';
+  is_required: boolean;
+  is_active: boolean;
+}
+
+interface CategoryModifierGroup {
+  id: string;
+  category_id: string;
+  modifier_group_id: string;
+  display_order: number;
+  is_visible: boolean;
+  modifier_group?: ModifierGroup;
 }
 
 const EMOJI_PICKER = ['☕', '🍵', '🧊', '🥤', '🍽️', '🍰', '🥗', '🍕', '🍔', '🌮', '🍜', '🍣', '🥐', '🍩', '🍪'];
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [modifierGroups, setModifierGroups] = useState<ModifierGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showModifiersModal, setShowModifiersModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [draggedId, setDraggedId] = useState<string | null>(null);
+  const [savingModifiers, setSavingModifiers] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -47,8 +70,12 @@ export default function CategoriesPage() {
     is_active: true,
   });
 
+  // Modifier linking state
+  const [selectedModifierGroups, setSelectedModifierGroups] = useState<string[]>([]);
+
   useEffect(() => {
     fetchCategories();
+    fetchModifierGroups();
   }, []);
 
   async function fetchCategories() {
@@ -75,9 +102,27 @@ export default function CategoriesPage() {
         }
       });
 
+      // Fetch category-modifier relationships
+      const { data: categoryModifiers } = await supabase
+        .from('category_modifier_groups')
+        .select(`
+          *,
+          modifier_group:modifier_groups(id, slug, name_multilang, selection_type, is_required, is_active)
+        `)
+        .order('display_order');
+
+      const categoryModifiersMap: Record<string, CategoryModifierGroup[]> = {};
+      (categoryModifiers || []).forEach((cm: CategoryModifierGroup) => {
+        if (!categoryModifiersMap[cm.category_id]) {
+          categoryModifiersMap[cm.category_id] = [];
+        }
+        categoryModifiersMap[cm.category_id].push(cm);
+      });
+
       const catsWithCount = (cats || []).map((cat) => ({
         ...cat,
         item_count: itemCounts[cat.id] || 0,
+        modifier_groups: categoryModifiersMap[cat.id] || [],
       }));
 
       setCategories(catsWithCount);
@@ -85,6 +130,21 @@ export default function CategoriesPage() {
       console.error('Error fetching categories:', err);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function fetchModifierGroups() {
+    try {
+      const { data, error } = await supabase
+        .from('modifier_groups')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order');
+
+      if (error) throw error;
+      setModifierGroups(data || []);
+    } catch (err) {
+      console.error('Error fetching modifier groups:', err);
     }
   }
 
@@ -203,6 +263,64 @@ export default function CategoriesPage() {
     }
   };
 
+  const openModifiersModal = (category: Category) => {
+    setEditingCategory(category);
+    const currentModifierIds = (category.modifier_groups || [])
+      .map((cm) => cm.modifier_group_id);
+    setSelectedModifierGroups(currentModifierIds);
+    setShowModifiersModal(true);
+  };
+
+  const handleSaveModifiers = async () => {
+    if (!editingCategory) return;
+
+    try {
+      setSavingModifiers(true);
+
+      // Delete existing relationships for this category
+      const { error: deleteError } = await supabase
+        .from('category_modifier_groups')
+        .delete()
+        .eq('category_id', editingCategory.id);
+
+      if (deleteError) throw deleteError;
+
+      // Insert new relationships
+      if (selectedModifierGroups.length > 0) {
+        const insertData = selectedModifierGroups.map((groupId, index) => ({
+          category_id: editingCategory.id,
+          modifier_group_id: groupId,
+          display_order: index,
+          is_visible: true,
+        }));
+
+        const { error: insertError } = await supabase
+          .from('category_modifier_groups')
+          .insert(insertData);
+
+        if (insertError) throw insertError;
+      }
+
+      await fetchCategories();
+      setShowModifiersModal(false);
+      setEditingCategory(null);
+      setSelectedModifierGroups([]);
+    } catch (err) {
+      console.error('Error saving modifier relationships:', err);
+      alert('Failed to save modifier relationships');
+    } finally {
+      setSavingModifiers(false);
+    }
+  };
+
+  const toggleModifierGroup = (groupId: string) => {
+    setSelectedModifierGroups((prev) =>
+      prev.includes(groupId)
+        ? prev.filter((id) => id !== groupId)
+        : [...prev, groupId]
+    );
+  };
+
   // Drag and drop handlers
   const handleDragStart = (id: string) => {
     setDraggedId(id);
@@ -297,7 +415,7 @@ export default function CategoriesPage() {
               </div>
 
               {/* Info */}
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <h3 className="font-medium text-gray-900">
                     {getName(category.name_multilang)}
@@ -313,7 +431,32 @@ export default function CategoriesPage() {
                   <span>•</span>
                   <span className="font-mono text-xs">{category.slug}</span>
                 </div>
+                {/* Linked Modifiers */}
+                {category.modifier_groups && category.modifier_groups.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {category.modifier_groups.map((cmg) => (
+                      <span
+                        key={cmg.id}
+                        className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs"
+                      >
+                        {cmg.modifier_group?.name_multilang?.en || cmg.modifier_group?.slug || 'Unknown'}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
+
+              {/* Modifiers Button */}
+              <button
+                onClick={() => openModifiersModal(category)}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-purple-50 text-purple-700 hover:bg-purple-100 rounded-lg transition-colors"
+                title="Manage Modifiers"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                </svg>
+                <span>{category.modifier_groups?.length || 0}</span>
+              </button>
 
               {/* Translations */}
               <div className="flex gap-1">
@@ -471,6 +614,133 @@ export default function CategoriesPage() {
               >
                 {editingCategory ? 'Save Changes' : 'Add Category'}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modifiers Modal */}
+      {showModifiersModal && editingCategory && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl w-full max-w-lg max-h-[80vh] overflow-hidden flex flex-col">
+            {/* Header */}
+            <div className="p-6 border-b">
+              <h2 className="text-xl font-bold text-gray-900">
+                Manage Modifiers
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">
+                Select modifier groups for{' '}
+                <span className="font-medium">
+                  {getName(editingCategory.name_multilang)}
+                </span>
+              </p>
+            </div>
+
+            {/* Modifier Groups List */}
+            <div className="flex-1 overflow-y-auto p-6">
+              {modifierGroups.length === 0 ? (
+                <div className="text-center py-8">
+                  <div className="text-4xl mb-4">🎛️</div>
+                  <p className="text-gray-500">No modifier groups available</p>
+                  <p className="text-sm text-gray-400 mt-1">
+                    Create modifier groups in Content &gt; Modifiers
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {modifierGroups.map((group) => {
+                    const isSelected = selectedModifierGroups.includes(group.id);
+                    return (
+                      <label
+                        key={group.id}
+                        className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                          isSelected
+                            ? 'border-purple-500 bg-purple-50'
+                            : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => toggleModifierGroup(group.id)}
+                          className="sr-only"
+                        />
+                        <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                          isSelected
+                            ? 'border-purple-500 bg-purple-500'
+                            : 'border-gray-300'
+                        }`}>
+                          {isSelected && (
+                            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-gray-900">
+                              {group.name_multilang?.en || group.slug}
+                            </span>
+                            <span className={`px-2 py-0.5 rounded text-xs ${
+                              group.selection_type === 'single'
+                                ? 'bg-blue-100 text-blue-700'
+                                : 'bg-orange-100 text-orange-700'
+                            }`}>
+                              {group.selection_type === 'single' ? 'Single' : 'Multiple'}
+                            </span>
+                            {group.is_required && (
+                              <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs">
+                                Required
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-gray-500 mt-0.5">
+                            {group.slug}
+                          </p>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="p-6 border-t bg-gray-50">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-gray-500">
+                  {selectedModifierGroups.length} of {modifierGroups.length} selected
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      setShowModifiersModal(false);
+                      setEditingCategory(null);
+                      setSelectedModifierGroups([]);
+                    }}
+                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSaveModifiers}
+                    disabled={savingModifiers}
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {savingModifiers ? (
+                      <>
+                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Saving...
+                      </>
+                    ) : (
+                      'Save Changes'
+                    )}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

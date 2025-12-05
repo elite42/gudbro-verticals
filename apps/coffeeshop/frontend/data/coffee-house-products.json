@@ -4,12 +4,12 @@
     "name": {
       "en": "Espresso (Single)",
       "it": "Espresso (Single)",
-      "vi": "Espresso (Single)"
+      "vi": "Cà Phê Espresso (Đơn)"
     },
     "description": {
       "en": "Double = 18 g coffee / 50–60 ml",
       "it": "Double = 18 g coffee / 50–60 ml",
-      "vi": "Double = 18 g coffee / 50–60 ml"
+      "vi": "Đôi = 18 g cà phê / 50–60 ml"
     },
     "category": "hot-coffee",
     "price": 2.5,
@@ -53,12 +53,12 @@
     "name": {
       "en": "Espresso (Double)",
       "it": "Espresso (Double)",
-      "vi": "Espresso (Double)"
+      "vi": "Cà Phê Espresso (Đôi)"
     },
     "description": {
       "en": "Use bottomless for training",
       "it": "Use bottomless for training",
-      "vi": "Use bottomless for training"
+      "vi": "Sử dụng không đáy để luyện tập"
     },
     "category": "hot-coffee",
     "price": 3,
@@ -102,12 +102,12 @@
     "name": {
       "en": "Americano (Hot)",
       "it": "Americano (Hot)",
-      "vi": "Americano (Hot)"
+      "vi": "Americano (Nóng)"
     },
     "description": {
       "en": "Iced: 60 ml espresso + 150 g ice + 120 ml cold water",
       "it": "Iced: 60 ml espresso + 150 g ice + 120 ml cold water",
-      "vi": "Iced: 60 ml espresso + 150 g ice + 120 ml cold water"
+      "vi": "Đá: 60 ml espresso + 150 g đá + 120 ml nước lạnh"
     },
     "category": "hot-coffee",
     "price": 2.8,
@@ -151,12 +151,12 @@
     "name": {
       "en": "Latte (Hot)",
       "it": "Latte (Hot)",
-      "vi": "Latte (Hot)"
+      "vi": "Latte (Nóng)"
     },
     "description": {
       "en": "Flavor syrup +15 ml optional",
       "it": "Flavor syrup +15 ml optional",
-      "vi": "Flavor syrup +15 ml optional"
+      "vi": "Sirô hương vị +15 ml tùy chọn"
     },
     "category": "hot-coffee",
     "price": 3.5,
@@ -202,12 +202,12 @@
     "name": {
       "en": "Iced Latte",
       "it": "Iced Latte",
-      "vi": "Iced Latte"
+      "vi": "Latte Đá"
     },
     "description": {
       "en": "Add whipped cream if desired",
       "it": "Add whipped cream if desired",
-      "vi": "Add whipped cream if desired"
+      "vi": "Add kem tươi đánh bông if desired"
     },
     "category": "iced-coffee",
     "price": 3.5,
@@ -411,7 +411,7 @@
     "description": {
       "en": "Chocolate drizzle",
       "it": "Chocolate drizzle",
-      "vi": "Chocolate drizzle"
+      "vi": "chocolate drizzle"
     },
     "category": "hot-coffee",
     "price": 4,
@@ -463,7 +463,7 @@
     "description": {
       "en": "Caramel drizzle",
       "it": "Caramel drizzle",
-      "vi": "Caramel drizzle"
+      "vi": "caramel drizzle"
     },
     "category": "hot-coffee",
     "price": 3.9,
@@ -509,12 +509,12 @@
     "name": {
       "en": "Spanish Latte (Hot)",
       "it": "Spanish Latte (Hot)",
-      "vi": "Spanish Latte (Hot)"
+      "vi": "Spanish Latte (Nóng)"
     },
     "description": {
       "en": "Iced: shake all with ice",
       "it": "Iced: shake all with ice",
-      "vi": "Iced: shake all with ice"
+      "vi": "Iced: shake all với đá"
     },
     "category": "hot-coffee",
     "price": 4,
@@ -560,7 +560,7 @@
     "name": {
       "en": "Raf Coffee (Classic)",
       "it": "Raf Coffee (Classic)",
-      "vi": "Raf Coffee (Classic)"
+      "vi": "Cà Phê Raf (Cổ Điển)"
     },
     "description": {
       "en": "Serve hot without foam",
@@ -767,7 +767,7 @@
     "description": {
       "en": "Chocolate drizzle optional",
       "it": "Chocolate drizzle optional",
-      "vi": "Chocolate drizzle optional"
+      "vi": "chocolate drizzle optional"
     },
     "category": "iced-coffee",
     "price": 4,
@@ -814,12 +814,12 @@
     "name": {
       "en": "Nutella Coffee (Iced)",
       "it": "Nutella Coffee (Iced)",
-      "vi": "Nutella Coffee (Iced)"
+      "vi": "Cà Phê Nutella Đá"
     },
     "description": {
       "en": "Hot: steam milk with Nutella",
       "it": "Hot: steam milk with Nutella",
-      "vi": "Hot: steam milk with Nutella"
+      "vi": "Hot: steam sữa with Nutella"
     },
     "category": "iced-coffee",
     "price": 4.5,
@@ -866,7 +866,7 @@
     "name": {
       "en": "Kinder Coffee (Iced)",
       "it": "Kinder Coffee (Iced)",
-      "vi": "Kinder Coffee (Iced)"
+      "vi": "Cà Phê Kinder Đá"
     },
     "description": {
       "en": "Garnish with Kinder flakes",
@@ -919,7 +919,7 @@
     "name": {
       "en": "Oreo Coffee",
       "it": "Oreo Coffee",
-      "vi": "Oreo Coffee"
+      "vi": "Cà Phê Oreo"
     },
     "description": {
       "en": "Add Oreo crumble",
@@ -972,7 +972,7 @@
     "name": {
       "en": "Bounty Coffee",
       "it": "Bounty Coffee",
-      "vi": "Bounty Coffee"
+      "vi": "Cà Phê Bounty"
     },
     "description": {
       "en": "Shredded coconut rim",
@@ -1025,7 +1025,7 @@
     "name": {
       "en": "Snickers Coffee",
       "it": "Snickers Coffee",
-      "vi": "Snickers Coffee"
+      "vi": "Cà Phê Snickers"
     },
     "description": {
       "en": "Peanut crunch sprinkle",
@@ -1078,7 +1078,7 @@
     "name": {
       "en": "Fantasy Coffee",
       "it": "Fantasy Coffee",
-      "vi": "Fantasy Coffee"
+      "vi": "Cà Phê Fantasy"
     },
     "description": {
       "en": "Serve with straw",
@@ -1130,12 +1130,12 @@
     "name": {
       "en": "Dolce Gusto Coffee",
       "it": "Dolce Gusto Coffee",
-      "vi": "Dolce Gusto Coffee"
+      "vi": "Cà Phê Dolce Gusto"
     },
     "description": {
       "en": "Sweeter profile",
       "it": "Sweeter profile",
-      "vi": "Sweeter profile"
+      "vi": "ngọt ngàoer profile"
     },
     "category": "hot-coffee",
     "price": 4.2,
@@ -1237,7 +1237,7 @@
     "description": {
       "en": "Whipped cream optional",
       "it": "Whipped cream optional",
-      "vi": "Whipped cream optional"
+      "vi": "kem tươi đánh bông optional"
     },
     "category": "iced-coffee",
     "price": 4.7,
@@ -1285,7 +1285,7 @@
     "name": {
       "en": "Coffee Glace",
       "it": "Coffee Glace",
-      "vi": "Coffee Glace"
+      "vi": "Cà Phê Glace"
     },
     "description": {
       "en": "Serve immediately",
@@ -1337,7 +1337,7 @@
     "name": {
       "en": "Cookie Coffee",
       "it": "Cookie Coffee",
-      "vi": "Cookie Coffee"
+      "vi": "Cà Phê Cookie"
     },
     "description": {
       "en": "Cream & crumbs optional",
@@ -1391,7 +1391,7 @@
     "name": {
       "en": "Iced Creamy Coffee",
       "it": "Iced Creamy Coffee",
-      "vi": "Iced Creamy Coffee"
+      "vi": "Cà Phê Kem Đá"
     },
     "description": {
       "en": "Sugar to taste",
@@ -1442,7 +1442,7 @@
     "name": {
       "en": "Iced Nutella Coffee",
       "it": "Iced Nutella Coffee",
-      "vi": "Iced Nutella Coffee"
+      "vi": "Cà Phê Nutella Đá"
     },
     "description": {
       "en": "Use crushed ice",
@@ -1551,7 +1551,7 @@
     "description": {
       "en": "Sweet, dessert-like",
       "it": "Sweet, dessert-like",
-      "vi": "Sweet, dessert-like"
+      "vi": "ngọt ngào, dessert-like"
     },
     "category": "iced-coffee",
     "price": 4.5,
@@ -1603,7 +1603,7 @@
     "description": {
       "en": "Very sweet profile",
       "it": "Very sweet profile",
-      "vi": "Very sweet profile"
+      "vi": "Very ngọt ngào profile"
     },
     "category": "hot-coffee",
     "price": 4.3,
@@ -1650,7 +1650,7 @@
     "name": {
       "en": "Iced White Mocha Coffee",
       "it": "Iced White Mocha Coffee",
-      "vi": "Iced White Mocha Coffee"
+      "vi": "Cà Phê White Mocha Đá"
     },
     "description": {
       "en": "Optional cream top",
@@ -1701,7 +1701,7 @@
     "name": {
       "en": "Iced Black Star Coffee",
       "it": "Iced Black Star Coffee",
-      "vi": "Iced Black Star Coffee"
+      "vi": "Cà Phê Black Star Đá"
     },
     "description": {
       "en": "Dark aesthetic",
@@ -1752,12 +1752,12 @@
     "name": {
       "en": "Matcha Latte (Hot)",
       "it": "Matcha Latte (Hot)",
-      "vi": "Matcha Latte (Hot)"
+      "vi": "Matcha Latte (Nóng)"
     },
     "description": {
       "en": "Sweeten with 10 ml syrup",
       "it": "Sweeten with 10 ml syrup",
-      "vi": "Sweeten with 10 ml syrup"
+      "vi": "ngọt ngàoen with 10 ml syrup"
     },
     "category": "matcha",
     "price": 4,
@@ -1803,12 +1803,12 @@
     "name": {
       "en": "Iced Matcha Latte",
       "it": "Iced Matcha Latte",
-      "vi": "Iced Matcha Latte"
+      "vi": "Matcha Latte Đá"
     },
     "description": {
       "en": "Add 10 ml vanilla syrup",
       "it": "Add 10 ml vanilla syrup",
-      "vi": "Add 10 ml vanilla syrup"
+      "vi": "Add 10 ml vani syrup"
     },
     "category": "matcha",
     "price": 4,
@@ -1854,7 +1854,7 @@
     "name": {
       "en": "Salted Caramel Matcha Latte",
       "it": "Salted Caramel Matcha Latte",
-      "vi": "Salted Caramel Matcha Latte"
+      "vi": "Matcha Latte Caramel Muối"
     },
     "description": {
       "en": "Iced or hot",
@@ -1905,7 +1905,7 @@
     "name": {
       "en": "Cream Cheese Matcha Latte Aroma",
       "it": "Cream Cheese Matcha Latte Aroma",
-      "vi": "Cream Cheese Matcha Latte Aroma"
+      "vi": "Matcha Latte Kem Phô Mai"
     },
     "description": {
       "en": "Dust matcha on top",
@@ -2007,7 +2007,7 @@
     "name": {
       "en": "Matcha Raspberry (Iced)",
       "it": "Matcha Raspberry (Iced)",
-      "vi": "Matcha Raspberry (Iced)"
+      "vi": "Matcha Raspberry (Đá)"
     },
     "description": {
       "en": "Raspberry garnish",
@@ -2058,7 +2058,7 @@
     "name": {
       "en": "Matcha Strawberry (Hot)",
       "it": "Matcha Strawberry (Hot)",
-      "vi": "Matcha Strawberry (Hot)"
+      "vi": "Matcha Strawberry (Nóng)"
     },
     "description": {
       "en": "Cream optional",
@@ -2109,12 +2109,12 @@
     "name": {
       "en": "Salted Caramel Matcha (Iced)",
       "it": "Salted Caramel Matcha (Iced)",
-      "vi": "Salted Caramel Matcha (Iced)"
+      "vi": "Salted Caramel Matcha (Đá)"
     },
     "description": {
       "en": "Less sweet version",
       "it": "Less sweet version",
-      "vi": "Less sweet version"
+      "vi": "Less ngọt ngào version"
     },
     "category": "matcha",
     "price": 4.5,
@@ -2160,7 +2160,7 @@
     "name": {
       "en": "Matcha Latte with Coconut Milk",
       "it": "Matcha Latte with Coconut Milk",
-      "vi": "Matcha Latte with Coconut Milk"
+      "vi": "Matcha Latte Sữa Dừa"
     },
     "description": {
       "en": "Vegan",
@@ -2212,12 +2212,12 @@
     "name": {
       "en": "Creamy Vanilla Matcha (Iced)",
       "it": "Creamy Vanilla Matcha (Iced)",
-      "vi": "Creamy Vanilla Matcha (Iced)"
+      "vi": "Creamy Vanilla Matcha (Đá)"
     },
     "description": {
       "en": "Whipped cream optional",
       "it": "Whipped cream optional",
-      "vi": "Whipped cream optional"
+      "vi": "kem tươi đánh bông optional"
     },
     "category": "matcha",
     "price": 4.5,
@@ -2263,7 +2263,7 @@
     "name": {
       "en": "Blue Moon Tea",
       "it": "Blue Moon Tea",
-      "vi": "Blue Moon Tea"
+      "vi": "Trà Blue Moon"
     },
     "description": {
       "en": "Color change blue→purple",
@@ -2312,7 +2312,7 @@
     "name": {
       "en": "Strawberry Carcade Tea",
       "it": "Strawberry Carcade Tea",
-      "vi": "Strawberry Carcade Tea"
+      "vi": "Trà Carcade Dâu"
     },
     "description": {
       "en": "Serve hot or iced",
@@ -2359,7 +2359,7 @@
     "name": {
       "en": "Raspberry Tea",
       "it": "Raspberry Tea",
-      "vi": "Raspberry Tea"
+      "vi": "Trà Phúc Bồn Tử"
     },
     "description": {
       "en": "—",
@@ -2408,7 +2408,7 @@
     "name": {
       "en": "Herbal Tea (House Blend)",
       "it": "Herbal Tea (House Blend)",
-      "vi": "Herbal Tea (House Blend)"
+      "vi": "Trà Thảo Mộc (Pha Đặc Biệt)"
     },
     "description": {
       "en": "Add honey if desired",
@@ -2455,7 +2455,7 @@
     "name": {
       "en": "Green Tea (Classic)",
       "it": "Green Tea (Classic)",
-      "vi": "Green Tea (Classic)"
+      "vi": "Trà Xanh (Cổ Điển)"
     },
     "description": {
       "en": "Avoid boiling water",
@@ -2504,7 +2504,7 @@
     "name": {
       "en": "Kiwi Lime Tea",
       "it": "Kiwi Lime Tea",
-      "vi": "Kiwi Lime Tea"
+      "vi": "Trà Kiwi Chanh"
     },
     "description": {
       "en": "Great iced",
@@ -2553,7 +2553,7 @@
     "name": {
       "en": "Winter Punch Tea",
       "it": "Winter Punch Tea",
-      "vi": "Winter Punch Tea"
+      "vi": "Trà Winter Punch"
     },
     "description": {
       "en": "Serve hot",
@@ -2602,12 +2602,12 @@
     "name": {
       "en": "Pomegranate Tea",
       "it": "Pomegranate Tea",
-      "vi": "Pomegranate Tea"
+      "vi": "Trà Lựu"
     },
     "description": {
       "en": "Sweet-tart profile",
       "it": "Sweet-tart profile",
-      "vi": "Sweet-tart profile"
+      "vi": "ngọt ngào-tart profile"
     },
     "category": "tea",
     "price": 3,
@@ -2651,7 +2651,7 @@
     "name": {
       "en": "Hibiscus Strawberry Tea",
       "it": "Hibiscus Strawberry Tea",
-      "vi": "Hibiscus Strawberry Tea"
+      "vi": "Trà Hibiscus Dâu"
     },
     "description": {
       "en": "Bright red",
@@ -2698,7 +2698,7 @@
     "name": {
       "en": "Immuno Tea",
       "it": "Immuno Tea",
-      "vi": "Immuno Tea"
+      "vi": "Trà Tăng Đề Kháng"
     },
     "description": {
       "en": "Serve hot",
@@ -2745,7 +2745,7 @@
     "name": {
       "en": "Ice Tea Mix",
       "it": "Ice Tea Mix",
-      "vi": "Ice Tea Mix"
+      "vi": "Trà Đá Tổng Hợp"
     },
     "description": {
       "en": "Flavors: peach/raspberry/lemon",
@@ -2794,7 +2794,7 @@
     "name": {
       "en": "Ice Tea Raspberry",
       "it": "Ice Tea Raspberry",
-      "vi": "Ice Tea Raspberry"
+      "vi": "Trà Đá Phúc Bồn Tử"
     },
     "description": {
       "en": "Garnish with mint",
@@ -2843,7 +2843,7 @@
     "name": {
       "en": "Ice Tea Peach",
       "it": "Ice Tea Peach",
-      "vi": "Ice Tea Peach"
+      "vi": "Trà Đá Đào"
     },
     "description": {
       "en": "Use sliced peach",
@@ -2892,7 +2892,7 @@
     "name": {
       "en": "Herbal Lemon Mint Tea",
       "it": "Herbal Lemon Mint Tea",
-      "vi": "Herbal Lemon Mint Tea"
+      "vi": "Trà Thảo Mộc Chanh Bạc Hà"
     },
     "description": {
       "en": "Caffeine-free",
@@ -2939,12 +2939,12 @@
     "name": {
       "en": "Strawberry Hibiscus Cold Brew",
       "it": "Strawberry Hibiscus Cold Brew",
-      "vi": "Strawberry Hibiscus Cold Brew"
+      "vi": "Cà Phê Ủ Lạnh Dâu Hibiscus"
     },
     "description": {
       "en": "Refreshing",
       "it": "Refreshing",
-      "vi": "Refreshing"
+      "vi": "sảng khoái"
     },
     "category": "tea",
     "price": 3.2,
@@ -2986,7 +2986,7 @@
     "name": {
       "en": "Banana Smoothie",
       "it": "Banana Smoothie",
-      "vi": "Banana Smoothie"
+      "vi": "Sinh Tố Chuối"
     },
     "description": {
       "en": "Add oats 10 g",
@@ -3035,12 +3035,12 @@
     "name": {
       "en": "Strawberry Smoothie",
       "it": "Strawberry Smoothie",
-      "vi": "Strawberry Smoothie"
+      "vi": "Sinh Tố Dâu Tây"
     },
     "description": {
       "en": "Top with fresh strawberry",
       "it": "Top with fresh strawberry",
-      "vi": "Top with fresh strawberry"
+      "vi": "Top with tươi strawberry"
     },
     "category": "smoothie",
     "price": 3.9,
@@ -3084,7 +3084,7 @@
     "name": {
       "en": "Banana-Kiwi Smoothie",
       "it": "Banana-Kiwi Smoothie",
-      "vi": "Banana-Kiwi Smoothie"
+      "vi": "Sinh Tố Chuối Kiwi"
     },
     "description": {
       "en": "Serve cold with mint",
@@ -3133,7 +3133,7 @@
     "name": {
       "en": "Orange-Grapefruit Smoothie",
       "it": "Orange-Grapefruit Smoothie",
-      "vi": "Orange-Grapefruit Smoothie"
+      "vi": "Sinh Tố Cam Bưởi"
     },
     "description": {
       "en": "Slightly bitter",
@@ -3180,7 +3180,7 @@
     "name": {
       "en": "Lemon Smoothie",
       "it": "Lemon Smoothie",
-      "vi": "Lemon Smoothie"
+      "vi": "Sinh Tố Chanh"
     },
     "description": {
       "en": "Zest garnish",
@@ -3229,7 +3229,7 @@
     "name": {
       "en": "Lime Smoothie",
       "it": "Lime Smoothie",
-      "vi": "Lime Smoothie"
+      "vi": "Sinh Tố Chanh Xanh"
     },
     "description": {
       "en": "Add mint leaves",
@@ -3278,7 +3278,7 @@
     "name": {
       "en": "Apple Smoothie",
       "it": "Apple Smoothie",
-      "vi": "Apple Smoothie"
+      "vi": "Sinh Tố Táo"
     },
     "description": {
       "en": "Few drops lemon to prevent oxidation",
@@ -3327,12 +3327,12 @@
     "name": {
       "en": "Mango Smoothie",
       "it": "Mango Smoothie",
-      "vi": "Mango Smoothie"
+      "vi": "Sinh Tố Xoài"
     },
     "description": {
       "en": "Add coconut milk for twist",
       "it": "Add coconut milk for twist",
-      "vi": "Add coconut milk for twist"
+      "vi": "Add coconut sữa for twist"
     },
     "category": "smoothie",
     "price": 4,
@@ -3376,12 +3376,12 @@
     "name": {
       "en": "Avocado Smoothie",
       "it": "Avocado Smoothie",
-      "vi": "Avocado Smoothie"
+      "vi": "Sinh Tố Bơ"
     },
     "description": {
       "en": "Creamy, Vietnam-favorite",
       "it": "Creamy, Vietnam-favorite",
-      "vi": "Creamy, Vietnam-favorite"
+      "vi": "Béo ngậy, Vietnam-favorite"
     },
     "category": "smoothie",
     "price": 4.2,
@@ -3425,7 +3425,7 @@
     "name": {
       "en": "Berry Mix Smoothie",
       "it": "Berry Mix Smoothie",
-      "vi": "Berry Mix Smoothie"
+      "vi": "Sinh Tố Dâu Tổng Hợp"
     },
     "description": {
       "en": "Antioxidant profile",
@@ -3474,7 +3474,7 @@
     "name": {
       "en": "Oreo Shake",
       "it": "Oreo Shake",
-      "vi": "Oreo Shake"
+      "vi": "Sữa Lắc Oreo"
     },
     "description": {
       "en": "Add Oreo crumble",
@@ -3526,7 +3526,7 @@
     "name": {
       "en": "Cookies Shake",
       "it": "Cookies Shake",
-      "vi": "Cookies Shake"
+      "vi": "Sữa Lắc Cookie"
     },
     "description": {
       "en": "Cookie rim",
@@ -3582,7 +3582,7 @@
     "description": {
       "en": "Top with whipped cream + drizzle",
       "it": "Top with whipped cream + drizzle",
-      "vi": "Top with whipped cream + drizzle"
+      "vi": "Top with kem tươi đánh bông + drizzle"
     },
     "category": "milkshake",
     "price": 4.8,
@@ -3635,7 +3635,7 @@
     "description": {
       "en": "Caramel drizzle",
       "it": "Caramel drizzle",
-      "vi": "Caramel drizzle"
+      "vi": "caramel drizzle"
     },
     "category": "milkshake",
     "price": 4.6,
@@ -3731,7 +3731,7 @@
     "name": {
       "en": "Coffee Frappuccino",
       "it": "Coffee Frappuccino",
-      "vi": "Coffee Frappuccino"
+      "vi": "Frappuccino Cà Phê"
     },
     "description": {
       "en": "Add chocolate syrup optionally",
@@ -3783,7 +3783,7 @@
     "name": {
       "en": "Vanilla Shake",
       "it": "Vanilla Shake",
-      "vi": "Vanilla Shake"
+      "vi": "Sữa Lắc Vanilla"
     },
     "description": {
       "en": "Base for add-ons",
@@ -3833,12 +3833,12 @@
     "name": {
       "en": "Chocolate Shake",
       "it": "Chocolate Shake",
-      "vi": "Chocolate Shake"
+      "vi": "Sữa Lắc Chocolate"
     },
     "description": {
       "en": "Add whipped cream",
       "it": "Add whipped cream",
-      "vi": "Add whipped cream"
+      "vi": "Add kem tươi đánh bông"
     },
     "category": "milkshake",
     "price": 4.3,
@@ -3884,7 +3884,7 @@
     "name": {
       "en": "Banana Shake",
       "it": "Banana Shake",
-      "vi": "Banana Shake"
+      "vi": "Sữa Lắc Banana"
     },
     "description": {
       "en": "Add cinnamon powder",
@@ -3934,12 +3934,12 @@
     "name": {
       "en": "Salted Caramel Shake",
       "it": "Salted Caramel Shake",
-      "vi": "Salted Caramel Shake"
+      "vi": "Sữa Lắc Salted Caramel"
     },
     "description": {
       "en": "Sweet & salty",
       "it": "Sweet & salty",
-      "vi": "Sweet & salty"
+      "vi": "ngọt ngào & salty"
     },
     "category": "milkshake",
     "price": 4.6,
@@ -3984,7 +3984,7 @@
     "name": {
       "en": "Strawberry Shake",
       "it": "Strawberry Shake",
-      "vi": "Strawberry Shake"
+      "vi": "Sữa Lắc Strawberry"
     },
     "description": {
       "en": "—",
@@ -4034,12 +4034,12 @@
     "name": {
       "en": "Peanut Butter Shake",
       "it": "Peanut Butter Shake",
-      "vi": "Peanut Butter Shake"
+      "vi": "Sữa Lắc Peanut Butter"
     },
     "description": {
       "en": "Protein-rich dessert",
       "it": "Protein-rich dessert",
-      "vi": "Protein-rich dessert"
+      "vi": "Protein-Đậm đà dessert"
     },
     "category": "milkshake",
     "price": 4.7,

@@ -31,7 +31,7 @@ export function DisplayPreferencesModal({
 
   const handleSave = () => {
     // Save currency preferences
-    const currencyEnabled = selectedCurrency !== 'VND';
+    const currencyEnabled = selectedCurrency !== 'EUR'; // Enable conversion if not EUR (base currency)
     currencyPreferencesStore.set({
       enabled: currencyEnabled,
       selectedCurrency,

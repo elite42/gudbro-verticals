@@ -147,6 +147,47 @@ export interface Translations {
       drinks: string;
       merchandise: string;
     };
+    sections: {
+      popular: string;
+      seeAll: string;
+    };
+    tableContext: {
+      table: string;
+      dineIn: string;
+      takeaway: string;
+    };
+    categories: {
+      coffee: string;
+      tea: string;
+      smoothies: string;
+      food: string;
+      desserts: string;
+      beverages: string;
+      hotCoffee: string;
+      icedCoffee: string;
+      matcha: string;
+      milkshake: string;
+      bowls: string;
+      wellness: string;
+      breakfast: string;
+      lunch: string;
+    };
+    promo: {
+      happyHour: string;
+      happyHourDesc: string;
+    };
+  };
+
+  // Product Detail / Bottom Sheet
+  productDetail: {
+    quantity: string;
+    addToCart: string;
+    removeFromSelections: string;
+    addToSelections: string;
+    extras: string;
+    nutrition: string;
+    free: string;
+    noCustomizations: string;
   };
 
   // Call Staff Modal
@@ -369,7 +410,47 @@ export const translations: Record<Language, Translations> = {
         food: 'Food',
         drinks: 'Drinks',
         merchandise: 'Merch'
+      },
+      sections: {
+        popular: 'Popular',
+        seeAll: 'See all'
+      },
+      tableContext: {
+        table: 'Table',
+        dineIn: 'Dine In',
+        takeaway: 'Takeaway'
+      },
+      categories: {
+        coffee: 'Coffee',
+        tea: 'Tea',
+        smoothies: 'Smoothies',
+        food: 'Food',
+        desserts: 'Desserts',
+        beverages: 'Beverages',
+        hotCoffee: 'Hot Coffee',
+        icedCoffee: 'Iced Coffee',
+        matcha: 'Matcha',
+        milkshake: 'Milkshake',
+        bowls: 'Bowls',
+        wellness: 'Wellness',
+        breakfast: 'Breakfast',
+        lunch: 'Lunch'
+      },
+      promo: {
+        happyHour: 'Happy Hour -10%',
+        happyHourDesc: 'Every day from 3pm to 6pm'
       }
+    },
+
+    productDetail: {
+      quantity: 'Quantity',
+      addToCart: 'Add to Cart',
+      removeFromSelections: 'Remove from Selections',
+      addToSelections: 'Add to Selections',
+      extras: 'Extras',
+      nutrition: 'Nutrition',
+      free: 'Free',
+      noCustomizations: 'No customizations available'
     },
 
     callStaff: {
@@ -584,7 +665,47 @@ export const translations: Record<Language, Translations> = {
         food: 'Đồ ăn',
         drinks: 'Đồ uống',
         merchandise: 'Hàng hóa'
+      },
+      sections: {
+        popular: 'Phổ biến',
+        seeAll: 'Xem tất cả'
+      },
+      tableContext: {
+        table: 'Bàn',
+        dineIn: 'Tại quán',
+        takeaway: 'Mang về'
+      },
+      categories: {
+        coffee: 'Cà phê',
+        tea: 'Trà',
+        smoothies: 'Sinh tố',
+        food: 'Đồ ăn',
+        desserts: 'Tráng miệng',
+        beverages: 'Đồ uống',
+        hotCoffee: 'Cà phê nóng',
+        icedCoffee: 'Cà phê đá',
+        matcha: 'Matcha',
+        milkshake: 'Milkshake',
+        bowls: 'Tô',
+        wellness: 'Sức khỏe',
+        breakfast: 'Bữa sáng',
+        lunch: 'Bữa trưa'
+      },
+      promo: {
+        happyHour: 'Happy Hour -10%',
+        happyHourDesc: 'Mỗi ngày từ 15h đến 18h'
       }
+    },
+
+    productDetail: {
+      quantity: 'Số lượng',
+      addToCart: 'Thêm vào giỏ',
+      removeFromSelections: 'Xóa khỏi danh sách',
+      addToSelections: 'Thêm vào danh sách',
+      extras: 'Thêm',
+      nutrition: 'Dinh dưỡng',
+      free: 'Miễn phí',
+      noCustomizations: 'Không có tùy chỉnh'
     },
 
     callStaff: {
@@ -799,7 +920,47 @@ export const translations: Record<Language, Translations> = {
         food: 'Cibo',
         drinks: 'Bevande',
         merchandise: 'Merch'
+      },
+      sections: {
+        popular: 'Popolari',
+        seeAll: 'Vedi tutti'
+      },
+      tableContext: {
+        table: 'Tavolo',
+        dineIn: 'Al Tavolo',
+        takeaway: 'Da Asporto'
+      },
+      categories: {
+        coffee: 'Caffè',
+        tea: 'Tè',
+        smoothies: 'Smoothies',
+        food: 'Cibo',
+        desserts: 'Dolci',
+        beverages: 'Bevande',
+        hotCoffee: 'Caffè Caldo',
+        icedCoffee: 'Caffè Freddo',
+        matcha: 'Matcha',
+        milkshake: 'Milkshake',
+        bowls: 'Bowls',
+        wellness: 'Benessere',
+        breakfast: 'Colazione',
+        lunch: 'Pranzo'
+      },
+      promo: {
+        happyHour: 'Happy Hour -10%',
+        happyHourDesc: 'Ogni giorno dalle 15:00 alle 18:00'
       }
+    },
+
+    productDetail: {
+      quantity: 'Quantità',
+      addToCart: 'Aggiungi al Carrello',
+      removeFromSelections: 'Rimuovi dalle Selezioni',
+      addToSelections: 'Aggiungi alle Selezioni',
+      extras: 'Extra',
+      nutrition: 'Nutrizione',
+      free: 'Gratis',
+      noCustomizations: 'Nessuna personalizzazione disponibile'
     },
 
     callStaff: {

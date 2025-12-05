@@ -11,6 +11,7 @@ import { SafetyBadgeList } from './ui/safety-badge';
 import { AllergenIcon, getIconNameFromFilterId } from './ui/allergen-icon';
 import { safetyFilters } from '@/database/safety-filters';
 import { ProductIndicators } from './ProductIndicators';
+import { useTranslation } from '../lib/use-translation';
 
 interface ProductBottomSheetProps {
   dish: DishItem;
@@ -19,6 +20,7 @@ interface ProductBottomSheetProps {
 }
 
 export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottomSheetProps) {
+  const { t } = useTranslation();
   const [quantity, setQuantity] = useState(1);
   const [selectedExtras, setSelectedExtras] = useState<Extra[]>([]);
   const [activeTab, setActiveTab] = useState<'extra' | 'nutrition'>('extra');
@@ -44,17 +46,16 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
     }
   }, []);
 
-  // Compact price format: 35.000₫ → 35K
+  // Price formatting - Coffee House uses EUR prices
   const formatPriceCompact = (price: number) => {
-    // Check if currency conversion is enabled
-    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'VND') {
-      // Use full formatting for non-VND currencies
+    // Check if currency conversion is enabled (enabled = true when currency != EUR)
+    if (currencyPrefs.enabled) {
+      // Use full formatting for converted currencies
       return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
     }
 
-    // VND compact format: divide by 1000 and add K
-    const priceInK = Math.round(price / 1000);
-    return `${priceInK}K`;
+    // Default EUR format for Coffee House menu
+    return `€${price.toFixed(2)}`;
   };
 
   const handleToggleFavorite = () => {
@@ -195,7 +196,7 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                     : 'text-theme-text-secondary hover:text-theme-text-primary'
                     }`}
                 >
-                  EXTRA
+                  {t.productDetail.extras.toUpperCase()}
                 </button>
                 <button
                   onClick={() => setActiveTab('nutrition')}
@@ -204,7 +205,7 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                     : 'text-theme-text-secondary hover:text-theme-text-primary'
                     }`}
                 >
-                  Nutrizione
+                  {t.productDetail.nutrition}
                   {hasAllergens && activeTab !== 'nutrition' && <span className="ml-1 text-red-600">⚠️</span>}
                 </button>
               </div>
@@ -242,7 +243,7 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                               </div>
                             </div>
                             <span className={`font-bold ${extra.price > 0 ? 'text-gray-700' : 'text-green-600'}`}>
-                              {extra.price > 0 ? `+${formatPriceCompact(extra.price)}` : 'Gratis'}
+                              {extra.price > 0 ? `+${formatPriceCompact(extra.price)}` : t.productDetail.free}
                             </span>
                           </label>
                         );
@@ -250,7 +251,7 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                     </div>
                   ) : (
                     <div className="text-center py-8 text-theme-text-secondary">
-                      Nessuna personalizzazione disponibile
+                      {t.productDetail.noCustomizations}
                     </div>
                   )}
                 </div>
@@ -267,7 +268,7 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
 
           {/* Quantity Controls - Always show */}
           <div className="mb-6">
-            <h3 className="font-bold text-theme-text-primary mb-3">Quantità</h3>
+            <h3 className="font-bold text-theme-text-primary mb-3">{t.productDetail.quantity}</h3>
             <div className="flex items-center justify-center gap-4 bg-theme-bg-secondary rounded-2xl p-4">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -299,10 +300,10 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
               }`}
           >
             {isOrderingEnabled
-              ? `Add to Cart • ${formatPriceCompact(dish.price * quantity + selectedExtras.reduce((sum, e) => sum + e.price, 0) * quantity)}`
+              ? `${t.productDetail.addToCart} • ${formatPriceCompact(dish.price * quantity + selectedExtras.reduce((sum, e) => sum + e.price, 0) * quantity)}`
               : isInSelections
-                ? 'Rimuovi dalle Selezioni'
-                : `Aggiungi${quantity > 1 ? ` (x${quantity})` : ''} • ${formatPriceCompact(dish.price * quantity)}`}
+                ? t.productDetail.removeFromSelections
+                : `${t.productDetail.addToSelections}${quantity > 1 ? ` (x${quantity})` : ''} • ${formatPriceCompact(dish.price * quantity)}`}
           </button>
         </div>
       </div>

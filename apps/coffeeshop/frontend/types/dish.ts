@@ -8,6 +8,13 @@ export interface Extra {
   maxQuantity?: number;
 }
 
+// Multilingual text object
+export interface MultilingualText {
+  en?: string;
+  vi?: string;
+  it?: string;
+}
+
 export interface DishItem {
   id: string;
   name: string;
@@ -23,6 +30,10 @@ export interface DishItem {
   allergens?: string[];
   intolerances?: string[];
   spiciness?: number; // 0-5
+
+  // Multilingual fields (optional - for client-side language switching)
+  nameMulti?: MultilingualText;
+  descriptionMulti?: MultilingualText;
 
   // Nutritional info (per serving)
   calories?: number;

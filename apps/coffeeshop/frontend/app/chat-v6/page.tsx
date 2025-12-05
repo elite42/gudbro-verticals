@@ -1,4 +1,4 @@
-import { getMenuProducts } from '../actions';
+import { getMenuProductsRaw } from '../actions';
 import { ModernChatMenuV6 } from '@/components/ModernChatMenuV6';
 
 export const metadata = {
@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 export default async function ChatV6Page() {
-  const menuItems = await getMenuProducts();
+  const menuItems = await getMenuProductsRaw();
 
   return <ModernChatMenuV6 menuItems={menuItems} />;
 }

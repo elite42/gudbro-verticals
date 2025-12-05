@@ -36,6 +36,7 @@ const navigation = [
       { name: 'Recipes', href: '/content/recipes' },
       { name: 'Ingredients', href: '/content/ingredients' },
       { name: 'Categories', href: '/content/categories' },
+      { name: 'Modifiers', href: '/content/modifiers' },
     ],
   },
   {

@@ -5,6 +5,7 @@ import { DishItem } from './DishCard';
 import { currencyPreferencesStore } from '../lib/currency-preferences';
 import { formatConvertedPrice } from '../lib/currency-converter';
 import { favoritesStore } from '../lib/favorites-store';
+import { useTranslation } from '../lib/use-translation';
 
 interface CategorySectionProps {
   categoryId: string;
@@ -23,6 +24,7 @@ export function CategorySection({
   onItemClick,
   onSeeAllClick
 }: CategorySectionProps) {
+  const { t } = useTranslation();
   const [currencyPrefs, setCurrencyPrefs] = useState(() => currencyPreferencesStore.get());
   const [favorites, setFavorites] = useState<Set<string>>(() => new Set());
 
@@ -59,17 +61,16 @@ export function CategorySection({
     }
   }, []);
 
-  // Compact price format: 35.000₫ → 35K
+  // Price formatting - Coffee House uses EUR prices
   const formatPriceCompact = (price: number) => {
-    // Check if currency conversion is enabled
-    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'VND') {
-      // Use full formatting for non-VND currencies
+    // Check if currency conversion is enabled (enabled = true when currency != EUR)
+    if (currencyPrefs.enabled) {
+      // Use full formatting for converted currencies
       return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
     }
 
-    // VND compact format: divide by 1000 and add K
-    const priceInK = Math.round(price / 1000);
-    return `${priceInK}K`;
+    // Default EUR format for Coffee House menu
+    return `€${price.toFixed(2)}`;
   };
 
   if (items.length === 0) {
@@ -92,7 +93,7 @@ export function CategorySection({
           <button
             onClick={onSeeAllClick}
             className="text-theme-interactive-primary hover:text-theme-interactive-primary-hover transition-colors p-1"
-            aria-label="Vedi tutti"
+            aria-label={t.menu.sections.seeAll}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
