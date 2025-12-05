@@ -210,28 +210,55 @@ export default function ModifiersPage() {
   const handleSaveGroup = async () => {
     if (!merchantId || !groupForm.name_en) return;
 
+    const slug = groupForm.name_en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const tempId = `temp-${Date.now()}`;
+
+    const groupData = {
+      merchant_id: merchantId,
+      slug: editingGroup?.slug || slug,
+      name_multilang: {
+        en: groupForm.name_en,
+        it: groupForm.name_it || undefined,
+        vi: groupForm.name_vi || undefined,
+      },
+      description_multilang: groupForm.description_en ? {
+        en: groupForm.description_en,
+      } : undefined,
+      selection_type: groupForm.selection_type,
+      is_required: groupForm.is_required,
+      min_selections: groupForm.min_selections,
+      max_selections: groupForm.max_selections,
+      icon: groupForm.icon,
+      is_active: true,
+    };
+
+    // Optimistic: Close modal and update UI immediately
+    setShowGroupModal(false);
+    const previousGroups = [...groups];
+
+    if (editingGroup) {
+      // Optimistic update for edit
+      setGroups(prev => prev.map(g =>
+        g.id === editingGroup.id
+          ? { ...g, ...groupData, modifiers_count: g.modifiers_count }
+          : g
+      ));
+    } else {
+      // Optimistic update for add
+      const newGroup: ModifierGroup = {
+        ...groupData,
+        id: tempId,
+        display_order: groups.length,
+        modifiers_count: 0,
+      } as ModifierGroup;
+      setGroups(prev => [...prev, newGroup]);
+      setSelectedGroupId(tempId);
+    }
+
+    resetGroupForm();
+
+    // Background: Save to database
     try {
-      const slug = groupForm.name_en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-
-      const groupData = {
-        merchant_id: merchantId,
-        slug: editingGroup?.slug || slug,
-        name_multilang: {
-          en: groupForm.name_en,
-          it: groupForm.name_it || undefined,
-          vi: groupForm.name_vi || undefined,
-        },
-        description_multilang: groupForm.description_en ? {
-          en: groupForm.description_en,
-        } : undefined,
-        selection_type: groupForm.selection_type,
-        is_required: groupForm.is_required,
-        min_selections: groupForm.min_selections,
-        max_selections: groupForm.max_selections,
-        icon: groupForm.icon,
-        is_active: true,
-      };
-
       if (editingGroup) {
         const { error } = await supabase
           .from('modifier_groups')
@@ -239,20 +266,24 @@ export default function ModifiersPage() {
           .eq('id', editingGroup.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('modifier_groups')
-          .insert({
-            ...groupData,
-            display_order: groups.length,
-          });
+          .insert({ ...groupData, display_order: groups.length })
+          .select()
+          .single();
         if (error) throw error;
+        // Replace temp ID with real ID
+        if (data) {
+          setGroups(prev => prev.map(g =>
+            g.id === tempId ? { ...g, id: data.id } : g
+          ));
+          setSelectedGroupId(data.id);
+        }
       }
-
-      await fetchData();
-      setShowGroupModal(false);
-      resetGroupForm();
     } catch (err) {
       console.error('Error saving group:', err);
+      // Rollback on error
+      setGroups(previousGroups);
       alert('Failed to save group');
     }
   };
@@ -287,6 +318,12 @@ export default function ModifiersPage() {
   };
 
   const toggleGroupActive = async (groupId: string, currentStatus: boolean) => {
+    // Optimistic: Update UI immediately
+    setGroups(prev =>
+      prev.map(g => g.id === groupId ? { ...g, is_active: !currentStatus } : g)
+    );
+
+    // Background: Save to database
     try {
       const { error } = await supabase
         .from('modifier_groups')
@@ -294,12 +331,12 @@ export default function ModifiersPage() {
         .eq('id', groupId);
 
       if (error) throw error;
-
-      setGroups(prev =>
-        prev.map(g => g.id === groupId ? { ...g, is_active: !currentStatus } : g)
-      );
     } catch (err) {
       console.error('Error toggling group:', err);
+      // Rollback on error
+      setGroups(prev =>
+        prev.map(g => g.id === groupId ? { ...g, is_active: currentStatus } : g)
+      );
     }
   };
 
@@ -341,28 +378,66 @@ export default function ModifiersPage() {
   const handleSaveModifier = async () => {
     if (!merchantId || !selectedGroupId || !modifierForm.name_en) return;
 
+    const slug = modifierForm.name_en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const tempId = `temp-${Date.now()}`;
+    const groupModifiers = modifiers.filter(m => m.group_id === selectedGroupId);
+
+    const modifierData = {
+      merchant_id: merchantId,
+      group_id: selectedGroupId,
+      slug: editingModifier?.slug || slug,
+      name_multilang: {
+        en: modifierForm.name_en,
+        it: modifierForm.name_it || undefined,
+        vi: modifierForm.name_vi || undefined,
+      },
+      price_adjustment: parseFloat(modifierForm.price_adjustment) || 0,
+      price_type: modifierForm.price_type,
+      is_default: modifierForm.is_default,
+      calories_adjustment: parseInt(modifierForm.calories_adjustment) || 0,
+      icon: modifierForm.icon || null,
+      color: modifierForm.color,
+      is_active: true,
+      is_available: true,
+    };
+
+    // Optimistic: Close modal and update UI immediately
+    setShowModifierModal(false);
+    const previousModifiers = [...modifiers];
+    const previousGroups = [...groups];
+
+    if (editingModifier) {
+      // Optimistic update for edit
+      setModifiers(prev => prev.map(m =>
+        m.id === editingModifier.id ? { ...m, ...modifierData } as Modifier : m
+      ));
+    } else {
+      // Optimistic update for add
+      const newModifier: Modifier = {
+        ...modifierData,
+        id: tempId,
+        display_order: groupModifiers.length,
+      } as Modifier;
+      setModifiers(prev => [...prev, newModifier]);
+      // Update group modifiers count
+      setGroups(prev => prev.map(g =>
+        g.id === selectedGroupId ? { ...g, modifiers_count: (g.modifiers_count || 0) + 1 } : g
+      ));
+    }
+
+    // If setting as default in single-selection group, unset others optimistically
+    if (modifierForm.is_default && selectedGroup?.selection_type === 'single') {
+      setModifiers(prev => prev.map(m =>
+        m.group_id === selectedGroupId && m.id !== editingModifier?.id
+          ? { ...m, is_default: false }
+          : m
+      ));
+    }
+
+    resetModifierForm();
+
+    // Background: Save to database
     try {
-      const slug = modifierForm.name_en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-
-      const modifierData = {
-        merchant_id: merchantId,
-        group_id: selectedGroupId,
-        slug: editingModifier?.slug || slug,
-        name_multilang: {
-          en: modifierForm.name_en,
-          it: modifierForm.name_it || undefined,
-          vi: modifierForm.name_vi || undefined,
-        },
-        price_adjustment: parseFloat(modifierForm.price_adjustment) || 0,
-        price_type: modifierForm.price_type,
-        is_default: modifierForm.is_default,
-        calories_adjustment: parseInt(modifierForm.calories_adjustment) || 0,
-        icon: modifierForm.icon || null,
-        color: modifierForm.color,
-        is_active: true,
-        is_available: true,
-      };
-
       if (editingModifier) {
         const { error } = await supabase
           .from('modifiers')
@@ -370,19 +445,26 @@ export default function ModifiersPage() {
           .eq('id', editingModifier.id);
         if (error) throw error;
       } else {
-        const groupModifiers = modifiers.filter(m => m.group_id === selectedGroupId);
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('modifiers')
           .insert({
             ...modifierData,
             display_order: groupModifiers.length,
-          });
+          })
+          .select()
+          .single();
         if (error) throw error;
+        // Replace temp ID with real ID
+        if (data) {
+          setModifiers(prev => prev.map(m =>
+            m.id === tempId ? { ...m, id: data.id } : m
+          ));
+        }
       }
 
-      // If setting as default, unset others in same group
+      // If setting as default, unset others in same group (in database)
       if (modifierForm.is_default && selectedGroup?.selection_type === 'single') {
-        const otherDefaults = modifiers.filter(
+        const otherDefaults = previousModifiers.filter(
           m => m.group_id === selectedGroupId && m.is_default && m.id !== editingModifier?.id
         );
         for (const other of otherDefaults) {
@@ -392,12 +474,11 @@ export default function ModifiersPage() {
             .eq('id', other.id);
         }
       }
-
-      await fetchData();
-      setShowModifierModal(false);
-      resetModifierForm();
     } catch (err) {
       console.error('Error saving modifier:', err);
+      // Rollback on error
+      setModifiers(previousModifiers);
+      setGroups(previousGroups);
       alert('Failed to save modifier');
     }
   };
@@ -423,6 +504,12 @@ export default function ModifiersPage() {
   };
 
   const toggleModifierAvailable = async (modifierId: string, currentStatus: boolean) => {
+    // Optimistic: Update UI immediately
+    setModifiers(prev =>
+      prev.map(m => m.id === modifierId ? { ...m, is_available: !currentStatus } : m)
+    );
+
+    // Background: Save to database
     try {
       const { error } = await supabase
         .from('modifiers')
@@ -430,12 +517,12 @@ export default function ModifiersPage() {
         .eq('id', modifierId);
 
       if (error) throw error;
-
-      setModifiers(prev =>
-        prev.map(m => m.id === modifierId ? { ...m, is_available: !currentStatus } : m)
-      );
     } catch (err) {
       console.error('Error toggling modifier:', err);
+      // Rollback on error
+      setModifiers(prev =>
+        prev.map(m => m.id === modifierId ? { ...m, is_available: currentStatus } : m)
+      );
     }
   };
 
