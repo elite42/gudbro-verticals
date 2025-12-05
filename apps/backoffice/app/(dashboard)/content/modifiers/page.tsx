@@ -259,9 +259,14 @@ export default function ModifiersPage() {
   };
 
   const handleSaveGroup = async () => {
-    console.log('🔵 handleSaveGroup called', { merchantId, name: groupForm.name_en });
+    // TEMP FIX: Use hardcoded merchant ID if state is null
+    // This bypasses the fetchData() issue until Vercel deploys correctly
+    const FALLBACK_MERCHANT_ID = 'f8bf7ceb-0923-437b-bc7a-1af3b82f3049';
+    const effectiveMerchantId = merchantId || FALLBACK_MERCHANT_ID;
 
-    if (!merchantId) {
+    console.log('🔵 handleSaveGroup called', { merchantId, effectiveMerchantId, name: groupForm.name_en });
+
+    if (!effectiveMerchantId) {
       console.error('❌ No merchantId - cannot save group');
       alert('Error: No merchant ID. Please refresh the page.');
       return;
@@ -276,7 +281,7 @@ export default function ModifiersPage() {
     const tempId = `temp-${Date.now()}`;
 
     const groupData = {
-      merchant_id: merchantId,
+      merchant_id: effectiveMerchantId,
       slug: editingGroup?.slug || slug,
       name_multilang: {
         en: groupForm.name_en,
@@ -450,14 +455,18 @@ export default function ModifiersPage() {
   };
 
   const handleSaveModifier = async () => {
-    if (!merchantId || !selectedGroupId || !modifierForm.name_en) return;
+    // TEMP FIX: Use hardcoded merchant ID if state is null
+    const FALLBACK_MERCHANT_ID = 'f8bf7ceb-0923-437b-bc7a-1af3b82f3049';
+    const effectiveMerchantId = merchantId || FALLBACK_MERCHANT_ID;
+
+    if (!effectiveMerchantId || !selectedGroupId || !modifierForm.name_en) return;
 
     const slug = modifierForm.name_en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     const tempId = `temp-${Date.now()}`;
     const groupModifiers = modifiers.filter(m => m.group_id === selectedGroupId);
 
     const modifierData = {
-      merchant_id: merchantId,
+      merchant_id: effectiveMerchantId,
       group_id: selectedGroupId,
       slug: editingModifier?.slug || slug,
       name_multilang: {
