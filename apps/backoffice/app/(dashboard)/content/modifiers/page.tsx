@@ -6,9 +6,18 @@ import { createClient } from '@supabase/supabase-js';
 
 export const dynamic = 'force-dynamic';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+
+// Log Supabase config on load (without exposing full key)
+console.log('🔧 Supabase config:', {
+  url: supabaseUrl ? `${supabaseUrl.substring(0, 30)}...` : 'MISSING',
+  keyPresent: !!supabaseAnonKey
+});
+
+const supabase = supabaseUrl && supabaseAnonKey
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
 // Types
 interface ModifierGroup {
@@ -106,8 +115,19 @@ export default function ModifiersPage() {
   }, []);
 
   async function fetchData() {
+    console.log('📥 fetchData() called');
+
     try {
       setLoading(true);
+
+      // Check if Supabase client exists
+      if (!supabase) {
+        console.error('❌ Supabase client not initialized - check env vars');
+        setLoading(false);
+        return;
+      }
+
+      console.log('🔍 Querying merchants table...');
 
       // Get merchant
       const { data: merchants, error: merchantError } = await supabase
@@ -125,23 +145,27 @@ export default function ModifiersPage() {
         console.log('✅ Setting merchantId:', merchants[0].id);
         setMerchantId(merchants[0].id);
       } else {
-        console.warn('⚠️ No merchants found in database');
+        console.warn('⚠️ No merchants found in database - creating default merchant is required');
       }
 
       // Fetch groups
+      console.log('🔍 Querying modifier_groups table...');
       const { data: groupsData, error: groupsError } = await supabase
         .from('modifier_groups')
         .select('*')
         .order('display_order');
 
+      console.log('📦 Groups query result:', { count: groupsData?.length, error: groupsError });
       if (groupsError) throw groupsError;
 
       // Fetch modifiers
+      console.log('🔍 Querying modifiers table...');
       const { data: modifiersData, error: modifiersError } = await supabase
         .from('modifiers')
         .select('*')
         .order('display_order');
 
+      console.log('📦 Modifiers query result:', { count: modifiersData?.length, error: modifiersError });
       if (modifiersError) throw modifiersError;
 
       // Count modifiers per group
@@ -279,12 +303,19 @@ export default function ModifiersPage() {
 
     // Background: Save to database
     try {
+      if (!supabase) {
+        throw new Error('Supabase client not initialized');
+      }
+
+      console.log('💾 Saving group to database...', { editing: !!editingGroup });
+
       if (editingGroup) {
         const { error } = await supabase
           .from('modifier_groups')
           .update(groupData)
           .eq('id', editingGroup.id);
         if (error) throw error;
+        console.log('✅ Group updated successfully');
       } else {
         const { data, error } = await supabase
           .from('modifier_groups')
@@ -292,6 +323,7 @@ export default function ModifiersPage() {
           .select()
           .single();
         if (error) throw error;
+        console.log('✅ Group created successfully:', data?.id);
         // Replace temp ID with real ID
         if (data) {
           setGroups(prev => prev.map(g =>
@@ -301,10 +333,10 @@ export default function ModifiersPage() {
         }
       }
     } catch (err) {
-      console.error('Error saving group:', err);
+      console.error('❌ Error saving group:', err);
       // Rollback on error
       setGroups(previousGroups);
-      alert('Failed to save group');
+      alert('Failed to save group: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
   };
 
@@ -320,6 +352,8 @@ export default function ModifiersPage() {
     if (!confirm(`Delete group "${group.name_multilang?.en}"?`)) return;
 
     try {
+      if (!supabase) throw new Error('Supabase client not initialized');
+
       const { error } = await supabase
         .from('modifier_groups')
         .delete()
@@ -332,12 +366,14 @@ export default function ModifiersPage() {
         setSelectedGroupId(groups[0]?.id || null);
       }
     } catch (err) {
-      console.error('Error deleting group:', err);
+      console.error('❌ Error deleting group:', err);
       alert('Failed to delete group');
     }
   };
 
   const toggleGroupActive = async (groupId: string, currentStatus: boolean) => {
+    if (!supabase) return;
+
     // Optimistic: Update UI immediately
     setGroups(prev =>
       prev.map(g => g.id === groupId ? { ...g, is_active: !currentStatus } : g)
@@ -352,7 +388,7 @@ export default function ModifiersPage() {
 
       if (error) throw error;
     } catch (err) {
-      console.error('Error toggling group:', err);
+      console.error('❌ Error toggling group:', err);
       // Rollback on error
       setGroups(prev =>
         prev.map(g => g.id === groupId ? { ...g, is_active: currentStatus } : g)
@@ -458,6 +494,8 @@ export default function ModifiersPage() {
 
     // Background: Save to database
     try {
+      if (!supabase) throw new Error('Supabase client not initialized');
+
       if (editingModifier) {
         const { error } = await supabase
           .from('modifiers')
@@ -495,7 +533,7 @@ export default function ModifiersPage() {
         }
       }
     } catch (err) {
-      console.error('Error saving modifier:', err);
+      console.error('❌ Error saving modifier:', err);
       // Rollback on error
       setModifiers(previousModifiers);
       setGroups(previousGroups);
@@ -504,6 +542,7 @@ export default function ModifiersPage() {
   };
 
   const handleDeleteModifier = async (modifierId: string) => {
+    if (!supabase) return;
     const modifier = modifiers.find(m => m.id === modifierId);
     if (!modifier) return;
 
@@ -518,12 +557,14 @@ export default function ModifiersPage() {
       if (error) throw error;
       setModifiers(prev => prev.filter(m => m.id !== modifierId));
     } catch (err) {
-      console.error('Error deleting modifier:', err);
+      console.error('❌ Error deleting modifier:', err);
       alert('Failed to delete modifier');
     }
   };
 
   const toggleModifierAvailable = async (modifierId: string, currentStatus: boolean) => {
+    if (!supabase) return;
+
     // Optimistic: Update UI immediately
     setModifiers(prev =>
       prev.map(m => m.id === modifierId ? { ...m, is_available: !currentStatus } : m)
@@ -538,7 +579,7 @@ export default function ModifiersPage() {
 
       if (error) throw error;
     } catch (err) {
-      console.error('Error toggling modifier:', err);
+      console.error('❌ Error toggling modifier:', err);
       // Rollback on error
       setModifiers(prev =>
         prev.map(m => m.id === modifierId ? { ...m, is_available: currentStatus } : m)
