@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { DishItem, Extra } from './DishCard';
-import { currencyPreferencesStore } from '../lib/currency-preferences';
-import { formatConvertedPrice } from '../lib/currency-converter';
 import { favoritesStore } from '../lib/favorites-store';
 import { selectionsStore } from '../lib/selections-store';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
@@ -12,6 +10,7 @@ import { AllergenIcon, getIconNameFromFilterId } from './ui/allergen-icon';
 import { safetyFilters } from '@/database/safety-filters';
 import { ProductIndicators } from './ProductIndicators';
 import { useTranslation } from '../lib/use-translation';
+import { usePriceFormat } from '../hooks/usePriceFormat';
 
 interface ProductBottomSheetProps {
   dish: DishItem;
@@ -21,42 +20,18 @@ interface ProductBottomSheetProps {
 
 export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottomSheetProps) {
   const { t } = useTranslation();
+  const { formatPrice } = usePriceFormat();
   const [quantity, setQuantity] = useState(1);
   const [selectedExtras, setSelectedExtras] = useState<Extra[]>([]);
   const [activeTab, setActiveTab] = useState<'extra' | 'nutrition'>('extra');
   const [showBadgeNames, setShowBadgeNames] = useState(false);
   const [isFavorite, setIsFavorite] = useState(() => favoritesStore.isFavorite(dish.id));
   const [isInSelections, setIsInSelections] = useState(() => selectionsStore.isSelected(dish.id));
-  const [currencyPrefs, setCurrencyPrefs] = useState(() => currencyPreferencesStore.get());
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
   // Get feature flags
   const isOrderingEnabled = coffeeshopConfig.features.enableCart;
-
-  // Listen for currency preferences changes
-  useEffect(() => {
-    const handleCurrencyUpdate = () => {
-      setCurrencyPrefs(currencyPreferencesStore.get());
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('currency-preferences-updated', handleCurrencyUpdate);
-      return () => window.removeEventListener('currency-preferences-updated', handleCurrencyUpdate);
-    }
-  }, []);
-
-  // Price formatting - Coffee House uses EUR prices
-  const formatPriceCompact = (price: number) => {
-    // Check if currency conversion is enabled (enabled = true when currency != EUR)
-    if (currencyPrefs.enabled) {
-      // Use full formatting for converted currencies
-      return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
-    }
-
-    // Default EUR format for Coffee House menu
-    return `€${price.toFixed(2)}`;
-  };
 
   const handleToggleFavorite = () => {
     const newStatus = favoritesStore.toggle(dish.id);
@@ -176,7 +151,7 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                 )}
               </button>
             </div>
-            <p className="text-3xl font-bold text-theme-brand-primary">{formatPriceCompact(dish.price)}</p>
+            <p className="text-3xl font-bold text-theme-brand-primary">{formatPrice(dish.price)}</p>
           </div>
 
           {/* Description */}
@@ -243,7 +218,7 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                               </div>
                             </div>
                             <span className={`font-bold ${extra.price > 0 ? 'text-gray-700' : 'text-green-600'}`}>
-                              {extra.price > 0 ? `+${formatPriceCompact(extra.price)}` : t.productDetail.free}
+                              {extra.price > 0 ? `+${formatPrice(extra.price)}` : t.productDetail.free}
                             </span>
                           </label>
                         );
@@ -300,10 +275,10 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
               }`}
           >
             {isOrderingEnabled
-              ? `${t.productDetail.addToCart} • ${formatPriceCompact(dish.price * quantity + selectedExtras.reduce((sum, e) => sum + e.price, 0) * quantity)}`
+              ? `${t.productDetail.addToCart} • ${formatPrice(dish.price * quantity + selectedExtras.reduce((sum, e) => sum + e.price, 0) * quantity)}`
               : isInSelections
                 ? t.productDetail.removeFromSelections
-                : `${t.productDetail.addToSelections}${quantity > 1 ? ` (x${quantity})` : ''} • ${formatPriceCompact(dish.price * quantity)}`}
+                : `${t.productDetail.addToSelections}${quantity > 1 ? ` (x${quantity})` : ''} • ${formatPrice(dish.price * quantity)}`}
           </button>
         </div>
       </div>

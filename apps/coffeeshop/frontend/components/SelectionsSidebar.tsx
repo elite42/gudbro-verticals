@@ -4,11 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { selectionsStore, SelectionItem } from '../lib/selections-store';
 import { cartStore } from '../lib/cart-store';
-import { currencyPreferencesStore } from '../lib/currency-preferences';
-import { formatConvertedPrice } from '../lib/currency-converter';
 import { submitOrder, SubmittedOrder } from '../lib/order-service';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { DishItem } from './DishCard';
+import { usePriceFormat } from '../hooks/usePriceFormat';
 
 interface SelectionsSidebarProps {
   isOpen: boolean;
@@ -22,8 +21,8 @@ export function SelectionsSidebar({
   onEditProduct
 }: SelectionsSidebarProps) {
   const router = useRouter();
+  const { formatPrice } = usePriceFormat();
   const [selections, setSelections] = useState<SelectionItem[]>([]);
-  const [currencyPrefs, setCurrencyPrefs] = useState(() => currencyPreferencesStore.get());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedOrder, setSubmittedOrder] = useState<SubmittedOrder | null>(null);
   const [customerNotes, setCustomerNotes] = useState('');
@@ -42,30 +41,16 @@ export function SelectionsSidebar({
       loadSelections();
     };
 
-    const handleCurrencyUpdate = () => {
-      setCurrencyPrefs(currencyPreferencesStore.get());
-    };
-
     if (typeof window !== 'undefined') {
       window.addEventListener('selections-updated', handleSelectionsUpdate);
-      window.addEventListener('currency-preferences-updated', handleCurrencyUpdate);
       return () => {
         window.removeEventListener('selections-updated', handleSelectionsUpdate);
-        window.removeEventListener('currency-preferences-updated', handleCurrencyUpdate);
       };
     }
   }, []);
 
   const loadSelections = () => {
     setSelections(selectionsStore.getItems());
-  };
-
-  const formatPrice = (price: number) => {
-    if (currencyPrefs.enabled && currencyPrefs.selectedCurrency !== 'EUR') {
-      return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
-    }
-    // Default EUR format for Coffee House menu
-    return `€${price.toFixed(2)}`;
   };
 
   const handleRemoveSelection = (dishId: string) => {

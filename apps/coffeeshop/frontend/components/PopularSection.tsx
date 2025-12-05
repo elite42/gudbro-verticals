@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { DishItem } from './DishCard';
-import { currencyPreferencesStore } from '../lib/currency-preferences';
-import { formatConvertedPrice } from '../lib/currency-converter';
 import { favoritesStore } from '../lib/favorites-store';
 import { useTranslation } from '../lib/use-translation';
+import { usePriceFormat } from '../hooks/usePriceFormat';
 
 interface PopularSectionProps {
   items: DishItem[];
@@ -16,7 +15,7 @@ interface PopularSectionProps {
 
 export function PopularSection({ items, onItemClick, totalCount, onSeeAllClick }: PopularSectionProps) {
   const { t } = useTranslation();
-  const [currencyPrefs, setCurrencyPrefs] = useState(() => currencyPreferencesStore.get());
+  const { formatPrice } = usePriceFormat();
   const [favorites, setFavorites] = useState<Set<string>>(() => new Set());
 
   // Load favorites on mount
@@ -24,18 +23,6 @@ export function PopularSection({ items, onItemClick, totalCount, onSeeAllClick }
     if (typeof window !== 'undefined') {
       const favoriteIds = new Set(favoritesStore.get().favoriteIds);
       setFavorites(favoriteIds);
-    }
-  }, []);
-
-  // Listen for currency preferences changes
-  useEffect(() => {
-    const handleCurrencyUpdate = () => {
-      setCurrencyPrefs(currencyPreferencesStore.get());
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('currency-preferences-updated', handleCurrencyUpdate);
-      return () => window.removeEventListener('currency-preferences-updated', handleCurrencyUpdate);
     }
   }, []);
 
@@ -51,18 +38,6 @@ export function PopularSection({ items, onItemClick, totalCount, onSeeAllClick }
       return () => window.removeEventListener('favorites-updated', handleFavoritesUpdate);
     }
   }, []);
-
-  // Price formatting - Coffee House uses EUR prices
-  const formatPriceCompact = (price: number) => {
-    // Check if currency conversion is enabled (enabled = true when currency != EUR)
-    if (currencyPrefs.enabled) {
-      // Use full formatting for converted currencies
-      return formatConvertedPrice(price, currencyPrefs.selectedCurrency);
-    }
-
-    // Default EUR format for Coffee House menu
-    return `€${price.toFixed(2)}`;
-  };
 
   if (items.length === 0) {
     return null;
@@ -142,7 +117,7 @@ export function PopularSection({ items, onItemClick, totalCount, onSeeAllClick }
                   {item.name}
                 </h3>
                 <p className="text-xl font-bold text-theme-text-primary flex-shrink-0">
-                  {formatPriceCompact(item.price)}
+                  {formatPrice(item.price)}
                 </p>
               </button>
             </div>

@@ -12,7 +12,7 @@
       "vi": "Đôi = 18 g cà phê / 50–60 ml"
     },
     "category": "hot-coffee",
-    "price": 2.5,
+    "price": 63000,
     "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
     "mainIngredients": "Ground coffee",
     "quantity": "9 g coffee, 25–30 ml espresso",
@@ -33,7 +33,7 @@
       "chain": "None or crema swirl",
       "premium": "Cocoa dust on crema or minimalist latte art"
     },
-    "ingredientCost": 0.35,
+    "ingredientCost": 9000,
     "profitMargin": 86,
     "tags": [
       "hot",
@@ -61,7 +61,7 @@
       "vi": "Sử dụng không đáy để luyện tập"
     },
     "category": "hot-coffee",
-    "price": 3,
+    "price": 75000,
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
     "mainIngredients": "Ground coffee",
     "quantity": "18 g coffee, 50–60 ml espresso",
@@ -82,7 +82,7 @@
       "chain": "None or crema swirl",
       "premium": "Cocoa dust ring"
     },
-    "ingredientCost": 0.5,
+    "ingredientCost": 13000,
     "profitMargin": 83.3,
     "tags": [
       "hot",
@@ -110,7 +110,7 @@
       "vi": "Đá: 60 ml espresso + 150 g đá + 120 ml nước lạnh"
     },
     "category": "hot-coffee",
-    "price": 2.8,
+    "price": 70000,
     "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
     "mainIngredients": "Espresso, hot water",
     "quantity": "60 ml espresso, 120 ml hot water",
@@ -131,7 +131,7 @@
       "chain": "Lemon slice optional",
       "premium": "Lemon twist + clear glass layering"
     },
-    "ingredientCost": 0.4,
+    "ingredientCost": 10000,
     "profitMargin": 85.7,
     "tags": [
       "hot",
@@ -159,7 +159,7 @@
       "vi": "Sirô hương vị +15 ml tùy chọn"
     },
     "category": "hot-coffee",
-    "price": 3.5,
+    "price": 88000,
     "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
     "mainIngredients": "Espresso, milk",
     "quantity": "60 ml espresso, 180 ml steamed milk",
@@ -182,7 +182,7 @@
       "chain": "Minimal foam art",
       "premium": "Rosetta/Tulip latte art"
     },
-    "ingredientCost": 0.6,
+    "ingredientCost": 15000,
     "profitMargin": 82.9,
     "tags": [
       "hot",
@@ -210,7 +210,7 @@
       "vi": "Add kem tươi đánh bông if desired"
     },
     "category": "iced-coffee",
-    "price": 3.5,
+    "price": 88000,
     "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
     "mainIngredients": "Espresso, milk, ice",
     "quantity": "60 ml espresso, 150 ml milk, 100 g ice",
@@ -233,7 +233,7 @@
       "chain": "No garnish",
       "premium": "Layered pour + straw"
     },
-    "ingredientCost": 0.6,
+    "ingredientCost": 15000,
     "profitMargin": 82.9,
     "tags": [
       "iced",
@@ -261,7 +261,7 @@
       "vi": "Dust cocoa/cinnamon"
     },
     "category": "hot-coffee",
-    "price": 3.4,
+    "price": 85000,
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
     "mainIngredients": "Espresso, milk",
     "quantity": "60 ml espresso, 120 ml textured milk",
@@ -284,7 +284,7 @@
       "chain": "Cocoa powder dust",
       "premium": "Latte art + cocoa edge dust"
     },
-    "ingredientCost": 0.55,
+    "ingredientCost": 14000,
     "profitMargin": 83.8,
     "tags": [
       "hot",
@@ -312,7 +312,7 @@
       "vi": "Stronger ratio than cappuccino"
     },
     "category": "hot-coffee",
-    "price": 3.4,
+    "price": 85000,
     "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
     "mainIngredients": "Espresso, milk",
     "quantity": "60 ml espresso, 150 ml microfoamed milk",
@@ -335,7 +335,7 @@
       "chain": "None",
       "premium": "Tight latte art"
     },
-    "ingredientCost": 0.55,
+    "ingredientCost": 14000,
     "profitMargin": 83.8,
     "tags": [
       "hot",
@@ -363,7 +363,7 @@
       "vi": "Iced: espresso over ice + cold foam"
     },
     "category": "hot-coffee",
-    "price": 2.8,
+    "price": 70000,
     "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
     "mainIngredients": "Espresso, milk foam",
     "quantity": "60 ml espresso, 10 ml milk foam",
@@ -386,7 +386,7 @@
       "chain": "None",
       "premium": "Tiny foam dollop art"
     },
-    "ingredientCost": 0.4,
+    "ingredientCost": 10000,
     "profitMargin": 85.7,
     "tags": [
       "hot",
@@ -414,7 +414,7 @@
       "vi": "chocolate drizzle"
     },
     "category": "hot-coffee",
-    "price": 4,
+    "price": 100000,
     "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
     "mainIngredients": "Espresso, chocolate syrup, milk, whipped cream",
     "quantity": "60 ml espresso, 20 ml choc syrup, 150 ml milk, 20 g cream",
@@ -438,7 +438,7 @@
       "chain": "Whipped cream + choc drizzle",
       "premium": "Cocoa dust + chocolate shards"
     },
-    "ingredientCost": 0.75,
+    "ingredientCost": 19000,
     "profitMargin": 81.2,
     "tags": [
       "hot",
@@ -466,7 +466,7 @@
       "vi": "caramel drizzle"
     },
     "category": "hot-coffee",
-    "price": 3.9,
+    "price": 98000,
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
     "mainIngredients": "Espresso, milk, caramel syrup",
     "quantity": "60 ml espresso, 150 ml milk, 15 ml caramel syrup",
@@ -489,7 +489,7 @@
       "chain": "Caramel drizzle",
       "premium": "Criss-cross caramel art"
     },
-    "ingredientCost": 0.65,
+    "ingredientCost": 16000,
     "profitMargin": 83.3,
     "tags": [
       "hot",
@@ -517,7 +517,7 @@
       "vi": "Iced: shake all với đá"
     },
     "category": "hot-coffee",
-    "price": 4,
+    "price": 100000,
     "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
     "mainIngredients": "Espresso, milk, condensed milk",
     "quantity": "60 ml espresso, 120 ml milk, 30 ml condensed milk",
@@ -540,7 +540,7 @@
       "chain": "None",
       "premium": "Condensed milk swirl"
     },
-    "ingredientCost": 0.7,
+    "ingredientCost": 18000,
     "profitMargin": 82.5,
     "tags": [
       "hot",
@@ -568,7 +568,7 @@
       "vi": "Serve hot without foam"
     },
     "category": "hot-coffee",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
     "mainIngredients": "Espresso, cream, sugar, vanilla syrup",
     "quantity": "60 ml espresso, 60 ml cream, 10 ml syrup, 5 g sugar",
@@ -591,7 +591,7 @@
       "chain": "None",
       "premium": "Vanilla bean piece"
     },
-    "ingredientCost": 0.8,
+    "ingredientCost": 20000,
     "profitMargin": 81,
     "tags": [
       "hot",
@@ -619,7 +619,7 @@
       "vi": "Dessert-style"
     },
     "category": "hot-coffee",
-    "price": 4.8,
+    "price": 120000,
     "image": "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400",
     "mainIngredients": "Espresso, milk, cocoa, mascarpone cream",
     "quantity": "60 ml espresso, 120 ml milk, 15 g cocoa, 20 g mascarpone",
@@ -642,7 +642,7 @@
       "chain": "Cocoa dust",
       "premium": "Cocoa stencil + ladyfinger crumb"
     },
-    "ingredientCost": 0.95,
+    "ingredientCost": 24000,
     "profitMargin": 80.2,
     "tags": [
       "hot",
@@ -670,7 +670,7 @@
       "vi": "Sprinkle sea salt"
     },
     "category": "hot-coffee",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
     "mainIngredients": "Espresso, milk, cream cheese foam",
     "quantity": "60 ml espresso, 150 ml milk, 20 g cream cheese foam",
@@ -693,7 +693,7 @@
       "chain": "Cream cheese cap",
       "premium": "Sea salt flakes + microfoam layer"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 81.1,
     "tags": [
       "hot",
@@ -721,7 +721,7 @@
       "vi": "Garnish lemon"
     },
     "category": "iced-coffee",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400",
     "mainIngredients": "Espresso, tonic water, ice, lemon slice",
     "quantity": "60 ml espresso, 120 ml tonic, 120 g ice",
@@ -742,7 +742,7 @@
       "chain": "Lemon slice",
       "premium": "Dehydrated lemon wheel + clear layering"
     },
-    "ingredientCost": 0.75,
+    "ingredientCost": 19000,
     "profitMargin": 82.1,
     "tags": [
       "hot",
@@ -770,7 +770,7 @@
       "vi": "chocolate drizzle optional"
     },
     "category": "iced-coffee",
-    "price": 4,
+    "price": 100000,
     "image": "https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400",
     "mainIngredients": "Espresso, vanilla ice cream",
     "quantity": "60 ml espresso, 80 g ice cream",
@@ -794,7 +794,7 @@
       "chain": "None",
       "premium": "Chocolate shard on top"
     },
-    "ingredientCost": 0.7,
+    "ingredientCost": 18000,
     "profitMargin": 82.5,
     "tags": [
       "hot",
@@ -822,7 +822,7 @@
       "vi": "Hot: steam sữa with Nutella"
     },
     "category": "iced-coffee",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, Nutella, milk, whipped cream, ice",
     "quantity": "60 ml espresso, 25 g Nutella, 150 ml milk, 100 g ice, 20 g cream",
@@ -846,7 +846,7 @@
       "chain": "Whipped cream + Nutella drizzle",
       "premium": "Whipped cream tower + hazelnut rim"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80,
     "tags": [
       "iced",
@@ -874,7 +874,7 @@
       "vi": "Garnish with Kinder flakes"
     },
     "category": "iced-coffee",
-    "price": 4.7,
+    "price": 118000,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, white chocolate syrup, Kinder chocolate, milk, ice",
     "quantity": "60 ml espresso, 20 ml white choc syrup, 1 bar Kinder, 150 ml milk, 100 g ice",
@@ -899,7 +899,7 @@
       "chain": "Whipped cream + white choc drizzle",
       "premium": "Rim with white choc shards"
     },
-    "ingredientCost": 0.95,
+    "ingredientCost": 24000,
     "profitMargin": 79.8,
     "tags": [
       "iced",
@@ -927,7 +927,7 @@
       "vi": "Add Oreo crumble"
     },
     "category": "hot-coffee",
-    "price": 4.6,
+    "price": 115000,
     "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
     "mainIngredients": "Espresso, Oreo crumbs, milk, chocolate syrup, whipped cream",
     "quantity": "60 ml espresso, 2 Oreo, 150 ml milk, 15 ml choc syrup, 20 g cream",
@@ -952,7 +952,7 @@
       "chain": "Whipped cream + choc drizzle",
       "premium": "Oreo crumble rim"
     },
-    "ingredientCost": 0.95,
+    "ingredientCost": 24000,
     "profitMargin": 79.3,
     "tags": [
       "hot",
@@ -980,7 +980,7 @@
       "vi": "Shredded coconut rim"
     },
     "category": "hot-coffee",
-    "price": 4.6,
+    "price": 115000,
     "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
     "mainIngredients": "Espresso, coconut cream, milk, chocolate syrup, ice",
     "quantity": "60 ml espresso, 20 ml coconut cream, 120 ml milk, 10 ml choc syrup, 80 g ice",
@@ -1005,7 +1005,7 @@
       "chain": "Coconut flakes",
       "premium": "Chocolate-coconut rim"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80.4,
     "tags": [
       "hot",
@@ -1033,7 +1033,7 @@
       "vi": "Peanut crunch sprinkle"
     },
     "category": "hot-coffee",
-    "price": 4.8,
+    "price": 120000,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, caramel syrup, chocolate syrup, peanut butter, milk",
     "quantity": "60 ml espresso, 15 ml caramel, 10 ml choc, 10 g PB, 150 ml milk",
@@ -1058,7 +1058,7 @@
       "chain": "Whipped cream + caramel",
       "premium": "Crushed peanut rim"
     },
-    "ingredientCost": 1,
+    "ingredientCost": 25000,
     "profitMargin": 79.2,
     "tags": [
       "hot",
@@ -1086,7 +1086,7 @@
       "vi": "Serve with straw"
     },
     "category": "hot-coffee",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, vanilla ice cream, milk, whipped cream",
     "quantity": "60 ml espresso, 1 scoop ice cream, 100 ml milk, 20 g cream",
@@ -1110,7 +1110,7 @@
       "chain": "Whipped cream",
       "premium": "Chocolate flakes + straw"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80,
     "tags": [
       "hot",
@@ -1138,7 +1138,7 @@
       "vi": "ngọt ngàoer profile"
     },
     "category": "hot-coffee",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
     "mainIngredients": "Espresso, condensed milk, milk, cream",
     "quantity": "60 ml espresso, 30 ml condensed milk, 100 ml milk, 20 g cream",
@@ -1161,7 +1161,7 @@
       "chain": "Cream top",
       "premium": "Cream spiral + cocoa dust"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 79.8,
     "tags": [
       "hot",
@@ -1189,7 +1189,7 @@
       "vi": "Serve in transparent glass"
     },
     "category": "hot-coffee",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
     "mainIngredients": "Espresso, black cocoa powder, milk, vanilla syrup",
     "quantity": "60 ml espresso, 5 g black cocoa, 150 ml milk, 10 ml vanilla",
@@ -1212,7 +1212,7 @@
       "chain": "Cocoa dust",
       "premium": "Black cocoa stencil"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80,
     "tags": [
       "hot",
@@ -1240,7 +1240,7 @@
       "vi": "kem tươi đánh bông optional"
     },
     "category": "iced-coffee",
-    "price": 4.7,
+    "price": 118000,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, white chocolate syrup, milk, ice cream",
     "quantity": "60 ml espresso, 20 ml white choc syrup, 120 ml milk, 1 scoop ice cream",
@@ -1265,7 +1265,7 @@
       "chain": "Whipped cream",
       "premium": "White choc shards"
     },
-    "ingredientCost": 0.95,
+    "ingredientCost": 24000,
     "profitMargin": 79.8,
     "tags": [
       "hot",
@@ -1293,7 +1293,7 @@
       "vi": "Serve immediately"
     },
     "category": "iced-coffee",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, vanilla ice cream, whipped cream",
     "quantity": "60 ml espresso, 1 scoop ice cream, 20 g cream",
@@ -1317,7 +1317,7 @@
       "chain": "Whipped cream",
       "premium": "Chocolate shard"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 79.8,
     "tags": [
       "hot",
@@ -1345,7 +1345,7 @@
       "vi": "Cream & crumbs optional"
     },
     "category": "hot-coffee",
-    "price": 4.4,
+    "price": 110000,
     "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
     "mainIngredients": "Espresso, cookie crumble, milk, chocolate syrup",
     "quantity": "60 ml espresso, 20 g cookie, 150 ml milk, 15 ml syrup",
@@ -1371,7 +1371,7 @@
       "chain": "Choc drizzle",
       "premium": "Cookie rim"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 79.5,
     "tags": [
       "hot",
@@ -1399,7 +1399,7 @@
       "vi": "Sugar to taste"
     },
     "category": "iced-coffee",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
     "mainIngredients": "Espresso, cream, milk, ice",
     "quantity": "60 ml espresso, 40 ml cream, 120 ml milk, 100 g ice",
@@ -1422,7 +1422,7 @@
       "chain": "None",
       "premium": "Cream float layer"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 79.8,
     "tags": [
       "iced",
@@ -1450,7 +1450,7 @@
       "vi": "Use crushed ice"
     },
     "category": "iced-coffee",
-    "price": 4.7,
+    "price": 118000,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, Nutella, milk, ice, cream",
     "quantity": "60 ml espresso, 25 g Nutella, 150 ml milk, 80 g ice, 20 g cream",
@@ -1474,7 +1474,7 @@
       "chain": "Whipped cream + Nutella drizzle",
       "premium": "Hazelnut rim + drizzle"
     },
-    "ingredientCost": 0.95,
+    "ingredientCost": 24000,
     "profitMargin": 79.8,
     "tags": [
       "iced",
@@ -1502,7 +1502,7 @@
       "vi": "Serve hot or iced"
     },
     "category": "hot-coffee",
-    "price": 4.7,
+    "price": 118000,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, white chocolate, cream, milk",
     "quantity": "60 ml espresso, 20 g white choc, 20 g cream, 120 ml milk",
@@ -1526,7 +1526,7 @@
       "chain": "White choc drizzle",
       "premium": "White choc curl"
     },
-    "ingredientCost": 0.95,
+    "ingredientCost": 24000,
     "profitMargin": 79.8,
     "tags": [
       "hot",
@@ -1554,7 +1554,7 @@
       "vi": "ngọt ngào, dessert-like"
     },
     "category": "iced-coffee",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400",
     "mainIngredients": "Espresso, condensed milk, ice cream, milk",
     "quantity": "60 ml espresso, 20 ml condensed milk, 1 scoop ice cream, 120 ml milk",
@@ -1578,7 +1578,7 @@
       "chain": "Cream top",
       "premium": "Cocoa dust + wafer"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80,
     "tags": [
       "hot",
@@ -1606,7 +1606,7 @@
       "vi": "Very ngọt ngào profile"
     },
     "category": "hot-coffee",
-    "price": 4.3,
+    "price": 108000,
     "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400",
     "mainIngredients": "Espresso, white chocolate syrup, milk",
     "quantity": "60 ml espresso, 20 ml white choc syrup, 150 ml milk",
@@ -1630,7 +1630,7 @@
       "chain": "None",
       "premium": "White choc grate"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 80.2,
     "tags": [
       "hot",
@@ -1658,7 +1658,7 @@
       "vi": "Optional cream top"
     },
     "category": "iced-coffee",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400",
     "mainIngredients": "Espresso, white choc syrup, milk, ice",
     "quantity": "60 ml espresso, 20 ml syrup, 150 ml milk, 100 g ice",
@@ -1681,7 +1681,7 @@
       "chain": "None",
       "premium": "White choc drizzle"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80,
     "tags": [
       "iced",
@@ -1709,7 +1709,7 @@
       "vi": "Dark aesthetic"
     },
     "category": "iced-coffee",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400",
     "mainIngredients": "Espresso, black cocoa, milk, ice",
     "quantity": "60 ml espresso, 5 g black cocoa, 150 ml milk, 100 g ice",
@@ -1732,7 +1732,7 @@
       "chain": "Cocoa dust",
       "premium": "Black cocoa art"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80,
     "tags": [
       "iced",
@@ -1760,7 +1760,7 @@
       "vi": "ngọt ngàoen with 10 ml syrup"
     },
     "category": "matcha",
-    "price": 4,
+    "price": 100000,
     "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400",
     "mainIngredients": "Matcha powder, milk, water",
     "quantity": "2 g matcha, 60 ml hot water, 180 ml milk",
@@ -1783,7 +1783,7 @@
       "chain": "Matcha powder dust",
       "premium": "Foam art + bamboo whisk prop"
     },
-    "ingredientCost": 0.8,
+    "ingredientCost": 20000,
     "profitMargin": 80,
     "tags": [
       "hot",
@@ -1811,7 +1811,7 @@
       "vi": "Add 10 ml vani syrup"
     },
     "category": "matcha",
-    "price": 4,
+    "price": 100000,
     "image": "https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=400",
     "mainIngredients": "Matcha, milk, water, ice",
     "quantity": "2 g matcha, 60 ml water, 150 ml milk, 100 g ice",
@@ -1834,7 +1834,7 @@
       "chain": "None",
       "premium": "Layered green + straw"
     },
-    "ingredientCost": 0.8,
+    "ingredientCost": 20000,
     "profitMargin": 80,
     "tags": [
       "iced",
@@ -1862,7 +1862,7 @@
       "vi": "Iced or hot"
     },
     "category": "matcha",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=400",
     "mainIngredients": "Matcha, caramel syrup, milk, cream, salt",
     "quantity": "2 g matcha, 15 ml caramel, 150 ml milk, 20 g cream, pinch salt",
@@ -1885,7 +1885,7 @@
       "chain": "Cream cap",
       "premium": "Caramel drizzle + salt flakes"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80,
     "tags": [
       "hot",
@@ -1913,7 +1913,7 @@
       "vi": "Dust matcha on top"
     },
     "category": "matcha",
-    "price": 4.6,
+    "price": 115000,
     "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400",
     "mainIngredients": "Matcha, milk, cream cheese foam",
     "quantity": "2 g matcha, 150 ml milk, 20 g cream cheese foam",
@@ -1936,7 +1936,7 @@
       "chain": "Cream cheese cap",
       "premium": "Matcha dust art"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80.4,
     "tags": [
       "hot",
@@ -1964,7 +1964,7 @@
       "vi": "Gradient look"
     },
     "category": "matcha",
-    "price": 4.4,
+    "price": 110000,
     "image": "https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=400",
     "mainIngredients": "Matcha, butterfly pea extract, milk",
     "quantity": "2 g matcha, 10 ml extract, 150 ml milk",
@@ -1987,7 +1987,7 @@
       "chain": "None",
       "premium": "Blue-purple gradient"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 80.7,
     "tags": [
       "hot",
@@ -2015,7 +2015,7 @@
       "vi": "Raspberry garnish"
     },
     "category": "matcha",
-    "price": 4.4,
+    "price": 110000,
     "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=400",
     "mainIngredients": "Matcha, raspberry syrup, milk, ice",
     "quantity": "2 g matcha, 15 ml raspberry, 150 ml milk, 100 g ice",
@@ -2038,7 +2038,7 @@
       "chain": "Mint leaf",
       "premium": "Fresh raspberry garnish"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 80.7,
     "tags": [
       "iced",
@@ -2066,7 +2066,7 @@
       "vi": "Cream optional"
     },
     "category": "matcha",
-    "price": 4.4,
+    "price": 110000,
     "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400",
     "mainIngredients": "Matcha, strawberry syrup, milk",
     "quantity": "2 g matcha, 15 ml strawberry, 150 ml milk",
@@ -2089,7 +2089,7 @@
       "chain": "None",
       "premium": "Strawberry slice"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 80.7,
     "tags": [
       "hot",
@@ -2117,7 +2117,7 @@
       "vi": "Less ngọt ngào version"
     },
     "category": "matcha",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=400",
     "mainIngredients": "Matcha, caramel syrup, milk, ice, cream",
     "quantity": "2 g matcha, 15 ml caramel, 150 ml milk, 80 g ice, 20 g cream",
@@ -2140,7 +2140,7 @@
       "chain": "Cream cap",
       "premium": "Caramel drizzle"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80,
     "tags": [
       "iced",
@@ -2168,7 +2168,7 @@
       "vi": "Vegan"
     },
     "category": "matcha",
-    "price": 4.8,
+    "price": 120000,
     "image": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=400",
     "mainIngredients": "Matcha, coconut milk, water",
     "quantity": "2 g matcha, 150 ml coconut milk, 60 ml hot water",
@@ -2192,7 +2192,7 @@
       "chain": "None",
       "premium": "Toasted coconut pinch"
     },
-    "ingredientCost": 0.95,
+    "ingredientCost": 24000,
     "profitMargin": 80.2,
     "tags": [
       "hot",
@@ -2220,7 +2220,7 @@
       "vi": "kem tươi đánh bông optional"
     },
     "category": "matcha",
-    "price": 4.5,
+    "price": 113000,
     "image": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=400",
     "mainIngredients": "Matcha, vanilla syrup, milk, ice",
     "quantity": "2 g matcha, 15 ml vanilla, 150 ml milk, 100 g ice",
@@ -2243,7 +2243,7 @@
       "chain": "None",
       "premium": "Vanilla bean speck"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80,
     "tags": [
       "iced",
@@ -2271,7 +2271,7 @@
       "vi": "Color change blue→purple"
     },
     "category": "tea",
-    "price": 2.5,
+    "price": 63000,
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
     "mainIngredients": "Butterfly pea tea, honey, lemon",
     "quantity": "3 g tea, 250 ml hot water, 10 ml honey, 5 ml lemon",
@@ -2292,7 +2292,7 @@
       "chain": "Lemon slice",
       "premium": "Dehydrated citrus + glass teapot"
     },
-    "ingredientCost": 0.3,
+    "ingredientCost": 8000,
     "profitMargin": 88,
     "tags": [
       "hot",
@@ -2320,7 +2320,7 @@
       "vi": "Serve hot or iced"
     },
     "category": "tea",
-    "price": 2.8,
+    "price": 70000,
     "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
     "mainIngredients": "Hibiscus petals, strawberry syrup, water",
     "quantity": "3 g hibiscus, 250 ml water, 15 ml syrup",
@@ -2339,7 +2339,7 @@
       "chain": "Strawberry slice",
       "premium": "Fresh strawberry + mint"
     },
-    "ingredientCost": 0.35,
+    "ingredientCost": 9000,
     "profitMargin": 87.5,
     "tags": [
       "hot",
@@ -2367,7 +2367,7 @@
       "vi": "—"
     },
     "category": "tea",
-    "price": 2.8,
+    "price": 70000,
     "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
     "mainIngredients": "Black tea, raspberry syrup",
     "quantity": "3 g black tea, 250 ml water, 15 ml syrup",
@@ -2388,7 +2388,7 @@
       "chain": "Mint leaf",
       "premium": "Fresh raspberry + mint"
     },
-    "ingredientCost": 0.35,
+    "ingredientCost": 9000,
     "profitMargin": 87.5,
     "tags": [
       "hot",
@@ -2416,7 +2416,7 @@
       "vi": "Add honey if desired"
     },
     "category": "tea",
-    "price": 2.5,
+    "price": 63000,
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
     "mainIngredients": "Chamomile, mint, lemongrass",
     "quantity": "3 g herbal blend, 250 ml water",
@@ -2435,7 +2435,7 @@
       "chain": "None",
       "premium": "Lemon wheel"
     },
-    "ingredientCost": 0.3,
+    "ingredientCost": 8000,
     "profitMargin": 88,
     "tags": [
       "hot",
@@ -2463,7 +2463,7 @@
       "vi": "Avoid boiling water"
     },
     "category": "tea",
-    "price": 2.5,
+    "price": 63000,
     "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
     "mainIngredients": "Green tea leaves, water",
     "quantity": "2 g leaves, 250 ml water at 80 °C",
@@ -2484,7 +2484,7 @@
       "chain": "None",
       "premium": "Matcha dust pinch"
     },
-    "ingredientCost": 0.25,
+    "ingredientCost": 6000,
     "profitMargin": 90,
     "tags": [
       "hot",
@@ -2512,7 +2512,7 @@
       "vi": "Great iced"
     },
     "category": "tea",
-    "price": 3,
+    "price": 75000,
     "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
     "mainIngredients": "Green tea, kiwi syrup, lime juice",
     "quantity": "2 g green tea, 250 ml water, 10 ml kiwi syrup, 5 ml lime",
@@ -2533,7 +2533,7 @@
       "chain": "Lime wheel",
       "premium": "Kiwi slice + mint"
     },
-    "ingredientCost": 0.35,
+    "ingredientCost": 9000,
     "profitMargin": 88.3,
     "tags": [
       "hot",
@@ -2561,7 +2561,7 @@
       "vi": "Serve hot"
     },
     "category": "tea",
-    "price": 3.2,
+    "price": 80000,
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
     "mainIngredients": "Black tea, apple juice, cinnamon, cloves",
     "quantity": "3 g tea, 150 ml water, 100 ml apple juice, cinnamon, 2 cloves",
@@ -2582,7 +2582,7 @@
       "chain": "Cinnamon stick",
       "premium": "Dehydrated apple + star anise"
     },
-    "ingredientCost": 0.45,
+    "ingredientCost": 11000,
     "profitMargin": 85.9,
     "tags": [
       "hot",
@@ -2610,7 +2610,7 @@
       "vi": "ngọt ngào-tart profile"
     },
     "category": "tea",
-    "price": 3,
+    "price": 75000,
     "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
     "mainIngredients": "Black tea, pomegranate syrup, lemon",
     "quantity": "3 g tea, 250 ml water, 15 ml syrup, 5 ml lemon",
@@ -2631,7 +2631,7 @@
       "chain": "Pomegranate seeds",
       "premium": "Lemon twist + seeds"
     },
-    "ingredientCost": 0.35,
+    "ingredientCost": 9000,
     "profitMargin": 88.3,
     "tags": [
       "hot",
@@ -2659,7 +2659,7 @@
       "vi": "Bright red"
     },
     "category": "tea",
-    "price": 3,
+    "price": 75000,
     "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
     "mainIngredients": "Hibiscus, strawberry syrup",
     "quantity": "3 g hibiscus, 250 ml water, 15 ml syrup",
@@ -2678,7 +2678,7 @@
       "chain": "Strawberry slice",
       "premium": "Strawberry fan"
     },
-    "ingredientCost": 0.35,
+    "ingredientCost": 9000,
     "profitMargin": 88.3,
     "tags": [
       "hot",
@@ -2706,7 +2706,7 @@
       "vi": "Serve hot"
     },
     "category": "tea",
-    "price": 3.2,
+    "price": 80000,
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
     "mainIngredients": "Ginger, lemon, honey, mint",
     "quantity": "3 slices ginger, 250 ml water, 10 ml honey, 5 ml lemon, mint leaves",
@@ -2725,7 +2725,7 @@
       "chain": "Lemon slice",
       "premium": "Ginger slice + mint"
     },
-    "ingredientCost": 0.4,
+    "ingredientCost": 10000,
     "profitMargin": 87.5,
     "tags": [
       "hot",
@@ -2753,7 +2753,7 @@
       "vi": "Flavors: peach/raspberry/lemon"
     },
     "category": "tea",
-    "price": 3,
+    "price": 75000,
     "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
     "mainIngredients": "Black tea base, fruit syrup, ice",
     "quantity": "3 g black tea, 200 ml water, 15 ml syrup, 100 g ice",
@@ -2774,7 +2774,7 @@
       "chain": "Mint leaf",
       "premium": "Fruit wedge + mint"
     },
-    "ingredientCost": 0.35,
+    "ingredientCost": 9000,
     "profitMargin": 88.3,
     "tags": [
       "hot",
@@ -2802,7 +2802,7 @@
       "vi": "Garnish with mint"
     },
     "category": "tea",
-    "price": 3,
+    "price": 75000,
     "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
     "mainIngredients": "Black tea, raspberry syrup, ice",
     "quantity": "3 g black tea, 200 ml water, 15 ml syrup, 100 g ice",
@@ -2823,7 +2823,7 @@
       "chain": "Mint leaf",
       "premium": "Raspberry + mint"
     },
-    "ingredientCost": 0.35,
+    "ingredientCost": 9000,
     "profitMargin": 88.3,
     "tags": [
       "hot",
@@ -2851,7 +2851,7 @@
       "vi": "Use sliced peach"
     },
     "category": "tea",
-    "price": 3,
+    "price": 75000,
     "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400",
     "mainIngredients": "Black tea, peach syrup, ice",
     "quantity": "3 g black tea, 200 ml water, 15 ml syrup, 100 g ice",
@@ -2872,7 +2872,7 @@
       "chain": "Peach slice",
       "premium": "Peach fan + mint"
     },
-    "ingredientCost": 0.35,
+    "ingredientCost": 9000,
     "profitMargin": 88.3,
     "tags": [
       "hot",
@@ -2900,7 +2900,7 @@
       "vi": "Caffeine-free"
     },
     "category": "tea",
-    "price": 2.8,
+    "price": 70000,
     "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400",
     "mainIngredients": "Mint leaves, lemon, honey",
     "quantity": "3 g mint, 250 ml water, 10 ml honey, 5 ml lemon",
@@ -2919,7 +2919,7 @@
       "chain": "Mint sprig",
       "premium": "Lemon wheel + mint"
     },
-    "ingredientCost": 0.3,
+    "ingredientCost": 8000,
     "profitMargin": 89.3,
     "tags": [
       "hot",
@@ -2947,7 +2947,7 @@
       "vi": "sảng khoái"
     },
     "category": "tea",
-    "price": 3.2,
+    "price": 80000,
     "image": "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?w=400",
     "mainIngredients": "Hibiscus, strawberry pieces, cold water",
     "quantity": "5 g hibiscus, 300 ml cold water, 2 strawberry slices",
@@ -2966,7 +2966,7 @@
       "chain": "Strawberry slice",
       "premium": "Strawberry fan + pebble ice"
     },
-    "ingredientCost": 0.4,
+    "ingredientCost": 10000,
     "profitMargin": 87.5,
     "tags": [
       "hot",
@@ -2994,7 +2994,7 @@
       "vi": "Add oats 10 g"
     },
     "category": "smoothie",
-    "price": 3.8,
+    "price": 95000,
     "image": "https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=400",
     "mainIngredients": "Banana, yogurt, milk, honey, ice",
     "quantity": "1 banana (100 g), 80 g yogurt, 100 ml milk, 10 ml honey, 100 g ice",
@@ -3015,7 +3015,7 @@
       "chain": "Mint leaf or fruit slice",
       "premium": "Layered fruit topping + chia"
     },
-    "ingredientCost": 0.7,
+    "ingredientCost": 18000,
     "profitMargin": 81.6,
     "tags": [
       "hot",
@@ -3043,7 +3043,7 @@
       "vi": "Top with tươi strawberry"
     },
     "category": "smoothie",
-    "price": 3.9,
+    "price": 98000,
     "image": "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400",
     "mainIngredients": "Strawberries, yogurt, milk, sugar, ice",
     "quantity": "100 g strawberries, 80 g yogurt, 100 ml milk, 10 g sugar, 100 g ice",
@@ -3064,7 +3064,7 @@
       "chain": "Mint leaf",
       "premium": "Strawberry fan"
     },
-    "ingredientCost": 0.75,
+    "ingredientCost": 19000,
     "profitMargin": 80.8,
     "tags": [
       "hot",
@@ -3092,7 +3092,7 @@
       "vi": "Serve cold with mint"
     },
     "category": "smoothie",
-    "price": 3.9,
+    "price": 98000,
     "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400",
     "mainIngredients": "Banana, kiwi, yogurt, honey, ice",
     "quantity": "1 banana, 1 kiwi, 100 g yogurt, 10 ml honey, 100 g ice",
@@ -3113,7 +3113,7 @@
       "chain": "Mint leaf",
       "premium": "Kiwi wheel + mint"
     },
-    "ingredientCost": 0.75,
+    "ingredientCost": 19000,
     "profitMargin": 80.8,
     "tags": [
       "hot",
@@ -3141,7 +3141,7 @@
       "vi": "Slightly bitter"
     },
     "category": "smoothie",
-    "price": 3.8,
+    "price": 95000,
     "image": "https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=400",
     "mainIngredients": "Orange juice, grapefruit juice, honey, ice",
     "quantity": "100 ml orange juice, 100 ml grapefruit juice, 10 ml honey, 100 g ice",
@@ -3160,7 +3160,7 @@
       "chain": "Orange slice",
       "premium": "Dehydrated citrus wheel"
     },
-    "ingredientCost": 0.7,
+    "ingredientCost": 18000,
     "profitMargin": 81.6,
     "tags": [
       "hot",
@@ -3188,7 +3188,7 @@
       "vi": "Zest garnish"
     },
     "category": "smoothie",
-    "price": 3.6,
+    "price": 90000,
     "image": "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400",
     "mainIngredients": "Lemon juice, honey, ice, yogurt",
     "quantity": "20 ml lemon juice, 15 ml honey, 100 g yogurt, 100 g ice",
@@ -3209,7 +3209,7 @@
       "chain": "Lemon slice",
       "premium": "Zest spiral"
     },
-    "ingredientCost": 0.65,
+    "ingredientCost": 16000,
     "profitMargin": 81.9,
     "tags": [
       "hot",
@@ -3237,7 +3237,7 @@
       "vi": "Add mint leaves"
     },
     "category": "smoothie",
-    "price": 3.6,
+    "price": 90000,
     "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400",
     "mainIngredients": "Lime juice, sugar syrup, milk, ice",
     "quantity": "15 ml lime juice, 10 ml syrup, 120 ml milk, 100 g ice",
@@ -3258,7 +3258,7 @@
       "chain": "Lime wheel",
       "premium": "Mint sprig + lime zest"
     },
-    "ingredientCost": 0.65,
+    "ingredientCost": 16000,
     "profitMargin": 81.9,
     "tags": [
       "hot",
@@ -3286,7 +3286,7 @@
       "vi": "Few drops lemon to prevent oxidation"
     },
     "category": "smoothie",
-    "price": 3.6,
+    "price": 90000,
     "image": "https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=400",
     "mainIngredients": "Green apple, yogurt, honey, ice",
     "quantity": "100 g apple, 80 g yogurt, 10 ml honey, 100 g ice",
@@ -3307,7 +3307,7 @@
       "chain": "Apple slice",
       "premium": "Apple fan + mint"
     },
-    "ingredientCost": 0.65,
+    "ingredientCost": 16000,
     "profitMargin": 81.9,
     "tags": [
       "hot",
@@ -3335,7 +3335,7 @@
       "vi": "Add coconut sữa for twist"
     },
     "category": "smoothie",
-    "price": 4,
+    "price": 100000,
     "image": "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400",
     "mainIngredients": "Mango, yogurt, milk, sugar",
     "quantity": "100 g mango, 80 g yogurt, 100 ml milk, 10 g sugar",
@@ -3356,7 +3356,7 @@
       "chain": "Mint leaf",
       "premium": "Mango cube skewer"
     },
-    "ingredientCost": 0.8,
+    "ingredientCost": 20000,
     "profitMargin": 80,
     "tags": [
       "hot",
@@ -3384,7 +3384,7 @@
       "vi": "Béo ngậy, Vietnam-favorite"
     },
     "category": "smoothie",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400",
     "mainIngredients": "Avocado, milk, condensed milk, ice",
     "quantity": "½ avocado, 120 ml milk, 15 ml condensed milk, 100 g ice",
@@ -3405,7 +3405,7 @@
       "chain": "None",
       "premium": "Coconut flakes"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 79.8,
     "tags": [
       "hot",
@@ -3433,7 +3433,7 @@
       "vi": "Antioxidant profile"
     },
     "category": "smoothie",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1638176066666-ffb2f013c7dd?w=400",
     "mainIngredients": "Mixed berries, yogurt, honey, ice",
     "quantity": "100 g berries, 80 g yogurt, 10 ml honey, 100 g ice",
@@ -3454,7 +3454,7 @@
       "chain": "Mint leaf",
       "premium": "Berry skewer + mint"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 79.8,
     "tags": [
       "hot",
@@ -3482,7 +3482,7 @@
       "vi": "Add Oreo crumble"
     },
     "category": "milkshake",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400",
     "mainIngredients": "Oreo, vanilla ice cream, milk, whipped cream",
     "quantity": "2 Oreo, 2 scoops ice cream, 150 ml milk, 20 g cream",
@@ -3506,7 +3506,7 @@
       "chain": "Whipped cream + syrup drizzle",
       "premium": "Whipped cream tower + Oreo crumble"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 79.8,
     "tags": [
       "hot",
@@ -3534,7 +3534,7 @@
       "vi": "Cookie rim"
     },
     "category": "milkshake",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1568901839119-631418a3910d?w=400",
     "mainIngredients": "Cookie pieces, vanilla ice cream, milk",
     "quantity": "30 g cookies, 2 scoops ice cream, 150 ml milk",
@@ -3557,7 +3557,7 @@
       "chain": "Whipped cream + syrup drizzle",
       "premium": "Cookie rim + straw accent"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 79.8,
     "tags": [
       "hot",
@@ -3585,7 +3585,7 @@
       "vi": "Top with kem tươi đánh bông + drizzle"
     },
     "category": "milkshake",
-    "price": 4.8,
+    "price": 120000,
     "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400",
     "mainIngredients": "Nutella, espresso, ice cream, milk",
     "quantity": "25 g Nutella, 60 ml espresso, 2 scoops ice cream, 150 ml milk",
@@ -3610,7 +3610,7 @@
       "chain": "Whipped cream + chocolate drizzle",
       "premium": "Nutella drizzle + hazelnut crumb"
     },
-    "ingredientCost": 0.95,
+    "ingredientCost": 24000,
     "profitMargin": 80.2,
     "tags": [
       "hot",
@@ -3638,7 +3638,7 @@
       "vi": "caramel drizzle"
     },
     "category": "milkshake",
-    "price": 4.6,
+    "price": 115000,
     "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400",
     "mainIngredients": "Espresso, caramel syrup, milk, ice, cream",
     "quantity": "60 ml espresso, 15 ml caramel, 150 ml milk, 100 g ice, 20 g cream",
@@ -3661,7 +3661,7 @@
       "chain": "Whipped cream + caramel",
       "premium": "Caramel lattice art"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80.4,
     "tags": [
       "hot",
@@ -3689,7 +3689,7 @@
       "vi": "Use frozen berries for thickness"
     },
     "category": "milkshake",
-    "price": 4.6,
+    "price": 115000,
     "image": "https://images.unsplash.com/photo-1568901839119-631418a3910d?w=400",
     "mainIngredients": "Mixed berries, milk, ice cream, honey",
     "quantity": "100 g berries, 2 scoops ice cream, 150 ml milk, 10 ml honey",
@@ -3711,7 +3711,7 @@
       "chain": "Whipped cream + syrup drizzle",
       "premium": "Berry skewer + mint"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80.4,
     "tags": [
       "hot",
@@ -3739,7 +3739,7 @@
       "vi": "Add chocolate syrup optionally"
     },
     "category": "milkshake",
-    "price": 4.3,
+    "price": 108000,
     "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400",
     "mainIngredients": "Espresso, milk, ice, ice cream, sugar",
     "quantity": "60 ml espresso, 120 ml milk, 100 g ice, 1 scoop ice cream, 10 g sugar",
@@ -3763,7 +3763,7 @@
       "chain": "Whipped cream + syrup drizzle",
       "premium": "Chocolate drizzle + cocoa dust"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 80.2,
     "tags": [
       "hot",
@@ -3791,7 +3791,7 @@
       "vi": "Base for add-ons"
     },
     "category": "milkshake",
-    "price": 4,
+    "price": 100000,
     "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400",
     "mainIngredients": "Vanilla ice cream, milk, vanilla syrup",
     "quantity": "2 scoops ice cream, 150 ml milk, 10 ml syrup",
@@ -3813,7 +3813,7 @@
       "chain": "Whipped cream",
       "premium": "Vanilla bean + wafer"
     },
-    "ingredientCost": 0.8,
+    "ingredientCost": 20000,
     "profitMargin": 80,
     "tags": [
       "hot",
@@ -3841,7 +3841,7 @@
       "vi": "Add kem tươi đánh bông"
     },
     "category": "milkshake",
-    "price": 4.3,
+    "price": 108000,
     "image": "https://images.unsplash.com/photo-1568901839119-631418a3910d?w=400",
     "mainIngredients": "Chocolate syrup, chocolate ice cream, milk",
     "quantity": "2 scoops ice cream, 20 ml syrup, 150 ml milk",
@@ -3864,7 +3864,7 @@
       "chain": "Whipped cream",
       "premium": "Chocolate shards"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 80.2,
     "tags": [
       "hot",
@@ -3892,7 +3892,7 @@
       "vi": "Add cinnamon powder"
     },
     "category": "milkshake",
-    "price": 4.2,
+    "price": 105000,
     "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400",
     "mainIngredients": "Banana, milk, ice cream, honey",
     "quantity": "1 banana, 150 ml milk, 2 scoops ice cream, 10 ml honey",
@@ -3914,7 +3914,7 @@
       "chain": "Whipped cream",
       "premium": "Cinnamon dust + banana slice"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 79.8,
     "tags": [
       "hot",
@@ -3942,7 +3942,7 @@
       "vi": "ngọt ngào & salty"
     },
     "category": "milkshake",
-    "price": 4.6,
+    "price": 115000,
     "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400",
     "mainIngredients": "Caramel syrup, sea salt, ice cream, milk",
     "quantity": "20 ml caramel, pinch salt, 2 scoops ice cream, 150 ml milk",
@@ -3964,7 +3964,7 @@
       "chain": "Whipped cream + caramel",
       "premium": "Caramel lattice + sea salt flakes"
     },
-    "ingredientCost": 0.9,
+    "ingredientCost": 23000,
     "profitMargin": 80.4,
     "tags": [
       "hot",
@@ -3992,7 +3992,7 @@
       "vi": "—"
     },
     "category": "milkshake",
-    "price": 4.3,
+    "price": 108000,
     "image": "https://images.unsplash.com/photo-1568901839119-631418a3910d?w=400",
     "mainIngredients": "Strawberries, ice cream, milk, sugar",
     "quantity": "100 g strawberries, 2 scoops ice cream, 150 ml milk, 10 g sugar",
@@ -4014,7 +4014,7 @@
       "chain": "Whipped cream",
       "premium": "Strawberry fan"
     },
-    "ingredientCost": 0.85,
+    "ingredientCost": 21000,
     "profitMargin": 80.2,
     "tags": [
       "hot",
@@ -4042,7 +4042,7 @@
       "vi": "Protein-Đậm đà dessert"
     },
     "category": "milkshake",
-    "price": 4.7,
+    "price": 118000,
     "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400",
     "mainIngredients": "Peanut butter, ice cream, milk, chocolate syrup",
     "quantity": "10 g peanut butter, 2 scoops ice cream, 150 ml milk, 10 ml choc syrup",
@@ -4066,7 +4066,7 @@
       "chain": "Whipped cream",
       "premium": "Crushed peanut rim"
     },
-    "ingredientCost": 0.95,
+    "ingredientCost": 24000,
     "profitMargin": 79.8,
     "tags": [
       "hot",

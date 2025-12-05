@@ -110,13 +110,22 @@ export default function ModifiersPage() {
       setLoading(true);
 
       // Get merchant
-      const { data: merchants } = await supabase
+      const { data: merchants, error: merchantError } = await supabase
         .from('merchants')
         .select('id')
         .limit(1);
 
+      console.log('🏪 Merchants query result:', { merchants, error: merchantError });
+
+      if (merchantError) {
+        console.error('❌ Error fetching merchant:', merchantError);
+      }
+
       if (merchants && merchants.length > 0) {
+        console.log('✅ Setting merchantId:', merchants[0].id);
         setMerchantId(merchants[0].id);
+      } else {
+        console.warn('⚠️ No merchants found in database');
       }
 
       // Fetch groups
@@ -208,7 +217,18 @@ export default function ModifiersPage() {
   };
 
   const handleSaveGroup = async () => {
-    if (!merchantId || !groupForm.name_en) return;
+    console.log('🔵 handleSaveGroup called', { merchantId, name: groupForm.name_en });
+
+    if (!merchantId) {
+      console.error('❌ No merchantId - cannot save group');
+      alert('Error: No merchant ID. Please refresh the page.');
+      return;
+    }
+
+    if (!groupForm.name_en) {
+      console.error('❌ No name_en - cannot save group');
+      return;
+    }
 
     const slug = groupForm.name_en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     const tempId = `temp-${Date.now()}`;
