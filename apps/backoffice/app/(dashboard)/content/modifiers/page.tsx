@@ -145,7 +145,25 @@ export default function ModifiersPage() {
         console.log('✅ Setting merchantId:', merchants[0].id);
         setMerchantId(merchants[0].id);
       } else {
-        console.warn('⚠️ No merchants found in database - creating default merchant is required');
+        console.warn('⚠️ No merchants found - creating default merchant...');
+        // Auto-create a default merchant
+        const { data: newMerchant, error: createError } = await supabase
+          .from('merchants')
+          .insert({
+            name: 'GUDBRO Demo Restaurant',
+            slug: 'gudbro-demo',
+            email: 'demo@gudbro.com',
+            is_active: true,
+          })
+          .select()
+          .single();
+
+        if (createError) {
+          console.error('❌ Error creating default merchant:', createError);
+        } else if (newMerchant) {
+          console.log('✅ Created default merchant:', newMerchant.id);
+          setMerchantId(newMerchant.id);
+        }
       }
 
       // Fetch groups
