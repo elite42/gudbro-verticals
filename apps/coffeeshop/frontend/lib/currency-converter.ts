@@ -139,6 +139,9 @@ export function convertPrice(
 /**
  * Format converted price with currency symbol
  * Takes EUR price as input and formats in target currency
+ *
+ * Special handling for VND: Shows in "k" format without symbol
+ * e.g., 66250 VND → "66k" (locals know it's VND, tourists see the value)
  */
 export function formatConvertedPrice(
   eurPrice: number,
@@ -147,12 +150,23 @@ export function formatConvertedPrice(
 ): string {
   const converted = convertPrice(eurPrice, targetCurrency, rates);
 
+  // Special handling for VND - show in "k" format for readability
+  // Vietnamese prices are always in thousands, locals don't need the symbol
+  if (targetCurrency === 'VND') {
+    const inThousands = converted / 1000;
+    // Round to 1 decimal if not a whole number
+    if (inThousands % 1 === 0) {
+      return `${inThousands.toFixed(0)}k`;
+    }
+    return `${inThousands.toFixed(1)}k`;
+  }
+
   // Format based on currency
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: targetCurrency,
-    minimumFractionDigits: targetCurrency === 'JPY' || targetCurrency === 'KRW' || targetCurrency === 'VND' ? 0 : 2,
-    maximumFractionDigits: targetCurrency === 'JPY' || targetCurrency === 'KRW' || targetCurrency === 'VND' ? 0 : 2,
+    minimumFractionDigits: targetCurrency === 'JPY' || targetCurrency === 'KRW' ? 0 : 2,
+    maximumFractionDigits: targetCurrency === 'JPY' || targetCurrency === 'KRW' ? 0 : 2,
   });
 
   return formatter.format(converted);
@@ -173,7 +187,20 @@ export function formatDualPrice(
   });
   const eurFormatted = eurFormatter.format(eurPrice);
 
+  // For VND, the format is already compact (66k), so just add EUR reference
   return `${convertedPrice} (≈ ${eurFormatted})`;
+}
+
+/**
+ * Format VND price directly (for prices already in VND)
+ * e.g., 66250 → "66k"
+ */
+export function formatVNDPrice(vndPrice: number): string {
+  const inThousands = vndPrice / 1000;
+  if (inThousands % 1 === 0) {
+    return `${inThousands.toFixed(0)}k`;
+  }
+  return `${inThousands.toFixed(1)}k`;
 }
 
 /**
