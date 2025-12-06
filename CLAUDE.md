@@ -161,6 +161,30 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
 
 ## Recent Changes
 
+### 2025-12-06: Food Cost System COMPLETED
+
+**Food Cost Calculator Feature:**
+- Created `/food-costs` dashboard page with margin analysis
+- Created `/food-costs/ingredients` page for ingredient cost management
+- Database migrations: `014-food-cost-system.sql`, `015-seed-ingredients-with-costs-v2.sql`, `016-fix-ingredients-rls.sql`
+- Seeded 69 ingredients with realistic Vietnam market prices (VND)
+- 63 ingredients have cost data, 6 pending
+- RLS policies configured for public read access
+- Inline editing for costs, units, currency, supplier info
+- Stats cards showing total/with-cost/missing-cost counts
+- Search and filter functionality
+
+**Files Created:**
+- `apps/backoffice/app/(dashboard)/food-costs/page.tsx` - Dashboard
+- `apps/backoffice/app/(dashboard)/food-costs/ingredients/page.tsx` - Ingredient costs
+- `shared/database/migrations/014-food-cost-system.sql` - Core migration
+- `shared/database/migrations/015-seed-ingredients-with-costs-v2.sql` - Seed data
+- `shared/database/migrations/016-fix-ingredients-rls.sql` - RLS fix
+
+**Sidebar Updated:** Added "Food Costs" navigation with Overview and Ingredient Costs
+
+**Production Status:** LIVE on https://gudbro-backoffice.vercel.app/food-costs/ingredients
+
 ### 2025-12-06: Backoffice Multi-Tenant Dashboard COMPLETED
 
 **Sprint: Multi-Tenant UI Components**
