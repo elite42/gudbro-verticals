@@ -6,7 +6,7 @@
 **Languages:** EN, VI (Vietnamese), IT (Italian)
 **Status:** ✅ Production Ready
 **Design System:** ✅ Complete (CVA + shadcn/ui pattern + Internal Hub)
-**Last Updated:** 2025-11-23
+**Last Updated:** 2025-12-06
 
 ---
 
@@ -682,6 +682,34 @@ grep "menu.title" lib/translations.ts
 ---
 
 ## Recent Fixes & Updates
+
+### 🧹 Session 2025-12-06: Chatbot Interface Cleanup
+
+**Decision:** Focus on Classic Menu, defer Chatbot to future.
+
+**Analysis performed:**
+- Classic Menu (`/menu`) - Production ready, 612 lines, well-structured
+- Chatbot V5 (`/chat`) - Beta quality, 1,087 lines monolith
+- Chatbot V6 (`/chat-v6`) - Experimental failure, 2,192 lines with hardcoded data
+
+**Actions taken:**
+1. **Deleted V6 completely** - Unusable code with hardcoded data, massive duplication
+2. **Archived V4 & V5** - Moved to `_archive/chatbot/` for future reference
+3. **Removed chatbot routes** - `/chat`, `/chat-v6`, `/chat-preview` no longer exist
+
+**Rationale:**
+- V6 had hardcoded tableNumber, WiFi passwords exposed, 100% code duplication from V5
+- Chatbot needs complete rebuild when revisited (proper component structure, real AI/NLP)
+- Classic menu is production-ready and should be the focus
+
+**Files affected:**
+- Deleted: `components/ModernChatMenuV6.tsx`
+- Deleted: `app/chat/`, `app/chat-v6/`, `app/chat-preview/`
+- Archived: `_archive/chatbot/ModernChatMenuV4.tsx`, `_archive/chatbot/ModernChatMenuV5.tsx`
+
+**Build status:** VERIFIED
+
+---
 
 ### 🔧 Session 2025-11-28: Critical Bug Fixes & UI Improvements
 

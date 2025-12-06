@@ -391,4 +391,6 @@ export function logCategorySystemStatus(): void {
 // EXPORTS FOR EASY ACCESS
 // =============================================================================
 
-export { categories, MenuType, Category } from '@/data/categories';
+// Re-export from categories.ts
+export { categories } from '@/data/categories';
+export type { MenuType, Category } from '@/data/categories';

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTenant } from '@/lib/contexts/TenantContext';
 
 const navigation = [
   {
@@ -59,6 +60,19 @@ const navigation = [
     ),
   },
   {
+    name: 'Food Costs',
+    href: '/food-costs',
+    icon: (props: React.SVGProps<SVGSVGElement>) => (
+      <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    children: [
+      { name: 'Overview', href: '/food-costs' },
+      { name: 'Ingredient Costs', href: '/food-costs/ingredients' },
+    ],
+  },
+  {
     name: 'Analytics',
     href: '/analytics',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
@@ -99,6 +113,12 @@ const navigation = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { brand, organization, location, isLoading } = useTenant();
+
+  // Display info in the footer
+  const brandName = brand?.name || organization?.name || 'Loading...';
+  const planName = organization?.subscription_plan || 'Free';
+  const locationInfo = location?.city || location?.country_code || '';
 
   return (
     <div className="flex h-full w-64 flex-col bg-gray-900">
@@ -159,17 +179,35 @@ export function Sidebar() {
         </ul>
       </nav>
 
-      {/* User menu */}
+      {/* Current context info */}
       <div className="border-t border-gray-800 p-4">
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-gray-700 flex items-center justify-center text-sm text-white">
-            R
+        {isLoading ? (
+          <div className="animate-pulse">
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-8 rounded-full bg-gray-700" />
+              <div className="flex-1">
+                <div className="h-4 w-24 bg-gray-700 rounded mb-1" />
+                <div className="h-3 w-16 bg-gray-700 rounded" />
+              </div>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">ROOTS Cafe</p>
-            <p className="text-xs text-gray-500 truncate">Pro Plan</p>
+        ) : (
+          <div className="flex items-center gap-3">
+            <div
+              className="h-8 w-8 rounded-full flex items-center justify-center text-sm text-white font-medium"
+              style={{ backgroundColor: brand?.primary_color || '#4B5563' }}
+            >
+              {brandName.charAt(0).toUpperCase()}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-white truncate">{brandName}</p>
+              <p className="text-xs text-gray-500 truncate">
+                {planName.charAt(0).toUpperCase() + planName.slice(1)} Plan
+                {locationInfo && ` · ${locationInfo}`}
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

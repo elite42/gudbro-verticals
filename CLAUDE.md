@@ -3,7 +3,7 @@
 **Repository:** gudbro-verticals
 **Purpose:** Standalone vertical business applications
 **Status:** Production (3 apps deployed on Vercel)
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-06
 
 ---
 
@@ -160,6 +160,126 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
 ---
 
 ## Recent Changes
+
+### 2025-12-06: Backoffice Multi-Tenant Dashboard COMPLETED
+
+**Sprint: Multi-Tenant UI Components**
+
+Created TenantContext for state management (`lib/contexts/TenantContext.tsx`):
+- Central React Context for Organization/Brand/Location state
+- Provides `useTenant()` hook for all components
+- Persists selections to localStorage
+- Auto-fetches child entities when parent changes
+- Auto-selects first entity when lists load
+
+Created TenantSwitcher component (`components/tenant/TenantSwitcher.tsx`):
+- 3-tab dropdown (Organization, Brand, Location)
+- Shows current selection with name and type
+- Lists all available entities with selection indicator
+- Handles empty states with "Create" navigation links
+- Clicking entity advances to next level tab
+
+Updated Dashboard Layout (`app/(dashboard)/layout.tsx`):
+- Wrapped with TenantProvider at root level
+- All dashboard pages now have access to tenant context
+
+Updated Header (`components/layout/Header.tsx`):
+- Integrated TenantSwitcher component
+- Dynamic preview URL based on brand/location slugs
+- Uses `useTenant()` hook for brand and location data
+
+Updated Sidebar (`components/layout/Sidebar.tsx`):
+- Displays current brand info in footer
+- Shows brand name with primary color avatar
+- Shows subscription plan and location city
+- Loading skeleton while tenant data loads
+
+Updated Dashboard Page (`app/(dashboard)/dashboard/page.tsx`):
+- 3 tenant overview cards (Organization, Brand, Location)
+- Shows brand count and location count
+- Displays current location details (currency, language, country)
+- Dynamic welcome message with brand/location names
+- CTA to onboarding if no organization exists
+
+**Files Created:**
+- `lib/contexts/TenantContext.tsx`
+- `components/tenant/TenantSwitcher.tsx`
+- `components/tenant/index.ts`
+
+**Files Modified:**
+- `app/(dashboard)/layout.tsx`
+- `components/layout/Header.tsx`
+- `components/layout/Sidebar.tsx`
+- `app/(dashboard)/dashboard/page.tsx`
+
+**Build Status:** VERIFIED
+
+### 2025-12-06: Multi-Tenant Architecture (ADR-003) IMPLEMENTED
+
+**Database Migration (012-multi-tenant-architecture.sql):**
+- Created `partners` table - National/regional licensees
+- Created `organizations` table - Paying customers (standard/enterprise)
+- Created `brands` table - Business identities (logo, colors, business type)
+- Created `locations` table - Physical points of sale with locale settings
+- Created `enterprise_leads` table - Pre-sales pipeline for enterprise clients
+- 12 indexes for performance
+- 5 triggers for updated_at auto-update
+- RLS policies for all tables
+- Helper function `find_partner_for_country()`
+
+**API Endpoints Created:**
+- `/api/organizations` - POST, GET, PATCH for organization management
+- `/api/brands` - POST, GET, PATCH, DELETE for brand management
+- `/api/locations` - POST, GET, PATCH, DELETE for location management
+- `/api/partners` - POST, GET, PATCH for partner management
+- `/api/enterprise-leads` - POST, GET, PATCH for lead tracking
+
+**Onboarding Flow Updated:**
+- 5-step multi-tenant onboarding:
+  1. Account Type (Standard/Enterprise)
+  2. Organization (name, country)
+  3. Brand (business type, name, colors)
+  4. Location (address, languages)
+  5. Review & Create
+- Enterprise clients redirected to sales contact
+- Creates Organization → Brand → Location in sequence
+- Build verified successfully
+
+**TypeScript Types (lib/supabase.ts):**
+- Added Partner, Organization, Brand, Location, EnterpriseLead interfaces
+- Added type aliases for all enums
+- Added expanded types with relations (OrganizationWithBrands, etc.)
+
+### 2025-12-06: Multi-Locale System Sprint 2 (Onboarding API) COMPLETED
+
+**Sprint 2 - Onboarding API:**
+- Created `CountrySelector` component - searchable dropdown with 197 countries, flag emojis, grouped by continent
+- Created `LanguageMultiSelect` component - multi-select with 111 languages, RTL support, primary language protection
+- Created `/api/countries` - GET endpoint with search, continent filter, supported filter
+- Created `/api/languages` - GET endpoint with search, direction filter (ltr/rtl)
+- Created `/api/merchants` - POST endpoint for merchant registration with locale data
+- Created `lib/supabase.ts` - Supabase client with Country/Language TypeScript types
+- Updated onboarding flow at `/onboarding`:
+  - Step 2: Country selector auto-populates currency + primary language
+  - Step 3: Language multi-select with primary language locked
+  - Submit calls POST /api/merchants with full locale data
+- Build verified successfully
+
+### 2025-12-05: Multi-Locale System Sprint 1 (Database) COMPLETED
+
+**Sprint 1 - Database Foundation:**
+- Executed migrations on Supabase successfully
+- Created `languages` table with 70 languages (4 RTL: Arabic, Hebrew, Persian, Urdu)
+- Created `countries` table with 43 countries and currency/language defaults
+- Created `menu_item_translations` and `category_translations` tables
+- Created `exchange_rates` table with 33 currencies (USD base)
+- Updated `merchants` table with locale columns (country_code, currency_code, primary_language, enabled_languages)
+- Added helper functions: `convert_currency()`, `get_merchant_locale()`
+- RLS policies enabled on all new tables
+
+**Migration Files:**
+- `007a-languages-only.sql` - Languages (executed first to satisfy FK constraints)
+- `STEP2-remaining-migrations.sql` - All remaining tables and columns
 
 ### 2025-12-05: Modifiers System & Base Currency Architecture
 
@@ -351,7 +471,340 @@ Each app deployed separately with:
 
 **This file provides repository-wide context for Claude Code sessions.**
 
-**Last Updated:** 2025-12-05
+**Last Updated:** 2025-12-06
+
+---
+
+## 🏢 Multi-Tenant Architecture (ADR-003)
+
+### Architecture Decision Record (ADR-003)
+**Decision Date:** 2025-12-06
+**Status:** IMPLEMENTED (2025-12-06)
+
+### Context
+GUDBRO needs to support multiple business scenarios:
+- Single restaurant owners (1 location)
+- Multi-location chains (same brand, multiple locations)
+- Multi-brand organizations (holding companies)
+- Franchise operations (mix of owned and franchised)
+- Marketing agencies managing multiple clients
+- National/regional partners (licensees)
+- Global enterprise clients
+
+### Decision: Hierarchical Multi-Tenant with Partner Network
+
+```
+GUDBRO Platform (Super Admin)
+         │
+    ┌────┴────┐
+    ▼         ▼
+ Partners   Direct Clients
+ (Licensees)  (Enterprise)
+    │
+    ▼
+ Organizations ──→ Brands ──→ Locations
+ (Clients)
+```
+
+### Entity Hierarchy
+
+| Level | Entity | Description |
+|-------|--------|-------------|
+| 0 | **Partner** | National/regional licensee, manages clients in territory |
+| 1 | **Organization** | Paying customer (company/individual) |
+| 2 | **Brand** | Business identity (logo, colors, menu template) |
+| 3 | **Location** | Physical point of sale with locale settings |
+
+### Business Rules
+
+1. **Standard Clients** (self-service signup):
+   - Auto-assigned to Partner of their territory (if exists)
+   - Pay fees to Partner
+   - Partner pays royalty % to GUDBRO monthly
+
+2. **Enterprise Clients** (sales-driven):
+   - Sign directly with GUDBRO
+   - NOT subject to Partner territorial rights
+   - Pay 100% to GUDBRO
+   - Can operate in any country
+
+3. **Partner Revenue Model**:
+   - Partner collects 100% from their clients
+   - GUDBRO invoices Partner monthly for royalty %
+   - Royalty covers: platform, hosting, development
+
+### Database Schema
+
+```sql
+-- Partners (licensees)
+partners
+  ├─ id UUID PK
+  ├─ name VARCHAR(255)
+  ├─ slug VARCHAR(100) UNIQUE
+  ├─ territory_type 'country' | 'region' | 'city'
+  ├─ territory_codes TEXT[]
+  ├─ is_exclusive BOOLEAN
+  ├─ royalty_pct DECIMAL(5,2)
+  ├─ contact_email, contact_phone
+  ├─ status 'active' | 'suspended' | 'terminated'
+  └─ created_at, updated_at
+
+-- Organizations (paying customers)
+organizations
+  ├─ id UUID PK
+  ├─ name VARCHAR(255)
+  ├─ slug VARCHAR(100) UNIQUE
+  ├─ type 'standard' | 'enterprise'
+  ├─ partner_id UUID FK (NULL for enterprise)
+  ├─ subscription_plan 'free' | 'starter' | 'pro' | NULL
+  ├─ billing_email, billing_address
+  ├─ stripe_customer_id
+  └─ status, created_at, updated_at
+
+-- Brands (business identities)
+brands
+  ├─ id UUID PK
+  ├─ organization_id UUID FK
+  ├─ name VARCHAR(255)
+  ├─ slug VARCHAR(100) UNIQUE
+  ├─ business_type 'fnb' | 'hotel' | 'rental' | 'other'
+  ├─ logo_url, primary_color, secondary_color
+  ├─ default_menu_id UUID FK (optional)
+  └─ is_active, created_at, updated_at
+
+-- Locations (physical points of sale)
+locations
+  ├─ id UUID PK
+  ├─ brand_id UUID FK
+  ├─ name VARCHAR(255)
+  ├─ slug VARCHAR(100)
+  ├─ address, city, postal_code
+  ├─ country_code FK, currency_code
+  ├─ primary_language, enabled_languages[]
+  ├─ timezone VARCHAR(50)
+  ├─ phone, email
+  ├─ menu_id UUID FK (overrides brand default)
+  ├─ latitude, longitude
+  └─ is_active, created_at, updated_at
+
+-- Enterprise leads (pre-sales)
+enterprise_leads
+  ├─ id UUID PK
+  ├─ company_name, contact_name
+  ├─ contact_email, contact_phone
+  ├─ estimated_locations INT
+  ├─ countries TEXT[]
+  ├─ message TEXT
+  ├─ status 'new' | 'contacted' | 'qualified' | 'won' | 'lost'
+  ├─ assigned_to UUID
+  └─ created_at, updated_at
+```
+
+### Migration from Current Schema
+
+The current `merchants` table will be deprecated. Existing merchants will be migrated to:
+- 1 Organization (type: standard, no partner initially)
+- 1 Brand (same name as merchant)
+- 1 Location (with current locale settings)
+
+---
+
+## 🌍 Multi-Locale Architecture (ACTIVE)
+
+### Architecture Decision Record (ADR-002)
+**Decision Date:** 2025-12-05
+**Status:** Sprint 1 COMPLETED - Database migrations executed
+
+### Context
+GUDBRO serves merchants globally. Each merchant operates in their own country with:
+- Their own **currency** (EUR in Italy, USD in USA, VND in Vietnam)
+- Their own **primary language** (Italian, English, Vietnamese)
+- Multiple **customer languages** (tourists visiting the restaurant)
+
+### Decision: Merchant-Centric Approach
+
+**Principle:** The merchant defines their locale settings during onboarding. The system auto-detects defaults from country but allows overrides.
+
+```
+MERCHANT (Roma, Italia)
+  ├─ Country: Italy → Auto-set:
+  │   ├─ Currency: EUR
+  │   ├─ Primary Language: Italian (it)
+  │   ├─ Timezone: Europe/Rome
+  │   └─ Suggested Languages: it, en, de, fr
+  │
+  └─ Merchant chooses enabled languages: it, en, fr
+```
+
+### Currency Flow
+
+```
+Merchant inserts prices in EUR (€12.50)
+    │
+    ▼
+Database stores: price=12.50, currency='EUR'
+    │
+    ▼
+Tourist (American) sees:
+  - Default: €12.50 (merchant's currency)
+  - Toggle: "Show in USD" → ~$13.50 (converted)
+    │
+    ▼
+Payment: Tourist pays €12.50 at restaurant
+(Conversion is INFORMATIONAL only, not transactional)
+```
+
+### Exchange Rate Strategy
+
+**Update Frequency:** 1x per day (00:05 UTC)
+**Rationale:**
+- Use case is informational (not trading/booking)
+- Daily currency fluctuation ~0.3-0.5% (negligible for menu prices)
+- Free API tier supports 1,500 requests/month
+- Cached in Supabase `exchange_rates` table
+
+**API Provider:** exchangerate-api.com (free tier)
+
+### Language Strategy
+
+**Database-driven languages:**
+- `countries` table: 197 countries with primary language
+- `languages` table: 30+ languages with RTL support
+- `menu_item_translations` table: Per-item translations
+
+**Merchant controls:**
+- `primary_language`: Main language for backoffice/receipts
+- `enabled_languages`: Languages shown in customer PWA
+
+**Fallback chain:** Requested → Primary → English → Original
+
+### Database Schema (Sprint 1)
+
+```sql
+-- New tables
+countries (197 rows - all ISO 3166-1)
+  ├─ code: VARCHAR(2) PK (ISO 3166-1)
+  ├─ currency_code: VARCHAR(3) (ISO 4217)
+  ├─ primary_language: VARCHAR(5) (BCP 47)
+  └─ common_languages: VARCHAR(5)[]
+
+languages (111 rows)
+  ├─ code: VARCHAR(5) PK (BCP 47)
+  ├─ direction: 'ltr' | 'rtl' (6 RTL languages)
+  └─ native_name: VARCHAR(50)
+
+exchange_rates (1 row, updated daily)
+  ├─ base_currency: 'USD'
+  ├─ rates: JSONB {EUR: 0.92, VND: 25000, ...}
+  └─ fetched_at: TIMESTAMPTZ
+
+menu_item_translations
+  ├─ menu_item_id: UUID FK
+  ├─ language_code: VARCHAR(5) FK
+  ├─ name: VARCHAR(255)
+  └─ description: TEXT
+```
+
+### Migrations Required
+
+| Migration | Description | Status |
+|-----------|-------------|--------|
+| `007a-languages-only.sql` | Initial 70 languages | ✅ EXECUTED (2025-12-05) |
+| `STEP2-remaining-migrations.sql` | Initial 43 countries, translations, rates | ✅ EXECUTED (2025-12-05) |
+| `011a-additional-languages.sql` | Additional 41 languages | ✅ EXECUTED (2025-12-06) |
+| `011-all-remaining-countries.sql` | Remaining 154 countries | ✅ EXECUTED (2025-12-06) |
+
+**Final Database State (2025-12-06):**
+- `languages` - **111 languages** (includes RTL: ar, he, fa, ur, ps, dv)
+- `countries` - **197 countries** (all ISO 3166-1 countries)
+  - Africa: 54 | Asia: 49 | Europe: 45 | North America: 23 | Oceania: 14 | South America: 12
+- `menu_item_translations` - Per-item translations (ready for data)
+- `category_translations` - Per-category translations (ready for data)
+- `exchange_rates` - 33 currencies (USD base)
+
+**Merchant Table Updated:**
+- Added `country_code`, `currency_code`, `primary_language`, `enabled_languages` columns
+- Auto-populate trigger from country defaults
+
+---
+
+## 📋 Sprint Plan: Multi-Locale System
+
+### Sprint 1: Database Foundation (Week 1) ✅ COMPLETED
+**Goal:** Create core tables for countries, languages, translations
+
+| Task | Effort | Status |
+|------|--------|--------|
+| Create `countries` table (197 countries) | 3h | ✅ Done |
+| Create `languages` table (30+ languages) | 2h | ✅ Done |
+| Create `menu_item_translations` table | 2h | ✅ Done |
+| Create `exchange_rates` table | 1h | ✅ Done |
+| Auto-populate trigger for merchants | 2h | ✅ Done |
+| RLS policies for all tables | 2h | ✅ Done |
+| Seed data for key countries | 2h | ✅ Done |
+
+**Migrations EXECUTED:**
+- 2025-12-05: `007a-languages-only.sql` + `STEP2-remaining-migrations.sql`
+- 2025-12-06: `011a-additional-languages.sql` + `011-all-remaining-countries.sql`
+
+**Final Database State:**
+- Languages: **111 rows** (6 RTL languages)
+- Countries: **197 rows** (all ISO 3166-1)
+- Exchange rates: 33 currencies
+- Merchant table: 4 new locale columns added
+
+### Sprint 2: Onboarding API (Week 2) ✅ COMPLETED
+**Goal:** Complete merchant registration with country/language
+
+| Task | Effort | Status |
+|------|--------|--------|
+| Country selector with search | 3h | ✅ Done |
+| Auto-populate currency/language/timezone | 2h | ✅ Done |
+| Language multi-select component | 3h | ✅ Done |
+| POST /merchants API endpoint | 4h | ✅ Done |
+| GET /countries and /languages APIs | 2h | ✅ Done |
+| Validation and error handling | 2h | ✅ Done |
+
+**Files Created (2025-12-06):**
+- `components/locale/CountrySelector.tsx` - Searchable country dropdown with flags, grouped by continent
+- `components/locale/LanguageMultiSelect.tsx` - Multi-select with RTL support, primary language lock
+- `app/api/countries/route.ts` - GET endpoint with search, continent, supported filters
+- `app/api/languages/route.ts` - GET endpoint with search, direction (ltr/rtl) filter
+- `app/api/merchants/route.ts` - POST/GET endpoints for merchant creation
+- `lib/supabase.ts` - Supabase client with Country/Language types
+- Updated `app/(onboarding)/onboarding/page.tsx` - Integrated locale components
+
+### Sprint 3: PWA Dynamic Languages (Week 3)
+**Goal:** Languages fetched from merchant config
+
+| Task | Effort | Status |
+|------|--------|--------|
+| Refactor useTranslation hook | 4h | Pending |
+| Dynamic language selector | 3h | Pending |
+| Translation fallback logic | 2h | Pending |
+| RTL support (Arabic, Hebrew) | 4h | Pending |
+| Fetch translations from database | 3h | Pending |
+
+### Sprint 4: Backoffice Translation Editor (Week 4)
+**Goal:** Merchants can manage translations
+
+| Task | Effort | Status |
+|------|--------|--------|
+| Translation editor UI | 6h | Pending |
+| Bulk translation import (CSV) | 3h | Pending |
+| Language settings page | 2h | Pending |
+| Preview in multiple languages | 3h | Pending |
+
+### Sprint 5: Currency System Refactor (Week 5)
+**Goal:** Proper merchant→tourist conversion + live rates
+
+| Task | Effort | Status |
+|------|--------|--------|
+| Refactor currency-converter.ts | 4h | Pending |
+| Exchange rate API integration | 3h | Pending |
+| Supabase Edge Function for rates | 4h | Pending |
+| Decimal.js for precision | 2h | Pending |
+| Multi-currency testing | 3h | Pending |
 
 ---
 

@@ -1,124 +1,110 @@
 'use server';
 
-// Using Coffee House products (81 products with nutrition data)
-// Updated with new category structure v2.0: hot-coffee, iced-coffee, matcha, tea, smoothie, milkshake
-import coffeeHouseProducts from '@/data/coffee-house-products.json';
+/**
+ * Server Actions for Menu Data
+ *
+ * These actions fetch menu data using the menu-service which:
+ * 1. Tries Supabase first (if configured and has data)
+ * 2. Falls back to local JSON files
+ *
+ * This enables real-time menu updates from backoffice while
+ * maintaining offline/fallback support.
+ */
+
+import {
+  getMenuProducts as fetchMenuProducts,
+  getMenuProductsRaw as fetchMenuProductsRaw,
+  getMenuCategories as fetchMenuCategories,
+  NormalizedProduct,
+} from '@/lib/menu-service';
+
 import { categories, Temperature, TEMPERATURE_ICONS } from '@/data/categories';
 
-// Helper to convert multilingual objects to strings
-// This prevents React Error #31 (object as child)
-function normalizeMultilingualField(field: any, defaultLang = 'en'): string {
-  if (typeof field === 'string') {
-    return field;
-  }
-  if (typeof field === 'object' && field !== null) {
-    return field[defaultLang] || field.en || field.it || field.vi || '';
-  }
-  return '';
+// Re-export types
+export type { NormalizedProduct };
+
+/**
+ * Get menu products with language-specific text
+ * Uses Supabase if available, falls back to JSON
+ */
+export async function getMenuProducts(lang: string = 'en'): Promise<NormalizedProduct[]> {
+  return fetchMenuProducts(lang);
 }
 
-export async function getMenuProducts(lang: string = 'en') {
-  // Transform multilingual fields to strings to prevent hydration errors
-  const products = coffeeHouseProducts.map((product: any) => ({
-    ...product,
-    name: normalizeMultilingualField(product.name, lang),
-    description: normalizeMultilingualField(product.description, lang),
-    // Add temperature icon for display
-    temperatureIcon: product.temperature === 'hot' ? TEMPERATURE_ICONS.hot : TEMPERATURE_ICONS.iced,
-  }));
-
-  return products as any[];
+/**
+ * Get menu products with multilang fields intact
+ * For client-side language switching
+ */
+export async function getMenuProductsRaw(): Promise<NormalizedProduct[]> {
+  return fetchMenuProductsRaw();
 }
 
-// Raw products with multilingual fields intact (for client-side language switching)
-export async function getMenuProductsRaw() {
-  const products = coffeeHouseProducts.map((product: any) => ({
-    ...product,
-    // Keep multilingual objects intact
-    nameMulti: product.name,
-    descriptionMulti: product.description,
-    // Default to English for SSR
-    name: typeof product.name === 'object' ? product.name.en : product.name,
-    description: typeof product.description === 'object' ? product.description.en : product.description,
-    temperatureIcon: product.temperature === 'hot' ? TEMPERATURE_ICONS.hot : TEMPERATURE_ICONS.iced,
-  }));
-
-  return products as any[];
-}
-
+/**
+ * Get menu categories
+ * Uses Supabase if available, falls back to local categories.ts
+ */
 export async function getMenuCategories(lang: string = 'en') {
-  return categories.map(cat => ({
-    ...cat,
-    name: normalizeMultilingualField(cat.name, lang),
-    description: normalizeMultilingualField(cat.description, lang),
-    // Normalize subcategory names
-    subcategories: cat.subcategories?.map(sub => ({
-      ...sub,
-      name: normalizeMultilingualField(sub.name, lang),
-      description: sub.description ? normalizeMultilingualField(sub.description, lang) : undefined,
-    })),
-  }));
+  return fetchMenuCategories(lang);
 }
 
-export async function getProductsByCategory(categoryId: string, lang: string = 'en') {
-  const products = coffeeHouseProducts
-    .filter((p: any) => p.category === categoryId && p.isVisible)
-    .map((product: any) => ({
-      ...product,
-      name: normalizeMultilingualField(product.name, lang),
-      description: normalizeMultilingualField(product.description, lang),
-      temperatureIcon: product.temperature === 'hot' ? TEMPERATURE_ICONS.hot : TEMPERATURE_ICONS.iced,
-    }));
-
-  return products as any[];
+/**
+ * Get products filtered by category
+ */
+export async function getProductsByCategory(categoryId: string, lang: string = 'en'): Promise<NormalizedProduct[]> {
+  const products = await fetchMenuProducts(lang);
+  return products.filter(p => p.category === categoryId && p.isVisible);
 }
 
-// New function: Get products by temperature
-export async function getProductsByTemperature(temp: Temperature, lang: string = 'en') {
-  const products = coffeeHouseProducts
-    .filter((p: any) => p.temperature === temp && p.isVisible)
-    .map((product: any) => ({
-      ...product,
-      name: normalizeMultilingualField(product.name, lang),
-      description: normalizeMultilingualField(product.description, lang),
-      temperatureIcon: temp === 'hot' ? TEMPERATURE_ICONS.hot : TEMPERATURE_ICONS.iced,
-    }));
-
-  return products as any[];
+/**
+ * Get products filtered by temperature (hot/iced)
+ */
+export async function getProductsByTemperature(temp: Temperature, lang: string = 'en'): Promise<NormalizedProduct[]> {
+  const products = await fetchMenuProducts(lang);
+  return products.filter(p => p.temperature === temp && p.isVisible);
 }
 
-// New function: Get products by subcategory
-export async function getProductsBySubcategory(categoryId: string, subcategoryId: string, lang: string = 'en') {
-  const products = coffeeHouseProducts
-    .filter((p: any) => p.category === categoryId && p.subcategory === subcategoryId && p.isVisible)
-    .map((product: any) => ({
-      ...product,
-      name: normalizeMultilingualField(product.name, lang),
-      description: normalizeMultilingualField(product.description, lang),
-      temperatureIcon: product.temperature === 'hot' ? TEMPERATURE_ICONS.hot : TEMPERATURE_ICONS.iced,
-    }));
-
-  return products as any[];
+/**
+ * Get products filtered by subcategory
+ */
+export async function getProductsBySubcategory(
+  categoryId: string,
+  subcategoryId: string,
+  lang: string = 'en'
+): Promise<NormalizedProduct[]> {
+  const products = await fetchMenuProducts(lang);
+  return products.filter(p =>
+    p.category === categoryId &&
+    p.subcategory === subcategoryId &&
+    p.isVisible
+  );
 }
 
-// New function: Get hot categories only
+/**
+ * Get hot categories only
+ */
 export async function getHotCategories(lang: string = 'en') {
   return categories
     .filter(c => c.temperature === 'hot' || c.temperature === 'both')
     .map(cat => ({
       ...cat,
-      name: normalizeMultilingualField(cat.name, lang),
-      description: normalizeMultilingualField(cat.description, lang),
+      name: typeof cat.name === 'object' ? cat.name[lang as keyof typeof cat.name] || cat.name.en : cat.name,
+      description: typeof cat.description === 'object'
+        ? cat.description[lang as keyof typeof cat.description] || cat.description.en
+        : cat.description,
     }));
 }
 
-// New function: Get iced categories only
+/**
+ * Get iced categories only
+ */
 export async function getIcedCategories(lang: string = 'en') {
   return categories
     .filter(c => c.temperature === 'iced' || c.temperature === 'both')
     .map(cat => ({
       ...cat,
-      name: normalizeMultilingualField(cat.name, lang),
-      description: normalizeMultilingualField(cat.description, lang),
+      name: typeof cat.name === 'object' ? cat.name[lang as keyof typeof cat.name] || cat.name.en : cat.name,
+      description: typeof cat.description === 'object'
+        ? cat.description[lang as keyof typeof cat.description] || cat.description.en
+        : cat.description,
     }));
 }

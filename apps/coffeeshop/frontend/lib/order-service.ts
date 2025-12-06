@@ -3,6 +3,12 @@
  *
  * Handles order submission to Supabase backend.
  * Falls back to localStorage if Supabase is not configured.
+ *
+ * Features:
+ * - Automatic retry on network failures (3 attempts)
+ * - Structured error types for UI handling
+ * - Graceful degradation to localStorage
+ * - User-friendly error messages (multilang)
  */
 
 import { supabase, isSupabaseConfigured, getSessionId, getDeviceFingerprint } from './supabase';
@@ -12,6 +18,76 @@ import { orderHistoryStore, Order } from './order-history-store';
 // Default merchant ID for demo - in production, this comes from QR code or URL
 // Using the default UUID from the schema: 00000000-0000-0000-0000-000000000001
 const DEFAULT_MERCHANT_ID = process.env.NEXT_PUBLIC_MERCHANT_ID || '00000000-0000-0000-0000-000000000001';
+
+// Retry configuration
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 1000;
+
+// Error types for structured error handling
+export type OrderErrorCode =
+  | 'NETWORK_ERROR'
+  | 'SERVER_ERROR'
+  | 'VALIDATION_ERROR'
+  | 'TIMEOUT_ERROR'
+  | 'UNKNOWN_ERROR';
+
+export interface OrderError {
+  code: OrderErrorCode;
+  message: string;
+  userMessage: {
+    en: string;
+    vi: string;
+    it: string;
+  };
+  retryable: boolean;
+  originalError?: unknown;
+}
+
+// User-friendly error messages
+const ERROR_MESSAGES: Record<OrderErrorCode, { en: string; vi: string; it: string }> = {
+  NETWORK_ERROR: {
+    en: 'Unable to connect. Please check your internet connection and try again.',
+    vi: 'Không thể kết nối. Vui lòng kiểm tra kết nối internet và thử lại.',
+    it: 'Impossibile connettersi. Controlla la connessione internet e riprova.',
+  },
+  SERVER_ERROR: {
+    en: 'Server error. Your order was saved locally and will sync when the connection is restored.',
+    vi: 'Lỗi máy chủ. Đơn hàng đã được lưu cục bộ và sẽ đồng bộ khi kết nối được khôi phục.',
+    it: 'Errore del server. Il tuo ordine è stato salvato localmente e verrà sincronizzato quando la connessione sarà ripristinata.',
+  },
+  VALIDATION_ERROR: {
+    en: 'Invalid order data. Please review your cart and try again.',
+    vi: 'Dữ liệu đơn hàng không hợp lệ. Vui lòng xem lại giỏ hàng và thử lại.',
+    it: 'Dati ordine non validi. Rivedi il carrello e riprova.',
+  },
+  TIMEOUT_ERROR: {
+    en: 'Request timed out. Please try again.',
+    vi: 'Yêu cầu đã hết thời gian chờ. Vui lòng thử lại.',
+    it: 'Richiesta scaduta. Riprova.',
+  },
+  UNKNOWN_ERROR: {
+    en: 'Something went wrong. Please try again or contact support.',
+    vi: 'Đã có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ hỗ trợ.',
+    it: 'Si è verificato un errore. Riprova o contatta l\'assistenza.',
+  },
+};
+
+function createOrderError(
+  code: OrderErrorCode,
+  message: string,
+  originalError?: unknown
+): OrderError {
+  return {
+    code,
+    message,
+    userMessage: ERROR_MESSAGES[code],
+    retryable: code === 'NETWORK_ERROR' || code === 'TIMEOUT_ERROR',
+    originalError,
+  };
+}
+
+// Sleep helper for retry delays
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
 
@@ -53,19 +129,104 @@ export interface SubmittedOrder {
   status: OrderStatus;
   total: number;
   submitted_at: string;
+  savedLocally?: boolean; // True if order was saved to localStorage (fallback)
 }
+
+export type SubmitOrderResult =
+  | { success: true; order: SubmittedOrder }
+  | { success: false; error: OrderError; fallbackOrder?: SubmittedOrder };
 
 /**
  * Submit order to backend (Supabase) or localStorage fallback
+ * Returns a result object with success status and either order or error
  */
-export async function submitOrder(orderData: SubmitOrderData): Promise<SubmittedOrder> {
-  // If Supabase is configured, submit to backend
+export async function submitOrder(orderData: SubmitOrderData): Promise<SubmitOrderResult> {
+  // Validate order data first
+  if (!orderData.items || orderData.items.length === 0) {
+    return {
+      success: false,
+      error: createOrderError('VALIDATION_ERROR', 'Order must have at least one item'),
+    };
+  }
+
+  if (orderData.total <= 0) {
+    return {
+      success: false,
+      error: createOrderError('VALIDATION_ERROR', 'Order total must be greater than zero'),
+    };
+  }
+
+  // If Supabase is configured, submit to backend with retry logic
   if (isSupabaseConfigured && supabase) {
-    return submitToSupabase(orderData);
+    return submitToSupabaseWithRetry(orderData);
   }
 
   // Fallback to localStorage
-  return submitToLocalStorage(orderData);
+  try {
+    const order = await submitToLocalStorage(orderData);
+    return { success: true, order };
+  } catch (err) {
+    return {
+      success: false,
+      error: createOrderError('UNKNOWN_ERROR', 'Failed to save order locally', err),
+    };
+  }
+}
+
+/**
+ * Submit to Supabase with retry logic
+ */
+async function submitToSupabaseWithRetry(orderData: SubmitOrderData): Promise<SubmitOrderResult> {
+  let lastError: OrderError | null = null;
+
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const order = await submitToSupabase(orderData);
+      return { success: true, order };
+    } catch (err) {
+      // Classify the error
+      const errorMessage = err instanceof Error ? err.message : String(err);
+
+      if (errorMessage.includes('Failed to fetch') || errorMessage.includes('NetworkError')) {
+        lastError = createOrderError('NETWORK_ERROR', errorMessage, err);
+      } else if (errorMessage.includes('timeout')) {
+        lastError = createOrderError('TIMEOUT_ERROR', errorMessage, err);
+      } else if (errorMessage.includes('validation') || errorMessage.includes('invalid')) {
+        // Validation errors are not retryable
+        return {
+          success: false,
+          error: createOrderError('VALIDATION_ERROR', errorMessage, err),
+        };
+      } else {
+        lastError = createOrderError('SERVER_ERROR', errorMessage, err);
+      }
+
+      // Only retry for network/timeout errors
+      if (!lastError.retryable || attempt === MAX_RETRIES) {
+        break;
+      }
+
+      // Wait before retrying (exponential backoff)
+      await sleep(RETRY_DELAY_MS * attempt);
+      console.log(`[OrderService] Retry attempt ${attempt + 1}/${MAX_RETRIES}...`);
+    }
+  }
+
+  // All retries failed - fallback to localStorage
+  console.log('[OrderService] All retries failed, falling back to localStorage');
+  try {
+    const fallbackOrder = await submitToLocalStorage(orderData);
+    return {
+      success: false,
+      error: lastError || createOrderError('UNKNOWN_ERROR', 'Unknown error occurred'),
+      fallbackOrder: { ...fallbackOrder, savedLocally: true },
+    };
+  } catch (fallbackErr) {
+    return {
+      success: false,
+      error: lastError || createOrderError('UNKNOWN_ERROR', 'Failed to save order', fallbackErr),
+    };
+  }
 }
 
 /**

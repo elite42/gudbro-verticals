@@ -81,26 +81,76 @@ function cacheRates(rates: ExchangeRates): void {
 }
 
 /**
+ * Fetch exchange rates from Supabase (stored by daily cron job)
+ */
+async function fetchRatesFromSupabase(): Promise<ExchangeRates | null> {
+  try {
+    const { supabase, isSupabaseConfigured } = await import('./supabase');
+
+    if (!isSupabaseConfigured || !supabase) {
+      return null;
+    }
+
+    const { data, error } = await supabase
+      .from('exchange_rates')
+      .select('base_currency, rates, fetched_at')
+      .order('fetched_at', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (error || !data) {
+      console.log('[CurrencyConverter] No rates in Supabase, using fallback');
+      return null;
+    }
+
+    console.log(`[CurrencyConverter] Loaded rates from Supabase (${new Date(data.fetched_at).toLocaleDateString()})`);
+
+    return {
+      base: data.base_currency,
+      rates: data.rates as Record<string, number>,
+      lastUpdated: new Date(data.fetched_at).getTime(),
+    };
+  } catch (err) {
+    console.error('[CurrencyConverter] Supabase fetch failed:', err);
+    return null;
+  }
+}
+
+/**
  * Fetch latest exchange rates from API
  * Using exchangerate-api.io free tier (1500 requests/month)
  */
 async function fetchExchangeRates(): Promise<ExchangeRates> {
   try {
-    // Note: For production, you'll need to sign up at https://www.exchangerate-api.com/
-    // and use your API key. Free tier: 1500 requests/month
-    // const API_KEY = 'your-api-key-here';
-    // const response = await fetch(`https://v6.exchangerate-api.com/v6/${API_KEY}/latest/VND`);
+    // 1. Try Supabase first (rates are updated daily via cron)
+    const supabaseRates = await fetchRatesFromSupabase();
+    if (supabaseRates) {
+      return supabaseRates;
+    }
 
-    // For now, using fallback rates
-    // In production, uncomment above and implement proper API fetch
-    console.log('⚠️ Using fallback exchange rates. Configure API key for live rates.');
+    // 2. Try external API if configured
+    const API_KEY = process.env.NEXT_PUBLIC_EXCHANGE_RATE_API_KEY;
+    if (API_KEY) {
+      const response = await fetch(`https://v6.exchangerate-api.com/v6/${API_KEY}/latest/VND`);
+      if (response.ok) {
+        const apiData = await response.json();
+        console.log('[CurrencyConverter] Loaded rates from external API');
+        return {
+          base: 'VND',
+          rates: apiData.conversion_rates || {},
+          lastUpdated: Date.now(),
+        };
+      }
+    }
 
+    // 3. Fallback to hardcoded rates
+    console.log('[CurrencyConverter] Using fallback exchange rates');
     return {
       ...FALLBACK_RATES,
       lastUpdated: Date.now(),
     };
   } catch (error) {
-    console.error('Failed to fetch exchange rates:', error);
+    console.error('[CurrencyConverter] Failed to fetch exchange rates:', error);
     return FALLBACK_RATES;
   }
 }

@@ -7,10 +7,12 @@ import { languagePreferencesStore } from '../lib/language-preferences';
 import { currencyPreferencesStore } from '../lib/currency-preferences';
 import { useKeyboardNavigation } from '../hooks/useKeyboardNavigation';
 import { useTheme } from '../lib/theme/theme-context';
+import { useMerchantConfig } from '../lib/contexts/MerchantConfigContext';
 
 export function HomeHeader() {
   const { business, i18n } = coffeeshopConfig;
   const { themeMode, toggleTheme } = useTheme();
+  const { enabledLanguages, isLoading: isLoadingConfig } = useMerchantConfig();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const [showCurrencyMenu, setShowCurrencyMenu] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(() => {
@@ -94,8 +96,8 @@ export function HomeHeader() {
     setShowCurrencyMenu(false);
   };
 
-  // Find current language and currency
-  const currentLanguage = i18n.supportedLanguages.find(lang => lang.code === selectedLanguage);
+  // Find current language and currency - use dynamic languages from merchant config
+  const currentLanguage = enabledLanguages.find(lang => lang.code === selectedLanguage) || enabledLanguages[0];
   const currentCurrency = selectedCurrency;
 
   return (
@@ -135,14 +137,14 @@ export function HomeHeader() {
                 {currentLanguage?.code}
               </button>
 
-              {/* Language Dropdown */}
+              {/* Language Dropdown - Uses dynamic languages from merchant config */}
               {showLanguageMenu && (
                 <div
                   className="absolute top-12 left-0 bg-theme-bg-elevated rounded-xl shadow-2xl overflow-hidden min-w-[160px] z-[9999] pointer-events-auto"
                   role="menu"
                   aria-label="Language options"
                 >
-                  {i18n.supportedLanguages.map((lang) => (
+                  {enabledLanguages.map((lang) => (
                     <button
                       key={lang.code}
                       onClick={(e) => {
@@ -161,7 +163,10 @@ export function HomeHeader() {
                         className="w-7 h-7 rounded-full object-cover"
                         aria-hidden="true"
                       />
-                      <span className="text-sm font-medium text-theme-text-primary">{lang.name}</span>
+                      <span className="text-sm font-medium text-theme-text-primary">
+                        {lang.nativeName || lang.name}
+                        {lang.direction === 'rtl' && <span className="ml-1 text-xs opacity-60">RTL</span>}
+                      </span>
                     </button>
                   ))}
                 </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function SettingsPage() {
   const [businessName, setBusinessName] = useState('ROOTS Plant-Based Cafe');
@@ -116,6 +117,31 @@ export default function SettingsPage() {
               <option value="ja">Japanese</option>
             </select>
           </div>
+        </div>
+
+        {/* Language Settings Link */}
+        <div className="mt-6 pt-4 border-t border-gray-200 space-y-3">
+          <Link
+            href="/settings/languages"
+            className="flex items-center justify-between p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+          >
+            <div>
+              <p className="font-medium text-gray-900">Manage Languages</p>
+              <p className="text-sm text-gray-600">Enable/disable languages for your digital menu</p>
+            </div>
+            <span className="text-blue-600 text-xl">→</span>
+          </Link>
+
+          <Link
+            href="/settings/currency"
+            className="flex items-center justify-between p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+          >
+            <div>
+              <p className="font-medium text-gray-900">Currency & Exchange Rates</p>
+              <p className="text-sm text-gray-600">View exchange rates for tourist price conversion</p>
+            </div>
+            <span className="text-green-600 text-xl">→</span>
+          </Link>
         </div>
       </div>
 

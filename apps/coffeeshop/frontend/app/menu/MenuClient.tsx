@@ -1,15 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { DishCard, DishItem, Extra } from '../../components/DishCard';
+import { DishItem, Extra } from '../../components/DishCard';
 import { coffeeshopConfig } from '../../config/coffeeshop.config';
 import { MenuHeader } from '../../components/MenuHeader';
 import { BottomNavLocal } from '../../components/BottomNavLocal';
-// import { getROOTSMenuItemsSync, getROOTSMenuStats } from '../../lib/roots-menu'; // REMOVED
 import { PreferencesModal } from '../../components/PreferencesModal';
-import { WelcomeModal } from '../../components/WelcomeModal';
-import { preferencesStore, filterMenuByPreferences } from '../../lib/user-preferences';
 import { favoritesStore } from '../../lib/favorites-store';
 import { selectionsStore } from '../../lib/selections-store';
 import { ProductBottomSheet } from '../../components/ProductBottomSheet';
@@ -23,16 +20,11 @@ import { PopularSection } from '../../components/PopularSection';
 import { CategorySection } from '../../components/CategorySection';
 import { SearchOverlay } from '../../components/SearchOverlay';
 import { useTranslation } from '@/lib/use-translation';
-import { useMemo } from 'react';
 import { MultilingualText } from '@/types/dish';
-import {
-  getProductMenuType,
-  validateProducts,
-  DYNAMIC_CATEGORIES,
-  getCategoryInfo,
-  isDynamicCategory
-} from '@/lib/category-system';
-import type { MenuType } from '@/data/categories';
+import { validateProducts } from '@/lib/category-system';
+
+// Custom hooks for state management
+import { useMenuFilters, useMenuStores, useMenuUI } from '@/lib/hooks';
 
 // Helper: Get localized text from multilingual object
 function getLocalizedText(multi: MultilingualText | undefined, fallback: string, lang: string): string {
@@ -47,24 +39,54 @@ interface MenuClientProps {
 export default function MenuClient({ initialMenuItems }: MenuClientProps) {
   const { t, language } = useTranslation();
   const router = useRouter();
-  const { business, ui } = coffeeshopConfig;
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedMenuType, setSelectedMenuType] = useState<string>('drinks'); // Menu type filter: 'food', 'drinks', or 'merchandise' (default to drinks for coffeeshop)
-  const [showSearchOverlay, setShowSearchOverlay] = useState(false); // Search overlay
-  const [showPreferencesModal, setShowPreferencesModal] = useState(false);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [showAccountSidebar, setShowAccountSidebar] = useState(false);
-  const [showSelectionsSidebar, setShowSelectionsSidebar] = useState(false);
-  const [showOnlyCompatible, setShowOnlyCompatible] = useState(true);
-  const [preferencesKey, setPreferencesKey] = useState(0); // Force re-render on preferences change
-  const [favoritesCount, setFavoritesCount] = useState(0); // Start at 0 to avoid hydration mismatch
-  const [selectionsCount, setSelectionsCount] = useState(0); // Selections items count
-  const [selectedProduct, setSelectedProduct] = useState<DishItem | null>(null);
-  const [isClient, setIsClient] = useState(false);
 
-  // Table Context State
-  const [showCustomerNameModal, setShowCustomerNameModal] = useState(false);
-  const [tableContext, setTableContext] = useState(() => tableContextStore.get());
+  // Custom hooks for modular state management
+  const filters = useMenuFilters({ initialMenuType: 'drinks', initialCategory: 'all' });
+  const stores = useMenuStores();
+  const ui = useMenuUI();
+
+  // Destructure for cleaner access
+  const {
+    selectedCategory,
+    setSelectedCategory,
+    selectedMenuType,
+    setSelectedMenuType,
+    showOnlyCompatible,
+    hasPreferences,
+    filterItems
+  } = filters;
+
+  const {
+    isClient,
+    favoritesCount,
+    selectionsCount,
+    tableContext,
+    checkQRCodeScan,
+    isTableNameRequired
+  } = stores;
+
+  const {
+    showPreferencesModal,
+    showAccountSidebar,
+    showSelectionsSidebar,
+    showSearchOverlay,
+    showCustomerNameModal,
+    selectedProduct,
+    openPreferencesModal,
+    closePreferencesModal,
+    openAccountSidebar,
+    closeAccountSidebar,
+    openSelectionsSidebar,
+    closeSelectionsSidebar,
+    openSearchOverlay,
+    closeSearchOverlay,
+    openCustomerNameModal,
+    closeCustomerNameModal,
+    selectProduct,
+    clearSelectedProduct,
+    openPreferencesFromAccount,
+    editProductFromSelections
+  } = ui;
 
   // Localize menu items based on current language
   const menuItems: DishItem[] = useMemo(() => {
@@ -75,28 +97,10 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
     }));
   }, [initialMenuItems, language]);
 
-  // Load initial favorites count and selections count client-side only (avoid hydration mismatch)
+  // Check for QR code scan on mount
   useEffect(() => {
-    setIsClient(true);
-    setFavoritesCount(favoritesStore.count());
-    setSelectionsCount(selectionsStore.getCount());
-
-    // Load table context
-    setTableContext(tableContextStore.get());
-
-    // Check for QR code scan (URL parameter: ?table=12)
-    const urlParams = new URLSearchParams(window.location.search);
-    const tableParam = urlParams.get('table');
-
-    if (tableParam) {
-      const tableNumber = tableContextStore.parseQR(tableParam);
-      if (tableNumber) {
-        console.log('🏷️ QR Code scanned - Table:', tableNumber);
-        tableContextStore.setFromQR(tableNumber);
-        setTableContext(tableContextStore.get());
-      }
-    }
-  }, []);
+    checkQRCodeScan();
+  }, [checkQRCodeScan]);
 
   // Validate products on load (development only) - catches category issues early
   useEffect(() => {
@@ -108,81 +112,15 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
     }
   }, [initialMenuItems]);
 
-  // Listen for selections changes
+  // Check if customer name is required when table context changes
   useEffect(() => {
-    const handleSelectionsUpdate = () => {
-      setSelectionsCount(selectionsStore.getCount());
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('selections-updated', handleSelectionsUpdate);
-      return () => window.removeEventListener('selections-updated', handleSelectionsUpdate);
+    if (isTableNameRequired()) {
+      openCustomerNameModal();
     }
-  }, []);
+  }, [tableContext, isTableNameRequired, openCustomerNameModal]);
 
-  // Listen for preferences changes
-  useEffect(() => {
-    const handlePreferencesUpdate = () => {
-      setPreferencesKey(prev => prev + 1);
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('preferences-updated', handlePreferencesUpdate);
-      return () => window.removeEventListener('preferences-updated', handlePreferencesUpdate);
-    }
-  }, []);
-
-  // Listen for favorites changes
-  useEffect(() => {
-    const handleFavoritesUpdate = () => {
-      setFavoritesCount(favoritesStore.count());
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('favorites-updated', handleFavoritesUpdate);
-      return () => window.removeEventListener('favorites-updated', handleFavoritesUpdate);
-    }
-  }, []);
-
-  // Listen for table context changes
-  useEffect(() => {
-    const handleTableContextUpdate = (event: CustomEvent) => {
-      setTableContext(event.detail);
-
-      // Check if customer name is now required
-      if (tableContextStore.isNameRequired()) {
-        setShowCustomerNameModal(true);
-      }
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('table-context-updated', handleTableContextUpdate as EventListener);
-      return () => window.removeEventListener('table-context-updated', handleTableContextUpdate as EventListener);
-    }
-  }, []);
-
-  // Get user preferences and filter menu
-  const userPreferences = preferencesStore.get();
-  const hasPreferences =
-    userPreferences.allergens_to_avoid.length > 0 ||
-    userPreferences.intolerances.length > 0 ||
-    userPreferences.dietary_preferences.length > 0;
-
-  // Filter by preferences
-  const { compatible, incompatible } = filterMenuByPreferences(menuItems, userPreferences);
-
-  // Determine which items to show (preferences filter first)
-  let itemsToDisplay = hasPreferences && showOnlyCompatible ? compatible : menuItems;
-
-  // Filter by menu type (always applied)
-  // Uses getProductMenuType from category-system.ts which:
-  // 1. First checks categories.ts (single source of truth)
-  // 2. Falls back to legacy category mappings if not found
-  // 3. Defaults to 'drinks' for unknown categories in coffee shop
-  itemsToDisplay = itemsToDisplay.filter(item => {
-    const itemMenuType = getProductMenuType(item.category);
-    return itemMenuType === selectedMenuType;
-  });
+  // Filter items using the hook (preferences + menu type + category)
+  const itemsToDisplay = filterItems(menuItems);
 
   // Helper function to check if an item is new
   const isItemNew = (item: DishItem): boolean => {
@@ -398,7 +336,7 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
       {/* Header */}
       <MenuHeader
         selectionsCount={selectionsCount}
-        onSelectionsClick={() => setShowSelectionsSidebar(true)}
+        onSelectionsClick={openSelectionsSidebar}
       />
 
       {/* Table Context Bar (when QR scanned) */}
@@ -448,7 +386,7 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
       <MenuTypeTabs
         selectedMenuType={selectedMenuType}
         onMenuTypeChange={setSelectedMenuType}
-        onSearchClick={() => setShowSearchOverlay(true)}
+        onSearchClick={openSearchOverlay}
       />
 
       {/* Popular Section */}
@@ -456,7 +394,7 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
         <PopularSection
           items={menuItems.slice(0, 12)}
           totalCount={12}
-          onItemClick={(item) => setSelectedProduct(item)}
+          onItemClick={selectProduct}
           onSeeAllClick={() => router.push('/menu/popular')}
         />
       )}
@@ -521,7 +459,7 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
                   categoryName={metadata.name}
                   categoryIcon={metadata.icon}
                   items={items}
-                  onItemClick={(item) => setSelectedProduct(item)}
+                  onItemClick={selectProduct}
                   onSeeAllClick={() => router.push(`/menu/category/${categoryId.toLowerCase()}`)}
                 />
               );
@@ -550,11 +488,8 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
       {isClient && (
         <SelectionsSidebar
           isOpen={showSelectionsSidebar}
-          onClose={() => setShowSelectionsSidebar(false)}
-          onEditProduct={(dish) => {
-            setShowSelectionsSidebar(false); // Close sidebar first
-            setSelectedProduct(dish); // Then open product modal
-          }}
+          onClose={closeSelectionsSidebar}
+          onEditProduct={editProductFromSelections}
         />
       )}
 
@@ -562,13 +497,10 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
       {isClient && (
         <AccountSidebar
           isOpen={showAccountSidebar}
-          onClose={() => setShowAccountSidebar(false)}
-          onOpenPreferences={() => {
-            setShowAccountSidebar(false);
-            setShowPreferencesModal(true);
-          }}
+          onClose={closeAccountSidebar}
+          onOpenPreferences={openPreferencesFromAccount}
           onOpenSettings={() => {
-            setShowAccountSidebar(false);
+            closeAccountSidebar();
             console.log('Settings clicked');
           }}
         />
@@ -577,7 +509,7 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
       {/* Preferences Modal */}
       {showPreferencesModal && (
         <PreferencesModal
-          onClose={() => setShowPreferencesModal(false)}
+          onClose={closePreferencesModal}
           onSave={() => {
             // Refresh will happen automatically via preferences-updated event
           }}
@@ -586,24 +518,22 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
 
       {/* Product Bottom Sheet */}
       {selectedProduct && (
-        <>
-          <ProductBottomSheet
-            dish={selectedProduct}
-            onClose={() => setSelectedProduct(null)}
-            onAddToCart={handleAddToCart}
-          />
-        </>
+        <ProductBottomSheet
+          dish={selectedProduct}
+          onClose={clearSelectedProduct}
+          onAddToCart={handleAddToCart}
+        />
       )}
 
       {/* Search Overlay */}
       {isClient && (
         <SearchOverlay
           isOpen={showSearchOverlay}
-          onClose={() => setShowSearchOverlay(false)}
+          onClose={closeSearchOverlay}
           items={menuItems}
           onItemClick={(item) => {
-            setSelectedProduct(item);
-            setShowSearchOverlay(false);
+            selectProduct(item);
+            closeSearchOverlay();
           }}
         />
       )}

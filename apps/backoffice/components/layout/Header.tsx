@@ -1,14 +1,27 @@
 'use client';
 
 import { useState } from 'react';
+import { TenantSwitcher } from '@/components/tenant';
+import { useTenant } from '@/lib/contexts/TenantContext';
 
 export function Header() {
   const [searchQuery, setSearchQuery] = useState('');
+  const { brand, location } = useTenant();
+
+  // Generate preview URL based on current selection
+  const previewUrl = location?.slug && brand?.slug
+    ? `https://go.gudbro.com/${brand.slug}/${location.slug}`
+    : brand?.slug
+    ? `https://go.gudbro.com/${brand.slug}`
+    : 'https://go.gudbro.com/roots';
 
   return (
     <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between">
+      {/* Tenant Switcher */}
+      <TenantSwitcher />
+
       {/* Search */}
-      <div className="flex-1 max-w-lg">
+      <div className="flex-1 max-w-lg mx-6">
         <div className="relative">
           <svg
             className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
@@ -62,7 +75,7 @@ export function Header() {
 
         {/* Preview link */}
         <a
-          href="https://go.gudbro.com/roots"
+          href={previewUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"

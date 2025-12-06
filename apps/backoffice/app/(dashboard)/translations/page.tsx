@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 export const dynamic = 'force-dynamic';
@@ -9,173 +9,509 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-interface TranslationItem {
+// CSV Utilities
+function escapeCSV(value: string | null): string {
+  if (!value) return '';
+  // Escape quotes by doubling them and wrap in quotes if contains comma, newline, or quote
+  if (value.includes(',') || value.includes('\n') || value.includes('"')) {
+    return `"${value.replace(/"/g, '""')}"`;
+  }
+  return value;
+}
+
+function parseCSV(csvText: string): string[][] {
+  const rows: string[][] = [];
+  let currentRow: string[] = [];
+  let currentField = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < csvText.length; i++) {
+    const char = csvText[i];
+    const nextChar = csvText[i + 1];
+
+    if (inQuotes) {
+      if (char === '"' && nextChar === '"') {
+        currentField += '"';
+        i++; // Skip next quote
+      } else if (char === '"') {
+        inQuotes = false;
+      } else {
+        currentField += char;
+      }
+    } else {
+      if (char === '"') {
+        inQuotes = true;
+      } else if (char === ',') {
+        currentRow.push(currentField.trim());
+        currentField = '';
+      } else if (char === '\n' || (char === '\r' && nextChar === '\n')) {
+        currentRow.push(currentField.trim());
+        if (currentRow.some(f => f !== '')) {
+          rows.push(currentRow);
+        }
+        currentRow = [];
+        currentField = '';
+        if (char === '\r') i++; // Skip \n after \r
+      } else {
+        currentField += char;
+      }
+    }
+  }
+
+  // Don't forget last field/row
+  if (currentField || currentRow.length > 0) {
+    currentRow.push(currentField.trim());
+    if (currentRow.some(f => f !== '')) {
+      rows.push(currentRow);
+    }
+  }
+
+  return rows;
+}
+
+interface CSVImportResult {
+  success: number;
+  errors: string[];
+}
+
+// Types
+interface MenuItem {
   id: string;
-  type: 'menu_item' | 'category' | 'ingredient';
-  field: 'name' | 'description';
-  originalText: string;
-  translations: Record<string, string>;
+  name: string;
+  description: string | null;
+  slug: string;
+  category_id: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
+  description: string | null;
   slug: string;
 }
 
-const languages = [
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'vi', name: 'Vietnamese', flag: '🇻🇳' },
-  { code: 'ko', name: 'Korean', flag: '🇰🇷' },
-  { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
-  { code: 'it', name: 'Italian', flag: '🇮🇹' },
-];
+interface MenuItemTranslation {
+  id: string;
+  menu_item_id: string;
+  language_code: string;
+  name: string;
+  description: string | null;
+}
+
+interface CategoryTranslation {
+  id: string;
+  category_id: string;
+  language_code: string;
+  name: string;
+  description: string | null;
+}
+
+interface Language {
+  code: string;
+  name: string;
+  native_name: string;
+  direction: 'ltr' | 'rtl';
+}
+
+interface TranslationRow {
+  id: string;
+  type: 'menu_item' | 'category';
+  itemId: string;
+  name: string;
+  description: string | null;
+  slug: string;
+  translations: Record<string, { name: string; description: string | null; translationId?: string }>;
+}
+
+// Flag mapping for common languages
+const FLAG_MAP: Record<string, string> = {
+  en: '🇬🇧', vi: '🇻🇳', it: '🇮🇹', ko: '🇰🇷', ja: '🇯🇵',
+  zh: '🇨🇳', fr: '🇫🇷', de: '🇩🇪', es: '🇪🇸', pt: '🇵🇹',
+  ru: '🇷🇺', ar: '🇸🇦', he: '🇮🇱', th: '🇹🇭', fa: '🇮🇷',
+};
 
 export default function TranslationsPage() {
-  const [items, setItems] = useState<TranslationItem[]>([]);
+  const [rows, setRows] = useState<TranslationRow[]>([]);
+  const [languages, setLanguages] = useState<Language[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>(['en', 'vi', 'ko']);
-  const [filterType, setFilterType] = useState<string>('all');
-  const [isTranslating, setIsTranslating] = useState(false);
-  const [editingCell, setEditingCell] = useState<{ id: string; lang: string } | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>(['vi', 'it']);
+  const [filterType, setFilterType] = useState<'all' | 'menu_item' | 'category'>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [editingCell, setEditingCell] = useState<{ rowId: string; lang: string; field: 'name' | 'description' } | null>(null);
   const [editValue, setEditValue] = useState('');
 
+  // Import/Export state
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<CSVImportResult | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Fetch all data
   useEffect(() => {
-    fetchTranslations();
+    fetchData();
   }, []);
 
-  async function fetchTranslations() {
+  async function fetchData() {
     try {
       setLoading(true);
+
+      // Fetch languages from database
+      const { data: langData } = await supabase
+        .from('languages')
+        .select('code, name, native_name, direction')
+        .order('name');
 
       // Fetch menu items
       const { data: menuItems } = await supabase
         .from('menu_items')
-        .select('id, slug, name_multilang, description_multilang')
+        .select('id, name, description, slug, category_id')
         .order('display_order');
 
       // Fetch categories
       const { data: categories } = await supabase
         .from('menu_categories')
-        .select('id, slug, name_multilang, description_multilang')
+        .select('id, name, description, slug')
         .order('display_order');
 
-      const translationItems: TranslationItem[] = [];
+      // Fetch menu item translations
+      const { data: menuTranslations } = await supabase
+        .from('menu_item_translations')
+        .select('*');
+
+      // Fetch category translations
+      const { data: catTranslations } = await supabase
+        .from('category_translations')
+        .select('*');
+
+      // Set languages (filter to common ones if too many)
+      const commonLanguages = langData?.filter(l =>
+        ['en', 'vi', 'it', 'ko', 'ja', 'zh', 'fr', 'de', 'es', 'ar', 'he', 'th'].includes(l.code)
+      ) || [];
+      setLanguages(commonLanguages);
+
+      // Build translation rows
+      const translationRows: TranslationRow[] = [];
 
       // Process menu items
       (menuItems || []).forEach((item) => {
-        // Name translations
-        translationItems.push({
-          id: `menu-name-${item.id}`,
-          type: 'menu_item',
-          field: 'name',
-          originalText: item.name_multilang?.en || '',
-          translations: item.name_multilang || {},
-          slug: item.slug,
-        });
+        const itemTranslations: Record<string, { name: string; description: string | null; translationId?: string }> = {};
 
-        // Description translations (if exists)
-        if (item.description_multilang?.en) {
-          translationItems.push({
-            id: `menu-desc-${item.id}`,
-            type: 'menu_item',
-            field: 'description',
-            originalText: item.description_multilang?.en || '',
-            translations: item.description_multilang || {},
-            slug: item.slug,
+        (menuTranslations || [])
+          .filter((t) => t.menu_item_id === item.id)
+          .forEach((t) => {
+            itemTranslations[t.language_code] = {
+              name: t.name,
+              description: t.description,
+              translationId: t.id,
+            };
           });
-        }
+
+        translationRows.push({
+          id: `menu-${item.id}`,
+          type: 'menu_item',
+          itemId: item.id,
+          name: item.name,
+          description: item.description,
+          slug: item.slug,
+          translations: itemTranslations,
+        });
       });
 
       // Process categories
       (categories || []).forEach((cat) => {
-        translationItems.push({
-          id: `cat-name-${cat.id}`,
+        const catTranslationsMap: Record<string, { name: string; description: string | null; translationId?: string }> = {};
+
+        (catTranslations || [])
+          .filter((t) => t.category_id === cat.id)
+          .forEach((t) => {
+            catTranslationsMap[t.language_code] = {
+              name: t.name,
+              description: t.description,
+              translationId: t.id,
+            };
+          });
+
+        translationRows.push({
+          id: `cat-${cat.id}`,
           type: 'category',
-          field: 'name',
-          originalText: cat.name_multilang?.en || '',
-          translations: cat.name_multilang || {},
+          itemId: cat.id,
+          name: cat.name,
+          description: cat.description,
           slug: cat.slug,
+          translations: catTranslationsMap,
         });
       });
 
-      setItems(translationItems);
+      setRows(translationRows);
     } catch (err) {
-      console.error('Error fetching translations:', err);
+      console.error('Error fetching data:', err);
     } finally {
       setLoading(false);
     }
   }
 
-  const getTranslationStatus = (item: TranslationItem, langCode: string): 'complete' | 'pending' => {
-    return item.translations[langCode] ? 'complete' : 'pending';
+  // Save translation
+  async function saveTranslation(row: TranslationRow, langCode: string, name: string, description: string | null) {
+    setSaving(true);
+    try {
+      const existing = row.translations[langCode];
+      const table = row.type === 'menu_item' ? 'menu_item_translations' : 'category_translations';
+      const foreignKey = row.type === 'menu_item' ? 'menu_item_id' : 'category_id';
+
+      if (existing?.translationId) {
+        // Update existing translation
+        await supabase
+          .from(table)
+          .update({ name, description })
+          .eq('id', existing.translationId);
+      } else {
+        // Insert new translation
+        await supabase
+          .from(table)
+          .insert({
+            [foreignKey]: row.itemId,
+            language_code: langCode,
+            name,
+            description,
+          });
+      }
+
+      // Refresh data
+      await fetchData();
+    } catch (err) {
+      console.error('Error saving translation:', err);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  // Handle edit start
+  const handleStartEdit = (rowId: string, lang: string, field: 'name' | 'description', currentValue: string) => {
+    setEditingCell({ rowId, lang, field });
+    setEditValue(currentValue || '');
   };
 
-  const filteredItems = items.filter((item) => {
-    if (filterType !== 'all' && item.type !== filterType) return false;
-    return true;
-  });
-
-  const stats = {
-    total: items.length,
-    complete: items.reduce((acc, item) => {
-      return acc + selectedLanguages.filter(lang => lang !== 'en' && item.translations[lang]).length;
-    }, 0),
-    pending: items.reduce((acc, item) => {
-      return acc + selectedLanguages.filter(lang => lang !== 'en' && !item.translations[lang]).length;
-    }, 0),
-  };
-
-  const handleStartEdit = (id: string, lang: string, currentValue: string) => {
-    setEditingCell({ id, lang });
-    setEditValue(currentValue);
-  };
-
+  // Handle save edit
   const handleSaveEdit = async () => {
     if (!editingCell) return;
 
-    const item = items.find(i => i.id === editingCell.id);
-    if (!item) return;
+    const row = rows.find(r => r.id === editingCell.rowId);
+    if (!row) return;
 
-    // Update local state
-    const updatedItems = items.map(i => {
-      if (i.id === editingCell.id) {
-        return {
-          ...i,
-          translations: { ...i.translations, [editingCell.lang]: editValue },
-        };
-      }
-      return i;
-    });
-    setItems(updatedItems);
+    const currentTranslation = row.translations[editingCell.lang] || { name: '', description: null };
+    const newName = editingCell.field === 'name' ? editValue : currentTranslation.name;
+    const newDesc = editingCell.field === 'description' ? editValue : currentTranslation.description;
 
-    // Update in Supabase
-    try {
-      const [type, field, dbId] = item.id.split('-');
-      const table = type === 'menu' ? 'menu_items' : 'menu_categories';
-      const column = field === 'name' ? 'name_multilang' : 'description_multilang';
-
-      const newTranslations = { ...item.translations, [editingCell.lang]: editValue };
-
-      await supabase
-        .from(table)
-        .update({ [column]: newTranslations })
-        .eq('id', dbId);
-    } catch (err) {
-      console.error('Error saving translation:', err);
-    }
-
+    await saveTranslation(row, editingCell.lang, newName, newDesc);
     setEditingCell(null);
     setEditValue('');
   };
 
-  const handleTranslateAll = async () => {
-    setIsTranslating(true);
-    // In production, this would call an AI translation API
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsTranslating(false);
-    alert('AI Translation would be triggered here. Connect your preferred AI provider (Claude, OpenAI, etc.)');
+  // Export to CSV
+  const handleExportCSV = () => {
+    // CSV Header: type,item_id,slug,original_name,original_description,lang_code,translated_name,translated_description
+    const csvRows: string[] = [
+      'type,item_id,slug,original_name,original_description,language_code,translated_name,translated_description'
+    ];
+
+    // Export all rows with all selected languages
+    rows.forEach((row) => {
+      selectedLanguages.forEach((langCode) => {
+        const translation = row.translations[langCode] || { name: '', description: null };
+        csvRows.push([
+          row.type,
+          row.itemId,
+          escapeCSV(row.slug),
+          escapeCSV(row.name),
+          escapeCSV(row.description),
+          langCode,
+          escapeCSV(translation.name),
+          escapeCSV(translation.description),
+        ].join(','));
+      });
+    });
+
+    // Create and download file
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' }); // BOM for Excel UTF-8
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `translations_${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
+
+  // Import from CSV
+  const handleImportCSV = async (file: File) => {
+    setImporting(true);
+    setImportResult(null);
+
+    try {
+      const text = await file.text();
+      const csvRows = parseCSV(text);
+
+      if (csvRows.length < 2) {
+        setImportResult({ success: 0, errors: ['CSV file is empty or has no data rows'] });
+        return;
+      }
+
+      // Validate header
+      const header = csvRows[0].map(h => h.toLowerCase().replace(/\s+/g, '_'));
+      const requiredColumns = ['type', 'item_id', 'language_code', 'translated_name'];
+      const missingColumns = requiredColumns.filter(col => !header.includes(col));
+
+      if (missingColumns.length > 0) {
+        setImportResult({
+          success: 0,
+          errors: [`Missing required columns: ${missingColumns.join(', ')}`]
+        });
+        return;
+      }
+
+      // Get column indices
+      const typeIdx = header.indexOf('type');
+      const itemIdIdx = header.indexOf('item_id');
+      const langIdx = header.indexOf('language_code');
+      const nameIdx = header.indexOf('translated_name');
+      const descIdx = header.indexOf('translated_description');
+
+      const errors: string[] = [];
+      let successCount = 0;
+
+      // Process each row (skip header)
+      for (let i = 1; i < csvRows.length; i++) {
+        const row = csvRows[i];
+        const rowNum = i + 1;
+
+        try {
+          const type = row[typeIdx]?.toLowerCase();
+          const itemId = row[itemIdIdx];
+          const langCode = row[langIdx];
+          const name = row[nameIdx] || '';
+          const description = descIdx >= 0 ? row[descIdx] || null : null;
+
+          // Skip empty rows
+          if (!type || !itemId || !langCode) {
+            continue;
+          }
+
+          // Validate type
+          if (type !== 'menu_item' && type !== 'category') {
+            errors.push(`Row ${rowNum}: Invalid type "${type}" (must be menu_item or category)`);
+            continue;
+          }
+
+          // Skip if no translation provided
+          if (!name) {
+            continue;
+          }
+
+          const table = type === 'menu_item' ? 'menu_item_translations' : 'category_translations';
+          const foreignKey = type === 'menu_item' ? 'menu_item_id' : 'category_id';
+
+          // Check if translation exists
+          const { data: existing } = await supabase
+            .from(table)
+            .select('id')
+            .eq(foreignKey, itemId)
+            .eq('language_code', langCode)
+            .single();
+
+          if (existing) {
+            // Update existing
+            const { error } = await supabase
+              .from(table)
+              .update({ name, description })
+              .eq('id', existing.id);
+
+            if (error) {
+              errors.push(`Row ${rowNum}: ${error.message}`);
+            } else {
+              successCount++;
+            }
+          } else {
+            // Insert new
+            const { error } = await supabase
+              .from(table)
+              .insert({
+                [foreignKey]: itemId,
+                language_code: langCode,
+                name,
+                description,
+              });
+
+            if (error) {
+              errors.push(`Row ${rowNum}: ${error.message}`);
+            } else {
+              successCount++;
+            }
+          }
+        } catch (err) {
+          errors.push(`Row ${rowNum}: ${err instanceof Error ? err.message : 'Unknown error'}`);
+        }
+      }
+
+      setImportResult({ success: successCount, errors });
+
+      // Refresh data if any success
+      if (successCount > 0) {
+        await fetchData();
+      }
+    } catch (err) {
+      setImportResult({
+        success: 0,
+        errors: [`Failed to parse CSV: ${err instanceof Error ? err.message : 'Unknown error'}`]
+      });
+    } finally {
+      setImporting(false);
+    }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleImportCSV(file);
+    }
+    // Reset input so same file can be selected again
+    e.target.value = '';
+  };
+
+  // Filter rows
+  const filteredRows = rows.filter((row) => {
+    if (filterType !== 'all' && row.type !== filterType) return false;
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      return row.name.toLowerCase().includes(query) || row.slug.toLowerCase().includes(query);
+    }
+    return true;
+  });
+
+  // Calculate stats
+  const stats = {
+    total: rows.length,
+    menuItems: rows.filter(r => r.type === 'menu_item').length,
+    categories: rows.filter(r => r.type === 'category').length,
+    translated: rows.reduce((acc, row) => {
+      return acc + selectedLanguages.filter(lang => row.translations[lang]?.name).length;
+    }, 0),
+    pending: rows.reduce((acc, row) => {
+      return acc + selectedLanguages.filter(lang => !row.translations[lang]?.name).length;
+    }, 0),
+  };
+
+  const getFlag = (code: string) => FLAG_MAP[code] || '🏳️';
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading translations...</p>
+        </div>
       </div>
     );
   }
@@ -187,71 +523,71 @@ export default function TranslationsPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Translations</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Manage multi-language content with AI-powered translations
+            Manage menu translations using the new translation tables
           </p>
         </div>
         <div className="flex items-center gap-3">
           <button
-            onClick={fetchTranslations}
+            onClick={fetchData}
             className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             Refresh
           </button>
           <button
-            onClick={handleTranslateAll}
-            disabled={isTranslating}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+            onClick={handleExportCSV}
+            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
-            {isTranslating ? (
-              <>
-                <span className="animate-spin">...</span>
-                Translating...
-              </>
-            ) : (
-              <>Translate All Pending</>
-            )}
+            Export CSV
+          </button>
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+          >
+            Import CSV
           </button>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
         <div className="p-4 bg-white rounded-lg border border-gray-200">
-          <p className="text-sm text-gray-500">Total Texts</p>
+          <p className="text-sm text-gray-500">Total Items</p>
           <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+        </div>
+        <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <p className="text-sm text-blue-600">Menu Items</p>
+          <p className="text-2xl font-bold text-blue-700">{stats.menuItems}</p>
+        </div>
+        <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+          <p className="text-sm text-purple-600">Categories</p>
+          <p className="text-2xl font-bold text-purple-700">{stats.categories}</p>
         </div>
         <div className="p-4 bg-green-50 rounded-lg border border-green-200">
           <p className="text-sm text-green-600">Translated</p>
-          <p className="text-2xl font-bold text-green-700">{stats.complete}</p>
+          <p className="text-2xl font-bold text-green-700">{stats.translated}</p>
         </div>
         <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
           <p className="text-sm text-yellow-600">Pending</p>
           <p className="text-2xl font-bold text-yellow-700">{stats.pending}</p>
         </div>
-        <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <p className="text-sm text-blue-600">Languages</p>
-          <p className="text-2xl font-bold text-blue-700">{selectedLanguages.length}</p>
-        </div>
       </div>
 
       {/* Language Selector */}
       <div className="bg-white rounded-xl border border-gray-200 p-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="font-medium text-gray-900">Target Languages</h3>
-            <p className="text-sm text-gray-500">Select languages to display</p>
+            <p className="text-sm text-gray-500">Select languages to translate into</p>
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2">
           {languages.map((lang) => (
             <button
               key={lang.code}
               onClick={() => {
                 if (selectedLanguages.includes(lang.code)) {
-                  if (lang.code !== 'en') {
-                    setSelectedLanguages(selectedLanguages.filter((l) => l !== lang.code));
-                  }
+                  setSelectedLanguages(selectedLanguages.filter((l) => l !== lang.code));
                 } else {
                   setSelectedLanguages([...selectedLanguages, lang.code]);
                 }
@@ -262,8 +598,11 @@ export default function TranslationsPage() {
                   : 'border-gray-200 text-gray-700 hover:bg-gray-50'
               }`}
             >
-              <span>{lang.flag}</span>
-              <span>{lang.name}</span>
+              <span>{getFlag(lang.code)}</span>
+              <span>{lang.native_name || lang.name}</span>
+              {lang.direction === 'rtl' && (
+                <span className="text-xs bg-gray-100 px-1 rounded">RTL</span>
+              )}
             </button>
           ))}
         </div>
@@ -271,15 +610,24 @@ export default function TranslationsPage() {
 
       {/* Filters */}
       <div className="flex items-center gap-4">
+        <div className="flex-1 relative">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+          <input
+            type="text"
+            placeholder="Search items..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
         <select
           value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
+          onChange={(e) => setFilterType(e.target.value as typeof filterType)}
           className="px-4 py-2 border border-gray-300 rounded-lg text-sm"
         >
           <option value="all">All Types</option>
           <option value="menu_item">Menu Items</option>
           <option value="category">Categories</option>
-          <option value="ingredient">Ingredients</option>
         </select>
       </div>
 
@@ -290,79 +638,132 @@ export default function TranslationsPage() {
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <th className="text-left px-4 py-3 text-sm font-medium text-gray-500 w-16">Type</th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-500">Original (EN)</th>
-                {selectedLanguages.filter(l => l !== 'en').map((langCode) => {
+                <th className="text-left px-4 py-3 text-sm font-medium text-gray-500 min-w-[200px]">Original (EN)</th>
+                {selectedLanguages.map((langCode) => {
                   const lang = languages.find((l) => l.code === langCode);
                   return (
-                    <th key={langCode} className="text-left px-4 py-3 text-sm font-medium text-gray-500 min-w-[200px]">
-                      {lang?.flag} {lang?.name}
+                    <th key={langCode} className="text-left px-4 py-3 text-sm font-medium text-gray-500 min-w-[250px]">
+                      <span className="flex items-center gap-2">
+                        {getFlag(langCode)}
+                        {lang?.native_name || lang?.name || langCode.toUpperCase()}
+                        {lang?.direction === 'rtl' && <span className="text-xs">RTL</span>}
+                      </span>
                     </th>
                   );
                 })}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {filteredItems.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50">
+              {filteredRows.map((row) => (
+                <tr key={row.id} className="hover:bg-gray-50">
+                  {/* Type Badge */}
                   <td className="px-4 py-3">
                     <span className={`inline-block px-2 py-0.5 text-xs rounded ${
-                      item.type === 'menu_item' ? 'bg-blue-100 text-blue-700' :
-                      item.type === 'category' ? 'bg-purple-100 text-purple-700' :
-                      'bg-gray-100 text-gray-700'
+                      row.type === 'menu_item'
+                        ? 'bg-blue-100 text-blue-700'
+                        : 'bg-purple-100 text-purple-700'
                     }`}>
-                      {item.type === 'menu_item' ? 'Menu' : item.type === 'category' ? 'Cat' : 'Ing'}
+                      {row.type === 'menu_item' ? 'Menu' : 'Cat'}
                     </span>
-                    <span className="block text-xs text-gray-400 mt-1">{item.field}</span>
                   </td>
+
+                  {/* Original (English) */}
                   <td className="px-4 py-3">
-                    <p className="text-sm text-gray-900">{item.originalText}</p>
-                    <p className="text-xs text-gray-400 font-mono mt-1">{item.slug}</p>
+                    <p className="text-sm font-medium text-gray-900">{row.name}</p>
+                    {row.description && (
+                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">{row.description}</p>
+                    )}
+                    <p className="text-xs text-gray-400 font-mono mt-1">{row.slug}</p>
                   </td>
-                  {selectedLanguages.filter(l => l !== 'en').map((langCode) => {
-                    const translation = item.translations[langCode];
-                    const isEditing = editingCell?.id === item.id && editingCell?.lang === langCode;
+
+                  {/* Translation Columns */}
+                  {selectedLanguages.map((langCode) => {
+                    const translation = row.translations[langCode];
+                    const isEditingName = editingCell?.rowId === row.id && editingCell?.lang === langCode && editingCell?.field === 'name';
+                    const isEditingDesc = editingCell?.rowId === row.id && editingCell?.lang === langCode && editingCell?.field === 'description';
 
                     return (
                       <td key={langCode} className="px-4 py-3">
-                        {isEditing ? (
-                          <div className="flex gap-2">
-                            <input
-                              type="text"
-                              value={editValue}
-                              onChange={(e) => setEditValue(e.target.value)}
-                              className="flex-1 px-2 py-1 border border-blue-300 rounded text-sm"
-                              autoFocus
-                            />
-                            <button
-                              onClick={handleSaveEdit}
-                              className="px-2 py-1 bg-blue-600 text-white rounded text-xs"
+                        {/* Name */}
+                        <div className="mb-2">
+                          {isEditingName ? (
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={editValue}
+                                onChange={(e) => setEditValue(e.target.value)}
+                                className="flex-1 px-2 py-1 border border-blue-300 rounded text-sm"
+                                autoFocus
+                                disabled={saving}
+                              />
+                              <button
+                                onClick={handleSaveEdit}
+                                disabled={saving}
+                                className="px-2 py-1 bg-blue-600 text-white rounded text-xs disabled:opacity-50"
+                              >
+                                {saving ? '...' : 'Save'}
+                              </button>
+                              <button
+                                onClick={() => setEditingCell(null)}
+                                className="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs"
+                              >
+                                X
+                              </button>
+                            </div>
+                          ) : (
+                            <div
+                              onClick={() => handleStartEdit(row.id, langCode, 'name', translation?.name || '')}
+                              className="cursor-pointer hover:bg-gray-100 p-1 rounded flex items-center gap-2"
                             >
-                              Save
-                            </button>
-                            <button
-                              onClick={() => setEditingCell(null)}
-                              className="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs"
-                            >
-                              X
-                            </button>
-                          </div>
-                        ) : (
-                          <div
-                            onClick={() => handleStartEdit(item.id, langCode, translation || '')}
-                            className="cursor-pointer hover:bg-gray-100 p-1 rounded"
-                          >
-                            <p className={`text-sm ${translation ? 'text-gray-900' : 'text-gray-400 italic'}`}>
-                              {translation || 'Click to add...'}
-                            </p>
-                            <span
-                              className={`inline-block mt-1 px-2 py-0.5 text-xs rounded ${
-                                translation
-                                  ? 'bg-green-100 text-green-700'
-                                  : 'bg-yellow-100 text-yellow-700'
-                              }`}
-                            >
-                              {translation ? 'complete' : 'pending'}
-                            </span>
+                              <span className={`text-sm ${translation?.name ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                                {translation?.name || 'Click to add name...'}
+                              </span>
+                              <span className={`text-xs px-1.5 py-0.5 rounded ${
+                                translation?.name ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                              }`}>
+                                {translation?.name ? '✓' : '!'}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Description (only show if original has description) */}
+                        {row.description && (
+                          <div>
+                            {isEditingDesc ? (
+                              <div className="flex gap-2">
+                                <input
+                                  type="text"
+                                  value={editValue}
+                                  onChange={(e) => setEditValue(e.target.value)}
+                                  className="flex-1 px-2 py-1 border border-blue-300 rounded text-xs"
+                                  autoFocus
+                                  disabled={saving}
+                                />
+                                <button
+                                  onClick={handleSaveEdit}
+                                  disabled={saving}
+                                  className="px-2 py-1 bg-blue-600 text-white rounded text-xs disabled:opacity-50"
+                                >
+                                  {saving ? '...' : 'Save'}
+                                </button>
+                                <button
+                                  onClick={() => setEditingCell(null)}
+                                  className="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs"
+                                >
+                                  X
+                                </button>
+                              </div>
+                            ) : (
+                              <div
+                                onClick={() => handleStartEdit(row.id, langCode, 'description', translation?.description || '')}
+                                className="cursor-pointer hover:bg-gray-100 p-1 rounded"
+                              >
+                                <span className={`text-xs ${translation?.description ? 'text-gray-600' : 'text-gray-400 italic'}`}>
+                                  {translation?.description || 'Add description...'}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         )}
                       </td>
@@ -374,28 +775,22 @@ export default function TranslationsPage() {
           </table>
         </div>
 
-        {filteredItems.length === 0 && (
+        {filteredRows.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500">No items to translate</p>
+            <p className="text-gray-500">No items found</p>
           </div>
         )}
       </div>
 
-      {/* AI Provider Info */}
-      <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl border border-purple-200 p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">AI</span>
-            <div>
-              <h3 className="font-medium text-gray-900">AI Translation Ready</h3>
-              <p className="text-sm text-gray-600">
-                Connect Claude or OpenAI to auto-translate all pending items
-              </p>
-            </div>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-500">Estimated cost</p>
-            <p className="font-bold text-green-600">~$0.01 / 1000 words</p>
+      {/* Database Info */}
+      <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-green-200 p-4">
+        <div className="flex items-center gap-3">
+          <span className="text-2xl">🗄️</span>
+          <div>
+            <h3 className="font-medium text-gray-900">Using New Translation Tables</h3>
+            <p className="text-sm text-gray-600">
+              Translations are stored in <code className="bg-white px-1 rounded">menu_item_translations</code> and <code className="bg-white px-1 rounded">category_translations</code> tables with proper language codes.
+            </p>
           </div>
         </div>
       </div>
@@ -404,11 +799,171 @@ export default function TranslationsPage() {
       <div className="bg-blue-50 rounded-xl border border-blue-200 p-4">
         <h3 className="font-medium text-blue-900">Tips</h3>
         <ul className="mt-2 text-sm text-blue-800 space-y-1">
-          <li>Click on any cell to edit translations manually</li>
-          <li>Use &quot;Translate All Pending&quot; to batch translate with AI</li>
-          <li>Translations are saved to Supabase automatically</li>
+          <li>Click on any cell to edit translations</li>
+          <li>Translations are saved to the new translation tables</li>
+          <li>RTL languages (Arabic, Hebrew) are marked for proper text display</li>
+          <li>Use CSV import/export for bulk translations</li>
         </ul>
       </div>
+
+      {/* Hidden file input */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileSelect}
+        accept=".csv"
+        className="hidden"
+      />
+
+      {/* Import Modal */}
+      {showImportModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Import Translations</h2>
+              <button
+                onClick={() => {
+                  setShowImportModal(false);
+                  setImportResult(null);
+                }}
+                className="p-1 hover:bg-gray-100 rounded"
+              >
+                <span className="text-xl text-gray-500">×</span>
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-4 space-y-4">
+              {!importResult ? (
+                <>
+                  {/* Instructions */}
+                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                    <h3 className="font-medium text-gray-900">CSV Format Requirements</h3>
+                    <p className="text-sm text-gray-600">
+                      Your CSV must include these columns (header row required):
+                    </p>
+                    <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
+                      <li><code className="bg-gray-200 px-1 rounded">type</code> - &quot;menu_item&quot; or &quot;category&quot;</li>
+                      <li><code className="bg-gray-200 px-1 rounded">item_id</code> - UUID of the item</li>
+                      <li><code className="bg-gray-200 px-1 rounded">language_code</code> - e.g., &quot;vi&quot;, &quot;it&quot;, &quot;ar&quot;</li>
+                      <li><code className="bg-gray-200 px-1 rounded">translated_name</code> - Translation of name</li>
+                      <li><code className="bg-gray-200 px-1 rounded">translated_description</code> - (optional) Translation of description</li>
+                    </ul>
+                    <p className="text-sm text-gray-500 mt-2">
+                      Tip: Export existing translations first to get the correct format.
+                    </p>
+                  </div>
+
+                  {/* Upload Area */}
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                      importing
+                        ? 'border-gray-200 bg-gray-50 cursor-wait'
+                        : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50'
+                    }`}
+                  >
+                    {importing ? (
+                      <>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                        <p className="mt-4 text-gray-600">Processing translations...</p>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-4xl">📄</span>
+                        <p className="mt-2 font-medium text-gray-700">Click to select CSV file</p>
+                        <p className="text-sm text-gray-500">or drag and drop</p>
+                      </>
+                    )}
+                  </div>
+                </>
+              ) : (
+                /* Import Results */
+                <div className="space-y-4">
+                  {/* Summary */}
+                  <div className={`rounded-lg p-4 ${
+                    importResult.success > 0 && importResult.errors.length === 0
+                      ? 'bg-green-50 border border-green-200'
+                      : importResult.success > 0
+                        ? 'bg-yellow-50 border border-yellow-200'
+                        : 'bg-red-50 border border-red-200'
+                  }`}>
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">
+                        {importResult.success > 0 && importResult.errors.length === 0
+                          ? '✅'
+                          : importResult.success > 0
+                            ? '⚠️'
+                            : '❌'}
+                      </span>
+                      <div>
+                        <h3 className="font-medium text-gray-900">
+                          {importResult.success > 0 && importResult.errors.length === 0
+                            ? 'Import Successful!'
+                            : importResult.success > 0
+                              ? 'Import Completed with Warnings'
+                              : 'Import Failed'}
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          {importResult.success} translation{importResult.success !== 1 ? 's' : ''} imported
+                          {importResult.errors.length > 0 && `, ${importResult.errors.length} error${importResult.errors.length !== 1 ? 's' : ''}`}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Errors */}
+                  {importResult.errors.length > 0 && (
+                    <div className="bg-red-50 rounded-lg p-4 max-h-48 overflow-y-auto">
+                      <h4 className="font-medium text-red-900 mb-2">Errors:</h4>
+                      <ul className="text-sm text-red-700 space-y-1">
+                        {importResult.errors.slice(0, 10).map((error, i) => (
+                          <li key={i}>{error}</li>
+                        ))}
+                        {importResult.errors.length > 10 && (
+                          <li className="font-medium">...and {importResult.errors.length - 10} more errors</li>
+                        )}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-end gap-3 p-4 border-t border-gray-200">
+              {importResult ? (
+                <>
+                  <button
+                    onClick={() => setImportResult(null)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    Import Another
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowImportModal(false);
+                      setImportResult(null);
+                    }}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+                  >
+                    Done
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => setShowImportModal(false)}
+                  disabled={importing}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

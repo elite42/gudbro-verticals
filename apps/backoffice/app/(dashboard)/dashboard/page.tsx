@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
+import { useTenant } from '@/lib/contexts/TenantContext';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +34,8 @@ const quickActions = [
 ];
 
 export default function DashboardPage() {
+  const { organization, brand, location, brands, locations, isLoading: tenantLoading } = useTenant();
+
   const [stats, setStats] = useState<DashboardStats>({
     menuItems: 0,
     categories: 0,
@@ -108,11 +111,91 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Page header */}
+      {/* Page header with tenant info */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Welcome back! Here&apos;s what&apos;s happening with your business.</p>
+        {tenantLoading ? (
+          <div className="mt-1 h-5 w-64 bg-gray-200 animate-pulse rounded" />
+        ) : organization ? (
+          <p className="text-gray-500 mt-1">
+            Welcome back! Managing{' '}
+            <span className="font-medium text-gray-700">{brand?.name || organization.name}</span>
+            {location && (
+              <>
+                {' '}&middot;{' '}
+                <span className="text-gray-600">{location.name}</span>
+                {location.city && <span className="text-gray-500"> ({location.city})</span>}
+              </>
+            )}
+          </p>
+        ) : (
+          <p className="text-gray-500 mt-1">
+            Get started by{' '}
+            <Link href="/onboarding" className="text-blue-600 hover:underline">
+              creating your first organization
+            </Link>
+          </p>
+        )}
       </div>
+
+      {/* Tenant Overview Cards */}
+      {organization && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {/* Organization Card */}
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                <span className="text-xl">🏢</span>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Organization</p>
+                <p className="font-semibold text-gray-900">{organization.name}</p>
+              </div>
+            </div>
+            <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between text-sm">
+              <span className="text-gray-500 capitalize">{organization.type}</span>
+              <span className="text-gray-500 capitalize">{organization.subscription_plan || 'Free'} plan</span>
+            </div>
+          </div>
+
+          {/* Brands Card */}
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div className="flex items-center gap-3">
+              <div
+                className="h-10 w-10 rounded-lg flex items-center justify-center text-white font-semibold"
+                style={{ backgroundColor: brand?.primary_color || '#6B7280' }}
+              >
+                {brand?.name?.charAt(0) || 'B'}
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Brand</p>
+                <p className="font-semibold text-gray-900">{brand?.name || 'No brand selected'}</p>
+              </div>
+            </div>
+            <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between text-sm">
+              <span className="text-gray-500 capitalize">{brand?.business_type || '-'}</span>
+              <span className="text-gray-500">{brands.length} brand{brands.length !== 1 ? 's' : ''}</span>
+            </div>
+          </div>
+
+          {/* Locations Card */}
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-lg bg-green-100 flex items-center justify-center">
+                <span className="text-xl">📍</span>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Location</p>
+                <p className="font-semibold text-gray-900">{location?.name || 'No location selected'}</p>
+              </div>
+            </div>
+            <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between text-sm">
+              <span className="text-gray-500">{location?.city || location?.country_code || '-'}</span>
+              <span className="text-gray-500">{locations.length} location{locations.length !== 1 ? 's' : ''}</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -213,6 +296,33 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Location Info (if available) */}
+      {location && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">Current Location Details</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div>
+              <p className="text-sm text-gray-500">Currency</p>
+              <p className="font-medium text-gray-900">{location.currency_code}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Primary Language</p>
+              <p className="font-medium text-gray-900">{location.primary_language?.toUpperCase()}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Country</p>
+              <p className="font-medium text-gray-900">{location.country_code}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Languages Enabled</p>
+              <p className="font-medium text-gray-900">
+                {location.enabled_languages?.length || 1}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Sistema 51 Filtri Info */}
       <div className="bg-gradient-to-r from-green-600 to-teal-600 rounded-xl p-6 text-white">

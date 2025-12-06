@@ -3,6 +3,78 @@
 @tailwind utilities;
 
 /**
+ * RTL (Right-to-Left) Support
+ * Utilities for Arabic, Hebrew, Persian, Urdu, Pashto, Divehi
+ */
+
+/* Flip horizontal margins/paddings for RTL */
+[dir="rtl"] .rtl\:space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+/* RTL-aware text alignment */
+.text-start {
+  text-align: start;
+}
+.text-end {
+  text-align: end;
+}
+
+/* RTL-aware flex direction */
+[dir="rtl"] .rtl\:flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* RTL-aware margins */
+[dir="rtl"] .rtl\:mr-0 { margin-right: 0; }
+[dir="rtl"] .rtl\:ml-0 { margin-left: 0; }
+[dir="rtl"] .rtl\:mr-auto { margin-right: auto; }
+[dir="rtl"] .rtl\:ml-auto { margin-left: auto; }
+
+/* RTL-aware paddings */
+[dir="rtl"] .rtl\:pr-0 { padding-right: 0; }
+[dir="rtl"] .rtl\:pl-0 { padding-left: 0; }
+[dir="rtl"] .rtl\:pr-4 { padding-right: 1rem; }
+[dir="rtl"] .rtl\:pl-4 { padding-left: 1rem; }
+
+/* RTL-aware transforms */
+[dir="rtl"] .rtl\:scale-x-flip {
+  transform: scaleX(-1);
+}
+
+/* RTL-aware absolute positioning */
+[dir="rtl"] .rtl\:left-0 { left: 0; right: auto; }
+[dir="rtl"] .rtl\:right-0 { right: 0; left: auto; }
+[dir="rtl"] .rtl\:left-auto { left: auto; }
+[dir="rtl"] .rtl\:right-auto { right: auto; }
+
+/* RTL-aware border radius */
+[dir="rtl"] .rtl\:rounded-l-lg { border-radius: 0 0.5rem 0.5rem 0; }
+[dir="rtl"] .rtl\:rounded-r-lg { border-radius: 0.5rem 0 0 0.5rem; }
+
+/* RTL-aware scroll snap */
+[dir="rtl"] {
+  scroll-behavior: smooth;
+}
+
+/* RTL-aware horizontal scroll containers */
+[dir="rtl"] .overflow-x-auto,
+[dir="rtl"] .overflow-x-scroll {
+  direction: rtl;
+}
+
+/* Ensure icons don't flip (unless intentional) */
+[dir="rtl"] .no-flip {
+  transform: none !important;
+}
+
+/* Force LTR for specific elements (numbers, codes, etc.) */
+.ltr-force {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/**
  * Theme CSS Variables
  * These are set dynamically by the ThemeProvider based on light/dark mode
  * Default values below are for light mode
