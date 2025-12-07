@@ -260,3 +260,45 @@ Arabic (ar), Hebrew (he), Persian (fa), Urdu (ur), Pashto (ps), Divehi (dv)
 | `backoffice-specialist.md` | Admin dashboard development |
 | `code-reviewer.md` | Pre-deploy code review |
 | `database-expert.md` | SQL, Prisma, migrations |
+| `analyst.md` | Analytics reports and insights |
+| `proposer.md` | Improvement suggestions based on data |
+
+---
+
+## Self-Improvement Cycle (Phase 1)
+
+### Analytics System
+
+| Component | Purpose | Status |
+|-----------|---------|--------|
+| `017-analytics-system.sql` | Database tables for events | Ready to deploy |
+| `analytics-service.ts` | PWA event tracking | Implemented |
+| `analyst.md` agent | Weekly report generation | Implemented |
+| `proposer.md` agent | Improvement suggestions | Implemented |
+
+### Event Types Tracked
+
+| Category | Events |
+|----------|--------|
+| Page Views | page_view, menu_view, item_view, cart_view |
+| Interactions | item_click, category_click, search, filter_applied |
+| Conversions | add_to_cart, remove_from_cart, order_placed |
+| Engagement | review_submitted, photo_shared, feedback_given |
+| Errors | error_occurred, api_error |
+| Performance | page_load_time, api_response_time |
+
+### Database Tables
+
+| Table | Purpose |
+|-------|---------|
+| `analytics_events` | Raw event data |
+| `analytics_daily_aggregates` | Pre-computed daily metrics |
+| `improvement_suggestions` | AI-generated suggestions |
+
+### Helper Functions
+
+| Function | Purpose |
+|----------|---------|
+| `track_event()` | Insert analytics event |
+| `get_daily_metrics()` | Aggregated metrics for date |
+| `get_top_items()` | Top items by event type |

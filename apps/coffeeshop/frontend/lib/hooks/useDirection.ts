@@ -11,10 +11,13 @@
  * - Urdu (ur)
  * - Pashto (ps)
  * - Divehi (dv)
+ *
+ * Note: This hook reads the selected language directly from languagePreferencesStore
+ * to support RTL for languages that may not have complete UI translations yet.
  */
 
-import { useEffect, useMemo } from 'react';
-import { useTranslation } from '@/lib/use-translation';
+import { useEffect, useMemo, useState } from 'react';
+import { languagePreferencesStore } from '@/lib/language-preferences';
 
 // Languages that use Right-to-Left text direction
 const RTL_LANGUAGES = new Set(['ar', 'he', 'fa', 'ur', 'ps', 'dv']);
@@ -28,15 +31,38 @@ export interface UseDirectionResult {
   isRTL: boolean;
   /** CSS class for direction-aware styling */
   directionClass: string;
+  /** The actual selected language code (may differ from UI translation language) */
+  selectedLanguage: string;
 }
 
 /**
  * Hook to get and manage text direction based on current language
  */
 export function useDirection(): UseDirectionResult {
-  const { language, isClient } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
+  const [isClient, setIsClient] = useState(false);
 
-  const isRTL = useMemo(() => RTL_LANGUAGES.has(language), [language]);
+  // Initialize on client
+  useEffect(() => {
+    setIsClient(true);
+    const prefs = languagePreferencesStore.get();
+    setSelectedLanguage(prefs.selectedLanguage || 'en');
+  }, []);
+
+  // Listen for language changes
+  useEffect(() => {
+    if (!isClient) return;
+
+    const handleLanguageChange = () => {
+      const prefs = languagePreferencesStore.get();
+      setSelectedLanguage(prefs.selectedLanguage || 'en');
+    };
+
+    window.addEventListener('language-preferences-updated', handleLanguageChange);
+    return () => window.removeEventListener('language-preferences-updated', handleLanguageChange);
+  }, [isClient]);
+
+  const isRTL = useMemo(() => RTL_LANGUAGES.has(selectedLanguage), [selectedLanguage]);
   const direction: Direction = isRTL ? 'rtl' : 'ltr';
 
   // Update document direction when language changes
@@ -45,7 +71,7 @@ export function useDirection(): UseDirectionResult {
 
     // Set dir attribute on html element
     document.documentElement.dir = direction;
-    document.documentElement.lang = language;
+    document.documentElement.lang = selectedLanguage;
 
     // Add/remove RTL class for Tailwind utilities
     if (isRTL) {
@@ -58,14 +84,15 @@ export function useDirection(): UseDirectionResult {
 
     // Log for debugging in development
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[i18n] Direction set to ${direction} for language: ${language}`);
+      console.log(`[i18n] Direction set to ${direction} for language: ${selectedLanguage}`);
     }
-  }, [direction, language, isClient, isRTL]);
+  }, [direction, selectedLanguage, isClient, isRTL]);
 
   return {
     direction,
     isRTL,
     directionClass: isRTL ? 'rtl' : 'ltr',
+    selectedLanguage,
   };
 }
 
