@@ -302,3 +302,13 @@ Arabic (ar), Hebrew (he), Persian (fa), Urdu (ur), Pashto (ps), Divehi (dv)
 | `track_event()` | Insert analytics event |
 | `get_daily_metrics()` | Aggregated metrics for date |
 | `get_top_items()` | Top items by event type |
+
+---
+
+## Pending Tasks (Future)
+
+| Task | Priority | Notes |
+|------|----------|-------|
+| Execute 017-analytics-system.sql on Supabase | Medium | When ready to collect real data |
+| Internal Feedback System in Backoffice | Low | Floating button for bug/feature requests |
+| Analytics Dashboard in Backoffice | Medium | After migration, visualize metrics |
