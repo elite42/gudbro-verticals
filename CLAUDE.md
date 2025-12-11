@@ -121,9 +121,9 @@ Claude DEVE aggiornare `docs/inventory.md` dopo ogni:
 Vedi: `docs/sprints/SPRINT-PLAN-2025-12.md`
 
 ### Prossimo Task (Sprint 1)
-**PWA Critical Fixes** - In ordine:
-1. ❌ Creare manifest.json + service-worker.js
-2. ❌ Fix TypeScript errors (rimuovere ignoreBuildErrors)
+**PWA Critical Fixes** - Stato:
+1. ✅ Creare manifest.json + service-worker.js (COMPLETATO)
+2. ❌ Fix TypeScript errors (rimuovere ignoreBuildErrors) - PROSSIMO
 3. ❌ Completare Account page
 4. ❌ Completare TODO nel codice
 
@@ -133,6 +133,15 @@ Vedi: `docs/sprints/SPRINT-PLAN-2025-12.md`
 - `apps/coffeeshop/frontend/components/HomeHeader.tsx` - Rimosso Account
 - `apps/coffeeshop/frontend/components/MenuHeader.tsx` - Rimossi AI + Account
 - `docs/sprints/SPRINT-PLAN-2025-12.md` - NUOVO Sprint Plan
+- `apps/coffeeshop/frontend/public/manifest.json` - NUOVO PWA manifest
+- `apps/coffeeshop/frontend/public/service-worker.js` - NUOVO Service Worker
+- `apps/coffeeshop/frontend/components/PWAProvider.tsx` - NUOVO SW registration
+- `apps/coffeeshop/frontend/app/layout.tsx` - Aggiunto PWA meta tags
+
+### Note per Ripresa Sessione
+- PWA manifest e SW creati ma **servono icone PNG reali** (ora c'è solo SVG placeholder)
+- Il manifest.json punta a icone in `/icons/pwa/` che devono essere generate
+- Per testare PWA: deploy su Vercel e usare Lighthouse
 
 ---
 
