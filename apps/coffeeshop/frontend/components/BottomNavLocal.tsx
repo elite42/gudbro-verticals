@@ -169,8 +169,8 @@ export function BottomNavLocal() {
                   className="flex items-center justify-center flex-1 h-full"
                   aria-label="Open more options menu"
                 >
-                  <div className="flex flex-col items-center justify-center relative">
-                    <div className="w-14 h-14 bg-theme-brand-primary rounded-full flex items-center justify-center text-white shadow-lg transform -translate-y-2">
+                  <div className="flex flex-col items-center justify-center relative w-full h-full">
+                    <div className="w-14 h-14 bg-theme-brand-primary rounded-full flex items-center justify-center text-white shadow-lg">
                       {item.icon}
                     </div>
                   </div>
