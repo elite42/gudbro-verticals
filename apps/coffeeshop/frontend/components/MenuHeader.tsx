@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { languagePreferencesStore } from '../lib/language-preferences';
 import { currencyPreferencesStore } from '../lib/currency-preferences';
@@ -18,7 +16,6 @@ export function MenuHeader({
   selectionsCount,
   onSelectionsClick
 }: MenuHeaderProps) {
-  const router = useRouter();
   const { business, i18n } = coffeeshopConfig;
   const { themeMode, toggleTheme } = useTheme();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
@@ -236,20 +233,8 @@ export function MenuHeader({
             </div>
           </div>
 
-          {/* Right: AI Chat Toggle, Theme Toggle & Account Icon */}
+          {/* Right: Theme Toggle */}
           <div className="flex items-center gap-3">
-            {/* AI Chat Menu Toggle - redirects to /chat-v6 */}
-            <button
-              onClick={() => router.push('/chat-v6')}
-              className="relative bg-white/20 backdrop-blur-sm px-3 py-2 rounded-full hover:bg-white/30 transition-colors flex items-center gap-1.5"
-              aria-label="Switch to AI Chat menu"
-            >
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-              <span className="text-white text-xs font-bold">AI</span>
-            </button>
-
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
@@ -257,28 +242,15 @@ export function MenuHeader({
               aria-label={`Switch to ${themeMode === 'light' ? 'dark' : 'light'} mode`}
             >
               {themeMode === 'light' ? (
-                // Sun icon for light mode
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               ) : (
-                // Moon icon for dark mode
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               )}
             </button>
-
-            {/* Account Button */}
-            <Link
-              href="/account"
-              className="relative bg-white/20 backdrop-blur-sm p-3 rounded-full hover:bg-white/30 transition-colors"
-              aria-label="Go to account settings"
-            >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </Link>
           </div>
         </div>
 

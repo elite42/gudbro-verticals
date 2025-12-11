@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { languagePreferencesStore } from '../lib/language-preferences';
 import { currencyPreferencesStore } from '../lib/currency-preferences';
@@ -231,7 +230,7 @@ export function HomeHeader() {
             </div>
           </div>
 
-          {/* Right: Theme Toggle & Account Icon */}
+          {/* Right: Theme Toggle */}
           <div className="flex items-center gap-3">
             {/* Theme Toggle Button */}
             <button
@@ -249,17 +248,6 @@ export function HomeHeader() {
                 </svg>
               )}
             </button>
-
-            {/* Account Button */}
-            <Link
-              href="/account"
-              className="relative bg-white/20 backdrop-blur-sm p-3 rounded-full hover:bg-white/30 transition-colors"
-              aria-label="Go to account settings"
-            >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </Link>
           </div>
         </div>
 

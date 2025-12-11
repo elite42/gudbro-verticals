@@ -4,22 +4,19 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { PaymentMethodModal } from './PaymentMethodModal';
-import { CallStaffModal } from './CallStaffModal';
 import { SelectionsSidebar } from './SelectionsSidebar';
 import { ProductBottomSheet } from './ProductBottomSheet';
+import { MoreMenuModal } from './MoreMenuModal';
 import { selectionsStore } from '../lib/selections-store';
 import { cartStore } from '../lib/cart-store';
-import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { DishItem, Extra } from './DishCard';
 
 export function BottomNavLocal() {
   const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [showCallStaffModal, setShowCallStaffModal] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showSelectionsSidebar, setShowSelectionsSidebar] = useState(false);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [selectionsCount, setSelectionsCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
   const [isClient, setIsClient] = useState(false);
@@ -86,8 +83,8 @@ export function BottomNavLocal() {
     };
   }, [lastScrollY]);
 
-  // Build nav items dynamically based on feature flags
-  const allNavItems = [
+  // Navigation items: Home, Menu, More (central), Order, Account
+  const navItems = [
     {
       href: '/',
       icon: (
@@ -96,17 +93,7 @@ export function BottomNavLocal() {
         </svg>
       ),
       label: 'Home',
-      enabled: true
-    },
-    {
-      href: '/offers',
-      icon: (
-        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
-        </svg>
-      ),
-      label: 'Offers',
-      enabled: true
+      type: 'link' as const
     },
     {
       href: '/menu',
@@ -116,17 +103,18 @@ export function BottomNavLocal() {
         </svg>
       ),
       label: 'Menu',
-      enabled: true
+      type: 'link' as const
     },
     {
-      action: 'staff',
+      action: 'more',
       icon: (
-        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
       ),
-      label: 'Staff',
-      enabled: true
+      label: 'More',
+      type: 'action' as const,
+      isCenter: true
     },
     {
       action: 'selections',
@@ -136,12 +124,22 @@ export function BottomNavLocal() {
         </svg>
       ),
       label: 'Order',
-      enabled: true
+      type: 'action' as const,
+      badge: selectionsCount
+    },
+    {
+      href: '/account',
+      icon: (
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      ),
+      label: 'Account',
+      type: 'link' as const
     }
   ];
 
-  // Filter nav items based on feature flags
-  const navItems = allNavItems.filter(item => item.enabled);
+  const isModalOpen = showSelectionsSidebar || showMoreMenu;
 
   return (
     <React.Fragment>
@@ -150,54 +148,60 @@ export function BottomNavLocal() {
         aria-label="Main navigation"
         className="fixed bottom-0 left-0 right-0 w-full bg-theme-bg-elevated border-t-2 border-theme-bg-tertiary shadow-lg z-[9999] transition-transform duration-300 ease-in-out"
         style={{
-          transform: isVisible && !showCallStaffModal && !showPaymentModal && !showSelectionsSidebar ? 'translateY(0)' : 'translateY(100%)'
+          transform: isVisible && !isModalOpen ? 'translateY(0)' : 'translateY(100%)'
         }}
       >
-        <div className="flex items-center justify-around h-20 px-4 max-w-screen-xl mx-auto">
+        <div className="flex items-center justify-around h-20 px-2 max-w-screen-xl mx-auto">
           {navItems.map((item, index) => {
-            // Check if this is a modal action or navigation link
-            const isModalAction = 'action' in item;
-            const itemHref = 'href' in item ? item.href : undefined;
-            const isActive = !isModalAction && itemHref && (pathname === itemHref ||
-              (itemHref !== '/' && pathname?.startsWith(itemHref)));
+            const isLink = item.type === 'link';
+            const isActive = isLink && 'href' in item && (
+              pathname === item.href ||
+              (item.href !== '/' && pathname?.startsWith(item.href))
+            );
+            const isCenter = 'isCenter' in item && item.isCenter;
 
-            // For Staff action button (opens modal)
-            if (isModalAction && item.action === 'staff') {
+            // Center "More" button - special styling
+            if (isCenter) {
               return (
                 <button
                   key={index}
-                  onClick={() => setShowCallStaffModal(true)}
+                  onClick={() => setShowMoreMenu(true)}
                   className="flex items-center justify-center flex-1 h-full"
-                  aria-label="Call staff for assistance"
+                  aria-label="Open more options menu"
                 >
-                  <div className="flex flex-col items-center justify-center relative w-full h-full">
-                    <div className="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 text-theme-text-secondary hover:bg-theme-bg-tertiary">
-                      <span aria-hidden="true">{item.icon}</span>
+                  <div className="flex flex-col items-center justify-center relative">
+                    <div className="w-14 h-14 bg-theme-brand-primary rounded-full flex items-center justify-center text-white shadow-lg transform -translate-y-2">
+                      {item.icon}
                     </div>
                   </div>
                 </button>
               );
             }
 
-            // For Selections action button (opens sidebar)
-            if (isModalAction && item.action === 'selections') {
+            // Action buttons (Order)
+            if (!isLink && 'action' in item) {
+              const badge = 'badge' in item ? item.badge : undefined;
               return (
                 <button
                   key={index}
-                  onClick={() => setShowSelectionsSidebar(true)}
+                  onClick={() => {
+                    if (item.action === 'selections') {
+                      setShowSelectionsSidebar(true);
+                    }
+                  }}
                   className="flex items-center justify-center flex-1 h-full"
-                  aria-label={selectionsCount > 0 ? `View selections list, ${selectionsCount} item${selectionsCount !== 1 ? 's' : ''} saved` : 'View selections list'}
+                  aria-label={badge && badge > 0 ? `View order list, ${badge} item${badge !== 1 ? 's' : ''} saved` : 'View order list'}
                 >
                   <div className="flex flex-col items-center justify-center relative w-full h-full">
                     <div className="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 text-theme-text-secondary hover:bg-theme-bg-tertiary relative">
                       <span aria-hidden="true">{item.icon}</span>
-                      {selectionsCount > 0 && (
+                      {typeof badge === 'number' && badge > 0 && (
                         <div
                           className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
                           aria-live="polite"
                           aria-atomic="true"
                         >
-                          {selectionsCount}
+                          {badge}
                         </div>
                       )}
                     </div>
@@ -206,12 +210,11 @@ export function BottomNavLocal() {
               );
             }
 
-            // For regular navigation links
-            const itemBadge = 'badge' in item ? item.badge : undefined;
+            // Regular navigation links
             return (
               <Link
                 key={index}
-                href={itemHref || '/'}
+                href={'href' in item ? item.href : '/'}
                 className="flex items-center justify-center flex-1 h-full"
                 aria-label={`Go to ${item.label} page`}
                 aria-current={isActive ? 'page' : undefined}
@@ -221,15 +224,10 @@ export function BottomNavLocal() {
                     className={`flex items-center justify-center rounded-full transition-all duration-300 relative ${
                       isActive
                         ? 'w-14 h-14 bg-theme-brand-primary text-white shadow-lg'
-                        : 'w-12 h-12 text-theme-text-secondary'
+                        : 'w-12 h-12 text-theme-text-secondary hover:bg-theme-bg-tertiary'
                     }`}
                   >
                     <span aria-hidden="true">{item.icon}</span>
-                    {typeof itemBadge === 'number' && itemBadge > 0 && (
-                      <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center px-1">
-                        {itemBadge}
-                      </div>
-                    )}
                   </div>
                 </div>
               </Link>
@@ -238,24 +236,10 @@ export function BottomNavLocal() {
         </div>
       </nav>
 
-      {/* Call Staff Modal */}
-      <CallStaffModal
-        isOpen={showCallStaffModal}
-        onClose={() => setShowCallStaffModal(false)}
-        onConfirm={(reason, quickOption) => {
-          console.log('Staff call reason:', reason, 'Quick option:', quickOption);
-          // TODO: Send staff call request to backend
-        }}
-      />
-
-      {/* Payment Method Modal */}
-      <PaymentMethodModal
-        isOpen={showPaymentModal}
-        onClose={() => setShowPaymentModal(false)}
-        onConfirm={(method) => {
-          console.log('Payment method selected:', method);
-          // TODO: Send payment request to backend
-        }}
+      {/* More Menu Modal */}
+      <MoreMenuModal
+        isOpen={showMoreMenu}
+        onClose={() => setShowMoreMenu(false)}
       />
 
       {/* Selections Sidebar */}
@@ -271,7 +255,7 @@ export function BottomNavLocal() {
           dish={selectedProduct}
           onClose={() => setSelectedProduct(null)}
           onAddToCart={(dish: DishItem, quantity: number, extras: Extra[]) => {
-            console.log('⚠️ Cart is disabled for TIER 1');
+            console.log('Updated product in cart');
           }}
         />
       )}
