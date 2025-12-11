@@ -88,7 +88,7 @@ export function BottomNavLocal() {
     {
       href: '/',
       icon: (
-        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
         </svg>
       ),
@@ -98,7 +98,7 @@ export function BottomNavLocal() {
     {
       href: '/menu',
       icon: (
-        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
       ),
@@ -108,8 +108,11 @@ export function BottomNavLocal() {
     {
       action: 'more',
       icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        // Three dots horizontal icon (ellipsis)
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <circle cx="5" cy="12" r="2" />
+          <circle cx="12" cy="12" r="2" />
+          <circle cx="19" cy="12" r="2" />
         </svg>
       ),
       label: 'More',
@@ -119,7 +122,7 @@ export function BottomNavLocal() {
     {
       action: 'selections',
       icon: (
-        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       ),
@@ -130,7 +133,7 @@ export function BottomNavLocal() {
     {
       href: '/account',
       icon: (
-        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
         </svg>
       ),
@@ -151,7 +154,7 @@ export function BottomNavLocal() {
           transform: isVisible && !isModalOpen ? 'translateY(0)' : 'translateY(100%)'
         }}
       >
-        <div className="flex items-center justify-around h-20 px-2 max-w-screen-xl mx-auto">
+        <div className="flex items-center justify-around h-16 px-2 max-w-screen-xl mx-auto">
           {navItems.map((item, index) => {
             const isLink = item.type === 'link';
             const isActive = isLink && 'href' in item && (
@@ -159,8 +162,9 @@ export function BottomNavLocal() {
               (item.href !== '/' && pathname?.startsWith(item.href))
             );
             const isCenter = 'isCenter' in item && item.isCenter;
+            const badge = 'badge' in item ? item.badge : undefined;
 
-            // Center "More" button - special styling (outline style to not conflict with active page indicator)
+            // More button (center) - same style as other items, no special treatment
             if (isCenter) {
               return (
                 <button
@@ -169,10 +173,11 @@ export function BottomNavLocal() {
                   className="flex items-center justify-center flex-1 h-full"
                   aria-label="Open more options menu"
                 >
-                  <div className="flex flex-col items-center justify-center relative w-full h-full">
-                    <div className="w-14 h-14 border-2 border-theme-brand-primary rounded-full flex items-center justify-center text-theme-brand-primary bg-theme-bg-elevated shadow-lg hover:bg-theme-brand-primary hover:text-white transition-colors">
-                      {item.icon}
+                  <div className="flex flex-col items-center justify-center gap-1">
+                    <div className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-theme-text-secondary hover:bg-theme-bg-tertiary">
+                      <span aria-hidden="true">{item.icon}</span>
                     </div>
+                    <span className="text-xs text-theme-text-secondary">{item.label}</span>
                   </div>
                 </button>
               );
@@ -180,7 +185,6 @@ export function BottomNavLocal() {
 
             // Action buttons (Order)
             if (!isLink && 'action' in item) {
-              const badge = 'badge' in item ? item.badge : undefined;
               return (
                 <button
                   key={index}
@@ -192,12 +196,12 @@ export function BottomNavLocal() {
                   className="flex items-center justify-center flex-1 h-full"
                   aria-label={badge && badge > 0 ? `View order list, ${badge} item${badge !== 1 ? 's' : ''} saved` : 'View order list'}
                 >
-                  <div className="flex flex-col items-center justify-center relative w-full h-full">
-                    <div className="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 text-theme-text-secondary hover:bg-theme-bg-tertiary relative">
+                  <div className="flex flex-col items-center justify-center gap-1">
+                    <div className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 text-theme-text-secondary hover:bg-theme-bg-tertiary relative">
                       <span aria-hidden="true">{item.icon}</span>
                       {typeof badge === 'number' && badge > 0 && (
                         <div
-                          className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                          className="absolute -top-0.5 -right-0.5 bg-theme-brand-primary text-white text-xs font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1"
                           aria-live="polite"
                           aria-atomic="true"
                         >
@@ -205,6 +209,7 @@ export function BottomNavLocal() {
                         </div>
                       )}
                     </div>
+                    <span className="text-xs text-theme-text-secondary">{item.label}</span>
                   </div>
                 </button>
               );
@@ -219,16 +224,19 @@ export function BottomNavLocal() {
                 aria-label={`Go to ${item.label} page`}
                 aria-current={isActive ? 'page' : undefined}
               >
-                <div className="flex flex-col items-center justify-center relative w-full h-full">
+                <div className="flex flex-col items-center justify-center gap-1">
                   <div
-                    className={`flex items-center justify-center rounded-full transition-all duration-300 relative ${
+                    className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 relative ${
                       isActive
-                        ? 'w-14 h-14 bg-theme-brand-primary text-white shadow-lg'
-                        : 'w-12 h-12 text-theme-text-secondary hover:bg-theme-bg-tertiary'
+                        ? 'bg-theme-brand-primary text-white'
+                        : 'text-theme-text-secondary hover:bg-theme-bg-tertiary'
                     }`}
                   >
                     <span aria-hidden="true">{item.icon}</span>
                   </div>
+                  <span className={`text-xs ${isActive ? 'text-theme-brand-primary font-medium' : 'text-theme-text-secondary'}`}>
+                    {item.label}
+                  </span>
                 </div>
               </Link>
             );
