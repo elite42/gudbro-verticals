@@ -160,7 +160,7 @@ export function BottomNavLocal() {
             );
             const isCenter = 'isCenter' in item && item.isCenter;
 
-            // Center "More" button - special styling
+            // Center "More" button - special styling (outline style to not conflict with active page indicator)
             if (isCenter) {
               return (
                 <button
@@ -170,7 +170,7 @@ export function BottomNavLocal() {
                   aria-label="Open more options menu"
                 >
                   <div className="flex flex-col items-center justify-center relative w-full h-full">
-                    <div className="w-14 h-14 bg-theme-brand-primary rounded-full flex items-center justify-center text-white shadow-lg">
+                    <div className="w-14 h-14 border-2 border-theme-brand-primary rounded-full flex items-center justify-center text-theme-brand-primary bg-theme-bg-elevated shadow-lg hover:bg-theme-brand-primary hover:text-white transition-colors">
                       {item.icon}
                     </div>
                   </div>
