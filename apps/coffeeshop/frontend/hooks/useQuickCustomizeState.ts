@@ -6,7 +6,23 @@ import { currencyPreferencesStore } from '@/lib/currency-preferences';
 import { tableContextStore } from '@/lib/table-context-store';
 import { dishPreferencesStore, DishPreference } from '@/lib/dish-preferences';
 import { CustomizationState, validateCustomizations, calculateCustomizationPrice } from '@/components/customizations';
-import { ProductCustomization } from '@gudbro/shared/database/types';
+// ProductCustomization type - using local definition since shared module may not exist
+interface ProductCustomizationOption {
+  id: string;
+  name: string | { en?: string; it?: string; vi?: string };
+  price_modifier: number;
+  is_default?: boolean;
+}
+
+interface ProductCustomization {
+  id: string;
+  name: string | { en?: string; it?: string; vi?: string };
+  type: 'radio' | 'checkbox' | 'number';
+  options: ProductCustomizationOption[];
+  required?: boolean;
+  minSelections?: number;
+  maxSelections?: number;
+}
 
 interface UseQuickCustomizeStateProps {
   dish: DishItem;

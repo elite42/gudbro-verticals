@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
+import { useToast } from '@/lib/contexts/ToastContext';
 
 export const dynamic = 'force-dynamic';
 
@@ -54,6 +55,9 @@ export default function MenuPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [importing, setImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const toast = useToast();
 
   // Fetch data from Supabase
   useEffect(() => {
@@ -113,9 +117,235 @@ export default function MenuPage() {
           item.id === itemId ? { ...item, is_available: !currentStatus } : item
         )
       );
+
+      toast.success(`Item marked as ${!currentStatus ? 'available' : 'unavailable'}`);
     } catch (err) {
+      toast.error('Failed to update availability');
       console.error('Error toggling availability:', err);
     }
+  };
+
+  // Parse CSV file
+  const parseCSV = (text: string): Record<string, string>[] => {
+    const lines = text.trim().split('\n');
+    if (lines.length < 2) return [];
+
+    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+    const rows: Record<string, string>[] = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const values: string[] = [];
+      let current = '';
+      let inQuotes = false;
+
+      for (const char of lines[i]) {
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          values.push(current.trim());
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      values.push(current.trim());
+
+      const row: Record<string, string> = {};
+      headers.forEach((header, index) => {
+        row[header] = values[index] || '';
+      });
+      rows.push(row);
+    }
+
+    return rows;
+  };
+
+  // Handle CSV import
+  const handleCSVImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setImporting(true);
+    const errors: string[] = [];
+    let successCount = 0;
+
+    try {
+      const text = await file.text();
+      const rows = parseCSV(text);
+
+      if (rows.length === 0) {
+        toast.error('CSV file is empty or invalid');
+        return;
+      }
+
+      // Expected columns: name_en, name_vi, description_en, description_vi, price, currency, category_slug, is_available, is_featured, is_new
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const rowNum = i + 2; // +2 because line 1 is headers, and we're 0-indexed
+
+        // Validate required fields
+        if (!row.name_en && !row.name_vi) {
+          errors.push(`Row ${rowNum}: Missing name`);
+          continue;
+        }
+
+        // Find category by slug
+        let categoryId = row.category_id;
+        if (!categoryId && row.category_slug) {
+          const category = categories.find(c => c.slug === row.category_slug);
+          if (category) {
+            categoryId = category.id;
+          } else {
+            errors.push(`Row ${rowNum}: Category "${row.category_slug}" not found`);
+            continue;
+          }
+        }
+
+        if (!categoryId) {
+          errors.push(`Row ${rowNum}: No category`);
+          continue;
+        }
+
+        // Generate slug from name
+        const nameForSlug = row.name_en || row.name_vi || '';
+        const slug = nameForSlug
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, '') + '-' + Date.now();
+
+        // Parse price
+        const price = parseFloat(row.price) || 0;
+
+        // Build menu item
+        const menuItem = {
+          slug,
+          name_multilang: {
+            en: row.name_en || null,
+            vi: row.name_vi || null,
+            ko: row.name_ko || null,
+            ja: row.name_ja || null,
+          },
+          description_multilang: {
+            en: row.description_en || null,
+            vi: row.description_vi || null,
+            ko: row.description_ko || null,
+            ja: row.description_ja || null,
+          },
+          price,
+          currency: row.currency || 'VND',
+          category_id: categoryId,
+          image_url: row.image_url || null,
+          is_available: row.is_available !== 'false' && row.is_available !== '0',
+          is_active: true,
+          is_featured: row.is_featured === 'true' || row.is_featured === '1',
+          is_new: row.is_new === 'true' || row.is_new === '1',
+          allergens: {},
+          intolerances: {},
+          dietary_flags: {
+            vegan: row.vegan === 'true' || row.vegan === '1',
+            vegetarian: row.vegetarian === 'true' || row.vegetarian === '1',
+            halal: row.halal === 'true' || row.halal === '1',
+            kosher: row.kosher === 'true' || row.kosher === '1',
+          },
+          spice_level: parseInt(row.spice_level) || 0,
+          display_order: parseInt(row.display_order) || 0,
+        };
+
+        // Insert into Supabase
+        const { error: insertError } = await supabase
+          .from('menu_items')
+          .insert(menuItem);
+
+        if (insertError) {
+          errors.push(`Row ${rowNum}: ${insertError.message}`);
+        } else {
+          successCount++;
+        }
+      }
+
+      // Show toast based on results
+      if (successCount > 0 && errors.length === 0) {
+        toast.success(`Successfully imported ${successCount} item${successCount > 1 ? 's' : ''}`);
+      } else if (successCount > 0 && errors.length > 0) {
+        toast.warning(`Imported ${successCount} items with ${errors.length} errors`);
+      } else if (errors.length > 0) {
+        toast.error(`Import failed: ${errors.slice(0, 3).join(', ')}${errors.length > 3 ? '...' : ''}`);
+      }
+
+      // Refresh data if any items were imported
+      if (successCount > 0) {
+        const { data: itemsData } = await supabase
+          .from('menu_items')
+          .select('*')
+          .order('display_order');
+
+        if (itemsData) {
+          setMenuItems(itemsData);
+          // Update category counts
+          setCategories(prev => prev.map(cat => ({
+            ...cat,
+            item_count: itemsData.filter(item => item.category_id === cat.id).length,
+          })));
+        }
+      }
+    } catch (err) {
+      toast.error(`Failed to parse CSV: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    } finally {
+      setImporting(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  // Download CSV template
+  const downloadCSVTemplate = () => {
+    const headers = [
+      'name_en',
+      'name_vi',
+      'description_en',
+      'description_vi',
+      'price',
+      'currency',
+      'category_slug',
+      'is_available',
+      'is_featured',
+      'is_new',
+      'vegan',
+      'vegetarian',
+      'halal',
+      'spice_level',
+      'display_order',
+      'image_url',
+    ];
+    const exampleRow = [
+      'Espresso',
+      'Ca phe Espresso',
+      'Rich and bold espresso shot',
+      'Ca phe espresso dam da',
+      '35000',
+      'VND',
+      'coffee',
+      'true',
+      'false',
+      'true',
+      'true',
+      'true',
+      'false',
+      '0',
+      '1',
+      '',
+    ];
+
+    const csv = [headers.join(','), exampleRow.join(',')].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'menu-items-template.csv';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   // Delete item
@@ -132,7 +362,9 @@ export default function MenuPage() {
 
       // Update local state
       setMenuItems((prev) => prev.filter((item) => item.id !== itemId));
+      toast.success('Item deleted successfully');
     } catch (err) {
+      toast.error('Failed to delete item');
       console.error('Error deleting item:', err);
     }
   };
@@ -225,8 +457,27 @@ export default function MenuPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
-            Import CSV
+          {/* Hidden file input */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept=".csv"
+            onChange={handleCSVImport}
+            className="hidden"
+          />
+          <button
+            onClick={downloadCSVTemplate}
+            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+            title="Download CSV template"
+          >
+            Template
+          </button>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={importing}
+            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+          >
+            {importing ? 'Importing...' : 'Import CSV'}
           </button>
           <Link
             href="/content/menu/new"

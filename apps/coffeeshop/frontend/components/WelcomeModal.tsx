@@ -1,27 +1,84 @@
 'use client';
 
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useKeyboardNavigation } from '../hooks/useKeyboardNavigation';
 import { useSwipeToDismiss } from '../hooks/useSwipeToDismiss';
+import { useTranslation } from '@/lib/use-translation';
+import { coffeeshopConfig } from '@/config/coffeeshop.config';
+import { defaultVenueConfig, type VenueOnboardingConfig } from '@/lib/venue-config';
+import { WiFiCredentials } from './WiFiCredentials';
+import { QuickActionsBar } from './QuickActionsBar';
+import { Button } from './ui/button';
 
 interface WelcomeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSetupPreferences?: () => void;
   restaurantName?: string;
   tableNumber?: string;
+  venueConfig?: VenueOnboardingConfig;
 }
 
+/**
+ * Flat Flag Icon Component
+ * Modern rounded-square flags for language selector
+ */
+const FlagIcon = ({ code, size = 24 }: { code: string; size?: number }) => {
+  const flags: Record<string, JSX.Element> = {
+    en: (
+      // England Flag (St George's Cross) - Much simpler and clearer than Union Jack
+      <svg width={size} height={size} viewBox="0 0 60 60" className="rounded-md overflow-hidden shadow-sm">
+        <rect width="60" height="60" fill="white"/>
+        {/* Red cross */}
+        <rect x="0" y="24" width="60" height="12" fill="#CE1124"/>
+        <rect x="24" y="0" width="12" height="60" fill="#CE1124"/>
+      </svg>
+    ),
+    it: (
+      // Italy Flag - Tricolor
+      <svg width={size} height={size} viewBox="0 0 60 60" className="rounded-md overflow-hidden shadow-sm">
+        <rect width="60" height="60" fill="white"/>
+        <rect width="20" height="60" fill="#009246"/>
+        <rect x="40" width="20" height="60" fill="#CE2B37"/>
+      </svg>
+    ),
+    vi: (
+      // Vietnam Flag - Red with yellow star
+      <svg width={size} height={size} viewBox="0 0 60 60" className="rounded-md overflow-hidden shadow-sm">
+        <rect width="60" height="60" fill="#DA251D"/>
+        <path d="M30 15 L34.5 27.5 L48 27.5 L37 35 L41.5 47.5 L30 40 L18.5 47.5 L23 35 L12 27.5 L25.5 27.5 Z" fill="#FFCD00"/>
+      </svg>
+    ),
+  };
+
+  return flags[code] || flags.en;
+};
+
+/**
+ * WelcomeModal - Redesigned Onboarding Experience
+ *
+ * Features:
+ * - Single-screen compact layout (no multi-step friction)
+ * - Language + Currency dropdowns (side-by-side, no labels)
+ * - WiFi credentials with QR code
+ * - Quick Actions (Share, Call Staff)
+ * - Auth CTA for loyalty/advanced features
+ * - 100% backoffice-configurable via venue-config.ts
+ */
 export function WelcomeModal({
   isOpen,
   onClose,
-  onSetupPreferences,
-  restaurantName = 'Caffè Dolce Vita',
-  tableNumber
+  restaurantName = coffeeshopConfig.name,
+  tableNumber,
+  venueConfig = defaultVenueConfig,
 }: WelcomeModalProps) {
-  const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 3;
+  const { t, language, setLanguage } = useTranslation();
+  const [currency, setCurrency] = useState(coffeeshopConfig.i18n.baseCurrency);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
+  const languageDropdownRef = useRef<HTMLDivElement>(null);
+  const currencyDropdownRef = useRef<HTMLDivElement>(null);
 
   // Accessibility: Focus trap and keyboard navigation
   const modalRef = useFocusTrap(isOpen);
@@ -30,54 +87,80 @@ export function WelcomeModal({
 
   useKeyboardNavigation({
     isOpen,
-    onClose: handleSkip,
-    onEscape: handleSkip
+    onClose: handleClose,
+    onEscape: handleClose,
   });
 
-  // Swipe-to-dismiss functionality (includes scroll blocking)
-  const swipe = useSwipeToDismiss({ isOpen, onClose: handleSkip });
+  // Swipe-to-dismiss functionality
+  const swipe = useSwipeToDismiss({ isOpen, onClose: handleClose });
 
-  const handleNext = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target as Node)) {
+        setShowLanguageDropdown(false);
+      }
+      if (currencyDropdownRef.current && !currencyDropdownRef.current.contains(event.target as Node)) {
+        setShowCurrencyDropdown(false);
+      }
     }
-  };
 
-  const handleSkip = () => {
+    if (showLanguageDropdown || showCurrencyDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showLanguageDropdown, showCurrencyDropdown]);
+
+  function handleClose() {
     // Mark onboarding as completed in localStorage
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && venueConfig.behavior.showOnce) {
       localStorage.setItem('gudbro_onboarding_completed', 'true');
     }
     onClose();
-  };
+  }
 
-  const handleSetupPreferences = () => {
-    // Mark onboarding as completed
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('gudbro_onboarding_completed', 'true');
-    }
-    onClose();
-    // Open preferences modal
-    if (onSetupPreferences) {
-      onSetupPreferences();
-    }
-  };
+  function handleLogin() {
+    handleClose();
+    // TODO: Open login modal or redirect to /login
+    console.log('TODO: Open login modal');
+  }
+
+  function handleSignup() {
+    handleClose();
+    // TODO: Open signup modal or redirect to /signup
+    console.log('TODO: Open signup modal');
+  }
+
+  function handleCallStaff() {
+    // TODO: Implement WebSocket notification
+    console.log('Staff called for table:', tableNumber);
+  }
 
   if (!isOpen) return null;
+
+  // Replace placeholders in welcome message
+  const welcomeTitle = venueConfig.welcomeMessage.title[language as 'en' | 'vi' | 'it']
+    .replace('{venueName}', restaurantName);
+  const welcomeSubtitle = venueConfig.welcomeMessage.subtitle?.[language as 'en' | 'vi' | 'it']
+    ?.replace('{tableNumber}', tableNumber || '');
+
+  // Get language-specific content
+  const authTitle = venueConfig.authCTA.title[language as 'en' | 'vi' | 'it'] || venueConfig.authCTA.title.en;
+  const authBenefits = venueConfig.authCTA.benefits[language as 'en' | 'vi' | 'it'] || venueConfig.authCTA.benefits.en;
 
   return (
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 z-[100] transition-opacity"
+        className="fixed inset-0 z-[100] bg-black/50 transition-opacity"
         style={swipe.getBackdropStyle()}
-        onClick={handleSkip}
+        onClick={handleClose}
       />
 
       {/* Bottom Sheet */}
       <div
         ref={modalRef}
-        className="fixed bottom-0 left-0 right-0 z-[110] bg-theme-bg-elevated rounded-t-3xl shadow-2xl max-h-[85vh] overflow-hidden select-none"
+        className="fixed bottom-0 left-0 right-0 z-[120] bg-theme-bg-elevated rounded-t-3xl shadow-2xl max-h-[92vh] overflow-hidden select-none"
         style={swipe.getModalStyle()}
         role="dialog"
         aria-modal="true"
@@ -93,233 +176,186 @@ export function WelcomeModal({
       >
         {/* Handle Bar with Close Button */}
         <div className="flex justify-between items-center pt-3 pb-2 px-4">
-          <div className="w-8" /> {/* Spacer for centering */}
-          <div className="w-12 h-1.5 bg-theme-text-tertiary rounded-full" />
-          <button
-            onClick={handleSkip}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-theme-bg-secondary transition-colors"
-            aria-label="Chiudi introduzione"
-          >
-            <svg className="w-6 h-6 text-theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="px-6 py-4 overflow-y-auto max-h-[calc(85vh-140px)]">
-          {/* Step 1: Welcome */}
-          {currentStep === 1 && (
-            <div className="text-center">
-              <div className="mb-4">
-                <div className="text-6xl mb-4" aria-hidden="true">👋</div>
-                <h2 id={titleId} className="text-3xl font-bold text-theme-text-primary mb-2">
-                  Benvenuto!
-                </h2>
-                <p id={descId} className="text-lg text-theme-text-primary mb-1">
-                  {restaurantName}
-                </p>
-                {tableNumber && (
-                  <p className="text-sm text-theme-text-tertiary">
-                    Tavolo {tableNumber}
-                  </p>
-                )}
-              </div>
-              <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-2xl p-6 mb-4">
-                <p className="text-theme-text-primary leading-relaxed">
-                  Ordina direttamente dal tuo telefono, visualizza il menu completo con foto e informazioni nutrizionali, e personalizza la tua esperienza.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className="bg-theme-bg-elevated border-2 border-theme-bg-tertiary rounded-xl p-4">
-                  <div className="text-3xl mb-2" aria-hidden="true">📱</div>
-                  <p className="text-xs font-semibold text-theme-text-primary">Menu Digitale</p>
-                </div>
-                <div className="bg-theme-bg-elevated border-2 border-theme-bg-tertiary rounded-xl p-4">
-                  <div className="text-3xl mb-2" aria-hidden="true">🍽️</div>
-                  <p className="text-xs font-semibold text-theme-text-primary">Ordina Facile</p>
-                </div>
-                <div className="bg-theme-bg-elevated border-2 border-theme-bg-tertiary rounded-xl p-4">
-                  <div className="text-3xl mb-2" aria-hidden="true">🌱</div>
-                  <p className="text-xs font-semibold text-theme-text-primary">Preferenze</p>
-                </div>
-                <div className="bg-theme-bg-elevated border-2 border-theme-bg-tertiary rounded-xl p-4">
-                  <div className="text-3xl mb-2" aria-hidden="true">💳</div>
-                  <p className="text-xs font-semibold text-theme-text-primary">Paga al Tavolo</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Step 2: Features Tour */}
-          {currentStep === 2 && (
-            <div>
-              <div className="text-center mb-6">
-                <div className="text-5xl mb-3" aria-hidden="true">✨</div>
-                <h2 id={titleId} className="text-2xl font-bold text-theme-text-primary mb-2">
-                  Funzionalità Principali
-                </h2>
-                <p id={descId} className="text-sm text-theme-text-secondary">
-                  Esplora cosa puoi fare con la nostra app
-                </p>
-              </div>
-              <div className="space-y-4">
-                <div className="flex gap-4 items-start bg-blue-50 border-2 border-blue-100 rounded-xl p-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl" aria-hidden="true">
-                    📖
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-theme-text-primary mb-1">Menu Interattivo</h3>
-                    <p className="text-sm text-theme-text-primary">
-                      Sfoglia il menu completo con foto, descrizioni dettagliate e informazioni sugli allergeni
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start bg-green-50 border-2 border-green-100 rounded-xl p-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white text-2xl" aria-hidden="true">
-                    🌱
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-theme-text-primary mb-1">Preferenze Dietetiche</h3>
-                    <p className="text-sm text-theme-text-primary">
-                      Imposta allergeni, intolleranze e diete per vedere solo i piatti adatti a te
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start bg-purple-50 border-2 border-purple-100 rounded-xl p-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-white text-2xl" aria-hidden="true">
-                    🔔
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-theme-text-primary mb-1">Chiama Staff</h3>
-                    <p className="text-sm text-theme-text-primary">
-                      Hai bisogno di qualcosa? Chiama lo staff direttamente dall'app
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start bg-pink-50 border-2 border-pink-100 rounded-xl p-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-pink-500 flex items-center justify-center text-white text-2xl" aria-hidden="true">
-                    💳
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-bold text-theme-text-primary mb-1">Richiedi Conto</h3>
-                    <p className="text-sm text-theme-text-primary">
-                      Quando hai finito, richiedi il conto e scegli il metodo di pagamento
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Step 3: Setup Preferences */}
-          {currentStep === 3 && (
-            <div className="text-center">
-              <div className="mb-6">
-                <div className="text-6xl mb-4" aria-hidden="true">🌟</div>
-                <h2 id={titleId} className="text-2xl font-bold text-theme-text-primary mb-2">
-                  Personalizza la Tua Esperienza
-                </h2>
-                <p id={descId} className="text-sm text-theme-text-secondary mb-4">
-                  Vuoi impostare le tue preferenze dietetiche ora?
-                </p>
-              </div>
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6 mb-6">
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="text-2xl" aria-hidden="true">⚠️</div>
-                  <div className="flex-1 text-left">
-                    <h4 className="font-bold text-theme-text-primary text-sm mb-1">Allergeni</h4>
-                    <p className="text-xs text-theme-text-primary">
-                      Evidenzia i prodotti che contengono allergeni da evitare
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="text-2xl" aria-hidden="true">🚫</div>
-                  <div className="flex-1 text-left">
-                    <h4 className="font-bold text-theme-text-primary text-sm mb-1">Intolleranze</h4>
-                    <p className="text-xs text-theme-text-primary">
-                      Filtra i prodotti in base alle tue intolleranze alimentari
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="text-2xl" aria-hidden="true">🥗</div>
-                  <div className="flex-1 text-left">
-                    <h4 className="font-bold text-theme-text-primary text-sm mb-1">Diete</h4>
-                    <p className="text-xs text-theme-text-primary">
-                      Seleziona diete specifiche (vegana, vegetariana, etc.)
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
-                <p className="text-xs text-blue-900">
-                  💡 Puoi sempre modificare le tue preferenze in seguito dal menu Account
-                </p>
-              </div>
-            </div>
+          <div className="w-8" /> {/* Spacer */}
+          <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
+          {venueConfig.behavior.allowDismiss && (
+            <button
+              onClick={handleClose}
+              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-theme-bg-secondary transition-colors"
+              aria-label="Close"
+            >
+              <svg className="w-6 h-6 text-theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           )}
         </div>
 
-        {/* Progress Dots */}
-        <div className="flex justify-center gap-2 py-3" role="progressbar" aria-label={`Step ${currentStep} of ${totalSteps}`} aria-valuenow={currentStep} aria-valuemin={1} aria-valuemax={totalSteps}>
-          {[1, 2, 3].map((step) => (
-            <div
-              key={step}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                step === currentStep
-                  ? 'w-8 bg-pink-500'
-                  : 'w-2 bg-theme-text-tertiary'
-              }`}
-              aria-hidden="true"
+        {/* Scrollable Content */}
+        <div className="px-6 py-3 overflow-y-auto max-h-[calc(92vh-140px)] space-y-4">
+          {/* Welcome Message */}
+          {venueConfig.welcomeMessage.enabled && (
+            <div className="text-center mb-2">
+              <div className="text-6xl mb-4" aria-hidden="true">
+                {venueConfig.welcomeMessage.icon}
+              </div>
+              <h2 id={titleId} className="text-3xl font-bold text-theme-text-primary mb-2">
+                {welcomeTitle}
+              </h2>
+              {welcomeSubtitle && (
+                <p id={descId} className="text-base text-theme-text-secondary font-medium">
+                  {welcomeSubtitle}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Language + Currency Selectors - Custom Dropdown Design */}
+          {venueConfig.quickActions.languageCurrency.enabled && (
+            <div className="flex gap-3">
+              {/* Language Dropdown */}
+              {venueConfig.quickActions.languageCurrency.showLanguageSelector && (
+                <div ref={languageDropdownRef} className="relative flex-1">
+                  <button
+                    onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+                    className="w-full px-4 py-3 bg-theme-bg-elevated border-2 border-theme-border-secondary rounded-xl text-base font-semibold text-theme-text-primary hover:border-theme-border-primary hover:shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 flex items-center justify-between min-h-[56px]"
+                  >
+                    <span className="flex items-center gap-2">
+                      <FlagIcon code={language} size={28} />
+                      {coffeeshopConfig.i18n.supportedLanguages.find(l => l.code === language)?.name}
+                    </span>
+                    <svg className={`w-5 h-5 transition-transform ${showLanguageDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {showLanguageDropdown && (
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-theme-bg-elevated border-2 border-theme-border-secondary rounded-xl shadow-lg overflow-hidden z-50">
+                      {coffeeshopConfig.i18n.supportedLanguages.map((lang) => (
+                        <button
+                          key={lang.code}
+                          onClick={() => {
+                            setLanguage(lang.code as any);
+                            setShowLanguageDropdown(false);
+                          }}
+                          className={`w-full px-4 py-3 text-left text-base font-semibold transition-colors flex items-center gap-3 ${
+                            language === lang.code
+                              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
+                              : 'text-theme-text-primary hover:bg-theme-bg-secondary'
+                          }`}
+                        >
+                          <FlagIcon code={lang.code} size={28} />
+                          {lang.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Currency Dropdown */}
+              {venueConfig.quickActions.languageCurrency.showCurrencySelector && (
+                <div ref={currencyDropdownRef} className="relative flex-1">
+                  <button
+                    onClick={() => setShowCurrencyDropdown(!showCurrencyDropdown)}
+                    className="w-full px-4 py-3 bg-theme-bg-elevated border-2 border-theme-border-secondary rounded-xl text-base font-semibold text-theme-text-primary hover:border-theme-border-primary hover:shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 flex items-center justify-between min-h-[56px]"
+                  >
+                    <span>
+                      {currency === 'USD' ? '$' : currency === 'EUR' ? '€' : currency === 'VND' ? 'đ' : currency === 'GBP' ? '£' : currency} {currency}
+                    </span>
+                    <svg className={`w-5 h-5 transition-transform ${showCurrencyDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {showCurrencyDropdown && (
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-theme-bg-elevated border-2 border-theme-border-secondary rounded-xl shadow-lg overflow-hidden z-50">
+                      {coffeeshopConfig.i18n.supportedCurrencies.map((curr) => {
+                        const symbol = curr === 'USD' ? '$' : curr === 'EUR' ? '€' : curr === 'VND' ? 'đ' : curr === 'GBP' ? '£' : curr;
+                        return (
+                          <button
+                            key={curr}
+                            onClick={() => {
+                              setCurrency(curr);
+                              setShowCurrencyDropdown(false);
+                            }}
+                            className={`w-full px-4 py-3 text-left text-base font-semibold transition-colors ${
+                              currency === curr
+                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
+                                : 'text-theme-text-primary hover:bg-theme-bg-secondary'
+                            }`}
+                          >
+                            {symbol} {curr}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* WiFi Credentials */}
+          {venueConfig.quickActions.wifi.enabled && (
+            <WiFiCredentials
+              ssid={venueConfig.quickActions.wifi.ssid}
+              password={venueConfig.quickActions.wifi.password}
+              showQRCode={venueConfig.quickActions.wifi.showQRCode}
             />
-          ))}
-        </div>
+          )}
 
-        {/* Footer - Action Buttons */}
-        <div className="sticky bottom-0 bg-theme-bg-elevated border-t border-theme-bg-tertiary p-6">
-          <div className="flex gap-3">
-            {currentStep < totalSteps ? (
-              <>
+          {/* Quick Actions Bar */}
+          {(venueConfig.quickActions.shareLocation.enabled || venueConfig.quickActions.callWaiter.enabled) && (
+            <QuickActionsBar
+              venueName={restaurantName}
+              showShareLocation={venueConfig.quickActions.shareLocation.enabled}
+              showCallStaff={venueConfig.quickActions.callWaiter.enabled}
+              onCallStaff={handleCallStaff}
+            />
+          )}
+
+          {/* Auth CTA (Login/Signup for Advanced Features) - Compact */}
+          {venueConfig.authCTA.enabled && (
+            <div className="bg-theme-bg-tertiary border-2 border-theme-border-secondary rounded-xl p-4 shadow-sm">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="text-3xl">✨</div>
+                <div className="flex-1">
+                  <h3 className="text-base font-bold text-theme-text-primary">{authTitle}</h3>
+                  <p className="text-xs text-theme-text-secondary">{t.auth.benefitsSubtitle}</p>
+                </div>
+              </div>
+
+              {/* Auth Buttons */}
+              <div className="flex gap-2">
                 <button
-                  onClick={handleSkip}
-                  className="flex-1 py-3 px-4 border-2 border-theme-bg-tertiary rounded-xl text-theme-text-primary font-semibold
-                    hover:bg-theme-bg-secondary active:scale-95 transition-all duration-200"
+                  onClick={handleLogin}
+                  className="flex-1 px-4 py-2.5 bg-theme-bg-elevated border-2 border-theme-border-secondary text-theme-text-primary font-semibold rounded-lg hover:border-theme-border-primary hover:bg-theme-bg-secondary active:scale-[0.98] transition-all"
                 >
-                  Salta
+                  {t.auth.login}
                 </button>
                 <button
-                  onClick={handleNext}
-                  className="flex-1 py-3 px-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl font-bold
-                    hover:from-pink-600 hover:to-purple-600 active:scale-95 transition-all duration-200 shadow-lg"
+                  onClick={handleSignup}
+                  className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 active:scale-[0.98] transition-all shadow-md"
                 >
-                  Avanti
+                  {t.auth.signup}
                 </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={handleSkip}
-                  className="flex-1 py-3 px-4 border-2 border-theme-bg-tertiary rounded-xl text-theme-text-primary font-semibold
-                    hover:bg-theme-bg-secondary active:scale-95 transition-all duration-200"
-                >
-                  Non Ora
-                </button>
-                <button
-                  onClick={handleSetupPreferences}
-                  className="flex-1 py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-bold
-                    hover:from-green-600 hover:to-emerald-600 active:scale-95 transition-all duration-200 shadow-lg"
-                >
-                  Imposta Preferenze
-                </button>
-              </>
-            )}
+              </div>
+            </div>
+          )}
+
+          {/* Go to Menu Button - Inside scrollable area */}
+          <div className="pt-4 pb-2">
+            <Link
+              href="/menu"
+              onClick={handleClose}
+              className="block w-full px-6 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-base font-bold rounded-xl hover:from-blue-700 hover:to-indigo-700 active:scale-[0.98] transition-all shadow-lg text-center"
+            >
+              {t.auth.goToMenu}
+            </Link>
           </div>
         </div>
+
       </div>
     </>
   );

@@ -65,7 +65,7 @@ export function SafetyBadge({
   const svgIconName = iconType === 'svg' ? getIconNameFromFilterId(filterId) : null
 
   // Size mapping for SVG icons
-  const iconSizeMap = {
+  const iconSizeMap: Record<string, number> = {
     sm: 16,
     md: 20,
     lg: 24,
@@ -84,7 +84,7 @@ export function SafetyBadge({
       {effectiveIconType === 'svg' && svgIconName && (
         <AllergenIcon
           name={svgIconName}
-          size={iconSizeMap[size]}
+          size={iconSizeMap[size || 'md']}
           colorScheme={colorScheme}
         />
       )}

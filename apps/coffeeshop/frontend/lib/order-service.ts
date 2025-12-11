@@ -13,7 +13,7 @@
 
 import { supabase, isSupabaseConfigured, getSessionId, getDeviceFingerprint } from './supabase';
 import { CartItem } from './cart-store';
-import { orderHistoryStore, Order } from './order-history-store';
+import { orderHistoryStore, Order as HistoryOrder } from './order-history-store';
 
 // Default merchant ID for demo - in production, this comes from QR code or URL
 // Using the default UUID from the schema: 00000000-0000-0000-0000-000000000001
@@ -394,7 +394,7 @@ export function subscribeToOrderStatus(
 
   // Return cleanup function
   return () => {
-    supabase.removeChannel(channel);
+    supabase?.removeChannel(channel);
   };
 }
 

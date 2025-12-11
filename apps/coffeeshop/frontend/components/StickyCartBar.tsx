@@ -95,7 +95,7 @@ export function StickyCartBar() {
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <div className="text-right">
                     <div className="text-white text-xs opacity-80">Totale</div>
-                    <div className="text-white font-bold text-lg">{formatPriceCompactCompact(cartTotal)}</div>
+                    <div className="text-white font-bold text-lg">{formatPriceCompact(cartTotal)}</div>
                   </div>
                   <button
                     onClick={(e) => {

@@ -1,5 +1,4 @@
-import { VerticalConfig } from '../../../menu-template/types';
-import { getTierConfig, TierLevel, DEFAULT_TIER } from '../lib/tier-system';
+import { getTierConfig, TierLevel } from '../lib/tier-system';
 
 /**
  * Coffeeshop Vertical Configuration

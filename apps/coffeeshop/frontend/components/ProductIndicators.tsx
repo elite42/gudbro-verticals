@@ -1,5 +1,5 @@
 import React from 'react';
-import { DishItem } from '../../types/dish';
+import { DishItem } from '@/types/dish';
 import { AllergenIcon, getIconNameFromFilterId } from './ui/allergen-icon';
 import { safetyFilters } from '@/database/safety-filters';
 

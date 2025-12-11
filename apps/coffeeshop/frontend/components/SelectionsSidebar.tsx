@@ -106,9 +106,14 @@ export function SelectionsSidebar({
         customer_notes: customerNotes || undefined,
       });
 
-      setSubmittedOrder(result);
-      selectionsStore.clear();
-      setCustomerNotes('');
+      if (result.success) {
+        setSubmittedOrder(result.order);
+        selectionsStore.clear();
+        setCustomerNotes('');
+      } else {
+        const errorMsg = result.error.userMessage.it;
+        alert(errorMsg);
+      }
     } catch (error) {
       console.error('Error submitting order:', error);
       alert('Errore nell\'invio dell\'ordine. Riprova.');

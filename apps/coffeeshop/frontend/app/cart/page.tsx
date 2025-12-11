@@ -78,8 +78,13 @@ export default function CartPage() {
         customer_notes: customerNotes || undefined,
       });
 
-      setSubmittedOrder(result);
-      cartStore.clear();
+      if (result.success) {
+        setSubmittedOrder(result.order);
+        cartStore.clear();
+      } else {
+        const errorMsg = result.error.userMessage.en;
+        alert(errorMsg);
+      }
     } catch (error) {
       console.error('Error submitting order:', error);
       alert('Failed to submit order. Please try again.');

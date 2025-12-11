@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { clearTableContext, getTableContext } from '../lib/table-context-store';
 import { selectionsStore } from '../lib/selections-store';
 import { cartStore } from '../lib/cart-store';
@@ -8,6 +9,8 @@ import { orderHistoryStore } from '../lib/order-history-store';
 import { favoritesStore } from '../lib/favorites-store';
 import { languagePreferencesStore } from '../lib/language-preferences';
 import { currencyPreferencesStore } from '../lib/currency-preferences';
+import { coffeeshopConfig } from '../config/coffeeshop.config';
+import { CallStaffModal } from './CallStaffModal';
 
 interface MoreMenuModalProps {
   isOpen: boolean;
@@ -17,24 +20,44 @@ interface MoreMenuModalProps {
 type ResetConfirmType = 'table' | 'selections' | 'all' | null;
 
 export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
+  const router = useRouter();
   const [showResetConfirm, setShowResetConfirm] = useState<ResetConfirmType>(null);
   const [resetSuccess, setResetSuccess] = useState<string | null>(null);
+  const [showWiFiModal, setShowWiFiModal] = useState(false);
+  const [showCallStaffModal, setShowCallStaffModal] = useState(false);
+  const [wifiCopied, setWifiCopied] = useState(false);
 
   if (!isOpen) return null;
 
   const tableContext = getTableContext();
+  // @ts-ignore - wifi feature may not be in type
+  const wifi = coffeeshopConfig.wifi;
+
+  // Generate WiFi QR code URL
+  const getWiFiQRUrl = () => {
+    if (!wifi) return '';
+    const wifiString = `WIFI:T:${wifi.security || 'WPA'};S:${wifi.ssid};P:${wifi.password};H:false;;`;
+    return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(wifiString)}`;
+  };
+
+  // Copy WiFi password
+  const copyWiFiPassword = () => {
+    if (wifi && typeof navigator !== 'undefined') {
+      navigator.clipboard.writeText(wifi.password);
+      setWifiCopied(true);
+      setTimeout(() => setWifiCopied(false), 2000);
+    }
+  };
 
   const menuItems = [
     {
       id: 'wifi',
       icon: '📶',
       label: 'WiFi',
-      description: 'Get WiFi password',
+      description: wifi ? wifi.ssid : 'Not configured',
       color: 'bg-blue-500',
-      action: () => {
-        // TODO: Show WiFi modal
-        alert('WiFi: CoffeeHouse2024\nPassword: welcome123');
-      }
+      disabled: !wifi,
+      action: () => setShowWiFiModal(true)
     },
     {
       id: 'call-staff',
@@ -43,8 +66,8 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
       description: 'Request assistance',
       color: 'bg-orange-500',
       action: () => {
-        // TODO: Integrate with CallStaffModal
-        alert('Staff has been notified!');
+        onClose();
+        setTimeout(() => setShowCallStaffModal(true), 100);
       }
     },
     {
@@ -54,8 +77,8 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
       description: 'Change language',
       color: 'bg-indigo-500',
       action: () => {
-        // Language is in header, just inform user
-        alert('Use the language selector in the header (top left)');
+        onClose();
+        router.push('/account');
       }
     },
     {
@@ -65,8 +88,8 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
       description: 'Change currency',
       color: 'bg-teal-500',
       action: () => {
-        // Currency is in header, just inform user
-        alert('Use the currency selector in the header (top left)');
+        onClose();
+        router.push('/account');
       }
     },
     {
@@ -75,17 +98,20 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
       label: 'My Orders',
       description: 'View order history',
       color: 'bg-purple-500',
-      href: '/orders'
+      action: () => {
+        onClose();
+        router.push('/orders');
+      }
     },
     {
       id: 'favorites',
       icon: '❤️',
       label: 'Favorites',
-      description: 'Your saved items',
+      description: `${favoritesStore.count()} saved items`,
       color: 'bg-red-500',
       action: () => {
-        const favorites = favoritesStore.getAll();
-        alert(`You have ${favorites.length} favorite items`);
+        onClose();
+        router.push('/menu?filter=favorites');
       }
     }
   ];
@@ -150,6 +176,11 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
     }
   };
 
+  const handleCallStaffConfirm = (reason: string) => {
+    console.log('Staff called:', reason);
+    // In production, this would send to backend/websocket
+  };
+
   return (
     <>
       {/* Backdrop */}
@@ -188,14 +219,13 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
             {menuItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => {
-                  if ('href' in item && item.href) {
-                    window.location.href = item.href;
-                  } else if (item.action) {
-                    item.action();
-                  }
-                }}
-                className="flex flex-col items-center gap-2 p-3 rounded-xl bg-theme-bg-secondary hover:bg-theme-bg-tertiary transition-colors"
+                onClick={item.action}
+                disabled={'disabled' in item && item.disabled}
+                className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-colors ${
+                  'disabled' in item && item.disabled
+                    ? 'opacity-50 cursor-not-allowed bg-theme-bg-secondary'
+                    : 'bg-theme-bg-secondary hover:bg-theme-bg-tertiary'
+                }`}
               >
                 <div className={`w-12 h-12 ${item.color} rounded-full flex items-center justify-center text-2xl`}>
                   {item.icon}
@@ -242,6 +272,73 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
         </div>
       </div>
 
+      {/* WiFi Modal */}
+      {showWiFiModal && wifi && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/40 z-[10002]"
+            onClick={() => setShowWiFiModal(false)}
+          />
+          <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-theme-bg-elevated rounded-2xl shadow-2xl z-[10003] max-w-sm mx-auto p-6">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center">
+                  <span className="text-2xl">📶</span>
+                </div>
+                <h3 className="text-xl font-bold text-theme-text-primary">WiFi</h3>
+              </div>
+              <button
+                onClick={() => setShowWiFiModal(false)}
+                className="w-10 h-10 rounded-full bg-theme-bg-tertiary flex items-center justify-center"
+              >
+                <svg className="w-5 h-5 text-theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Network Info */}
+            <div className="space-y-3 mb-4">
+              <div>
+                <label className="text-xs font-medium text-theme-text-tertiary mb-1 block">Network</label>
+                <div className="bg-theme-bg-secondary px-4 py-3 rounded-xl">
+                  <span className="font-mono font-bold text-theme-text-primary">{wifi.ssid}</span>
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-medium text-theme-text-tertiary mb-1 block">Password</label>
+                <div className="bg-theme-bg-secondary px-4 py-3 rounded-xl flex items-center justify-between">
+                  <span className="font-mono font-bold text-theme-text-primary">{wifi.password}</span>
+                  <button
+                    onClick={copyWiFiPassword}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      wifiCopied
+                        ? 'bg-green-500 text-white'
+                        : 'bg-blue-500 text-white hover:bg-blue-600'
+                    }`}
+                  >
+                    {wifiCopied ? '✓' : 'Copy'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* QR Code */}
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-4">
+              <p className="text-center text-sm text-theme-text-secondary mb-3">Scan to connect</p>
+              <div className="bg-white rounded-lg p-2 flex justify-center">
+                <img
+                  src={getWiFiQRUrl()}
+                  alt="WiFi QR Code"
+                  className="w-40 h-40"
+                />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
       {/* Reset Confirmation Modal */}
       {showResetConfirm && (
         <>
@@ -277,6 +374,13 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
           </div>
         </>
       )}
+
+      {/* Call Staff Modal */}
+      <CallStaffModal
+        isOpen={showCallStaffModal}
+        onClose={() => setShowCallStaffModal(false)}
+        onConfirm={handleCallStaffConfirm}
+      />
     </>
   );
 }

@@ -30,7 +30,7 @@ export function MenuHeader({
     if (typeof window !== 'undefined') {
       return currencyPreferencesStore.get().selectedCurrency;
     }
-    return i18n.defaultCurrency;
+    return i18n.baseCurrency;
   });
 
   const languageDropdownRef = useRef<HTMLDivElement>(null);

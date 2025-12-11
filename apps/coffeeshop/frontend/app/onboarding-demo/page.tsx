@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { WelcomeModalV2 } from '@/components/WelcomeModalV2';
+import { WelcomeModal } from '@/components/WelcomeModal';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
 /**
  * Onboarding Demo Page
  *
- * Test page for the new WelcomeModalV2 component.
+ * Test page for the WelcomeModal component.
  * Allows testing different configurations and states.
  *
  * Access: http://localhost:3004/onboarding-demo
@@ -34,7 +34,7 @@ export default function OnboardingDemoPage() {
             Onboarding Demo
           </h1>
           <p className="text-gray-600">
-            Test the new WelcomeModalV2 with all features
+            Test the WelcomeModal with all features
           </p>
         </div>
 
@@ -145,7 +145,7 @@ export default function OnboardingDemoPage() {
       </div>
 
       {/* Modal */}
-      <WelcomeModalV2
+      <WelcomeModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         tableNumber={tableNumber}

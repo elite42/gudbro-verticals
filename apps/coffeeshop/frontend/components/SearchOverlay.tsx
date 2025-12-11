@@ -55,8 +55,8 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
           item.name.toLowerCase().includes(query) ||
           item.description.toLowerCase().includes(query) ||
           item.category.toLowerCase().includes(query) ||
-          item.allergens?.some(a => a.toLowerCase().includes(query)) ||
-          item.dietaryLabels?.some(l => l.toLowerCase().includes(query))
+          item.allergens?.some((a: string) => a.toLowerCase().includes(query)) ||
+          item.dietary?.some((l: string) => l.toLowerCase().includes(query))
         );
       }).sort((a, b) => {
         // Smart sorting: items starting with query first

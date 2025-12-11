@@ -1,12 +1,23 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { TenantSwitcher } from '@/components/tenant';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { createClient } from '@/lib/supabase-browser';
 
 export function Header() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const { brand, location } = useTenant();
+  const supabase = createClient();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/login');
+    router.refresh();
+  };
 
   // Generate preview URL based on current selection
   const previewUrl = location?.slug && brand?.slug
@@ -97,10 +108,44 @@ export function Header() {
           Preview
         </a>
 
-        {/* User avatar */}
-        <button className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600 hover:bg-gray-300 transition-colors">
-          R
-        </button>
+        {/* User avatar with dropdown */}
+        <div className="relative">
+          <button
+            onClick={() => setShowUserMenu(!showUserMenu)}
+            className="h-8 w-8 rounded-full bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center text-sm font-medium text-white hover:opacity-90 transition-opacity"
+          >
+            U
+          </button>
+
+          {/* Dropdown menu */}
+          {showUserMenu && (
+            <>
+              <div
+                className="fixed inset-0 z-10"
+                onClick={() => setShowUserMenu(false)}
+              />
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
+                <div className="px-4 py-2 border-b border-gray-100">
+                  <p className="text-sm font-medium text-gray-900">Account</p>
+                  <p className="text-xs text-gray-500 truncate">user@example.com</p>
+                </div>
+                <a
+                  href="/settings"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                  onClick={() => setShowUserMenu(false)}
+                >
+                  Settings
+                </a>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                >
+                  Sign out
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );
