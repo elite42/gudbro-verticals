@@ -374,13 +374,25 @@ export function WelcomeModal({
                   {/* Auth Buttons */}
                   <div className="flex gap-2">
                     <button
-                      onClick={handleLogin}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleLogin();
+                      }}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onTouchStart={(e) => e.stopPropagation()}
                       className="flex-1 px-4 py-2.5 bg-theme-bg-elevated border-2 border-theme-border-secondary text-theme-text-primary font-semibold rounded-lg hover:border-theme-border-primary hover:bg-theme-bg-secondary active:scale-[0.98] transition-all"
                     >
                       {t.auth.login}
                     </button>
                     <button
-                      onClick={handleSignup}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        handleSignup();
+                      }}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onTouchStart={(e) => e.stopPropagation()}
                       className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 active:scale-[0.98] transition-all shadow-md"
                     >
                       {t.auth.signup}
