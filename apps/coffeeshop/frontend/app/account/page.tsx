@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AccountHeader } from '../../components/AccountHeader';
 import { FollowMerchantButton } from '../../components/FollowMerchantButton';
@@ -17,7 +17,20 @@ import { languagePreferencesStore } from '@/lib/language-preferences';
 import { currencyPreferencesStore } from '@/lib/currency-preferences';
 import { useTheme } from '@/lib/theme/theme-context';
 
+// Wrapper component to handle Suspense for useSearchParams
 export default function AccountPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-theme-bg-secondary flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-theme-text-primary"></div>
+      </div>
+    }>
+      <AccountPageContent />
+    </Suspense>
+  );
+}
+
+function AccountPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t, language, setLanguage } = useTranslation();
