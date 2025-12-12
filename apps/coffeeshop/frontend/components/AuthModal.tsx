@@ -258,6 +258,16 @@ export function AuthModal({
             </p>
           </div>
 
+          {/* Continue as Guest */}
+          <div className="mt-6 pt-4 border-t border-theme-border-light">
+            <button
+              onClick={onClose}
+              className="w-full py-3 text-theme-text-secondary hover:text-theme-text-primary font-medium transition-colors"
+            >
+              Continua come ospite →
+            </button>
+          </div>
+
           {/* Privacy Note */}
           <p className="mt-4 text-xs text-theme-text-tertiary text-center">
             Continuando accetti i nostri{' '}
