@@ -27,6 +27,12 @@ export const coffeeshopConfig = {
   vertical: 'restaurant' as const,
   name: 'ROOTS',
 
+  // Merchant identification (for GudBro platform)
+  merchant: {
+    id: process.env.NEXT_PUBLIC_MERCHANT_ID || 'roots-danang-001', // Will be UUID from Supabase
+    slug: 'roots-danang',
+  },
+
   // 🆕 Tier system
   activeTier: ACTIVE_TIER,
   tierInfo: {

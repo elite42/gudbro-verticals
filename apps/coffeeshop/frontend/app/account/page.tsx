@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { AccountHeader } from '../../components/AccountHeader';
+import { FollowMerchantButton } from '../../components/FollowMerchantButton';
 import { BottomNavLocal } from '../../components/BottomNavLocal';
 import { coffeeshopConfig } from '../../config/coffeeshop.config';
 import { useTranslation } from '@/lib/use-translation';
@@ -17,9 +18,10 @@ import { useTheme } from '@/lib/theme/theme-context';
 
 export default function AccountPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { t, language, setLanguage } = useTranslation();
   const { themeMode, toggleTheme } = useTheme();
-  const { i18n } = coffeeshopConfig;
+  const { i18n, merchant } = coffeeshopConfig;
 
   // State
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -50,8 +52,14 @@ export default function AccountPage() {
 
       const currencyPrefs = currencyPreferencesStore.get();
       setSelectedCurrency(currencyPrefs.selectedCurrency);
+
+      // Check for auth query param to auto-open auth modal
+      const authParam = searchParams.get('auth');
+      if (authParam === 'login' || authParam === 'register') {
+        setShowAuthModal(true);
+      }
     }
-  }, []);
+  }, [searchParams]);
 
   // Handle name save
   const handleSaveName = () => {
@@ -362,12 +370,23 @@ export default function AccountPage() {
           </div>
         </div>
 
-        {/* About */}
+        {/* About & Follow Locale */}
         <div className="bg-theme-bg-elevated rounded-2xl p-5 shadow-lg">
-          <h3 className="text-lg font-bold text-theme-text-primary mb-2">{coffeeshopConfig.business.name}</h3>
-          <p className="text-sm text-theme-text-secondary mb-3">
-            {coffeeshopConfig.business.description}
-          </p>
+          <div className="flex items-start justify-between gap-4 mb-3">
+            <div>
+              <h3 className="text-lg font-bold text-theme-text-primary">{coffeeshopConfig.business.name}</h3>
+              <p className="text-sm text-theme-text-secondary mt-1">
+                {coffeeshopConfig.business.description}
+              </p>
+            </div>
+            {merchant?.id && (
+              <FollowMerchantButton
+                merchantId={merchant.id}
+                merchantName={coffeeshopConfig.business.name}
+                variant="compact"
+              />
+            )}
+          </div>
           <div className="flex items-center gap-2 text-sm text-theme-text-secondary">
             <span>📍</span>
             <span>{coffeeshopConfig.location.address}</span>
@@ -681,19 +700,35 @@ function AuthModal({
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
+  // Import auth functions dynamically to avoid SSR issues
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setSuccessMessage('');
 
     try {
-      // TODO: Integrate with Supabase Auth
-      // For now, simulate a successful login/register
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { signUpWithEmail, signInWithEmail } = await import('@/lib/auth-service');
 
-      // Simulated success
-      onSuccess({ email, name: mode === 'register' ? name : undefined });
+      const result = mode === 'register'
+        ? await signUpWithEmail(email, password, name)
+        : await signInWithEmail(email, password);
+
+      if (!result.success) {
+        setError(result.error || 'Errore durante l\'autenticazione');
+        return;
+      }
+
+      if (result.needsEmailVerification) {
+        setSuccessMessage('Ti abbiamo inviato un\'email di conferma. Controlla la tua casella di posta.');
+        return;
+      }
+
+      if (result.user) {
+        onSuccess({ email: result.user.email, name: result.user.name });
+      }
     } catch (err) {
       setError('Si è verificato un errore. Riprova.');
     } finally {
@@ -706,14 +741,16 @@ function AuthModal({
     setError('');
 
     try {
-      // TODO: Integrate with Supabase OAuth
-      // For now, simulate a successful login
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { signInWithOAuth } = await import('@/lib/auth-service');
+      const result = await signInWithOAuth(provider);
 
-      onSuccess({ email: `user@${provider}.com`, name: 'Social User' });
+      if (!result.success) {
+        setError(result.error || `Errore con ${provider}`);
+        setIsLoading(false);
+      }
+      // OAuth redirects, so loading stays true until redirect
     } catch (err) {
       setError(`Errore con ${provider}. Riprova.`);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -841,6 +878,12 @@ function AuthModal({
             {error && (
               <div className="p-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-800 rounded-xl">
                 <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              </div>
+            )}
+
+            {successMessage && (
+              <div className="p-3 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-800 rounded-xl">
+                <p className="text-sm text-green-600 dark:text-green-400">{successMessage}</p>
               </div>
             )}
 
