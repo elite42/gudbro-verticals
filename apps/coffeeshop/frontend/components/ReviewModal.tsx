@@ -72,14 +72,7 @@ export function ReviewModal({ onClose }: ReviewModalProps) {
 
     setDiscountCode(record.discountCode);
     setStep('success');
-
-    // TODO: In production, send feedback to backend/email
-    console.log('Private Feedback:', {
-      rating,
-      feedbackText,
-      suggestions,
-      contactRequested,
-    });
+    // TODO: Send feedback to backend/email in production
   };
 
   const handleChangeRating = () => {
@@ -371,8 +364,7 @@ export function ReviewModal({ onClose }: ReviewModalProps) {
                     <button
                       onClick={() => {
                         if (email && email.includes('@')) {
-                          // TODO: In production, send email via API
-                          console.log('Email to send discount code:', email, discountCode);
+                          // TODO: Send email via API in production
                           setEmailSent(true);
                         } else {
                           alert('Please enter a valid email');

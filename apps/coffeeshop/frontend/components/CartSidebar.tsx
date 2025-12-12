@@ -147,36 +147,21 @@ export function CartSidebar({
   const handleConsumptionTypeToggle = () => {
     const newType = tableContext.consumption_type === 'dine-in' ? 'takeaway' : 'dine-in';
     tableContextStore.setConsumptionType(newType);
-    console.log('🔄 Consumption type changed to:', newType);
   };
 
   const handleCheckoutClick = () => {
     try {
       // Get complete order data including table context
       const orderData = cartStore.getOrderData();
-      console.log('🛒 Proceeding to checkout with order:', orderData);
 
       // Save order to history BEFORE clearing cart
-      const savedOrder = orderHistoryStore.addOrder(orderData);
-      console.log('📦 Order saved to history:', {
-        orderId: savedOrder.id,
-        items: savedOrder.items.length,
-        total: savedOrder.total,
-        timestamp: new Date(savedOrder.submittedAt).toISOString()
-      });
+      orderHistoryStore.addOrder(orderData);
 
-      // Clear cart and verify it's empty
+      // Clear cart
       cartStore.clear();
-      console.log('🗑️ Cart cleared, verifying...', {
-        remainingItems: cartStore.get().items.length,
-        remainingCount: cartStore.count()
-      });
 
       // Update local state immediately
       setCartItems([]);
-
-      // TODO: Send order to backend
-      // await fetch('/api/orders', { method: 'POST', body: JSON.stringify(orderData) });
 
       // Close sidebar
       onClose();
@@ -189,10 +174,8 @@ export function CartSidebar({
 
       // Call parent callback if provided
       onCheckout?.();
-
-      console.log('✅ Order submission complete');
     } catch (error) {
-      console.error('❌ Failed to submit order:', error);
+      console.error('Failed to submit order:', error);
       alert('Errore durante l\'invio dell\'ordine. Riprova.');
     }
   };

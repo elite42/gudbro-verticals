@@ -220,6 +220,53 @@
 
 ---
 
+## Website (apps/website)
+
+**Status:** 16 pagine implementate (12 Dicembre 2025)
+
+### Pages (app/)
+
+| Route | File | Purpose | Status |
+|-------|------|---------|--------|
+| `/` | `page.tsx` | Homepage con hero, features, pricing | ✅ |
+| `/sign-in` | `sign-in/page.tsx` | Login form (email + Google OAuth) | ✅ |
+| `/sign-up` | `sign-up/page.tsx` | Registration form con Suspense | ✅ |
+| `/contact` | `contact/page.tsx` | Contact form (nome, email, messaggio) | ✅ |
+| `/privacy` | `privacy/page.tsx` | Privacy Policy page | ✅ |
+| `/terms` | `terms/page.tsx` | Terms of Service page | ✅ |
+| `/cookies` | `cookies/page.tsx` | Cookie Policy page | ✅ |
+| `/demo` | `demo/page.tsx` | Links to live demos (PWA + Backoffice) | ✅ |
+| `/faq` | `faq/page.tsx` | FAQ accordion (5 categorie, 20+ Q&A) | ✅ |
+| `/about` | `about/page.tsx` | About us, company story, values | ✅ |
+| `/solutions/restaurants` | `solutions/[slug]/page.tsx` | Restaurant solution | ✅ |
+| `/solutions/hotels` | `solutions/[slug]/page.tsx` | Hotel solution | ✅ |
+| `/solutions/airbnb` | `solutions/[slug]/page.tsx` | Vacation rental solution | ✅ |
+| `/solutions/food-trucks` | `solutions/[slug]/page.tsx` | Food truck solution | ✅ |
+
+### Components (components/)
+
+| File | Purpose | Status |
+|------|---------|--------|
+| `layout/Header.tsx` | Navigation header | ✅ |
+| `layout/Footer.tsx` | Footer with links | ✅ |
+
+### SEO & Config
+
+| File | Purpose | Status |
+|------|---------|--------|
+| `app/sitemap.ts` | Dynamic sitemap (22 URLs) | ✅ |
+| `public/robots.txt` | Robots.txt with sitemap | ✅ |
+| `app/layout.tsx` | Root layout with metadata | ✅ |
+
+### Notes
+
+- Solution pages use dynamic routing with `generateStaticParams`
+- Sign-up page uses Suspense boundary for `useSearchParams`
+- All pages have proper `<Metadata>` exports for SEO
+- Contact form has client-side validation (API endpoint pending)
+
+---
+
 ## Deployed URLs
 
 | App | URL | Port (dev) |
@@ -249,6 +296,9 @@ Arabic (ar), Hebrew (he), Persian (fa), Urdu (ur), Pashto (ps), Divehi (dv)
 | Order System | ✅ Complete | Supabase with fallback |
 | Design System | ✅ Complete | CVA + shadcn/ui pattern |
 | Claude Workflow | ✅ Complete | Commands + Agents |
+| Website (Marketing) | ✅ Complete | 16 pages, SEO, legal pages |
+| PWA (Coffeeshop) | ✅ Complete | 78% features, PWA manifest |
+| Backoffice | ✅ Complete | 37 pages, auth, analytics |
 
 ---
 

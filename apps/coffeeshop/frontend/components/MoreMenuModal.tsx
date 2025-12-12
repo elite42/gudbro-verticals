@@ -177,8 +177,7 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
   };
 
   const handleCallStaffConfirm = (reason: string) => {
-    console.log('Staff called:', reason);
-    // In production, this would send to backend/websocket
+    // TODO: Send to backend/websocket in production
   };
 
   return (

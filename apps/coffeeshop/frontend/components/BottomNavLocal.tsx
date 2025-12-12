@@ -253,7 +253,7 @@ export function BottomNavLocal() {
           dish={selectedProduct}
           onClose={() => setSelectedProduct(null)}
           onAddToCart={(dish: DishItem, quantity: number, extras: Extra[]) => {
-            console.log('Updated product in cart');
+            // Product updated in cart
           }}
         />
       )}

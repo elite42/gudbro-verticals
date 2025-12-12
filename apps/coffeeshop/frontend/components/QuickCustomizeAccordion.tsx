@@ -88,7 +88,6 @@ export function QuickCustomizeAccordion({
     // Save preference if requested
     if (saveAsPreference) {
       savePreference(extrasToAdd);
-      console.log('✨ Saved preference for', dish.name);
     }
 
     // Add to cart

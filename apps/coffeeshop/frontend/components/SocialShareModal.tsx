@@ -38,13 +38,7 @@ export function SocialShareModal({ action, onClose }: SocialShareModalProps) {
 
     setDiscountCode(record.discountCode);
     setStep('success');
-
-    // TODO: In production, verify post/checkin/follow via API
-    console.log('Social Action:', {
-      action,
-      instagramUsername,
-      postUrl,
-    });
+    // TODO: Verify post/checkin/follow via API in production
   };
 
   const getConfig = () => {
@@ -331,7 +325,7 @@ export function SocialShareModal({ action, onClose }: SocialShareModalProps) {
                     <button
                       onClick={() => {
                         if (email && email.includes('@')) {
-                          console.log('Email to send discount code:', email, discountCode);
+                          // TODO: Send email via API in production
                           setEmailSent(true);
                         } else {
                           alert('Please enter a valid email');

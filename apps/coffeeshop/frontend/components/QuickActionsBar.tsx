@@ -69,10 +69,8 @@ export function QuickActionsBar({
     // Trigger callback (will integrate with WebSocket/API later)
     if (onCallStaff) {
       onCallStaff();
-    } else {
-      // Mock notification
-      console.log('Staff called - table notification sent');
     }
+    // TODO: Integrate with backend notification system
   };
 
   return (
