@@ -9,7 +9,7 @@ import { WelcomeBackBanner } from '../components/WelcomeBackBanner';
 import { EngagementHub } from '../components/EngagementHub';
 import { WiFiQuickConnect } from '../components/WiFiQuickConnect';
 import { FeedbackRatingModal } from '../components/FeedbackRatingModal';
-import { WelcomeModalSimple } from '../components/WelcomeModalSimple';
+import { WelcomeModal } from '../components/WelcomeModal';
 import { AuthModal } from '../components/AuthModal';
 import { userProfileStore } from '../lib/user-profile-store';
 import { getROOTSMenuItemsSync } from '../lib/roots-menu';
@@ -331,20 +331,20 @@ export default function HomePage() {
       />
 
       {/* Welcome Modal */}
-      <WelcomeModalSimple
+      <WelcomeModal
         isOpen={showWelcomeModal}
         onClose={() => setShowWelcomeModal(false)}
-        onLogin={() => {
+        onLoginClick={() => {
           setAuthMode('login');
           setShowWelcomeModal(false);
           setShowAuthModal(true);
         }}
-        onSignup={() => {
+        onSignupClick={() => {
           setAuthMode('register');
           setShowWelcomeModal(false);
           setShowAuthModal(true);
         }}
-        restaurantName={business.name}
+        venueName={business.name}
         tableNumber="12"
       />
 

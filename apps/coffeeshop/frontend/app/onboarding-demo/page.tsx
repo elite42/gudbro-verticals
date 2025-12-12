@@ -148,6 +148,8 @@ export default function OnboardingDemoPage() {
       <WelcomeModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onLoginClick={() => alert('Login clicked - implement auth modal')}
+        onSignupClick={() => alert('Signup clicked - implement auth modal')}
         tableNumber={tableNumber}
       />
     </div>
