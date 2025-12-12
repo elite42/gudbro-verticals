@@ -142,6 +142,17 @@ export default function SettingsPage() {
             </div>
             <span className="text-green-600 text-xl">→</span>
           </Link>
+
+          <Link
+            href="/settings/auth"
+            className="flex items-center justify-between p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+          >
+            <div>
+              <p className="font-medium text-gray-900">Authentication Providers</p>
+              <p className="text-sm text-gray-600">Configure Google, Apple, Facebook and other OAuth providers</p>
+            </div>
+            <span className="text-purple-600 text-xl">→</span>
+          </Link>
         </div>
       </div>
 
