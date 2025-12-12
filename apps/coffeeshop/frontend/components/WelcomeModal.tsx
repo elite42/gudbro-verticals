@@ -134,6 +134,8 @@ export function WelcomeModal({
   }, [showLanguageDropdown, showCurrencyDropdown]);
 
   function handleClose() {
+    console.log('[WelcomeModal] handleClose called');
+    console.trace('[WelcomeModal] handleClose stack trace');
     // Mark onboarding as completed in localStorage
     if (typeof window !== 'undefined' && venueConfig.behavior.showOnce) {
       localStorage.setItem('gudbro_onboarding_completed', 'true');
@@ -142,11 +144,13 @@ export function WelcomeModal({
   }
 
   function handleLogin() {
+    console.log('[WelcomeModal] handleLogin called, setting showAuthModal=true');
     setAuthMode('login');
     setShowAuthModal(true);
   }
 
   function handleSignup() {
+    console.log('[WelcomeModal] handleSignup called, setting showAuthModal=true');
     setAuthMode('register');
     setShowAuthModal(true);
   }
