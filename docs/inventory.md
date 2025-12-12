@@ -2,7 +2,7 @@
 
 > **CRITICAL:** Consulta questo file PRIMA di esplorare il codebase per evitare di "riscoprire" feature esistenti.
 
-**Last Updated:** 2025-12-07
+**Last Updated:** 2025-12-12
 
 ---
 
@@ -81,6 +81,19 @@
 |------|---------|--------|
 | `coffee-house-menu.ts` | 81 Coffee House products | ✅ |
 | `roots-menu.ts` | 13 ROOTS restaurant products | ✅ |
+
+### Auth Components (components/)
+
+| File | Purpose | Status |
+|------|---------|--------|
+| `AuthModal.tsx` | Social login (Google/Apple/Facebook) + email/password auth | ✅ |
+| `WelcomeModal.tsx` | Onboarding bottom sheet with language selector and auth CTA | ✅ |
+
+### Auth Service (lib/)
+
+| File | Purpose | Status |
+|------|---------|--------|
+| `auth-service.ts` | Supabase auth: signIn, signUp, signOut, OAuth, getCurrentUser | ✅ |
 
 ---
 
