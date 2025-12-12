@@ -10,6 +10,7 @@ import { EngagementHub } from '../components/EngagementHub';
 import { WiFiQuickConnect } from '../components/WiFiQuickConnect';
 import { FeedbackRatingModal } from '../components/FeedbackRatingModal';
 import { WelcomeModalSimple } from '../components/WelcomeModalSimple';
+import { AuthModal } from '../components/AuthModal';
 import { userProfileStore } from '../lib/user-profile-store';
 import { getROOTSMenuItemsSync } from '../lib/roots-menu';
 import { DishItem } from '../components/DishCard';
@@ -24,6 +25,8 @@ export default function HomePage() {
   const [isClient, setIsClient] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(true); // Always show on refresh for testing
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
 
   // Load menu items
   const menuItems: DishItem[] = getROOTSMenuItemsSync();
@@ -331,12 +334,33 @@ export default function HomePage() {
       <WelcomeModalSimple
         isOpen={showWelcomeModal}
         onClose={() => setShowWelcomeModal(false)}
+        onLogin={() => {
+          setAuthMode('login');
+          setShowWelcomeModal(false);
+          setShowAuthModal(true);
+        }}
+        onSignup={() => {
+          setAuthMode('register');
+          setShowWelcomeModal(false);
+          setShowAuthModal(true);
+        }}
         restaurantName={business.name}
         tableNumber="12"
       />
 
+      {/* Auth Modal - Rendered at page level, independent of WelcomeModal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={(user) => {
+          setShowAuthModal(false);
+          // Could redirect to menu or show welcome message
+        }}
+        defaultMode={authMode}
+      />
+
       {/* Bottom Navigation - Hidden when welcome modal is open */}
-      {!showWelcomeModal && <BottomNavLocal />}
+      {!showWelcomeModal && !showAuthModal && <BottomNavLocal />}
     </div>
   );
 }
