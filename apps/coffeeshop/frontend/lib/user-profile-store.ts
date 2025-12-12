@@ -7,6 +7,7 @@
 export interface UserProfile {
   id: string; // Unique user ID (generated on first visit)
   name?: string; // User's name (if provided)
+  email?: string; // User's email (if registered)
   isRegistered: boolean; // Whether user has a GudBro account
   visitCount: number; // Number of visits
   firstVisit: string; // ISO date string of first visit
