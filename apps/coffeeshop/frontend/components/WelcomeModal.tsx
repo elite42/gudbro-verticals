@@ -163,8 +163,6 @@ export function WelcomeModal({
     console.log('Staff called for table:', tableNumber);
   }
 
-  if (!isOpen) return null;
-
   // Replace placeholders in welcome message
   const welcomeTitle = venueConfig.welcomeMessage.title[language as 'en' | 'vi' | 'it']
     .replace('{venueName}', restaurantName);
@@ -177,18 +175,21 @@ export function WelcomeModal({
 
   return (
     <>
-      {/* Overlay */}
-      <div
-        className="fixed inset-0 z-[100] bg-black/50 transition-opacity"
-        style={swipe.getBackdropStyle()}
-        onClick={handleClose}
-      />
+      {/* Welcome Modal - Only render when isOpen */}
+      {isOpen && (
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 z-[100] bg-black/50 transition-opacity"
+            style={swipe.getBackdropStyle()}
+            onClick={handleClose}
+          />
 
-      {/* Bottom Sheet */}
-      <div
-        ref={modalRef}
-        className="fixed bottom-0 left-0 right-0 z-[120] bg-theme-bg-elevated rounded-t-3xl shadow-2xl max-h-[92vh] overflow-hidden select-none"
-        style={swipe.getModalStyle()}
+          {/* Bottom Sheet */}
+          <div
+            ref={modalRef}
+            className="fixed bottom-0 left-0 right-0 z-[120] bg-theme-bg-elevated rounded-t-3xl shadow-2xl max-h-[92vh] overflow-hidden select-none"
+            style={swipe.getModalStyle()}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
@@ -403,8 +404,10 @@ export function WelcomeModal({
         </div>
 
       </div>
+        </>
+      )}
 
-      {/* Auth Modal */}
+      {/* Auth Modal - Always rendered, controlled by showAuthModal state */}
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
@@ -414,4 +417,3 @@ export function WelcomeModal({
     </>
   );
 }
-// Force rebuild 1765524362
