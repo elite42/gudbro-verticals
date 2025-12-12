@@ -8,9 +8,9 @@
  * - Background sync for orders (future)
  */
 
-const CACHE_NAME = 'roots-pwa-v1';
-const STATIC_CACHE = 'roots-static-v1';
-const IMAGE_CACHE = 'roots-images-v1';
+const CACHE_NAME = 'roots-pwa-v2';
+const STATIC_CACHE = 'roots-static-v2';
+const IMAGE_CACHE = 'roots-images-v2';
 
 // Static assets to cache on install
 const STATIC_ASSETS = [
