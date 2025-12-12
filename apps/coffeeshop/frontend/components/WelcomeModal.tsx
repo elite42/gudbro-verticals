@@ -10,6 +10,7 @@ import { coffeeshopConfig } from '@/config/coffeeshop.config';
 import { defaultVenueConfig, type VenueOnboardingConfig } from '@/lib/venue-config';
 import { WiFiCredentials } from './WiFiCredentials';
 import { QuickActionsBar } from './QuickActionsBar';
+import { AuthModal } from './AuthModal';
 import { Button } from './ui/button';
 
 interface WelcomeModalProps {
@@ -77,6 +78,9 @@ export function WelcomeModal({
   const [currency, setCurrency] = useState(coffeeshopConfig.i18n.baseCurrency);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [currentUser, setCurrentUser] = useState<{ email?: string; name?: string } | null>(null);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
   const currencyDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -93,6 +97,24 @@ export function WelcomeModal({
 
   // Swipe-to-dismiss functionality
   const swipe = useSwipeToDismiss({ isOpen, onClose: handleClose });
+
+  // Check auth state on mount
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const { getCurrentUser } = await import('@/lib/auth-service');
+        const user = await getCurrentUser();
+        if (user) {
+          setCurrentUser({ email: user.email, name: user.name });
+        }
+      } catch (err) {
+        // Auth not available or not logged in
+      }
+    }
+    if (isOpen) {
+      checkAuth();
+    }
+  }, [isOpen]);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -120,15 +142,20 @@ export function WelcomeModal({
   }
 
   function handleLogin() {
-    handleClose();
-    // TODO: Open login modal or redirect to /login
-    console.log('TODO: Open login modal');
+    setAuthMode('login');
+    setShowAuthModal(true);
   }
 
   function handleSignup() {
+    setAuthMode('register');
+    setShowAuthModal(true);
+  }
+
+  function handleAuthSuccess(user: { email?: string; name?: string }) {
+    setCurrentUser(user);
+    setShowAuthModal(false);
+    // Optionally close welcome modal and go to menu
     handleClose();
-    // TODO: Open signup modal or redirect to /signup
-    console.log('TODO: Open signup modal');
   }
 
   function handleCallStaff() {
@@ -318,29 +345,48 @@ export function WelcomeModal({
           {/* Auth CTA (Login/Signup for Advanced Features) - Compact */}
           {venueConfig.authCTA.enabled && (
             <div className="bg-theme-bg-tertiary border-2 border-theme-border-secondary rounded-xl p-4 shadow-sm">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="text-3xl">✨</div>
-                <div className="flex-1">
-                  <h3 className="text-base font-bold text-theme-text-primary">{authTitle}</h3>
-                  <p className="text-xs text-theme-text-secondary">{t.auth.benefitsSubtitle}</p>
+              {currentUser ? (
+                /* Logged in state */
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-lg font-bold flex-shrink-0">
+                    {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : currentUser.email?.charAt(0).toUpperCase() || '?'}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base font-bold text-theme-text-primary truncate">
+                      {language === 'it' ? 'Bentornato' : language === 'vi' ? 'Chao mung tro lai' : 'Welcome back'}, {currentUser.name || currentUser.email?.split('@')[0]}!
+                    </h3>
+                    <p className="text-xs text-theme-text-secondary truncate">{currentUser.email}</p>
+                  </div>
+                  <div className="text-2xl">✨</div>
                 </div>
-              </div>
+              ) : (
+                /* Guest state - show login/signup */
+                <>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="text-3xl">✨</div>
+                    <div className="flex-1">
+                      <h3 className="text-base font-bold text-theme-text-primary">{authTitle}</h3>
+                      <p className="text-xs text-theme-text-secondary">{t.auth.benefitsSubtitle}</p>
+                    </div>
+                  </div>
 
-              {/* Auth Buttons */}
-              <div className="flex gap-2">
-                <button
-                  onClick={handleLogin}
-                  className="flex-1 px-4 py-2.5 bg-theme-bg-elevated border-2 border-theme-border-secondary text-theme-text-primary font-semibold rounded-lg hover:border-theme-border-primary hover:bg-theme-bg-secondary active:scale-[0.98] transition-all"
-                >
-                  {t.auth.login}
-                </button>
-                <button
-                  onClick={handleSignup}
-                  className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 active:scale-[0.98] transition-all shadow-md"
-                >
-                  {t.auth.signup}
-                </button>
-              </div>
+                  {/* Auth Buttons */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleLogin}
+                      className="flex-1 px-4 py-2.5 bg-theme-bg-elevated border-2 border-theme-border-secondary text-theme-text-primary font-semibold rounded-lg hover:border-theme-border-primary hover:bg-theme-bg-secondary active:scale-[0.98] transition-all"
+                    >
+                      {t.auth.login}
+                    </button>
+                    <button
+                      onClick={handleSignup}
+                      className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 active:scale-[0.98] transition-all shadow-md"
+                    >
+                      {t.auth.signup}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
@@ -357,6 +403,14 @@ export function WelcomeModal({
         </div>
 
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+        defaultMode={authMode}
+      />
     </>
   );
 }
