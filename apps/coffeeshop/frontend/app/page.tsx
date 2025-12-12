@@ -9,7 +9,7 @@ import { WelcomeBackBanner } from '../components/WelcomeBackBanner';
 import { EngagementHub } from '../components/EngagementHub';
 import { WiFiQuickConnect } from '../components/WiFiQuickConnect';
 import { FeedbackRatingModal } from '../components/FeedbackRatingModal';
-import { WelcomeModal } from '../components/WelcomeModal';
+import { WelcomeModalSimple } from '../components/WelcomeModalSimple';
 import { userProfileStore } from '../lib/user-profile-store';
 import { getROOTSMenuItemsSync } from '../lib/roots-menu';
 import { DishItem } from '../components/DishCard';
@@ -328,7 +328,7 @@ export default function HomePage() {
       />
 
       {/* Welcome Modal */}
-      <WelcomeModal
+      <WelcomeModalSimple
         isOpen={showWelcomeModal}
         onClose={() => setShowWelcomeModal(false)}
         restaurantName={business.name}
