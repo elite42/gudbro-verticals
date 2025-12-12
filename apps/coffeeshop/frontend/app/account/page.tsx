@@ -7,7 +7,8 @@ import { BottomNavLocal } from '../../components/BottomNavLocal';
 import { coffeeshopConfig } from '../../config/coffeeshop.config';
 import { useTranslation } from '@/lib/use-translation';
 import { userProfileStore, UserProfile } from '@/lib/user-profile-store';
-import { preferencesStore, UserPreferences, AVAILABLE_ALLERGENS, AVAILABLE_DIETS } from '@/lib/user-preferences';
+import { preferencesStore, UserPreferences } from '@/lib/user-preferences';
+import { safetyFilters, getAllergens, getIntolerances, getDiets, SafetyFilter } from '@/lib/safety/safety-filters';
 import { favoritesStore } from '@/lib/favorites-store';
 import { orderHistoryStore } from '@/lib/order-history-store';
 import { languagePreferencesStore } from '@/lib/language-preferences';
@@ -197,6 +198,7 @@ export default function AccountPage() {
           </div>
 
           {preferences.allergens_to_avoid.length === 0 &&
+           preferences.intolerances.length === 0 &&
            preferences.dietary_preferences.length === 0 ? (
             <p className="text-theme-text-secondary text-sm">
               Nessuna preferenza impostata. Tocca "Modifica" per personalizzare la tua esperienza.
@@ -207,14 +209,40 @@ export default function AccountPage() {
                 <div>
                   <div className="text-xs font-medium text-theme-text-secondary mb-2">Allergeni da evitare:</div>
                   <div className="flex flex-wrap gap-2">
-                    {preferences.allergens_to_avoid.map(allergen => (
-                      <span
-                        key={allergen}
-                        className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full text-sm"
-                      >
-                        {allergen}
-                      </span>
-                    ))}
+                    {preferences.allergens_to_avoid.map(allergenId => {
+                      const filter = safetyFilters.find(f => f.id === allergenId);
+                      const label = filter?.label[language as 'en' | 'it' | 'vi'] || filter?.label.en || allergenId;
+                      return (
+                        <span
+                          key={allergenId}
+                          className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full text-sm flex items-center gap-1"
+                        >
+                          {filter?.icon && <span>{filter.icon}</span>}
+                          {label}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {preferences.intolerances.length > 0 && (
+                <div>
+                  <div className="text-xs font-medium text-theme-text-secondary mb-2">Intolleranze:</div>
+                  <div className="flex flex-wrap gap-2">
+                    {preferences.intolerances.map(intoleranceId => {
+                      const filter = safetyFilters.find(f => f.id === intoleranceId);
+                      const label = filter?.label[language as 'en' | 'it' | 'vi'] || filter?.label.en || intoleranceId;
+                      return (
+                        <span
+                          key={intoleranceId}
+                          className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-full text-sm flex items-center gap-1"
+                        >
+                          {filter?.icon && <span>{filter.icon}</span>}
+                          {label}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -223,14 +251,19 @@ export default function AccountPage() {
                 <div>
                   <div className="text-xs font-medium text-theme-text-secondary mb-2">Dieta:</div>
                   <div className="flex flex-wrap gap-2">
-                    {preferences.dietary_preferences.map(diet => (
-                      <span
-                        key={diet}
-                        className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm"
-                      >
-                        {diet}
-                      </span>
-                    ))}
+                    {preferences.dietary_preferences.map(dietId => {
+                      const filter = safetyFilters.find(f => f.id === dietId);
+                      const label = filter?.label[language as 'en' | 'it' | 'vi'] || filter?.label.en || dietId;
+                      return (
+                        <span
+                          key={dietId}
+                          className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm flex items-center gap-1"
+                        >
+                          {filter?.icon && <span>{filter.icon}</span>}
+                          {label}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -252,7 +285,7 @@ export default function AccountPage() {
               <select
                 value={language}
                 onChange={(e) => {
-                  setLanguage(e.target.value);
+                  setLanguage(e.target.value as 'en' | 'it' | 'vi');
                   languagePreferencesStore.set({ selectedLanguage: e.target.value });
                 }}
                 className="px-3 py-2 rounded-lg bg-theme-bg-secondary border border-theme-border-light text-theme-text-primary"
@@ -328,6 +361,7 @@ export default function AccountPage() {
       {showPreferencesModal && (
         <PreferencesModal
           preferences={preferences}
+          currentLanguage={language}
           onSave={(newPrefs) => {
             preferencesStore.set(newPrefs);
             setPreferences(newPrefs);
@@ -347,59 +381,99 @@ export default function AccountPage() {
 function PreferencesModal({
   preferences,
   onSave,
-  onClose
+  onClose,
+  currentLanguage
 }: {
   preferences: UserPreferences;
   onSave: (prefs: UserPreferences) => void;
   onClose: () => void;
+  currentLanguage: string;
 }) {
   const [localPrefs, setLocalPrefs] = useState(preferences);
-  const [activeTab, setActiveTab] = useState<'allergens' | 'diets'>('allergens');
+  const [activeTab, setActiveTab] = useState<'allergens' | 'intolerances' | 'diets'>('allergens');
 
-  const toggleAllergen = (allergen: string) => {
+  // Get filters from centralized safety-filters.ts
+  const allergensList = getAllergens();
+  const intolerancesList = getIntolerances();
+  const dietsList = getDiets();
+
+  // Get label based on current language
+  const getLabel = (filter: SafetyFilter): string => {
+    const lang = currentLanguage as 'en' | 'it' | 'vi';
+    return filter.label[lang] || filter.label.en;
+  };
+
+  const toggleAllergen = (allergenId: string) => {
     setLocalPrefs(prev => ({
       ...prev,
-      allergens_to_avoid: prev.allergens_to_avoid.includes(allergen)
-        ? prev.allergens_to_avoid.filter(a => a !== allergen)
-        : [...prev.allergens_to_avoid, allergen]
+      allergens_to_avoid: prev.allergens_to_avoid.includes(allergenId)
+        ? prev.allergens_to_avoid.filter(a => a !== allergenId)
+        : [...prev.allergens_to_avoid, allergenId]
     }));
   };
 
-  const toggleDiet = (diet: string) => {
+  const toggleIntolerance = (intoleranceId: string) => {
     setLocalPrefs(prev => ({
       ...prev,
-      dietary_preferences: prev.dietary_preferences.includes(diet)
-        ? prev.dietary_preferences.filter(d => d !== diet)
-        : [...prev.dietary_preferences, diet]
+      intolerances: prev.intolerances.includes(intoleranceId)
+        ? prev.intolerances.filter(i => i !== intoleranceId)
+        : [...prev.intolerances, intoleranceId]
     }));
   };
 
-  // Common allergens with icons
-  const allergensList = [
-    { id: 'gluten', name: 'Glutine', icon: '🌾' },
-    { id: 'milk', name: 'Latte', icon: '🥛' },
-    { id: 'eggs', name: 'Uova', icon: '🥚' },
-    { id: 'nuts', name: 'Frutta a guscio', icon: '🥜' },
-    { id: 'peanuts', name: 'Arachidi', icon: '🥜' },
-    { id: 'soya', name: 'Soia', icon: '🫘' },
-    { id: 'fish', name: 'Pesce', icon: '🐟' },
-    { id: 'crustaceans', name: 'Crostacei', icon: '🦐' },
-    { id: 'molluscs', name: 'Molluschi', icon: '🦪' },
-    { id: 'sesame', name: 'Sesamo', icon: '🌰' },
-    { id: 'celery', name: 'Sedano', icon: '🥬' },
-    { id: 'mustard', name: 'Senape', icon: '🟡' },
-  ];
+  // Diet mutual exclusivity groups
+  // Only one diet per group can be selected at a time
+  const DIET_EXCLUSIVITY_GROUPS: Record<string, string[]> = {
+    // Main dietary pattern - mutually exclusive
+    'main': ['vegan', 'vegetarian', 'pescatarian', 'raw'],
+    // Religious diets - can overlap with some restrictions
+    'religious': ['halal', 'kosher', 'buddhist'],
+    // Carb-related - mutually exclusive
+    'carb': ['low-carb', 'keto', 'paleo'],
+  };
 
-  const dietsList = [
-    { id: 'vegan', name: 'Vegano', icon: '🌱' },
-    { id: 'vegetarian', name: 'Vegetariano', icon: '🥗' },
-    { id: 'gluten_free', name: 'Senza Glutine', icon: '🚫🌾' },
-    { id: 'dairy_free', name: 'Senza Latticini', icon: '🚫🥛' },
-    { id: 'halal', name: 'Halal', icon: '☪️' },
-    { id: 'kosher', name: 'Kosher', icon: '✡️' },
-    { id: 'low_carb', name: 'Low Carb', icon: '📉' },
-    { id: 'keto', name: 'Keto', icon: '🥓' },
-  ];
+  // Check if selecting a diet would conflict with existing selections
+  const getDietConflicts = (dietId: string): string[] => {
+    const conflicts: string[] = [];
+    for (const [groupName, groupDiets] of Object.entries(DIET_EXCLUSIVITY_GROUPS)) {
+      if (groupDiets.includes(dietId)) {
+        // Find other selected diets in the same group
+        const selectedInGroup = localPrefs.dietary_preferences.filter(
+          d => groupDiets.includes(d) && d !== dietId
+        );
+        conflicts.push(...selectedInGroup);
+      }
+    }
+    return conflicts;
+  };
+
+  const toggleDiet = (dietId: string) => {
+    setLocalPrefs(prev => {
+      const isCurrentlySelected = prev.dietary_preferences.includes(dietId);
+
+      if (isCurrentlySelected) {
+        // Deselecting - just remove it
+        return {
+          ...prev,
+          dietary_preferences: prev.dietary_preferences.filter(d => d !== dietId)
+        };
+      } else {
+        // Selecting - remove conflicting diets first
+        const conflicts = getDietConflicts(dietId);
+        const filteredDiets = prev.dietary_preferences.filter(d => !conflicts.includes(d));
+        return {
+          ...prev,
+          dietary_preferences: [...filteredDiets, dietId]
+        };
+      }
+    });
+  };
+
+  // Check if a diet is in conflict with current selection (for visual feedback)
+  const isDietInConflict = (dietId: string): boolean => {
+    if (localPrefs.dietary_preferences.includes(dietId)) return false;
+    return getDietConflicts(dietId).length > 0;
+  };
 
   return (
     <>
@@ -437,6 +511,16 @@ function PreferencesModal({
             Allergeni ({localPrefs.allergens_to_avoid.length})
           </button>
           <button
+            onClick={() => setActiveTab('intolerances')}
+            className={`flex-1 py-3 text-sm font-medium transition-colors ${
+              activeTab === 'intolerances'
+                ? 'text-pink-500 border-b-2 border-pink-500'
+                : 'text-theme-text-secondary'
+            }`}
+          >
+            Intolleranze ({localPrefs.intolerances.length})
+          </button>
+          <button
             onClick={() => setActiveTab('diets')}
             className={`flex-1 py-3 text-sm font-medium transition-colors ${
               activeTab === 'diets'
@@ -450,7 +534,7 @@ function PreferencesModal({
 
         {/* Content */}
         <div className="p-4 overflow-y-auto max-h-[50vh]">
-          {activeTab === 'allergens' ? (
+          {activeTab === 'allergens' && (
             <div className="grid grid-cols-2 gap-2">
               {allergensList.map(allergen => (
                 <button
@@ -463,27 +547,60 @@ function PreferencesModal({
                   }`}
                 >
                   <span className="text-xl">{allergen.icon}</span>
-                  <span className="text-sm font-medium text-theme-text-primary">{allergen.name}</span>
+                  <span className="text-sm font-medium text-theme-text-primary truncate">{getLabel(allergen)}</span>
                 </button>
               ))}
             </div>
-          ) : (
+          )}
+
+          {activeTab === 'intolerances' && (
             <div className="grid grid-cols-2 gap-2">
-              {dietsList.map(diet => (
+              {intolerancesList.map(intolerance => (
                 <button
-                  key={diet.id}
-                  onClick={() => toggleDiet(diet.id)}
+                  key={intolerance.id}
+                  onClick={() => toggleIntolerance(intolerance.id)}
                   className={`flex items-center gap-2 p-3 rounded-xl transition-colors ${
-                    localPrefs.dietary_preferences.includes(diet.id)
-                      ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500'
+                    localPrefs.intolerances.includes(intolerance.id)
+                      ? 'bg-orange-100 dark:bg-orange-900/30 border-2 border-orange-500'
                       : 'bg-theme-bg-secondary border-2 border-transparent'
                   }`}
                 >
-                  <span className="text-xl">{diet.icon}</span>
-                  <span className="text-sm font-medium text-theme-text-primary">{diet.name}</span>
+                  <span className="text-xl">{intolerance.icon}</span>
+                  <span className="text-sm font-medium text-theme-text-primary truncate">{getLabel(intolerance)}</span>
                 </button>
               ))}
             </div>
+          )}
+
+          {activeTab === 'diets' && (
+            <>
+              <p className="text-xs text-theme-text-secondary mb-3">
+                Alcune diete sono incompatibili tra loro e verranno deselezionate automaticamente.
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {dietsList.map(diet => {
+                  const isSelected = localPrefs.dietary_preferences.includes(diet.id);
+                  const hasConflict = isDietInConflict(diet.id);
+
+                  return (
+                    <button
+                      key={diet.id}
+                      onClick={() => toggleDiet(diet.id)}
+                      className={`flex items-center gap-2 p-3 rounded-xl transition-colors ${
+                        isSelected
+                          ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500'
+                          : hasConflict
+                            ? 'bg-theme-bg-secondary border-2 border-transparent opacity-50'
+                            : 'bg-theme-bg-secondary border-2 border-transparent'
+                      }`}
+                    >
+                      <span className="text-xl">{diet.icon}</span>
+                      <span className="text-sm font-medium text-theme-text-primary truncate">{getLabel(diet)}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </>
           )}
         </div>
 
