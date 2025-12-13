@@ -253,55 +253,171 @@ export const foodCategories: FoodCategory[] = [
     name: { en: 'One-Dish Meals', it: 'Piatti Unici', vi: 'Món đơn' },
     icon: '🍱',
     subcategories: [
+      // -------------------------------------------------------------------------
+      // BURGER - Dedicated category for hamburger restaurants
+      // -------------------------------------------------------------------------
       {
-        id: 'sandwiches',
-        name: { en: 'Sandwiches', it: 'Panini', vi: 'Bánh mì kẹp' },
+        id: 'burger',
+        name: { en: 'Burgers', it: 'Hamburger', vi: 'Burger' },
         types: [
-          { id: 'banh-mi', name: { en: 'Bánh Mì', it: 'Bánh Mì', vi: 'Bánh Mì' } },
-          { id: 'burger', name: { en: 'Burgers', it: 'Hamburger', vi: 'Burger' } },
-          { id: 'club', name: { en: 'Club Sandwich', it: 'Club Sandwich', vi: 'Club Sandwich' } },
-          { id: 'wrap', name: { en: 'Wraps', it: 'Wrap', vi: 'Wrap' } },
-          { id: 'panini', name: { en: 'Panini', it: 'Panini', vi: 'Panini' } },
-          { id: 'sub', name: { en: 'Submarine', it: 'Submarine', vi: 'Submarine' } },
+          { id: 'smash-burger', name: { en: 'Smash Burger', it: 'Smash Burger', vi: 'Smash Burger' }, varieties: ['single', 'double', 'triple'] },
+          { id: 'gourmet-burger', name: { en: 'Gourmet Burger', it: 'Burger Gourmet', vi: 'Burger Cao Cấp' }, varieties: ['wagyu', 'truffle', 'foie-gras', 'blue-cheese'] },
+          { id: 'classic-burger', name: { en: 'Classic Burger', it: 'Burger Classico', vi: 'Burger Cổ Điển' }, varieties: ['cheeseburger', 'bacon-burger', 'mushroom-swiss', 'bbq-burger'] },
+          { id: 'chicken-burger', name: { en: 'Chicken Burger', it: 'Burger di Pollo', vi: 'Burger Gà' }, varieties: ['crispy', 'grilled', 'spicy', 'buffalo'] },
+          { id: 'fish-burger', name: { en: 'Fish Burger', it: 'Burger di Pesce', vi: 'Burger Cá' }, varieties: ['fish-fillet', 'shrimp', 'crab-cake'] },
+          { id: 'veggie-burger', name: { en: 'Veggie Burger', it: 'Burger Vegetariano', vi: 'Burger Chay' }, varieties: ['black-bean', 'mushroom', 'beyond-meat', 'impossible', 'falafel'] },
         ],
       },
+      // -------------------------------------------------------------------------
+      // PIADINE - Italian flatbread specialty
+      // -------------------------------------------------------------------------
+      {
+        id: 'piadina',
+        name: { en: 'Piadina', it: 'Piadine', vi: 'Bánh Piadina' },
+        types: [
+          { id: 'piadina-romagnola', name: { en: 'Romagnola Piadina', it: 'Piadina Romagnola', vi: 'Piadina Romagnola' }, varieties: ['classica', 'integrale', 'senza-strutto'] },
+          { id: 'crescione', name: { en: 'Crescione', it: 'Crescione', vi: 'Crescione' }, varieties: ['spinach-ricotta', 'potato', 'sausage', 'pumpkin'] },
+          { id: 'piadina-gourmet', name: { en: 'Gourmet Piadina', it: 'Piadina Gourmet', vi: 'Piadina Cao Cấp' }, varieties: ['burrata', 'tartufo', 'bresaola-rucola', 'salmone'] },
+          { id: 'piadina-farciture', name: { en: 'Classic Fillings', it: 'Farciture Classiche', vi: 'Nhân Cổ Điển' }, varieties: ['prosciutto-squacquerone', 'salame-stracchino', 'mortadella-squacquerone', 'rucola-grana'] },
+        ],
+      },
+      // -------------------------------------------------------------------------
+      // KEBAB - Middle Eastern & Mediterranean grilled meats
+      // -------------------------------------------------------------------------
+      {
+        id: 'kebab',
+        name: { en: 'Kebab', it: 'Kebab', vi: 'Kebab' },
+        types: [
+          { id: 'doner-kebab', name: { en: 'Döner Kebab', it: 'Döner Kebab', vi: 'Döner Kebab' }, varieties: ['lamb', 'chicken', 'beef', 'mixed'] },
+          { id: 'shawarma', name: { en: 'Shawarma', it: 'Shawarma', vi: 'Shawarma' }, varieties: ['chicken', 'beef', 'lamb', 'mixed'] },
+          { id: 'gyros', name: { en: 'Gyros', it: 'Gyros', vi: 'Gyros' }, varieties: ['pork', 'chicken', 'lamb'] },
+          { id: 'adana-kebab', name: { en: 'Adana Kebab', it: 'Adana Kebab', vi: 'Adana Kebab' } },
+          { id: 'shish-kebab', name: { en: 'Shish Kebab', it: 'Shish Kebab', vi: 'Shish Kebab' }, varieties: ['lamb', 'chicken', 'beef', 'vegetable'] },
+          { id: 'iskender', name: { en: 'Iskender Kebab', it: 'Iskender Kebab', vi: 'Iskender Kebab' } },
+          { id: 'durum', name: { en: 'Dürüm (Wrap)', it: 'Dürüm', vi: 'Dürüm' }, varieties: ['chicken', 'beef', 'mixed', 'falafel'] },
+          { id: 'kebab-plate', name: { en: 'Kebab Plate', it: 'Piatto Kebab', vi: 'Đĩa Kebab' }, varieties: ['with-rice', 'with-fries', 'with-salad'] },
+        ],
+      },
+      // -------------------------------------------------------------------------
+      // ROSTICCERIA - Italian rotisserie & deli
+      // -------------------------------------------------------------------------
+      {
+        id: 'rosticceria',
+        name: { en: 'Rotisserie', it: 'Rosticceria', vi: 'Thịt Nướng Quay' },
+        types: [
+          { id: 'pollo-arrosto', name: { en: 'Roast Chicken', it: 'Pollo Arrosto', vi: 'Gà Quay' }, varieties: ['intero', 'mezzo', 'quarto', 'coscia', 'petto'] },
+          { id: 'porchetta', name: { en: 'Porchetta', it: 'Porchetta', vi: 'Heo Quay Ý' }, varieties: ['panino', 'piatto', 'tagliata'] },
+          { id: 'arrosticini', name: { en: 'Arrosticini', it: 'Arrosticini', vi: 'Xiên Thịt Cừu' } },
+          { id: 'spiedo', name: { en: 'Spit Roast', it: 'Spiedo', vi: 'Thịt Xiên Quay' }, varieties: ['misto', 'agnello', 'maiale'] },
+          { id: 'supplì', name: { en: 'Supplì', it: 'Supplì', vi: 'Cơm Viên Chiên' }, varieties: ['al-telefono', 'alla-romana', 'al-ragù'] },
+          { id: 'arancini', name: { en: 'Arancini', it: 'Arancini', vi: 'Cơm Viên Sicily' }, varieties: ['ragù', 'burro', 'pistacchio', 'norma'] },
+          { id: 'fritture', name: { en: 'Fried Items', it: 'Fritture', vi: 'Đồ Chiên' }, varieties: ['olive-ascolane', 'fiori-di-zucca', 'crocchette', 'mozzarella-in-carrozza'] },
+          { id: 'gastronomia', name: { en: 'Deli Items', it: 'Gastronomia', vi: 'Thức Ăn Nguội' }, varieties: ['lasagne', 'parmigiana', 'polpette', 'involtini'] },
+        ],
+      },
+      // -------------------------------------------------------------------------
+      // PANINI GOURMET - Premium Italian sandwiches
+      // -------------------------------------------------------------------------
+      {
+        id: 'panini-gourmet',
+        name: { en: 'Gourmet Sandwiches', it: 'Panini Gourmet', vi: 'Bánh Mì Cao Cấp' },
+        types: [
+          { id: 'focaccia', name: { en: 'Focaccia Sandwich', it: 'Focaccia Farcita', vi: 'Focaccia Nhân' }, varieties: ['genovese', 'barese', 'recco'] },
+          { id: 'ciabatta', name: { en: 'Ciabatta Sandwich', it: 'Ciabatta Farcita', vi: 'Ciabatta Nhân' } },
+          { id: 'tramezzino', name: { en: 'Tramezzino', it: 'Tramezzino', vi: 'Tramezzino' }, varieties: ['tonno', 'prosciutto', 'vegetariano', 'salmone'] },
+          { id: 'toast', name: { en: 'Italian Toast', it: 'Toast', vi: 'Toast Ý' }, varieties: ['prosciutto-formaggio', 'caprese', 'club'] },
+          { id: 'panino-lampredotto', name: { en: 'Lampredotto Sandwich', it: 'Panino al Lampredotto', vi: 'Panino Lampredotto' } },
+          { id: 'panino-porchetta', name: { en: 'Porchetta Sandwich', it: 'Panino alla Porchetta', vi: 'Panino Porchetta' } },
+          { id: 'schiacciatina', name: { en: 'Schiacciatina', it: 'Schiacciatina', vi: 'Schiacciatina' }, varieties: ['toscana', 'fiorentina'] },
+        ],
+      },
+      // -------------------------------------------------------------------------
+      // BÁNH MÌ - Vietnamese sandwiches
+      // -------------------------------------------------------------------------
+      {
+        id: 'banh-mi',
+        name: { en: 'Bánh Mì', it: 'Bánh Mì Vietnamita', vi: 'Bánh Mì' },
+        types: [
+          { id: 'banh-mi-thit', name: { en: 'Meat Bánh Mì', it: 'Bánh Mì con Carne', vi: 'Bánh Mì Thịt' }, varieties: ['thit-nuong', 'cha-lua', 'xiu-mai', 'thit-nguoi'] },
+          { id: 'banh-mi-dac-biet', name: { en: 'Special Bánh Mì', it: 'Bánh Mì Speciale', vi: 'Bánh Mì Đặc Biệt' } },
+          { id: 'banh-mi-ga', name: { en: 'Chicken Bánh Mì', it: 'Bánh Mì di Pollo', vi: 'Bánh Mì Gà' } },
+          { id: 'banh-mi-chay', name: { en: 'Vegetarian Bánh Mì', it: 'Bánh Mì Vegetariano', vi: 'Bánh Mì Chay' } },
+          { id: 'banh-mi-trung', name: { en: 'Egg Bánh Mì', it: 'Bánh Mì con Uovo', vi: 'Bánh Mì Trứng' } },
+        ],
+      },
+      // -------------------------------------------------------------------------
+      // OTHER SANDWICHES
+      // -------------------------------------------------------------------------
+      {
+        id: 'sandwiches-other',
+        name: { en: 'Other Sandwiches', it: 'Altri Panini', vi: 'Bánh Mì Khác' },
+        types: [
+          { id: 'club-sandwich', name: { en: 'Club Sandwich', it: 'Club Sandwich', vi: 'Club Sandwich' } },
+          { id: 'wrap', name: { en: 'Wraps', it: 'Wrap', vi: 'Wrap' }, varieties: ['chicken', 'falafel', 'veggie', 'caesar'] },
+          { id: 'submarine', name: { en: 'Submarine', it: 'Submarine', vi: 'Submarine' }, varieties: ['italian', 'meatball', 'philly-cheesesteak'] },
+          { id: 'hot-dog', name: { en: 'Hot Dog', it: 'Hot Dog', vi: 'Hot Dog' }, varieties: ['classic', 'chicago', 'new-york', 'chili-dog'] },
+          { id: 'croque', name: { en: 'Croque Monsieur/Madame', it: 'Croque Monsieur', vi: 'Croque Monsieur' } },
+        ],
+      },
+      // -------------------------------------------------------------------------
+      // BOWLS
+      // -------------------------------------------------------------------------
       {
         id: 'bowls',
         name: { en: 'Bowls', it: 'Bowl', vi: 'Tô' },
         types: [
-          { id: 'poke-bowl', name: { en: 'Poke Bowl', it: 'Poke Bowl', vi: 'Poke Bowl' } },
+          { id: 'poke-bowl', name: { en: 'Poke Bowl', it: 'Poke Bowl', vi: 'Poke Bowl' }, varieties: ['salmon', 'tuna', 'shrimp', 'tofu'] },
           { id: 'buddha-bowl', name: { en: 'Buddha Bowl', it: 'Buddha Bowl', vi: 'Buddha Bowl' } },
-          { id: 'grain-bowl', name: { en: 'Grain Bowl', it: 'Grain Bowl', vi: 'Grain Bowl' } },
+          { id: 'grain-bowl', name: { en: 'Grain Bowl', it: 'Grain Bowl', vi: 'Grain Bowl' }, varieties: ['quinoa', 'farro', 'brown-rice'] },
           { id: 'acai-bowl', name: { en: 'Açaí Bowl', it: 'Açaí Bowl', vi: 'Açaí Bowl' } },
+          { id: 'smoothie-bowl', name: { en: 'Smoothie Bowl', it: 'Smoothie Bowl', vi: 'Smoothie Bowl' } },
+          { id: 'burrito-bowl', name: { en: 'Burrito Bowl', it: 'Burrito Bowl', vi: 'Burrito Bowl' } },
         ],
       },
+      // -------------------------------------------------------------------------
+      // PIZZA
+      // -------------------------------------------------------------------------
       {
         id: 'pizza',
         name: { en: 'Pizza', it: 'Pizza', vi: 'Pizza' },
         types: [
-          { id: 'neapolitan', name: { en: 'Neapolitan', it: 'Napoletana', vi: 'Neapolitan' } },
-          { id: 'roman', name: { en: 'Roman', it: 'Romana', vi: 'Roman' } },
-          { id: 'sicilian', name: { en: 'Sicilian', it: 'Siciliana', vi: 'Sicilian' } },
-          { id: 'american', name: { en: 'American', it: 'Americana', vi: 'American' } },
+          { id: 'neapolitan', name: { en: 'Neapolitan', it: 'Napoletana', vi: 'Neapolitan' }, varieties: ['margherita', 'marinara', 'diavola', 'capricciosa'] },
+          { id: 'roman', name: { en: 'Roman', it: 'Romana', vi: 'Roman' }, varieties: ['al-taglio', 'tonda-romana'] },
+          { id: 'sicilian', name: { en: 'Sicilian', it: 'Siciliana', vi: 'Sicilian' }, varieties: ['sfincione', 'pizzolo'] },
+          { id: 'pizza-gourmet', name: { en: 'Gourmet Pizza', it: 'Pizza Gourmet', vi: 'Pizza Cao Cấp' }, varieties: ['tartufo', 'burrata', 'crudo'] },
+          { id: 'pizza-fritta', name: { en: 'Fried Pizza', it: 'Pizza Fritta', vi: 'Pizza Chiên' }, varieties: ['montanara', 'calzone-fritto'] },
+          { id: 'pinsa', name: { en: 'Pinsa Romana', it: 'Pinsa Romana', vi: 'Pinsa Romana' } },
+          { id: 'focaccia-pizza', name: { en: 'Focaccia Pizza', it: 'Focaccia', vi: 'Focaccia Pizza' } },
         ],
       },
+      // -------------------------------------------------------------------------
+      // TACOS & MEXICAN
+      // -------------------------------------------------------------------------
       {
         id: 'tacos-burritos',
-        name: { en: 'Tacos & Burritos', it: 'Tacos e Burritos', vi: 'Tacos và Burritos' },
+        name: { en: 'Tacos & Mexican', it: 'Tacos e Messicano', vi: 'Tacos và Mexico' },
         types: [
-          { id: 'tacos', name: { en: 'Tacos', it: 'Tacos', vi: 'Tacos' } },
-          { id: 'burritos', name: { en: 'Burritos', it: 'Burritos', vi: 'Burritos' } },
+          { id: 'tacos', name: { en: 'Tacos', it: 'Tacos', vi: 'Tacos' }, varieties: ['carnitas', 'al-pastor', 'carne-asada', 'pollo', 'pescado', 'vegetariano'] },
+          { id: 'burritos', name: { en: 'Burritos', it: 'Burritos', vi: 'Burritos' }, varieties: ['carne', 'pollo', 'vegetariano', 'breakfast'] },
           { id: 'quesadillas', name: { en: 'Quesadillas', it: 'Quesadillas', vi: 'Quesadillas' } },
+          { id: 'nachos', name: { en: 'Nachos', it: 'Nachos', vi: 'Nachos' }, varieties: ['supreme', 'cheese', 'loaded'] },
+          { id: 'enchiladas', name: { en: 'Enchiladas', it: 'Enchiladas', vi: 'Enchiladas' } },
+          { id: 'tostadas', name: { en: 'Tostadas', it: 'Tostadas', vi: 'Tostadas' } },
         ],
       },
+      // -------------------------------------------------------------------------
+      // RICE DISHES
+      // -------------------------------------------------------------------------
       {
         id: 'rice-dishes',
         name: { en: 'Rice Dishes', it: 'Piatti di Riso', vi: 'Cơm' },
         types: [
-          { id: 'fried-rice', name: { en: 'Fried Rice', it: 'Riso Fritto', vi: 'Cơm chiên' } },
-          { id: 'curry-rice', name: { en: 'Curry Rice', it: 'Riso al Curry', vi: 'Cơm cà ri' } },
-          { id: 'biryani', name: { en: 'Biryani', it: 'Biryani', vi: 'Biryani' } },
-          { id: 'donburi', name: { en: 'Donburi', it: 'Donburi', vi: 'Cơm Nhật' } },
+          { id: 'fried-rice', name: { en: 'Fried Rice', it: 'Riso Fritto', vi: 'Cơm chiên' }, varieties: ['yangzhou', 'kimchi', 'nasi-goreng', 'thai'] },
+          { id: 'curry-rice', name: { en: 'Curry Rice', it: 'Riso al Curry', vi: 'Cơm cà ri' }, varieties: ['japanese', 'thai', 'indian', 'katsu'] },
+          { id: 'biryani', name: { en: 'Biryani', it: 'Biryani', vi: 'Biryani' }, varieties: ['chicken', 'lamb', 'vegetable', 'hyderabadi'] },
+          { id: 'donburi', name: { en: 'Donburi', it: 'Donburi', vi: 'Cơm Nhật' }, varieties: ['gyudon', 'katsudon', 'oyakodon', 'tendon'] },
+          { id: 'com-tam', name: { en: 'Cơm Tấm', it: 'Cơm Tấm', vi: 'Cơm Tấm' }, varieties: ['suon', 'bi', 'cha', 'dac-biet'] },
+          { id: 'chirashi', name: { en: 'Chirashi', it: 'Chirashi', vi: 'Chirashi' } },
         ],
       },
     ],
