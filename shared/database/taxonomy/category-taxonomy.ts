@@ -247,6 +247,105 @@ export const foodCategories: FoodCategory[] = [
       },
     ],
   },
+  // -------------------------------------------------------------------------
+  // INSALATE - Dedicated category for salads (healthy, fresh, trendy)
+  // -------------------------------------------------------------------------
+  {
+    id: 'insalate',
+    domain: 'food',
+    name: { en: 'Salads', it: 'Insalate', vi: 'Salad' },
+    icon: '🥗',
+    subcategories: [
+      {
+        id: 'insalate-classiche',
+        name: { en: 'Classic Salads', it: 'Insalate Classiche', vi: 'Salad Cổ Điển' },
+        types: [
+          { id: 'caesar', name: { en: 'Caesar Salad', it: 'Insalata Caesar', vi: 'Salad Caesar' }, varieties: ['classic', 'chicken', 'shrimp', 'salmon', 'vegan'] },
+          { id: 'greek', name: { en: 'Greek Salad', it: 'Insalata Greca', vi: 'Salad Hy Lạp' }, varieties: ['classic', 'with-chicken', 'with-feta'] },
+          { id: 'caprese', name: { en: 'Caprese', it: 'Caprese', vi: 'Salad Caprese' }, varieties: ['classic', 'burrata', 'stracciatella'] },
+          { id: 'nicoise', name: { en: 'Niçoise', it: 'Nizzarda', vi: 'Salad Niçoise' }, varieties: ['tuna', 'salmon', 'vegetarian'] },
+          { id: 'waldorf', name: { en: 'Waldorf', it: 'Waldorf', vi: 'Salad Waldorf' } },
+          { id: 'cobb', name: { en: 'Cobb Salad', it: 'Insalata Cobb', vi: 'Salad Cobb' } },
+          { id: 'garden', name: { en: 'Garden Salad', it: 'Insalata Mista', vi: 'Salad Vườn' } },
+        ],
+      },
+      {
+        id: 'insalate-proteiche',
+        name: { en: 'Protein Salads', it: 'Insalate Proteiche', vi: 'Salad Giàu Protein' },
+        types: [
+          { id: 'chicken-salad', name: { en: 'Chicken Salad', it: 'Insalata di Pollo', vi: 'Salad Gà' }, varieties: ['grilled', 'crispy', 'teriyaki', 'buffalo', 'caesar'] },
+          { id: 'tuna-salad', name: { en: 'Tuna Salad', it: 'Insalata di Tonno', vi: 'Salad Cá Ngừ' }, varieties: ['seared', 'canned', 'tataki'] },
+          { id: 'salmon-salad', name: { en: 'Salmon Salad', it: 'Insalata di Salmone', vi: 'Salad Cá Hồi' }, varieties: ['smoked', 'grilled', 'poached', 'gravlax'] },
+          { id: 'shrimp-salad', name: { en: 'Shrimp Salad', it: 'Insalata di Gamberi', vi: 'Salad Tôm' }, varieties: ['grilled', 'poached', 'coconut'] },
+          { id: 'steak-salad', name: { en: 'Steak Salad', it: 'Insalata con Tagliata', vi: 'Salad Bò' }, varieties: ['ribeye', 'flank', 'sirloin'] },
+          { id: 'egg-salad', name: { en: 'Egg Salad', it: 'Insalata di Uova', vi: 'Salad Trứng' }, varieties: ['classic', 'deviled', 'soft-boiled'] },
+          { id: 'tofu-salad', name: { en: 'Tofu Salad', it: 'Insalata di Tofu', vi: 'Salad Đậu Phụ' }, varieties: ['crispy', 'marinated', 'smoked'] },
+        ],
+      },
+      {
+        id: 'insalate-grano',
+        name: { en: 'Grain Salads', it: 'Insalate di Cereali', vi: 'Salad Ngũ Cốc' },
+        types: [
+          { id: 'quinoa-salad', name: { en: 'Quinoa Salad', it: 'Insalata di Quinoa', vi: 'Salad Quinoa' }, varieties: ['mediterranean', 'southwest', 'asian', 'roasted-vegetable'] },
+          { id: 'farro-salad', name: { en: 'Farro Salad', it: 'Insalata di Farro', vi: 'Salad Farro' }, varieties: ['tuscan', 'roasted-beet', 'herb'] },
+          { id: 'couscous-salad', name: { en: 'Couscous Salad', it: 'Insalata di Couscous', vi: 'Salad Couscous' }, varieties: ['moroccan', 'israeli', 'mediterranean'] },
+          { id: 'bulgur-salad', name: { en: 'Bulgur Salad', it: 'Insalata di Bulgur', vi: 'Salad Bulgur' }, varieties: ['tabbouleh', 'kisir'] },
+          { id: 'rice-salad', name: { en: 'Rice Salad', it: 'Insalata di Riso', vi: 'Salad Cơm' }, varieties: ['wild-rice', 'brown-rice', 'sushi-rice'] },
+          { id: 'orzo-salad', name: { en: 'Orzo Salad', it: 'Insalata di Orzo', vi: 'Salad Orzo' }, varieties: ['greek', 'lemon-herb', 'mediterranean'] },
+          { id: 'pasta-salad', name: { en: 'Pasta Salad', it: 'Insalata di Pasta', vi: 'Salad Mì Ý' }, varieties: ['italian', 'pesto', 'caprese', 'southwestern'] },
+        ],
+      },
+      {
+        id: 'insalate-internazionali',
+        name: { en: 'International Salads', it: 'Insalate Internazionali', vi: 'Salad Quốc Tế' },
+        types: [
+          { id: 'asian-salad', name: { en: 'Asian Salad', it: 'Insalata Asiatica', vi: 'Salad Châu Á' }, varieties: ['thai', 'vietnamese', 'japanese', 'chinese', 'korean'] },
+          { id: 'fattoush', name: { en: 'Fattoush', it: 'Fattoush', vi: 'Salad Fattoush' } },
+          { id: 'israeli-salad', name: { en: 'Israeli Salad', it: 'Insalata Israeliana', vi: 'Salad Israel' } },
+          { id: 'larb', name: { en: 'Larb', it: 'Larb', vi: 'Larb' }, varieties: ['chicken', 'pork', 'beef', 'tofu'] },
+          { id: 'som-tam', name: { en: 'Som Tam (Papaya)', it: 'Som Tam (Papaya)', vi: 'Gỏi Đu Đủ' }, varieties: ['thai', 'lao', 'with-crab'] },
+          { id: 'goi-cuon', name: { en: 'Gỏi (Vietnamese)', it: 'Gỏi Vietnamita', vi: 'Gỏi' }, varieties: ['goi-ga', 'goi-bo', 'goi-tom', 'goi-buoi'] },
+          { id: 'panzanella', name: { en: 'Panzanella', it: 'Panzanella', vi: 'Salad Panzanella' } },
+          { id: 'tabbouleh', name: { en: 'Tabbouleh', it: 'Tabbouleh', vi: 'Tabbouleh' } },
+        ],
+      },
+      {
+        id: 'insalate-vegane',
+        name: { en: 'Vegan Salads', it: 'Insalate Vegane', vi: 'Salad Thuần Chay' },
+        types: [
+          { id: 'kale-salad', name: { en: 'Kale Salad', it: 'Insalata di Cavolo Riccio', vi: 'Salad Cải Xoăn' }, varieties: ['massaged', 'raw', 'tuscan'] },
+          { id: 'buddha-bowl', name: { en: 'Buddha Bowl', it: 'Buddha Bowl', vi: 'Buddha Bowl' }, varieties: ['mediterranean', 'asian', 'mexican', 'middle-eastern'] },
+          { id: 'rainbow-salad', name: { en: 'Rainbow Salad', it: 'Insalata Arcobaleno', vi: 'Salad Cầu Vồng' } },
+          { id: 'superfood-salad', name: { en: 'Superfood Salad', it: 'Insalata Superfood', vi: 'Salad Siêu Thực Phẩm' }, varieties: ['acai', 'goji', 'spirulina', 'hemp'] },
+          { id: 'roasted-veggie', name: { en: 'Roasted Vegetable Salad', it: 'Insalata di Verdure Arrosto', vi: 'Salad Rau Nướng' } },
+          { id: 'raw-salad', name: { en: 'Raw Salad', it: 'Insalata Cruda', vi: 'Salad Sống' }, varieties: ['zucchini-noodle', 'carrot-ribbon', 'beet-carpaccio'] },
+        ],
+      },
+      {
+        id: 'insalate-frutta',
+        name: { en: 'Fruit Salads', it: 'Insalate di Frutta', vi: 'Salad Trái Cây' },
+        types: [
+          { id: 'tropical-fruit', name: { en: 'Tropical Fruit Salad', it: 'Macedonia Tropicale', vi: 'Salad Trái Cây Nhiệt Đới' }, varieties: ['mango', 'papaya', 'pineapple', 'coconut'] },
+          { id: 'berry-salad', name: { en: 'Berry Salad', it: 'Insalata di Frutti di Bosco', vi: 'Salad Quả Mọng' } },
+          { id: 'citrus-salad', name: { en: 'Citrus Salad', it: 'Insalata di Agrumi', vi: 'Salad Cam Quýt' } },
+          { id: 'melon-salad', name: { en: 'Melon Salad', it: 'Insalata di Melone', vi: 'Salad Dưa' }, varieties: ['watermelon-feta', 'cantaloupe', 'honeydew'] },
+          { id: 'apple-walnut', name: { en: 'Apple Walnut Salad', it: 'Insalata Mela e Noci', vi: 'Salad Táo Óc Chó' } },
+          { id: 'pear-gorgonzola', name: { en: 'Pear & Gorgonzola', it: 'Pere e Gorgonzola', vi: 'Salad Lê Phô Mai Xanh' } },
+        ],
+      },
+      {
+        id: 'condimenti-insalata',
+        name: { en: 'Salad Dressings', it: 'Condimenti per Insalate', vi: 'Nước Sốt Salad' },
+        types: [
+          { id: 'vinaigrette', name: { en: 'Vinaigrette', it: 'Vinaigrette', vi: 'Sốt Vinaigrette' }, varieties: ['balsamic', 'red-wine', 'lemon', 'honey-mustard', 'shallot'] },
+          { id: 'creamy-dressing', name: { en: 'Creamy Dressings', it: 'Condimenti Cremosi', vi: 'Sốt Kem' }, varieties: ['ranch', 'blue-cheese', 'caesar', 'thousand-island', 'green-goddess'] },
+          { id: 'asian-dressing', name: { en: 'Asian Dressings', it: 'Condimenti Asiatici', vi: 'Sốt Châu Á' }, varieties: ['sesame', 'ginger', 'miso', 'peanut', 'ponzu'] },
+          { id: 'mediterranean-dressing', name: { en: 'Mediterranean', it: 'Mediterranei', vi: 'Sốt Địa Trung Hải' }, varieties: ['tahini', 'lemon-herb', 'greek', 'feta'] },
+          { id: 'oil-based', name: { en: 'Oil-Based', it: 'A Base di Olio', vi: 'Sốt Dầu' }, varieties: ['evoo', 'truffle-oil', 'walnut-oil', 'avocado-oil'] },
+        ],
+      },
+    ],
+  },
   {
     id: 'piatti-unici',
     domain: 'food',
