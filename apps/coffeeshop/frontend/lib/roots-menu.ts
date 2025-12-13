@@ -5,9 +5,12 @@
  * and converts them to the frontend format with auto-computed allergens and diets.
  */
 
-import { rootsProducts } from '@/database/index';
+import { rootsProducts, foodProducts } from '@/database/index';
 import { allIngredients } from '@/database/index';
 import { autoComputeProduct, getIngredientMasters } from '@/database/index';
+
+// Combine all products
+const allProducts = [...rootsProducts, ...foodProducts];
 import type { Product, IngredientMaster, AutoComputationResult } from '@/database/types';
 import type { DishItem } from '../components/DishCard';
 
@@ -25,7 +28,7 @@ interface ProductWithComputation extends Product {
 export async function getROOTSMenuItems(): Promise<DishItem[]> {
   const menuItems: DishItem[] = [];
 
-  for (const product of rootsProducts) {
+  for (const product of allProducts) {
     try {
       // Get ingredient masters for this product
       const ingredientMasters: IngredientMaster[] = [];
@@ -224,7 +227,7 @@ function getExtrasForProduct(category: string, productName: string): any[] | und
 export function getROOTSMenuItemsSync(): DishItem[] {
   const menuItems: DishItem[] = [];
 
-  for (const product of rootsProducts) {
+  for (const product of allProducts) {
     try {
       // Get ingredient masters for this product
       const ingredientMasters: IngredientMaster[] = [];

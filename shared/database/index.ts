@@ -68,6 +68,29 @@ export {
   greenPeaceBowl,
 } from './products/roots-products';
 
+export {
+  foodProducts,
+  FOOD_PRODUCT_COUNT,
+  banhMiThitNuong,
+  banhMiDacBiet,
+  banhMiGa,
+  banhMiTom,
+  banhMiThitHeo,
+  basqueCheesecake,
+  redVelvetCake,
+  passionFruitCheesecake,
+  chocolateMousse,
+  flanCaramel,
+  matchaCheesecake,
+  matchaLatte,
+  strawberrySmoothie,
+  affogato,
+  eggCoffee,
+  lemonIcedTea,
+  caramelFrappuccino,
+  orangeCoffee,
+} from './products/food-products';
+
 // ============================================================================
 // AUTO-COMPUTATION UTILITIES
 // ============================================================================
