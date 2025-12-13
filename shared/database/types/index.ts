@@ -314,14 +314,19 @@ export interface Product {
     temperature?: 'hot' | 'cold' | 'room';
   };
 
-  // Dati nutrizionali (per porzione)
+  // Dati nutrizionali (per porzione) - Dimensione 4 delle 5 Dimensioni
+  // @see docs/SISTEMA-FILTRI.md
   nutrition_per_serving?: {
     serving_size_g?: number;
+    calories_kcal?: number;
     protein_g?: number;
     carbs_g?: number;
+    sugar_g?: number;           // Sottocategoria carbs
     fat_g?: number;
+    saturated_fat_g?: number;   // Sottocategoria fat
     fiber_g?: number;
-    calories_kcal?: number;
+    salt_g?: number;
+    sodium_mg?: number;         // Alternativo a salt
   };
 
   // Media (multi-image + video support)

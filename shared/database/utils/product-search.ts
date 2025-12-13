@@ -32,6 +32,15 @@ export const allProducts: Product[] = [
 
 /**
  * Search filters for product queries
+ *
+ * Supports all 5 dimensions:
+ * - Allergens (30)
+ * - Intolerances (10)
+ * - Diets (11)
+ * - Nutrition (9 params)
+ * - Spice Level (0-5)
+ *
+ * @see docs/SISTEMA-FILTRI.md for complete documentation
  */
 export interface ProductSearchFilters {
   // Text search
@@ -46,11 +55,35 @@ export interface ProductSearchFilters {
   cuisine?: string;                  // Cuisine origin (italian, vietnamese, etc.)
   origin?: string;                   // Geographic origin for beverages
 
-  // 5 Dimensioni Filters
+  // =========================================================================
+  // 5 DIMENSIONI FILTERS
+  // =========================================================================
+
+  // Dimensione 1: Allergeni (30 totali)
   allergenFree?: string[];           // Must NOT contain these allergens
+
+  // Dimensione 2: Intolleranze (10 totali)
   intoleranceFree?: string[];        // Must NOT trigger these intolerances
+
+  // Dimensione 3: Diete (11 totali)
   suitableForDiets?: string[];       // Must be compatible with ALL these diets
-  maxSpiceLevel?: SpiceLevel;        // Maximum spice level (0-5)
+
+  // Dimensione 4: Fattori Nutrizionali (9 parametri)
+  maxCalories?: number;              // Maximum calories per serving (kcal)
+  minProtein?: number;               // Minimum protein (g)
+  maxCarbs?: number;                 // Maximum carbohydrates (g)
+  maxSugar?: number;                 // Maximum sugar (g)
+  maxFat?: number;                   // Maximum fat (g)
+  minFiber?: number;                 // Minimum fiber (g)
+  maxSalt?: number;                  // Maximum salt (g)
+  maxSodium?: number;                // Maximum sodium (mg)
+
+  // Dimensione 5: Piccantezza (6 livelli: 0-5)
+  maxSpiceLevel?: SpiceLevel;        // Maximum spice level (0=None, 5=Extreme)
+
+  // =========================================================================
+  // OTHER FILTERS
+  // =========================================================================
 
   // Price filters
   minPrice?: number;                 // Minimum price (local currency)
@@ -61,7 +94,7 @@ export interface ProductSearchFilters {
   timeSlot?: 'breakfast' | 'lunch' | 'dinner' | 'aperitivo' | 'late-night' | 'all-day';
 
   // Sorting
-  sortBy?: 'name' | 'price-asc' | 'price-desc' | 'spice-level' | 'newest';
+  sortBy?: 'name' | 'price-asc' | 'price-desc' | 'spice-level' | 'calories' | 'protein' | 'newest';
 
   // Pagination
   limit?: number;
@@ -193,6 +226,65 @@ export function searchProducts(filters: ProductSearchFilters = {}): ProductSearc
   }
 
   // -------------------------------------------------------------------------
+  // NUTRITIONAL FILTERS (Dimensione 4)
+  // -------------------------------------------------------------------------
+  if (filters.maxCalories !== undefined) {
+    results = results.filter(product => {
+      const calories = product.nutrition_per_serving?.calories_kcal;
+      return calories === undefined || calories <= filters.maxCalories!;
+    });
+  }
+
+  if (filters.minProtein !== undefined) {
+    results = results.filter(product => {
+      const protein = product.nutrition_per_serving?.protein_g;
+      return protein !== undefined && protein >= filters.minProtein!;
+    });
+  }
+
+  if (filters.maxCarbs !== undefined) {
+    results = results.filter(product => {
+      const carbs = product.nutrition_per_serving?.carbs_g;
+      return carbs === undefined || carbs <= filters.maxCarbs!;
+    });
+  }
+
+  if (filters.maxSugar !== undefined) {
+    results = results.filter(product => {
+      const sugar = product.nutrition_per_serving?.sugar_g;
+      return sugar === undefined || sugar <= filters.maxSugar!;
+    });
+  }
+
+  if (filters.maxFat !== undefined) {
+    results = results.filter(product => {
+      const fat = product.nutrition_per_serving?.fat_g;
+      return fat === undefined || fat <= filters.maxFat!;
+    });
+  }
+
+  if (filters.minFiber !== undefined) {
+    results = results.filter(product => {
+      const fiber = product.nutrition_per_serving?.fiber_g;
+      return fiber !== undefined && fiber >= filters.minFiber!;
+    });
+  }
+
+  if (filters.maxSalt !== undefined) {
+    results = results.filter(product => {
+      const salt = product.nutrition_per_serving?.salt_g;
+      return salt === undefined || salt <= filters.maxSalt!;
+    });
+  }
+
+  if (filters.maxSodium !== undefined) {
+    results = results.filter(product => {
+      const sodium = product.nutrition_per_serving?.sodium_mg;
+      return sodium === undefined || sodium <= filters.maxSodium!;
+    });
+  }
+
+  // -------------------------------------------------------------------------
   // PRICE FILTERS
   // -------------------------------------------------------------------------
   if (filters.minPrice !== undefined) {
@@ -283,18 +375,42 @@ export function getProductsByCuisine(cuisine: string): Product[] {
 /**
  * Filter products by dietary restrictions (5 dimensioni)
  *
+ * Supports all 5 dimensions:
+ * - Allergens (30)
+ * - Intolerances (10)
+ * - Diets (11)
+ * - Nutrition (9 params)
+ * - Spice Level (0-5)
+ *
  * @example
  * // Vegan products without gluten
  * filterByDiet({ suitableForDiets: ['vegan'], allergenFree: ['gluten'] })
  *
  * @example
- * // Halal products without lactose
- * filterByDiet({ suitableForDiets: ['halal'], intoleranceFree: ['lactose'] })
+ * // Halal products without lactose, max 500 calories
+ * filterByDiet({ suitableForDiets: ['halal'], intoleranceFree: ['lactose'], maxCalories: 500 })
+ *
+ * @example
+ * // Low-carb high-protein, not spicy
+ * filterByDiet({ maxCarbs: 20, minProtein: 30, maxSpiceLevel: 1 })
  */
 export function filterByDiet(options: {
+  // Dimensione 1: Allergeni
   allergenFree?: string[];
+  // Dimensione 2: Intolleranze
   intoleranceFree?: string[];
+  // Dimensione 3: Diete
   suitableForDiets?: string[];
+  // Dimensione 4: Nutrizione
+  maxCalories?: number;
+  minProtein?: number;
+  maxCarbs?: number;
+  maxSugar?: number;
+  maxFat?: number;
+  minFiber?: number;
+  maxSalt?: number;
+  maxSodium?: number;
+  // Dimensione 5: Piccantezza
   maxSpiceLevel?: SpiceLevel;
 }): Product[] {
   return searchProducts(options).products;
@@ -523,6 +639,18 @@ function sortProducts(products: Product[], sortBy: ProductSearchFilters['sortBy'
     case 'spice-level':
       return sorted.sort((a, b) =>
         (a.computed.spice_level || 0) - (b.computed.spice_level || 0)
+      );
+
+    case 'calories':
+      return sorted.sort((a, b) =>
+        (a.nutrition_per_serving?.calories_kcal || 0) -
+        (b.nutrition_per_serving?.calories_kcal || 0)
+      );
+
+    case 'protein':
+      return sorted.sort((a, b) =>
+        (b.nutrition_per_serving?.protein_g || 0) -
+        (a.nutrition_per_serving?.protein_g || 0)
       );
 
     case 'newest':

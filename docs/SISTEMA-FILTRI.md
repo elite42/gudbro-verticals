@@ -1,17 +1,32 @@
-# Sistema 50 Filtri GUDBRO
+# Sistema 5 Dimensioni GUDBRO
 
-**Versione:** 2.0 (Dicembre 2025)
-**Ultimo Aggiornamento:** 2025-12-04
+**Versione:** 3.0 (Dicembre 2025)
+**Ultimo Aggiornamento:** 2025-12-13
 **Autore:** Claude Code + Team GUDBRO
+
+---
+
+## REGOLA D'ORO
+
+> **Ogni volta che si parla di filtri prodotto, sicurezza alimentare, o compatibilità dietetica, TUTTE le 5 dimensioni devono essere considerate.**
+
+Quando riassumi, puoi usare **(5 dimensioni)** come shorthand.
 
 ---
 
 ## Overview
 
-Il Sistema Filtri GUDBRO gestisce 50 filtri di sicurezza alimentare divisi in 3 categorie:
-- **26 Allergeni** - Reazioni immuno-mediate
-- **10 Intolleranze** - Reazioni non immuno-mediate (digestive/metaboliche)
-- **14 Diete** - Scelte di stile di vita, religiose o salutistiche
+Il Sistema GUDBRO gestisce **5 dimensioni** di sicurezza alimentare:
+
+| # | Dimensione | Elementi | Descrizione |
+|---|------------|----------|-------------|
+| 1 | **Allergeni** | 30 | Reazioni immuno-mediate (EU 14 + Korea 7 + Japan 7 + GUDBRO 2) |
+| 2 | **Intolleranze** | 10 | Reazioni non immuno-mediate (digestive/metaboliche) |
+| 3 | **Diete** | 11 | Scelte di stile di vita, religiose o salutistiche |
+| 4 | **Fattori Nutrizionali** | 9 | Valori nutrizionali per porzione |
+| 5 | **Piccantezza** | 6 livelli | Scala 0-5 con riferimento Scoville |
+
+**Totale Parametri: 66**
 
 ---
 
@@ -236,7 +251,159 @@ cp shared/database/safety-filters.ts apps/backoffice/lib/shared/safety-filters.t
 
 ---
 
+## DIMENSIONE 4: FATTORI NUTRIZIONALI (9 parametri)
+
+Valori nutrizionali per porzione o per 100g.
+
+| ID | Italiano | English | Unità | Note |
+|----|----------|---------|-------|------|
+| `calories` | Calorie | Calories | kcal | Energia totale |
+| `protein` | Proteine | Protein | g | Macronutriente |
+| `carbs` | Carboidrati | Carbohydrates | g | Macronutriente |
+| `sugar` | Zuccheri | Sugar | g | Sottocategoria carbs |
+| `fat` | Grassi | Fat | g | Macronutriente |
+| `saturated_fat` | Grassi Saturi | Saturated Fat | g | Sottocategoria fat |
+| `fiber` | Fibre | Fiber | g | |
+| `salt` | Sale | Salt | g | |
+| `sodium` | Sodio | Sodium | mg | Alternativo a sale |
+
+### Filtri Nutrizionali Supportati
+
+```typescript
+{
+  maxCalories?: number;    // Calorie massime per porzione
+  minProtein?: number;     // Proteine minime (g)
+  maxCarbs?: number;       // Carboidrati massimi (g)
+  maxSugar?: number;       // Zuccheri massimi (g)
+  maxFat?: number;         // Grassi massimi (g)
+  minFiber?: number;       // Fibre minime (g)
+  maxSalt?: number;        // Sale massimo (g)
+  maxSodium?: number;      // Sodio massimo (mg)
+}
+```
+
+---
+
+## DIMENSIONE 5: PICCANTEZZA (6 livelli)
+
+Scala di piccantezza con riferimento alla scala Scoville.
+
+| Livello | Italiano | English | Vietnamese | Scoville (SHU) | Esempio |
+|---------|----------|---------|------------|----------------|---------|
+| 0 | Nessuna | None | Không cay | 0 | Pane, latte |
+| 1 | Lieve | Mild | Ít cay | 1-1,000 | Peperoncino dolce |
+| 2 | Media | Medium | Cay vừa | 1,000-10,000 | Jalapeño |
+| 3 | Forte | Hot | Cay | 10,000-50,000 | Serrano, Cayenne |
+| 4 | Extra Forte | Extra Hot | Rất cay | 50,000-100,000 | Thai chili |
+| 5 | Estremo | Extreme | Cực cay | 100,000+ | Habanero, Ghost pepper |
+
+### Tipo TypeScript
+
+```typescript
+type SpiceLevel = 0 | 1 | 2 | 3 | 4 | 5;
+
+interface SpiceInfo {
+  level: SpiceLevel;
+  scoville?: number;        // Valore Scoville opzionale
+  description?: MultiLangText;
+}
+```
+
+---
+
+## Regole di Implementazione
+
+### REGOLA 1: Sempre Tutte e 5
+
+Quando implementi filtri, UI, o API, **includi sempre tutte e 5 le dimensioni**:
+
+```typescript
+// ✅ CORRETTO - Tutte e 5 le dimensioni
+interface ProductFilters {
+  // 1. Allergeni
+  allergenFree?: string[];
+
+  // 2. Intolleranze
+  intoleranceFree?: string[];
+
+  // 3. Diete
+  suitableForDiets?: string[];
+
+  // 4. Fattori Nutrizionali
+  maxCalories?: number;
+  minProtein?: number;
+  maxCarbs?: number;
+  maxSugar?: number;
+  maxFat?: number;
+
+  // 5. Piccantezza
+  maxSpiceLevel?: 0 | 1 | 2 | 3 | 4 | 5;
+}
+
+// ❌ SBAGLIATO - Mancano dimensioni
+interface ProductFilters {
+  allergenFree?: string[];     // Solo allergeni
+  suitableForDiets?: string[]; // Solo diete
+  // Mancano: intolleranze, nutrizione, piccantezza!
+}
+```
+
+### REGOLA 2: Computed Data nei Prodotti
+
+Ogni prodotto DEVE avere tutti i campi computed:
+
+```typescript
+computed: {
+  allergens: string[];           // Lista allergeni presenti
+  intolerances: string[];        // Lista intolleranze
+  suitable_for_diets: string[];  // Diete compatibili
+  spice_level: SpiceLevel;       // Livello 0-5
+}
+
+// + nutrition_per_serving per i fattori nutrizionali
+nutrition_per_serving?: {
+  serving_size_g?: number;
+  calories_kcal?: number;
+  protein_g?: number;
+  carbs_g?: number;
+  fat_g?: number;
+  fiber_g?: number;
+}
+```
+
+### REGOLA 3: Checklist Code Review
+
+Prima di approvare codice che tocca filtri/sicurezza alimentare:
+
+- [ ] Sono considerate tutte e 5 le dimensioni?
+- [ ] Gli ID usati sono corretti (vedi tabelle sopra)?
+- [ ] La documentazione menziona "(5 dimensioni)"?
+- [ ] I test coprono tutte e 5 le dimensioni?
+- [ ] L'UI mostra tutte e 5 le dimensioni all'utente?
+
+---
+
+## File di Riferimento
+
+| File | Contenuto |
+|------|-----------|
+| `shared/database/types/index.ts` | Interfacce TypeScript per le 5 dimensioni |
+| `shared/database/utils/auto-compute.ts` | Auto-calcolo delle 5 dimensioni dagli ingredienti |
+| `shared/database/utils/product-search.ts` | API di ricerca con filtri 5 dimensioni |
+| `shared/database/safety-filters.ts` | Icone e label per allergeni/diete |
+| `docs/SISTEMA-FILTRI.md` | Questo documento (SOURCE OF TRUTH) |
+
+---
+
 ## Storia delle Modifiche
+
+### v3.0 (2025-12-13)
+- Rinominato da "Sistema 50 Filtri" a "Sistema 5 Dimensioni"
+- Aggiunte dimensioni 4 (Fattori Nutrizionali) e 5 (Piccantezza)
+- Aggiornato allergeni: 26 -> 30 (aggiunto Korea 7 + Japan 7 + GUDBRO 2)
+- Aggiunte Regole di Implementazione
+- Aggiunta REGOLA D'ORO
+- Totale: 50 -> 66 parametri
 
 ### v2.0 (2025-12-04)
 - Rimossi 9 filtri ridondanti/errati
@@ -246,7 +413,7 @@ cp shared/database/safety-filters.ts apps/backoffice/lib/shared/safety-filters.t
 
 ### v1.0 (2025-11-xx)
 - Versione iniziale con 51 filtri pianificati
-- Cresciuto a 59 filtri senza controllo qualita
+- Cresciuto a 59 filtri senza controllo qualità
 
 ---
 
@@ -255,3 +422,4 @@ cp shared/database/safety-filters.ts apps/backoffice/lib/shared/safety-filters.t
 - [EU Regulation 1169/2011](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX:32011R1169) - 14 allergeni obbligatori
 - [FDA Major Food Allergens](https://www.fda.gov/food/food-allergies/food-allergen-labeling-and-consumer-protection-act-2004-falcpa) - 9 allergeni USA
 - [FODMAP Diet](https://www.monashfodmap.com/) - Intolleranze fermentabili
+- [Scoville Scale](https://en.wikipedia.org/wiki/Scoville_scale) - Scala piccantezza
