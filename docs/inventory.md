@@ -375,3 +375,37 @@ Arabic (ar), Hebrew (he), Persian (fa), Urdu (ur), Pashto (ps), Divehi (dv)
 | Execute 017-analytics-system.sql on Supabase | Medium | When ready to collect real data |
 | Internal Feedback System in Backoffice | Low | Floating button for bug/feature requests |
 | Analytics Dashboard in Backoffice | Medium | After migration, visualize metrics |
+| **Repository Unification** | Medium | Vedi `docs/REPOSITORY-UNIFICATION-AUDIT.md` |
+
+---
+
+## Repository Unification (Future Optimization)
+
+**Audit completato:** 2025-12-13
+**Report:** `docs/REPOSITORY-UNIFICATION-AUDIT.md`
+
+### Cartelle Correlate sul Desktop
+
+| Cartella | Dimensione | Status | Contenuto |
+|----------|-----------|--------|-----------|
+| `gudbro-verticals` | 1.5 GB | ATTIVO | Repository principale (questo) |
+| `gudbro-qr-core` | 889 MB | ATTIVO | QR Platform (19 tipi QR, AI Artistic) |
+| `qr-platform-complete` | 2.4 GB | ARCHIVED | Monorepo originale pre-split |
+| `docs and research gudbro` | 620 KB | RICERCA | Documentazione strategica |
+
+### Azioni Pianificate
+
+1. **Migrare documentazione critica** da `docs and research gudbro`:
+   - `SEA_Allergen_Regulations` → `/docs/compliance/`
+   - `Thai/Philippines Competitor Analysis` → `/docs/market-research/`
+   - `GUDBRO Paper v6.1` → `/docs/strategic/`
+   - `Brand Guidelines PDF` → `/assets/brand/`
+
+2. **Archiviare** `qr-platform-complete` (rinominare con `-ARCHIVED`)
+
+3. **Mantenere separato** `gudbro-qr-core` (ha suo deployment Vercel)
+
+4. **Condividere via npm packages** (futuro):
+   - `@gudbro/health-filters`
+   - `@gudbro/menu-template`
+   - `@gudbro/qr-engine`
