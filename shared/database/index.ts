@@ -106,6 +106,33 @@ export {
 } from './utils/auto-compute';
 
 // ============================================================================
+// CATEGORY TAXONOMY
+// ============================================================================
+export {
+  domains,
+  foodCategories,
+  beverageCategories,
+  cuisineOrigins,
+  TAXONOMY_VERSION,
+  TOTAL_FOOD_CATEGORIES,
+  TOTAL_BEVERAGE_CATEGORIES,
+  TOTAL_CUISINE_ORIGINS,
+} from './taxonomy/category-taxonomy';
+
+export type {
+  Domain,
+  DomainInfo,
+  FoodCategory,
+  FoodSubcategory,
+  FoodType,
+  BeverageCategory,
+  BeverageSubcategory,
+  BeverageType,
+  BeverageRegion,
+  CuisineOrigin,
+} from './taxonomy/category-taxonomy';
+
+// ============================================================================
 // VERSION
 // ============================================================================
 export const DATABASE_VERSION = '1.0.0';
