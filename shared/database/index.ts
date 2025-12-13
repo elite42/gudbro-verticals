@@ -106,6 +106,34 @@ export {
 } from './utils/auto-compute';
 
 // ============================================================================
+// PRODUCT SEARCH API
+// ============================================================================
+export {
+  // Main search function
+  searchProducts,
+  // Specialized search functions
+  getProductsBySubcategory,
+  getProductsByCuisine,
+  getProductsByCategory,
+  getProductsByPriceRange,
+  filterByDiet,
+  getFeaturedProducts,
+  // Taxonomy helpers
+  getAvailableCategories,
+  getSubcategoriesFor,
+  getAvailableCuisines,
+  // Statistics
+  getDatabaseStats,
+  // Combined database
+  allProducts,
+} from './utils/product-search';
+
+export type {
+  ProductSearchFilters,
+  ProductSearchResult,
+} from './utils/product-search';
+
+// ============================================================================
 // CATEGORY TAXONOMY
 // ============================================================================
 export {
