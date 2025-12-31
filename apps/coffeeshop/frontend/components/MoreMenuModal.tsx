@@ -93,6 +93,17 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
       }
     },
     {
+      id: 'events',
+      icon: '🎉',
+      label: 'Eventi',
+      description: 'Prossimi eventi del locale',
+      color: 'bg-pink-500',
+      action: () => {
+        onClose();
+        router.push('/events');
+      }
+    },
+    {
       id: 'orders',
       icon: '📦',
       label: 'My Orders',

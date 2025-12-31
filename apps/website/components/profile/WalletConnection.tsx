@@ -55,7 +55,7 @@ const walletProviders = [
 
 export function WalletConnection({ wallet, onConnect, onDisconnect }: WalletConnectionProps) {
   const [loading, setLoading] = useState<string | null>(null);
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState<string | null>(null);
 
   const handleConnect = async (chain: 'solana' | 'ethereum') => {
     setLoading(chain);
@@ -165,7 +165,7 @@ export function WalletConnection({ wallet, onConnect, onDisconnect }: WalletConn
               className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"
             >
               <button
-                onClick={() => setShowDetails(showDetails === provider.id ? false : provider.id as any)}
+                onClick={() => setShowDetails(showDetails === provider.id ? null : provider.id)}
                 className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
                 <div className="flex items-center gap-4">

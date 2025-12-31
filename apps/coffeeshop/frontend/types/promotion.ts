@@ -1,0 +1,314 @@
+// Promotion types for QR Marketing System
+
+export type PromotionType =
+  | 'discount_percent'    // -X% on total
+  | 'discount_fixed'      // -€X on total
+  | 'free_item'           // Free product
+  | 'buy_x_get_y'         // Buy X get Y free
+  | 'bundle'              // Special bundle price
+  | 'loyalty_bonus'       // Extra points
+  | 'scratch_card'        // Digital scratch card (random prize)
+  | 'spin_wheel'          // Spin wheel for prize
+  | 'first_visit';        // First time customer reward
+
+export type PromotionStatus = 'draft' | 'active' | 'paused' | 'expired' | 'completed';
+
+export type PlacementType = 'offline' | 'online';
+
+export type TriggerAction =
+  | 'signup'              // User creates account
+  | 'social_share'        // Share on social media
+  | 'follow'              // Follow the merchant
+  | 'review'              // Leave a review
+  | 'checkin'             // Check-in at location
+  | 'minimum_purchase'    // Spend minimum amount
+  | 'none';               // No action required
+
+// QR Placement - Where external QRs are placed
+export interface QRPlacement {
+  id: string;
+  promotionId: string;
+
+  // Placement info
+  type: PlacementType;
+  name: string;                    // "Volantino Centro", "Instagram Bio", "Partner Bar XYZ"
+  description?: string;
+
+  // Location (for offline)
+  address?: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+
+  // Online placement details
+  platform?: string;               // "instagram", "facebook", "google_ads", "partner_website"
+  url?: string;                    // URL where QR is displayed
+
+  // Cost tracking
+  cost?: number;                   // Cost for this placement
+  costPeriod?: 'once' | 'daily' | 'weekly' | 'monthly';
+
+  // QR Code
+  qrCodeUrl: string;
+  shortUrl: string;                // gudbro.link/abc123
+
+  // Stats
+  scans: number;
+  uniqueScans: number;
+  conversions: number;             // People who completed step 2
+
+  // Dates
+  startDate: string;
+  endDate?: string;
+  createdAt: string;
+  updatedAt: string;
+
+  isActive: boolean;
+}
+
+// Main Promotion
+export interface Promotion {
+  id: string;
+  merchantId: string;
+
+  // Basic info
+  name: string;
+  title: string;                   // Public facing title
+  description: string;
+  shortDescription: string;        // For QR landing page
+  image?: string;
+
+  type: PromotionType;
+  status: PromotionStatus;
+
+  // Reward details
+  reward: {
+    discountPercent?: number;
+    discountFixed?: number;
+    freeItemId?: string;
+    freeItemName?: string;
+    buyQuantity?: number;
+    getQuantity?: number;
+    bundleItems?: string[];
+    bundlePrice?: number;
+    bonusPoints?: number;
+    prizes?: {                     // For scratch_card, spin_wheel
+      id: string;
+      name: string;
+      probability: number;         // 0-100
+      quantity?: number;           // Limited quantity
+      claimed: number;
+    }[];
+  };
+
+  // Conditions
+  conditions: {
+    minPurchase?: number;
+    maxUsesTotal?: number;         // Total redemptions allowed
+    maxUsesPerUser?: number;
+    validDays?: number[];          // 0-6 (Sun-Sat)
+    validTimeStart?: string;       // HH:mm
+    validTimeEnd?: string;
+    validProducts?: string[];      // Only for specific products
+    excludedProducts?: string[];
+    newCustomersOnly?: boolean;
+    requiresReservation?: boolean;
+  };
+
+  // 2-Step QR System
+  externalQR: {
+    enabled: boolean;
+    placements: QRPlacement[];
+  };
+
+  // What user must do inside the locale
+  triggerAction: TriggerAction;
+  triggerDescription?: string;     // "Share on Instagram to activate"
+
+  // Dates
+  startDate: string;
+  endDate: string;
+
+  // Stats
+  stats: {
+    totalViews: number;            // External QR scans
+    totalRedemptions: number;
+    totalRevenue: number;          // Estimated revenue generated
+    conversionRate: number;        // views -> redemptions
+    avgOrderValue: number;
+  };
+
+  // Google Maps integration
+  googleMapsInfo: {
+    enabled: boolean;
+    placeId?: string;
+    showDirections: boolean;
+    showReviews: boolean;
+  };
+
+  // Metadata
+  tags?: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+// For creating promotions
+export interface PromotionFormData {
+  name: string;
+  title: string;
+  description: string;
+  shortDescription: string;
+  image?: string;
+  type: PromotionType;
+
+  reward: Promotion['reward'];
+  conditions: Promotion['conditions'];
+
+  externalQREnabled: boolean;
+  triggerAction: TriggerAction;
+  triggerDescription?: string;
+
+  startDate: string;
+  endDate: string;
+
+  googleMapsEnabled: boolean;
+
+  tags?: string[];
+}
+
+// Placement form data
+export interface PlacementFormData {
+  type: PlacementType;
+  name: string;
+  description?: string;
+  address?: string;
+  platform?: string;
+  url?: string;
+  cost?: number;
+  costPeriod?: 'once' | 'daily' | 'weekly' | 'monthly';
+  startDate: string;
+  endDate?: string;
+}
+
+// Promotion type metadata
+export const PROMOTION_TYPE_CONFIG: Record<PromotionType, {
+  label: string;
+  icon: string;
+  color: string;
+  description: string;
+}> = {
+  discount_percent: {
+    label: 'Sconto %',
+    icon: '🏷️',
+    color: 'bg-green-100 text-green-700',
+    description: 'Sconto percentuale sul totale'
+  },
+  discount_fixed: {
+    label: 'Sconto Fisso',
+    icon: '💵',
+    color: 'bg-emerald-100 text-emerald-700',
+    description: 'Sconto fisso in euro'
+  },
+  free_item: {
+    label: 'Omaggio',
+    icon: '🎁',
+    color: 'bg-pink-100 text-pink-700',
+    description: 'Prodotto gratuito'
+  },
+  buy_x_get_y: {
+    label: 'Prendi X Paghi Y',
+    icon: '🛒',
+    color: 'bg-blue-100 text-blue-700',
+    description: 'Es: Prendi 3 paghi 2'
+  },
+  bundle: {
+    label: 'Bundle',
+    icon: '📦',
+    color: 'bg-purple-100 text-purple-700',
+    description: 'Combo a prezzo speciale'
+  },
+  loyalty_bonus: {
+    label: 'Bonus Punti',
+    icon: '⭐',
+    color: 'bg-amber-100 text-amber-700',
+    description: 'Punti fedeltà extra'
+  },
+  scratch_card: {
+    label: 'Gratta e Vinci',
+    icon: '🎰',
+    color: 'bg-red-100 text-red-700',
+    description: 'Carta digitale con premio casuale'
+  },
+  spin_wheel: {
+    label: 'Ruota della Fortuna',
+    icon: '🎡',
+    color: 'bg-indigo-100 text-indigo-700',
+    description: 'Gira la ruota per vincere'
+  },
+  first_visit: {
+    label: 'Prima Visita',
+    icon: '👋',
+    color: 'bg-teal-100 text-teal-700',
+    description: 'Sconto per nuovi clienti'
+  },
+};
+
+export const TRIGGER_ACTION_CONFIG: Record<TriggerAction, {
+  label: string;
+  icon: string;
+  description: string;
+}> = {
+  signup: {
+    label: 'Registrazione',
+    icon: '📝',
+    description: 'L\'utente deve creare un account'
+  },
+  social_share: {
+    label: 'Condivisione Social',
+    icon: '📱',
+    description: 'Condividi su Instagram/Facebook'
+  },
+  follow: {
+    label: 'Follow',
+    icon: '❤️',
+    description: 'Segui il locale su GUDBRO'
+  },
+  review: {
+    label: 'Recensione',
+    icon: '⭐',
+    description: 'Lascia una recensione'
+  },
+  checkin: {
+    label: 'Check-in',
+    icon: '📍',
+    description: 'Fai check-in al locale'
+  },
+  minimum_purchase: {
+    label: 'Acquisto Minimo',
+    icon: '💳',
+    description: 'Spendi almeno €X'
+  },
+  none: {
+    label: 'Nessuna Azione',
+    icon: '✅',
+    description: 'Promozione automatica'
+  },
+};
+
+export const PLACEMENT_TYPE_CONFIG: Record<PlacementType, {
+  label: string;
+  icon: string;
+  examples: string[];
+}> = {
+  offline: {
+    label: 'Offline',
+    icon: '📍',
+    examples: ['Volantini', 'Manifesti', 'Biglietti da visita', 'Partner locali', 'Eventi']
+  },
+  online: {
+    label: 'Online',
+    icon: '🌐',
+    examples: ['Instagram Bio', 'Facebook', 'Google Ads', 'Sito partner', 'Email marketing']
+  },
+};
