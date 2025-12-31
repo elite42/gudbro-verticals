@@ -1,5 +1,23 @@
 // Promotion types for QR Marketing System
 
+// Merchant info for promo landing page
+export interface Merchant {
+  id: string;
+  name: string;
+  logo?: string;
+  address: string;
+  phone?: string;
+  rating: number;
+  reviewCount: number;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  placeId: string;              // Google Maps place ID
+  openNow?: boolean;
+  hours?: string;               // e.g., "Oggi: 08:00 - 22:00"
+}
+
 export type PromotionType =
   | 'discount_percent'    // -X% on total
   | 'discount_fixed'      // -€X on total
@@ -312,3 +330,18 @@ export const PLACEMENT_TYPE_CONFIG: Record<PlacementType, {
     examples: ['Instagram Bio', 'Facebook', 'Google Ads', 'Sito partner', 'Email marketing']
   },
 };
+
+// Data structure for promo landing page (includes merchant info)
+export interface PromoLandingPageData {
+  code: string;                 // Short code from URL
+  promotion: Promotion;
+  merchant: Merchant;
+  placement?: {                 // Which placement was scanned
+    id: string;
+    name: string;
+    type: PlacementType;
+  };
+  validUntil: string;           // Formatted end date
+  isSaved: boolean;             // User saved this promo
+  isRedeemed: boolean;          // User already redeemed
+}

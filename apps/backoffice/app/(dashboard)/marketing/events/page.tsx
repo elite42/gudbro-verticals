@@ -65,6 +65,309 @@ const STATUS_CONFIG: Record<EventStatus, { label: string; color: string }> = {
   completed: { label: 'Completato', color: 'bg-blue-100 text-blue-700' },
 };
 
+// Event Form Modal Component
+interface EventFormModalProps {
+  event: Event | null;
+  onClose: () => void;
+  onSave: (data: Omit<Event, 'id' | 'currentAttendees' | 'createdAt'>) => void;
+}
+
+function EventFormModal({ event, onClose, onSave }: EventFormModalProps) {
+  const [formData, setFormData] = useState({
+    title: event?.title || '',
+    description: event?.description || '',
+    eventType: event?.eventType || 'live_music' as EventType,
+    status: event?.status || 'draft' as EventStatus,
+    startDate: event?.startDate || new Date().toISOString().split('T')[0],
+    endDate: event?.endDate || new Date().toISOString().split('T')[0],
+    startTime: event?.startTime || '20:00',
+    endTime: event?.endTime || '23:00',
+    location: event?.location || '',
+    maxCapacity: event?.maxCapacity || undefined,
+    requiresReservation: event?.requiresReservation || false,
+    entranceFee: event?.entranceFee || undefined,
+    loyaltyEnabled: event?.loyaltyBonus?.enabled || false,
+    pointsMultiplier: event?.loyaltyBonus?.pointsMultiplier || 2,
+    bonusPoints: event?.loyaltyBonus?.bonusPoints || 0,
+    performerName: event?.performer?.name || '',
+    performerGenre: event?.performer?.genre || '',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave({
+      title: formData.title,
+      description: formData.description,
+      eventType: formData.eventType,
+      status: formData.status,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      startTime: formData.startTime,
+      endTime: formData.endTime,
+      location: formData.location || undefined,
+      maxCapacity: formData.maxCapacity,
+      requiresReservation: formData.requiresReservation,
+      entranceFee: formData.entranceFee,
+      loyaltyBonus: formData.loyaltyEnabled ? {
+        enabled: true,
+        pointsMultiplier: formData.pointsMultiplier,
+        bonusPoints: formData.bonusPoints,
+      } : undefined,
+      performer: formData.performerName ? {
+        name: formData.performerName,
+        genre: formData.performerGenre || undefined,
+      } : undefined,
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
+        <form onSubmit={handleSubmit}>
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900">
+                {event ? 'Modifica Evento' : 'Nuovo Evento'}
+              </h2>
+              <button type="button" onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div className="p-6 space-y-6">
+            {/* Event Type */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tipo Evento</label>
+              <div className="grid grid-cols-5 gap-2">
+                {Object.entries(EVENT_TYPE_CONFIG).map(([type, config]) => (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, eventType: type as EventType })}
+                    className={`p-2 rounded-lg border-2 text-center transition-colors ${
+                      formData.eventType === type
+                        ? 'border-purple-500 bg-purple-50'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <span className="text-xl block">{config.icon}</span>
+                    <span className="text-xs text-gray-600">{config.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Title & Description */}
+            <div className="grid gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Titolo *</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Es: Jazz Night con Marco Rossi"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Descrizione</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Descrivi l'evento..."
+                />
+              </div>
+            </div>
+
+            {/* Date & Time */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Data Inizio *</label>
+                <input
+                  type="date"
+                  required
+                  value={formData.startDate}
+                  onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Data Fine</label>
+                <input
+                  type="date"
+                  value={formData.endDate}
+                  onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Ora Inizio *</label>
+                <input
+                  type="time"
+                  required
+                  value={formData.startTime}
+                  onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Ora Fine</label>
+                <input
+                  type="time"
+                  value={formData.endTime}
+                  onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+            </div>
+
+            {/* Location & Capacity */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                <input
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                  placeholder="Es: Sala Principale"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Capienza Max</label>
+                <input
+                  type="number"
+                  value={formData.maxCapacity || ''}
+                  onChange={(e) => setFormData({ ...formData, maxCapacity: e.target.value ? Number(e.target.value) : undefined })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                  placeholder="Es: 50"
+                />
+              </div>
+            </div>
+
+            {/* Reservation & Fee */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.requiresReservation}
+                    onChange={(e) => setFormData({ ...formData, requiresReservation: e.target.checked })}
+                    className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700">Richiede prenotazione</span>
+                </label>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Prezzo ingresso (€)</label>
+                <input
+                  type="number"
+                  value={formData.entranceFee || ''}
+                  onChange={(e) => setFormData({ ...formData, entranceFee: e.target.value ? Number(e.target.value) : undefined })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                  placeholder="0 = gratuito"
+                />
+              </div>
+            </div>
+
+            {/* Performer */}
+            <div className="bg-gray-50 rounded-xl p-4">
+              <h4 className="font-medium text-gray-900 mb-3">Performer (opzionale)</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                  <input
+                    type="text"
+                    value={formData.performerName}
+                    onChange={(e) => setFormData({ ...formData, performerName: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                    placeholder="Es: DJ Marco"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Genere</label>
+                  <input
+                    type="text"
+                    value={formData.performerGenre}
+                    onChange={(e) => setFormData({ ...formData, performerGenre: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                    placeholder="Es: House / Deep House"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Loyalty Bonus */}
+            <div className="bg-amber-50 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="font-medium text-gray-900">Bonus Fedeltà</h4>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.loyaltyEnabled}
+                    onChange={(e) => setFormData({ ...formData, loyaltyEnabled: e.target.checked })}
+                    className="w-4 h-4 text-amber-600 rounded focus:ring-amber-500"
+                  />
+                  <span className="text-sm text-gray-700">Attiva</span>
+                </label>
+              </div>
+              {formData.loyaltyEnabled && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Moltiplicatore punti</label>
+                    <select
+                      value={formData.pointsMultiplier}
+                      onChange={(e) => setFormData({ ...formData, pointsMultiplier: Number(e.target.value) })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500"
+                    >
+                      <option value={1}>1x (normale)</option>
+                      <option value={2}>2x</option>
+                      <option value={3}>3x</option>
+                      <option value={5}>5x</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Punti bonus</label>
+                    <input
+                      type="number"
+                      value={formData.bonusPoints}
+                      onChange={(e) => setFormData({ ...formData, bonusPoints: Number(e.target.value) })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500"
+                      placeholder="Es: 50"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            >
+              Annulla
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+            >
+              {event ? 'Salva Modifiche' : 'Crea Evento'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 // Mock data
 const mockEvents: Event[] = [
   {
@@ -426,51 +729,34 @@ export default function EventsPage() {
         </div>
       </div>
 
-      {/* Create/Edit Modal placeholder */}
+      {/* Create/Edit Modal */}
       {(showCreateModal || selectedEvent) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-900">
-                  {selectedEvent ? 'Modifica Evento' : 'Nuovo Evento'}
-                </h2>
-                <button
-                  onClick={() => {
-                    setShowCreateModal(false);
-                    setSelectedEvent(null);
-                  }}
-                  className="p-2 hover:bg-gray-100 rounded-lg"
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div className="p-6">
-              <p className="text-gray-500 text-center py-12">
-                Form di creazione evento in sviluppo...
-                <br />
-                <span className="text-sm">I campi includeranno: titolo, tipo, data/ora, location, capacità, prezzo, bonus fedeltà, performer, immagine, promozioni.</span>
-              </p>
-            </div>
-            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
-              <button
-                onClick={() => {
-                  setShowCreateModal(false);
-                  setSelectedEvent(null);
-                }}
-                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-              >
-                Annulla
-              </button>
-              <button className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800">
-                {selectedEvent ? 'Salva Modifiche' : 'Crea Evento'}
-              </button>
-            </div>
-          </div>
-        </div>
+        <EventFormModal
+          event={selectedEvent}
+          onClose={() => {
+            setShowCreateModal(false);
+            setSelectedEvent(null);
+          }}
+          onSave={(eventData) => {
+            if (selectedEvent) {
+              // Update existing
+              setEvents(prev => prev.map(e =>
+                e.id === selectedEvent.id ? { ...e, ...eventData } : e
+              ));
+            } else {
+              // Create new
+              const newEvent: Event = {
+                id: String(Date.now()),
+                ...eventData,
+                currentAttendees: 0,
+                createdAt: new Date().toISOString(),
+              };
+              setEvents(prev => [newEvent, ...prev]);
+            }
+            setShowCreateModal(false);
+            setSelectedEvent(null);
+          }}
+        />
       )}
     </div>
   );

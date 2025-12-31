@@ -30,7 +30,6 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
   if (!isOpen) return null;
 
   const tableContext = getTableContext();
-  // @ts-ignore - wifi feature may not be in type
   const wifi = coffeeshopConfig.wifi;
 
   // Generate WiFi QR code URL

@@ -199,8 +199,8 @@ export default function EventsPage() {
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-      } catch (err) {
-        console.log('Share cancelled');
+      } catch {
+        // Share was cancelled by user
       }
     } else {
       // Fallback: copy to clipboard

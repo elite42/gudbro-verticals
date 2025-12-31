@@ -91,6 +91,338 @@ const TRIGGER_CONFIG: Record<TriggerAction, { label: string; icon: string }> = {
   none: { label: 'Automatica', icon: '✅' },
 };
 
+// Promotion Form Modal Component
+interface PromotionFormData {
+  title: string;
+  description: string;
+  type: PromotionType;
+  status: PromotionStatus;
+  reward: Promotion['reward'];
+  triggerAction: TriggerAction;
+  startDate: string;
+  endDate: string;
+  externalQREnabled: boolean;
+}
+
+interface PromotionFormModalProps {
+  onClose: () => void;
+  onSave: (data: PromotionFormData) => void;
+}
+
+function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState<PromotionFormData>({
+    title: '',
+    description: '',
+    type: 'discount_percent',
+    status: 'draft',
+    reward: {},
+    triggerAction: 'none',
+    startDate: new Date().toISOString().split('T')[0],
+    endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    externalQREnabled: true,
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  const updateReward = (key: string, value: number | string | undefined) => {
+    setFormData({
+      ...formData,
+      reward: { ...formData.reward, [key]: value },
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
+        <form onSubmit={handleSubmit}>
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Nuova Promozione</h2>
+                <p className="text-sm text-gray-500">Step {step} di 3</p>
+              </div>
+              <button type="button" onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            {/* Progress bar */}
+            <div className="flex gap-2 mt-4">
+              {[1, 2, 3].map((s) => (
+                <div
+                  key={s}
+                  className={`h-1 flex-1 rounded-full ${s <= step ? 'bg-purple-600' : 'bg-gray-200'}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="p-6 space-y-6">
+            {step === 1 && (
+              <>
+                {/* Promo Type Selection */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Tipo di Promozione</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {Object.entries(PROMOTION_TYPE_CONFIG).map(([type, config]) => (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, type: type as PromotionType })}
+                        className={`p-3 rounded-lg border-2 text-left transition-colors ${
+                          formData.type === type
+                            ? 'border-purple-500 bg-purple-50'
+                            : 'border-gray-200 hover:border-purple-300'
+                        }`}
+                      >
+                        <span className="text-2xl block mb-1">{config.icon}</span>
+                        <span className="text-sm font-medium text-gray-900">{config.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Title & Description */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Titolo *</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                    placeholder="Es: Sconto 20% sul primo ordine"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Descrizione</label>
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    rows={2}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                    placeholder="Descrivi la promozione..."
+                  />
+                </div>
+              </>
+            )}
+
+            {step === 2 && (
+              <>
+                {/* Reward Details based on type */}
+                <div className="bg-purple-50 rounded-xl p-4">
+                  <h4 className="font-medium text-gray-900 mb-4">Dettagli Premio</h4>
+
+                  {formData.type === 'discount_percent' && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Sconto %</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="100"
+                        value={formData.reward.discountPercent || ''}
+                        onChange={(e) => updateReward('discountPercent', Number(e.target.value))}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        placeholder="Es: 20"
+                      />
+                    </div>
+                  )}
+
+                  {formData.type === 'discount_fixed' && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Sconto Fisso (€)</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={formData.reward.discountFixed || ''}
+                        onChange={(e) => updateReward('discountFixed', Number(e.target.value))}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        placeholder="Es: 5"
+                      />
+                    </div>
+                  )}
+
+                  {formData.type === 'free_item' && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Prodotto Omaggio</label>
+                      <input
+                        type="text"
+                        value={formData.reward.freeItemName || ''}
+                        onChange={(e) => updateReward('freeItemName', e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        placeholder="Es: Caffè, Dessert"
+                      />
+                    </div>
+                  )}
+
+                  {formData.type === 'loyalty_bonus' && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Punti Bonus</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={formData.reward.bonusPoints || ''}
+                        onChange={(e) => updateReward('bonusPoints', Number(e.target.value))}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        placeholder="Es: 100"
+                      />
+                    </div>
+                  )}
+
+                  {(formData.type === 'scratch_card' || formData.type === 'spin_wheel') && (
+                    <p className="text-sm text-gray-600">
+                      I premi della {formData.type === 'scratch_card' ? 'carta gratta e vinci' : 'ruota'} verranno configurati dopo la creazione.
+                    </p>
+                  )}
+
+                  {formData.type === 'first_visit' && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Sconto Prima Visita %</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="100"
+                        value={formData.reward.discountPercent || ''}
+                        onChange={(e) => updateReward('discountPercent', Number(e.target.value))}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        placeholder="Es: 15"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Trigger Action */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Azione Richiesta per Attivare</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {Object.entries(TRIGGER_CONFIG).map(([action, config]) => (
+                      <button
+                        key={action}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, triggerAction: action as TriggerAction })}
+                        className={`p-3 rounded-lg border-2 text-left transition-colors ${
+                          formData.triggerAction === action
+                            ? 'border-purple-500 bg-purple-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <span className="text-lg mr-2">{config.icon}</span>
+                        <span className="text-sm font-medium text-gray-900">{config.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {step === 3 && (
+              <>
+                {/* Dates */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Data Inizio *</label>
+                    <input
+                      type="date"
+                      required
+                      value={formData.startDate}
+                      onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Data Fine *</label>
+                    <input
+                      type="date"
+                      required
+                      value={formData.endDate}
+                      onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                    />
+                  </div>
+                </div>
+
+                {/* External QR */}
+                <div className="bg-blue-50 rounded-xl p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium text-gray-900">QR Marketing Esterno</h4>
+                      <p className="text-sm text-gray-600">Abilita il sistema a 2 step con QR piazzati fuori dal locale</p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.externalQREnabled}
+                        onChange={(e) => setFormData({ ...formData, externalQREnabled: e.target.checked })}
+                        className="sr-only peer"
+                      />
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Summary */}
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h4 className="font-medium text-gray-900 mb-3">Riepilogo</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Tipo:</span>
+                      <span className="font-medium">{PROMOTION_TYPE_CONFIG[formData.type].label}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Titolo:</span>
+                      <span className="font-medium">{formData.title || '-'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Trigger:</span>
+                      <span className="font-medium">{TRIGGER_CONFIG[formData.triggerAction].label}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Periodo:</span>
+                      <span className="font-medium">{formData.startDate} → {formData.endDate}</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="p-6 border-t border-gray-200 flex justify-between">
+            <button
+              type="button"
+              onClick={() => step > 1 ? setStep(step - 1) : onClose()}
+              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            >
+              {step > 1 ? 'Indietro' : 'Annulla'}
+            </button>
+            {step < 3 ? (
+              <button
+                type="button"
+                onClick={() => setStep(step + 1)}
+                disabled={step === 1 && !formData.title}
+                className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:opacity-50"
+              >
+                Avanti
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+              >
+                Crea Promozione
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 // Mock data
 const mockPromotions: Promotion[] = [
   {
@@ -249,9 +581,9 @@ export default function PromotionsPage() {
     }
   };
 
-  // Calculate ROI for a placement
-  const calculateROI = (placement: QRPlacement, avgOrderValue: number = 25) => {
-    if (!placement.cost || placement.cost === 0) return Infinity;
+  // Calculate ROI for a placement - returns string for consistent type
+  const calculateROI = (placement: QRPlacement, avgOrderValue: number = 25): string => {
+    if (!placement.cost || placement.cost === 0) return '∞';
     const estimatedRevenue = placement.conversions * avgOrderValue;
     const monthlyCost = placement.costPeriod === 'monthly' ? placement.cost :
                         placement.costPeriod === 'weekly' ? placement.cost * 4 :
@@ -516,8 +848,8 @@ export default function PromotionsPage() {
                                   </div>
                                   <div>
                                     <p className="text-gray-500">ROI</p>
-                                    <p className={`font-medium ${Number(roi) > 0 ? 'text-green-600' : Number(roi) < 0 ? 'text-red-600' : 'text-gray-600'}`}>
-                                      {roi === 'Infinity' ? '∞' : `${roi}%`}
+                                    <p className={`font-medium ${roi === '∞' ? 'text-blue-600' : Number(roi) > 0 ? 'text-green-600' : Number(roi) < 0 ? 'text-red-600' : 'text-gray-600'}`}>
+                                      {roi === '∞' ? '∞' : `${roi}%`}
                                     </p>
                                   </div>
                                 </div>
@@ -568,55 +900,30 @@ export default function PromotionsPage() {
         )}
       </div>
 
-      {/* Create Modal Placeholder */}
+      {/* Create Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-900">Nuova Promozione</h2>
-                <button onClick={() => setShowCreateModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="space-y-6">
-                {/* Promo Type Selection */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">Tipo di Promozione</label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {Object.entries(PROMOTION_TYPE_CONFIG).map(([type, config]) => (
-                      <button
-                        key={type}
-                        className={`p-3 rounded-lg border-2 border-gray-200 hover:border-purple-400 text-left transition-colors`}
-                      >
-                        <span className="text-2xl block mb-1">{config.icon}</span>
-                        <span className="text-sm font-medium text-gray-900">{config.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <p className="text-gray-500 text-center py-4 border-t border-gray-100">
-                  Form completo in sviluppo...
-                  <br />
-                  <span className="text-sm">Includerà: dettagli reward, condizioni, trigger action, date, QR esterno.</span>
-                </p>
-              </div>
-            </div>
-            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
-              <button onClick={() => setShowCreateModal(false)} className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
-                Annulla
-              </button>
-              <button className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800">
-                Crea Promozione
-              </button>
-            </div>
-          </div>
-        </div>
+        <PromotionFormModal
+          onClose={() => setShowCreateModal(false)}
+          onSave={(promoData) => {
+            const newPromo: Promotion = {
+              id: String(Date.now()),
+              name: promoData.title.toLowerCase().replace(/\s+/g, '-'),
+              ...promoData,
+              externalQR: {
+                enabled: promoData.externalQREnabled,
+                placements: [],
+              },
+              stats: {
+                totalViews: 0,
+                totalRedemptions: 0,
+                conversionRate: 0,
+              },
+              createdAt: new Date().toISOString().split('T')[0],
+            };
+            setPromotions(prev => [newPromo, ...prev]);
+            setShowCreateModal(false);
+          }}
+        />
       )}
 
       {/* Placements Modal */}

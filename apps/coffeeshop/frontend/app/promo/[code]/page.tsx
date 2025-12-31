@@ -3,9 +3,40 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import type { Merchant, PromotionType, TriggerAction, PlacementType } from '@/types/promotion';
 
 // Mock promotion data (in production would come from API)
-const mockPromoData = {
+interface PromoPageData {
+  id: string;
+  code: string;
+  title: string;
+  description: string;
+  shortDescription: string;
+  type: PromotionType;
+  reward: {
+    discountPercent?: number;
+    discountFixed?: number;
+    freeItemName?: string;
+  };
+  triggerAction: TriggerAction;
+  triggerDescription: string;
+  image: string | null;
+  endDate: string;
+  conditions: {
+    minPurchase?: number;
+    validDays?: number[];
+    validTimeStart?: string;
+    validTimeEnd?: string;
+  };
+  merchant: Merchant;
+  placement: {
+    id: string;
+    name: string;
+    type: PlacementType;
+  };
+}
+
+const mockPromoData: PromoPageData = {
   id: '1',
   code: 'gennaio20',
   title: 'Sconto 20% sul primo ordine!',
@@ -18,7 +49,7 @@ const mockPromoData = {
   triggerAction: 'signup',
   triggerDescription: 'Registrati per attivare lo sconto',
   image: null,
-  validUntil: '2025-01-31',
+  endDate: '2025-01-31',
   conditions: {
     minPurchase: 15,
     validDays: [0, 1, 2, 3, 4, 5, 6],
@@ -26,8 +57,9 @@ const mockPromoData = {
     validTimeEnd: '22:00',
   },
   merchant: {
+    id: 'caffe-rossi',
     name: 'Caffè Rossi',
-    logo: null,
+    logo: undefined,
     address: 'Via Roma 123, Milano',
     phone: '+39 02 1234567',
     rating: 4.6,
@@ -36,11 +68,12 @@ const mockPromoData = {
       lat: 45.4654219,
       lng: 9.1859243,
     },
-    placeId: 'ChIJcfMGTlDBhkcRr8KPnqWkVsY', // Example Google Place ID
+    placeId: 'ChIJcfMGTlDBhkcRr8KPnqWkVsY',
     openNow: true,
     hours: 'Lun-Ven 7:00-22:00 | Sab-Dom 8:00-23:00',
   },
   placement: {
+    id: 'p1',
     name: 'Volantino Centro Storico',
     type: 'offline',
   },
@@ -56,8 +89,8 @@ export default function PromoLandingPage() {
 
   // Track view on mount
   useEffect(() => {
-    // In production: API call to track QR scan
-    console.log(`Tracking promo view: ${code}`);
+    // TODO: In production - API call to track QR scan
+    // trackPromoView(code, promo.placement.id);
   }, [code]);
 
   const getGoogleMapsUrl = () => {
@@ -85,8 +118,8 @@ export default function PromoLandingPage() {
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-      } catch (err) {
-        console.log('Share cancelled');
+      } catch {
+        // Share was cancelled by user
       }
     } else {
       navigator.clipboard.writeText(window.location.href);
@@ -123,8 +156,9 @@ export default function PromoLandingPage() {
             <button
               onClick={handleShare}
               className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
+              aria-label="Condividi promozione"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
               </svg>
             </button>
@@ -146,7 +180,7 @@ export default function PromoLandingPage() {
             </div>
 
             <h1 className="text-2xl font-bold mb-2">{promo.title}</h1>
-            <p className="text-purple-100 text-sm">Valido fino al {formatDate(promo.validUntil)}</p>
+            <p className="text-purple-100 text-sm">Valido fino al {formatDate(promo.endDate)}</p>
           </div>
         </div>
 
@@ -285,7 +319,7 @@ export default function PromoLandingPage() {
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <span>Scade il {formatDate(promo.validUntil)}</span>
+              <span>Scade il {formatDate(promo.endDate)}</span>
             </div>
           </div>
         </div>
