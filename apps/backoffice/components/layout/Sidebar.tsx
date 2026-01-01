@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
-import { useAuth, DEV_ACCOUNTS } from '@/lib/contexts/AuthContext';
+import { useAuth, DEV_ACCOUNTS, isDevModeEnabled } from '@/lib/auth';
 
 // Platform admin navigation (GudBro Owner only)
 const platformNavigation = [
@@ -206,10 +206,15 @@ export function Sidebar() {
         )}
       </div>
 
-      {/* Dev Mode Role Switcher */}
-      {isDevMode && (
+      {/* Dev Mode Role Switcher - Only in development */}
+      {isDevMode && isDevModeEnabled() && (
         <div className="px-3 py-2 border-b border-gray-800">
-          <p className="text-[10px] text-gray-500 uppercase tracking-wide mb-2">Dev Mode</p>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="px-1.5 py-0.5 bg-yellow-500/20 text-yellow-400 text-[8px] font-bold rounded">
+              DEV
+            </span>
+            <p className="text-[10px] text-gray-500 uppercase tracking-wide">Role Switcher</p>
+          </div>
           <select
             value={user?.id || ''}
             onChange={(e) => switchDevAccount(e.target.value)}

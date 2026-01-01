@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase-browser';
-import { DEV_ACCOUNTS, type AuthUser } from '@/lib/contexts/AuthContext';
+import { DEV_ACCOUNTS, isDevModeEnabled, DEV_SESSION_CONFIG, type AuthUser } from '@/lib/auth';
 
 function LoginForm() {
   const router = useRouter();
@@ -20,12 +20,23 @@ function LoginForm() {
 
   const supabase = createClient();
 
-  // Dev login bypass - sets both localStorage and cookie for middleware
+  // Check if dev mode is available (only in development)
+  const devModeAvailable = isDevModeEnabled();
+
+  /**
+   * Dev login bypass - sets both localStorage and cookie for middleware
+   * @security Only available when NODE_ENV === 'development'
+   */
   const handleDevLogin = (account: AuthUser) => {
+    if (!devModeAvailable) {
+      console.warn('Dev login not available in production');
+      return;
+    }
+
     const sessionData = JSON.stringify(account);
-    localStorage.setItem('gudbro_dev_session', sessionData);
+    localStorage.setItem(DEV_SESSION_CONFIG.name, sessionData);
     // Set cookie for middleware to read
-    document.cookie = `gudbro_dev_session=${encodeURIComponent(sessionData)}; path=/; max-age=86400`;
+    document.cookie = `${DEV_SESSION_CONFIG.name}=${encodeURIComponent(sessionData)}; path=${DEV_SESSION_CONFIG.path}; max-age=${DEV_SESSION_CONFIG.maxAge}; SameSite=${DEV_SESSION_CONFIG.sameSite}`;
     router.push(redirectTo);
     router.refresh();
   };
@@ -294,60 +305,67 @@ function LoginForm() {
           </div>
         </div>
 
-        {/* Dev Mode Toggle */}
-        <div className="mt-6">
-          <button
-            type="button"
-            onClick={() => setShowDevAccounts(!showDevAccounts)}
-            className="w-full text-center text-slate-500 text-sm hover:text-slate-300 transition-colors"
-          >
-            {showDevAccounts ? 'Hide' : 'Show'} Dev Accounts
-          </button>
+        {/* Dev Mode Toggle - Only visible in development */}
+        {devModeAvailable && (
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={() => setShowDevAccounts(!showDevAccounts)}
+              className="w-full text-center text-slate-500 text-sm hover:text-slate-300 transition-colors"
+            >
+              {showDevAccounts ? 'Hide' : 'Show'} Dev Accounts
+            </button>
 
-          {showDevAccounts && (
-            <div className="mt-4 bg-slate-800/50 rounded-xl p-4 border border-slate-700">
-              <p className="text-xs text-slate-400 mb-3 text-center">
-                Quick access for development & testing
-              </p>
-              <div className="space-y-2">
-                {DEV_ACCOUNTS.map((account) => (
-                  <button
-                    key={account.id}
-                    onClick={() => handleDevLogin(account)}
-                    className="w-full flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 transition-colors text-left"
-                  >
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
-                      account.role === 'gudbro_owner'
-                        ? 'bg-gradient-to-r from-red-500 to-orange-500'
-                        : account.role === 'business_owner'
-                        ? 'bg-gradient-to-r from-blue-500 to-cyan-500'
-                        : account.role === 'manager'
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500'
-                        : 'bg-gradient-to-r from-green-500 to-emerald-500'
-                    }`}>
-                      {account.name.charAt(0)}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-white font-medium text-sm">{account.name}</p>
-                      <p className="text-slate-400 text-xs">{account.email}</p>
-                    </div>
-                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${
-                      account.role === 'gudbro_owner'
-                        ? 'bg-red-500/20 text-red-400'
-                        : account.role === 'business_owner'
-                        ? 'bg-blue-500/20 text-blue-400'
-                        : account.role === 'manager'
-                        ? 'bg-purple-500/20 text-purple-400'
-                        : 'bg-green-500/20 text-green-400'
-                    }`}>
-                      {account.role.replace('_', ' ')}
-                    </span>
-                  </button>
-                ))}
+            {showDevAccounts && (
+              <div className="mt-4 bg-slate-800/50 rounded-xl p-4 border border-slate-700">
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <span className="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold rounded">
+                    DEV ONLY
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400 mb-3 text-center">
+                  Quick access for development & testing
+                </p>
+                <div className="space-y-2">
+                  {DEV_ACCOUNTS.map((account) => (
+                    <button
+                      key={account.id}
+                      onClick={() => handleDevLogin(account)}
+                      className="w-full flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 transition-colors text-left"
+                    >
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
+                        account.role === 'gudbro_owner'
+                          ? 'bg-gradient-to-r from-red-500 to-orange-500'
+                          : account.role === 'business_owner'
+                          ? 'bg-gradient-to-r from-blue-500 to-cyan-500'
+                          : account.role === 'manager'
+                          ? 'bg-gradient-to-r from-purple-500 to-pink-500'
+                          : 'bg-gradient-to-r from-green-500 to-emerald-500'
+                      }`}>
+                        {account.name.charAt(0)}
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-white font-medium text-sm">{account.name}</p>
+                        <p className="text-slate-400 text-xs">{account.email}</p>
+                      </div>
+                      <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${
+                        account.role === 'gudbro_owner'
+                          ? 'bg-red-500/20 text-red-400'
+                          : account.role === 'business_owner'
+                          ? 'bg-blue-500/20 text-blue-400'
+                          : account.role === 'manager'
+                          ? 'bg-purple-500/20 text-purple-400'
+                          : 'bg-green-500/20 text-green-400'
+                      }`}>
+                        {account.role.replace('_', ' ')}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
 
         {/* Footer */}
         <p className="text-center text-slate-500 text-sm mt-8">

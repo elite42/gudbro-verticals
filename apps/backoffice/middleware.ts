@@ -2,13 +2,28 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 /**
- * Middleware for authentication
+ * Authentication Middleware
  *
- * Protected routes: /dashboard, /content, /analytics, /settings, etc.
+ * Protects routes by verifying authentication status.
+ * Supports both Supabase sessions and development mode bypass.
+ *
+ * Protected routes: All routes except those in publicRoutes
  * Public routes: /login, /auth/callback, /api/public/*
  *
- * Dev Mode: Checks for gudbro_dev_session cookie for bypass authentication
+ * @security Dev mode bypass is only enabled when NODE_ENV === 'development'
  */
+
+// Dev session cookie name (must match client-side config)
+const DEV_SESSION_COOKIE = 'gudbro_dev_session';
+
+/**
+ * Check if dev mode is enabled
+ * Only allows dev bypass in development environment
+ */
+function isDevModeEnabled(): boolean {
+  return process.env.NODE_ENV === 'development';
+}
+
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
     request: {
@@ -37,20 +52,30 @@ export async function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
   const isPublicApi = publicApiRoutes.some(route => pathname.startsWith(route));
 
-  // Check for dev session cookie (set by client-side localStorage, synced via cookie)
-  const devSessionCookie = request.cookies.get('gudbro_dev_session');
-  const hasDevSession = !!devSessionCookie?.value;
+  // Check for dev session cookie (ONLY in development)
+  if (isDevModeEnabled()) {
+    const devSessionCookie = request.cookies.get(DEV_SESSION_COOKIE);
+    const hasDevSession = !!devSessionCookie?.value;
 
-  // If dev session exists, allow access
-  if (hasDevSession) {
-    // If trying to access login while dev session exists, redirect to dashboard
-    if (pathname === '/login') {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+    if (hasDevSession) {
+      // Validate the session has basic structure
+      try {
+        const sessionData = JSON.parse(decodeURIComponent(devSessionCookie.value));
+        if (sessionData?.id && sessionData?.role) {
+          // Valid dev session - allow access
+          if (pathname === '/login') {
+            return NextResponse.redirect(new URL('/dashboard', request.url));
+          }
+          return response;
+        }
+      } catch {
+        // Invalid session data - clear the cookie and continue to normal auth
+        response.cookies.delete(DEV_SESSION_COOKIE);
+      }
     }
-    return response;
   }
 
-  // Check Supabase session
+  // Check Supabase session for production auth
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -122,7 +147,7 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - public folder
+     * - public folder assets
      */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],

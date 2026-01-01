@@ -1,166 +1,33 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+/**
+ * Authentication Context Provider
+ *
+ * Provides authentication state and methods throughout the application.
+ * Supports both Supabase authentication and development mode test accounts.
+ *
+ * @module lib/contexts/AuthContext
+ */
+
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { createClient } from '@/lib/supabase-browser';
 import type { User } from '@supabase/supabase-js';
+import type { AuthUser, Permission, UserRole, AuthContextType } from '../auth/types';
+import { ROLE_PERMISSIONS, ROLE_HIERARCHY } from '../auth/permissions';
+import { DEV_ACCOUNTS, isDevModeEnabled, DEV_SESSION_CONFIG } from '../auth/dev-accounts';
 
-// Role hierarchy: gudbro_owner > business_owner > manager > staff
-export type UserRole = 'gudbro_owner' | 'business_owner' | 'manager' | 'staff';
-
-export interface AuthUser {
-  id: string;
-  email: string;
-  name: string;
-  avatarUrl?: string;
-  role: UserRole;
-  // Business owner specific
-  organizationId?: string;
-  // GudBro owner specific
-  isGudBroAdmin?: boolean;
-  permissions: Permission[];
-}
-
-export type Permission =
-  // Content
-  | 'content:read'
-  | 'content:write'
-  | 'content:delete'
-  // Orders
-  | 'orders:read'
-  | 'orders:manage'
-  // Analytics
-  | 'analytics:read'
-  | 'analytics:export'
-  // Team
-  | 'team:read'
-  | 'team:manage'
-  | 'team:invite'
-  // Billing
-  | 'billing:read'
-  | 'billing:manage'
-  // Settings
-  | 'settings:read'
-  | 'settings:manage'
-  // Platform (GudBro Owner only)
-  | 'platform:read'
-  | 'platform:manage'
-  | 'platform:merchants'
-  | 'platform:revenue'
-  | 'platform:support';
-
-// Permission sets by role
-const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
-  staff: [
-    'content:read',
-    'orders:read',
-  ],
-  manager: [
-    'content:read',
-    'content:write',
-    'orders:read',
-    'orders:manage',
-    'analytics:read',
-    'team:read',
-    'settings:read',
-  ],
-  business_owner: [
-    'content:read',
-    'content:write',
-    'content:delete',
-    'orders:read',
-    'orders:manage',
-    'analytics:read',
-    'analytics:export',
-    'team:read',
-    'team:manage',
-    'team:invite',
-    'billing:read',
-    'billing:manage',
-    'settings:read',
-    'settings:manage',
-  ],
-  gudbro_owner: [
-    'content:read',
-    'content:write',
-    'content:delete',
-    'orders:read',
-    'orders:manage',
-    'analytics:read',
-    'analytics:export',
-    'team:read',
-    'team:manage',
-    'team:invite',
-    'billing:read',
-    'billing:manage',
-    'settings:read',
-    'settings:manage',
-    'platform:read',
-    'platform:manage',
-    'platform:merchants',
-    'platform:revenue',
-    'platform:support',
-  ],
-};
-
-// Dev test accounts for easy switching
-export const DEV_ACCOUNTS: AuthUser[] = [
-  {
-    id: 'dev-gudbro-owner',
-    email: 'admin@gudbro.com',
-    name: 'GudBro Admin',
-    role: 'gudbro_owner',
-    isGudBroAdmin: true,
-    permissions: ROLE_PERMISSIONS.gudbro_owner,
-  },
-  {
-    id: 'dev-business-owner',
-    email: 'mario@cafferossi.it',
-    name: 'Mario Rossi',
-    role: 'business_owner',
-    organizationId: 'org-caffe-rossi',
-    permissions: ROLE_PERMISSIONS.business_owner,
-  },
-  {
-    id: 'dev-manager',
-    email: 'luigi@cafferossi.it',
-    name: 'Luigi Bianchi',
-    role: 'manager',
-    organizationId: 'org-caffe-rossi',
-    permissions: ROLE_PERMISSIONS.manager,
-  },
-  {
-    id: 'dev-staff',
-    email: 'anna@cafferossi.it',
-    name: 'Anna Verdi',
-    role: 'staff',
-    organizationId: 'org-caffe-rossi',
-    permissions: ROLE_PERMISSIONS.staff,
-  },
-];
-
-interface AuthContextType {
-  user: AuthUser | null;
-  supabaseUser: User | null;
-  isLoading: boolean;
-  isDevMode: boolean;
-  // Auth methods
-  signOut: () => Promise<void>;
-  // Dev mode methods
-  devLogin: (account: AuthUser) => void;
-  devLogout: () => void;
-  switchDevAccount: (accountId: string) => void;
-  // Permission checks
-  hasPermission: (permission: Permission) => boolean;
-  hasAnyPermission: (permissions: Permission[]) => boolean;
-  hasAllPermissions: (permissions: Permission[]) => boolean;
-  isRole: (role: UserRole) => boolean;
-  isAtLeastRole: (role: UserRole) => boolean;
-}
+// Re-export for convenience
+export { DEV_ACCOUNTS } from '../auth/dev-accounts';
+export type { AuthUser, Permission, UserRole } from '../auth/types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const ROLE_HIERARCHY: UserRole[] = ['staff', 'manager', 'business_owner', 'gudbro_owner'];
-
+/**
+ * Authentication Provider Component
+ *
+ * Wraps the application to provide authentication state and methods.
+ * Handles both Supabase auth and development mode bypass.
+ */
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [supabaseUser, setSupabaseUser] = useState<User | null>(null);
@@ -169,38 +36,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const supabase = createClient();
 
-  // Check for dev session on mount
-  useEffect(() => {
-    const devSession = localStorage.getItem('gudbro_dev_session');
-    if (devSession) {
-      try {
-        const parsed = JSON.parse(devSession);
-        setUser(parsed);
-        setIsDevMode(true);
-        setIsLoading(false);
-        return;
-      } catch {
-        localStorage.removeItem('gudbro_dev_session');
-      }
-    }
-
-    // Check Supabase session
-    checkSupabaseSession();
-  }, []);
-
-  const checkSupabaseSession = async () => {
+  /**
+   * Check Supabase session and map to AuthUser
+   */
+  const checkSupabaseSession = useCallback(async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         setSupabaseUser(session.user);
         // Map Supabase user to AuthUser
-        // In production, fetch role from user_metadata or database
+        // TODO: In production, fetch role from user_metadata or database
         setUser({
           id: session.user.id,
           email: session.user.email || '',
           name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
           avatarUrl: session.user.user_metadata?.avatar_url,
-          role: 'business_owner', // Default role, should come from DB
+          role: 'business_owner', // Default role - should come from DB
           permissions: ROLE_PERMISSIONS.business_owner,
         });
       }
@@ -209,8 +60,64 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [supabase.auth]);
 
+  /**
+   * Initialize auth state on mount
+   */
+  useEffect(() => {
+    // Only check dev session if dev mode is enabled
+    if (isDevModeEnabled()) {
+      const devSession = localStorage.getItem(DEV_SESSION_CONFIG.name);
+      if (devSession) {
+        try {
+          const parsed = JSON.parse(devSession) as AuthUser;
+          // Validate parsed data has required fields
+          if (parsed.id && parsed.email && parsed.role && parsed.permissions) {
+            setUser(parsed);
+            setIsDevMode(true);
+            setIsLoading(false);
+            return;
+          }
+        } catch {
+          localStorage.removeItem(DEV_SESSION_CONFIG.name);
+          // Clear invalid cookie
+          document.cookie = `${DEV_SESSION_CONFIG.name}=; path=/; max-age=0`;
+        }
+      }
+    }
+
+    // Check Supabase session
+    checkSupabaseSession();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setSupabaseUser(session.user);
+        setUser({
+          id: session.user.id,
+          email: session.user.email || '',
+          name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
+          avatarUrl: session.user.user_metadata?.avatar_url,
+          role: 'business_owner',
+          permissions: ROLE_PERMISSIONS.business_owner,
+        });
+      } else {
+        setSupabaseUser(null);
+        if (!isDevMode) {
+          setUser(null);
+        }
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [checkSupabaseSession, supabase.auth, isDevMode]);
+
+  /**
+   * Sign out current user
+   */
   const signOut = async () => {
     if (isDevMode) {
       devLogout();
@@ -221,24 +128,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSupabaseUser(null);
   };
 
+  /**
+   * Login with a dev test account
+   * @security Only available when isDevModeEnabled() returns true
+   */
   const devLogin = (account: AuthUser) => {
+    if (!isDevModeEnabled()) {
+      console.warn('Dev login attempted in production mode - ignoring');
+      return;
+    }
+
     const sessionData = JSON.stringify(account);
-    localStorage.setItem('gudbro_dev_session', sessionData);
-    // Set cookie for middleware
-    document.cookie = `gudbro_dev_session=${encodeURIComponent(sessionData)}; path=/; max-age=86400`;
+    localStorage.setItem(DEV_SESSION_CONFIG.name, sessionData);
+
+    // Set cookie for middleware (with security flags)
+    const cookieValue = encodeURIComponent(sessionData);
+    document.cookie = `${DEV_SESSION_CONFIG.name}=${cookieValue}; path=${DEV_SESSION_CONFIG.path}; max-age=${DEV_SESSION_CONFIG.maxAge}; SameSite=${DEV_SESSION_CONFIG.sameSite}`;
+
     setUser(account);
     setIsDevMode(true);
   };
 
+  /**
+   * Logout from dev mode
+   */
   const devLogout = () => {
-    localStorage.removeItem('gudbro_dev_session');
+    localStorage.removeItem(DEV_SESSION_CONFIG.name);
     // Clear cookie
-    document.cookie = 'gudbro_dev_session=; path=/; max-age=0';
+    document.cookie = `${DEV_SESSION_CONFIG.name}=; path=${DEV_SESSION_CONFIG.path}; max-age=0`;
     setUser(null);
     setIsDevMode(false);
   };
 
+  /**
+   * Switch to a different dev account
+   */
   const switchDevAccount = (accountId: string) => {
+    if (!isDevModeEnabled()) {
+      return;
+    }
+
     const account = DEV_ACCOUNTS.find(a => a.id === accountId);
     if (account) {
       devLogin(account);
@@ -247,6 +176,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Permission check helpers
   const hasPermission = (permission: Permission): boolean => {
     return user?.permissions.includes(permission) ?? false;
   };
@@ -293,7 +223,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useAuth() {
+/**
+ * Hook to access authentication context
+ *
+ * @throws Error if used outside of AuthProvider
+ *
+ * @example
+ * ```tsx
+ * const { user, hasPermission } = useAuth();
+ *
+ * if (!hasPermission('content:write')) {
+ *   return <AccessDenied />;
+ * }
+ * ```
+ */
+export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
