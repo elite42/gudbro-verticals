@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Event, EVENT_TYPE_CONFIG } from '@/types/event';
+import { Event, EVENT_TYPE_CONFIG, VENUE_STATUS_CONFIG, PROMO_MECHANIC_CONFIG } from '@/types/event';
 
 interface EventCardProps {
   event: Event;
@@ -110,11 +110,24 @@ export function EventCard({ event, variant = 'full', onDetailsClick, onReserveCl
           <p className="text-sm text-gray-500 dark:text-gray-400">
             {formatDate(event.startDate)} · {event.startTime} - {event.endTime}
           </p>
-          {event.loyaltyBonus?.enabled && (
-            <p className="text-xs text-purple-600 dark:text-purple-400 mt-1">
-              {event.loyaltyBonus.pointsMultiplier}x punti durante l'evento
-            </p>
-          )}
+          {/* Compact badges row */}
+          <div className="flex flex-wrap items-center gap-1 mt-1">
+            {event.promotions && event.promotions.length > 0 && (
+              <span className="px-2 py-0.5 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium rounded-full">
+                {event.promotions[0].badge || PROMO_MECHANIC_CONFIG[event.promotions[0].mechanic]?.example}
+              </span>
+            )}
+            {event.loyaltyBonus?.enabled && (
+              <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium rounded-full">
+                {event.loyaltyBonus.pointsMultiplier ? `${event.loyaltyBonus.pointsMultiplier}x pts` : `+${event.loyaltyBonus.bonusPoints}`}
+              </span>
+            )}
+            {event.venueStatus && event.venueStatus !== 'open' && (
+              <span className={`px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-xs font-medium rounded-full ${VENUE_STATUS_CONFIG[event.venueStatus].color}`}>
+                {VENUE_STATUS_CONFIG[event.venueStatus].icon}
+              </span>
+            )}
+          </div>
         </div>
 
         <svg className="w-5 h-5 text-gray-400 flex-shrink-0 self-center" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -240,19 +253,38 @@ export function EventCard({ event, variant = 'full', onDetailsClick, onReserveCl
           </div>
         )}
 
+        {/* Venue Status (if not open) */}
+        {event.venueStatus && event.venueStatus !== 'open' && (
+          <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl mb-4">
+            <span className="text-xl">{VENUE_STATUS_CONFIG[event.venueStatus].icon}</span>
+            <div>
+              <p className={`text-sm font-medium ${VENUE_STATUS_CONFIG[event.venueStatus].color}`}>
+                {VENUE_STATUS_CONFIG[event.venueStatus].labelIt}
+              </p>
+              {event.affectedAreas && event.affectedAreas.length > 0 && (
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Aree: {event.affectedAreas.join(', ')}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Promotions */}
         {event.promotions && event.promotions.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
-            {event.promotions.map((promo, idx) => (
-              <span
-                key={idx}
-                className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-lg"
-              >
-                {promo.type === 'discount' && promo.discountPercent && `-${promo.discountPercent}%`}
-                {promo.type === 'freebie' && '🎁 Omaggio'}
-                {promo.type === 'bundle' && '📦 Bundle'} {promo.description}
-              </span>
-            ))}
+            {event.promotions.map((promo, idx) => {
+              const mechanicConfig = PROMO_MECHANIC_CONFIG[promo.mechanic];
+              return (
+                <span
+                  key={idx}
+                  className="px-3 py-1.5 bg-gradient-to-r from-orange-100 to-yellow-100 dark:from-orange-900/30 dark:to-yellow-900/30 text-orange-700 dark:text-orange-300 text-sm font-medium rounded-xl flex items-center gap-1"
+                >
+                  <span>{mechanicConfig?.icon || '🏷️'}</span>
+                  <span>{promo.badge || mechanicConfig?.example || promo.name}</span>
+                </span>
+              );
+            })}
           </div>
         )}
 
