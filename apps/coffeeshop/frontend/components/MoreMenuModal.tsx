@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { clearTableContext, getTableContext } from '../lib/table-context-store';
 import { selectionsStore } from '../lib/selections-store';
@@ -11,21 +11,65 @@ import { languagePreferencesStore } from '../lib/language-preferences';
 import { currencyPreferencesStore } from '../lib/currency-preferences';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { CallStaffModal } from './CallStaffModal';
+import { Event } from '@/types/event';
 
 interface MoreMenuModalProps {
   isOpen: boolean;
   onClose: () => void;
+  events?: Event[];  // Pass events to show count and active promos
 }
 
 type ResetConfirmType = 'table' | 'selections' | 'all' | null;
 
-export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
+export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalProps) {
   const router = useRouter();
   const [showResetConfirm, setShowResetConfirm] = useState<ResetConfirmType>(null);
   const [resetSuccess, setResetSuccess] = useState<string | null>(null);
   const [showWiFiModal, setShowWiFiModal] = useState(false);
   const [showCallStaffModal, setShowCallStaffModal] = useState(false);
   const [wifiCopied, setWifiCopied] = useState(false);
+
+  // Calculate event stats
+  const eventStats = useMemo(() => {
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+
+    // Events happening now
+    const activeEvents = events.filter(event => {
+      if (event.status !== 'published') return false;
+      const start = new Date(`${event.startDate}T${event.startTime}`);
+      const end = new Date(`${event.endDate}T${event.endTime}`);
+      return now >= start && now <= end;
+    });
+
+    // Events coming up today
+    const upcomingToday = events.filter(event => {
+      if (event.status !== 'published') return false;
+      if (event.startDate !== today) return false;
+      const start = new Date(`${event.startDate}T${event.startTime}`);
+      return now < start;
+    });
+
+    // Active promotions from active events
+    const activePromos = activeEvents.flatMap(e => e.promotions || []);
+
+    // Upcoming events this week
+    const weekFromNow = new Date(now);
+    weekFromNow.setDate(weekFromNow.getDate() + 7);
+    const upcomingThisWeek = events.filter(event => {
+      if (event.status !== 'published') return false;
+      const start = new Date(`${event.startDate}T${event.startTime}`);
+      return start > now && start <= weekFromNow;
+    });
+
+    return {
+      activeNow: activeEvents.length,
+      upcomingToday: upcomingToday.length,
+      upcomingThisWeek: upcomingThisWeek.length,
+      activePromos: activePromos.length,
+      hasLiveEvent: activeEvents.length > 0,
+    };
+  }, [events]);
 
   if (!isOpen) return null;
 
@@ -93,13 +137,33 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
     },
     {
       id: 'events',
-      icon: '🎉',
+      icon: eventStats.hasLiveEvent ? '🔴' : '🎉',
       label: 'Eventi',
-      description: 'Prossimi eventi del locale',
-      color: 'bg-pink-500',
+      description: eventStats.hasLiveEvent
+        ? `${eventStats.activeNow} in corso ora!`
+        : eventStats.upcomingThisWeek > 0
+          ? `${eventStats.upcomingThisWeek} questa settimana`
+          : 'Scopri gli eventi',
+      color: eventStats.hasLiveEvent ? 'bg-red-500 animate-pulse' : 'bg-pink-500',
+      badge: eventStats.hasLiveEvent ? 'LIVE' : eventStats.upcomingThisWeek > 0 ? String(eventStats.upcomingThisWeek) : undefined,
       action: () => {
         onClose();
         router.push('/events');
+      }
+    },
+    {
+      id: 'promos',
+      icon: '🏷️',
+      label: 'Offerte',
+      description: eventStats.activePromos > 0
+        ? `${eventStats.activePromos} promozioni attive`
+        : 'Nessuna offerta attiva',
+      color: eventStats.activePromos > 0 ? 'bg-orange-500' : 'bg-gray-400',
+      badge: eventStats.activePromos > 0 ? String(eventStats.activePromos) : undefined,
+      disabled: eventStats.activePromos === 0,
+      action: () => {
+        onClose();
+        router.push('/events?filter=promos');
       }
     },
     {
@@ -230,12 +294,22 @@ export function MoreMenuModal({ isOpen, onClose }: MoreMenuModalProps) {
                 key={item.id}
                 onClick={item.action}
                 disabled={'disabled' in item && item.disabled}
-                className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-colors ${
+                className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-colors relative ${
                   'disabled' in item && item.disabled
                     ? 'opacity-50 cursor-not-allowed bg-theme-bg-secondary'
                     : 'bg-theme-bg-secondary hover:bg-theme-bg-tertiary'
                 }`}
               >
+                {/* Badge */}
+                {'badge' in item && item.badge && (
+                  <span className={`absolute -top-1 -right-1 px-1.5 py-0.5 text-[10px] font-bold rounded-full ${
+                    item.badge === 'LIVE'
+                      ? 'bg-red-500 text-white animate-pulse'
+                      : 'bg-orange-500 text-white'
+                  }`}>
+                    {item.badge}
+                  </span>
+                )}
                 <div className={`w-12 h-12 ${item.color} rounded-full flex items-center justify-center text-2xl`}>
                   {item.icon}
                 </div>
