@@ -3,6 +3,28 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { useAuth, DEV_ACCOUNTS } from '@/lib/contexts/AuthContext';
+
+// Platform admin navigation (GudBro Owner only)
+const platformNavigation = [
+  {
+    name: 'Platform',
+    href: '/platform',
+    icon: (props: React.SVGProps<SVGSVGElement>) => (
+      <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+      </svg>
+    ),
+    badge: 'admin',
+    children: [
+      { name: 'Overview', href: '/platform' },
+      { name: 'Merchants', href: '/platform/merchants' },
+      { name: 'Revenue', href: '/platform/revenue' },
+      { name: 'Countries', href: '/platform/countries' },
+      { name: 'Support', href: '/platform/support' },
+    ],
+  },
+];
 
 const navigation = [
   {
@@ -142,11 +164,34 @@ const navigation = [
 export function Sidebar() {
   const pathname = usePathname();
   const { brand, organization, location, isLoading } = useTenant();
+  const { user, isDevMode, hasPermission, switchDevAccount } = useAuth();
 
   // Display info in the footer
   const brandName = brand?.name || organization?.name || 'Loading...';
   const planName = organization?.subscription_plan || 'Free';
   const locationInfo = location?.city || location?.country_code || '';
+
+  // Check if user has platform admin access
+  const isPlatformAdmin = hasPermission('platform:read');
+
+  // Combine navigation based on role
+  const fullNavigation = isPlatformAdmin
+    ? [...platformNavigation, ...navigation]
+    : navigation;
+
+  // Role badge colors
+  const getRoleBadgeClass = (role: string) => {
+    switch (role) {
+      case 'gudbro_owner':
+        return 'bg-gradient-to-r from-red-500 to-orange-500';
+      case 'business_owner':
+        return 'bg-gradient-to-r from-blue-500 to-cyan-500';
+      case 'manager':
+        return 'bg-gradient-to-r from-purple-500 to-pink-500';
+      default:
+        return 'bg-gradient-to-r from-green-500 to-emerald-500';
+    }
+  };
 
   return (
     <div className="flex h-full w-64 flex-col bg-gray-900">
@@ -154,12 +199,35 @@ export function Sidebar() {
       <div className="flex h-16 items-center gap-2 px-6 border-b border-gray-800">
         <span className="text-2xl">📱</span>
         <span className="text-xl font-bold text-white">GUDBRO</span>
+        {isPlatformAdmin && (
+          <span className="px-1.5 py-0.5 text-[9px] font-bold bg-red-500 text-white rounded ml-auto">
+            ADMIN
+          </span>
+        )}
       </div>
+
+      {/* Dev Mode Role Switcher */}
+      {isDevMode && (
+        <div className="px-3 py-2 border-b border-gray-800">
+          <p className="text-[10px] text-gray-500 uppercase tracking-wide mb-2">Dev Mode</p>
+          <select
+            value={user?.id || ''}
+            onChange={(e) => switchDevAccount(e.target.value)}
+            className="w-full px-2 py-1.5 bg-gray-800 text-white text-xs rounded border border-gray-700 focus:ring-1 focus:ring-red-500"
+          >
+            {DEV_ACCOUNTS.map((account) => (
+              <option key={account.id} value={account.id}>
+                {account.role === 'gudbro_owner' ? '👑' : account.role === 'business_owner' ? '🏪' : account.role === 'manager' ? '👔' : '👤'} {account.name} ({account.role.replace('_', ' ')})
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <ul className="space-y-1">
-          {navigation.map((item) => {
+          {fullNavigation.map((item) => {
             const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
 
             return (
@@ -183,6 +251,11 @@ export function Sidebar() {
                   {'badge' in item && item.badge === 'new' && (
                     <span className="px-1.5 py-0.5 text-[10px] font-medium bg-purple-500 text-white rounded">
                       NEW
+                    </span>
+                  )}
+                  {'badge' in item && item.badge === 'admin' && (
+                    <span className="px-1.5 py-0.5 text-[10px] font-medium bg-red-500 text-white rounded">
+                      ADMIN
                     </span>
                   )}
                 </Link>
@@ -212,9 +285,23 @@ export function Sidebar() {
         </ul>
       </nav>
 
-      {/* Current context info */}
+      {/* User info / Current context */}
       <div className="border-t border-gray-800 p-4">
-        {isLoading ? (
+        {user ? (
+          <div className="flex items-center gap-3">
+            <div
+              className={`h-8 w-8 rounded-full flex items-center justify-center text-sm text-white font-bold ${getRoleBadgeClass(user.role)}`}
+            >
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-white truncate">{user.name}</p>
+              <p className="text-xs text-gray-500 truncate capitalize">
+                {user.role.replace('_', ' ')}
+              </p>
+            </div>
+          </div>
+        ) : isLoading ? (
           <div className="animate-pulse">
             <div className="flex items-center gap-3">
               <div className="h-8 w-8 rounded-full bg-gray-700" />

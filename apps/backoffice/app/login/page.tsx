@@ -3,6 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase-browser';
+import { DEV_ACCOUNTS, type AuthUser } from '@/lib/contexts/AuthContext';
 
 function LoginForm() {
   const router = useRouter();
@@ -15,8 +16,19 @@ function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login');
   const [message, setMessage] = useState<string | null>(null);
+  const [showDevAccounts, setShowDevAccounts] = useState(false);
 
   const supabase = createClient();
+
+  // Dev login bypass - sets both localStorage and cookie for middleware
+  const handleDevLogin = (account: AuthUser) => {
+    const sessionData = JSON.stringify(account);
+    localStorage.setItem('gudbro_dev_session', sessionData);
+    // Set cookie for middleware to read
+    document.cookie = `gudbro_dev_session=${encodeURIComponent(sessionData)}; path=/; max-age=86400`;
+    router.push(redirectTo);
+    router.refresh();
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -280,6 +292,61 @@ function LoginForm() {
               </button>
             )}
           </div>
+        </div>
+
+        {/* Dev Mode Toggle */}
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={() => setShowDevAccounts(!showDevAccounts)}
+            className="w-full text-center text-slate-500 text-sm hover:text-slate-300 transition-colors"
+          >
+            {showDevAccounts ? 'Hide' : 'Show'} Dev Accounts
+          </button>
+
+          {showDevAccounts && (
+            <div className="mt-4 bg-slate-800/50 rounded-xl p-4 border border-slate-700">
+              <p className="text-xs text-slate-400 mb-3 text-center">
+                Quick access for development & testing
+              </p>
+              <div className="space-y-2">
+                {DEV_ACCOUNTS.map((account) => (
+                  <button
+                    key={account.id}
+                    onClick={() => handleDevLogin(account)}
+                    className="w-full flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 transition-colors text-left"
+                  >
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
+                      account.role === 'gudbro_owner'
+                        ? 'bg-gradient-to-r from-red-500 to-orange-500'
+                        : account.role === 'business_owner'
+                        ? 'bg-gradient-to-r from-blue-500 to-cyan-500'
+                        : account.role === 'manager'
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500'
+                        : 'bg-gradient-to-r from-green-500 to-emerald-500'
+                    }`}>
+                      {account.name.charAt(0)}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-white font-medium text-sm">{account.name}</p>
+                      <p className="text-slate-400 text-xs">{account.email}</p>
+                    </div>
+                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${
+                      account.role === 'gudbro_owner'
+                        ? 'bg-red-500/20 text-red-400'
+                        : account.role === 'business_owner'
+                        ? 'bg-blue-500/20 text-blue-400'
+                        : account.role === 'manager'
+                        ? 'bg-purple-500/20 text-purple-400'
+                        : 'bg-green-500/20 text-green-400'
+                    }`}>
+                      {account.role.replace('_', ' ')}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer */}

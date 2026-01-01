@@ -6,6 +6,8 @@ import { NextResponse, type NextRequest } from 'next/server';
  *
  * Protected routes: /dashboard, /content, /analytics, /settings, etc.
  * Public routes: /login, /auth/callback, /api/public/*
+ *
+ * Dev Mode: Checks for gudbro_dev_session cookie for bypass authentication
  */
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -14,6 +16,41 @@ export async function middleware(request: NextRequest) {
     },
   });
 
+  const pathname = request.nextUrl.pathname;
+
+  // Public routes that don't require authentication
+  const publicRoutes = [
+    '/login',
+    '/auth/callback',
+    '/auth/confirm',
+    '/forgot-password',
+    '/reset-password',
+  ];
+
+  // API routes that are public
+  const publicApiRoutes = [
+    '/api/auth',
+    '/api/public',
+  ];
+
+  // Check if current path is public
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
+  const isPublicApi = publicApiRoutes.some(route => pathname.startsWith(route));
+
+  // Check for dev session cookie (set by client-side localStorage, synced via cookie)
+  const devSessionCookie = request.cookies.get('gudbro_dev_session');
+  const hasDevSession = !!devSessionCookie?.value;
+
+  // If dev session exists, allow access
+  if (hasDevSession) {
+    // If trying to access login while dev session exists, redirect to dashboard
+    if (pathname === '/login') {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+    return response;
+  }
+
+  // Check Supabase session
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -62,27 +99,6 @@ export async function middleware(request: NextRequest) {
 
   // Refresh session if expired
   const { data: { session } } = await supabase.auth.getSession();
-
-  const pathname = request.nextUrl.pathname;
-
-  // Public routes that don't require authentication
-  const publicRoutes = [
-    '/login',
-    '/auth/callback',
-    '/auth/confirm',
-    '/forgot-password',
-    '/reset-password',
-  ];
-
-  // API routes that are public
-  const publicApiRoutes = [
-    '/api/auth',
-    '/api/public',
-  ];
-
-  // Check if current path is public
-  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
-  const isPublicApi = publicApiRoutes.some(route => pathname.startsWith(route));
 
   // If not authenticated and trying to access protected route
   if (!session && !isPublicRoute && !isPublicApi) {
