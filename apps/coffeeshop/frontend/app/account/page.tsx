@@ -16,6 +16,8 @@ import { orderHistoryStore } from '@/lib/order-history-store';
 import { languagePreferencesStore } from '@/lib/language-preferences';
 import { currencyPreferencesStore } from '@/lib/currency-preferences';
 import { useTheme } from '@/lib/theme/theme-context';
+import { LoyaltyCard, EarnPointsModal } from '@/components/loyalty';
+import { UserLoyaltyState } from '@/types/loyalty';
 
 // Wrapper component to handle Suspense for useSearchParams
 export default function AccountPage() {
@@ -47,6 +49,33 @@ function AccountPageContent() {
   const [showPreferencesModal, setShowPreferencesModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState(i18n.baseCurrency);
+  const [showEarnPointsModal, setShowEarnPointsModal] = useState(false);
+
+  // Mock loyalty state - in production this would come from API/store
+  const [loyaltyState] = useState<UserLoyaltyState>({
+    pointsTotal: 1250,
+    pointsAvailable: 850,
+    pointsSpent: 400,
+    tierId: 'silver',
+    tierProgress: 62,
+    pointsToNextTier: 750,
+    currentStreak: 3,
+    longestStreak: 5,
+    lastVisitDate: new Date().toISOString(),
+    totalPurchases: 28,
+    totalSpent: 485,
+    favoriteItems: [],
+    rewardsRedeemed: 2,
+    referralCode: 'MARIO2024',
+    referralsCount: 2,
+    referralPointsEarned: 400,
+    socialSharesCount: 5,
+    socialPointsEarned: 125,
+    connectedSocials: ['instagram'],
+    joinedAt: '2024-06-15T10:00:00Z',
+    lastActivityAt: new Date().toISOString(),
+    birthdayMonth: 3,
+  });
 
   // Check if user is a guest (not logged in with Supabase)
   const isGuest = !profile?.email;
@@ -206,6 +235,15 @@ function AccountPageContent() {
             Prima visita: {formatDate(profile.firstVisit)}
           </div>
         </div>
+
+        {/* Loyalty Card */}
+        <LoyaltyCard
+          loyalty={loyaltyState}
+          language={language as 'en' | 'it'}
+          onViewRewards={() => router.push('/rewards')}
+          onEarnPoints={() => setShowEarnPointsModal(true)}
+          onViewHistory={() => router.push('/points-history')}
+        />
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-3">
@@ -443,6 +481,23 @@ function AccountPageContent() {
             setProfile(prev => prev ? { ...prev, email: user.email, name: user.name || prev.name } : null);
           }
           setShowAuthModal(false);
+        }}
+      />
+
+      {/* Earn Points Modal */}
+      <EarnPointsModal
+        isOpen={showEarnPointsModal}
+        onClose={() => setShowEarnPointsModal(false)}
+        merchantName={coffeeshopConfig.business.name}
+        merchantHashtags={['CaffeRossi', 'GudBro']}
+        merchantMentions={{
+          instagram: 'cafferossi',
+          facebook: 'cafferossi',
+        }}
+        language={language as 'en' | 'it'}
+        onActionComplete={(actionType, points) => {
+          // TODO: In production, call API to record points
+          console.log(`Action: ${actionType}, Points: ${points}`);
         }}
       />
 
