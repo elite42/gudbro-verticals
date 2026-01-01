@@ -3,7 +3,7 @@
 > **CRITICAL:** Claude DEVE consultare questo file all'inizio di OGNI sessione.
 > Questo file contiene TUTTO ciò che dobbiamo fare (prodotti + funzionalità).
 
-**Last Updated:** 2025-12-31 (ACC-SIGNUP-FLOW implementato: wizard multi-step Personal/Business con 5 Dimensioni)
+**Last Updated:** 2026-01-01 (Competitor Audit MenuTiger: aggiunte 15+ features da implementare/migliorare)
 
 ---
 
@@ -127,6 +127,56 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 | ANALYTICS-DASH | Analytics Dashboard | Visualizza metriche nel backoffice (sessions, conversions, revenue) | Backoffice |
 | PWA-TRACKING | PWA Event Tracking | Integrare analytics-service.ts: page_view, item_click, add_to_cart, order_placed. **NOTA:** Da fare dopo MVP PWA completa. | PWA |
 | MENU-FROM-DB | Menu da Database | PWA: fetch menu da Supabase invece di JSON hardcoded, cache con SWR | PWA |
+
+### P2.5 - Features da MenuTiger Audit (NEW 2026-01-01)
+
+> **Fonte:** Competitor Audit MenuTiger (57 screenshot analizzati)
+> **Report:** `docs/competitor-audits/MENUTIGER-AUDIT-REPORT-V2.md`
+
+#### Da Copiare (Alta Priorità)
+
+| ID | Feature | Descrizione | Effort | Impact |
+|----|---------|-------------|--------|--------|
+| MT-HOT-ACTIONS | Hot Actions System | Pulsanti cliente: Call waiter, Clean table, Verify bill, Request notes change. Monitoring dashboard con filtri e status. **Feature UNICA MenuTiger!** | Medium | High |
+| MT-ONBOARDING | Onboarding Checklist | Welcome modal + 4-step checklist con progress bar (0-100%). Steps: Restaurant details → Create menu → Add food → Customize QR | Low | High |
+| MT-OPENING-HOURS | Opening Hours UI | 7 giorni con toggle ON/OFF + time picker + multi-slot (per pausa pranzo). Pattern eccellente da copiare | Low | Medium |
+| MT-NOTIF-SOUNDS | Notification Sounds | Sound selection per tipo (Orders, Feedback, Hot Actions) + preview play button. UX eccellente | Low | Medium |
+| MT-GEOFENCING | Location Geofencing | Radius-based location con Google Maps interattiva. Auto-detect GPS + validazione ordini in-store | High | Medium |
+| MT-SURVEY-BUILDER | Survey Builder | Question builder con live preview, question types multipli, required toggle, localize integrato | Medium | Medium |
+
+#### Da Migliorare (Gap MenuTiger)
+
+| ID | Feature | Descrizione | MenuTiger Status | GudBro Opportunity |
+|----|---------|-------------|------------------|-------------------|
+| MT-CRM-ADVANCED | CRM Avanzato | Customer profiles con order history, lifetime value, segments, tags | Solo lista base | Segmenti, LTV, analytics |
+| MT-ANALYTICS-REAL | Analytics Reali | Dashboard con insights, trends, AI suggestions | Solo scheduler email | AI-powered insights |
+| MT-THEMES-VARIETY | Temi Website (15+) | Temi con layout DIVERSI, non solo colori | 5 temi (4 uguali) | 15+ temi unici |
+| MT-POS-INTEGRATIONS | POS Integrations | Square, Toast, Lightspeed, Tilby, Clover | Solo Loyverse | 5+ POS |
+| MT-WIFI-QR | WiFi QR Generator | 2-step wizard: Config → QR code. WPA/WPA2/WPA3 support | Presente | Aggiungere |
+| MT-SOCIAL-EXPANDED | Social Accounts Expanded | Google Business Profile, TikTok, WhatsApp Business | 8 piattaforme (no Google!) | +3 piattaforme |
+
+#### Pattern UX da Adottare
+
+| ID | Pattern | Descrizione | Dove Applicare |
+|----|---------|-------------|----------------|
+| MT-EMPTY-STATES | Empty States con CTA | Illustrazioni + "Click Add New to create" + CTA primaria | Tutto il backoffice |
+| MT-SOFT-DELETE | Archive/Soft Delete | Tab Archive con restore + delete permanente | Menu, Products |
+| MT-FILTER-PATTERN | Apply/Reset Filters | Filtri multipli con Apply + Reset buttons | Orders, Reports |
+| MT-LIVE-PREVIEW | Live Preview | Preview real-time mentre modifichi (QR, Survey, Website) | QR Builder, Forms |
+| MT-PROGRESS-BAR | Progress Tracking | Barra progresso per wizard/onboarding | Onboarding, Setup |
+
+#### Differenziatori GudBro (MenuTiger NON ha)
+
+| Feature | GudBro Status | Vantaggio Competitivo |
+|---------|---------------|----------------------|
+| **Loyalty Program** | Da implementare | MenuTiger = 0. Differenziatore principale! |
+| **19 Tipi QR + AI Artistic** | ✅ Presente | MenuTiger = 5 opzioni base |
+| **Database Ingredienti** | ✅ 2548 items | MenuTiger = 0 |
+| **5 Dimensioni Safety** | ✅ 66 parametri | MenuTiger = basic allergens only |
+| **Nutrition Data** | ✅ 100% coverage | MenuTiger = 0 |
+| **Multi-vertical** | ✅ F&B, Wellness, Rentals | MenuTiger = solo F&B |
+
+---
 
 ### P3 - Bassa Priorità (Nice to Have)
 
@@ -609,7 +659,14 @@ PRODOTTI (Database Food & Bevande)
 
 FUNZIONALITÀ
 ├── Completate:    30 features (PWA, Backoffice, Website, Database, Cleanup, Security)
-└── Da fare:       18 features (P1: 1, P2: 6, P3: 9, P4: 5)
+├── Da fare:       18 features (P1: 1, P2: 6, P3: 9, P4: 5)
+└── NEW MenuTiger: 17 features (6 da copiare, 6 gap da colmare, 5 pattern UX)
+
+COMPETITOR AUDIT (2026-01-01)
+├── MenuTiger:     57 screenshot analizzati
+├── Report:        docs/competitor-audits/MENUTIGER-AUDIT-REPORT-V2.md
+├── Key Gap:       Loyalty Program (MenuTiger = 0, GudBro = differenziatore!)
+└── Features:      Hot Actions, Onboarding, Opening Hours, Geofencing, Survey Builder
 
 INFRASTRUTTURA
 ├── Ingredienti:   ~2549 nella master table
