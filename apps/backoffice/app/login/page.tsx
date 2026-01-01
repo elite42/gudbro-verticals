@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase-browser';
-import { DEV_ACCOUNTS, isDevModeEnabled, DEV_SESSION_CONFIG, type AuthUser } from '@/lib/auth';
+import { DEV_ACCOUNTS, isDevModeEnabled, validateDevPin, DEV_SESSION_CONFIG, type AuthUser } from '@/lib/auth';
 
 function LoginForm() {
   const router = useRouter();
@@ -17,11 +17,25 @@ function LoginForm() {
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login');
   const [message, setMessage] = useState<string | null>(null);
   const [showDevAccounts, setShowDevAccounts] = useState(false);
+  const [devPin, setDevPin] = useState('');
+  const [devPinVerified, setDevPinVerified] = useState(false);
+  const [devPinError, setDevPinError] = useState(false);
 
   const supabase = createClient();
 
-  // Check if dev mode is available (only in development)
+  // Check if dev mode is available
   const devModeAvailable = isDevModeEnabled();
+
+  // Handle PIN verification
+  const handlePinSubmit = () => {
+    if (validateDevPin(devPin)) {
+      setDevPinVerified(true);
+      setDevPinError(false);
+    } else {
+      setDevPinError(true);
+      setDevPin('');
+    }
+  };
 
   /**
    * Dev login bypass - sets both localStorage and cookie for middleware
@@ -320,48 +334,88 @@ function LoginForm() {
               <div className="mt-4 bg-slate-800/50 rounded-xl p-4 border border-slate-700">
                 <div className="flex items-center justify-center gap-2 mb-3">
                   <span className="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-[10px] font-bold rounded">
-                    DEV ONLY
+                    DEV
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mb-3 text-center">
-                  Quick access for development & testing
-                </p>
-                <div className="space-y-2">
-                  {DEV_ACCOUNTS.map((account) => (
-                    <button
-                      key={account.id}
-                      onClick={() => handleDevLogin(account)}
-                      className="w-full flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 transition-colors text-left"
-                    >
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
-                        account.role === 'gudbro_owner'
-                          ? 'bg-gradient-to-r from-red-500 to-orange-500'
-                          : account.role === 'business_owner'
-                          ? 'bg-gradient-to-r from-blue-500 to-cyan-500'
-                          : account.role === 'manager'
-                          ? 'bg-gradient-to-r from-purple-500 to-pink-500'
-                          : 'bg-gradient-to-r from-green-500 to-emerald-500'
-                      }`}>
-                        {account.name.charAt(0)}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-white font-medium text-sm">{account.name}</p>
-                        <p className="text-slate-400 text-xs">{account.email}</p>
-                      </div>
-                      <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${
-                        account.role === 'gudbro_owner'
-                          ? 'bg-red-500/20 text-red-400'
-                          : account.role === 'business_owner'
-                          ? 'bg-blue-500/20 text-blue-400'
-                          : account.role === 'manager'
-                          ? 'bg-purple-500/20 text-purple-400'
-                          : 'bg-green-500/20 text-green-400'
-                      }`}>
-                        {account.role.replace('_', ' ')}
-                      </span>
-                    </button>
-                  ))}
-                </div>
+
+                {/* PIN Gate */}
+                {!devPinVerified ? (
+                  <div className="space-y-3">
+                    <p className="text-xs text-slate-400 text-center">
+                      Enter PIN to access dev accounts
+                    </p>
+                    <div className="flex gap-2">
+                      <input
+                        type="password"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        value={devPin}
+                        onChange={(e) => setDevPin(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handlePinSubmit()}
+                        placeholder="Enter PIN"
+                        className={`flex-1 px-3 py-2 bg-slate-700 text-white text-sm rounded-lg border ${
+                          devPinError ? 'border-red-500' : 'border-slate-600'
+                        } focus:outline-none focus:ring-1 focus:ring-red-500`}
+                        autoComplete="off"
+                      />
+                      <button
+                        type="button"
+                        onClick={handlePinSubmit}
+                        className="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 transition-colors"
+                      >
+                        Go
+                      </button>
+                    </div>
+                    {devPinError && (
+                      <p className="text-xs text-red-400 text-center">
+                        Invalid PIN
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  /* Account List - Only shown after PIN verified */
+                  <>
+                    <p className="text-xs text-slate-400 mb-3 text-center">
+                      Quick access for development & testing
+                    </p>
+                    <div className="space-y-2">
+                      {DEV_ACCOUNTS.map((account) => (
+                        <button
+                          key={account.id}
+                          onClick={() => handleDevLogin(account)}
+                          className="w-full flex items-center gap-3 p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 transition-colors text-left"
+                        >
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
+                            account.role === 'gudbro_owner'
+                              ? 'bg-gradient-to-r from-red-500 to-orange-500'
+                              : account.role === 'business_owner'
+                              ? 'bg-gradient-to-r from-blue-500 to-cyan-500'
+                              : account.role === 'manager'
+                              ? 'bg-gradient-to-r from-purple-500 to-pink-500'
+                              : 'bg-gradient-to-r from-green-500 to-emerald-500'
+                          }`}>
+                            {account.name.charAt(0)}
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-white font-medium text-sm">{account.name}</p>
+                            <p className="text-slate-400 text-xs">{account.email}</p>
+                          </div>
+                          <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${
+                            account.role === 'gudbro_owner'
+                              ? 'bg-red-500/20 text-red-400'
+                              : account.role === 'business_owner'
+                              ? 'bg-blue-500/20 text-blue-400'
+                              : account.role === 'manager'
+                              ? 'bg-purple-500/20 text-purple-400'
+                              : 'bg-green-500/20 text-green-400'
+                          }`}>
+                            {account.role.replace('_', ' ')}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>

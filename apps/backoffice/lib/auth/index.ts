@@ -43,7 +43,14 @@ export type { UserRole, Permission, AuthUser, AuthContextType } from './types';
 export { ROLE_PERMISSIONS, ROLE_HIERARCHY, getPermissionsForRole, isRoleAtLeast } from './permissions';
 
 // Dev accounts (only use in development)
-export { DEV_ACCOUNTS, isDevModeEnabled, getDevAccountById, DEV_SESSION_CONFIG } from './dev-accounts';
+export {
+  DEV_ACCOUNTS,
+  DEV_ACCESS_PIN,
+  isDevModeEnabled,
+  validateDevPin,
+  getDevAccountById,
+  DEV_SESSION_CONFIG
+} from './dev-accounts';
 
 // Context - re-export from contexts folder
 export { AuthProvider, useAuth } from '../contexts/AuthContext';

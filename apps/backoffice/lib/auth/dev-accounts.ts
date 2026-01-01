@@ -13,24 +13,41 @@ import type { AuthUser } from './types';
 import { ROLE_PERMISSIONS } from './permissions';
 
 /**
+ * Dev access PIN
+ * Simple protection during development phase.
+ * Will be replaced with proper auth before production.
+ */
+export const DEV_ACCESS_PIN = '260775';
+
+/**
  * Check if dev mode is enabled
  *
- * Dev mode is only available when:
- * 1. NODE_ENV is 'development'
- * 2. NEXT_PUBLIC_ENABLE_DEV_AUTH is 'true' (optional, defaults to true in dev)
+ * During development phase, dev mode is always available.
+ * A simple PIN is required to access dev accounts.
+ *
+ * Before production:
+ * - Set NEXT_PUBLIC_ENABLE_DEV_AUTH=false
+ * - Or ensure NODE_ENV=production
  */
 export function isDevModeEnabled(): boolean {
-  // Only allow in development
-  if (process.env.NODE_ENV !== 'development') {
-    return false;
-  }
-
-  // Allow explicit disable via env var
+  // Explicit disable via env var (for pre-production testing)
   if (process.env.NEXT_PUBLIC_ENABLE_DEV_AUTH === 'false') {
     return false;
   }
 
+  // In production, disable dev mode
+  if (process.env.NODE_ENV === 'production') {
+    return false;
+  }
+
   return true;
+}
+
+/**
+ * Validate dev access PIN
+ */
+export function validateDevPin(pin: string): boolean {
+  return pin === DEV_ACCESS_PIN;
 }
 
 /**
