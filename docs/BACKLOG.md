@@ -209,56 +209,225 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 
 ## P5 - Account System & User Features (NEW 2025-12-31)
 
-> **Strategia Account:** Modello ibrido con account tradizionali (Free + Premium) e futura espansione Web3 (NFT Lifetime Pass + $GUD token).
+> **Strategia Account:** **UNIFIED ACCOUNT SYSTEM** - Un account, ruoli multipli (Consumer/Merchant/Admin). Ogni utente può essere contemporaneamente cliente di altri locali E gestore del proprio. Sistema loyalty unificato che premia tutti indipendentemente dal ruolo.
+>
+> **Aggiornato:** 2026-01-01 (Unified Account Architecture + Bidirectional Referral + Merchant Loyalty)
 
-### Phase 1: Account Foundation (MVP)
+### 🆕 Architettura Unified Account (CORE CONCEPT)
+
+```
+            ┌─────────────────────┐
+            │   GUDBRO ACCOUNT    │
+            │   mario@email.com   │
+            └──────────┬──────────┘
+                       │
+        ┌──────────────┼──────────────┐
+        │              │              │
+        ▼              ▼              ▼
+   🍽️ CONSUMER    🏪 MERCHANT    👤 PERSONAL
+
+   • Ordina        • Gestisce      • Profilo 5 Dim
+   • Punti loyalty • Dashboard     • Preferenze
+   • Recensioni    • Menu          • Storico visite
+   • Wishlist      • Analytics     • Allergeni
+        │              │              │
+        └──────────────┴──────────────┘
+                       │
+              STESSO LOGIN!
+```
+
+**Vantaggi Chiave:**
+- Zero friction: mai "crea nuovo account"
+- Un merchant può mangiare da altri merchant GudBro e guadagnare punti
+- Un consumer può invitare il suo locale preferito e guadagnare rewards
+- Referral bidirezionale: Consumer→Merchant e Merchant→Merchant
+
+### Phase 1: Unified Account Foundation (MVP)
 
 | ID | Feature | Descrizione | Priorità |
 |----|---------|-------------|----------|
-| ACC-SIGNUP-FLOW | Sign-up Multi-Step | Wizard: Account Type (Personal/Business) → Profile → Preferences/Business Details | P1 |
-| ACC-PERSONAL | Account Personale Free | Profilo 5 Dimensioni (allergie, diete, intolleranze), preferenze salvate | P1 |
-| ACC-BUSINESS | Account Business | Restaurant name, type, currency, languages (come screenshots esistenti) | P1 |
+| **ACC-UNIFIED** | **Unified Account System** | Un account con ruoli multipli (consumer/merchant/admin). Schema: `accounts` + `account_roles` | **P1** |
+| **ACC-ROLE-SWITCH** | **Role Switcher UI** | Header dropdown per cambiare ruolo seamlessly. "🏪 Pizzeria Da Mario" ↔ "🍽️ Account Personale" | **P1** |
+| ACC-SIGNUP-FLOW | Sign-up Multi-Step | Wizard unico: Profile → Ruolo iniziale (Personal/Business) → 5 Dimensioni/Business Details | P1 |
+| ACC-PERSONAL | Profilo Personale | Profilo 5 Dimensioni (allergie, diete, intolleranze), sempre disponibile per ogni account | P1 |
+| ACC-BUSINESS | Ruolo Business | Aggiunta ruolo merchant a account esistente. Restaurant name, type, currency, languages | P1 |
 | ACC-SYNC-PREFS | Sync Preferenze | Login in locale partner → preferenze automatiche applicate al menu | P1 |
-| ACC-DB-SCHEMA | Database Schema Users | Tabelle: users, user_preferences, user_health_profile, businesses | P1 |
+| **ACC-DB-SCHEMA** | **Database Schema Unified** | Tabelle: `accounts`, `account_roles`, `tenants`, `health_profiles`, `loyalty_points` | **P1** |
 
-### Phase 2: User Value Features
+### Phase 2: Unified Loyalty System (DIFFERENZIATORE!)
+
+> **Concetto:** Un unico sistema punti che accumula da TUTTE le attività, sia come consumer che come merchant.
 
 | ID | Feature | Descrizione | Priorità |
 |----|---------|-------------|----------|
-| ACC-REFERRAL | Referral Program | Invita locali a usare GUDBRO, guadagna crediti (3 referral/mese free, unlimited premium) | P2 |
-| ACC-LOYALTY | Loyalty Program Unificato | Punti GUDBRO globali + punti singoli locali partner | P2 |
-| ACC-WISHLIST | Wishlist Piatti | Salva piatti da provare in futuro | P2 |
+| **ACC-LOYALTY-UNIFIED** | **Unified Loyalty Points** | `total_points = consumer_points + merchant_points + contributor_points`. Tutti accumulano nello stesso wallet! | **P2** |
+| **ACC-LOYALTY-CONSUMER** | **Consumer Loyalty** | Punti per: ordini, recensioni, social sharing, referral amici, check-in | **P2** |
+| **ACC-LOYALTY-MERCHANT** | **Merchant Loyalty** | Punti per: referral merchant, contributi ingredienti, feedback utili, longevità abbonamento, completezza profilo | **P2** |
+| **ACC-REFERRAL-BIDIR** | **Bidirectional Referral** | Consumer→Merchant (invita locale preferito) + Merchant→Merchant (invita colleghi). Rewards per entrambi! | **P2** |
+| ACC-CONTRIBUTOR | Contributor Program | Punti extra per: ingredienti aggiunti (50pt), bug report (100pt), feature suggestion adottata (200pt), testimonial (1000pt) | P2 |
+
+#### Tabella Punti Unificata
+
+| Azione | Punti | Tipo | Note |
+|--------|-------|------|------|
+| Ordine completato | 10 | Consumer | Per ogni €10 spesi |
+| Recensione verificata | 25 | Consumer | Solo post-ordine |
+| Social share | 15 | Consumer | Condividi piatto |
+| Referral consumer | 100 | Consumer | Amico si registra |
+| **Referral merchant (da consumer)** | **500** | **Consumer** | **Locale invitato si abbona** |
+| Check-in locale | 5 | Consumer | Visita verificata |
+| **Referral merchant (da merchant)** | **1000** | **Merchant** | **+ 1 mese gratis** |
+| **Ingrediente approvato** | **50** | **Contributor** | **Crowdsourcing DB** |
+| Bug report utile | 100 | Contributor | Migliora prodotto |
+| Feature adottata | 200 | Contributor | Co-creazione |
+| 1 anno abbonamento | 300 | Merchant | Fedeltà |
+| Profilo 100% completo | 150 | Both | Onboarding |
+| Case study/testimonial | 1000 | Merchant | Marketing |
+
+#### Rewards Unificati
+
+| Punti | Reward Consumer | Reward Merchant |
+|-------|-----------------|-----------------|
+| 500 | Badge "Foodie Explorer" | Badge "GudBro Partner" |
+| 1000 | €5 sconto prossimo ordine | 10% sconto prossimo mese |
+| 2500 | 1 mese Premium gratis | 1 mese abbonamento gratis |
+| 5000 | Badge "Food Champion" | Accesso beta features |
+| 10000 | Lifetime Premium | "Founding Partner" + pricing bloccato |
+
+### Phase 2.5: User-Generated Ingredients (Crowdsourcing)
+
+> **Concetto:** Quando un ingrediente manca dal DB, l'utente può contribuirlo con foto delle etichette nutrizionali.
+
+| ID | Feature | Descrizione | Priorità |
+|----|---------|-------------|----------|
+| **ING-USER-CONTRIB** | **User-Generated Ingredients** | Workflow: ingrediente mancante → foto etichetta → prompt AI → JSON → submit | **P2** |
+| ING-PHOTO-EXTRACT | Photo to Nutrition | Prompt ottimizzato per Gemini/ChatGPT che estrae nutrition da foto etichetta | P2 |
+| ING-REVIEW-QUEUE | Admin Review Queue | Dashboard per approvare/merge/reject ingredienti submitted | P2 |
+| ING-CONTRIBUTOR-REWARD | Contributor Rewards | 50 punti per ingrediente approvato, badge "Ingredient Pioneer" | P2 |
+
+```
+Workflow:
+1. "birria" non trovato → [📸 Aggiungi con foto]
+2. Utente fotografa etichetta nutrizionale
+3. Copia prompt GudBro → incolla in Gemini/ChatGPT con foto
+4. AI restituisce JSON con nutrition
+5. Utente incolla JSON → [Usa subito] o [Invia per review]
+6. Se approvato → 50 punti + disponibile per tutti
+```
+
+### Phase 3: User Value Features
+
+| ID | Feature | Descrizione | Priorità |
+|----|---------|-------------|----------|
+| ACC-WISHLIST | Wishlist Piatti | Salva piatti da provare in futuro, notifica quando in promo | P2 |
 | ACC-FOOD-DIARY | Food Diary | Storico di cosa hai mangiato e dove (premium feature) | P2 |
-| ACC-REVIEWS | Recensioni Verificate | Solo chi ha ordinato può recensire (anti-fake) | P2 |
+| ACC-REVIEWS | Recensioni Verificate | Solo chi ha ordinato può recensire (anti-fake). Peso maggiore se merchant del settore! | P2 |
 | ACC-NOTIFICATIONS | Notifiche Personalizzate | "Il tuo locale preferito ha aggiunto un nuovo piatto vegano!" | P2 |
-| ACC-BADGES | Badge/Gamification | "Foodie Explorer", "Vegan Champion", "100 locali visitati" | P3 |
+| ACC-BADGES | Badge/Gamification | "Foodie Explorer", "Vegan Champion", "100 locali visitati", "Network Builder", "Ingredient Pioneer" | P3 |
 | ACC-SOCIAL-SHARE | Condivisione Social | "Ho mangiato questo da X" → marketing gratuito per locali | P3 |
 
-### Phase 3: Premium Features (€1.50/mese)
+### Phase 4: Premium Features (€1.50/mese Consumer)
 
 | ID | Feature | Descrizione | Priorità |
 |----|---------|-------------|----------|
-| ACC-PREMIUM-TIER | Tier Premium | €1.50/mese: Unlimited referral, Food Diary, Analytics personali, No ads | P2 |
-| ACC-BILLING | Sistema Billing | Stripe integration per subscription €1.50/mese | P2 |
-| ACC-CRYPTO-PAY | Pagamenti Crypto | Coinbase Commerce o NOWPayments per BTC, ETH, USDC. Opzionale per premium/NFT | P3 |
+| ACC-PREMIUM-TIER | Tier Premium Consumer | €1.50/mese: Unlimited referral, Food Diary, Analytics personali, No ads, Priority support | P2 |
+| ACC-BILLING | Sistema Billing | Stripe integration per subscription consumer + merchant | P2 |
+| ACC-CRYPTO-PAY | Pagamenti Crypto | Coinbase Commerce o NOWPayments per BTC, ETH, USDC. Opzionale | P3 |
 | ACC-ANALYTICS-PERSONAL | Analytics Personali | Statistiche su cosa mangi, calorie, allergie evitate (premium) | P3 |
 
-### Phase 4: Cross-Selling & Ecosystem
+### Phase 5: Cross-Selling & Ecosystem
 
 | ID | Feature | Descrizione | Priorità |
 |----|---------|-------------|----------|
-| ACC-RECIPES-HOME | Ricette a Casa | "Ti è piaciuto il Pad Thai? Ecco la ricetta" (dal nostro DB) | P3 |
-| ACC-MARKETPLACE-USER | Shopping Marketplace | Acquisti merchandise con dati già salvati | P3 |
+| ACC-RECIPES-HOME | Ricette a Casa | "Ti è piaciuto il Pad Thai? Ecco la ricetta" (dal nostro DB 4653 piatti) | P3 |
+| ACC-MARKETPLACE-USER | Shopping Marketplace | Acquisti merchandise/ingredienti con dati già salvati | P3 |
 | ACC-SPLIT-BILL | Split Bill | Dividi il conto con amici che hanno account GUDBRO | P4 |
 | ACC-RESERVATIONS | Prenotazioni | Prenota tavolo direttamente dall'app | P4 |
 
-### Phase 5: Web3 (Future - Post-Validazione)
+### Phase 6: Web3 (Future - Post-Validazione)
 
 | ID | Feature | Descrizione | Priorità |
 |----|---------|-------------|----------|
 | WEB3-NFT-PASS | GUDBRO Genesis Pass NFT | Mint €50-100, premium lifetime + earning $GUD tokens | P5 |
 | WEB3-GUD-TOKEN | $GUD Token Utility | Earn: referral, reviews, check-ins. Spend: marketplace, sconti | P5 |
 | WEB3-GOVERNANCE | Governance NFT Holders | Votare su nuove features | P5 |
+
+### Database Schema Unified Account
+
+```sql
+-- Account principale (UNO per persona)
+CREATE TABLE accounts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email TEXT UNIQUE NOT NULL,
+    phone TEXT,
+    password_hash TEXT,
+
+    -- Profilo personale (sempre presente)
+    first_name TEXT,
+    last_name TEXT,
+    avatar_url TEXT,
+
+    -- Health Profile (5 Dimensioni)
+    health_profile JSONB DEFAULT '{}',
+    dietary_preferences JSONB DEFAULT '{}',
+
+    -- Loyalty unificato
+    total_points INTEGER DEFAULT 0,
+    consumer_points INTEGER DEFAULT 0,
+    merchant_points INTEGER DEFAULT 0,
+    contributor_points INTEGER DEFAULT 0,
+    loyalty_tier TEXT DEFAULT 'bronze' CHECK (loyalty_tier IN ('bronze', 'silver', 'gold', 'platinum')),
+
+    -- Premium status
+    is_premium BOOLEAN DEFAULT FALSE,
+    premium_until TIMESTAMPTZ,
+
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Ruoli dell'account (può averne MULTIPLI)
+CREATE TABLE account_roles (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    account_id UUID REFERENCES accounts(id) ON DELETE CASCADE,
+    role_type TEXT NOT NULL CHECK (role_type IN ('consumer', 'merchant', 'admin')),
+    tenant_id UUID REFERENCES tenants(id), -- NULL per consumer puro
+    permissions JSONB DEFAULT '{}',
+    is_active BOOLEAN DEFAULT TRUE,
+    is_primary BOOLEAN DEFAULT FALSE, -- ruolo default al login
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+
+    UNIQUE(account_id, role_type, tenant_id)
+);
+
+-- Referral tracking (bidirezionale)
+CREATE TABLE referrals (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    referrer_account_id UUID REFERENCES accounts(id),
+    referred_account_id UUID REFERENCES accounts(id),
+    referral_type TEXT CHECK (referral_type IN ('consumer_to_consumer', 'consumer_to_merchant', 'merchant_to_merchant')),
+    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'expired')),
+    points_awarded INTEGER DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    completed_at TIMESTAMPTZ
+);
+
+-- Ingredienti user-generated
+CREATE TABLE ingredient_contributions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    account_id UUID REFERENCES accounts(id),
+    ingredient_name TEXT NOT NULL,
+    category TEXT,
+    submitted_json JSONB NOT NULL,
+    source_photos TEXT[],
+    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'merged', 'rejected')),
+    merged_into_id TEXT REFERENCES ingredients(id),
+    reviewer_notes TEXT,
+    points_awarded INTEGER DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    reviewed_at TIMESTAMPTZ
+);
+```
 
 ### Costi Stimati per Account
 
@@ -268,24 +437,40 @@ FREE ACCOUNT (~€0.05/mese costo):
 ├── Auth (Supabase): ~€0.005
 ├── CDN/Bandwidth: ~€0.02
 ├── Email transazionali (2-3/mese): ~€0.01
-└── Margine: NEGATIVO (ma acquisition cost)
+└── Margine: NEGATIVO (ma acquisition cost + crowdsourcing value)
 
-PREMIUM ACCOUNT (€1.50/mese):
+PREMIUM CONSUMER (€1.50/mese):
 ├── Costi base: ~€0.05
 ├── Food Diary storage: ~€0.02
 ├── Analytics processing: ~€0.05
 ├── Priority support: ~€0.10
 ├── Totale costi: ~€0.22/mese
 └── Margine: ~€1.28/mese (85%)
+
+MERCHANT (€50/mese):
+├── Come da pricing esistente
+└── Loyalty points = retention bonus
 ```
 
 ### Revenue Model Summary
 
-| Tier | Prezzo | Target |
-|------|--------|--------|
-| Free | €0 | Utenti, data collection, network effect |
-| Premium | €1.50/mese | Power users, food enthusiasts |
-| NFT Pass | €50-100 una tantum | Early adopters, crypto community (future) |
+| Tier | Prezzo | Target | Loyalty |
+|------|--------|--------|---------|
+| Free Consumer | €0 | Utenti, data collection, network effect | ✅ Guadagna punti |
+| Premium Consumer | €1.50/mese | Power users, food enthusiasts | ✅ 2x punti |
+| Merchant | €50/mese | Ristoranti, bar, food truck | ✅ Guadagna punti merchant |
+| NFT Pass | €50-100 una tantum | Early adopters (future) | ✅ Lifetime premium |
+
+### Competitor Comparison
+
+| Feature | GudBro | MenuTiger | Yelp | TheFork |
+|---------|--------|-----------|------|---------|
+| Unified Account | ✅ **UNICO!** | ❌ | ❌ | ❌ |
+| Consumer Loyalty | ✅ | ❌ | ❌ | ✅ |
+| Merchant Loyalty | ✅ **UNICO!** | ❌ | ❌ | ❌ |
+| Bidirectional Referral | ✅ **UNICO!** | ❌ | ❌ | ❌ |
+| Role Switching | ✅ **UNICO!** | ❌ | ❌ | ❌ |
+| User-Generated Ingredients | ✅ **UNICO!** | ❌ | ❌ | ❌ |
 
 ---
 
