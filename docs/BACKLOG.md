@@ -237,11 +237,18 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 
 ## P5 - Account System & User Features (NEW 2025-12-31)
 
-> **🎯 NEXT FOCUS** - Prossimo task da implementare dopo pausa pranzo (2026-01-02)
+> **🎯 IN PROGRESS** - Phase 1 Foundation COMPLETATO (2026-01-02)
+>
+> **📁 Documentazione Completa:** [`docs/features/P5-unified-account/`](./features/P5-unified-account/)
+> - [README.md](./features/P5-unified-account/README.md) - Overview e status
+> - [PROGRESS.md](./features/P5-unified-account/PROGRESS.md) - Log lavori
+> - [DECISIONS.md](./features/P5-unified-account/DECISIONS.md) - Decisioni architetturali
+> - [SCHEMA.md](./features/P5-unified-account/SCHEMA.md) - Schema database
+> - [USER-STORIES.md](./features/P5-unified-account/USER-STORIES.md) - Requisiti utente
 >
 > **Strategia Account:** **UNIFIED ACCOUNT SYSTEM** - Un account, ruoli multipli (Consumer/Merchant/Admin). Ogni utente può essere contemporaneamente cliente di altri locali E gestore del proprio. Sistema loyalty unificato che premia tutti indipendentemente dal ruolo.
 >
-> **Aggiornato:** 2026-01-02 (Unified Account Architecture + Bidirectional Referral + Merchant Loyalty)
+> **Aggiornato:** 2026-01-02 (Phase 1 Foundation COMPLETATO + Documentazione strutturata)
 
 ### 🆕 Architettura Unified Account (CORE CONCEPT)
 
@@ -274,15 +281,15 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 
 ### Phase 1: Unified Account Foundation (MVP)
 
-| ID | Feature | Descrizione | Priorità |
-|----|---------|-------------|----------|
-| **ACC-UNIFIED** | **Unified Account System** | Un account con ruoli multipli (consumer/merchant/admin). Schema: `accounts` + `account_roles` | **P1** |
-| **ACC-ROLE-SWITCH** | **Role Switcher UI** | Header dropdown per cambiare ruolo seamlessly. "🏪 Pizzeria Da Mario" ↔ "🍽️ Account Personale" | **P1** |
-| ACC-SIGNUP-FLOW | Sign-up Multi-Step | Wizard unico: Profile → Ruolo iniziale (Personal/Business) → 5 Dimensioni/Business Details | P1 |
-| ACC-PERSONAL | Profilo Personale | Profilo 5 Dimensioni (allergie, diete, intolleranze), sempre disponibile per ogni account | P1 |
-| ACC-BUSINESS | Ruolo Business | Aggiunta ruolo merchant a account esistente. Restaurant name, type, currency, languages | P1 |
-| ACC-SYNC-PREFS | Sync Preferenze | Login in locale partner → preferenze automatiche applicate al menu | P1 |
-| **ACC-DB-SCHEMA** | **Database Schema Unified** | Tabelle: `accounts`, `account_roles`, `tenants`, `health_profiles`, `loyalty_points` | **P1** |
+| ID | Feature | Descrizione | Priorità | Status |
+|----|---------|-------------|----------|--------|
+| **ACC-UNIFIED** | **Unified Account System** | Un account con ruoli multipli (consumer/merchant/admin). Schema: `accounts` + `account_roles` | **P1** | ✅ **DONE** |
+| **ACC-DB-SCHEMA** | **Database Schema Unified** | Tabelle: `accounts`, `account_roles`, `health_profiles`, `referrals`, `loyalty_transactions` | **P1** | ✅ **DONE** |
+| **ACC-ROLE-SWITCH** | **Role Switcher UI** | Header dropdown per cambiare ruolo seamlessly. "🏪 Pizzeria Da Mario" ↔ "🍽️ Account Personale" | **P1** | TODO |
+| ACC-SIGNUP-FLOW | Sign-up Multi-Step | Wizard unico: Profile → Ruolo iniziale (Personal/Business) → 5 Dimensioni/Business Details | P1 | TODO |
+| ACC-PERSONAL | Profilo Personale | Profilo 5 Dimensioni (allergie, diete, intolleranze), sempre disponibile per ogni account | P1 | TODO |
+| ACC-BUSINESS | Ruolo Business | Aggiunta ruolo merchant a account esistente. Restaurant name, type, currency, languages | P1 | TODO |
+| ACC-SYNC-PREFS | Sync Preferenze | Login in locale partner → preferenze automatiche applicate al menu | P1 | TODO |
 
 ### Phase 2: Unified Loyalty System (DIFFERENZIATORE!)
 
