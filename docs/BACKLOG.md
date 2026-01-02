@@ -3,7 +3,7 @@
 > **CRITICAL:** Claude DEVE consultare questo file all'inizio di OGNI sessione.
 > Questo file contiene TUTTO ciò che dobbiamo fare (prodotti + funzionalità).
 
-**Last Updated:** 2026-01-01 (Competitor Audit MenuTiger: aggiunte 15+ features da implementare/migliorare)
+**Last Updated:** 2026-01-02 (P5 Unified Account = NEXT FOCUS, Dalky Kafe in standby, Testing task aggiunto)
 
 ---
 
@@ -178,6 +178,23 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 
 ---
 
+### 🔒 IN STANDBY (Da riprendere dopo P5)
+
+> **IMPORTANTE:** Questi task sono in pausa fino al completamento di P5 Unified Account System.
+> NON perdere queste informazioni - riprendere dopo P5!
+
+| ID | Task | Dettagli | Riprendere Dopo |
+|----|------|----------|-----------------|
+| **DALKY-KAFE-MENU** | Digitalizzazione Menu Dalky Kafe | Menu vietnamita Da Nang (54 items, 8 categorie). Screenshot salvati. 3 ingredienti già aggiunti (Peach Tea, Lychee Tea, Nem Nướng). SQL: `shared/database/ingredients/dalky-kafe-missing-ingredients.sql`. Demo al proprietario per validazione. | P5 completato |
+| **DALKY-KAFE-JSON** | Generare JSON menu completo | Creare JSON per import menu: ESPRESSO, VIETNAMESE PHIN, MATCHA-CHOCO-SODA, SMOOTHIES, FRESH JUICE, TEA, CAKE, BANH MI | P5 completato |
+
+**File di riferimento Dalky Kafe:**
+- Screenshots menu: Desktop (già analizzati)
+- SQL ingredienti: `shared/database/ingredients/dalky-kafe-missing-ingredients.sql`
+- Gap analysis: 95% ingredienti già presenti, 100% compatibilità menu digitale
+
+---
+
 ### P3 - Bassa Priorità (Nice to Have)
 
 | ID | Feature | Descrizione | Area |
@@ -187,10 +204,21 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 | PRISMA-SYNC | Prisma Schema Sync | Aggiungere models mancanti (partners, orgs, brands, locations) | Backoffice |
 | CSV-IMPORT | CSV Import Menu Items | Completare handler CSV in /content/menu con validazione | Backoffice |
 | BLOG-SYSTEM | Blog per Website | Setup blog con MDX, /blog e /blog/[slug] | Website |
-| UNIT-TESTS | Unit Tests PWA | Setup Jest + React Testing Library (cart, currency, i18n) | Testing |
-| E2E-TESTS | E2E Tests | Setup Playwright per user journey completo | Testing |
-| PERFORMANCE | Performance Audit | Lighthouse, bundle size, Core Web Vitals | Testing |
 | NPM-PACKAGES | Shared NPM Packages | @gudbro/health-filters, @gudbro/menu-template, @gudbro/qr-engine | Infra |
+
+### P3.5 - Testing & CI/CD (Post P5-Phase1)
+
+> **Raccomandazione:** Implementare DOPO P5 Phase 1 per validare le nuove funzionalità account.
+
+| ID | Feature | Descrizione | Area | Priorità |
+|----|---------|-------------|------|----------|
+| **TEST-SETUP** | **Testing Foundation** | Setup Jest + Vitest per monorepo, configurazione base | Testing | **Alta** |
+| TEST-UNIT | Unit Tests Core | Test per: auth utils, loyalty points calc, role switching logic | Testing | Alta |
+| TEST-INTEGRATION | Integration Tests | Test per: Supabase queries, API endpoints account | Testing | Media |
+| CI-LINT | GitHub Action Lint | ESLint + TypeScript check su ogni PR | CI/CD | Alta |
+| CI-TEST | GitHub Action Tests | Run tests automatici su ogni PR | CI/CD | Media |
+| TEST-E2E | E2E Tests | Setup Playwright per user journey completo | Testing | Bassa |
+| PERF-AUDIT | Performance Audit | Lighthouse, bundle size, Core Web Vitals | Testing | Bassa |
 
 ### P4 - Idee Future (Business Evolution)
 
