@@ -3,11 +3,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { TenantSwitcher } from '@/components/tenant';
+import { RoleSwitcher } from '@/components/account';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { useAuth } from '@/lib/contexts/AuthContext';
 import { createClient } from '@/lib/supabase-browser';
 
 export function Header() {
   const router = useRouter();
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const { brand, location } = useTenant();
@@ -28,8 +31,12 @@ export function Header() {
 
   return (
     <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between">
-      {/* Tenant Switcher */}
-      <TenantSwitcher />
+      {/* Tenant Switcher + Role Switcher */}
+      <div className="flex items-center gap-3">
+        <TenantSwitcher />
+        <div className="h-6 w-px bg-gray-200" />
+        <RoleSwitcher />
+      </div>
 
       {/* Search */}
       <div className="flex-1 max-w-lg mx-6">
@@ -114,7 +121,7 @@ export function Header() {
             onClick={() => setShowUserMenu(!showUserMenu)}
             className="h-8 w-8 rounded-full bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center text-sm font-medium text-white hover:opacity-90 transition-opacity"
           >
-            U
+            {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || 'U'}
           </button>
 
           {/* Dropdown menu */}
@@ -126,8 +133,8 @@ export function Header() {
               />
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
                 <div className="px-4 py-2 border-b border-gray-100">
-                  <p className="text-sm font-medium text-gray-900">Account</p>
-                  <p className="text-xs text-gray-500 truncate">user@example.com</p>
+                  <p className="text-sm font-medium text-gray-900">{user?.name || 'Account'}</p>
+                  <p className="text-xs text-gray-500 truncate">{user?.email || ''}</p>
                 </div>
                 <a
                   href="/settings"
