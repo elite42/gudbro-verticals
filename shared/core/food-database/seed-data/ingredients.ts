@@ -2,13 +2,14 @@
  * GUDBRO Master Ingredients Seed Data
  *
  * Comprehensive ingredient database for F&B businesses.
- * Uses Sistema 51 Filtri for complete allergen, intolerance, and dietary data.
+ * Uses Sistema 5 Dimensioni for complete allergen, intolerance, and dietary data.
  *
- * SISTEMA 51 FILTRI v2.0:
- * - 30 Allergens (EU 14 + Korea 7 + Japan 7 + GUDBRO 2)
- * - 10 Intolerances
- * - 11 Dietary Restrictions
- * - 5 Spice Levels
+ * SISTEMA 5 DIMENSIONI v3.0:
+ * - Dimensione 1: 30 Allergens (EU 14 + Korea 7 + Japan 7 + GUDBRO 2)
+ * - Dimensione 2: 10 Intolerances
+ * - Dimensione 3: 11 Dietary Restrictions
+ * - Dimensione 4: 9 Nutrition factors
+ * - Dimensione 5: 6 Spice Levels
  */
 
 import type {

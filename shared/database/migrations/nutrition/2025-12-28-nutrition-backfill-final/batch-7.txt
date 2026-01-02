@@ -1,0 +1,27 @@
+Fornisci valori nutrizionali per 100g per questi ingredienti.
+
+Output: SOLO JSON array, formato:
+[{"id": "ING_X", "nutrition": {"calories": 100, "protein": 5.0, "fat": 3.0, "carbs": 12.0, "fiber": 2.0}}]
+
+Ingredienti:
+[
+  {"id": "ING_AJI_AMARILLO", "name": "Aji Amarillo"},
+  {"id": "ING_ALLSPICE", "name": "Allspice"},
+  {"id": "ING_APPLE_CIDER_VINEGAR", "name": "Apple Cider Vinegar"},
+  {"id": "ING_ARBORIO_RICE", "name": "Arborio Rice"},
+  {"id": "ING_BEER", "name": "Beer"},
+  {"id": "ING_BRANZINO", "name": "Branzino"},
+  {"id": "ING_BRIOCHE_BUN", "name": "Brioche Bun"},
+  {"id": "ING_CAJUN_SPICE", "name": "Cajun Spice Blend"},
+  {"id": "ING_CARAWAY", "name": "Caraway Seeds"},
+  {"id": "ING_CATFISH", "name": "Catfish"},
+  {"id": "ING_CHILI_POWDER", "name": "Chili Powder"},
+  {"id": "ING_CHILI_SAUCE", "name": "Chili Sauce"},
+  {"id": "ING_CHOURICO", "name": "Chourico"},
+  {"id": "ING_COARSE_SALT", "name": "Coarse Salt"},
+  {"id": "ING_COD", "name": "Cod"},
+  {"id": "ING_CRAB", "name": "Crab"},
+  {"id": "ING_CRAWFISH", "name": "Crawfish"},
+  {"id": "ING_DRIED_PEPPERS", "name": "Dried Peppers"},
+  {"id": "ING_DUNGENESS_CRAB", "name": "Dungeness Crab"}
+]

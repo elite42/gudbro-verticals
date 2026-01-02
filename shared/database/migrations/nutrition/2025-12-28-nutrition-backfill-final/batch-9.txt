@@ -1,0 +1,26 @@
+Fornisci valori nutrizionali per 100g per questi ingredienti.
+
+Output: SOLO JSON array, formato:
+[{"id": "ING_X", "nutrition": {"calories": 100, "protein": 5.0, "fat": 3.0, "carbs": 12.0, "fiber": 2.0}}]
+
+Ingredienti:
+[
+  {"id": "ING_PIRI_PIRI_CHILI", "name": "Piri Piri Chili"},
+  {"id": "ING_ROCKFISH", "name": "Rockfish"},
+  {"id": "ING_ROUX", "name": "Roux"},
+  {"id": "ING_SAKE", "name": "Sake"},
+  {"id": "ING_SALT_COD", "name": "Salt Cod (Bacalao)"},
+  {"id": "ING_SCOTCH_BONNET", "name": "Scotch Bonnet Chili"},
+  {"id": "ING_SEA_BASS", "name": "Sea Bass"},
+  {"id": "ING_SERRANO", "name": "Serrano Pepper"},
+  {"id": "ING_SEVEN_SPICE", "name": "Seven Spice (Baharat)"},
+  {"id": "ING_SHAWARMA_SPICE", "name": "Shawarma Spice"},
+  {"id": "ING_SICHUAN_PEPPER", "name": "Sichuan Pepper"},
+  {"id": "ING_SMOKED_PAPRIKA", "name": "Smoked Paprika"},
+  {"id": "ING_SOLE", "name": "Sole"},
+  {"id": "ING_SWORDFISH", "name": "Swordfish"},
+  {"id": "ING_TEMPURA_FLOUR", "name": "Tempura Flour"},
+  {"id": "ING_TROUT", "name": "Trout"},
+  {"id": "ING_WHITE_FISH", "name": "White Fish"},
+  {"id": "ING_WHITE_MISO", "name": "White Miso"}
+]

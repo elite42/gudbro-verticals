@@ -1,0 +1,87 @@
+import type { Beer } from '../../types/beer';
+import { v4 as uuidv4 } from 'uuid';
+
+export const schneiderWeisse: Beer = {
+  id: uuidv4(),
+  slug: 'schneider-weisse-original',
+  stable_key: 'schneider-weisse-original',
+  name: {
+    en: 'Schneider Weisse Original',
+    it: 'Schneider Weisse Original',
+    vi: 'Schneider Weisse Original',
+  },
+  status: 'international_classic',
+  style_category: 'wheat',
+  style: 'hefeweizen',
+  tags: ['wheat', 'bavarian', 'traditional', 'yeast', 'banana', 'clove', 'unfiltered', 'german', 'historic'],
+  origin: {
+    country: 'Germany',
+    country_code: 'DE',
+    city: 'Kelheim',
+    region: 'Bavaria',
+    brewery: 'Weisses Bräuhaus G. Schneider & Sohn',
+    brewery_parent: 'Independent',
+    established: 1872,
+  },
+  history: {
+    en: 'Schneider Weisse is the oldest continuously produced wheat beer in Bavaria, with a brewing tradition dating back to 1872. Georg Schneider acquired the exclusive rights to brew wheat beer from the Royal Court Brewery in Munich, making his family the first private brewers allowed to produce weissbier after centuries of royal monopoly. The brewery moved to Kelheim in 1927 after the Munich location was destroyed. Schneider Weisse TAP7, known as "Mein Original" (My Original), has been brewed using the same recipe and yeast strain for over 140 years. The brewery remains family-owned and is now in its sixth generation, maintaining strict adherence to traditional Bavarian brewing methods and the Reinheitsgebot purity law.',
+    it: "Schneider Weisse è la birra di frumento più antica prodotta continuamente in Baviera, con una tradizione birraria che risale al 1872. Georg Schneider acquisì i diritti esclusivi per produrre birra di frumento dalla Royal Court Brewery di Monaco, rendendo la sua famiglia i primi birrai privati autorizzati a produrre weissbier dopo secoli di monopolio reale. Il birrificio si trasferì a Kelheim nel 1927 dopo che la sede di Monaco fu distrutta. Schneider Weisse TAP7, conosciuta come 'Mein Original' (Il Mio Originale), è stata prodotta utilizzando la stessa ricetta e ceppo di lievito per oltre 140 anni. Il birrificio rimane di proprietà familiare ed è ora alla sua sesta generazione, mantenendo una stretta aderenza ai metodi di produzione tradizionali bavaresi e alla legge di purezza Reinheitsgebot.",
+    vi: 'Schneider Weisse là loại bia lúa mì lâu đời nhất được sản xuất liên tục ở Bavaria, với truyền thống pha chế bia từ năm 1872. Georg Schneider đã mua quyền độc quyền pha chế bia lúa mì từ Nhà máy bia Hoàng gia ở Munich, làm cho gia đình ông trở thành những người pha chế tư nhân đầu tiên được phép sản xuất weissbier sau nhiều thế kỷ độc quyền hoàng gia. Nhà máy bia chuyển đến Kelheim vào năm 1927 sau khi địa điểm Munich bị phá hủy. Schneider Weisse TAP7, được biết đến là "Mein Original" (Bản gốc của tôi), đã được pha chế bằng cùng một công thức và chủng men trong hơn 140 năm. Nhà máy bia vẫn thuộc sở hữu gia đình và hiện đang ở thế hệ thứ sáu, duy trì tuân thủ nghiêm ngặt các phương pháp pha chế truyền thống của Bavaria và luật tinh khiết Reinheitsgebot.',
+  },
+  description: {
+    en: 'Schneider Weisse Original (TAP7) is the archetypal Bavarian hefeweizen, representing over 140 years of brewing mastery. This unfiltered wheat beer pours a deep golden-amber color with characteristic cloudiness and a dense, creamy white head. The aroma bursts with intense banana and clove notes, hallmarks of the brewery\'s proprietary yeast strain, complemented by wheat bread and subtle vanilla undertones. The flavor profile is complex and balanced, featuring prominent banana esters, clove spice, and bubblegum, layered with soft wheat malt sweetness and hints of citrus. The mouthfeel is smooth and creamy with lively carbonation. The finish is refreshing with a pleasant wheat tartness and lingering spice. This is hefeweizen in its purest, most traditional form.',
+    it: "Schneider Weisse Original (TAP7) è l'archetipica hefeweizen bavarese, rappresentando oltre 140 anni di maestria nella produzione. Questa birra di frumento non filtrata si presenta di un colore ambrato-dorato profondo con caratteristica torbidità e una densa schiuma bianca cremosa. L'aroma esplode con intense note di banana e chiodi di garofano, segni distintivi del ceppo di lievito proprietario del birrificio, completate da pane di frumento e sottili note di vaniglia. Il profilo aromatico è complesso e bilanciato, con prominenti esteri di banana, spezie di chiodi di garofano e gomma da masticare, stratificati con dolcezza morbida del malto di frumento e accenni di agrumi. La sensazione in bocca è morbida e cremosa con una vivace carbonazione. Il finale è rinfrescante con una piacevole acidità di frumento e spezie persistenti. Questa è la hefeweizen nella sua forma più pura e tradizionale.",
+    vi: 'Schneider Weisse Original (TAP7) là nguyên mẫu hefeweizen Bavaria, đại diện cho hơn 140 năm làm chủ nghệ thuật pha chế. Loại bia lúa mì không lọc này có màu vàng-hổ phách sâu với độ đục đặc trưng và lớp bọt trắng kem dày đặc. Hương thơm bùng nổ với hương vị chuối và đinh hương mãnh liệt, dấu hiệu đặc trưng của chủng men độc quyền của nhà máy bia, được bổ sung bởi bánh mì lúa mì và hương vani tinh tế. Hồ sơ hương vị phức tạp và cân bằng, với các este chuối nổi bật, gia vị đinh hương và kẹo cao su, được xếp lớp với vị ngọt mạch nha lúa mì mềm và hương cam quýt. Cảm giác trong miệng mượt mà và kem với carbonation sống động. Hậu vị sảng khoái với vị chua lúa mì dễ chịu và gia vị kéo dài. Đây là hefeweizen ở dạng thuần khiết và truyền thống nhất.',
+  },
+  characteristics: {
+    abv: 5.4,
+    ibu: 15,
+    srm: 8,
+    color: 'pale',
+    clarity: 'hazy',
+    carbonation: 'high',
+    body: 'medium',
+    fermentation: 'top_fermented',
+  },
+  taste: {
+    en: 'Intense banana and bubblegum esters are the stars, balanced by strong clove and pepper spice phenolics. Rich wheat malt character with notes of fresh bread, vanilla, and honey. Subtle citrus hints of orange and lemon zest. Light caramel sweetness adds depth. Very low hop bitterness allows the yeast character to shine. The finish is crisp and refreshing with pronounced wheat tartness and lingering spice complexity.',
+    it: 'Intensi esteri di banana e gomma da masticare sono le stelle, bilanciati da forti fenoli speziati di chiodi di garofano e pepe. Ricco carattere di malto di frumento con note di pane fresco, vaniglia e miele. Sottili accenni di agrumi di arancia e scorza di limone. La leggera dolcezza del caramello aggiunge profondità. L\'amarezza molto bassa del luppolo permette al carattere del lievito di brillare. Il finale è frizzante e rinfrescante con una pronunciata acidità di frumento e una persistente complessità speziata.',
+    vi: 'Các este chuối và kẹo cao su mãnh liệt là ngôi sao, được cân bằng bởi các phenolic gia vị đinh hương và tiêu mạnh mẽ. Đặc tính mạch nha lúa mì phong phú với hương vị bánh mì tươi, vani và mật ong. Hương cam quýt tinh tế của cam và vỏ chanh. Vị ngọt caramel nhẹ thêm chiều sâu. Độ đắng hoa bia rất thấp cho phép đặc tính men tỏa sáng. Hậu vị giòn và sảng khoái với vị chua lúa mì rõ rệt và độ phức tạp gia vị kéo dài.',
+  },
+  ingredients: {
+    en: 'Water, wheat malt (60%), barley malt, hops, proprietary Schneider yeast strain (over 140 years old). Brewed according to the Bavarian Reinheitsgebot purity law. Unfiltered and naturally carbonated.',
+    it: 'Acqua, malto di frumento (60%), malto d\'orzo, luppolo, ceppo di lievito Schneider proprietario (oltre 140 anni). Prodotta secondo la legge di purezza bavarese Reinheitsgebot. Non filtrata e naturalmente carbonata.',
+    vi: 'Nước, mạch nha lúa mì (60%), mạch nha lúa mạch, hoa bia, chủng men Schneider độc quyền (hơn 140 năm tuổi). Được pha chế theo luật tinh khiết Reinheitsgebot của Bavaria. Không lọc và có ga tự nhiên.',
+  },
+  serving: {
+    glass: 'weizen',
+    temperature: 'cold',
+    temperature_range: {
+      min: 6,
+      max: 9,
+      unit: 'celsius',
+    },
+    presentation: 'Pour into a traditional weizen vase glass. Leave the last 2cm in the bottle, swirl gently to suspend yeast, then pour into glass. Crown with a thick white head.',
+  },
+  pairing: {
+    en: 'Classic pairings include traditional Bavarian cuisine: weisswurst, leberkäse, obatzda cheese spread, pretzels, roast pork, duck, grilled fish, and apple strudel. Also pairs well with spicy Asian dishes, Thai curries, and Vietnamese cuisine. The complex yeast character complements rich, savory flavors.',
+    it: 'Gli abbinamenti classici includono la cucina bavarese tradizionale: weisswurst, leberkäse, crema di formaggio obatzda, pretzel, maiale arrosto, anatra, pesce alla griglia e strudel di mele. Si abbina bene anche con piatti asiatici piccanti, curry thailandesi e cucina vietnamita. Il complesso carattere del lievito complementa i sapori ricchi e salati.',
+    vi: 'Các kết hợp cổ điển bao gồm ẩm thực Bavaria truyền thống: weisswurst, leberkäse, pho mát phết obatzda, bánh quy xoắn, thịt lợn nướng, vịt, cá nướng và bánh ngọt táo strudel. Cũng kết hợp tốt với các món ăn châu Á cay, cà ri Thái và ẩm thực Việt Nam. Đặc tính men phức tạp bổ sung cho hương vị đậm đà, mặn.',
+  },
+  season_tags: ['all_year', 'summer', 'autumn'],
+  occasion_tags: ['traditional', 'casual', 'celebration', 'social', 'outdoor'],
+  is_gluten_free: false,
+  is_non_alcoholic: false,
+  is_vegan: true,
+  available_formats: ['bottle', 'draft'],
+  available_sizes: ['500ml', '330ml'],
+  availability: 'year_round',
+  price_tier: 'mid_premium',
+  popularity: 88,
+  source: {
+    type: 'commercial',
+    reference: 'Weisses Bräuhaus G. Schneider & Sohn',
+    last_updated: '2025-12-14',
+  },
+  version: 1,
+};

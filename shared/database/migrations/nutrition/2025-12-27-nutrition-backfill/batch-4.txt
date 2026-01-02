@@ -1,0 +1,34 @@
+Fornisci valori nutrizionali per 100g per questi ingredienti.
+
+Output: SOLO JSON array, formato:
+[{"id": "ING_X", "nutrition": {"calories": 100, "protein": 5.0, "fat": 3.0, "carbs": 12.0, "fiber": 2.0}}]
+
+Ingredienti:
+[
+  {"id": "ING_CRAYFISH", "name": "Crayfish"},
+  {"id": "ING_DRIED_FISH", "name": "Dried Fish"},
+  {"id": "ING_GREY_SHRIMP", "name": "Grey Shrimp"},
+  {"id": "ING_PERIWINKLE", "name": "Periwinkle"},
+  {"id": "ING_STOCKFISH", "name": "Stockfish"},
+  {"id": "ING_WHITING", "name": "Whiting Fish"},
+  {"id": "ING_COMTE", "name": "Comté"},
+  {"id": "ING_EMMENTAL", "name": "Emmental Cheese"},
+  {"id": "ING_FARMERS_CHEESE", "name": "Farmers Cheese"},
+  {"id": "ING_FRESH_CHEESE", "name": "Fresh Cheese"},
+  {"id": "ING_OSCYPEK", "name": "Oscypek Cheese"},
+  {"id": "ING_RACLETTE_CHEESE", "name": "Raclette Cheese"},
+  {"id": "ING_VACHERIN", "name": "Vacherin Cheese"},
+  {"id": "ING_COLESLAW_DRESSING", "name": "Coleslaw Dressing"},
+  {"id": "ING_GARLIC_SAUCE", "name": "Garlic Sauce"},
+  {"id": "ING_SCHEZWAN_SAUCE", "name": "Schezwan Sauce"},
+  {"id": "ING_APPLESAUCE", "name": "Applesauce"},
+  {"id": "ING_CURRY_KETCHUP", "name": "Curry Ketchup"},
+  {"id": "ING_PEPPER_PASTE", "name": "Pepper Paste"},
+  {"id": "ING_YELLOW_MUSTARD", "name": "Yellow Mustard"},
+  {"id": "ING_CRANBERRY_JAM", "name": "Cranberry Jam"},
+  {"id": "ING_STROOP", "name": "Dutch Syrup (Stroop)"},
+  {"id": "ING_SIROP_LIEGE", "name": "Liège Syrup"},
+  {"id": "ING_PLUM_JAM", "name": "Plum Jam"},
+  {"id": "ING_RASPBERRY_JAM", "name": "Raspberry Jam"},
+  {"id": "ING_ROSE_JAM", "name": "Rose Petal Jam"}
+]

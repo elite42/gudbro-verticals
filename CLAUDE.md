@@ -1,24 +1,165 @@
 # GUDBRO Verticals
 
-> **IMPORTANTE:** Prima di ogni nuova feature, consulta `docs/inventory.md`
+> **Contesto essenziale per Claude Code**
+>
+> **Last Updated:** 2025-12-30
+
+---
+
+## COMANDO: "leggi gudbro"
+
+> **IMPORTANTE:** Questo è l'UNICO file CLAUDE.md del progetto.
+> I verticali (rentals, wellness, coffeeshop) hanno file `VERTICAL-CONTEXT.md` separati.
+
+**Quando l'utente dice "leggi gudbro" o "riavvia":**
+
+```
+ESEGUI IMMEDIATAMENTE (senza cercare altri file):
+
+1. LEGGI questo file: /gudbro-verticals/CLAUDE.md
+2. LEGGI docs/BACKLOG.md
+3. LEGGI docs/DATABASE-INVENTORY.md
+4. LEGGI docs/ECOSYSTEM-MAP.md (mappa completa repo esterni, tools, assets)
+
+POI conferma all'utente:
+"Ho letto la documentazione GUDBRO.
+
+STATO SISTEMA:
+- Database: 75 | Prodotti: ~4653 | Ingredienti: ~2548
+- Nutrition coverage: 100%
+- QR Platform: gudbro-qr-core (19 tipi QR, AI Artistic)
+- Tools: Savings Calculator, Strategic Report
+- [Prossimo task dal BACKLOG se presente]
+
+Pronto per lavorare."
+```
+
+**NON cercare altri CLAUDE.md** - questo è l'unico.
+
+---
+
+## QUICK START (Protocollo Riavvio Esteso)
+
+**Per lavoro su DATABASE, leggi anche:**
+
+```
+4. shared/database/PROCEDURE-NEW-DATABASE.md (procedura operativa)
+5. shared/database/_system/docs/LESSONS-LEARNED.md (mappa esperienziale)
+```
+
+**Comando rapido utente:** `"leggi gudbro"` o `"riavvia sessione"`
+
+### Session Resume (Ripresa Sessione Interrotta)
+
+Se riprendo una sessione precedente su un database:
+1. **Ri-leggere** PROCEDURE-NEW-DATABASE.md
+2. **Ri-validare** tutti gli script creati (Step 6 della procedura)
+3. **Verificare** ingredienti estratti da script 04
+4. **Non procedere** finche tutti i check non passano
+
+> Vedi LESSONS-LEARNED.md #4 per checklist completa
+
+---
+
+## All'Inizio di Ogni Sessione
+
+```
+LEGGI SEMPRE:
+1. CLAUDE.md (questo file)
+2. docs/BACKLOG.md - task pending
+3. docs/DATABASE-INVENTORY.md - stato database
+```
+
+---
+
+## Documentazione di Riferimento
+
+| Area | File | Descrizione |
+|------|------|-------------|
+| **Ecosystem** | `docs/ECOSYSTEM-MAP.md` | **MAPPA COMPLETA** tutti i repo, assets, tools esterni |
+| **Database** | `docs/DATABASE-INVENTORY.md` | Stato tutti i database (SOURCE OF TRUTH) |
+| **Backlog** | `docs/BACKLOG.md` | Task pending e completati |
+| **Standards** | `shared/database/DATABASE-STANDARDS.md` | Regole naming, schema, convenzioni |
+| **Procedure** | `shared/database/PROCEDURE-NEW-DATABASE.md` | Guida step-by-step nuovi database |
+| **Lezioni** | `shared/database/_system/docs/LESSONS-LEARNED.md` | 44 lezioni organizzate per contesto (v5.0) |
+| **Strategic** | `docs/STRATEGIC-REPORT-5-DIMENSIONS.md` | Report 5 dimensioni, compliance, revenue streams |
+
+### LESSONS-LEARNED: Mappa Esperienziale
+
+Le lezioni sono organizzate per **contesto operativo**. Consulta la sezione pertinente:
+
+| Contesto | Quando Consultare |
+|----------|-------------------|
+| **1. PRE-WORK** | Prima di iniziare qualsiasi lavoro |
+| **2. INGREDIENTI** | Verifica naming, cache, duplicati |
+| **3. SCRIPT SQL** | Sintassi, escape, formati |
+| **4. PRODUCT_TAXONOMY** | Template e valori corretti per cucine |
+| **5. PRODUCT_INGREDIENTS** | Schema, ruoli, linking |
+| **6. VALIDAZIONE** | Checklist pre-esecuzione |
+| **7. POST-ESECUZIONE** | Aggiornare docs dopo import |
+| **8. ESTENSIONE TABELLE** | Modifiche a tabelle esistenti |
+| **9. MANUTENZIONE** | Pulizia duplicati, ENUM |
+| **10. AI-ASSISTED** | Workflow con Gemini/ChatGPT |
+
+> **Non leggere tutto** - consulta solo il contesto rilevante per il task corrente
+
+---
+
+## Regole Fondamentali
+
+### Prima di Lavorare su Database
+
+```
+OBBLIGATORIO:
+1. Leggere PROCEDURE-NEW-DATABASE.md (specialmente Product Taxonomy!)
+2. Consultare database recente come riferimento (cuisines/fusion/nikkei/, cuisines/americas/texmex/)
+```
+
+### Dopo Ogni Import
+
+```
+AGGIORNARE IMMEDIATAMENTE:
+1. DATABASE-INVENTORY.md (entry + totali)
+2. Cache ingredienti (se nuovi ingredienti)
+```
+
+### Database Template di Riferimento
+
+Quando creo un nuovo database, copiare struttura da:
+
+| Tipo | Template | Note |
+|------|----------|------|
+| Cucina nazionale | `cuisines/americas/cajun/`, `cuisines/fusion/nikkei/` | Struttura completa con origin |
+| Bevande | `beverages/smoothies/`, `beverages/cocktails/` | Schema beverage |
+| Food generico | `dishes/seafood/`, `dishes/steaks/` | Schema food standard |
+
+### Credenziali Supabase
+
+```
+URL: https://vnaonebbuezrzvjekqxs.supabase.co
+File: config/supabase.env
+```
+
+---
 
 ## Quick Reference
 
-| App | URL | Port | Status |
-|-----|-----|------|--------|
-| Coffeeshop PWA | gudbro-coffeeshop-pwa.vercel.app | 3004 | LIVE |
-| Backoffice | gudbro-backoffice.vercel.app | 3001 | LIVE |
-| Website | gudbro-website.vercel.app | 3000 | LIVE |
+### Apps
 
-## Stack
+| App | URL | Port |
+|-----|-----|------|
+| Coffeeshop PWA | gudbro-coffeeshop-pwa.vercel.app | 3004 |
+| Backoffice | gudbro-backoffice.vercel.app | 3001 |
+| Website | gudbro-website.vercel.app | 3000 |
+
+### Stack
 
 - **Framework:** Next.js 14.2.33, React 18.3.1
 - **Styling:** Tailwind CSS 3.4.1
 - **Database:** Supabase (PostgreSQL)
-- **ORM:** Prisma 5.22.0 (backoffice only)
 - **Deployment:** Vercel
 
-## Repository Structure
+### Repository Structure
 
 ```
 gudbro-verticals/
@@ -26,51 +167,66 @@ gudbro-verticals/
 │   ├── coffeeshop/frontend/  # Digital Menu PWA
 │   ├── backoffice/           # Admin Dashboard
 │   └── website/              # Marketing Site
-├── shared/database/          # Migrations, types, filters
-├── docs/                     # Extended documentation
-│   ├── inventory.md          # CRITICAL: All features list
-│   └── sprints/              # Sprint tracking
-└── .claude/commands/         # Workflow slash commands
+├── shared/database/          # Database v6.0
+│   ├── cuisines/             # asian, european, americas, african, oceania, fusion
+│   ├── beverages/            # cocktails, wines, spirits, coffee, tea, etc.
+│   ├── dishes/               # pasta, pizzas, steaks, burgers, etc.
+│   ├── sides/                # salads, soups, desserts, etc.
+│   ├── ingredients/          # Master ingredients (2548)
+│   ├── migrations/           # schema/, ingredients/, nutrition/
+│   └── _system/              # types, scripts, docs, schema, utils
+└── docs/                     # Documentazione progetto
 ```
 
-## Session Protocol
+---
 
-### Start Session
-1. Read `docs/inventory.md` - see what exists
-2. Ask user what to work on
-3. Create todo list
+## Stato Attuale (2025-12-28)
 
-### End Session
-1. Update `docs/inventory.md` with new features
-2. Commit with: `docs: update inventory`
+### Numeri Verificati
 
-## Key Systems (Summary)
+| Metrica | Valore |
+|---------|--------|
+| **Database** | 75 |
+| **Prodotti** | ~4653 |
+| **Ingredienti** | 2548 |
+| **Ingredienti con Nutrition** | 2548 (100%) |
+| **Product_Ingredients** | ~25169 |
+| **Formaggi** | 226 |
 
-| System | Status | Details |
-|--------|--------|---------|
-| Multi-Locale | ✅ | 197 countries, 111 languages, 6 RTL |
-| Multi-Tenant | ✅ | Partner → Org → Brand → Location |
-| Currency | ✅ | 33 currencies, manual refresh |
-| Translations | ✅ | Inline editor + CSV import |
-| Food Costs | ✅ | 69 ingredients with VND costs |
-| Recipes | ✅ | 22 barista recipes |
-| Design System | ✅ | CVA + shadcn/ui pattern |
+### Database Recenti
 
-## Environment Variables
+| Database | Records | Data |
+|----------|---------|------|
+| Nutrition 100% | +58 | 2025-12-28 |
+| Cajun/Creole | 42 | 2025-12-27 |
+| Australian | 29 | 2025-12-27 |
+| Hawaiian | 29 | 2025-12-27 |
 
-### Coffeeshop
-```
-NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
-```
+> **Lista completa:** vedi `docs/DATABASE-INVENTORY.md`
 
-### Backoffice
-```
-DATABASE_URL=postgresql://...
-DIRECT_URL=postgresql://...
-NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
-```
+---
+
+## Decisioni Architetturali
+
+| Decisione | Regola |
+|-----------|--------|
+| Lingua Base | SOLO INGLESE nel DB |
+| Traduzioni | Tabella `translations` separata |
+| Pesi/Misure | Sempre METRICO (g, ml) |
+| Costi | MAI in master ingredients |
+| Schema | TEXT + CHECK (no ENUM per nuove tabelle) |
+
+> **Dettagli completi:** vedi `shared/database/DATABASE-STANDARDS.md`
+
+---
+
+## Convenzioni
+
+- **Commits:** emoji + descrizione concisa
+- **PR:** Summary + Test Plan
+- **Files:** No emojis unless requested
+
+---
 
 ## Commands
 
@@ -79,132 +235,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
 cd apps/coffeeshop/frontend && npm run dev  # :3004
 cd apps/backoffice && npm run dev           # :3001
 
-# Build
-npm run build
-
 # Deploy (auto on push to main)
 git push origin main
 ```
 
-## Conventions
-
-- **Commits:** emoji + descrizione concisa
-- **PR:** Summary + Test Plan + `Generated with Claude Code`
-- **No emojis** in code/files unless requested
-
-## Documentation
-
-| File | Purpose |
-|------|---------|
-| `docs/inventory.md` | Complete feature inventory |
-| `docs/CLAUDE-archive-*.md` | Historical context |
-| `apps/*/CLAUDE.md` | App-specific context |
-
-## Auto-Update Rule
-
-Claude DEVE aggiornare `docs/inventory.md` dopo ogni:
-- Nuova feature implementata
-- File creato/modificato significativamente
-- Sprint completato
-
 ---
 
-## Sessione Corrente (2025-12-11)
-
-### Lavoro Completato Oggi
-1. **Bottom Nav Riorganizzata**: Home, Menu, More (+), Order, Account
-2. **MoreMenuModal creato**: WiFi, Staff, Language, Currency, Reset tools
-3. **Header semplificati**: Rimossi AI e Account icons
-4. **Audit Completo Eseguito**: PWA, Backoffice, Database, Website
-
-### Sprint Plan Attivo
-Vedi: `docs/sprints/SPRINT-PLAN-2025-12.md`
-
-### Sprint 1 COMPLETATO ✅
-**PWA Critical Fixes** - Tutti i task completati:
-1. ✅ Creare manifest.json + service-worker.js
-2. ✅ Fix TypeScript errors critici (13 errori minori in moduli secondari)
-3. ✅ Completare Account page (profilo, preferenze, impostazioni)
-4. ✅ Generare icone PNG per PWA (8 sizes + apple-touch-icon)
-5. ✅ Completare TODO nel codice (WiFi modal + CallStaff integration)
-
-### Errori TypeScript Corretti (sessione 2)
-- `HomeHeader.tsx` - defaultCurrency → baseCurrency
-- `MenuHeader.tsx` - defaultCurrency → baseCurrency
-- `MoreMenuModal.tsx` - favoritesStore.getAll() → favoritesStore.get().favoriteIds
-- `WelcomeModal.tsx` - handleSkip hoisting fix
-- `WelcomeModalV2.tsx` - defaultCurrency → baseCurrency
-- `StickyCartBar.tsx` - formatPriceCompactCompact typo
-- `ProductIndicators.tsx` - import path fix
-- `SearchOverlay.tsx` - dietaryLabels → dietary
-- `safety-badge.tsx` - null index fix
-- `cart/page.tsx` e `SelectionsSidebar.tsx` - SubmitOrderResult handling
-- `order-service.ts` - supabase null check
-- `coffeeshop.config.ts` - removed unused import
-- `useQuickCustomizeState.ts` - local type definition
-
-### File Modificati Oggi
-- `apps/coffeeshop/frontend/components/BottomNavLocal.tsx` - Nav riorganizzata
-- `apps/coffeeshop/frontend/components/MoreMenuModal.tsx` - NUOVO
-- `apps/coffeeshop/frontend/components/HomeHeader.tsx` - Rimosso Account + fix TS
-- `apps/coffeeshop/frontend/components/MenuHeader.tsx` - Rimossi AI + Account + fix TS
-- `docs/sprints/SPRINT-PLAN-2025-12.md` - NUOVO Sprint Plan
-- `apps/coffeeshop/frontend/public/manifest.json` - NUOVO PWA manifest
-- `apps/coffeeshop/frontend/public/service-worker.js` - NUOVO Service Worker
-- `apps/coffeeshop/frontend/components/PWAProvider.tsx` - NUOVO SW registration
-- `apps/coffeeshop/frontend/app/layout.tsx` - Aggiunto PWA meta tags
-- `apps/coffeeshop/frontend/app/account/page.tsx` - COMPLETAMENTE RIFATTA
-- `apps/coffeeshop/frontend/scripts/generate-pwa-icons.js` - NUOVO script icone
-- `apps/coffeeshop/frontend/public/icons/pwa/*.png` - NUOVE 9 icone PNG
-- Multiple TS error fixes across components
-
-### Sprint 2 COMPLETATO ✅
-**Menu da Database + WelcomeModal** - Tutti i task completati:
-1. ✅ Menu Service già pronto per Supabase (fallback a JSON se vuoto)
-2. ✅ Creato script `seed-menu-to-supabase.js` per popolare DB
-3. ✅ Creato script `seed-menu-items.sql` per SQL Editor
-4. ✅ WelcomeModal consolidato (V1 eliminato, V2 rinominato a WelcomeModal)
-
-### File Modificati (Sprint 2)
-- `apps/coffeeshop/frontend/scripts/seed-menu-to-supabase.js` - NUOVO
-- `apps/coffeeshop/frontend/scripts/seed-menu-items.sql` - NUOVO
-- `apps/coffeeshop/frontend/components/WelcomeModal.tsx` - Rinominato da V2
-- `apps/coffeeshop/frontend/app/page.tsx` - Usa WelcomeModal
-- `apps/coffeeshop/frontend/app/onboarding-demo/page.tsx` - Usa WelcomeModal
-
-### Sprint 3 COMPLETATO ✅
-**Backoffice Polish** - Tutti i task completati:
-1. ✅ Auth Guards con middleware Supabase SSR
-2. ✅ Login page completa (email/password + Google OAuth)
-3. ✅ CSV Import per menu items con validazione
-4. ✅ Toast notification system per UX feedback
-
-### File Modificati (Sprint 3)
-- `apps/backoffice/lib/supabase-server.ts` - NUOVO Server-side client
-- `apps/backoffice/lib/supabase-browser.ts` - NUOVO Browser-side client
-- `apps/backoffice/middleware.ts` - NUOVO Auth middleware
-- `apps/backoffice/app/login/page.tsx` - NUOVO Login completo
-- `apps/backoffice/app/auth/callback/route.ts` - NUOVO OAuth callback
-- `apps/backoffice/components/layout/Header.tsx` - Aggiunto logout
-- `apps/backoffice/lib/contexts/ToastContext.tsx` - NUOVO Toast context
-- `apps/backoffice/components/ui/Toast.tsx` - NUOVO Toast component
-- `apps/backoffice/app/(dashboard)/layout.tsx` - Aggiunto ToastProvider
-- `apps/backoffice/app/(dashboard)/content/menu/page.tsx` - CSV Import + Toast
-
-### Note per Ripresa Sessione
-- **Sprint 1 + 2 + 3 COMPLETATI**
-- Per popolare menu in Supabase:
-  1. Vai su Supabase Dashboard > SQL Editor
-  2. Esegui `scripts/seed-menu-items.sql`
-  3. Oppure usa service_role key con `seed-menu-to-supabase.js`
-- Menu-service: prova Supabase → fallback JSON automatico
-- 13 errori TypeScript rimanenti in moduli secondari (non bloccanti)
-- `ignoreBuildErrors: true` ancora attivo per errori in shared/database
-- Auth backoffice richiede configurazione Google OAuth in Supabase Dashboard
-
-### Prossimo: Sprint 4 (da definire)
-Vedi: `docs/sprints/SPRINT-PLAN-2025-12.md`
-
----
-
-**Last Updated:** 2025-12-11
+**File:** `CLAUDE.md`
+**Version:** 4.1 (Folder Restructuring v6.0)
+**Updated:** 2025-12-28

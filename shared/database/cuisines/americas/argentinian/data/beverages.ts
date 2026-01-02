@@ -1,0 +1,97 @@
+// Argentinian Beverages
+// Traditional Argentine drinks
+
+import { ArgentinianDish } from '../types';
+
+export const beverages: ArgentinianDish[] = [
+  {
+    id: 'ARG_MATE',
+    slug: 'mate',
+    name: 'Mate',
+    description: 'Traditional yerba mate infusion, the national drink of Argentina',
+    category: 'beverage',
+    status: 'iconic',
+    region: 'Buenos Aires',
+    protein_type: 'vegetable',
+    cooking_method: 'steeped',
+    prep_time_min: 5,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['national-drink', 'social', 'daily'],
+    popularity: 99,
+    ingredients: ['ING_YERBA_MATE', 'ING_WATER']
+  },
+  {
+    id: 'ARG_MATE_COCIDO',
+    slug: 'mate-cocido',
+    name: 'Mate Cocido',
+    description: 'Yerba mate brewed like tea, served in a cup with milk or lemon',
+    category: 'beverage',
+    status: 'classic',
+    region: 'Buenos Aires',
+    protein_type: 'vegetable',
+    cooking_method: 'steeped',
+    prep_time_min: 5,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['tea-style', 'breakfast', 'mild'],
+    popularity: 75,
+    ingredients: ['ING_YERBA_MATE', 'ING_WATER', 'ING_MILK']
+  },
+  {
+    id: 'ARG_FERNET_COLA',
+    slug: 'fernet-con-coca',
+    name: 'Fernet con Coca',
+    description: 'Fernet Branca mixed with cola, Argentina''s signature cocktail',
+    category: 'beverage',
+    status: 'iconic',
+    region: 'Córdoba',
+    protein_type: 'beverage',
+    cooking_method: 'mixed',
+    prep_time_min: 2,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['cocktail', 'nightlife', 'cordoba'],
+    popularity: 92,
+    ingredients: ['ING_FERNET_BRANCA', 'ING_COLA']
+  },
+  {
+    id: 'ARG_CLERICO',
+    slug: 'clerico',
+    name: 'Clericó',
+    description: 'Argentine sangria with white wine and fresh fruit',
+    category: 'beverage',
+    status: 'classic',
+    region: 'Mendoza',
+    protein_type: 'beverage',
+    cooking_method: 'mixed',
+    prep_time_min: 15,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['sangria', 'summer', 'party'],
+    popularity: 80,
+    ingredients: ['ING_WHITE_WINE', 'ING_APPLE', 'ING_ORANGE', 'ING_PEACH', 'ING_SUGAR']
+  },
+  {
+    id: 'ARG_SUBMARINO',
+    slug: 'submarino',
+    name: 'Submarino',
+    description: 'Hot milk with a chocolate bar that melts inside',
+    category: 'beverage',
+    status: 'classic',
+    region: 'Buenos Aires',
+    protein_type: 'dairy',
+    cooking_method: 'heated',
+    prep_time_min: 5,
+    spice_level: 0,
+    dietary: { vegetarian: true, gluten_free: true },
+    allergens: ['dairy'],
+    tags: ['hot-chocolate', 'kids', 'cafe'],
+    popularity: 85,
+    ingredients: ['ING_MILK', 'ING_CHOCOLATE']
+  }
+];

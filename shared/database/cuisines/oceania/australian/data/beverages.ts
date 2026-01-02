@@ -1,0 +1,85 @@
+// Australian Beverages
+// Flat white and Australian coffee culture
+
+import { AustralianDish } from '../types';
+
+export const beverages: AustralianDish[] = [
+  {
+    id: 'AU_FLAT_WHITE',
+    slug: 'flat-white',
+    name: 'Flat White',
+    description: 'Australia\'s gift to coffee culture: a double shot of espresso with velvety microfoamed milk. Stronger than a latte, smaller than a cappuccino, with a distinctive flat top.',
+    category: 'beverage',
+    status: 'iconic',
+    region: 'National',
+    cooking_method: 'brewed',
+    prep_time_min: 5,
+    spice_level: 0,
+    dietary: {
+      is_vegetarian: true,
+      is_vegan: false,
+      is_gluten_free: true,
+      is_dairy_free: false,
+    },
+    allergens: ['dairy'],
+    tags: ['coffee', 'cafe', 'morning'],
+    popularity: 95,
+    ingredients: [
+      { id: 'ING_ESPRESSO', role: 'main', quantity_amount: 60, quantity_unit: 'ml', is_optional: false },
+      { id: 'ING_MILK', role: 'main', quantity_amount: 120, quantity_unit: 'ml', is_optional: false },
+    ],
+  },
+  {
+    id: 'AU_LONG_BLACK',
+    slug: 'long-black',
+    name: 'Long Black',
+    description: 'An Australian coffee style: hot water topped with a double shot of espresso, preserving the crema. Stronger flavor than an Americano.',
+    category: 'beverage',
+    status: 'classic',
+    region: 'National',
+    cooking_method: 'brewed',
+    prep_time_min: 3,
+    spice_level: 0,
+    dietary: {
+      is_vegetarian: true,
+      is_vegan: true,
+      is_gluten_free: true,
+      is_dairy_free: true,
+    },
+    allergens: [],
+    tags: ['coffee', 'black_coffee', 'strong'],
+    popularity: 82,
+    ingredients: [
+      { id: 'ING_ESPRESSO', role: 'main', quantity_amount: 60, quantity_unit: 'ml', is_optional: false },
+      { id: 'ING_WATER', role: 'main', quantity_amount: 120, quantity_unit: 'ml', is_optional: false },
+    ],
+  },
+  {
+    id: 'AU_ICED_COFFEE',
+    slug: 'aussie-iced-coffee',
+    name: 'Aussie Iced Coffee',
+    description: 'Unlike American iced coffee, the Australian version is a dessert drink: espresso with cold milk, ice cream, and whipped cream. A summer indulgence.',
+    category: 'beverage',
+    status: 'classic',
+    region: 'National',
+    cooking_method: 'brewed',
+    prep_time_min: 5,
+    spice_level: 0,
+    dietary: {
+      is_vegetarian: true,
+      is_vegan: false,
+      is_gluten_free: true,
+      is_dairy_free: false,
+    },
+    allergens: ['dairy'],
+    tags: ['coffee', 'summer', 'sweet', 'dessert_drink'],
+    popularity: 78,
+    ingredients: [
+      { id: 'ING_ESPRESSO', role: 'main', quantity_amount: 60, quantity_unit: 'ml', is_optional: false },
+      { id: 'ING_MILK', role: 'secondary', quantity_amount: 150, quantity_unit: 'ml', is_optional: false },
+      { id: 'ING_VANILLA_ICE_CREAM', role: 'secondary', quantity_amount: 100, quantity_unit: 'g', is_optional: false },
+      { id: 'ING_WHIPPED_CREAM', role: 'garnish', quantity_amount: 30, quantity_unit: 'ml', is_optional: false },
+      { id: 'ING_ICE', role: 'secondary', quantity_amount: 100, quantity_unit: 'g', is_optional: false },
+    ],
+  },
+];

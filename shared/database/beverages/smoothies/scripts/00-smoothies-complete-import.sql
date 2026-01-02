@@ -1,0 +1,16 @@
+-- ============================================
+-- SMOOTHIES - Complete Import Guide
+-- GUDBRO Database Standards v1.3
+-- ============================================
+-- Total: 45 smoothies
+--
+-- EXECUTE IN ORDER:
+-- 1. 01-smoothies-schema.sql       (Creates table, indexes, RLS)
+-- 2. 02-smoothies-missing-ingredients.sql (Adds new ingredients)
+-- 3. 03-smoothies-data.sql         (Inserts 45 smoothies)
+-- 4. 04-smoothies-product-ingredients.sql (Links ingredients)
+--
+-- VERIFICATION QUERIES:
+-- SELECT COUNT(*) FROM smoothies;  -- Should be 45
+-- SELECT COUNT(*) FROM product_ingredients WHERE product_type = 'smoothies';
+-- ============================================

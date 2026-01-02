@@ -1,0 +1,30 @@
+-- ============================================================================
+-- COCKTAILS DATABASE SEED
+-- ============================================================================
+--
+-- This file contains INSERT statements for seeding the cocktails table
+-- in Supabase with all IBA Official and Famous cocktails.
+--
+-- Total Cocktails: 233
+--   - IBA Unforgettables: 39
+--   - IBA Contemporary: 36
+--   - IBA New Era: 38
+--   - Famous: 120
+--
+-- Usage:
+--   1. Open Supabase Dashboard > SQL Editor
+--   2. Copy and paste this entire file
+--   3. Click "Run" to execute
+--
+-- Notes:
+--   - Uses ON CONFLICT (slug) DO UPDATE for upserts
+--   - All cocktails will be inserted or updated if they already exist
+--   - JSONB columns are properly formatted
+--   - Arrays are PostgreSQL array syntax
+--
+-- Generated: 2025-12-13T21:31:23.094Z
+-- ============================================================================
+
+-- Begin transaction
+BEGIN;
+

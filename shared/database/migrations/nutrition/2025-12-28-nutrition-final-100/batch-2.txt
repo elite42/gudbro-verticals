@@ -1,0 +1,24 @@
+Provide nutrition data per 100g for these food ingredients. Return ONLY valid JSON array.
+
+Format per item:
+{"id": "ING_XXX", "calories": number, "protein": number, "fat": number, "carbs": number, "fiber": number}
+
+Ingredients (Seafood & British):
+1. ING_EEL - Eel (freshwater)
+2. ING_FISH_FINGERS - Fish Fingers (breaded)
+3. ING_KIPPER - Kipper (smoked herring)
+4. ING_SMOKED_HADDOCK - Smoked Haddock
+5. ING_NATEF - Natef (Marshmallow cream from saponaria root)
+6. ING_BRANSTON_PICKLE - Branston Pickle
+7. ING_CUSTARD - Custard (prepared)
+8. ING_JELLY - Jelly (fruit jelly/gelatin dessert)
+9. ING_MERINGUE - Meringue
+10. ING_LAMB_KIDNEY - Lamb Kidney
+11. ING_SHERRY - Sherry (wine)
+12. ING_PORK_GELATIN - Pork Gelatin (unflavored)
+13. ING_TAIL_FAT - Lamb Tail Fat
+14. ING_SUET - Suet (beef fat around kidneys)
+15. ING_GROUND_LAMB - Ground Lamb
+16. ING_LAMB_LEG - Lamb Leg
+17. ING_LAMB - Lamb (generic, average cuts)
+18. ING_LAMB_MINCE - Lamb Mince

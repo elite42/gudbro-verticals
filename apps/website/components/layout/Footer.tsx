@@ -5,7 +5,25 @@ const footerLinks = {
     { name: 'Features', href: '#features' },
     { name: 'Pricing', href: '#pricing' },
     { name: 'Demo', href: '/demo' },
-    { name: 'Changelog', href: '/changelog' },
+    { name: 'API Docs', href: '/api-docs' },
+  ],
+  tools: [
+    { name: 'Free Tools', href: '/tools' },
+    { name: 'QR Code Generator', href: '/tools/qr-generator' },
+    { name: 'Savings Calculator', href: '/tools/savings-calculator' },
+    { name: 'Allergen Checker', href: '/tools/allergen-checker' },
+  ],
+  database: [
+    { name: 'Browse Recipes', href: '/recipes' },
+    { name: 'Browse Ingredients', href: '/ingredients' },
+    { name: 'World Cuisines', href: '/recipes/cuisines' },
+    { name: 'Dietary Filters', href: '/recipes#dietary' },
+  ],
+  shop: [
+    { name: 'All Products', href: '/shop' },
+    { name: 'Apparel', href: '/shop#apparel' },
+    { name: 'Kitchen & Dining', href: '/shop#kitchen' },
+    { name: 'Accessories', href: '/shop#accessories' },
   ],
   solutions: [
     { name: 'Restaurants & Cafes', href: '/solutions/restaurants' },
@@ -16,7 +34,6 @@ const footerLinks = {
   company: [
     { name: 'About', href: '/about' },
     { name: 'Blog', href: '/blog' },
-    { name: 'Careers', href: '/careers' },
     { name: 'Contact', href: '/contact' },
   ],
   legal: [
@@ -97,13 +114,57 @@ export function Footer() {
 
           {/* Links */}
           <div className="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
+            <div className="md:grid md:grid-cols-3 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
                   Product
                 </h3>
                 <ul className="mt-4 space-y-3">
                   {footerLinks.product.map((item) => (
+                    <li key={item.name}>
+                      <Link href={item.href} className="text-sm hover:text-white transition-colors">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-10 md:mt-0">
+                <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+                  Free Tools
+                </h3>
+                <ul className="mt-4 space-y-3">
+                  {footerLinks.tools.map((item) => (
+                    <li key={item.name}>
+                      <Link href={item.href} className="text-sm hover:text-white transition-colors">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-10 md:mt-0">
+                <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+                  Food Database
+                </h3>
+                <ul className="mt-4 space-y-3">
+                  {footerLinks.database.map((item) => (
+                    <li key={item.name}>
+                      <Link href={item.href} className="text-sm hover:text-white transition-colors">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="md:grid md:grid-cols-3 md:gap-8">
+              <div>
+                <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+                  Shop
+                </h3>
+                <ul className="mt-4 space-y-3">
+                  {footerLinks.shop.map((item) => (
                     <li key={item.name}>
                       <Link href={item.href} className="text-sm hover:text-white transition-colors">
                         {item.name}
@@ -126,9 +187,7 @@ export function Footer() {
                   ))}
                 </ul>
               </div>
-            </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
+              <div className="mt-10 md:mt-0">
                 <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
                   Company
                 </h3>
@@ -142,20 +201,17 @@ export function Footer() {
                   ))}
                 </ul>
               </div>
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
-                  Legal
-                </h3>
-                <ul className="mt-4 space-y-3">
-                  {footerLinks.legal.map((item) => (
-                    <li key={item.name}>
-                      <Link href={item.href} className="text-sm hover:text-white transition-colors">
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            </div>
+          </div>
+
+          {/* Legal Links - Separate Row */}
+          <div className="mt-8 pt-8 border-t border-gray-800">
+            <div className="flex flex-wrap gap-6 justify-center md:justify-start">
+              {footerLinks.legal.map((item) => (
+                <Link key={item.name} href={item.href} className="text-sm text-gray-400 hover:text-white transition-colors">
+                  {item.name}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

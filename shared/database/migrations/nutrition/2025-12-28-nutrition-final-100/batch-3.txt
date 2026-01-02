@@ -1,0 +1,28 @@
+Provide nutrition data per 100g for these food ingredients. Return ONLY valid JSON array.
+
+Format per item:
+{"id": "ING_XXX", "calories": number, "protein": number, "fat": number, "carbs": number, "fiber": number}
+
+Ingredients (Beef Steaks & Cuts):
+1. ING_BEEF_RIBEYE - Beef Ribeye Steak
+2. ING_BEEF_STRIP - Beef Strip (NY Strip Steak)
+3. ING_BEEF_PORTERHOUSE - Beef Porterhouse Steak
+4. ING_BEEF_TBONE - Beef T-Bone Steak
+5. ING_BEEF_PRIME_RIB - Beef Prime Rib
+6. ING_BEEF_FLAT_IRON - Beef Flat Iron Steak
+7. ING_BEEF_HANGER - Beef Hanger Steak
+8. ING_BEEF_SKIRT - Beef Skirt Steak
+9. ING_BEEF_FLANK - Beef Flank Steak
+10. ING_BEEF_PICANHA - Beef Picanha
+11. ING_BEEF_SHORT_RIBS - Beef Short Ribs
+12. ING_BEEF_RIBS - Beef Ribs
+13. ING_BEEF_CHIANINA - Chianina Beef (Italian breed, similar to regular beef)
+14. ING_BEEF_ROAST - Beef Roast
+15. ING_BEEF_MINCE - Beef Mince (ground beef)
+16. ING_LAMB_RACK - Rack of Lamb
+17. ING_LAMB_CHOPS - Lamb Chops
+18. ING_LAMB_SHANK - Lamb Shank
+19. ING_LAMB_NECK - Lamb Neck
+20. ING_VEAL_SHANK - Veal Shank (Osso Buco cut)
+21. ING_PORK_RIBS - Pork Ribs
+22. ING_BONE_MARROW - Bone Marrow

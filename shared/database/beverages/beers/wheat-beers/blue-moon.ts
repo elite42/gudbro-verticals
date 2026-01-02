@@ -1,0 +1,88 @@
+import type { Beer } from '../../types/beer';
+import { v4 as uuidv4 } from 'uuid';
+
+export const blueMoon: Beer = {
+  id: uuidv4(),
+  slug: 'blue-moon-belgian-white',
+  stable_key: 'blue-moon-belgian-white',
+  name: {
+    en: 'Blue Moon Belgian White',
+    it: 'Blue Moon Belgian White',
+    vi: 'Blue Moon Belgian White',
+  },
+  status: 'international_classic',
+  style_category: 'wheat',
+  style: 'witbier',
+  tags: ['wheat', 'belgian-style', 'citrus', 'orange', 'coriander', 'spiced', 'refreshing', 'hazy', 'craft'],
+  origin: {
+    country: 'United States',
+    country_code: 'US',
+    city: 'Denver',
+    region: 'Colorado',
+    brewery: 'Blue Moon Brewing Company',
+    brewery_parent: 'Molson Coors',
+    established: 1995,
+  },
+  history: {
+    en: 'Blue Moon Belgian White was created in 1995 by Keith Villa, a brewmaster at the Sandlot Brewery in Denver, Colorado. Villa, who earned a PhD in brewing from the University of Brussels, was inspired by traditional Belgian witbiers to create an American interpretation. Originally called Bellyslide Belgian White, it was renamed Blue Moon and became one of the first craft-style beers from a major brewery to achieve widespread commercial success. The beer is traditionally garnished with an orange slice, a practice that became its signature serving style.',
+    it: "Blue Moon Belgian White è stata creata nel 1995 da Keith Villa, mastro birraio presso il Sandlot Brewery a Denver, Colorado. Villa, che ha conseguito un dottorato in birrificazione presso l'Università di Bruxelles, si è ispirato alle tradizionali witbier belghe per creare un'interpretazione americana. Originariamente chiamata Bellyslide Belgian White, è stata rinominata Blue Moon ed è diventata una delle prime birre in stile craft di una grande birreria a ottenere un ampio successo commerciale. La birra viene tradizionalmente guarnita con una fetta d'arancia, una pratica che è diventata il suo stile di servizio distintivo.",
+    vi: 'Blue Moon Belgian White được tạo ra vào năm 1995 bởi Keith Villa, một thợ pha chế bia tại Sandlot Brewery ở Denver, Colorado. Villa, người có bằng tiến sĩ về pha chế bia từ Đại học Brussels, đã lấy cảm hứng từ các loại witbier truyền thống của Bỉ để tạo ra một phiên bản Mỹ. Ban đầu được gọi là Bellyslide Belgian White, nó được đổi tên thành Blue Moon và trở thành một trong những loại bia thủ công đầu tiên từ một nhà máy bia lớn đạt được thành công thương mại rộng rãi. Bia thường được trang trí bằng một lát cam, một thực hành đã trở thành phong cách phục vụ đặc trưng của nó.',
+  },
+  description: {
+    en: 'Blue Moon Belgian White is a refreshing, medium-bodied American wheat ale brewed with Valencia orange peel and a touch of coriander for a subtle spiciness. The beer pours a hazy golden color with a creamy white head. It offers a smooth, creamy texture with bright citrus notes and a slight sweetness balanced by wheat and oat undertones. The finish is crisp and refreshing, making it an approachable beer for both craft enthusiasts and casual drinkers. Best served with an orange slice garnish.',
+    it: 'Blue Moon Belgian White è una rinfrescante ale di frumento americana di medio corpo, prodotta con scorza di arancia Valencia e un tocco di coriandolo per una sottile speziatura. La birra si presenta di un colore dorato torbido con una schiuma bianca cremosa. Offre una texture morbida e cremosa con vivaci note di agrumi e una leggera dolcezza bilanciata da sottotoni di frumento e avena. Il finale è frizzante e rinfrescante, rendendola una birra accessibile sia per gli appassionati di craft che per i bevitori occasionali. Servita al meglio con una fetta di arancia come guarnizione.',
+    vi: 'Blue Moon Belgian White là một loại bia lúa mì Mỹ sảng khoái, có độ đậm trung bình được pha chế với vỏ cam Valencia và một chút rau mùi tây cho độ cay nhẹ. Bia có màu vàng đục với lớp bọt trắng kem mịn màng. Nó mang đến kết cấu mượt mà, kem với hương vị cam quýt tươi sáng và độ ngọt nhẹ được cân bằng bởi hương vị lúa mì và yến mạch. Hậu vị giòn và sảng khoái, làm cho nó trở thành một loại bia dễ tiếp cận cho cả những người đam mê bia thủ công và những người uống bia bình thường. Tốt nhất nên phục vụ với lát cam trang trí.',
+  },
+  characteristics: {
+    abv: 5.4,
+    ibu: 9,
+    srm: 3,
+    color: 'pale',
+    clarity: 'hazy',
+    carbonation: 'high',
+    body: 'medium',
+    fermentation: 'top_fermented',
+  },
+  taste: {
+    en: 'Bright citrus flavors dominate with notes of orange zest and Valencia orange. Subtle coriander spice adds complexity, while wheat and oat provide a smooth, slightly sweet backdrop. Hints of honey and grain round out the profile. The finish is clean and refreshing with lingering citrus notes.',
+    it: 'I sapori di agrumi brillanti dominano con note di scorza di arancia e arancia Valencia. La sottile spezia del coriandolo aggiunge complessità, mentre il frumento e l\'avena forniscono uno sfondo morbido e leggermente dolce. Accenni di miele e cereali completano il profilo. Il finale è pulito e rinfrescante con note di agrumi persistenti.',
+    vi: 'Hương vị cam quýt tươi sáng chiếm ưu thế với hương vị vỏ cam và cam Valencia. Gia vị rau mùi tây tinh tế thêm sự phức tạp, trong khi lúa mì và yến mạch tạo nền mượt mà, hơi ngọt. Hương vị mật ong và ngũ cốc hoàn thiện hồ sơ hương vị. Hậu vị sạch và sảng khoái với hương cam quýt kéo dài.',
+  },
+  ingredients: {
+    en: 'Water, barley malt, white wheat, oats, Valencia orange peel, coriander, hops, yeast. Brewed with a proprietary blend of oats and wheat for a creamy texture.',
+    it: 'Acqua, malto d\'orzo, frumento bianco, avena, scorza di arancia Valencia, coriandolo, luppolo, lievito. Prodotta con una miscela proprietaria di avena e frumento per una texture cremosa.',
+    vi: 'Nước, mạch nha lúa mạch, lúa mì trắng, yến mạch, vỏ cam Valencia, rau mùi tây, hoa bia, men. Được pha chế với hỗn hợp độc quyền của yến mạch và lúa mì để có kết cấu kem.',
+  },
+  serving: {
+    glass: 'weizen',
+    temperature: 'cold',
+    temperature_range: {
+      min: 4,
+      max: 7,
+      unit: 'celsius',
+    },
+    garnish: 'orange_slice',
+    presentation: 'Serve in a tall wheat beer glass with an orange slice on the rim',
+  },
+  pairing: {
+    en: 'Pairs excellently with light salads, grilled chicken, fish tacos, seafood, Thai food, Vietnamese spring rolls, fresh fruit, mild cheeses, and brunch dishes. The citrus notes complement spicy and aromatic cuisines.',
+    it: 'Si abbina eccellentemente con insalate leggere, pollo alla griglia, tacos di pesce, frutti di mare, cibo thailandese, involtini primavera vietnamiti, frutta fresca, formaggi delicati e piatti da brunch. Le note di agrumi completano le cucine speziate e aromatiche.',
+    vi: 'Kết hợp tuyệt vời với salad nhẹ, gà nướng, tacos cá, hải sản, đồ ăn Thái, chả giò Việt Nam, trái cây tươi, pho mát nhẹ và các món ăn brunch. Hương cam quýt bổ sung cho các món ăn cay và thơm.',
+  },
+  season_tags: ['summer', 'spring', 'all_year'],
+  occasion_tags: ['casual', 'brunch', 'outdoor', 'social', 'relaxation'],
+  is_gluten_free: false,
+  is_non_alcoholic: false,
+  is_vegan: true,
+  available_formats: ['bottle', 'can', 'draft'],
+  available_sizes: ['12oz', '16oz', '22oz'],
+  availability: 'year_round',
+  price_tier: 'mid',
+  popularity: 95,
+  source: {
+    type: 'commercial',
+    reference: 'Blue Moon Brewing Company',
+    last_updated: '2025-12-14',
+  },
+  version: 1,
+};

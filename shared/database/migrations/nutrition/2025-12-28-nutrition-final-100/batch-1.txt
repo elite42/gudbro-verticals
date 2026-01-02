@@ -1,0 +1,24 @@
+Provide nutrition data per 100g for these food ingredients. Return ONLY valid JSON array.
+
+Format per item:
+{"id": "ING_XXX", "calories": number, "protein": number, "fat": number, "carbs": number, "fiber": number}
+
+Ingredients:
+1. ING_PEAR - Pear
+2. ING_PARSNIP - Parsnip
+3. ING_SWEDE - Swede (Rutabaga)
+4. ING_CORIANDER - Coriander (Fresh leaves)
+5. ING_MUSTARD_POWDER - Mustard Powder
+6. ING_PEPPERCORN - Peppercorn (Black)
+7. ING_BESOBELA - Besobela (Ethiopian sacred basil)
+8. ING_PIDE_BREAD - Pide Bread (Turkish flatbread)
+9. ING_BREADCRUMBS - Breadcrumbs
+10. ING_DIGESTIVE_BISCUIT - Digestive Biscuits
+11. ING_B_VITAMINS - B Vitamins (supplement - use zeros)
+12. ING_NURUK - Nuruk (Korean fermentation starter)
+13. ING_QU - Qu (Chinese fermentation starter)
+14. ING_LAMB_STOCK - Lamb Stock
+15. ING_NOBLE_HOPS - Noble Hops
+16. ING_THYME - Fresh Thyme
+17. ING_BIJAO_LEAVES - Bijao Leaves (wrapping leaves)
+18. ING_SAUSAGE_MEAT - Sausage Meat (raw pork)

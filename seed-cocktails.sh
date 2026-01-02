@@ -1,0 +1,6 @@
+#!/bin/bash
+# Script per inserire i cocktails in Supabase
+
+export SERVICE_ROLE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZuYW9uZWJidWVlenJ2amVrcXhzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NDM1NDA0OSwiZXhwIjoyMDc5OTMwMDQ5fQ.tVvhJiYaSTYoKRPXDCV6Q2-jr5w2oMM-oOJ_VxtlgPI"
+
+npx tsx shared/database/cocktails/scripts/seed-all-cocktails.ts

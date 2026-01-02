@@ -12,7 +12,7 @@
 // ============================================================================
 // TYPE DEFINITIONS
 // ============================================================================
-export * from './types';
+export * from './_system/types';
 
 // ============================================================================
 // INGREDIENT DATABASE
@@ -21,18 +21,44 @@ export { commonIngredients, INGREDIENT_COUNT } from './ingredients/common-ingred
 export { beveragesSuperfoods, BEVERAGES_SUPERFOODS_COUNT } from './ingredients/beverages-superfoods';
 export { citrusHerbsVegetables, CITRUS_HERBS_VEGETABLES_COUNT } from './ingredients/citrus-herbs-vegetables';
 export { saucesOilsSweeteners, SAUCES_OILS_SWEETENERS_COUNT } from './ingredients/sauces-oils-sweeteners';
+export { saladIngredients, SALAD_INGREDIENTS_COUNT } from './ingredients/salad-ingredients';
+
+// Cocktail ingredients (214 ingredients for 222 cocktails)
+export {
+  allCocktailIngredients,
+  COCKTAIL_INGREDIENTS_TOTAL,
+  COCKTAIL_INGREDIENT_COUNTS,
+  spiritsIngredients,
+  liqueursIngredients,
+  amariVermouthIngredients,
+  bittersIngredients,
+  mixersIngredients,
+  garnishIngredients,
+  winesFortifiedIngredients,
+  SPIRITS_COUNT,
+  LIQUEURS_COUNT,
+  AMARI_VERMOUTH_COUNT,
+  BITTERS_COUNT,
+  MIXERS_COUNT,
+  GARNISH_COUNT,
+  WINES_FORTIFIED_COUNT,
+} from './ingredients/cocktail-ingredients';
 
 // Combined ingredient database
 import { commonIngredients } from './ingredients/common-ingredients';
 import { beveragesSuperfoods } from './ingredients/beverages-superfoods';
 import { citrusHerbsVegetables } from './ingredients/citrus-herbs-vegetables';
 import { saucesOilsSweeteners } from './ingredients/sauces-oils-sweeteners';
+import { saladIngredients } from './ingredients/salad-ingredients';
+import { allCocktailIngredients } from './ingredients/cocktail-ingredients';
 
 export const allIngredients = [
   ...commonIngredients,
   ...beveragesSuperfoods,
   ...citrusHerbsVegetables,
   ...saucesOilsSweeteners,
+  ...saladIngredients,
+  ...allCocktailIngredients,
 ];
 
 export const TOTAL_INGREDIENT_COUNT = allIngredients.length;
@@ -48,7 +74,7 @@ export {
   greenPowerSmoothie,
   buddhaBowl,
   demonstrateAutoComputation,
-} from './products/example-products';
+} from './_system/products/example-products';
 
 export {
   rootsProducts,
@@ -66,7 +92,7 @@ export {
   americano,
   cashewCappuccino,
   greenPeaceBowl,
-} from './products/roots-products';
+} from './_system/products/roots-products';
 
 export {
   foodProducts,
@@ -89,7 +115,7 @@ export {
   lemonIcedTea,
   caramelFrappuccino,
   orangeCoffee,
-} from './products/food-products';
+} from './_system/products/food-products';
 
 // ============================================================================
 // AUTO-COMPUTATION UTILITIES
@@ -103,7 +129,7 @@ export {
   computeSpiceLevel,
   computeCompliance,
   getIngredientMasters,
-} from './utils/auto-compute';
+} from './_system/utils/auto-compute';
 
 // ============================================================================
 // PRODUCT SEARCH API
@@ -126,12 +152,12 @@ export {
   getDatabaseStats,
   // Combined database
   allProducts,
-} from './utils/product-search';
+} from './_system/utils/product-search';
 
 export type {
   ProductSearchFilters,
   ProductSearchResult,
-} from './utils/product-search';
+} from './_system/utils/product-search';
 
 // ============================================================================
 // CATEGORY TAXONOMY
@@ -145,7 +171,7 @@ export {
   TOTAL_FOOD_CATEGORIES,
   TOTAL_BEVERAGE_CATEGORIES,
   TOTAL_CUISINE_ORIGINS,
-} from './taxonomy/category-taxonomy';
+} from './_system/taxonomy/category-taxonomy';
 
 export type {
   Domain,
@@ -158,10 +184,27 @@ export type {
   BeverageType,
   BeverageRegion,
   CuisineOrigin,
-} from './taxonomy/category-taxonomy';
+} from './_system/taxonomy/category-taxonomy';
+
+// ============================================================================
+// COCKTAIL DATABASE
+// ============================================================================
+export {
+  // IBA Official
+  ibaUnforgettables,
+  IBA_UNFORGETTABLES_COUNT,
+  alexander,
+  americano,
+  // Combined exports
+  allIBACocktails,
+  allFamousCocktails,
+  allCocktails,
+  COCKTAIL_COUNTS,
+  TOTAL_COCKTAILS,
+} from './beverages/cocktails';
 
 // ============================================================================
 // VERSION
 // ============================================================================
 export const DATABASE_VERSION = '1.0.0';
-export const SISTEMA_FILTRI_VERSION = '2.0'; // GUDBRO Sistema 51 Filtri v2.0
+export const SISTEMA_FILTRI_VERSION = '3.0'; // GUDBRO Sistema 5 Dimensioni v3.0

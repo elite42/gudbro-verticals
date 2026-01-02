@@ -1,0 +1,97 @@
+// Argentinian Appetizers and Sides
+// Starters and accompaniments
+
+import { ArgentinianDish } from '../types';
+
+export const appetizers: ArgentinianDish[] = [
+  {
+    id: 'ARG_CHIMICHURRI',
+    slug: 'chimichurri',
+    name: 'Chimichurri',
+    description: 'Fresh herb sauce with parsley, oregano, garlic, and vinegar',
+    category: 'appetizer',
+    status: 'iconic',
+    region: 'Buenos Aires',
+    protein_type: 'vegetable',
+    cooking_method: 'raw',
+    prep_time_min: 10,
+    spice_level: 1,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['sauce', 'essential', 'fresh'],
+    popularity: 98,
+    ingredients: ['ING_PARSLEY', 'ING_OREGANO', 'ING_GARLIC', 'ING_RED_WINE_VINEGAR', 'ING_OLIVE_OIL', 'ING_CHILI_FLAKES', 'ING_SALT']
+  },
+  {
+    id: 'ARG_SALSA_CRIOLLA',
+    slug: 'salsa-criolla',
+    name: 'Salsa Criolla',
+    description: 'Fresh tomato and onion salsa with bell peppers and vinegar',
+    category: 'appetizer',
+    status: 'iconic',
+    region: 'Buenos Aires',
+    protein_type: 'vegetable',
+    cooking_method: 'raw',
+    prep_time_min: 15,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['salsa', 'fresh', 'accompaniment'],
+    popularity: 90,
+    ingredients: ['ING_TOMATO', 'ING_ONION', 'ING_BELL_PEPPER', 'ING_RED_WINE_VINEGAR', 'ING_OLIVE_OIL', 'ING_PARSLEY', 'ING_OREGANO']
+  },
+  {
+    id: 'ARG_PAPAS_FRITAS',
+    slug: 'papas-fritas',
+    name: 'Papas Fritas',
+    description: 'Classic Argentine french fries, thick-cut and crispy',
+    category: 'appetizer',
+    status: 'classic',
+    region: 'Buenos Aires',
+    protein_type: 'vegetable',
+    cooking_method: 'deep_fried',
+    prep_time_min: 30,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['fries', 'side', 'classic'],
+    popularity: 88,
+    ingredients: ['ING_POTATO', 'ING_VEGETABLE_OIL', 'ING_SALT']
+  },
+  {
+    id: 'ARG_ENSALADA_MIXTA',
+    slug: 'ensalada-mixta',
+    name: 'Ensalada Mixta',
+    description: 'Simple mixed salad with lettuce, tomato, and onion',
+    category: 'appetizer',
+    status: 'classic',
+    region: 'Buenos Aires',
+    protein_type: 'vegetable',
+    cooking_method: 'raw',
+    prep_time_min: 10,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['salad', 'fresh', 'light'],
+    popularity: 75,
+    ingredients: ['ING_LETTUCE', 'ING_TOMATO', 'ING_ONION', 'ING_OLIVE_OIL', 'ING_RED_WINE_VINEGAR', 'ING_SALT']
+  },
+  {
+    id: 'ARG_TORTILLA_PAPA',
+    slug: 'tortilla-de-papa',
+    name: 'Tortilla de Papa',
+    description: 'Argentine-style potato omelette with onions',
+    category: 'appetizer',
+    status: 'classic',
+    region: 'Buenos Aires',
+    protein_type: 'egg',
+    cooking_method: 'pan_fried',
+    prep_time_min: 30,
+    spice_level: 0,
+    dietary: { vegetarian: true, gluten_free: true },
+    allergens: ['egg'],
+    tags: ['omelette', 'comfort', 'brunch'],
+    popularity: 82,
+    ingredients: ['ING_POTATO', 'ING_EGG', 'ING_ONION', 'ING_OLIVE_OIL', 'ING_SALT']
+  }
+];

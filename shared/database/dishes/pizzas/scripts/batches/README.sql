@@ -1,0 +1,43 @@
+-- ============================================================================
+-- GUDBRO Pizza Database - Execution Summary
+-- ============================================================================
+-- Total pizzas: 62
+-- Total batches: 13
+-- Batch size: 5
+--
+-- Collections:
+--   doc_certified: 2
+--   classic: 11
+--   gourmet: 9
+--   international: 10
+--   fusion: 12
+--   regional: 17
+--   vegan: 1
+--
+-- Styles:
+--   napoletana: 17
+--   gourmet: 9
+--   romana: 4
+--   new_york: 1
+--   american: 6
+--   california: 2
+--   fusion: 15
+--   siciliana: 1
+--   al_taglio: 1
+--   other: 6
+--
+-- Execution order:
+--   1. batch-01.sql
+--   2. batch-02.sql
+--   3. batch-03.sql
+--   4. batch-04.sql
+--   5. batch-05.sql
+--   6. batch-06.sql
+--   7. batch-07.sql
+--   8. batch-08.sql
+--   9. batch-09.sql
+--   10. batch-10.sql
+--   11. batch-11.sql
+--   12. batch-12.sql
+--   13. batch-13.sql
+-- ============================================================================

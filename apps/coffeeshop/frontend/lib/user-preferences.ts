@@ -8,13 +8,13 @@
  */
 
 export interface UserPreferences {
-  // Allergens to avoid (from Sistema 51 Filtri - 30 allergens)
+  // Allergens to avoid (from Sistema 5 Dimensioni - 30 allergens)
   allergens_to_avoid: string[];
 
-  // Intolerances (from Sistema 51 Filtri - 10 intolerances)
+  // Intolerances (from Sistema 5 Dimensioni - 10 intolerances)
   intolerances: string[];
 
-  // Dietary preferences (from Sistema 51 Filtri - 11 diets)
+  // Dietary preferences (from Sistema 5 Dimensioni - 11 diets)
   dietary_preferences: string[];
 
   // UI preference: hide incompatible products or show with warning
@@ -248,7 +248,7 @@ export function filterMenuByPreferences(
 }
 
 /**
- * Get available allergens, intolerances, and diets from Sistema 51 Filtri
+ * Get available allergens, intolerances, and diets from Sistema 5 Dimensioni
  * These are the options users can select in their preferences
  */
 export const AVAILABLE_ALLERGENS = [

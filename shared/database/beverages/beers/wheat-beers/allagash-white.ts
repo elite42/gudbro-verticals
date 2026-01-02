@@ -1,0 +1,87 @@
+import type { Beer } from '../../types/beer';
+import { v4 as uuidv4 } from 'uuid';
+
+export const allagashWhite: Beer = {
+  id: uuidv4(),
+  slug: 'allagash-white',
+  stable_key: 'allagash-white',
+  name: {
+    en: 'Allagash White',
+    it: 'Allagash White',
+    vi: 'Allagash White',
+  },
+  status: 'craft',
+  style_category: 'wheat',
+  style: 'witbier',
+  tags: ['wheat', 'belgian-style', 'craft', 'citrus', 'coriander', 'orange', 'spiced', 'refreshing', 'american'],
+  origin: {
+    country: 'United States',
+    country_code: 'US',
+    city: 'Portland',
+    region: 'Maine',
+    brewery: 'Allagash Brewing Company',
+    brewery_parent: 'Independent',
+    established: 1995,
+  },
+  history: {
+    en: 'Allagash White was first brewed in 1995 by founder Rob Tod, who was inspired by traditional Belgian witbiers during his travels in Belgium. Determined to brew authentic Belgian-style ales in Maine, Tod crafted Allagash White using traditional ingredients and techniques, including raw wheat, oats, and a special blend of spices. The beer quickly gained a cult following in the American craft beer scene for its faithful adherence to Belgian tradition while showcasing Maine craftsmanship. Allagash became one of the first American breweries to specialize in Belgian-style beers. Today, Allagash White is the brewery\'s flagship beer and has won numerous awards, including multiple medals at the Great American Beer Festival. The brewery remains fiercely independent and family-owned.',
+    it: "Allagash White è stata prodotta per la prima volta nel 1995 dal fondatore Rob Tod, che si è ispirato alle tradizionali witbier belghe durante i suoi viaggi in Belgio. Determinato a produrre autentiche ale in stile belga nel Maine, Tod ha creato Allagash White utilizzando ingredienti e tecniche tradizionali, tra cui frumento crudo, avena e una miscela speciale di spezie. La birra ha rapidamente ottenuto un seguito di culto nella scena della birra artigianale americana per la sua fedele aderenza alla tradizione belga mostrando al contempo l'artigianato del Maine. Allagash è diventato uno dei primi birrifici americani a specializzarsi in birre in stile belga. Oggi, Allagash White è la birra di punta del birrificio e ha vinto numerosi premi, tra cui diverse medaglie al Great American Beer Festival. Il birrificio rimane fieramente indipendente e di proprietà familiare.",
+    vi: 'Allagash White được pha chế lần đầu tiên vào năm 1995 bởi người sáng lập Rob Tod, người đã được truyền cảm hứng từ các loại witbier truyền thống của Bỉ trong các chuyến du lịch của ông ở Bỉ. Quyết tâm pha chế các loại ale kiểu Bỉ chính thống ở Maine, Tod đã tạo ra Allagash White bằng cách sử dụng các nguyên liệu và kỹ thuật truyền thống, bao gồm lúa mì thô, yến mạch và hỗn hợp gia vị đặc biệt. Bia nhanh chóng thu hút một lượng người hâm mộ cuồng nhiệt trong bối cảnh bia thủ công Mỹ vì sự tuân thủ trung thành với truyền thống Bỉ trong khi thể hiện nghề thủ công của Maine. Allagash trở thành một trong những nhà máy bia Mỹ đầu tiên chuyên về bia kiểu Bỉ. Ngày nay, Allagash White là bia hàng đầu của nhà máy bia và đã giành được nhiều giải thưởng, bao gồm nhiều huy chương tại Great American Beer Festival. Nhà máy bia vẫn độc lập mạnh mẽ và thuộc sở hữu gia đình.',
+  },
+  description: {
+    en: 'Allagash White is a Belgian-style witbier brewed with a generous proportion of wheat and oats, spiced with coriander and Curaçao orange peel. This unfiltered ale pours a hazy, pale straw color with a thick, rocky white head. The aroma is delicate yet complex, featuring bright citrus notes of orange and lemon, subtle coriander spice, and a soft wheat character. On the palate, the beer is light and refreshing with flavors of orange zest, coriander, light pepper, and a gentle wheat sweetness. Oats contribute to a silky smooth mouthfeel. The carbonation is lively and effervescent. The finish is crisp and dry with lingering citrus and spice notes. Allagash White represents the pinnacle of American craft brewing meeting Belgian tradition.',
+    it: "Allagash White è una witbier in stile belga prodotta con una generosa proporzione di frumento e avena, speziata con coriandolo e scorza di arancia di Curaçao. Questa ale non filtrata si presenta di un colore paglierino pallido torbido con una densa schiuma bianca rocciosa. L'aroma è delicato ma complesso, con brillanti note di agrumi di arancia e limone, sottile spezia di coriandolo e un morbido carattere di frumento. Al palato, la birra è leggera e rinfrescante con sapori di scorza di arancia, coriandolo, pepe leggero e una gentile dolcezza di frumento. L'avena contribuisce a una sensazione in bocca setosa e morbida. La carbonazione è vivace ed effervescente. Il finale è frizzante e secco con note persistenti di agrumi e spezie. Allagash White rappresenta l'apice della produzione artigianale americana che incontra la tradizione belga.",
+    vi: 'Allagash White là một loại witbier kiểu Bỉ được pha chế với tỷ lệ lúa mì và yến mạch hào phóng, gia vị với rau mùi tây và vỏ cam Curaçao. Loại ale không lọc này có màu rơm nhạt đục với lớp bọt trắng dày, sần sùi. Hương thơm tinh tế nhưng phức tạp, với hương cam quýt tươi sáng của cam và chanh, gia vị rau mùi tây tinh tế và đặc tính lúa mì mềm. Trên khẩu vị, bia nhẹ và sảng khoái với hương vị vỏ cam, rau mùi tây, tiêu nhẹ và vị ngọt lúa mì nhẹ nhàng. Yến mạch góp phần tạo cảm giác trong miệng mượt mà như lụa. Carbonation sống động và sủi bọt. Hậu vị giòn và khô với hương cam quýt và gia vị kéo dài. Allagash White đại diện cho đỉnh cao của nghệ thuật pha chế thủ công Mỹ kết hợp với truyền thống Bỉ.',
+  },
+  characteristics: {
+    abv: 5.2,
+    ibu: 10,
+    srm: 3,
+    color: 'pale',
+    clarity: 'hazy',
+    carbonation: 'high',
+    body: 'light_medium',
+    fermentation: 'top_fermented',
+  },
+  taste: {
+    en: 'Bright and zesty orange citrus flavors lead, complemented by lemon and subtle grapefruit. Coriander spice adds an earthy, peppery complexity. Soft wheat and oat character provides a gentle sweetness and creamy texture. Hints of vanilla and light honey. Very subtle hop bitterness keeps the beer balanced and refreshing. The finish is crisp, dry, and clean with pleasant citrus zest and spice lingering on the palate.',
+    it: 'Brillanti e vivaci sapori di agrumi di arancia guidano, completati da limone e sottile pompelmo. La spezia del coriandolo aggiunge una complessità terrosa e pepata. Il carattere morbido di frumento e avena fornisce una gentile dolcezza e texture cremosa. Accenni di vaniglia e miele leggero. L\'amarezza molto sottile del luppolo mantiene la birra bilanciata e rinfrescante. Il finale è frizzante, secco e pulito con piacevole scorza di agrumi e spezie che persistono sul palato.',
+    vi: 'Hương vị cam quýt cam tươi sáng và sảng khoái dẫn đầu, được bổ sung bởi chanh và bưởi tinh tế. Gia vị rau mùi tây thêm độ phức tạp mộc mạc, hơi cay. Đặc tính lúa mì và yến mạch mềm cung cấp vị ngọt nhẹ nhàng và kết cấu kem. Hương vị vani và mật ong nhẹ. Độ đắng hoa bia rất tinh tế giữ cho bia cân bằng và sảng khoái. Hậu vị giòn, khô và sạch với vỏ cam quýt và gia vị dễ chịu kéo dài trên khẩu vị.',
+  },
+  ingredients: {
+    en: 'Water, malted barley, raw wheat, oats, hops, coriander, Curaçao orange peel, Belgian-style yeast. Brewed with 50% raw wheat and malted wheat for authentic Belgian character. Unfiltered to preserve natural cloudiness and flavors.',
+    it: 'Acqua, malto d\'orzo, frumento crudo, avena, luppolo, coriandolo, scorza di arancia di Curaçao, lievito in stile belga. Prodotta con 50% di frumento crudo e frumento maltato per un autentico carattere belga. Non filtrata per preservare la naturale torbidità e i sapori.',
+    vi: 'Nước, mạch nha lúa mạch, lúa mì thô, yến mạch, hoa bia, rau mùi tây, vỏ cam Curaçao, men kiểu Bỉ. Được pha chế với 50% lúa mì thô và lúa mì mạch nha cho đặc tính Bỉ chính thống. Không lọc để giữ lại độ đục và hương vị tự nhiên.',
+  },
+  serving: {
+    glass: 'weizen',
+    temperature: 'cold',
+    temperature_range: {
+      min: 4,
+      max: 7,
+      unit: 'celsius',
+    },
+    presentation: 'Pour into a tulip or wheat beer glass. Pour slowly to preserve the signature thick white head. Can be served with or without orange garnish.',
+  },
+  pairing: {
+    en: 'Pairs beautifully with fresh seafood, especially oysters, mussels, lobster, and fish. Excellent with light salads, goat cheese, soft cheeses, grilled vegetables, Thai and Vietnamese cuisine, sushi, ceviche, and fruit-based desserts. The citrus and spice notes complement both delicate and bold flavors.',
+    it: 'Si abbina magnificamente con frutti di mare freschi, specialmente ostriche, cozze, aragosta e pesce. Eccellente con insalate leggere, formaggio di capra, formaggi morbidi, verdure grigliate, cucina thailandese e vietnamita, sushi, ceviche e dessert a base di frutta. Le note di agrumi e spezie completano sia i sapori delicati che quelli audaci.',
+    vi: 'Kết hợp tuyệt đẹp với hải sản tươi, đặc biệt là hàu, trai, tôm hùm và cá. Tuyệt vời với salad nhẹ, pho mát dê, pho mát mềm, rau nướng, ẩm thực Thái và Việt Nam, sushi, ceviche và các món tráng miệng từ trái cây. Hương cam quýt và gia vị bổ sung cho cả hương vị tinh tế và táo bạo.',
+  },
+  season_tags: ['summer', 'spring', 'all_year'],
+  occasion_tags: ['casual', 'brunch', 'outdoor', 'social', 'celebration', 'craft'],
+  is_gluten_free: false,
+  is_non_alcoholic: false,
+  is_vegan: true,
+  available_formats: ['bottle', 'can', 'draft'],
+  available_sizes: ['12oz', '16oz'],
+  availability: 'year_round',
+  price_tier: 'mid_premium',
+  popularity: 92,
+  source: {
+    type: 'commercial',
+    reference: 'Allagash Brewing Company',
+    last_updated: '2025-12-14',
+  },
+  version: 1,
+};

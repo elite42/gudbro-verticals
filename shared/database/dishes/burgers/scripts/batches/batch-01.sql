@@ -1,0 +1,83 @@
+-- BURGERS Batch 1
+-- Items: 1 to 10 of 45
+-- Generated: 2025-12-15T12:53:40.036Z
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-classic-cheeseburger', 'classic-cheeseburger', '{"en":"Classic Cheeseburger","it":"Cheeseburger Classico","vi":"Burger Phô Mai Cổ Điển"}'::jsonb, '{"en":"The iconic American cheeseburger with beef patty, American cheese, lettuce, tomato, onion, pickles, and special sauce","it":"L''iconico cheeseburger americano con hamburger di manzo, formaggio americano, lattuga, pomodoro, cipolla, cetriolini e salsa speciale","vi":"Burger phô mai Mỹ biểu tượng với thịt bò, phô mai Mỹ, xà lách, cà chua, hành tây, dưa chuột muối và sốt đặc biệt"}'::jsonb, NULL, 'classic', 'american_classic', '{"classic","american","cheese","beef","iconic"}', 'sesame', true, 'beef', 150, 1, 'medium', '{"american"}', '{"lettuce","tomato","onion","pickles"}', '{"special_sauce","ketchup","mustard"}', false, 0, '{"country":"USA","country_code":"US"}'::jsonb, NULL, '{"portion_size":"regular","is_shareable":false,"recommended_pairing":["fries","cola","milkshake"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":false,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","milk","eggs","sesame"],"calories_estimate":550,"protein_g":28,"carbs_g":42,"fat_g":32,"fiber_g":2}'::jsonb, NULL, '{}', 98, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-double-cheeseburger', 'double-cheeseburger', '{"en":"Double Cheeseburger","it":"Double Cheeseburger","vi":"Burger Phô Mai Đôi"}'::jsonb, '{"en":"Two beef patties with double American cheese, all the classic toppings","it":"Due hamburger di manzo con doppio formaggio americano e tutti i condimenti classici","vi":"Hai miếng thịt bò với phô mai Mỹ đôi, tất cả topping cổ điển"}'::jsonb, NULL, 'classic', 'american_classic', '{"classic","american","double","hearty","beef"}', 'sesame', true, 'beef', 150, 2, 'medium', '{"american","american"}', '{"lettuce","tomato","onion","pickles"}', '{"special_sauce","ketchup","mustard"}', false, 0, '{"country":"USA","country_code":"US"}'::jsonb, NULL, '{"portion_size":"large","is_shareable":false,"recommended_pairing":["fries","cola","onion_rings"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":false,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","milk","eggs","sesame"],"calories_estimate":850,"protein_g":52,"carbs_g":44,"fat_g":54,"fiber_g":2}'::jsonb, NULL, '{}', 94, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-bacon-cheeseburger', 'bacon-cheeseburger', '{"en":"Bacon Cheeseburger","it":"Bacon Cheeseburger","vi":"Burger Phô Mai Bacon"}'::jsonb, '{"en":"Classic cheeseburger topped with crispy bacon strips","it":"Cheeseburger classico con strisce di bacon croccante","vi":"Burger phô mai cổ điển với bacon giòn"}'::jsonb, NULL, 'classic', 'american_classic', '{"classic","american","bacon","popular","beef"}', 'sesame', true, 'beef', 150, 1, 'medium', '{"american","cheddar"}', '{"bacon","lettuce","tomato","onion","pickles"}', '{"special_sauce","ketchup"}', false, 0, '{"country":"USA","country_code":"US"}'::jsonb, NULL, '{"portion_size":"regular","is_shareable":false,"recommended_pairing":["fries","beer","onion_rings"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":false,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","milk","eggs","sesame"],"calories_estimate":680,"protein_g":35,"carbs_g":42,"fat_g":42,"fiber_g":2}'::jsonb, NULL, '{}', 96, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-big-mac-style', 'big-mac-style', '{"en":"Big Mac Style Burger","it":"Burger Stile Big Mac","vi":"Burger Kiểu Big Mac"}'::jsonb, '{"en":"Two patties, special sauce, lettuce, cheese, pickles, onions on a sesame seed bun with middle bread","it":"Due hamburger, salsa speciale, lattuga, formaggio, cetriolini, cipolle su panino al sesamo con pane centrale","vi":"Hai miếng thịt, sốt đặc biệt, xà lách, phô mai, dưa chuột, hành trên bánh mè với bánh giữa"}'::jsonb, NULL, 'classic', 'american_classic', '{"classic","american","iconic","double","special_sauce"}', 'sesame', true, 'beef', 90, 2, 'well_done', '{"american"}', '{"lettuce","onion","pickles"}', '{"special_sauce"}', false, 0, '{"country":"USA","country_code":"US"}'::jsonb, NULL, '{"portion_size":"large","is_shareable":false,"recommended_pairing":["fries","cola"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":false,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","milk","eggs","sesame"],"calories_estimate":590,"protein_g":26,"carbs_g":48,"fat_g":34,"fiber_g":3}'::jsonb, NULL, '{}', 95, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-whopper-style', 'whopper-style', '{"en":"Whopper Style Burger","it":"Burger Stile Whopper","vi":"Burger Kiểu Whopper"}'::jsonb, '{"en":"Flame-grilled beef patty with tomatoes, lettuce, mayo, pickles, onions on a sesame bun","it":"Hamburger di manzo alla griglia con pomodori, lattuga, maionese, cetriolini, cipolle su panino al sesamo","vi":"Thịt bò nướng lửa với cà chua, xà lách, mayo, dưa chuột, hành trên bánh mè"}'::jsonb, NULL, 'classic', 'american_classic', '{"classic","american","flame_grilled","iconic"}', 'sesame', true, 'beef', 120, 1, 'well_done', '{}', '{"lettuce","tomato","onion","pickles"}', '{"mayonnaise","ketchup"}', false, 0, '{"country":"USA","country_code":"US","city":"Miami"}'::jsonb, NULL, '{"portion_size":"large","is_shareable":false,"recommended_pairing":["fries","cola","onion_rings"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":true,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","eggs","sesame"],"calories_estimate":520,"protein_g":24,"carbs_g":46,"fat_g":28,"fiber_g":3}'::jsonb, NULL, '{}', 92, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-mushroom-swiss', 'mushroom-swiss-burger', '{"en":"Mushroom Swiss Burger","it":"Burger Funghi e Swiss","vi":"Burger Nấm Swiss"}'::jsonb, '{"en":"Beef patty topped with sautéed mushrooms and melted Swiss cheese","it":"Hamburger di manzo con funghi saltati e formaggio Swiss fuso","vi":"Thịt bò với nấm xào và phô mai Swiss tan chảy"}'::jsonb, NULL, 'classic', 'american_classic', '{"classic","mushroom","swiss","savory","umami"}', 'brioche', true, 'beef', 170, 1, 'medium', '{"swiss"}', '{"sauteed_mushrooms","caramelized_onions"}', '{"garlic_aioli"}', false, 0, '{"country":"USA","country_code":"US"}'::jsonb, NULL, '{"portion_size":"regular","is_shareable":false,"recommended_pairing":["beer","fries","red_wine"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":false,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","milk","eggs"],"calories_estimate":620,"protein_g":34,"carbs_g":38,"fat_g":38,"fiber_g":3}'::jsonb, NULL, '{}', 88, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-bbq-burger', 'bbq-burger', '{"en":"BBQ Burger","it":"BBQ Burger","vi":"Burger BBQ"}'::jsonb, '{"en":"Beef patty with smoky BBQ sauce, crispy onion rings, bacon, and cheddar cheese","it":"Hamburger di manzo con salsa BBQ affumicata, anelli di cipolla croccanti, bacon e cheddar","vi":"Thịt bò với sốt BBQ hun khói, hành tây chiên giòn, bacon và phô mai cheddar"}'::jsonb, NULL, 'classic', 'american_classic', '{"classic","bbq","bacon","smoky","texas"}', 'brioche', true, 'beef', 170, 1, 'medium', '{"cheddar"}', '{"bacon","onion_rings","pickles"}', '{"bbq_sauce"}', false, 1, '{"country":"USA","country_code":"US","region":"Texas"}'::jsonb, NULL, '{"portion_size":"regular","is_shareable":false,"recommended_pairing":["beer","coleslaw","fries"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":false,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","milk","eggs"],"calories_estimate":750,"protein_g":38,"carbs_g":52,"fat_g":44,"fiber_g":3}'::jsonb, NULL, '{}', 90, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-western-burger', 'western-burger', '{"en":"Western Burger","it":"Western Burger","vi":"Burger Miền Tây"}'::jsonb, '{"en":"BBQ-style burger with bacon, cheddar, onion rings, and tangy BBQ sauce","it":"Burger stile BBQ con bacon, cheddar, anelli di cipolla e salsa BBQ piccante","vi":"Burger kiểu BBQ với bacon, cheddar, hành chiên và sốt BBQ chua ngọt"}'::jsonb, NULL, 'classic', 'american_regional', '{"western","bbq","bacon","onion_rings","american"}', 'sesame', true, 'beef', 170, 1, 'medium', '{"cheddar"}', '{"bacon","onion_rings"}', '{"bbq_sauce","ranch"}', false, 1, '{"country":"USA","country_code":"US","region":"Southwest"}'::jsonb, NULL, '{"portion_size":"large","is_shareable":false,"recommended_pairing":["beer","fries","coleslaw"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":false,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","milk","eggs","sesame"],"calories_estimate":780,"protein_g":40,"carbs_g":54,"fat_g":46,"fiber_g":3}'::jsonb, NULL, '{}', 86, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-patty-melt', 'patty-melt', '{"en":"Patty Melt","it":"Patty Melt","vi":"Patty Melt"}'::jsonb, '{"en":"Beef patty with Swiss cheese and caramelized onions on grilled rye bread","it":"Hamburger di manzo con formaggio Swiss e cipolle caramellate su pane di segale grigliato","vi":"Thịt bò với phô mai Swiss và hành caramel trên bánh mì lúa mạch nướng"}'::jsonb, NULL, 'classic', 'american_classic', '{"classic","diner","rye","swiss","caramelized_onions"}', 'other', true, 'beef', 150, 1, 'medium', '{"swiss"}', '{"caramelized_onions"}', '{"thousand_island"}', false, 0, '{"country":"USA","country_code":"US","region":"California"}'::jsonb, NULL, '{"portion_size":"regular","is_shareable":false,"recommended_pairing":["fries","coffee","cola"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":false,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","milk","eggs"],"calories_estimate":580,"protein_g":32,"carbs_g":36,"fat_g":34,"fiber_g":3}'::jsonb, NULL, '{}', 82, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();
+
+INSERT INTO burgers (id, slug, name, description, tagline, status, style, tags, bun_type, bun_is_toasted, patty_type, patty_weight_g, patty_count, patty_recommended_cook, cheeses, toppings, sauces, is_spicy, spice_level, origin, history, serving, dietary, customization, variations, popularity, related_burgers, media, pricing)
+VALUES ('burger-california-burger', 'california-burger', '{"en":"California Burger","it":"California Burger","vi":"Burger California"}'::jsonb, '{"en":"Fresh burger with avocado, sprouts, tomato, and Swiss cheese","it":"Burger fresco con avocado, germogli, pomodoro e formaggio Swiss","vi":"Burger tươi với bơ, mầm, cà chua và phô mai Swiss"}'::jsonb, NULL, 'classic', 'american_regional', '{"california","avocado","healthy","fresh","american"}', 'whole_wheat', true, 'beef', 150, 1, 'medium', '{"swiss"}', '{"avocado","sprouts","tomato","lettuce","red_onion"}', '{"garlic_aioli"}', false, 0, '{"country":"USA","country_code":"US","region":"California"}'::jsonb, NULL, '{"portion_size":"regular","is_shareable":false,"recommended_pairing":["sweet_potato_fries","iced_tea","white_wine"]}'::jsonb, '{"is_vegetarian":false,"is_vegan":false,"is_gluten_free":false,"is_dairy_free":false,"is_nut_free":true,"is_halal":false,"is_kosher":false,"is_low_carb":false,"is_keto_friendly":false,"is_high_protein":true,"allergens":["gluten","milk","eggs"],"calories_estimate":580,"protein_g":30,"carbs_g":40,"fat_g":34,"fiber_g":6}'::jsonb, NULL, '{}', 85, '{}', NULL, NULL)
+ON CONFLICT (slug) DO UPDATE SET
+  name = EXCLUDED.name,
+  description = EXCLUDED.description,
+  dietary = EXCLUDED.dietary,
+  updated_at = NOW();

@@ -1,0 +1,361 @@
+/**
+ * GUDBRO Pasta Database - Asian Korean Noodles
+ *
+ * Japchae, Jajangmyeon, and more
+ * Sistema 5 Dimensioni v3.0 integrated
+ */
+
+import type { Pasta } from '../../types/pasta';
+
+export const asianKoreanPasta: Pasta[] = [
+  // ============================================================================
+  // JAPCHAE
+  // ============================================================================
+  {
+    id: 'PASTA_JAPCHAE',
+    slug: 'japchae',
+    stable_key: 'pasta_japchae_v1',
+    name: {
+      en: 'Japchae',
+      it: 'Japchae',
+      vi: 'Mien Xao Han Quoc',
+    },
+    description: {
+      en: 'Korean glass noodles stir-fried with vegetables, beef, and sesame-soy sauce. A festive dish served at celebrations.',
+      it: 'Noodles di vetro coreani saltati con verdure, manzo e salsa di sesamo-soia. Un piatto festivo servito alle celebrazioni.',
+      vi: 'Miến xào Hàn Quốc với rau, thịt bò và sốt mè-xì dầu. Món lễ hội phục vụ trong các dịp ăn mừng.',
+    },
+    tagline: {
+      en: 'Korean festive noodles',
+      it: 'Noodles festivi coreani',
+      vi: 'Miến lễ hội Hàn Quốc',
+    },
+    status: 'classic',
+    style: 'asian_korean',
+    tags: ['glass-noodles', 'festive', 'colorful', 'sesame', 'banchan'],
+    origin: {
+      country: 'South Korea',
+      country_code: 'KR',
+      year_created: '17th century',
+    },
+    history: {
+      story: {
+        en: 'Originally created for King Gwanghaegun in the Joseon Dynasty. It was so delicious that the cook was promoted to a high government position.',
+        it: 'Originariamente creato per il Re Gwanghaegun nella dinastia Joseon. Era così delizioso che il cuoco fu promosso ad un\'alta posizione governativa.',
+        vi: 'Ban đầu được tạo ra cho Vua Gwanghaegun thời Joseon. Món ăn ngon đến nỗi đầu bếp được thăng chức cao trong triều đình.',
+      },
+    },
+    pasta_shape: 'japchae_noodles',
+    pasta_dough: 'sweet_potato',
+    sauce_type: 'stir_fry',
+    cooking_method: 'stir_fried',
+    ingredients: [
+      { ingredient_id: 'ING_DANGMYEON', quantity: { amount: 150, unit: 'g' }, is_signature: true },
+      { ingredient_id: 'ING_BEEF_SIRLOIN', quantity: { amount: 80, unit: 'g' } },
+      { ingredient_id: 'ING_SPINACH', quantity: { amount: 80, unit: 'g' } },
+      { ingredient_id: 'ING_CARROT', quantity: { amount: 50, unit: 'g' } },
+      { ingredient_id: 'ING_ONION', quantity: { amount: 50, unit: 'g' } },
+      { ingredient_id: 'ING_SHIITAKE_MUSHROOM', quantity: { amount: 40, unit: 'g' } },
+      { ingredient_id: 'ING_BELL_PEPPER', quantity: { amount: 30, unit: 'g' } },
+      { ingredient_id: 'ING_SOY_SAUCE', quantity: { amount: 30, unit: 'ml' } },
+      { ingredient_id: 'ING_SESAME_OIL', quantity: { amount: 20, unit: 'ml' }, is_signature: true },
+      { ingredient_id: 'ING_SUGAR', quantity: { amount: 15, unit: 'g' } },
+      { ingredient_id: 'ING_SESAME_SEEDS', quantity: { amount: 10, unit: 'g' } },
+      { ingredient_id: 'ING_GARLIC', quantity: { amount: 2, unit: 'clove' } },
+    ],
+    protein: {
+      type: 'beef',
+      ingredient_id: 'ING_BEEF_SIRLOIN',
+      is_essential: false,
+    },
+    serving: {
+      default_portion: 'regular',
+      available_portions: ['regular', 'large'],
+      temperature: 'warm',
+      presentation: 'plated',
+    },
+    flavor: {
+      profile: ['sweet', 'savory', 'sesame', 'chewy'],
+      spice_level: 0,
+    },
+    dietary: {
+      is_vegetarian: false,
+      is_vegan: false,
+      is_gluten_free: true,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: true,
+      is_kosher: false,
+      is_low_carb: false,
+      is_keto_friendly: false,
+      is_high_protein: true,
+      allergens: ['sesame', 'soya'],
+      calories_estimate: 450,
+      protein_g: 20,
+      carbs_g: 55,
+      fat_g: 16,
+      fiber_g: 4,
+    },
+    customization: {
+      make_vegetarian: true,
+      make_vegan: true,
+    },
+    popularity: 90,
+    recommended_for: ['korean-experience', 'banchan', 'celebration'],
+    related_pasta: ['bibim-guksu', 'jajangmyeon'],
+    version: 1,
+  },
+
+  // ============================================================================
+  // JAJANGMYEON
+  // ============================================================================
+  {
+    id: 'PASTA_JAJANGMYEON',
+    slug: 'jajangmyeon',
+    stable_key: 'pasta_jajangmyeon_v1',
+    name: {
+      en: 'Jajangmyeon',
+      it: 'Jajangmyeon',
+      vi: 'Mi Tuong Den Han Quoc',
+    },
+    description: {
+      en: 'Korean-Chinese noodles with thick black bean sauce, diced pork, and vegetables. Comfort food for Black Day.',
+      it: 'Noodles coreano-cinesi con densa salsa di fagioli neri, maiale a dadini e verdure. Comfort food per il Black Day.',
+      vi: 'Mì Hàn-Trung với sốt đậu đen đặc, thịt heo cắt hạt lựu và rau. Món ăn ấm áp cho ngày Black Day.',
+    },
+    status: 'classic',
+    style: 'asian_korean',
+    tags: ['korean-chinese', 'black-bean', 'comfort-food', 'black-day'],
+    origin: {
+      country: 'South Korea',
+      country_code: 'KR',
+      year_created: '1905',
+    },
+    history: {
+      story: {
+        en: 'Adapted from Chinese zhajiangmian, it evolved in Korean-Chinese restaurants in Incheon. On April 14 (Black Day), singles eat jajangmyeon to commiserate.',
+        it: 'Adattato dallo zhajiangmian cinese, si è evoluto nei ristoranti coreano-cinesi di Incheon. Il 14 aprile (Black Day), i single mangiano jajangmyeon per consolarsi.',
+        vi: 'Được phỏng theo zhajiangmian của Trung Quốc, phát triển trong các nhà hàng Hàn-Trung ở Incheon. Vào ngày 14 tháng 4 (Black Day), người độc thân ăn jajangmyeon.',
+      },
+    },
+    pasta_shape: 'lo_mein',
+    pasta_dough: 'wheat',
+    sauce_type: 'stir_fry',
+    cooking_method: 'boiled',
+    ingredients: [
+      { ingredient_id: 'ING_THICK_WHEAT_NOODLES', quantity: { amount: 200, unit: 'g' }, is_signature: true },
+      { ingredient_id: 'ING_CHUNJANG', quantity: { amount: 60, unit: 'g' }, is_signature: true },
+      { ingredient_id: 'ING_PORK_BELLY', quantity: { amount: 80, unit: 'g' } },
+      { ingredient_id: 'ING_ONION', quantity: { amount: 60, unit: 'g' } },
+      { ingredient_id: 'ING_ZUCCHINI', quantity: { amount: 50, unit: 'g' } },
+      { ingredient_id: 'ING_POTATO', quantity: { amount: 40, unit: 'g' } },
+      { ingredient_id: 'ING_CUCUMBER', quantity: { amount: 30, unit: 'g' } },
+      { ingredient_id: 'ING_SUGAR', quantity: { amount: 15, unit: 'g' } },
+      { ingredient_id: 'ING_VEGETABLE_OIL', quantity: { amount: 30, unit: 'ml' } },
+    ],
+    protein: {
+      type: 'pork_belly',
+      ingredient_id: 'ING_PORK_BELLY',
+      is_essential: false,
+    },
+    serving: {
+      default_portion: 'regular',
+      available_portions: ['regular', 'large'],
+      temperature: 'hot',
+      presentation: 'bowl',
+    },
+    flavor: {
+      profile: ['savory', 'slightly-sweet', 'umami', 'rich'],
+      spice_level: 0,
+    },
+    dietary: {
+      is_vegetarian: false,
+      is_vegan: false,
+      is_gluten_free: false,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: false,
+      is_kosher: false,
+      is_low_carb: false,
+      is_keto_friendly: false,
+      is_high_protein: true,
+      allergens: ['gluten', 'soya'],
+      calories_estimate: 620,
+      protein_g: 22,
+      carbs_g: 78,
+      fat_g: 22,
+      fiber_g: 4,
+    },
+    customization: {
+      make_vegetarian: true,
+    },
+    popularity: 92,
+    recommended_for: ['comfort-food', 'korean-experience'],
+    related_pasta: ['zhajiang-mian', 'japchae'],
+    version: 1,
+  },
+
+  // ============================================================================
+  // NAENGMYEON
+  // ============================================================================
+  {
+    id: 'PASTA_NAENGMYEON',
+    slug: 'naengmyeon',
+    stable_key: 'pasta_naengmyeon_v1',
+    name: {
+      en: 'Naengmyeon (Cold Noodles)',
+      it: 'Naengmyeon (Noodles Freddi)',
+      vi: 'Mi Lanh Han Quoc',
+    },
+    description: {
+      en: 'Chewy buckwheat noodles in icy beef broth with sliced beef, pickled radish, cucumber, and boiled egg. Summer refreshment.',
+      it: 'Noodles gommosi di grano saraceno in brodo di manzo ghiacciato con manzo affettato, ravanello marinato, cetriolo e uovo sodo.',
+      vi: 'Mì kiều mạch dai trong nước dùng bò đá lạnh với thịt bò, củ cải muối, dưa chuột và trứng luộc. Món giải nhiệt mùa hè.',
+    },
+    status: 'classic',
+    style: 'asian_korean',
+    tags: ['cold', 'summer', 'buckwheat', 'refreshing', 'pyongyang'],
+    origin: {
+      country: 'South Korea',
+      country_code: 'KR',
+      region: 'Originally North Korea',
+      city: 'Pyongyang',
+    },
+    pasta_shape: 'soba',
+    pasta_dough: 'buckwheat',
+    sauce_type: 'broth',
+    cooking_method: 'cold',
+    ingredients: [
+      { ingredient_id: 'ING_NAENGMYEON_NOODLES', quantity: { amount: 150, unit: 'g' }, is_signature: true },
+      { ingredient_id: 'ING_BEEF_BROTH', quantity: { amount: 400, unit: 'ml' }, is_signature: true },
+      { ingredient_id: 'ING_BEEF_BRISKET', quantity: { amount: 50, unit: 'g' } },
+      { ingredient_id: 'ING_PICKLED_RADISH', quantity: { amount: 40, unit: 'g' } },
+      { ingredient_id: 'ING_CUCUMBER', quantity: { amount: 40, unit: 'g' } },
+      { ingredient_id: 'ING_BOILED_EGG', quantity: { amount: 1, unit: 'piece' } },
+      { ingredient_id: 'ING_KOREAN_PEAR', quantity: { amount: 30, unit: 'g' } },
+      { ingredient_id: 'ING_KOREAN_MUSTARD', quantity: { amount: 5, unit: 'g' } },
+      { ingredient_id: 'ING_RICE_VINEGAR', quantity: { amount: 15, unit: 'ml' } },
+    ],
+    protein: {
+      type: 'beef',
+      ingredient_id: 'ING_BEEF_BRISKET',
+      is_essential: true,
+    },
+    serving: {
+      default_portion: 'regular',
+      available_portions: ['regular', 'large'],
+      temperature: 'cold',
+      presentation: 'bowl',
+    },
+    flavor: {
+      profile: ['cold', 'tangy', 'refreshing', 'chewy'],
+      spice_level: 1,
+    },
+    dietary: {
+      is_vegetarian: false,
+      is_vegan: false,
+      is_gluten_free: false,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: true,
+      is_kosher: false,
+      is_low_carb: false,
+      is_keto_friendly: false,
+      is_high_protein: true,
+      allergens: ['gluten', 'eggs'],
+      calories_estimate: 420,
+      protein_g: 22,
+      carbs_g: 58,
+      fat_g: 10,
+      fiber_g: 4,
+    },
+    variations: [
+      {
+        name: 'Bibim Naengmyeon',
+        description: { en: 'Spicy version without broth', it: 'Versione piccante senza brodo', vi: 'Phiên bản cay không nước' },
+        changes: ['spicy gochujang sauce instead of broth'],
+      },
+    ],
+    popularity: 82,
+    recommended_for: ['summer', 'refreshing', 'korean-experience'],
+    related_pasta: ['zaru-soba', 'hiyashi-chuka'],
+    version: 1,
+  },
+
+  // ============================================================================
+  // BIBIM GUKSU
+  // ============================================================================
+  {
+    id: 'PASTA_BIBIM_GUKSU',
+    slug: 'bibim-guksu',
+    stable_key: 'pasta_bibim_guksu_v1',
+    name: {
+      en: 'Bibim Guksu',
+      it: 'Bibim Guksu',
+      vi: 'Mi Tron Han Quoc',
+    },
+    description: {
+      en: 'Spicy cold noodles mixed with gochujang sauce, vegetables, and sesame. Perfect summer lunch.',
+      it: 'Noodles freddi piccanti mescolati con salsa gochujang, verdure e sesamo. Pranzo estivo perfetto.',
+      vi: 'Mì lạnh cay trộn với sốt gochujang, rau và mè. Bữa trưa mùa hè hoàn hảo.',
+    },
+    status: 'classic',
+    style: 'asian_korean',
+    tags: ['cold', 'spicy', 'gochujang', 'summer', 'quick'],
+    origin: {
+      country: 'South Korea',
+      country_code: 'KR',
+    },
+    pasta_shape: 'soba',
+    pasta_dough: 'wheat',
+    sauce_type: 'spicy',
+    cooking_method: 'cold',
+    ingredients: [
+      { ingredient_id: 'ING_SOMYEON', quantity: { amount: 150, unit: 'g' }, is_signature: true },
+      { ingredient_id: 'ING_GOCHUJANG', quantity: { amount: 40, unit: 'g' }, is_signature: true },
+      { ingredient_id: 'ING_SESAME_OIL', quantity: { amount: 15, unit: 'ml' } },
+      { ingredient_id: 'ING_RICE_VINEGAR', quantity: { amount: 15, unit: 'ml' } },
+      { ingredient_id: 'ING_SUGAR', quantity: { amount: 10, unit: 'g' } },
+      { ingredient_id: 'ING_CUCUMBER', quantity: { amount: 50, unit: 'g' } },
+      { ingredient_id: 'ING_KIMCHI', quantity: { amount: 40, unit: 'g' } },
+      { ingredient_id: 'ING_BOILED_EGG', quantity: { amount: 1, unit: 'piece' } },
+      { ingredient_id: 'ING_SESAME_SEEDS', quantity: { amount: 5, unit: 'g' } },
+    ],
+    serving: {
+      default_portion: 'regular',
+      available_portions: ['regular', 'large'],
+      temperature: 'cold',
+      presentation: 'bowl',
+    },
+    flavor: {
+      profile: ['spicy', 'tangy', 'sweet', 'refreshing'],
+      spice_level: 3,
+    },
+    dietary: {
+      is_vegetarian: false,
+      is_vegan: false,
+      is_gluten_free: false,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: true,
+      is_kosher: false,
+      is_low_carb: false,
+      is_keto_friendly: false,
+      is_high_protein: false,
+      allergens: ['gluten', 'eggs', 'sesame', 'soya'],
+      calories_estimate: 400,
+      protein_g: 14,
+      carbs_g: 62,
+      fat_g: 12,
+      fiber_g: 4,
+    },
+    customization: {
+      make_vegetarian: true,
+      spice_adjustable: true,
+    },
+    popularity: 78,
+    recommended_for: ['summer', 'quick-meal', 'spicy-food-lovers'],
+    related_pasta: ['naengmyeon', 'japchae'],
+    version: 1,
+  },
+];

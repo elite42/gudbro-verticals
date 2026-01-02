@@ -1,0 +1,198 @@
+/**
+ * Filipino Snacks (Merienda)
+ * Street food and afternoon snacks
+ */
+
+import { FilipinoDish } from '../types';
+
+export const snackDishes: FilipinoDish[] = [
+  {
+    id: 'FIL_LUMPIA',
+    slug: 'lumpia-shanghai',
+    name: 'Lumpia Shanghai',
+    local_name: 'Lumpia Shanghai',
+    description: 'Crispy fried spring rolls filled with ground pork, carrots, and onions, a party essential',
+    category: 'snacks',
+    region: 'nationwide',
+    status: 'iconic',
+    protein_type: 'pork',
+    cooking_method: 'deep_fried',
+    prep_time_min: 60,
+    spice_level: 0,
+    dietary: {
+      is_vegan: false,
+      is_vegetarian: false,
+      is_gluten_free: false,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: false,
+      is_kosher: false
+    },
+    allergens: ['gluten'],
+    tags: ['party_food', 'spring_rolls', 'crispy', 'finger_food'],
+    ingredient_ids: ['ING_PORK', 'ING_CARROT', 'ING_ONION', 'ING_GARLIC', 'ING_EGG', 'ING_FLOUR', 'ING_SOY_SAUCE', 'ING_VEGETABLE_OIL'],
+    popularity: 95
+  },
+  {
+    id: 'FIL_LUMPIA_FRESH',
+    slug: 'lumpiang-sariwa',
+    name: 'Lumpiang Sariwa',
+    local_name: 'Lumpiang Sariwa',
+    description: 'Fresh spring rolls with vegetables, heart of palm, and sweet peanut sauce in a soft crepe wrapper',
+    category: 'snacks',
+    region: 'nationwide',
+    status: 'classic',
+    protein_type: 'vegetable',
+    cooking_method: 'raw',
+    prep_time_min: 45,
+    spice_level: 0,
+    dietary: {
+      is_vegan: false,
+      is_vegetarian: false,
+      is_gluten_free: false,
+      is_dairy_free: true,
+      is_nut_free: false,
+      is_halal: true,
+      is_kosher: false
+    },
+    allergens: ['gluten', 'peanuts', 'eggs'],
+    tags: ['fresh', 'vegetables', 'peanut_sauce', 'healthy'],
+    ingredient_ids: ['ING_CABBAGE', 'ING_CARROT', 'ING_BEAN_SPROUTS', 'ING_TOFU', 'ING_PEANUTS', 'ING_GARLIC', 'ING_FLOUR', 'ING_EGG'],
+    popularity: 82
+  },
+  {
+    id: 'FIL_TOKWA_BABOY',
+    slug: 'tokwat-baboy',
+    name: 'Tokwa at Baboy',
+    local_name: 'Tokwa\'t Baboy',
+    description: 'Fried tofu and boiled pork ears served with a tangy soy-vinegar dipping sauce, a popular pulutan',
+    category: 'snacks',
+    region: 'nationwide',
+    status: 'classic',
+    protein_type: 'pork',
+    cooking_method: 'deep_fried',
+    prep_time_min: 45,
+    spice_level: 1,
+    dietary: {
+      is_vegan: false,
+      is_vegetarian: false,
+      is_gluten_free: false,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: false,
+      is_kosher: false
+    },
+    allergens: ['soy'],
+    tags: ['pulutan', 'bar_snack', 'tofu', 'vinegar'],
+    ingredient_ids: ['ING_TOFU', 'ING_PORK', 'ING_SOY_SAUCE', 'ING_VINEGAR', 'ING_GARLIC', 'ING_ONION', 'ING_CHILI', 'ING_VEGETABLE_OIL'],
+    popularity: 80
+  },
+  {
+    id: 'FIL_KWEK_KWEK',
+    slug: 'kwek-kwek',
+    name: 'Kwek-Kwek',
+    local_name: 'Kwek-Kwek',
+    description: 'Deep-fried quail eggs coated in orange batter, a popular street food served with spiced vinegar',
+    category: 'snacks',
+    region: 'nationwide',
+    status: 'classic',
+    protein_type: 'egg',
+    cooking_method: 'deep_fried',
+    prep_time_min: 20,
+    spice_level: 0,
+    dietary: {
+      is_vegan: false,
+      is_vegetarian: true,
+      is_gluten_free: false,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: true,
+      is_kosher: false
+    },
+    allergens: ['eggs', 'gluten'],
+    tags: ['street_food', 'quail_eggs', 'battered', 'orange'],
+    ingredient_ids: ['ING_EGG', 'ING_FLOUR', 'ING_CORNSTARCH', 'ING_FOOD_COLORING', 'ING_VINEGAR', 'ING_VEGETABLE_OIL'],
+    popularity: 85
+  },
+  {
+    id: 'FIL_ISAW',
+    slug: 'isaw',
+    name: 'Isaw',
+    local_name: 'Isaw',
+    description: 'Grilled chicken or pork intestines on a stick, a beloved Filipino street food staple',
+    category: 'snacks',
+    region: 'nationwide',
+    status: 'classic',
+    protein_type: 'pork',
+    cooking_method: 'grilled',
+    prep_time_min: 30,
+    spice_level: 1,
+    dietary: {
+      is_vegan: false,
+      is_vegetarian: false,
+      is_gluten_free: true,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: false,
+      is_kosher: false
+    },
+    allergens: [],
+    tags: ['street_food', 'offal', 'grilled', 'skewer'],
+    ingredient_ids: ['ING_PORK', 'ING_VINEGAR', 'ING_GARLIC', 'ING_SALT', 'ING_BLACK_PEPPER'],
+    popularity: 78
+  },
+  {
+    id: 'FIL_FISHBALL',
+    slug: 'fishball',
+    name: 'Fishball',
+    local_name: 'Fishball',
+    description: 'Deep-fried fish balls served on a stick with sweet, spicy, or vinegar sauce, iconic street food',
+    category: 'snacks',
+    region: 'nationwide',
+    status: 'iconic',
+    protein_type: 'fish',
+    cooking_method: 'deep_fried',
+    prep_time_min: 15,
+    spice_level: 1,
+    dietary: {
+      is_vegan: false,
+      is_vegetarian: false,
+      is_gluten_free: false,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: true,
+      is_kosher: false
+    },
+    allergens: ['fish', 'gluten'],
+    tags: ['street_food', 'fish', 'skewer', 'after_school'],
+    ingredient_ids: ['ING_WHITE_FISH', 'ING_FLOUR', 'ING_CORNSTARCH', 'ING_SOY_SAUCE', 'ING_SUGAR', 'ING_VINEGAR', 'ING_VEGETABLE_OIL'],
+    popularity: 88
+  },
+  {
+    id: 'FIL_TURON',
+    slug: 'turon',
+    name: 'Turon',
+    local_name: 'Turon',
+    description: 'Fried banana spring rolls with jackfruit, coated in caramelized brown sugar',
+    category: 'snacks',
+    region: 'nationwide',
+    status: 'iconic',
+    protein_type: 'none',
+    cooking_method: 'deep_fried',
+    prep_time_min: 20,
+    spice_level: 0,
+    dietary: {
+      is_vegan: true,
+      is_vegetarian: true,
+      is_gluten_free: false,
+      is_dairy_free: true,
+      is_nut_free: true,
+      is_halal: true,
+      is_kosher: true
+    },
+    allergens: ['gluten'],
+    tags: ['sweet', 'banana', 'caramelized', 'merienda'],
+    ingredient_ids: ['ING_BANANA', 'ING_SUGAR', 'ING_FLOUR', 'ING_VEGETABLE_OIL'],
+    popularity: 90
+  }
+];

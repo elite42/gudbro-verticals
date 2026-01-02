@@ -15,6 +15,14 @@ const contentTypes = [
     link: '/content/menu',
   },
   {
+    id: 'wines' as ContentType,
+    icon: '🍷',
+    title: 'Wines',
+    description: 'Wine catalog with regions, varietals, and pairings',
+    count: 144,
+    link: '/content/wines',
+  },
+  {
     id: 'recipes' as ContentType,
     icon: '📖',
     title: 'Recipes',

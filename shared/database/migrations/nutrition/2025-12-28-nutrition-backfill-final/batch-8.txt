@@ -1,0 +1,27 @@
+Fornisci valori nutrizionali per 100g per questi ingredienti.
+
+Output: SOLO JSON array, formato:
+[{"id": "ING_X", "nutrition": {"calories": 100, "protein": 5.0, "fat": 3.0, "carbs": 12.0, "fiber": 2.0}}]
+
+Ingredienti:
+[
+  {"id": "ING_FENNEL", "name": "Fennel"},
+  {"id": "ING_FISH_STOCK", "name": "Fish Stock"},
+  {"id": "ING_GALANGAL", "name": "Galangal"},
+  {"id": "ING_GARAM_MASALA", "name": "Garam Masala"},
+  {"id": "ING_GARLIC_POWDER", "name": "Garlic Powder"},
+  {"id": "ING_GREEN_CURRY_PASTE", "name": "Green Curry Paste"},
+  {"id": "ING_HALIBUT", "name": "Halibut"},
+  {"id": "ING_HERBS_PROVENCE", "name": "Herbs de Provence"},
+  {"id": "ING_ICE_WATER", "name": "Ice Water"},
+  {"id": "ING_KASHMIRI_CHILI", "name": "Kashmiri Chili"},
+  {"id": "ING_LINGUINE", "name": "Linguine"},
+  {"id": "ING_MONKFISH", "name": "Monkfish"},
+  {"id": "ING_MUD_CRAB", "name": "Mud Crab"},
+  {"id": "ING_OKRA", "name": "Okra"},
+  {"id": "ING_OLD_BAY", "name": "Old Bay Seasoning"},
+  {"id": "ING_ORANGE", "name": "Orange"},
+  {"id": "ING_OYSTER", "name": "Oyster"},
+  {"id": "ING_PANKO", "name": "Panko Breadcrumbs"},
+  {"id": "ING_PINK_PEPPERCORN", "name": "Pink Peppercorn"}
+]

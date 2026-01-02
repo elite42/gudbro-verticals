@@ -2,7 +2,7 @@
 
 > **CRITICAL:** Consulta questo file PRIMA di esplorare il codebase per evitare di "riscoprire" feature esistenti.
 
-**Last Updated:** 2025-12-12
+**Last Updated:** 2025-12-16
 
 ---
 
@@ -174,6 +174,9 @@
 | `enterprise_leads` | Pre-sales pipeline | - |
 | `ingredients` | 69 ingredients with costs | 69 |
 | `recipes` | Professional barista recipes | 22 |
+| `cocktails` | IBA + classic cocktails | 227 |
+| `beers` | International beers | 45 |
+| `pizzas` | Pizza varieties (Sistema 5 Dimensioni) | 62 |
 
 ### Migrations (Executed)
 
@@ -214,9 +217,23 @@
 |------|---------|
 | `database/safety-filters.ts` | 51 allergen/dietary filters |
 | `database/types.ts` | Shared TypeScript types |
+| `database/types/pizza.ts` | Pizza TypeScript types |
 | `database/recipes/recipes-database.json` | 22 barista recipes |
 | `database/utils/auto-compute.ts` | Auto-compute utilities |
 | `database/migrations/` | All SQL migrations |
+| `database/taxonomy/category-taxonomy.ts` | Food & Beverage taxonomy |
+| `database/ingredients/salad-ingredients.ts` | 84 salad ingredients (5 Dimensioni) |
+| `database/ingredients/common-ingredients.ts` | Base ingredients |
+| `database/ingredients/beverages-superfoods.ts` | Beverages & superfoods |
+| `database/ingredients/citrus-herbs-vegetables.ts` | Citrus, herbs, vegetables |
+| `database/ingredients/sauces-oils-sweeteners.ts` | Sauces, oils, sweeteners |
+| `database/cocktails/` | 227 cocktails with IBA categories |
+| `database/beers/` | 45 beers with brewery info |
+| `database/pizzas/data/` | 62 pizzas (5 collections) |
+| `database/pizzas/ingredients/` | 66 pizza-specific ingredients |
+| `database/pizzas/schema/` | SQL schema for pizzas table |
+| `database/pizzas/scripts/` | SQL batch generator |
+| `database/pizzas/BACKOFFICE-TASKS.md` | Backoffice implementation guide |
 
 ---
 
@@ -299,6 +316,9 @@ Arabic (ar), Hebrew (he), Persian (fa), Urdu (ur), Pashto (ps), Divehi (dv)
 | Website (Marketing) | ✅ Complete | 16 pages, SEO, legal pages |
 | PWA (Coffeeshop) | ✅ Complete | 78% features, PWA manifest |
 | Backoffice | ✅ Complete | 37 pages, auth, analytics |
+| Cocktails Database | ✅ Complete | 227 cocktails, Sistema 5 Dimensioni |
+| Beers Database | ✅ Complete | 45 beers, brewery info |
+| Pizzas Database | ✅ Complete | 62 pizzas, 66 ingredients, 5 taglie |
 
 ---
 

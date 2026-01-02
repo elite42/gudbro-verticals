@@ -1,0 +1,97 @@
+// Colombian Breakfast Dishes
+// Morning traditions
+
+import { ColombianDish } from '../types';
+
+export const breakfast: ColombianDish[] = [
+  {
+    id: 'COL_CALENTADO',
+    slug: 'calentado',
+    name: 'Calentado',
+    description: 'Reheated rice and beans from the night before, topped with fried egg and arepa',
+    category: 'breakfast',
+    status: 'iconic',
+    region: 'Nacional',
+    protein_type: 'mixed',
+    cooking_method: 'pan_fried',
+    prep_time_min: 20,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: ['egg'],
+    tags: ['leftovers', 'everyday', 'hearty'],
+    popularity: 95,
+    ingredients: ['ING_RICE', 'ING_RED_BEAN', 'ING_EGG', 'ING_AREPA', 'ING_CHORIZO', 'ING_VEGETABLE_OIL']
+  },
+  {
+    id: 'COL_HUEVOS_PERICOS',
+    slug: 'huevos-pericos',
+    name: 'Huevos Pericos',
+    description: 'Scrambled eggs with tomatoes and scallions',
+    category: 'breakfast',
+    status: 'iconic',
+    region: 'Nacional',
+    protein_type: 'egg',
+    cooking_method: 'scrambled',
+    prep_time_min: 10,
+    spice_level: 0,
+    dietary: { vegetarian: true, gluten_free: true },
+    allergens: ['egg'],
+    tags: ['eggs', 'quick', 'classic'],
+    popularity: 95,
+    ingredients: ['ING_EGG', 'ING_TOMATO', 'ING_SCALLION', 'ING_BUTTER', 'ING_SALT']
+  },
+  {
+    id: 'COL_TAMAL',
+    slug: 'tamal-colombiano',
+    name: 'Tamal Colombiano',
+    description: 'Corn dough filled with chicken, pork, vegetables, wrapped in banana leaf',
+    category: 'breakfast',
+    status: 'iconic',
+    region: 'Tolima',
+    protein_type: 'mixed',
+    cooking_method: 'steamed',
+    prep_time_min: 240,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['tamal', 'festive', 'wrapped'],
+    popularity: 92,
+    ingredients: ['ING_CORN_FLOUR', 'ING_CHICKEN', 'ING_PORK', 'ING_CARROT', 'ING_PEA', 'ING_ONION', 'ING_GARLIC', 'ING_CUMIN', 'ING_BANANA_LEAF']
+  },
+  {
+    id: 'COL_CHOCOLATE_QUESO',
+    slug: 'chocolate-con-queso',
+    name: 'Chocolate con Queso',
+    description: 'Hot chocolate served with fresh cheese to dip',
+    category: 'breakfast',
+    status: 'iconic',
+    region: 'Nacional',
+    protein_type: 'dairy',
+    cooking_method: 'heated',
+    prep_time_min: 10,
+    spice_level: 0,
+    dietary: { vegetarian: true, gluten_free: true },
+    allergens: ['dairy'],
+    tags: ['hot-chocolate', 'cheese', 'tradition'],
+    popularity: 90,
+    ingredients: ['ING_CHOCOLATE', 'ING_MILK', 'ING_FRESH_CHEESE', 'ING_SUGAR']
+  },
+  {
+    id: 'COL_CALDO_COSTILLA',
+    slug: 'caldo-de-costilla',
+    name: 'Caldo de Costilla',
+    description: 'Beef rib broth with potato, cilantro, served for breakfast',
+    category: 'breakfast',
+    status: 'classic',
+    region: 'Bogotá',
+    protein_type: 'beef',
+    cooking_method: 'simmered',
+    prep_time_min: 60,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['broth', 'morning', 'restorative'],
+    popularity: 85,
+    ingredients: ['ING_BEEF_RIBS', 'ING_POTATO', 'ING_CILANTRO', 'ING_ONION', 'ING_GARLIC', 'ING_SALT']
+  }
+];

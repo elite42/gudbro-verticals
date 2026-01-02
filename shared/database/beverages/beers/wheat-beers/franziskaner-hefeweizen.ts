@@ -1,0 +1,87 @@
+import type { Beer } from '../../types/beer';
+import { v4 as uuidv4 } from 'uuid';
+
+export const franziskanerHefeweizen: Beer = {
+  id: uuidv4(),
+  slug: 'franziskaner-hefeweizen',
+  stable_key: 'franziskaner-hefeweizen',
+  name: {
+    en: 'Franziskaner Hefeweizen',
+    it: 'Franziskaner Hefeweizen',
+    vi: 'Franziskaner Hefeweizen',
+  },
+  status: 'international_classic',
+  style_category: 'wheat',
+  style: 'hefeweizen',
+  tags: ['wheat', 'bavarian', 'traditional', 'yeast', 'banana', 'clove', 'unfiltered', 'german'],
+  origin: {
+    country: 'Germany',
+    country_code: 'DE',
+    city: 'Munich',
+    region: 'Bavaria',
+    brewery: 'Spaten-Franziskaner-Bräu',
+    brewery_parent: 'Anheuser-Busch InBev',
+    established: 1363,
+  },
+  history: {
+    en: 'Franziskaner Weissbier traces its roots to 1363, when the Franciscan monks began brewing beer in Munich. The brewery is named after the Franciscan order and is one of Munich\'s oldest and most respected wheat beer producers. For centuries, wheat beer brewing was a privilege reserved for Bavarian royalty, and Franziskaner was among the select breweries granted this right. The modern Franziskaner Hefeweizen maintains traditional Bavarian brewing methods, using a special yeast strain that produces the characteristic banana and clove flavors. Today, it stands as one of Germany\'s most iconic hefeweizens, exported worldwide.',
+    it: "Franziskaner Weissbier affonda le sue radici nel 1363, quando i monaci francescani iniziarono a produrre birra a Monaco. Il birrificio prende il nome dall'ordine francescano ed è uno dei produttori di birra di frumento più antichi e rispettati di Monaco. Per secoli, la produzione di birra di frumento è stata un privilegio riservato alla nobiltà bavarese, e Franziskaner era tra i birrifici selezionati che hanno ottenuto questo diritto. La moderna Franziskaner Hefeweizen mantiene i metodi di produzione tradizionali bavaresi, utilizzando un ceppo di lievito speciale che produce i caratteristici sapori di banana e chiodi di garofano. Oggi, si distingue come una delle hefeweizen più iconiche della Germania, esportata in tutto il mondo.",
+    vi: 'Franziskaner Weissbier có nguồn gốc từ năm 1363, khi các tu sĩ Franciscan bắt đầu pha chế bia ở Munich. Nhà máy bia được đặt tên theo dòng Franciscan và là một trong những nhà sản xuất bia lúa mì lâu đời và được tôn trọng nhất ở Munich. Trong nhiều thế kỷ, việc pha chế bia lúa mì là một đặc quyền dành cho hoàng gia Bavaria, và Franziskaner là một trong số ít các nhà máy bia được cấp quyền này. Franziskaner Hefeweizen hiện đại duy trì các phương pháp pha chế truyền thống của Bavaria, sử dụng chủng men đặc biệt tạo ra hương vị chuối và đinh hương đặc trưng. Ngày nay, nó là một trong những loại hefeweizen mang tính biểu tượng nhất của Đức, được xuất khẩu trên toàn thế giới.',
+  },
+  description: {
+    en: 'Franziskaner Hefeweizen is a classic Bavarian wheat beer that exemplifies the traditional hefeweizen style. This unfiltered beer pours a cloudy golden-amber color with a thick, fluffy white head that persists. The aroma is dominated by characteristic banana and clove notes from the special yeast strain, along with subtle wheat and grain sweetness. On the palate, it delivers a smooth, creamy texture with flavors of ripe banana, clove spice, bubblegum, and light citrus. The wheat malt provides a soft, bready backbone with hints of vanilla. The finish is refreshing and slightly tart, with lingering yeast and spice notes. A quintessential example of Bavarian brewing tradition.',
+    it: "Franziskaner Hefeweizen è una classica birra di frumento bavarese che esemplifica lo stile hefeweizen tradizionale. Questa birra non filtrata si presenta di un colore ambrato-dorato torbido con una densa e soffice schiuma bianca che persiste. L'aroma è dominato da note caratteristiche di banana e chiodi di garofano dal ceppo di lievito speciale, insieme a una sottile dolcezza di frumento e cereali. Al palato, offre una texture morbida e cremosa con sapori di banana matura, spezie di chiodi di garofano, gomma da masticare e agrumi leggeri. Il malto di frumento fornisce una base morbida e di pane con accenni di vaniglia. Il finale è rinfrescante e leggermente acidulo, con note persistenti di lievito e spezie. Un esempio quintessenziale della tradizione birraria bavarese.",
+    vi: 'Franziskaner Hefeweizen là một loại bia lúa mì Bavaria cổ điển thể hiện phong cách hefeweizen truyền thống. Loại bia không lọc này có màu vàng-hổ phách đục với lớp bọt trắng dày, xốp tồn tại lâu. Hương thơm bị chi phối bởi các hương vị chuối và đinh hương đặc trưng từ chủng men đặc biệt, cùng với vị ngọt lúa mì và ngũ cốc tinh tế. Trên khẩu vị, nó mang lại kết cấu mượt mà, kem với hương vị chuối chín, gia vị đinh hương, kẹo cao su và cam quýt nhẹ. Mạch nha lúa mì cung cấp nền bánh mì mềm với hương vani. Hậu vị sảng khoái và hơi chua, với hương vị men và gia vị kéo dài. Một ví dụ tinh túy của truyền thống pha chế bia Bavaria.',
+  },
+  characteristics: {
+    abv: 5.0,
+    ibu: 12,
+    srm: 6,
+    color: 'pale',
+    clarity: 'hazy',
+    carbonation: 'high',
+    body: 'medium',
+    fermentation: 'top_fermented',
+  },
+  taste: {
+    en: 'Rich banana and bubblegum esters dominate, accompanied by prominent clove and subtle nutmeg spice from phenolic yeast compounds. Soft wheat malt sweetness with notes of bread dough and vanilla. Light citrus hints of lemon peel. Gentle hop bitterness provides balance. The finish is refreshing with a slight wheat tartness and lingering yeast character.',
+    it: 'Ricchi esteri di banana e gomma da masticare dominano, accompagnati da prominenti spezie di chiodi di garofano e sottile noce moscata dai composti fenolici del lievito. Dolcezza morbida del malto di frumento con note di pasta di pane e vaniglia. Leggeri accenni di agrumi di scorza di limone. Un leggero amaro di luppolo fornisce equilibrio. Il finale è rinfrescante con una leggera acidità di frumento e un carattere persistente di lievito.',
+    vi: 'Hương vị chuối và kẹo cao su phong phú chiếm ưu thế, đi kèm với gia vị đinh hương nổi bật và nhục đậu khấu tinh tế từ các hợp chất phenolic của men. Vị ngọt mạch nha lúa mì mềm với hương vị bột bánh mì và vani. Hương cam quýt nhẹ của vỏ chanh. Độ đắng hoa bia nhẹ nhàng tạo sự cân bằng. Hậu vị sảng khoái với vị chua lúa mì nhẹ và đặc tính men kéo dài.',
+  },
+  ingredients: {
+    en: 'Water, wheat malt (minimum 50%), barley malt, hops, proprietary Bavarian weizen yeast strain. Unfiltered and unpasteurized to preserve natural yeast and flavors.',
+    it: 'Acqua, malto di frumento (minimo 50%), malto d\'orzo, luppolo, ceppo di lievito weizen bavarese proprietario. Non filtrata e non pastorizzata per preservare il lievito naturale e i sapori.',
+    vi: 'Nước, mạch nha lúa mì (tối thiểu 50%), mạch nha lúa mạch, hoa bia, chủng men weizen Bavaria độc quyền. Không lọc và không thanh trùng để giữ lại men tự nhiên và hương vị.',
+  },
+  serving: {
+    glass: 'weizen',
+    temperature: 'cold',
+    temperature_range: {
+      min: 6,
+      max: 9,
+      unit: 'celsius',
+    },
+    presentation: 'Pour slowly into a tall weizen glass, tilting to control foam. Leave sediment in bottle or swirl gently to include yeast for fuller flavor. Top with thick white head.',
+  },
+  pairing: {
+    en: 'Traditional pairings include Bavarian pretzels, weisswurst (white sausage), roasted pork, schnitzel, grilled fish, soft cheeses like Brie, salads, and fruit-based desserts. The banana and clove notes complement both savory German cuisine and lighter fare.',
+    it: 'Gli abbinamenti tradizionali includono pretzel bavaresi, weisswurst (salsiccia bianca), maiale arrosto, schnitzel, pesce alla griglia, formaggi morbidi come il Brie, insalate e dessert a base di frutta. Le note di banana e chiodi di garofano completano sia la cucina tedesca salata che piatti più leggeri.',
+    vi: 'Các kết hợp truyền thống bao gồm bánh quy xoắn Bavaria, weisswurst (xúc xích trắng), thịt lợn nướng, schnitzel, cá nướng, pho mát mềm như Brie, salad và các món tráng miệng từ trái cây. Hương vị chuối và đinh hương bổ sung cho cả ẩm thực Đức mặn và các món ăn nhẹ hơn.',
+  },
+  season_tags: ['summer', 'spring', 'all_year'],
+  occasion_tags: ['casual', 'traditional', 'social', 'outdoor', 'celebration'],
+  is_gluten_free: false,
+  is_non_alcoholic: false,
+  is_vegan: true,
+  available_formats: ['bottle', 'can', 'draft'],
+  available_sizes: ['500ml', '330ml'],
+  availability: 'year_round',
+  price_tier: 'mid',
+  popularity: 90,
+  source: {
+    type: 'commercial',
+    reference: 'Spaten-Franziskaner-Bräu',
+    last_updated: '2025-12-14',
+  },
+  version: 1,
+};

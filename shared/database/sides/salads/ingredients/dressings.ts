@@ -1,0 +1,421 @@
+/**
+ * GUDBRO Salad Dressings Database
+ *
+ * Comprehensive dressing list with Sistema 5 Dimensioni data
+ */
+
+import type { Dressing } from '../../types/salad';
+
+export const saladDressings: Dressing[] = [
+  // ============================================================================
+  // VINAIGRETTES
+  // ============================================================================
+  {
+    id: 'DRESS_BALSAMIC_VINAIGRETTE',
+    slug: 'balsamic-vinaigrette',
+    name: {
+      en: 'Balsamic Vinaigrette',
+      it: 'Vinaigrette Balsamico',
+      es: 'Vinagreta Balsámica',
+    },
+    type: 'vinaigrette',
+    ingredients: ['ING_BALSAMIC_VINEGAR', 'ING_OLIVE_OIL', 'ING_DIJON_MUSTARD', 'ING_GARLIC'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 90,
+    allergens: ['mustard'],
+  },
+  {
+    id: 'DRESS_RED_WINE_VINAIGRETTE',
+    slug: 'red-wine-vinaigrette',
+    name: {
+      en: 'Red Wine Vinaigrette',
+      it: 'Vinaigrette al Vino Rosso',
+      es: 'Vinagreta de Vino Tinto',
+    },
+    type: 'vinaigrette',
+    ingredients: ['ING_RED_WINE_VINEGAR', 'ING_OLIVE_OIL', 'ING_SHALLOT', 'ING_HERBS'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 85,
+    allergens: [],
+  },
+  {
+    id: 'DRESS_LEMON_OLIVE_OIL',
+    slug: 'lemon-olive-oil',
+    name: {
+      en: 'Lemon Olive Oil',
+      it: 'Olio e Limone',
+      es: 'Aceite y Limón',
+    },
+    type: 'citrus',
+    ingredients: ['ING_OLIVE_OIL', 'ING_LEMON_JUICE', 'ING_SEA_SALT'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 80,
+    allergens: [],
+  },
+  {
+    id: 'DRESS_ITALIAN',
+    slug: 'italian-dressing',
+    name: {
+      en: 'Italian Dressing',
+      it: 'Condimento Italiano',
+      es: 'Aderezo Italiano',
+    },
+    type: 'vinaigrette',
+    ingredients: ['ING_OLIVE_OIL', 'ING_RED_WINE_VINEGAR', 'ING_GARLIC', 'ING_OREGANO', 'ING_BASIL'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 75,
+    allergens: [],
+  },
+  {
+    id: 'DRESS_GREEK',
+    slug: 'greek-dressing',
+    name: {
+      en: 'Greek Dressing',
+      it: 'Condimento Greco',
+      es: 'Aderezo Griego',
+    },
+    type: 'vinaigrette',
+    ingredients: ['ING_OLIVE_OIL', 'ING_LEMON_JUICE', 'ING_OREGANO', 'ING_GARLIC', 'ING_RED_WINE_VINEGAR'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 80,
+    allergens: [],
+  },
+  {
+    id: 'DRESS_HONEY_MUSTARD',
+    slug: 'honey-mustard',
+    name: {
+      en: 'Honey Mustard',
+      it: 'Miele e Senape',
+      es: 'Miel y Mostaza',
+    },
+    type: 'vinaigrette',
+    ingredients: ['ING_HONEY', 'ING_DIJON_MUSTARD', 'ING_OLIVE_OIL', 'ING_APPLE_CIDER_VINEGAR'],
+    is_vegan: false,
+    is_gluten_free: true,
+    calories_per_serving: 100,
+    allergens: ['mustard'],
+  },
+  {
+    id: 'DRESS_CHAMPAGNE_VINAIGRETTE',
+    slug: 'champagne-vinaigrette',
+    name: {
+      en: 'Champagne Vinaigrette',
+      it: 'Vinaigrette allo Champagne',
+      es: 'Vinagreta de Champagne',
+    },
+    type: 'vinaigrette',
+    ingredients: ['ING_CHAMPAGNE_VINEGAR', 'ING_OLIVE_OIL', 'ING_SHALLOT', 'ING_DIJON_MUSTARD'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 85,
+    allergens: ['mustard'],
+  },
+
+  // ============================================================================
+  // CREAMY DRESSINGS
+  // ============================================================================
+  {
+    id: 'DRESS_CAESAR',
+    slug: 'caesar-dressing',
+    name: {
+      en: 'Caesar Dressing',
+      it: 'Salsa Caesar',
+      es: 'Aderezo César',
+    },
+    type: 'caesar',
+    ingredients: ['ING_MAYONNAISE', 'ING_PARMESAN', 'ING_ANCHOVY', 'ING_GARLIC', 'ING_LEMON_JUICE', 'ING_WORCESTERSHIRE'],
+    is_vegan: false,
+    is_gluten_free: false,
+    calories_per_serving: 150,
+    allergens: ['eggs', 'fish', 'milk'],
+  },
+  {
+    id: 'DRESS_RANCH',
+    slug: 'ranch-dressing',
+    name: {
+      en: 'Ranch Dressing',
+      it: 'Salsa Ranch',
+      es: 'Aderezo Ranch',
+    },
+    type: 'ranch',
+    ingredients: ['ING_BUTTERMILK', 'ING_MAYONNAISE', 'ING_SOUR_CREAM', 'ING_DILL', 'ING_CHIVES', 'ING_GARLIC'],
+    is_vegan: false,
+    is_gluten_free: true,
+    calories_per_serving: 140,
+    allergens: ['eggs', 'milk'],
+  },
+  {
+    id: 'DRESS_BLUE_CHEESE',
+    slug: 'blue-cheese-dressing',
+    name: {
+      en: 'Blue Cheese Dressing',
+      it: 'Salsa al Gorgonzola',
+      es: 'Aderezo de Queso Azul',
+    },
+    type: 'blue_cheese',
+    ingredients: ['ING_BLUE_CHEESE', 'ING_BUTTERMILK', 'ING_MAYONNAISE', 'ING_SOUR_CREAM'],
+    is_vegan: false,
+    is_gluten_free: true,
+    calories_per_serving: 160,
+    allergens: ['eggs', 'milk'],
+  },
+  {
+    id: 'DRESS_THOUSAND_ISLAND',
+    slug: 'thousand-island',
+    name: {
+      en: 'Thousand Island',
+      it: 'Salsa Thousand Island',
+      es: 'Mil Islas',
+    },
+    type: 'creamy',
+    ingredients: ['ING_MAYONNAISE', 'ING_KETCHUP', 'ING_PICKLE_RELISH', 'ING_ONION'],
+    is_vegan: false,
+    is_gluten_free: true,
+    calories_per_serving: 130,
+    allergens: ['eggs'],
+  },
+  {
+    id: 'DRESS_GREEN_GODDESS',
+    slug: 'green-goddess',
+    name: {
+      en: 'Green Goddess',
+      it: 'Dea Verde',
+      es: 'Diosa Verde',
+    },
+    type: 'creamy',
+    ingredients: ['ING_AVOCADO', 'ING_YOGURT', 'ING_HERBS', 'ING_LEMON_JUICE', 'ING_ANCHOVY'],
+    is_vegan: false,
+    is_gluten_free: true,
+    calories_per_serving: 110,
+    allergens: ['milk', 'fish'],
+  },
+
+  // ============================================================================
+  // ASIAN DRESSINGS
+  // ============================================================================
+  {
+    id: 'DRESS_SESAME_GINGER',
+    slug: 'sesame-ginger',
+    name: {
+      en: 'Sesame Ginger',
+      it: 'Sesamo e Zenzero',
+      es: 'Sésamo y Jengibre',
+    },
+    type: 'asian',
+    ingredients: ['ING_SESAME_OIL', 'ING_SOY_SAUCE', 'ING_GINGER', 'ING_RICE_VINEGAR', 'ING_HONEY'],
+    is_vegan: false,
+    is_gluten_free: false,
+    calories_per_serving: 90,
+    allergens: ['sesame', 'soy'],
+  },
+  {
+    id: 'DRESS_MISO',
+    slug: 'miso-dressing',
+    name: {
+      en: 'Miso Dressing',
+      it: 'Condimento al Miso',
+      es: 'Aderezo de Miso',
+    },
+    type: 'asian',
+    ingredients: ['ING_WHITE_MISO', 'ING_RICE_VINEGAR', 'ING_SESAME_OIL', 'ING_GINGER'],
+    is_vegan: true,
+    is_gluten_free: false,
+    calories_per_serving: 70,
+    allergens: ['soy', 'sesame'],
+  },
+  {
+    id: 'DRESS_PONZU',
+    slug: 'ponzu-dressing',
+    name: {
+      en: 'Ponzu Dressing',
+      it: 'Salsa Ponzu',
+      es: 'Aderezo Ponzu',
+    },
+    type: 'asian',
+    ingredients: ['ING_SOY_SAUCE', 'ING_CITRUS_JUICE', 'ING_RICE_VINEGAR', 'ING_MIRIN'],
+    is_vegan: true,
+    is_gluten_free: false,
+    calories_per_serving: 40,
+    allergens: ['soy'],
+  },
+  {
+    id: 'DRESS_PEANUT',
+    slug: 'peanut-dressing',
+    name: {
+      en: 'Thai Peanut Dressing',
+      it: 'Salsa alle Arachidi Thai',
+      es: 'Aderezo de Cacahuete Tailandés',
+    },
+    type: 'peanut',
+    ingredients: ['ING_PEANUT_BUTTER', 'ING_SOY_SAUCE', 'ING_LIME_JUICE', 'ING_GINGER', 'ING_GARLIC', 'ING_SRIRACHA'],
+    is_vegan: true,
+    is_gluten_free: false,
+    calories_per_serving: 120,
+    allergens: ['peanuts', 'soy'],
+  },
+  {
+    id: 'DRESS_NUOC_CHAM',
+    slug: 'nuoc-cham',
+    name: {
+      en: 'Vietnamese Nuoc Cham',
+      it: 'Nuoc Cham Vietnamita',
+      es: 'Nuoc Cham Vietnamita',
+    },
+    type: 'asian',
+    ingredients: ['ING_FISH_SAUCE', 'ING_LIME_JUICE', 'ING_SUGAR', 'ING_GARLIC', 'ING_CHILI'],
+    is_vegan: false,
+    is_gluten_free: true,
+    calories_per_serving: 35,
+    allergens: ['fish'],
+  },
+  {
+    id: 'DRESS_GOCHUJANG',
+    slug: 'gochujang-dressing',
+    name: {
+      en: 'Gochujang Dressing',
+      it: 'Condimento al Gochujang',
+      es: 'Aderezo de Gochujang',
+    },
+    type: 'asian',
+    ingredients: ['ING_GOCHUJANG', 'ING_SESAME_OIL', 'ING_RICE_VINEGAR', 'ING_HONEY'],
+    is_vegan: false,
+    is_gluten_free: false,
+    calories_per_serving: 60,
+    allergens: ['soy', 'sesame'],
+  },
+
+  // ============================================================================
+  // MIDDLE EASTERN DRESSINGS
+  // ============================================================================
+  {
+    id: 'DRESS_TAHINI',
+    slug: 'tahini-dressing',
+    name: {
+      en: 'Tahini Dressing',
+      it: 'Salsa Tahina',
+      es: 'Aderezo de Tahini',
+    },
+    type: 'tahini',
+    ingredients: ['ING_TAHINI', 'ING_LEMON_JUICE', 'ING_GARLIC', 'ING_WATER'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 100,
+    allergens: ['sesame'],
+  },
+  {
+    id: 'DRESS_LEMON_SUMAC',
+    slug: 'lemon-sumac',
+    name: {
+      en: 'Lemon Sumac Dressing',
+      it: 'Condimento Limone e Sommacco',
+      es: 'Aderezo de Limón y Zumaque',
+    },
+    type: 'citrus',
+    ingredients: ['ING_OLIVE_OIL', 'ING_LEMON_JUICE', 'ING_SUMAC', 'ING_GARLIC'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 80,
+    allergens: [],
+  },
+  {
+    id: 'DRESS_YOGURT_HERB',
+    slug: 'yogurt-herb',
+    name: {
+      en: 'Yogurt Herb Dressing',
+      it: 'Yogurt alle Erbe',
+      es: 'Yogur con Hierbas',
+    },
+    type: 'creamy',
+    ingredients: ['ING_GREEK_YOGURT', 'ING_DILL', 'ING_MINT', 'ING_LEMON_JUICE', 'ING_GARLIC'],
+    is_vegan: false,
+    is_gluten_free: true,
+    calories_per_serving: 50,
+    allergens: ['milk'],
+  },
+  {
+    id: 'DRESS_POMEGRANATE_MOLASSES',
+    slug: 'pomegranate-molasses',
+    name: {
+      en: 'Pomegranate Molasses Dressing',
+      it: 'Melassa di Melograno',
+      es: 'Melaza de Granada',
+    },
+    type: 'vinaigrette',
+    ingredients: ['ING_POMEGRANATE_MOLASSES', 'ING_OLIVE_OIL', 'ING_LEMON_JUICE'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 75,
+    allergens: [],
+  },
+
+  // ============================================================================
+  // SPECIALTY DRESSINGS
+  // ============================================================================
+  {
+    id: 'DRESS_POKE_SHOYU',
+    slug: 'poke-shoyu',
+    name: {
+      en: 'Shoyu Poke Sauce',
+      it: 'Salsa Shoyu per Poke',
+      es: 'Salsa Shoyu para Poke',
+    },
+    type: 'asian',
+    ingredients: ['ING_SOY_SAUCE', 'ING_SESAME_OIL', 'ING_GREEN_ONION', 'ING_SESAME_SEEDS'],
+    is_vegan: true,
+    is_gluten_free: false,
+    calories_per_serving: 50,
+    allergens: ['soy', 'sesame'],
+  },
+  {
+    id: 'DRESS_SPICY_MAYO',
+    slug: 'spicy-mayo',
+    name: {
+      en: 'Spicy Mayo',
+      it: 'Maionese Piccante',
+      es: 'Mayonesa Picante',
+    },
+    type: 'creamy',
+    ingredients: ['ING_MAYONNAISE', 'ING_SRIRACHA', 'ING_LIME_JUICE'],
+    is_vegan: false,
+    is_gluten_free: true,
+    calories_per_serving: 120,
+    allergens: ['eggs'],
+  },
+  {
+    id: 'DRESS_AVOCADO_LIME',
+    slug: 'avocado-lime',
+    name: {
+      en: 'Avocado Lime Dressing',
+      it: 'Condimento Avocado e Lime',
+      es: 'Aderezo de Aguacate y Lima',
+    },
+    type: 'creamy',
+    ingredients: ['ING_AVOCADO', 'ING_LIME_JUICE', 'ING_CILANTRO', 'ING_GARLIC', 'ING_OLIVE_OIL'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 90,
+    allergens: [],
+  },
+  {
+    id: 'DRESS_MAPLE_DIJON',
+    slug: 'maple-dijon',
+    name: {
+      en: 'Maple Dijon Vinaigrette',
+      it: 'Vinaigrette Acero e Senape',
+      es: 'Vinagreta de Arce y Mostaza',
+    },
+    type: 'vinaigrette',
+    ingredients: ['ING_MAPLE_SYRUP', 'ING_DIJON_MUSTARD', 'ING_APPLE_CIDER_VINEGAR', 'ING_OLIVE_OIL'],
+    is_vegan: true,
+    is_gluten_free: true,
+    calories_per_serving: 95,
+    allergens: ['mustard'],
+  },
+];
+
+export default saladDressings;

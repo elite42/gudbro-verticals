@@ -1241,7 +1241,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">Allergens</h3>
-                  <p className="text-sm text-gray-500">Sistema 51 Filtri - 30 allergens from EU, Korea, Japan + GUDBRO</p>
+                  <p className="text-sm text-gray-500">Sistema 5 Dimensioni - 30 allergens from EU, Korea, Japan + GUDBRO</p>
                 </div>
                 <div className="flex gap-2">
                   {['all', 'EU', 'Korea', 'Japan', 'GUDBRO'].map(region => (

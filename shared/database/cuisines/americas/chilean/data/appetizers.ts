@@ -1,0 +1,97 @@
+// Chilean Appetizers
+// GUDBRO Database Standards v1.7
+
+import { ChileanDish } from '../types';
+
+export const appetizers: ChileanDish[] = [
+  {
+    id: 'CHL_PEBRE',
+    slug: 'pebre',
+    name: 'Pebre',
+    description: 'Chilean salsa with tomatoes, onion, cilantro, and chili, served with bread',
+    category: 'appetizer',
+    status: 'iconic',
+    region: 'Nacional',
+    protein_type: 'vegetable',
+    cooking_method: 'raw',
+    prep_time_min: 15,
+    spice_level: 2,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['salsa', 'essential', 'condiment'],
+    popularity: 98,
+    ingredients: ['ING_TOMATO', 'ING_ONION', 'ING_CILANTRO', 'ING_CHILI', 'ING_GARLIC', 'ING_OLIVE_OIL', 'ING_LEMON', 'ING_SALT']
+  },
+  {
+    id: 'CHL_CHANCHO_PIEDRA',
+    slug: 'chancho-en-piedra',
+    name: 'Chancho en Piedra',
+    description: 'Stone-ground tomato and chili sauce, rustic pebre variation',
+    category: 'appetizer',
+    status: 'traditional',
+    region: 'Centro',
+    protein_type: 'vegetable',
+    cooking_method: 'raw',
+    prep_time_min: 20,
+    spice_level: 2,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['rustic', 'stone-ground', 'traditional'],
+    popularity: 75,
+    ingredients: ['ING_TOMATO', 'ING_CHILI', 'ING_GARLIC', 'ING_CILANTRO', 'ING_OLIVE_OIL', 'ING_SALT']
+  },
+  {
+    id: 'CHL_ENSALADA_CHILENA',
+    slug: 'ensalada-chilena',
+    name: 'Ensalada Chilena',
+    description: 'Simple salad of sliced tomatoes and onions with olive oil',
+    category: 'appetizer',
+    status: 'iconic',
+    region: 'Nacional',
+    protein_type: 'vegetable',
+    cooking_method: 'raw',
+    prep_time_min: 10,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['simple', 'everyday', 'side'],
+    popularity: 95,
+    ingredients: ['ING_TOMATO', 'ING_ONION', 'ING_OLIVE_OIL', 'ING_SALT', 'ING_CILANTRO']
+  },
+  {
+    id: 'CHL_PALTA_REINA',
+    slug: 'palta-reina',
+    name: 'Palta Reina',
+    description: 'Avocado half filled with chicken or tuna salad',
+    category: 'appetizer',
+    status: 'classic',
+    region: 'Nacional',
+    protein_type: 'chicken',
+    cooking_method: 'raw',
+    prep_time_min: 20,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: ['egg'],
+    tags: ['avocado', 'stuffed', 'elegant'],
+    popularity: 82,
+    ingredients: ['ING_AVOCADO', 'ING_CHICKEN', 'ING_MAYONNAISE', 'ING_CELERY', 'ING_LEMON']
+  },
+  {
+    id: 'CHL_ERIZOS',
+    slug: 'erizos',
+    name: 'Erizos',
+    description: 'Fresh sea urchin served raw with lemon, a coastal delicacy',
+    category: 'appetizer',
+    status: 'regional',
+    region: 'Valparaíso',
+    protein_type: 'seafood',
+    cooking_method: 'raw',
+    prep_time_min: 10,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: ['shellfish'],
+    tags: ['delicacy', 'raw', 'coastal'],
+    popularity: 70,
+    ingredients: ['ING_SEA_URCHIN', 'ING_LEMON', 'ING_ONION', 'ING_CILANTRO']
+  }
+];

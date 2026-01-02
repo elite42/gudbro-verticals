@@ -1,0 +1,25 @@
+-- ============================================
+-- SOFT DRINKS - Complete Import Script
+-- GUDBRO Database Standards v1.3
+-- ============================================
+--
+-- Execution Order:
+-- 1. Create schema (table, indexes, RLS)
+-- 2. Insert missing ingredients (18)
+-- 3. Insert soft drinks data (38)
+-- 4. Insert product_ingredients links (202)
+--
+-- Statistics:
+-- - Total soft drinks: 38
+-- - Categories: cola(5), lemon_lime(5), orange(5), ginger(5), tonic_soda(6), energy(6), other(6)
+-- - New ingredients: 18
+-- - Product_ingredients links: 202
+-- ============================================
+
+-- Run scripts in order:
+-- \i 01-softdrinks-schema.sql
+-- \i 02-softdrinks-missing-ingredients.sql
+-- \i 03-softdrinks-data.sql
+-- \i 04-softdrinks-product-ingredients.sql
+
+-- Or copy/paste each script content in Supabase SQL Editor

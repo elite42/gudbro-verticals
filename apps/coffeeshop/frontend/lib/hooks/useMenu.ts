@@ -4,7 +4,7 @@
  * Fetches menu data from the GUDBRO API and provides
  * filtering, search, and dietary preference support.
  *
- * Integrates with Sistema 51 Filtri for allergen/dietary filtering.
+ * Integrates with Sistema 5 Dimensioni for allergen/dietary filtering.
  */
 
 import { useState, useEffect, useMemo, useCallback } from 'react';

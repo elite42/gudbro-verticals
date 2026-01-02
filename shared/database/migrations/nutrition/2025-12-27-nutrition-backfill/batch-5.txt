@@ -1,0 +1,34 @@
+Fornisci valori nutrizionali per 100g per questi ingredienti.
+
+Output: SOLO JSON array, formato:
+[{"id": "ING_X", "nutrition": {"calories": 100, "protein": 5.0, "fat": 3.0, "carbs": 12.0, "fiber": 2.0}}]
+
+Ingredienti:
+[
+  {"id": "ING_ROSE_SYRUP", "name": "Rose Syrup"},
+  {"id": "ING_CANDLENUT", "name": "Candlenut (Kemiri)"},
+  {"id": "ING_KELUAK", "name": "Keluak Nut (Pangium Edule)"},
+  {"id": "ING_PINE_NUT", "name": "Pine Nut"},
+  {"id": "ING_SESAME", "name": "Sesame Seeds"},
+  {"id": "ING_BROWN_BEAN", "name": "Brown Beans"},
+  {"id": "ING_HONEY_BEANS", "name": "Honey Beans"},
+  {"id": "ING_RED_BEAN", "name": "Red Kidney Bean"},
+  {"id": "ING_WHITE_BEAN", "name": "White Bean"},
+  {"id": "ING_AGAR", "name": "Agar Agar"},
+  {"id": "ING_BUTTERFLY_PEA", "name": "Butterfly Pea Flower"},
+  {"id": "ING_CANDIED_LEMON", "name": "Candied Lemon Peel"},
+  {"id": "ING_COOKIE_CRUMB", "name": "Cookie Crumbs"},
+  {"id": "ING_COOKIE_DOUGH", "name": "Cookie Dough"},
+  {"id": "ING_CORN_HUSK", "name": "Corn Husk"},
+  {"id": "ING_GUM_ARABIC", "name": "Gum Arabic"},
+  {"id": "ING_KERISIK", "name": "Kerisik (Toasted Coconut Paste)"},
+  {"id": "ING_PALM_SAP", "name": "Palm Sap"},
+  {"id": "ING_PASSOA", "name": "Passoa"},
+  {"id": "ING_POTASH", "name": "Potash (Kaun)"},
+  {"id": "ING_POTATO_CHIP", "name": "Potato Chips"},
+  {"id": "ING_CORNSTARCH", "name": "Cornstarch"},
+  {"id": "ING_BELGIAN_CHOCOLATE", "name": "Belgian Chocolate"},
+  {"id": "ING_COOKIE", "name": "Cookie (Crushed)"},
+  {"id": "ING_CORIANDER_SEEDS", "name": "Coriander Seeds"},
+  {"id": "ING_MARGARINE", "name": "Margarine"}
+]

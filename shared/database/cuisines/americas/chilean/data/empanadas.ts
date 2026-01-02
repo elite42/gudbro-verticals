@@ -1,0 +1,97 @@
+// Chilean Empanadas
+// GUDBRO Database Standards v1.7
+
+import { ChileanDish } from '../types';
+
+export const empanadas: ChileanDish[] = [
+  {
+    id: 'CHL_EMPANADA_PINO',
+    slug: 'empanada-de-pino',
+    name: 'Empanada de Pino',
+    description: 'Classic Chilean baked empanada with beef, onion, olives, hard-boiled egg, and raisins',
+    category: 'empanada',
+    status: 'iconic',
+    region: 'Nacional',
+    protein_type: 'beef',
+    cooking_method: 'baked',
+    prep_time_min: 90,
+    spice_level: 1,
+    dietary: { gluten_free: false },
+    allergens: ['gluten', 'egg'],
+    tags: ['national-dish', 'fiestas-patrias', 'traditional'],
+    popularity: 99,
+    ingredients: ['ING_BEEF', 'ING_ONION', 'ING_OLIVE', 'ING_EGG', 'ING_RAISINS', 'ING_FLOUR', 'ING_LARD', 'ING_CUMIN', 'ING_PAPRIKA']
+  },
+  {
+    id: 'CHL_EMPANADA_QUESO',
+    slug: 'empanada-de-queso',
+    name: 'Empanada de Queso',
+    description: 'Fried cheese empanada, crispy outside with melted cheese inside',
+    category: 'empanada',
+    status: 'classic',
+    region: 'Nacional',
+    protein_type: 'dairy',
+    cooking_method: 'deep_fried',
+    prep_time_min: 45,
+    spice_level: 0,
+    dietary: { vegetarian: true, gluten_free: false },
+    allergens: ['gluten', 'dairy'],
+    tags: ['fried', 'cheese', 'snack'],
+    popularity: 88,
+    ingredients: ['ING_CHEESE', 'ING_FLOUR', 'ING_BUTTER', 'ING_VEGETABLE_OIL']
+  },
+  {
+    id: 'CHL_EMPANADA_MARISCOS',
+    slug: 'empanada-de-mariscos',
+    name: 'Empanada de Mariscos',
+    description: 'Seafood empanada with mixed shellfish and fish in creamy sauce',
+    category: 'empanada',
+    status: 'regional',
+    region: 'Valparaíso',
+    protein_type: 'seafood',
+    cooking_method: 'baked',
+    prep_time_min: 75,
+    spice_level: 0,
+    dietary: { gluten_free: false },
+    allergens: ['gluten', 'shellfish', 'fish', 'dairy'],
+    tags: ['coastal', 'seafood', 'premium'],
+    popularity: 82,
+    ingredients: ['ING_SHRIMP', 'ING_MUSSEL', 'ING_CLAM', 'ING_CREAM', 'ING_ONION', 'ING_FLOUR', 'ING_WHITE_WINE']
+  },
+  {
+    id: 'CHL_EMPANADA_NAPOLITANA',
+    slug: 'empanada-napolitana',
+    name: 'Empanada Napolitana',
+    description: 'Ham, cheese, and tomato empanada, pizza-style filling',
+    category: 'empanada',
+    status: 'classic',
+    region: 'Santiago',
+    protein_type: 'pork',
+    cooking_method: 'baked',
+    prep_time_min: 45,
+    spice_level: 0,
+    dietary: { gluten_free: false },
+    allergens: ['gluten', 'dairy'],
+    tags: ['pizza-style', 'ham', 'popular'],
+    popularity: 78,
+    ingredients: ['ING_HAM', 'ING_CHEESE', 'ING_TOMATO', 'ING_OREGANO', 'ING_FLOUR']
+  },
+  {
+    id: 'CHL_EMPANADA_CAMARÓN_QUESO',
+    slug: 'empanada-camaron-queso',
+    name: 'Empanada de Camarón Queso',
+    description: 'Shrimp and cheese empanada, popular coastal variation',
+    category: 'empanada',
+    status: 'regional',
+    region: 'Valparaíso',
+    protein_type: 'shrimp',
+    cooking_method: 'baked',
+    prep_time_min: 60,
+    spice_level: 0,
+    dietary: { gluten_free: false },
+    allergens: ['gluten', 'shellfish', 'dairy'],
+    tags: ['shrimp', 'cheese', 'coastal'],
+    popularity: 80,
+    ingredients: ['ING_SHRIMP', 'ING_CHEESE', 'ING_ONION', 'ING_CREAM', 'ING_FLOUR']
+  }
+];

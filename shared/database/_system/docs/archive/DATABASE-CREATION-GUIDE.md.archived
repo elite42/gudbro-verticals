@@ -1,0 +1,290 @@
+# GUDBRO Database Creation Guide
+
+> **CRITICAL:** Claude DEVE leggere questo file PRIMA di creare qualsiasi nuovo database food/bevande.
+
+**Last Updated:** 2025-12-17
+
+---
+
+## Checklist Pre-Creazione
+
+Prima di iniziare un nuovo database, verifica:
+
+- [ ] Hai letto questo file?
+- [ ] Hai consultato `docs/DATABASE-INVENTORY.md` per vedere lo stato attuale?
+- [ ] Hai identificato un database esistente simile come riferimento?
+- [ ] Hai accesso al MCP Supabase o alla funzione `exec_sql`?
+
+---
+
+## Schema Standard Obbligatorio
+
+### Campi Base (TUTTI i database)
+
+```sql
+-- IDENTIFICAZIONE (obbligatori)
+id TEXT PRIMARY KEY,                    -- Formato: PREFIX_NOME (es. STK_RIBEYE, COF_LATTE)
+slug TEXT UNIQUE NOT NULL,              -- URL-friendly, lowercase, hyphens
+
+-- INFO BASE (obbligatori, SOLO INGLESE)
+name TEXT NOT NULL,                     -- Nome in inglese
+description TEXT NOT NULL,              -- Descrizione in inglese
+
+-- CLASSIFICAZIONE (obbligatori)
+category {database}_category NOT NULL,  -- ENUM custom per categoria
+status TEXT NOT NULL DEFAULT 'active',  -- classic, popular, signature, seasonal, active
+
+-- INGREDIENTI (obbligatorio per junction table)
+ingredient_ids TEXT[] NOT NULL DEFAULT '{}',  -- Array di ING_* references
+
+-- DIETARY - SISTEMA 5 DIMENSIONI (obbligatori)
+allergens TEXT[] NOT NULL DEFAULT '{}',       -- Array allergeni rilevati
+is_gluten_free BOOLEAN DEFAULT false,
+is_dairy_free BOOLEAN DEFAULT false,
+is_nut_free BOOLEAN DEFAULT true,
+is_vegan BOOLEAN DEFAULT false,
+is_vegetarian BOOLEAN DEFAULT false,
+is_halal BOOLEAN DEFAULT false,
+is_kosher BOOLEAN DEFAULT false,
+
+-- NUTRITION (raccomandati)
+calories_per_serving INTEGER,
+protein_g DECIMAL(5,1),
+carbs_g DECIMAL(5,1),
+fat_g DECIMAL(5,1),
+
+-- SPICE (obbligatorio)
+spice_level INTEGER NOT NULL DEFAULT 0 CHECK (spice_level >= 0 AND spice_level <= 5),
+
+-- METADATA (obbligatori)
+tags TEXT[] NOT NULL DEFAULT '{}',
+popularity INTEGER NOT NULL DEFAULT 50 CHECK (popularity >= 0 AND popularity <= 100),  -- SEMPRE 0-100!
+
+-- TIMESTAMPS (obbligatori)
+created_at TIMESTAMPTZ DEFAULT NOW(),
+updated_at TIMESTAMPTZ DEFAULT NOW()
+```
+
+### Regole Chiave
+
+| Regola | Valore | Note |
+|--------|--------|------|
+| **Lingua** | SOLO INGLESE | Traduzioni in tabella `translations` separata |
+| **Popularity** | 0-100 | MAI 1-5, sempre scala 0-100 |
+| **ID format** | `PREFIX_NAME` | Uppercase, underscore (es. `STK_RIBEYE`) |
+| **Slug format** | `lowercase-with-hyphens` | URL-friendly |
+| **ingredient_ids** | `['ING_*', ...]` | Riferimenti a master ingredients |
+| **allergens** | Array lowercase | `['gluten', 'dairy', 'eggs', ...]` |
+
+---
+
+## ENUM Types Pattern
+
+Ogni database DEVE definire i propri ENUM types:
+
+```sql
+-- Pattern per ENUM
+DO $$ BEGIN
+  CREATE TYPE {database}_category AS ENUM (
+    'category1', 'category2', 'category3'
+  );
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
+```
+
+### ENUM Comuni da Riutilizzare
+
+Se esistono già questi ENUM, non ricrearli:
+- `milk_type` (whole, skim, oat, almond, soy, coconut, none)
+- `portion_size` (small, regular, large, sharing) - se già creato
+
+---
+
+## Row Level Security (RLS)
+
+TUTTI i nuovi database DEVONO avere RLS abilitato:
+
+```sql
+-- Abilitare RLS
+ALTER TABLE {table_name} ENABLE ROW LEVEL SECURITY;
+
+-- Policy per lettura pubblica
+DROP POLICY IF EXISTS "Public read access for {table_name}" ON {table_name};
+CREATE POLICY "Public read access for {table_name}" ON {table_name}
+  FOR SELECT USING (true);
+```
+
+---
+
+## Indexes Standard
+
+```sql
+-- Indexes obbligatori
+CREATE INDEX IF NOT EXISTS idx_{table}_category ON {table}(category);
+CREATE INDEX IF NOT EXISTS idx_{table}_popularity ON {table}(popularity DESC);
+CREATE INDEX IF NOT EXISTS idx_{table}_tags ON {table} USING GIN(tags);
+CREATE INDEX IF NOT EXISTS idx_{table}_ingredient_ids ON {table} USING GIN(ingredient_ids);
+CREATE INDEX IF NOT EXISTS idx_{table}_allergens ON {table} USING GIN(allergens);
+
+-- Index opzionali basati su query comuni
+CREATE INDEX IF NOT EXISTS idx_{table}_is_vegan ON {table}(is_vegan) WHERE is_vegan = true;
+CREATE INDEX IF NOT EXISTS idx_{table}_is_gluten_free ON {table}(is_gluten_free) WHERE is_gluten_free = true;
+```
+
+---
+
+## Struttura Cartelle
+
+```
+shared/database/{nome_database}/
+├── types.ts                    # TypeScript types
+├── data/
+│   ├── index.ts               # Export principale
+│   ├── {categoria1}.ts        # Dati per categoria
+│   ├── {categoria2}.ts
+│   └── ...
+├── schema/
+│   └── create-{nome}-table.sql   # Schema SQL
+└── scripts/
+    ├── generate-import-sql.py    # Script generazione SQL
+    └── {nome}-import.sql         # SQL generato per import
+```
+
+---
+
+## TypeScript Types Pattern
+
+```typescript
+// types.ts
+export type {Database}Category =
+  | 'category1'
+  | 'category2';
+
+export interface {Database}Item {
+  id: string;
+  slug: string;
+  name: string;                    // English only
+  description: string;             // English only
+
+  category: {Database}Category;
+  status: 'classic' | 'popular' | 'signature' | 'seasonal' | 'active';
+
+  // Ingredients
+  ingredient_ids: string[];        // ING_* references
+
+  // Dietary (Sistema 5 Dimensioni)
+  allergens: string[];
+  is_gluten_free: boolean;
+  is_dairy_free: boolean;
+  is_nut_free: boolean;
+  is_vegan: boolean;
+  is_vegetarian: boolean;
+  is_halal: boolean;
+  is_kosher: boolean;
+
+  // Nutrition
+  calories_per_serving?: number;
+  protein_g?: number;
+  carbs_g?: number;
+  fat_g?: number;
+
+  // Spice
+  spice_level: number;             // 0-5
+
+  // Metadata
+  tags: string[];
+  popularity: number;              // 0-100 !!!
+
+  // Timestamps (auto-generated)
+  created_at?: string;
+  updated_at?: string;
+}
+```
+
+---
+
+## Workflow Creazione Database
+
+### Step 1: Preparazione
+1. Leggere questo file
+2. Identificare database simile come riferimento (es. `japanese` per food, `coffee` per bevande)
+3. Definire categorie e campi specifici
+
+### Step 2: Creazione Files
+1. `types.ts` - Types TypeScript
+2. `data/*.ts` - Dati divisi per categoria
+3. `data/index.ts` - Export combinato
+4. `schema/create-{nome}-table.sql` - Schema SQL
+
+### Step 3: Import Supabase
+1. Eseguire schema SQL in Supabase (crea tabella + ENUM + indexes + RLS)
+2. Importare dati via REST API o batch SQL
+
+### Step 4: Collegamento Ingredienti
+1. Verificare che tutti `ingredient_ids` esistano in master `ingredients`
+2. Creare links in `product_ingredients` junction table
+
+### Step 5: Documentazione
+1. Aggiornare `docs/DATABASE-INVENTORY.md`
+2. Aggiornare `docs/BACKLOG.md` (spostare in completati)
+3. Aggiornare `CLAUDE.md` sezione "Sessione Corrente"
+
+---
+
+## Database di Riferimento
+
+### Per Food:
+- **japanese** - Pattern più recente e completo
+- **appetizers** - Pattern con origin object
+
+### Per Bevande:
+- **coffee** - Pattern completo con customization
+- **tea** - Pattern con bubble tea specifics
+- **cocktails** - Pattern con IBA categories
+
+---
+
+## Errori Comuni da Evitare
+
+| Errore | Corretto |
+|--------|----------|
+| `popularity: 5` | `popularity: 85` (scala 0-100) |
+| `name: { en: "...", it: "..." }` | `name: "..."` (solo inglese) |
+| Dimenticare `ingredient_ids` | SEMPRE includere array |
+| Dimenticare RLS | SEMPRE abilitare con policy |
+| TEXT invece di ENUM | Usare ENUM custom dove possibile |
+| Dimenticare indexes GIN per arrays | Arrays DEVONO avere GIN index |
+
+---
+
+## Allergens Standard (EU 14 + extras)
+
+```typescript
+const STANDARD_ALLERGENS = [
+  // EU 14
+  'gluten', 'crustaceans', 'eggs', 'fish', 'peanuts',
+  'soybeans', 'milk', 'nuts', 'celery', 'mustard',
+  'sesame', 'sulphites', 'lupin', 'molluscs',
+  // Additional
+  'dairy',  // alias for milk
+  'shellfish', // alias for crustaceans + molluscs
+  'tree_nuts', // specific nut type
+];
+```
+
+---
+
+## Checklist Post-Creazione
+
+- [ ] Tabella creata in Supabase?
+- [ ] RLS abilitato?
+- [ ] Dati importati?
+- [ ] `ingredient_ids` tutti validi?
+- [ ] `product_ingredients` links creati?
+- [ ] `DATABASE-INVENTORY.md` aggiornato?
+- [ ] `BACKLOG.md` aggiornato?
+- [ ] `CLAUDE.md` aggiornato?
+
+---
+
+**Creato per evitare errori ripetuti e garantire consistenza tra tutti i database.**

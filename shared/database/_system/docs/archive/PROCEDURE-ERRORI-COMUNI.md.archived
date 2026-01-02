@@ -1,0 +1,223 @@
+# Procedura Errori Comuni
+
+> Raccolta di errori riscontrati e soluzioni. Aggiornare ogni volta che si trova un nuovo errore.
+
+**Last Updated**: 2025-12-20
+
+---
+
+## Indice
+
+1. [Errori Bash](#1-errori-bash)
+2. [Errori Read Tool](#2-errori-read-tool)
+3. [Errori SQL/Supabase](#3-errori-sqlsupabase)
+4. [Errori Import Database](#4-errori-import-database)
+
+---
+
+## 1. Errori Bash
+
+### 1.1 Comando multi-linea non funziona
+
+**Errore:**
+```
+usage: tr [-Ccsu] string1 string2
+       tr [-Ccu] -d string1
+```
+
+**Causa:** Comandi Bash scritti su più righe non vengono interpretati come singolo comando.
+
+**Soluzione:** Wrappare tutto in `bash -c '...'`
+
+```bash
+# ❌ NON FUNZIONA
+KEY="abc123"
+URL="https://example.com"
+curl -s "$URL" -H "apikey: $KEY"
+
+# ✅ FUNZIONA
+bash -c 'KEY="abc123"; URL="https://example.com"; curl -s "$URL" -H "apikey: $KEY"'
+```
+
+**Regola:** Per comandi con variabili, SEMPRE usare `bash -c '...'` con `;` tra i comandi.
+
+---
+
+### 1.2 Pipe con wc -l restituisce spazi
+
+**Errore:** Output tipo `      64` invece di `64`
+
+**Soluzione:** Aggiungere `| tr -d ' '` oppure usare `xargs`
+
+```bash
+# Con tr
+grep -o '"id"' file.json | wc -l | tr -d ' '
+
+# Con xargs (più robusto)
+grep -o '"id"' file.json | wc -l | xargs
+```
+
+---
+
+## 2. Errori Read Tool
+
+### 2.1 File troppo grande
+
+**Errore:**
+```
+Error: File content (25343 tokens) exceeds maximum allowed tokens (25000)
+```
+
+**Causa:** Il file supera il limite di 25000 tokens.
+
+**Soluzioni:**
+
+1. **Usare offset/limit per leggere porzioni:**
+```
+Read file_path with offset=0 limit=100  # prime 100 righe
+Read file_path with offset=100 limit=50 # righe 101-150
+```
+
+2. **Usare Grep per cercare sezioni specifiche:**
+```
+Grep pattern="### Cocktails" path=file.md
+```
+
+3. **Riorganizzare il file in moduli più piccoli** (vedi sezione sotto)
+
+**Regola:** Per file > 500 righe, preferire struttura modulare con file separati.
+
+---
+
+### 2.2 Best Practice per file grandi
+
+Seguendo le [best practices di documentazione modulare](https://redhat-documentation.github.io/modular-docs/):
+
+1. **Struttura ad indice:** File principale con solo link a sotto-file
+2. **Moduli standalone:** Ogni modulo deve avere senso da solo
+3. **Nessuna duplicazione:** Informazioni in un solo posto
+4. **Navigazione rapida:** Indice con anchor links
+
+**Esempio struttura:**
+```
+docs/
+├── DATABASE-INVENTORY.md      # Solo indice + summary
+├── inventory/
+│   ├── _template.md           # Template per nuovi database
+│   ├── beverages.md           # Cocktails, Wines, Beers, etc.
+│   ├── cuisines-asian.md      # Japanese, Korean, Chinese, etc.
+│   ├── cuisines-european.md   # Greek, Georgian, Turkish, etc.
+│   ├── cuisines-american.md   # Mexican, Brazilian, etc.
+│   ├── main-dishes.md         # Steaks, Seafood, Pasta, etc.
+│   └── sides-desserts.md      # Salads, Soups, Desserts, etc.
+```
+
+---
+
+## 3. Errori SQL/Supabase
+
+### 3.1 ON CONFLICT non trova constraint
+
+**Errore:**
+```
+ERROR: 42P10: there is no unique or exclusion constraint matching the ON CONFLICT specification
+```
+
+**Causa:** Il constraint specificato non esiste o ha colonne diverse.
+
+**Soluzioni:**
+
+1. **Verificare il constraint esistente:**
+```sql
+SELECT constraint_name, column_name
+FROM information_schema.constraint_column_usage
+WHERE table_name = 'product_ingredients';
+```
+
+2. **Usare DELETE + INSERT invece di ON CONFLICT:**
+```sql
+-- Se fai già DELETE prima, non serve ON CONFLICT
+DELETE FROM product_ingredients WHERE product_type = 'softdrinks';
+INSERT INTO product_ingredients (...) VALUES (...);
+-- NO ON CONFLICT needed!
+```
+
+**Nota:** `product_ingredients` ha constraint su `(product_type, product_id, ingredient_id)`, NON su `(product_id, ingredient_id)`.
+
+---
+
+### 3.2 Categoria ingrediente non valida
+
+**Errore:**
+```
+ERROR: new row violates check constraint "ingredients_category_check"
+```
+
+**Causa:** Categoria non esiste nell'ENUM/CHECK.
+
+**Categorie valide:**
+```
+beers, bread, dairy, eggs, fruits, grains, herbs, juices,
+liqueurs, mixers, pasta, proteins, rice, spices, spirits,
+vegetables, wines, other
+```
+
+**NON esistono:** sweets, legumes, beverages, oils, nuts, condiments, dairy_alternatives
+
+---
+
+### 3.3 Campo obbligatorio NULL
+
+**Errore:**
+```
+ERROR: null value in column "slug" violates not-null constraint
+ERROR: null value in column "description" violates not-null constraint
+```
+
+**Causa:** INSERT ingredienti senza tutti i campi obbligatori.
+
+**Campi OBBLIGATORI per ingredienti:**
+```sql
+INSERT INTO ingredients (id, slug, name, description, category, ...)
+VALUES ('ING_EXAMPLE', 'example', 'Example', 'Description here', 'other', ...);
+```
+
+---
+
+## 4. Errori Import Database
+
+### 4.1 Ordine esecuzione script
+
+**Problema:** Errori di foreign key o tabella non esistente.
+
+**Soluzione:** Rispettare SEMPRE l'ordine:
+1. Schema (CREATE TABLE)
+2. Missing ingredients (se necessario)
+3. Data (INSERT prodotti)
+4. Product_ingredients (INSERT links)
+5. Verify (SELECT per controllo)
+
+---
+
+### 4.2 Conteggio non corrisponde
+
+**Problema:** Numeri in documentazione diversi da Supabase.
+
+**Procedura:**
+1. Contare nel file SQL: `grep -c "INSERT INTO" file.sql`
+2. Contare in Supabase via API
+3. Se discrepanza → verificare file TypeScript sorgente
+4. Rigenerare SQL se necessario
+
+---
+
+## Changelog
+
+| Data | Errore | Soluzione |
+|------|--------|-----------|
+| 2025-12-20 | Bash multi-linea con tr | Usare bash -c '...' |
+| 2025-12-20 | File > 25000 tokens | offset/limit o moduli |
+| 2025-12-19 | ON CONFLICT wrong constraint | DELETE + INSERT |
+| 2025-12-18 | Categoria ingrediente invalida | Usare categorie valide |
+| 2025-12-18 | NULL su slug/description | Includere tutti i campi |
+

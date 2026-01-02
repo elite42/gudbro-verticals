@@ -1,167 +1,94 @@
 # GUDBRO Verticals
 
-Standalone vertical business applications built on GUDBRO's QR platform.
+Digital menu applications and centralized food database built on GUDBRO's QR platform.
 
-## 📦 Repository Structure
+## Quick Reference
+
+| App | URL | Port | Status |
+|-----|-----|------|--------|
+| Website | gudbro-website.vercel.app | 3000 | LIVE |
+| Backoffice | gudbro-backoffice.vercel.app | 3001 | LIVE |
+| Coffeeshop PWA | gudbro-coffeeshop-pwa.vercel.app | 3004 | LIVE |
+
+## Repository Structure
 
 ```
 gudbro-verticals/
 ├── apps/
-│   ├── coffeeshop/          # Coffee shop / restaurant digital menu
-│   ├── wellness/            # Wellness center & spa management
-│   └── rentals/             # Equipment & vehicle rentals
-└── shared/                  # Shared code & product database
-    ├── database/            # Product catalogs, safety filters
-    └── menu-template/       # Reusable menu components
+│   ├── coffeeshop/frontend/  # Digital Menu PWA
+│   ├── backoffice/           # Admin Dashboard
+│   └── website/              # Marketing Site
+├── shared/database/          # Centralized food databases
+│   ├── ingredients/master/   # 598 master ingredients
+│   ├── cocktails/            # 227 IBA cocktails
+│   ├── pasta/                # 87 recipes
+│   ├── pizzas/               # 62 recipes
+│   └── ...                   # 12 food categories total
+├── docs/                     # Documentation
+└── .claude/commands/         # Workflow slash commands
 ```
 
-## 🚀 Quick Start
+## Stack
 
-### Prerequisites
+- **Framework:** Next.js 14.2.33, React 18.3.1
+- **Styling:** Tailwind CSS 3.4.1
+- **Database:** Supabase (PostgreSQL)
+- **ORM:** Prisma 5.22.0 (backoffice only)
+- **Deployment:** Vercel
 
-- Node.js >= 18.0.0
-- npm >= 9.0.0
-
-### Installation
+## Development
 
 ```bash
-# Install all dependencies
-npm install
+# Coffeeshop PWA
+cd apps/coffeeshop/frontend && npm run dev  # :3004
+
+# Backoffice
+cd apps/backoffice && npm run dev           # :3001
+
+# Build
+npm run build
+
+# Deploy (auto on push to main)
+git push origin main
 ```
 
-### Development
+## Food Database Summary
 
-Run individual apps:
+| Database | Records | Status |
+|----------|---------|--------|
+| Master Ingredients | 598 | In Supabase |
+| Cocktails | 227 | In Supabase |
+| Pasta | 87 | In Supabase |
+| Pizzas | 62 | In Supabase |
+| Salads | 52 | In Supabase |
+| Appetizers | 51 | In Supabase |
+| Sandwiches | 50 | In Supabase |
+| Beers | 45 | In Supabase |
+| Burgers | 45 | In Supabase |
+| Soups | 39 | In Supabase |
+| Desserts | 35 | In Supabase |
+| Risotti | 27 | In Supabase |
+| Dumplings | 20 | In Supabase |
+| **TOTAL** | **838** | |
 
-```bash
-# Coffeeshop (Port 3020)
-npm run dev:coffeeshop
+## Documentation
 
-# Wellness (Port 3021)
-npm run dev:wellness
+| File | Purpose |
+|------|---------|
+| `CLAUDE.md` | AI assistant context |
+| `docs/inventory.md` | Complete feature inventory |
+| `docs/DATABASE-INVENTORY.md` | Food databases status |
+| `docs/BACKLOG.md` | Pending tasks |
+| `docs/SISTEMA-FILTRI.md` | Sistema 5 Dimensioni (66 safety parameters) |
 
-# Rentals (Port 3022)
-npm run dev:rentals
-```
-
-### Production Build
-
-```bash
-# Build all apps
-npm run build:coffeeshop
-npm run build:wellness
-npm run build:rentals
-```
-
-## 📱 Applications
-
-### Coffeeshop (ROOTS)
-**Status:** ✅ Production Ready
-**Port:** 3020
-**Features:**
-- Multi-language digital menu (EN/VI/IT)
-- Product customization (size, sugar, ice, milk)
-- Shopping cart with localStorage
-- Design system with 46 safety filter icons
-- Responsive mobile-first UI
-
-**Tech Stack:** Next.js 14, React 19, Tailwind CSS, TypeScript
-
-### Backoffice
-**Status:** ⚠️ Testing Required (Implementation Complete)
-**Port:** 3023
-**Features:**
-- **Global Catalog Management**: Search, filter, and detailed product views
-- **Multi-Language Product Forms**: EN/IT/VI support with tab-based UI
-- **Auto-Computed Safety Flags**: Allergens, diets, intolerances, calories, spiciness
-- **Ingredient Management**: Multi-select with real-time auto-computation
-- **Bulk Operations**: Checkbox selection, batch activate/deactivate, CSV export
-- **Image Upload**: URL-based with live preview
-- **Venue-Specific Overrides**: Price override and activation per venue
-
-**Tech Stack:** Next.js 14, Prisma, SQLite, TypeScript
-
-**Recent Updates (Nov 2025):**
-- Sprint 1: UX essentials (instant search, category filter, product detail modal)
-- Sprint 2: Complete product form (multi-language, auto-compute, ingredient linking)
-- Sprint 3: Bulk operations (select all, batch toggle, Excel-ready CSV export)
-
-**Database Status:**
-- 133 ingredients loaded and ready
-- 81 global products managed
-- Auto-computation utility for safety flags
-
-**⚠️ Manual Testing Required:**
-- [ ] Create complete product with all fields (multi-language, ingredients, image)
-- [ ] Edit existing product and verify data persistence
-- [ ] Test bulk operations on 20+ products
-- [ ] Verify PWA displays products with correct safety flags
-- [ ] Test CSV export in Excel for encoding compatibility
-
-### Wellness
-**Status:** 🚧 Development
-**Port:** 3021
-**Features:**
-- Spa & wellness service booking
-- Treatment packages
-- Therapist profiles
-- Membership management
-
-**Tech Stack:** Next.js, React, Tailwind CSS
-
-### Rentals
-**Status:** 🚧 Development
-**Port:** 3022
-**Features:**
-- Equipment rental catalog
-- Booking & availability calendar
-- Pricing calculator
-- Customer management
-
-**Tech Stack:** Next.js, React, Tailwind CSS
-
-## 🛠️ Shared Resources
-
-### Product Database
-Centralized product catalogs in `shared/database/products/`:
-- `roots-products.ts` - Coffeeshop menu items
-- Safety filter system (allergens, dietary requirements)
-
-### Menu Template
-Reusable React components in `shared/menu-template/`:
-- MenuCard, CategoryTabs, ProductCustomization
-- 80%+ code reuse across verticals
-
-## 📝 Development Guidelines
-
-### Adding a New Vertical
-
-1. Create new app directory: `apps/your-vertical/`
-2. Copy structure from existing app
-3. Add npm scripts to root `package.json`
-4. Import shared components from `shared/`
-5. Update this README
-
-### Port Assignments
-
-- Coffeeshop: 3020
-- Wellness: 3021
-- Rentals: 3022
-- **Backoffice: 3023**
-- Future verticals: 3024+
-
-## 🔗 Related Repositories
+## Related Repositories
 
 - **gudbro-qr-core** - QR platform, microservices, admin UI
 
-## 📄 License
+## License
 
 UNLICENSED - Proprietary software
 
-## 👥 Team
-
-GUDBRO Development Team
-
 ---
 
-**Last Updated:** 2025-11-29
+**Last Updated:** 2025-12-16

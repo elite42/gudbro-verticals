@@ -1,0 +1,34 @@
+Fornisci valori nutrizionali per 100g per questi ingredienti.
+
+Output: SOLO JSON array, formato:
+[{"id": "ING_X", "nutrition": {"calories": 100, "protein": 5.0, "fat": 3.0, "carbs": 12.0, "fiber": 2.0}}]
+
+Ingredienti:
+[
+  {"id": "ING_BELGIAN_BEER", "name": "Belgian Beer"},
+  {"id": "ING_GUEUZE_BEER", "name": "Gueuze Lambic Beer"},
+  {"id": "ING_DOUBLE_CREAM", "name": "Double Cream"},
+  {"id": "ING_KEFIR", "name": "Kefir"},
+  {"id": "ING_VLA", "name": "Vla (Dutch Custard)"},
+  {"id": "ING_AFANG_LEAF", "name": "Afang Leaf"},
+  {"id": "ING_COCOYAM", "name": "Cocoyam"},
+  {"id": "ING_COLLARD_GREENS", "name": "Collard Greens"},
+  {"id": "ING_CORN", "name": "Corn"},
+  {"id": "ING_CORN_KERNELS", "name": "Corn Kernels"},
+  {"id": "ING_CORN_COB", "name": "Corn on the Cob"},
+  {"id": "ING_CORNICHONS", "name": "Cornichons"},
+  {"id": "ING_DILL_PICKLE", "name": "Dill Pickle"},
+  {"id": "ING_DRIED_MUSHROOM", "name": "Dried Forest Mushrooms"},
+  {"id": "ING_PEA", "name": "Green Peas"},
+  {"id": "ING_GREEN_PLANTAIN", "name": "Green Plantain"},
+  {"id": "ING_JUTE_LEAF", "name": "Jute Leaf (Ewedu)"},
+  {"id": "ING_OHA_LEAF", "name": "Oha Leaf"},
+  {"id": "ING_PARSLEY_ROOT", "name": "Parsley Root"},
+  {"id": "ING_PETAI", "name": "Petai (Stink Beans)"},
+  {"id": "ING_PICKLED_BEET", "name": "Pickled Beet"},
+  {"id": "ING_PICKLED_CUCUMBER", "name": "Pickled Cucumber"},
+  {"id": "ING_PUMPKIN_LEAF", "name": "Pumpkin Leaf (Ugu)"},
+  {"id": "ING_RIPE_PLANTAIN", "name": "Ripe Plantain (Maduro)"},
+  {"id": "ING_TORCH_GINGER", "name": "Torch Ginger Flower"},
+  {"id": "ING_WATERLEAF", "name": "Waterleaf"}
+]

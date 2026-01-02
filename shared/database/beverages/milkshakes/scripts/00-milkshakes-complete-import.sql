@@ -1,0 +1,16 @@
+-- ============================================
+-- MILKSHAKES - Complete Import Guide
+-- GUDBRO Database Standards v1.3
+-- ============================================
+-- Total: 25 milkshakes
+--
+-- EXECUTE IN ORDER:
+-- 1. 01-milkshakes-schema.sql       (Creates table, indexes, RLS)
+-- 2. 02-milkshakes-missing-ingredients.sql (Adds new ingredients)
+-- 3. 03-milkshakes-data.sql         (Inserts 25 milkshakes)
+-- 4. 04-milkshakes-product-ingredients.sql (Links ingredients)
+--
+-- VERIFICATION QUERIES:
+-- SELECT COUNT(*) FROM milkshakes;  -- Should be 25
+-- SELECT COUNT(*) FROM product_ingredients WHERE product_type = 'milkshakes';
+-- ============================================

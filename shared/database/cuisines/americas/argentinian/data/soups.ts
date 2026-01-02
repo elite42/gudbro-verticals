@@ -1,0 +1,97 @@
+// Argentinian Soups and Stews
+// Hearty Argentine comfort food
+
+import { ArgentinianDish } from '../types';
+
+export const soups: ArgentinianDish[] = [
+  {
+    id: 'ARG_LOCRO',
+    slug: 'locro',
+    name: 'Locro',
+    description: 'Traditional corn and white bean stew with meat, eaten on national holidays',
+    category: 'soup',
+    status: 'iconic',
+    region: 'Salta',
+    protein_type: 'mixed',
+    cooking_method: 'simmered',
+    prep_time_min: 180,
+    spice_level: 1,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['national-dish', 'holiday', 'winter'],
+    popularity: 95,
+    ingredients: ['ING_HOMINY', 'ING_WHITE_BEAN', 'ING_BEEF', 'ING_CHORIZO', 'ING_PORK', 'ING_PUMPKIN', 'ING_ONION', 'ING_CUMIN', 'ING_PAPRIKA']
+  },
+  {
+    id: 'ARG_CARBONADA',
+    slug: 'carbonada',
+    name: 'Carbonada',
+    description: 'Sweet and savory beef stew with peaches, corn, and squash, served in a pumpkin',
+    category: 'soup',
+    status: 'classic',
+    region: 'Buenos Aires',
+    protein_type: 'beef',
+    cooking_method: 'simmered',
+    prep_time_min: 90,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['sweet-savory', 'unique', 'autumn'],
+    popularity: 80,
+    ingredients: ['ING_BEEF', 'ING_PEACH', 'ING_CORN', 'ING_PUMPKIN', 'ING_POTATO', 'ING_SWEET_POTATO', 'ING_ONION', 'ING_TOMATO', 'ING_BEEF_BROTH']
+  },
+  {
+    id: 'ARG_GUISO_LENTEJAS',
+    slug: 'guiso-de-lentejas',
+    name: 'Guiso de Lentejas',
+    description: 'Hearty lentil stew with chorizo, vegetables, and potatoes',
+    category: 'soup',
+    status: 'classic',
+    region: 'Buenos Aires',
+    protein_type: 'legume',
+    cooking_method: 'simmered',
+    prep_time_min: 60,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['lentils', 'winter', 'economical'],
+    popularity: 85,
+    ingredients: ['ING_LENTILS', 'ING_CHORIZO', 'ING_POTATO', 'ING_CARROT', 'ING_ONION', 'ING_TOMATO', 'ING_GARLIC', 'ING_BAY_LEAF', 'ING_PAPRIKA']
+  },
+  {
+    id: 'ARG_PUCHERO',
+    slug: 'puchero',
+    name: 'Puchero',
+    description: 'Boiled dinner with beef, chicken, vegetables, and broth served separately',
+    category: 'soup',
+    status: 'traditional',
+    region: 'Buenos Aires',
+    protein_type: 'mixed',
+    cooking_method: 'boiled',
+    prep_time_min: 120,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['boiled-dinner', 'sunday', 'grandmother'],
+    popularity: 78,
+    ingredients: ['ING_BEEF', 'ING_CHICKEN', 'ING_CHORIZO', 'ING_POTATO', 'ING_SWEET_POTATO', 'ING_CORN', 'ING_CABBAGE', 'ING_CARROT', 'ING_PUMPKIN']
+  },
+  {
+    id: 'ARG_CAZUELA_MONDONGO',
+    slug: 'cazuela-de-mondongo',
+    name: 'Cazuela de Mondongo',
+    description: 'Tripe stew with vegetables and chickpeas in tomato broth',
+    category: 'soup',
+    status: 'traditional',
+    region: 'Buenos Aires',
+    protein_type: 'beef',
+    cooking_method: 'simmered',
+    prep_time_min: 180,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['offal', 'traditional', 'slow-cooked'],
+    popularity: 65,
+    ingredients: ['ING_TRIPE', 'ING_CHICKPEA', 'ING_POTATO', 'ING_CARROT', 'ING_TOMATO', 'ING_ONION', 'ING_GARLIC', 'ING_PAPRIKA', 'ING_OREGANO']
+  }
+];

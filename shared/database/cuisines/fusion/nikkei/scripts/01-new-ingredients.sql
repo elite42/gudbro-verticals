@@ -1,0 +1,13 @@
+-- Nikkei Database - Script 01: New Ingredients
+-- GUDBRO Database Standards v1.7
+-- Date: 2025-12-25
+--
+-- NESSUN NUOVO INGREDIENTE NECESSARIO
+-- Tutti i 69 ingredienti Nikkei esistono già nel database.
+--
+-- Ingredienti auto-corretti:
+-- ING_ROCOTO → ING_AJI_ROCOTO (esiste già)
+-- ING_SHIITAKE → ING_SHIITAKE_MUSHROOM (esiste già)
+--
+-- Script vuoto - nessuna azione richiesta.
+SELECT 'No new ingredients needed for Nikkei' AS status;

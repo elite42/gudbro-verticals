@@ -6,12 +6,12 @@
  * - Restaurants
  * - Street Food
  *
- * Each ingredient has complete Sistema 51 Filtri data:
- * - 30 Allergens
- * - 10 Intolerances
- * - 11 Dietary flags
- * - Spice levels
- * - Nutrition data
+ * Each ingredient has complete Sistema 5 Dimensioni data:
+ * - 30 Allergens (Dimensione 1)
+ * - 10 Intolerances (Dimensione 2)
+ * - 11 Dietary flags (Dimensione 3)
+ * - Nutrition data (Dimensione 4)
+ * - Spice levels (Dimensione 5)
  */
 
 import type { IngredientMaster } from '../types';

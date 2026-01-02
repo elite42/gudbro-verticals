@@ -19,7 +19,8 @@
     "dev:website": "cd apps/website && npm run dev -- -p 3024",
     "build:website": "cd apps/website && npm run build",
     "lint:all": "npm run lint --workspaces",
-    "clean": "rm -rf apps/*/node_modules apps/*/.next apps/*/build node_modules"
+    "clean": "rm -rf apps/*/node_modules apps/*/.next apps/*/build node_modules",
+    "seed:cocktails": "npx tsx shared/database/cocktails/scripts/seed-all-cocktails.ts"
   },
   "repository": {
     "type": "git",

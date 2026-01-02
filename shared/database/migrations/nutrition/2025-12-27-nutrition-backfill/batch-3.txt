@@ -1,0 +1,34 @@
+Fornisci valori nutrizionali per 100g per questi ingredienti.
+
+Output: SOLO JSON array, formato:
+[{"id": "ING_X", "nutrition": {"calories": 100, "protein": 5.0, "fat": 3.0, "carbs": 12.0, "fiber": 2.0}}]
+
+Ingredienti:
+[
+  {"id": "ING_CORN_MASA", "name": "Corn Masa"},
+  {"id": "ING_CORN_STARCH", "name": "Corn Starch"},
+  {"id": "ING_CORNMEAL", "name": "Cornmeal"},
+  {"id": "ING_EGG_BREAD", "name": "Egg Bread (Pan de Medianoche)"},
+  {"id": "ING_EGG_NOODLE", "name": "Egg Noodle"},
+  {"id": "ING_FLATBREAD", "name": "Flatbread"},
+  {"id": "ING_LONTONG", "name": "Lontong (Compressed Rice Cake)"},
+  {"id": "ING_MARIE_BISCUIT", "name": "Marie Biscuit"},
+  {"id": "ING_MILLET", "name": "Millet"},
+  {"id": "ING_OFADA_RICE", "name": "Ofada Rice"},
+  {"id": "ING_RYE_BERRIES", "name": "Rye Berries"},
+  {"id": "ING_RYE_BREAD", "name": "Rye Bread"},
+  {"id": "ING_RYE_FLOUR", "name": "Rye Flour"},
+  {"id": "ING_SAGO", "name": "Sago Pearls"},
+  {"id": "ING_WAFER", "name": "Wafer Sheet"},
+  {"id": "ING_YELLOW_NOODLE", "name": "Yellow Egg Noodles"},
+  {"id": "ING_CHOW_MEIN_NOODLES", "name": "Chow Mein Noodles"},
+  {"id": "ING_CORN_TORTILLA", "name": "Corn Tortilla"},
+  {"id": "ING_CLAM", "name": "Clam"},
+  {"id": "ING_CONCH", "name": "Conch"},
+  {"id": "ING_CONCHAS_NEGRAS", "name": "Conchas Negras"},
+  {"id": "ING_HERRING", "name": "Herring"},
+  {"id": "ING_MUSSEL", "name": "Mussel"},
+  {"id": "ING_PORK_ROAST", "name": "Roast Pork (Lechon)"},
+  {"id": "ING_SARDINE", "name": "Sardine"},
+  {"id": "ING_ANAGO", "name": "Conger Eel (Anago)"}
+]

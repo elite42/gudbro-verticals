@@ -475,7 +475,7 @@ export interface SeasonalAvailability {
 
 /**
  * Master Ingredient - managed by GUDBRO
- * Contains all Sistema 51 Filtri data
+ * Contains all Sistema 5 Dimensioni data
  */
 export interface MasterIngredient {
   id: string;
@@ -865,7 +865,7 @@ export interface SubstitutionSuggestion {
   flavorImpact: 'minimal' | 'noticeable' | 'significant';
   textureImpact: 'minimal' | 'noticeable' | 'significant';
 
-  // Impact on Sistema 51 Filtri
+  // Impact on Sistema 5 Dimensioni
   allergensAdded?: Allergen[];
   allergensRemoved?: Allergen[];
   intolerancesAdded?: Intolerance[];

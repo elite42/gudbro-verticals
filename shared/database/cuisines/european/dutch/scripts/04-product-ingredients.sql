@@ -1,0 +1,387 @@
+-- Dutch Cuisine - Product Ingredients Links
+-- GUDBRO Database Standards v1.7
+-- Generated: 2025-12-25
+-- Total links: 267
+
+INSERT INTO product_ingredients (product_type, product_id, ingredient_id) VALUES
+
+-- STAMPPOT
+-- DUT_BOERENKOOL (9 ingredients)
+('dutch', 'DUT_BOERENKOOL', 'ING_POTATO'),
+('dutch', 'DUT_BOERENKOOL', 'ING_KALE'),
+('dutch', 'DUT_BOERENKOOL', 'ING_ROOKWORST'),
+('dutch', 'DUT_BOERENKOOL', 'ING_BUTTER'),
+('dutch', 'DUT_BOERENKOOL', 'ING_MILK'),
+('dutch', 'DUT_BOERENKOOL', 'ING_BEEF_BROTH'),
+('dutch', 'DUT_BOERENKOOL', 'ING_ONION'),
+('dutch', 'DUT_BOERENKOOL', 'ING_SALT'),
+('dutch', 'DUT_BOERENKOOL', 'ING_BLACK_PEPPER'),
+
+-- DUT_HUTSPOT (9 ingredients)
+('dutch', 'DUT_HUTSPOT', 'ING_POTATO'),
+('dutch', 'DUT_HUTSPOT', 'ING_CARROT'),
+('dutch', 'DUT_HUTSPOT', 'ING_ONION'),
+('dutch', 'DUT_HUTSPOT', 'ING_BEEF_CHUCK'),
+('dutch', 'DUT_HUTSPOT', 'ING_BUTTER'),
+('dutch', 'DUT_HUTSPOT', 'ING_MILK'),
+('dutch', 'DUT_HUTSPOT', 'ING_BAY_LEAVES'),
+('dutch', 'DUT_HUTSPOT', 'ING_CLOVE'),
+('dutch', 'DUT_HUTSPOT', 'ING_SALT'),
+
+-- DUT_ANDIJVIE (8 ingredients)
+('dutch', 'DUT_ANDIJVIE', 'ING_POTATO'),
+('dutch', 'DUT_ANDIJVIE', 'ING_ENDIVE'),
+('dutch', 'DUT_ANDIJVIE', 'ING_BACON'),
+('dutch', 'DUT_ANDIJVIE', 'ING_BUTTER'),
+('dutch', 'DUT_ANDIJVIE', 'ING_MILK'),
+('dutch', 'DUT_ANDIJVIE', 'ING_NUTMEG'),
+('dutch', 'DUT_ANDIJVIE', 'ING_SALT'),
+('dutch', 'DUT_ANDIJVIE', 'ING_BLACK_PEPPER'),
+
+-- DUT_ZUURKOOL (8 ingredients)
+('dutch', 'DUT_ZUURKOOL', 'ING_POTATO'),
+('dutch', 'DUT_ZUURKOOL', 'ING_SAUERKRAUT'),
+('dutch', 'DUT_ZUURKOOL', 'ING_ROOKWORST'),
+('dutch', 'DUT_ZUURKOOL', 'ING_BUTTER'),
+('dutch', 'DUT_ZUURKOOL', 'ING_BACON'),
+('dutch', 'DUT_ZUURKOOL', 'ING_ONION'),
+('dutch', 'DUT_ZUURKOOL', 'ING_JUNIPER_BERRIES'),
+('dutch', 'DUT_ZUURKOOL', 'ING_SALT'),
+
+-- DUT_HETE_BLIKSEM (8 ingredients)
+('dutch', 'DUT_HETE_BLIKSEM', 'ING_POTATO'),
+('dutch', 'DUT_HETE_BLIKSEM', 'ING_APPLE'),
+('dutch', 'DUT_HETE_BLIKSEM', 'ING_BACON'),
+('dutch', 'DUT_HETE_BLIKSEM', 'ING_BUTTER'),
+('dutch', 'DUT_HETE_BLIKSEM', 'ING_BROWN_SUGAR'),
+('dutch', 'DUT_HETE_BLIKSEM', 'ING_ONION'),
+('dutch', 'DUT_HETE_BLIKSEM', 'ING_SALT'),
+('dutch', 'DUT_HETE_BLIKSEM', 'ING_BLACK_PEPPER'),
+
+-- SNACKS
+-- DUT_BITTERBALLEN (10 ingredients)
+('dutch', 'DUT_BITTERBALLEN', 'ING_BEEF'),
+('dutch', 'DUT_BITTERBALLEN', 'ING_BUTTER'),
+('dutch', 'DUT_BITTERBALLEN', 'ING_FLOUR'),
+('dutch', 'DUT_BITTERBALLEN', 'ING_BEEF_BROTH'),
+('dutch', 'DUT_BITTERBALLEN', 'ING_ONION'),
+('dutch', 'DUT_BITTERBALLEN', 'ING_PARSLEY'),
+('dutch', 'DUT_BITTERBALLEN', 'ING_NUTMEG'),
+('dutch', 'DUT_BITTERBALLEN', 'ING_BREADCRUMB'),
+('dutch', 'DUT_BITTERBALLEN', 'ING_EGG'),
+('dutch', 'DUT_BITTERBALLEN', 'ING_DIJON_MUSTARD'),
+
+-- DUT_KROKET (10 ingredients)
+('dutch', 'DUT_KROKET', 'ING_BEEF'),
+('dutch', 'DUT_KROKET', 'ING_BUTTER'),
+('dutch', 'DUT_KROKET', 'ING_FLOUR'),
+('dutch', 'DUT_KROKET', 'ING_BEEF_BROTH'),
+('dutch', 'DUT_KROKET', 'ING_ONION'),
+('dutch', 'DUT_KROKET', 'ING_PARSLEY'),
+('dutch', 'DUT_KROKET', 'ING_NUTMEG'),
+('dutch', 'DUT_KROKET', 'ING_BREADCRUMB'),
+('dutch', 'DUT_KROKET', 'ING_EGG'),
+('dutch', 'DUT_KROKET', 'ING_SALT'),
+
+-- DUT_FRIKANDEL (9 ingredients)
+('dutch', 'DUT_FRIKANDEL', 'ING_GROUND_BEEF'),
+('dutch', 'DUT_FRIKANDEL', 'ING_GROUND_PORK'),
+('dutch', 'DUT_FRIKANDEL', 'ING_CHICKEN'),
+('dutch', 'DUT_FRIKANDEL', 'ING_BREADCRUMB'),
+('dutch', 'DUT_FRIKANDEL', 'ING_ONION'),
+('dutch', 'DUT_FRIKANDEL', 'ING_NUTMEG'),
+('dutch', 'DUT_FRIKANDEL', 'ING_CORIANDER'),
+('dutch', 'DUT_FRIKANDEL', 'ING_SALT'),
+('dutch', 'DUT_FRIKANDEL', 'ING_WHITE_PEPPER'),
+
+-- DUT_FRIKANDEL_SPECIAAL (8 ingredients)
+('dutch', 'DUT_FRIKANDEL_SPECIAAL', 'ING_GROUND_BEEF'),
+('dutch', 'DUT_FRIKANDEL_SPECIAAL', 'ING_GROUND_PORK'),
+('dutch', 'DUT_FRIKANDEL_SPECIAAL', 'ING_CHICKEN'),
+('dutch', 'DUT_FRIKANDEL_SPECIAAL', 'ING_BREADCRUMB'),
+('dutch', 'DUT_FRIKANDEL_SPECIAAL', 'ING_CURRY_KETCHUP'),
+('dutch', 'DUT_FRIKANDEL_SPECIAAL', 'ING_MAYONNAISE'),
+('dutch', 'DUT_FRIKANDEL_SPECIAAL', 'ING_ONION'),
+('dutch', 'DUT_FRIKANDEL_SPECIAAL', 'ING_SALT'),
+
+-- DUT_KAASSOUFFLE (4 ingredients)
+('dutch', 'DUT_KAASSOUFFLE', 'ING_PUFF_PASTRY'),
+('dutch', 'DUT_KAASSOUFFLE', 'ING_GOUDA'),
+('dutch', 'DUT_KAASSOUFFLE', 'ING_EGG'),
+('dutch', 'DUT_KAASSOUFFLE', 'ING_SALT'),
+
+-- DUT_KIPCORN (6 ingredients)
+('dutch', 'DUT_KIPCORN', 'ING_CHICKEN'),
+('dutch', 'DUT_KIPCORN', 'ING_BREADCRUMB'),
+('dutch', 'DUT_KIPCORN', 'ING_CURRY_POWDER'),
+('dutch', 'DUT_KIPCORN', 'ING_ONION'),
+('dutch', 'DUT_KIPCORN', 'ING_SALT'),
+('dutch', 'DUT_KIPCORN', 'ING_WHITE_PEPPER'),
+
+-- DUT_BAMISCHIJF (8 ingredients)
+('dutch', 'DUT_BAMISCHIJF', 'ING_EGG_NOODLE'),
+('dutch', 'DUT_BAMISCHIJF', 'ING_GROUND_PORK'),
+('dutch', 'DUT_BAMISCHIJF', 'ING_CABBAGE'),
+('dutch', 'DUT_BAMISCHIJF', 'ING_CARROT'),
+('dutch', 'DUT_BAMISCHIJF', 'ING_SOY_SAUCE'),
+('dutch', 'DUT_BAMISCHIJF', 'ING_GARLIC'),
+('dutch', 'DUT_BAMISCHIJF', 'ING_BREADCRUMB'),
+('dutch', 'DUT_BAMISCHIJF', 'ING_EGG'),
+
+-- DUT_NASISCHIJF (9 ingredients)
+('dutch', 'DUT_NASISCHIJF', 'ING_RICE'),
+('dutch', 'DUT_NASISCHIJF', 'ING_GROUND_PORK'),
+('dutch', 'DUT_NASISCHIJF', 'ING_CABBAGE'),
+('dutch', 'DUT_NASISCHIJF', 'ING_CARROT'),
+('dutch', 'DUT_NASISCHIJF', 'ING_SOY_SAUCE'),
+('dutch', 'DUT_NASISCHIJF', 'ING_GARLIC'),
+('dutch', 'DUT_NASISCHIJF', 'ING_BREADCRUMB'),
+('dutch', 'DUT_NASISCHIJF', 'ING_EGG'),
+('dutch', 'DUT_NASISCHIJF', 'ING_SAMBAL_OELEK'),
+
+-- MAINS
+-- DUT_HACHEE (10 ingredients)
+('dutch', 'DUT_HACHEE', 'ING_BEEF_CHUCK'),
+('dutch', 'DUT_HACHEE', 'ING_ONION'),
+('dutch', 'DUT_HACHEE', 'ING_BUTTER'),
+('dutch', 'DUT_HACHEE', 'ING_BEEF_BROTH'),
+('dutch', 'DUT_HACHEE', 'ING_BAY_LEAVES'),
+('dutch', 'DUT_HACHEE', 'ING_CLOVE'),
+('dutch', 'DUT_HACHEE', 'ING_APPLE_CIDER_VINEGAR'),
+('dutch', 'DUT_HACHEE', 'ING_BROWN_SUGAR'),
+('dutch', 'DUT_HACHEE', 'ING_FLOUR'),
+('dutch', 'DUT_HACHEE', 'ING_SALT'),
+
+-- DUT_DRAADJESVLEES (10 ingredients)
+('dutch', 'DUT_DRAADJESVLEES', 'ING_BEEF_CHUCK'),
+('dutch', 'DUT_DRAADJESVLEES', 'ING_ONION'),
+('dutch', 'DUT_DRAADJESVLEES', 'ING_CARROT'),
+('dutch', 'DUT_DRAADJESVLEES', 'ING_CELERY'),
+('dutch', 'DUT_DRAADJESVLEES', 'ING_BEEF_BROTH'),
+('dutch', 'DUT_DRAADJESVLEES', 'ING_BAY_LEAVES'),
+('dutch', 'DUT_DRAADJESVLEES', 'ING_THYME'),
+('dutch', 'DUT_DRAADJESVLEES', 'ING_BUTTER'),
+('dutch', 'DUT_DRAADJESVLEES', 'ING_SALT'),
+('dutch', 'DUT_DRAADJESVLEES', 'ING_BLACK_PEPPER'),
+
+-- DUT_BALKENBRIJ (8 ingredients)
+('dutch', 'DUT_BALKENBRIJ', 'ING_PORK_LIVER'),
+('dutch', 'DUT_BALKENBRIJ', 'ING_BUCKWHEAT'),
+('dutch', 'DUT_BALKENBRIJ', 'ING_PORK_BROTH'),
+('dutch', 'DUT_BALKENBRIJ', 'ING_ONION'),
+('dutch', 'DUT_BALKENBRIJ', 'ING_CLOVE'),
+('dutch', 'DUT_BALKENBRIJ', 'ING_ALLSPICE'),
+('dutch', 'DUT_BALKENBRIJ', 'ING_SALT'),
+('dutch', 'DUT_BALKENBRIJ', 'ING_BLACK_PEPPER'),
+
+-- DUT_SLAVINK (9 ingredients)
+('dutch', 'DUT_SLAVINK', 'ING_GROUND_BEEF'),
+('dutch', 'DUT_SLAVINK', 'ING_GROUND_PORK'),
+('dutch', 'DUT_SLAVINK', 'ING_BACON'),
+('dutch', 'DUT_SLAVINK', 'ING_BREADCRUMB'),
+('dutch', 'DUT_SLAVINK', 'ING_EGG'),
+('dutch', 'DUT_SLAVINK', 'ING_ONION'),
+('dutch', 'DUT_SLAVINK', 'ING_NUTMEG'),
+('dutch', 'DUT_SLAVINK', 'ING_SALT'),
+('dutch', 'DUT_SLAVINK', 'ING_BLACK_PEPPER'),
+
+-- DUT_GEHAKTBAL (10 ingredients)
+('dutch', 'DUT_GEHAKTBAL', 'ING_GROUND_BEEF'),
+('dutch', 'DUT_GEHAKTBAL', 'ING_GROUND_PORK'),
+('dutch', 'DUT_GEHAKTBAL', 'ING_BREADCRUMB'),
+('dutch', 'DUT_GEHAKTBAL', 'ING_EGG'),
+('dutch', 'DUT_GEHAKTBAL', 'ING_ONION'),
+('dutch', 'DUT_GEHAKTBAL', 'ING_MILK'),
+('dutch', 'DUT_GEHAKTBAL', 'ING_NUTMEG'),
+('dutch', 'DUT_GEHAKTBAL', 'ING_BEEF_BROTH'),
+('dutch', 'DUT_GEHAKTBAL', 'ING_BUTTER'),
+('dutch', 'DUT_GEHAKTBAL', 'ING_SALT'),
+
+-- SOUPS
+-- DUT_ERWTENSOEP (10 ingredients)
+('dutch', 'DUT_ERWTENSOEP', 'ING_SPLIT_PEA'),
+('dutch', 'DUT_ERWTENSOEP', 'ING_ROOKWORST'),
+('dutch', 'DUT_ERWTENSOEP', 'ING_PORK_BELLY'),
+('dutch', 'DUT_ERWTENSOEP', 'ING_LEEK'),
+('dutch', 'DUT_ERWTENSOEP', 'ING_CELERY'),
+('dutch', 'DUT_ERWTENSOEP', 'ING_CARROT'),
+('dutch', 'DUT_ERWTENSOEP', 'ING_POTATO'),
+('dutch', 'DUT_ERWTENSOEP', 'ING_ONION'),
+('dutch', 'DUT_ERWTENSOEP', 'ING_BAY_LEAVES'),
+('dutch', 'DUT_ERWTENSOEP', 'ING_SALT'),
+
+-- DUT_BRUINE_BONENSOEP (10 ingredients)
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_BROWN_BEAN'),
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_BACON'),
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_ONION'),
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_CARROT'),
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_CELERY'),
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_POTATO'),
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_BAY_LEAVES'),
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_APPLE_CIDER_VINEGAR'),
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_SALT'),
+('dutch', 'DUT_BRUINE_BONENSOEP', 'ING_BLACK_PEPPER'),
+
+-- DUT_KONINGINNESOEP (10 ingredients)
+('dutch', 'DUT_KONINGINNESOEP', 'ING_CHICKEN_BROTH'),
+('dutch', 'DUT_KONINGINNESOEP', 'ING_CHICKEN'),
+('dutch', 'DUT_KONINGINNESOEP', 'ING_HEAVY_CREAM'),
+('dutch', 'DUT_KONINGINNESOEP', 'ING_WHITE_ASPARAGUS'),
+('dutch', 'DUT_KONINGINNESOEP', 'ING_EGG_YOLK'),
+('dutch', 'DUT_KONINGINNESOEP', 'ING_BUTTER'),
+('dutch', 'DUT_KONINGINNESOEP', 'ING_FLOUR'),
+('dutch', 'DUT_KONINGINNESOEP', 'ING_NUTMEG'),
+('dutch', 'DUT_KONINGINNESOEP', 'ING_PARSLEY'),
+('dutch', 'DUT_KONINGINNESOEP', 'ING_SALT'),
+
+-- SEAFOOD
+-- DUT_HOLLANDSE_HARING (3 ingredients)
+('dutch', 'DUT_HOLLANDSE_HARING', 'ING_HERRING'),
+('dutch', 'DUT_HOLLANDSE_HARING', 'ING_ONION'),
+('dutch', 'DUT_HOLLANDSE_HARING', 'ING_PICKLED_CUCUMBER'),
+
+-- DUT_KIBBELING (8 ingredients)
+('dutch', 'DUT_KIBBELING', 'ING_COD'),
+('dutch', 'DUT_KIBBELING', 'ING_FLOUR'),
+('dutch', 'DUT_KIBBELING', 'ING_BAKING_POWDER'),
+('dutch', 'DUT_KIBBELING', 'ING_EGG'),
+('dutch', 'DUT_KIBBELING', 'ING_MILK'),
+('dutch', 'DUT_KIBBELING', 'ING_GARLIC_SAUCE'),
+('dutch', 'DUT_KIBBELING', 'ING_SALT'),
+('dutch', 'DUT_KIBBELING', 'ING_WHITE_PEPPER'),
+
+-- DUT_LEKKERBEKJE (6 ingredients)
+('dutch', 'DUT_LEKKERBEKJE', 'ING_WHITING'),
+('dutch', 'DUT_LEKKERBEKJE', 'ING_FLOUR'),
+('dutch', 'DUT_LEKKERBEKJE', 'ING_BAKING_POWDER'),
+('dutch', 'DUT_LEKKERBEKJE', 'ING_EGG'),
+('dutch', 'DUT_LEKKERBEKJE', 'ING_MILK'),
+('dutch', 'DUT_LEKKERBEKJE', 'ING_SALT'),
+
+-- DUT_GEROOKTE_PALING (3 ingredients)
+('dutch', 'DUT_GEROOKTE_PALING', 'ING_EEL'),
+('dutch', 'DUT_GEROOKTE_PALING', 'ING_SALT'),
+('dutch', 'DUT_GEROOKTE_PALING', 'ING_BLACK_PEPPER'),
+
+-- DUT_MOSSELEN (9 ingredients)
+('dutch', 'DUT_MOSSELEN', 'ING_MUSSELS'),
+('dutch', 'DUT_MOSSELEN', 'ING_CELERY'),
+('dutch', 'DUT_MOSSELEN', 'ING_LEEK'),
+('dutch', 'DUT_MOSSELEN', 'ING_ONION'),
+('dutch', 'DUT_MOSSELEN', 'ING_WHITE_WINE'),
+('dutch', 'DUT_MOSSELEN', 'ING_BUTTER'),
+('dutch', 'DUT_MOSSELEN', 'ING_PARSLEY'),
+('dutch', 'DUT_MOSSELEN', 'ING_BAY_LEAVES'),
+('dutch', 'DUT_MOSSELEN', 'ING_BLACK_PEPPER'),
+
+-- PANCAKES
+-- DUT_PANNENKOEK (6 ingredients)
+('dutch', 'DUT_PANNENKOEK', 'ING_FLOUR'),
+('dutch', 'DUT_PANNENKOEK', 'ING_EGG'),
+('dutch', 'DUT_PANNENKOEK', 'ING_MILK'),
+('dutch', 'DUT_PANNENKOEK', 'ING_BUTTER'),
+('dutch', 'DUT_PANNENKOEK', 'ING_SALT'),
+('dutch', 'DUT_PANNENKOEK', 'ING_POWDERED_SUGAR'),
+
+-- DUT_PANNENKOEK_SPEK (7 ingredients)
+('dutch', 'DUT_PANNENKOEK_SPEK', 'ING_FLOUR'),
+('dutch', 'DUT_PANNENKOEK_SPEK', 'ING_EGG'),
+('dutch', 'DUT_PANNENKOEK_SPEK', 'ING_MILK'),
+('dutch', 'DUT_PANNENKOEK_SPEK', 'ING_BACON'),
+('dutch', 'DUT_PANNENKOEK_SPEK', 'ING_BUTTER'),
+('dutch', 'DUT_PANNENKOEK_SPEK', 'ING_SALT'),
+('dutch', 'DUT_PANNENKOEK_SPEK', 'ING_STROOP'),
+
+-- DUT_POFFERTJES (8 ingredients)
+('dutch', 'DUT_POFFERTJES', 'ING_FLOUR'),
+('dutch', 'DUT_POFFERTJES', 'ING_BUCKWHEAT'),
+('dutch', 'DUT_POFFERTJES', 'ING_EGG'),
+('dutch', 'DUT_POFFERTJES', 'ING_MILK'),
+('dutch', 'DUT_POFFERTJES', 'ING_YEAST'),
+('dutch', 'DUT_POFFERTJES', 'ING_BUTTER'),
+('dutch', 'DUT_POFFERTJES', 'ING_POWDERED_SUGAR'),
+('dutch', 'DUT_POFFERTJES', 'ING_SALT'),
+
+-- DUT_FLENSJES (7 ingredients)
+('dutch', 'DUT_FLENSJES', 'ING_FLOUR'),
+('dutch', 'DUT_FLENSJES', 'ING_EGG'),
+('dutch', 'DUT_FLENSJES', 'ING_MILK'),
+('dutch', 'DUT_FLENSJES', 'ING_BUTTER'),
+('dutch', 'DUT_FLENSJES', 'ING_SUGAR'),
+('dutch', 'DUT_FLENSJES', 'ING_WHIPPED_CREAM'),
+('dutch', 'DUT_FLENSJES', 'ING_STRAWBERRY'),
+
+-- DESSERTS
+-- DUT_STROOPWAFEL (8 ingredients)
+('dutch', 'DUT_STROOPWAFEL', 'ING_FLOUR'),
+('dutch', 'DUT_STROOPWAFEL', 'ING_BUTTER'),
+('dutch', 'DUT_STROOPWAFEL', 'ING_BROWN_SUGAR'),
+('dutch', 'DUT_STROOPWAFEL', 'ING_EGG'),
+('dutch', 'DUT_STROOPWAFEL', 'ING_YEAST'),
+('dutch', 'DUT_STROOPWAFEL', 'ING_CINNAMON'),
+('dutch', 'DUT_STROOPWAFEL', 'ING_STROOP'),
+('dutch', 'DUT_STROOPWAFEL', 'ING_SALT'),
+
+-- DUT_OLIEBOLLEN (8 ingredients)
+('dutch', 'DUT_OLIEBOLLEN', 'ING_FLOUR'),
+('dutch', 'DUT_OLIEBOLLEN', 'ING_MILK'),
+('dutch', 'DUT_OLIEBOLLEN', 'ING_EGG'),
+('dutch', 'DUT_OLIEBOLLEN', 'ING_YEAST'),
+('dutch', 'DUT_OLIEBOLLEN', 'ING_RAISIN'),
+('dutch', 'DUT_OLIEBOLLEN', 'ING_APPLE'),
+('dutch', 'DUT_OLIEBOLLEN', 'ING_POWDERED_SUGAR'),
+('dutch', 'DUT_OLIEBOLLEN', 'ING_SALT'),
+
+-- DUT_APPELBEIGNETS (8 ingredients)
+('dutch', 'DUT_APPELBEIGNETS', 'ING_APPLE'),
+('dutch', 'DUT_APPELBEIGNETS', 'ING_FLOUR'),
+('dutch', 'DUT_APPELBEIGNETS', 'ING_EGG'),
+('dutch', 'DUT_APPELBEIGNETS', 'ING_MILK'),
+('dutch', 'DUT_APPELBEIGNETS', 'ING_SUGAR'),
+('dutch', 'DUT_APPELBEIGNETS', 'ING_CINNAMON'),
+('dutch', 'DUT_APPELBEIGNETS', 'ING_BAKING_POWDER'),
+('dutch', 'DUT_APPELBEIGNETS', 'ING_SALT'),
+
+-- DUT_TOMPOUCE (9 ingredients)
+('dutch', 'DUT_TOMPOUCE', 'ING_PUFF_PASTRY'),
+('dutch', 'DUT_TOMPOUCE', 'ING_HEAVY_CREAM'),
+('dutch', 'DUT_TOMPOUCE', 'ING_MILK'),
+('dutch', 'DUT_TOMPOUCE', 'ING_EGG_YOLK'),
+('dutch', 'DUT_TOMPOUCE', 'ING_SUGAR'),
+('dutch', 'DUT_TOMPOUCE', 'ING_VANILLA'),
+('dutch', 'DUT_TOMPOUCE', 'ING_CORNSTARCH'),
+('dutch', 'DUT_TOMPOUCE', 'ING_POWDERED_SUGAR'),
+('dutch', 'DUT_TOMPOUCE', 'ING_FOOD_COLORING'),
+
+-- DUT_HAAGSE_BLUF (4 ingredients)
+('dutch', 'DUT_HAAGSE_BLUF', 'ING_EGG_WHITE'),
+('dutch', 'DUT_HAAGSE_BLUF', 'ING_SUGAR'),
+('dutch', 'DUT_HAAGSE_BLUF', 'ING_CURRANT'),
+('dutch', 'DUT_HAAGSE_BLUF', 'ING_LEMON_JUICE'),
+
+-- DUT_VLAFLIP (4 ingredients)
+('dutch', 'DUT_VLAFLIP', 'ING_VLA'),
+('dutch', 'DUT_VLAFLIP', 'ING_YOGURT'),
+('dutch', 'DUT_VLAFLIP', 'ING_STRAWBERRY'),
+('dutch', 'DUT_VLAFLIP', 'ING_SUGAR'),
+
+-- DUT_ADVOCAAT (4 ingredients)
+('dutch', 'DUT_ADVOCAAT', 'ING_EGG_YOLK'),
+('dutch', 'DUT_ADVOCAAT', 'ING_SUGAR'),
+('dutch', 'DUT_ADVOCAAT', 'ING_BRANDY'),
+('dutch', 'DUT_ADVOCAAT', 'ING_VANILLA'),
+
+-- DUT_SPECULAAS (7 ingredients)
+('dutch', 'DUT_SPECULAAS', 'ING_FLOUR'),
+('dutch', 'DUT_SPECULAAS', 'ING_BUTTER'),
+('dutch', 'DUT_SPECULAAS', 'ING_BROWN_SUGAR'),
+('dutch', 'DUT_SPECULAAS', 'ING_SPECULAAS_SPICE'),
+('dutch', 'DUT_SPECULAAS', 'ING_ALMOND'),
+('dutch', 'DUT_SPECULAAS', 'ING_BAKING_POWDER'),
+('dutch', 'DUT_SPECULAAS', 'ING_SALT')
+
+ON CONFLICT DO NOTHING;
+
+-- Verify
+SELECT 'Dutch product_ingredients links: ' || COUNT(*) AS status
+FROM product_ingredients WHERE product_type = 'dutch';

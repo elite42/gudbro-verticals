@@ -1,0 +1,16 @@
+-- ============================================
+-- HOT BEVERAGES - Complete Import Guide
+-- GUDBRO Database Standards v1.3
+-- ============================================
+-- Total: 25 hot beverages
+--
+-- EXECUTE IN ORDER:
+-- 1. 01-hotbeverages-schema.sql       (Creates table, indexes, RLS)
+-- 2. 02-hotbeverages-missing-ingredients.sql (Adds new ingredients)
+-- 3. 03-hotbeverages-data.sql         (Inserts 25 hot beverages)
+-- 4. 04-hotbeverages-product-ingredients.sql (Links ingredients)
+--
+-- VERIFICATION QUERIES:
+-- SELECT COUNT(*) FROM hotbeverages;  -- Should be 25
+-- SELECT COUNT(*) FROM product_ingredients WHERE product_type = 'hotbeverages';
+-- ============================================

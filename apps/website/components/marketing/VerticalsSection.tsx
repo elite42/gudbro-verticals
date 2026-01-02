@@ -45,17 +45,17 @@ const verticals = [
 
 export function VerticalsSection() {
   return (
-    <section id="solutions" className="py-20 lg:py-32 bg-gray-50">
+    <section id="solutions" className="py-20 lg:py-32 bg-gray-50 dark:bg-gray-800">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
-          <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
+          <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
             Solutions
           </p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
             Built for every hospitality business
           </h2>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
             Whether you run a coffee shop, a boutique hotel, or an Airbnb,
             GUDBRO adapts to your needs.
           </p>
@@ -67,7 +67,7 @@ export function VerticalsSection() {
             <Link
               key={vertical.id}
               href={vertical.href}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+              className="group relative bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl dark:hover:shadow-gray-900/50 transition-all duration-300"
             >
               {/* Gradient header */}
               <div className={`h-2 bg-gradient-to-r ${vertical.color}`} />
@@ -75,18 +75,18 @@ export function VerticalsSection() {
               <div className="p-8">
                 {/* Icon and title */}
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                  <div className="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
                     {vertical.icon}
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                       {vertical.title}
                     </h3>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="mt-4 text-gray-600 leading-relaxed">
+                <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed">
                   {vertical.description}
                 </p>
 
@@ -95,7 +95,7 @@ export function VerticalsSection() {
                   {vertical.features.map((feature) => (
                     <span
                       key={feature}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
+                      className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm rounded-full"
                     >
                       {feature}
                     </span>
@@ -103,7 +103,7 @@ export function VerticalsSection() {
                 </div>
 
                 {/* CTA */}
-                <div className="mt-6 flex items-center text-blue-600 font-semibold group-hover:text-blue-700">
+                <div className="mt-6 flex items-center text-blue-600 dark:text-blue-400 font-semibold group-hover:text-blue-700 dark:group-hover:text-blue-300">
                   Learn more
                   <svg
                     className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"
@@ -121,10 +121,10 @@ export function VerticalsSection() {
 
         {/* Bottom note */}
         <div className="mt-12 text-center">
-          <p className="text-gray-500">
-            Don't see your business type?{' '}
-            <Link href="/contact" className="text-blue-600 font-semibold hover:text-blue-700">
-              Let's talk
+          <p className="text-gray-500 dark:text-gray-400">
+            Don&apos;t see your business type?{' '}
+            <Link href="/contact" className="text-blue-600 dark:text-blue-400 font-semibold hover:text-blue-700 dark:hover:text-blue-300">
+              Let&apos;s talk
             </Link>
           </p>
         </div>

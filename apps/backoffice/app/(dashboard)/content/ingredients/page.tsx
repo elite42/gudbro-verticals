@@ -229,7 +229,7 @@ export default function IngredientsPage() {
           </div>
           <h1 className="mt-1 text-2xl font-bold text-gray-900">Ingredient Database</h1>
           <p className="text-sm text-gray-500 mt-1">
-            {ingredients.length} ingredients • Sistema 51 Filtri
+            {ingredients.length} ingredients • Sistema 5 Dimensioni
           </p>
         </div>
         <button

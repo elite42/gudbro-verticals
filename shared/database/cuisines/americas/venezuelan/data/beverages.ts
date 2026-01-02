@@ -1,0 +1,97 @@
+// Venezuelan Beverages
+// Traditional Venezuelan drinks
+
+import { VenezuelanDish } from '../types';
+
+export const beverages: VenezuelanDish[] = [
+  {
+    id: 'VEN_PAPELON_LIMON',
+    slug: 'papelon-con-limon',
+    name: 'Papelón con Limón',
+    description: 'Refreshing drink made with raw cane sugar and lime',
+    category: 'beverage',
+    status: 'iconic',
+    region: 'Nacional',
+    protein_type: 'beverage',
+    cooking_method: 'mixed',
+    prep_time_min: 10,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['refreshing', 'traditional', 'everyday'],
+    popularity: 95,
+    ingredients: ['ING_PANELA', 'ING_LIME', 'ING_WATER', 'ING_ICE']
+  },
+  {
+    id: 'VEN_CHICHA',
+    slug: 'chicha-venezolana',
+    name: 'Chicha Venezolana',
+    description: 'Sweet rice drink with milk, cinnamon, and condensed milk',
+    category: 'beverage',
+    status: 'iconic',
+    region: 'Nacional',
+    protein_type: 'beverage',
+    cooking_method: 'blended',
+    prep_time_min: 30,
+    spice_level: 0,
+    dietary: { vegetarian: true, gluten_free: true },
+    allergens: ['dairy'],
+    tags: ['rice-drink', 'sweet', 'creamy'],
+    popularity: 92,
+    ingredients: ['ING_RICE', 'ING_MILK', 'ING_CONDENSED_MILK', 'ING_CINNAMON', 'ING_VANILLA', 'ING_ICE']
+  },
+  {
+    id: 'VEN_COCADA',
+    slug: 'cocada',
+    name: 'Cocada',
+    description: 'Refreshing coconut water drink with coconut flesh',
+    category: 'beverage',
+    status: 'classic',
+    region: 'Costa',
+    protein_type: 'beverage',
+    cooking_method: 'raw',
+    prep_time_min: 5,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['coconut', 'fresh', 'beach'],
+    popularity: 85,
+    ingredients: ['ING_COCONUT', 'ING_COCONUT_WATER', 'ING_ICE']
+  },
+  {
+    id: 'VEN_JUGO_PARCHITA',
+    slug: 'jugo-de-parchita',
+    name: 'Jugo de Parchita',
+    description: 'Fresh passion fruit juice',
+    category: 'beverage',
+    status: 'classic',
+    region: 'Nacional',
+    protein_type: 'beverage',
+    cooking_method: 'blended',
+    prep_time_min: 5,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['tropical', 'fresh', 'tangy'],
+    popularity: 88,
+    ingredients: ['ING_PASSION_FRUIT', 'ING_SUGAR', 'ING_WATER', 'ING_ICE']
+  },
+  {
+    id: 'VEN_BATIDO_PATILLA',
+    slug: 'batido-de-patilla',
+    name: 'Batido de Patilla',
+    description: 'Fresh watermelon shake, popular street refreshment',
+    category: 'beverage',
+    status: 'classic',
+    region: 'Nacional',
+    protein_type: 'beverage',
+    cooking_method: 'blended',
+    prep_time_min: 5,
+    spice_level: 0,
+    dietary: { vegetarian: true, vegan: true, gluten_free: true },
+    allergens: [],
+    tags: ['watermelon', 'refreshing', 'summer'],
+    popularity: 82,
+    ingredients: ['ING_WATERMELON', 'ING_SUGAR', 'ING_ICE']
+  }
+];

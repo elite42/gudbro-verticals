@@ -121,7 +121,7 @@ Esistono **4 cartelle separate** sul Desktop che fanno parte dello stesso proget
 | Wellness | ✅ Attivo | NO | ✅ Vecchio |
 | Shared DB | ✅ Attivo | Partial | ✅ Vecchio |
 | menu-template | ✅ | ✅ | ✅ |
-| Health Filters | ✅ 5 Dimensioni | Partial | ✅ 51 Filtri |
+| Health Filters | ✅ 5 Dimensioni | Partial | ✅ 5 Dimensioni |
 
 ### Documentazione Duplicata
 

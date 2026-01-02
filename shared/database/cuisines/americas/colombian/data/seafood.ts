@@ -1,0 +1,97 @@
+// Colombian Seafood
+// Coastal specialties
+
+import { ColombianDish } from '../types';
+
+export const seafood: ColombianDish[] = [
+  {
+    id: 'COL_ARROZ_COCO_PESCADO',
+    slug: 'arroz-con-coco-pescado',
+    name: 'Arroz con Coco y Pescado',
+    description: 'Coconut rice served with fried fish, plantain and salad',
+    category: 'seafood',
+    status: 'iconic',
+    region: 'Costa Caribe',
+    protein_type: 'fish',
+    cooking_method: 'mixed',
+    prep_time_min: 60,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: ['fish'],
+    tags: ['coastal', 'coconut', 'complete-meal'],
+    popularity: 95,
+    ingredients: ['ING_RICE', 'ING_COCONUT_MILK', 'ING_WHITE_FISH', 'ING_PLANTAIN', 'ING_LIME', 'ING_GARLIC', 'ING_SALT']
+  },
+  {
+    id: 'COL_CAZUELA_MARISCOS',
+    slug: 'cazuela-de-mariscos',
+    name: 'Cazuela de Mariscos',
+    description: 'Creamy seafood stew with shrimp, fish, octopus in coconut sauce',
+    category: 'seafood',
+    status: 'iconic',
+    region: 'Costa Caribe',
+    protein_type: 'seafood',
+    cooking_method: 'simmered',
+    prep_time_min: 45,
+    spice_level: 1,
+    dietary: { gluten_free: true },
+    allergens: ['shellfish', 'fish'],
+    tags: ['seafood-stew', 'creamy', 'cartagena'],
+    popularity: 92,
+    ingredients: ['ING_SHRIMP', 'ING_WHITE_FISH', 'ING_OCTOPUS', 'ING_COCONUT_MILK', 'ING_HEAVY_CREAM', 'ING_TOMATO', 'ING_ONION', 'ING_GARLIC']
+  },
+  {
+    id: 'COL_CEVICHE_CAMARONES',
+    slug: 'ceviche-de-camarones',
+    name: 'Ceviche de Camarones',
+    description: 'Shrimp marinated in lime with tomato, onion, and cilantro',
+    category: 'seafood',
+    status: 'classic',
+    region: 'Costa Caribe',
+    protein_type: 'shellfish',
+    cooking_method: 'raw',
+    prep_time_min: 30,
+    spice_level: 1,
+    dietary: { gluten_free: true },
+    allergens: ['shellfish'],
+    tags: ['ceviche', 'fresh', 'appetizer'],
+    popularity: 88,
+    ingredients: ['ING_SHRIMP', 'ING_LIME', 'ING_TOMATO', 'ING_ONION', 'ING_CILANTRO', 'ING_KETCHUP', 'ING_SALT']
+  },
+  {
+    id: 'COL_MOJARRA_FRITA',
+    slug: 'mojarra-frita',
+    name: 'Mojarra Frita',
+    description: 'Whole fried tilapia with patacones and coconut rice',
+    category: 'seafood',
+    status: 'iconic',
+    region: 'Costa Caribe',
+    protein_type: 'fish',
+    cooking_method: 'deep_fried',
+    prep_time_min: 30,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: ['fish'],
+    tags: ['fried-fish', 'whole', 'coastal'],
+    popularity: 90,
+    ingredients: ['ING_TILAPIA', 'ING_LIME', 'ING_GARLIC', 'ING_SALT', 'ING_VEGETABLE_OIL', 'ING_PLANTAIN']
+  },
+  {
+    id: 'COL_COCTEL_CAMARONES',
+    slug: 'coctel-de-camarones',
+    name: 'Coctel de Camarones',
+    description: 'Shrimp cocktail in tomato-based sauce with avocado',
+    category: 'seafood',
+    status: 'classic',
+    region: 'Costa Caribe',
+    protein_type: 'shellfish',
+    cooking_method: 'mixed',
+    prep_time_min: 20,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: ['shellfish'],
+    tags: ['cocktail', 'appetizer', 'fresh'],
+    popularity: 85,
+    ingredients: ['ING_SHRIMP', 'ING_KETCHUP', 'ING_MAYONNAISE', 'ING_LIME', 'ING_AVOCADO', 'ING_ONION', 'ING_CILANTRO']
+  }
+];

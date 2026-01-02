@@ -1,0 +1,97 @@
+// Chilean Soups
+// GUDBRO Database Standards v1.7
+
+import { ChileanDish } from '../types';
+
+export const soups: ChileanDish[] = [
+  {
+    id: 'CHL_CAZUELA_VACUNO',
+    slug: 'cazuela-de-vacuno',
+    name: 'Cazuela de Vacuno',
+    description: 'Classic beef soup with corn on the cob, potatoes, pumpkin, and rice',
+    category: 'soup',
+    status: 'iconic',
+    region: 'Nacional',
+    protein_type: 'beef',
+    cooking_method: 'simmered',
+    prep_time_min: 90,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['comfort', 'winter', 'classic'],
+    popularity: 95,
+    ingredients: ['ING_BEEF', 'ING_CORN', 'ING_POTATO', 'ING_PUMPKIN', 'ING_RICE', 'ING_GREEN_BEANS', 'ING_ONION', 'ING_CILANTRO']
+  },
+  {
+    id: 'CHL_CAZUELA_AVE',
+    slug: 'cazuela-de-ave',
+    name: 'Cazuela de Ave',
+    description: 'Traditional chicken soup version with same vegetables as beef cazuela',
+    category: 'soup',
+    status: 'classic',
+    region: 'Nacional',
+    protein_type: 'chicken',
+    cooking_method: 'simmered',
+    prep_time_min: 75,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['comfort', 'chicken', 'light'],
+    popularity: 90,
+    ingredients: ['ING_CHICKEN', 'ING_CORN', 'ING_POTATO', 'ING_PUMPKIN', 'ING_RICE', 'ING_GREEN_BEANS', 'ING_ONION', 'ING_CILANTRO']
+  },
+  {
+    id: 'CHL_PANTRUCA',
+    slug: 'pantrucas',
+    name: 'Pantrucas',
+    description: 'Rustic soup with flour dumplings in broth with beef or chicken',
+    category: 'soup',
+    status: 'traditional',
+    region: 'Sur',
+    protein_type: 'beef',
+    cooking_method: 'simmered',
+    prep_time_min: 60,
+    spice_level: 0,
+    dietary: { gluten_free: false },
+    allergens: ['gluten', 'egg'],
+    tags: ['rustic', 'dumplings', 'winter'],
+    popularity: 75,
+    ingredients: ['ING_FLOUR', 'ING_EGG', 'ING_BEEF_BROTH', 'ING_POTATO', 'ING_ONION', 'ING_CARROT', 'ING_CILANTRO']
+  },
+  {
+    id: 'CHL_CARBONADA',
+    slug: 'carbonada',
+    name: 'Carbonada',
+    description: 'Hearty beef and vegetable soup with diced potatoes, pumpkin, corn, and rice',
+    category: 'soup',
+    status: 'classic',
+    region: 'Nacional',
+    protein_type: 'beef',
+    cooking_method: 'simmered',
+    prep_time_min: 60,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: [],
+    tags: ['hearty', 'diced', 'everyday'],
+    popularity: 80,
+    ingredients: ['ING_BEEF', 'ING_POTATO', 'ING_PUMPKIN', 'ING_CORN', 'ING_RICE', 'ING_ONION', 'ING_GREEN_BEANS', 'ING_PARSLEY']
+  },
+  {
+    id: 'CHL_VALDIVIANO',
+    slug: 'valdiviano',
+    name: 'Valdiviano',
+    description: 'Traditional soup from Valdivia with charqui (dried beef), onions, and eggs',
+    category: 'soup',
+    status: 'regional',
+    region: 'Sur',
+    protein_type: 'beef',
+    cooking_method: 'simmered',
+    prep_time_min: 45,
+    spice_level: 0,
+    dietary: { gluten_free: true },
+    allergens: ['egg'],
+    tags: ['valdivia', 'charqui', 'traditional'],
+    popularity: 70,
+    ingredients: ['ING_BEEF_JERKY', 'ING_ONION', 'ING_EGG', 'ING_POTATO', 'ING_OREGANO', 'ING_BEEF_BROTH']
+  }
+];

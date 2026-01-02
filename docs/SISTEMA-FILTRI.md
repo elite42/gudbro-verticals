@@ -387,9 +387,9 @@ Prima di approvare codice che tocca filtri/sicurezza alimentare:
 
 | File | Contenuto |
 |------|-----------|
-| `shared/database/types/index.ts` | Interfacce TypeScript per le 5 dimensioni |
-| `shared/database/utils/auto-compute.ts` | Auto-calcolo delle 5 dimensioni dagli ingredienti |
-| `shared/database/utils/product-search.ts` | API di ricerca con filtri 5 dimensioni |
+| `shared/database/_system/types/index.ts` | Interfacce TypeScript per le 5 dimensioni |
+| `shared/database/_system/utils/auto-compute.ts` | Auto-calcolo delle 5 dimensioni dagli ingredienti |
+| `shared/database/_system/utils/product-search.ts` | API di ricerca con filtri 5 dimensioni |
 | `shared/database/safety-filters.ts` | Icone e label per allergeni/diete |
 | `docs/SISTEMA-FILTRI.md` | Questo documento (SOURCE OF TRUTH) |
 

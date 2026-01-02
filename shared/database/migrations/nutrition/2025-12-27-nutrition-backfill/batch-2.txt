@@ -1,0 +1,34 @@
+Fornisci valori nutrizionali per 100g per questi ingredienti.
+
+Output: SOLO JSON array, formato:
+[{"id": "ING_X", "nutrition": {"calories": 100, "protein": 5.0, "fat": 3.0, "carbs": 12.0, "fiber": 2.0}}]
+
+Ingredienti:
+[
+  {"id": "ING_WHITE_ASPARAGUS", "name": "White Asparagus"},
+  {"id": "ING_BILBERRY", "name": "Bilberry"},
+  {"id": "ING_CLOUDBERRY", "name": "Cloudberry"},
+  {"id": "ING_CURRANT", "name": "Currant"},
+  {"id": "ING_DRIED_PEAR", "name": "Dried Pear"},
+  {"id": "ING_MAMEY", "name": "Mamey Sapote"},
+  {"id": "ING_PALM_FRUIT", "name": "Palm Fruit"},
+  {"id": "ING_CORIANDER_ROOT", "name": "Coriander Root"},
+  {"id": "ING_MARJORAM", "name": "Marjoram"},
+  {"id": "ING_SCENT_LEAF", "name": "Scent Leaf (Nchanwu)"},
+  {"id": "ING_UTAZI_LEAF", "name": "Utazi Leaf"},
+  {"id": "ING_BANGA_SPICE", "name": "Banga Spice"},
+  {"id": "ING_CALABASH_NUTMEG", "name": "Calabash Nutmeg (Ehuru)"},
+  {"id": "ING_COLOMBO_SPICE", "name": "Colombo Spice"},
+  {"id": "ING_CURRY_LEAF", "name": "Curry Leaves"},
+  {"id": "ING_EHURU", "name": "Ehuru"},
+  {"id": "ING_OGIRI", "name": "Ogiri"},
+  {"id": "ING_PEPPER_SOUP_SPICE", "name": "Pepper Soup Spice"},
+  {"id": "ING_PIRI_PIRI", "name": "Piri-Piri Chili"},
+  {"id": "ING_SPECULAAS_SPICE", "name": "Speculaas Spice Mix"},
+  {"id": "ING_SUYA_SPICE", "name": "Suya Spice (Yaji)"},
+  {"id": "ING_TURMERIC_LEAF", "name": "Turmeric Leaves"},
+  {"id": "ING_UZIZA_SEED", "name": "Uziza Seed"},
+  {"id": "ING_BUCKWHEAT", "name": "Buckwheat Groats"},
+  {"id": "ING_CASSAVA_STARCH", "name": "Cassava Starch"},
+  {"id": "ING_CORN_FLOUR", "name": "Corn Flour"}
+]

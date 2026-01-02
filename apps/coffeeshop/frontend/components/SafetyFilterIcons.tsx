@@ -17,7 +17,7 @@ interface SafetyFilterIconsProps {
 /**
  * SafetyFilterIcons - Displays allergen, intolerance and dietary icons
  *
- * Uses the Sistema 51 Filtri from safety-filters.ts
+ * Uses the Sistema 5 Dimensioni from safety-filters.ts
  * Shows emoji icons with optional labels
  */
 export function SafetyFilterIcons({

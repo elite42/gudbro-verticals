@@ -1,0 +1,32 @@
+Fornisci valori nutrizionali per 100g per questi ingredienti.
+
+Output: SOLO JSON array, formato:
+[{"id": "ING_X", "nutrition": {"calories": 100, "protein": 5.0, "fat": 3.0, "carbs": 12.0, "fiber": 2.0}}]
+
+Ingredienti:
+[
+  {"id": "ING_PALM_OIL", "name": "Palm Oil"},
+  {"id": "ING_SUNFLOWER_OIL", "name": "Sunflower Oil"},
+  {"id": "ING_PORK_RIND", "name": "Pork Rind"},
+  {"id": "ING_SMOKED_PORK", "name": "Smoked Pork"},
+  {"id": "ING_SUCKLING_PIG", "name": "Suckling Pig"},
+  {"id": "ING_FRIED_CHICKEN", "name": "Fried Chicken"},
+  {"id": "ING_TURKEY_BREAST", "name": "Turkey Breast"},
+  {"id": "ING_REINDEER", "name": "Reindeer Meat"},
+  {"id": "ING_VENDACE", "name": "Vendace"},
+  {"id": "ING_BEEF_BRAIN", "name": "Beef Brain"},
+  {"id": "ING_CORACAO_FRANGO", "name": "Coração de Frango"},
+  {"id": "ING_LIVER", "name": "Liver"},
+  {"id": "ING_LIVER_PATE", "name": "Liver Pate"},
+  {"id": "ING_BUNDNERFLEISCH", "name": "Bundnerfleisch"},
+  {"id": "ING_CORNED_BEEF", "name": "Corned Beef"},
+  {"id": "ING_CURED_HAM", "name": "Cured Ham"},
+  {"id": "ING_ALHEIRA", "name": "Alheira Sausage"},
+  {"id": "ING_BLOOD_SAUSAGE", "name": "Blood Sausage"},
+  {"id": "ING_SAUCISSE_CHOUX", "name": "Cabbage Sausage"},
+  {"id": "ING_KIELBASA", "name": "Kielbasa Sausage"},
+  {"id": "ING_LINGUICA", "name": "Linguica Sausage"},
+  {"id": "ING_ROOKWORST", "name": "Rookworst (Dutch Smoked Sausage)"},
+  {"id": "ING_SMOKED_SAUSAGE", "name": "Smoked Sausage"},
+  {"id": "ING_WHITE_SAUSAGE", "name": "White Sausage"}
+]

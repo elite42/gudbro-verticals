@@ -1,0 +1,88 @@
+import type { Beer } from '../../types/beer';
+import { v4 as uuidv4 } from 'uuid';
+
+export const shockTop: Beer = {
+  id: uuidv4(),
+  slug: 'shock-top-belgian-white',
+  stable_key: 'shock-top-belgian-white',
+  name: {
+    en: 'Shock Top Belgian White',
+    it: 'Shock Top Belgian White',
+    vi: 'Shock Top Belgian White',
+  },
+  status: 'international_classic',
+  style_category: 'wheat',
+  style: 'witbier',
+  tags: ['wheat', 'belgian-style', 'citrus', 'orange', 'coriander', 'spiced', 'refreshing', 'hazy'],
+  origin: {
+    country: 'United States',
+    country_code: 'US',
+    city: 'Fort Collins',
+    region: 'Colorado',
+    brewery: 'Shock Top Brewing Company',
+    brewery_parent: 'Anheuser-Busch InBev',
+    established: 2006,
+  },
+  history: {
+    en: 'Shock Top Belgian White was introduced in 2006 by Anheuser-Busch as a response to the growing craft beer movement and the success of Belgian-style wheat ales in the American market. Originally test-marketed under the name "Spring Heat Spiced Wheat," it was rebranded as Shock Top and launched nationally in 2006. The beer was designed to compete with Blue Moon and appeal to craft beer drinkers while leveraging the distribution network of the world\'s largest brewing company. The brand features a distinctive wedge of orange as its logo, emphasizing the beer\'s citrus character.',
+    it: "Shock Top Belgian White è stata introdotta nel 2006 da Anheuser-Busch come risposta al crescente movimento della birra artigianale e al successo delle ale di frumento in stile belga nel mercato americano. Originariamente commercializzata in prova con il nome 'Spring Heat Spiced Wheat', è stata rinominata Shock Top e lanciata a livello nazionale nel 2006. La birra è stata progettata per competere con Blue Moon e attrarre i bevitori di birra artigianale sfruttando la rete di distribuzione della più grande azienda di birra al mondo. Il marchio presenta un caratteristico spicchio d'arancia come logo, enfatizzando il carattere agrumato della birra.",
+    vi: 'Shock Top Belgian White được giới thiệu vào năm 2006 bởi Anheuser-Busch như một phản ứng với phong trào bia thủ công đang phát triển và sự thành công của các loại bia lúa mì kiểu Bỉ trên thị trường Mỹ. Ban đầu được thử nghiệm thị trường dưới tên "Spring Heat Spiced Wheat", nó được đổi thương hiệu thành Shock Top và ra mắt trên toàn quốc vào năm 2006. Bia được thiết kế để cạnh tranh với Blue Moon và thu hút những người uống bia thủ công trong khi tận dụng mạng lưới phân phối của công ty pha chế bia lớn nhất thế giới. Thương hiệu có một miếng cam đặc trưng làm logo, nhấn mạnh đặc tính cam quýt của bia.',
+  },
+  description: {
+    en: 'Shock Top Belgian White is an unfiltered Belgian-style wheat ale brewed with orange, lemon, and lime peels, along with coriander and other spices. The beer pours a cloudy pale golden color with a thick white foam head. It delivers a smooth, light-to-medium body with bright citrus flavors and subtle spice notes. The wheat base provides a slightly sweet, bready character that balances the zesty citrus profile. The finish is crisp and clean with a touch of tartness, making it highly refreshing and easy to drink.',
+    it: "Shock Top Belgian White è un'ale di frumento non filtrata in stile belga, prodotta con scorze di arancia, limone e lime, insieme a coriandolo e altre spezie. La birra si presenta di un colore dorato pallido torbido con una densa schiuma bianca. Offre un corpo morbido, da leggero a medio, con vivaci sapori di agrumi e sottili note speziate. La base di frumento fornisce un carattere leggermente dolce e di pane che bilancia il profilo agrumato vivace. Il finale è frizzante e pulito con un tocco di acidità, rendendola altamente rinfrescante e facile da bere.",
+    vi: 'Shock Top Belgian White là một loại bia lúa mì kiểu Bỉ không lọc được pha chế với vỏ cam, chanh vàng và chanh xanh, cùng với rau mùi tây và các gia vị khác. Bia có màu vàng nhạt đục với lớp bọt trắng dày. Nó mang lại độ đậm nhẹ đến trung bình mượt mà với hương vị cam quýt tươi sáng và hương vị gia vị tinh tế. Nền lúa mì cung cấp đặc tính bánh mì hơi ngọt cân bằng hồ sơ cam quýt sảng khoái. Hậu vị giòn và sạch với một chút chua, làm cho nó rất sảng khoái và dễ uống.',
+  },
+  characteristics: {
+    abv: 5.2,
+    ibu: 10,
+    srm: 4,
+    color: 'pale',
+    clarity: 'hazy',
+    carbonation: 'high',
+    body: 'medium_light',
+    fermentation: 'top_fermented',
+  },
+  taste: {
+    en: 'Bright citrus flavors of orange, lemon, and lime dominate the palate. Subtle coriander and herbal spice notes add complexity without overwhelming. Wheat malt provides a soft, slightly sweet grain character with hints of bread dough. Light honey sweetness balances the zesty citrus. The finish is crisp and refreshing with a pleasant citrus zing and mild tartness.',
+    it: "Brillanti sapori di agrumi di arancia, limone e lime dominano il palato. Sottili note di coriandolo e spezie erbacee aggiungono complessità senza sopraffare. Il malto di frumento fornisce un carattere di cereale morbido e leggermente dolce con accenni di pasta di pane. La leggera dolcezza del miele bilancia gli agrumi vivaci. Il finale è frizzante e rinfrescante con un piacevole pizzico di agrumi e una lieve acidità.",
+    vi: 'Hương vị cam quýt tươi sáng của cam, chanh vàng và chanh xanh chiếm ưu thế trên khẩu vị. Hương vị rau mùi tây và gia vị thảo mộc tinh tế thêm sự phức tạp mà không át chủ. Mạch nha lúa mì cung cấp đặc tính ngũ cốc mềm, hơi ngọt với hương vị bột bánh mì. Độ ngọt mật ong nhẹ cân bằng cam quýt sảng khoái. Hậu vị giòn và sảng khoái với vị cam quýt dễ chịu và vị chua nhẹ.',
+  },
+  ingredients: {
+    en: 'Water, barley malt, wheat, oats, orange peel, lemon peel, lime peel, coriander, hops, yeast. Unfiltered to retain natural cloudiness and flavor.',
+    it: 'Acqua, malto d\'orzo, frumento, avena, scorza di arancia, scorza di limone, scorza di lime, coriandolo, luppolo, lievito. Non filtrata per mantenere la naturale torbidità e il sapore.',
+    vi: 'Nước, mạch nha lúa mạch, lúa mì, yến mạch, vỏ cam, vỏ chanh vàng, vỏ chanh xanh, rau mùi tây, hoa bia, men. Không lọc để giữ lại độ đục và hương vị tự nhiên.',
+  },
+  serving: {
+    glass: 'weizen',
+    temperature: 'cold',
+    temperature_range: {
+      min: 4,
+      max: 7,
+      unit: 'celsius',
+    },
+    garnish: 'orange_slice',
+    presentation: 'Serve in a tall wheat beer glass, traditionally garnished with an orange slice',
+  },
+  pairing: {
+    en: 'Pairs well with light seafood dishes, fish and chips, grilled chicken, fresh salads, Mexican food, Asian cuisine, goat cheese, mild cheddar, and fruit-based desserts. The citrus profile complements spicy and zesty flavors.',
+    it: 'Si abbina bene con piatti leggeri di frutti di mare, fish and chips, pollo alla griglia, insalate fresche, cibo messicano, cucina asiatica, formaggio di capra, cheddar delicato e dessert a base di frutta. Il profilo agrumato complementa i sapori speziati e vivaci.',
+    vi: 'Kết hợp tốt với các món hải sản nhẹ, cá và khoai tây chiên, gà nướng, salad tươi, đồ ăn Mexico, ẩm thực châu Á, pho mát dê, cheddar nhẹ và các món tráng miệng từ trái cây. Hồ sơ cam quýt bổ sung cho hương vị cay và sảng khoái.',
+  },
+  season_tags: ['summer', 'spring', 'all_year'],
+  occasion_tags: ['casual', 'social', 'outdoor', 'brunch', 'relaxation'],
+  is_gluten_free: false,
+  is_non_alcoholic: false,
+  is_vegan: true,
+  available_formats: ['bottle', 'can', 'draft'],
+  available_sizes: ['12oz', '16oz', '24oz'],
+  availability: 'year_round',
+  price_tier: 'mid',
+  popularity: 85,
+  source: {
+    type: 'commercial',
+    reference: 'Anheuser-Busch InBev',
+    last_updated: '2025-12-14',
+  },
+  version: 1,
+};
