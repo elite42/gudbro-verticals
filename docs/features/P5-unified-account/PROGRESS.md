@@ -1,7 +1,7 @@
 # P5 Progress Log
 
 > **Last Updated:** 2026-01-02
-> **Current Phase:** Phase 1 COMPLETATO
+> **Current Phase:** Phase 1 IN PROGRESS (Database done, UI in progress)
 
 ---
 
@@ -17,22 +17,20 @@
 | Creazione migration SQL | 2026-01-02 | `001-accounts-foundation.sql` (753 righe) |
 | Esecuzione migration | 2026-01-02 | Successo - tutte le tabelle create |
 | Verifica tabelle | 2026-01-02 | Confermato via REST API |
-
-### In Progress
-
-| Task | Status | Blockers |
-|------|--------|----------|
-| Documentazione strutturata | 90% | - |
-| Aggiornamento BACKLOG.md | Pending | - |
+| Documentazione strutturata | 2026-01-02 | docs/features/P5-unified-account/ creata |
+| **Sign-up Multi-Step Wizard** | 2026-01-02 | **ACC-SIGNUP-FLOW completato!** Website SignUpWizard integrato con Supabase |
+| Auth callback route | 2026-01-02 | apps/website/app/auth/callback/route.ts |
+| HealthProfileStep component | 2026-01-02 | UI per 5 dimensioni (allergens, dietary, intolerances) |
+| Verify email page | 2026-01-02 | apps/website/app/sign-up/verify-email/ |
 
 ### Da Fare (Phase 1)
 
 | Task | Priorita | Note |
 |------|----------|------|
-| Aggiungere role_type 'partner' | Bassa | Non critico per MVP |
-| UI Role Switcher | Alta | ACC-ROLE-SWITCH nel backlog |
-| Sign-up Multi-Step Wizard | Alta | ACC-SIGNUP-FLOW |
+| UI Role Switcher | Alta | ACC-ROLE-SWITCH - Header dropdown |
 | Sync Preferenze su login merchant | Media | ACC-SYNC-PREFS |
+| Aggiungere role_type 'partner' | Bassa | Non critico per MVP |
+| Test end-to-end signup flow | Alta | Verificare con Supabase reale |
 
 ---
 
