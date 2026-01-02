@@ -209,9 +209,11 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 
 ## P5 - Account System & User Features (NEW 2025-12-31)
 
+> **🎯 NEXT FOCUS** - Prossimo task da implementare dopo pausa pranzo (2026-01-02)
+>
 > **Strategia Account:** **UNIFIED ACCOUNT SYSTEM** - Un account, ruoli multipli (Consumer/Merchant/Admin). Ogni utente può essere contemporaneamente cliente di altri locali E gestore del proprio. Sistema loyalty unificato che premia tutti indipendentemente dal ruolo.
 >
-> **Aggiornato:** 2026-01-01 (Unified Account Architecture + Bidirectional Referral + Merchant Loyalty)
+> **Aggiornato:** 2026-01-02 (Unified Account Architecture + Bidirectional Referral + Merchant Loyalty)
 
 ### 🆕 Architettura Unified Account (CORE CONCEPT)
 
