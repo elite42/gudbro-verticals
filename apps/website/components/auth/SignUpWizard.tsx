@@ -2,9 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { AccountTypeStep } from './steps/AccountTypeStep';
 import { PersonalProfileStep } from './steps/PersonalProfileStep';
 import { BusinessDetailsStep } from './steps/BusinessDetailsStep';
+import { HealthProfileStep } from './steps/HealthProfileStep';
+import { signUpPersonal, signUpBusiness, updateHealthProfile } from '@/lib/auth-service';
+import type { HealthProfileData } from '@/lib/auth-service';
 
 export type AccountType = 'personal' | 'business' | null;
 
@@ -12,7 +16,8 @@ export interface PersonalProfile {
   name: string;
   email: string;
   password: string;
-  // 5 Dimensions - Health Profile
+  referralCode: string;
+  // 5 Dimensions - Health Profile (collected in separate step)
   allergens: string[];
   dietaryPreferences: string[];
   intolerances: string[];
@@ -40,6 +45,7 @@ const initialPersonalProfile: PersonalProfile = {
   name: '',
   email: '',
   password: '',
+  referralCode: '',
   allergens: [],
   dietaryPreferences: [],
   intolerances: [],
@@ -59,17 +65,21 @@ const initialBusinessDetails: BusinessDetails = {
 
 interface SignUpWizardProps {
   initialPlan?: string;
+  initialReferralCode?: string;
 }
 
-export function SignUpWizard({ initialPlan = 'free' }: SignUpWizardProps) {
+export function SignUpWizard({ initialPlan = 'free', initialReferralCode }: SignUpWizardProps) {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState<WizardData>({
     accountType: null,
-    personal: initialPersonalProfile,
+    personal: { ...initialPersonalProfile, referralCode: initialReferralCode || '' },
     business: initialBusinessDetails,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [createdAccountId, setCreatedAccountId] = useState<string | null>(null);
+  const [showHealthProfile, setShowHealthProfile] = useState(false);
 
   const handleAccountTypeSelect = (type: AccountType) => {
     setData({ ...data, accountType: type });
@@ -91,39 +101,120 @@ export function SignUpWizard({ initialPlan = 'free' }: SignUpWizardProps) {
   };
 
   const handleBack = () => {
-    if (currentStep > 0) {
+    if (showHealthProfile) {
+      setShowHealthProfile(false);
+    } else if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
 
-  const handleSubmit = async () => {
+  const handlePersonalSubmit = async () => {
     setIsLoading(true);
     setError('');
 
     try {
-      // TODO: Integrate with Supabase Auth
-      // For now, redirect based on account type
-      setTimeout(() => {
-        if (data.accountType === 'business') {
-          window.location.href = 'https://gudbro-backoffice.vercel.app/login';
-        } else {
-          // Personal accounts go to PWA or confirmation page
-          window.location.href = '/welcome';
-        }
-      }, 500);
-    } catch {
+      const result = await signUpPersonal({
+        email: data.personal.email,
+        password: data.personal.password,
+        name: data.personal.name,
+        referralCode: data.personal.referralCode || undefined,
+      });
+
+      if (!result.success) {
+        setError(result.error || 'Failed to create account');
+        setIsLoading(false);
+        return;
+      }
+
+      if (result.needsEmailVerification) {
+        // Redirect to verification page
+        router.push('/sign-up/verify-email?email=' + encodeURIComponent(data.personal.email));
+        return;
+      }
+
+      // Account created successfully
+      if (result.accountId) {
+        setCreatedAccountId(result.accountId);
+        // Show health profile step (optional)
+        setShowHealthProfile(true);
+        setIsLoading(false);
+      } else {
+        // Redirect to welcome/dashboard
+        router.push('/welcome');
+      }
+    } catch (err) {
+      console.error('Signup error:', err);
       setError('An error occurred. Please try again.');
       setIsLoading(false);
     }
   };
 
-  // Determine steps based on account type
+  const handleBusinessSubmit = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const result = await signUpBusiness({
+        email: data.business.email,
+        password: data.business.password,
+        name: data.business.name,
+        businessName: data.business.businessName,
+        businessType: data.business.businessType,
+        currency: data.business.currency,
+        languages: data.business.languages,
+      });
+
+      if (!result.success) {
+        setError(result.error || 'Failed to create account');
+        setIsLoading(false);
+        return;
+      }
+
+      if (result.needsEmailVerification) {
+        router.push('/sign-up/verify-email?email=' + encodeURIComponent(data.business.email));
+        return;
+      }
+
+      // Business accounts go directly to backoffice
+      window.location.href = 'https://gudbro-backoffice.vercel.app/dashboard';
+    } catch (err) {
+      console.error('Business signup error:', err);
+      setError('An error occurred. Please try again.');
+      setIsLoading(false);
+    }
+  };
+
+  const handleHealthProfileSubmit = async (profile: HealthProfileData) => {
+    if (!createdAccountId) {
+      router.push('/welcome');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await updateHealthProfile(createdAccountId, profile);
+      router.push('/welcome');
+    } catch (err) {
+      console.error('Health profile error:', err);
+      // Non-critical, redirect anyway
+      router.push('/welcome');
+    }
+  };
+
+  const handleSkipHealthProfile = () => {
+    router.push('/welcome');
+  };
+
+  // Determine steps based on account type and current state
   const getStepIndicator = () => {
+    if (showHealthProfile) {
+      return { current: 3, total: 3, label: 'Health Profile (Optional)' };
+    }
     if (data.accountType === null) {
       return { current: 1, total: 3, label: 'Account Type' };
     }
     if (data.accountType === 'personal') {
-      return { current: currentStep + 1, total: 2, label: currentStep === 0 ? 'Account Type' : 'Your Profile' };
+      return { current: currentStep + 1, total: 3, label: currentStep === 0 ? 'Account Type' : 'Your Profile' };
     }
     return { current: currentStep + 1, total: 2, label: currentStep === 0 ? 'Account Type' : 'Business Details' };
   };
@@ -165,11 +256,10 @@ export function SignUpWizard({ initialPlan = 'free' }: SignUpWizardProps) {
           {/* Logo */}
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center gap-2">
-              <span className="text-4xl">📱</span>
-              <span className="text-2xl font-bold text-gray-900 dark:text-white">GUDBRO</span>
+              <span className="text-4xl">GUDBRO</span>
             </Link>
             <p className="mt-2 text-gray-600 dark:text-gray-400">{stepInfo.label}</p>
-            {initialPlan !== 'free' && currentStep === 0 && (
+            {initialPlan !== 'free' && currentStep === 0 && !showHealthProfile && (
               <span className="inline-block mt-2 px-3 py-1 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium rounded-full">
                 {initialPlan.charAt(0).toUpperCase() + initialPlan.slice(1)} Plan
               </span>
@@ -184,31 +274,40 @@ export function SignUpWizard({ initialPlan = 'free' }: SignUpWizardProps) {
           )}
 
           {/* Steps */}
-          {currentStep === 0 && (
+          {!showHealthProfile && currentStep === 0 && (
             <AccountTypeStep
               selectedType={data.accountType}
               onSelect={handleAccountTypeSelect}
             />
           )}
 
-          {currentStep === 1 && data.accountType === 'personal' && (
+          {!showHealthProfile && currentStep === 1 && data.accountType === 'personal' && (
             <PersonalProfileStep
               data={data.personal}
               onUpdate={handlePersonalProfileUpdate}
               onBack={handleBack}
-              onSubmit={handleSubmit}
+              onSubmit={handlePersonalSubmit}
               isLoading={isLoading}
             />
           )}
 
-          {currentStep === 1 && data.accountType === 'business' && (
+          {!showHealthProfile && currentStep === 1 && data.accountType === 'business' && (
             <BusinessDetailsStep
               data={data.business}
               onUpdate={handleBusinessDetailsUpdate}
               onBack={handleBack}
-              onSubmit={handleSubmit}
+              onSubmit={handleBusinessSubmit}
               isLoading={isLoading}
               plan={initialPlan}
+            />
+          )}
+
+          {showHealthProfile && (
+            <HealthProfileStep
+              onSubmit={handleHealthProfileSubmit}
+              onSkip={handleSkipHealthProfile}
+              onBack={handleBack}
+              isLoading={isLoading}
             />
           )}
 
