@@ -19,8 +19,14 @@
     "dev:website": "cd apps/website && npm run dev -- -p 3024",
     "build:website": "cd apps/website && npm run build",
     "lint:all": "npm run lint --workspaces",
+    "typecheck": "tsc --noEmit",
+    "typecheck:all": "npm run typecheck --workspaces --if-present",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
     "clean": "rm -rf apps/*/node_modules apps/*/.next apps/*/build node_modules",
-    "seed:cocktails": "npx tsx shared/database/cocktails/scripts/seed-all-cocktails.ts"
+    "seed:cocktails": "npx tsx shared/database/cocktails/scripts/seed-all-cocktails.ts",
+    "prepare": "husky install",
+    "generate:types": "cd shared/types && npm run generate:supabase"
   },
   "repository": {
     "type": "git",
@@ -46,7 +52,11 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.2.0",
     "autoprefixer": "10.4.16",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.2.0",
     "postcss": "8.4.31",
+    "prettier": "^3.2.0",
+    "prettier-plugin-tailwindcss": "^0.6.0",
     "tailwindcss": "3.3.5",
     "typescript": "^5.2.2"
   },
@@ -60,6 +70,7 @@
     "next": "^14.0.0",
     "qrcode.react": "^4.2.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zod": "^3.23.0"
   }
 }

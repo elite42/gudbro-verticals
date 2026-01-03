@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+.next/
+**/.next/
+dist/
+build/
+out/
+
+# Generated files
+*.min.js
+*.min.css
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Database
+shared/database/**/*.sql
+
+# Config files that shouldn't be formatted
+.env*
+*.log
+
+# Cache
+.cache/
+.turbo/
+*.tsbuildinfo

@@ -1,0 +1,11 @@
+{
+  "name": "@gudbro/config",
+  "version": "1.0.0",
+  "description": "Shared configuration and environment validation for GUDBRO",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "dependencies": {
+    "zod": "^3.23.0"
+  }
+}

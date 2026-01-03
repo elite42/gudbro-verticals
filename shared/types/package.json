@@ -1,0 +1,14 @@
+{
+  "name": "@gudbro/types",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types for GUDBRO",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "generate:supabase": "supabase gen types typescript --project-id vnaonebbuezrzvjekqxs --schema public > supabase.ts"
+  },
+  "devDependencies": {
+    "supabase": "^1.200.0"
+  }
+}
