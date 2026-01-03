@@ -15,7 +15,9 @@
     "paths": {
       "@/*": ["./*"],
       "@gudbro/types": ["../../shared/types"],
-      "@gudbro/config": ["../../shared/config"]
+      "@gudbro/config": ["../../shared/config"],
+      "@gudbro/utils": ["../../shared/utils"],
+      "@gudbro/ui": ["../../shared/ui"]
     },
     "typeRoots": ["./node_modules/@types"]
   },

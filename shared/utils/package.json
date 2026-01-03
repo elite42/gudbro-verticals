@@ -1,0 +1,11 @@
+{
+  "name": "@gudbro/utils",
+  "version": "1.0.0",
+  "description": "Shared utilities for GUDBRO applications",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "dependencies": {
+    "zod": "^3.23.0"
+  }
+}
