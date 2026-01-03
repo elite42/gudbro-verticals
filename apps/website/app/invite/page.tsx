@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 interface InvitationDetails {
@@ -40,7 +40,6 @@ const ROLE_ICONS: Record<string, string> = {
 
 export default function InvitePage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const token = searchParams.get('token');
 
   const [loading, setLoading] = useState(true);
@@ -93,7 +92,7 @@ export default function InvitePage() {
         } else if (response.status === 410) {
           setError('Questo invito è già stato utilizzato');
         } else {
-          setError('Errore nel caricamento dell\'invito');
+          setError("Errore nel caricamento dell'invito");
         }
         setLoading(false);
         return;
@@ -124,7 +123,7 @@ export default function InvitePage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Errore nell\'accettazione');
+        throw new Error(data.error || "Errore nell'accettazione");
       }
 
       setSuccess(true);
@@ -134,7 +133,7 @@ export default function InvitePage() {
         window.location.href = 'https://gudbro-backoffice.vercel.app';
       }, 2000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Errore nell\'accettazione');
+      setError(err instanceof Error ? err.message : "Errore nell'accettazione");
     } finally {
       setAccepting(false);
     }
@@ -187,9 +186,9 @@ export default function InvitePage() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="mx-auto mb-4 h-16 w-16 animate-spin rounded-full border-4 border-purple-500 border-t-transparent" />
           <p className="text-gray-600 dark:text-gray-400">Caricamento invito...</p>
         </div>
       </div>
@@ -199,18 +198,18 @@ export default function InvitePage() {
   // Error state
   if (error && !invitation) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-4 dark:from-gray-900 dark:to-gray-800">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-xl dark:bg-gray-800">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
             <span className="text-3xl">❌</span>
           </div>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
             Invito Non Valido
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
+          <p className="mb-6 text-gray-600 dark:text-gray-400">{error}</p>
           <Link
             href="/"
-            className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium rounded-full hover:bg-gray-800 dark:hover:bg-gray-100"
+            className="inline-flex items-center justify-center rounded-full bg-gray-900 px-6 py-3 font-medium text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
           >
             Torna alla Home
           </Link>
@@ -222,21 +221,21 @@ export default function InvitePage() {
   // Success state
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-          <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/30">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-4 dark:from-gray-900 dark:to-gray-800">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-xl dark:bg-gray-800">
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-emerald-600 shadow-lg shadow-green-500/30">
             <span className="text-4xl">✓</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
             Benvenuto nel Team!
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-2">
+          <p className="mb-2 text-gray-600 dark:text-gray-400">
             Hai accettato l'invito per <strong>{invitation?.organizationName}</strong>
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500 mb-6">
+          <p className="mb-6 text-sm text-gray-500 dark:text-gray-500">
             Stai per essere reindirizzato al backoffice...
           </p>
-          <div className="w-8 h-8 border-3 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="border-3 mx-auto h-8 w-8 animate-spin rounded-full border-purple-500 border-t-transparent" />
         </div>
       </div>
     );
@@ -245,20 +244,18 @@ export default function InvitePage() {
   // Declined state
   if (declined) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-4 dark:from-gray-900 dark:to-gray-800">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-xl dark:bg-gray-800">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
             <span className="text-3xl">👋</span>
           </div>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Invito Rifiutato
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <h1 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">Invito Rifiutato</h1>
+          <p className="mb-6 text-gray-600 dark:text-gray-400">
             Hai rifiutato l'invito. L'amministratore è stato notificato.
           </p>
           <Link
             href="/"
-            className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium rounded-full hover:bg-gray-800 dark:hover:bg-gray-100"
+            className="inline-flex items-center justify-center rounded-full bg-gray-900 px-6 py-3 font-medium text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
           >
             Vai alla Home
           </Link>
@@ -274,8 +271,8 @@ export default function InvitePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
-      <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <header className="border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-gray-900/80">
+        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-2xl">📱</span>
             <span className="font-bold text-gray-900 dark:text-white">GUDBRO</span>
@@ -283,15 +280,15 @@ export default function InvitePage() {
         </div>
       </header>
 
-      <main className="max-w-lg mx-auto px-4 py-8 md:py-12">
+      <main className="mx-auto max-w-lg px-4 py-8 md:py-12">
         {/* Invitation Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+        <div className="overflow-hidden rounded-2xl bg-white shadow-xl dark:bg-gray-800">
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 text-white text-center">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 text-center text-white">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
               <span className="text-3xl">{roleIcon}</span>
             </div>
-            <h1 className="text-2xl font-bold mb-1">Sei stato invitato!</h1>
+            <h1 className="mb-1 text-2xl font-bold">Sei stato invitato!</h1>
             <p className="text-purple-200">
               {invitation?.inviterName || invitation?.inviterEmail} ti ha invitato a unirti al team
             </p>
@@ -300,34 +297,39 @@ export default function InvitePage() {
           {/* Body */}
           <div className="p-6">
             {/* Organization Info */}
-            <div className="text-center mb-6">
+            <div className="mb-6 text-center">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                 {invitation?.organizationName}
               </h2>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">
-                Ruolo: <span className="font-medium text-gray-900 dark:text-white capitalize">{invitation?.roleTitle}</span>
+              <p className="mt-1 text-gray-500 dark:text-gray-400">
+                Ruolo:{' '}
+                <span className="font-medium capitalize text-gray-900 dark:text-white">
+                  {invitation?.roleTitle}
+                </span>
               </p>
             </div>
 
             {/* Personal Message */}
             {invitation?.message && (
-              <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 mb-6">
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Messaggio personale:</p>
-                <p className="text-gray-700 dark:text-gray-300 italic">"{invitation.message}"</p>
+              <div className="mb-6 rounded-xl bg-gray-50 p-4 dark:bg-gray-900">
+                <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
+                  Messaggio personale:
+                </p>
+                <p className="italic text-gray-700 dark:text-gray-300">"{invitation.message}"</p>
               </div>
             )}
 
             {/* Permissions */}
             {enabledPermissions.length > 0 && (
               <div className="mb-6">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <h3 className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                   Permessi inclusi:
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {enabledPermissions.map((perm) => (
                     <span
                       key={perm}
-                      className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-sm rounded-full"
+                      className="rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
                     >
                       {PERMISSION_LABELS[perm] || perm}
                     </span>
@@ -337,37 +339,43 @@ export default function InvitePage() {
             )}
 
             {/* Expiry Notice */}
-            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-6">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div className="mb-6 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
-              <span>
-                Scade il {invitation && formatExpiryDate(invitation.expiresAt)}
-              </span>
+              <span>Scade il {invitation && formatExpiryDate(invitation.expiresAt)}</span>
             </div>
 
             {/* Email mismatch warning */}
-            {isLoggedIn && currentUserEmail && invitation && invitation.email !== currentUserEmail && (
-              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-4 mb-6">
-                <div className="flex items-start gap-3">
-                  <span className="text-xl">⚠️</span>
-                  <div>
-                    <p className="font-medium text-yellow-800 dark:text-yellow-200">
-                      Email diversa
-                    </p>
-                    <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                      Questo invito è stato inviato a <strong>{invitation.email}</strong>,
-                      ma sei loggato come <strong>{currentUserEmail}</strong>.
-                    </p>
+            {isLoggedIn &&
+              currentUserEmail &&
+              invitation &&
+              invitation.email !== currentUserEmail && (
+                <div className="mb-6 rounded-xl border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800 dark:bg-yellow-900/20">
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl">⚠️</span>
+                    <div>
+                      <p className="font-medium text-yellow-800 dark:text-yellow-200">
+                        Email diversa
+                      </p>
+                      <p className="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
+                        Questo invito è stato inviato a <strong>{invitation.email}</strong>, ma sei
+                        loggato come <strong>{currentUserEmail}</strong>.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Error message */}
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 mb-6">
-                <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
+              <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20">
+                <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
               </div>
             )}
 
@@ -376,18 +384,23 @@ export default function InvitePage() {
               <button
                 onClick={handleAccept}
                 disabled={accepting || declining}
-                className="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-xl hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 py-3 font-medium text-white transition-all hover:from-purple-700 hover:to-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {accepting ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
                     <span>Accettando...</span>
                   </>
                 ) : (
                   <>
                     <span>Accetta Invito</span>
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   </>
                 )}
@@ -396,7 +409,7 @@ export default function InvitePage() {
               <button
                 onClick={handleDecline}
                 disabled={accepting || declining}
-                className="w-full py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full rounded-xl bg-gray-100 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
               >
                 {declining ? 'Rifiutando...' : 'Rifiuta Invito'}
               </button>
@@ -404,7 +417,7 @@ export default function InvitePage() {
 
             {/* Login prompt for non-logged users */}
             {!isLoggedIn && (
-              <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
+              <p className="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
                 Accettando l'invito verrà creato un account con l'email{' '}
                 <strong>{invitation?.email}</strong>
               </p>
@@ -413,9 +426,12 @@ export default function InvitePage() {
         </div>
 
         {/* Help text */}
-        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
+        <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
           Hai problemi?{' '}
-          <a href="mailto:support@gudbro.com" className="text-purple-600 dark:text-purple-400 hover:underline">
+          <a
+            href="mailto:support@gudbro.com"
+            className="text-purple-600 hover:underline dark:text-purple-400"
+          >
             Contatta il supporto
           </a>
         </p>

@@ -35,28 +35,6 @@ interface IngredientContributionFormProps {
   onCancel?: () => void;
 }
 
-const VALID_CATEGORIES = [
-  { value: 'proteins', label: 'Proteins' },
-  { value: 'dairy', label: 'Dairy' },
-  { value: 'vegetables', label: 'Vegetables' },
-  { value: 'fruits', label: 'Fruits' },
-  { value: 'grains', label: 'Grains' },
-  { value: 'legumes', label: 'Legumes' },
-  { value: 'nuts_seeds', label: 'Nuts & Seeds' },
-  { value: 'herbs_spices', label: 'Herbs & Spices' },
-  { value: 'oils_fats', label: 'Oils & Fats' },
-  { value: 'sweeteners', label: 'Sweeteners' },
-  { value: 'condiments', label: 'Condiments' },
-  { value: 'beverages', label: 'Beverages' },
-  { value: 'seafood', label: 'Seafood' },
-  { value: 'baking', label: 'Baking' },
-  { value: 'cheese', label: 'Cheese' },
-  { value: 'poultry', label: 'Poultry' },
-  { value: 'red_meat', label: 'Red Meat' },
-  { value: 'cured_meats', label: 'Cured Meats' },
-  { value: 'sausages', label: 'Sausages' },
-];
-
 const AI_PROMPT = `Analizza questa etichetta nutrizionale e restituisci un JSON con i dati dell'ingrediente.
 
 REGOLE IMPORTANTI:
@@ -96,12 +74,12 @@ export function IngredientContributionForm({
   onSuccess,
   onCancel,
 }: IngredientContributionFormProps) {
-  const [step, setStep] = useState<'prompt' | 'paste' | 'review' | 'submitting' | 'success'>('prompt');
+  const [step, setStep] = useState<'prompt' | 'paste' | 'review' | 'submitting' | 'success'>(
+    'prompt'
+  );
   const [jsonInput, setJsonInput] = useState('');
   const [parsedData, setParsedData] = useState<IngredientJson | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [contributionId, setContributionId] = useState<string | null>(null);
   const [promptCopied, setPromptCopied] = useState(false);
 
   const copyPrompt = async () => {
@@ -151,7 +129,9 @@ export function IngredientContributionForm({
       const parsed = JSON.parse(cleaned);
 
       if (!validateJson(parsed)) {
-        setError('JSON is missing required fields: name, category, and nutrition (calories, protein, carbohydrates, fat)');
+        setError(
+          'JSON is missing required fields: name, category, and nutrition (calories, protein, carbohydrates, fat)'
+        );
         return;
       }
 
@@ -165,7 +145,6 @@ export function IngredientContributionForm({
   const submitContribution = async () => {
     if (!parsedData) return;
 
-    setIsSubmitting(true);
     setStep('submitting');
     setError(null);
 
@@ -174,7 +153,7 @@ export function IngredientContributionForm({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`,
+          Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`,
         },
         body: JSON.stringify({
           ingredientName: parsedData.name,
@@ -190,14 +169,11 @@ export function IngredientContributionForm({
         throw new Error(data.error || 'Failed to submit contribution');
       }
 
-      setContributionId(data.contributionId);
       setStep('success');
       onSuccess?.(data.contributionId);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to submit contribution');
       setStep('review');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -206,49 +182,48 @@ export function IngredientContributionForm({
     setJsonInput('');
     setParsedData(null);
     setError(null);
-    setContributionId(null);
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 max-w-2xl mx-auto">
+    <div className="mx-auto max-w-2xl rounded-2xl bg-white p-6 shadow-lg">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-gray-900">Contribute Ingredient</h2>
-          <p className="text-sm text-gray-500">
-            Help grow our database and earn 50 points!
-          </p>
+          <p className="text-sm text-gray-500">Help grow our database and earn 50 points!</p>
         </div>
         {onCancel && step !== 'success' && (
-          <button
-            onClick={onCancel}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <button onClick={onCancel} className="text-gray-400 hover:text-gray-600">
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         )}
       </div>
 
       {/* Progress Steps */}
-      <div className="flex items-center mb-8">
+      <div className="mb-8 flex items-center">
         {['Photo & AI', 'Paste JSON', 'Review', 'Submit'].map((label, idx) => {
           const stepIndex = ['prompt', 'paste', 'review', 'submitting'].indexOf(step);
           const isActive = idx <= stepIndex || step === 'success';
           const isCurrent = idx === stepIndex;
 
           return (
-            <div key={label} className="flex items-center flex-1">
-              <div className={`
-                w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
-                ${isActive ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'}
-                ${isCurrent ? 'ring-2 ring-green-500 ring-offset-2' : ''}
-              `}>
+            <div key={label} className="flex flex-1 items-center">
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${isActive ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'} ${isCurrent ? 'ring-2 ring-green-500 ring-offset-2' : ''} `}
+              >
                 {step === 'success' && idx === 3 ? '✓' : idx + 1}
               </div>
               {idx < 3 && (
-                <div className={`flex-1 h-1 mx-2 ${isActive && idx < stepIndex ? 'bg-green-500' : 'bg-gray-200'}`} />
+                <div
+                  className={`mx-2 h-1 flex-1 ${isActive && idx < stepIndex ? 'bg-green-500' : 'bg-gray-200'}`}
+                />
               )}
             </div>
           );
@@ -258,19 +233,38 @@ export function IngredientContributionForm({
       {/* Step 1: Prompt */}
       {step === 'prompt' && (
         <div className="space-y-4">
-          <div className="bg-blue-50 rounded-xl p-4">
-            <h3 className="font-medium text-blue-900 mb-2">Step 1: Use AI to Extract Data</h3>
-            <ol className="text-sm text-blue-800 space-y-2 list-decimal list-inside">
+          <div className="rounded-xl bg-blue-50 p-4">
+            <h3 className="mb-2 font-medium text-blue-900">Step 1: Use AI to Extract Data</h3>
+            <ol className="list-inside list-decimal space-y-2 text-sm text-blue-800">
               <li>Take a photo of the nutrition label</li>
               <li>Copy the prompt below</li>
-              <li>Open <a href="https://gemini.google.com" target="_blank" rel="noopener" className="underline">Gemini</a> or <a href="https://chat.openai.com" target="_blank" rel="noopener" className="underline">ChatGPT</a></li>
+              <li>
+                Open{' '}
+                <a
+                  href="https://gemini.google.com"
+                  target="_blank"
+                  rel="noopener"
+                  className="underline"
+                >
+                  Gemini
+                </a>{' '}
+                or{' '}
+                <a
+                  href="https://chat.openai.com"
+                  target="_blank"
+                  rel="noopener"
+                  className="underline"
+                >
+                  ChatGPT
+                </a>
+              </li>
               <li>Paste the prompt and attach your photo</li>
               <li>Copy the JSON response</li>
             </ol>
           </div>
 
           {searchedName && (
-            <div className="bg-yellow-50 rounded-xl p-4">
+            <div className="rounded-xl bg-yellow-50 p-4">
               <p className="text-sm text-yellow-800">
                 <span className="font-medium">Searching for:</span> {searchedName}
               </p>
@@ -278,17 +272,17 @@ export function IngredientContributionForm({
           )}
 
           <div className="relative">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="mb-2 block text-sm font-medium text-gray-700">
               AI Prompt (click to copy)
             </label>
             <div
               onClick={copyPrompt}
-              className="bg-gray-50 rounded-xl p-4 text-xs font-mono text-gray-600 cursor-pointer hover:bg-gray-100 transition-colors max-h-48 overflow-y-auto"
+              className="max-h-48 cursor-pointer overflow-y-auto rounded-xl bg-gray-50 p-4 font-mono text-xs text-gray-600 transition-colors hover:bg-gray-100"
             >
               <pre className="whitespace-pre-wrap">{AI_PROMPT}</pre>
             </div>
             {promptCopied && (
-              <div className="absolute top-8 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+              <div className="absolute right-2 top-8 rounded bg-green-500 px-2 py-1 text-xs text-white">
                 Copied!
               </div>
             )}
@@ -296,7 +290,7 @@ export function IngredientContributionForm({
 
           <button
             onClick={() => setStep('paste')}
-            className="w-full bg-green-500 text-white py-3 rounded-xl font-medium hover:bg-green-600 transition-colors"
+            className="w-full rounded-xl bg-green-500 py-3 font-medium text-white transition-colors hover:bg-green-600"
           >
             I have the JSON response
           </button>
@@ -307,34 +301,32 @@ export function IngredientContributionForm({
       {step === 'paste' && (
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="mb-2 block text-sm font-medium text-gray-700">
               Paste JSON from AI
             </label>
             <textarea
               value={jsonInput}
               onChange={(e) => setJsonInput(e.target.value)}
               placeholder='{"name": "Greek Yogurt", "category": "dairy", ...}'
-              className="w-full h-64 px-4 py-3 border border-gray-300 rounded-xl font-mono text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="h-64 w-full rounded-xl border border-gray-300 px-4 py-3 font-mono text-sm focus:border-transparent focus:ring-2 focus:ring-green-500"
             />
           </div>
 
           {error && (
-            <div className="bg-red-50 text-red-700 px-4 py-3 rounded-xl text-sm">
-              {error}
-            </div>
+            <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
           )}
 
           <div className="flex gap-3">
             <button
               onClick={() => setStep('prompt')}
-              className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+              className="flex-1 rounded-xl bg-gray-100 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200"
             >
               Back
             </button>
             <button
               onClick={parseJsonInput}
               disabled={!jsonInput.trim()}
-              className="flex-1 bg-green-500 text-white py-3 rounded-xl font-medium hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 rounded-xl bg-green-500 py-3 font-medium text-white transition-colors hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Parse & Review
             </button>
@@ -345,8 +337,8 @@ export function IngredientContributionForm({
       {/* Step 3: Review */}
       {step === 'review' && parsedData && (
         <div className="space-y-4">
-          <div className="bg-gray-50 rounded-xl p-4">
-            <h3 className="font-medium text-gray-900 mb-3">Review Ingredient Data</h3>
+          <div className="rounded-xl bg-gray-50 p-4">
+            <h3 className="mb-3 font-medium text-gray-900">Review Ingredient Data</h3>
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
@@ -373,34 +365,34 @@ export function IngredientContributionForm({
 
             <hr className="my-4" />
 
-            <h4 className="text-sm font-medium text-gray-700 mb-2">Nutrition per 100g</h4>
+            <h4 className="mb-2 text-sm font-medium text-gray-700">Nutrition per 100g</h4>
             <div className="grid grid-cols-4 gap-2 text-sm">
-              <div className="bg-white rounded-lg p-2 text-center">
-                <p className="text-gray-500 text-xs">Calories</p>
+              <div className="rounded-lg bg-white p-2 text-center">
+                <p className="text-xs text-gray-500">Calories</p>
                 <p className="font-bold">{parsedData.nutrition.calories}</p>
               </div>
-              <div className="bg-white rounded-lg p-2 text-center">
-                <p className="text-gray-500 text-xs">Protein</p>
+              <div className="rounded-lg bg-white p-2 text-center">
+                <p className="text-xs text-gray-500">Protein</p>
                 <p className="font-bold">{parsedData.nutrition.protein}g</p>
               </div>
-              <div className="bg-white rounded-lg p-2 text-center">
-                <p className="text-gray-500 text-xs">Carbs</p>
+              <div className="rounded-lg bg-white p-2 text-center">
+                <p className="text-xs text-gray-500">Carbs</p>
                 <p className="font-bold">{parsedData.nutrition.carbohydrates}g</p>
               </div>
-              <div className="bg-white rounded-lg p-2 text-center">
-                <p className="text-gray-500 text-xs">Fat</p>
+              <div className="rounded-lg bg-white p-2 text-center">
+                <p className="text-xs text-gray-500">Fat</p>
                 <p className="font-bold">{parsedData.nutrition.fat}g</p>
               </div>
             </div>
 
             {parsedData.allergens && parsedData.allergens.length > 0 && (
               <div className="mt-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Allergens</h4>
+                <h4 className="mb-2 text-sm font-medium text-gray-700">Allergens</h4>
                 <div className="flex flex-wrap gap-2">
                   {parsedData.allergens.map((allergen) => (
                     <span
                       key={allergen}
-                      className="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-medium"
+                      className="rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-700"
                     >
                       {allergen}
                     </span>
@@ -411,22 +403,22 @@ export function IngredientContributionForm({
 
             <div className="mt-4 flex flex-wrap gap-2">
               {parsedData.is_vegan && (
-                <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
+                <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
                   Vegan
                 </span>
               )}
               {parsedData.is_vegetarian && (
-                <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
+                <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
                   Vegetarian
                 </span>
               )}
               {parsedData.is_gluten_free && (
-                <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+                <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
                   Gluten Free
                 </span>
               )}
               {parsedData.is_dairy_free && (
-                <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+                <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
                   Dairy Free
                 </span>
               )}
@@ -434,27 +426,26 @@ export function IngredientContributionForm({
           </div>
 
           {error && (
-            <div className="bg-red-50 text-red-700 px-4 py-3 rounded-xl text-sm">
-              {error}
-            </div>
+            <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
           )}
 
-          <div className="bg-yellow-50 rounded-xl p-4">
+          <div className="rounded-xl bg-yellow-50 p-4">
             <p className="text-sm text-yellow-800">
-              <span className="font-medium">Earn 50 points</span> when your contribution is approved by our team!
+              <span className="font-medium">Earn 50 points</span> when your contribution is approved
+              by our team!
             </p>
           </div>
 
           <div className="flex gap-3">
             <button
               onClick={() => setStep('paste')}
-              className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+              className="flex-1 rounded-xl bg-gray-100 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200"
             >
               Edit JSON
             </button>
             <button
               onClick={submitContribution}
-              className="flex-1 bg-green-500 text-white py-3 rounded-xl font-medium hover:bg-green-600 transition-colors"
+              className="flex-1 rounded-xl bg-green-500 py-3 font-medium text-white transition-colors hover:bg-green-600"
             >
               Submit for Review
             </button>
@@ -464,35 +455,46 @@ export function IngredientContributionForm({
 
       {/* Step 4: Submitting */}
       {step === 'submitting' && (
-        <div className="text-center py-12">
-          <div className="animate-spin w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full mx-auto mb-4" />
+        <div className="py-12 text-center">
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-green-500 border-t-transparent" />
           <p className="text-gray-600">Submitting your contribution...</p>
         </div>
       )}
 
       {/* Step 5: Success */}
       {step === 'success' && (
-        <div className="text-center py-8">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        <div className="py-8 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+            <svg
+              className="h-8 w-8 text-green-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2">Contribution Submitted!</h3>
-          <p className="text-gray-600 mb-6">
-            Thank you for helping grow our ingredient database. You&apos;ll earn 50 points when approved!
+          <h3 className="mb-2 text-xl font-bold text-gray-900">Contribution Submitted!</h3>
+          <p className="mb-6 text-gray-600">
+            Thank you for helping grow our ingredient database. You&apos;ll earn 50 points when
+            approved!
           </p>
-          <div className="flex gap-3 justify-center">
+          <div className="flex justify-center gap-3">
             <button
               onClick={reset}
-              className="bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+              className="rounded-xl bg-gray-100 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200"
             >
               Add Another
             </button>
             {onCancel && (
               <button
                 onClick={onCancel}
-                className="bg-green-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-600 transition-colors"
+                className="rounded-xl bg-green-500 px-6 py-3 font-medium text-white transition-colors hover:bg-green-600"
               >
                 Done
               </button>

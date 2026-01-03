@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -19,7 +20,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -37,14 +41,14 @@ export async function GET(request: NextRequest) {
     }
 
     // Get contributor stats
-    const { data: stats, error: statsError } = await supabase
+    const { data: stats } = await supabase
       .from('v_contributor_stats')
       .select('*')
       .eq('account_id', account.id)
       .single();
 
     // Get loyalty summary
-    const { data: loyalty, error: loyaltyError } = await supabase
+    const { data: loyalty } = await supabase
       .from('v_loyalty_summary')
       .select('*')
       .eq('account_id', account.id)
@@ -72,29 +76,33 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json({
-      stats: stats ? {
-        accountId: stats.account_id,
-        email: stats.email,
-        displayName: stats.display_name,
-        contributorPoints: stats.contributor_points || 0,
-        totalSubmissions: stats.total_submissions || 0,
-        approvedCount: stats.approved_count || 0,
-        rejectedCount: stats.rejected_count || 0,
-        pendingCount: stats.pending_count || 0,
-        totalPointsFromContributions: stats.total_points_from_contributions || 0,
-      } : null,
-      loyalty: loyalty ? {
-        totalPoints: loyalty.total_points || 0,
-        consumerPoints: loyalty.consumer_points || 0,
-        merchantPoints: loyalty.merchant_points || 0,
-        contributorPoints: loyalty.contributor_points || 0,
-        loyaltyTier: loyalty.loyalty_tier || 'bronze',
-        pointsToNextTier: loyalty.points_to_next_tier || 0,
-        nextTier: loyalty.next_tier,
-        totalTransactions: loyalty.total_transactions || 0,
-        lastTransactionAt: loyalty.last_transaction_at,
-        successfulReferrals: loyalty.successful_referrals || 0,
-      } : null,
+      stats: stats
+        ? {
+            accountId: stats.account_id,
+            email: stats.email,
+            displayName: stats.display_name,
+            contributorPoints: stats.contributor_points || 0,
+            totalSubmissions: stats.total_submissions || 0,
+            approvedCount: stats.approved_count || 0,
+            rejectedCount: stats.rejected_count || 0,
+            pendingCount: stats.pending_count || 0,
+            totalPointsFromContributions: stats.total_points_from_contributions || 0,
+          }
+        : null,
+      loyalty: loyalty
+        ? {
+            totalPoints: loyalty.total_points || 0,
+            consumerPoints: loyalty.consumer_points || 0,
+            merchantPoints: loyalty.merchant_points || 0,
+            contributorPoints: loyalty.contributor_points || 0,
+            loyaltyTier: loyalty.loyalty_tier || 'bronze',
+            pointsToNextTier: loyalty.points_to_next_tier || 0,
+            nextTier: loyalty.next_tier,
+            totalTransactions: loyalty.total_transactions || 0,
+            lastTransactionAt: loyalty.last_transaction_at,
+            successfulReferrals: loyalty.successful_referrals || 0,
+          }
+        : null,
       statusBreakdown,
     });
   } catch (err) {

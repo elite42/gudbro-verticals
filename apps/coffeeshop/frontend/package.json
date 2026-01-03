@@ -1,13 +1,15 @@
 {
-  "name": "@gudbro/coffeeshop-frontend",
+  "name": "@gudbro/coffeeshop",
   "version": "1.0.0",
-  "description": "Coffeeshop minisite frontend with menu and ordering",
+  "description": "Coffeeshop Digital Menu PWA",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3004",
     "build": "next build",
     "start": "next start -p 3004",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf .next .turbo node_modules"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",

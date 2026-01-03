@@ -26,7 +26,12 @@ export const PREMIUM_FEATURES = {
   priority_support: {
     name: 'Priority Support',
     description: 'Faster response times',
-    requiredPlans: ['consumer_premium', 'merchant_standard', 'merchant_premium', 'merchant_enterprise'],
+    requiredPlans: [
+      'consumer_premium',
+      'merchant_standard',
+      'merchant_premium',
+      'merchant_enterprise',
+    ],
   },
   no_ads: {
     name: 'No Ads',
@@ -105,7 +110,10 @@ export async function getAccessibleFeatures(accountId: string): Promise<PremiumF
   const accessibleFeatures: PremiumFeature[] = [];
 
   for (const [feature, config] of Object.entries(PREMIUM_FEATURES)) {
-    if (config.requiredPlans.includes(planType) || features[feature] === true) {
+    if (
+      (config.requiredPlans as readonly string[]).includes(planType) ||
+      features[feature] === true
+    ) {
       accessibleFeatures.push(feature as PremiumFeature);
     }
   }
@@ -150,7 +158,7 @@ export async function requirePremiumFeature(
   feature: PremiumFeature
 ): Promise<{ allowed: boolean; error?: string }> {
   const hasAccess = await hasFeatureAccess(accountId, feature);
-  
+
   if (!hasAccess) {
     const featureInfo = PREMIUM_FEATURES[feature];
     return {
@@ -169,7 +177,7 @@ export async function checkUsageLimit(
   currentCount: number
 ): Promise<{ allowed: boolean; limit: number; error?: string }> {
   const limits = await getFeatureLimits(accountId);
-  
+
   const limitMap = {
     locations: limits.maxLocations,
     staff: limits.maxStaff,
@@ -177,7 +185,7 @@ export async function checkUsageLimit(
   };
 
   const limit = limitMap[limitType];
-  
+
   // -1 means unlimited
   if (limit === -1) {
     return { allowed: true, limit: -1 };

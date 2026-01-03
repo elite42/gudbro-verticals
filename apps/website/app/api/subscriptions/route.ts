@@ -18,7 +18,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -51,17 +54,18 @@ export async function GET(request: NextRequest) {
       subscription: subscription?.[0] || null,
       isPremium: account.is_premium,
       premiumUntil: account.premium_until,
-      availablePlans: plans?.map(p => ({
-        code: p.plan_code,
-        name: p.plan_name,
-        description: p.description,
-        type: p.plan_type,
-        priceMonthly: p.price_monthly,
-        priceYearly: p.price_yearly,
-        currency: p.currency,
-        features: p.features,
-        badge: p.badge_text,
-      })) || [],
+      availablePlans:
+        plans?.map((p) => ({
+          code: p.plan_code,
+          name: p.plan_name,
+          description: p.description,
+          type: p.plan_type,
+          priceMonthly: p.price_monthly,
+          priceYearly: p.price_yearly,
+          currency: p.currency,
+          features: p.features,
+          badge: p.badge_text,
+        })) || [],
     });
   } catch (err) {
     console.error('[SubscriptionsAPI] Error:', err);
@@ -81,7 +85,10 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -154,7 +161,10 @@ export async function DELETE(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -193,7 +203,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Cancel in our DB
-    const { data: success, error } = await supabase.rpc('cancel_subscription', {
+    const { error } = await supabase.rpc('cancel_subscription', {
       p_subscription_id: subscription.id,
       p_cancel_immediately: immediately,
       p_reason: reason,
@@ -206,8 +216,8 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: immediately 
-        ? 'Subscription canceled immediately' 
+      message: immediately
+        ? 'Subscription canceled immediately'
         : 'Subscription will be canceled at period end',
     });
   } catch (err) {

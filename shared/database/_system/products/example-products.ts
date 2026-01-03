@@ -10,7 +10,7 @@
  */
 
 import type { Product, ProductIngredient } from '../types';
-import { commonIngredients } from '../ingredients/common-ingredients';
+import { commonIngredients } from '../../ingredients/common-ingredients';
 import { autoComputeProduct, getIngredientMasters } from '../utils/auto-compute';
 
 // ============================================================================
@@ -79,7 +79,8 @@ export const oatsCappuccino: Product = {
 
   media: {
     images: {
-      thumbnail: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=300&fit=crop',
+      thumbnail:
+        'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=300&fit=crop',
       gallery: [
         'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&h=600&fit=crop',
       ],
@@ -158,7 +159,8 @@ export const tropicalPitayaBowl: Product = {
 
   media: {
     images: {
-      thumbnail: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&h=300&fit=crop',
+      thumbnail:
+        'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&h=300&fit=crop',
       gallery: [
         'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&h=600&fit=crop',
       ],
@@ -228,7 +230,8 @@ export const greenPowerSmoothie: Product = {
 
   media: {
     images: {
-      thumbnail: 'https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=400&h=300&fit=crop',
+      thumbnail:
+        'https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=400&h=300&fit=crop',
       gallery: [],
     },
   },
@@ -287,7 +290,8 @@ export const buddhaBowl: Product = {
 
   media: {
     images: {
-      thumbnail: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop',
+      thumbnail:
+        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop',
       gallery: [],
     },
   },
@@ -334,7 +338,9 @@ export async function demonstrateAutoComputation() {
 
   // Example 2: Tropical Pitaya Bowl
   console.log('📋 PRODUCT: Tropical Pitaya Bowl');
-  console.log('Manager selects: Pitaya + Banana + Mango + Granola + Coconut + Peanut Butter + Chia');
+  console.log(
+    'Manager selects: Pitaya + Banana + Mango + Granola + Coconut + Peanut Butter + Chia'
+  );
   console.log();
 
   const pitayaIngredients = await getIngredientMasters(
@@ -361,10 +367,7 @@ export async function demonstrateAutoComputation() {
   console.log('Manager selects: Quinoa + Avocado + Tahini + Spinach + Tomato (NO garlic/onion)');
   console.log();
 
-  const buddhaIngredients = await getIngredientMasters(
-    buddhaBowl.ingredients,
-    commonIngredients
-  );
+  const buddhaIngredients = await getIngredientMasters(buddhaBowl.ingredients, commonIngredients);
   const buddhaResult = autoComputeProduct(buddhaIngredients);
 
   console.log('✅ AUTO-COMPUTED RESULTS:');
@@ -388,11 +391,6 @@ export async function demonstrateAutoComputation() {
 // EXPORTS
 // ============================================================================
 
-export const exampleProducts = [
-  oatsCappuccino,
-  tropicalPitayaBowl,
-  greenPowerSmoothie,
-  buddhaBowl,
-];
+export const exampleProducts = [oatsCappuccino, tropicalPitayaBowl, greenPowerSmoothie, buddhaBowl];
 
 export const PRODUCT_COUNT = exampleProducts.length;

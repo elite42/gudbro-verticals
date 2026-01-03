@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -13,7 +14,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { shareId, conversionType, metadata } = body;
+    const { shareId, conversionType } = body;
 
     if (!shareId) {
       return NextResponse.json({ error: 'shareId required' }, { status: 400 });
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update conversion count
-    await supabase.rpc('increment_share_conversions', { 
+    await supabase.rpc('increment_share_conversions', {
       p_share_id: shareId,
       p_conversion_type: conversionType,
     });
@@ -67,7 +68,7 @@ export async function POST(request: NextRequest) {
     // Award bonus points to sharer for successful conversions
     if (conversionType === 'signup' || conversionType === 'purchase') {
       const bonusPoints = conversionType === 'signup' ? 100 : 50;
-      
+
       // This would trigger the points system
       await supabase.rpc('award_bonus_points', {
         p_account_id: share.account_id,

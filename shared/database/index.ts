@@ -18,9 +18,18 @@ export * from './_system/types';
 // INGREDIENT DATABASE
 // ============================================================================
 export { commonIngredients, INGREDIENT_COUNT } from './ingredients/common-ingredients';
-export { beveragesSuperfoods, BEVERAGES_SUPERFOODS_COUNT } from './ingredients/beverages-superfoods';
-export { citrusHerbsVegetables, CITRUS_HERBS_VEGETABLES_COUNT } from './ingredients/citrus-herbs-vegetables';
-export { saucesOilsSweeteners, SAUCES_OILS_SWEETENERS_COUNT } from './ingredients/sauces-oils-sweeteners';
+export {
+  beveragesSuperfoods,
+  BEVERAGES_SUPERFOODS_COUNT,
+} from './ingredients/beverages-superfoods';
+export {
+  citrusHerbsVegetables,
+  CITRUS_HERBS_VEGETABLES_COUNT,
+} from './ingredients/citrus-herbs-vegetables';
+export {
+  saucesOilsSweeteners,
+  SAUCES_OILS_SWEETENERS_COUNT,
+} from './ingredients/sauces-oils-sweeteners';
 export { saladIngredients, SALAD_INGREDIENTS_COUNT } from './ingredients/salad-ingredients';
 
 // Cocktail ingredients (214 ingredients for 222 cocktails)
@@ -89,7 +98,7 @@ export {
   beetHummusToast,
   cacaoDreamBowl,
   espresso,
-  americano,
+  americano as americanoCoffee,
   cashewCappuccino,
   greenPeaceBowl,
 } from './_system/products/roots-products';
@@ -154,10 +163,7 @@ export {
   allProducts,
 } from './_system/utils/product-search';
 
-export type {
-  ProductSearchFilters,
-  ProductSearchResult,
-} from './_system/utils/product-search';
+export type { ProductSearchFilters, ProductSearchResult } from './_system/utils/product-search';
 
 // ============================================================================
 // CATEGORY TAXONOMY

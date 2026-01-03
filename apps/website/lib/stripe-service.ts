@@ -42,7 +42,7 @@ export async function createCustomer(params: CreateCustomerParams): Promise<Stri
 
 export async function getCustomer(customerId: string): Promise<Stripe.Customer | null> {
   try {
-    return await stripe.customers.retrieve(customerId) as Stripe.Customer;
+    return (await stripe.customers.retrieve(customerId)) as Stripe.Customer;
   } catch {
     return null;
   }
@@ -122,7 +122,7 @@ export async function updateSubscription(
   newPriceId: string
 ): Promise<Stripe.Subscription> {
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-  
+
   return stripe.subscriptions.update(subscriptionId, {
     items: [
       {
@@ -213,17 +213,12 @@ export async function setDefaultPaymentMethod(
   });
 }
 
-export async function detachPaymentMethod(
-  paymentMethodId: string
-): Promise<Stripe.PaymentMethod> {
+export async function detachPaymentMethod(paymentMethodId: string): Promise<Stripe.PaymentMethod> {
   return stripe.paymentMethods.detach(paymentMethodId);
 }
 
 // Invoices
-export async function listInvoices(
-  customerId: string,
-  limit = 10
-): Promise<Stripe.Invoice[]> {
+export async function listInvoices(customerId: string, limit = 10): Promise<Stripe.Invoice[]> {
   const result = await stripe.invoices.list({
     customer: customerId,
     limit,
@@ -239,7 +234,9 @@ export async function getInvoice(invoiceId: string): Promise<Stripe.Invoice | nu
   }
 }
 
-export async function getUpcomingInvoice(customerId: string): Promise<Stripe.Invoice | null> {
+export async function getUpcomingInvoice(
+  customerId: string
+): Promise<Stripe.UpcomingInvoice | null> {
   try {
     return await stripe.invoices.retrieveUpcoming({ customer: customerId });
   } catch {

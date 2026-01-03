@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   UnifiedProfile,
-  Tenant,
   DIETARY_OPTIONS,
   ALLERGEN_OPTIONS,
   LOCALE_OPTIONS,
@@ -35,7 +34,12 @@ const getMockProfile = (): UnifiedProfile => ({
       roleId: 'role-1',
       tenantId: 'tenant-1',
       tenantType: 'merchant',
-      permissions: { menu_edit: true, orders_manage: true, staff_manage: true, billing_manage: true },
+      permissions: {
+        menu_edit: true,
+        orders_manage: true,
+        staff_manage: true,
+        billing_manage: true,
+      },
       isPrimary: true,
       isActive: true,
       joinedAt: '2024-01-15T10:00:00Z',
@@ -118,27 +122,11 @@ export default function ProfilePage() {
   };
 
   const toggleDietaryPref = (id: string) => {
-    setDietaryPrefs((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
-    );
+    setDietaryPrefs((prev) => (prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]));
   };
 
   const toggleAllergen = (id: string) => {
-    setAllergens((prev) =>
-      prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]
-    );
-  };
-
-  const getRoleIcon = (role: string) => {
-    const icons: Record<string, string> = {
-      owner: '👑',
-      manager: '💼',
-      chef: '👨‍🍳',
-      waiter: '🍽️',
-      viewer: '👁️',
-      staff: '👤',
-    };
-    return icons[role] || '👤';
+    setAllergens((prev) => (prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]));
   };
 
   const formatDate = (dateStr: string) => {
@@ -158,18 +146,18 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" />
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-purple-500 border-t-transparent" />
       </div>
     );
   }
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
           <p className="text-gray-600 dark:text-gray-400">Profilo non trovato</p>
-          <Link href="/" className="text-purple-600 hover:underline mt-2 block">
+          <Link href="/" className="mt-2 block text-purple-600 hover:underline">
             Torna alla home
           </Link>
         </div>
@@ -180,15 +168,15 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+      <header className="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-2xl">📱</span>
             <span className="font-bold text-gray-900 dark:text-white">GUDBRO</span>
           </Link>
           <Link
             href="/"
-            className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
           >
             ← Torna alla Home
           </Link>
@@ -197,22 +185,22 @@ export default function ProfilePage() {
 
       {/* Success Message */}
       {successMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
+        <div className="fixed right-4 top-4 z-50 flex items-center gap-2 rounded-lg bg-green-500 px-4 py-2 text-white shadow-lg">
           <span>✓</span>
           <span>{successMessage}</span>
         </div>
       )}
 
-      <main className="max-w-5xl mx-auto px-4 py-8">
+      <main className="mx-auto max-w-5xl px-4 py-8">
         {/* Profile Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
+        <div className="mb-6 rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
           <div className="flex items-center gap-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-blue-600 text-3xl font-bold text-white">
               {profile.avatarUrl ? (
                 <img
                   src={profile.avatarUrl}
                   alt=""
-                  className="w-full h-full rounded-full object-cover"
+                  className="h-full w-full rounded-full object-cover"
                 />
               ) : (
                 (profile.firstName?.[0] || profile.email[0]).toUpperCase()
@@ -223,24 +211,24 @@ export default function ProfilePage() {
                 {profile.displayName || profile.email}
               </h1>
               <p className="text-gray-500 dark:text-gray-400">{profile.email}</p>
-              <div className="flex flex-wrap gap-2 mt-2">
+              <div className="mt-2 flex flex-wrap gap-2">
                 {profile.isConsumer && (
-                  <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs rounded-full">
+                  <span className="rounded-full bg-green-100 px-2 py-1 text-xs text-green-700 dark:bg-green-900/30 dark:text-green-300">
                     Consumer
                   </span>
                 )}
                 {profile.isMerchant && (
-                  <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded-full">
+                  <span className="rounded-full bg-purple-100 px-2 py-1 text-xs text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
                     Merchant
                   </span>
                 )}
                 {profile.isAdmin && (
-                  <span className="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs rounded-full">
+                  <span className="rounded-full bg-red-100 px-2 py-1 text-xs text-red-700 dark:bg-red-900/30 dark:text-red-300">
                     Admin
                   </span>
                 )}
                 {profile.isContributor && (
-                  <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs rounded-full">
+                  <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
                     Contributor
                   </span>
                 )}
@@ -248,14 +236,16 @@ export default function ProfilePage() {
             </div>
             <div className="text-center">
               <p className="text-sm text-gray-500 dark:text-gray-400">Punti Fedeltà</p>
-              <p className="text-2xl font-bold text-purple-600">{profile.totalPoints.toLocaleString()}</p>
-              <p className="text-xs text-gray-400 capitalize">{profile.loyaltyTier}</p>
+              <p className="text-2xl font-bold text-purple-600">
+                {profile.totalPoints.toLocaleString()}
+              </p>
+              <p className="text-xs capitalize text-gray-400">{profile.loyaltyTier}</p>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+        <div className="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
           <div className="border-b border-gray-200 dark:border-gray-700">
             <div className="flex overflow-x-auto">
               {tabs.map((tab) => (
@@ -264,8 +254,8 @@ export default function ProfilePage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex-shrink-0 px-6 py-4 text-sm font-medium transition-colors ${
                     activeTab === tab.id
-                      ? 'text-purple-600 border-b-2 border-purple-600 bg-purple-50 dark:bg-purple-900/20'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                      ? 'border-b-2 border-purple-600 bg-purple-50 text-purple-600 dark:bg-purple-900/20'
+                      : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
                   }`}
                 >
                   <span className="mr-2">{tab.icon}</span>
@@ -279,72 +269,72 @@ export default function ProfilePage() {
             {/* Profile Tab */}
             {activeTab === 'profile' && (
               <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid gap-6 md:grid-cols-2">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Nome visualizzato
                     </label>
                     <input
                       type="text"
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-900"
                       placeholder="Come vuoi essere chiamato"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Email
                     </label>
                     <input
                       type="email"
                       value={profile.email}
                       disabled
-                      className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-500"
+                      className="w-full rounded-lg border border-gray-200 bg-gray-100 px-4 py-3 text-gray-500 dark:border-gray-700 dark:bg-gray-800"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Nome
                     </label>
                     <input
                       type="text"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-900"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Cognome
                     </label>
                     <input
                       type="text"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-900"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Telefono
                     </label>
                     <input
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-900"
                       placeholder="+39 ..."
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Lingua
                     </label>
                     <select
                       value={locale}
                       onChange={(e) => setLocale(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-900"
                     >
                       {LOCALE_OPTIONS.map((l) => (
                         <option key={l.id} value={l.id}>
@@ -354,13 +344,13 @@ export default function ProfilePage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Fuso orario
                     </label>
                     <select
                       value={timezone}
                       onChange={(e) => setTimezone(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-900"
                     >
                       {TIMEZONE_OPTIONS.map((tz) => (
                         <option key={tz.id} value={tz.id}>
@@ -375,11 +365,11 @@ export default function ProfilePage() {
                   <button
                     onClick={handleSaveProfile}
                     disabled={saving}
-                    className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center gap-2"
+                    className="flex items-center gap-2 rounded-lg bg-purple-600 px-6 py-3 font-medium text-white hover:bg-purple-700 disabled:opacity-50"
                   >
                     {saving ? (
                       <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                         <span>Salvataggio...</span>
                       </>
                     ) : (
@@ -389,11 +379,11 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Account Info */}
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mt-6">
-                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+                <div className="mt-6 border-t border-gray-200 pt-6 dark:border-gray-700">
+                  <h3 className="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
                     Informazioni Account
                   </h3>
-                  <div className="grid md:grid-cols-2 gap-4 text-sm">
+                  <div className="grid gap-4 text-sm md:grid-cols-2">
                     <div>
                       <span className="text-gray-500 dark:text-gray-400">Membro dal:</span>{' '}
                       <span className="text-gray-900 dark:text-white">
@@ -418,25 +408,25 @@ export default function ProfilePage() {
               <div className="space-y-8">
                 {/* Dietary Preferences */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
                     Preferenze Alimentari
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
                     Seleziona le tue preferenze per ricevere suggerimenti personalizzati
                   </p>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                     {DIETARY_OPTIONS.map((option) => (
                       <button
                         key={option.id}
                         onClick={() => toggleDietaryPref(option.id)}
-                        className={`p-4 rounded-xl border-2 transition-all text-left ${
+                        className={`rounded-xl border-2 p-4 text-left transition-all ${
                           dietaryPrefs.includes(option.id)
                             ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
-                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                            : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
                         }`}
                       >
                         <span className="text-2xl">{option.icon}</span>
-                        <p className="font-medium text-gray-900 dark:text-white mt-1">
+                        <p className="mt-1 font-medium text-gray-900 dark:text-white">
                           {option.label}
                         </p>
                       </button>
@@ -446,25 +436,25 @@ export default function ProfilePage() {
 
                 {/* Allergen Alerts */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
                     Allergeni da Evitare
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
                     Ti avviseremo quando un piatto contiene questi ingredienti
                   </p>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                     {ALLERGEN_OPTIONS.map((option) => (
                       <button
                         key={option.id}
                         onClick={() => toggleAllergen(option.id)}
-                        className={`p-3 rounded-lg border-2 transition-all ${
+                        className={`rounded-lg border-2 p-3 transition-all ${
                           allergens.includes(option.id)
                             ? 'border-red-500 bg-red-50 dark:bg-red-900/20'
-                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                            : 'border-gray-200 hover:border-gray-300 dark:border-gray-700 dark:hover:border-gray-600'
                         }`}
                       >
                         <span className="text-xl">{option.icon}</span>
-                        <p className="text-sm font-medium text-gray-900 dark:text-white mt-1">
+                        <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white">
                           {option.label}
                         </p>
                       </button>
@@ -476,11 +466,11 @@ export default function ProfilePage() {
                   <button
                     onClick={handleSavePreferences}
                     disabled={saving}
-                    className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center gap-2"
+                    className="flex items-center gap-2 rounded-lg bg-purple-600 px-6 py-3 font-medium text-white hover:bg-purple-700 disabled:opacity-50"
                   >
                     {saving ? (
                       <>
-                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                         <span>Salvataggio...</span>
                       </>
                     ) : (
@@ -495,27 +485,27 @@ export default function ProfilePage() {
             {activeTab === 'organizations' && (
               <div className="space-y-4">
                 {profile.tenants.length === 0 ? (
-                  <div className="text-center py-12">
+                  <div className="py-12 text-center">
                     <span className="text-4xl">🏢</span>
-                    <p className="text-gray-600 dark:text-gray-400 mt-4">
+                    <p className="mt-4 text-gray-600 dark:text-gray-400">
                       Non fai parte di nessuna organizzazione
                     </p>
                     <Link
                       href="/get-started"
-                      className="inline-block mt-4 px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700"
+                      className="mt-4 inline-block rounded-lg bg-purple-600 px-6 py-3 font-medium text-white hover:bg-purple-700"
                     >
                       Registra il tuo locale
                     </Link>
                   </div>
                 ) : (
                   <>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
                       Gestisci i ruoli di cui fai parte
                     </p>
                     {profile.tenants.map((tenant) => (
                       <div
                         key={tenant.roleId}
-                        className={`p-4 rounded-xl border-2 ${
+                        className={`rounded-xl border-2 p-4 ${
                           tenant.isPrimary
                             ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/10'
                             : 'border-gray-200 dark:border-gray-700'
@@ -523,7 +513,7 @@ export default function ProfilePage() {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-700">
                               <span className="text-2xl">🏪</span>
                             </div>
                             <div>
@@ -532,12 +522,12 @@ export default function ProfilePage() {
                                   Tenant {tenant.tenantId?.slice(0, 8) || 'N/A'}
                                 </h3>
                                 {tenant.isPrimary && (
-                                  <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded-full">
+                                  <span className="rounded-full bg-purple-100 px-2 py-0.5 text-xs text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
                                     Primario
                                   </span>
                                 )}
                               </div>
-                              <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">
+                              <p className="text-sm capitalize text-gray-500 dark:text-gray-400">
                                 {tenant.tenantType || 'merchant'}
                               </p>
                             </div>
@@ -546,7 +536,7 @@ export default function ProfilePage() {
                             {!tenant.isPrimary && (
                               <button
                                 onClick={() => handleSetPrimary(tenant.roleId)}
-                                className="px-3 py-1.5 text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg"
+                                className="rounded-lg px-3 py-1.5 text-sm text-purple-600 hover:bg-purple-50 dark:text-purple-400 dark:hover:bg-purple-900/20"
                               >
                                 Imposta primario
                               </button>
@@ -555,13 +545,13 @@ export default function ProfilePage() {
                               href="https://gudbro-backoffice.vercel.app"
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="px-3 py-1.5 text-sm bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100"
+                              className="rounded-lg bg-gray-900 px-3 py-1.5 text-sm text-white hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
                             >
                               Apri Backoffice
                             </a>
                           </div>
                         </div>
-                        <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                        <div className="mt-3 border-t border-gray-200 pt-3 dark:border-gray-700">
                           <p className="text-xs text-gray-500 dark:text-gray-400">
                             Membro dal {formatDate(tenant.joinedAt)}
                           </p>
@@ -576,7 +566,7 @@ export default function ProfilePage() {
             {/* Security Tab */}
             {activeTab === 'security' && (
               <div className="space-y-6">
-                <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-xl">
+                <div className="rounded-xl bg-gray-50 p-4 dark:bg-gray-900">
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium text-gray-900 dark:text-white">Password</h3>
@@ -584,49 +574,45 @@ export default function ProfilePage() {
                         Ultima modifica: mai
                       </p>
                     </div>
-                    <button className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600">
+                    <button className="rounded-lg bg-gray-200 px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
                       Cambia Password
                     </button>
                   </div>
                 </div>
 
-                <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-xl">
+                <div className="rounded-xl bg-gray-50 p-4 dark:bg-gray-900">
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium text-gray-900 dark:text-white">
                         Autenticazione a Due Fattori
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Non attiva
-                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Non attiva</p>
                     </div>
-                    <button className="px-4 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                    <button className="rounded-lg bg-purple-600 px-4 py-2 text-sm text-white hover:bg-purple-700">
                       Attiva 2FA
                     </button>
                   </div>
                 </div>
 
-                <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-xl">
+                <div className="rounded-xl bg-gray-50 p-4 dark:bg-gray-900">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-medium text-gray-900 dark:text-white">
-                        Sessioni Attive
-                      </h3>
+                      <h3 className="font-medium text-gray-900 dark:text-white">Sessioni Attive</h3>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         1 dispositivo connesso
                       </p>
                     </div>
-                    <button className="px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg">
+                    <button className="rounded-lg px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20">
                       Disconnetti Tutti
                     </button>
                   </div>
                 </div>
 
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-                  <h3 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-4">
+                <div className="border-t border-gray-200 pt-6 dark:border-gray-700">
+                  <h3 className="mb-4 text-lg font-semibold text-red-600 dark:text-red-400">
                     Zona Pericolosa
                   </h3>
-                  <div className="p-4 border border-red-200 dark:border-red-800 rounded-xl">
+                  <div className="rounded-xl border border-red-200 p-4 dark:border-red-800">
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-medium text-gray-900 dark:text-white">
@@ -636,7 +622,7 @@ export default function ProfilePage() {
                           Questa azione è irreversibile
                         </p>
                       </div>
-                      <button className="px-4 py-2 text-sm text-red-600 border border-red-300 dark:border-red-700 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20">
+                      <button className="rounded-lg border border-red-300 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:border-red-700 dark:hover:bg-red-900/20">
                         Elimina Account
                       </button>
                     </div>

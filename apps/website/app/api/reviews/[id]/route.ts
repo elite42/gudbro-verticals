@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -10,10 +11,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
  * GET /api/reviews/[id]
  * Get single review details
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
 
@@ -39,10 +37,7 @@ export async function GET(
  * PATCH /api/reviews/[id]
  * Update review (user can edit own, merchant can respond)
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -50,7 +45,10 @@ export async function PATCH(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -71,11 +69,7 @@ export async function PATCH(
     const { action, content, response } = body;
 
     // Get review
-    const { data: review } = await supabase
-      .from('reviews')
-      .select('*')
-      .eq('id', id)
-      .single();
+    const { data: review } = await supabase.from('reviews').select('*').eq('id', id).single();
 
     if (!review) {
       return NextResponse.json({ error: 'Review not found' }, { status: 404 });
@@ -118,10 +112,7 @@ export async function PATCH(
         .single();
 
       if (!merchantRole || merchantRole.reference_id !== review.merchant_id) {
-        return NextResponse.json(
-          { error: 'Only the merchant can respond' },
-          { status: 403 }
-        );
+        return NextResponse.json({ error: 'Only the merchant can respond' }, { status: 403 });
       }
 
       const { error } = await supabase

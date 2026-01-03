@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -44,16 +45,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: clickError.message }, { status: 500 });
     }
 
-    // Update click count
-    const { error: updateError } = await supabase
-      .from('social_shares')
-      .update({
-        click_count: supabase.rpc('increment', { x: 1 }),
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', shareId);
-
-    // Simple increment instead of RPC
+    // Simple increment using RPC
     await supabase.rpc('increment_share_clicks', { p_share_id: shareId });
 
     return NextResponse.json({

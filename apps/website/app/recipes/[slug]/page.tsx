@@ -14,14 +14,15 @@ const mockRecipe = {
   cuisine: 'Italian',
   category: 'pasta',
   dish_type: 'main',
-  description: 'A classic Roman pasta dish made with eggs, Pecorino Romano, guanciale, and black pepper. Authentic carbonara relies on the emulsion of eggs and cheese to create its signature creamy sauce - no cream needed!',
+  description:
+    'A classic Roman pasta dish made with eggs, Pecorino Romano, guanciale, and black pepper. Authentic carbonara relies on the emulsion of eggs and cheese to create its signature creamy sauce - no cream needed!',
   image_url: null,
 
   // Origin
   origin: {
     country: 'Italy',
     region: 'Lazio',
-    city: 'Rome'
+    city: 'Rome',
   },
 
   // Times & Difficulty
@@ -57,14 +58,68 @@ const mockRecipe = {
 
   // Ingredients with quantities
   ingredients: [
-    { id: 'ING_SPAGHETTI', name: 'Spaghetti', quantity: 400, unit: 'g', role: 'main', slug: 'spaghetti' },
-    { id: 'ING_GUANCIALE', name: 'Guanciale', quantity: 200, unit: 'g', role: 'main', slug: 'guanciale', note: 'or pancetta as substitute' },
-    { id: 'ING_EGG_YOLK', name: 'Egg Yolks', quantity: 6, unit: 'pcs', role: 'main', slug: 'egg-yolk' },
+    {
+      id: 'ING_SPAGHETTI',
+      name: 'Spaghetti',
+      quantity: 400,
+      unit: 'g',
+      role: 'main',
+      slug: 'spaghetti',
+    },
+    {
+      id: 'ING_GUANCIALE',
+      name: 'Guanciale',
+      quantity: 200,
+      unit: 'g',
+      role: 'main',
+      slug: 'guanciale',
+      note: 'or pancetta as substitute',
+    },
+    {
+      id: 'ING_EGG_YOLK',
+      name: 'Egg Yolks',
+      quantity: 6,
+      unit: 'pcs',
+      role: 'main',
+      slug: 'egg-yolk',
+    },
     { id: 'ING_EGG', name: 'Whole Eggs', quantity: 2, unit: 'pcs', role: 'main', slug: 'egg' },
-    { id: 'ING_PECORINO', name: 'Pecorino Romano', quantity: 100, unit: 'g', role: 'main', slug: 'pecorino-romano', note: 'freshly grated' },
-    { id: 'ING_PARMESAN', name: 'Parmigiano-Reggiano', quantity: 50, unit: 'g', role: 'secondary', slug: 'parmesan-cheese', note: 'optional, for a milder taste' },
-    { id: 'ING_BLACK_PEPPER', name: 'Black Pepper', quantity: 2, unit: 'tsp', role: 'seasoning', slug: 'black-pepper', note: 'freshly ground' },
-    { id: 'ING_SALT', name: 'Salt', quantity: 1, unit: 'tbsp', role: 'seasoning', slug: 'salt', note: 'for pasta water' },
+    {
+      id: 'ING_PECORINO',
+      name: 'Pecorino Romano',
+      quantity: 100,
+      unit: 'g',
+      role: 'main',
+      slug: 'pecorino-romano',
+      note: 'freshly grated',
+    },
+    {
+      id: 'ING_PARMESAN',
+      name: 'Parmigiano-Reggiano',
+      quantity: 50,
+      unit: 'g',
+      role: 'secondary',
+      slug: 'parmesan-cheese',
+      note: 'optional, for a milder taste',
+    },
+    {
+      id: 'ING_BLACK_PEPPER',
+      name: 'Black Pepper',
+      quantity: 2,
+      unit: 'tsp',
+      role: 'seasoning',
+      slug: 'black-pepper',
+      note: 'freshly ground',
+    },
+    {
+      id: 'ING_SALT',
+      name: 'Salt',
+      quantity: 1,
+      unit: 'tbsp',
+      role: 'seasoning',
+      slug: 'salt',
+      note: 'for pasta water',
+    },
   ],
 
   // Recipe Steps
@@ -72,45 +127,51 @@ const mockRecipe = {
     {
       order: 1,
       title: 'Prepare the Egg Mixture',
-      instruction: 'In a large bowl, whisk together the egg yolks, whole eggs, grated Pecorino Romano, and half of the black pepper. Set aside.',
+      instruction:
+        'In a large bowl, whisk together the egg yolks, whole eggs, grated Pecorino Romano, and half of the black pepper. Set aside.',
       tip: 'Make sure the eggs are at room temperature for a smoother emulsion.',
-      duration_min: 5
+      duration_min: 5,
     },
     {
       order: 2,
       title: 'Cook the Guanciale',
-      instruction: 'Cut the guanciale into small strips or cubes. In a large cold pan, add the guanciale and cook over medium-low heat until the fat renders and the meat becomes crispy. This should take about 8-10 minutes.',
+      instruction:
+        'Cut the guanciale into small strips or cubes. In a large cold pan, add the guanciale and cook over medium-low heat until the fat renders and the meat becomes crispy. This should take about 8-10 minutes.',
       tip: 'Starting with a cold pan allows the fat to render slowly without burning the meat.',
-      duration_min: 10
+      duration_min: 10,
     },
     {
       order: 3,
       title: 'Cook the Pasta',
-      instruction: 'Bring a large pot of salted water to boil. Cook the spaghetti according to package directions until al dente. Reserve 1 cup of pasta water before draining.',
+      instruction:
+        'Bring a large pot of salted water to boil. Cook the spaghetti according to package directions until al dente. Reserve 1 cup of pasta water before draining.',
       tip: 'The starchy pasta water is crucial for creating the creamy sauce.',
-      duration_min: 10
+      duration_min: 10,
     },
     {
       order: 4,
       title: 'Combine Pasta and Guanciale',
-      instruction: 'Remove the pan with guanciale from heat. Add the drained pasta to the pan and toss to coat with the rendered fat.',
+      instruction:
+        'Remove the pan with guanciale from heat. Add the drained pasta to the pan and toss to coat with the rendered fat.',
       tip: 'Taking the pan off heat prevents the eggs from scrambling.',
-      duration_min: 2
+      duration_min: 2,
     },
     {
       order: 5,
       title: 'Create the Sauce',
-      instruction: 'While the pasta is still hot but the pan is off heat, pour the egg mixture over the pasta. Toss vigorously, adding pasta water a little at a time until you achieve a creamy, glossy sauce that coats each strand.',
+      instruction:
+        'While the pasta is still hot but the pan is off heat, pour the egg mixture over the pasta. Toss vigorously, adding pasta water a little at a time until you achieve a creamy, glossy sauce that coats each strand.',
       tip: 'The residual heat will cook the eggs gently. If the sauce is too thick, add more pasta water.',
-      duration_min: 3
+      duration_min: 3,
     },
     {
       order: 6,
       title: 'Serve Immediately',
-      instruction: 'Divide among warmed plates. Top with remaining black pepper and extra Pecorino. Serve immediately.',
+      instruction:
+        'Divide among warmed plates. Top with remaining black pepper and extra Pecorino. Serve immediately.',
       tip: 'Carbonara waits for no one - it should be served right away!',
-      duration_min: 2
-    }
+      duration_min: 2,
+    },
   ],
 
   // History & Story
@@ -134,9 +195,27 @@ If using pancetta instead of guanciale, the flavor will be smokier. For a more a
 
   // Wine Pairings
   wine_pairings: [
-    { name: 'Frascati', type: 'White', region: 'Lazio, Italy', slug: 'frascati', note: 'Traditional Roman pairing' },
-    { name: 'Verdicchio', type: 'White', region: 'Marche, Italy', slug: 'verdicchio', note: 'Crisp and refreshing' },
-    { name: 'Pinot Grigio', type: 'White', region: 'Various', slug: 'pinot-grigio', note: 'Light and versatile' },
+    {
+      name: 'Frascati',
+      type: 'White',
+      region: 'Lazio, Italy',
+      slug: 'frascati',
+      note: 'Traditional Roman pairing',
+    },
+    {
+      name: 'Verdicchio',
+      type: 'White',
+      region: 'Marche, Italy',
+      slug: 'verdicchio',
+      note: 'Crisp and refreshing',
+    },
+    {
+      name: 'Pinot Grigio',
+      type: 'White',
+      region: 'Various',
+      slug: 'pinot-grigio',
+      note: 'Light and versatile',
+    },
   ],
 
   // Related Recipes
@@ -160,7 +239,8 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug: _slug } = await params;
+  // In production, fetch recipe using slug
   const recipe = mockRecipe;
 
   return {
@@ -181,7 +261,7 @@ function StarRating({ rating }: { rating: number }) {
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}
-          className={`w-5 h-5 ${star <= Math.round(rating) ? 'text-yellow-400' : 'text-gray-300'}`}
+          className={`h-5 w-5 ${star <= Math.round(rating) ? 'text-yellow-400' : 'text-gray-300'}`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -202,7 +282,7 @@ function DifficultyIndicator({ level }: { level: number }) {
         {[1, 2, 3, 4, 5].map((l) => (
           <div
             key={l}
-            className={`w-2 h-6 rounded-full ${l <= level ? 'bg-orange-500' : 'bg-gray-200'}`}
+            className={`h-6 w-2 rounded-full ${l <= level ? 'bg-orange-500' : 'bg-gray-200'}`}
           />
         ))}
       </div>
@@ -215,19 +295,19 @@ function DifficultyIndicator({ level }: { level: number }) {
 function NutritionCard({ nutrition }: { nutrition: typeof mockRecipe.nutrition_per_serving }) {
   return (
     <div className="grid grid-cols-4 gap-2 text-center">
-      <div className="bg-orange-50 rounded-xl p-3">
+      <div className="rounded-xl bg-orange-50 p-3">
         <p className="text-xl font-bold text-orange-600">{nutrition.calories}</p>
         <p className="text-xs text-gray-500">Calories</p>
       </div>
-      <div className="bg-blue-50 rounded-xl p-3">
+      <div className="rounded-xl bg-blue-50 p-3">
         <p className="text-xl font-bold text-blue-600">{nutrition.protein}g</p>
         <p className="text-xs text-gray-500">Protein</p>
       </div>
-      <div className="bg-yellow-50 rounded-xl p-3">
+      <div className="rounded-xl bg-yellow-50 p-3">
         <p className="text-xl font-bold text-yellow-600">{nutrition.fat}g</p>
         <p className="text-xs text-gray-500">Fat</p>
       </div>
-      <div className="bg-green-50 rounded-xl p-3">
+      <div className="rounded-xl bg-green-50 p-3">
         <p className="text-xl font-bold text-green-600">{nutrition.carbohydrates}g</p>
         <p className="text-xs text-gray-500">Carbs</p>
       </div>
@@ -236,7 +316,8 @@ function NutritionCard({ nutrition }: { nutrition: typeof mockRecipe.nutrition_p
 }
 
 export default async function RecipePage({ params }: Props) {
-  const { slug } = await params;
+  const { slug: _slug } = await params;
+  // In production, fetch recipe using slug
   const recipe = mockRecipe;
 
   if (!recipe) {
@@ -252,7 +333,7 @@ export default async function RecipePage({ params }: Props) {
     image: recipe.image_url || 'https://gudbro.com/images/default-recipe.jpg',
     author: {
       '@type': 'Organization',
-      name: 'GUDBRO'
+      name: 'GUDBRO',
     },
     datePublished: '2024-01-01',
     prepTime: `PT${recipe.prep_time_min}M`,
@@ -261,11 +342,11 @@ export default async function RecipePage({ params }: Props) {
     recipeYield: `${recipe.servings} servings`,
     recipeCategory: recipe.category,
     recipeCuisine: recipe.cuisine,
-    recipeIngredient: recipe.ingredients.map(i => `${i.quantity} ${i.unit} ${i.name}`),
-    recipeInstructions: recipe.steps.map(s => ({
+    recipeIngredient: recipe.ingredients.map((i) => `${i.quantity} ${i.unit} ${i.name}`),
+    recipeInstructions: recipe.steps.map((s) => ({
       '@type': 'HowToStep',
       name: s.title,
-      text: s.instruction
+      text: s.instruction,
     })),
     nutrition: {
       '@type': 'NutritionInformation',
@@ -274,17 +355,17 @@ export default async function RecipePage({ params }: Props) {
       fatContent: `${recipe.nutrition_per_serving.fat}g`,
       carbohydrateContent: `${recipe.nutrition_per_serving.carbohydrates}g`,
       fiberContent: `${recipe.nutrition_per_serving.fiber}g`,
-      sodiumContent: `${recipe.nutrition_per_serving.sodium}mg`
+      sodiumContent: `${recipe.nutrition_per_serving.sodium}mg`,
     },
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: recipe.rating,
-      reviewCount: recipe.review_count
-    }
+      reviewCount: recipe.review_count,
+    },
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-gray-50">
       <Header />
 
       {/* JSON-LD for SEO */}
@@ -295,14 +376,21 @@ export default async function RecipePage({ params }: Props) {
 
       <main className="flex-1">
         {/* Breadcrumb */}
-        <div className="bg-white border-b">
-          <div className="max-w-7xl mx-auto px-4 py-3">
+        <div className="border-b bg-white">
+          <div className="mx-auto max-w-7xl px-4 py-3">
             <nav className="flex text-sm text-gray-500">
-              <Link href="/" className="hover:text-gray-700">Home</Link>
+              <Link href="/" className="hover:text-gray-700">
+                Home
+              </Link>
               <span className="mx-2">/</span>
-              <Link href="/recipes" className="hover:text-gray-700">Recipes</Link>
+              <Link href="/recipes" className="hover:text-gray-700">
+                Recipes
+              </Link>
               <span className="mx-2">/</span>
-              <Link href={`/recipes/cuisine/${recipe.cuisine.toLowerCase()}`} className="hover:text-gray-700">
+              <Link
+                href={`/recipes/cuisine/${recipe.cuisine.toLowerCase()}`}
+                className="hover:text-gray-700"
+              >
                 {recipe.cuisine}
               </Link>
               <span className="mx-2">/</span>
@@ -313,19 +401,23 @@ export default async function RecipePage({ params }: Props) {
 
         {/* Hero Section */}
         <section className="bg-white">
-          <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
-            <div className="grid md:grid-cols-2 gap-8 items-start">
+          <div className="mx-auto max-w-7xl px-4 py-8 md:py-12">
+            <div className="grid items-start gap-8 md:grid-cols-2">
               {/* Image */}
-              <div className="aspect-[4/3] bg-gradient-to-br from-orange-100 to-amber-200 rounded-2xl flex items-center justify-center relative overflow-hidden">
+              <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-orange-100 to-amber-200">
                 {recipe.image_url ? (
-                  <img src={recipe.image_url} alt={recipe.name} className="w-full h-full object-cover" />
+                  <img
+                    src={recipe.image_url}
+                    alt={recipe.name}
+                    className="h-full w-full object-cover"
+                  />
                 ) : (
                   <span className="text-8xl">🍝</span>
                 )}
                 {/* Jump to Recipe button */}
                 <a
                   href="#recipe-steps"
-                  className="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full font-medium text-gray-900 shadow-lg hover:bg-white transition-colors"
+                  className="absolute bottom-4 right-4 rounded-full bg-white/90 px-4 py-2 font-medium text-gray-900 shadow-lg backdrop-blur transition-colors hover:bg-white"
                 >
                   Jump to Recipe ↓
                 </a>
@@ -333,61 +425,65 @@ export default async function RecipePage({ params }: Props) {
 
               {/* Info */}
               <div>
-                <div className="flex flex-wrap items-center gap-2 text-sm mb-3">
-                  <Link href={`/recipes/cuisine/${recipe.cuisine.toLowerCase()}`} className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-medium hover:bg-orange-200 transition-colors">
+                <div className="mb-3 flex flex-wrap items-center gap-2 text-sm">
+                  <Link
+                    href={`/recipes/cuisine/${recipe.cuisine.toLowerCase()}`}
+                    className="rounded-full bg-orange-100 px-3 py-1 font-medium text-orange-800 transition-colors hover:bg-orange-200"
+                  >
                     {recipe.cuisine}
                   </Link>
-                  <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full capitalize">
+                  <span className="rounded-full bg-gray-100 px-3 py-1 capitalize text-gray-700">
                     {recipe.category}
                   </span>
-                  {recipe.tags.slice(0, 2).map(tag => (
-                    <span key={tag} className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full">
+                  {recipe.tags.slice(0, 2).map((tag) => (
+                    <span key={tag} className="rounded-full bg-gray-100 px-3 py-1 text-gray-600">
                       #{tag}
                     </span>
                   ))}
                 </div>
 
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-                  {recipe.name}
-                </h1>
+                <h1 className="mb-3 text-3xl font-bold text-gray-900 md:text-4xl">{recipe.name}</h1>
 
-                <div className="flex items-center gap-4 mb-4">
+                <div className="mb-4 flex items-center gap-4">
                   <StarRating rating={recipe.rating} />
-                  <span className="text-gray-500 text-sm">({recipe.review_count.toLocaleString()} reviews)</span>
+                  <span className="text-sm text-gray-500">
+                    ({recipe.review_count.toLocaleString()} reviews)
+                  </span>
                 </div>
 
-                <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                  {recipe.description}
-                </p>
+                <p className="mb-6 text-lg leading-relaxed text-gray-700">{recipe.description}</p>
 
                 {/* Quick Stats */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                  <div className="text-center p-3 bg-gray-50 rounded-xl">
+                <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                  <div className="rounded-xl bg-gray-50 p-3 text-center">
                     <p className="text-2xl font-bold text-gray-900">{recipe.prep_time_min}</p>
                     <p className="text-xs text-gray-500">Prep (min)</p>
                   </div>
-                  <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <div className="rounded-xl bg-gray-50 p-3 text-center">
                     <p className="text-2xl font-bold text-gray-900">{recipe.cook_time_min}</p>
                     <p className="text-xs text-gray-500">Cook (min)</p>
                   </div>
-                  <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <div className="rounded-xl bg-gray-50 p-3 text-center">
                     <p className="text-2xl font-bold text-gray-900">{recipe.servings}</p>
                     <p className="text-xs text-gray-500">Servings</p>
                   </div>
-                  <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <div className="rounded-xl bg-gray-50 p-3 text-center">
                     <DifficultyIndicator level={recipe.difficulty} />
                   </div>
                 </div>
 
                 {/* Allergen Warning */}
                 {recipe.allergens.length > 0 && (
-                  <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-4">
-                    <h3 className="font-semibold text-red-800 mb-2 flex items-center gap-2">
+                  <div className="mb-4 rounded-xl border border-red-200 bg-red-50 p-4">
+                    <h3 className="mb-2 flex items-center gap-2 font-semibold text-red-800">
                       <span>⚠️</span> Contains Allergens
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {recipe.allergens.map((allergen) => (
-                        <span key={allergen} className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium capitalize">
+                        <span
+                          key={allergen}
+                          className="rounded-full bg-red-100 px-3 py-1 text-sm font-medium capitalize text-red-800"
+                        >
                           {allergen}
                         </span>
                       ))}
@@ -397,13 +493,16 @@ export default async function RecipePage({ params }: Props) {
 
                 {/* Intolerances Warning */}
                 {recipe.intolerances.length > 0 && (
-                  <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-6">
-                    <h3 className="font-semibold text-purple-800 mb-2 flex items-center gap-2">
+                  <div className="mb-6 rounded-xl border border-purple-200 bg-purple-50 p-4">
+                    <h3 className="mb-2 flex items-center gap-2 font-semibold text-purple-800">
                       <span>🔔</span> May Affect Intolerances
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {recipe.intolerances.map((intolerance) => (
-                        <span key={intolerance} className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium capitalize">
+                        <span
+                          key={intolerance}
+                          className="rounded-full bg-purple-100 px-3 py-1 text-sm font-medium capitalize text-purple-800"
+                        >
                           {intolerance.replace('_', ' ')}
                         </span>
                       ))}
@@ -416,11 +515,20 @@ export default async function RecipePage({ params }: Props) {
                   {Object.entries(recipe.dietary).map(([diet, suitable]) => {
                     if (!suitable) return null;
                     const icons: Record<string, string> = {
-                      vegan: '🌱', vegetarian: '🥗', gluten_free: '🌾', dairy_free: '🥛',
-                      nut_free: '🥜', halal: '☪️', kosher: '✡️', pescatarian: '🐟'
+                      vegan: '🌱',
+                      vegetarian: '🥗',
+                      gluten_free: '🌾',
+                      dairy_free: '🥛',
+                      nut_free: '🥜',
+                      halal: '☪️',
+                      kosher: '✡️',
+                      pescatarian: '🐟',
                     };
                     return (
-                      <span key={diet} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                      <span
+                        key={diet}
+                        className="flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800"
+                      >
                         {icons[diet]} {diet.replace('_', '-')}
                       </span>
                     );
@@ -432,32 +540,34 @@ export default async function RecipePage({ params }: Props) {
         </section>
 
         {/* Main Content */}
-        <section className="max-w-7xl mx-auto px-4 py-8">
-          <div className="grid lg:grid-cols-3 gap-8">
+        <section className="mx-auto max-w-7xl px-4 py-8">
+          <div className="grid gap-8 lg:grid-cols-3">
             {/* Left Column - Main Content */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="space-y-8 lg:col-span-2">
               {/* History & Story */}
               {recipe.history && (
-                <div className="bg-white rounded-2xl p-6 shadow-sm">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <div className="rounded-2xl bg-white p-6 shadow-sm">
+                  <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900">
                     <span>📜</span> The Story of {recipe.name}
                   </h2>
                   <div className="prose prose-gray max-w-none">
                     {recipe.history.split('\n\n').map((paragraph, i) => (
-                      <p key={i} className="text-gray-700 mb-4 last:mb-0">{paragraph}</p>
+                      <p key={i} className="mb-4 text-gray-700 last:mb-0">
+                        {paragraph}
+                      </p>
                     ))}
                   </div>
                 </div>
               )}
 
               {/* Ingredients with Dynamic Servings */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <div className="rounded-2xl bg-white p-6 shadow-sm">
+                <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900">
                   <span>🥘</span> Ingredients
                 </h2>
                 <ServingsSelector
                   defaultServings={recipe.servings}
-                  ingredients={recipe.ingredients.map(ing => ({
+                  ingredients={recipe.ingredients.map((ing) => ({
                     name: ing.name,
                     amount: ing.quantity,
                     unit: ing.unit,
@@ -469,28 +579,28 @@ export default async function RecipePage({ params }: Props) {
               </div>
 
               {/* Recipe Steps */}
-              <div id="recipe-steps" className="bg-white rounded-2xl p-6 shadow-sm scroll-mt-24">
-                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <div id="recipe-steps" className="scroll-mt-24 rounded-2xl bg-white p-6 shadow-sm">
+                <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-gray-900">
                   <span>👨‍🍳</span> Instructions
                 </h2>
                 <ol className="space-y-6">
                   {recipe.steps.map((step) => (
                     <li key={step.order} className="flex gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-orange-500 font-bold text-white">
                         {step.order}
                       </div>
                       <div className="flex-1 pt-1">
-                        <h3 className="font-semibold text-gray-900 mb-2">{step.title}</h3>
-                        <p className="text-gray-700 mb-2">{step.instruction}</p>
+                        <h3 className="mb-2 font-semibold text-gray-900">{step.title}</h3>
+                        <p className="mb-2 text-gray-700">{step.instruction}</p>
                         {step.tip && (
-                          <div className="bg-amber-50 border-l-4 border-amber-400 p-3 rounded-r-lg">
+                          <div className="rounded-r-lg border-l-4 border-amber-400 bg-amber-50 p-3">
                             <p className="text-sm text-amber-800">
                               <span className="font-medium">💡 Pro Tip:</span> {step.tip}
                             </p>
                           </div>
                         )}
                         {step.duration_min && (
-                          <p className="text-sm text-gray-500 mt-2">⏱️ {step.duration_min} min</p>
+                          <p className="mt-2 text-sm text-gray-500">⏱️ {step.duration_min} min</p>
                         )}
                       </div>
                     </li>
@@ -500,14 +610,14 @@ export default async function RecipePage({ params }: Props) {
 
               {/* Common Mistakes */}
               {recipe.common_mistakes && recipe.common_mistakes.length > 0 && (
-                <div className="bg-white rounded-2xl p-6 shadow-sm">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <div className="rounded-2xl bg-white p-6 shadow-sm">
+                  <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900">
                     <span>❌</span> Common Mistakes to Avoid
                   </h2>
                   <ul className="space-y-2">
                     {recipe.common_mistakes.map((mistake, index) => (
-                      <li key={index} className="flex gap-3 items-start">
-                        <span className="text-red-500 mt-0.5">✗</span>
+                      <li key={index} className="flex items-start gap-3">
+                        <span className="mt-0.5 text-red-500">✗</span>
                         <span className="text-gray-700">{mistake}</span>
                       </li>
                     ))}
@@ -517,13 +627,15 @@ export default async function RecipePage({ params }: Props) {
 
               {/* Chef Notes */}
               {recipe.chef_notes && (
-                <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-200">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <div className="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 p-6">
+                  <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-gray-900">
                     <span>👨‍🍳</span> Chef&apos;s Notes
                   </h2>
                   <div className="prose prose-gray max-w-none">
                     {recipe.chef_notes.split('\n\n').map((paragraph, i) => (
-                      <p key={i} className="text-gray-700 mb-4 last:mb-0">{paragraph}</p>
+                      <p key={i} className="mb-4 text-gray-700 last:mb-0">
+                        {paragraph}
+                      </p>
                     ))}
                   </div>
                 </div>
@@ -533,12 +645,12 @@ export default async function RecipePage({ params }: Props) {
             {/* Right Column - Sidebar */}
             <div className="space-y-6">
               {/* Nutrition */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <div className="rounded-2xl bg-white p-6 shadow-sm">
+                <h3 className="mb-4 flex items-center gap-2 font-bold text-gray-900">
                   <span>📊</span> Nutrition per Serving
                 </h3>
                 <NutritionCard nutrition={recipe.nutrition_per_serving} />
-                <div className="mt-4 pt-4 border-t border-gray-100 space-y-2 text-sm">
+                <div className="mt-4 space-y-2 border-t border-gray-100 pt-4 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-500">Fiber</span>
                     <span className="font-medium">{recipe.nutrition_per_serving.fiber}g</span>
@@ -556,8 +668,8 @@ export default async function RecipePage({ params }: Props) {
 
               {/* Wine Pairing */}
               {recipe.wine_pairings && recipe.wine_pairings.length > 0 && (
-                <div className="bg-white rounded-2xl p-6 shadow-sm">
-                  <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <div className="rounded-2xl bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 flex items-center gap-2 font-bold text-gray-900">
                     <span>🍷</span> Wine Pairings
                   </h3>
                   <div className="space-y-3">
@@ -565,17 +677,19 @@ export default async function RecipePage({ params }: Props) {
                       <Link
                         key={wine.slug}
                         href={`/wines/${wine.slug}`}
-                        className="block p-3 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all"
+                        className="block rounded-xl border border-gray-200 p-3 transition-all hover:border-gray-300 hover:shadow-md"
                       >
                         <div className="flex items-center gap-3">
-                          <span className="text-2xl">{wine.type === 'Red' ? '🍷' : wine.type === 'White' ? '🥂' : '🍾'}</span>
+                          <span className="text-2xl">
+                            {wine.type === 'Red' ? '🍷' : wine.type === 'White' ? '🥂' : '🍾'}
+                          </span>
                           <div>
                             <p className="font-medium text-gray-900">{wine.name}</p>
                             <p className="text-sm text-gray-500">{wine.region}</p>
                           </div>
                         </div>
                         {wine.note && (
-                          <p className="text-xs text-gray-500 mt-2 italic">{wine.note}</p>
+                          <p className="mt-2 text-xs italic text-gray-500">{wine.note}</p>
                         )}
                       </Link>
                     ))}
@@ -584,15 +698,15 @@ export default async function RecipePage({ params }: Props) {
               )}
 
               {/* Spice Level */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <div className="rounded-2xl bg-white p-6 shadow-sm">
+                <h3 className="mb-4 flex items-center gap-2 font-bold text-gray-900">
                   <span>🌶️</span> Spice Level
                 </h3>
                 <div className="flex items-center gap-1">
                   {[0, 1, 2, 3, 4, 5].map((level) => (
                     <div
                       key={level}
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${
+                      className={`flex h-8 w-8 items-center justify-center rounded-full text-sm ${
                         level <= recipe.spice_level
                           ? 'bg-red-500 text-white'
                           : 'bg-gray-100 text-gray-400'
@@ -613,8 +727,8 @@ export default async function RecipePage({ params }: Props) {
               </div>
 
               {/* Related Recipes */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm">
-                <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <div className="rounded-2xl bg-white p-6 shadow-sm">
+                <h3 className="mb-4 flex items-center gap-2 font-bold text-gray-900">
                   <span>🍴</span> You Might Also Like
                 </h3>
                 <div className="space-y-3">
@@ -622,9 +736,9 @@ export default async function RecipePage({ params }: Props) {
                     <Link
                       key={related.slug}
                       href={`/recipes/${related.slug}`}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-gray-50"
                     >
-                      <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-amber-200 rounded-lg flex items-center justify-center text-xl">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-orange-100 to-amber-200 text-xl">
                         🍝
                       </div>
                       <div>
@@ -637,14 +751,15 @@ export default async function RecipePage({ params }: Props) {
               </div>
 
               {/* CTA - Create Menu */}
-              <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-white">
-                <h3 className="font-bold mb-2">Add to Your Digital Menu</h3>
-                <p className="text-gray-300 text-sm mb-4">
-                  Create a professional digital menu for your restaurant with automatic allergen labeling and nutrition info.
+              <div className="rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-6 text-white">
+                <h3 className="mb-2 font-bold">Add to Your Digital Menu</h3>
+                <p className="mb-4 text-sm text-gray-300">
+                  Create a professional digital menu for your restaurant with automatic allergen
+                  labeling and nutrition info.
                 </p>
                 <Link
                   href="/sign-up"
-                  className="block w-full bg-white text-gray-900 text-center py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"
+                  className="block w-full rounded-lg bg-white py-2 text-center font-medium text-gray-900 transition-colors hover:bg-gray-100"
                 >
                   Start Free Trial
                 </Link>

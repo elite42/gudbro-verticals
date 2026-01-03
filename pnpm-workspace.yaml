@@ -1,0 +1,6 @@
+packages:
+  - 'apps/*'
+  - 'apps/coffeeshop/*'
+  - 'apps/wellness/*'
+  - 'apps/rentals/*'
+  - 'shared/*'

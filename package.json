@@ -3,30 +3,24 @@
   "version": "1.0.0",
   "private": true,
   "description": "GUDBRO vertical business applications - Coffeeshop, Wellness, Rentals",
-  "workspaces": [
-    "apps/*",
-    "shared/*"
-  ],
+  "packageManager": "pnpm@10.27.0",
   "scripts": {
-    "dev:coffeeshop": "cd apps/coffeeshop/frontend && npm run dev",
-    "dev:wellness": "cd apps/wellness && npm start",
-    "dev:rentals": "cd apps/rentals && npm start",
-    "build:coffeeshop": "cd apps/coffeeshop/frontend && npm run build",
-    "build:wellness": "cd apps/wellness && npm run build",
-    "build:rentals": "cd apps/rentals && npm run build",
-    "dev:backoffice": "cd apps/backoffice && npm run dev -- -p 3023",
-    "build:backoffice": "cd apps/backoffice && npm run build",
-    "dev:website": "cd apps/website && npm run dev -- -p 3024",
-    "build:website": "cd apps/website && npm run build",
-    "lint:all": "npm run lint --workspaces",
-    "typecheck": "tsc --noEmit",
-    "typecheck:all": "npm run typecheck --workspaces --if-present",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "dev:coffeeshop": "turbo dev --filter=@gudbro/coffeeshop",
+    "dev:website": "turbo dev --filter=website",
+    "dev:backoffice": "turbo dev --filter=backoffice",
+    "build:coffeeshop": "turbo build --filter=@gudbro/coffeeshop",
+    "build:website": "turbo build --filter=website",
+    "build:backoffice": "turbo build --filter=backoffice",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
-    "clean": "rm -rf apps/*/node_modules apps/*/.next apps/*/build node_modules",
-    "seed:cocktails": "npx tsx shared/database/cocktails/scripts/seed-all-cocktails.ts",
+    "clean": "turbo clean && rm -rf node_modules",
+    "clean:cache": "turbo clean",
     "prepare": "husky install",
-    "generate:types": "cd shared/types && npm run generate:supabase"
+    "generate:types": "pnpm --filter=@gudbro/types generate:supabase"
   },
   "repository": {
     "type": "git",
@@ -44,26 +38,31 @@
   "author": "GUDBRO Team",
   "license": "UNLICENSED",
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "node": ">=18.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/node": "^20.19.25",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.2.0",
     "autoprefixer": "10.4.16",
+    "eslint": "^8.57.1",
     "husky": "^9.0.0",
     "lint-staged": "^15.2.0",
     "postcss": "8.4.31",
     "prettier": "^3.2.0",
     "prettier-plugin-tailwindcss": "^0.6.0",
     "tailwindcss": "3.3.5",
-    "typescript": "^5.2.2"
+    "turbo": "^2.3.0",
+    "typescript": "^5.2.2",
+    "typescript-eslint": "^8.51.0"
   },
-  "overrides": {
-    "tailwindcss": "3.3.5",
-    "postcss": "8.4.31",
-    "autoprefixer": "10.4.16"
+  "pnpm": {
+    "overrides": {
+      "tailwindcss": "3.3.5",
+      "postcss": "8.4.31",
+      "autoprefixer": "10.4.16"
+    }
   },
   "dependencies": {
     "framer-motion": "^12.23.25",

@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ token: string }> }
 ) {
   const { token } = await params;
@@ -19,7 +20,8 @@ export async function GET(
   try {
     const { data, error } = await supabase
       .from('staff_invitations')
-      .select(`
+      .select(
+        `
         id,
         email,
         first_name,
@@ -31,7 +33,8 @@ export async function GET(
         expires_at,
         organizations!inner(name),
         accounts!staff_invitations_inviter_account_id_fkey(email, display_name)
-      `)
+      `
+      )
       .eq('invite_token', token)
       .single();
 

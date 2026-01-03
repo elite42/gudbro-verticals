@@ -176,3 +176,9 @@ tmp/
 # Uploads
 uploads/
 public/uploads/
+
+# Turborepo
+.turbo/
+
+# pnpm
+pnpm-lock.yaml

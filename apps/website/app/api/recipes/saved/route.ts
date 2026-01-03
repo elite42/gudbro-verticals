@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -18,7 +19,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -39,10 +43,12 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('saved_recipes')
-      .select(`
+      .select(
+        `
         *,
         recipe:recipes(*)
-      `)
+      `
+      )
       .eq('account_id', account.id)
       .order('saved_at', { ascending: false });
 
@@ -58,26 +64,29 @@ export async function GET(request: NextRequest) {
     }
 
     // Get unique collections
-    const collections = [...new Set(savedRecipes?.map(sr => sr.collection_name) || [])];
+    const collections = [...new Set(savedRecipes?.map((sr) => sr.collection_name) || [])];
 
     return NextResponse.json({
-      savedRecipes: savedRecipes?.map(sr => ({
-        id: sr.id,
-        savedAt: sr.saved_at,
-        collection: sr.collection_name,
-        notes: sr.notes,
-        cookedCount: sr.cooked_count,
-        lastCookedAt: sr.last_cooked_at,
-        recipe: sr.recipe ? {
-          id: sr.recipe.id,
-          name: sr.recipe.recipe_name,
-          slug: sr.recipe.recipe_slug,
-          coverImage: sr.recipe.cover_image_url,
-          totalTime: sr.recipe.total_time_min,
-          difficulty: sr.recipe.difficulty,
-          rating: sr.recipe.average_rating,
-        } : null,
-      })) || [],
+      savedRecipes:
+        savedRecipes?.map((sr) => ({
+          id: sr.id,
+          savedAt: sr.saved_at,
+          collection: sr.collection_name,
+          notes: sr.notes,
+          cookedCount: sr.cooked_count,
+          lastCookedAt: sr.last_cooked_at,
+          recipe: sr.recipe
+            ? {
+                id: sr.recipe.id,
+                name: sr.recipe.recipe_name,
+                slug: sr.recipe.recipe_slug,
+                coverImage: sr.recipe.cover_image_url,
+                totalTime: sr.recipe.total_time_min,
+                difficulty: sr.recipe.difficulty,
+                rating: sr.recipe.average_rating,
+              }
+            : null,
+        })) || [],
       collections,
     });
   } catch (err) {
@@ -98,7 +107,10 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -121,7 +133,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'recipeId required' }, { status: 400 });
     }
 
-    const { data, error } = await supabase.rpc('save_recipe', {
+    const { error } = await supabase.rpc('save_recipe', {
       p_account_id: account.id,
       p_recipe_id: recipeId,
       p_collection: collection || 'Saved',
@@ -154,7 +166,10 @@ export async function DELETE(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
