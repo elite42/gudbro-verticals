@@ -11,6 +11,7 @@ import { WiFiQuickConnect } from '../components/WiFiQuickConnect';
 import { FeedbackRatingModal } from '../components/FeedbackRatingModal';
 import { WelcomeModal } from '../components/WelcomeModal';
 import { AuthModal } from '../components/AuthModal';
+import { OpenStatusBadge, OpeningHoursDisplay } from '../components/OpenStatusBadge';
 import { userProfileStore } from '../lib/user-profile-store';
 import { getROOTSMenuItemsSync } from '../lib/roots-menu';
 import { DishItem } from '../components/DishCard';
@@ -33,9 +34,8 @@ export default function HomePage() {
 
   // Get popular items (showing new items + best sellers from key categories)
   const popularItems = menuItems
-    .filter(item =>
-      item.isNew ||
-      ['coffee', 'smoothie', 'dessert', 'pizza'].includes(item.category)
+    .filter(
+      (item) => item.isNew || ['coffee', 'smoothie', 'dessert', 'pizza'].includes(item.category)
     )
     .slice(0, 8); // Limit to 8 items
 
@@ -67,7 +67,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-theme-bg-secondary pb-28">
+    <div className="bg-theme-bg-secondary min-h-screen pb-28">
       {/* Header */}
       <HomeHeader />
 
@@ -75,23 +75,21 @@ export default function HomePage() {
       {/* <WelcomeBackBanner /> */}
 
       {/* WiFi Quick Connect */}
-      <div className="container mx-auto px-4 pt-6 relative z-10">
+      <div className="container relative z-10 mx-auto px-4 pt-6">
         <WiFiQuickConnect />
 
         {/* Leave Feedback Button */}
         <button
           onClick={() => setShowFeedbackModal(true)}
-          className="w-full bg-gradient-to-r from-yellow-400 to-theme-brand-primary text-white px-6 py-5 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 mb-8"
+          className="to-theme-brand-primary mb-8 w-full transform rounded-2xl bg-gradient-to-r from-yellow-400 px-6 py-5 text-white shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
         >
           <div className="flex items-center justify-center gap-3">
-            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
             </svg>
-            <span className="font-bold text-xl">{t.home.feedbackButton.title}</span>
+            <span className="text-xl font-bold">{t.home.feedbackButton.title}</span>
           </div>
-          <p className="text-sm mt-2 text-white/90">
-            {t.home.feedbackButton.subtitle}
-          </p>
+          <p className="mt-2 text-sm text-white/90">{t.home.feedbackButton.subtitle}</p>
         </button>
 
         {/* Popular Items Section - DISABLED */}
@@ -153,8 +151,8 @@ export default function HomePage() {
         <EngagementHub />
 
         {/* Social Media */}
-        <div className="bg-theme-bg-elevated rounded-2xl p-6 shadow-lg mb-8">
-          <h2 className="text-2xl font-bold text-theme-text-primary mb-4">
+        <div className="bg-theme-bg-elevated mb-8 rounded-2xl p-6 shadow-lg">
+          <h2 className="text-theme-text-primary mb-4 text-2xl font-bold">
             🌟 {t.home.sections.followUs.title}
           </h2>
           <div className="flex gap-4">
@@ -163,7 +161,7 @@ export default function HomePage() {
                 href={social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 bg-blue-600 text-white p-4 rounded-xl text-center font-bold hover:bg-blue-700 transition-colors"
+                className="flex-1 rounded-xl bg-blue-600 p-4 text-center font-bold text-white transition-colors hover:bg-blue-700"
               >
                 Facebook
               </a>
@@ -173,7 +171,7 @@ export default function HomePage() {
                 href={social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 bg-pink-500 text-white p-4 rounded-xl text-center font-bold hover:bg-pink-600 transition-colors"
+                className="flex-1 rounded-xl bg-pink-500 p-4 text-center font-bold text-white transition-colors hover:bg-pink-600"
               >
                 Instagram
               </a>
@@ -183,7 +181,7 @@ export default function HomePage() {
                 href={social.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 bg-green-600 text-white p-4 rounded-xl text-center font-bold hover:bg-green-700 transition-colors text-sm"
+                className="flex-1 rounded-xl bg-green-600 p-4 text-center text-sm font-bold text-white transition-colors hover:bg-green-700"
               >
                 TripAdvisor
               </a>
@@ -192,20 +190,18 @@ export default function HomePage() {
         </div>
 
         {/* Opening Hours */}
-        <div className="bg-theme-bg-elevated rounded-2xl p-6 shadow-lg mb-8">
-          <h2 className="text-2xl font-bold text-theme-text-primary mb-4">
-            ⏰ {t.home.sections.openingHours.title}
-          </h2>
-          <div className="space-y-2">
-            <div className="flex justify-between items-center py-3">
-              <span className="font-semibold text-theme-text-secondary">{t.home.sections.openingHours.everyday}</span>
-              <span className="text-primary font-bold text-lg">{t.home.sections.openingHours.hours}</span>
-            </div>
+        <div className="bg-theme-bg-elevated mb-8 rounded-2xl p-6 shadow-lg">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-theme-text-primary text-2xl font-bold">
+              {t.home.sections.openingHours.title}
+            </h2>
+            <OpenStatusBadge showHours={false} />
           </div>
+          <OpeningHoursDisplay />
         </div>
 
         {/* Description - Collapsible */}
-        <div className="bg-theme-bg-elevated rounded-2xl p-6 shadow-lg mb-8">
+        <div className="bg-theme-bg-elevated mb-8 rounded-2xl p-6 shadow-lg">
           <button
             onClick={() => {
               const content = document.getElementById('mission-content');
@@ -223,19 +219,24 @@ export default function HomePage() {
                 }
               }
             }}
-            className="w-full flex items-center justify-between hover:opacity-70 transition-opacity"
+            className="flex w-full items-center justify-between transition-opacity hover:opacity-70"
           >
-            <h2 className="text-2xl font-bold text-theme-text-primary">
+            <h2 className="text-theme-text-primary text-2xl font-bold">
               🌿 {t.home.sections.ourMission.title}
             </h2>
             <svg
               id="mission-icon"
-              className="w-6 h-6 text-theme-text-secondary transition-transform duration-300"
+              className="text-theme-text-secondary h-6 w-6 transition-transform duration-300"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </button>
 
@@ -245,7 +246,7 @@ export default function HomePage() {
             style={{ maxHeight: '0px', opacity: '0' }}
           >
             <div className="pt-4">
-              <p className="text-theme-text-secondary leading-relaxed mb-4">
+              <p className="text-theme-text-secondary mb-4 leading-relaxed">
                 {business.description}
               </p>
               <p className="text-theme-text-secondary leading-relaxed">
@@ -258,35 +259,37 @@ export default function HomePage() {
         </div>
 
         {/* Location */}
-        <div className="bg-theme-bg-elevated rounded-2xl p-6 shadow-lg mb-8">
-          <h2 className="text-2xl font-bold text-theme-text-primary mb-4">
+        <div className="bg-theme-bg-elevated mb-8 rounded-2xl p-6 shadow-lg">
+          <h2 className="text-theme-text-primary mb-4 text-2xl font-bold">
             📍 {t.home.sections.findUs.title}
           </h2>
           <a
             href={location?.googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-primary text-white px-6 py-3 rounded-full font-bold hover:shadow-lg transition-all"
+            className="bg-primary inline-block rounded-full px-6 py-3 font-bold text-white transition-all hover:shadow-lg"
           >
             🗺️ {t.home.sections.findUs.buttonText}
           </a>
         </div>
 
         {/* Contact */}
-        <div className="bg-theme-bg-elevated rounded-2xl p-6 shadow-lg mb-8">
-          <h2 className="text-2xl font-bold text-theme-text-primary mb-4">
+        <div className="bg-theme-bg-elevated mb-8 rounded-2xl p-6 shadow-lg">
+          <h2 className="text-theme-text-primary mb-4 text-2xl font-bold">
             📞 {t.home.sections.contactUs.title}
           </h2>
           <div className="space-y-3">
             <a
               href={`tel:${contact.phone}`}
-              className="flex items-center gap-3 p-3 bg-theme-bg-secondary rounded-xl hover:bg-theme-bg-tertiary transition-colors"
+              className="bg-theme-bg-secondary hover:bg-theme-bg-tertiary flex items-center gap-3 rounded-xl p-3 transition-colors"
             >
-              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500 text-xl text-white">
                 📞
               </div>
               <div>
-                <div className="font-semibold text-theme-text-primary">{t.home.sections.contactUs.phone}</div>
+                <div className="text-theme-text-primary font-semibold">
+                  {t.home.sections.contactUs.phone}
+                </div>
                 <div className="text-theme-text-secondary">{contact.phone}</div>
               </div>
             </a>
@@ -295,27 +298,33 @@ export default function HomePage() {
               href={`https://zalo.me/${contact.zaloId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 p-3 bg-theme-bg-secondary rounded-xl hover:bg-theme-bg-tertiary transition-colors"
+              className="bg-theme-bg-secondary hover:bg-theme-bg-tertiary flex items-center gap-3 rounded-xl p-3 transition-colors"
             >
-              <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-xl text-white">
                 💬
               </div>
               <div>
-                <div className="font-semibold text-theme-text-primary">{t.home.sections.contactUs.zalo}</div>
-                <div className="text-theme-text-secondary">{t.home.sections.contactUs.zaloDescription}</div>
+                <div className="text-theme-text-primary font-semibold">
+                  {t.home.sections.contactUs.zalo}
+                </div>
+                <div className="text-theme-text-secondary">
+                  {t.home.sections.contactUs.zaloDescription}
+                </div>
               </div>
             </a>
 
             {contact.email && (
               <a
                 href={`mailto:${contact.email}`}
-                className="flex items-center gap-3 p-3 bg-theme-bg-secondary rounded-xl hover:bg-theme-bg-tertiary transition-colors"
+                className="bg-theme-bg-secondary hover:bg-theme-bg-tertiary flex items-center gap-3 rounded-xl p-3 transition-colors"
               >
-                <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white text-xl">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-500 text-xl text-white">
                   ✉️
                 </div>
                 <div>
-                  <div className="font-semibold text-theme-text-primary">{t.home.sections.contactUs.email}</div>
+                  <div className="text-theme-text-primary font-semibold">
+                    {t.home.sections.contactUs.email}
+                  </div>
                   <div className="text-theme-text-secondary">{contact.email}</div>
                 </div>
               </a>
@@ -325,10 +334,7 @@ export default function HomePage() {
       </div>
 
       {/* Feedback Rating Modal */}
-      <FeedbackRatingModal
-        isOpen={showFeedbackModal}
-        onClose={() => setShowFeedbackModal(false)}
-      />
+      <FeedbackRatingModal isOpen={showFeedbackModal} onClose={() => setShowFeedbackModal(false)} />
 
       {/* Welcome Modal */}
       <WelcomeModal
