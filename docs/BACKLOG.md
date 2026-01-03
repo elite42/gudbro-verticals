@@ -3,7 +3,7 @@
 > **CRITICAL:** Claude DEVE consultare questo file all'inizio di OGNI sessione.
 > Questo file contiene TUTTO ciò che dobbiamo fare (prodotti + funzionalità).
 
-**Last Updated:** 2026-01-03 (ANALYTICS-DASH: Dashboard connected to Supabase)
+**Last Updated:** 2026-01-03 (MT-ONBOARDING: 4-step onboarding checklist)
 
 ---
 
@@ -149,14 +149,14 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 
 #### Da Copiare (Alta Priorità)
 
-| ID                | Feature              | Descrizione                                                                                                                                           | Effort | Impact |
-| ----------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------ |
-| MT-HOT-ACTIONS    | Hot Actions System   | Pulsanti cliente: Call waiter, Clean table, Verify bill, Request notes change. Monitoring dashboard con filtri e status. **Feature UNICA MenuTiger!** | Medium | High   |
-| MT-ONBOARDING     | Onboarding Checklist | Welcome modal + 4-step checklist con progress bar (0-100%). Steps: Restaurant details → Create menu → Add food → Customize QR                         | Low    | High   |
-| MT-OPENING-HOURS  | Opening Hours UI     | 7 giorni con toggle ON/OFF + time picker + multi-slot (per pausa pranzo). Pattern eccellente da copiare                                               | Low    | Medium |
-| MT-NOTIF-SOUNDS   | Notification Sounds  | Sound selection per tipo (Orders, Feedback, Hot Actions) + preview play button. UX eccellente                                                         | Low    | Medium |
-| MT-GEOFENCING     | Location Geofencing  | Radius-based location con Google Maps interattiva. Auto-detect GPS + validazione ordini in-store                                                      | High   | Medium |
-| MT-SURVEY-BUILDER | Survey Builder       | Question builder con live preview, question types multipli, required toggle, localize integrato                                                       | Medium | Medium |
+| ID                | Feature                  | Descrizione                                                                                                                                           | Effort | Impact |
+| ----------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------ |
+| MT-HOT-ACTIONS    | Hot Actions System       | Pulsanti cliente: Call waiter, Clean table, Verify bill, Request notes change. Monitoring dashboard con filtri e status. **Feature UNICA MenuTiger!** | Medium | High   |
+| ~~MT-ONBOARDING~~ | ~~Onboarding Checklist~~ | ✅ **COMPLETATO 2026-01-03** 4-step checklist con progress bar, localStorage persistence, collapse/dismiss                                            | Low    | High   |
+| MT-OPENING-HOURS  | Opening Hours UI         | 7 giorni con toggle ON/OFF + time picker + multi-slot (per pausa pranzo). Pattern eccellente da copiare                                               | Low    | Medium |
+| MT-NOTIF-SOUNDS   | Notification Sounds      | Sound selection per tipo (Orders, Feedback, Hot Actions) + preview play button. UX eccellente                                                         | Low    | Medium |
+| MT-GEOFENCING     | Location Geofencing      | Radius-based location con Google Maps interattiva. Auto-detect GPS + validazione ordini in-store                                                      | High   | Medium |
+| MT-SURVEY-BUILDER | Survey Builder           | Question builder con live preview, question types multipli, required toggle, localize integrato                                                       | Medium | Medium |
 
 #### Da Migliorare (Gap MenuTiger)
 
