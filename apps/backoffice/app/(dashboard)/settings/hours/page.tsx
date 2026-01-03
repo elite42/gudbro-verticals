@@ -8,64 +8,181 @@ import {
   type OperatingHours,
 } from '@/components/schedule/OperatingHoursEditor';
 import { TemporaryClosures, type TemporaryClosure } from '@/components/schedule/TemporaryClosures';
+import {
+  getLocationOperatingHours,
+  updateLocationOperatingHours,
+  getScheduleOverrides,
+  createScheduleOverride,
+  deleteScheduleOverride,
+  DEFAULT_OPERATING_HOURS,
+  type ScheduleOverride,
+} from '@/lib/schedule-service';
+
+// TODO: Get from auth context or URL param
+const DEMO_LOCATION_ID = 'demo-location-id';
 
 export default function HoursSettingsPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   // Operating hours state
-  const [operatingHours, setOperatingHours] = useState<OperatingHours>({
-    mon: { open: '09:00', close: '22:00' },
-    tue: { open: '09:00', close: '22:00' },
-    wed: { open: '09:00', close: '22:00' },
-    thu: { open: '09:00', close: '22:00' },
-    fri: { open: '09:00', close: '23:00' },
-    sat: { open: '10:00', close: '23:00' },
-    sun: { open: '10:00', close: '21:00' },
-  });
+  const [operatingHours, setOperatingHours] = useState<OperatingHours>(DEFAULT_OPERATING_HOURS);
+  const [originalHours, setOriginalHours] = useState<OperatingHours>(DEFAULT_OPERATING_HOURS);
 
   // Temporary closures state
   const [closures, setClosures] = useState<TemporaryClosure[]>([]);
+  const [pendingClosureAdds, setPendingClosureAdds] = useState<Omit<TemporaryClosure, 'id'>[]>([]);
+  const [pendingClosureDeletes, setPendingClosureDeletes] = useState<string[]>([]);
+
+  // Load data on mount
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Load operating hours
+      const hours = await getLocationOperatingHours(DEMO_LOCATION_ID);
+      if (hours) {
+        setOperatingHours(hours);
+        setOriginalHours(hours);
+      }
+
+      // Load schedule overrides (closures only for Free tier)
+      const overrides = await getScheduleOverrides(DEMO_LOCATION_ID, { type: 'closure' });
+      const mappedClosures: TemporaryClosure[] = overrides.map((o) => ({
+        id: o.id,
+        name: o.name,
+        description: o.description || undefined,
+        dateStart: o.date_start,
+        dateEnd: o.date_end || undefined,
+        isClosed: o.is_closed,
+        hours: o.hours || undefined,
+      }));
+      setClosures(mappedClosures);
+    } catch (err) {
+      console.error('Failed to load data:', err);
+      // Use default data if load fails (e.g., demo mode without real DB)
+      setOperatingHours(DEFAULT_OPERATING_HOURS);
+      setOriginalHours(DEFAULT_OPERATING_HOURS);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Track changes
   const handleHoursChange = useCallback((hours: OperatingHours) => {
     setOperatingHours(hours);
     setHasChanges(true);
+    setSuccessMessage(null);
   }, []);
 
   const handleAddClosure = useCallback((closure: Omit<TemporaryClosure, 'id'>) => {
+    // Add to local state with temp ID
+    const tempId = `temp-${Date.now()}`;
     const newClosure: TemporaryClosure = {
       ...closure,
-      id: crypto.randomUUID(),
+      id: tempId,
     };
     setClosures((prev) => [...prev, newClosure]);
+    setPendingClosureAdds((prev) => [...prev, closure]);
     setHasChanges(true);
+    setSuccessMessage(null);
   }, []);
 
-  const handleRemoveClosure = useCallback((id: string) => {
-    setClosures((prev) => prev.filter((c) => c.id !== id));
-    setHasChanges(true);
-  }, []);
+  const handleRemoveClosure = useCallback(
+    (id: string) => {
+      setClosures((prev) => prev.filter((c) => c.id !== id));
+      // If it's a real ID (not temp), mark for deletion
+      if (!id.startsWith('temp-')) {
+        setPendingClosureDeletes((prev) => [...prev, id]);
+      } else {
+        // Remove from pending adds
+        setPendingClosureAdds((prev) => {
+          const closure = closures.find((c) => c.id === id);
+          if (closure) {
+            return prev.filter((p) => p.name !== closure.name || p.dateStart !== closure.dateStart);
+          }
+          return prev;
+        });
+      }
+      setHasChanges(true);
+      setSuccessMessage(null);
+    },
+    [closures]
+  );
 
   const handleUpdateClosure = useCallback((id: string, updates: Partial<TemporaryClosure>) => {
     setClosures((prev) => prev.map((c) => (c.id === id ? { ...c, ...updates } : c)));
     setHasChanges(true);
+    setSuccessMessage(null);
   }, []);
 
   const handleSave = async () => {
     setIsSaving(true);
+    setError(null);
+    setSuccessMessage(null);
+
     try {
-      // TODO: Save to Supabase
-      // For now, just simulate save
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Save operating hours
+      const hoursResult = await updateLocationOperatingHours(DEMO_LOCATION_ID, operatingHours);
+      if (!hoursResult.success) {
+        throw new Error(hoursResult.error || 'Failed to save operating hours');
+      }
+
+      // Delete removed closures
+      for (const id of pendingClosureDeletes) {
+        await deleteScheduleOverride(id);
+      }
+
+      // Add new closures
+      for (const closure of pendingClosureAdds) {
+        await createScheduleOverride({
+          location_id: DEMO_LOCATION_ID,
+          override_type: 'closure',
+          name: closure.name,
+          description: closure.description || null,
+          date_start: closure.dateStart,
+          date_end: closure.dateEnd || null,
+          recurrence: 'none',
+          is_closed: closure.isClosed,
+          hours: closure.hours || null,
+          priority: 100, // Closures have highest priority
+          event_id: null,
+          created_by: null, // TODO: Get from auth
+        });
+      }
+
+      // Reset pending changes
+      setPendingClosureAdds([]);
+      setPendingClosureDeletes([]);
+      setOriginalHours(operatingHours);
       setHasChanges(false);
-      alert('Hours saved successfully!');
-    } catch (error) {
-      console.error('Failed to save:', error);
-      alert('Failed to save hours. Please try again.');
+      setSuccessMessage('Hours saved successfully!');
+
+      // Reload to get real IDs for new closures
+      await loadData();
+    } catch (err) {
+      console.error('Failed to save:', err);
+      setError(err instanceof Error ? err.message : 'Failed to save. Please try again.');
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleCancel = () => {
+    // Reset to original state
+    setOperatingHours(originalHours);
+    setPendingClosureAdds([]);
+    setPendingClosureDeletes([]);
+    setHasChanges(false);
+    loadData();
   };
 
   // Check current status
@@ -87,7 +204,6 @@ export default function HoursSettingsPage() {
       if (activeClosure.isClosed) {
         return { isOpen: false, reason: activeClosure.name };
       }
-      // Modified hours from closure
       const hours = activeClosure.hours;
       if (hours) {
         const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
@@ -111,6 +227,14 @@ export default function HoursSettingsPage() {
   };
 
   const status = getCurrentStatus();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -154,6 +278,67 @@ export default function HoursSettingsPage() {
           )}
         </div>
       </div>
+
+      {/* Error message */}
+      {error && (
+        <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+          <svg
+            className="h-5 w-5 text-red-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span className="text-red-800">{error}</span>
+          <button
+            onClick={() => setError(null)}
+            className="ml-auto text-red-600 hover:text-red-800"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {/* Success message */}
+      {successMessage && (
+        <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-4">
+          <svg
+            className="h-5 w-5 text-green-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          <span className="text-green-800">{successMessage}</span>
+          <button
+            onClick={() => setSuccessMessage(null)}
+            className="ml-auto text-green-600 hover:text-green-800"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      )}
 
       {/* Unsaved changes warning */}
       {hasChanges && (
@@ -248,12 +433,13 @@ export default function HoursSettingsPage() {
 
       {/* Save Button */}
       <div className="flex items-center justify-end gap-3">
-        <Link
-          href="/settings"
-          className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+        <button
+          onClick={handleCancel}
+          disabled={!hasChanges || isSaving}
+          className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Cancel
-        </Link>
+        </button>
         <button
           onClick={handleSave}
           disabled={!hasChanges || isSaving}

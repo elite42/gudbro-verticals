@@ -1,117 +1,80 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-interface OperatingHours {
-  [day: string]: { open: string; close: string } | null;
-}
+import {
+  getLocationSchedule,
+  calculateOpenStatus,
+  DEFAULT_OPERATING_HOURS,
+  type OperatingHours,
+  type ScheduleOverride,
+  type OpenStatus,
+} from '../lib/schedule-service';
 
 interface OpenStatusBadgeProps {
+  locationId?: string;
   operatingHours?: OperatingHours;
-  timezone?: string;
   className?: string;
   showHours?: boolean;
 }
 
-const DEFAULT_HOURS: OperatingHours = {
-  mon: { open: '07:00', close: '21:00' },
-  tue: { open: '07:00', close: '21:00' },
-  wed: { open: '07:00', close: '21:00' },
-  thu: { open: '07:00', close: '21:00' },
-  fri: { open: '07:00', close: '21:00' },
-  sat: { open: '08:00', close: '22:00' },
-  sun: { open: '08:00', close: '22:00' },
-};
-
 export function OpenStatusBadge({
-  operatingHours = DEFAULT_HOURS,
-  timezone = 'Asia/Ho_Chi_Minh',
+  locationId,
+  operatingHours: propHours,
   className = '',
   showHours = true,
 }: OpenStatusBadgeProps) {
-  const [status, setStatus] = useState<{
-    isOpen: boolean;
-    currentDay: string;
-    hours: { open: string; close: string } | null;
-    nextChange: string;
-  }>({
+  const [status, setStatus] = useState<OpenStatus>({
     isOpen: false,
-    currentDay: '',
-    hours: null,
     nextChange: '',
   });
+  const [hours, setHours] = useState<OperatingHours>(propHours || DEFAULT_OPERATING_HOURS);
+  const [overrides, setOverrides] = useState<ScheduleOverride[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Load schedule from Supabase if locationId provided
   useEffect(() => {
-    const checkStatus = () => {
-      const now = new Date();
-
-      // Get current day
-      const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-      const currentDay = dayNames[now.getDay()];
-      const hours = operatingHours[currentDay];
-
-      if (!hours) {
-        setStatus({
-          isOpen: false,
-          currentDay,
-          hours: null,
-          nextChange: 'Closed today',
-        });
-        return;
-      }
-
-      // Get current time in HH:MM format
-      const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-
-      const isOpen = currentTime >= hours.open && currentTime < hours.close;
-
-      let nextChange = '';
-      if (isOpen) {
-        nextChange = `Closes at ${hours.close}`;
-      } else if (currentTime < hours.open) {
-        nextChange = `Opens at ${hours.open}`;
-      } else {
-        // After closing, find next open day
-        let nextDayIndex = (now.getDay() + 1) % 7;
-        let daysChecked = 0;
-        while (daysChecked < 7) {
-          const nextDayName = dayNames[nextDayIndex];
-          const nextDayHours = operatingHours[nextDayName];
-          if (nextDayHours) {
-            const dayDisplayNames = [
-              'Sunday',
-              'Monday',
-              'Tuesday',
-              'Wednesday',
-              'Thursday',
-              'Friday',
-              'Saturday',
-            ];
-            if (daysChecked === 0) {
-              nextChange = `Opens tomorrow at ${nextDayHours.open}`;
-            } else {
-              nextChange = `Opens ${dayDisplayNames[nextDayIndex]} at ${nextDayHours.open}`;
-            }
-            break;
-          }
-          nextDayIndex = (nextDayIndex + 1) % 7;
-          daysChecked++;
+    const loadSchedule = async () => {
+      if (locationId) {
+        setIsLoading(true);
+        try {
+          const schedule = await getLocationSchedule(locationId);
+          setHours(schedule.operatingHours);
+          setOverrides(schedule.overrides);
+        } catch (err) {
+          console.error('Failed to load schedule:', err);
         }
+        setIsLoading(false);
+      } else if (propHours) {
+        setHours(propHours);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
       }
-
-      setStatus({
-        isOpen,
-        currentDay,
-        hours,
-        nextChange,
-      });
     };
 
-    checkStatus();
-    // Update every minute
-    const interval = setInterval(checkStatus, 60000);
+    loadSchedule();
+  }, [locationId, propHours]);
+
+  // Update status every minute
+  useEffect(() => {
+    const updateStatus = () => {
+      const newStatus = calculateOpenStatus(hours, overrides);
+      setStatus(newStatus);
+    };
+
+    updateStatus();
+    const interval = setInterval(updateStatus, 60000);
     return () => clearInterval(interval);
-  }, [operatingHours]);
+  }, [hours, overrides]);
+
+  if (isLoading) {
+    return (
+      <div className={`flex items-center gap-2 ${className}`}>
+        <div className="h-2 w-2 animate-pulse rounded-full bg-gray-400" />
+        <span className="text-sm text-gray-500">Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
@@ -138,13 +101,40 @@ export function OpenStatusBadge({
 }
 
 // Full opening hours display component
-export function OpeningHoursDisplay({
-  operatingHours = DEFAULT_HOURS,
-  className = '',
-}: {
+interface OpeningHoursDisplayProps {
+  locationId?: string;
   operatingHours?: OperatingHours;
   className?: string;
-}) {
+}
+
+export function OpeningHoursDisplay({
+  locationId,
+  operatingHours: propHours,
+  className = '',
+}: OpeningHoursDisplayProps) {
+  const [hours, setHours] = useState<OperatingHours>(propHours || DEFAULT_OPERATING_HOURS);
+  const [isLoading, setIsLoading] = useState(!!locationId);
+
+  // Load from Supabase if locationId provided
+  useEffect(() => {
+    const loadHours = async () => {
+      if (locationId) {
+        setIsLoading(true);
+        try {
+          const schedule = await getLocationSchedule(locationId);
+          setHours(schedule.operatingHours);
+        } catch (err) {
+          console.error('Failed to load hours:', err);
+        }
+        setIsLoading(false);
+      } else if (propHours) {
+        setHours(propHours);
+      }
+    };
+
+    loadHours();
+  }, [locationId, propHours]);
+
   const now = new Date();
   const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   const currentDay = dayNames[now.getDay()];
@@ -162,10 +152,23 @@ export function OpeningHoursDisplay({
   // Reorder days starting from Monday
   const orderedDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
+  if (isLoading) {
+    return (
+      <div className={`space-y-2 ${className}`}>
+        {orderedDays.map((day) => (
+          <div key={day} className="flex items-center justify-between px-3 py-2">
+            <span className="text-theme-text-secondary">{dayDisplayNames[day]}</span>
+            <div className="h-4 w-20 animate-pulse rounded bg-gray-200" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className={`space-y-2 ${className}`}>
       {orderedDays.map((day) => {
-        const hours = operatingHours[day];
+        const dayHours = hours[day];
         const isToday = day === currentDay;
 
         return (
@@ -189,14 +192,14 @@ export function OpeningHoursDisplay({
             </span>
             <span
               className={`${
-                hours
+                dayHours
                   ? isToday
                     ? 'text-theme-brand-primary font-bold'
                     : 'text-theme-text-primary'
                   : 'text-theme-text-tertiary'
               }`}
             >
-              {hours ? `${hours.open} - ${hours.close}` : 'Closed'}
+              {dayHours ? `${dayHours.open} - ${dayHours.close}` : 'Closed'}
             </span>
           </div>
         );
