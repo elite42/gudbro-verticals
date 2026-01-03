@@ -167,7 +167,7 @@ export default function HoursSettingsPage() {
   // Generic remove handler
   const handleRemove = useCallback(
     (id: string, setList: React.Dispatch<React.SetStateAction<unknown[]>>) => {
-      setList((prev: unknown[]) => prev.filter((item: { id?: string }) => item.id !== id));
+      setList((prev: unknown[]) => prev.filter((item) => (item as { id?: string }).id !== id));
       if (!id.startsWith('temp-')) {
         setPendingDeletes((prev) => [...prev, id]);
       } else {
