@@ -5,6 +5,7 @@ import { DishItem } from './DishCard';
 import { favoritesStore } from '../lib/favorites-store';
 import { useTranslation } from '../lib/use-translation';
 import { usePriceFormat } from '../hooks/usePriceFormat';
+import { trackItemClick, track } from '@/lib/analytics-service';
 
 interface CategorySectionProps {
   categoryId: string;
@@ -21,7 +22,7 @@ export function CategorySection({
   categoryIcon,
   items,
   onItemClick,
-  onSeeAllClick
+  onSeeAllClick,
 }: CategorySectionProps) {
   const { t } = useTranslation();
   const { formatPrice } = usePriceFormat();
@@ -48,6 +49,26 @@ export function CategorySection({
     }
   }, []);
 
+  // Handle item click with analytics tracking
+  const handleItemClick = (item: DishItem) => {
+    trackItemClick(item.id, item.name, categoryId);
+    onItemClick(item);
+  };
+
+  // Handle See All click with analytics tracking
+  const handleSeeAllClick = () => {
+    track(
+      'category_click',
+      {
+        category_id: categoryId,
+        category_name: categoryName,
+        item_count: items.length,
+      },
+      'interaction'
+    );
+    onSeeAllClick?.();
+  };
+
   if (items.length === 0) {
     return null;
   }
@@ -55,49 +76,44 @@ export function CategorySection({
   return (
     <div className="mb-6">
       {/* Section Header */}
-      <div className="px-4 mb-4 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between px-4">
         {/* Title with count */}
-        <h2 className="text-2xl font-bold text-theme-text-primary flex items-center gap-2">
+        <h2 className="text-theme-text-primary flex items-center gap-2 text-2xl font-bold">
           {categoryIcon && <span>{categoryIcon}</span>}
           <span>{categoryName}</span>
-          <span className="text-xl text-theme-text-secondary font-normal">({items.length})</span>
+          <span className="text-theme-text-secondary text-xl font-normal">({items.length})</span>
         </h2>
 
         {/* See All CTA - Icon only */}
         {onSeeAllClick && (
           <button
-            onClick={onSeeAllClick}
-            className="text-theme-interactive-primary hover:text-theme-interactive-primary-hover transition-colors p-1"
+            onClick={handleSeeAllClick}
+            className="text-theme-interactive-primary hover:text-theme-interactive-primary-hover p-1 transition-colors"
             aria-label={t.menu.sections.seeAll}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         )}
       </div>
 
       {/* Horizontal Scroll Cards */}
-      <div className="flex gap-4 overflow-x-auto px-4 pb-2 scrollbar-hide">
+      <div className="scrollbar-hide flex gap-4 overflow-x-auto px-4 pb-2">
         {items.map((item) => {
           const isFavorite = favorites.has(item.id);
 
           return (
-            <div
-              key={item.id}
-              className="flex-shrink-0 w-44 flex flex-col"
-            >
+            <div key={item.id} className="flex w-44 flex-shrink-0 flex-col">
               {/* Image with dark background */}
-              <div className="relative w-44 h-36 bg-gray-900 rounded-2xl overflow-hidden mb-2">
-                <button
-                  onClick={() => onItemClick(item)}
-                  className="w-full h-full"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                  />
+              <div className="relative mb-2 h-36 w-44 overflow-hidden rounded-2xl bg-gray-900">
+                <button onClick={() => handleItemClick(item)} className="h-full w-full">
+                  <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                 </button>
 
                 {/* Favorite button - top right - show only when favorited */}
@@ -107,10 +123,14 @@ export function CategorySection({
                       e.stopPropagation();
                       favoritesStore.toggle(item.id);
                     }}
-                    className="absolute top-[-3px] right-[-10px] hover:scale-110 transition-transform z-10"
+                    className="absolute right-[-10px] top-[-3px] z-10 transition-transform hover:scale-110"
                     aria-label="Remove from favorites"
                   >
-                    <svg className="w-6 h-6 text-red-500 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="h-6 w-6 text-red-500 drop-shadow-lg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
                   </button>
@@ -119,13 +139,13 @@ export function CategorySection({
 
               {/* Product Name and Price on same line */}
               <button
-                onClick={() => onItemClick(item)}
-                className="flex items-start gap-2 text-left w-full"
+                onClick={() => handleItemClick(item)}
+                className="flex w-full items-start gap-2 text-left"
               >
-                <h3 className="font-bold text-sm text-theme-text-primary flex-1 min-w-0">
+                <h3 className="text-theme-text-primary min-w-0 flex-1 text-sm font-bold">
                   {item.name}
                 </h3>
-                <p className="text-xl font-bold text-theme-text-primary flex-shrink-0">
+                <p className="text-theme-text-primary flex-shrink-0 text-xl font-bold">
                   {formatPrice(item.price)}
                 </p>
               </button>

@@ -5,12 +5,14 @@ import { ThemeProvider } from '@/lib/theme/theme-context';
 import { DirectionProvider } from '@/components/DirectionProvider';
 import { MerchantConfigProvider } from '@/lib/contexts/MerchantConfigContext';
 import { PWAProvider } from '@/components/PWAProvider';
+import { AnalyticsProvider } from '@/components/AnalyticsProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'ROOTS Plant-Based Cafe - Healthy Vegan Restaurant in Danang',
-  description: 'Clean food opportunity for everyone. Modern plant-based dining using fresh, locally farmed produce in Đà Nẵng, Vietnam.',
+  description:
+    'Clean food opportunity for everyone. Modern plant-based dining using fresh, locally farmed produce in Đà Nẵng, Vietnam.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
@@ -30,11 +32,7 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -46,7 +44,9 @@ export default function RootLayout({
         <PWAProvider>
           <ThemeProvider>
             <MerchantConfigProvider>
-              <DirectionProvider>{children}</DirectionProvider>
+              <DirectionProvider>
+                <AnalyticsProvider>{children}</AnalyticsProvider>
+              </DirectionProvider>
             </MerchantConfigProvider>
           </ThemeProvider>
         </PWAProvider>

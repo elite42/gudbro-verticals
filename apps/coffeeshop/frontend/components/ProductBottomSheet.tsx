@@ -12,6 +12,7 @@ import { ProductIndicators } from './ProductIndicators';
 import { useTranslation } from '../lib/use-translation';
 import { usePriceFormat } from '../hooks/usePriceFormat';
 import { SocialShareButton } from './SocialShareButton';
+import { track, trackAddToCart } from '@/lib/analytics-service';
 
 interface ProductBottomSheetProps {
   dish: DishItem;
@@ -34,6 +35,20 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
   // Get feature flags
   const isOrderingEnabled = coffeeshopConfig.features.enableCart;
 
+  // Track item view when component mounts
+  useEffect(() => {
+    track(
+      'item_view',
+      {
+        item_id: dish.id,
+        item_name: dish.name,
+        category: dish.category,
+        price: dish.price,
+      },
+      'page_view'
+    );
+  }, [dish.id, dish.name, dish.category, dish.price]);
+
   const handleToggleFavorite = () => {
     const newStatus = favoritesStore.toggle(dish.id);
     setIsFavorite(newStatus);
@@ -45,6 +60,16 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
   };
 
   const handleAddToCart = () => {
+    // Track add to cart event
+    const extrasNames = selectedExtras.map((e) => e.name);
+    trackAddToCart(
+      dish.id,
+      dish.name,
+      quantity,
+      dish.price,
+      extrasNames.length > 0 ? extrasNames : undefined
+    );
+
     if (isOrderingEnabled && onAddToCart) {
       onAddToCart(dish, quantity, selectedExtras);
       onClose();
@@ -75,68 +100,67 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
   const hasDietary = dish.dietary && dish.dietary.length > 0;
 
   // Estimate calories if not provided (temporary until database integration)
-  const estimatedCalories = dish.calories || (() => {
-    const name = dish.name.toLowerCase();
-    const category = dish.category.toLowerCase();
+  const estimatedCalories =
+    dish.calories ||
+    (() => {
+      const name = dish.name.toLowerCase();
+      const category = dish.category.toLowerCase();
 
-    // Beverage estimates
-    if (category.includes('bevande') || category.includes('coffee') || category.includes('smoothie')) {
-      if (name.includes('juice')) return 45;
-      if (name.includes('coffee') || name.includes('espresso')) return 5;
-      if (name.includes('latte')) return 120;
-      if (name.includes('cappuccino')) return 80;
-      if (name.includes('smoothie')) return 150;
-      return 60;
-    }
+      // Beverage estimates
+      if (
+        category.includes('bevande') ||
+        category.includes('coffee') ||
+        category.includes('smoothie')
+      ) {
+        if (name.includes('juice')) return 45;
+        if (name.includes('coffee') || name.includes('espresso')) return 5;
+        if (name.includes('latte')) return 120;
+        if (name.includes('cappuccino')) return 80;
+        if (name.includes('smoothie')) return 150;
+        return 60;
+      }
 
-    // Food estimates
-    if (category.includes('pizza')) return 250;
-    if (category.includes('primi')) return 350;
-    if (category.includes('secondi')) return 280;
-    if (category.includes('antipasti')) return 150;
-    if (category.includes('dessert')) return 320;
-    if (category.includes('bowl')) return 380;
+      // Food estimates
+      if (category.includes('pizza')) return 250;
+      if (category.includes('primi')) return 350;
+      if (category.includes('secondi')) return 280;
+      if (category.includes('antipasti')) return 150;
+      if (category.includes('dessert')) return 320;
+      if (category.includes('bowl')) return 380;
 
-    return 200; // Default estimate
-  })();
+      return 200; // Default estimate
+    })();
 
   return (
     <>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/50 z-[10000] animate-fade-in"
-        onClick={onClose}
-      />
+      <div className="animate-fade-in fixed inset-0 z-[10000] bg-black/50" onClick={onClose} />
 
       {/* Bottom Sheet */}
       <div
-        className="fixed bottom-0 left-0 right-0 bg-theme-bg-elevated rounded-t-3xl shadow-2xl z-[10001] max-h-[90vh] overflow-y-auto animate-slide-up"
+        className="bg-theme-bg-elevated animate-slide-up fixed bottom-0 left-0 right-0 z-[10001] max-h-[90vh] overflow-y-auto rounded-t-3xl shadow-2xl"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         {/* Drag handle */}
-        <div className="flex justify-center py-3 sticky top-0 bg-theme-bg-elevated z-10">
-          <div className="w-12 h-1.5 bg-theme-bg-tertiary rounded-full" />
+        <div className="bg-theme-bg-elevated sticky top-0 z-10 flex justify-center py-3">
+          <div className="bg-theme-bg-tertiary h-1.5 w-12 rounded-full" />
         </div>
 
         {/* Hero Image */}
         <div className="relative">
-          <img
-            src={dish.image}
-            alt={dish.name}
-            className="w-full h-64 object-cover"
-          />
+          <img src={dish.image} alt={dish.name} className="h-64 w-full object-cover" />
         </div>
 
         {/* Content */}
         <div className="p-6">
           {/* Header */}
           <div className="mb-4">
-            <div className="flex items-start justify-between gap-3 mb-2">
-              <h2 className="text-2xl font-bold text-theme-text-primary flex-1">{dish.name}</h2>
+            <div className="mb-2 flex items-start justify-between gap-3">
+              <h2 className="text-theme-text-primary flex-1 text-2xl font-bold">{dish.name}</h2>
               {/* Action buttons: Share + Favorite */}
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex flex-shrink-0 items-center gap-2">
                 {/* Share button */}
                 <SocialShareButton
                   productId={dish.id}
@@ -148,22 +172,32 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                 {/* Favorite button */}
                 <button
                   onClick={handleToggleFavorite}
-                  className="p-2 rounded-full bg-red-50 hover:bg-red-100 transition-colors"
+                  className="rounded-full bg-red-50 p-2 transition-colors hover:bg-red-100"
                   aria-label="Toggle favorite"
                 >
                   {isFavorite ? (
-                    <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
                   ) : (
-                    <svg className="w-5 h-5 text-gray-400 hover:text-red-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    <svg
+                      className="h-5 w-5 text-gray-400 hover:text-red-400"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
                     </svg>
                   )}
                 </button>
               </div>
             </div>
-            <p className="text-3xl font-bold text-theme-brand-primary">{formatPrice(dish.price)}</p>
+            <p className="text-theme-brand-primary text-3xl font-bold">{formatPrice(dish.price)}</p>
           </div>
 
           {/* Description */}
@@ -172,28 +206,34 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
           </div>
 
           {/* Tab System - EXTRA / Nutrizione */}
-          {((isOrderingEnabled && dish.availableExtras && dish.availableExtras.length > 0) || (hasDietary || hasAllergens)) && (
+          {((isOrderingEnabled && dish.availableExtras && dish.availableExtras.length > 0) ||
+            hasDietary ||
+            hasAllergens) && (
             <div className="mb-6">
               {/* Tabs */}
-              <div className="flex gap-2 mb-4 bg-theme-bg-secondary rounded-xl p-1">
+              <div className="bg-theme-bg-secondary mb-4 flex gap-2 rounded-xl p-1">
                 <button
                   onClick={() => setActiveTab('extra')}
-                  className={`flex-1 py-2.5 px-4 rounded-lg font-semibold transition-all ${activeTab === 'extra'
-                    ? 'bg-theme-brand-primary text-white shadow-md'
-                    : 'text-theme-text-secondary hover:text-theme-text-primary'
-                    }`}
+                  className={`flex-1 rounded-lg px-4 py-2.5 font-semibold transition-all ${
+                    activeTab === 'extra'
+                      ? 'bg-theme-brand-primary text-white shadow-md'
+                      : 'text-theme-text-secondary hover:text-theme-text-primary'
+                  }`}
                 >
                   {t.productDetail.extras.toUpperCase()}
                 </button>
                 <button
                   onClick={() => setActiveTab('nutrition')}
-                  className={`flex-1 py-2.5 px-4 rounded-lg font-semibold transition-all ${activeTab === 'nutrition'
-                    ? 'bg-theme-brand-primary text-white shadow-md'
-                    : 'text-theme-text-secondary hover:text-theme-text-primary'
-                    }`}
+                  className={`flex-1 rounded-lg px-4 py-2.5 font-semibold transition-all ${
+                    activeTab === 'nutrition'
+                      ? 'bg-theme-brand-primary text-white shadow-md'
+                      : 'text-theme-text-secondary hover:text-theme-text-primary'
+                  }`}
                 >
                   {t.productDetail.nutrition}
-                  {hasAllergens && activeTab !== 'nutrition' && <span className="ml-1 text-red-600">⚠️</span>}
+                  {hasAllergens && activeTab !== 'nutrition' && (
+                    <span className="ml-1 text-red-600">⚠️</span>
+                  )}
                 </button>
               </div>
 
@@ -203,11 +243,11 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                   {isOrderingEnabled && dish.availableExtras && dish.availableExtras.length > 0 ? (
                     <div className="space-y-2">
                       {dish.availableExtras.map((extra) => {
-                        const isSelected = selectedExtras.some(e => e.id === extra.id);
+                        const isSelected = selectedExtras.some((e) => e.id === extra.id);
                         return (
                           <label
                             key={extra.id}
-                            className="flex items-center justify-between p-3 bg-theme-bg-secondary rounded-lg cursor-pointer hover:bg-theme-bg-tertiary transition-colors"
+                            className="bg-theme-bg-secondary hover:bg-theme-bg-tertiary flex cursor-pointer items-center justify-between rounded-lg p-3 transition-colors"
                           >
                             <div className="flex items-center gap-3">
                               <input
@@ -216,28 +256,36 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
                                 onChange={(e) => {
                                   if (e.target.checked) {
                                     // Remove all extras of the same type first (mutually exclusive by type)
-                                    const filteredExtras = selectedExtras.filter(ex => ex.type !== extra.type);
+                                    const filteredExtras = selectedExtras.filter(
+                                      (ex) => ex.type !== extra.type
+                                    );
                                     setSelectedExtras([...filteredExtras, extra]);
                                   } else {
-                                    setSelectedExtras(selectedExtras.filter(e => e.id !== extra.id));
+                                    setSelectedExtras(
+                                      selectedExtras.filter((e) => e.id !== extra.id)
+                                    );
                                   }
                                 }}
-                                className="w-4 h-4 text-green-600 rounded-full focus:ring-green-500 accent-green-600"
+                                className="h-4 w-4 rounded-full text-green-600 accent-green-600 focus:ring-green-500"
                               />
                               <div>
-                                <p className="font-medium text-theme-text-primary">{extra.name}</p>
-                                <p className="text-sm text-theme-text-secondary">{extra.type}</p>
+                                <p className="text-theme-text-primary font-medium">{extra.name}</p>
+                                <p className="text-theme-text-secondary text-sm">{extra.type}</p>
                               </div>
                             </div>
-                            <span className={`font-bold ${extra.price > 0 ? 'text-gray-700' : 'text-green-600'}`}>
-                              {extra.price > 0 ? `+${formatPrice(extra.price)}` : t.productDetail.free}
+                            <span
+                              className={`font-bold ${extra.price > 0 ? 'text-gray-700' : 'text-green-600'}`}
+                            >
+                              {extra.price > 0
+                                ? `+${formatPrice(extra.price)}`
+                                : t.productDetail.free}
                             </span>
                           </label>
                         );
                       })}
                     </div>
                   ) : (
-                    <div className="text-center py-8 text-theme-text-secondary">
+                    <div className="text-theme-text-secondary py-8 text-center">
                       {t.productDetail.noCustomizations}
                     </div>
                   )}
@@ -255,21 +303,21 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
 
           {/* Quantity Controls - Always show */}
           <div className="mb-6">
-            <h3 className="font-bold text-theme-text-primary mb-3">{t.productDetail.quantity}</h3>
-            <div className="flex items-center justify-center gap-4 bg-theme-bg-secondary rounded-2xl p-4">
+            <h3 className="text-theme-text-primary mb-3 font-bold">{t.productDetail.quantity}</h3>
+            <div className="bg-theme-bg-secondary flex items-center justify-center gap-4 rounded-2xl p-4">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-12 h-12 bg-red-500 rounded-full font-bold text-white hover:bg-red-600 transition-colors shadow-md flex items-center justify-center text-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500 text-2xl font-bold text-white shadow-md transition-colors hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={quantity <= 1}
               >
                 −
               </button>
-              <span className="font-bold text-theme-text-primary text-2xl min-w-[40px] text-center">
+              <span className="text-theme-text-primary min-w-[40px] text-center text-2xl font-bold">
                 {quantity}
               </span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="w-12 h-12 bg-green-600 rounded-full font-bold text-white hover:bg-green-700 transition-colors shadow-md flex items-center justify-center text-2xl"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-green-600 text-2xl font-bold text-white shadow-md transition-colors hover:bg-green-700"
               >
                 +
               </button>
@@ -279,12 +327,13 @@ export function ProductBottomSheet({ dish, onClose, onAddToCart }: ProductBottom
           {/* Action Button */}
           <button
             onClick={handleAddToCart}
-            className={`w-full text-white py-4 rounded-2xl font-bold text-lg shadow-lg transition-all transform active:scale-95 ${isOrderingEnabled
-              ? 'bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover'
-              : isInSelections
-                ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
-                : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
-              }`}
+            className={`w-full transform rounded-2xl py-4 text-lg font-bold text-white shadow-lg transition-all active:scale-95 ${
+              isOrderingEnabled
+                ? 'from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover bg-gradient-to-r'
+                : isInSelections
+                  ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
+                  : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
+            }`}
           >
             {isOrderingEnabled
               ? `${t.productDetail.addToCart} • ${formatPrice(dish.price * quantity + selectedExtras.reduce((sum, e) => sum + e.price, 0) * quantity)}`
