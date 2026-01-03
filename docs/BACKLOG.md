@@ -3,7 +3,7 @@
 > **CRITICAL:** Claude DEVE consultare questo file all'inizio di OGNI sessione.
 > Questo file contiene TUTTO ciò che dobbiamo fare (prodotti + funzionalità).
 
-**Last Updated:** 2026-01-03 (PWA-TRACKING: Analytics event tracking integrated)
+**Last Updated:** 2026-01-03 (ANALYTICS-DASH: Dashboard connected to Supabase)
 
 ---
 
@@ -138,7 +138,7 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 | CUISINE-FILTER           | Filtro cucina nel backoffice   | Campo `cuisine_tags` sui prodotti, filtro visibilità per tipo ristorante                                                                                                                                                          | Backoffice |
 | WINE-MGMT-UI             | Wine Management UI             | Permettere ai ristoranti di aggiungere vini custom                                                                                                                                                                                | Backoffice |
 | ~~ANALYTICS-DEPLOY~~     | ~~Deploy Analytics System~~    | **GIÀ ESEGUITO.** Tabelle `analytics_events`, `analytics_daily_aggregates`, `improvement_suggestions` esistono. Funzioni `track_event()`, `get_daily_metrics()`, `get_top_items()` disponibili.                                   | Database   |
-| ANALYTICS-DASH           | Analytics Dashboard            | Visualizza metriche nel backoffice (sessions, conversions, revenue)                                                                                                                                                               | Backoffice |
+| ~~ANALYTICS-DASH~~       | ~~Analytics Dashboard~~        | ✅ **COMPLETATO 2026-01-03** Dashboard real-time: page views, visitors, sessions, top items, device breakdown, peak hours                                                                                                         | Backoffice |
 | ~~PWA-TRACKING~~         | ~~PWA Event Tracking~~         | ✅ **COMPLETATO 2026-01-03** Analytics integrato: page_view, item_click, item_view, add_to_cart, category_click                                                                                                                   | PWA        |
 | ~~MENU-FROM-DB~~         | ~~Menu da Database~~           | ✅ **COMPLETATO 2026-01-03** PWA connessa a Supabase (coffee+tea tables, 76+ items live)                                                                                                                                          | PWA        |
 
