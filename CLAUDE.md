@@ -2,7 +2,7 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2025-12-30
+> **Last Updated:** 2026-01-03
 
 ---
 
@@ -52,6 +52,7 @@ Pronto per lavorare."
 ### Session Resume (Ripresa Sessione Interrotta)
 
 Se riprendo una sessione precedente su un database:
+
 1. **Ri-leggere** PROCEDURE-NEW-DATABASE.md
 2. **Ri-validare** tutti gli script creati (Step 6 della procedura)
 3. **Verificare** ingredienti estratti da script 04
@@ -74,34 +75,57 @@ LEGGI SEMPRE:
 
 ## Documentazione di Riferimento
 
-| Area | File | Descrizione |
-|------|------|-------------|
-| **Ecosystem** | `docs/ECOSYSTEM-MAP.md` | **MAPPA COMPLETA** tutti i repo, assets, tools esterni |
-| **Database** | `docs/DATABASE-INVENTORY.md` | Stato tutti i database (SOURCE OF TRUTH) |
-| **Backlog** | `docs/BACKLOG.md` | Task pending e completati |
-| **Standards** | `shared/database/DATABASE-STANDARDS.md` | Regole naming, schema, convenzioni |
-| **Procedure** | `shared/database/PROCEDURE-NEW-DATABASE.md` | Guida step-by-step nuovi database |
-| **Lezioni** | `shared/database/_system/docs/LESSONS-LEARNED.md` | 44 lezioni organizzate per contesto (v5.0) |
-| **Strategic** | `docs/STRATEGIC-REPORT-5-DIMENSIONS.md` | Report 5 dimensioni, compliance, revenue streams |
+| Area          | File                                              | Descrizione                                            |
+| ------------- | ------------------------------------------------- | ------------------------------------------------------ |
+| **Ecosystem** | `docs/ECOSYSTEM-MAP.md`                           | **MAPPA COMPLETA** tutti i repo, assets, tools esterni |
+| **Database**  | `docs/DATABASE-INVENTORY.md`                      | Stato tutti i database (SOURCE OF TRUTH)               |
+| **Backlog**   | `docs/BACKLOG.md`                                 | Task pending e completati                              |
+| **Standards** | `shared/database/DATABASE-STANDARDS.md`           | Regole naming, schema, convenzioni                     |
+| **Procedure** | `shared/database/PROCEDURE-NEW-DATABASE.md`       | Guida step-by-step nuovi database                      |
+| **Lezioni**   | `shared/database/_system/docs/LESSONS-LEARNED.md` | 44 lezioni organizzate per contesto (v5.0)             |
+| **Strategic** | `docs/STRATEGIC-REPORT-5-DIMENSIONS.md`           | Report 5 dimensioni, compliance, revenue streams       |
 
 ### LESSONS-LEARNED: Mappa Esperienziale
 
 Le lezioni sono organizzate per **contesto operativo**. Consulta la sezione pertinente:
 
-| Contesto | Quando Consultare |
-|----------|-------------------|
-| **1. PRE-WORK** | Prima di iniziare qualsiasi lavoro |
-| **2. INGREDIENTI** | Verifica naming, cache, duplicati |
-| **3. SCRIPT SQL** | Sintassi, escape, formati |
-| **4. PRODUCT_TAXONOMY** | Template e valori corretti per cucine |
-| **5. PRODUCT_INGREDIENTS** | Schema, ruoli, linking |
-| **6. VALIDAZIONE** | Checklist pre-esecuzione |
-| **7. POST-ESECUZIONE** | Aggiornare docs dopo import |
-| **8. ESTENSIONE TABELLE** | Modifiche a tabelle esistenti |
-| **9. MANUTENZIONE** | Pulizia duplicati, ENUM |
-| **10. AI-ASSISTED** | Workflow con Gemini/ChatGPT |
+| Contesto                   | Quando Consultare                     |
+| -------------------------- | ------------------------------------- |
+| **1. PRE-WORK**            | Prima di iniziare qualsiasi lavoro    |
+| **2. INGREDIENTI**         | Verifica naming, cache, duplicati     |
+| **3. SCRIPT SQL**          | Sintassi, escape, formati             |
+| **4. PRODUCT_TAXONOMY**    | Template e valori corretti per cucine |
+| **5. PRODUCT_INGREDIENTS** | Schema, ruoli, linking                |
+| **6. VALIDAZIONE**         | Checklist pre-esecuzione              |
+| **7. POST-ESECUZIONE**     | Aggiornare docs dopo import           |
+| **8. ESTENSIONE TABELLE**  | Modifiche a tabelle esistenti         |
+| **9. MANUTENZIONE**        | Pulizia duplicati, ENUM               |
+| **10. AI-ASSISTED**        | Workflow con Gemini/ChatGPT           |
 
 > **Non leggere tutto** - consulta solo il contesto rilevante per il task corrente
+
+---
+
+## Documentazione Proporzionale (REGOLA)
+
+**Documenta in base alla complessità del task:**
+
+| Effort Stimato           | Documentazione Richiesta                        |
+| ------------------------ | ----------------------------------------------- |
+| < 1 ora                  | Solo commit message descrittivo                 |
+| 1-4 ore                  | BACKLOG.md + sezione dedicata nella feature     |
+| > 4 ore / multi-sessione | Cartella `docs/features/FEATURE-NAME/` completa |
+
+**Struttura per feature complesse (> 4 ore):**
+
+```
+docs/features/FEATURE-NAME/
+├── README.md      # Scope, status, overview, user stories semplici
+├── DECISIONS.md   # Scelte architetturali e motivazioni
+└── PROGRESS.md    # Log lavori (se multi-sessione)
+```
+
+**Perché:** Evita perdita di contesto tra sessioni senza creare overhead inutile.
 
 ---
 
@@ -127,11 +151,11 @@ AGGIORNARE IMMEDIATAMENTE:
 
 Quando creo un nuovo database, copiare struttura da:
 
-| Tipo | Template | Note |
-|------|----------|------|
+| Tipo             | Template                                              | Note                          |
+| ---------------- | ----------------------------------------------------- | ----------------------------- |
 | Cucina nazionale | `cuisines/americas/cajun/`, `cuisines/fusion/nikkei/` | Struttura completa con origin |
-| Bevande | `beverages/smoothies/`, `beverages/cocktails/` | Schema beverage |
-| Food generico | `dishes/seafood/`, `dishes/steaks/` | Schema food standard |
+| Bevande          | `beverages/smoothies/`, `beverages/cocktails/`        | Schema beverage               |
+| Food generico    | `dishes/seafood/`, `dishes/steaks/`                   | Schema food standard          |
 
 ### Credenziali Supabase
 
@@ -146,11 +170,11 @@ File: config/supabase.env
 
 ### Apps
 
-| App | URL | Port |
-|-----|-----|------|
+| App            | URL                              | Port |
+| -------------- | -------------------------------- | ---- |
 | Coffeeshop PWA | gudbro-coffeeshop-pwa.vercel.app | 3004 |
-| Backoffice | gudbro-backoffice.vercel.app | 3001 |
-| Website | gudbro-website.vercel.app | 3000 |
+| Backoffice     | gudbro-backoffice.vercel.app     | 3001 |
+| Website        | gudbro-website.vercel.app        | 3000 |
 
 ### Stack
 
@@ -184,23 +208,23 @@ gudbro-verticals/
 
 ### Numeri Verificati
 
-| Metrica | Valore |
-|---------|--------|
-| **Database** | 75 |
-| **Prodotti** | ~4653 |
-| **Ingredienti** | 2548 |
+| Metrica                       | Valore      |
+| ----------------------------- | ----------- |
+| **Database**                  | 75          |
+| **Prodotti**                  | ~4653       |
+| **Ingredienti**               | 2548        |
 | **Ingredienti con Nutrition** | 2548 (100%) |
-| **Product_Ingredients** | ~25169 |
-| **Formaggi** | 226 |
+| **Product_Ingredients**       | ~25169      |
+| **Formaggi**                  | 226         |
 
 ### Database Recenti
 
-| Database | Records | Data |
-|----------|---------|------|
-| Nutrition 100% | +58 | 2025-12-28 |
-| Cajun/Creole | 42 | 2025-12-27 |
-| Australian | 29 | 2025-12-27 |
-| Hawaiian | 29 | 2025-12-27 |
+| Database       | Records | Data       |
+| -------------- | ------- | ---------- |
+| Nutrition 100% | +58     | 2025-12-28 |
+| Cajun/Creole   | 42      | 2025-12-27 |
+| Australian     | 29      | 2025-12-27 |
+| Hawaiian       | 29      | 2025-12-27 |
 
 > **Lista completa:** vedi `docs/DATABASE-INVENTORY.md`
 
@@ -208,13 +232,13 @@ gudbro-verticals/
 
 ## Decisioni Architetturali
 
-| Decisione | Regola |
-|-----------|--------|
-| Lingua Base | SOLO INGLESE nel DB |
-| Traduzioni | Tabella `translations` separata |
-| Pesi/Misure | Sempre METRICO (g, ml) |
-| Costi | MAI in master ingredients |
-| Schema | TEXT + CHECK (no ENUM per nuove tabelle) |
+| Decisione   | Regola                                   |
+| ----------- | ---------------------------------------- |
+| Lingua Base | SOLO INGLESE nel DB                      |
+| Traduzioni  | Tabella `translations` separata          |
+| Pesi/Misure | Sempre METRICO (g, ml)                   |
+| Costi       | MAI in master ingredients                |
+| Schema      | TEXT + CHECK (no ENUM per nuove tabelle) |
 
 > **Dettagli completi:** vedi `shared/database/DATABASE-STANDARDS.md`
 
