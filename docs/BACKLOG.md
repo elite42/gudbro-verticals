@@ -225,15 +225,15 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 
 > **Raccomandazione:** Implementare DOPO P5 Phase 1 per validare le nuove funzionalità account.
 
-| ID               | Feature                | Descrizione                                                     | Area    | Priorità |
-| ---------------- | ---------------------- | --------------------------------------------------------------- | ------- | -------- |
-| **TEST-SETUP**   | **Testing Foundation** | Setup Jest + Vitest per monorepo, configurazione base           | Testing | **Alta** |
-| TEST-UNIT        | Unit Tests Core        | Test per: auth utils, loyalty points calc, role switching logic | Testing | Alta     |
-| TEST-INTEGRATION | Integration Tests      | Test per: Supabase queries, API endpoints account               | Testing | Media    |
-| CI-LINT          | GitHub Action Lint     | ESLint + TypeScript check su ogni PR                            | CI/CD   | Alta     |
-| CI-TEST          | GitHub Action Tests    | Run tests automatici su ogni PR                                 | CI/CD   | Media    |
-| TEST-E2E         | E2E Tests              | Setup Playwright per user journey completo                      | Testing | Bassa    |
-| PERF-AUDIT       | Performance Audit      | Lighthouse, bundle size, Core Web Vitals                        | Testing | Bassa    |
+| ID               | Feature                 | Descrizione                                                        | Area    | Priorità |
+| ---------------- | ----------------------- | ------------------------------------------------------------------ | ------- | -------- |
+| ~~TEST-SETUP~~   | ~~Testing Foundation~~  | ✅ **COMPLETATO 2026-01-03** Vitest + happy-dom, 24 test errors.ts | Testing | **Alta** |
+| ~~CI-LINT~~      | ~~GitHub Action Lint~~  | ✅ **COMPLETATO 2026-01-03** CI workflow con pnpm + Turborepo      | CI/CD   | Alta     |
+| ~~CI-TEST~~      | ~~GitHub Action Tests~~ | ✅ **COMPLETATO 2026-01-03** Test automatici su ogni PR            | CI/CD   | Media    |
+| TEST-UNIT        | Unit Tests Core         | Test per: auth utils, loyalty points calc, role switching logic    | Testing | Alta     |
+| TEST-INTEGRATION | Integration Tests       | Test per: Supabase queries, API endpoints account                  | Testing | Media    |
+| TEST-E2E         | E2E Tests               | Setup Playwright per user journey completo                         | Testing | Bassa    |
+| PERF-AUDIT       | Performance Audit       | Lighthouse, bundle size, Core Web Vitals                           | Testing | Bassa    |
 
 ### P4 - Idee Future (Business Evolution)
 
