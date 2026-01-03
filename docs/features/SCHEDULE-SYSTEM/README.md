@@ -16,17 +16,114 @@ Sistema unificato per la gestione di:
 - **Vista calendario** (stile Google Calendar)
 - **Prenotazioni** (tavoli, eventi, servizi) - _predisposizione futura_
 
+---
+
+## 1.1 Subscription Tiers (SaaS Model)
+
+Le funzionalità sono distribuite su diversi livelli di abbonamento:
+
+### TIER STRUCTURE
+
+| Feature                           | Free/Basic | Pro | Enterprise |
+| --------------------------------- | ---------- | --- | ---------- |
+| **ORARI BASE**                    |            |     |            |
+| Orari apertura settimanali        | ✅         | ✅  | ✅         |
+| Modifica orari                    | ✅         | ✅  | ✅         |
+| Visualizzazione PWA aperto/chiuso | ✅         | ✅  | ✅         |
+| **OVERRIDE & CHIUSURE**           |            |     |            |
+| Chiusure temporanee (ferie)       | ✅         | ✅  | ✅         |
+| Festività nazionali               | ❌         | ✅  | ✅         |
+| Orari stagionali                  | ❌         | ✅  | ✅         |
+| **EVENTI**                        |            |     |            |
+| Creazione eventi                  | ❌         | ✅  | ✅         |
+| Eventi con menu speciale          | ❌         | ✅  | ✅         |
+| Eventi ricorrenti                 | ❌         | ✅  | ✅         |
+| **CALENDARIO**                    |            |     |            |
+| Vista calendario semplice         | ❌         | ✅  | ✅         |
+| Vista calendario avanzata         | ❌         | ❌  | ✅         |
+| Google Calendar sync              | ❌         | ❌  | ✅         |
+| **PRENOTAZIONI**                  |            |     |            |
+| Gestione tavoli/aree              | ❌         | ❌  | ✅         |
+| Sistema prenotazioni              | ❌         | ❌  | ✅         |
+| Customer profiles                 | ❌         | ❌  | ✅         |
+| Reliability score                 | ❌         | ❌  | ✅         |
+| Depositi/pagamenti                | ❌         | ❌  | ✅         |
+| Waitlist                          | ❌         | ❌  | ✅         |
+| **ANALYTICS**                     |            |     |            |
+| Analytics base                    | ✅         | ✅  | ✅         |
+| Analytics eventi                  | ❌         | ✅  | ✅         |
+| Analytics prenotazioni            | ❌         | ❌  | ✅         |
+| No-show tracking                  | ❌         | ❌  | ✅         |
+
+### Implementation Priority
+
+```
+FASE 1 (Free/Basic) → PRIORITÀ ALTA
+├── Orari apertura settimanali
+├── Chiusure temporanee
+└── PWA stato aperto/chiuso
+
+FASE 2 (Pro) → PRIORITÀ MEDIA
+├── Override festività/stagionali
+├── Sistema eventi completo
+└── Vista calendario
+
+FASE 3 (Enterprise) → PRIORITÀ FUTURA
+├── Gestione tavoli/aree
+├── Sistema prenotazioni completo
+├── Customer profiles & reliability
+└── Integrazioni avanzate (Stripe, Twilio, Google)
+```
+
+### Feature Gating Implementation
+
+```typescript
+// lib/subscription.ts
+type SubscriptionTier = 'free' | 'basic' | 'pro' | 'enterprise';
+
+const TIER_FEATURES = {
+  free: ['operating_hours', 'temporary_closures', 'basic_analytics'],
+  basic: ['operating_hours', 'temporary_closures', 'basic_analytics'],
+  pro: [
+    ...TIER_FEATURES.basic,
+    'holidays',
+    'seasonal_hours',
+    'events',
+    'calendar_view',
+    'event_analytics',
+  ],
+  enterprise: [
+    ...TIER_FEATURES.pro,
+    'advanced_calendar',
+    'google_sync',
+    'tables_management',
+    'reservations',
+    'customer_profiles',
+    'reliability_score',
+    'deposits',
+    'waitlist',
+    'reservation_analytics',
+  ],
+} as const;
+
+function hasFeature(tier: SubscriptionTier, feature: string): boolean {
+  return TIER_FEATURES[tier].includes(feature);
+}
+```
+
+---
+
 ### User Stories
 
+**Free/Basic Tier:**
+
 1. Come **gestore**, voglio impostare gli orari di apertura settimanali per ogni location
-2. Come **gestore**, voglio aggiungere chiusure per festività (es. Natale, Capodanno)
-3. Come **gestore**, voglio creare orari stagionali (es. orario estivo)
-4. Come **gestore**, voglio che gli eventi modifichino automaticamente gli orari
-5. Come **gestore**, voglio vedere tutto in un calendario unificato
-6. Come **cliente PWA**, voglio vedere se il locale è aperto/chiuso in tempo reale
-7. Come **gestore**, voglio gestire tavoli/aree e la loro capacità _(futuro)_
-8. Come **cliente**, voglio prenotare un tavolo per data/ora/persone _(futuro)_
-9. Come **gestore**, voglio vedere prenotazioni nel calendario _(futuro)_
+2. Come **gestore**, voglio impostare chiusure temporanee (ferie, ristrutturazione)
+3. Come **cliente PWA**, voglio vedere se il locale è aperto/chiuso in tempo reale
+
+**Pro Tier:** 4. Come **gestore**, voglio aggiungere chiusure per festività (es. Natale, Capodanno) 5. Come **gestore**, voglio creare orari stagionali (es. orario estivo) 6. Come **gestore**, voglio creare eventi con impatto su orari e menu 7. Come **gestore**, voglio vedere tutto in un calendario unificato
+
+**Enterprise Tier:** 8. Come **gestore**, voglio gestire tavoli/aree e la loro capacità 9. Come **cliente**, voglio prenotare un tavolo per data/ora/persone 10. Come **gestore**, voglio vedere prenotazioni nel calendario 11. Come **gestore**, voglio tracciare no-show e affidabilità clienti
 
 ---
 
