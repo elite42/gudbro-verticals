@@ -20,7 +20,11 @@
     "clean": "turbo clean && rm -rf node_modules",
     "clean:cache": "turbo clean",
     "prepare": "husky install",
-    "generate:types": "pnpm --filter=@gudbro/types generate:supabase"
+    "generate:types": "pnpm --filter=@gudbro/types generate:supabase",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "repository": {
     "type": "git",
@@ -42,11 +46,17 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
     "@types/node": "^20.19.25",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^5.1.2",
+    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/ui": "^4.0.16",
     "autoprefixer": "10.4.16",
     "eslint": "^8.57.1",
+    "happy-dom": "^20.0.11",
     "husky": "^9.0.0",
     "lint-staged": "^15.2.0",
     "postcss": "8.4.31",
@@ -55,7 +65,8 @@
     "tailwindcss": "3.3.5",
     "turbo": "^2.3.0",
     "typescript": "^5.2.2",
-    "typescript-eslint": "^8.51.0"
+    "typescript-eslint": "^8.51.0",
+    "vitest": "^4.0.16"
   },
   "pnpm": {
     "overrides": {
