@@ -8,6 +8,12 @@ import {
   type OperatingHours,
 } from '@/components/schedule/OperatingHoursEditor';
 import { TemporaryClosures, type TemporaryClosure } from '@/components/schedule/TemporaryClosures';
+import { HolidaysEditor, type Holiday } from '@/components/schedule/HolidaysEditor';
+import {
+  SeasonalHoursEditor,
+  type SeasonalSchedule,
+} from '@/components/schedule/SeasonalHoursEditor';
+import { SpecialHoursEditor, type SpecialHours } from '@/components/schedule/SpecialHoursEditor';
 import {
   getLocationOperatingHours,
   updateLocationOperatingHours,
@@ -16,10 +22,14 @@ import {
   deleteScheduleOverride,
   DEFAULT_OPERATING_HOURS,
   type ScheduleOverride,
+  type ScheduleOverrideType,
 } from '@/lib/schedule-service';
 
 // TODO: Get from auth context or URL param
 const DEMO_LOCATION_ID = 'demo-location-id';
+
+// TODO: Get from subscription context
+const IS_PRO_TIER = true; // Enable Pro features for demo
 
 export default function HoursSettingsPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -27,15 +37,23 @@ export default function HoursSettingsPage() {
   const [hasChanges, setHasChanges] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'basic' | 'pro'>('basic');
 
   // Operating hours state
   const [operatingHours, setOperatingHours] = useState<OperatingHours>(DEFAULT_OPERATING_HOURS);
   const [originalHours, setOriginalHours] = useState<OperatingHours>(DEFAULT_OPERATING_HOURS);
 
-  // Temporary closures state
+  // Schedule overrides state (organized by type)
   const [closures, setClosures] = useState<TemporaryClosure[]>([]);
-  const [pendingClosureAdds, setPendingClosureAdds] = useState<Omit<TemporaryClosure, 'id'>[]>([]);
-  const [pendingClosureDeletes, setPendingClosureDeletes] = useState<string[]>([]);
+  const [holidays, setHolidays] = useState<Holiday[]>([]);
+  const [seasonalSchedules, setSeasonalSchedules] = useState<SeasonalSchedule[]>([]);
+  const [specialHours, setSpecialHours] = useState<SpecialHours[]>([]);
+
+  // Pending changes tracking
+  const [pendingAdds, setPendingAdds] = useState<
+    { type: ScheduleOverrideType; data: Record<string, unknown> }[]
+  >([]);
+  const [pendingDeletes, setPendingDeletes] = useState<string[]>([]);
 
   // Load data on mount
   useEffect(() => {
@@ -54,21 +72,67 @@ export default function HoursSettingsPage() {
         setOriginalHours(hours);
       }
 
-      // Load schedule overrides (closures only for Free tier)
-      const overrides = await getScheduleOverrides(DEMO_LOCATION_ID, { type: 'closure' });
-      const mappedClosures: TemporaryClosure[] = overrides.map((o) => ({
-        id: o.id,
-        name: o.name,
-        description: o.description || undefined,
-        dateStart: o.date_start,
-        dateEnd: o.date_end || undefined,
-        isClosed: o.is_closed,
-        hours: o.hours || undefined,
-      }));
-      setClosures(mappedClosures);
+      // Load all schedule overrides
+      const overrides = await getScheduleOverrides(DEMO_LOCATION_ID);
+
+      // Organize by type
+      const closuresList: TemporaryClosure[] = [];
+      const holidaysList: Holiday[] = [];
+      const seasonalList: SeasonalSchedule[] = [];
+      const specialList: SpecialHours[] = [];
+
+      overrides.forEach((o) => {
+        switch (o.override_type) {
+          case 'closure':
+            closuresList.push({
+              id: o.id,
+              name: o.name,
+              description: o.description || undefined,
+              dateStart: o.date_start,
+              dateEnd: o.date_end || undefined,
+              isClosed: o.is_closed,
+              hours: o.hours || undefined,
+            });
+            break;
+          case 'holiday':
+            holidaysList.push({
+              id: o.id,
+              name: o.name,
+              date: o.date_start.slice(5), // MM-DD from YYYY-MM-DD
+              isRecurring: o.recurrence === 'yearly',
+              isClosed: o.is_closed,
+              hours: o.hours || undefined,
+            });
+            break;
+          case 'seasonal':
+            seasonalList.push({
+              id: o.id,
+              name: o.name,
+              dateStart: o.date_start,
+              dateEnd: o.date_end || o.date_start,
+              isRecurring: o.recurrence === 'yearly',
+              hours: (o.hours as unknown as OperatingHours) || EMPTY_OPERATING_HOURS,
+            });
+            break;
+          case 'special':
+            specialList.push({
+              id: o.id,
+              name: o.name,
+              description: o.description || undefined,
+              date: o.date_start,
+              isClosed: o.is_closed,
+              hours: o.hours || undefined,
+            });
+            break;
+        }
+      });
+
+      setClosures(closuresList);
+      setHolidays(holidaysList);
+      setSeasonalSchedules(seasonalList);
+      setSpecialHours(specialList);
     } catch (err) {
       console.error('Failed to load data:', err);
-      // Use default data if load fails (e.g., demo mode without real DB)
       setOperatingHours(DEFAULT_OPERATING_HOURS);
       setOriginalHours(DEFAULT_OPERATING_HOURS);
     } finally {
@@ -83,39 +147,60 @@ export default function HoursSettingsPage() {
     setSuccessMessage(null);
   }, []);
 
-  const handleAddClosure = useCallback((closure: Omit<TemporaryClosure, 'id'>) => {
-    // Add to local state with temp ID
-    const tempId = `temp-${Date.now()}`;
-    const newClosure: TemporaryClosure = {
-      ...closure,
-      id: tempId,
-    };
-    setClosures((prev) => [...prev, newClosure]);
-    setPendingClosureAdds((prev) => [...prev, closure]);
-    setHasChanges(true);
-    setSuccessMessage(null);
-  }, []);
+  // Generic add handler
+  const handleAdd = useCallback(
+    (
+      type: ScheduleOverrideType,
+      data: Record<string, unknown>,
+      setList: React.Dispatch<React.SetStateAction<unknown[]>>
+    ) => {
+      const tempId = `temp-${Date.now()}`;
+      const newItem = { ...data, id: tempId };
+      setList((prev: unknown[]) => [...prev, newItem]);
+      setPendingAdds((prev) => [...prev, { type, data }]);
+      setHasChanges(true);
+      setSuccessMessage(null);
+    },
+    []
+  );
 
-  const handleRemoveClosure = useCallback(
-    (id: string) => {
-      setClosures((prev) => prev.filter((c) => c.id !== id));
-      // If it's a real ID (not temp), mark for deletion
+  // Generic remove handler
+  const handleRemove = useCallback(
+    (id: string, setList: React.Dispatch<React.SetStateAction<unknown[]>>) => {
+      setList((prev: unknown[]) => prev.filter((item: { id?: string }) => item.id !== id));
       if (!id.startsWith('temp-')) {
-        setPendingClosureDeletes((prev) => [...prev, id]);
+        setPendingDeletes((prev) => [...prev, id]);
       } else {
-        // Remove from pending adds
-        setPendingClosureAdds((prev) => {
-          const closure = closures.find((c) => c.id === id);
-          if (closure) {
-            return prev.filter((p) => p.name !== closure.name || p.dateStart !== closure.dateStart);
-          }
-          return prev;
-        });
+        setPendingAdds((prev) =>
+          prev.filter((p) => {
+            const tempData = p.data as { id?: string };
+            return tempData.id !== id;
+          })
+        );
       }
       setHasChanges(true);
       setSuccessMessage(null);
     },
-    [closures]
+    []
+  );
+
+  // Closure handlers
+  const handleAddClosure = useCallback(
+    (closure: Omit<TemporaryClosure, 'id'>) => {
+      handleAdd(
+        'closure',
+        closure as Record<string, unknown>,
+        setClosures as React.Dispatch<React.SetStateAction<unknown[]>>
+      );
+    },
+    [handleAdd]
+  );
+
+  const handleRemoveClosure = useCallback(
+    (id: string) => {
+      handleRemove(id, setClosures as React.Dispatch<React.SetStateAction<unknown[]>>);
+    },
+    [handleRemove]
   );
 
   const handleUpdateClosure = useCallback((id: string, updates: Partial<TemporaryClosure>) => {
@@ -124,6 +209,82 @@ export default function HoursSettingsPage() {
     setSuccessMessage(null);
   }, []);
 
+  // Holiday handlers
+  const handleAddHoliday = useCallback(
+    (holiday: Omit<Holiday, 'id'>) => {
+      handleAdd(
+        'holiday',
+        holiday as Record<string, unknown>,
+        setHolidays as React.Dispatch<React.SetStateAction<unknown[]>>
+      );
+    },
+    [handleAdd]
+  );
+
+  const handleRemoveHoliday = useCallback(
+    (id: string) => {
+      handleRemove(id, setHolidays as React.Dispatch<React.SetStateAction<unknown[]>>);
+    },
+    [handleRemove]
+  );
+
+  const handleUpdateHoliday = useCallback((id: string, updates: Partial<Holiday>) => {
+    setHolidays((prev) => prev.map((h) => (h.id === id ? { ...h, ...updates } : h)));
+    setHasChanges(true);
+    setSuccessMessage(null);
+  }, []);
+
+  // Seasonal handlers
+  const handleAddSeasonal = useCallback(
+    (schedule: Omit<SeasonalSchedule, 'id'>) => {
+      handleAdd(
+        'seasonal',
+        schedule as Record<string, unknown>,
+        setSeasonalSchedules as React.Dispatch<React.SetStateAction<unknown[]>>
+      );
+    },
+    [handleAdd]
+  );
+
+  const handleRemoveSeasonal = useCallback(
+    (id: string) => {
+      handleRemove(id, setSeasonalSchedules as React.Dispatch<React.SetStateAction<unknown[]>>);
+    },
+    [handleRemove]
+  );
+
+  const handleUpdateSeasonal = useCallback((id: string, updates: Partial<SeasonalSchedule>) => {
+    setSeasonalSchedules((prev) => prev.map((s) => (s.id === id ? { ...s, ...updates } : s)));
+    setHasChanges(true);
+    setSuccessMessage(null);
+  }, []);
+
+  // Special hours handlers
+  const handleAddSpecial = useCallback(
+    (special: Omit<SpecialHours, 'id'>) => {
+      handleAdd(
+        'special',
+        special as Record<string, unknown>,
+        setSpecialHours as React.Dispatch<React.SetStateAction<unknown[]>>
+      );
+    },
+    [handleAdd]
+  );
+
+  const handleRemoveSpecial = useCallback(
+    (id: string) => {
+      handleRemove(id, setSpecialHours as React.Dispatch<React.SetStateAction<unknown[]>>);
+    },
+    [handleRemove]
+  );
+
+  const handleUpdateSpecial = useCallback((id: string, updates: Partial<SpecialHours>) => {
+    setSpecialHours((prev) => prev.map((s) => (s.id === id ? { ...s, ...updates } : s)));
+    setHasChanges(true);
+    setSuccessMessage(null);
+  }, []);
+
+  // Save all changes
   const handleSave = async () => {
     setIsSaving(true);
     setError(null);
@@ -136,37 +297,90 @@ export default function HoursSettingsPage() {
         throw new Error(hoursResult.error || 'Failed to save operating hours');
       }
 
-      // Delete removed closures
-      for (const id of pendingClosureDeletes) {
+      // Delete removed overrides
+      for (const id of pendingDeletes) {
         await deleteScheduleOverride(id);
       }
 
-      // Add new closures
-      for (const closure of pendingClosureAdds) {
-        await createScheduleOverride({
+      // Add new overrides
+      for (const pending of pendingAdds) {
+        const data = pending.data as Record<string, unknown>;
+        const currentYear = new Date().getFullYear();
+
+        const baseOverride = {
           location_id: DEMO_LOCATION_ID,
-          override_type: 'closure',
-          name: closure.name,
-          description: closure.description || null,
-          date_start: closure.dateStart,
-          date_end: closure.dateEnd || null,
-          recurrence: 'none',
-          is_closed: closure.isClosed,
-          hours: closure.hours || null,
-          priority: 100, // Closures have highest priority
+          override_type: pending.type,
           event_id: null,
-          created_by: null, // TODO: Get from auth
-        });
+          created_by: null,
+        };
+
+        switch (pending.type) {
+          case 'closure':
+            await createScheduleOverride({
+              ...baseOverride,
+              name: data.name as string,
+              description: (data.description as string) || null,
+              date_start: data.dateStart as string,
+              date_end: (data.dateEnd as string) || null,
+              recurrence: 'none',
+              is_closed: data.isClosed as boolean,
+              hours: (data.hours as { open: string; close: string }) || null,
+              priority: 100,
+            });
+            break;
+
+          case 'holiday':
+            await createScheduleOverride({
+              ...baseOverride,
+              name: data.name as string,
+              description: null,
+              date_start: `${currentYear}-${data.date as string}`,
+              date_end: null,
+              recurrence: data.isRecurring ? 'yearly' : 'none',
+              is_closed: data.isClosed as boolean,
+              hours: (data.hours as { open: string; close: string }) || null,
+              priority: 20,
+            });
+            break;
+
+          case 'seasonal':
+            await createScheduleOverride({
+              ...baseOverride,
+              name: data.name as string,
+              description: null,
+              date_start: data.dateStart as string,
+              date_end: data.dateEnd as string,
+              recurrence: data.isRecurring ? 'yearly' : 'none',
+              is_closed: false,
+              hours: data.hours as { open: string; close: string } | null,
+              priority: 10,
+            });
+            break;
+
+          case 'special':
+            await createScheduleOverride({
+              ...baseOverride,
+              name: data.name as string,
+              description: (data.description as string) || null,
+              date_start: data.date as string,
+              date_end: null,
+              recurrence: 'none',
+              is_closed: data.isClosed as boolean,
+              hours: (data.hours as { open: string; close: string }) || null,
+              priority: 30,
+            });
+            break;
+        }
       }
 
       // Reset pending changes
-      setPendingClosureAdds([]);
-      setPendingClosureDeletes([]);
+      setPendingAdds([]);
+      setPendingDeletes([]);
       setOriginalHours(operatingHours);
       setHasChanges(false);
-      setSuccessMessage('Hours saved successfully!');
+      setSuccessMessage('All changes saved successfully!');
 
-      // Reload to get real IDs for new closures
+      // Reload to get real IDs
       await loadData();
     } catch (err) {
       console.error('Failed to save:', err);
@@ -177,10 +391,9 @@ export default function HoursSettingsPage() {
   };
 
   const handleCancel = () => {
-    // Reset to original state
     setOperatingHours(originalHours);
-    setPendingClosureAdds([]);
-    setPendingClosureDeletes([]);
+    setPendingAdds([]);
+    setPendingDeletes([]);
     setHasChanges(false);
     loadData();
   };
@@ -191,9 +404,9 @@ export default function HoursSettingsPage() {
     const dayNames: (keyof OperatingHours)[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     const today = dayNames[now.getDay()];
     const todayHours = operatingHours[today];
+    const todayStr = now.toISOString().split('T')[0];
 
     // Check for active closure
-    const todayStr = now.toISOString().split('T')[0];
     const activeClosure = closures.find((c) => {
       const start = c.dateStart;
       const end = c.dateEnd || c.dateStart;
@@ -255,7 +468,7 @@ export default function HoursSettingsPage() {
             <h1 className="text-2xl font-bold text-gray-900">Operating Hours</h1>
           </div>
           <p className="mt-1 text-sm text-gray-500">
-            Set when your location is open and manage temporary closures
+            Set when your location is open and manage schedule overrides
           </p>
         </div>
 
@@ -279,7 +492,7 @@ export default function HoursSettingsPage() {
         </div>
       </div>
 
-      {/* Error message */}
+      {/* Messages */}
       {error && (
         <div className="flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
           <svg
@@ -312,7 +525,6 @@ export default function HoursSettingsPage() {
         </div>
       )}
 
-      {/* Success message */}
       {successMessage && (
         <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-4">
           <svg
@@ -340,7 +552,6 @@ export default function HoursSettingsPage() {
         </div>
       )}
 
-      {/* Unsaved changes warning */}
       {hasChanges && (
         <div className="flex items-center gap-3 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
           <svg
@@ -360,76 +571,152 @@ export default function HoursSettingsPage() {
         </div>
       )}
 
-      {/* Operating Hours Section */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <div className="mb-4">
-          <h2 className="font-semibold text-gray-900">Weekly Schedule</h2>
-          <p className="text-sm text-gray-500">
-            Set your regular opening hours for each day of the week
-          </p>
+      {/* Tab Navigation */}
+      {IS_PRO_TIER && (
+        <div className="border-b border-gray-200">
+          <nav className="-mb-px flex space-x-8">
+            <button
+              onClick={() => setActiveTab('basic')}
+              className={`border-b-2 px-1 py-4 text-sm font-medium ${
+                activeTab === 'basic'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+              }`}
+            >
+              Basic Schedule
+            </button>
+            <button
+              onClick={() => setActiveTab('pro')}
+              className={`border-b-2 px-1 py-4 text-sm font-medium ${
+                activeTab === 'pro'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                Advanced Overrides
+                <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
+                  PRO
+                </span>
+              </span>
+            </button>
+          </nav>
         </div>
+      )}
 
-        <OperatingHoursEditor
-          value={operatingHours}
-          onChange={handleHoursChange}
-          disabled={isSaving}
-        />
-      </div>
-
-      {/* Temporary Closures Section */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <TemporaryClosures
-          closures={closures}
-          onAdd={handleAddClosure}
-          onRemove={handleRemoveClosure}
-          onUpdate={handleUpdateClosure}
-          disabled={isSaving}
-        />
-      </div>
-
-      {/* Preview Section */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <h2 className="font-semibold text-gray-900">Customer Preview</h2>
-        <p className="mb-4 text-sm text-gray-500">
-          This is how your hours will appear to customers
-        </p>
-
-        <div className="rounded-lg bg-gray-50 p-4">
-          <div className="mb-4 flex items-center gap-3">
-            <div
-              className={`h-3 w-3 rounded-full ${status.isOpen ? 'bg-green-500' : 'bg-red-500'}`}
+      {/* Basic Tab Content */}
+      {activeTab === 'basic' && (
+        <>
+          {/* Operating Hours Section */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <div className="mb-4">
+              <h2 className="font-semibold text-gray-900">Weekly Schedule</h2>
+              <p className="text-sm text-gray-500">
+                Set your regular opening hours for each day of the week
+              </p>
+            </div>
+            <OperatingHoursEditor
+              value={operatingHours}
+              onChange={handleHoursChange}
+              disabled={isSaving}
             />
-            <span className="font-medium text-gray-900">
-              {status.isOpen ? 'Open Now' : 'Closed'}
-            </span>
-            {status.note && <span className="text-sm text-gray-500">({status.note})</span>}
           </div>
 
-          <div className="grid grid-cols-2 gap-2 text-sm">
-            {(['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const).map((day) => {
-              const hours = operatingHours[day];
-              const dayLabels: Record<string, string> = {
-                mon: 'Monday',
-                tue: 'Tuesday',
-                wed: 'Wednesday',
-                thu: 'Thursday',
-                fri: 'Friday',
-                sat: 'Saturday',
-                sun: 'Sunday',
-              };
-
-              return (
-                <div key={day} className="flex justify-between">
-                  <span className="text-gray-600">{dayLabels[day]}</span>
-                  <span className="text-gray-900">
-                    {hours ? `${hours.open} - ${hours.close}` : 'Closed'}
-                  </span>
-                </div>
-              );
-            })}
+          {/* Temporary Closures Section */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <TemporaryClosures
+              closures={closures}
+              onAdd={handleAddClosure}
+              onRemove={handleRemoveClosure}
+              onUpdate={handleUpdateClosure}
+              disabled={isSaving}
+            />
           </div>
-        </div>
-      </div>
+
+          {/* Preview Section */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <h2 className="font-semibold text-gray-900">Customer Preview</h2>
+            <p className="mb-4 text-sm text-gray-500">
+              This is how your hours will appear to customers
+            </p>
+
+            <div className="rounded-lg bg-gray-50 p-4">
+              <div className="mb-4 flex items-center gap-3">
+                <div
+                  className={`h-3 w-3 rounded-full ${status.isOpen ? 'bg-green-500' : 'bg-red-500'}`}
+                />
+                <span className="font-medium text-gray-900">
+                  {status.isOpen ? 'Open Now' : 'Closed'}
+                </span>
+                {status.note && <span className="text-sm text-gray-500">({status.note})</span>}
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                {(['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const).map((day) => {
+                  const hours = operatingHours[day];
+                  const dayLabels: Record<string, string> = {
+                    mon: 'Monday',
+                    tue: 'Tuesday',
+                    wed: 'Wednesday',
+                    thu: 'Thursday',
+                    fri: 'Friday',
+                    sat: 'Saturday',
+                    sun: 'Sunday',
+                  };
+
+                  return (
+                    <div key={day} className="flex justify-between">
+                      <span className="text-gray-600">{dayLabels[day]}</span>
+                      <span className="text-gray-900">
+                        {hours ? `${hours.open} - ${hours.close}` : 'Closed'}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Pro Tab Content */}
+      {activeTab === 'pro' && IS_PRO_TIER && (
+        <>
+          {/* Holidays Section */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <HolidaysEditor
+              holidays={holidays}
+              onAdd={handleAddHoliday}
+              onRemove={handleRemoveHoliday}
+              onUpdate={handleUpdateHoliday}
+              disabled={isSaving}
+              countryCode="IT"
+            />
+          </div>
+
+          {/* Seasonal Hours Section */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <SeasonalHoursEditor
+              schedules={seasonalSchedules}
+              onAdd={handleAddSeasonal}
+              onRemove={handleRemoveSeasonal}
+              onUpdate={handleUpdateSeasonal}
+              disabled={isSaving}
+            />
+          </div>
+
+          {/* Special Hours Section */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <SpecialHoursEditor
+              specials={specialHours}
+              onAdd={handleAddSpecial}
+              onRemove={handleRemoveSpecial}
+              onUpdate={handleUpdateSpecial}
+              disabled={isSaving}
+            />
+          </div>
+        </>
+      )}
 
       {/* Save Button */}
       <div className="flex items-center justify-end gap-3">

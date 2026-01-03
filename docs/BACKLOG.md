@@ -3,7 +3,7 @@
 > **CRITICAL:** Claude DEVE consultare questo file all'inizio di OGNI sessione.
 > Questo file contiene TUTTO ciò che dobbiamo fare (prodotti + funzionalità).
 
-**Last Updated:** 2026-01-03 (MT-ONBOARDING: 4-step onboarding checklist)
+**Last Updated:** 2026-01-03 (P6-SCHEDULE-SYSTEM: Phase 1 completato, Phase 2-4 aggiunte al backlog)
 
 ---
 
@@ -149,14 +149,14 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 
 #### Da Copiare (Alta Priorità)
 
-| ID                | Feature                  | Descrizione                                                                                                                                           | Effort | Impact |
-| ----------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------ |
-| MT-HOT-ACTIONS    | Hot Actions System       | Pulsanti cliente: Call waiter, Clean table, Verify bill, Request notes change. Monitoring dashboard con filtri e status. **Feature UNICA MenuTiger!** | Medium | High   |
-| ~~MT-ONBOARDING~~ | ~~Onboarding Checklist~~ | ✅ **COMPLETATO 2026-01-03** 4-step checklist con progress bar, localStorage persistence, collapse/dismiss                                            | Low    | High   |
-| MT-OPENING-HOURS  | Opening Hours UI         | 7 giorni con toggle ON/OFF + time picker + multi-slot (per pausa pranzo). Pattern eccellente da copiare                                               | Low    | Medium |
-| MT-NOTIF-SOUNDS   | Notification Sounds      | Sound selection per tipo (Orders, Feedback, Hot Actions) + preview play button. UX eccellente                                                         | Low    | Medium |
-| MT-GEOFENCING     | Location Geofencing      | Radius-based location con Google Maps interattiva. Auto-detect GPS + validazione ordini in-store                                                      | High   | Medium |
-| MT-SURVEY-BUILDER | Survey Builder           | Question builder con live preview, question types multipli, required toggle, localize integrato                                                       | Medium | Medium |
+| ID                   | Feature                  | Descrizione                                                                                                                                           | Effort | Impact |
+| -------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------ |
+| MT-HOT-ACTIONS       | Hot Actions System       | Pulsanti cliente: Call waiter, Clean table, Verify bill, Request notes change. Monitoring dashboard con filtri e status. **Feature UNICA MenuTiger!** | Medium | High   |
+| ~~MT-ONBOARDING~~    | ~~Onboarding Checklist~~ | ✅ **COMPLETATO 2026-01-03** 4-step checklist con progress bar, localStorage persistence, collapse/dismiss                                            | Low    | High   |
+| ~~MT-OPENING-HOURS~~ | ~~Opening Hours UI~~     | ✅ **Phase 1 COMPLETATO 2026-01-03** Vedi sezione P6-SCHEDULE-SYSTEM per dettagli completi                                                            | Low    | Medium |
+| MT-NOTIF-SOUNDS      | Notification Sounds      | Sound selection per tipo (Orders, Feedback, Hot Actions) + preview play button. UX eccellente                                                         | Low    | Medium |
+| MT-GEOFENCING        | Location Geofencing      | Radius-based location con Google Maps interattiva. Auto-detect GPS + validazione ordini in-store                                                      | High   | Medium |
+| MT-SURVEY-BUILDER    | Survey Builder           | Question builder con live preview, question types multipli, required toggle, localize integrato                                                       | Medium | Medium |
 
 #### Da Migliorare (Gap MenuTiger)
 
@@ -723,7 +723,81 @@ Workflow:
 - `reservations` - Table bookings
 - `bill_splits` - Bill splitting
 
-### Phase 6: Web3 (Future - Post-Validazione)
+---
+
+## P6 - Schedule System (NEW 2026-01-03)
+
+> **📁 Documentazione Completa:** [`docs/features/SCHEDULE-SYSTEM/README.md`](./features/SCHEDULE-SYSTEM/README.md)
+>
+> **Aggiornato:** 2026-01-03
+
+Sistema unificato per gestione orari, eventi e prenotazioni con tier SaaS.
+
+### Tier Structure
+
+| Feature                     | Free/Basic | Pro | Enterprise |
+| --------------------------- | ---------- | --- | ---------- |
+| Orari apertura settimanali  | ✅         | ✅  | ✅         |
+| Chiusure temporanee (ferie) | ✅         | ✅  | ✅         |
+| PWA stato aperto/chiuso     | ✅         | ✅  | ✅         |
+| Festività nazionali         | ❌         | ✅  | ✅         |
+| Orari stagionali            | ❌         | ✅  | ✅         |
+| Sistema eventi              | ❌         | ✅  | ✅         |
+| Vista calendario            | ❌         | ✅  | ✅         |
+| Gestione tavoli/aree        | ❌         | ❌  | ✅         |
+| Sistema prenotazioni        | ❌         | ❌  | ✅         |
+| Google Calendar sync        | ❌         | ❌  | ✅         |
+
+### Phase 1: Free/Basic Tier ✅ COMPLETATO
+
+| ID                   | Feature                    | Descrizione                                                  | Status      |
+| -------------------- | -------------------------- | ------------------------------------------------------------ | ----------- |
+| **SCHED-HOURS**      | **Operating Hours Editor** | 7 giorni con toggle ON/OFF + time picker                     | ✅ **DONE** |
+| **SCHED-CLOSURES**   | **Temporary Closures**     | Chiusure temporanee (ferie, ristrutturazione)                | ✅ **DONE** |
+| **SCHED-PWA-STATUS** | **PWA Open/Closed Badge**  | Badge real-time aperto/chiuso + prossimo orario              | ✅ **DONE** |
+| **SCHED-SUPABASE**   | **Supabase Integration**   | Persistenza dati, schedule_overrides table, helper functions | ✅ **DONE** |
+
+**Files Creati Phase 1:**
+
+- `shared/database/migrations/schema/021-schedule-overrides.sql`
+- `apps/backoffice/lib/schedule-service.ts`
+- `apps/backoffice/components/schedule/OperatingHoursEditor.tsx`
+- `apps/backoffice/components/schedule/TemporaryClosures.tsx`
+- `apps/backoffice/app/(dashboard)/settings/hours/page.tsx`
+- `apps/coffeeshop/frontend/lib/schedule-service.ts`
+- `apps/coffeeshop/frontend/components/OpenStatusBadge.tsx`
+
+### Phase 2: Pro Tier (In Progress)
+
+| ID                 | Feature                 | Descrizione                                                   | Status  |
+| ------------------ | ----------------------- | ------------------------------------------------------------- | ------- |
+| **SCHED-HOLIDAYS** | **Holidays Management** | Festività nazionali con presets per paese, ricorrenza annuale | ⏳ TODO |
+| **SCHED-SEASONAL** | **Seasonal Hours**      | Orari stagionali (estate/inverno) con date range              | ⏳ TODO |
+| **SCHED-SPECIAL**  | **Special Hours**       | Orari speciali one-time (eventi, orari straordinari)          | ⏳ TODO |
+| **SCHED-CALENDAR** | **Calendar View**       | Vista calendario mensile/settimanale stile Google Calendar    | ⏳ TODO |
+
+### Phase 3: Events System (Pro Tier)
+
+| ID                    | Feature                | Descrizione                                           | Status  |
+| --------------------- | ---------------------- | ----------------------------------------------------- | ------- |
+| **SCHED-EVENTS-DB**   | **Events Table**       | Persistenza eventi con tutti i campi (29 tipi evento) | ⏳ TODO |
+| **SCHED-EVENTS-CRUD** | **Events CRUD**        | API e UI per gestione eventi completa                 | ⏳ TODO |
+| **SCHED-EVENTS-AUTO** | **Auto Override**      | Genera schedule_override automaticamente da eventi    | ⏳ TODO |
+| **SCHED-EVENTS-CAL**  | **Events in Calendar** | Visualizza eventi nel calendario unificato            | ⏳ TODO |
+
+### Phase 4: Enterprise Tier (Future)
+
+| ID                 | Feature              | Descrizione                                | Status    |
+| ------------------ | -------------------- | ------------------------------------------ | --------- |
+| SCHED-TABLES       | Tables Management    | Gestione tavoli/aree con floor plan        | ⏳ Future |
+| SCHED-RESERVATIONS | Reservations System  | Sistema prenotazioni completo con depositi | ⏳ Future |
+| SCHED-CUSTOMERS    | Customer Profiles    | Reliability score, preferenze, storico     | ⏳ Future |
+| SCHED-GOOGLE-SYNC  | Google Calendar Sync | Integrazione bidirezionale Google Calendar | ⏳ Future |
+| SCHED-WAITLIST     | Waitlist Management  | Lista d'attesa con notifiche               | ⏳ Future |
+
+---
+
+### Phase 7: Web3 (Future - Post-Validazione)
 
 | ID              | Feature                 | Descrizione                                                    | Priorità |
 | --------------- | ----------------------- | -------------------------------------------------------------- | -------- |
