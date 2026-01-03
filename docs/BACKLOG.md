@@ -3,7 +3,7 @@
 > **CRITICAL:** Claude DEVE consultare questo file all'inizio di OGNI sessione.
 > Questo file contiene TUTTO ciò che dobbiamo fare (prodotti + funzionalità).
 
-**Last Updated:** 2026-01-02 (P5 Unified Account = NEXT FOCUS, Dalky Kafe in standby, Testing task aggiunto)
+**Last Updated:** 2026-01-03 (P5: 18 migrazioni + Phase 5 Cross-Selling COMPLETO)
 
 ---
 
@@ -18,6 +18,14 @@
 1. **Inizio**: Leggi questo file + `CLAUDE.md`
 2. **Durante**: Aggiorna status quando completi task
 3. **Fine**: Sposta completati, aggiungi nuovi task scoperti
+
+### REGOLA OBBLIGATORIA - Post-Completamento Task
+> **OGNI VOLTA** che completo una migrazione SQL o task significativa, DEVO:
+> 1. ✅ Aggiornare questo BACKLOG.md (status, contatori, date)
+> 2. ✅ Aggiornare "Last Updated" in testa al file
+> 3. ✅ Confermare all'utente: "Task X completato, BACKLOG aggiornato"
+>
+> **NON procedere** alla task successiva senza aver aggiornato la documentazione!
 
 ### Quando l'utente chiede "mostra la todolist/backlog":
 - Mostra le sezioni "Da Fare" (Prodotti + Funzionalità)
@@ -237,7 +245,7 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 
 ## P5 - Account System & User Features (NEW 2025-12-31)
 
-> **🎯 IN PROGRESS** - Phase 1 Foundation COMPLETATO (2026-01-02)
+> **🎯 Phase 1 COMPLETE** - Ready for Phase 2 Loyalty System
 >
 > **📁 Documentazione Completa:** [`docs/features/P5-unified-account/`](./features/P5-unified-account/)
 > - [README.md](./features/P5-unified-account/README.md) - Overview e status
@@ -248,7 +256,76 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 >
 > **Strategia Account:** **UNIFIED ACCOUNT SYSTEM** - Un account, ruoli multipli (Consumer/Merchant/Admin). Ogni utente può essere contemporaneamente cliente di altri locali E gestore del proprio. Sistema loyalty unificato che premia tutti indipendentemente dal ruolo.
 >
-> **Aggiornato:** 2026-01-02 (Phase 1 Foundation COMPLETATO + Documentazione strutturata)
+> **Aggiornato:** 2026-01-03 (18 migrazioni database completate + Phase 5 COMPLETO)
+>
+> **Migrazioni Eseguite (18/18):**
+> | # | File | Descrizione | Status |
+> |---|------|-------------|--------|
+> | 001 | accounts-foundation.sql | Account base, ruoli, profili | ✅ |
+> | 002 | loyalty-actions.sql | Sistema punti e transazioni | ✅ |
+> | 003 | ingredient-contributions.sql | Contributi ingredienti | ✅ |
+> | 004 | merchant-onboarding.sql | Onboarding merchant | ✅ |
+> | 005 | staff-invitations.sql | Inviti staff | ✅ |
+> | 006 | unified-profile.sql | Profilo unificato | ✅ |
+> | 007 | auth-integration.sql | Integrazione auth | ✅ |
+> | 008 | referral-functions.sql | Sistema referral | ✅ |
+> | 009 | notification-preferences.sql | Preferenze notifiche | ✅ |
+> | 010 | analytics-events.sql | Eventi analytics | ✅ |
+> | 011 | improvement-suggestions.sql | Suggerimenti miglioramenti | ✅ |
+> | 012 | loyalty-rewards-configurable.sql | Rewards e tiers configurabili | ✅ |
+> | 013 | loyalty-triggers.sql | Trigger automatici per eventi loyalty | ✅ |
+> | 014 | points-economy.sql | **Points Economy System** (float, breakage, revenue share) | ✅ |
+> | 015 | user-value-features.sql | **Phase 3** (Wishlist, Food Diary, Reviews) | ✅ |
+> | 016 | notifications-badges-social.sql | **Phase 3** (Notifications, Badges, Social Share) | ✅ |
+> | 017 | premium-subscriptions.sql | **Phase 4** (Billing, Subscriptions, Stripe) | ✅ |
+> | 018 | cross-selling-ecosystem.sql | **Phase 5** (Recipes, Marketplace, Reservations) | ✅ |
+>
+> **Services Creati (website):**
+> - `lib/contribution-service.ts` - Gestione contributi ingredienti
+> - `lib/referral-service.ts` - Sistema referral
+> - `lib/stripe-service.ts` - Stripe SDK wrapper completo
+> - `lib/premium-access.ts` - Feature access control
+> - `lib/notification-service.ts` - Notifiche e preferenze
+> - `lib/analytics-service.ts` - Tracking eventi
+> - `lib/suggestion-service.ts` - Suggerimenti miglioramenti
+> - `lib/loyalty-service.ts` - Punti, tiers, rewards, redemptions
+>
+> **API Endpoints Creati:**
+> - `/api/contributions/*` - CRUD contributi + stats + leaderboard
+> - `/api/referrals/*` - Inviti, validazione, stats, leaderboard
+> - `/api/notifications/*` - Lista, preferenze, mark read, push tokens
+> - `/api/analytics/*` - Track, events, pages, devices, utm, activity
+> - `/api/suggestions/*` - CRUD suggerimenti + vote + comments + stats
+> - `/api/loyalty/*` - Rewards, redemptions, tiers, summary
+> - `/api/loyalty/streak` - Login streak (GET info, POST claim daily)
+> - `/api/admin/rewards/*` - Admin CRUD rewards (create, update, deactivate)
+> - `/api/admin/tiers/*` - Admin CRUD tiers (create, update, deactivate)
+> - `/api/admin/loyalty/scheduled` - Scheduled jobs (expire redemptions, anniversaries)
+> - `/api/ingredients/contributions/*` - User contributions (submit, list, stats, leaderboard)
+> - `/api/admin/ingredients/contributions/*` - Admin review queue (list, approve, reject, merge)
+> - `/api/economy/*` - Points economy (deposits, expiry, config)
+> - `/api/admin/economy/*` - Admin economy dashboard (breakage, revenue shares, expiry jobs)
+> - `/api/merchant/economy` - Merchant economy dashboard (partner tier, revenue history)
+> - `/api/wishlist` - User wishlist (GET, POST, DELETE, PATCH)
+> - `/api/diary/*` - Food diary entries and summaries
+> - `/api/reviews/*` - Reviews CRUD, voting, reporting
+> - `/api/admin/reviews` - Review moderation queue
+> - `/api/badges/*` - User badges (list, progress, mark seen)
+> - `/api/social/share/*` - Social sharing (record share, track clicks, conversions)
+> - `/api/subscriptions/*` - Subscription management (checkout, portal, promo)
+> - `/api/billing/*` - Invoices and payment methods
+> - `/api/webhooks/stripe` - Stripe webhook handler
+> - `/api/recipes/*` - Recipes listing and saved recipes
+> - `/api/reservations` - Table reservations
+>
+> **Points Economy Components:**
+> - `components/economy/PointsBalanceCard.tsx` - User balance with expiry warnings
+> - `components/economy/DepositForm.tsx` - Multi-step deposit form
+> - `components/economy/DepositHistory.tsx` - Deposit history list
+> - `components/admin/EconomyDashboard.tsx` - HQ economy dashboard (float, breakage, revenue)
+> - `components/merchant/MerchantEconomyDashboard.tsx` - Partner revenue dashboard
+>
+> **Prompt AI:** `docs/prompts/INGREDIENT-EXTRACTION-PROMPT.md` - Prompt per Gemini/ChatGPT
 
 ### 🆕 Architettura Unified Account (CORE CONCEPT)
 
@@ -285,11 +362,11 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 |----|---------|-------------|----------|--------|
 | **ACC-UNIFIED** | **Unified Account System** | Un account con ruoli multipli (consumer/merchant/admin). Schema: `accounts` + `account_roles` | **P1** | ✅ **DONE** |
 | **ACC-DB-SCHEMA** | **Database Schema Unified** | Tabelle: `accounts`, `account_roles`, `health_profiles`, `referrals`, `loyalty_transactions` | **P1** | ✅ **DONE** |
-| **ACC-ROLE-SWITCH** | **Role Switcher UI** | Header dropdown per cambiare ruolo seamlessly. "🏪 Pizzeria Da Mario" ↔ "🍽️ Account Personale" | **P1** | TODO |
-| ACC-SIGNUP-FLOW | Sign-up Multi-Step | Wizard unico: Profile → Ruolo iniziale (Personal/Business) → 5 Dimensioni/Business Details | P1 | TODO |
-| ACC-PERSONAL | Profilo Personale | Profilo 5 Dimensioni (allergie, diete, intolleranze), sempre disponibile per ogni account | P1 | TODO |
-| ACC-BUSINESS | Ruolo Business | Aggiunta ruolo merchant a account esistente. Restaurant name, type, currency, languages | P1 | TODO |
-| ACC-SYNC-PREFS | Sync Preferenze | Login in locale partner → preferenze automatiche applicate al menu | P1 | TODO |
+| **ACC-SIGNUP-FLOW** | **Sign-up Multi-Step** | Wizard unico: Profile → Ruolo iniziale (Personal/Business) → 5 Dimensioni/Business Details | **P1** | ✅ **DONE** |
+| **ACC-ROLE-SWITCH** | **Role Switcher UI** | Header dropdown per cambiare ruolo seamlessly. Backoffice header con dropdown ruoli | **P1** | ✅ **DONE** |
+| ACC-PERSONAL | Profilo Personale | Profilo 5 Dimensioni (allergie, diete, intolleranze), sempre disponibile per ogni account | P1 | ✅ **DONE** |
+| ACC-BUSINESS | Ruolo Business | Aggiunta ruolo merchant a account esistente. Restaurant name, type, currency, languages | P1 | ✅ **DONE** |
+| ACC-SYNC-PREFS | Sync Preferenze | Login in locale partner → preferenze automatiche applicate al menu | P1 | ✅ **DONE** |
 
 ### Phase 2: Unified Loyalty System (DIFFERENZIATORE!)
 
@@ -331,16 +408,24 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 | 5000 | Badge "Food Champion" | Accesso beta features |
 | 10000 | Lifetime Premium | "Founding Partner" + pricing bloccato |
 
-### Phase 2.5: User-Generated Ingredients (Crowdsourcing)
+### Phase 2.5: User-Generated Ingredients (Crowdsourcing) ✅ COMPLETO
 
 > **Concetto:** Quando un ingrediente manca dal DB, l'utente può contribuirlo con foto delle etichette nutrizionali.
 
-| ID | Feature | Descrizione | Priorità |
-|----|---------|-------------|----------|
-| **ING-USER-CONTRIB** | **User-Generated Ingredients** | Workflow: ingrediente mancante → foto etichetta → prompt AI → JSON → submit | **P2** |
-| ING-PHOTO-EXTRACT | Photo to Nutrition | Prompt ottimizzato per Gemini/ChatGPT che estrae nutrition da foto etichetta | P2 |
-| ING-REVIEW-QUEUE | Admin Review Queue | Dashboard per approvare/merge/reject ingredienti submitted | P2 |
-| ING-CONTRIBUTOR-REWARD | Contributor Rewards | 50 punti per ingrediente approvato, badge "Ingredient Pioneer" | P2 |
+| ID | Feature | Descrizione | Priorità | Status |
+|----|---------|-------------|----------|--------|
+| **ING-USER-CONTRIB** | **User-Generated Ingredients** | Workflow: ingrediente mancante → foto etichetta → prompt AI → JSON → submit | **P2** | ✅ |
+| ING-PHOTO-EXTRACT | Photo to Nutrition | Prompt ottimizzato per Gemini/ChatGPT che estrae nutrition da foto etichetta | P2 | ✅ |
+| ING-REVIEW-QUEUE | Admin Review Queue | API per approvare/merge/reject ingredienti submitted | P2 | ✅ |
+| ING-CONTRIBUTOR-REWARD | Contributor Rewards | 50 punti per ingrediente approvato, badge "Ingredient Pioneer" | P2 | ✅ |
+| ING-UI-SUBMIT | UI Submit Ingrediente | Componente React per submit con validazione JSON | P2 | ✅ |
+| ING-UI-ADMIN | UI Admin Review | Dashboard admin per review queue | P2 | ✅ |
+
+**Componenti UI Creati:**
+- `components/ingredients/IngredientContributionForm.tsx` - Form multi-step per submit
+- `components/ingredients/ContributionStats.tsx` - Stats personali utente
+- `components/ingredients/ContributorLeaderboard.tsx` - Top contributors
+- `components/admin/IngredientReviewQueue.tsx` - Admin review queue con azioni
 
 ```
 Workflow:
@@ -352,34 +437,257 @@ Workflow:
 6. Se approvato → 50 punti + disponibile per tutti
 ```
 
-### Phase 3: User Value Features
+### Phase 2.6: Points Economy System (Starbucks Model) ✅ COMPLETO
 
-| ID | Feature | Descrizione | Priorità |
-|----|---------|-------------|----------|
-| ACC-WISHLIST | Wishlist Piatti | Salva piatti da provare in futuro, notifica quando in promo | P2 |
-| ACC-FOOD-DIARY | Food Diary | Storico di cosa hai mangiato e dove (premium feature) | P2 |
-| ACC-REVIEWS | Recensioni Verificate | Solo chi ha ordinato può recensire (anti-fake). Peso maggiore se merchant del settore! | P2 |
-| ACC-NOTIFICATIONS | Notifiche Personalizzate | "Il tuo locale preferito ha aggiunto un nuovo piatto vegano!" | P2 |
-| ACC-BADGES | Badge/Gamification | "Foodie Explorer", "Vegan Champion", "100 locali visitati", "Network Builder", "Ingredient Pioneer" | P3 |
-| ACC-SOCIAL-SHARE | Condivisione Social | "Ho mangiato questo da X" → marketing gratuito per locali | P3 |
+> **Concetto:** Modello economico ispirato a Starbucks - i depositi prepagati creano "float" investibile,
+> i punti scaduti generano "breakage" revenue, i partner condividono i profitti.
 
-### Phase 4: Premium Features (€1.50/mese Consumer)
+| ID | Feature | Descrizione | Priorità | Status |
+|----|---------|-------------|----------|--------|
+| **ECON-FLOAT** | **Float Management** | Depositi prepagati → investimento in treasury bonds (~4% annual) | **P2** | ✅ |
+| **ECON-BREAKAGE** | **Breakage Revenue** | Punti scaduti = profitto puro (stima 15% annual) | **P2** | ✅ |
+| **ECON-PARTNER-SHARE** | **Partner Revenue Share** | Merchant guadagnano share di float returns + breakage | **P2** | ✅ |
+| ECON-EXPIRY | Points Expiry | 24 mesi inattività → scadenza + warnings a 21/23 mesi | P2 | ✅ |
+| ECON-TIERS | Partner Tiers | Standard (20%/10%), Premium (30%/15%), Founding (40%/20%) | P2 | ✅ |
+| ECON-DASHBOARD-HQ | HQ Dashboard | Float totale, breakage, revenue shared, liability | P2 | ✅ |
+| ECON-DASHBOARD-MERCHANT | Merchant Dashboard | Revenue earned, pending, payout history | P2 | ✅ |
 
-| ID | Feature | Descrizione | Priorità |
-|----|---------|-------------|----------|
-| ACC-PREMIUM-TIER | Tier Premium Consumer | €1.50/mese: Unlimited referral, Food Diary, Analytics personali, No ads, Priority support | P2 |
-| ACC-BILLING | Sistema Billing | Stripe integration per subscription consumer + merchant | P2 |
-| ACC-CRYPTO-PAY | Pagamenti Crypto | Coinbase Commerce o NOWPayments per BTC, ETH, USDC. Opzionale | P3 |
-| ACC-ANALYTICS-PERSONAL | Analytics Personali | Statistiche su cosa mangi, calorie, allergie evitate (premium) | P3 |
+**Revenue Model:**
+```
+                    CUSTOMER DEPOSITS
+                          │
+                          ▼
+              ┌───────────────────────┐
+              │      FLOAT POOL       │
+              │   (Prepaid Balance)   │
+              └───────────┬───────────┘
+                          │
+          ┌───────────────┼───────────────┐
+          │               │               │
+          ▼               ▼               ▼
+    ┌───────────┐   ┌───────────┐   ┌───────────┐
+    │ TREASURY  │   │  POINTS   │   │ BREAKAGE  │
+    │ INVESTMENT│   │ REDEMPTION│   │ (EXPIRED) │
+    │   ~4%/yr  │   │           │   │  ~15%/yr  │
+    └─────┬─────┘   └───────────┘   └─────┬─────┘
+          │                               │
+          ▼                               ▼
+    ┌───────────────────────────────────────┐
+    │          REVENUE SHARING              │
+    │  GudBro HQ │ Partner Merchants (tier) │
+    └───────────────────────────────────────┘
+```
 
-### Phase 5: Cross-Selling & Ecosystem
+**Partner Tier Benefits:**
+| Tier | Float Share | Breakage Share | Benefits |
+|------|-------------|----------------|----------|
+| Standard | 20% | 10% | Base partnership |
+| Premium | 30% | 15% | Priority support, beta features |
+| Founding | 40% | 20% | Locked pricing, governance voting |
 
-| ID | Feature | Descrizione | Priorità |
-|----|---------|-------------|----------|
-| ACC-RECIPES-HOME | Ricette a Casa | "Ti è piaciuto il Pad Thai? Ecco la ricetta" (dal nostro DB 4653 piatti) | P3 |
-| ACC-MARKETPLACE-USER | Shopping Marketplace | Acquisti merchandise/ingredienti con dati già salvati | P3 |
-| ACC-SPLIT-BILL | Split Bill | Dividi il conto con amici che hanno account GUDBRO | P4 |
-| ACC-RESERVATIONS | Prenotazioni | Prenota tavolo direttamente dall'app | P4 |
+**Tables Created:**
+- `points_economy_config` - Configuration (point value, expiry, shares)
+- `prepaid_deposits` - Customer deposits (the float)
+- `float_batches` - Monthly/quarterly investment batches
+- `breakage_records` - Periodic breakage calculations
+- `merchant_revenue_shares` - Partner payouts
+- `points_expiry_batches` - Individual point expiry tracking
+- `economy_events` - Audit log
+
+### Phase 3: User Value Features ✅ COMPLETO
+
+> **Concetto:** Features che rendono l'esperienza consumer davvero preziosa - wishlist, food diary, reviews verificate, gamification, social sharing.
+
+| ID | Feature | Descrizione | Priorità | Status |
+|----|---------|-------------|----------|--------|
+| **ACC-WISHLIST** | **Wishlist Piatti** | Salva prodotti/merchant/ingredienti da provare, notifica promo, mark as tried | **P2** | ✅ |
+| **ACC-FOOD-DIARY** | **Food Diary** | Log pasti con nutrition tracking, daily summaries, insights (premium) | **P2** | ✅ |
+| **ACC-REVIEWS** | **Recensioni Verificate** | Only verified purchase can review. Weight system: +0.5 verified, +0.3 merchant reviewer | **P2** | ✅ |
+| **ACC-NOTIFICATIONS** | **Notifiche Personalizzate** | Template-based notifications con variable substitution, 10+ templates default | **P2** | ✅ |
+| **ACC-BADGES** | **Badge/Gamification** | 35 badge (7 categorie: explorer, foodie, contributor, social, loyalty, special, merchant), 5 livelli rarità | **P2** | ✅ |
+| **ACC-SOCIAL-SHARE** | **Condivisione Social** | Share tracking con click/conversion analytics, 11 piattaforme, punti reward | **P2** | ✅ |
+
+**Wishlist Features:**
+- Add products, ingredients, merchants, recipes
+- Priority levels (normal, high, must-try)
+- Mark as tried with rating
+- Notifications on promo
+
+**Food Diary Features:**
+- Log meals by type (breakfast, lunch, dinner, snack, etc.)
+- Auto-calculate nutrition totals
+- Daily/weekly/monthly summaries
+- Track spending, merchants visited, home cooking ratio
+- Mood and energy tracking
+
+**Reviews System:**
+- Verified purchase requirement (anti-fake)
+- Detailed ratings (food, service, value, ambiance)
+- Weight system for review credibility:
+  - Base: 1.0
+  - Verified purchase: +0.5
+  - Merchant reviewer: +0.3
+  - Photos included: +0.2
+  - Detailed ratings: +0.1
+  - Account age > 6 months: +0.1
+- Helpful/not helpful voting
+- Report system (spam, fake, inappropriate)
+- Merchant can respond to reviews
+- Auto-flag after 3+ reports
+
+**Tables Created (Migration 015):**
+- `wishlists` - User wishlist items
+- `food_diary_entries` - Individual meal entries
+- `food_diary_daily_summary` - Daily nutrition aggregates
+- `reviews` - Verified reviews with weight
+- `review_votes` - Helpful votes
+- `review_reports` - Report inappropriate content
+- `merchant_ratings` - Aggregated merchant ratings
+
+**Notifications Features (Migration 016):**
+- Template-based notification system with variable substitution
+- 10 default templates (points_earned, tier_upgrade, badge_earned, new_review, etc.)
+- Multi-channel support (push, email, in-app)
+- Target audience filtering (all, consumer, merchant, premium)
+- Read/unread tracking with click analytics
+
+**Badge/Gamification Features (Migration 016):**
+- 35 default badges across 7 categories:
+  - Explorer (4): first_visit, explorer_10, explorer_50, explorer_100
+  - Foodie (5): first_order, variety_5, variety_15, vegan_champion, spicy_lover
+  - Contributor (6): first_review, reviewer_10, reviewer_50, helpful_10, ingredient_pioneer, ingredient_master
+  - Social (4): first_share, influencer, network_builder, ambassador
+  - Loyalty (6): points_1000, points_5000, points_10000, streak_7, streak_30, streak_365
+  - Special (2): early_adopter, founding_member
+  - Merchant (2): merchant_partner, merchant_star
+- 5 rarity levels: common, uncommon, rare, epic, legendary
+- Progress tracking for count/streak badges
+- Points reward on badge earned
+- Featured badges on profile
+
+**Social Share Features (Migration 016):**
+- Share tracking for 11 platforms (facebook, twitter, instagram, whatsapp, telegram, linkedin, tiktok, email, copy_link, native, other)
+- Content types: product, dish, review, badge, achievement, merchant, recipe, referral
+- Click tracking with deduplication
+- Conversion tracking (signup, purchase, visit, engagement)
+- Points reward (15 pts per share, max 3/day)
+- Viral analytics for HQ dashboard
+
+**Tables Created (Migration 016):**
+- `notification_templates` - Notification templates with variables
+- `user_notifications` - User notification queue
+- `badge_definitions` - 35 badge definitions
+- `user_badges` - User badge progress/earned
+- `social_shares` - Share tracking
+- `share_clicks` - Click analytics
+
+### Phase 4: Premium Features (€1.50/mese Consumer) ✅ COMPLETO
+
+| ID | Feature | Descrizione | Priorità | Status |
+|----|---------|-------------|----------|--------|
+| **ACC-PREMIUM-TIER** | **Tier Premium Consumer** | €1.50/mese: 2x loyalty, Food Diary, Analytics personali, No ads, Priority support | **P2** | ✅ |
+| **ACC-BILLING** | **Sistema Billing** | Stripe integration completa (subscriptions, checkout, portal, webhooks) | **P2** | ✅ |
+| ACC-CRYPTO-PAY | Pagamenti Crypto | Coinbase Commerce o NOWPayments per BTC, ETH, USDC. Schema pronto (crypto_payments) | P3 | ⏳ |
+| ACC-ANALYTICS-PERSONAL | Analytics Personali | Statistiche su cosa mangi, calorie, allergie evitate (premium) | P3 | ⏳ |
+
+**Subscription Plans (Migration 017):**
+- Consumer Free: Base access, 1x loyalty
+- Consumer Premium (€1.50/month, €15/year): 2x loyalty, food diary, personal analytics, no ads, priority support
+- Merchant Starter (€29/month): 1 location, 3 staff, basic analytics, 10 QR codes
+- Merchant Standard (€49/month): 3 locations, 10 staff, advanced analytics, 50 QR codes, custom branding
+- Merchant Premium (€99/month): 10 locations, 50 staff, full analytics, 200 QR codes, API access
+- Merchant Enterprise: Custom pricing, unlimited, white label
+
+**Stripe Integration:**
+- `lib/stripe-service.ts` - Full Stripe SDK wrapper
+- Customer management (create, update, retrieve)
+- Subscription lifecycle (create, cancel, resume, upgrade)
+- Checkout sessions and Customer Portal
+- Payment methods management
+- Invoice handling
+- Promo codes validation
+- Webhook event handling
+
+**Billing API Endpoints:**
+- `/api/subscriptions` - GET current, POST create, DELETE cancel
+- `/api/subscriptions/checkout` - Create Stripe Checkout session
+- `/api/subscriptions/portal` - Create Customer Portal session
+- `/api/subscriptions/promo` - Validate and apply promo codes
+- `/api/billing/invoices` - List user invoices
+- `/api/billing/payment-methods` - Manage payment methods
+- `/api/webhooks/stripe` - Handle Stripe webhook events
+
+**Premium Access Control:**
+- `lib/premium-access.ts` - Feature access control service
+- `hasFeatureAccess()` - Check specific feature access
+- `hasPremiumSubscription()` - Check premium status
+- `getAccessibleFeatures()` - List all accessible features
+- `getFeatureLimits()` - Get usage limits (locations, staff, QR codes)
+- `requirePremiumFeature()` - Middleware helper for API routes
+- `checkUsageLimit()` - Validate against plan limits
+- `calculateLoyaltyPoints()` - Apply loyalty multiplier
+
+**Tables Created (Migration 017):**
+- `subscription_plans` - Plan definitions with features and Stripe IDs
+- `subscriptions` - Active subscriptions with Stripe sync
+- `payment_methods` - Stored payment methods
+- `invoices` - Invoice records with PDF links
+- `usage_records` - Metered usage tracking
+- `promo_codes` - Promotional codes
+- `promo_redemptions` - Code usage tracking
+- `crypto_payments` - Future crypto support (schema ready)
+- `billing_events` - Audit log for all billing events
+
+### Phase 5: Cross-Selling & Ecosystem ✅ COMPLETO
+
+| ID | Feature | Descrizione | Priorità | Status |
+|----|---------|-------------|----------|--------|
+| **ACC-RECIPES-HOME** | **Ricette a Casa** | Sistema ricette collegato ai 4653 prodotti DB, save, rate, mark as cooked | **P3** | ✅ |
+| **ACC-MARKETPLACE-USER** | **Marketplace Foundations** | Schema categories, products, orders per B2C futuro | **P3** | ✅ |
+| **ACC-SPLIT-BILL** | **Split Bill** | Schema per dividere conto tra utenti GudBro | **P3** | ✅ |
+| **ACC-RESERVATIONS** | **Prenotazioni** | Sistema prenotazioni tavoli con settings merchant | **P3** | ✅ |
+
+**Recipes System (Migration 018):**
+- `recipes` table linked to product DB (4653 dishes)
+- Step-by-step instructions with JSONB format
+- Recipe ingredients with quantities and preparations
+- Difficulty levels 1-5, prep/cook/rest times
+- Diet tags (vegan, gluten_free, keto, etc.)
+- View/save/cook tracking with points reward
+- Rating and review system
+
+**Marketplace Foundations:**
+- `marketplace_categories` - 5 default (ingredients, equipment, merchandise, gift_cards, experiences)
+- `marketplace_products` - Full product schema with variants, inventory, shipping
+- `marketplace_orders` - Order processing with line items, shipping, payment
+
+**Reservations System:**
+- `merchant_reservation_settings` - Capacity, time slots, booking rules, policies
+- `reservations` - Full booking flow with confirmation codes
+- Party size validation, booking window limits
+- Deposit support, cancellation handling
+- Points earned on completed reservations
+
+**Split Bill:**
+- `bill_splits` - Equal, custom, or by-item splitting
+- Participant tracking with status (pending, accepted, paid, declined)
+- Integration ready for orders when implemented
+
+**API Endpoints Created:**
+- `/api/recipes` - List recipes with filters (cuisine, diet, time, difficulty)
+- `/api/recipes/saved` - User's saved recipes with collections
+- `/api/reservations` - Create, list, cancel reservations
+
+**Tables Created (Migration 018):**
+- `recipes` - Step-by-step recipes
+- `recipe_ratings` - User ratings/reviews
+- `saved_recipes` - User collections
+- `marketplace_categories` - Product categories
+- `marketplace_products` - Products for sale
+- `marketplace_orders` - Customer orders
+- `merchant_reservation_settings` - Booking configuration
+- `reservations` - Table bookings
+- `bill_splits` - Bill splitting
 
 ### Phase 6: Web3 (Future - Post-Validazione)
 

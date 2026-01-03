@@ -36,7 +36,8 @@ interface SetupTask {
 
 export default function WelcomePage() {
   const searchParams = useSearchParams();
-  const accountType = (searchParams.get('type') as 'personal' | 'business') || 'personal';
+  const isOnboardingComplete = searchParams.get('onboarding') === 'complete';
+  const accountType = isOnboardingComplete ? 'business' : ((searchParams.get('type') as 'personal' | 'business') || 'personal');
   const user = getMockUser(accountType);
 
   const [showConfetti, setShowConfetti] = useState(true);

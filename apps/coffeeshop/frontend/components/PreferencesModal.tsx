@@ -9,6 +9,7 @@ import {
   preferencesStore,
 } from '../lib/user-preferences';
 import { useSwipeToDismiss } from '../hooks/useSwipeToDismiss';
+import { uploadPreferences } from '../lib/preference-sync-service';
 
 interface PreferencesModalProps {
   onClose: () => void;
@@ -66,11 +67,17 @@ export function PreferencesModal({ onClose, onSave }: PreferencesModalProps) {
     setPreferences({ ...preferences, dietary_preferences: updated });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     preferencesStore.set(preferences);
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new Event('preferences-updated'));
     }
+
+    // ACC-SYNC-PREFS: Upload preferences to cloud (async, non-blocking)
+    uploadPreferences().catch((err) => {
+      console.error('[PreferencesModal] Failed to sync preferences to cloud:', err);
+    });
+
     // Call onSave callback if provided (for onboarding flow)
     // Do NOT close the modal here - let the parent component control the flow
     if (onSave) {

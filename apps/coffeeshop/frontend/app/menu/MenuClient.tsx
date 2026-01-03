@@ -25,6 +25,7 @@ import { validateProducts } from '@/lib/category-system';
 
 // Custom hooks for state management
 import { useMenuFilters, useMenuStores, useMenuUI } from '@/lib/hooks';
+import { usePreferenceSync } from '@/lib/hooks/usePreferenceSync';
 
 // Helper: Get localized text from multilingual object
 function getLocalizedText(multi: MultilingualText | undefined, fallback: string, lang: string): string {
@@ -44,6 +45,9 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
   const filters = useMenuFilters({ initialMenuType: 'drinks', initialCategory: 'all' });
   const stores = useMenuStores();
   const ui = useMenuUI();
+
+  // ACC-SYNC-PREFS: Sync consumer preferences with cloud on menu access
+  const { isSyncing: isPreferencesSyncing, lastSync } = usePreferenceSync(true);
 
   // Destructure for cleaner access
   const {

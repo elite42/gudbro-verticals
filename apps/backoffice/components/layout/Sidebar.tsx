@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { useAuth, DEV_ACCOUNTS, isDevModeEnabled } from '@/lib/auth';
+import AccountSwitcher from '@/components/AccountSwitcher';
 
 // Platform admin navigation (GudBro Owner only)
 const platformNavigation = [
@@ -59,6 +60,7 @@ const navigation = [
       { name: 'Wines', href: '/content/wines' },
       { name: 'Recipes', href: '/content/recipes' },
       { name: 'Ingredients', href: '/content/ingredients' },
+      { name: 'Contributions', href: '/content/contributions' },
       { name: 'Categories', href: '/content/categories' },
       { name: 'Modifiers', href: '/content/modifiers' },
     ],
@@ -290,49 +292,27 @@ export function Sidebar() {
         </ul>
       </nav>
 
-      {/* User info / Current context */}
-      <div className="border-t border-gray-800 p-4">
-        {user ? (
-          <div className="flex items-center gap-3">
-            <div
-              className={`h-8 w-8 rounded-full flex items-center justify-center text-sm text-white font-bold ${getRoleBadgeClass(user.role)}`}
-            >
-              {user.name.charAt(0).toUpperCase()}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">{user.name}</p>
-              <p className="text-xs text-gray-500 truncate capitalize">
-                {user.role.replace('_', ' ')}
-              </p>
-            </div>
-          </div>
-        ) : isLoading ? (
-          <div className="animate-pulse">
-            <div className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-full bg-gray-700" />
-              <div className="flex-1">
-                <div className="h-4 w-24 bg-gray-700 rounded mb-1" />
-                <div className="h-3 w-16 bg-gray-700 rounded" />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-3">
-            <div
-              className="h-8 w-8 rounded-full flex items-center justify-center text-sm text-white font-medium"
-              style={{ backgroundColor: brand?.primary_color || '#4B5563' }}
-            >
-              {brandName.charAt(0).toUpperCase()}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">{brandName}</p>
-              <p className="text-xs text-gray-500 truncate">
-                {planName.charAt(0).toUpperCase() + planName.slice(1)} Plan
-                {locationInfo && ` · ${locationInfo}`}
-              </p>
-            </div>
-          </div>
-        )}
+      {/* Account Switcher */}
+      <div className="border-t border-gray-800 p-3">
+        <AccountSwitcher
+          currentOrganization={organization ? {
+            roleId: user?.id || 'role-1',
+            organizationId: organization.id,
+            organizationName: brand?.name || organization.name,
+            organizationLogo: brand?.logo_url,
+            roleTitle: user?.role || 'owner',
+            brandName: brand?.name,
+            locationName: location?.name,
+            isPrimary: true,
+          } : undefined}
+          organizations={[]}
+          userEmail={user?.email || 'user@example.com'}
+          userName={user?.name}
+          onSwitchOrganization={(roleId) => {
+            // In production, switch organization context
+            console.log('Switch to:', roleId);
+          }}
+        />
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { languagePreferencesStore } from '../lib/language-preferences';
 import { currencyPreferencesStore } from '../lib/currency-preferences';
 import { useKeyboardNavigation } from '../hooks/useKeyboardNavigation';
 import { useTheme } from '../lib/theme/theme-context';
+import { CheckinButton } from './CheckinButton';
 
 interface MenuHeaderProps {
   selectionsCount?: number;
@@ -271,6 +272,11 @@ export function MenuHeader({
         <h1 className="text-2xl font-bold text-theme-text-primary text-center">
           {business.name}
         </h1>
+
+        {/* Check-in Button */}
+        <div className="flex justify-center mt-3">
+          <CheckinButton />
+        </div>
       </div>
     </div>
   );

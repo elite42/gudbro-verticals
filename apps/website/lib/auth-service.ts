@@ -320,6 +320,12 @@ export async function signInWithEmail(
     }
 
     if (data.user) {
+      // Record login in P5 accounts system
+      try {
+        await supabase.rpc('record_user_login');
+      } catch {
+        // Ignore errors
+      }
       return { success: true, user: toAuthUser(data.user) };
     }
 
@@ -404,4 +410,126 @@ function getErrorMessage(error: AuthError): string {
     default:
       return error.message || 'An error occurred';
   }
+}
+
+// ============================================================================
+// P5 UNIFIED ACCOUNT INTEGRATION
+// ============================================================================
+
+export interface CurrentAccount {
+  accountId: string;
+  email: string;
+  displayName?: string;
+  firstName?: string;
+  lastName?: string;
+  avatarUrl?: string;
+  totalPoints: number;
+  loyaltyTier: string;
+  isPremium: boolean;
+  locale: string;
+  timezone: string;
+}
+
+export interface CurrentRole {
+  roleId: string;
+  roleType: 'consumer' | 'merchant' | 'admin' | 'contributor';
+  tenantId?: string;
+  tenantType?: string;
+  permissions: Record<string, boolean>;
+  isPrimary: boolean;
+}
+
+/**
+ * Get the current authenticated account from P5 system
+ */
+export async function getCurrentAccount(): Promise<CurrentAccount | null> {
+  if (!isSupabaseConfigured || !supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase.rpc('get_current_account');
+
+  if (error) {
+    console.error('[AuthService] Get current account error:', error);
+    return null;
+  }
+
+  if (!data || data.length === 0) {
+    return null;
+  }
+
+  const row = data[0];
+  return {
+    accountId: row.account_id,
+    email: row.email,
+    displayName: row.display_name,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    avatarUrl: row.avatar_url,
+    totalPoints: row.total_points || 0,
+    loyaltyTier: row.loyalty_tier || 'bronze',
+    isPremium: row.is_premium || false,
+    locale: row.locale || 'it',
+    timezone: row.timezone || 'Europe/Rome',
+  };
+}
+
+/**
+ * Get all roles for the current authenticated user
+ */
+export async function getCurrentRoles(): Promise<CurrentRole[]> {
+  if (!isSupabaseConfigured || !supabase) {
+    return [];
+  }
+
+  const { data, error } = await supabase.rpc('get_current_roles');
+
+  if (error) {
+    console.error('[AuthService] Get current roles error:', error);
+    return [];
+  }
+
+  return (data || []).map((r: any) => ({
+    roleId: r.role_id,
+    roleType: r.role_type,
+    tenantId: r.tenant_id,
+    tenantType: r.tenant_type,
+    permissions: r.permissions || {},
+    isPrimary: r.is_primary,
+  }));
+}
+
+/**
+ * Check if current user has a specific permission
+ */
+export async function hasPermission(
+  permission: string,
+  tenantId?: string
+): Promise<boolean> {
+  if (!isSupabaseConfigured || !supabase) {
+    return false;
+  }
+
+  const { data, error } = await supabase.rpc('has_permission', {
+    p_permission: permission,
+    p_tenant_id: tenantId || null,
+  });
+
+  if (error) {
+    console.error('[AuthService] Check permission error:', error);
+    return false;
+  }
+
+  return data === true;
+}
+
+/**
+ * Record user login (call after successful auth)
+ */
+export async function recordUserLogin(): Promise<void> {
+  if (!isSupabaseConfigured || !supabase) {
+    return;
+  }
+
+  await supabase.rpc('record_user_login');
 }

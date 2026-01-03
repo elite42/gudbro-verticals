@@ -26,6 +26,13 @@ export async function GET(request: NextRequest) {
         return NextResponse.redirect(new URL('/sign-in?error=auth_callback_error', requestUrl.origin));
       }
 
+      // Record login in P5 accounts system
+      try {
+        await supabase.rpc('record_user_login');
+      } catch {
+        // Ignore errors - login recording is not critical
+      }
+
       // Redirect based on account type
       if (type === 'business') {
         // Business accounts go to backoffice

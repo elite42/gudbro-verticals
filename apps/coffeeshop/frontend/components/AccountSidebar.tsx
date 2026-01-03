@@ -2,6 +2,11 @@
 
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { LoyaltyCard } from './LoyaltyCard';
+import { ReferralShare } from './ReferralShare';
+import { IngredientContributionForm } from './IngredientContributionForm';
+import { MyContributions } from './MyContributions';
+import { getCurrentUser, type AuthUser } from '../lib/auth-service';
 
 interface AccountSidebarProps {
   isOpen: boolean;
@@ -16,8 +21,29 @@ export function AccountSidebar({
   onOpenPreferences,
   onOpenSettings
 }: AccountSidebarProps) {
-  const [isGuest, setIsGuest] = useState(true); // Default: guest user
-  const [guestName, setGuestName] = useState('Ospite');
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showLoyaltyDetails, setShowLoyaltyDetails] = useState(false);
+  const [showContributions, setShowContributions] = useState(false);
+  const [showContributionForm, setShowContributionForm] = useState(false);
+  const isGuest = !user;
+  const displayName = user?.name || user?.email?.split('@')[0] || 'Ospite';
+
+  // Fetch current user on mount
+  useEffect(() => {
+    async function loadUser() {
+      setIsLoading(true);
+      try {
+        const authUser = await getCurrentUser();
+        setUser(authUser);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    if (isOpen) {
+      loadUser();
+    }
+  }, [isOpen]);
 
   // Close sidebar when clicking outside
   useEffect(() => {
@@ -77,13 +103,20 @@ export function AccountSidebar({
           {/* User Status */}
           <div className="flex items-center gap-3 mb-4">
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-              {isGuest ? '👤' : guestName.charAt(0).toUpperCase()}
+              {isGuest ? '👤' : displayName.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1">
-              <p className="text-lg font-semibold text-theme-text-primary">{guestName}</p>
+              <p className="text-lg font-semibold text-theme-text-primary">{displayName}</p>
               <p className="text-sm text-theme-text-secondary">{isGuest ? 'Utente Ospite' : 'Membro'}</p>
             </div>
           </div>
+
+          {/* Loyalty Card (compact) - only for logged in users */}
+          {!isGuest && (
+            <div className="mt-4">
+              <LoyaltyCard compact showTransactions={false} />
+            </div>
+          )}
 
           {/* Login/Register Buttons (if guest) */}
           {isGuest && (
@@ -152,7 +185,10 @@ export function AccountSidebar({
               Il Mio Account
             </h3>
             <div className="space-y-1">
-              <button className="w-full px-4 py-3 text-left hover:bg-purple-50 rounded-lg transition-colors flex items-center gap-3 group">
+              <button
+                onClick={() => setShowLoyaltyDetails(!showLoyaltyDetails)}
+                className="w-full px-4 py-3 text-left hover:bg-purple-50 rounded-lg transition-colors flex items-center gap-3 group"
+              >
                 <div className="w-10 h-10 rounded-full bg-purple-100 group-hover:bg-purple-200 flex items-center justify-center transition-colors">
                   <span className="text-xl">🎁</span>
                 </div>
@@ -160,10 +196,22 @@ export function AccountSidebar({
                   <div className="font-semibold text-theme-text-primary text-sm">Programma Fedeltà</div>
                   <div className="text-xs text-theme-text-tertiary">Punti e premi</div>
                 </div>
-                <svg className="w-5 h-5 text-theme-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className={`w-5 h-5 text-theme-text-tertiary transition-transform ${showLoyaltyDetails ? 'rotate-90' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
+
+              {/* Expanded Loyalty Details */}
+              {showLoyaltyDetails && (
+                <div className="px-2 pb-4">
+                  <LoyaltyCard showTransactions={true} />
+                </div>
+              )}
 
               <button className="w-full px-4 py-3 text-left hover:bg-theme-brand-secondary rounded-lg transition-colors flex items-center gap-3 group">
                 <div className="w-10 h-10 rounded-full bg-theme-brand-secondary group-hover:bg-theme-brand-accent flex items-center justify-center transition-colors">
@@ -190,8 +238,46 @@ export function AccountSidebar({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
+
+              {/* Contributi Ingredienti - only for logged in users */}
+              {!isGuest && (
+                <button
+                  onClick={() => setShowContributions(!showContributions)}
+                  className="w-full px-4 py-3 text-left hover:bg-green-50 rounded-lg transition-colors flex items-center gap-3 group"
+                >
+                  <div className="w-10 h-10 rounded-full bg-green-100 group-hover:bg-green-200 flex items-center justify-center transition-colors">
+                    <span className="text-xl">🥬</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-theme-text-primary text-sm">Contributi Ingredienti</div>
+                    <div className="text-xs text-theme-text-tertiary">Aggiungi nuovi ingredienti</div>
+                  </div>
+                  <svg
+                    className={`w-5 h-5 text-theme-text-tertiary transition-transform ${showContributions ? 'rotate-90' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              )}
+
+              {/* Expanded Contributions Section */}
+              {showContributions && !isGuest && (
+                <div className="px-2 pb-4">
+                  <MyContributions onAddNew={() => setShowContributionForm(true)} />
+                </div>
+              )}
             </div>
           </div>
+
+          {/* Referral Section - only for logged in users */}
+          {!isGuest && (
+            <div className="mb-6 px-2">
+              <ReferralShare compact />
+            </div>
+          )}
 
           {/* Help Section */}
           <div className="mb-6">
@@ -252,6 +338,19 @@ export function AccountSidebar({
           </p>
         </div>
       </div>
+
+      {/* Ingredient Contribution Form Modal */}
+      {showContributionForm && (
+        <IngredientContributionForm
+          onClose={() => setShowContributionForm(false)}
+          onSuccess={() => {
+            setShowContributionForm(false);
+            // Refresh contributions list
+            setShowContributions(false);
+            setTimeout(() => setShowContributions(true), 100);
+          }}
+        />
+      )}
     </>
   );
 }

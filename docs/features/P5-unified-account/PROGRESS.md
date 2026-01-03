@@ -1,7 +1,7 @@
 # P5 Progress Log
 
 > **Last Updated:** 2026-01-02
-> **Current Phase:** Phase 1 IN PROGRESS (Database done, UI in progress)
+> **Current Phase:** Phase 2 IN PROGRESS - Loyalty System
 
 ---
 
@@ -22,29 +22,54 @@
 | Auth callback route | 2026-01-02 | apps/website/app/auth/callback/route.ts |
 | HealthProfileStep component | 2026-01-02 | UI per 5 dimensioni (allergens, dietary, intolerances) |
 | Verify email page | 2026-01-02 | apps/website/app/sign-up/verify-email/ |
+| **Role Switcher UI** | 2026-01-02 | **ACC-ROLE-SWITCH completato!** Backoffice header con dropdown ruoli |
+| useAccountRoles hook | 2026-01-02 | Fetch ruoli da account_roles table |
+| User menu con dati reali | 2026-01-02 | Header mostra nome/email da AuthContext |
+| **Preference Sync Service** | 2026-01-02 | **ACC-SYNC-PREFS completato!** Sync bidirezionale local↔cloud |
+| preference-sync-service.ts | 2026-01-02 | Upload/download/sync con conflict resolution |
+| usePreferenceSync hook | 2026-01-02 | React hook per auto-sync on mount e on auth change |
+| PreferencesModal integration | 2026-01-02 | Upload automatico al salvataggio preferenze |
+| MenuClient integration | 2026-01-02 | Auto-sync quando consumer accede al menu |
 
-### Da Fare (Phase 1)
+### Da Fare (Phase 1) - OPTIONAL
 
 | Task | Priorita | Note |
 |------|----------|------|
-| UI Role Switcher | Alta | ACC-ROLE-SWITCH - Header dropdown |
-| Sync Preferenze su login merchant | Media | ACC-SYNC-PREFS |
 | Aggiungere role_type 'partner' | Bassa | Non critico per MVP |
-| Test end-to-end signup flow | Alta | Verificare con Supabase reale |
+| Test end-to-end signup flow | Media | Verificare con Supabase reale |
 
 ---
 
-## Phase 2: Loyalty System (NEXT)
+## Phase 2: Loyalty System (IN PROGRESS)
+
+### Completato
+
+| Task | Data | Note |
+|------|------|------|
+| **Migration 002-loyalty-actions.sql** | 2026-01-02 | Funzioni specifiche per azioni loyalty |
+| loyalty_config table | 2026-01-02 | Configurazione punti per azione |
+| loyalty_order_completed() | 2026-01-02 | 10 pts per 10 EUR + first order bonus |
+| loyalty_review_submitted() | 2026-01-02 | 25 pts per review |
+| loyalty_social_share() | 2026-01-02 | 15 pts (max 3/day) |
+| loyalty_checkin() | 2026-01-02 | 5 pts (max 1/day per merchant) |
+| loyalty_referral_signup() | 2026-01-02 | 100-1000 pts based on type |
+| loyalty_ingredient_contributed() | 2026-01-02 | 50 pts contributor |
+| loyalty_profile_complete() | 2026-01-02 | 150 pts one-time bonus |
+| v_loyalty_summary view | 2026-01-02 | Summary con tier progress |
+| **loyalty-service.ts** | 2026-01-02 | Frontend service per loyalty |
+| **LoyaltyCard component** | 2026-01-02 | UI con tier badge, progress, transactions |
+| **AccountSidebar integration** | 2026-01-02 | Compact card + expandable details |
 
 ### Da Fare
 
 | Task | ID Backlog | Priorita |
 |------|------------|----------|
-| Definire regole punti | ACC-LOYALTY-UNIFIED | P2 |
-| Consumer loyalty actions | ACC-LOYALTY-CONSUMER | P2 |
-| Merchant loyalty actions | ACC-LOYALTY-MERCHANT | P2 |
-| Bidirectional referral flow | ACC-REFERRAL-BIDIR | P2 |
-| Contributor program | ACC-CONTRIBUTOR | P2 |
+| Eseguire migration 002 su Supabase | ACC-LOYALTY-UNIFIED | P2 |
+| Referral share UI | ACC-REFERRAL-BIDIR | P2 |
+| Social share button integration | ACC-LOYALTY-CONSUMER | P2 |
+| Check-in button per merchant | ACC-LOYALTY-CONSUMER | P2 |
+| Merchant loyalty dashboard | ACC-LOYALTY-MERCHANT | P2 |
+| Contributor rewards UI | ACC-CONTRIBUTOR | P2 |
 
 ---
 

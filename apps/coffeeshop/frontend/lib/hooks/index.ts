@@ -26,3 +26,6 @@ export { useDirection, isRTLLanguage, getLanguageDirection } from './useDirectio
 export type { Direction, UseDirectionResult } from './useDirection';
 
 export { useMenuTranslations, useTranslatedMenuItem } from './useMenuTranslations';
+
+export { usePreferenceSync } from './usePreferenceSync';
+export type { UsePreferenceSyncResult } from './usePreferenceSync';
