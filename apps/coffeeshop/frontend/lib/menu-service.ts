@@ -1,11 +1,17 @@
 /**
- * Menu Service
+ * Menu Service v2.0
  *
- * Fetches menu data from Supabase with fallback to local JSON files.
+ * Fetches menu data from Supabase product tables (coffee, tea, smoothies, etc.)
+ * with fallback to local JSON files.
+ *
  * This enables:
- * - Real-time menu updates from backoffice
+ * - Real-time menu updates from database
  * - Offline support via JSON fallback
- * - Multi-language support via name_multilang fields
+ * - Multi-language support (translations coming soon)
+ *
+ * Data Sources:
+ * - Primary: Supabase tables (coffee, tea, smoothies, milkshakes)
+ * - Fallback: coffee-house-products.json
  */
 
 import { supabase, isSupabaseConfigured } from './supabase';
@@ -24,6 +30,53 @@ export interface MultiLangText {
   [key: string]: string | undefined;
 }
 
+// Supabase Coffee/Tea table schema
+export interface SupabaseCoffeeItem {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  category: string; // espresso, latte, cold_brew, etc.
+  style: 'hot' | 'iced'; // temperature
+  caffeine_level: string;
+  sweetness: string;
+  main_ingredients: string[];
+  ingredient_ids: string[];
+  glass_type: string;
+  volume_ml: number;
+  prep_time_seconds: number;
+  skill_level: number;
+  ingredient_cost_usd: number;
+  selling_price_usd: number;
+  profit_margin_percent: number;
+  calories_per_serving: number;
+  caffeine_mg: number | null;
+  sugar_g: number | null;
+  protein_g: number | null;
+  fat_g: number | null;
+  is_vegan: boolean;
+  is_dairy_free: boolean;
+  is_gluten_free: boolean;
+  is_sugar_free: boolean;
+  default_milk: string;
+  allergens: string[];
+  available_milks: string[];
+  available_syrups: string[];
+  can_add_espresso_shot: boolean;
+  can_adjust_sweetness: boolean;
+  can_make_decaf: boolean;
+  tags: string[];
+  popularity: number;
+  is_seasonal: boolean;
+  is_signature: boolean;
+  image_url: string | null;
+  is_public: boolean;
+  owner_id: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// Legacy menu_items schema (kept for backward compatibility)
 export interface SupabaseMenuItem {
   id: string;
   slug: string;
@@ -42,7 +95,6 @@ export interface SupabaseMenuItem {
   dietary_flags: Record<string, boolean> | null;
   spice_level: number;
   display_order: number;
-  // Extended fields (may not exist yet)
   temperature?: string;
   subcategory?: string;
   calories?: number;
@@ -121,7 +173,108 @@ function getLocalizedText(
 }
 
 /**
- * Transform Supabase menu item to normalized product
+ * Map coffee category to PWA category
+ * Supabase: espresso, latte, cappuccino, cold_brew, etc.
+ * PWA: hot-coffee, iced-coffee
+ */
+function mapCoffeeCategory(category: string, style: 'hot' | 'iced'): string {
+  return style === 'hot' ? 'hot-coffee' : 'iced-coffee';
+}
+
+/**
+ * Map coffee subcategory for UI grouping
+ */
+function mapCoffeeSubcategory(category: string): string {
+  const subcategoryMap: Record<string, string> = {
+    espresso: 'espresso-based',
+    americano: 'espresso-based',
+    latte: 'milk-based',
+    cappuccino: 'milk-based',
+    flat_white: 'milk-based',
+    mocha: 'signature',
+    macchiato: 'espresso-based',
+    cold_brew: 'cold-brew',
+    frappe: 'blended',
+    specialty: 'signature',
+  };
+  return subcategoryMap[category] || 'signature';
+}
+
+/**
+ * Build dietary array from boolean flags
+ */
+function buildDietaryFlags(item: SupabaseCoffeeItem): string[] {
+  const dietary: string[] = [];
+  if (item.is_vegan) dietary.push('vegan');
+  if (item.is_dairy_free) dietary.push('dairy-free');
+  if (item.is_gluten_free) dietary.push('gluten-free');
+  if (item.is_sugar_free) dietary.push('sugar-free');
+  return dietary;
+}
+
+/**
+ * Build intolerances array from coffee data
+ */
+function buildIntolerances(item: SupabaseCoffeeItem): string[] {
+  const intolerances: string[] = [];
+  if (item.caffeine_mg && item.caffeine_mg > 0) {
+    intolerances.push('caffeine');
+  }
+  if (!item.is_dairy_free && item.default_milk !== 'none') {
+    intolerances.push('lactose');
+  }
+  return intolerances;
+}
+
+/**
+ * Convert USD price to VND (approximate rate for Vietnam coffeeshop)
+ * Rate: 1 USD ≈ 24,500 VND, rounded to nearest 1000
+ */
+function usdToVnd(usd: number): number {
+  const vnd = usd * 24500;
+  return Math.round(vnd / 1000) * 1000;
+}
+
+/**
+ * Transform Supabase coffee item to normalized product
+ */
+function transformCoffeeItem(item: SupabaseCoffeeItem): NormalizedProduct {
+  const category = mapCoffeeCategory(item.category, item.style);
+  const subcategory = mapCoffeeSubcategory(item.category);
+
+  return {
+    id: item.id,
+    slug: item.slug,
+    name: item.name,
+    nameMulti: { en: item.name }, // Will be populated from translations table later
+    description: item.description,
+    descriptionMulti: { en: item.description },
+    price: usdToVnd(item.selling_price_usd),
+    image: item.image_url || 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400',
+    category,
+    subcategory,
+    temperature: item.style,
+    temperatureIcon: item.style === 'hot' ? TEMPERATURE_ICONS.hot : TEMPERATURE_ICONS.iced,
+    isNew: false, // Could be based on created_at < 30 days
+    isVisible: item.is_public,
+    isFeatured: item.is_signature,
+    allergens: item.allergens || [],
+    intolerances: buildIntolerances(item),
+    dietary: buildDietaryFlags(item),
+    spiceLevel: 0,
+    calories: item.calories_per_serving,
+    protein_g: item.protein_g || 0,
+    carbs_g: item.sugar_g || 0, // sugar_g as proxy for carbs
+    fat_g: item.fat_g || 0,
+    prepTime: Math.round((item.prep_time_seconds || 60) / 60), // Convert to minutes
+    recipeId: item.id,
+    sortOrder: 100 - (item.popularity || 50), // Higher popularity = lower sortOrder (appears first)
+    _source: 'supabase',
+  };
+}
+
+/**
+ * Transform Supabase menu item to normalized product (legacy)
  */
 function transformSupabaseItem(item: SupabaseMenuItem, lang: string = 'en'): NormalizedProduct {
   return {
@@ -160,7 +313,8 @@ function transformSupabaseItem(item: SupabaseMenuItem, lang: string = 'en'): Nor
  */
 function transformJsonItem(item: any, lang: string = 'en'): NormalizedProduct {
   const name = typeof item.name === 'object' ? item.name : { en: item.name };
-  const description = typeof item.description === 'object' ? item.description : { en: item.description };
+  const description =
+    typeof item.description === 'object' ? item.description : { en: item.description };
 
   return {
     id: item.id,
@@ -194,10 +348,10 @@ function transformJsonItem(item: any, lang: string = 'en'): NormalizedProduct {
 }
 
 /**
- * Fetch menu items from Supabase
+ * Fetch coffee items from Supabase
  * Returns null if Supabase is not configured or query fails
  */
-async function fetchFromSupabase(): Promise<SupabaseMenuItem[] | null> {
+async function fetchCoffeeFromSupabase(): Promise<SupabaseCoffeeItem[] | null> {
   if (!isSupabaseConfigured || !supabase) {
     console.log('[MenuService] Supabase not configured, using JSON fallback');
     return null;
@@ -205,23 +359,99 @@ async function fetchFromSupabase(): Promise<SupabaseMenuItem[] | null> {
 
   try {
     const { data, error } = await supabase
-      .from('menu_items')
+      .from('coffee')
       .select('*')
-      .eq('is_active', true)
-      .order('display_order');
+      .eq('is_public', true)
+      .order('popularity', { ascending: false });
 
     if (error) {
-      console.error('[MenuService] Supabase query error:', error.message);
+      console.error('[MenuService] Supabase coffee query error:', error.message);
       return null;
     }
 
     if (!data || data.length === 0) {
-      console.log('[MenuService] No items in Supabase, using JSON fallback');
+      console.log('[MenuService] No coffee items in Supabase, using JSON fallback');
       return null;
     }
 
-    console.log(`[MenuService] Loaded ${data.length} items from Supabase`);
-    return data as SupabaseMenuItem[];
+    console.log(`[MenuService] Loaded ${data.length} coffee items from Supabase`);
+    return data as SupabaseCoffeeItem[];
+  } catch (err) {
+    console.error('[MenuService] Supabase coffee fetch failed:', err);
+    return null;
+  }
+}
+
+/**
+ * Fetch tea items from Supabase (similar schema to coffee)
+ */
+async function fetchTeaFromSupabase(): Promise<SupabaseCoffeeItem[] | null> {
+  if (!isSupabaseConfigured || !supabase) {
+    return null;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('tea')
+      .select('*')
+      .eq('is_public', true)
+      .order('popularity', { ascending: false });
+
+    if (error) {
+      console.error('[MenuService] Supabase tea query error:', error.message);
+      return null;
+    }
+
+    console.log(`[MenuService] Loaded ${data?.length || 0} tea items from Supabase`);
+    return data as SupabaseCoffeeItem[];
+  } catch (err) {
+    console.error('[MenuService] Supabase tea fetch failed:', err);
+    return null;
+  }
+}
+
+/**
+ * Fetch all beverage items from Supabase (coffee + tea)
+ * Returns null if Supabase is not configured or query fails
+ */
+async function fetchFromSupabase(): Promise<NormalizedProduct[] | null> {
+  if (!isSupabaseConfigured || !supabase) {
+    console.log('[MenuService] Supabase not configured, using JSON fallback');
+    return null;
+  }
+
+  try {
+    // Fetch coffee and tea in parallel
+    const [coffeeItems, teaItems] = await Promise.all([
+      fetchCoffeeFromSupabase(),
+      fetchTeaFromSupabase(),
+    ]);
+
+    const allItems: NormalizedProduct[] = [];
+
+    // Transform coffee items
+    if (coffeeItems && coffeeItems.length > 0) {
+      allItems.push(...coffeeItems.map(transformCoffeeItem));
+    }
+
+    // Transform tea items (reuse coffee transformer, adjust category)
+    if (teaItems && teaItems.length > 0) {
+      allItems.push(
+        ...teaItems.map((item) => {
+          const product = transformCoffeeItem(item);
+          product.category = 'tea'; // Override category for tea
+          return product;
+        })
+      );
+    }
+
+    if (allItems.length === 0) {
+      console.log('[MenuService] No items from Supabase, using JSON fallback');
+      return null;
+    }
+
+    console.log(`[MenuService] Total ${allItems.length} items loaded from Supabase`);
+    return allItems;
   } catch (err) {
     console.error('[MenuService] Supabase fetch failed:', err);
     return null;
@@ -232,39 +462,35 @@ async function fetchFromSupabase(): Promise<SupabaseMenuItem[] | null> {
  * Get menu products with automatic Supabase/JSON fallback
  */
 export async function getMenuProducts(lang: string = 'en'): Promise<NormalizedProduct[]> {
-  // Try Supabase first
+  // Try Supabase first (now returns NormalizedProduct[] directly)
   const supabaseItems = await fetchFromSupabase();
 
   if (supabaseItems && supabaseItems.length > 0) {
-    return supabaseItems
-      .filter(item => item.is_available && item.is_active)
-      .map(item => transformSupabaseItem(item, lang));
+    return supabaseItems.filter((item) => item.isVisible);
   }
 
   // Fallback to JSON
   console.log(`[MenuService] Using JSON fallback (${coffeeHouseProducts.length} items)`);
   return (coffeeHouseProducts as any[])
-    .filter(item => item.isVisible !== false)
-    .map(item => transformJsonItem(item, lang));
+    .filter((item) => item.isVisible !== false)
+    .map((item) => transformJsonItem(item, lang));
 }
 
 /**
  * Get menu products with multilang fields intact (for client-side language switching)
  */
 export async function getMenuProductsRaw(): Promise<NormalizedProduct[]> {
-  // Try Supabase first
+  // Try Supabase first (now returns NormalizedProduct[] directly)
   const supabaseItems = await fetchFromSupabase();
 
   if (supabaseItems && supabaseItems.length > 0) {
-    return supabaseItems
-      .filter(item => item.is_available && item.is_active)
-      .map(item => transformSupabaseItem(item, 'en'));
+    return supabaseItems.filter((item) => item.isVisible);
   }
 
   // Fallback to JSON
   return (coffeeHouseProducts as any[])
-    .filter(item => item.isVisible !== false)
-    .map(item => transformJsonItem(item, 'en'));
+    .filter((item) => item.isVisible !== false)
+    .map((item) => transformJsonItem(item, 'en'));
 }
 
 /**
@@ -318,30 +544,36 @@ export async function getMenuSource(): Promise<'supabase' | 'json'> {
 
 /**
  * Subscribe to menu changes (for real-time updates)
+ * Watches both coffee and tea tables
  */
-export function subscribeToMenuChanges(
-  onUpdate: (items: NormalizedProduct[]) => void
-): () => void {
+export function subscribeToMenuChanges(onUpdate: (items: NormalizedProduct[]) => void): () => void {
   if (!isSupabaseConfigured || !supabase) {
     console.log('[MenuService] Real-time not available (Supabase not configured)');
     return () => {};
   }
 
-  const subscription = supabase
-    .channel('menu_items_changes')
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'menu_items' },
-      async (payload) => {
-        console.log('[MenuService] Menu changed:', payload.eventType);
-        // Refetch all items on any change
-        const items = await getMenuProductsRaw();
-        onUpdate(items);
-      }
-    )
+  // Subscribe to coffee table changes
+  const coffeeSubscription = supabase
+    .channel('coffee_changes')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'coffee' }, async (payload) => {
+      console.log('[MenuService] Coffee menu changed:', payload.eventType);
+      const items = await getMenuProductsRaw();
+      onUpdate(items);
+    })
+    .subscribe();
+
+  // Subscribe to tea table changes
+  const teaSubscription = supabase
+    .channel('tea_changes')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'tea' }, async (payload) => {
+      console.log('[MenuService] Tea menu changed:', payload.eventType);
+      const items = await getMenuProductsRaw();
+      onUpdate(items);
+    })
     .subscribe();
 
   return () => {
-    subscription.unsubscribe();
+    coffeeSubscription.unsubscribe();
+    teaSubscription.unsubscribe();
   };
 }
