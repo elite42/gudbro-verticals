@@ -3,7 +3,7 @@
 > **CRITICAL:** Claude DEVE consultare questo file all'inizio di OGNI sessione.
 > Questo file contiene TUTTO ciò che dobbiamo fare (prodotti + funzionalità).
 
-**Last Updated:** 2026-01-03 (Turborepo Migration + Security Fixes)
+**Last Updated:** 2026-01-03 (MENU-FROM-DB: PWA Connected to Supabase)
 
 ---
 
@@ -140,7 +140,7 @@ SUPABASE_URL=https://vnaonebbuezrzvjekqxs.supabase.co
 | ~~ANALYTICS-DEPLOY~~     | ~~Deploy Analytics System~~    | **GIÀ ESEGUITO.** Tabelle `analytics_events`, `analytics_daily_aggregates`, `improvement_suggestions` esistono. Funzioni `track_event()`, `get_daily_metrics()`, `get_top_items()` disponibili.                                   | Database   |
 | ANALYTICS-DASH           | Analytics Dashboard            | Visualizza metriche nel backoffice (sessions, conversions, revenue)                                                                                                                                                               | Backoffice |
 | PWA-TRACKING             | PWA Event Tracking             | Integrare analytics-service.ts: page_view, item_click, add_to_cart, order_placed. **NOTA:** Da fare dopo MVP PWA completa.                                                                                                        | PWA        |
-| MENU-FROM-DB             | Menu da Database               | PWA: fetch menu da Supabase invece di JSON hardcoded, cache con SWR                                                                                                                                                               | PWA        |
+| ~~MENU-FROM-DB~~         | ~~Menu da Database~~           | ✅ **COMPLETATO 2026-01-03** PWA connessa a Supabase (coffee+tea tables, 76+ items live)                                                                                                                                          | PWA        |
 
 ### P2.5 - Features da MenuTiger Audit (NEW 2026-01-01)
 
