@@ -42,7 +42,7 @@ export interface AuthSession {
 // Points Economy Types
 // ============================================================================
 
-export interface PointsTransaction {
+export interface PointsTransactionDTO {
   id: string;
   accountId: string;
   amount: number;
@@ -64,7 +64,7 @@ export interface PointsBalance {
 // Subscription Types
 // ============================================================================
 
-export type SubscriptionPlan =
+export type SubscriptionPlanType =
   | 'consumer_free'
   | 'consumer_premium'
   | 'merchant_starter'
@@ -72,15 +72,10 @@ export type SubscriptionPlan =
   | 'merchant_premium'
   | 'merchant_enterprise';
 
-export type SubscriptionStatus =
-  | 'active'
-  | 'canceled'
-  | 'past_due'
-  | 'trialing'
-  | 'paused';
+export type SubscriptionStatus = 'active' | 'canceled' | 'past_due' | 'trialing' | 'paused';
 
 export interface SubscriptionInfo {
-  planId: SubscriptionPlan;
+  planId: SubscriptionPlanType;
   status: SubscriptionStatus;
   currentPeriodStart: string;
   currentPeriodEnd: string;

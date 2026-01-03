@@ -11,7 +11,6 @@ import {
   NotFoundError,
   ValidationError,
   RateLimitError,
-  isAppError,
   toAppError,
 } from './errors';
 import { createLogger } from './logger';
@@ -193,10 +192,7 @@ type ApiHandler<T = unknown> = (
 /**
  * Wrap an API handler with automatic error handling
  */
-export function withErrorHandling<T>(
-  handler: ApiHandler<T>,
-  context?: string
-): ApiHandler<T> {
+export function withErrorHandling<T>(handler: ApiHandler<T>, context?: string): ApiHandler<T> {
   return async (request: Request) => {
     try {
       return await handler(request);
@@ -210,15 +206,12 @@ export function withErrorHandling<T>(
 // Validation Helper
 // ============================================================================
 
-import { z, ZodSchema, ZodError } from 'zod';
+import { ZodSchema, ZodError } from 'zod';
 
 /**
  * Parse and validate request body with Zod schema
  */
-export async function parseBody<T>(
-  request: Request,
-  schema: ZodSchema<T>
-): Promise<T> {
+export async function parseBody<T>(request: Request, schema: ZodSchema<T>): Promise<T> {
   let body: unknown;
 
   try {
@@ -248,10 +241,7 @@ export async function parseBody<T>(
 /**
  * Parse URL search params with Zod schema
  */
-export function parseQuery<T>(
-  request: Request,
-  schema: ZodSchema<T>
-): T {
+export function parseQuery<T>(request: Request, schema: ZodSchema<T>): T {
   const url = new URL(request.url);
   const params: Record<string, string> = {};
 

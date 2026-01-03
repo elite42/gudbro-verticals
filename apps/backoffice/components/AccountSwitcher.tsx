@@ -7,7 +7,7 @@ interface Organization {
   roleId: string;
   organizationId: string;
   organizationName: string;
-  organizationLogo?: string;
+  organizationLogo?: string | null;
   roleTitle: string;
   brandName?: string;
   locationName?: string;
@@ -71,23 +71,23 @@ export default function AccountSwitcher({
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors w-full"
+        className="flex w-full items-center gap-3 rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
       >
         {/* Avatar */}
-        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-blue-600 text-sm font-bold text-white">
           {userAvatar ? (
-            <img src={userAvatar} alt="" className="w-full h-full rounded-full object-cover" />
+            <img src={userAvatar} alt="" className="h-full w-full rounded-full object-cover" />
           ) : (
             initials
           )}
         </div>
 
         {/* Info */}
-        <div className="flex-1 text-left min-w-0">
-          <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+        <div className="min-w-0 flex-1 text-left">
+          <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
             {currentOrganization?.organizationName || 'Seleziona'}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+          <p className="truncate text-xs text-gray-500 dark:text-gray-400">
             {currentOrganization ? (
               <>
                 <span>{ROLE_ICONS[currentOrganization.roleTitle] || '👤'}</span>
@@ -101,7 +101,7 @@ export default function AccountSwitcher({
 
         {/* Chevron */}
         <svg
-          className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`h-5 w-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -112,28 +112,30 @@ export default function AccountSwitcher({
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute bottom-full left-0 right-0 mb-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50">
+        <div className="absolute bottom-full left-0 right-0 z-50 mb-2 rounded-xl border border-gray-200 bg-white py-2 shadow-xl dark:border-gray-700 dark:bg-gray-800">
           {/* Current Organization */}
           {currentOrganization && (
-            <div className="px-3 py-2 border-b border-gray-100 dark:border-gray-700">
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Organizzazione attuale</p>
+            <div className="border-b border-gray-100 px-3 py-2 dark:border-gray-700">
+              <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">
+                Organizzazione attuale
+              </p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700">
                   {currentOrganization.organizationLogo ? (
                     <img
                       src={currentOrganization.organizationLogo}
                       alt=""
-                      className="w-full h-full rounded-lg object-cover"
+                      className="h-full w-full rounded-lg object-cover"
                     />
                   ) : (
                     <span className="text-xl">🏪</span>
                   )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
                     {currentOrganization.organizationName}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                  <p className="truncate text-xs text-gray-500 dark:text-gray-400">
                     {currentOrganization.brandName && `${currentOrganization.brandName} • `}
                     {currentOrganization.locationName || 'Tutte le sedi'}
                   </p>
@@ -146,31 +148,31 @@ export default function AccountSwitcher({
           {/* Other Organizations */}
           {otherOrgs.length > 0 && (
             <div className="py-2">
-              <p className="px-3 text-xs text-gray-500 dark:text-gray-400 mb-2">
+              <p className="mb-2 px-3 text-xs text-gray-500 dark:text-gray-400">
                 Cambia organizzazione
               </p>
               {otherOrgs.map((org) => (
                 <button
                   key={org.roleId}
                   onClick={() => handleSwitch(org.roleId)}
-                  className="w-full px-3 py-2 flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                  className="flex w-full items-center gap-3 px-3 py-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50"
                 >
-                  <div className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700">
                     {org.organizationLogo ? (
                       <img
                         src={org.organizationLogo}
                         alt=""
-                        className="w-full h-full rounded-lg object-cover"
+                        className="h-full w-full rounded-lg object-cover"
                       />
                     ) : (
                       <span className="text-lg">🏪</span>
                     )}
                   </div>
-                  <div className="flex-1 min-w-0 text-left">
-                    <p className="text-sm text-gray-900 dark:text-white truncate">
+                  <div className="min-w-0 flex-1 text-left">
+                    <p className="truncate text-sm text-gray-900 dark:text-white">
                       {org.organizationName}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    <p className="truncate text-xs text-gray-500 dark:text-gray-400">
                       <span>{ROLE_ICONS[org.roleTitle] || '👤'}</span>
                       <span className="ml-1 capitalize">{org.roleTitle}</span>
                     </p>
@@ -181,21 +183,21 @@ export default function AccountSwitcher({
           )}
 
           {/* Actions */}
-          <div className="border-t border-gray-100 dark:border-gray-700 pt-2 mt-2">
+          <div className="mt-2 border-t border-gray-100 pt-2 dark:border-gray-700">
             <Link
               href="https://gudbro-website.vercel.app/account/profile"
               target="_blank"
-              className="w-full px-3 py-2 flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300 transition-colors"
+              className="flex w-full items-center gap-3 px-3 py-2 text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50"
             >
-              <span className="w-8 h-8 flex items-center justify-center text-lg">👤</span>
+              <span className="flex h-8 w-8 items-center justify-center text-lg">👤</span>
               <span className="text-sm">Il mio profilo</span>
             </Link>
             <Link
               href="https://gudbro-website.vercel.app/get-started"
               target="_blank"
-              className="w-full px-3 py-2 flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300 transition-colors"
+              className="flex w-full items-center gap-3 px-3 py-2 text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50"
             >
-              <span className="w-8 h-8 flex items-center justify-center text-lg">➕</span>
+              <span className="flex h-8 w-8 items-center justify-center text-lg">➕</span>
               <span className="text-sm">Aggiungi locale</span>
             </Link>
             <button
@@ -203,9 +205,9 @@ export default function AccountSwitcher({
                 // In production, call logout
                 console.log('Logout');
               }}
-              className="w-full px-3 py-2 flex items-center gap-3 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors"
+              className="flex w-full items-center gap-3 px-3 py-2 text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
             >
-              <span className="w-8 h-8 flex items-center justify-center text-lg">🚪</span>
+              <span className="flex h-8 w-8 items-center justify-center text-lg">🚪</span>
               <span className="text-sm">Esci</span>
             </button>
           </div>

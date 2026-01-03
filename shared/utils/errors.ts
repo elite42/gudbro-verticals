@@ -117,7 +117,7 @@ export class ValidationError extends AppError {
     this.errors = errors;
   }
 
-  toJSON() {
+  override toJSON() {
     return {
       ...super.toJSON(),
       errors: this.errors,

@@ -20,10 +20,6 @@ import type {
   ProductIngredient,
   AutoComputationResult,
   SpiceLevel,
-  AllergenFlags,
-  IntoleranceFlags,
-  DietaryFlags,
-  NutritionPer100g,
 } from '../types';
 
 // ============================================================================
@@ -36,12 +32,12 @@ import type {
 export interface NutritionPerServing {
   servingSizeG: number;
   calories: number;
-  protein: number;   // grams
-  carbs: number;     // grams
-  fat: number;       // grams
-  fiber: number;     // grams
-  sugar?: number;    // grams
-  sodium?: number;   // mg
+  protein: number; // grams
+  carbs: number; // grams
+  fat: number; // grams
+  fiber: number; // grams
+  sugar?: number; // grams
+  sodium?: number; // mg
   saturatedFat?: number; // grams
 }
 
@@ -52,9 +48,7 @@ export interface NutritionPerServing {
 /**
  * Extract all allergens from a list of ingredients
  */
-export function computeAllergens(
-  ingredients: IngredientMaster[]
-): string[] {
+export function computeAllergens(ingredients: IngredientMaster[]): string[] {
   const allergenSet = new Set<string>();
 
   ingredients.forEach((ingredient) => {
@@ -76,34 +70,64 @@ export function computeAllergensByCountry(
 ): AutoComputationResult['allergens']['by_country'] {
   // EU 14 Mandatory Allergens
   const euAllergens = [
-    'gluten', 'crustaceans', 'eggs', 'fish', 'peanuts',
-    'soybeans', 'milk', 'nuts', 'celery', 'mustard',
-    'sesame', 'sulphites', 'lupin', 'molluscs'
+    'gluten',
+    'crustaceans',
+    'eggs',
+    'fish',
+    'peanuts',
+    'soybeans',
+    'milk',
+    'nuts',
+    'celery',
+    'mustard',
+    'sesame',
+    'sulphites',
+    'lupin',
+    'molluscs',
   ];
 
   // USA FDA Big 9 (2021: added sesame as 9th)
   const usaAllergens = [
-    'milk', 'eggs', 'fish', 'crustaceans', 'nuts',
-    'peanuts', 'wheat', 'soybeans', 'sesame'
+    'milk',
+    'eggs',
+    'fish',
+    'crustaceans',
+    'nuts',
+    'peanuts',
+    'wheat',
+    'soybeans',
+    'sesame',
   ];
 
   // Korea 21 Allergens (7 additional beyond EU)
   const koreaAllergens = [
     ...euAllergens,
-    'pork', 'peach', 'tomato', 'beef', 'chicken', 'squid', 'pine_nuts'
+    'pork',
+    'peach',
+    'tomato',
+    'beef',
+    'chicken',
+    'squid',
+    'pine_nuts',
   ];
 
   // Japan 28 Mandatory + Recommended (7 additional)
   const japanAllergens = [
     ...euAllergens,
-    'kiwi', 'banana', 'mango', 'apple', 'orange', 'matsutake', 'yam'
+    'kiwi',
+    'banana',
+    'mango',
+    'apple',
+    'orange',
+    'matsutake',
+    'yam',
   ];
 
   return {
-    EU: allergens.filter(a => euAllergens.includes(a)),
-    USA: allergens.filter(a => usaAllergens.includes(a)),
-    Korea: allergens.filter(a => koreaAllergens.includes(a)),
-    Japan: allergens.filter(a => japanAllergens.includes(a)),
+    EU: allergens.filter((a) => euAllergens.includes(a)),
+    USA: allergens.filter((a) => usaAllergens.includes(a)),
+    Korea: allergens.filter((a) => koreaAllergens.includes(a)),
+    Japan: allergens.filter((a) => japanAllergens.includes(a)),
   };
 }
 
@@ -114,9 +138,10 @@ export function computeAllergensByCountry(
 /**
  * Extract all intolerances from ingredients
  */
-export function computeIntolerances(
-  ingredients: IngredientMaster[]
-): { present: string[]; severity: Record<string, 'low' | 'medium' | 'high' | 'severe'> } {
+export function computeIntolerances(ingredients: IngredientMaster[]): {
+  present: string[];
+  severity: Record<string, 'low' | 'medium' | 'high' | 'severe'>;
+} {
   const intoleranceSet = new Set<string>();
   const severity: Record<string, 'low' | 'medium' | 'high' | 'severe'> = {};
 
@@ -152,9 +177,11 @@ export function computeIntolerances(
 /**
  * Determine which diets are compatible with the product
  */
-export function computeDietaryCompatibility(
-  ingredients: IngredientMaster[]
-): { compatible: string[]; incompatible: string[]; reasons: Record<string, string[]> } {
+export function computeDietaryCompatibility(ingredients: IngredientMaster[]): {
+  compatible: string[];
+  incompatible: string[];
+  reasons: Record<string, string[]>;
+} {
   const compatible = new Set<string>();
   const incompatible = new Set<string>();
   const reasons: Record<string, string[]> = {};
@@ -173,7 +200,7 @@ export function computeDietaryCompatibility(
     'low-carb',
   ];
 
-  allDiets.forEach(diet => compatible.add(diet));
+  allDiets.forEach((diet) => compatible.add(diet));
 
   // Check each ingredient
   ingredients.forEach((ingredient) => {
@@ -257,7 +284,9 @@ export function computeDietaryCompatibility(
       compatible.delete('low-carb');
       incompatible.add('low-carb');
       if (!reasons['low-carb']) reasons['low-carb'] = [];
-      reasons['low-carb'].push(`Contains ${ingredient.name.en} (${ingredient.nutrition.carbs_g}g carbs per 100g)`);
+      reasons['low-carb'].push(
+        `Contains ${ingredient.name.en} (${ingredient.nutrition.carbs_g}g carbs per 100g)`
+      );
     }
   });
 
@@ -275,9 +304,11 @@ export function computeDietaryCompatibility(
 /**
  * Compute maximum spice level from ingredients
  */
-export function computeSpiceLevel(
-  ingredients: IngredientMaster[]
-): { max_level: SpiceLevel; max_scoville?: number; ingredients_with_spice: string[] } {
+export function computeSpiceLevel(ingredients: IngredientMaster[]): {
+  max_level: SpiceLevel;
+  max_scoville?: number;
+  ingredients_with_spice: string[];
+} {
   let maxLevel: SpiceLevel = 0;
   let maxScoville = 0;
   const ingredientsWithSpice: string[] = [];
@@ -355,9 +386,7 @@ export function computeCompliance(
  * @param ingredientMasters - Full ingredient data from database
  * @returns Complete auto-computation result
  */
-export function autoComputeProduct(
-  ingredientMasters: IngredientMaster[]
-): AutoComputationResult {
+export function autoComputeProduct(ingredientMasters: IngredientMaster[]): AutoComputationResult {
   // 1. Compute allergens
   const allergensList = computeAllergens(ingredientMasters);
   const allergensByCountry = computeAllergensByCountry(allergensList);
@@ -431,9 +460,7 @@ export interface IngredientWithQuantity {
  * // Returns: { calories: 95, protein: 5, carbs: 15, fat: 5, ... }
  * ```
  */
-export function computeNutrition(
-  ingredients: IngredientWithQuantity[]
-): NutritionPerServing {
+export function computeNutrition(ingredients: IngredientWithQuantity[]): NutritionPerServing {
   let totalServingSize = 0;
   let totalCalories = 0;
   let totalProtein = 0;
@@ -442,11 +469,11 @@ export function computeNutrition(
   let totalFiber = 0;
   let totalSugar = 0;
   let totalSodium = 0;
-  let totalSaturatedFat = 0;
+  const totalSaturatedFat = 0;
 
   let hasSugar = false;
   let hasSodium = false;
-  let hasSaturatedFat = false;
+  const hasSaturatedFat = false;
 
   ingredients.forEach(({ ingredient, quantityG }) => {
     if (!ingredient.nutrition) return;
@@ -467,7 +494,7 @@ export function computeNutrition(
     }
     if (nutrition.salt_g !== undefined) {
       // Convert salt to sodium (salt = 40% sodium)
-      totalSodium += (nutrition.salt_g * 400) * factor; // mg
+      totalSodium += nutrition.salt_g * 400 * factor; // mg
       hasSodium = true;
     }
   });
@@ -491,9 +518,7 @@ export function computeNutrition(
  * @param ingredients - List of ingredients with their quantities in grams
  * @returns Total calories for the serving
  */
-export function computeCalories(
-  ingredients: IngredientWithQuantity[]
-): number {
+export function computeCalories(ingredients: IngredientWithQuantity[]): number {
   let totalCalories = 0;
 
   ingredients.forEach(({ ingredient, quantityG }) => {
@@ -514,7 +539,7 @@ export function computeCalories(
  * @returns Rating from 1 (poor) to 5 (excellent)
  */
 export function computeNutritionRating(nutrition: NutritionPerServing): number {
-  const { calories, protein, fiber, sugar, fat } = nutrition;
+  const { calories, protein, fiber, sugar } = nutrition;
 
   // Avoid division by zero
   if (calories === 0) return 3;
@@ -548,7 +573,7 @@ export function computeNutritionRating(nutrition: NutritionPerServing): number {
  */
 export function computeHealthLabels(nutrition: NutritionPerServing): string[] {
   const labels: string[] = [];
-  const { calories, protein, carbs, fat, fiber, sugar } = nutrition;
+  const { calories, protein, fat, fiber, sugar } = nutrition;
 
   // Low calorie (under 100 kcal per serving)
   if (calories <= 100) {
@@ -557,13 +582,13 @@ export function computeHealthLabels(nutrition: NutritionPerServing): string[] {
 
   // High protein (more than 20% calories from protein)
   // Protein = 4 kcal/g
-  if (protein * 4 / calories > 0.2) {
+  if ((protein * 4) / calories > 0.2) {
     labels.push('high-protein');
   }
 
   // Low fat (less than 20% calories from fat)
   // Fat = 9 kcal/g
-  if (fat * 9 / calories < 0.2) {
+  if ((fat * 9) / calories < 0.2) {
     labels.push('low-fat');
   }
 
@@ -631,7 +656,7 @@ export function autoComputeProductWithNutrition(
   ingredientsWithQuantity: IngredientWithQuantity[]
 ): AutoComputationResultWithNutrition {
   // Extract just the ingredient masters for safety computation
-  const ingredientMasters = ingredientsWithQuantity.map(i => i.ingredient);
+  const ingredientMasters = ingredientsWithQuantity.map((i) => i.ingredient);
 
   // 1. Compute all safety data (allergens, intolerances, diets, spice, compliance)
   const safetyResult = autoComputeProduct(ingredientMasters);
@@ -663,11 +688,9 @@ export async function getIngredientMasters(
   productIngredients: ProductIngredient[],
   ingredientDatabase: IngredientMaster[]
 ): Promise<IngredientMaster[]> {
-  const ingredientIds = productIngredients.map(pi => pi.ingredient_id);
+  const ingredientIds = productIngredients.map((pi) => pi.ingredient_id);
 
-  return ingredientDatabase.filter(ingredient =>
-    ingredientIds.includes(ingredient.id)
-  );
+  return ingredientDatabase.filter((ingredient) => ingredientIds.includes(ingredient.id));
 }
 
 /**
@@ -685,7 +708,7 @@ export function prepareIngredientsForNutrition(
   const result: IngredientWithQuantity[] = [];
 
   for (const pi of productIngredients) {
-    const ingredient = ingredientDatabase.find(i => i.id === pi.ingredient_id);
+    const ingredient = ingredientDatabase.find((i) => i.id === pi.ingredient_id);
     if (!ingredient) continue;
 
     // Convert quantity to grams based on unit
@@ -737,7 +760,7 @@ export function prepareIngredientsForNutrition(
  * In production, this would fetch ingredients from the database
  */
 export async function computeProductFlags(
-  ingredientIds: string[]
+  _ingredientIds: string[]
 ): Promise<AutoComputationResult> {
   // Return empty result for now
   // In production, this would fetch ingredients from DB and compute
