@@ -2,12 +2,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useToast, ToastType } from '@/lib/contexts/ToastContext';
 
 export default function SettingsPage() {
   const [businessName, setBusinessName] = useState('ROOTS Plant-Based Cafe');
   const [timezone, setTimezone] = useState('Asia/Ho_Chi_Minh');
   const [currency, setCurrency] = useState('VND');
   const [defaultLanguage, setDefaultLanguage] = useState('en');
+
+  const { soundSettings, updateSoundSettings, testSound } = useToast();
 
   return (
     <div className="max-w-4xl space-y-6">
@@ -252,6 +255,100 @@ export default function SettingsPage() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Notification Sounds */}
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="font-semibold text-gray-900">Notification Sounds</h3>
+            <p className="text-sm text-gray-500">Configure audio alerts for notifications</p>
+          </div>
+          <label className="relative inline-flex cursor-pointer items-center">
+            <input
+              type="checkbox"
+              checked={soundSettings.enabled}
+              onChange={(e) => updateSoundSettings({ enabled: e.target.checked })}
+              className="peer sr-only"
+            />
+            <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
+          </label>
+        </div>
+
+        {soundSettings.enabled && (
+          <div className="mt-6 space-y-4">
+            {/* Volume Slider */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Volume: {Math.round(soundSettings.volume * 100)}%
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={soundSettings.volume}
+                onChange={(e) => updateSoundSettings({ volume: parseFloat(e.target.value) })}
+                className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-blue-600"
+              />
+            </div>
+
+            {/* Sound Types */}
+            <div className="space-y-3 border-t border-gray-200 pt-4">
+              <p className="text-sm font-medium text-gray-700">Sound per notification type</p>
+              {(
+                [
+                  {
+                    type: 'success' as ToastType,
+                    label: 'Success',
+                    icon: '✓',
+                    color: 'text-green-600',
+                  },
+                  { type: 'error' as ToastType, label: 'Error', icon: '✕', color: 'text-red-600' },
+                  {
+                    type: 'warning' as ToastType,
+                    label: 'Warning',
+                    icon: '⚠',
+                    color: 'text-amber-600',
+                  },
+                  { type: 'info' as ToastType, label: 'Info', icon: 'ℹ', color: 'text-blue-600' },
+                ] as const
+              ).map((item) => (
+                <div key={item.type} className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className={`text-lg ${item.color}`}>{item.icon}</span>
+                    <span className="text-sm text-gray-900">{item.label}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => testSound(item.type)}
+                      className="rounded px-2 py-1 text-xs text-blue-600 hover:bg-blue-50"
+                    >
+                      Test
+                    </button>
+                    <label className="relative inline-flex cursor-pointer items-center">
+                      <input
+                        type="checkbox"
+                        checked={soundSettings.enabledTypes[item.type]}
+                        onChange={(e) =>
+                          updateSoundSettings({
+                            enabledTypes: {
+                              ...soundSettings.enabledTypes,
+                              [item.type]: e.target.checked,
+                            },
+                          })
+                        }
+                        className="peer sr-only"
+                      />
+                      <div className="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
+                    </label>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Danger Zone */}

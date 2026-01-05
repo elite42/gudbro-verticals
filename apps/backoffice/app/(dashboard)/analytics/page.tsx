@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { EmptyState } from '@/components/ui/empty-state';
 import {
   getAnalyticsSummary,
   getDailyMetrics,
@@ -100,25 +101,13 @@ export default function AnalyticsPage() {
 
       {/* Empty State */}
       {!isLoading && !hasData && (
-        <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
-          <div className="mx-auto h-12 w-12 text-gray-400">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-              />
-            </svg>
-          </div>
-          <h3 className="mt-4 text-lg font-semibold text-gray-900">No analytics data yet</h3>
-          <p className="mt-2 text-gray-500">
-            Analytics will appear here once users start interacting with your menu.
-          </p>
-          <p className="mt-1 text-sm text-gray-400">
-            Events tracked: page views, item clicks, add to cart
-          </p>
-        </div>
+        <EmptyState
+          icon={<span className="text-5xl">📊</span>}
+          title="No analytics data yet"
+          description="Analytics will appear here once customers start scanning your QR codes and interacting with your menu."
+          variant="card"
+          size="lg"
+        />
       )}
 
       {/* Dashboard Content */}

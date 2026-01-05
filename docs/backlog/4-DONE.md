@@ -9,22 +9,24 @@
 
 ## 2026-01-05
 
-| ID           | Feature                 | Descrizione                                                                    | Completato |
-| ------------ | ----------------------- | ------------------------------------------------------------------------------ | ---------- |
-| GB-AI-SEED   | AI Seed Data            | Test data per organizations, brands, locations, accounts, merchants, AI tables | 2026-01-05 |
-| GB-AI-P13    | AI-Assisted Onboarding  | onboarding-service.ts, /api/ai/onboarding, /api/upload/logo                    | 2026-01-05 |
-| GB-AI-P12    | Inventory & Negotiation | Migration 036, inventory-negotiation-service.ts                                | 2026-01-05 |
-| GB-AI-P11    | Agentic Workflows       | Migration 035, agentic-workflow-service.ts                                     | 2026-01-05 |
-| GB-AI-P10    | Task Delegation         | Migration 034, task-delegation-service.ts                                      | 2026-01-05 |
-| GB-AI-P9     | Financial Management    | Migration 033, financial-service.ts                                            | 2026-01-05 |
-| GB-AI-P8     | Social Media Automation | Migration 032, social-media-service.ts                                         | 2026-01-05 |
-| GB-AI-P7     | Market Intelligence     | Migration 031, market-intelligence-service.ts                                  | 2026-01-05 |
-| GB-AI-P6     | AI Bootstrap            | Migration 030, bootstrap-service.ts                                            | 2026-01-05 |
-| GB-AI-P5     | AI Feedback Loop        | Migration 029, feedback-loop-service.ts                                        | 2026-01-05 |
-| GB-AI-P4     | AI Proactivity          | Migration 028, proactivity-service.ts                                          | 2026-01-05 |
-| GB-AI-P3     | AI Actions              | actions-service.ts + function calling                                          | 2026-01-05 |
-| GB-AI-P2     | AI Knowledge Base       | knowledge-service.ts integrato                                                 | 2026-01-05 |
-| KANBAN-SETUP | Backlog Kanban          | Riorganizzazione backlog in 4 file separati                                    | 2026-01-05 |
+| ID              | Feature                 | Descrizione                                                                    | Completato |
+| --------------- | ----------------------- | ------------------------------------------------------------------------------ | ---------- |
+| MT-EMPTY-STATES | Empty States            | EmptyState component + applicato a Orders, Team, Analytics                     | 2026-01-05 |
+| MT-NOTIF-SOUNDS | Notification Sounds     | Audio alerts per toast, settings UI, localStorage persistence                  | 2026-01-05 |
+| GB-AI-SEED      | AI Seed Data            | Test data per organizations, brands, locations, accounts, merchants, AI tables | 2026-01-05 |
+| GB-AI-P13       | AI-Assisted Onboarding  | onboarding-service.ts, /api/ai/onboarding, /api/upload/logo                    | 2026-01-05 |
+| GB-AI-P12       | Inventory & Negotiation | Migration 036, inventory-negotiation-service.ts                                | 2026-01-05 |
+| GB-AI-P11       | Agentic Workflows       | Migration 035, agentic-workflow-service.ts                                     | 2026-01-05 |
+| GB-AI-P10       | Task Delegation         | Migration 034, task-delegation-service.ts                                      | 2026-01-05 |
+| GB-AI-P9        | Financial Management    | Migration 033, financial-service.ts                                            | 2026-01-05 |
+| GB-AI-P8        | Social Media Automation | Migration 032, social-media-service.ts                                         | 2026-01-05 |
+| GB-AI-P7        | Market Intelligence     | Migration 031, market-intelligence-service.ts                                  | 2026-01-05 |
+| GB-AI-P6        | AI Bootstrap            | Migration 030, bootstrap-service.ts                                            | 2026-01-05 |
+| GB-AI-P5        | AI Feedback Loop        | Migration 029, feedback-loop-service.ts                                        | 2026-01-05 |
+| GB-AI-P4        | AI Proactivity          | Migration 028, proactivity-service.ts                                          | 2026-01-05 |
+| GB-AI-P3        | AI Actions              | actions-service.ts + function calling                                          | 2026-01-05 |
+| GB-AI-P2        | AI Knowledge Base       | knowledge-service.ts integrato                                                 | 2026-01-05 |
+| KANBAN-SETUP    | Backlog Kanban          | Riorganizzazione backlog in 4 file separati                                    | 2026-01-05 |
 
 ---
 

@@ -121,11 +121,11 @@ Cliente (chat) → AI Customer Agent → [Escalation] → Merchant (backoffice)
 
 ## P1 - Alta Priorità
 
-| ID               | Feature               | Descrizione                                   | Area       | Effort |
-| ---------------- | --------------------- | --------------------------------------------- | ---------- | ------ |
-| ING-TRANSLATIONS | Popolare translations | Traduzioni per it, vi, ko, ja                 | Database   | Medium |
-| GB-SPORTS-EVENTS | Sports Bar Calendar   | 25+ sport, broadcast language, AI translation | Backoffice | Medium |
-| MT-NOTIF-SOUNDS  | Notification Sounds   | Sound selection per tipo notifica             | Backoffice | Low    |
+| ID                   | Feature                 | Descrizione                      | Area           | Effort     | Note                                                 |
+| -------------------- | ----------------------- | -------------------------------- | -------------- | ---------- | ---------------------------------------------------- |
+| ING-TRANSLATIONS     | Popolare traduzioni     | Traduzioni per it, vi, ko, ja    | Database       | Medium     |                                                      |
+| ~~MT-NOTIF-SOUNDS~~  | ~~Notification Sounds~~ | ~~Sound selection per notifica~~ | ~~Backoffice~~ | ~~Low~~    | **COMPLETATO** 2026-01-05                            |
+| ~~GB-SPORTS-EVENTS~~ | ~~Sports Bar Calendar~~ | ~~25+ sport, broadcast~~         | ~~Backoffice~~ | ~~Medium~~ | **Incluso in SCHEDULE-SYSTEM** (vedi docs/features/) |
 
 ---
 
@@ -144,12 +144,12 @@ Cliente (chat) → AI Customer Agent → [Escalation] → Merchant (backoffice)
 
 ### UX Patterns da Adottare
 
-| ID                | Pattern              | Dove Applicare    |
-| ----------------- | -------------------- | ----------------- |
-| MT-EMPTY-STATES   | Empty States con CTA | Tutto backoffice  |
-| MT-SOFT-DELETE    | Archive/Soft Delete  | Menu, Products    |
-| MT-FILTER-PATTERN | Apply/Reset Filters  | Orders, Reports   |
-| MT-LIVE-PREVIEW   | Live Preview         | QR Builder, Forms |
+| ID                  | Pattern                  | Dove Applicare       | Note                      |
+| ------------------- | ------------------------ | -------------------- | ------------------------- |
+| ~~MT-EMPTY-STATES~~ | ~~Empty States con CTA~~ | ~~Tutto backoffice~~ | **COMPLETATO** 2026-01-05 |
+| MT-SOFT-DELETE      | Archive/Soft Delete      | Menu, Products       |                           |
+| MT-FILTER-PATTERN   | Apply/Reset Filters      | Orders, Reports      |                           |
+| MT-LIVE-PREVIEW     | Live Preview             | QR Builder, Forms    |                           |
 
 ### Backoffice Features
 
