@@ -1,5 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "rm -rf node_modules && corepack enable && corepack prepare pnpm@10.27.0 --activate && pnpm install --frozen-lockfile",
+  "installCommand": "rm -rf node_modules && corepack enable && corepack prepare pnpm@10.27.0 --activate && pnpm install",
   "buildCommand": "pnpm turbo build"
 }
