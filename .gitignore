@@ -180,5 +180,5 @@ public/uploads/
 # Turborepo
 .turbo/
 
-# pnpm
-pnpm-lock.yaml
+# pnpm store (not the lockfile!)
+.pnpm-store/
