@@ -1,7 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm turbo build",
-  "framework": null,
-  "outputDirectory": null
+  "installCommand": "corepack enable && corepack prepare pnpm@10.27.0 --activate && pnpm install",
+  "buildCommand": "pnpm turbo build"
 }
