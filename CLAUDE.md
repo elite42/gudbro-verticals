@@ -7,26 +7,57 @@
 
 ---
 
-# 1. STARTUP COMMAND
+# 1. STARTUP COMMAND (OBBLIGATORIO)
 
 > **IMPORTANTE:** Questo e' l'UNICO file CLAUDE.md del progetto.
+> Claude Code legge automaticamente questo file all'avvio.
 
-**Quando l'utente dice "leggi gudbro" o "riavvia":**
+## 1.1 Procedura di Avvio
+
+**DEVI eseguire questi passaggi OGNI volta che inizi una nuova sessione:**
+
+### Step 1: Leggi il Backlog (USA IL TOOL READ)
 
 ```
-ESEGUI IN ORDINE:
-1. LEGGI questo file: /gudbro-verticals/CLAUDE.md
-2. LEGGI docs/backlog/2-IN-PROGRESS.md (task attive)
-3. LEGGI docs/backlog/3-TESTING.md (da testare)
-4. LEGGI docs/DATABASE-INVENTORY.md (stato database)
-5. LEGGI docs/DATABASE-SCHEMA.md (schema tabelle - CRITICO)
-
-POI conferma:
-"Ho letto la documentazione GUDBRO.
-STATO: DB 75 | Prodotti ~4653 | Ingredienti 2548 (100% nutrition)
-Kanban: [X IN PROGRESS, Y TESTING]
-Pronto."
+LEGGI questi file con il tool Read:
+- docs/backlog/2-IN-PROGRESS.md  → Task attualmente in corso
+- docs/backlog/4-DONE.md         → Ultime 3 task completate (per contesto)
 ```
+
+### Step 2: Conferma all'utente
+
+```
+RISPONDI con questo formato ESATTO:
+
+"GUDBRO Ready.
+
+IN PROGRESS: [lista task da 2-IN-PROGRESS.md, o "Nessuna"]
+ULTIME COMPLETATE: [ultime 3 da 4-DONE.md con data]
+
+Cosa facciamo?"
+```
+
+## 1.2 Esempio di Risposta Corretta
+
+```
+GUDBRO Ready.
+
+IN PROGRESS: GB-AI-P14 (AI Reports Dashboard)
+ULTIME COMPLETATE:
+- 2026-01-05: MT-EMPTY-STATES (Empty State component)
+- 2026-01-05: MT-NOTIF-SOUNDS (Notification Sounds)
+- 2026-01-05: GB-AI-SEED (AI Seed Data)
+
+Cosa facciamo?
+```
+
+## 1.3 Se l'utente chiede contesto aggiuntivo
+
+Solo se richiesto, leggi anche:
+
+- `docs/DATABASE-INVENTORY.md` - Stato database
+- `docs/DATABASE-SCHEMA.md` - Schema tabelle (prima di SQL)
+- `docs/backlog/1-TODO.md` - Task da fare
 
 ---
 
@@ -289,6 +320,6 @@ Per includere contesto aggiuntivo in conversazioni:
 ---
 
 **File:** `CLAUDE.md`
-**Version:** 5.0
+**Version:** 5.1
 **Updated:** 2026-01-05
-**Changes:** Restructured with numbered sections for reliable AI memorization. Added validation gates, anti-patterns, AI system reference.
+**Changes:** v5.1 - Startup command reso esplicito con step obbligatori e formato risposta definito.
