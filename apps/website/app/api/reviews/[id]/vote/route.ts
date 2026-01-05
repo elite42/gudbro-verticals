@@ -1,19 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/reviews/[id]/vote
  * Vote on a review (helpful/not helpful)
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -21,7 +17,10 @@ export async function POST(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -61,10 +60,7 @@ export async function POST(
 
     // Can't vote on own review
     if (review.account_id === account.id) {
-      return NextResponse.json(
-        { error: 'Cannot vote on your own review' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Cannot vote on your own review' }, { status: 400 });
     }
 
     const { data: success, error } = await supabase.rpc('vote_review', {

@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * Check if user is GudBro admin
  */
 async function isGudBroAdmin(accountId: string): Promise<boolean> {
+  const supabase = getSupabase();
   const { data } = await supabase
     .from('account_roles')
     .select('role_type, permissions')
@@ -25,10 +23,9 @@ async function isGudBroAdmin(accountId: string): Promise<boolean> {
  * GET /api/admin/rewards/[id]
  * Get single reward details
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = getSupabase();
+
   try {
     const { id } = await params;
 
@@ -38,7 +35,10 @@ export async function GET(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -72,11 +72,11 @@ export async function GET(
 
     const redemptionStats = {
       total: stats?.length || 0,
-      pending: stats?.filter(s => s.status === 'pending').length || 0,
-      approved: stats?.filter(s => s.status === 'approved').length || 0,
-      used: stats?.filter(s => s.status === 'used').length || 0,
-      expired: stats?.filter(s => s.status === 'expired').length || 0,
-      cancelled: stats?.filter(s => s.status === 'cancelled').length || 0,
+      pending: stats?.filter((s) => s.status === 'pending').length || 0,
+      approved: stats?.filter((s) => s.status === 'approved').length || 0,
+      used: stats?.filter((s) => s.status === 'used').length || 0,
+      expired: stats?.filter((s) => s.status === 'expired').length || 0,
+      cancelled: stats?.filter((s) => s.status === 'cancelled').length || 0,
     };
 
     return NextResponse.json({
@@ -93,10 +93,9 @@ export async function GET(
  * PATCH /api/admin/rewards/[id]
  * Update a reward
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = getSupabase();
+
   try {
     const { id } = await params;
 
@@ -106,7 +105,10 @@ export async function PATCH(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -134,8 +136,10 @@ export async function PATCH(
     if (body.targetAudience !== undefined) updates.target_audience = body.targetAudience;
     if (body.category !== undefined) updates.category = body.category;
     if (body.minTier !== undefined) updates.min_tier = body.minTier;
-    if (body.maxRedemptionsTotal !== undefined) updates.max_redemptions_total = body.maxRedemptionsTotal;
-    if (body.maxRedemptionsPerUser !== undefined) updates.max_redemptions_per_user = body.maxRedemptionsPerUser;
+    if (body.maxRedemptionsTotal !== undefined)
+      updates.max_redemptions_total = body.maxRedemptionsTotal;
+    if (body.maxRedemptionsPerUser !== undefined)
+      updates.max_redemptions_per_user = body.maxRedemptionsPerUser;
     if (body.availableFrom !== undefined) updates.available_from = body.availableFrom;
     if (body.availableUntil !== undefined) updates.available_until = body.availableUntil;
     if (body.imageUrl !== undefined) updates.image_url = body.imageUrl;
@@ -167,6 +171,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const supabase = getSupabase();
+
   try {
     const { id } = await params;
 
@@ -176,7 +182,10 @@ export async function DELETE(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });

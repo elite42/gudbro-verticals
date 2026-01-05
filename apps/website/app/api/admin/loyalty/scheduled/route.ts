@@ -1,15 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+export const dynamic = 'force-dynamic';
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Lazy initialization to avoid build-time errors
+function getSupabase(): SupabaseClient {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Missing Supabase configuration');
+  }
+
+  return createClient(supabaseUrl, supabaseKey);
+}
 
 /**
  * Check if user is GudBro admin
  */
-async function isGudBroAdmin(accountId: string): Promise<boolean> {
+async function isGudBroAdmin(supabase: SupabaseClient, accountId: string): Promise<boolean> {
   const { data } = await supabase
     .from('account_roles')
     .select('role_type, permissions')
@@ -46,6 +56,7 @@ function verifyCronSecret(request: NextRequest): boolean {
  */
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabase();
     const isCronJob = verifyCronSecret(request);
 
     // If not a cron job, verify admin auth
@@ -56,7 +67,10 @@ export async function POST(request: NextRequest) {
       }
 
       const token = authHeader.substring(7);
-      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser(token);
 
       if (authError || !user) {
         return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -68,7 +82,7 @@ export async function POST(request: NextRequest) {
         .eq('auth_id', user.id)
         .single();
 
-      if (!account || !(await isGudBroAdmin(account.id))) {
+      if (!account || !(await isGudBroAdmin(supabase, account.id))) {
         return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
       }
     }
@@ -115,13 +129,17 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabase();
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -133,7 +151,7 @@ export async function GET(request: NextRequest) {
       .eq('auth_id', user.id)
       .single();
 
-    if (!account || !(await isGudBroAdmin(account.id))) {
+    if (!account || !(await isGudBroAdmin(supabase, account.id))) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
@@ -151,12 +169,13 @@ export async function GET(request: NextRequest) {
       .select('subscription_start')
       .not('subscription_start', 'is', null);
 
-    const anniversariesToday = (anniversaryData || []).filter((mr: { subscription_start: string }) => {
-      if (!mr.subscription_start) return false;
-      const subDate = new Date(mr.subscription_start);
-      return subDate.getMonth() === today.getMonth() &&
-             subDate.getDate() === today.getDate();
-    }).length;
+    const anniversariesToday = (anniversaryData || []).filter(
+      (mr: { subscription_start: string }) => {
+        if (!mr.subscription_start) return false;
+        const subDate = new Date(mr.subscription_start);
+        return subDate.getMonth() === today.getMonth() && subDate.getDate() === today.getDate();
+      }
+    ).length;
 
     return NextResponse.json({
       jobs: [

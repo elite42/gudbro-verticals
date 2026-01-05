@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/analytics/track
  * Track an analytics event
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const body = await request.json();
     const {
@@ -42,7 +41,9 @@ export async function POST(request: NextRequest) {
     const authHeader = request.headers.get('authorization');
     if (authHeader?.startsWith('Bearer ')) {
       const token = authHeader.substring(7);
-      const { data: { user } } = await supabase.auth.getUser(token);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser(token);
 
       if (user) {
         const { data: account } = await supabase
@@ -79,10 +80,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({
-      success: true,
-      eventId: data,
-    }, { status: 201 });
+    return NextResponse.json(
+      {
+        success: true,
+        eventId: data,
+      },
+      { status: 201 }
+    );
   } catch (err) {
     console.error('[AnalyticsAPI] Error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

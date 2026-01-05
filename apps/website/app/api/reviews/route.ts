@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/reviews
  * Get reviews (public or user's own)
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const { searchParams } = new URL(request.url);
     const merchantId = searchParams.get('merchantId');
@@ -27,7 +26,10 @@ export async function GET(request: NextRequest) {
       }
 
       const token = authHeader.substring(7);
-      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser(token);
 
       if (authError || !user) {
         return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -43,12 +45,19 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Account not found' }, { status: 404 });
       }
 
-      const { data: reviews, error, count } = await supabase
+      const {
+        data: reviews,
+        error,
+        count,
+      } = await supabase
         .from('reviews')
-        .select(`
+        .select(
+          `
           *,
           merchant:merchants(id, business_name)
-        `, { count: 'exact' })
+        `,
+          { count: 'exact' }
+        )
         .eq('account_id', account.id)
         .order('created_at', { ascending: false })
         .range(offset, offset + limit - 1);
@@ -111,6 +120,8 @@ export async function GET(request: NextRequest) {
  * Submit a review
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -118,7 +129,10 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -153,17 +167,11 @@ export async function POST(request: NextRequest) {
     } = body;
 
     if (!reviewType || !overallRating) {
-      return NextResponse.json(
-        { error: 'reviewType and overallRating required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'reviewType and overallRating required' }, { status: 400 });
     }
 
     if (overallRating < 1 || overallRating > 5) {
-      return NextResponse.json(
-        { error: 'Rating must be between 1 and 5' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Rating must be between 1 and 5' }, { status: 400 });
     }
 
     const validTypes = ['product', 'merchant', 'order'];

@@ -30,26 +30,19 @@ import type { Cocktail } from '../types/cocktail';
 export {
   ibaUnforgettables,
   IBA_UNFORGETTABLES_COUNT,
+  alexander,
+  americano,
 } from './iba-unforgettables';
 
-export {
-  ibaContemporary,
-  IBA_CONTEMPORARY_COUNT,
-} from './iba-contemporary';
+export { ibaContemporary, IBA_CONTEMPORARY_COUNT } from './iba-contemporary';
 
-export {
-  ibaNewEra,
-  IBA_NEW_ERA_COUNT,
-} from './iba-new-era';
+export { ibaNewEra, IBA_NEW_ERA_COUNT } from './iba-new-era';
 
 // ============================================================================
 // FAMOUS NON-IBA COCKTAILS
 // ============================================================================
 
-export {
-  famousCocktails,
-  FAMOUS_COCKTAILS_COUNT,
-} from './famous';
+export { famousCocktails, FAMOUS_COCKTAILS_COUNT } from './famous';
 
 // ============================================================================
 // COMBINED DATABASE
@@ -63,26 +56,17 @@ import { famousCocktails, FAMOUS_COCKTAILS_COUNT } from './famous';
 /**
  * All IBA Official Cocktails
  */
-export const allIBACocktails: Cocktail[] = [
-  ...ibaUnforgettables,
-  ...ibaContemporary,
-  ...ibaNewEra,
-];
+export const allIBACocktails: Cocktail[] = [...ibaUnforgettables, ...ibaContemporary, ...ibaNewEra];
 
 /**
  * All Famous Non-IBA Cocktails
  */
-export const allFamousCocktails: Cocktail[] = [
-  ...famousCocktails,
-];
+export const allFamousCocktails: Cocktail[] = [...famousCocktails];
 
 /**
  * Complete Cocktail Database (IBA + Famous)
  */
-export const allCocktails: Cocktail[] = [
-  ...allIBACocktails,
-  ...allFamousCocktails,
-];
+export const allCocktails: Cocktail[] = [...allIBACocktails, ...allFamousCocktails];
 
 /**
  * Cocktail counts

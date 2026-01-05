@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/diary
  * Get food diary entries
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -42,10 +44,12 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('food_diary_entries')
-      .select(`
+      .select(
+        `
         *,
         merchant:merchants(id, business_name)
-      `)
+      `
+      )
       .eq('account_id', account.id)
       .order('entry_date', { ascending: false })
       .order('entry_time', { ascending: false });
@@ -90,6 +94,8 @@ export async function GET(request: NextRequest) {
  * Log a food diary entry
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -97,7 +103,10 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -127,10 +136,7 @@ export async function POST(request: NextRequest) {
     } = body;
 
     if (!mealType || !items || !Array.isArray(items)) {
-      return NextResponse.json(
-        { error: 'mealType and items array required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'mealType and items array required' }, { status: 400 });
     }
 
     const validMealTypes = ['breakfast', 'brunch', 'lunch', 'snack', 'dinner', 'dessert', 'drink'];
@@ -172,6 +178,8 @@ export async function POST(request: NextRequest) {
  * Delete a diary entry
  */
 export async function DELETE(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -179,7 +187,10 @@ export async function DELETE(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });

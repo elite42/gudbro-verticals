@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/notifications/preferences
  * Get notification preferences for the authenticated user
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -45,26 +47,28 @@ export async function GET(request: NextRequest) {
 
     const row = data?.[0];
     return NextResponse.json({
-      preferences: row ? {
-        emailEnabled: row.email_enabled,
-        emailMarketing: row.email_marketing,
-        emailOrders: row.email_orders,
-        emailLoyalty: row.email_loyalty,
-        emailContributions: row.email_contributions,
-        emailTeam: row.email_team,
-        emailDigestFrequency: row.email_digest_frequency,
-        pushEnabled: row.push_enabled,
-        pushOrders: row.push_orders,
-        pushLoyalty: row.push_loyalty,
-        pushPromotions: row.push_promotions,
-        pushReminders: row.push_reminders,
-        inappEnabled: row.inapp_enabled,
-        quietHoursEnabled: row.quiet_hours_enabled,
-        quietHoursStart: row.quiet_hours_start,
-        quietHoursEnd: row.quiet_hours_end,
-        timezone: row.timezone,
-        notificationLocale: row.notification_locale,
-      } : null,
+      preferences: row
+        ? {
+            emailEnabled: row.email_enabled,
+            emailMarketing: row.email_marketing,
+            emailOrders: row.email_orders,
+            emailLoyalty: row.email_loyalty,
+            emailContributions: row.email_contributions,
+            emailTeam: row.email_team,
+            emailDigestFrequency: row.email_digest_frequency,
+            pushEnabled: row.push_enabled,
+            pushOrders: row.push_orders,
+            pushLoyalty: row.push_loyalty,
+            pushPromotions: row.push_promotions,
+            pushReminders: row.push_reminders,
+            inappEnabled: row.inapp_enabled,
+            quietHoursEnabled: row.quiet_hours_enabled,
+            quietHoursStart: row.quiet_hours_start,
+            quietHoursEnd: row.quiet_hours_end,
+            timezone: row.timezone,
+            notificationLocale: row.notification_locale,
+          }
+        : null,
     });
   } catch (err) {
     console.error('[NotificationsAPI] Error:', err);
@@ -77,6 +81,8 @@ export async function GET(request: NextRequest) {
  * Update notification preferences
  */
 export async function PUT(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -84,7 +90,10 @@ export async function PUT(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });

@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 import { constructWebhookEvent } from '@/lib/stripe-service';
 import Stripe from 'stripe';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
@@ -15,6 +12,8 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
  * Handle Stripe webhook events
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const body = await request.text();
     const signature = request.headers.get('stripe-signature');
@@ -77,6 +76,7 @@ export async function POST(request: NextRequest) {
 }
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+  const supabase = getSupabase();
   const accountId = session.metadata?.account_id;
   const planCode = session.metadata?.plan_code;
   const billingCycle = session.metadata?.billing_cycle || 'monthly';
@@ -97,6 +97,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
+  const supabase = getSupabase();
   const statusMap: Record<string, string> = {
     active: 'active',
     trialing: 'trialing',
@@ -120,6 +121,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
+  const supabase = getSupabase();
   await supabase
     .from('subscriptions')
     .update({
@@ -131,6 +133,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 }
 
 async function handleInvoicePaid(invoice: Stripe.Invoice) {
+  const supabase = getSupabase();
   // Get subscription
   const { data: sub } = await supabase
     .from('subscriptions')
@@ -141,30 +144,34 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
   if (!sub) return;
 
   // Create invoice record
-  await supabase.from('invoices').upsert({
-    account_id: sub.account_id,
-    subscription_id: sub.id,
-    stripe_invoice_id: invoice.id,
-    stripe_payment_intent_id: invoice.payment_intent as string,
-    subtotal: invoice.subtotal,
-    tax: invoice.tax || 0,
-    total: invoice.total,
-    amount_paid: invoice.amount_paid,
-    amount_due: invoice.amount_due,
-    currency: invoice.currency,
-    status: 'paid',
-    invoice_date: new Date(invoice.created * 1000).toISOString(),
-    paid_at: new Date().toISOString(),
-    invoice_pdf_url: invoice.invoice_pdf,
-    hosted_invoice_url: invoice.hosted_invoice_url,
-    billing_name: invoice.customer_name,
-    billing_email: invoice.customer_email,
-  }, {
-    onConflict: 'stripe_invoice_id',
-  });
+  await supabase.from('invoices').upsert(
+    {
+      account_id: sub.account_id,
+      subscription_id: sub.id,
+      stripe_invoice_id: invoice.id,
+      stripe_payment_intent_id: invoice.payment_intent as string,
+      subtotal: invoice.subtotal,
+      tax: invoice.tax || 0,
+      total: invoice.total,
+      amount_paid: invoice.amount_paid,
+      amount_due: invoice.amount_due,
+      currency: invoice.currency,
+      status: 'paid',
+      invoice_date: new Date(invoice.created * 1000).toISOString(),
+      paid_at: new Date().toISOString(),
+      invoice_pdf_url: invoice.invoice_pdf,
+      hosted_invoice_url: invoice.hosted_invoice_url,
+      billing_name: invoice.customer_name,
+      billing_email: invoice.customer_email,
+    },
+    {
+      onConflict: 'stripe_invoice_id',
+    }
+  );
 }
 
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
+  const supabase = getSupabase();
   // Update subscription status
   await supabase
     .from('subscriptions')

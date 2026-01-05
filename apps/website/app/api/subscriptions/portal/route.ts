@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 import * as stripeService from '@/lib/stripe-service';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/subscriptions/portal
  * Create Stripe Customer Portal session
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -19,7 +18,10 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -46,10 +48,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (!subscription?.stripe_customer_id) {
-      return NextResponse.json(
-        { error: 'No billing account found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'No billing account found' }, { status: 404 });
     }
 
     const body = await request.json().catch(() => ({}));

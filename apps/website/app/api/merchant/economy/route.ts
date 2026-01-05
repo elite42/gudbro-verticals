@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/merchant/economy
  * Get merchant's economy dashboard
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -105,18 +107,19 @@ export async function GET(request: NextRequest) {
         lastPayoutAmount: parseFloat(firstRow.last_payout_amount) || 0,
         nextPayoutEstimate: parseFloat(firstRow.next_payout_estimate) || 0,
       },
-      revenueShares: revenueShares?.map(rs => ({
-        id: rs.id,
-        periodMonth: rs.period_month,
-        pointsEarned: rs.points_earned_at_merchant,
-        pointsRedeemed: rs.points_redeemed_at_merchant,
-        floatShareBasis: parseFloat(rs.float_share_basis_eur),
-        floatReturnShare: parseFloat(rs.float_return_share_eur),
-        breakageShare: parseFloat(rs.breakage_share_eur),
-        totalRevenue: parseFloat(rs.total_revenue_share_eur),
-        status: rs.status,
-        paidAt: rs.paid_at,
-      })) || [],
+      revenueShares:
+        revenueShares?.map((rs) => ({
+          id: rs.id,
+          periodMonth: rs.period_month,
+          pointsEarned: rs.points_earned_at_merchant,
+          pointsRedeemed: rs.points_redeemed_at_merchant,
+          floatShareBasis: parseFloat(rs.float_share_basis_eur),
+          floatReturnShare: parseFloat(rs.float_return_share_eur),
+          breakageShare: parseFloat(rs.breakage_share_eur),
+          totalRevenue: parseFloat(rs.total_revenue_share_eur),
+          status: rs.status,
+          paidAt: rs.paid_at,
+        })) || [],
       tierBenefits: getTierBenefits(firstRow.partner_tier || 'standard'),
     });
   } catch (err) {
@@ -126,23 +129,24 @@ export async function GET(request: NextRequest) {
 }
 
 function getTierBenefits(tier: string) {
-  const tiers: Record<string, { floatShare: number; breakageShare: number; description: string }> = {
-    standard: {
-      floatShare: 0.20,
-      breakageShare: 0.10,
-      description: 'Standard partner tier with 20% float return share and 10% breakage share',
-    },
-    premium: {
-      floatShare: 0.30,
-      breakageShare: 0.15,
-      description: 'Premium partner tier with 30% float return share and 15% breakage share',
-    },
-    founding: {
-      floatShare: 0.40,
-      breakageShare: 0.20,
-      description: 'Founding partner tier with 40% float return share and 20% breakage share',
-    },
-  };
+  const tiers: Record<string, { floatShare: number; breakageShare: number; description: string }> =
+    {
+      standard: {
+        floatShare: 0.2,
+        breakageShare: 0.1,
+        description: 'Standard partner tier with 20% float return share and 10% breakage share',
+      },
+      premium: {
+        floatShare: 0.3,
+        breakageShare: 0.15,
+        description: 'Premium partner tier with 30% float return share and 15% breakage share',
+      },
+      founding: {
+        floatShare: 0.4,
+        breakageShare: 0.2,
+        description: 'Founding partner tier with 40% float return share and 20% breakage share',
+      },
+    };
 
   return tiers[tier] || tiers.standard;
 }

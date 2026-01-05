@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/reservations
  * Get user's reservations
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -40,10 +42,12 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('reservations')
-      .select(`
+      .select(
+        `
         *,
         merchant:merchants(id, business_name, logo_url)
-      `)
+      `
+      )
       .eq('account_id', account.id)
       .order('reservation_date', { ascending: true })
       .order('reservation_time', { ascending: true });
@@ -65,22 +69,25 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({
-      reservations: reservations?.map(r => ({
-        id: r.id,
-        confirmationCode: r.confirmation_code,
-        date: r.reservation_date,
-        time: r.reservation_time,
-        partySize: r.party_size,
-        status: r.status,
-        guestName: r.guest_name,
-        specialRequests: r.special_requests,
-        merchant: r.merchant ? {
-          id: r.merchant.id,
-          name: r.merchant.business_name,
-          logo: r.merchant.logo_url,
-        } : null,
-        createdAt: r.created_at,
-      })) || [],
+      reservations:
+        reservations?.map((r) => ({
+          id: r.id,
+          confirmationCode: r.confirmation_code,
+          date: r.reservation_date,
+          time: r.reservation_time,
+          partySize: r.party_size,
+          status: r.status,
+          guestName: r.guest_name,
+          specialRequests: r.special_requests,
+          merchant: r.merchant
+            ? {
+                id: r.merchant.id,
+                name: r.merchant.business_name,
+                logo: r.merchant.logo_url,
+              }
+            : null,
+          createdAt: r.created_at,
+        })) || [],
     });
   } catch (err) {
     console.error('[ReservationsAPI] Error:', err);
@@ -93,6 +100,8 @@ export async function GET(request: NextRequest) {
  * Create a new reservation
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -100,7 +109,10 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -117,7 +129,16 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { merchantId, date, time, partySize, guestName, guestPhone, guestEmail, specialRequests } = body;
+    const {
+      merchantId,
+      date,
+      time,
+      partySize,
+      guestName,
+      guestPhone,
+      guestEmail,
+      specialRequests,
+    } = body;
 
     if (!merchantId || !date || !time || !partySize || !guestName) {
       return NextResponse.json(
@@ -167,6 +188,8 @@ export async function POST(request: NextRequest) {
  * Cancel a reservation
  */
 export async function DELETE(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -174,7 +197,10 @@ export async function DELETE(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });

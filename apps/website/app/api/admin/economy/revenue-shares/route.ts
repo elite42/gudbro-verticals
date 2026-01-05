@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/admin/economy/revenue-shares
  * Get merchant revenue share records
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -40,10 +42,12 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('merchant_revenue_shares')
-      .select(`
+      .select(
+        `
         *,
         merchant:merchants(id, business_name, partner_tier)
-      `)
+      `
+      )
       .order('period_month', { ascending: false });
 
     if (status) {
@@ -74,7 +78,7 @@ export async function GET(request: NextRequest) {
       held: 0,
     };
 
-    statusCounts?.forEach(s => {
+    statusCounts?.forEach((s) => {
       if (s.status in totals) {
         totals[s.status as keyof typeof totals] += parseFloat(s.total_revenue_share_eur || 0);
       }
@@ -95,6 +99,8 @@ export async function GET(request: NextRequest) {
  * Calculate revenue shares for a merchant/period
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     const cronSecret = request.headers.get('x-cron-secret');
@@ -105,7 +111,10 @@ export async function POST(request: NextRequest) {
       }
 
       const token = authHeader.substring(7);
-      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser(token);
 
       if (authError || !user) {
         return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -164,6 +173,8 @@ export async function POST(request: NextRequest) {
  * Update revenue share status (approve, pay, hold)
  */
 export async function PATCH(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -171,7 +182,10 @@ export async function PATCH(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });

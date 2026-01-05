@@ -1,19 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/reviews/[id]/report
  * Report a review for moderation
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -21,7 +17,10 @@ export async function POST(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -41,7 +40,14 @@ export async function POST(
     const body = await request.json();
     const { reason, details } = body;
 
-    const validReasons = ['spam', 'fake', 'inappropriate', 'harassment', 'conflict_of_interest', 'other'];
+    const validReasons = [
+      'spam',
+      'fake',
+      'inappropriate',
+      'harassment',
+      'conflict_of_interest',
+      'other',
+    ];
     if (!reason || !validReasons.includes(reason)) {
       return NextResponse.json(
         { error: 'Invalid reason. Must be one of: ' + validReasons.join(', ') },
@@ -50,11 +56,7 @@ export async function POST(
     }
 
     // Check review exists
-    const { data: review } = await supabase
-      .from('reviews')
-      .select('id')
-      .eq('id', id)
-      .single();
+    const { data: review } = await supabase.from('reviews').select('id').eq('id', id).single();
 
     if (!review) {
       return NextResponse.json({ error: 'Review not found' }, { status: 404 });
@@ -69,10 +71,7 @@ export async function POST(
       .single();
 
     if (existingReport) {
-      return NextResponse.json(
-        { error: 'You have already reported this review' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'You have already reported this review' }, { status: 400 });
     }
 
     // Create report

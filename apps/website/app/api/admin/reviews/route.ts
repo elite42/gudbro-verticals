@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/admin/reviews
  * Get reviews for moderation
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -38,13 +40,20 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status') || 'pending';
     const limit = parseInt(searchParams.get('limit') || '50');
 
-    const { data: reviews, error, count } = await supabase
+    const {
+      data: reviews,
+      error,
+      count,
+    } = await supabase
       .from('reviews')
-      .select(`
+      .select(
+        `
         *,
         account:accounts(id, display_name, email),
         merchant:merchants(id, business_name)
-      `, { count: 'exact' })
+      `,
+        { count: 'exact' }
+      )
       .eq('status', status)
       .order('created_at', { ascending: true })
       .limit(limit);
@@ -55,9 +64,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get counts by status
-    const { data: statusCounts } = await supabase
-      .from('reviews')
-      .select('status');
+    const { data: statusCounts } = await supabase.from('reviews').select('status');
 
     const counts = {
       pending: 0,
@@ -66,7 +73,7 @@ export async function GET(request: NextRequest) {
       flagged: 0,
     };
 
-    statusCounts?.forEach(r => {
+    statusCounts?.forEach((r) => {
       if (r.status in counts) {
         counts[r.status as keyof typeof counts]++;
       }
@@ -88,6 +95,8 @@ export async function GET(request: NextRequest) {
  * Moderate a review
  */
 export async function PATCH(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -95,7 +104,10 @@ export async function PATCH(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -115,10 +127,7 @@ export async function PATCH(request: NextRequest) {
     const { reviewId, action, notes } = body;
 
     if (!reviewId || !action) {
-      return NextResponse.json(
-        { error: 'reviewId and action required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'reviewId and action required' }, { status: 400 });
     }
 
     const validActions = ['approve', 'reject', 'flag'];

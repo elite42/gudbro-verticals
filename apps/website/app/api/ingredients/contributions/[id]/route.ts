@@ -1,19 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/ingredients/contributions/[id]
  * Get a specific contribution
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = getSupabase();
+
   try {
     const { id } = await params;
 
@@ -23,7 +19,10 @@ export async function GET(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -65,6 +64,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const supabase = getSupabase();
+
   try {
     const { id } = await params;
 
@@ -74,7 +75,10 @@ export async function DELETE(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -103,16 +107,10 @@ export async function DELETE(
     }
 
     if (contribution.status !== 'pending') {
-      return NextResponse.json(
-        { error: 'Can only cancel pending contributions' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Can only cancel pending contributions' }, { status: 400 });
     }
 
-    const { error } = await supabase
-      .from('ingredient_contributions')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('ingredient_contributions').delete().eq('id', id);
 
     if (error) {
       console.error('[ContributionsAPI] Delete error:', error);

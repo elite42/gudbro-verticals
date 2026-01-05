@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/notifications/push-token
  * Register a push notification token
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -38,10 +40,7 @@ export async function POST(request: NextRequest) {
     const { pushToken, platform, deviceName, deviceId } = body;
 
     if (!pushToken || !platform) {
-      return NextResponse.json(
-        { error: 'pushToken and platform are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'pushToken and platform are required' }, { status: 400 });
     }
 
     if (!['ios', 'android', 'web'].includes(platform)) {
@@ -64,10 +63,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({
-      success: true,
-      tokenId: data,
-    }, { status: 201 });
+    return NextResponse.json(
+      {
+        success: true,
+        tokenId: data,
+      },
+      { status: 201 }
+    );
   } catch (err) {
     console.error('[NotificationsAPI] Error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -79,6 +81,8 @@ export async function POST(request: NextRequest) {
  * Deactivate a push notification token
  */
 export async function DELETE(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const body = await request.json();
     const { pushToken } = body;

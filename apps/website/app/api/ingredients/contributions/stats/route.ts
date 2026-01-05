@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/ingredients/contributions/stats
  * Get user's contribution statistics
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -80,9 +82,8 @@ export async function GET(request: NextRequest) {
 
     // Calculate approval rate
     const reviewedCount = stats.approved + stats.merged + stats.rejected + stats.duplicate;
-    const approvalRate = reviewedCount > 0
-      ? Math.round(((stats.approved + stats.merged) / reviewedCount) * 100)
-      : 0;
+    const approvalRate =
+      reviewedCount > 0 ? Math.round(((stats.approved + stats.merged) / reviewedCount) * 100) : 0;
 
     return NextResponse.json({
       stats: {

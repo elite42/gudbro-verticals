@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/loyalty/summary
  * Get user's loyalty summary (points, tier, progress)
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -67,14 +69,16 @@ export async function GET(request: NextRequest) {
           benefits: tier?.benefits || {},
           colorHex: tier?.color_hex,
         },
-        nextTier: tier?.next_tier_name ? {
-          name: tier.next_tier_name,
-          pointsRequired: tier.next_tier_points,
-          pointsToGo: tier.points_to_next,
-          progressPercent: tier.next_tier_points
-            ? Math.round((account.points_balance / tier.next_tier_points) * 100)
-            : 100,
-        } : null,
+        nextTier: tier?.next_tier_name
+          ? {
+              name: tier.next_tier_name,
+              pointsRequired: tier.next_tier_points,
+              pointsToGo: tier.points_to_next,
+              progressPercent: tier.next_tier_points
+                ? Math.round((account.points_balance / tier.next_tier_points) * 100)
+                : 100,
+            }
+          : null,
         badges: account.badges || [],
         activeRedemptions: activeRedemptions || 0,
       },

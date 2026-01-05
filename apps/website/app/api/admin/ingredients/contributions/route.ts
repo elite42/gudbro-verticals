@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * Check if user is GudBro admin
  */
 async function isGudBroAdmin(accountId: string): Promise<boolean> {
+  const supabase = getSupabase();
   const { data } = await supabase
     .from('account_roles')
     .select('role_type, permissions')
@@ -26,6 +24,8 @@ async function isGudBroAdmin(accountId: string): Promise<boolean> {
  * Get all pending contributions for review (admin only)
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -33,7 +33,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -58,10 +61,13 @@ export async function GET(request: NextRequest) {
     // Get contributions with contributor info
     const { data, error, count } = await supabase
       .from('ingredient_contributions')
-      .select(`
+      .select(
+        `
         *,
         accounts!inner(id, email, display_name, avatar_url)
-      `, { count: 'exact' })
+      `,
+        { count: 'exact' }
+      )
       .eq('status', status)
       .order('created_at', { ascending: true })
       .range(offset, offset + limit - 1);
@@ -72,9 +78,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get counts by status
-    const { data: statusCounts } = await supabase
-      .from('ingredient_contributions')
-      .select('status');
+    const { data: statusCounts } = await supabase.from('ingredient_contributions').select('status');
 
     const counts = {
       pending: 0,

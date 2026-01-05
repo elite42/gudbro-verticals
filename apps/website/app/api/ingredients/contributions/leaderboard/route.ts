@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/ingredients/contributions/leaderboard
  * Get top contributors leaderboard
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '10');
@@ -18,10 +17,12 @@ export async function GET(request: NextRequest) {
     // Get top contributors by approved contributions
     const { data, error } = await supabase
       .from('ingredient_contributions')
-      .select(`
+      .select(
+        `
         account_id,
         accounts!inner(display_name, avatar_url)
-      `)
+      `
+      )
       .in('status', ['approved', 'merged']);
 
     if (error) {
@@ -30,12 +31,15 @@ export async function GET(request: NextRequest) {
     }
 
     // Aggregate by account
-    const contributorMap = new Map<string, {
-      accountId: string;
-      displayName: string;
-      avatarUrl: string | null;
-      approvedCount: number;
-    }>();
+    const contributorMap = new Map<
+      string,
+      {
+        accountId: string;
+        displayName: string;
+        avatarUrl: string | null;
+        approvedCount: number;
+      }
+    >();
 
     (data || []).forEach((row: any) => {
       const accountId = row.account_id;

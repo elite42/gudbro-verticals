@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/admin/economy/dashboard
  * Get HQ economy dashboard data
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     // Check for admin auth (service role or admin account)
     const authHeader = request.headers.get('authorization');
@@ -23,7 +22,10 @@ export async function GET(request: NextRequest) {
       }
 
       const token = authHeader.substring(7);
-      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser(token);
 
       if (authError || !user) {
         return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -97,6 +99,7 @@ export async function GET(request: NextRequest) {
 }
 
 async function calculateDashboardManually() {
+  const supabase = getSupabase();
   // Fallback calculation if view doesn't exist
   const { data: deposits } = await supabase
     .from('prepaid_deposits')
@@ -124,7 +127,7 @@ async function calculateDashboardManually() {
     expiring_soon_liability_eur: 0,
     total_revenue_shared_eur: 0,
     pending_revenue_share_eur: 0,
-    accounts_with_points: accounts?.filter(a => (a.points_balance || 0) > 0).length || 0,
+    accounts_with_points: accounts?.filter((a) => (a.points_balance || 0) > 0).length || 0,
     deposits_last_30_days: 0,
   };
 }

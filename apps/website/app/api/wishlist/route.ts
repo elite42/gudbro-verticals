@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/wishlist
  * Get user's wishlist
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -40,10 +42,12 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('wishlists')
-      .select(`
+      .select(
+        `
         *,
         merchant:merchants(id, business_name)
-      `)
+      `
+      )
       .eq('account_id', account.id)
       .eq('status', status)
       .order('priority', { ascending: false })
@@ -98,8 +102,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       items: enrichedItems,
       counts: {
-        active: items?.filter(i => i.status === 'active').length || 0,
-        tried: items?.filter(i => i.status === 'tried').length || 0,
+        active: items?.filter((i) => i.status === 'active').length || 0,
+        tried: items?.filter((i) => i.status === 'tried').length || 0,
       },
     });
   } catch (err) {
@@ -113,6 +117,8 @@ export async function GET(request: NextRequest) {
  * Add item to wishlist
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -120,7 +126,10 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -140,18 +149,12 @@ export async function POST(request: NextRequest) {
     const { itemType, itemId, merchantId, notes, priority } = body;
 
     if (!itemType || !itemId) {
-      return NextResponse.json(
-        { error: 'itemType and itemId required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'itemType and itemId required' }, { status: 400 });
     }
 
     const validTypes = ['product', 'ingredient', 'merchant', 'recipe'];
     if (!validTypes.includes(itemType)) {
-      return NextResponse.json(
-        { error: 'Invalid itemType' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid itemType' }, { status: 400 });
     }
 
     const { data: wishlistId, error } = await supabase.rpc('add_to_wishlist', {
@@ -184,6 +187,8 @@ export async function POST(request: NextRequest) {
  * Remove item from wishlist
  */
 export async function DELETE(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -191,7 +196,10 @@ export async function DELETE(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -239,6 +247,8 @@ export async function DELETE(request: NextRequest) {
  * Mark item as tried
  */
 export async function PATCH(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -246,7 +256,10 @@ export async function PATCH(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -266,10 +279,7 @@ export async function PATCH(request: NextRequest) {
     const { wishlistId, action, rating } = body;
 
     if (!wishlistId || !action) {
-      return NextResponse.json(
-        { error: 'wishlistId and action required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'wishlistId and action required' }, { status: 400 });
     }
 
     if (action === 'tried') {

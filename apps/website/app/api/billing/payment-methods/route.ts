@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/billing/payment-methods
  * Get user's payment methods
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -48,21 +50,28 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({
-      paymentMethods: methods?.map(pm => ({
-        id: pm.id,
-        type: pm.type,
-        isDefault: pm.is_default,
-        card: pm.type === 'card' ? {
-          brand: pm.card_brand,
-          last4: pm.card_last4,
-          expMonth: pm.card_exp_month,
-          expYear: pm.card_exp_year,
-        } : null,
-        sepa: pm.type === 'sepa_debit' ? {
-          last4: pm.sepa_last4,
-          bankCode: pm.sepa_bank_code,
-        } : null,
-      })) || [],
+      paymentMethods:
+        methods?.map((pm) => ({
+          id: pm.id,
+          type: pm.type,
+          isDefault: pm.is_default,
+          card:
+            pm.type === 'card'
+              ? {
+                  brand: pm.card_brand,
+                  last4: pm.card_last4,
+                  expMonth: pm.card_exp_month,
+                  expYear: pm.card_exp_year,
+                }
+              : null,
+          sepa:
+            pm.type === 'sepa_debit'
+              ? {
+                  last4: pm.sepa_last4,
+                  bankCode: pm.sepa_bank_code,
+                }
+              : null,
+        })) || [],
     });
   } catch (err) {
     console.error('[PaymentMethodsAPI] Error:', err);
@@ -75,6 +84,8 @@ export async function GET(request: NextRequest) {
  * Remove a payment method
  */
 export async function DELETE(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -82,7 +93,10 @@ export async function DELETE(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -118,10 +132,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     if (method.is_default) {
-      return NextResponse.json(
-        { error: 'Cannot remove default payment method' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Cannot remove default payment method' }, { status: 400 });
     }
 
     // Detach from Stripe

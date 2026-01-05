@@ -4,12 +4,7 @@
  * Handles merchant self-registration wizard
  */
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+import { getSupabase } from '@/lib/supabase-lazy';
 
 export interface OnboardingSession {
   id: string;
@@ -67,6 +62,7 @@ export async function startOnboarding(
     utmCampaign?: string;
   }
 ): Promise<StartOnboardingResult | null> {
+  const supabase = getSupabase();
   const { data, error } = await supabase.rpc('start_merchant_onboarding', {
     p_email: email,
     p_first_name: options?.firstName || null,
@@ -106,6 +102,7 @@ export async function getOnboardingSession(): Promise<OnboardingSession | null> 
   const token = typeof window !== 'undefined' ? localStorage.getItem(SESSION_TOKEN_KEY) : null;
   if (!token) return null;
 
+  const supabase = getSupabase();
   const { data, error } = await supabase.rpc('get_onboarding_session', {
     p_session_token: token,
   });
@@ -154,6 +151,7 @@ export async function updateOnboardingStep(
   const token = typeof window !== 'undefined' ? localStorage.getItem(SESSION_TOKEN_KEY) : null;
   if (!token) return false;
 
+  const supabase = getSupabase();
   const { error } = await supabase.rpc('update_onboarding_step', {
     p_session_token: token,
     p_step: step,
@@ -171,14 +169,13 @@ export async function updateOnboardingStep(
 /**
  * Complete the onboarding process
  */
-export async function completeOnboarding(
-  authId?: string
-): Promise<CompleteOnboardingResult> {
+export async function completeOnboarding(authId?: string): Promise<CompleteOnboardingResult> {
   const token = typeof window !== 'undefined' ? localStorage.getItem(SESSION_TOKEN_KEY) : null;
   if (!token) {
     return { success: false, errorMessage: 'No active session' };
   }
 
+  const supabase = getSupabase();
   const { data, error } = await supabase.rpc('complete_merchant_onboarding', {
     p_session_token: token,
     p_auth_id: authId || null,
@@ -228,17 +225,8 @@ export const SUBSCRIPTION_PLANS = [
     name: 'Free',
     price: 0,
     priceYearly: 0,
-    features: [
-      '1 location',
-      '50 menu items',
-      'Basic QR menu',
-      'Community support',
-    ],
-    limitations: [
-      'GUDBRO branding',
-      'No analytics',
-      'No ordering',
-    ],
+    features: ['1 location', '50 menu items', 'Basic QR menu', 'Community support'],
+    limitations: ['GUDBRO branding', 'No analytics', 'No ordering'],
   },
   {
     id: 'starter',

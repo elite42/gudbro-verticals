@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 import { sendInviteDeclinedEmail } from '@/lib/email';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const body = await request.json();
     const { token } = body;
@@ -19,11 +18,13 @@ export async function POST(request: NextRequest) {
     // Get invitation details before declining (for email notification)
     const { data: inviteData } = await supabase
       .from('staff_invitations')
-      .select(`
+      .select(
+        `
         email,
         organizations!inner(name),
         accounts!staff_invitations_inviter_account_id_fkey(email, display_name, first_name)
-      `)
+      `
+      )
       .eq('invite_token', token)
       .single();
 
@@ -38,10 +39,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (data !== true) {
-      return NextResponse.json(
-        { error: 'Impossibile rifiutare l\'invito' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Impossibile rifiutare l'invito" }, { status: 400 });
     }
 
     // Send notification email to inviter (async, don't wait)

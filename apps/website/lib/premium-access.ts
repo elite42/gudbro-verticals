@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { getSupabase } from '@/lib/supabase-lazy';
 
 // Premium feature definitions
 export const PREMIUM_FEATURES = {
@@ -79,6 +74,7 @@ export async function hasFeatureAccess(
   accountId: string,
   feature: PremiumFeature
 ): Promise<boolean> {
+  const supabase = getSupabase();
   const { data } = await supabase.rpc('has_feature_access', {
     p_account_id: accountId,
     p_feature: feature,
@@ -88,6 +84,7 @@ export async function hasFeatureAccess(
 
 // Check if account has premium subscription
 export async function hasPremiumSubscription(accountId: string): Promise<boolean> {
+  const supabase = getSupabase();
   const { data } = await supabase.rpc('has_premium_subscription', {
     p_account_id: accountId,
   });
@@ -96,6 +93,7 @@ export async function hasPremiumSubscription(accountId: string): Promise<boolean
 
 // Get all accessible features for an account
 export async function getAccessibleFeatures(accountId: string): Promise<PremiumFeature[]> {
+  const supabase = getSupabase();
   const { data: subscription } = await supabase.rpc('get_current_subscription', {
     p_account_id: accountId,
   });
@@ -128,6 +126,7 @@ export async function getFeatureLimits(accountId: string): Promise<{
   maxQrCodes: number;
   loyaltyMultiplier: number;
 }> {
+  const supabase = getSupabase();
   const { data: subscription } = await supabase.rpc('get_current_subscription', {
     p_account_id: accountId,
   });

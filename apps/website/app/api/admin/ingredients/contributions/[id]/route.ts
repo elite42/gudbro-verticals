@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * Check if user is GudBro admin
  */
 async function isGudBroAdmin(accountId: string): Promise<boolean> {
+  const supabase = getSupabase();
   const { data } = await supabase
     .from('account_roles')
     .select('role_type, permissions')
@@ -25,10 +23,9 @@ async function isGudBroAdmin(accountId: string): Promise<boolean> {
  * GET /api/admin/ingredients/contributions/[id]
  * Get single contribution details with similar ingredients
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = getSupabase();
+
   try {
     const { id } = await params;
 
@@ -38,7 +35,10 @@ export async function GET(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -57,10 +57,12 @@ export async function GET(
     // Get contribution with contributor info
     const { data: contribution, error } = await supabase
       .from('ingredient_contributions')
-      .select(`
+      .select(
+        `
         *,
         accounts!inner(id, email, display_name, avatar_url, contributor_points)
-      `)
+      `
+      )
       .eq('id', id)
       .single();
 
@@ -90,10 +92,9 @@ export async function GET(
  * PATCH /api/admin/ingredients/contributions/[id]
  * Update contribution status (approve, reject, merge)
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = getSupabase();
+
   try {
     const { id } = await params;
 
@@ -103,7 +104,10 @@ export async function PATCH(
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -122,7 +126,10 @@ export async function PATCH(
     const body = await request.json();
     const { action, reviewerNotes, rejectionReason, mergeIntoId } = body;
 
-    if (!action || !['approve', 'reject', 'merge', 'mark_duplicate', 'start_review'].includes(action)) {
+    if (
+      !action ||
+      !['approve', 'reject', 'merge', 'mark_duplicate', 'start_review'].includes(action)
+    ) {
       return NextResponse.json(
         { error: 'Valid action required: approve, reject, merge, mark_duplicate, start_review' },
         { status: 400 }
@@ -200,7 +207,10 @@ export async function PATCH(
 
       case 'merge':
         if (!mergeIntoId) {
-          return NextResponse.json({ error: 'mergeIntoId required for merge action' }, { status: 400 });
+          return NextResponse.json(
+            { error: 'mergeIntoId required for merge action' },
+            { status: 400 }
+          );
         }
         newStatus = 'merged';
         pointsToAward = 25; // Half points for merge

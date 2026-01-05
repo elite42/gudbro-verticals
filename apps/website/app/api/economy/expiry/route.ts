@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/economy/expiry
  * Get user's points expiry summary
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -18,7 +17,10 @@ export async function GET(request: NextRequest) {
     }
 
     const token = authHeader.substring(7);
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
@@ -74,17 +76,18 @@ export async function GET(request: NextRequest) {
       expiring12Months: firstRow.expiring_12_months || 0,
       nextExpiryDate: firstRow.next_expiry_date || null,
       nextExpiryAmount: firstRow.next_expiry_amount || 0,
-      batches: batches?.map(b => ({
-        id: b.id,
-        pointsAmount: b.points_amount,
-        remainingPoints: b.remaining_points,
-        earnedAt: b.earned_at,
-        expiresAt: b.expires_at,
-        status: b.status,
-        daysUntilExpiry: Math.ceil(
-          (new Date(b.expires_at).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
-        ),
-      })) || [],
+      batches:
+        batches?.map((b) => ({
+          id: b.id,
+          pointsAmount: b.points_amount,
+          remainingPoints: b.remaining_points,
+          earnedAt: b.earned_at,
+          expiresAt: b.expires_at,
+          status: b.status,
+          daysUntilExpiry: Math.ceil(
+            (new Date(b.expires_at).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+          ),
+        })) || [],
     });
   } catch (err) {
     console.error('[ExpiryAPI] Error:', err);

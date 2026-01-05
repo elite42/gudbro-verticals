@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import {
   sendWelcomeEmail,
   sendStaffInviteEmail,
@@ -43,10 +45,7 @@ export async function POST(request: NextRequest) {
     const { type, ...params } = body as { type: EmailType } & Record<string, any>;
 
     if (!type) {
-      return NextResponse.json(
-        { error: 'Missing email type' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing email type' }, { status: 400 });
     }
 
     let result;
@@ -122,10 +121,7 @@ export async function POST(request: NextRequest) {
         break;
 
       default:
-        return NextResponse.json(
-          { error: `Unknown email type: ${type}` },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: `Unknown email type: ${type}` }, { status: 400 });
     }
 
     if (result.success) {
@@ -134,16 +130,10 @@ export async function POST(request: NextRequest) {
         messageId: result.messageId,
       });
     } else {
-      return NextResponse.json(
-        { success: false, error: result.error },
-        { status: 500 }
-      );
+      return NextResponse.json({ success: false, error: result.error }, { status: 500 });
     }
   } catch (error) {
     console.error('[EmailAPI] Error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

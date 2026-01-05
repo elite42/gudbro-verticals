@@ -2,269 +2,293 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-03
+> **Last Updated:** 2026-01-05
+> **Version:** 5.0 (Numbered sections for reliable memorization)
 
 ---
 
-## COMANDO: "leggi gudbro"
+# 1. STARTUP COMMAND
 
-> **IMPORTANTE:** Questo è l'UNICO file CLAUDE.md del progetto.
-> I verticali (rentals, wellness, coffeeshop) hanno file `VERTICAL-CONTEXT.md` separati.
+> **IMPORTANTE:** Questo e' l'UNICO file CLAUDE.md del progetto.
 
 **Quando l'utente dice "leggi gudbro" o "riavvia":**
 
 ```
-ESEGUI IMMEDIATAMENTE (senza cercare altri file):
-
+ESEGUI IN ORDINE:
 1. LEGGI questo file: /gudbro-verticals/CLAUDE.md
-2. LEGGI docs/BACKLOG.md
-3. LEGGI docs/DATABASE-INVENTORY.md
-4. LEGGI docs/ECOSYSTEM-MAP.md (mappa completa repo esterni, tools, assets)
+2. LEGGI docs/backlog/2-IN-PROGRESS.md (task attive)
+3. LEGGI docs/backlog/3-TESTING.md (da testare)
+4. LEGGI docs/DATABASE-INVENTORY.md (stato database)
+5. LEGGI docs/DATABASE-SCHEMA.md (schema tabelle - CRITICO)
 
-POI conferma all'utente:
+POI conferma:
 "Ho letto la documentazione GUDBRO.
-
-STATO SISTEMA:
-- Database: 75 | Prodotti: ~4653 | Ingredienti: ~2548
-- Nutrition coverage: 100%
-- QR Platform: gudbro-qr-core (19 tipi QR, AI Artistic)
-- Tools: Savings Calculator, Strategic Report
-- [Prossimo task dal BACKLOG se presente]
-
-Pronto per lavorare."
-```
-
-**NON cercare altri CLAUDE.md** - questo è l'unico.
-
----
-
-## QUICK START (Protocollo Riavvio Esteso)
-
-**Per lavoro su DATABASE, leggi anche:**
-
-```
-4. shared/database/PROCEDURE-NEW-DATABASE.md (procedura operativa)
-5. shared/database/_system/docs/LESSONS-LEARNED.md (mappa esperienziale)
-```
-
-**Comando rapido utente:** `"leggi gudbro"` o `"riavvia sessione"`
-
-### Session Resume (Ripresa Sessione Interrotta)
-
-Se riprendo una sessione precedente su un database:
-
-1. **Ri-leggere** PROCEDURE-NEW-DATABASE.md
-2. **Ri-validare** tutti gli script creati (Step 6 della procedura)
-3. **Verificare** ingredienti estratti da script 04
-4. **Non procedere** finche tutti i check non passano
-
-> Vedi LESSONS-LEARNED.md #4 per checklist completa
-
----
-
-## All'Inizio di Ogni Sessione
-
-```
-LEGGI SEMPRE:
-1. CLAUDE.md (questo file)
-2. docs/BACKLOG.md - task pending
-3. docs/DATABASE-INVENTORY.md - stato database
+STATO: DB 75 | Prodotti ~4653 | Ingredienti 2548 (100% nutrition)
+Kanban: [X IN PROGRESS, Y TESTING]
+Pronto."
 ```
 
 ---
 
-## Documentazione di Riferimento
+# 2. DEVELOPMENT WORKFLOW
 
-| Area          | File                                              | Descrizione                                            |
-| ------------- | ------------------------------------------------- | ------------------------------------------------------ |
-| **Ecosystem** | `docs/ECOSYSTEM-MAP.md`                           | **MAPPA COMPLETA** tutti i repo, assets, tools esterni |
-| **Database**  | `docs/DATABASE-INVENTORY.md`                      | Stato tutti i database (SOURCE OF TRUTH)               |
-| **Backlog**   | `docs/BACKLOG.md`                                 | Task pending e completati                              |
-| **Standards** | `shared/database/DATABASE-STANDARDS.md`           | Regole naming, schema, convenzioni                     |
-| **Procedure** | `shared/database/PROCEDURE-NEW-DATABASE.md`       | Guida step-by-step nuovi database                      |
-| **Lezioni**   | `shared/database/_system/docs/LESSONS-LEARNED.md` | 44 lezioni organizzate per contesto (v5.0)             |
-| **Strategic** | `docs/STRATEGIC-REPORT-5-DIMENSIONS.md`           | Report 5 dimensioni, compliance, revenue streams       |
+> **REGOLA D'ORO:** Explore → Plan → Validate → Implement → Document
 
-### LESSONS-LEARNED: Mappa Esperienziale
+**Mai saltare fasi.** Gli errori nascono saltando direttamente all'implementazione.
 
-Le lezioni sono organizzate per **contesto operativo**. Consulta la sezione pertinente:
+| Fase      | Azione                       | Output          |
+| --------- | ---------------------------- | --------------- |
+| EXPLORE   | Leggi, capisci, NON scrivere | Comprensione    |
+| PLAN      | Cosa, Come, Perche, Rischi   | Piano           |
+| VALIDATE  | Check PRIMA di implementare  | ✅ o ❌         |
+| IMPLEMENT | Codice con confidenza        | Funziona        |
+| DOCUMENT  | Mantieni la conoscenza       | Docs aggiornati |
 
-| Contesto                   | Quando Consultare                     |
-| -------------------------- | ------------------------------------- |
-| **1. PRE-WORK**            | Prima di iniziare qualsiasi lavoro    |
-| **2. INGREDIENTI**         | Verifica naming, cache, duplicati     |
-| **3. SCRIPT SQL**          | Sintassi, escape, formati             |
-| **4. PRODUCT_TAXONOMY**    | Template e valori corretti per cucine |
-| **5. PRODUCT_INGREDIENTS** | Schema, ruoli, linking                |
-| **6. VALIDAZIONE**         | Checklist pre-esecuzione              |
-| **7. POST-ESECUZIONE**     | Aggiornare docs dopo import           |
-| **8. ESTENSIONE TABELLE**  | Modifiche a tabelle esistenti         |
-| **9. MANUTENZIONE**        | Pulizia duplicati, ENUM               |
-| **10. AI-ASSISTED**        | Workflow con Gemini/ChatGPT           |
-
-> **Non leggere tutto** - consulta solo il contesto rilevante per il task corrente
+**Riferimento completo:** `docs/DEVELOPMENT-WORKFLOW.md`
+**Checklist per tipo task:** `docs/PROCEDURE-CHECKLIST.md`
 
 ---
 
-## Documentazione Proporzionale (REGOLA)
+# 3. VALIDATION GATES (Obbligatori)
 
-**Documenta in base alla complessità del task:**
-
-| Effort Stimato           | Documentazione Richiesta                        |
-| ------------------------ | ----------------------------------------------- |
-| < 1 ora                  | Solo commit message descrittivo                 |
-| 1-4 ore                  | BACKLOG.md + sezione dedicata nella feature     |
-| > 4 ore / multi-sessione | Cartella `docs/features/FEATURE-NAME/` completa |
-
-**Struttura per feature complesse (> 4 ore):**
+## 3.1 Prima di SQL/Migration
 
 ```
-docs/features/FEATURE-NAME/
-├── README.md      # Scope, status, overview, user stories semplici
-├── DECISIONS.md   # Scelte architetturali e motivazioni
-└── PROGRESS.md    # Log lavori (se multi-sessione)
+VERIFICA SEMPRE:
+- [ ] UUID solo hex (0-9, a-f) - MAI lettere g-z
+- [ ] Colonne esistono nella tabella (leggi migration)
+- [ ] CHECK constraints rispettati (leggi migration)
+- [ ] Array syntax: '{"a","b"}' NON '["a","b"]'
+- [ ] FK references esistono
 ```
 
-**Perché:** Evita perdita di contesto tra sessioni senza creare overhead inutile.
+## 3.2 Prima di Codice
+
+```
+VERIFICA SEMPRE:
+- [ ] Types importati correttamente
+- [ ] Pattern esistenti seguiti
+- [ ] Error handling presente
+```
+
+## 3.3 Quick Reference Errori SQL
+
+| Errore                               | Causa              | Fix               |
+| ------------------------------------ | ------------------ | ----------------- |
+| `invalid input syntax for type uuid` | Caratteri g-z      | Solo 0-9, a-f     |
+| `column "X" does not exist`          | Colonna sbagliata  | Verifica schema   |
+| `violates check constraint`          | Valore non ammesso | Leggi CHECK       |
+| `malformed array literal`            | `[]` invece `{}`   | Usa `'{"a","b"}'` |
 
 ---
 
-## Regole Fondamentali
-
-### Prima di Lavorare su Database
-
-```
-OBBLIGATORIO:
-1. Leggere PROCEDURE-NEW-DATABASE.md (specialmente Product Taxonomy!)
-2. Consultare database recente come riferimento (cuisines/fusion/nikkei/, cuisines/americas/texmex/)
-```
-
-### Dopo Ogni Import
-
-```
-AGGIORNARE IMMEDIATAMENTE:
-1. DATABASE-INVENTORY.md (entry + totali)
-2. Cache ingredienti (se nuovi ingredienti)
-```
-
-### Database Template di Riferimento
-
-Quando creo un nuovo database, copiare struttura da:
-
-| Tipo             | Template                                              | Note                          |
-| ---------------- | ----------------------------------------------------- | ----------------------------- |
-| Cucina nazionale | `cuisines/americas/cajun/`, `cuisines/fusion/nikkei/` | Struttura completa con origin |
-| Bevande          | `beverages/smoothies/`, `beverages/cocktails/`        | Schema beverage               |
-| Food generico    | `dishes/seafood/`, `dishes/steaks/`                   | Schema food standard          |
-
-### Credenziali Supabase
-
-```
-URL: https://vnaonebbuezrzvjekqxs.supabase.co
-File: config/supabase.env
-```
-
----
-
-## Quick Reference
-
-### Apps
-
-| App            | URL                              | Port |
-| -------------- | -------------------------------- | ---- |
-| Coffeeshop PWA | gudbro-coffeeshop-pwa.vercel.app | 3004 |
-| Backoffice     | gudbro-backoffice.vercel.app     | 3001 |
-| Website        | gudbro-website.vercel.app        | 3000 |
-
-### Stack
-
-- **Framework:** Next.js 14.2.33, React 18.3.1
-- **Styling:** Tailwind CSS 3.4.1
-- **Database:** Supabase (PostgreSQL)
-- **Deployment:** Vercel
-
-### Repository Structure
+# 4. REPOSITORY STRUCTURE
 
 ```
 gudbro-verticals/
 ├── apps/
-│   ├── coffeeshop/frontend/  # Digital Menu PWA
-│   ├── backoffice/           # Admin Dashboard
-│   └── website/              # Marketing Site
+│   ├── coffeeshop/frontend/  # Digital Menu PWA (:3004)
+│   ├── backoffice/           # Admin Dashboard (:3001)
+│   └── website/              # Marketing Site (:3000)
 ├── shared/database/          # Database v6.0
 │   ├── cuisines/             # asian, european, americas, african, oceania, fusion
-│   ├── beverages/            # cocktails, wines, spirits, coffee, tea, etc.
-│   ├── dishes/               # pasta, pizzas, steaks, burgers, etc.
-│   ├── sides/                # salads, soups, desserts, etc.
+│   ├── beverages/            # cocktails, wines, spirits, coffee, tea
+│   ├── dishes/               # pasta, pizzas, steaks, burgers
+│   ├── sides/                # salads, soups, desserts
 │   ├── ingredients/          # Master ingredients (2548)
-│   ├── migrations/           # schema/, ingredients/, nutrition/
-│   └── _system/              # types, scripts, docs, schema, utils
-└── docs/                     # Documentazione progetto
+│   ├── migrations/           # schema/, ingredients/, nutrition/, seeds/
+│   └── _system/              # types, scripts, docs
+├── docs/                     # Documentazione progetto
+│   ├── backlog/              # Kanban (1-TODO, 2-IN-PROGRESS, 3-TESTING, 4-DONE)
+│   ├── features/             # Feature documentation
+│   ├── DEVELOPMENT-WORKFLOW.md
+│   ├── PROCEDURE-CHECKLIST.md
+│   ├── DATABASE-INVENTORY.md
+│   └── DATABASE-SCHEMA.md
+└── CLAUDE.md                 # Questo file
 ```
 
 ---
 
-## Stato Attuale (2025-12-28)
+# 5. DATABASE CRITICAL INFO
 
-### Numeri Verificati
+## 5.1 Stato Attuale (2026-01-05)
 
-| Metrica                       | Valore      |
-| ----------------------------- | ----------- |
-| **Database**                  | 75          |
-| **Prodotti**                  | ~4653       |
-| **Ingredienti**               | 2548        |
-| **Ingredienti con Nutrition** | 2548 (100%) |
-| **Product_Ingredients**       | ~25169      |
-| **Formaggi**                  | 226         |
+| Metrica           | Valore                |
+| ----------------- | --------------------- |
+| Database Food     | 75                    |
+| Prodotti          | ~4653                 |
+| Ingredienti       | 2548 (100% nutrition) |
+| Migrations Schema | 37 (27 core + 10 AI)  |
+| AI Services       | 13                    |
 
-### Database Recenti
+## 5.2 Schema Source of Truth
 
-| Database       | Records | Data       |
-| -------------- | ------- | ---------- |
-| Nutrition 100% | +58     | 2025-12-28 |
-| Cajun/Creole   | 42      | 2025-12-27 |
-| Australian     | 29      | 2025-12-27 |
-| Hawaiian       | 29      | 2025-12-27 |
+**SEMPRE leggere prima di scrivere SQL:**
 
-> **Lista completa:** vedi `docs/DATABASE-INVENTORY.md`
+- `docs/DATABASE-SCHEMA.md` - Schema completo tabelle
+- `shared/database/migrations/schema/` - Migration files
 
----
+## 5.3 AI Tables (027-036)
 
-## Decisioni Architetturali
-
-| Decisione   | Regola                                   |
-| ----------- | ---------------------------------------- |
-| Lingua Base | SOLO INGLESE nel DB                      |
-| Traduzioni  | Tabella `translations` separata          |
-| Pesi/Misure | Sempre METRICO (g, ml)                   |
-| Costi       | MAI in master ingredients                |
-| Schema      | TEXT + CHECK (no ENUM per nuove tabelle) |
-
-> **Dettagli completi:** vedi `shared/database/DATABASE-STANDARDS.md`
+| Migration | Tabella                                              |
+| --------- | ---------------------------------------------------- |
+| 027       | ai_merchant_preferences                              |
+| 028       | ai_daily_briefings                                   |
+| 029       | improvement_suggestions                              |
+| 030       | zone_analysis, competitors                           |
+| 031       | market_prices, partnerships                          |
+| 032       | ai_social_posts, ai_content_calendars                |
+| 033       | ai_financial_summaries, ai_budget_plans              |
+| 034       | ai_delegated_tasks                                   |
+| 035       | ai_workflow_definitions, ai_workflow_executions      |
+| 036       | ai_suppliers, ai_inventory_items, ai_purchase_orders |
 
 ---
 
-## Convenzioni
+# 6. DOCUMENTATION MAP
 
-- **Commits:** emoji + descrizione concisa
-- **PR:** Summary + Test Plan
-- **Files:** No emojis unless requested
+| Area         | File                                              | Quando Usare        |
+| ------------ | ------------------------------------------------- | ------------------- |
+| Workflow     | `docs/DEVELOPMENT-WORKFLOW.md`                    | Prima di ogni task  |
+| Checklist    | `docs/PROCEDURE-CHECKLIST.md`                     | Gate di validazione |
+| DB Inventory | `docs/DATABASE-INVENTORY.md`                      | Stato database      |
+| DB Schema    | `docs/DATABASE-SCHEMA.md`                         | Prima di SQL        |
+| Lessons      | `shared/database/_system/docs/LESSONS-LEARNED.md` | Errori da evitare   |
+| Backlog      | `docs/backlog/`                                   | Task management     |
 
 ---
 
-## Commands
+# 7. KANBAN SYSTEM
+
+```
+docs/backlog/
+├── 1-TODO.md         # Task da fare
+├── 2-IN-PROGRESS.md  # Max 3 task
+├── 3-TESTING.md      # Da testare
+└── 4-DONE.md         # Archivio
+```
+
+**Workflow:** TODO → IN-PROGRESS → TESTING → DONE
+
+**Regole:**
+
+- Max 3 IN-PROGRESS
+- Aggiorna status durante il lavoro
+- Non eliminare da DONE
+
+---
+
+# 8. TECH STACK
+
+| Layer     | Technology            |
+| --------- | --------------------- |
+| Framework | Next.js 14.2.33       |
+| UI        | React 18.3.1          |
+| Styling   | Tailwind CSS 3.4.1    |
+| Database  | Supabase (PostgreSQL) |
+| Auth      | Supabase Auth         |
+| Deploy    | Vercel                |
+| AI        | OpenAI GPT-4          |
+
+---
+
+# 9. COMMANDS
+
+## 9.1 Dev Servers
 
 ```bash
-# Dev servers
-cd apps/coffeeshop/frontend && npm run dev  # :3004
-cd apps/backoffice && npm run dev           # :3001
+# From repo root with turbo
+pnpm dev:backoffice    # :3001
+pnpm dev:coffeeshop    # :3004
 
-# Deploy (auto on push to main)
-git push origin main
+# Or directly
+cd apps/backoffice && pnpm dev
+cd apps/coffeeshop/frontend && pnpm dev
+```
+
+## 9.2 Build & Deploy
+
+```bash
+pnpm build             # Build all
+git push origin main   # Auto-deploy to Vercel
+```
+
+## 9.3 Database
+
+```bash
+# Supabase CLI
+npx supabase db push
+npx supabase gen types typescript
+```
+
+---
+
+# 10. ARCHITECTURAL DECISIONS
+
+| Decision     | Rule                                           |
+| ------------ | ---------------------------------------------- |
+| DB Language  | English only                                   |
+| Translations | Separate `translations` table                  |
+| Measurements | Metric (g, ml)                                 |
+| Costs        | Never in master ingredients                    |
+| Schema       | TEXT + CHECK (no ENUM for new tables)          |
+| Accounts     | P5 unified accounts (not gudbro_user_profiles) |
+| RLS          | Via account_roles (not merchant_users)         |
+
+---
+
+# 11. AI CO-MANAGER SYSTEM
+
+## 11.1 Services (apps/backoffice/lib/ai/)
+
+| Service                       | Purpose                               |
+| ----------------------------- | ------------------------------------- |
+| chat-service                  | Main chat interface                   |
+| knowledge-service             | Menu, orders, events, feedback access |
+| actions-service               | Create events, translate, update menu |
+| proactivity-service           | Daily briefings, alerts               |
+| feedback-loop-service         | Collect merchant feedback             |
+| bootstrap-service             | Zone analysis, competitors            |
+| market-intelligence-service   | Pricing, partnerships                 |
+| social-media-service          | Auto posts, calendars                 |
+| financial-service             | P&L, budgets, forecasts               |
+| task-delegation-service       | Staff task management                 |
+| agentic-workflow-service      | Multi-step automations                |
+| inventory-negotiation-service | Stock, suppliers, POs                 |
+| onboarding-service            | Guided setup                          |
+
+## 11.2 API Routes (apps/backoffice/app/api/ai/)
+
+All routes follow pattern: `/api/ai/[feature]`
+
+---
+
+# 12. ANTI-PATTERNS (Evitare)
+
+| Anti-Pattern        | Problema             | Soluzione              |
+| ------------------- | -------------------- | ---------------------- |
+| "Scrivi subito"     | Errori da assunzioni | EXPLORE prima          |
+| "Fixxa veloce"      | Fix su fix           | Capire causa root      |
+| "Tanto funziona"    | Technical debt       | VALIDATE sempre        |
+| "Lo documento dopo" | Conoscenza persa     | DOCUMENT subito        |
+| "Claude sa gia"     | Context loss         | Dare context esplicito |
+
+---
+
+# 13. FILE REFERENCES
+
+Per includere contesto aggiuntivo in conversazioni:
+
+```
+@docs/DATABASE-SCHEMA.md
+@shared/database/migrations/schema/036-ai-inventory-negotiation.sql
+@apps/backoffice/lib/ai/index.ts
 ```
 
 ---
 
 **File:** `CLAUDE.md`
-**Version:** 4.1 (Folder Restructuring v6.0)
-**Updated:** 2025-12-28
+**Version:** 5.0
+**Updated:** 2026-01-05
+**Changes:** Restructured with numbered sections for reliable AI memorization. Added validation gates, anti-patterns, AI system reference.

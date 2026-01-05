@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '@/lib/supabase-lazy';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/recipes
  * Get recipes with filters
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
+
   try {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '20');
@@ -22,10 +21,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search');
     const popular = searchParams.get('popular') === 'true';
 
-    let query = supabase
-      .from('recipes')
-      .select('*', { count: 'exact' })
-      .eq('is_published', true);
+    let query = supabase.from('recipes').select('*', { count: 'exact' }).eq('is_published', true);
 
     // Filters
     if (cuisine) {
@@ -61,22 +57,23 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({
-      recipes: recipes?.map(r => ({
-        id: r.id,
-        name: r.recipe_name,
-        slug: r.recipe_slug,
-        coverImage: r.cover_image_url,
-        prepTime: r.prep_time_min,
-        cookTime: r.cook_time_min,
-        totalTime: r.total_time_min,
-        difficulty: r.difficulty,
-        servings: r.servings,
-        rating: r.average_rating,
-        ratingCount: r.rating_count,
-        cuisineTags: r.cuisine_tags,
-        dietTags: r.diet_tags,
-        isPremium: r.is_premium,
-      })) || [],
+      recipes:
+        recipes?.map((r) => ({
+          id: r.id,
+          name: r.recipe_name,
+          slug: r.recipe_slug,
+          coverImage: r.cover_image_url,
+          prepTime: r.prep_time_min,
+          cookTime: r.cook_time_min,
+          totalTime: r.total_time_min,
+          difficulty: r.difficulty,
+          servings: r.servings,
+          rating: r.average_rating,
+          ratingCount: r.rating_count,
+          cuisineTags: r.cuisine_tags,
+          dietTags: r.diet_tags,
+          isPremium: r.is_premium,
+        })) || [],
       total: count || 0,
     });
   } catch (err) {

@@ -4,12 +4,7 @@
  * Handles user profile data across all roles (consumer, merchant, admin)
  */
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { getSupabase } from '@/lib/supabase-lazy';
 
 export interface Tenant {
   roleId: string;
@@ -64,6 +59,7 @@ export interface ProfileUpdateData {
  * Get unified profile for an account
  */
 export async function getUnifiedProfile(accountId: string): Promise<UnifiedProfile | null> {
+  const supabase = getSupabase();
   const { data, error } = await supabase.rpc('get_unified_profile', {
     p_account_id: accountId,
   });
@@ -106,6 +102,7 @@ export async function getUnifiedProfile(accountId: string): Promise<UnifiedProfi
  * Get account ID from Supabase auth ID
  */
 export async function getAccountByAuthId(authId: string): Promise<string | null> {
+  const supabase = getSupabase();
   const { data, error } = await supabase.rpc('get_account_by_auth_id', {
     p_auth_id: authId,
   });
@@ -125,6 +122,7 @@ export async function updateProfile(
   accountId: string,
   updates: ProfileUpdateData
 ): Promise<boolean> {
+  const supabase = getSupabase();
   const { data, error } = await supabase.rpc('update_profile', {
     p_account_id: accountId,
     p_display_name: updates.displayName || null,
@@ -147,10 +145,8 @@ export async function updateProfile(
 /**
  * Set primary role for user
  */
-export async function setPrimaryRole(
-  accountId: string,
-  roleId: string
-): Promise<boolean> {
+export async function setPrimaryRole(accountId: string, roleId: string): Promise<boolean> {
+  const supabase = getSupabase();
   const { data, error } = await supabase.rpc('set_primary_role', {
     p_account_id: accountId,
     p_role_id: roleId,
@@ -168,6 +164,7 @@ export async function setPrimaryRole(
  * Record user login
  */
 export async function recordLogin(accountId: string): Promise<void> {
+  const supabase = getSupabase();
   await supabase.rpc('record_login', {
     p_account_id: accountId,
   });
@@ -177,6 +174,7 @@ export async function recordLogin(accountId: string): Promise<void> {
  * Get user roles
  */
 export async function getUserRoles(accountId: string): Promise<Tenant[]> {
+  const supabase = getSupabase();
   const { data, error } = await supabase.rpc('get_user_roles', {
     p_account_id: accountId,
   });

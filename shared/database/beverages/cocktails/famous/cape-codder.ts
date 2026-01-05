@@ -6,7 +6,7 @@ import type { Cocktail } from '../../types/cocktail';
 
 const NOW = new Date().toISOString();
 
-export const capeCodeder: Cocktail = {
+export const capeCodder: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   // IDENTIFIERS
   // ─────────────────────────────────────────────────────────────────────────
@@ -91,7 +91,7 @@ export const capeCodeder: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for those who prefer tart over sweet cocktails. Great for anyone who enjoys cranberry flavor or is looking for a lighter alternative to sugary mixed drinks.',
-      it: 'Perfetto per chi preferisce cocktail aspri rispetto a quelli dolci. Ottimo per chi apprezza il sapore del mirtillo rosso o cerca un\'alternativa più leggera ai drink misti zuccherati.',
+      it: "Perfetto per chi preferisce cocktail aspri rispetto a quelli dolci. Ottimo per chi apprezza il sapore del mirtillo rosso o cerca un'alternativa più leggera ai drink misti zuccherati.",
       vi: 'Hoàn hảo cho những ai thích cocktail chua hơn ngọt. Tuyệt vời cho bất kỳ ai thích hương nam việt quất hoặc đang tìm kiếm sự thay thế nhẹ hơn cho đồ uống pha trộn có đường.',
     },
   },
@@ -108,12 +108,20 @@ export const capeCodeder: Cocktail = {
     {
       ingredient_id: 'ING_CRANBERRY_JUICE',
       quantity: { amount: 120, unit: 'ml' },
-      display_name: { en: 'Cranberry juice', it: 'Succo di mirtillo rosso', vi: 'Nước ép nam việt quất' },
+      display_name: {
+        en: 'Cranberry juice',
+        it: 'Succo di mirtillo rosso',
+        vi: 'Nước ép nam việt quất',
+      },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
   ],
 
@@ -158,7 +166,14 @@ export const capeCodeder: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -177,7 +192,8 @@ export const capeCodeder: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['cosmopolitan', 'sea-breeze', 'bay-breeze'],
 
-  notes_for_staff: 'Use 100% cranberry juice, not cranberry cocktail (which is too sweet). Ocean Spray 100% juice is traditional. Some versions omit the lime - ask customer preference.',
+  notes_for_staff:
+    'Use 100% cranberry juice, not cranberry cocktail (which is too sweet). Ocean Spray 100% juice is traditional. Some versions omit the lime - ask customer preference.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS

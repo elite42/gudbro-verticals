@@ -12,6 +12,7 @@ import { FeedbackRatingModal } from '../components/FeedbackRatingModal';
 import { WelcomeModal } from '../components/WelcomeModal';
 import { AuthModal } from '../components/AuthModal';
 import { OpenStatusBadge, OpeningHoursDisplay } from '../components/OpenStatusBadge';
+import { ChallengesCarousel } from '../components/challenges';
 import { userProfileStore } from '../lib/user-profile-store';
 import { getROOTSMenuItemsSync } from '../lib/roots-menu';
 import { DishItem } from '../components/DishCard';
@@ -149,6 +150,11 @@ export default function HomePage() {
 
         {/* Engagement Hub - PRO TIER Feature */}
         <EngagementHub />
+
+        {/* Food Challenges - PRO TIER Feature */}
+        <div className="mb-8">
+          <ChallengesCarousel merchantId={coffeeshopConfig.merchant.id} />
+        </div>
 
         {/* Social Media */}
         <div className="bg-theme-bg-elevated mb-8 rounded-2xl p-6 shadow-lg">
