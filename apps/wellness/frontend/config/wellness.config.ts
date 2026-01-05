@@ -1,4 +1,4 @@
-import { VerticalConfig } from '../../../menu-template/types';
+import { VerticalConfig } from '@gudbro/menu-template/types';
 
 /**
  * Wellness/Spa Vertical Configuration
@@ -14,7 +14,8 @@ export const wellnessConfig: VerticalConfig = {
     name: 'Jennie SPA',
     logo: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=120&h=120&fit=crop&crop=center',
     tagline: 'Traditional Vietnamese Massage',
-    description: 'Experience authentic Vietnamese spa and wellness treatments from our expert therapists'
+    description:
+      'Experience authentic Vietnamese spa and wellness treatments from our expert therapists',
   },
 
   // Contact information
@@ -22,14 +23,14 @@ export const wellnessConfig: VerticalConfig = {
     phone: '+84 932 594 962',
     zaloId: '0932594962',
     whatsappNumber: '+84932594962',
-    email: 'info@jenniespa.com'
+    email: 'info@jenniespa.com',
   },
 
   // Social media
   social: {
     facebook: 'https://facebook.com/jenniespa',
     instagram: 'https://instagram.com/jenniespa',
-    tiktok: 'https://tiktok.com/@jenniespa'
+    tiktok: 'https://tiktok.com/@jenniespa',
   },
 
   // Location
@@ -38,14 +39,14 @@ export const wellnessConfig: VerticalConfig = {
     googleMapsUrl: 'https://maps.google.com/?q=34+An+Thuong+2+Da+Nang',
     coordinates: {
       lat: 16.0544,
-      lng: 108.2022
-    }
+      lng: 108.2022,
+    },
   },
 
   // Reviews
   reviews: {
     googleReviewUrl: 'https://g.page/r/CZtKXZ0Z0Z0ZEAE/review',
-    tripadvisorUrl: 'https://tripadvisor.com/jenniespa'
+    tripadvisorUrl: 'https://tripadvisor.com/jenniespa',
   },
 
   // Payment methods
@@ -56,7 +57,7 @@ export const wellnessConfig: VerticalConfig = {
     // Item card configuration
     itemCard: {
       components: ['duration', 'price', 'image', 'description'],
-      showExtras: false // Spas don't have extras like restaurants
+      showExtras: false, // Spas don't have extras like restaurants
     },
 
     // Available filters
@@ -78,15 +79,15 @@ export const wellnessConfig: VerticalConfig = {
       home: 'Home',
       services: 'Servizi',
       team: 'Team',
-      offers: 'Offerte'
+      offers: 'Offerte',
     },
 
     // Theme colors
     theme: {
       primary: '#EC4899', // pink-500
       secondary: '#A855F7', // purple-500
-      accent: '#F59E0B'   // amber-500
-    }
+      accent: '#F59E0B', // amber-500
+    },
   },
 
   // Feature flags
@@ -95,7 +96,7 @@ export const wellnessConfig: VerticalConfig = {
     enableCurrencyConverter: true,
     enableSearch: true,
     enablePackages: true,
-    enablePromotions: true
+    enablePromotions: true,
   },
 
   // Internationalization
@@ -106,11 +107,11 @@ export const wellnessConfig: VerticalConfig = {
       { code: 'vi', flag: '🇻🇳', name: 'Tiếng Việt' },
       { code: 'ko', flag: '🇰🇷', name: '한국어' },
       { code: 'zh', flag: '🇨🇳', name: '中文' },
-      { code: 'ja', flag: '🇯🇵', name: '日本語' }
+      { code: 'ja', flag: '🇯🇵', name: '日本語' },
     ],
     defaultCurrency: 'VND',
-    supportedCurrencies: ['VND', 'USD', 'EUR', 'CNY', 'KRW', 'JPY']
-  }
+    supportedCurrencies: ['VND', 'USD', 'EUR', 'CNY', 'KRW', 'JPY'],
+  },
 };
 
 // Export helper to get API URL

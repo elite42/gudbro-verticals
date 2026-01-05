@@ -31,10 +31,11 @@ export default function SearchPage() {
     }
 
     const query = searchQuery.toLowerCase();
-    const results = services.filter((service) =>
-      service.name.toLowerCase().includes(query) ||
-      service.description?.toLowerCase().includes(query) ||
-      service.category?.toLowerCase().includes(query)
+    const results = services.filter(
+      (service) =>
+        service.name.toLowerCase().includes(query) ||
+        service.description?.toLowerCase().includes(query) ||
+        service.category?.toLowerCase().includes(query)
     );
     setFilteredServices(results);
   }, [searchQuery, services]);
@@ -42,7 +43,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 pb-24">
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
+      <header className="sticky top-0 z-50 bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="text-2xl font-bold text-pink-600">
@@ -57,26 +58,24 @@ export default function SearchPage() {
 
       {/* Page Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-3">🔍 Cerca Servizi</h1>
-          <p className="text-xl text-gray-600">
-            Trova il trattamento perfetto per te
-          </p>
+        <div className="mb-8 text-center">
+          <h1 className="mb-3 text-4xl font-bold text-gray-800">🔍 Cerca Servizi</h1>
+          <p className="text-xl text-gray-600">Trova il trattamento perfetto per te</p>
         </div>
 
         {/* Search Bar */}
-        <div className="max-w-2xl mx-auto mb-8">
+        <div className="mx-auto mb-8 max-w-2xl">
           <div className="relative">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cerca massaggi, trattamenti viso, unghie..."
-              className="w-full px-6 py-4 text-lg border-2 border-pink-300 rounded-full focus:ring-4 focus:ring-pink-200 focus:border-pink-500 outline-none transition-all"
+              className="w-full rounded-full border-2 border-pink-300 px-6 py-4 text-lg outline-none transition-all focus:border-pink-500 focus:ring-4 focus:ring-pink-200"
               autoFocus
             />
             <svg
-              className="absolute right-6 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400"
+              className="absolute right-6 top-1/2 h-6 w-6 -translate-y-1/2 transform text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -93,21 +92,15 @@ export default function SearchPage() {
 
         {/* Search Results */}
         {searchQuery.trim() === '' ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🔎</div>
-            <p className="text-xl text-gray-600">
-              Inizia a digitare per cercare i nostri servizi
-            </p>
+          <div className="py-12 text-center">
+            <div className="mb-4 text-6xl">🔎</div>
+            <p className="text-xl text-gray-600">Inizia a digitare per cercare i nostri servizi</p>
           </div>
         ) : filteredServices.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">😕</div>
-            <p className="text-xl text-gray-600 mb-2">
-              Nessun risultato per "{searchQuery}"
-            </p>
-            <p className="text-gray-500">
-              Prova con un termine di ricerca diverso
-            </p>
+          <div className="py-12 text-center">
+            <div className="mb-4 text-6xl">😕</div>
+            <p className="mb-2 text-xl text-gray-600">Nessun risultato per "{searchQuery}"</p>
+            <p className="text-gray-500">Prova con un termine di ricerca diverso</p>
           </div>
         ) : (
           <>
@@ -117,39 +110,36 @@ export default function SearchPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filteredServices.map((service) => (
                 <div
                   key={service.id}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105"
+                  className="transform overflow-hidden rounded-xl bg-white shadow-lg transition-all hover:scale-105 hover:shadow-2xl"
                 >
                   <img
                     src={service.image}
                     alt={service.name}
-                    className="w-full h-48 object-cover"
+                    className="h-48 w-full object-cover"
                   />
                   <div className="p-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-semibold text-pink-600 uppercase">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="text-sm font-semibold uppercase text-pink-600">
                         {service.category}
                       </span>
-                      <span className="text-sm text-gray-500">
-                        {service.duration} min
-                      </span>
+                      <span className="text-sm text-gray-500">{service.duration} min</span>
                     </div>
-                    <h3 className="text-xl font-bold mb-2 text-gray-800">
-                      {service.name}
-                    </h3>
-                    <p className="text-gray-600 mb-4 text-sm line-clamp-2">
-                      {service.description}
-                    </p>
+                    <h3 className="mb-2 text-xl font-bold text-gray-800">{service.name}</h3>
+                    <p className="mb-4 line-clamp-2 text-sm text-gray-600">{service.description}</p>
 
                     {service.pricing && Object.keys(service.pricing).length > 0 && (
-                      <div className="border-t pt-3 mb-4">
+                      <div className="mb-4 border-t pt-3">
                         <div className="flex items-center justify-between">
                           <span className="text-sm text-gray-600">Da:</span>
                           <span className="text-lg font-bold text-pink-600">
-                            {Object.values(service.pricing)[0]?.base?.toLocaleString()} VND
+                            {(
+                              Object.values(service.pricing)[0] as { base?: number }
+                            )?.base?.toLocaleString()}{' '}
+                            VND
                           </span>
                         </div>
                       </div>
@@ -161,7 +151,7 @@ export default function SearchPage() {
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-center bg-pink-500 hover:bg-pink-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors"
+                      className="block rounded-lg bg-pink-500 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-pink-600"
                     >
                       💬 Prenota su Zalo
                     </Link>
@@ -173,15 +163,15 @@ export default function SearchPage() {
         )}
 
         {/* Quick Links */}
-        <div className="mt-12 bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">🔥 Ricerche Popolari</h2>
+        <div className="mt-12 rounded-xl bg-white p-6 shadow-lg">
+          <h2 className="mb-4 text-2xl font-bold text-gray-800">🔥 Ricerche Popolari</h2>
           <div className="flex flex-wrap gap-3">
             {['Massaggio', 'Facial', 'Manicure', 'Pedicure', 'Thai Massage', 'Hot Stone'].map(
               (term) => (
                 <button
                   key={term}
                   onClick={() => setSearchQuery(term)}
-                  className="px-4 py-2 bg-pink-100 text-pink-700 rounded-full hover:bg-pink-200 transition-colors font-semibold"
+                  className="rounded-full bg-pink-100 px-4 py-2 font-semibold text-pink-700 transition-colors hover:bg-pink-200"
                 >
                   {term}
                 </button>

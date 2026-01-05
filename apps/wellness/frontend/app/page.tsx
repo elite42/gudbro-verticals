@@ -14,14 +14,14 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 pb-24">
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
+      <header className="sticky top-0 z-50 bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
           {/* Logo + Name */}
-          <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="mb-4 flex items-center justify-center gap-3">
             <img
               src={business.logo}
               alt={business.name}
-              className="w-16 h-16 rounded-full object-cover shadow-md"
+              className="h-16 w-16 rounded-full object-cover shadow-md"
             />
             <div>
               <h1 className="text-2xl font-bold text-pink-600">{business.name}</h1>
@@ -32,13 +32,28 @@ export default function HomePage() {
           {/* Social Icons + Language/Currency Selectors */}
           <div className="flex items-center justify-between">
             <div className="flex gap-3">
-              <a href={social?.facebook} target="_blank" rel="noopener noreferrer" className="text-2xl hover:scale-110 transition-transform">
+              <a
+                href={social?.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-2xl transition-transform hover:scale-110"
+              >
                 📘
               </a>
-              <a href={social?.instagram} target="_blank" rel="noopener noreferrer" className="text-2xl hover:scale-110 transition-transform">
+              <a
+                href={social?.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-2xl transition-transform hover:scale-110"
+              >
                 📷
               </a>
-              <a href={social?.tiktok} target="_blank" rel="noopener noreferrer" className="text-2xl hover:scale-110 transition-transform">
+              <a
+                href={social?.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-2xl transition-transform hover:scale-110"
+              >
                 🎵
               </a>
             </div>
@@ -48,9 +63,9 @@ export default function HomePage() {
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                className="rounded-lg border border-gray-300 px-3 py-1 text-sm focus:border-transparent focus:ring-2 focus:ring-pink-500"
               >
-                {(i18n?.supportedLanguages || []).map((lang) => (
+                {(i18n?.supportedLanguages || []).map((lang: { code: string; flag: string }) => (
                   <option key={lang.code} value={lang.code}>
                     {lang.flag} {lang.code.toUpperCase()}
                   </option>
@@ -61,11 +76,11 @@ export default function HomePage() {
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
-                className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                className="rounded-lg border border-gray-300 px-3 py-1 text-sm focus:border-transparent focus:ring-2 focus:ring-pink-500"
               >
-                {(i18n?.supportedCurrencies || []).map((curr) => (
+                {(i18n?.supportedCurrencies || []).map((curr: string) => (
                   <option key={curr} value={curr}>
-                    💱 {curr}
+                    {curr}
                   </option>
                 ))}
               </select>
@@ -75,40 +90,41 @@ export default function HomePage() {
       </header>
 
       {/* Main Content - Card Grid */}
-      <div className="container mx-auto px-4 py-6 space-y-4">
-
+      <div className="container mx-auto space-y-4 px-4 py-6">
         {/* Row 1: Servizi + Promozioni */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Servizi Card */}
-          <Link href="/services" className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all transform hover:scale-105">
-            <div className="flex items-center gap-4 mb-3">
+          <Link
+            href="/services"
+            className="transform rounded-xl bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-2xl"
+          >
+            <div className="mb-3 flex items-center gap-4">
               <div className="text-5xl">💆</div>
               <div>
                 <h2 className="text-2xl font-bold text-gray-800">Servizi</h2>
                 <p className="text-sm text-gray-600">Browse categorie & prezzi</p>
               </div>
             </div>
-            <p className="text-gray-600 mb-3">
-              Massaggi, trattamenti viso, unghie e molto altro
-            </p>
-            <div className="flex items-center justify-between text-pink-600 font-semibold">
+            <p className="mb-3 text-gray-600">Massaggi, trattamenti viso, unghie e molto altro</p>
+            <div className="flex items-center justify-between font-semibold text-pink-600">
               <span>Vedi tutti i servizi</span>
               <span>→</span>
             </div>
           </Link>
 
           {/* Promozioni Card */}
-          <Link href="/promotions" className="bg-gradient-to-br from-pink-500 to-purple-500 rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all transform hover:scale-105 text-white">
-            <div className="flex items-center gap-4 mb-3">
+          <Link
+            href="/promotions"
+            className="transform rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 p-6 text-white shadow-lg transition-all hover:scale-105 hover:shadow-2xl"
+          >
+            <div className="mb-3 flex items-center gap-4">
               <div className="text-5xl">🎁</div>
               <div>
                 <h2 className="text-2xl font-bold">Promozioni</h2>
                 <p className="text-sm opacity-90">Offerte speciali</p>
               </div>
             </div>
-            <p className="mb-3 opacity-90">
-              -20% su tutti i massaggi a Febbraio!
-            </p>
+            <p className="mb-3 opacity-90">-20% su tutti i massaggi a Febbraio!</p>
             <div className="flex items-center justify-between font-semibold">
               <span>Scopri le promo</span>
               <span>→</span>
@@ -117,8 +133,11 @@ export default function HomePage() {
         </div>
 
         {/* Row 2: Pacchetti VIP */}
-        <Link href="/packages" className="block bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all transform hover:scale-105 text-white">
-          <div className="flex items-center gap-4 mb-3">
+        <Link
+          href="/packages"
+          className="block transform rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 p-6 text-white shadow-lg transition-all hover:scale-105 hover:shadow-2xl"
+        >
+          <div className="mb-3 flex items-center gap-4">
             <div className="text-5xl">📦</div>
             <div>
               <h2 className="text-2xl font-bold">Pacchetti VIP</h2>
@@ -135,8 +154,8 @@ export default function HomePage() {
         </Link>
 
         {/* Row 3: Recensioni */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <div className="flex items-center gap-4 mb-4">
+        <div className="rounded-xl bg-white p-6 shadow-lg">
+          <div className="mb-4 flex items-center gap-4">
             <div className="text-5xl">⭐</div>
             <div>
               <h2 className="text-2xl font-bold text-gray-800">Lascia una Recensione</h2>
@@ -148,7 +167,7 @@ export default function HomePage() {
               href={reviews?.googleReviewUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold text-center transition-colors"
+              className="flex-1 rounded-lg bg-blue-500 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-blue-600"
             >
               📱 Google
             </a>
@@ -156,7 +175,7 @@ export default function HomePage() {
               href={reviews?.tripadvisorUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold text-center transition-colors"
+              className="flex-1 rounded-lg bg-green-600 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-green-700"
             >
               ✈️ TripAdvisor
             </a>
@@ -164,20 +183,20 @@ export default function HomePage() {
         </div>
 
         {/* Row 4: Contatti */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <div className="flex items-center gap-4 mb-4">
+        <div className="rounded-xl bg-white p-6 shadow-lg">
+          <div className="mb-4 flex items-center gap-4">
             <div className="text-5xl">📞</div>
             <div>
               <h2 className="text-2xl font-bold text-gray-800">Contattaci</h2>
               <p className="text-sm text-gray-600">Prenota il tuo trattamento</p>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
             <a
               href={`https://zalo.me/${contact?.zaloId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold text-center transition-colors"
+              className="rounded-lg bg-blue-500 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-blue-600"
             >
               💬 Zalo
             </a>
@@ -185,13 +204,13 @@ export default function HomePage() {
               href={`https://wa.me/${contact?.whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-semibold text-center transition-colors"
+              className="rounded-lg bg-green-500 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-green-600"
             >
               📱 WhatsApp
             </a>
             <a
               href={`tel:${contact?.phone}`}
-              className="bg-pink-500 hover:bg-pink-600 text-white py-3 px-4 rounded-lg font-semibold text-center transition-colors"
+              className="rounded-lg bg-pink-500 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-pink-600"
             >
               📞 Call
             </a>
@@ -199,8 +218,8 @@ export default function HomePage() {
         </div>
 
         {/* Row 5: Metodi di Pagamento */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <div className="flex items-center gap-4 mb-4">
+        <div className="rounded-xl bg-white p-6 shadow-lg">
+          <div className="mb-4 flex items-center gap-4">
             <div className="text-5xl">💳</div>
             <div>
               <h2 className="text-2xl font-bold text-gray-800">Accettiamo</h2>
@@ -208,17 +227,16 @@ export default function HomePage() {
             </div>
           </div>
           <div className="flex flex-wrap gap-3">
-            {paymentMethods.map((method, idx) => (
+            {paymentMethods.map((method: string, idx: number) => (
               <span
                 key={idx}
-                className="bg-gray-100 text-gray-700 px-4 py-2 rounded-full font-semibold text-sm"
+                className="rounded-full bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700"
               >
                 {method === 'Cash' && '💵'}
                 {method === 'Card' && '💳'}
                 {method === 'MoMo' && '📱'}
                 {method === 'ZaloPay' && '💰'}
-                {method === 'GrabPay' && '🚗'}
-                {' '}{method}
+                {method === 'GrabPay' && '🚗'} {method}
               </span>
             ))}
           </div>
@@ -229,16 +247,16 @@ export default function HomePage() {
           href={location?.googleMapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all transform hover:scale-105"
+          className="block transform rounded-xl bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-2xl"
         >
-          <div className="flex items-center gap-4 mb-3">
+          <div className="mb-3 flex items-center gap-4">
             <div className="text-5xl">📍</div>
             <div>
               <h2 className="text-2xl font-bold text-gray-800">Come Raggiungerci</h2>
               <p className="text-sm text-gray-600">{location?.address}</p>
             </div>
           </div>
-          <div className="bg-gray-100 rounded-lg p-4 mb-3">
+          <div className="mb-3 rounded-lg bg-gray-100 p-4">
             <iframe
               src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(location?.address || '')}`}
               width="100%"
@@ -249,16 +267,15 @@ export default function HomePage() {
               className="rounded-lg"
             ></iframe>
           </div>
-          <div className="flex items-center justify-between text-pink-600 font-semibold">
+          <div className="flex items-center justify-between font-semibold text-pink-600">
             <span>Apri su Google Maps</span>
             <span>→</span>
           </div>
         </a>
-
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-6 mt-12">
+      <footer className="mt-12 bg-gray-900 py-6 text-white">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-gray-400">
             © 2025 {business.name}. Powered by <span className="text-pink-400">Gudbro</span>

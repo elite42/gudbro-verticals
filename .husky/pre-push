@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "Running build check before push..."
+
+# Run turbo build to catch errors before they reach Vercel
+pnpm turbo build
+
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "Build failed! Fix errors before pushing."
+  echo "Use 'git push --no-verify' to skip this check (not recommended)."
+  exit 1
+fi
+
+echo "Build passed! Pushing..."

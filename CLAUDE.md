@@ -319,7 +319,203 @@ Per includere contesto aggiuntivo in conversazioni:
 
 ---
 
+# 14. MCP SERVERS (Model Context Protocol)
+
+> **4 server MCP configurati** per potenziare le capacita di Claude Code.
+
+## 14.1 Server Disponibili
+
+| Server       | Tipo  | Scopo                          |
+| ------------ | ----- | ------------------------------ |
+| **Supabase** | HTTP  | Database operations dirette    |
+| **GitHub**   | HTTP  | Repository, issues, PR         |
+| **Vercel**   | stdio | Deployments, projects, domains |
+| **Pieces**   | stdio | Long-term memory, context      |
+
+## 14.2 Supabase MCP
+
+**Quando usare:** Operazioni database senza passare da REST API
+
+```
+mcp__supabase__execute_sql      → Esegui query SQL dirette
+mcp__supabase__apply_migration  → Applica migration DDL
+mcp__supabase__list_tables      → Lista tabelle
+mcp__supabase__get_logs         → Debug logs (auth, postgres, edge)
+mcp__supabase__get_advisors     → Security/performance checks
+mcp__supabase__deploy_edge_function → Deploy edge functions
+mcp__supabase__generate_typescript_types → Genera types
+```
+
+**Best practice:**
+
+- Usa `execute_sql` per SELECT, INSERT, UPDATE
+- Usa `apply_migration` per DDL (CREATE, ALTER, DROP)
+- Dopo DDL, esegui `get_advisors` per check RLS
+
+## 14.3 GitHub MCP
+
+**Quando usare:** Gestione repo senza uscire da Claude Code
+
+```
+mcp__github__list_issues        → Lista issues
+mcp__github__issue_write        → Crea/aggiorna issues
+mcp__github__create_pull_request → Crea PR
+mcp__github__list_commits       → Storia commits
+mcp__github__search_code        → Cerca nel codice
+mcp__github__get_file_contents  → Leggi file da repo remoto
+```
+
+**Best practice:**
+
+- Usa per sincronizzare issue tracking
+- Crea PR direttamente dopo feature complete
+- Search code per trovare pattern in altri repo
+
+## 14.4 Vercel MCP
+
+**Quando usare:** Gestione deployments e progetti Vercel
+
+```
+Capabilities:
+- Lista progetti e deployments
+- Controlla stato deploy
+- Gestisci environment variables
+- Gestisci domini
+- Rollback deployments
+```
+
+**Best practice:**
+
+- Verifica deploy status dopo push
+- Check logs per errori di build
+- Gestisci env vars per staging/production
+
+## 14.5 Pieces MCP
+
+**Quando usare:** Recuperare contesto da sessioni precedenti
+
+```
+mcp__Pieces__ask_pieces_ltm     → Query long-term memory
+mcp__Pieces__create_pieces_memory → Salva memoria importante
+```
+
+**Best practice:**
+
+- Usa per recuperare decisioni architetturali passate
+- Salva breakthrough e soluzioni complesse
+- Query quando serve contesto storico
+
+## 14.6 Configurazione
+
+I server MCP sono configurati in `~/.claude.json`:
+
+```bash
+# Verifica stato
+claude mcp list
+
+# Aggiungi server
+claude mcp add <name> -- <command>
+
+# Rimuovi server
+claude mcp remove <name>
+```
+
+---
+
+# 15. FINE SESSIONE (Workflow)
+
+> **IMPORTANTE:** Prima di terminare una sessione produttiva, salva il contesto su Pieces.
+
+## 15.1 Quando Salvare su Pieces
+
+- Dopo aver completato una feature significativa
+- Dopo decisioni architetturali importanti
+- Dopo aver risolto bug complessi
+- Quando cambi direzione o pivot
+
+## 15.2 Template Fine Sessione
+
+```
+mcp__Pieces__create_pieces_memory(
+  summary_description: "[Breve titolo del lavoro fatto]",
+  summary: "
+## Sessione [DATA]
+
+### Cosa abbiamo fatto
+- [Task 1]
+- [Task 2]
+
+### Decisioni prese
+- [Decisione 1]: [Perche]
+
+### Prossimi step
+- [Step 1]
+- [Step 2]
+
+### Note tecniche
+- [Pattern usato, soluzione trovata, etc.]
+  ",
+  project: "/Users/gianfrancodagostino/Desktop/gudbro-verticals",
+  files: ["file1.ts", "file2.tsx"]
+)
+```
+
+## 15.3 Query Inizio Sessione
+
+Se vuoi contesto dalla sessione precedente:
+
+```
+mcp__Pieces__ask_pieces_ltm(
+  question: "What did we work on in the last session on gudbro-verticals?",
+  topics: ["gudbro", "last session", "progress"]
+)
+```
+
+---
+
+# 16. GITHUB ISSUES SYNC
+
+> **Backlog locale + GitHub Issues per visibilita e tracking**
+
+## 16.1 Mapping Labels
+
+| Label GitHub  | File Locale      | Descrizione               |
+| ------------- | ---------------- | ------------------------- |
+| `P0`          | 1-TODO.md (P0)   | Critico, questa settimana |
+| `P0.5`        | 1-TODO.md (P0.5) | Architettura da rivedere  |
+| `P1`          | 1-TODO.md (P1)   | Alta priorita             |
+| `P2`          | 1-TODO.md (P2)   | Media priorita            |
+| `in-progress` | 2-IN-PROGRESS.md | In lavorazione            |
+| `testing`     | 3-TESTING.md     | Da testare                |
+
+## 16.2 Workflow
+
+**Creare nuova task:**
+
+1. Aggiungi a `1-TODO.md` locale
+2. Crea issue su GitHub: `mcp__github__issue_write(...)`
+3. Assegna labels corrette
+
+**Iniziare task:**
+
+1. Sposta in `2-IN-PROGRESS.md`
+2. Aggiorna issue con label `in-progress`
+
+**Completare task:**
+
+1. Sposta in `4-DONE.md`
+2. Chiudi issue: `mcp__github__issue_write(method: "update", state: "closed")`
+
+## 16.3 Issues Attive
+
+- #2 PWA-FULL-SITE (P0.5)
+- #3 AI-CUSTOMER-CHAT (P0.5)
+- #4 RESERVATIONS-SYSTEM (P0.5)
+- #5 ING-TRANSLATIONS (P1)
+
+---
+
 **File:** `CLAUDE.md`
-**Version:** 5.1
+**Version:** 5.4
 **Updated:** 2026-01-05
-**Changes:** v5.1 - Startup command reso esplicito con step obbligatori e formato risposta definito.
+**Changes:** v5.4 - Aggiunta sezione 16 GitHub Issues Sync per tracking pubblico.

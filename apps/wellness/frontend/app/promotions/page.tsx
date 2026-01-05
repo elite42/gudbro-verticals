@@ -1,8 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { OfferCard } from '../../components/OfferCard';
 import { wellnessConfig } from '../../config/wellness.config';
-import { Header, BottomNav } from '../../../../menu-template/components';
+import { Header, BottomNav } from '@gudbro/menu-template/components';
 
 export default function PromotionsPage() {
   const { business, ui, contact } = wellnessConfig;
@@ -22,14 +23,9 @@ export default function PromotionsPage() {
       validTo: '2025-11-30',
       discount: {
         type: 'percentage' as const,
-        value: 20
+        value: 20,
       },
-      services: [
-        'Thai Massage',
-        'Swedish Massage',
-        'Hot Stone Massage',
-        'Aromatherapy Massage'
-      ]
+      services: ['Thai Massage', 'Swedish Massage', 'Hot Stone Massage', 'Aromatherapy Massage'],
     },
     {
       id: 'promo-2',
@@ -43,13 +39,9 @@ export default function PromotionsPage() {
       validTo: '2025-02-14',
       discount: {
         type: 'fixed' as const,
-        value: 400000
+        value: 400000,
       },
-      services: [
-        'Couples Massage (2 persone)',
-        'Champagne & Fragole',
-        'Rose Petals Decoration'
-      ]
+      services: ['Couples Massage (2 persone)', 'Champagne & Fragole', 'Rose Petals Decoration'],
     },
     {
       id: 'promo-3',
@@ -63,14 +55,10 @@ export default function PromotionsPage() {
       validTo: '2025-12-31',
       discount: {
         type: 'percentage' as const,
-        value: 30
+        value: 30,
       },
-      services: [
-        'Korean Facial',
-        'Anti-aging Treatment',
-        'Deep Cleansing'
-      ],
-      conditions: 'Valido solo lun-ven 14:00-16:00'
+      services: ['Korean Facial', 'Anti-aging Treatment', 'Deep Cleansing'],
+      conditions: 'Valido solo lun-ven 14:00-16:00',
     },
     {
       id: 'promo-expired',
@@ -84,14 +72,14 @@ export default function PromotionsPage() {
       validTo: '2024-11-24',
       discount: {
         type: 'percentage' as const,
-        value: 50
+        value: 50,
       },
-      services: ['Tutti i servizi']
-    }
+      services: ['Tutti i servizi'],
+    },
   ];
 
   // Filter active vs expired
-  const activePromotions = promotions.filter(promo => {
+  const activePromotions = promotions.filter((promo) => {
     if (!promo.validFrom || !promo.validTo) return true;
     const now = new Date();
     const from = new Date(promo.validFrom);
@@ -99,7 +87,7 @@ export default function PromotionsPage() {
     return now >= from && now <= to;
   });
 
-  const expiredPromotions = promotions.filter(promo => {
+  const expiredPromotions = promotions.filter((promo) => {
     if (!promo.validFrom || !promo.validTo) return false;
     const now = new Date();
     const to = new Date(promo.validTo);
@@ -112,14 +100,12 @@ export default function PromotionsPage() {
       <Header config={wellnessConfig} showBackButton={true} variant="minimal" />
 
       {/* Hero */}
-      <div className="bg-gradient-to-r from-pink-500 to-orange-500 text-white py-12 px-4">
+      <div className="bg-gradient-to-r from-pink-500 to-orange-500 px-4 py-12 text-white">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-3">
+          <h1 className="mb-3 text-4xl font-bold">
             🎁 {ui?.labels?.promotions || 'Promozioni Speciali'}
           </h1>
-          <p className="text-xl opacity-90">
-            Approfitta delle nostre offerte a tempo limitato!
-          </p>
+          <p className="text-xl opacity-90">Approfitta delle nostre offerte a tempo limitato!</p>
         </div>
       </div>
 
@@ -127,16 +113,10 @@ export default function PromotionsPage() {
         {/* Active Promotions */}
         {activePromotions.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">
-              ✨ Offerte Attive
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <h2 className="mb-6 text-3xl font-bold text-gray-800">✨ Offerte Attive</h2>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {activePromotions.map((promo) => (
-                <OfferCard
-                  key={promo.id}
-                  offer={promo}
-                  variant="grid"
-                />
+                <OfferCard key={promo.id} offer={promo} variant="grid" />
               ))}
             </div>
           </div>
@@ -144,19 +124,19 @@ export default function PromotionsPage() {
 
         {/* No active promotions message */}
         {activePromotions.length === 0 && (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-6">🎁</div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          <div className="py-16 text-center">
+            <div className="mb-6 text-6xl">🎁</div>
+            <h2 className="mb-4 text-3xl font-bold text-gray-800">
               Nessuna Promozione Attiva Al Momento
             </h2>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="mb-8 text-xl text-gray-600">
               Torna presto per vedere le nostre offerte speciali!
             </p>
             <Link
               href={`https://zalo.me/${contact?.zaloId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-gradient-to-r from-pink-500 to-purple-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-pink-600 hover:to-purple-600 transition-all transform hover:scale-105"
+              className="inline-block transform rounded-full bg-gradient-to-r from-pink-500 to-purple-500 px-8 py-4 text-lg font-bold text-white transition-all hover:scale-105 hover:from-pink-600 hover:to-purple-600"
             >
               💬 Contattaci su Zalo
             </Link>
@@ -166,35 +146,30 @@ export default function PromotionsPage() {
         {/* Expired Promotions */}
         {expiredPromotions.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-500 mb-4">
-              ⏰ Offerte Scadute
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-60">
+            <h2 className="mb-4 text-2xl font-bold text-gray-500">⏰ Offerte Scadute</h2>
+            <div className="grid grid-cols-1 gap-6 opacity-60 md:grid-cols-2 lg:grid-cols-3">
               {expiredPromotions.map((promo) => (
-                <OfferCard
-                  key={promo.id}
-                  offer={promo}
-                  variant="grid"
-                />
+                <OfferCard key={promo.id} offer={promo} variant="grid" />
               ))}
             </div>
           </div>
         )}
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-8 border-2 border-purple-200 mt-12">
+        <div className="mt-12 rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 p-8">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            <h3 className="mb-4 text-2xl font-bold text-gray-800">
               💝 Ricevi le Nostre Offerte Esclusive
             </h3>
-            <p className="text-gray-600 mb-6">
-              Contattaci su Zalo per essere sempre aggiornato sulle promozioni e offerte riservate ai nostri clienti VIP
+            <p className="mb-6 text-gray-600">
+              Contattaci su Zalo per essere sempre aggiornato sulle promozioni e offerte riservate
+              ai nostri clienti VIP
             </p>
             <Link
               href={`https://zalo.me/${contact?.zaloId}?text=${encodeURIComponent('Vorrei ricevere informazioni sulle promozioni')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg transition-all transform hover:scale-105"
+              className="inline-block transform rounded-full bg-gradient-to-r from-pink-500 to-purple-500 px-8 py-4 text-lg font-bold text-white transition-all hover:scale-105 hover:from-pink-600 hover:to-purple-600"
             >
               💬 Iscriviti alle Offerte
             </Link>
@@ -202,27 +177,21 @@ export default function PromotionsPage() {
         </div>
 
         {/* Benefits */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div className="bg-white rounded-xl p-6 text-center shadow-md">
-            <div className="text-4xl mb-3">⭐</div>
-            <h4 className="font-bold text-lg mb-2">Sconti Esclusivi</h4>
-            <p className="text-gray-600 text-sm">
-              Fino al 50% di sconto su servizi selezionati
-            </p>
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="rounded-xl bg-white p-6 text-center shadow-md">
+            <div className="mb-3 text-4xl">⭐</div>
+            <h4 className="mb-2 text-lg font-bold">Sconti Esclusivi</h4>
+            <p className="text-sm text-gray-600">Fino al 50% di sconto su servizi selezionati</p>
           </div>
-          <div className="bg-white rounded-xl p-6 text-center shadow-md">
-            <div className="text-4xl mb-3">🎉</div>
-            <h4 className="font-bold text-lg mb-2">Offerte Stagionali</h4>
-            <p className="text-gray-600 text-sm">
-              Promozioni speciali per ogni occasione
-            </p>
+          <div className="rounded-xl bg-white p-6 text-center shadow-md">
+            <div className="mb-3 text-4xl">🎉</div>
+            <h4 className="mb-2 text-lg font-bold">Offerte Stagionali</h4>
+            <p className="text-sm text-gray-600">Promozioni speciali per ogni occasione</p>
           </div>
-          <div className="bg-white rounded-xl p-6 text-center shadow-md">
-            <div className="text-4xl mb-3">💎</div>
-            <h4 className="font-bold text-lg mb-2">Programma Fedeltà</h4>
-            <p className="text-gray-600 text-sm">
-              Accumula punti e ricevi vantaggi esclusivi
-            </p>
+          <div className="rounded-xl bg-white p-6 text-center shadow-md">
+            <div className="mb-3 text-4xl">💎</div>
+            <h4 className="mb-2 text-lg font-bold">Programma Fedeltà</h4>
+            <p className="text-sm text-gray-600">Accumula punti e ricevi vantaggi esclusivi</p>
           </div>
         </div>
       </div>

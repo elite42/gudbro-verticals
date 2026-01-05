@@ -2,7 +2,7 @@
 
 import { OfferCard } from '../../components/OfferCard';
 import { wellnessConfig } from '../../config/wellness.config';
-import { Header, BottomNav } from '../../../../menu-template/components';
+import { Header, BottomNav } from '@gudbro/menu-template/components';
 
 export default function PackagesPage() {
   const { business, ui } = wellnessConfig;
@@ -18,11 +18,11 @@ export default function PackagesPage() {
         'Ear Cleaning - 취이 제거',
         'Face Shaving - 얼굴 면도',
         'Facial - 얼굴 관리',
-        'Shampoo - 샴푸'
+        'Shampoo - 샴푸',
       ],
       description: 'Pacchetto completo per una pulizia profonda del viso e rilassamento',
       icon: '✨',
-      type: 'package' as const
+      type: 'package' as const,
     },
     {
       id: '2',
@@ -35,12 +35,12 @@ export default function PackagesPage() {
         'Facial - 얼굴 관리',
         'Face Mask - 얼굴 팩',
         'Shampoo - 샴푸',
-        'Head-Neck-Shoulder Massage - 머리-목-어깨 마사지'
+        'Head-Neck-Shoulder Massage - 머리-목-어깨 마사지',
       ],
       description: 'Il nostro pacchetto più completo con massaggio rilassante',
       icon: '💎',
       popular: true,
-      type: 'package' as const
+      type: 'package' as const,
     },
     {
       id: '3',
@@ -50,12 +50,12 @@ export default function PackagesPage() {
       services: [
         'Foot Massage - 발 마사지',
         'Pedicure (no color) - 발 케어',
-        'Heel Scrub - 발뒤꿈치 각질 제거'
+        'Heel Scrub - 발뒤꿈치 각질 제거',
       ],
       description: 'Trattamento completo per piedi stanchi e pelle morbida',
       icon: '🦶',
-      type: 'package' as const
-    }
+      type: 'package' as const,
+    },
   ];
 
   return (
@@ -65,41 +65,43 @@ export default function PackagesPage() {
 
       {/* Page Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-3">
+        <div className="mb-8 text-center">
+          <h1 className="mb-3 text-4xl font-bold text-gray-800">
             📦 {ui?.labels?.packages || 'Pacchetti VIP'}
           </h1>
-          <p className="text-xl text-gray-600">
-            Risparmia con i nostri combo esclusivi
-          </p>
+          <p className="text-xl text-gray-600">Risparmia con i nostri combo esclusivi</p>
         </div>
 
         {/* Packages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {packages.map((pkg) => (
-            <OfferCard
-              key={pkg.id}
-              offer={pkg}
-              variant="grid"
-            />
+            <OfferCard key={pkg.id} offer={pkg} variant="grid" />
           ))}
         </div>
 
         {/* Info Box */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border-2 border-blue-200">
-          <h3 className="text-xl font-bold text-gray-800 mb-3">💡 Perché scegliere un pacchetto?</h3>
+        <div className="rounded-xl border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50 p-6">
+          <h3 className="mb-3 text-xl font-bold text-gray-800">
+            💡 Perché scegliere un pacchetto?
+          </h3>
           <ul className="space-y-2 text-gray-700">
             <li className="flex items-start gap-2">
               <span>💰</span>
-              <span><strong>Risparmio garantito</strong> - Fino al 20% rispetto ai servizi singoli</span>
+              <span>
+                <strong>Risparmio garantito</strong> - Fino al 20% rispetto ai servizi singoli
+              </span>
             </li>
             <li className="flex items-start gap-2">
               <span>⏰</span>
-              <span><strong>Tutto in un'unica sessione</strong> - Massimo relax senza interruzioni</span>
+              <span>
+                <strong>Tutto in un'unica sessione</strong> - Massimo relax senza interruzioni
+              </span>
             </li>
             <li className="flex items-start gap-2">
               <span>✨</span>
-              <span><strong>Esperienza completa</strong> - Servizi pensati per funzionare insieme</span>
+              <span>
+                <strong>Esperienza completa</strong> - Servizi pensati per funzionare insieme
+              </span>
             </li>
           </ul>
         </div>
