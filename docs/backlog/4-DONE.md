@@ -3,7 +3,15 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-05
+**Last Updated:** 2026-01-06
+
+---
+
+## 2026-01-06
+
+| ID         | Feature      | Descrizione                                                                | Completato |
+| ---------- | ------------ | -------------------------------------------------------------------------- | ---------- |
+| GB-AI-DASH | AI Dashboard | Pagina dedicata AI Co-Manager con widgets briefing, tasks, alerts, finance | 2026-01-06 |
 
 ---
 
