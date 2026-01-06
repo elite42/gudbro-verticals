@@ -25,17 +25,23 @@ export const DEV_ACCESS_PIN = '260775';
  * During development phase, dev mode is always available.
  * A simple PIN is required to access dev accounts.
  *
- * Before production:
- * - Set NEXT_PUBLIC_ENABLE_DEV_AUTH=false
- * - Or ensure NODE_ENV=production
+ * Control via env var:
+ * - NEXT_PUBLIC_ENABLE_DEV_AUTH=true  → Enable dev mode (even in production)
+ * - NEXT_PUBLIC_ENABLE_DEV_AUTH=false → Disable dev mode
+ * - Not set → Enable in development, disable in production
  */
 export function isDevModeEnabled(): boolean {
-  // Explicit disable via env var (for pre-production testing)
+  // Explicit enable via env var (for testing on staging/production)
+  if (process.env.NEXT_PUBLIC_ENABLE_DEV_AUTH === 'true') {
+    return true;
+  }
+
+  // Explicit disable via env var
   if (process.env.NEXT_PUBLIC_ENABLE_DEV_AUTH === 'false') {
     return false;
   }
 
-  // In production, disable dev mode
+  // Default: disable in production, enable in development
   if (process.env.NODE_ENV === 'production') {
     return false;
   }
@@ -98,7 +104,7 @@ export function getDevAccountById(accountId: string): AuthUser | undefined {
   if (!isDevModeEnabled()) {
     return undefined;
   }
-  return DEV_ACCOUNTS.find(a => a.id === accountId);
+  return DEV_ACCOUNTS.find((a) => a.id === accountId);
 }
 
 /**
