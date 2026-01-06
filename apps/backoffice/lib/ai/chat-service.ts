@@ -326,8 +326,10 @@ export async function chat(request: ChatRequest): Promise<ChatResponse> {
     if (toolCalls && toolCalls.length > 0) {
       // Execute each function call
       for (const toolCall of toolCalls) {
-        const functionName = toolCall.function.name;
-        const functionArgs = JSON.parse(toolCall.function.arguments);
+        // Type assertion for OpenAI tool call structure
+        const fn = (toolCall as { function: { name: string; arguments: string } }).function;
+        const functionName = fn.name;
+        const functionArgs = JSON.parse(fn.arguments);
 
         let result: ActionResult;
 

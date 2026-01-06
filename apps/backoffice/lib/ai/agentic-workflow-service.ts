@@ -162,17 +162,17 @@ Which option should be chosen? Respond with ONLY the number (1, 2, etc.) and a b
     try {
       // Safe evaluation of simple conditions
       if (condition.includes('>')) {
-        const [left, right] = condition.split('>').map((s) => s.trim());
+        const [left, right] = condition.split('>').map((s: string) => s.trim());
         const leftVal = context[left] ?? parseFloat(left);
         const rightVal = parseFloat(right);
         result = leftVal > rightVal;
       } else if (condition.includes('<')) {
-        const [left, right] = condition.split('<').map((s) => s.trim());
+        const [left, right] = condition.split('<').map((s: string) => s.trim());
         const leftVal = context[left] ?? parseFloat(left);
         const rightVal = parseFloat(right);
         result = leftVal < rightVal;
       } else if (condition.includes('==')) {
-        const [left, right] = condition.split('==').map((s) => s.trim());
+        const [left, right] = condition.split('==').map((s: string) => s.trim());
         const leftVal = context[left] ?? left;
         result = leftVal == right;
       } else {
@@ -190,8 +190,9 @@ Which option should be chosen? Respond with ONLY the number (1, 2, etc.) and a b
   },
 
   // Submit feedback
-  submit_feedback: async (merchantId, params, _context) => {
-    return await collectFeedback(merchantId, params);
+  submit_feedback: async (merchantId, params, context) => {
+    const accountId = context.accountId || params.accountId || 'system';
+    return await collectFeedback(merchantId, accountId, params);
   },
 
   // Wait/delay (simulated - actual delay in executor)

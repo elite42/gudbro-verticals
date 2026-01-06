@@ -8,6 +8,7 @@ export interface MerchantKnowledge {
   analytics: AnalyticsKnowledge | null;
   events: EventsKnowledge | null;
   feedback: FeedbackKnowledge | null;
+  inventory: InventoryKnowledge | null;
   lastUpdated: string;
 }
 
@@ -80,6 +81,23 @@ interface FeedbackItem {
   rating: number;
   comment: string;
   date: string;
+}
+
+export interface InventoryKnowledge {
+  totalItems: number;
+  lowStockItems: InventoryItem[];
+  categories: { name: string; itemCount: number }[];
+  suppliers: { name: string; categories: string[] }[];
+  pendingOrders: number;
+}
+
+interface InventoryItem {
+  id: string;
+  name: string;
+  currentStock: number;
+  minStock: number;
+  unit: string;
+  daysUntilEmpty?: number;
 }
 
 // Fetch menu data for AI context
@@ -371,6 +389,76 @@ async function fetchFeedbackKnowledge(
   }
 }
 
+// Fetch inventory data for AI context
+async function fetchInventoryKnowledge(merchantId: string): Promise<InventoryKnowledge | null> {
+  try {
+    // Get inventory items
+    const { data: items } = await supabase
+      .from('ai_inventory_items')
+      .select('id, name, category, unit, current_stock, min_stock, max_stock, avg_daily_usage')
+      .eq('merchant_id', merchantId)
+      .order('name');
+
+    if (!items || items.length === 0) {
+      return null;
+    }
+
+    // Find low stock items (current_stock <= min_stock * 1.2)
+    const lowStockItems: InventoryItem[] = items
+      .filter((item) => item.current_stock <= item.min_stock * 1.2)
+      .map((item) => ({
+        id: item.id,
+        name: item.name,
+        currentStock: Number(item.current_stock),
+        minStock: Number(item.min_stock),
+        unit: item.unit,
+        daysUntilEmpty:
+          item.avg_daily_usage > 0
+            ? Math.floor(Number(item.current_stock) / Number(item.avg_daily_usage))
+            : undefined,
+      }));
+
+    // Group by category
+    const categoryMap = new Map<string, number>();
+    items.forEach((item) => {
+      const cat = item.category || 'Other';
+      categoryMap.set(cat, (categoryMap.get(cat) || 0) + 1);
+    });
+    const categories = Array.from(categoryMap.entries()).map(([name, itemCount]) => ({
+      name,
+      itemCount,
+    }));
+
+    // Get suppliers
+    const { data: suppliers } = await supabase
+      .from('ai_suppliers')
+      .select('name, categories')
+      .eq('merchant_id', merchantId)
+      .eq('is_active', true);
+
+    // Count pending orders
+    const { count: pendingOrders } = await supabase
+      .from('ai_purchase_orders')
+      .select('id', { count: 'exact', head: true })
+      .eq('merchant_id', merchantId)
+      .in('status', ['draft', 'sent', 'confirmed']);
+
+    return {
+      totalItems: items.length,
+      lowStockItems,
+      categories,
+      suppliers: (suppliers || []).map((s) => ({
+        name: s.name,
+        categories: s.categories || [],
+      })),
+      pendingOrders: pendingOrders || 0,
+    };
+  } catch (error) {
+    console.error('Error fetching inventory knowledge:', error);
+    return null;
+  }
+}
+
 // Main function to fetch all knowledge for a merchant
 export async function fetchMerchantKnowledge(
   merchantId: string,
@@ -380,6 +468,7 @@ export async function fetchMerchantKnowledge(
     includeAnalytics?: boolean;
     includeEvents?: boolean;
     includeFeedback?: boolean;
+    includeInventory?: boolean;
     analyticsPeriodDays?: number;
   } = {}
 ): Promise<MerchantKnowledge> {
@@ -388,14 +477,16 @@ export async function fetchMerchantKnowledge(
     includeAnalytics = true,
     includeEvents = true,
     includeFeedback = true,
+    includeInventory = true,
     analyticsPeriodDays = 30,
   } = options;
 
-  const [menu, analytics, events, feedback] = await Promise.all([
+  const [menu, analytics, events, feedback, inventory] = await Promise.all([
     includeMenu ? fetchMenuKnowledge(merchantId, locationId) : null,
     includeAnalytics ? fetchAnalyticsKnowledge(merchantId, locationId, analyticsPeriodDays) : null,
     includeEvents ? fetchEventsKnowledge(merchantId, locationId) : null,
     includeFeedback ? fetchFeedbackKnowledge(merchantId, locationId) : null,
+    includeInventory ? fetchInventoryKnowledge(merchantId) : null,
   ]);
 
   return {
@@ -403,6 +494,7 @@ export async function fetchMerchantKnowledge(
     analytics,
     events,
     feedback,
+    inventory,
     lastUpdated: new Date().toISOString(),
   };
 }
@@ -457,6 +549,23 @@ ${
       (f) => `  - ${f.rating}/5: "${f.comment.slice(0, 100)}${f.comment.length > 100 ? '...' : ''}"`
     )
     .join('\n') || '  No recent feedback'
+}
+`);
+  }
+
+  if (knowledge.inventory) {
+    const inv = knowledge.inventory;
+    sections.push(`
+## Inventory Status
+- Total items tracked: ${inv.totalItems}
+- Categories: ${inv.categories.map((c) => `${c.name} (${c.itemCount})`).join(', ')}
+- Suppliers: ${inv.suppliers.map((s) => s.name).join(', ') || 'None configured'}
+- Pending orders: ${inv.pendingOrders}
+${
+  inv.lowStockItems.length > 0
+    ? `- ⚠️ LOW STOCK ALERTS:
+${inv.lowStockItems.map((item) => `  - ${item.name}: ${item.currentStock} ${item.unit} (min: ${item.minStock})${item.daysUntilEmpty ? ` - ~${item.daysUntilEmpty} days left` : ''}`).join('\n')}`
+    : '- All items well stocked'
 }
 `);
   }

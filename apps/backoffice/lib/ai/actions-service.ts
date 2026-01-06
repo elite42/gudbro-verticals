@@ -192,25 +192,94 @@ export interface ActionResult {
 // Execute create_event action
 async function executeCreateEvent(
   merchantId: string,
+  locationId: string | undefined,
   params: {
     title: string;
     description?: string;
-    start_date: string;
+    start_date: string; // ISO datetime string
     end_date?: string;
     event_type: string;
+    event_category?: string;
     sports_info?: any;
   }
 ): Promise<ActionResult> {
   try {
+    // Need locationId to create event
+    if (!locationId) {
+      // Try to find a location for this merchant
+      const { data: location } = await supabase.from('locations').select('id').limit(1).single();
+
+      if (!location) {
+        return {
+          success: false,
+          action: 'create_event',
+          message: 'Cannot create event: No location found. Please complete business setup first.',
+        };
+      }
+      locationId = location.id;
+    }
+
+    // Parse datetime - handle both ISO and date-only formats
+    const startDateTime = new Date(params.start_date);
+    const startDate = startDateTime.toISOString().split('T')[0];
+    const startTime = startDateTime.toTimeString().slice(0, 5) || '18:00';
+
+    // End time defaults to 2 hours after start
+    const endDateTime = params.end_date
+      ? new Date(params.end_date)
+      : new Date(startDateTime.getTime() + 2 * 60 * 60 * 1000);
+    const endDate = endDateTime.toISOString().split('T')[0];
+    const endTime = endDateTime.toTimeString().slice(0, 5) || '20:00';
+
+    // Map event_type to event_category if not provided
+    const categoryMap: Record<string, string> = {
+      live_music: 'entertainment',
+      dj_set: 'entertainment',
+      karaoke: 'entertainment',
+      comedy_night: 'entertainment',
+      open_mic: 'entertainment',
+      trivia_night: 'entertainment',
+      game_night: 'entertainment',
+      theme_night: 'entertainment',
+      tasting: 'food',
+      pairing: 'food',
+      chefs_table: 'food',
+      cooking_class: 'food',
+      menu_launch: 'food',
+      food_tour: 'food',
+      brunch: 'food',
+      lunch_special: 'food',
+      happy_hour: 'promo',
+      late_night: 'promo',
+      special_menu: 'promo',
+      sports_viewing: 'sports',
+      networking: 'community',
+      charity: 'community',
+      book_club: 'community',
+      wine_club: 'community',
+      private_party: 'private',
+      corporate: 'private',
+      birthday: 'private',
+      anniversary: 'private',
+      holiday: 'special',
+      closure: 'special',
+      other: 'special',
+      singles_night: 'community',
+    };
+
+    const eventCategory = params.event_category || categoryMap[params.event_type] || 'special';
+
     const eventData: any = {
-      merchant_id: merchantId,
+      location_id: locationId,
       title: params.title,
       description: params.description || '',
-      start_date: params.start_date,
-      end_date: params.end_date || null,
+      start_date: startDate,
+      end_date: endDate,
+      start_time: startTime,
+      end_time: endTime,
       event_type: params.event_type,
-      status: 'draft', // Events created by AI start as draft
-      created_by_ai: true,
+      event_category: eventCategory,
+      status: 'draft',
     };
 
     if (params.sports_info) {
@@ -224,7 +293,7 @@ async function executeCreateEvent(
     return {
       success: true,
       action: 'create_event',
-      message: `Event "${params.title}" created successfully as draft. You can review and publish it in the Events section.`,
+      message: `Event "${params.title}" created successfully as draft for ${startDate} at ${startTime}. You can review and publish it in the Events section.`,
       data: data,
     };
   } catch (error) {
@@ -434,7 +503,7 @@ export async function executeAction(
 ): Promise<ActionResult> {
   switch (actionName) {
     case 'create_event':
-      return executeCreateEvent(merchantId, params);
+      return executeCreateEvent(merchantId, locationId, params);
 
     case 'translate_content':
       return executeTranslateContent(params);
