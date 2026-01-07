@@ -1,19 +1,21 @@
-import * as React from 'react'
-import { Badge, BadgeProps } from './badge'
-import { safetyFilters, type SafetyFilter } from '@/database/safety-filters'
-import { AllergenIcon, getIconNameFromFilterId } from './allergen-icon'
+import * as React from 'react';
+import { Badge, BadgeProps } from './badge';
+import { safetyFilters, type SafetyFilter } from '@/database/safety-filters';
+import { AllergenIcon, getIconNameFromFilterId } from './allergen-icon';
 
 export interface SafetyBadgeProps extends Omit<BadgeProps, 'children'> {
   /** Filter ID from safety-filters database */
-  filterId: string
+  filterId: string;
   /** Icon type: 'emoji', 'svg', or 'none' */
-  iconType?: 'emoji' | 'svg' | 'none'
+  iconType?: 'emoji' | 'svg' | 'none';
+  /** Show icon (shorthand: true='svg', false='none') - takes precedence over iconType */
+  showIcon?: boolean;
   /** Show label text */
-  showText?: boolean
+  showText?: boolean;
   /** Language for label (defaults to 'en') */
-  language?: 'en' | 'it' | 'vi'
+  language?: 'en' | 'it' | 'vi';
   /** Show tooltip on hover with description */
-  showTooltip?: boolean
+  showTooltip?: boolean;
 }
 
 /**
@@ -38,6 +40,7 @@ export interface SafetyBadgeProps extends Omit<BadgeProps, 'children'> {
 export function SafetyBadge({
   filterId,
   iconType = 'svg',
+  showIcon,
   showText = true,
   language = 'en',
   showTooltip = false,
@@ -46,8 +49,10 @@ export function SafetyBadge({
   className,
   ...badgeProps
 }: SafetyBadgeProps) {
+  // Handle showIcon shorthand (takes precedence over iconType)
+  const resolvedIconType = showIcon !== undefined ? (showIcon ? 'svg' : 'none') : iconType;
   // Find filter in database
-  const filter = safetyFilters.find((f) => f.id === filterId)
+  const filter = safetyFilters.find((f) => f.id === filterId);
 
   // If filter not found, show error badge (dev mode)
   if (!filter) {
@@ -56,26 +61,26 @@ export function SafetyBadge({
         <Badge variant="error" size={size} className={className} {...badgeProps}>
           ⚠️ Filter '{filterId}' not found
         </Badge>
-      )
+      );
     }
-    return null
+    return null;
   }
 
   // Get SVG icon name if using SVG icons
-  const svgIconName = iconType === 'svg' ? getIconNameFromFilterId(filterId) : null
+  const svgIconName = resolvedIconType === 'svg' ? getIconNameFromFilterId(filterId) : null;
 
   // Size mapping for SVG icons
   const iconSizeMap: Record<string, number> = {
     sm: 16,
     md: 20,
     lg: 24,
-  }
+  };
 
   // Map filter type to color scheme
-  const colorScheme = filter.type as 'allergen' | 'intolerance' | 'diet'
+  const colorScheme = filter.type as 'allergen' | 'intolerance' | 'diet';
 
   // Intelligent fallback: If SVG requested but not available, use emoji
-  const effectiveIconType = iconType === 'svg' && !svgIconName ? 'emoji' : iconType
+  const effectiveIconType = resolvedIconType === 'svg' && !svgIconName ? 'emoji' : resolvedIconType;
 
   // Build badge content
   const content = (
@@ -90,12 +95,13 @@ export function SafetyBadge({
       )}
       {showText && <span>{filter.label[language]}</span>}
     </>
-  )
+  );
 
   // Build tooltip title
-  const tooltipTitle = showTooltip && filter.description
-    ? `${filter.label[language]}: ${filter.description[language]}`
-    : filter.label[language]
+  const tooltipTitle =
+    showTooltip && filter.description
+      ? `${filter.label[language]}: ${filter.description[language]}`
+      : filter.label[language];
 
   return (
     <Badge
@@ -107,7 +113,7 @@ export function SafetyBadge({
     >
       {content}
     </Badge>
-  )
+  );
 }
 
 /**
@@ -125,21 +131,23 @@ export function SafetyBadge({
  */
 export interface SafetyBadgeListProps {
   /** Array of filter IDs to display */
-  filterIds: string[]
+  filterIds: string[];
   /** Badge variant */
-  variant?: BadgeProps['variant']
+  variant?: BadgeProps['variant'];
   /** Badge size */
-  size?: BadgeProps['size']
+  size?: BadgeProps['size'];
   /** Icon type */
-  iconType?: 'emoji' | 'svg' | 'none'
+  iconType?: 'emoji' | 'svg' | 'none';
+  /** Show icon (shorthand) */
+  showIcon?: boolean;
   /** Show text */
-  showText?: boolean
+  showText?: boolean;
   /** Language */
-  language?: 'en' | 'it' | 'vi'
+  language?: 'en' | 'it' | 'vi';
   /** Show tooltips */
-  showTooltip?: boolean
+  showTooltip?: boolean;
   /** Additional className for the container */
-  className?: string
+  className?: string;
 }
 
 export function SafetyBadgeList({
@@ -147,13 +155,14 @@ export function SafetyBadgeList({
   variant = 'glassmorphism',
   size = 'md',
   iconType = 'svg',
+  showIcon,
   showText = true,
   language = 'en',
   showTooltip = false,
   className,
 }: SafetyBadgeListProps) {
   if (!filterIds || filterIds.length === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -165,11 +174,12 @@ export function SafetyBadgeList({
           variant={variant}
           size={size}
           iconType={iconType}
+          showIcon={showIcon}
           showText={showText}
           language={language}
           showTooltip={showTooltip}
         />
       ))}
     </div>
-  )
+  );
 }

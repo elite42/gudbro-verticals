@@ -518,7 +518,7 @@ export interface AutoComputationResult {
  * - quantity: Number input with min/max (e.g., sugar level, ice level)
  * - text: Free text input (e.g., special instructions)
  */
-export type CustomizationType = 'radio' | 'checkbox' | 'quantity' | 'text';
+export type CustomizationType = 'radio' | 'checkbox' | 'quantity' | 'text' | 'number';
 
 /**
  * Single customization option
@@ -565,7 +565,7 @@ export interface ProductCustomization {
   options: CustomizationOption[];
 
   // Display configuration
-  display_order: number; // Order to show in UI (lower = first)
+  display_order?: number; // Order to show in UI (lower = first), defaults to 0
   display_style?: 'list' | 'grid' | 'buttons' | 'dropdown'; // UI presentation style
   icon?: string; // Optional icon/emoji for the group
 

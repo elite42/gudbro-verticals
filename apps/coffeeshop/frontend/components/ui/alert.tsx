@@ -1,6 +1,6 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils/cn"
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils/cn';
 
 /**
  * Alert Variants
@@ -9,40 +9,42 @@ import { cn } from "@/lib/utils/cn"
  */
 const alertVariants = cva(
   // Base classes
-  "relative w-full rounded-xl p-4 transition-all duration-200",
+  'relative w-full rounded-xl p-4 transition-all duration-200',
   {
     variants: {
       variant: {
         // Default - Neutral information
         default:
-          "bg-theme-bg-secondary border-2 border-theme-border-medium text-theme-text-primary",
+          'bg-theme-bg-secondary border-theme-border-medium text-theme-text-primary border-2',
 
         // Info - Blue informational alert
-        info:
-          "bg-blue-50 dark:bg-blue-950 border-2 border-blue-200 dark:border-blue-800 text-blue-900 dark:text-blue-100",
+        info: 'border-2 border-blue-200 bg-blue-50 text-blue-900 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-100',
 
         // Success - Green success alert
         success:
-          "bg-green-50 dark:bg-green-950 border-2 border-green-200 dark:border-green-800 text-green-900 dark:text-green-100",
+          'border-2 border-green-200 bg-green-50 text-green-900 dark:border-green-800 dark:bg-green-950 dark:text-green-100',
 
         // Warning - Yellow/Orange warning alert
         warning:
-          "bg-yellow-50 dark:bg-yellow-950 border-2 border-yellow-200 dark:border-yellow-800 text-yellow-900 dark:text-yellow-100",
+          'border-2 border-yellow-200 bg-yellow-50 text-yellow-900 dark:border-yellow-800 dark:bg-yellow-950 dark:text-yellow-100',
 
         // Error/Danger - Red error alert
         error:
-          "bg-red-50 dark:bg-red-950 border-2 border-red-200 dark:border-red-800 text-red-900 dark:text-red-100",
+          'border-2 border-red-200 bg-red-50 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100',
+
+        // Danger - Alias for error (for semantic clarity)
+        danger:
+          'border-2 border-red-200 bg-red-50 text-red-900 dark:border-red-800 dark:bg-red-950 dark:text-red-100',
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: 'default',
     },
   }
-)
+);
 
 export interface AlertProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof alertVariants> {}
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof alertVariants> {}
 
 /**
  * Alert Component
@@ -74,30 +76,24 @@ export interface AlertProps
  */
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ({ className, variant, ...props }, ref) => (
-    <div
-      ref={ref}
-      role="alert"
-      className={cn(alertVariants({ variant }), className)}
-      {...props}
-    />
+    <div ref={ref} role="alert" className={cn(alertVariants({ variant }), className)} {...props} />
   )
-)
-Alert.displayName = "Alert"
+);
+Alert.displayName = 'Alert';
 
 /**
  * Alert Title Component
  */
-const AlertTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h5
-    ref={ref}
-    className={cn("mb-1 font-bold text-base leading-none tracking-tight", className)}
-    {...props}
-  />
-))
-AlertTitle.displayName = "AlertTitle"
+const AlertTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
+  ({ className, ...props }, ref) => (
+    <h5
+      ref={ref}
+      className={cn('mb-1 text-base font-bold leading-none tracking-tight', className)}
+      {...props}
+    />
+  )
+);
+AlertTitle.displayName = 'AlertTitle';
 
 /**
  * Alert Description Component
@@ -106,12 +102,8 @@ const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("text-sm opacity-90 [&_p]:leading-relaxed", className)}
-    {...props}
-  />
-))
-AlertDescription.displayName = "AlertDescription"
+  <div ref={ref} className={cn('text-sm opacity-90 [&_p]:leading-relaxed', className)} {...props} />
+));
+AlertDescription.displayName = 'AlertDescription';
 
-export { Alert, AlertTitle, AlertDescription, alertVariants }
+export { Alert, AlertTitle, AlertDescription, alertVariants };

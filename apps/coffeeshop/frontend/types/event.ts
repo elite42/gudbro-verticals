@@ -99,6 +99,10 @@ export interface EventPromotion {
   value?: number; // 20 per 20%, 10 per €10, 2 per 2x
   secondaryValue?: number; // For buy_x_get_y: buy X, get Y
 
+  // Legacy/Compat fields (used by some UI components)
+  type?: 'discount' | 'freeItem' | 'freebie' | 'bundle' | 'special'; // Simplified type for UI
+  discountPercent?: number; // Alias for value when type is 'discount'
+
   // What it applies to
   applicableTo: 'all' | 'categories' | 'products' | 'tags';
   categoryIds?: string[]; // Categories included

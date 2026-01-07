@@ -4,7 +4,7 @@ export interface Extra {
   id: string;
   name: string;
   price: number;
-  type: 'size' | 'milk' | 'shot' | 'sweetener' | 'liquor' | 'addon';
+  type: 'size' | 'milk' | 'shot' | 'sweetener' | 'liquor' | 'addon' | 'side';
   maxQuantity?: number;
 }
 

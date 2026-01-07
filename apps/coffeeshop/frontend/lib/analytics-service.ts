@@ -161,9 +161,8 @@ async function flushEvents(): Promise<void> {
   }
 
   try {
-    const { error } = await supabase
-      .from('analytics_events')
-      .insert(eventsToSend.map(e => ({
+    const { error } = await supabase.from('analytics_events').insert(
+      eventsToSend.map((e) => ({
         session_id: e.session_id,
         device_id: e.device_id,
         event_type: e.event_type,
@@ -171,7 +170,8 @@ async function flushEvents(): Promise<void> {
         event_data: e.event_data || {},
         page_url: e.page_url,
         created_at: e.created_at,
-      })));
+      }))
+    );
 
     if (error) {
       console.error('[Analytics] Failed to send events:', error);
@@ -219,21 +219,29 @@ export function track(
  * Track page view (convenience method)
  */
 export function trackPageView(pageName?: string): void {
-  track('page_view', {
-    page_name: pageName || document.title,
-    referrer: document.referrer,
-  }, 'page_view');
+  track(
+    'page_view',
+    {
+      page_name: pageName || document.title,
+      referrer: document.referrer,
+    },
+    'page_view'
+  );
 }
 
 /**
  * Track item click
  */
 export function trackItemClick(itemId: string, itemName: string, category?: string): void {
-  track('item_click', {
-    item_id: itemId,
-    item_name: itemName,
-    category,
-  }, 'interaction');
+  track(
+    'item_click',
+    {
+      item_id: itemId,
+      item_name: itemName,
+      category,
+    },
+    'interaction'
+  );
 }
 
 /**
@@ -246,14 +254,18 @@ export function trackAddToCart(
   price: number,
   extras?: string[]
 ): void {
-  track('add_to_cart', {
-    item_id: itemId,
-    item_name: itemName,
-    quantity,
-    price,
-    extras,
-    total: price * quantity,
-  }, 'conversion');
+  track(
+    'add_to_cart',
+    {
+      item_id: itemId,
+      item_name: itemName,
+      quantity,
+      price,
+      extras,
+      total: price * quantity,
+    },
+    'conversion'
+  );
 }
 
 /**
@@ -265,12 +277,16 @@ export function trackOrderPlaced(
   total: number,
   itemCount: number
 ): void {
-  track('order_placed', {
-    order_id: orderId,
-    order_code: orderCode,
-    total,
-    item_count: itemCount,
-  }, 'conversion');
+  track(
+    'order_placed',
+    {
+      order_id: orderId,
+      order_code: orderCode,
+      total,
+      item_count: itemCount,
+    },
+    'conversion'
+  );
 }
 
 /**
@@ -281,11 +297,15 @@ export function trackError(
   errorMessage: string,
   context?: Record<string, unknown>
 ): void {
-  track('error_occurred', {
-    error_type: errorType,
-    error_message: errorMessage,
-    ...context,
-  }, 'error');
+  track(
+    'error_occurred',
+    {
+      error_type: errorType,
+      error_message: errorMessage,
+      ...context,
+    },
+    'error'
+  );
 }
 
 /**
@@ -296,11 +316,15 @@ export function trackPerformance(
   durationMs: number,
   context?: Record<string, unknown>
 ): void {
-  track('page_load_time', {
-    metric_name: metricName,
-    duration_ms: durationMs,
-    ...context,
-  }, 'performance');
+  track(
+    'page_load_time',
+    {
+      metric_name: metricName,
+      duration_ms: durationMs,
+      ...context,
+    },
+    'performance'
+  );
 }
 
 // ============================================
@@ -313,7 +337,8 @@ export function trackPerformance(
 function inferCategory(eventType: EventType): EventCategory {
   if (eventType.includes('view')) return 'page_view';
   if (eventType.includes('cart') || eventType.includes('order')) return 'conversion';
-  if (eventType.includes('review') || eventType.includes('share') || eventType.includes('follow')) return 'engagement';
+  if (eventType.includes('review') || eventType.includes('share') || eventType.includes('follow'))
+    return 'engagement';
   if (eventType.includes('error')) return 'error';
   if (eventType.includes('time') || eventType.includes('performance')) return 'performance';
   return 'interaction';
@@ -345,7 +370,7 @@ export function initAnalytics(): void {
   window.addEventListener('beforeunload', () => {
     if (eventQueue.length > 0) {
       // Use sendBeacon for reliability
-      if (navigator.sendBeacon && isSupabaseConfigured) {
+      if ('sendBeacon' in navigator && isSupabaseConfigured) {
         // Note: sendBeacon with Supabase would need a dedicated endpoint
         // For now, just flush synchronously
         flushEvents();

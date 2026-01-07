@@ -126,9 +126,7 @@ export function useMenu(merchantSlug: string) {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(
-          `${API_BASE_URL}/api/menu/${merchantSlug}?lang=${language}`
-        );
+        const response = await fetch(`${API_BASE_URL}/api/menu/${merchantSlug}?lang=${language}`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch menu: ${response.statusText}`);
@@ -177,10 +175,7 @@ export function useMenu(merchantSlug: string) {
       }
 
       // Check spice level
-      if (
-        dietary.maxSpiceLevel !== undefined &&
-        item.spiceLevel > dietary.maxSpiceLevel
-      ) {
+      if (dietary.maxSpiceLevel !== undefined && item.spiceLevel > dietary.maxSpiceLevel) {
         return false;
       }
 
@@ -197,9 +192,7 @@ export function useMenu(merchantSlug: string) {
 
     // Filter by category
     if (filters.categorySlug) {
-      filteredCategories = filteredCategories.filter(
-        (cat) => cat.slug === filters.categorySlug
-      );
+      filteredCategories = filteredCategories.filter((cat) => cat.slug === filters.categorySlug);
     }
 
     // Filter items within categories
@@ -219,9 +212,7 @@ export function useMenu(merchantSlug: string) {
 
       // Dietary filter
       if (filters.dietary) {
-        items = items.filter((item) =>
-          filterByDietary(item, filters.dietary!)
-        );
+        items = items.filter((item) => filterByDietary(item, filters.dietary!));
       }
 
       // Featured only
@@ -238,9 +229,7 @@ export function useMenu(merchantSlug: string) {
     });
 
     // Remove empty categories
-    filteredCategories = filteredCategories.filter(
-      (cat) => cat.items.length > 0
-    );
+    filteredCategories = filteredCategories.filter((cat) => cat.items.length > 0);
 
     return { ...menu, categories: filteredCategories };
   }, [menu, filters, filterByDietary]);
@@ -273,7 +262,7 @@ export function useMenu(merchantSlug: string) {
   const getLocalizedText = useCallback(
     (text: MultiLangText | undefined): string => {
       if (!text) return '';
-      return (text as Record<string, string>)[language] || text.en || '';
+      return (text as unknown as Record<string, string>)[language] || text.en || '';
     },
     [language]
   );
@@ -302,24 +291,18 @@ export function useMenu(merchantSlug: string) {
   );
 
   // Get allergen warnings for an item
-  const getAllergenWarnings = useCallback(
-    (item: MenuItemSummary): string[] => {
-      return Object.entries(item.allergens)
-        .filter(([, value]) => value)
-        .map(([key]) => key);
-    },
-    []
-  );
+  const getAllergenWarnings = useCallback((item: MenuItemSummary): string[] => {
+    return Object.entries(item.allergens)
+      .filter(([, value]) => value)
+      .map(([key]) => key);
+  }, []);
 
   // Get intolerance warnings for an item
-  const getIntoleranceWarnings = useCallback(
-    (item: MenuItemSummary): string[] => {
-      return Object.entries(item.intolerances)
-        .filter(([, value]) => value)
-        .map(([key]) => key);
-    },
-    []
-  );
+  const getIntoleranceWarnings = useCallback((item: MenuItemSummary): string[] => {
+    return Object.entries(item.intolerances)
+      .filter(([, value]) => value)
+      .map(([key]) => key);
+  }, []);
 
   return {
     // Data
@@ -381,16 +364,13 @@ export function useDietaryPreferences() {
   }, []);
 
   // Save to localStorage when changed
-  const updatePreferences = useCallback(
-    (newPrefs: Partial<UserDietaryPreferences>) => {
-      setPreferences((prev) => {
-        const updated = { ...prev, ...newPrefs };
-        localStorage.setItem('dietaryPreferences', JSON.stringify(updated));
-        return updated;
-      });
-    },
-    []
-  );
+  const updatePreferences = useCallback((newPrefs: Partial<UserDietaryPreferences>) => {
+    setPreferences((prev) => {
+      const updated = { ...prev, ...newPrefs };
+      localStorage.setItem('dietaryPreferences', JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
   const toggleAllergen = useCallback((allergen: string) => {
     setPreferences((prev) => {

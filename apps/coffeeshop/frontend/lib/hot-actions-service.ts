@@ -257,7 +257,7 @@ export function subscribeToRequestUpdates(
 
   // Return cleanup function
   return () => {
-    supabase.removeChannel(channel);
+    supabase?.removeChannel(channel);
   };
 }
 

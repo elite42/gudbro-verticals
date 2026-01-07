@@ -16,9 +16,9 @@
 // TYPES
 // =============================================================================
 
-// Temperature is either 'hot' or 'iced'
+// Temperature is 'hot', 'iced', or 'both' (for filtering)
 // Products available in both temperatures should be created as separate items
-export type Temperature = 'hot' | 'iced';
+export type Temperature = 'hot' | 'iced' | 'both';
 
 export interface Subcategory {
   id: string;
@@ -90,8 +90,8 @@ export const coffeeSubcategories: Subcategory[] = [
     description: {
       en: 'Pure espresso drinks - single, double, americano, macchiato',
       it: 'Bevande a base espresso puro - singolo, doppio, americano, macchiato',
-      vi: 'Đồ uống espresso nguyên chất - đơn, đôi, americano, macchiato'
-    }
+      vi: 'Đồ uống espresso nguyên chất - đơn, đôi, americano, macchiato',
+    },
   },
   {
     id: 'milk-based',
@@ -99,8 +99,8 @@ export const coffeeSubcategories: Subcategory[] = [
     description: {
       en: 'Espresso with steamed milk - latte, cappuccino, flat white',
       it: 'Espresso con latte - latte, cappuccino, flat white',
-      vi: 'Espresso với sữa - latte, cappuccino, flat white'
-    }
+      vi: 'Espresso với sữa - latte, cappuccino, flat white',
+    },
   },
   {
     id: 'signature',
@@ -108,8 +108,8 @@ export const coffeeSubcategories: Subcategory[] = [
     description: {
       en: 'Creative house specialties with chocolate, caramel, and unique flavors',
       it: 'Specialità della casa con cioccolato, caramello e sapori unici',
-      vi: 'Đặc sản của quán với socola, caramel và hương vị độc đáo'
-    }
+      vi: 'Đặc sản của quán với socola, caramel và hương vị độc đáo',
+    },
   },
   {
     id: 'cold-brew',
@@ -117,8 +117,8 @@ export const coffeeSubcategories: Subcategory[] = [
     description: {
       en: 'Slow-steeped cold coffee - smooth, naturally sweet, low acidity',
       it: 'Caffè estratto a freddo - morbido, dolce naturale, bassa acidità',
-      vi: 'Cà phê ủ lạnh - mượt, ngọt tự nhiên, ít axit'
-    }
+      vi: 'Cà phê ủ lạnh - mượt, ngọt tự nhiên, ít axit',
+    },
   },
   {
     id: 'blended',
@@ -126,9 +126,9 @@ export const coffeeSubcategories: Subcategory[] = [
     description: {
       en: 'Ice-blended coffee drinks - frappuccino style',
       it: 'Bevande al caffè frullate con ghiaccio - stile frappuccino',
-      vi: 'Đồ uống cà phê xay đá - kiểu frappuccino'
-    }
-  }
+      vi: 'Đồ uống cà phê xay đá - kiểu frappuccino',
+    },
+  },
 ];
 
 export const teaSubcategories: Subcategory[] = [
@@ -138,8 +138,8 @@ export const teaSubcategories: Subcategory[] = [
     description: {
       en: 'Fully oxidized teas - rich, malty, robust flavor',
       it: 'Tè completamente ossidati - ricchi, maltati, sapore robusto',
-      vi: 'Trà oxy hóa hoàn toàn - đậm đà, hương lúa mạch'
-    }
+      vi: 'Trà oxy hóa hoàn toàn - đậm đà, hương lúa mạch',
+    },
   },
   {
     id: 'green-tea',
@@ -147,8 +147,8 @@ export const teaSubcategories: Subcategory[] = [
     description: {
       en: 'Unoxidized teas - fresh, grassy, delicate flavor',
       it: 'Tè non ossidati - freschi, erbacei, sapore delicato',
-      vi: 'Trà không oxy hóa - tươi, hương cỏ, tinh tế'
-    }
+      vi: 'Trà không oxy hóa - tươi, hương cỏ, tinh tế',
+    },
   },
   {
     id: 'herbal-tisane',
@@ -156,8 +156,8 @@ export const teaSubcategories: Subcategory[] = [
     description: {
       en: 'Caffeine-free herbal infusions - chamomile, peppermint, hibiscus',
       it: 'Infusi alle erbe senza caffeina - camomilla, menta, ibisco',
-      vi: 'Trà thảo mộc không caffeine - hoa cúc, bạc hà, dâm bụt'
-    }
+      vi: 'Trà thảo mộc không caffeine - hoa cúc, bạc hà, dâm bụt',
+    },
   },
   {
     id: 'chai',
@@ -165,9 +165,9 @@ export const teaSubcategories: Subcategory[] = [
     description: {
       en: 'Spiced tea blends - masala chai, dirty chai, chai latte',
       it: 'Miscele di tè speziato - masala chai, dirty chai, chai latte',
-      vi: 'Trà gia vị - masala chai, dirty chai, chai latte'
-    }
-  }
+      vi: 'Trà gia vị - masala chai, dirty chai, chai latte',
+    },
+  },
 ];
 
 export const matchaSubcategories: Subcategory[] = [
@@ -177,8 +177,8 @@ export const matchaSubcategories: Subcategory[] = [
     description: {
       en: 'Highest grade matcha whisked with water only',
       it: 'Matcha di grado più alto solo con acqua',
-      vi: 'Matcha cao cấp nhất chỉ với nước'
-    }
+      vi: 'Matcha cao cấp nhất chỉ với nước',
+    },
   },
   {
     id: 'latte-grade',
@@ -186,8 +186,8 @@ export const matchaSubcategories: Subcategory[] = [
     description: {
       en: 'Premium matcha blended with milk - hot or iced',
       it: 'Matcha premium miscelato con latte - caldo o freddo',
-      vi: 'Matcha cao cấp với sữa - nóng hoặc đá'
-    }
+      vi: 'Matcha cao cấp với sữa - nóng hoặc đá',
+    },
   },
   {
     id: 'matcha-signature',
@@ -195,9 +195,9 @@ export const matchaSubcategories: Subcategory[] = [
     description: {
       en: 'Creative matcha drinks with unique flavors',
       it: 'Bevande matcha creative con sapori unici',
-      vi: 'Đồ uống matcha sáng tạo với hương vị độc đáo'
-    }
-  }
+      vi: 'Đồ uống matcha sáng tạo với hương vị độc đáo',
+    },
+  },
 ];
 
 export const smoothieSubcategories: Subcategory[] = [
@@ -207,8 +207,8 @@ export const smoothieSubcategories: Subcategory[] = [
     description: {
       en: 'Fresh fruit blends - berry, tropical, citrus',
       it: 'Mix di frutta fresca - frutti di bosco, tropicale, agrumi',
-      vi: 'Sinh tố trái cây tươi - berry, nhiệt đới, cam quýt'
-    }
+      vi: 'Sinh tố trái cây tươi - berry, nhiệt đới, cam quýt',
+    },
   },
   {
     id: 'green-detox',
@@ -216,8 +216,8 @@ export const smoothieSubcategories: Subcategory[] = [
     description: {
       en: 'Healthy green smoothies with spinach, kale, and superfoods',
       it: 'Smoothie verdi salutari con spinaci, cavolo e superfood',
-      vi: 'Sinh tố xanh lành mạnh với rau bina, cải xoăn và superfood'
-    }
+      vi: 'Sinh tố xanh lành mạnh với rau bina, cải xoăn và superfood',
+    },
   },
   {
     id: 'protein',
@@ -225,9 +225,9 @@ export const smoothieSubcategories: Subcategory[] = [
     description: {
       en: 'High protein smoothies for fitness and energy',
       it: 'Smoothie ad alto contenuto proteico per fitness ed energia',
-      vi: 'Sinh tố giàu protein cho thể lực và năng lượng'
-    }
-  }
+      vi: 'Sinh tố giàu protein cho thể lực và năng lượng',
+    },
+  },
 ];
 
 export const milkshakeSubcategories: Subcategory[] = [
@@ -237,8 +237,8 @@ export const milkshakeSubcategories: Subcategory[] = [
     description: {
       en: 'Traditional milkshake flavors - vanilla, chocolate, strawberry',
       it: 'Gusti classici - vaniglia, cioccolato, fragola',
-      vi: 'Hương vị cổ điển - vanilla, socola, dâu tây'
-    }
+      vi: 'Hương vị cổ điển - vanilla, socola, dâu tây',
+    },
   },
   {
     id: 'gourmet',
@@ -246,9 +246,9 @@ export const milkshakeSubcategories: Subcategory[] = [
     description: {
       en: 'Indulgent specialty shakes - Nutella, Oreo, Kinder, Snickers',
       it: 'Frappè speciali golosi - Nutella, Oreo, Kinder, Snickers',
-      vi: 'Milkshake đặc biệt - Nutella, Oreo, Kinder, Snickers'
-    }
-  }
+      vi: 'Milkshake đặc biệt - Nutella, Oreo, Kinder, Snickers',
+    },
+  },
 ];
 
 // =============================================================================
@@ -262,8 +262,8 @@ export const foodSubcategories: Subcategory[] = [
     description: {
       en: 'Morning favorites - croissants, toast, eggs',
       it: 'Preferiti del mattino - cornetti, toast, uova',
-      vi: 'Món sáng yêu thích - bánh sừng bò, bánh mì nướng, trứng'
-    }
+      vi: 'Món sáng yêu thích - bánh sừng bò, bánh mì nướng, trứng',
+    },
   },
   {
     id: 'sandwiches',
@@ -271,8 +271,8 @@ export const foodSubcategories: Subcategory[] = [
     description: {
       en: 'Fresh sandwiches and wraps - banh mi, panini, wraps',
       it: 'Panini e wrap freschi - banh mi, panini, wrap',
-      vi: 'Bánh mì kẹp tươi - bánh mì, panini, wrap'
-    }
+      vi: 'Bánh mì kẹp tươi - bánh mì, panini, wrap',
+    },
   },
   {
     id: 'bowls',
@@ -280,8 +280,8 @@ export const foodSubcategories: Subcategory[] = [
     description: {
       en: 'Healthy bowls and fresh salads',
       it: 'Bowl salutari e insalate fresche',
-      vi: 'Tô lành mạnh và salad tươi'
-    }
+      vi: 'Tô lành mạnh và salad tươi',
+    },
   },
   {
     id: 'mains',
@@ -289,9 +289,9 @@ export const foodSubcategories: Subcategory[] = [
     description: {
       en: 'Hearty main courses - pho, pasta, rice dishes',
       it: 'Piatti principali sostanziosi - pho, pasta, riso',
-      vi: 'Món chính đầy đặn - phở, mì ý, cơm'
-    }
-  }
+      vi: 'Món chính đầy đặn - phở, mì ý, cơm',
+    },
+  },
 ];
 
 export const dessertSubcategories: Subcategory[] = [
@@ -301,8 +301,8 @@ export const dessertSubcategories: Subcategory[] = [
     description: {
       en: 'Cakes, brownies, and pastries',
       it: 'Torte, brownie e pasticcini',
-      vi: 'Bánh, brownie và bánh ngọt'
-    }
+      vi: 'Bánh, brownie và bánh ngọt',
+    },
   },
   {
     id: 'asian-desserts',
@@ -310,8 +310,8 @@ export const dessertSubcategories: Subcategory[] = [
     description: {
       en: 'Traditional Asian sweets - mango sticky rice, che, mochi',
       it: 'Dolci tradizionali asiatici - riso al mango, che, mochi',
-      vi: 'Tráng miệng Á truyền thống - xôi xoài, chè, mochi'
-    }
+      vi: 'Tráng miệng Á truyền thống - xôi xoài, chè, mochi',
+    },
   },
   {
     id: 'italian-desserts',
@@ -319,9 +319,9 @@ export const dessertSubcategories: Subcategory[] = [
     description: {
       en: 'Classic Italian sweets - tiramisu, panna cotta, cannoli',
       it: 'Dolci italiani classici - tiramisù, panna cotta, cannoli',
-      vi: 'Tráng miệng Ý cổ điển - tiramisu, panna cotta, cannoli'
-    }
-  }
+      vi: 'Tráng miệng Ý cổ điển - tiramisu, panna cotta, cannoli',
+    },
+  },
 ];
 
 export const merchSubcategories: Subcategory[] = [
@@ -331,8 +331,8 @@ export const merchSubcategories: Subcategory[] = [
     description: {
       en: 'Premium coffee beans to take home',
       it: 'Caffè in grani premium da portare a casa',
-      vi: 'Hạt cà phê cao cấp mang về'
-    }
+      vi: 'Hạt cà phê cao cấp mang về',
+    },
   },
   {
     id: 'equipment',
@@ -340,8 +340,8 @@ export const merchSubcategories: Subcategory[] = [
     description: {
       en: 'Brewing equipment and accessories',
       it: 'Attrezzature e accessori per caffè',
-      vi: 'Dụng cụ pha chế và phụ kiện'
-    }
+      vi: 'Dụng cụ pha chế và phụ kiện',
+    },
   },
   {
     id: 'branded',
@@ -349,9 +349,9 @@ export const merchSubcategories: Subcategory[] = [
     description: {
       en: 'Mugs, tumblers, apparel with our logo',
       it: 'Tazze, thermos, abbigliamento con il nostro logo',
-      vi: 'Cốc, bình, quần áo với logo của chúng tôi'
-    }
-  }
+      vi: 'Cốc, bình, quần áo với logo của chúng tôi',
+    },
+  },
 ];
 
 // =============================================================================
@@ -368,12 +368,12 @@ export const categories: Category[] = [
     name: {
       en: 'Hot Coffee',
       it: 'Caffè Caldo',
-      vi: 'Cà Phê Nóng'
+      vi: 'Cà Phê Nóng',
     },
     description: {
       en: 'Espresso-based hot drinks - from classic to creative',
       it: 'Bevande calde a base espresso - dal classico al creativo',
-      vi: 'Đồ uống nóng từ espresso - từ cổ điển đến sáng tạo'
+      vi: 'Đồ uống nóng từ espresso - từ cổ điển đến sáng tạo',
     },
     icon: '☕',
     temperatureIcon: '🔥',
@@ -382,16 +382,16 @@ export const categories: Category[] = [
     image: '/categories/hot-coffee.jpg',
     sortOrder: 1,
     isVisible: true,
-    subcategories: coffeeSubcategories.filter(s =>
+    subcategories: coffeeSubcategories.filter((s) =>
       ['espresso-based', 'milk-based', 'signature'].includes(s.id)
     ),
     quickPrompts: {
       en: ['I need a coffee', 'Something hot', 'Classic espresso', 'Cappuccino please'],
       it: ['Vorrei un caffè', 'Qualcosa di caldo', 'Un espresso classico', 'Un cappuccino'],
-      vi: ['Tôi cần cà phê', 'Gì đó nóng', 'Espresso cổ điển', 'Cappuccino']
+      vi: ['Tôi cần cà phê', 'Gì đó nóng', 'Espresso cổ điển', 'Cappuccino'],
     },
     tags: ['coffee', 'caffeine', 'hot', 'espresso', 'milk'],
-    defaultTimeSlots: ['breakfast', 'morning', 'afternoon']
+    defaultTimeSlots: ['breakfast', 'morning', 'afternoon'],
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -403,12 +403,12 @@ export const categories: Category[] = [
     name: {
       en: 'Iced Coffee',
       it: 'Caffè Freddo',
-      vi: 'Cà Phê Đá'
+      vi: 'Cà Phê Đá',
     },
     description: {
       en: 'Cold coffee drinks - iced latte, cold brew, frappé',
       it: 'Bevande al caffè fredde - latte ghiacciato, cold brew, frappé',
-      vi: 'Đồ uống cà phê lạnh - latte đá, cold brew, frappé'
+      vi: 'Đồ uống cà phê lạnh - latte đá, cold brew, frappé',
     },
     icon: '🧊',
     temperatureIcon: '❄️',
@@ -417,16 +417,16 @@ export const categories: Category[] = [
     image: '/categories/iced-coffee.jpg',
     sortOrder: 2,
     isVisible: true,
-    subcategories: coffeeSubcategories.filter(s =>
+    subcategories: coffeeSubcategories.filter((s) =>
       ['cold-brew', 'blended', 'signature'].includes(s.id)
     ),
     quickPrompts: {
       en: ['Iced coffee', 'Something cold', 'Cold brew', 'Frappuccino'],
       it: ['Caffè freddo', 'Qualcosa di freddo', 'Cold brew', 'Frappuccino'],
-      vi: ['Cà phê đá', 'Gì đó lạnh', 'Cold brew', 'Frappuccino']
+      vi: ['Cà phê đá', 'Gì đó lạnh', 'Cold brew', 'Frappuccino'],
     },
     tags: ['coffee', 'caffeine', 'iced', 'cold', 'refreshing'],
-    defaultTimeSlots: ['morning', 'afternoon', 'evening']
+    defaultTimeSlots: ['morning', 'afternoon', 'evening'],
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -438,12 +438,12 @@ export const categories: Category[] = [
     name: {
       en: 'Matcha',
       it: 'Matcha',
-      vi: 'Matcha'
+      vi: 'Matcha',
     },
     description: {
       en: 'Japanese green tea powder - ceremonial and latte styles',
       it: 'Tè verde giapponese in polvere - cerimoniale e latte',
-      vi: 'Bột trà xanh Nhật Bản - nghi lễ và latte'
+      vi: 'Bột trà xanh Nhật Bản - nghi lễ và latte',
     },
     icon: '🍵',
     temperatureIcon: '🔥',
@@ -456,10 +456,10 @@ export const categories: Category[] = [
     quickPrompts: {
       en: ['Matcha please', 'Green tea latte', 'Something healthy', 'Iced matcha'],
       it: ['Un matcha', 'Latte al tè verde', 'Qualcosa di salutare', 'Matcha freddo'],
-      vi: ['Matcha', 'Latte trà xanh', 'Gì đó lành mạnh', 'Matcha đá']
+      vi: ['Matcha', 'Latte trà xanh', 'Gì đó lành mạnh', 'Matcha đá'],
     },
     tags: ['tea', 'matcha', 'healthy', 'japanese', 'antioxidant', 'caffeine'],
-    defaultTimeSlots: ['morning', 'afternoon']
+    defaultTimeSlots: ['morning', 'afternoon'],
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -471,12 +471,12 @@ export const categories: Category[] = [
     name: {
       en: 'Tea & Infusions',
       it: 'Tè e Tisane',
-      vi: 'Trà & Thảo Mộc'
+      vi: 'Trà & Thảo Mộc',
     },
     description: {
       en: 'Black, green, herbal teas and spiced chai',
       it: 'Tè nero, verde, tisane e chai speziato',
-      vi: 'Trà đen, xanh, thảo mộc và chai gia vị'
+      vi: 'Trà đen, xanh, thảo mộc và chai gia vị',
     },
     icon: '🫖',
     temperatureIcon: '🔥',
@@ -489,10 +489,10 @@ export const categories: Category[] = [
     quickPrompts: {
       en: ['Tea please', 'No coffee', 'Caffeine free', 'Chai latte'],
       it: ['Un tè', 'Niente caffè', 'Senza caffeina', 'Chai latte'],
-      vi: ['Trà', 'Không cà phê', 'Không caffeine', 'Chai latte']
+      vi: ['Trà', 'Không cà phê', 'Không caffeine', 'Chai latte'],
     },
     tags: ['tea', 'herbal', 'chai', 'caffeine-free-options', 'healthy'],
-    defaultTimeSlots: ['all-day']
+    defaultTimeSlots: ['all-day'],
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -504,12 +504,12 @@ export const categories: Category[] = [
     name: {
       en: 'Smoothies',
       it: 'Smoothie',
-      vi: 'Sinh Tố'
+      vi: 'Sinh Tố',
     },
     description: {
       en: 'Fresh fruit smoothies - fruit, green, and protein',
       it: 'Smoothie di frutta fresca - frutta, verde e proteico',
-      vi: 'Sinh tố trái cây tươi - trái cây, xanh và protein'
+      vi: 'Sinh tố trái cây tươi - trái cây, xanh và protein',
     },
     icon: '🥤',
     temperatureIcon: '❄️',
@@ -522,10 +522,10 @@ export const categories: Category[] = [
     quickPrompts: {
       en: ['Fresh smoothie', 'Fruit drink', 'Green detox', 'Protein shake'],
       it: ['Smoothie fresco', 'Bevanda alla frutta', 'Detox verde', 'Shake proteico'],
-      vi: ['Sinh tố tươi', 'Đồ uống trái cây', 'Detox xanh', 'Shake protein']
+      vi: ['Sinh tố tươi', 'Đồ uống trái cây', 'Detox xanh', 'Shake protein'],
     },
     tags: ['fruit', 'healthy', 'fresh', 'vitamins', 'caffeine-free'],
-    defaultTimeSlots: ['morning', 'afternoon']
+    defaultTimeSlots: ['morning', 'afternoon'],
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -537,12 +537,12 @@ export const categories: Category[] = [
     name: {
       en: 'Milkshakes',
       it: 'Frappè',
-      vi: 'Sữa Lắc'
+      vi: 'Sữa Lắc',
     },
     description: {
       en: 'Creamy ice cream shakes - classic and gourmet',
       it: 'Frappè cremosi al gelato - classici e gourmet',
-      vi: 'Sữa lắc kem béo - cổ điển và cao cấp'
+      vi: 'Sữa lắc kem béo - cổ điển và cao cấp',
     },
     icon: '🥛',
     temperatureIcon: '❄️',
@@ -555,10 +555,10 @@ export const categories: Category[] = [
     quickPrompts: {
       en: ['Milkshake', 'Something sweet', 'Ice cream drink', 'Nutella shake'],
       it: ['Un frappè', 'Qualcosa di dolce', 'Bevanda al gelato', 'Frappè Nutella'],
-      vi: ['Sữa lắc', 'Gì đó ngọt', 'Đồ uống kem', 'Shake Nutella']
+      vi: ['Sữa lắc', 'Gì đó ngọt', 'Đồ uống kem', 'Shake Nutella'],
     },
     tags: ['dessert', 'ice-cream', 'sweet', 'indulgent', 'creamy'],
-    defaultTimeSlots: ['afternoon', 'evening']
+    defaultTimeSlots: ['afternoon', 'evening'],
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -570,12 +570,12 @@ export const categories: Category[] = [
     name: {
       en: 'Food',
       it: 'Cibo',
-      vi: 'Đồ Ăn'
+      vi: 'Đồ Ăn',
     },
     description: {
       en: 'Fresh food - breakfast, sandwiches, bowls, and mains',
       it: 'Cibo fresco - colazione, panini, bowl e piatti principali',
-      vi: 'Đồ ăn tươi - bữa sáng, bánh mì, tô và món chính'
+      vi: 'Đồ ăn tươi - bữa sáng, bánh mì, tô và món chính',
     },
     icon: '🍽️',
     menuType: 'food',
@@ -586,10 +586,10 @@ export const categories: Category[] = [
     quickPrompts: {
       en: ['Something to eat', 'Breakfast', 'Lunch', 'Banh mi please'],
       it: ['Qualcosa da mangiare', 'Colazione', 'Pranzo', 'Un panino'],
-      vi: ['Gì đó ăn', 'Bữa sáng', 'Bữa trưa', 'Bánh mì']
+      vi: ['Gì đó ăn', 'Bữa sáng', 'Bữa trưa', 'Bánh mì'],
     },
     tags: ['food', 'breakfast', 'lunch', 'sandwich', 'bowl', 'savory'],
-    defaultTimeSlots: ['breakfast', 'lunch', 'dinner']
+    defaultTimeSlots: ['breakfast', 'lunch', 'dinner'],
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -601,12 +601,12 @@ export const categories: Category[] = [
     name: {
       en: 'Desserts',
       it: 'Dolci',
-      vi: 'Tráng Miệng'
+      vi: 'Tráng Miệng',
     },
     description: {
       en: 'Sweet treats - cakes, pastries, and traditional desserts',
       it: 'Dolci - torte, pasticcini e dolci tradizionali',
-      vi: 'Đồ ngọt - bánh, bánh ngọt và tráng miệng truyền thống'
+      vi: 'Đồ ngọt - bánh, bánh ngọt và tráng miệng truyền thống',
     },
     icon: '🍰',
     menuType: 'food',
@@ -617,10 +617,10 @@ export const categories: Category[] = [
     quickPrompts: {
       en: ['Something sweet', 'Dessert please', 'Tiramisu', 'Cake'],
       it: ['Qualcosa di dolce', 'Un dessert', 'Tiramisù', 'Una torta'],
-      vi: ['Gì đó ngọt', 'Tráng miệng', 'Tiramisu', 'Bánh']
+      vi: ['Gì đó ngọt', 'Tráng miệng', 'Tiramisu', 'Bánh'],
     },
     tags: ['dessert', 'sweet', 'cake', 'pastry', 'treat'],
-    defaultTimeSlots: ['afternoon', 'evening']
+    defaultTimeSlots: ['afternoon', 'evening'],
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -632,12 +632,12 @@ export const categories: Category[] = [
     name: {
       en: 'Merchandise',
       it: 'Merchandise',
-      vi: 'Hàng Hóa'
+      vi: 'Hàng Hóa',
     },
     description: {
       en: 'Coffee beans, equipment, and branded items',
       it: 'Caffè in grani, attrezzature e articoli brandizzati',
-      vi: 'Hạt cà phê, dụng cụ và đồ thương hiệu'
+      vi: 'Hạt cà phê, dụng cụ và đồ thương hiệu',
     },
     icon: '🛍️',
     menuType: 'merchandise',
@@ -648,11 +648,11 @@ export const categories: Category[] = [
     quickPrompts: {
       en: ['Coffee beans', 'Merchandise', 'Take home', 'Equipment'],
       it: ['Caffè in grani', 'Merchandise', 'Da portare via', 'Attrezzature'],
-      vi: ['Hạt cà phê', 'Hàng hóa', 'Mang về', 'Dụng cụ']
+      vi: ['Hạt cà phê', 'Hàng hóa', 'Mang về', 'Dụng cụ'],
     },
     tags: ['beans', 'equipment', 'merch', 'retail', 'take-home'],
-    defaultTimeSlots: ['all-day']
-  }
+    defaultTimeSlots: ['all-day'],
+  },
 ];
 
 // =============================================================================
@@ -661,7 +661,8 @@ export const categories: Category[] = [
 
 export const TEMPERATURE_ICONS = {
   hot: '🔥',
-  iced: '❄️'
+  iced: '❄️',
+  both: '🔥❄️',
 } as const;
 
 export const getTemperatureIcon = (temp: Temperature | undefined): string => {
@@ -669,27 +670,26 @@ export const getTemperatureIcon = (temp: Temperature | undefined): string => {
   return TEMPERATURE_ICONS[temp] || '';
 };
 
-export const getHotCategories = (): Category[] =>
-  categories.filter(c => c.temperature === 'hot');
+export const getHotCategories = (): Category[] => categories.filter((c) => c.temperature === 'hot');
 
 export const getIcedCategories = (): Category[] =>
-  categories.filter(c => c.temperature === 'iced');
+  categories.filter((c) => c.temperature === 'iced');
 
 export const getDrinkCategories = (): Category[] =>
-  categories.filter(c => c.menuType === 'drinks');
+  categories.filter((c) => c.menuType === 'drinks');
 
 // =============================================================================
 // CATEGORY HELPERS
 // =============================================================================
 
 export const getCategoryById = (id: string): Category | undefined =>
-  categories.find(c => c.id === id);
+  categories.find((c) => c.id === id);
 
 export const getCategoryBySlug = (slug: string): Category | undefined =>
-  categories.find(c => c.slug === slug);
+  categories.find((c) => c.slug === slug);
 
 export const getVisibleCategories = (): Category[] =>
-  categories.filter(c => c.isVisible).sort((a, b) => a.sortOrder - b.sortOrder);
+  categories.filter((c) => c.isVisible).sort((a, b) => a.sortOrder - b.sortOrder);
 
 export const getCategoryIcon = (categoryId: string): string =>
   getCategoryById(categoryId)?.icon || '📦';
@@ -697,9 +697,12 @@ export const getCategoryIcon = (categoryId: string): string =>
 export const getCategoryName = (categoryId: string, lang: 'en' | 'it' | 'vi' = 'en'): string =>
   getCategoryById(categoryId)?.name[lang] || categoryId;
 
-export const getSubcategoryById = (categoryId: string, subcategoryId: string): Subcategory | undefined => {
+export const getSubcategoryById = (
+  categoryId: string,
+  subcategoryId: string
+): Subcategory | undefined => {
   const category = getCategoryById(categoryId);
-  return category?.subcategories?.find(s => s.id === subcategoryId);
+  return category?.subcategories?.find((s) => s.id === subcategoryId);
 };
 
 // =============================================================================
@@ -707,7 +710,9 @@ export const getSubcategoryById = (categoryId: string, subcategoryId: string): S
 // =============================================================================
 
 export const getCategoriesByMenuType = (menuType: MenuType): Category[] =>
-  categories.filter(c => c.menuType === menuType && c.isVisible).sort((a, b) => a.sortOrder - b.sortOrder);
+  categories
+    .filter((c) => c.menuType === menuType && c.isVisible)
+    .sort((a, b) => a.sortOrder - b.sortOrder);
 
 export const getCategoryMenuType = (categoryId: string): MenuType | undefined =>
   getCategoryById(categoryId)?.menuType;
@@ -722,26 +727,25 @@ export const getMerchCategories = (): Category[] => getCategoriesByMenuType('mer
 
 // Maps old category IDs to new ones
 export const LEGACY_CATEGORY_MAP: Record<string, string> = {
-  'espresso': 'hot-coffee',
+  espresso: 'hot-coffee',
   'signature-coffee': 'hot-coffee', // or 'iced-coffee' depending on product
 };
 
-export const mapLegacyCategory = (oldId: string): string =>
-  LEGACY_CATEGORY_MAP[oldId] || oldId;
+export const mapLegacyCategory = (oldId: string): string => LEGACY_CATEGORY_MAP[oldId] || oldId;
 
 // =============================================================================
 // CATEGORY STATS
 // =============================================================================
 
 export const CATEGORY_COUNTS = {
-  'hot-coffee': 26,      // espresso-based + milk-based + some signature
-  'iced-coffee': 22,     // cold versions + cold brew + blended
-  'matcha': 10,
-  'tea': 15,
-  'smoothie': 10,
-  'milkshake': 12,
-  'food': 10,            // breakfast, sandwiches, bowls, mains
-  'dessert': 6,          // cakes, asian desserts, italian desserts
-  'merch': 5,            // coffee beans, equipment, branded items
-  total: 102             // Updated with food, dessert, and merch
+  'hot-coffee': 26, // espresso-based + milk-based + some signature
+  'iced-coffee': 22, // cold versions + cold brew + blended
+  matcha: 10,
+  tea: 15,
+  smoothie: 10,
+  milkshake: 12,
+  food: 10, // breakfast, sandwiches, bowls, mains
+  dessert: 6, // cakes, asian desserts, italian desserts
+  merch: 5, // coffee beans, equipment, branded items
+  total: 102, // Updated with food, dessert, and merch
 };

@@ -1,6 +1,6 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils/cn"
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils/cn';
 
 /**
  * Button Variants using Class Variance Authority (cva)
@@ -13,52 +13,50 @@ import { cn } from "@/lib/utils/cn"
  */
 const buttonVariants = cva(
   // Base classes - always applied
-  "inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none",
+  'inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
         // Primary - Main CTA buttons (uses brand color)
         primary:
-          "bg-theme-brand-primary hover:bg-theme-brand-primary-hover text-white shadow-lg active:scale-[0.98]",
+          'bg-theme-brand-primary hover:bg-theme-brand-primary-hover text-white shadow-lg active:scale-[0.98]',
 
         // Secondary - Less prominent actions
         secondary:
-          "bg-theme-bg-secondary hover:bg-theme-bg-tertiary text-theme-text-primary border-2 border-theme-border-medium active:scale-[0.98]",
+          'bg-theme-bg-secondary hover:bg-theme-bg-tertiary text-theme-text-primary border-theme-border-medium border-2 active:scale-[0.98]',
 
         // Danger - Destructive actions (delete, remove)
         danger:
-          "bg-theme-interactive-danger hover:bg-theme-interactive-danger-hover text-white shadow-md active:scale-[0.98]",
+          'bg-theme-interactive-danger hover:bg-theme-interactive-danger-hover text-white shadow-md active:scale-[0.98]',
 
         // Ghost - Minimal styling, subtle hover
-        ghost:
-          "hover:bg-theme-bg-tertiary text-theme-text-primary",
+        ghost: 'hover:bg-theme-bg-tertiary text-theme-text-primary',
 
         // Link - Looks like a text link
-        link:
-          "text-theme-brand-primary hover:text-theme-brand-primary-hover underline-offset-4 hover:underline",
+        link: 'text-theme-brand-primary hover:text-theme-brand-primary-hover underline-offset-4 hover:underline',
 
         // Outline - Bordered button
         outline:
-          "border-2 border-theme-brand-primary text-theme-brand-primary hover:bg-theme-brand-primary hover:text-white active:scale-[0.98]",
+          'border-theme-brand-primary text-theme-brand-primary hover:bg-theme-brand-primary border-2 hover:text-white active:scale-[0.98]',
       },
       size: {
-        sm: "py-2 px-4 text-sm h-9",
-        md: "py-3 px-5 text-base h-11",
-        lg: "py-4 px-6 text-lg h-14",
-        icon: "h-10 w-10", // For icon-only buttons
+        sm: 'h-9 px-4 py-2 text-sm',
+        md: 'h-11 px-5 py-3 text-base',
+        lg: 'h-14 px-6 py-4 text-lg',
+        xl: 'h-16 px-8 py-5 text-xl', // Extra large for hero CTAs
+        icon: 'h-10 w-10', // For icon-only buttons
       },
     },
     defaultVariants: {
-      variant: "primary",
-      size: "md",
+      variant: 'primary',
+      size: 'md',
     },
   }
-)
+);
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
 }
 
 /**
@@ -80,14 +78,10 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
     return (
-      <button
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
+      <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+    );
   }
-)
-Button.displayName = "Button"
+);
+Button.displayName = 'Button';
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };

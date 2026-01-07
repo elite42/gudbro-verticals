@@ -10,7 +10,12 @@
  */
 
 import { supabase, isSupabaseConfigured } from './supabase';
-import type { ProductCustomization, CustomizationOption, MultiLangText, CustomizationType } from '../../../shared/database/types';
+import type {
+  ProductCustomization,
+  CustomizationOption,
+  MultiLangText,
+  CustomizationType,
+} from '@/database/_system/types';
 
 // ============================================================================
 // DATABASE TYPES (from Supabase)
@@ -50,7 +55,8 @@ interface DBCategoryModifierGroup {
   modifier_group_id: string;
   display_order: number;
   is_visible: boolean;
-  modifier_group?: DBModifierGroup;
+  // Supabase returns joined table as array
+  modifier_group?: DBModifierGroup | DBModifierGroup[];
 }
 
 // ============================================================================
@@ -85,11 +91,13 @@ function convertModifierToOption(modifier: DBModifier): CustomizationOption {
     } as MultiLangText,
     price_modifier: modifier.price_adjustment || 0,
     is_default: modifier.is_default || false,
-    description: modifier.description_multilang ? {
-      en: modifier.description_multilang.en || '',
-      it: modifier.description_multilang.it || '',
-      vi: modifier.description_multilang.vi || '',
-    } as MultiLangText : undefined,
+    description: modifier.description_multilang
+      ? ({
+          en: modifier.description_multilang.en || '',
+          it: modifier.description_multilang.it || '',
+          vi: modifier.description_multilang.vi || '',
+        } as MultiLangText)
+      : undefined,
     available: modifier.is_available !== false,
   };
 }
@@ -105,8 +113,8 @@ function convertGroupToCustomization(
   const type: CustomizationType = group.selection_type === 'single' ? 'radio' : 'checkbox';
 
   // Sort modifiers by display_order
-  const sortedModifiers = [...modifiers].sort((a, b) =>
-    (a.display_order || 0) - (b.display_order || 0)
+  const sortedModifiers = [...modifiers].sort(
+    (a, b) => (a.display_order || 0) - (b.display_order || 0)
   );
 
   return {
@@ -117,17 +125,17 @@ function convertGroupToCustomization(
       it: group.name_multilang?.it || group.name_multilang?.en || group.slug || 'Opzioni',
       vi: group.name_multilang?.vi || group.name_multilang?.en || group.slug || 'Options',
     } as MultiLangText,
-    description: group.description_multilang ? {
-      en: group.description_multilang.en || '',
-      it: group.description_multilang.it || '',
-      vi: group.description_multilang.vi || '',
-    } as MultiLangText : undefined,
+    description: group.description_multilang
+      ? ({
+          en: group.description_multilang.en || '',
+          it: group.description_multilang.it || '',
+          vi: group.description_multilang.vi || '',
+        } as MultiLangText)
+      : undefined,
     required: group.is_required || false,
-    min_selections: type === 'checkbox' ? (group.min_selections || 0) : undefined,
-    max_selections: type === 'checkbox' ? (group.max_selections || undefined) : undefined,
-    options: sortedModifiers
-      .filter(m => m.is_available !== false)
-      .map(convertModifierToOption),
+    min_selections: type === 'checkbox' ? group.min_selections || 0 : undefined,
+    max_selections: type === 'checkbox' ? group.max_selections || undefined : undefined,
+    options: sortedModifiers.filter((m) => m.is_available !== false).map(convertModifierToOption),
     display_order: group.display_order || 0,
     display_style: 'list',
   };
@@ -140,9 +148,7 @@ function convertGroupToCustomization(
 /**
  * Fetch all modifier groups with their modifiers for a specific category
  */
-export async function getModifiersForCategory(
-  categoryId: string
-): Promise<ProductCustomization[]> {
+export async function getModifiersForCategory(categoryId: string): Promise<ProductCustomization[]> {
   // Check cache first
   const cached = modifierCache.byCategory.get(categoryId);
   const lastFetch = modifierCache.lastFetch.get(categoryId);
@@ -160,7 +166,8 @@ export async function getModifiersForCategory(
     // Step 1: Get category-modifier-group links for this category
     const { data: categoryLinks, error: linksError } = await supabase
       .from('category_modifier_groups')
-      .select(`
+      .select(
+        `
         id,
         category_id,
         modifier_group_id,
@@ -179,7 +186,8 @@ export async function getModifiersForCategory(
           display_order,
           is_active
         )
-      `)
+      `
+      )
       .eq('category_id', categoryId)
       .eq('is_visible', true)
       .order('display_order');
@@ -227,13 +235,20 @@ export async function getModifiersForCategory(
     });
 
     // Step 5: Convert to ProductCustomization format
+    // Helper to get single group from array or object (Supabase returns array for joins)
+    const getGroup = (link: DBCategoryModifierGroup): DBModifierGroup | undefined => {
+      const mg = link.modifier_group;
+      if (!mg) return undefined;
+      return Array.isArray(mg) ? mg[0] : mg;
+    };
+
     const customizations: ProductCustomization[] = categoryLinks
       .filter((link: DBCategoryModifierGroup) => {
-        const group = link.modifier_group as unknown as DBModifierGroup;
+        const group = getGroup(link);
         return group && group.is_active;
       })
       .map((link: DBCategoryModifierGroup) => {
-        const group = link.modifier_group as unknown as DBModifierGroup;
+        const group = getGroup(link)!;
         const groupModifiers = modifiersByGroup[group.id] || [];
         return convertGroupToCustomization(group, groupModifiers);
       })
@@ -346,30 +361,28 @@ export async function getModifiersForProduct(
     if (overrides && overrides.length > 0) {
       // For now, we handle simple override cases
       // Full override logic can be expanded later
-      const overrideMap = new Map(
-        overrides.map(o => [o.modifier_group_id, o])
-      );
+      const overrideMap = new Map(overrides.map((o) => [o.modifier_group_id, o]));
 
-      baseModifiers = baseModifiers.map(customization => {
-        // Find if there's an override for this group
-        // Match by slug since we convert group.id to slug
-        const override = Array.from(overrideMap.values()).find(
-          o => o.modifier_group_id === customization.id
-        );
+      baseModifiers = baseModifiers
+        .map((customization) => {
+          // Find if there's an override for this group
+          // Match by slug since we convert group.id to slug
+          const override = Array.from(overrideMap.values()).find(
+            (o) => o.modifier_group_id === customization.id
+          );
 
-        if (override) {
-          // Apply override settings
-          return {
-            ...customization,
-            // Override availability if explicitly set
-            options: override.is_available === false
-              ? []
-              : customization.options,
-          };
-        }
+          if (override) {
+            // Apply override settings
+            return {
+              ...customization,
+              // Override availability if explicitly set
+              options: override.is_available === false ? [] : customization.options,
+            };
+          }
 
-        return customization;
-      }).filter(c => c.options.length > 0);
+          return customization;
+        })
+        .filter((c) => c.options.length > 0);
     }
 
     return baseModifiers;

@@ -1,6 +1,6 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils/cn"
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils/cn';
 
 /**
  * Badge Variants
@@ -10,62 +10,60 @@ import { cn } from "@/lib/utils/cn"
  */
 const badgeVariants = cva(
   // Base classes
-  "inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 hover:scale-105 cursor-default",
+  'inline-flex cursor-default items-center justify-center rounded-full font-semibold transition-all duration-200 hover:scale-105',
   {
     variants: {
       variant: {
         // Default - Neutral badge
-        default:
-          "bg-theme-bg-tertiary text-theme-text-primary border border-theme-border-medium",
+        default: 'bg-theme-bg-tertiary text-theme-text-primary border-theme-border-medium border',
 
         // Primary - Brand color badge
-        primary:
-          "bg-theme-brand-primary text-white",
+        primary: 'bg-theme-brand-primary text-white',
 
         // Success - Green badge (completed, available, etc.)
-        success:
-          "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300",
+        success: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300',
 
         // Warning - Yellow/Orange badge (pending, attention)
-        warning:
-          "bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300",
+        warning: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300',
 
         // Error/Danger - Red badge (error, unavailable, etc.)
-        error:
-          "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300",
+        error: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300',
+
+        // Danger - Alias for error (for semantic clarity)
+        danger: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300',
+
+        // Secondary - Muted badge for less prominent info
+        secondary:
+          'bg-theme-bg-secondary text-theme-text-secondary border-theme-border-light border',
 
         // Info - Blue badge (info, new, etc.)
-        info:
-          "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300",
+        info: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
 
         // Outline - Border only
-        outline:
-          "border-2 border-theme-brand-primary text-theme-brand-primary bg-transparent",
+        outline: 'border-theme-brand-primary text-theme-brand-primary border-2 bg-transparent',
 
         // Ghost - Minimal badge
-        ghost:
-          "text-theme-text-secondary hover:bg-theme-bg-tertiary",
+        ghost: 'text-theme-text-secondary hover:bg-theme-bg-tertiary',
 
         // Glassmorphism - Premium frosted glass effect (from Antigravity)
         glassmorphism:
-          "backdrop-blur-md shadow-lg bg-white/60 dark:bg-white/5 border border-white/40 dark:border-white/10 text-gray-900 dark:text-white/90",
+          'border border-white/40 bg-white/60 text-gray-900 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-white/90',
       },
       size: {
-        sm: "px-2 py-0.5 text-xs gap-1",
-        md: "px-3 py-1 text-sm gap-1.5",
-        lg: "px-4 py-1.5 text-base gap-2",
+        sm: 'gap-1 px-2 py-0.5 text-xs',
+        md: 'gap-1.5 px-3 py-1 text-sm',
+        lg: 'gap-2 px-4 py-1.5 text-base',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "md",
+      variant: 'default',
+      size: 'md',
     },
   }
-)
+);
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof badgeVariants> {}
+  extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof badgeVariants> {}
 
 /**
  * Badge Component
@@ -100,14 +98,10 @@ export interface BadgeProps
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, variant, size, ...props }, ref) => {
     return (
-      <span
-        ref={ref}
-        className={cn(badgeVariants({ variant, size, className }))}
-        {...props}
-      />
-    )
+      <span ref={ref} className={cn(badgeVariants({ variant, size, className }))} {...props} />
+    );
   }
-)
-Badge.displayName = "Badge"
+);
+Badge.displayName = 'Badge';
 
-export { Badge, badgeVariants }
+export { Badge, badgeVariants };
