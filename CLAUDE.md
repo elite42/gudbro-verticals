@@ -235,20 +235,23 @@ VERIFICA SEMPRE:
 
 ## Errori Passati (Aggiungi qui quando succedono!)
 
-| Data    | Errore                     | Causa                               | Soluzione                                        | File/Area          |
-| ------- | -------------------------- | ----------------------------------- | ------------------------------------------------ | ------------------ |
-| 2026-01 | UUID con lettere g-z       | Generazione manuale                 | Solo 0-9, a-f                                    | Database seeds     |
-| 2026-01 | Array `[]` invece `{}`     | Sintassi JS vs PG                   | PostgreSQL usa `'{a,b}'`                         | SQL inserts        |
-| 2026-01 | Import types sbagliati     | Path relativi errati                | Usa `@/types/`                                   | TypeScript         |
-| 2026-01 | Feature gia esistente      | Non cercato prima                   | Grep/Glob PRIMA di implementare                  | Tutto              |
-| 2026-01 | Pieces MCP timeout         | Server non ancora sincronizzato     | Aspetta ~4 giorni (fino ~11 Jan)                 | End session        |
-| 2026-01 | RLS policy `true`          | Permette accesso a tutti            | Usare `auth.role() = 'service_role'` per backend | AI tables          |
-| 2026-01 | Policies "dev\_\*" in prod | Lasciate da sviluppo                | Rimuovere o sostituire con policies proper       | events table       |
-| 2026-01 | function search_path       | Vulnerabilità injection             | `ALTER FUNCTION x SET search_path = public`      | Tutte le functions |
-| 2026-01 | MultiLangText vi required  | Traduzioni incomplete               | Rendere `vi?` opzionale finché non completate    | Tipi database      |
-| 2026-01 | note vs notes              | Inconsistenza naming                | Usare sempre plurale `notes` per chiarezza       | Cocktail types     |
-| 2026-01 | Export duplicati           | `export interface` + default export | Mai duplicare - usare solo uno dei due           | menu-management.ts |
-| 2026-01 | Tentare senza verificare   | Confidenza < 95% ma procedo         | **VERIFY online** prima di implementare          | Workflow generale  |
+| Data    | Errore                     | Causa                               | Soluzione                                         | File/Area          |
+| ------- | -------------------------- | ----------------------------------- | ------------------------------------------------- | ------------------ |
+| 2026-01 | UUID con lettere g-z       | Generazione manuale                 | Solo 0-9, a-f                                     | Database seeds     |
+| 2026-01 | Array `[]` invece `{}`     | Sintassi JS vs PG                   | PostgreSQL usa `'{a,b}'`                          | SQL inserts        |
+| 2026-01 | Import types sbagliati     | Path relativi errati                | Usa `@/types/`                                    | TypeScript         |
+| 2026-01 | Feature gia esistente      | Non cercato prima                   | Grep/Glob PRIMA di implementare                   | Tutto              |
+| 2026-01 | Pieces MCP timeout         | Server non ancora sincronizzato     | Aspetta ~4 giorni (fino ~11 Jan)                  | End session        |
+| 2026-01 | RLS policy `true`          | Permette accesso a tutti            | Usare `auth.role() = 'service_role'` per backend  | AI tables          |
+| 2026-01 | Policies "dev\_\*" in prod | Lasciate da sviluppo                | Rimuovere o sostituire con policies proper        | events table       |
+| 2026-01 | function search_path       | Vulnerabilità injection             | `ALTER FUNCTION x SET search_path = public`       | Tutte le functions |
+| 2026-01 | MultiLangText vi required  | Traduzioni incomplete               | Rendere `vi?` opzionale finché non completate     | Tipi database      |
+| 2026-01 | note vs notes              | Inconsistenza naming                | Usare sempre plurale `notes` per chiarezza        | Cocktail types     |
+| 2026-01 | Export duplicati           | `export interface` + default export | Mai duplicare - usare solo uno dei due            | menu-management.ts |
+| 2026-01 | Tentare senza verificare   | Confidenza < 95% ma procedo         | **VERIFY online** prima di implementare           | Workflow generale  |
+| 2026-01 | Build fail senza env vars  | Client creato a import time         | **Proxy pattern** per lazy initialization         | supabase-admin.ts  |
+| 2026-01 | Type union incompleta      | Manca valore combinato              | Includere `'both'` quando dominio lo richiede     | Temperature type   |
+| 2026-01 | Deploy fallito post-push   | Build error non catturato           | Pre-push hook con `turbo build` salva la giornata | Git hooks          |
 
 ## Pattern da Seguire
 
@@ -261,6 +264,8 @@ VERIFICA SEMPRE:
 | RLS Backend     | `auth.role() = 'service_role'`  | `WITH CHECK (true)`       |
 | RLS User        | `auth.uid() = user_id`          | `USING (true)`            |
 | RLS Public Read | `FOR SELECT USING (true)` OK    | `FOR ALL USING (true)` NO |
+| Env-dependent   | `Proxy` lazy init               | `createClient()` a import |
+| Type unions     | Include tutti i valori validi   | Dimenticare `'both'` etc  |
 
 ## Come Aggiornare
 
