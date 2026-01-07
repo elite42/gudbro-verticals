@@ -21,10 +21,7 @@ import { foodCategories, beverageCategories, cuisineOrigins } from '../taxonomy/
 /**
  * All products from the centralized database
  */
-export const allProducts: Product[] = [
-  ...rootsProducts,
-  ...foodProducts,
-];
+export const allProducts: Product[] = [...rootsProducts, ...foodProducts];
 
 // ============================================================================
 // SEARCH FILTERS INTERFACE
@@ -44,51 +41,51 @@ export const allProducts: Product[] = [
  */
 export interface ProductSearchFilters {
   // Text search
-  query?: string;                    // Full-text search in name/description
+  query?: string; // Full-text search in name/description
 
   // Category filters
-  category?: string;                 // Main category (antipasti, primi, bevande, etc.)
-  subcategory?: string;              // Subcategory (burger, kebab, pizza, etc.)
-  type?: string;                     // Type (smash-burger, doner-kebab, etc.)
+  category?: string; // Main category (antipasti, primi, bevande, etc.)
+  subcategory?: string; // Subcategory (burger, kebab, pizza, etc.)
+  type?: string; // Type (smash-burger, doner-kebab, etc.)
 
   // Cuisine/Origin filters
-  cuisine?: string;                  // Cuisine origin (italian, vietnamese, etc.)
-  origin?: string;                   // Geographic origin for beverages
+  cuisine?: string; // Cuisine origin (italian, vietnamese, etc.)
+  origin?: string; // Geographic origin for beverages
 
   // =========================================================================
   // 5 DIMENSIONI FILTERS
   // =========================================================================
 
   // Dimensione 1: Allergeni (30 totali)
-  allergenFree?: string[];           // Must NOT contain these allergens
+  allergenFree?: string[]; // Must NOT contain these allergens
 
   // Dimensione 2: Intolleranze (10 totali)
-  intoleranceFree?: string[];        // Must NOT trigger these intolerances
+  intoleranceFree?: string[]; // Must NOT trigger these intolerances
 
   // Dimensione 3: Diete (11 totali)
-  suitableForDiets?: string[];       // Must be compatible with ALL these diets
+  suitableForDiets?: string[]; // Must be compatible with ALL these diets
 
   // Dimensione 4: Fattori Nutrizionali (9 parametri)
-  maxCalories?: number;              // Maximum calories per serving (kcal)
-  minProtein?: number;               // Minimum protein (g)
-  maxCarbs?: number;                 // Maximum carbohydrates (g)
-  maxSugar?: number;                 // Maximum sugar (g)
-  maxFat?: number;                   // Maximum fat (g)
-  minFiber?: number;                 // Minimum fiber (g)
-  maxSalt?: number;                  // Maximum salt (g)
-  maxSodium?: number;                // Maximum sodium (mg)
+  maxCalories?: number; // Maximum calories per serving (kcal)
+  minProtein?: number; // Minimum protein (g)
+  maxCarbs?: number; // Maximum carbohydrates (g)
+  maxSugar?: number; // Maximum sugar (g)
+  maxFat?: number; // Maximum fat (g)
+  minFiber?: number; // Minimum fiber (g)
+  maxSalt?: number; // Maximum salt (g)
+  maxSodium?: number; // Maximum sodium (mg)
 
   // Dimensione 5: Piccantezza (6 livelli: 0-5)
-  maxSpiceLevel?: SpiceLevel;        // Maximum spice level (0=None, 5=Extreme)
+  maxSpiceLevel?: SpiceLevel; // Maximum spice level (0=None, 5=Extreme)
 
   // =========================================================================
   // OTHER FILTERS
   // =========================================================================
 
   // Price filters
-  minPrice?: number;                 // Minimum price (local currency)
-  maxPrice?: number;                 // Maximum price (local currency)
-  currency?: string;                 // Currency code (VND, EUR, USD)
+  minPrice?: number; // Minimum price (local currency)
+  maxPrice?: number; // Maximum price (local currency)
+  currency?: string; // Currency code (VND, EUR, USD)
 
   // Availability filters
   timeSlot?: 'breakfast' | 'lunch' | 'dinner' | 'aperitivo' | 'late-night' | 'all-day';
@@ -143,13 +140,13 @@ export function searchProducts(filters: ProductSearchFilters = {}): ProductSearc
   // -------------------------------------------------------------------------
   if (filters.query) {
     const query = filters.query.toLowerCase().trim();
-    results = results.filter(product => {
-      const nameMatch = Object.values(product.name).some(
-        name => name.toLowerCase().includes(query)
+    results = results.filter((product) => {
+      const nameMatch = Object.values(product.name).some((name) =>
+        name.toLowerCase().includes(query)
       );
-      const descMatch = product.description && Object.values(product.description).some(
-        desc => desc.toLowerCase().includes(query)
-      );
+      const descMatch =
+        product.description &&
+        Object.values(product.description).some((desc) => desc.toLowerCase().includes(query));
       const slugMatch = product.slug.toLowerCase().includes(query);
       return nameMatch || descMatch || slugMatch;
     });
@@ -159,29 +156,28 @@ export function searchProducts(filters: ProductSearchFilters = {}): ProductSearc
   // CATEGORY FILTERS
   // -------------------------------------------------------------------------
   if (filters.category) {
-    results = results.filter(p => p.category.main === filters.category);
+    results = results.filter((p) => p.category.main === filters.category);
   }
 
   if (filters.subcategory) {
-    results = results.filter(p => p.category.sub === filters.subcategory);
+    results = results.filter((p) => p.category.sub === filters.subcategory);
   }
 
   if (filters.type) {
-    results = results.filter(p => p.category.tertiary === filters.type);
+    results = results.filter((p) => p.category.tertiary === filters.type);
   }
 
   // -------------------------------------------------------------------------
   // CUISINE/ORIGIN FILTERS
   // -------------------------------------------------------------------------
   if (filters.cuisine) {
-    results = results.filter(p =>
-      p.category.sub === filters.cuisine ||
-      p.category.origin === filters.cuisine
+    results = results.filter(
+      (p) => p.category.sub === filters.cuisine || p.category.origin === filters.cuisine
     );
   }
 
   if (filters.origin) {
-    results = results.filter(p => p.category.origin === filters.origin);
+    results = results.filter((p) => p.category.origin === filters.origin);
   }
 
   // -------------------------------------------------------------------------
@@ -190,19 +186,17 @@ export function searchProducts(filters: ProductSearchFilters = {}): ProductSearc
 
   // Allergen-free filter
   if (filters.allergenFree && filters.allergenFree.length > 0) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const productAllergens = product.computed.allergens || [];
-      return !filters.allergenFree!.some(allergen =>
-        productAllergens.includes(allergen)
-      );
+      return !filters.allergenFree!.some((allergen) => productAllergens.includes(allergen));
     });
   }
 
   // Intolerance-free filter
   if (filters.intoleranceFree && filters.intoleranceFree.length > 0) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const productIntolerances = product.computed.intolerances || [];
-      return !filters.intoleranceFree!.some(intolerance =>
+      return !filters.intoleranceFree!.some((intolerance) =>
         productIntolerances.includes(intolerance)
       );
     });
@@ -210,18 +204,16 @@ export function searchProducts(filters: ProductSearchFilters = {}): ProductSearc
 
   // Diet-compatible filter (must match ALL specified diets)
   if (filters.suitableForDiets && filters.suitableForDiets.length > 0) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const compatibleDiets = product.computed.suitable_for_diets || [];
-      return filters.suitableForDiets!.every(diet =>
-        compatibleDiets.includes(diet)
-      );
+      return filters.suitableForDiets!.every((diet) => compatibleDiets.includes(diet));
     });
   }
 
   // Max spice level filter
   if (filters.maxSpiceLevel !== undefined) {
-    results = results.filter(product =>
-      (product.computed.spice_level || 0) <= filters.maxSpiceLevel!
+    results = results.filter(
+      (product) => (product.computed.spice_level || 0) <= filters.maxSpiceLevel!
     );
   }
 
@@ -229,56 +221,56 @@ export function searchProducts(filters: ProductSearchFilters = {}): ProductSearc
   // NUTRITIONAL FILTERS (Dimensione 4)
   // -------------------------------------------------------------------------
   if (filters.maxCalories !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const calories = product.nutrition_per_serving?.calories_kcal;
       return calories === undefined || calories <= filters.maxCalories!;
     });
   }
 
   if (filters.minProtein !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const protein = product.nutrition_per_serving?.protein_g;
       return protein !== undefined && protein >= filters.minProtein!;
     });
   }
 
   if (filters.maxCarbs !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const carbs = product.nutrition_per_serving?.carbs_g;
       return carbs === undefined || carbs <= filters.maxCarbs!;
     });
   }
 
   if (filters.maxSugar !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const sugar = product.nutrition_per_serving?.sugar_g;
       return sugar === undefined || sugar <= filters.maxSugar!;
     });
   }
 
   if (filters.maxFat !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const fat = product.nutrition_per_serving?.fat_g;
       return fat === undefined || fat <= filters.maxFat!;
     });
   }
 
   if (filters.minFiber !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const fiber = product.nutrition_per_serving?.fiber_g;
       return fiber !== undefined && fiber >= filters.minFiber!;
     });
   }
 
   if (filters.maxSalt !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const salt = product.nutrition_per_serving?.salt_g;
       return salt === undefined || salt <= filters.maxSalt!;
     });
   }
 
   if (filters.maxSodium !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const sodium = product.nutrition_per_serving?.sodium_mg;
       return sodium === undefined || sodium <= filters.maxSodium!;
     });
@@ -288,14 +280,14 @@ export function searchProducts(filters: ProductSearchFilters = {}): ProductSearc
   // PRICE FILTERS
   // -------------------------------------------------------------------------
   if (filters.minPrice !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const price = product.pricing?.selling_price_local?.amount || 0;
       return price >= filters.minPrice!;
     });
   }
 
   if (filters.maxPrice !== undefined) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const price = product.pricing?.selling_price_local?.amount || 0;
       return price <= filters.maxPrice!;
     });
@@ -305,7 +297,7 @@ export function searchProducts(filters: ProductSearchFilters = {}): ProductSearc
   // TIME SLOT FILTER
   // -------------------------------------------------------------------------
   if (filters.timeSlot) {
-    results = results.filter(product => {
+    results = results.filter((product) => {
       const slots = product.availability?.time_slots || ['all-day'];
       return slots.includes('all-day') || slots.includes(filters.timeSlot!);
     });
@@ -354,10 +346,7 @@ export function searchProducts(filters: ProductSearchFilters = {}): ProductSearc
  * getProductsBySubcategory('burger') // All burger products
  * getProductsBySubcategory('kebab', 'doner-kebab') // Only döner kebabs
  */
-export function getProductsBySubcategory(
-  subcategory: string,
-  type?: string
-): Product[] {
+export function getProductsBySubcategory(subcategory: string, type?: string): Product[] {
   return searchProducts({ subcategory, type }).products;
 }
 
@@ -453,7 +442,9 @@ export function getFeaturedProducts(limit: number = 10): Product[] {
   const featured: Product[] = [];
 
   for (const category of categories) {
-    const products = getProductsByCategory(category, { limit: Math.ceil(limit / categories.length) });
+    const products = getProductsByCategory(category, {
+      limit: Math.ceil(limit / categories.length),
+    });
     featured.push(...products);
   }
 
@@ -467,25 +458,30 @@ export function getFeaturedProducts(limit: number = 10): Product[] {
 /**
  * Get all available categories from taxonomy
  */
-export function getAvailableCategories(): { id: string; name: { en: string; it: string; vi: string } }[] {
+export function getAvailableCategories(): {
+  id: string;
+  name: { en: string; it?: string; vi?: string };
+}[] {
   return [
-    ...foodCategories.map(c => ({ id: c.id, name: c.name })),
-    ...beverageCategories.map(c => ({ id: c.id, name: c.name })),
+    ...foodCategories.map((c) => ({ id: c.id, name: c.name })),
+    ...beverageCategories.map((c) => ({ id: c.id, name: c.name })),
   ];
 }
 
 /**
  * Get subcategories for a specific main category
  */
-export function getSubcategoriesFor(categoryId: string): { id: string; name: { en: string; it: string; vi: string } }[] {
-  const foodCat = foodCategories.find(c => c.id === categoryId);
+export function getSubcategoriesFor(
+  categoryId: string
+): { id: string; name: { en: string; it?: string; vi?: string } }[] {
+  const foodCat = foodCategories.find((c) => c.id === categoryId);
   if (foodCat) {
-    return foodCat.subcategories.map(s => ({ id: s.id, name: s.name }));
+    return foodCat.subcategories.map((s) => ({ id: s.id, name: s.name }));
   }
 
-  const bevCat = beverageCategories.find(c => c.id === categoryId);
+  const bevCat = beverageCategories.find((c) => c.id === categoryId);
   if (bevCat) {
-    return bevCat.subcategories.map(s => ({ id: s.id, name: s.name }));
+    return bevCat.subcategories.map((s) => ({ id: s.id, name: s.name }));
   }
 
   return [];
@@ -494,8 +490,12 @@ export function getSubcategoriesFor(categoryId: string): { id: string; name: { e
 /**
  * Get all available cuisines
  */
-export function getAvailableCuisines(): { id: string; name: { en: string; it: string; vi: string }; region: string }[] {
-  return cuisineOrigins.map(c => ({
+export function getAvailableCuisines(): {
+  id: string;
+  name: { en: string; it?: string; vi?: string };
+  region: string;
+}[] {
+  return cuisineOrigins.map((c) => ({
     id: c.id,
     name: c.name,
     region: c.region,
@@ -625,37 +625,38 @@ function sortProducts(products: Product[], sortBy: ProductSearchFilters['sortBy'
       return sorted.sort((a, b) => a.name.en.localeCompare(b.name.en));
 
     case 'price-asc':
-      return sorted.sort((a, b) =>
-        (a.pricing?.selling_price_local?.amount || 0) -
-        (b.pricing?.selling_price_local?.amount || 0)
+      return sorted.sort(
+        (a, b) =>
+          (a.pricing?.selling_price_local?.amount || 0) -
+          (b.pricing?.selling_price_local?.amount || 0)
       );
 
     case 'price-desc':
-      return sorted.sort((a, b) =>
-        (b.pricing?.selling_price_local?.amount || 0) -
-        (a.pricing?.selling_price_local?.amount || 0)
+      return sorted.sort(
+        (a, b) =>
+          (b.pricing?.selling_price_local?.amount || 0) -
+          (a.pricing?.selling_price_local?.amount || 0)
       );
 
     case 'spice-level':
-      return sorted.sort((a, b) =>
-        (a.computed.spice_level || 0) - (b.computed.spice_level || 0)
-      );
+      return sorted.sort((a, b) => (a.computed.spice_level || 0) - (b.computed.spice_level || 0));
 
     case 'calories':
-      return sorted.sort((a, b) =>
-        (a.nutrition_per_serving?.calories_kcal || 0) -
-        (b.nutrition_per_serving?.calories_kcal || 0)
+      return sorted.sort(
+        (a, b) =>
+          (a.nutrition_per_serving?.calories_kcal || 0) -
+          (b.nutrition_per_serving?.calories_kcal || 0)
       );
 
     case 'protein':
-      return sorted.sort((a, b) =>
-        (b.nutrition_per_serving?.protein_g || 0) -
-        (a.nutrition_per_serving?.protein_g || 0)
+      return sorted.sort(
+        (a, b) =>
+          (b.nutrition_per_serving?.protein_g || 0) - (a.nutrition_per_serving?.protein_g || 0)
       );
 
     case 'newest':
-      return sorted.sort((a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      return sorted.sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
       );
 
     default:

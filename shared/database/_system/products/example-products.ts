@@ -9,7 +9,7 @@
  * Based on ROOTS Plant-Based Café menu
  */
 
-import type { Product, ProductIngredient } from '../types';
+import type { Product, ProductIngredient as _ProductIngredient } from '../types';
 import { commonIngredients } from '../../ingredients/common-ingredients';
 import { autoComputeProduct, getIngredientMasters } from '../utils/auto-compute';
 
@@ -60,6 +60,11 @@ export const oatsCappuccino: Product = {
       USA: false,
       Korea: false,
       Japan: false,
+      Canada: false,
+      Australia: false,
+      China: false,
+      Singapore: false,
+      Vietnam: false,
     },
   },
 
@@ -132,6 +137,11 @@ export const tropicalPitayaBowl: Product = {
       USA: false,
       Korea: false,
       Japan: false,
+      Canada: false,
+      Australia: false,
+      China: false,
+      Singapore: false,
+      Vietnam: false,
     },
   },
 
@@ -218,6 +228,11 @@ export const greenPowerSmoothie: Product = {
       USA: false,
       Korea: false,
       Japan: false,
+      Canada: false,
+      Australia: false,
+      China: false,
+      Singapore: false,
+      Vietnam: false,
     },
   },
 
@@ -257,7 +272,7 @@ export const buddhaBowl: Product = {
     it: 'Quinoa, verdure arrostite, avocado, condimento tahini, verdure fresche',
     vi: 'Diêm mạch, rau nướng, bơ, sốt tahini, rau xanh tươi',
   },
-  category: { main: 'lunch', sub: 'bowl' },
+  category: { main: 'bowl', sub: 'wellness' },
 
   ingredients: [
     { ingredient_id: 'ING_QUINOA', quantity: { amount: 150, unit: 'g' } },
@@ -278,6 +293,11 @@ export const buddhaBowl: Product = {
       USA: false,
       Korea: false,
       Japan: false,
+      Canada: false,
+      Australia: false,
+      China: false,
+      Singapore: false,
+      Vietnam: false,
     },
   },
 

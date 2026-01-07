@@ -34,7 +34,7 @@ export const spicyFifty: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'An elegant and spicy modern cocktail featuring vanilla vodka, elderflower liqueur, and fresh chili pepper. This sophisticated creation balances floral sweetness with a subtle heat, creating a refined drinking experience that showcases the versatility of contemporary mixology.',
-    it: 'Un cocktail moderno elegante e piccante con vodka alla vaniglia, liquore di fiori di sambuco e peperoncino fresco. Questa creazione sofisticata bilancia la dolcezza floreale con un calore sottile, creando un\'esperienza di bevuta raffinata che mostra la versatilità della mixology contemporanea.',
+    it: "Un cocktail moderno elegante e piccante con vodka alla vaniglia, liquore di fiori di sambuco e peperoncino fresco. Questa creazione sofisticata bilancia la dolcezza floreale con un calore sottile, creando un'esperienza di bevuta raffinata che mostra la versatilità della mixology contemporanea.",
     vi: 'Một cocktail hiện đại thanh lịch và cay với vodka vani, rượu mùi hoa cơm cháy và ớt tươi. Sáng tạo tinh tế này cân bằng vị ngọt hoa với độ nóng tinh tế, tạo trải nghiệm uống tinh chế thể hiện tính linh hoạt của nghệ thuật pha chế đương đại.',
   },
 
@@ -42,7 +42,7 @@ export const spicyFifty: Cocktail = {
     created_year: '2009',
     origin: {
       city: 'London',
-      bar: 'Skybar at Trader Vic\'s',
+      bar: "Skybar at Trader Vic's",
       country: 'United Kingdom',
     },
     creator: {
@@ -51,7 +51,7 @@ export const spicyFifty: Cocktail = {
     },
     story: {
       en: 'Created by legendary bartender Salvatore Calabrese at the Skybar at Trader Vic\'s in London in 2009 to celebrate his 50th birthday. The "Fifty" in the name refers to both his milestone birthday and the drink\'s elegant sophistication. Calabrese wanted to create something that reflected his passion for balance and innovation, combining unexpected elements like vanilla, elderflower, and chili. The cocktail won multiple awards and became a modern classic, showcasing how spice can be incorporated elegantly into cocktails.',
-      it: 'Creato dal leggendario barman Salvatore Calabrese allo Skybar del Trader Vic\'s di Londra nel 2009 per celebrare il suo 50° compleanno. Il "Fifty" nel nome si riferisce sia al suo compleanno importante che all\'elegante raffinatezza della bevanda. Calabrese voleva creare qualcosa che riflettesse la sua passione per l\'equilibrio e l\'innovazione, combinando elementi inaspettati come vaniglia, fiori di sambuco e peperoncino. Il cocktail vinse numerosi premi e divenne un classico moderno, mostrando come la spezia possa essere incorporata elegantemente nei cocktail.',
+      it: "Creato dal leggendario barman Salvatore Calabrese allo Skybar del Trader Vic's di Londra nel 2009 per celebrare il suo 50° compleanno. Il \"Fifty\" nel nome si riferisce sia al suo compleanno importante che all'elegante raffinatezza della bevanda. Calabrese voleva creare qualcosa che riflettesse la sua passione per l'equilibrio e l'innovazione, combinando elementi inaspettati come vaniglia, fiori di sambuco e peperoncino. Il cocktail vinse numerosi premi e divenne un classico moderno, mostrando come la spezia possa essere incorporata elegantemente nei cocktail.",
       vi: 'Được tạo ra bởi bartender huyền thoại Salvatore Calabrese tại Skybar tại Trader Vic\'s ở London năm 2009 để kỷ niệm sinh nhật thứ 50 của ông. "Fifty" trong tên đề cập đến cả sinh nhật quan trọng của ông và sự tinh tế thanh lịch của đồ uống. Calabrese muốn tạo thứ gì đó phản ánh đam mê của ông về sự cân bằng và đổi mới, kết hợp các yếu tố bất ngờ như vani, hoa cơm cháy và ớt. Cocktail giành nhiều giải thưởng và trở thành tác phẩm hiện đại, cho thấy gia vị có thể được kết hợp thanh lịch vào cocktail.',
     },
     named_after: {
@@ -64,7 +64,7 @@ export const spicyFifty: Cocktail = {
   taste: {
     profile: ['spicy', 'floral', 'citrus', 'sophisticated'],
     description: {
-      en: 'Beautifully layered with vanilla vodka\'s smoothness, elderflower\'s delicate floral notes, bright citrus from lemon and grapefruit, and a gentle warming heat from fresh chili. The spice builds gradually without overwhelming, creating an elegant complexity.',
+      en: "Beautifully layered with vanilla vodka's smoothness, elderflower's delicate floral notes, bright citrus from lemon and grapefruit, and a gentle warming heat from fresh chili. The spice builds gradually without overwhelming, creating an elegant complexity.",
       it: 'Magnificamente stratificato con la morbidezza della vodka alla vaniglia, note floreali delicate di fiori di sambuco, agrumi vivaci da limone e pompelmo e un delicato calore da peperoncino fresco. La spezia si sviluppa gradualmente senza sopraffare, creando una complessità elegante.',
       vi: 'Nhiều lớp tuyệt đẹp với độ mượt mà của vodka vani, nốt hoa tinh tế của hoa cơm cháy, cam chanh tươi sáng từ chanh và bưởi, và độ nóng ấm nhẹ nhàng từ ớt tươi. Gia vị tăng dần mà không áp đảo, tạo độ phức tạp thanh lịch.',
     },
@@ -113,12 +113,20 @@ export const spicyFifty: Cocktail = {
     {
       ingredient_id: 'ING_ELDERFLOWER_LIQUEUR',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Elderflower liqueur', it: 'Liquore di fiori di sambuco', vi: 'Rượu mùi hoa cơm cháy' },
+      display_name: {
+        en: 'Elderflower liqueur',
+        it: 'Liquore di fiori di sambuco',
+        vi: 'Rượu mùi hoa cơm cháy',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_HONEY_SYRUP',
@@ -128,7 +136,11 @@ export const spicyFifty: Cocktail = {
     {
       ingredient_id: 'ING_RED_CHILI_PEPPER',
       quantity: { amount: 1, unit: 'slice' },
-      display_name: { en: 'Fresh red chili pepper (1 slice)', it: 'Peperoncino rosso fresco (1 fetta)', vi: 'Ớt đỏ tươi (1 lát)' },
+      display_name: {
+        en: 'Fresh red chili pepper (1 slice)',
+        it: 'Peperoncino rosso fresco (1 fetta)',
+        vi: 'Ớt đỏ tươi (1 lát)',
+      },
     },
   ],
 
@@ -173,7 +185,14 @@ export const spicyFifty: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -192,7 +211,8 @@ export const spicyFifty: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['extra-spicy-fifty', 'spicy-fifty-on-rocks'],
 
-  notes_for_staff: 'Adjust chili quantity based on guest preference - one slice is moderate. St-Germain is standard elderflower liqueur. Honey syrup is 1:1 honey to water. Double strain to remove chili seeds.',
+  notes_for_staff:
+    'Adjust chili quantity based on guest preference - one slice is moderate. St-Germain is standard elderflower liqueur. Honey syrup is 1:1 honey to water. Double strain to remove chili seeds.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +225,8 @@ export const spicyFifty: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/spicy-fifty/',
-    note: 'IBA Official Recipe. Created by Salvatore Calabrese at Skybar, Trader Vic\'s London, 2009.',
+    notes:
+      "IBA Official Recipe. Created by Salvatore Calabrese at Skybar, Trader Vic's London, 2009.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

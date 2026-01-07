@@ -33,8 +33,8 @@ export const bellini: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'Venice\'s signature cocktail - an elegant blend of white peach purée and Prosecco. Light, refreshing, and quintessentially Italian, the Bellini is the perfect celebration of summer\'s finest peaches.',
-    it: 'Il cocktail distintivo di Venezia - un\'elegante miscela di purè di pesche bianche e Prosecco. Leggero, rinfrescante e quintessenzialmente italiano, il Bellini è la perfetta celebrazione delle migliori pesche estive.',
+    en: "Venice's signature cocktail - an elegant blend of white peach purée and Prosecco. Light, refreshing, and quintessentially Italian, the Bellini is the perfect celebration of summer's finest peaches.",
+    it: "Il cocktail distintivo di Venezia - un'elegante miscela di purè di pesche bianche e Prosecco. Leggero, rinfrescante e quintessenzialmente italiano, il Bellini è la perfetta celebrazione delle migliori pesche estive.",
     vi: 'Cocktail đặc trưng của Venice - một hỗn hợp thanh lịch của xốt đào trắng và Prosecco. Nhẹ nhàng, sảng khoái và rất Ý, Bellini là lễ kỷ niệm hoàn hảo cho những quả đào tốt nhất mùa hè.',
   },
 
@@ -42,7 +42,7 @@ export const bellini: Cocktail = {
     created_year: '1948',
     origin: {
       city: 'Venice',
-      bar: 'Harry\'s Bar',
+      bar: "Harry's Bar",
       country: 'Italy',
     },
     creator: {
@@ -50,9 +50,9 @@ export const bellini: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by Giuseppe Cipriani, founder of the legendary Harry\'s Bar in Venice, between 1934-1948. The drink was named after the 15th-century Venetian artist Giovanni Bellini, as the pink color of the drink reminded Cipriani of a toga in one of Bellini\'s paintings. It became the signature drink of Harry\'s Bar and spread worldwide.',
-      it: 'Creato da Giuseppe Cipriani, fondatore del leggendario Harry\'s Bar di Venezia, tra il 1934 e il 1948. La bevanda fu chiamata così in onore dell\'artista veneziano del XV secolo Giovanni Bellini, poiché il colore rosa della bevanda ricordava a Cipriani una toga in uno dei dipinti di Bellini. Divenne la bevanda distintiva del Harry\'s Bar e si diffuse in tutto il mondo.',
-      vi: 'Được tạo ra bởi Giuseppe Cipriani, người sáng lập quán bar Harry\'s Bar huyền thoại ở Venice, giữa năm 1934-1948. Thức uống được đặt theo tên nghệ sĩ Venice thế kỷ 15 Giovanni Bellini, vì màu hồng của thức uống gợi nhớ cho Cipriani về một chiếc áo toga trong một bức tranh của Bellini. Nó trở thành thức uống đặc trưng của Harry\'s Bar và lan rộng toàn cầu.',
+      en: "Created by Giuseppe Cipriani, founder of the legendary Harry's Bar in Venice, between 1934-1948. The drink was named after the 15th-century Venetian artist Giovanni Bellini, as the pink color of the drink reminded Cipriani of a toga in one of Bellini's paintings. It became the signature drink of Harry's Bar and spread worldwide.",
+      it: "Creato da Giuseppe Cipriani, fondatore del leggendario Harry's Bar di Venezia, tra il 1934 e il 1948. La bevanda fu chiamata così in onore dell'artista veneziano del XV secolo Giovanni Bellini, poiché il colore rosa della bevanda ricordava a Cipriani una toga in uno dei dipinti di Bellini. Divenne la bevanda distintiva del Harry's Bar e si diffuse in tutto il mondo.",
+      vi: "Được tạo ra bởi Giuseppe Cipriani, người sáng lập quán bar Harry's Bar huyền thoại ở Venice, giữa năm 1934-1948. Thức uống được đặt theo tên nghệ sĩ Venice thế kỷ 15 Giovanni Bellini, vì màu hồng của thức uống gợi nhớ cho Cipriani về một chiếc áo toga trong một bức tranh của Bellini. Nó trở thành thức uống đặc trưng của Harry's Bar và lan rộng toàn cầu.",
     },
     named_after: {
       en: 'Named after the 15th-century Venetian painter Giovanni Bellini, inspired by the pink color of his paintings.',
@@ -158,7 +158,14 @@ export const bellini: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -177,7 +184,8 @@ export const bellini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['rossini', 'puccini', 'tintoretto'],
 
-  notes_for_staff: 'Traditionally made with white peaches (pesca bianca), which are in season in summer. Fresh peach purée is essential - avoid commercial peach nectar. The Rossini uses strawberry purée, Puccini uses tangerine juice. Prosecco should be well-chilled. Build gently to preserve bubbles.',
+  notes_for_staff:
+    'Traditionally made with white peaches (pesca bianca), which are in season in summer. Fresh peach purée is essential - avoid commercial peach nectar. The Rossini uses strawberry purée, Puccini uses tangerine juice. Prosecco should be well-chilled. Build gently to preserve bubbles.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +198,7 @@ export const bellini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/bellini/',
-    note: 'IBA Official Recipe. Created at Harry\'s Bar, Venice.',
+    notes: "IBA Official Recipe. Created at Harry's Bar, Venice.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

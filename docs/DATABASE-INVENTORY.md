@@ -29,12 +29,13 @@ Prima di creare o modificare QUALSIASI database:
 
 ### Recent Updates
 
-| Date       | Change         | Notes                                                                                                 |
-| ---------- | -------------- | ----------------------------------------------------------------------------------------------------- |
-| 2026-01-05 | Seed Data      | Test data for AI Co-Manager (organizations, brands, locations, accounts, merchants, AI tables P8-P12) |
-| 2026-01-05 | AI Migrations  | 10 migrations (027-036) for AI Co-Manager features                                                    |
-| 2026-01-02 | +3 ingredients | Dalky Kafe support (Peach Tea, Lychee Tea, Nem Nướng)                                                 |
-| 2026-01-02 | Cleanup        | Rimossi file storici obsoleti (master/, extraction/, nutrition-batches/, nutrition-results/)          |
+| Date       | Change         | Notes                                                                                                              |
+| ---------- | -------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 2026-01-06 | Translations   | 1684 ingredient translations (137 core ingredients × 13 languages: it, vi, ko, ja, ru, zh, th, fr, es, pt, de, tr) |
+| 2026-01-05 | Seed Data      | Test data for AI Co-Manager (organizations, brands, locations, accounts, merchants, AI tables P8-P12)              |
+| 2026-01-05 | AI Migrations  | 10 migrations (027-036) for AI Co-Manager features                                                                 |
+| 2026-01-02 | +3 ingredients | Dalky Kafe support (Peach Tea, Lychee Tea, Nem Nướng)                                                              |
+| 2026-01-02 | Cleanup        | Rimossi file storici obsoleti (master/, extraction/, nutrition-batches/, nutrition-results/)                       |
 
 ---
 
@@ -193,12 +194,12 @@ Prima di creare o modificare QUALSIASI database:
 
 ### [System Tables](inventory/system-tables.md)
 
-| Table               | Records | Purpose                            |
-| ------------------- | ------- | ---------------------------------- |
-| ingredients         | ~2471   | Master ingredients (27 categories) |
-| product_ingredients | ~25169  | Junction table                     |
-| product_taxonomy    | 75      | Classification                     |
-| translations        | 0       | Multilingual (pending)             |
+| Table               | Records | Purpose                                      |
+| ------------------- | ------- | -------------------------------------------- |
+| ingredients         | ~2471   | Master ingredients (27 categories)           |
+| product_ingredients | ~25169  | Junction table                               |
+| product_taxonomy    | 75      | Classification                               |
+| translations        | 548     | Multilingual (137 ingredients × 4 languages) |
 
 #### Ingredient Categories (v2.1)
 

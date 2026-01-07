@@ -15,9 +15,9 @@ export const beesKnees: Cocktail = {
   stable_key: 'b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3',
 
   name: {
-    en: 'Bee\'s Knees',
-    it: 'Bee\'s Knees',
-    vi: 'Bee\'s Knees',
+    en: "Bee's Knees",
+    it: "Bee's Knees",
+    vi: "Bee's Knees",
     ko: '비즈 니즈',
     ja: 'ビーズニーズ',
   },
@@ -51,7 +51,7 @@ export const beesKnees: Cocktail = {
     },
     story: {
       en: 'The Bee\'s Knees emerged during Prohibition in the 1920s. The name comes from a popular slang expression of that era meaning "the best" or "the height of excellence." During Prohibition, honey was often used to mask the harsh flavor of bathtub gin. The cocktail gained renewed popularity during the craft cocktail revival of the 2000s, appreciated for its simple elegance and historical significance.',
-      it: 'Il Bee\'s Knees emerse durante il Proibizionismo negli anni \'20. Il nome deriva da un\'espressione gergale popolare di quell\'epoca che significa "il migliore" o "l\'apice dell\'eccellenza". Durante il Proibizionismo, il miele veniva spesso usato per mascherare il sapore aspro del gin fatto in casa. Il cocktail ha guadagnato rinnovata popolarità durante il revival dei cocktail artigianali degli anni 2000, apprezzato per la sua eleganza semplice e il significato storico.',
+      it: "Il Bee's Knees emerse durante il Proibizionismo negli anni '20. Il nome deriva da un'espressione gergale popolare di quell'epoca che significa \"il migliore\" o \"l'apice dell'eccellenza\". Durante il Proibizionismo, il miele veniva spesso usato per mascherare il sapore aspro del gin fatto in casa. Il cocktail ha guadagnato rinnovata popolarità durante il revival dei cocktail artigianali degli anni 2000, apprezzato per la sua eleganza semplice e il significato storico.",
       vi: 'Bee\'s Knees xuất hiện trong thời kỳ Cấm rượu những năm 1920. Cái tên đến từ một cách diễn đạt tiếng lóng phổ biến thời đó có nghĩa là "tốt nhất" hoặc "đỉnh cao của sự xuất sắc". Trong thời kỳ Cấm rượu, mật ong thường được sử dụng để che dấu hương vị khắc nghiệt của gin tự pha. Cocktail đã trở nên phổ biến trở lại trong thời kỳ phục hưng cocktail thủ công những năm 2000, được đánh giá cao vì sự thanh lịch đơn giản và ý nghĩa lịch sử.',
     },
     named_after: {
@@ -96,7 +96,7 @@ export const beesKnees: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for gin lovers who enjoy smooth, citrusy cocktails. Ideal for those interested in Prohibition-era classics or anyone seeking a sophisticated yet simple drink.',
-      it: 'Perfetto per gli amanti del gin che apprezzano cocktail lisci e agrumati. Ideale per chi è interessato ai classici dell\'era del Proibizionismo o per chiunque cerchi una bevanda sofisticata ma semplice.',
+      it: "Perfetto per gli amanti del gin che apprezzano cocktail lisci e agrumati. Ideale per chi è interessato ai classici dell'era del Proibizionismo o per chiunque cerchi una bevanda sofisticata ma semplice.",
       vi: 'Hoàn hảo cho người yêu gin thích cocktail mượt mà, có vị cam quýt. Lý tưởng cho những ai quan tâm đến cocktail thời kỳ Cấm rượu hoặc bất kỳ ai tìm kiếm thức uống tinh tế nhưng đơn giản.',
     },
   },
@@ -113,7 +113,11 @@ export const beesKnees: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 25, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_HONEY_SYRUP',
@@ -182,7 +186,8 @@ export const beesKnees: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: [],
 
-  notes_for_staff: 'Use honey syrup (3:1 honey to water) for easier mixing. Shake vigorously to properly emulsify the honey. Quality honey makes a big difference.',
+  notes_for_staff:
+    'Use honey syrup (3:1 honey to water) for easier mixing. Shake vigorously to properly emulsify the honey. Quality honey makes a big difference.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +200,7 @@ export const beesKnees: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/bees-knees/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

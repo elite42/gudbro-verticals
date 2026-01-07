@@ -34,7 +34,7 @@ export const espressoMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A modern classic that perfectly combines rich espresso with smooth vodka and coffee liqueur. This energizing cocktail features a signature foam top created by the natural oils in coffee.',
-    it: 'Un classico moderno che combina perfettamente l\'espresso ricco con vodka liscia e liquore al caffè. Questo cocktail energizzante presenta una caratteristica schiuma superiore creata dagli oli naturali del caffè.',
+    it: "Un classico moderno che combina perfettamente l'espresso ricco con vodka liscia e liquore al caffè. Questo cocktail energizzante presenta una caratteristica schiuma superiore creata dagli oli naturali del caffè.",
     vi: 'Một cocktail hiện đại kết hợp hoàn hảo espresso đậm đà với vodka mượt và rượu mùi cà phê. Cocktail tràn năng lượng này có lớp bọt đặc trưng được tạo ra từ dầu tự nhiên trong cà phê.',
   },
 
@@ -65,7 +65,7 @@ export const espressoMartini: Cocktail = {
     profile: ['bitter', 'sweet', 'rich'],
     description: {
       en: 'Rich coffee flavor balanced with vodka smoothness and coffee liqueur sweetness. Velvety texture with a pleasant bitterness and sweet finish.',
-      it: 'Ricco sapore di caffè bilanciato con la morbidezza della vodka e la dolcezza del liquore al caffè. Consistenza vellutata con un\'amara piacevole e finale dolce.',
+      it: "Ricco sapore di caffè bilanciato con la morbidezza della vodka e la dolcezza del liquore al caffè. Consistenza vellutata con un'amara piacevole e finale dolce.",
       vi: 'Hương vị cà phê đậm đà cân bằng với độ mượt của vodka và vị ngọt của rượu mùi cà phê. Kết cấu mượt mà với vị đắng dễ chịu và kết thúc ngọt ngào.',
     },
     first_impression: {
@@ -88,7 +88,7 @@ export const espressoMartini: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['party', 'nightcap', 'date_night', 'pre_dinner'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Pairs wonderfully with chocolate desserts, tiramisu, or as an after-dinner pick-me-up. Also excellent with chocolate truffles or biscotti.',
       it: 'Si abbina meravigliosamente con dessert al cioccolato, tiramisù, o come energizzante dopo cena. Eccellente anche con tartufi al cioccolato o biscotti.',
@@ -168,7 +168,14 @@ export const espressoMartini: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol', 'caffeine'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -176,7 +183,7 @@ export const espressoMartini: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-season'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'nightcap', 'date_night'],
 
   is_mocktail: false,
@@ -187,7 +194,8 @@ export const espressoMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['vodka-espresso', 'pharmaceutical-stimulant'],
 
-  notes_for_staff: 'Use freshly brewed espresso that has cooled slightly. Shake vigorously to create the signature foam. The three coffee beans traditionally represent health, wealth, and happiness.',
+  notes_for_staff:
+    'Use freshly brewed espresso that has cooled slightly. Shake vigorously to create the signature foam. The three coffee beans traditionally represent health, wealth, and happiness.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +208,7 @@ export const espressoMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/espresso-martini/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

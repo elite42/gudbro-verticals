@@ -33,7 +33,7 @@ export const mojito: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'Cuba\'s most famous cocktail, combining white rum, fresh mint, lime juice, sugar, and soda water. Refreshingly herbaceous and perfectly balanced between sweet, sour, and minty freshness. A timeless summer classic.',
+    en: "Cuba's most famous cocktail, combining white rum, fresh mint, lime juice, sugar, and soda water. Refreshingly herbaceous and perfectly balanced between sweet, sour, and minty freshness. A timeless summer classic.",
     it: 'Il cocktail più famoso di Cuba, che combina rum bianco, menta fresca, succo di lime, zucchero e soda. Erbaceo e rinfrescante, perfettamente bilanciato tra dolce, acido e freschezza mentolata. Un classico estivo senza tempo.',
     vi: 'Cocktail nổi tiếng nhất của Cuba, kết hợp rum trắng, bạc hà tươi, nước chanh, đường và soda. Thảo mộc sảng khoái và cân bằng hoàn hảo giữa ngọt, chua và vị bạc hà tươi mát. Một tác phẩm kinh điển mùa hè vượt thời gian.',
   },
@@ -92,7 +92,7 @@ export const mojito: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for anyone who loves fresh, herbaceous cocktails. Ideal for hot weather and outdoor gatherings. A universally loved crowd-pleaser.',
-      it: 'Perfetto per chi ama cocktail freschi ed erbacei. Ideale per il clima caldo e le riunioni all\'aperto. Un piacere universalmente amato dalla folla.',
+      it: "Perfetto per chi ama cocktail freschi ed erbacei. Ideale per il clima caldo e le riunioni all'aperto. Un piacere universalmente amato dalla folla.",
       vi: 'Hoàn hảo cho bất kỳ ai yêu thích cocktail tươi mát, thảo mộc. Lý tưởng cho thời tiết nóng và các buổi tụ tập ngoài trời. Một món được yêu thích phổ biến.',
     },
   },
@@ -125,7 +125,7 @@ export const mojito: Cocktail = {
       ingredient_id: 'ING_SODA_WATER',
       quantity: { amount: 1, unit: 'splash' },
       display_name: { en: 'Soda water', it: 'Acqua di soda', vi: 'Nước soda' },
-      note: { en: 'to top', it: 'per riempire', vi: 'để đổ đầy' },
+      notes: { en: 'to top', it: 'per riempire', vi: 'để đổ đầy' },
     },
   ],
 
@@ -170,7 +170,14 @@ export const mojito: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -189,7 +196,8 @@ export const mojito: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['virgin-mojito', 'strawberry-mojito', 'blackberry-mojito', 'coconut-mojito'],
 
-  notes_for_staff: 'Gently muddle mint - don\'t over-muddle or it becomes bitter. Use fresh mint only, never dried. Build in serving glass to preserve carbonation. Can use simple syrup instead of sugar for easier dissolution.',
+  notes_for_staff:
+    "Gently muddle mint - don't over-muddle or it becomes bitter. Use fresh mint only, never dried. Build in serving glass to preserve carbonation. Can use simple syrup instead of sugar for easier dissolution.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +210,7 @@ export const mojito: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/mojito/',
-    note: 'IBA Official Recipe. Historical information from Cuban cocktail archives.',
+    notes: 'IBA Official Recipe. Historical information from Cuban cocktail archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

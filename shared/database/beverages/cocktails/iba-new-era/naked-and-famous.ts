@@ -63,7 +63,7 @@ export const nakedAndFamous: Cocktail = {
     profile: ['smoky', 'bitter', 'herbal', 'citrus'],
     description: {
       en: 'Complex and sophisticated. The smoky mezcal provides an earthy backbone, while Aperol adds bittersweet orange notes. Yellow Chartreuse contributes honey and herbal complexity, and fresh lime juice brings brightness and acidity to tie everything together.',
-      it: 'Complesso e sofisticato. Il mezcal affumicato fornisce una base terrosa, mentre l\'Aperol aggiunge note amare e dolci di arancia. La Chartreuse gialla contribuisce con miele e complessità erbacee, e il succo di lime fresco porta luminosità e acidità per legare tutto insieme.',
+      it: "Complesso e sofisticato. Il mezcal affumicato fornisce una base terrosa, mentre l'Aperol aggiunge note amare e dolci di arancia. La Chartreuse gialla contribuisce con miele e complessità erbacee, e il succo di lime fresco porta luminosità e acidità per legare tutto insieme.",
       vi: 'Phức tạp và tinh tế. Mezcal khói cung cấp xương sống đất, trong khi Aperol thêm hương cam đắng ngọt. Chartreuse vàng đóng góp mật ong và độ phức tạp thảo mộc, và nước cốt chanh tươi mang lại sự tươi sáng và độ acid để kết hợp mọi thứ lại với nhau.',
     },
     first_impression: {
@@ -94,7 +94,7 @@ export const nakedAndFamous: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for adventurous drinkers who appreciate complex, spirit-forward cocktails. A must-try for mezcal lovers and those exploring modern classics. Ideal for sophisticated palates seeking something beyond the ordinary.',
-      it: 'Perfetto per bevitori avventurosi che apprezzano cocktail complessi e incentrati sugli spirit. Un must per gli amanti del mezcal e per chi esplora i classici moderni. Ideale per palati sofisticati che cercano qualcosa oltre l\'ordinario.',
+      it: "Perfetto per bevitori avventurosi che apprezzano cocktail complessi e incentrati sugli spirit. Un must per gli amanti del mezcal e per chi esplora i classici moderni. Ideale per palati sofisticati che cercano qualcosa oltre l'ordinario.",
       vi: 'Hoàn hảo cho những người uống mạo hiểm đánh giá cao cocktail phức tạp, hướng đến rượu mạnh. Phải thử cho người yêu mezcal và những người khám phá cocktail cổ điển hiện đại. Lý tưởng cho vị giác tinh tế tìm kiếm điều gì đó vượt ra ngoài bình thường.',
     },
   },
@@ -174,7 +174,14 @@ export const nakedAndFamous: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -193,7 +200,8 @@ export const nakedAndFamous: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['last-word', 'final-ward', 'paper-plane'],
 
-  notes_for_staff: 'Use high-quality mezcal with good smoke character. Fresh lime juice is essential. Equal parts (22.5ml each) is critical to balance. Shake hard to properly integrate the Chartreuse. This is a variation of the Last Word - educate guests on the connection.',
+  notes_for_staff:
+    'Use high-quality mezcal with good smoke character. Fresh lime juice is essential. Equal parts (22.5ml each) is critical to balance. Shake hard to properly integrate the Chartreuse. This is a variation of the Last Word - educate guests on the connection.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -206,7 +214,7 @@ export const nakedAndFamous: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/naked-and-famous/',
-    note: 'IBA Official Recipe. Created by Joaquín Simó at Death & Co, New York City, 2011.',
+    notes: 'IBA Official Recipe. Created by Joaquín Simó at Death & Co, New York City, 2011.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

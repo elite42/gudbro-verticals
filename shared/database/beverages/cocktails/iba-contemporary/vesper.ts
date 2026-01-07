@@ -33,7 +33,7 @@ export const vesper: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'James Bond\'s signature cocktail - a powerful combination of gin, vodka, and Lillet Blanc. Created by Ian Fleming in Casino Royale, this drink is strong, sophisticated, and distinctly literary.',
+    en: "James Bond's signature cocktail - a powerful combination of gin, vodka, and Lillet Blanc. Created by Ian Fleming in Casino Royale, this drink is strong, sophisticated, and distinctly literary.",
     it: 'Il cocktail distintivo di James Bond - una potente combinazione di gin, vodka e Lillet Blanc. Creato da Ian Fleming in Casino Royale, questa bevanda è forte, sofisticata e distintamente letteraria.',
     vi: 'Cocktail đặc trưng của James Bond - một sự kết hợp mạnh mẽ của gin, vodka và Lillet Blanc. Được tạo ra bởi Ian Fleming trong Casino Royale, thức uống này mạnh, tinh tế và mang tính văn học rõ rệt.',
   },
@@ -163,7 +163,14 @@ export const vesper: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +189,8 @@ export const vesper: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['vesper-with-cocchi-americano', 'reverse-vesper'],
 
-  notes_for_staff: 'Bond\'s original spec: "Three measures of Gordon\'s, one of vodka, half a measure of Kina Lillet. Shake it very well until it\'s ice-cold, then add a large thin slice of lemon peel." Modern Lillet Blanc is sweeter than original Kina Lillet - some bartenders prefer Cocchi Americano for authenticity.',
+  notes_for_staff:
+    "Bond's original spec: \"Three measures of Gordon's, one of vodka, half a measure of Kina Lillet. Shake it very well until it's ice-cold, then add a large thin slice of lemon peel.\" Modern Lillet Blanc is sweeter than original Kina Lillet - some bartenders prefer Cocchi Americano for authenticity.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +203,7 @@ export const vesper: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/vesper/',
-    note: 'IBA Official Recipe. Originally from Ian Fleming\'s "Casino Royale" (1953).',
+    notes: 'IBA Official Recipe. Originally from Ian Fleming\'s "Casino Royale" (1953).',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

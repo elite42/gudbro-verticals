@@ -130,14 +130,14 @@ export const saucesOilsSweeteners: IngredientMaster[] = [
     slug: 'maple-syrup',
     name: {
       en: 'Maple Syrup',
-      it: 'Sciroppo d\'Acero',
+      it: "Sciroppo d'Acero",
       vi: 'Siro Phong',
       ko: '메이플 시럽',
       ja: 'メープルシロップ',
     },
     description: {
       en: 'Pure maple syrup, natural sweetener',
-      it: 'Sciroppo d\'acero puro, dolcificante naturale',
+      it: "Sciroppo d'acero puro, dolcificante naturale",
       vi: 'Siro phong nguyên chất',
     },
     category: { main: 'sweeteners', sub: 'natural' },
@@ -263,15 +263,13 @@ export const saucesOilsSweeteners: IngredientMaster[] = [
     slug: 'olive-oil',
     name: {
       en: 'Olive Oil',
-      it: 'Olio d\'Oliva',
+      it: "Olio d'Oliva",
       vi: 'Dầu Ô-liu',
       ko: '올리브 오일',
       ja: 'オリーブオイル',
     },
     category: { main: 'oils', sub: 'vegetable' },
-    allergens: {
-      olive: true, // Can be an allergen for some
-    },
+    allergens: {}, // Olive oil allergy is very rare, not in standard list
     intolerances: {},
     dietary_restrictions: {
       vegan: true,

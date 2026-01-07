@@ -61,8 +61,8 @@ export const corpseReviverNo1: Cocktail = {
   taste: {
     profile: ['boozy', 'warming', 'fruity'],
     description: {
-      en: 'Rich, warming, and spirit-forward. The Corpse Reviver No. 1 balances the grape warmth of cognac with the apple notes of calvados, while sweet vermouth adds herbal complexity. It\'s a serious, contemplative drink - more medicinal than refreshing.',
-      it: 'Ricco, caldo e spirit-forward. Il Corpse Reviver No. 1 bilancia il calore dell\'uva del cognac con le note di mela del calvados, mentre il vermouth dolce aggiunge complessità erbacee. È una bevanda seria e contemplativa - più medicinale che rinfrescante.',
+      en: "Rich, warming, and spirit-forward. The Corpse Reviver No. 1 balances the grape warmth of cognac with the apple notes of calvados, while sweet vermouth adds herbal complexity. It's a serious, contemplative drink - more medicinal than refreshing.",
+      it: "Ricco, caldo e spirit-forward. Il Corpse Reviver No. 1 bilancia il calore dell'uva del cognac con le note di mela del calvados, mentre il vermouth dolce aggiunge complessità erbacee. È una bevanda seria e contemplativa - più medicinale che rinfrescante.",
       vi: 'Đậm đà, ấm áp và hướng rượu mạnh. Corpse Reviver No. 1 cân bằng độ ấm nho của cognac với hương táo của calvados, trong khi vermouth ngọt thêm sự phức tạp thảo mộc. Đây là thức uống nghiêm túc, trầm tư - giống thuốc hơn là sảng khoái.',
     },
     first_impression: {
@@ -160,7 +160,14 @@ export const corpseReviverNo1: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'nut_free', 'dairy_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'nut_free',
+      'dairy_free',
+    ],
     spice_level: 0,
   },
 
@@ -179,7 +186,8 @@ export const corpseReviverNo1: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['corpse-reviver-no2', 'between-the-sheets'],
 
-  notes_for_staff: 'This is the less famous sibling of Corpse Reviver No. 2. Equal parts formula makes it easy to scale. Best served before 11am according to tradition. Can substitute other apple brandies if Calvados unavailable. Stir, don\'t shake.',
+  notes_for_staff:
+    "This is the less famous sibling of Corpse Reviver No. 2. Equal parts formula makes it easy to scale. Best served before 11am according to tradition. Can substitute other apple brandies if Calvados unavailable. Stir, don't shake.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +200,7 @@ export const corpseReviverNo1: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/655/corpse-reviver-no1',
-    note: 'Classic recipe from The Savoy Cocktail Book (1930) by Harry Craddock.',
+    notes: 'Classic recipe from The Savoy Cocktail Book (1930) by Harry Craddock.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

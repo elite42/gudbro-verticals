@@ -33,7 +33,7 @@ export const caipirinha: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'Brazil\'s national cocktail, made with cachaça, lime, and sugar. Refreshingly simple yet complex, the Caipirinha showcases cachaça\'s grassy, vegetal character. A perfect beach drink that embodies Brazilian spirit.',
+    en: "Brazil's national cocktail, made with cachaça, lime, and sugar. Refreshingly simple yet complex, the Caipirinha showcases cachaça's grassy, vegetal character. A perfect beach drink that embodies Brazilian spirit.",
     it: 'Il cocktail nazionale del Brasile, fatto con cachaça, lime e zucchero. Rinfrescante semplice ma complesso, la Caipirinha mette in mostra il carattere erbaceo e vegetale della cachaça. Una bevanda da spiaggia perfetta che incarna lo spirito brasiliano.',
     vi: 'Cocktail quốc gia của Brazil, làm với cachaça, chanh và đường. Đơn giản nhưng phức tạp một cách sảng khoái, Caipirinha thể hiện đặc tính cỏ, thực vật của cachaça. Một thức uống bãi biển hoàn hảo thể hiện tinh thần Brazil.',
   },
@@ -60,7 +60,7 @@ export const caipirinha: Cocktail = {
     profile: ['citrus', 'sweet', 'refreshing', 'grassy'],
     description: {
       en: 'Fresh, bright, and incredibly refreshing. Muddled lime releases essential oils and juice, cachaça provides grassy, vegetal notes with slight funk, and sugar balances the acidity. Simple ingredients create complex flavor.',
-      it: 'Fresco, brillante e incredibilmente rinfrescante. Il lime pestato rilascia oli essenziali e succo, la cachaça fornisce note erbacee e vegetali con un leggero funk, e lo zucchero bilancia l\'acidità. Ingredienti semplici creano sapore complesso.',
+      it: "Fresco, brillante e incredibilmente rinfrescante. Il lime pestato rilascia oli essenziali e succo, la cachaça fornisce note erbacee e vegetali con un leggero funk, e lo zucchero bilancia l'acidità. Ingredienti semplici creano sapore complesso.",
       vi: 'Tươi mát, sáng và vô cùng sảng khoái. Chanh nghiền giải phóng tinh dầu và nước cốt, cachaça cung cấp hương vị cỏ, thực vật với một chút funk, và đường cân bằng độ chua. Nguyên liệu đơn giản tạo ra hương vị phức tạp.',
     },
     first_impression: {
@@ -109,7 +109,7 @@ export const caipirinha: Cocktail = {
       ingredient_id: 'ING_LIME',
       quantity: { amount: 1, unit: 'whole' },
       display_name: { en: 'Lime', it: 'Lime', vi: 'Chanh' },
-      note: { en: 'cut into wedges', it: 'tagliato a spicchi', vi: 'cắt thành miếng' },
+      notes: { en: 'cut into wedges', it: 'tagliato a spicchi', vi: 'cắt thành miếng' },
     },
     {
       ingredient_id: 'ING_SUGAR',
@@ -159,7 +159,14 @@ export const caipirinha: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -178,7 +185,8 @@ export const caipirinha: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['caipiroska', 'caipifruta', 'caipirissima'],
 
-  notes_for_staff: 'Muddle gently - don\'t pulverize the lime or it becomes bitter. Use fresh limes only. Crushed ice is traditional and essential for proper dilution. Quality cachaça makes a huge difference.',
+  notes_for_staff:
+    "Muddle gently - don't pulverize the lime or it becomes bitter. Use fresh limes only. Crushed ice is traditional and essential for proper dilution. Quality cachaça makes a huge difference.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -191,7 +199,7 @@ export const caipirinha: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/caipirinha/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

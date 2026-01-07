@@ -42,7 +42,7 @@ export const bramble: Cocktail = {
     created_year: '1984',
     origin: {
       city: 'London',
-      bar: 'Fred\'s Club',
+      bar: "Fred's Club",
       country: 'UK',
     },
     creator: {
@@ -50,9 +50,9 @@ export const bramble: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created in 1984 by legendary bartender Dick Bradsell at Fred\'s Club in London. Inspired by his memories of picking wild blackberries on the Isle of Wight as a child, Bradsell created this gin cocktail that celebrates British ingredients and flavors. The drink became one of the defining cocktails of the modern British cocktail renaissance and showcases Bradsell\'s talent for creating accessible yet sophisticated drinks.',
-      it: 'Creato nel 1984 dal leggendario barman Dick Bradsell al Fred\'s Club di Londra. Ispirato dai suoi ricordi di raccolta di more selvatiche sull\'Isola di Wight da bambino, Bradsell creò questo cocktail gin che celebra ingredienti e sapori britannici. La bevanda divenne uno dei cocktail definitivi del rinascimento dei cocktail britannici moderni e mostra il talento di Bradsell nel creare bevande accessibili ma sofisticate.',
-      vi: 'Được tạo ra năm 1984 bởi bartender huyền thoại Dick Bradsell tại Fred\'s Club ở London. Lấy cảm hứng từ ký ức hái dâu đen hoang dã trên Isle of Wight khi còn nhỏ, Bradsell đã tạo ra cocktail gin này tôn vinh nguyên liệu và hương vị Anh. Thức uống trở thành một trong những cocktail xác định của thời kỳ phục hưng cocktail Anh hiện đại và thể hiện tài năng của Bradsell trong việc tạo ra đồ uống dễ tiếp cận nhưng tinh tế.',
+      en: "Created in 1984 by legendary bartender Dick Bradsell at Fred's Club in London. Inspired by his memories of picking wild blackberries on the Isle of Wight as a child, Bradsell created this gin cocktail that celebrates British ingredients and flavors. The drink became one of the defining cocktails of the modern British cocktail renaissance and showcases Bradsell's talent for creating accessible yet sophisticated drinks.",
+      it: "Creato nel 1984 dal leggendario barman Dick Bradsell al Fred's Club di Londra. Ispirato dai suoi ricordi di raccolta di more selvatiche sull'Isola di Wight da bambino, Bradsell creò questo cocktail gin che celebra ingredienti e sapori britannici. La bevanda divenne uno dei cocktail definitivi del rinascimento dei cocktail britannici moderni e mostra il talento di Bradsell nel creare bevande accessibili ma sofisticate.",
+      vi: "Được tạo ra năm 1984 bởi bartender huyền thoại Dick Bradsell tại Fred's Club ở London. Lấy cảm hứng từ ký ức hái dâu đen hoang dã trên Isle of Wight khi còn nhỏ, Bradsell đã tạo ra cocktail gin này tôn vinh nguyên liệu và hương vị Anh. Thức uống trở thành một trong những cocktail xác định của thời kỳ phục hưng cocktail Anh hiện đại và thể hiện tài năng của Bradsell trong việc tạo ra đồ uống dễ tiếp cận nhưng tinh tế.",
     },
     named_after: {
       en: 'Named after bramble bushes, the thorny plants that produce blackberries in the British countryside.',
@@ -113,7 +113,11 @@ export const bramble: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 25, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -168,7 +172,14 @@ export const bramble: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +198,8 @@ export const bramble: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['bramble-royale'],
 
-  notes_for_staff: 'Drizzle crème de mûre slowly over crushed ice to create the signature "bleeding" cascade effect. Fresh blackberries enhance presentation.',
+  notes_for_staff:
+    'Drizzle crème de mûre slowly over crushed ice to create the signature "bleeding" cascade effect. Fresh blackberries enhance presentation.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +212,7 @@ export const bramble: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/bramble/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

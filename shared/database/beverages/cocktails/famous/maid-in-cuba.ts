@@ -186,7 +186,14 @@ export const maidInCuba: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -205,7 +212,8 @@ export const maidInCuba: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['mojito', 'whiskey-smash'],
 
-  notes_for_staff: 'Muddle gently to avoid bitterness from mint. Use quality aged rum for best results. Double strain to remove mint and cucumber fragments. Can garnish with edible flowers for special occasions.',
+  notes_for_staff:
+    'Muddle gently to avoid bitterness from mint. Use quality aged rum for best results. Double strain to remove mint and cucumber fragments. Can garnish with edible flowers for special occasions.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -218,7 +226,7 @@ export const maidInCuba: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://peguclub.com',
-    note: 'Created by Audrey Saunders at Pegu Club, 2008. Modern classic cocktail.',
+    notes: 'Created by Audrey Saunders at Pegu Club, 2008. Modern classic cocktail.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -177,7 +177,14 @@ export const vieuxMot: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -196,7 +203,8 @@ export const vieuxMot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['last-word', 'final-ward'],
 
-  notes_for_staff: 'Use St-Germain elderflower liqueur for best results. Equal parts recipe like the Last Word. Shake hard to properly chill and dilute the strong spirits.',
+  notes_for_staff:
+    'Use St-Germain elderflower liqueur for best results. Equal parts recipe like the Last Word. Shake hard to properly chill and dilute the strong spirits.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -209,7 +217,7 @@ export const vieuxMot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'Created by Jamie Boudreau at Vessel, 2007',
-    note: 'Modern variation on the Last Word cocktail. Featured in craft cocktail publications.',
+    notes: 'Modern variation on the Last Word cocktail. Featured in craft cocktail publications.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

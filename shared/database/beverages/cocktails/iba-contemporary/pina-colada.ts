@@ -33,8 +33,8 @@ export const pinaColada: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'The national drink of Puerto Rico - a luscious blend of rum, coconut cream, and pineapple juice. Creamy, tropical, and utterly refreshing, it\'s the quintessential beach cocktail that tastes like paradise.',
-    it: 'La bevanda nazionale di Porto Rico - una miscela lussuosa di rum, crema di cocco e succo d\'ananas. Cremosa, tropicale e assolutamente rinfrescante, è il cocktail da spiaggia per eccellenza che sa di paradiso.',
+    en: "The national drink of Puerto Rico - a luscious blend of rum, coconut cream, and pineapple juice. Creamy, tropical, and utterly refreshing, it's the quintessential beach cocktail that tastes like paradise.",
+    it: "La bevanda nazionale di Porto Rico - una miscela lussuosa di rum, crema di cocco e succo d'ananas. Cremosa, tropicale e assolutamente rinfrescante, è il cocktail da spiaggia per eccellenza che sa di paradiso.",
     vi: 'Thức uống quốc gia của Puerto Rico - một hỗn hợp sang trọng của rum, kem dừa và nước dứa. Béo ngậy, nhiệt đới và cực kỳ sảng khoái, đây là cocktail bãi biển tinh túy có vị như thiên đường.',
   },
 
@@ -65,7 +65,7 @@ export const pinaColada: Cocktail = {
     profile: ['tropical', 'creamy', 'sweet'],
     description: {
       en: 'Rich, creamy, and intensely tropical. Coconut cream provides luxurious texture while pineapple adds bright, tangy sweetness. White rum ties it together with subtle warmth. Like a vacation in a glass.',
-      it: 'Ricco, cremoso e intensamente tropicale. La crema di cocco fornisce una texture lussuosa mentre l\'ananas aggiunge una dolcezza brillante e piccante. Il rum bianco lo lega con un sottile calore. Come una vacanza in un bicchiere.',
+      it: "Ricco, cremoso e intensamente tropicale. La crema di cocco fornisce una texture lussuosa mentre l'ananas aggiunge una dolcezza brillante e piccante. Il rum bianco lo lega con un sottile calore. Come una vacanza in un bicchiere.",
       vi: 'Đậm đà, béo ngậy và cực kỳ nhiệt đới. Kem dừa cung cấp kết cấu sang trọng trong khi dứa thêm vị ngọt sáng, chua. Rum trắng gắn kết nó với hơi ấm tinh tế. Như một kỳ nghỉ trong ly.',
     },
     first_impression: {
@@ -118,7 +118,11 @@ export const pinaColada: Cocktail = {
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
       quantity: { amount: 50, unit: 'ml' },
-      display_name: { en: 'Fresh pineapple juice', it: 'Succo d\'ananas fresco', vi: 'Nước dứa tươi' },
+      display_name: {
+        en: 'Fresh pineapple juice',
+        it: "Succo d'ananas fresco",
+        vi: 'Nước dứa tươi',
+      },
     },
   ],
 
@@ -182,7 +186,8 @@ export const pinaColada: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['miami-vice', 'chi-chi', 'amaretto-colada'],
 
-  notes_for_staff: 'Blend with plenty of ice for proper frozen consistency. Use Coco López or similar coconut cream, not coconut milk. Fresh pineapple juice is essential. Can be made in batches for parties. The Miami Vice combines with frozen Strawberry Daiquiri.',
+  notes_for_staff:
+    'Blend with plenty of ice for proper frozen consistency. Use Coco López or similar coconut cream, not coconut milk. Fresh pineapple juice is essential. Can be made in batches for parties. The Miami Vice combines with frozen Strawberry Daiquiri.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +200,7 @@ export const pinaColada: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/pina-colada/',
-    note: 'IBA Official Recipe. National drink of Puerto Rico since 1978.',
+    notes: 'IBA Official Recipe. National drink of Puerto Rico since 1978.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

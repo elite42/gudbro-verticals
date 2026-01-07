@@ -31,7 +31,7 @@ export const nuttyIrishman: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A delicious hot coffee cocktail combining Irish cream and hazelnut liqueur with hot coffee. This warming drink blends the creamy sweetness of Baileys with the nutty notes of Frangelico for an indulgent coffee experience.',
-    it: 'Un delizioso cocktail al caffè caldo che combina crema irlandese e liquore alla nocciola con caffè caldo. Questa bevanda riscaldante mescola la dolcezza cremosa del Baileys con le note nocciolate del Frangelico per un\'esperienza di caffè indulgente.',
+    it: "Un delizioso cocktail al caffè caldo che combina crema irlandese e liquore alla nocciola con caffè caldo. Questa bevanda riscaldante mescola la dolcezza cremosa del Baileys con le note nocciolate del Frangelico per un'esperienza di caffè indulgente.",
     vi: 'Một loại cocktail cà phê nóng ngon kết hợp kem Ireland và rượu mùi hạt phỉ với cà phê nóng. Thức uống ấm áp này pha trộn vị ngọt béo ngậy của Baileys với hương vị hạt của Frangelico để có trải nghiệm cà phê nuông chiều.',
   },
 
@@ -42,7 +42,7 @@ export const nuttyIrishman: Cocktail = {
     },
     story: {
       en: 'The Nutty Irishman emerged in the 1980s as bartenders experimented with combining different liqueurs in hot coffee drinks. The pairing of Baileys Irish Cream with Frangelico hazelnut liqueur proved to be a winning combination, creating a drink that was more complex than simple Irish Cream Coffee but still approachable and sweet. The cocktail became popular in bars and restaurants as a dessert coffee option, especially in colder months. It can be served hot or as a chilled cocktail over ice.',
-      it: 'Il Nutty Irishman emerse negli anni \'80 quando i barman sperimentarono la combinazione di diversi liquori nelle bevande al caffè caldo. L\'abbinamento di Baileys Irish Cream con liquore alla nocciola Frangelico si rivelò una combinazione vincente, creando una bevanda più complessa del semplice Irish Cream Coffee ma comunque accessibile e dolce. Il cocktail divenne popolare nei bar e ristoranti come opzione di caffè da dessert, specialmente nei mesi più freddi. Può essere servito caldo o come cocktail freddo con ghiaccio.',
+      it: "Il Nutty Irishman emerse negli anni '80 quando i barman sperimentarono la combinazione di diversi liquori nelle bevande al caffè caldo. L'abbinamento di Baileys Irish Cream con liquore alla nocciola Frangelico si rivelò una combinazione vincente, creando una bevanda più complessa del semplice Irish Cream Coffee ma comunque accessibile e dolce. Il cocktail divenne popolare nei bar e ristoranti come opzione di caffè da dessert, specialmente nei mesi più freddi. Può essere servito caldo o come cocktail freddo con ghiaccio.",
       vi: 'Nutty Irishman xuất hiện vào những năm 1980 khi bartender thử nghiệm kết hợp các loại rượu mùi khác nhau trong đồ uống cà phê nóng. Sự kết hợp của Baileys Irish Cream với rượu mùi hạt phỉ Frangelico đã chứng tỏ là một sự kết hợp chiến thắng, tạo ra một thức uống phức tạp hơn Irish Cream Coffee đơn giản nhưng vẫn dễ tiếp cận và ngọt. Cocktail trở nên phổ biến ở các quầy bar và nhà hàng như một lựa chọn cà phê tráng miệng, đặc biệt là trong những tháng lạnh hơn. Nó có thể được phục vụ nóng hoặc như một cocktail lạnh với đá.',
     },
     named_after: {
@@ -87,7 +87,7 @@ export const nuttyIrishman: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for hazelnut lovers and those who enjoy flavored coffee drinks. Ideal for cold weather, après-ski, brunch occasions, and anyone seeking a more sophisticated alternative to Irish Cream Coffee.',
-      it: 'Perfetto per gli amanti della nocciola e chi ama le bevande al caffè aromatizzate. Ideale per il freddo, après-ski, occasioni di brunch e chiunque cerchi un\'alternativa più sofisticata all\'Irish Cream Coffee.',
+      it: "Perfetto per gli amanti della nocciola e chi ama le bevande al caffè aromatizzate. Ideale per il freddo, après-ski, occasioni di brunch e chiunque cerchi un'alternativa più sofisticata all'Irish Cream Coffee.",
       vi: 'Hoàn hảo cho người yêu hạt phỉ và những ai thích đồ uống cà phê có hương vị. Lý tưởng cho thời tiết lạnh, après-ski, dịp brunch và bất kỳ ai tìm kiếm sự thay thế tinh tế hơn cho Irish Cream Coffee.',
     },
   },
@@ -187,7 +187,8 @@ export const nuttyIrishman: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['iced-nutty-irishman', 'nutty-irishman-shooter', 'nutty-coffee-martini'],
 
-  notes_for_staff: 'Contains hazelnut liqueur - always check for nut allergies. Can also be served over ice as a cold cocktail. Frangelico is essential for authentic flavor. Popular as a dessert coffee option. Some guests may want extra Frangelico for stronger hazelnut flavor.',
+  notes_for_staff:
+    'Contains hazelnut liqueur - always check for nut allergies. Can also be served over ice as a cold cocktail. Frangelico is essential for authentic flavor. Popular as a dessert coffee option. Some guests may want extra Frangelico for stronger hazelnut flavor.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +201,7 @@ export const nuttyIrishman: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/nutty-irishman/',
-    note: 'Popular hot coffee cocktail combining Irish cream and hazelnut liqueur.',
+    notes: 'Popular hot coffee cocktail combining Irish cream and hazelnut liqueur.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

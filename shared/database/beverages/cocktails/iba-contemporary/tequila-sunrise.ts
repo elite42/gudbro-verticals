@@ -33,8 +33,8 @@ export const tequilaSunrise: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A visually stunning cocktail that lives up to its name - tequila and orange juice layered with grenadine to create a sunrise effect. Beautiful, fruity, and refreshing, it\'s as pleasing to the eye as it is to the palate.',
-    it: 'Un cocktail visivamente stupefacente che fa onore al suo nome - tequila e succo d\'arancia stratificati con granatina per creare un effetto alba. Bello, fruttato e rinfrescante, è gradevole agli occhi quanto al palato.',
+    en: "A visually stunning cocktail that lives up to its name - tequila and orange juice layered with grenadine to create a sunrise effect. Beautiful, fruity, and refreshing, it's as pleasing to the eye as it is to the palate.",
+    it: "Un cocktail visivamente stupefacente che fa onore al suo nome - tequila e succo d'arancia stratificati con granatina per creare un effetto alba. Bello, fruttato e rinfrescante, è gradevole agli occhi quanto al palato.",
     vi: 'Một cocktail tuyệt đẹp về mặt thị giác đúng với tên gọi của nó - tequila và nước cam phân lớp với grenadine để tạo hiệu ứng bình minh. Đẹp, trái cây và sảng khoái, nó làm hài lòng mắt cũng như khẩu vị.',
   },
 
@@ -56,7 +56,7 @@ export const tequilaSunrise: Cocktail = {
     },
     named_after: {
       en: 'Named for the visual effect created by the grenadine settling through the drink, resembling a sunrise.',
-      it: 'Prende il nome dall\'effetto visivo creato dalla granatina che si deposita attraverso la bevanda, somigliante a un\'alba.',
+      it: "Prende il nome dall'effetto visivo creato dalla granatina che si deposita attraverso la bevanda, somigliante a un'alba.",
       vi: 'Được đặt tên theo hiệu ứng hình ảnh được tạo ra bởi grenadine lắng qua thức uống, giống như bình minh.',
     },
   },
@@ -65,7 +65,7 @@ export const tequilaSunrise: Cocktail = {
     profile: ['fruity', 'sweet', 'citrus'],
     description: {
       en: 'Bright and refreshing with prominent orange citrus flavor complemented by sweet grenadine. Tequila adds earthy agave notes and warmth. Light, easy-drinking, and crowd-pleasing.',
-      it: 'Brillante e rinfrescante con un prominente sapore di agrumi d\'arancia complementato dalla dolce granatina. La tequila aggiunge note terrose di agave e calore. Leggero, facile da bere e che piace a tutti.',
+      it: "Brillante e rinfrescante con un prominente sapore di agrumi d'arancia complementato dalla dolce granatina. La tequila aggiunge note terrose di agave e calore. Leggero, facile da bere e che piace a tutti.",
       vi: 'Sáng và sảng khoái với hương vị cam quýt cam nổi bật được bổ sung bởi grenadine ngọt. Tequila thêm hương agave đất và hơi ấm. Nhẹ nhàng, dễ uống và được mọi người yêu thích.',
     },
     first_impression: {
@@ -113,7 +113,7 @@ export const tequilaSunrise: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 90, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_GRENADINE',
@@ -126,7 +126,7 @@ export const tequilaSunrise: Cocktail = {
 
   instructions: {
     en: 'Pour tequila and orange juice directly into a highball glass filled with ice cubes. Add grenadine by carefully pouring it down the side of the glass - it will sink and gradually rise to create a sunrise effect. Do not stir. Garnish with an orange slice and cherry.',
-    it: 'Versare tequila e succo d\'arancia direttamente in un bicchiere highball pieno di cubetti di ghiaccio. Aggiungere la granatina versandola con cura lungo il lato del bicchiere - affonderà e gradualmente salirà per creare un effetto alba. Non mescolare. Guarnire con una fetta d\'arancia e una ciliegia.',
+    it: "Versare tequila e succo d'arancia direttamente in un bicchiere highball pieno di cubetti di ghiaccio. Aggiungere la granatina versandola con cura lungo il lato del bicchiere - affonderà e gradualmente salirà per creare un effetto alba. Non mescolare. Guarnire con una fetta d'arancia e una ciliegia.",
     vi: 'Đổ tequila và nước cam trực tiếp vào ly highball đầy đá viên. Thêm grenadine bằng cách cẩn thận rót nó xuống cạnh ly - nó sẽ chìm và dần dần nổi lên để tạo hiệu ứng bình minh. Không khuấy. Trang trí bằng lát cam và anh đào.',
   },
 
@@ -134,7 +134,7 @@ export const tequilaSunrise: Cocktail = {
 
   garnish: {
     en: 'Orange slice and maraschino cherry',
-    it: 'Fetta d\'arancia e ciliegia maraschino',
+    it: "Fetta d'arancia e ciliegia maraschino",
     vi: 'Lát cam và anh đào maraschino',
   },
 
@@ -163,7 +163,14 @@ export const tequilaSunrise: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +189,8 @@ export const tequilaSunrise: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['tequila-sunset', 'vodka-sunrise', 'mezcal-sunrise'],
 
-  notes_for_staff: 'DO NOT STIR after adding grenadine - the layered sunrise effect is key to presentation. Pour grenadine slowly down the inside of the glass. Use fresh-squeezed orange juice for best results. Guest can stir before drinking.',
+  notes_for_staff:
+    'DO NOT STIR after adding grenadine - the layered sunrise effect is key to presentation. Pour grenadine slowly down the inside of the glass. Use fresh-squeezed orange juice for best results. Guest can stir before drinking.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +203,7 @@ export const tequilaSunrise: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/tequila-sunrise/',
-    note: 'IBA Official Recipe. Made famous by The Rolling Stones in the 1970s.',
+    notes: 'IBA Official Recipe. Made famous by The Rolling Stones in the 1970s.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

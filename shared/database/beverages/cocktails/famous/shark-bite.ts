@@ -48,12 +48,12 @@ export const sharkBite: Cocktail = {
     },
     story: {
       en: 'The Shark Bite emerged in the 1980s during the height of theatrical tiki cocktail culture. Created in beach bars catering to tourists, the drink\'s dramatic presentation - featuring a "bloody" grenadine drip that resembles a shark bite - made it an instant hit. The cocktail gained popularity at beach resorts and tiki bars, where bartenders would often add theatrical flair by drizzling the grenadine dramatically while telling stories of shark encounters. Its visual appeal has made it a social media favorite in recent years.',
-      it: 'Il Morso di Squalo emerse negli anni \'80 durante l\'apice della cultura teatrale dei cocktail tiki. Creato nei bar sulla spiaggia per turisti, la drammatica presentazione della bevanda - con una goccia di granatina "sanguinosa" che assomiglia a un morso di squalo - la rese un successo immediato. Il cocktail acquisì popolarità nei resort sulla spiaggia e nei bar tiki, dove i barman spesso aggiungevano un tocco teatrale versando la granatina in modo drammatico mentre raccontavano storie di incontri con squali. Il suo appeal visivo l\'ha resa una favorita dei social media negli ultimi anni.',
+      it: "Il Morso di Squalo emerse negli anni '80 durante l'apice della cultura teatrale dei cocktail tiki. Creato nei bar sulla spiaggia per turisti, la drammatica presentazione della bevanda - con una goccia di granatina \"sanguinosa\" che assomiglia a un morso di squalo - la rese un successo immediato. Il cocktail acquisì popolarità nei resort sulla spiaggia e nei bar tiki, dove i barman spesso aggiungevano un tocco teatrale versando la granatina in modo drammatico mentre raccontavano storie di incontri con squali. Il suo appeal visivo l'ha resa una favorita dei social media negli ultimi anni.",
       vi: 'Shark Bite xuất hiện vào những năm 1980 trong thời kỳ đỉnh cao của văn hóa cocktail tiki sân khấu. Được tạo ra tại các quán bar bãi biển phục vụ khách du lịch, cách trình bày ấn tượng của thức uống - với giọt grenadine "đẫm máu" giống như vết cắn cá mập - khiến nó thành công ngay lập tức. Cocktail trở nên phổ biến tại các khu nghỉ dưỡng bãi biển và quán bar tiki, nơi các bartender thường thêm nét sân khấu bằng cách rưới grenadine một cách ấn tượng trong khi kể chuyện về cuộc gặp gỡ cá mập. Sức hấp dẫn thị giác của nó đã khiến nó trở thành món ưa thích trên mạng xã hội trong những năm gần đây.',
     },
     named_after: {
       en: 'Named for the dramatic visual effect created by the grenadine drip, which resembles blood from a shark bite in the blue ocean-colored drink.',
-      it: 'Prende il nome dall\'effetto visivo drammatico creato dalla goccia di granatina, che assomiglia al sangue di un morso di squalo nella bevanda color oceano blu.',
+      it: "Prende il nome dall'effetto visivo drammatico creato dalla goccia di granatina, che assomiglia al sangue di un morso di squalo nella bevanda color oceano blu.",
       vi: 'Được đặt theo hiệu ứng hình ảnh ấn tượng được tạo ra bởi giọt grenadine, giống như máu từ vết cắn cá mập trong thức uống màu xanh đại dương.',
     },
   },
@@ -67,7 +67,7 @@ export const sharkBite: Cocktail = {
     },
     first_impression: {
       en: 'Sweet tropical fruit and orange citrus with vibrant blue color',
-      it: 'Frutta tropicale dolce e agrumi d\'arancia con colore blu vibrante',
+      it: "Frutta tropicale dolce e agrumi d'arancia con colore blu vibrante",
       vi: 'Trái cây nhiệt đới ngọt và cam quýt với màu xanh sống động',
     },
     finish: {
@@ -170,7 +170,14 @@ export const sharkBite: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -189,7 +196,8 @@ export const sharkBite: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['virgin-shark-bite', 'frozen-shark-bite', 'shark-attack'],
 
-  notes_for_staff: 'Drizzle grenadine slowly down the inside of glass for "blood" effect - don\'t stir after adding. Very Instagram-worthy - encourage photos before drinking. Can add gummy shark as fun garnish. Sweet and sour mix can be replaced with fresh lemon/lime juice and simple syrup.',
+  notes_for_staff:
+    'Drizzle grenadine slowly down the inside of glass for "blood" effect - don\'t stir after adding. Very Instagram-worthy - encourage photos before drinking. Can add gummy shark as fun garnish. Sweet and sour mix can be replaced with fresh lemon/lime juice and simple syrup.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +210,7 @@ export const sharkBite: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/shark-bite/',
-    note: 'Popular beach bar cocktail. Multiple recipe variations exist.',
+    notes: 'Popular beach bar cocktail. Multiple recipe variations exist.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

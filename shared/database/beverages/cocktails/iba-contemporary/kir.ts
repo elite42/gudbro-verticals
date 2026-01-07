@@ -96,7 +96,7 @@ export const kir: Cocktail = {
     },
     ideal_for: {
       en: 'Ideal for wine lovers seeking a lighter apéritif. Perfect for those who appreciate French elegance and simplicity.',
-      it: 'Ideale per gli amanti del vino che cercano un aperitivo più leggero. Perfetto per chi apprezza l\'eleganza e la semplicità francese.',
+      it: "Ideale per gli amanti del vino che cercano un aperitivo più leggero. Perfetto per chi apprezza l'eleganza e la semplicità francese.",
       vi: 'Lý tưởng cho người yêu rượu vang tìm kiếm aperitif nhẹ hơn. Hoàn hảo cho những ai đánh giá cao sự thanh lịch và đơn giản của Pháp.',
     },
   },
@@ -108,7 +108,11 @@ export const kir: Cocktail = {
     {
       ingredient_id: 'ING_DRY_WHITE_WINE',
       quantity: { amount: 90, unit: 'ml' },
-      display_name: { en: 'Dry white wine (preferably Aligoté)', it: 'Vino bianco secco (preferibilmente Aligoté)', vi: 'Rượu vang trắng khô (tốt nhất là Aligoté)' },
+      display_name: {
+        en: 'Dry white wine (preferably Aligoté)',
+        it: 'Vino bianco secco (preferibilmente Aligoté)',
+        vi: 'Rượu vang trắng khô (tốt nhất là Aligoté)',
+      },
     },
     {
       ingredient_id: 'ING_CREME_DE_CASSIS',
@@ -158,7 +162,14 @@ export const kir: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -177,7 +188,8 @@ export const kir: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['kir-royale', 'kir-imperial', 'kir-breton'],
 
-  notes_for_staff: 'Traditionally made with Burgundian Aligoté wine, but any dry white wine works. The Kir Royale variation uses champagne instead of white wine. Ratio can be adjusted - typically 1:9 cassis to wine. Serve well chilled.',
+  notes_for_staff:
+    'Traditionally made with Burgundian Aligoté wine, but any dry white wine works. The Kir Royale variation uses champagne instead of white wine. Ratio can be adjusted - typically 1:9 cassis to wine. Serve well chilled.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +202,7 @@ export const kir: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/kir/',
-    note: 'IBA Official Recipe. Traditional French apéritif.',
+    notes: 'IBA Official Recipe. Traditional French apéritif.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

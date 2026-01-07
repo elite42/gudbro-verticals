@@ -33,8 +33,8 @@ export const fernandito: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A simple yet sophisticated Italian digestivo combining Fernet-Branca with cola and ice. This minimal serve showcases the intense herbal bitterness of Fernet balanced by cola\'s sweetness and effervescence, creating a refreshing and complex drink that\'s beloved in Argentina and increasingly popular worldwide.',
-    it: 'Un digestivo italiano semplice ma sofisticato che combina Fernet-Branca con cola e ghiaccio. Questo servizio minimale mostra l\'intensa amarezza erbacea del Fernet bilanciata dalla dolcezza e dall\'effervescenza della cola, creando una bevanda rinfrescante e complessa amata in Argentina e sempre più popolare in tutto il mondo.',
+    en: "A simple yet sophisticated Italian digestivo combining Fernet-Branca with cola and ice. This minimal serve showcases the intense herbal bitterness of Fernet balanced by cola's sweetness and effervescence, creating a refreshing and complex drink that's beloved in Argentina and increasingly popular worldwide.",
+    it: "Un digestivo italiano semplice ma sofisticato che combina Fernet-Branca con cola e ghiaccio. Questo servizio minimale mostra l'intensa amarezza erbacea del Fernet bilanciata dalla dolcezza e dall'effervescenza della cola, creando una bevanda rinfrescante e complessa amata in Argentina e sempre più popolare in tutto il mondo.",
     vi: 'Một digestivo Ý đơn giản nhưng tinh tế kết hợp Fernet-Branca với cola và đá. Phục vụ tối giản này thể hiện vị đắng thảo mộc mãnh liệt của Fernet cân bằng bởi vị ngọt và sự sủi bọt của cola, tạo ra đồ uống sảng khoái và phức tạp được yêu thích ở Argentina và ngày càng phổ biến trên toàn thế giới.',
   },
 
@@ -64,8 +64,8 @@ export const fernandito: Cocktail = {
   taste: {
     profile: ['bitter', 'herbal', 'sweet', 'refreshing'],
     description: {
-      en: 'Intensely bitter and herbal from Fernet-Branca\'s complex blend of botanicals (saffron, myrrh, chamomile, etc.), balanced by cola\'s caramel sweetness and effervescence. The combination is surprisingly harmonious, with neither element overpowering the other.',
-      it: 'Intensamente amaro ed erbaceo dalla complessa miscela di botanici del Fernet-Branca (zafferano, mirra, camomilla, ecc.), bilanciato dalla dolcezza caramellata e dall\'effervescenza della cola. La combinazione è sorprendentemente armoniosa, senza che nessun elemento sopraffaccia l\'altro.',
+      en: "Intensely bitter and herbal from Fernet-Branca's complex blend of botanicals (saffron, myrrh, chamomile, etc.), balanced by cola's caramel sweetness and effervescence. The combination is surprisingly harmonious, with neither element overpowering the other.",
+      it: "Intensamente amaro ed erbaceo dalla complessa miscela di botanici del Fernet-Branca (zafferano, mirra, camomilla, ecc.), bilanciato dalla dolcezza caramellata e dall'effervescenza della cola. La combinazione è sorprendentemente armoniosa, senza che nessun elemento sopraffaccia l'altro.",
       vi: 'Đắng mãnh liệt và thảo mộc từ hỗn hợp thực vật phức tạp của Fernet-Branca (nghệ tây, mộc dược, hoa cúc, v.v.), cân bằng bởi vị ngọt caramel và sự sủi bọt của cola. Sự kết hợp hài hòa đáng ngạc nhiên, không có yếu tố nào áp đảo yếu tố kia.',
     },
     first_impression: {
@@ -80,7 +80,7 @@ export const fernandito: Cocktail = {
     },
     balance: {
       en: 'Well balanced between intense bitterness and cola sweetness - an acquired taste that rewards exploration',
-      it: 'Ben bilanciato tra amarezza intensa e dolcezza di cola - un gusto acquisito che premia l\'esplorazione',
+      it: "Ben bilanciato tra amarezza intensa e dolcezza di cola - un gusto acquisito che premia l'esplorazione",
       vi: 'Cân bằng tốt giữa vị đắng mãnh liệt và vị ngọt cola - hương vị quen dần đáng khám phá',
     },
   },
@@ -96,7 +96,7 @@ export const fernandito: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for those who appreciate bitter digestivos and amaro culture. Ideal for adventurous drinkers seeking an authentic Argentine experience. Great for social drinking and after-dinner refreshment.',
-      it: 'Perfetto per chi apprezza digestivi amari e cultura dell\'amaro. Ideale per bevitori avventurosi che cercano un\'autentica esperienza argentina. Ottimo per bevute sociali e rinfreschi dopo cena.',
+      it: "Perfetto per chi apprezza digestivi amari e cultura dell'amaro. Ideale per bevitori avventurosi che cercano un'autentica esperienza argentina. Ottimo per bevute sociali e rinfreschi dopo cena.",
       vi: 'Hoàn hảo cho những ai đánh giá cao digestivo đắng và văn hóa amaro. Lý tưởng cho người uống phiêu lưu tìm kiếm trải nghiệm Argentina đích thực. Tuyệt vời để uống giao lưu và giải khát sau bữa tối.',
     },
   },
@@ -158,7 +158,14 @@ export const fernandito: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 1,
   },
 
@@ -177,7 +184,8 @@ export const fernandito: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['fernet-con-cola', 'fernando'],
 
-  notes_for_staff: 'Fernet-Branca is essential - do not substitute. Ratio can be adjusted to taste (Argentine style is typically 50/50). Serve very cold with plenty of ice. An acquired taste that many grow to love.',
+  notes_for_staff:
+    'Fernet-Branca is essential - do not substitute. Ratio can be adjusted to taste (Argentine style is typically 50/50). Serve very cold with plenty of ice. An acquired taste that many grow to love.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +198,7 @@ export const fernandito: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/fernandito/',
-    note: 'IBA Official Recipe. Popular in Argentina since the 1950s-60s.',
+    notes: 'IBA Official Recipe. Popular in Argentina since the 1950s-60s.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

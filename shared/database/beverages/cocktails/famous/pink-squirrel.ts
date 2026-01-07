@@ -31,7 +31,7 @@ export const pinkSquirrel: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A whimsical pink dessert cocktail combining crème de noyaux (almond liqueur), white crème de cacao, and cream. This vintage favorite from the 1940s is sweet, nutty, and visually striking with its distinctive pink color.',
-    it: 'Un fantasioso cocktail da dessert rosa che combina crème de noyaux (liquore alle mandorle), crème de cacao bianca e panna. Questo favorito vintage degli anni \'40 è dolce, nocciolato e visivamente sorprendente con il suo distintivo colore rosa.',
+    it: "Un fantasioso cocktail da dessert rosa che combina crème de noyaux (liquore alle mandorle), crème de cacao bianca e panna. Questo favorito vintage degli anni '40 è dolce, nocciolato e visivamente sorprendente con il suo distintivo colore rosa.",
     vi: 'Một loại cocktail tráng miệng màu hồng kỳ lạ kết hợp crème de noyaux (rượu mùi hạnh nhân), crème de cacao trắng và kem. Tác phẩm yêu thích vintage từ những năm 1940 này ngọt, có vị hạt và nổi bật về mặt thị giác với màu hồng đặc trưng.',
   },
 
@@ -39,13 +39,13 @@ export const pinkSquirrel: Cocktail = {
     created_year: '1940s',
     origin: {
       city: 'Milwaukee',
-      bar: 'Bryant\'s Cocktail Lounge',
+      bar: "Bryant's Cocktail Lounge",
       country: 'USA',
     },
     story: {
-      en: 'The Pink Squirrel was created in the 1940s at Bryant\'s Cocktail Lounge in Milwaukee, Wisconsin. The drink became a staple of American supper clubs and ice cream parlors in the 1950s-60s, often served as a frozen dessert cocktail. Its playful name and pretty pink color made it especially popular with women during the mid-century cocktail boom. The drink experienced a resurgence in recent years as part of the vintage cocktail revival.',
-      it: 'Il Pink Squirrel fu creato negli anni \'40 al Bryant\'s Cocktail Lounge a Milwaukee, Wisconsin. La bevanda divenne un punto fermo dei supper club americani e delle gelaterie negli anni \'50-\'60, spesso servita come cocktail da dessert frozen. Il suo nome giocoso e il bel colore rosa lo resero particolarmente popolare tra le donne durante il boom dei cocktail di metà secolo. La bevanda ha vissuto una rinascita negli ultimi anni come parte del revival dei cocktail vintage.',
-      vi: 'Pink Squirrel được tạo ra vào những năm 1940 tại Bryant\'s Cocktail Lounge ở Milwaukee, Wisconsin. Thức uống đã trở thành món chính của các câu lạc bộ ăn tối và tiệm kem Mỹ vào những năm 1950-60, thường được phục vụ như một cocktail tráng miệng đông lạnh. Cái tên vui tươi và màu hồng đẹp mắt đã làm cho nó đặc biệt phổ biến với phụ nữ trong thời kỳ bùng nổ cocktail giữa thế kỷ. Thức uống đã trải qua sự hồi sinh trong những năm gần đây như một phần của sự phục hưng cocktail vintage.',
+      en: "The Pink Squirrel was created in the 1940s at Bryant's Cocktail Lounge in Milwaukee, Wisconsin. The drink became a staple of American supper clubs and ice cream parlors in the 1950s-60s, often served as a frozen dessert cocktail. Its playful name and pretty pink color made it especially popular with women during the mid-century cocktail boom. The drink experienced a resurgence in recent years as part of the vintage cocktail revival.",
+      it: "Il Pink Squirrel fu creato negli anni '40 al Bryant's Cocktail Lounge a Milwaukee, Wisconsin. La bevanda divenne un punto fermo dei supper club americani e delle gelaterie negli anni '50-'60, spesso servita come cocktail da dessert frozen. Il suo nome giocoso e il bel colore rosa lo resero particolarmente popolare tra le donne durante il boom dei cocktail di metà secolo. La bevanda ha vissuto una rinascita negli ultimi anni come parte del revival dei cocktail vintage.",
+      vi: "Pink Squirrel được tạo ra vào những năm 1940 tại Bryant's Cocktail Lounge ở Milwaukee, Wisconsin. Thức uống đã trở thành món chính của các câu lạc bộ ăn tối và tiệm kem Mỹ vào những năm 1950-60, thường được phục vụ như một cocktail tráng miệng đông lạnh. Cái tên vui tươi và màu hồng đẹp mắt đã làm cho nó đặc biệt phổ biến với phụ nữ trong thời kỳ bùng nổ cocktail giữa thế kỷ. Thức uống đã trải qua sự hồi sinh trong những năm gần đây như một phần của sự phục hưng cocktail vintage.",
     },
     named_after: {
       en: 'The playful name "Pink Squirrel" refers to the drink\'s distinctive pink color and perhaps the "nutty" flavor from the almond liqueur.',
@@ -81,7 +81,7 @@ export const pinkSquirrel: Cocktail = {
   recommendations: {
     best_time: ['afternoon', 'evening'],
     occasions: ['dessert', 'retro_party', 'celebration', 'brunch'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Perfect with almond-based desserts, marzipan, cherry pie, or as a dessert replacement. Also pairs well with vanilla ice cream and amaretti cookies.',
       it: 'Perfetto con dessert a base di mandorle, marzapane, torta di ciliegie, o come sostituto del dessert. Si abbina bene anche con gelato alla vaniglia e amaretti.',
@@ -172,7 +172,7 @@ export const pinkSquirrel: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['dessert', 'celebration', 'brunch'],
 
   is_mocktail: false,
@@ -183,7 +183,8 @@ export const pinkSquirrel: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['frozen-pink-squirrel', 'pink-panther', 'nutty-squirrel'],
 
-  notes_for_staff: 'Crème de noyaux can be hard to find - substitute with amaretto + grenadine if unavailable (15ml each + 15ml cream extra). Often served frozen with ice cream in supper clubs. The pink color should be vibrant. Contains nut liqueur - ask about allergies.',
+  notes_for_staff:
+    'Crème de noyaux can be hard to find - substitute with amaretto + grenadine if unavailable (15ml each + 15ml cream extra). Often served frozen with ice cream in supper clubs. The pink color should be vibrant. Contains nut liqueur - ask about allergies.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -196,7 +197,7 @@ export const pinkSquirrel: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1862/pink-squirrel',
-    note: 'Classic 1940s dessert cocktail from Milwaukee supper club culture.',
+    notes: 'Classic 1940s dessert cocktail from Milwaukee supper club culture.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -31,7 +31,7 @@ export const jetPilot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The Jet Pilot is an intensely potent tiki cocktail, a turbocharged variation of the Test Pilot with even more overproof rum and aggressive spicing. This drink lives up to its jet-powered name with serious strength and complex layers of flavor.',
-    it: 'Il Jet Pilot è un cocktail tiki intensamente potente, una variazione turbocompressa del Test Pilot con ancora più rum overproof e spezie aggressive. Questa bevanda è all\'altezza del suo nome a propulsione a reazione con forza seria e strati complessi di sapore.',
+    it: "Il Jet Pilot è un cocktail tiki intensamente potente, una variazione turbocompressa del Test Pilot con ancora più rum overproof e spezie aggressive. Questa bevanda è all'altezza del suo nome a propulsione a reazione con forza seria e strati complessi di sapore.",
     vi: 'Jet Pilot là một loại cocktail tiki cực kỳ mạnh mẽ, một biến thể tăng áp của Test Pilot với nhiều rum overproof hơn và gia vị mạnh mẽ. Thức uống này sống đúng với tên phản lực của nó với sức mạnh nghiêm trọng và các lớp hương vị phức tạp.',
   },
 
@@ -48,12 +48,12 @@ export const jetPilot: Cocktail = {
     },
     story: {
       en: 'The Jet Pilot was created around 1958 by Don the Beachcomber as an evolution of his earlier Test Pilot cocktail. As jet aviation was revolutionizing air travel in the late 1950s, Don updated his aviation-themed drink for the jet age. The Jet Pilot takes the already complex Test Pilot formula and amplifies it with more overproof rum and additional falernum, creating an even more potent and spice-forward drink. The cocktail reflects the optimism and power of the jet age while maintaining the complexity that defines Don the Beachcomber\'s style. Like many of Don\'s recipes, it remained a closely guarded secret until tiki historian Jeff "Beachbum" Berry decoded it decades later.',
-      it: 'Il Jet Pilot fu creato intorno al 1958 da Don the Beachcomber come evoluzione del suo precedente cocktail Test Pilot. Poiché l\'aviazione a reazione stava rivoluzionando i viaggi aerei alla fine degli anni \'50, Don aggiornò la sua bevanda a tema aviazione per l\'era dei jet. Il Jet Pilot prende la già complessa formula del Test Pilot e la amplifica con più rum overproof e falernum aggiuntivo, creando una bevanda ancora più potente e orientata alle spezie. Il cocktail riflette l\'ottimismo e la potenza dell\'era dei jet mantenendo la complessità che definisce lo stile di Don the Beachcomber. Come molte ricette di Don, rimase un segreto custodito gelosamente fino a quando lo storico del tiki Jeff "Beachbum" Berry la decifrò decenni dopo.',
+      it: "Il Jet Pilot fu creato intorno al 1958 da Don the Beachcomber come evoluzione del suo precedente cocktail Test Pilot. Poiché l'aviazione a reazione stava rivoluzionando i viaggi aerei alla fine degli anni '50, Don aggiornò la sua bevanda a tema aviazione per l'era dei jet. Il Jet Pilot prende la già complessa formula del Test Pilot e la amplifica con più rum overproof e falernum aggiuntivo, creando una bevanda ancora più potente e orientata alle spezie. Il cocktail riflette l'ottimismo e la potenza dell'era dei jet mantenendo la complessità che definisce lo stile di Don the Beachcomber. Come molte ricette di Don, rimase un segreto custodito gelosamente fino a quando lo storico del tiki Jeff \"Beachbum\" Berry la decifrò decenni dopo.",
       vi: 'Jet Pilot được tạo ra vào khoảng năm 1958 bởi Don the Beachcomber như một sự tiến hóa của cocktail Test Pilot trước đó của ông. Khi hàng không phản lực đang cách mạng hóa du lịch hàng không vào cuối những năm 1950, Don đã cập nhật thức uống theo chủ đề hàng không của mình cho kỷ nguyên phản lực. Jet Pilot lấy công thức Test Pilot đã phức tạp và khuếch đại nó với nhiều rum overproof hơn và falernum bổ sung, tạo ra thức uống mạnh hơn và hướng về gia vị hơn. Cocktail phản ánh sự lạc quan và sức mạnh của kỷ nguyên phản lực trong khi duy trì sự phức tạp xác định phong cách của Don the Beachcomber. Giống như nhiều công thức của Don, nó vẫn là một bí mật được giữ kín cho đến khi nhà sử học tiki Jeff "Beachbum" Berry giải mã nó nhiều thập kỷ sau.',
     },
     named_after: {
       en: 'Named after jet pilots and the jet age of the late 1950s, symbolizing power, speed, and modern sophistication.',
-      it: 'Prende il nome dai piloti di jet e dall\'era dei jet della fine degli anni \'50, simboleggiando potenza, velocità e sofisticazione moderna.',
+      it: "Prende il nome dai piloti di jet e dall'era dei jet della fine degli anni '50, simboleggiando potenza, velocità e sofisticazione moderna.",
       vi: 'Được đặt theo tên các phi công phản lực và kỷ nguyên phản lực của cuối những năm 1950, tượng trưng cho sức mạnh, tốc độ và sự tinh tế hiện đại.',
     },
   },
@@ -88,7 +88,7 @@ export const jetPilot: Cocktail = {
     seasons: ['year_round'],
     food_pairings: {
       en: 'Perfect with rich, spicy foods that can stand up to the intensity - jerk chicken, spicy ribs, blackened fish, or bold curries. The strong flavors complement equally strong food.',
-      it: 'Perfetto con cibi ricchi e piccanti che possono reggere l\'intensità - pollo jerk, costine piccanti, pesce annerito o curry audaci. I sapori forti completano cibo ugualmente forte.',
+      it: "Perfetto con cibi ricchi e piccanti che possono reggere l'intensità - pollo jerk, costine piccanti, pesce annerito o curry audaci. I sapori forti completano cibo ugualmente forte.",
       vi: 'Hoàn hảo với thức ăn giàu gia vị có thể chịu được cường độ - gà jerk, sườn cay, cá đen hoặc cà ri đậm. Hương vị mạnh bổ sung cho thức ăn mạnh tương tự.',
     },
     ideal_for: {
@@ -105,12 +105,20 @@ export const jetPilot: Cocktail = {
     {
       ingredient_id: 'ING_RUM_DARK',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Dark rum (Jamaican)', it: 'Rum scuro (giamaicano)', vi: 'Rum đen (Jamaica)' },
+      display_name: {
+        en: 'Dark rum (Jamaican)',
+        it: 'Rum scuro (giamaicano)',
+        vi: 'Rum đen (Jamaica)',
+      },
     },
     {
       ingredient_id: 'ING_RUM_DEMERARA',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Demerara rum (151 proof)', it: 'Rum Demerara (151 proof)', vi: 'Rum Demerara (151 proof)' },
+      display_name: {
+        en: 'Demerara rum (151 proof)',
+        it: 'Rum Demerara (151 proof)',
+        vi: 'Rum Demerara (151 proof)',
+      },
     },
     {
       ingredient_id: 'ING_FALERNUM',
@@ -120,12 +128,20 @@ export const jetPilot: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước chanh xanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước chanh xanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_GRAPEFRUIT_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh grapefruit juice', it: 'Succo di pompelmo fresco', vi: 'Nước bưởi tươi' },
+      display_name: {
+        en: 'Fresh grapefruit juice',
+        it: 'Succo di pompelmo fresco',
+        vi: 'Nước bưởi tươi',
+      },
     },
     {
       ingredient_id: 'ING_CINNAMON_SYRUP',
@@ -185,7 +201,14 @@ export const jetPilot: Cocktail = {
   computed: {
     allergens: ['sulphites', 'wormwood'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 3,
   },
 
@@ -204,7 +227,8 @@ export const jetPilot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['don-the-beachcomber-jet-pilot'],
 
-  notes_for_staff: 'EXTREMELY POTENT - warn guests and limit to 1 per person. Created by Don the Beachcomber circa 1958. More aggressive than Test Pilot with double the Pernod and additional falernum. 151-proof Demerara is essential. This is an extreme cocktail - handle with care.',
+  notes_for_staff:
+    'EXTREMELY POTENT - warn guests and limit to 1 per person. Created by Don the Beachcomber circa 1958. More aggressive than Test Pilot with double the Pernod and additional falernum. 151-proof Demerara is essential. This is an extreme cocktail - handle with care.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -217,7 +241,8 @@ export const jetPilot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://beachbumberry.com/jet-pilot.html',
-    note: 'Original Don the Beachcomber recipe circa 1958, decoded by Jeff "Beachbum" Berry in Sippin\' Safari.',
+    notes:
+      'Original Don the Beachcomber recipe circa 1958, decoded by Jeff "Beachbum" Berry in Sippin\' Safari.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

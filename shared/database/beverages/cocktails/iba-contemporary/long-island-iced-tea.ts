@@ -34,7 +34,7 @@ export const longIslandIcedTea: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A deceptively strong cocktail combining five spirits with cola and lemon juice. Despite its name and appearance, it contains no tea but resembles iced tea in color. Famous for its potency masked by refreshing sweetness.',
-    it: 'Un cocktail ingannevolmente forte che combina cinque distillati con cola e succo di limone. Nonostante il nome e l\'aspetto, non contiene tè ma somiglia al tè freddo nel colore. Famoso per la sua potenza mascherata dalla dolcezza rinfrescante.',
+    it: "Un cocktail ingannevolmente forte che combina cinque distillati con cola e succo di limone. Nonostante il nome e l'aspetto, non contiene tè ma somiglia al tè freddo nel colore. Famoso per la sua potenza mascherata dalla dolcezza rinfrescante.",
     vi: 'Một loại cocktail mạnh đánh lừa kết hợp năm loại rượu với cola và nước chanh. Mặc dù có tên và vẻ ngoài như vậy, nó không chứa trà nhưng giống trà đá về màu sắc. Nổi tiếng với độ mạnh được che giấu bởi vị ngọt sảng khoái.',
   },
 
@@ -64,8 +64,8 @@ export const longIslandIcedTea: Cocktail = {
   taste: {
     profile: ['sweet', 'strong', 'citrus'],
     description: {
-      en: 'Surprisingly smooth despite high alcohol content. The combination of spirits creates a complex flavor that\'s balanced by cola sweetness and lemon tartness. Dangerously easy to drink for its strength.',
-      it: 'Sorprendentemente morbido nonostante l\'alto contenuto alcolico. La combinazione di distillati crea un sapore complesso bilanciato dalla dolcezza della cola e dall\'acidità del limone. Pericolosamente facile da bere per la sua forza.',
+      en: "Surprisingly smooth despite high alcohol content. The combination of spirits creates a complex flavor that's balanced by cola sweetness and lemon tartness. Dangerously easy to drink for its strength.",
+      it: "Sorprendentemente morbido nonostante l'alto contenuto alcolico. La combinazione di distillati crea un sapore complesso bilanciato dalla dolcezza della cola e dall'acidità del limone. Pericolosamente facile da bere per la sua forza.",
       vi: 'Mượt mà đáng ngạc nhiên mặc dù có hàm lượng cồn cao. Sự kết hợp của các loại rượu tạo ra hương vị phức tạp được cân bằng bởi vị ngọt của cola và vị chua của chanh. Nguy hiểm dễ uống so với độ mạnh của nó.',
     },
     first_impression: {
@@ -74,7 +74,7 @@ export const longIslandIcedTea: Cocktail = {
       vi: 'Ngọt và chanh như trà đá, che giấu độ mạnh của rượu',
     },
     finish: {
-      en: 'Warm alcohol finish that reveals the drink\'s true strength',
+      en: "Warm alcohol finish that reveals the drink's true strength",
       it: 'Finale alcolico caldo che rivela la vera forza del drink',
       vi: 'Kết thúc rượu ấm tiết lộ sức mạnh thực sự của thức uống',
     },
@@ -91,7 +91,7 @@ export const longIslandIcedTea: Cocktail = {
     seasons: ['spring', 'summer'],
     food_pairings: {
       en: 'Best enjoyed on its own or with light snacks like chips, pretzels, or bar nuts. The high alcohol content makes it less suitable for pairing with full meals.',
-      it: 'Meglio gustato da solo o con snack leggeri come patatine, salatini o noci da bar. L\'alto contenuto alcolico lo rende meno adatto per abbinamenti con pasti completi.',
+      it: "Meglio gustato da solo o con snack leggeri come patatine, salatini o noci da bar. L'alto contenuto alcolico lo rende meno adatto per abbinamenti con pasti completi.",
       vi: 'Tốt nhất thưởng thức riêng hoặc với đồ ăn nhẹ như khoai tây chiên, bánh quy mặn hoặc hạt. Hàm lượng cồn cao khiến nó ít phù hợp để kết hợp với bữa ăn đầy đủ.',
     },
     ideal_for: {
@@ -133,7 +133,11 @@ export const longIslandIcedTea: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 25, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -144,7 +148,7 @@ export const longIslandIcedTea: Cocktail = {
       ingredient_id: 'ING_COLA',
       quantity: { amount: 1, unit: 'splash' },
       display_name: { en: 'Cola', it: 'Cola', vi: 'Cola' },
-      note: { en: 'splash to top', it: 'splash per completare', vi: 'splash để hoàn thành' },
+      notes: { en: 'splash to top', it: 'splash per completare', vi: 'splash để hoàn thành' },
     },
   ],
 
@@ -189,7 +193,14 @@ export const longIslandIcedTea: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'caffeine', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -208,7 +219,8 @@ export const longIslandIcedTea: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['tokyo-tea', 'texas-tea', 'electric-iced-tea'],
 
-  notes_for_staff: 'WARNING: Very high alcohol content. Advise customers to drink responsibly. Use only a splash of cola - too much will overpower. All spirits should be measured precisely. This is NOT a drink to make carelessly.',
+  notes_for_staff:
+    'WARNING: Very high alcohol content. Advise customers to drink responsibly. Use only a splash of cola - too much will overpower. All spirits should be measured precisely. This is NOT a drink to make carelessly.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -221,7 +233,7 @@ export const longIslandIcedTea: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/long-island-iced-tea/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -48,12 +48,12 @@ export const testPilot: Cocktail = {
     },
     story: {
       en: 'The Test Pilot was created around 1941 by Don the Beachcomber (Ernest Raymond Beaumont Gantt) at his Hollywood restaurant. The drink emerged during the early days of World War II when aviation was prominent in public consciousness. Don the Beachcomber was known for creating incredibly complex rum cocktails with multiple rums and exotic ingredients, and the Test Pilot exemplifies this approach. The recipe combines three different rums with falernum (a Caribbean spiced syrup), Pernod (anise liqueur), and fresh citrus, creating layers of flavor that were revolutionary for the era. Like many Don the Beachcomber creations, the recipe was kept secret and coded, only being deciphered decades later by tiki historians like Jeff "Beachbum" Berry.',
-      it: 'Il Test Pilot fu creato intorno al 1941 da Don the Beachcomber (Ernest Raymond Beaumont Gantt) nel suo ristorante di Hollywood. La bevanda emerse durante i primi giorni della seconda guerra mondiale quando l\'aviazione era prominente nella coscienza pubblica. Don the Beachcomber era noto per creare cocktail al rum incredibilmente complessi con più rum e ingredienti esotici, e il Test Pilot esemplifica questo approccio. La ricetta combina tre diversi rum con falernum (uno sciroppo speziato caraibico), Pernod (liquore all\'anice) e agrumi freschi, creando strati di sapore rivoluzionari per l\'epoca. Come molte creazioni di Don the Beachcomber, la ricetta fu tenuta segreta e codificata, venendo decifrata solo decenni dopo da storici del tiki come Jeff "Beachbum" Berry.',
+      it: "Il Test Pilot fu creato intorno al 1941 da Don the Beachcomber (Ernest Raymond Beaumont Gantt) nel suo ristorante di Hollywood. La bevanda emerse durante i primi giorni della seconda guerra mondiale quando l'aviazione era prominente nella coscienza pubblica. Don the Beachcomber era noto per creare cocktail al rum incredibilmente complessi con più rum e ingredienti esotici, e il Test Pilot esemplifica questo approccio. La ricetta combina tre diversi rum con falernum (uno sciroppo speziato caraibico), Pernod (liquore all'anice) e agrumi freschi, creando strati di sapore rivoluzionari per l'epoca. Come molte creazioni di Don the Beachcomber, la ricetta fu tenuta segreta e codificata, venendo decifrata solo decenni dopo da storici del tiki come Jeff \"Beachbum\" Berry.",
       vi: 'Test Pilot được tạo ra vào khoảng năm 1941 bởi Don the Beachcomber (Ernest Raymond Beaumont Gantt) tại nhà hàng Hollywood của ông. Thức uống xuất hiện trong những ngày đầu của Thế chiến II khi hàng không nổi bật trong ý thức công chúng. Don the Beachcomber nổi tiếng với việc tạo ra các loại cocktail rum cực kỳ phức tạp với nhiều loại rum và thành phần kỳ lạ, và Test Pilot minh họa cách tiếp cận này. Công thức kết hợp ba loại rum khác nhau với falernum (xi-rô gia vị Caribbean), Pernod (rượu mùi hồi) và cam quýt tươi, tạo ra các lớp hương vị mang tính cách mạng cho thời đại. Giống như nhiều sáng tạo của Don the Beachcomber, công thức được giữ bí mật và mã hóa, chỉ được giải mã nhiều thập kỷ sau bởi các nhà sử học tiki như Jeff "Beachbum" Berry.',
     },
     named_after: {
-      en: 'Named after World War II aviation test pilots, reflecting the drink\'s daring, adventurous nature and potent strength.',
-      it: 'Prende il nome dai piloti collaudatori dell\'aviazione della seconda guerra mondiale, riflettendo la natura audace e avventurosa della bevanda e la forza potente.',
+      en: "Named after World War II aviation test pilots, reflecting the drink's daring, adventurous nature and potent strength.",
+      it: "Prende il nome dai piloti collaudatori dell'aviazione della seconda guerra mondiale, riflettendo la natura audace e avventurosa della bevanda e la forza potente.",
       vi: 'Được đặt theo tên các phi công thử nghiệm hàng không Thế chiến II, phản ánh bản chất táo bạo, mạo hiểm và sức mạnh mạnh mẽ của thức uống.',
     },
   },
@@ -62,12 +62,12 @@ export const testPilot: Cocktail = {
     profile: ['complex', 'spiced', 'citrus'],
     description: {
       en: 'Extraordinarily complex with layers of rum, spice, anise, and citrus. The Test Pilot balances multiple rums with the warming spice of falernum, subtle anise from Pernod, and bright lime. Each sip reveals new dimensions of flavor - a true test of bartending mastery.',
-      it: 'Straordinariamente complesso con strati di rum, spezie, anice e agrumi. Il Test Pilot bilancia più rum con le spezie calde del falernum, l\'anice sottile del Pernod e il lime brillante. Ogni sorso rivela nuove dimensioni di sapore - un vero test di maestria nel bartending.',
+      it: "Straordinariamente complesso con strati di rum, spezie, anice e agrumi. Il Test Pilot bilancia più rum con le spezie calde del falernum, l'anice sottile del Pernod e il lime brillante. Ogni sorso rivela nuove dimensioni di sapore - un vero test di maestria nel bartending.",
       vi: 'Phức tạp phi thường với nhiều lớp rum, gia vị, hồi và cam quýt. Test Pilot cân bằng nhiều loại rum với gia vị ấm áp của falernum, hồi tinh tế từ Pernod và chanh xanh sáng. Mỗi ngụm tiết lộ những chiều hướng hương vị mới - một bài kiểm tra thực sự về sự thành thạo pha chế.',
     },
     first_impression: {
       en: 'Bright lime and anise hit first, followed by warming spice and complex rum depth',
-      it: 'Il lime brillante e l\'anice colpiscono per primi, seguiti da spezie calde e profondità complessa del rum',
+      it: "Il lime brillante e l'anice colpiscono per primi, seguiti da spezie calde e profondità complessa del rum",
       vi: 'Chanh xanh sáng và hồi xuất hiện đầu tiên, theo sau là gia vị ấm áp và chiều sâu rum phức tạp',
     },
     finish: {
@@ -93,7 +93,7 @@ export const testPilot: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for serious tiki enthusiasts and rum connoisseurs seeking an authentic Don the Beachcomber experience. Ideal for those who appreciate complex, multi-layered cocktails. Not for beginners - this is advanced tiki drinking.',
-      it: 'Perfetto per seri appassionati di tiki e intenditori di rum che cercano un\'autentica esperienza Don the Beachcomber. Ideale per chi apprezza cocktail complessi e multistrato. Non per principianti - questo è bere tiki avanzato.',
+      it: "Perfetto per seri appassionati di tiki e intenditori di rum che cercano un'autentica esperienza Don the Beachcomber. Ideale per chi apprezza cocktail complessi e multistrato. Non per principianti - questo è bere tiki avanzato.",
       vi: 'Hoàn hảo cho những người đam mê tiki nghiêm túc và những người sành rum tìm kiếm trải nghiệm Don the Beachcomber chính thống. Lý tưởng cho những ai đánh giá cao cocktail phức tạp, nhiều lớp. Không dành cho người mới bắt đầu - đây là uống tiki nâng cao.',
     },
   },
@@ -105,17 +105,25 @@ export const testPilot: Cocktail = {
     {
       ingredient_id: 'ING_RUM_DARK',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Dark rum (Jamaican)', it: 'Rum scuro (giamaicano)', vi: 'Rum đen (Jamaica)' },
+      display_name: {
+        en: 'Dark rum (Jamaican)',
+        it: 'Rum scuro (giamaicano)',
+        vi: 'Rum đen (Jamaica)',
+      },
     },
     {
       ingredient_id: 'ING_RUM_DEMERARA',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Demerara rum (151 proof)', it: 'Rum Demerara (151 proof)', vi: 'Rum Demerara (151 proof)' },
+      display_name: {
+        en: 'Demerara rum (151 proof)',
+        it: 'Rum Demerara (151 proof)',
+        vi: 'Rum Demerara (151 proof)',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_CURACAO',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Orange curaçao', it: 'Curaçao d\'arancia', vi: 'Orange curaçao' },
+      display_name: { en: 'Orange curaçao', it: "Curaçao d'arancia", vi: 'Orange curaçao' },
     },
     {
       ingredient_id: 'ING_FALERNUM',
@@ -130,7 +138,11 @@ export const testPilot: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước chanh xanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước chanh xanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ANGOSTURA_BITTERS',
@@ -180,7 +192,14 @@ export const testPilot: Cocktail = {
   computed: {
     allergens: ['sulphites', 'wormwood'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -199,7 +218,8 @@ export const testPilot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['don-the-beachcomber-test-pilot'],
 
-  notes_for_staff: 'Original Don the Beachcomber recipe circa 1941, decoded by Jeff Berry. Complex recipe requires precise measurements. Falernum is essential - contains clove, almond, lime. Just a dash of Pernod - too much will overpower. Use 151-proof Demerara if available. Very strong and complex.',
+  notes_for_staff:
+    'Original Don the Beachcomber recipe circa 1941, decoded by Jeff Berry. Complex recipe requires precise measurements. Falernum is essential - contains clove, almond, lime. Just a dash of Pernod - too much will overpower. Use 151-proof Demerara if available. Very strong and complex.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -212,7 +232,8 @@ export const testPilot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://beachbumberry.com/test-pilot.html',
-    note: 'Original Don the Beachcomber recipe circa 1941, decoded by Jeff "Beachbum" Berry in Sippin\' Safari.',
+    notes:
+      'Original Don the Beachcomber recipe circa 1941, decoded by Jeff "Beachbum" Berry in Sippin\' Safari.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

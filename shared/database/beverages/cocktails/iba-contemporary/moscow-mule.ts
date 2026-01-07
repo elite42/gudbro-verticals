@@ -33,7 +33,7 @@ export const moscowMule: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'An iconic vodka cocktail served in a distinctive copper mug. Vodka, spicy ginger beer, and fresh lime create a refreshing, zingy drink that launched vodka\'s popularity in America.',
+    en: "An iconic vodka cocktail served in a distinctive copper mug. Vodka, spicy ginger beer, and fresh lime create a refreshing, zingy drink that launched vodka's popularity in America.",
     it: 'Un iconico cocktail a base di vodka servito in una caratteristica tazza di rame. Vodka, ginger beer piccante e lime fresco creano una bevanda rinfrescante e vivace che lanciò la popolarità della vodka in America.',
     vi: 'Một cocktail vodka biểu tượng được phục vụ trong cốc đồng đặc trưng. Vodka, bia gừng cay và chanh tươi tạo ra thức uống sảng khoái, sôi động đã khởi động sự phổ biến của vodka ở Mỹ.',
   },
@@ -42,7 +42,7 @@ export const moscowMule: Cocktail = {
     created_year: '1941',
     origin: {
       city: 'Los Angeles',
-      bar: 'Cock \'n\' Bull',
+      bar: "Cock 'n' Bull",
       country: 'USA',
     },
     creator: {
@@ -50,9 +50,9 @@ export const moscowMule: Cocktail = {
       profession: 'bartenders/businessmen',
     },
     story: {
-      en: 'Created around 1941 at the Cock \'n\' Bull pub in Los Angeles by John Martin (Smirnoff vodka distributor) and Jack Morgan (bar owner with excess ginger beer). They added lime and served it in copper mugs to create a marketing sensation. The drink single-handedly launched vodka\'s popularity in America and created the copper mug tradition.',
-      it: 'Creato intorno al 1941 al pub Cock \'n\' Bull di Los Angeles da John Martin (distributore di vodka Smirnoff) e Jack Morgan (proprietario del bar con eccesso di ginger beer). Aggiunsero lime e lo servirono in tazze di rame per creare una sensazione di marketing. La bevanda lanciò da sola la popolarità della vodka in America e creò la tradizione della tazza di rame.',
-      vi: 'Được tạo ra vào khoảng năm 1941 tại quán rượu Cock \'n\' Bull ở Los Angeles bởi John Martin (nhà phân phối vodka Smirnoff) và Jack Morgan (chủ quán bar có dư thừa bia gừng). Họ thêm chanh và phục vụ nó trong cốc đồng để tạo ra một cảm giác tiếp thị. Thức uống này tự mình khởi động sự phổ biến của vodka ở Mỹ và tạo ra truyền thống cốc đồng.',
+      en: "Created around 1941 at the Cock 'n' Bull pub in Los Angeles by John Martin (Smirnoff vodka distributor) and Jack Morgan (bar owner with excess ginger beer). They added lime and served it in copper mugs to create a marketing sensation. The drink single-handedly launched vodka's popularity in America and created the copper mug tradition.",
+      it: "Creato intorno al 1941 al pub Cock 'n' Bull di Los Angeles da John Martin (distributore di vodka Smirnoff) e Jack Morgan (proprietario del bar con eccesso di ginger beer). Aggiunsero lime e lo servirono in tazze di rame per creare una sensazione di marketing. La bevanda lanciò da sola la popolarità della vodka in America e creò la tradizione della tazza di rame.",
+      vi: "Được tạo ra vào khoảng năm 1941 tại quán rượu Cock 'n' Bull ở Los Angeles bởi John Martin (nhà phân phối vodka Smirnoff) và Jack Morgan (chủ quán bar có dư thừa bia gừng). Họ thêm chanh và phục vụ nó trong cốc đồng để tạo ra một cảm giác tiếp thị. Thức uống này tự mình khởi động sự phổ biến của vodka ở Mỹ và tạo ra truyền thống cốc đồng.",
     },
     named_after: {
       en: 'Named "Moscow Mule" - "Moscow" for vodka\'s Russian origins and "Mule" for ginger beer\'s kick.',
@@ -95,7 +95,7 @@ export const moscowMule: Cocktail = {
       vi: 'Kết hợp tốt với đồ ăn cay, ẩm thực châu Á, burger, thịt nướng và món khai vị. Gừng bổ sung hương vị đậm đà.',
     },
     ideal_for: {
-      en: 'Perfect for anyone seeking a refreshing, easy-drinking cocktail. Great for vodka lovers and those who enjoy ginger\'s spicy kick.',
+      en: "Perfect for anyone seeking a refreshing, easy-drinking cocktail. Great for vodka lovers and those who enjoy ginger's spicy kick.",
       it: 'Perfetto per chi cerca un cocktail rinfrescante e facile da bere. Ottimo per gli amanti della vodka e per chi ama il calcio piccante dello zenzero.',
       vi: 'Hoàn hảo cho bất kỳ ai tìm kiếm cocktail sảng khoái, dễ uống. Tuyệt vời cho người yêu vodka và những ai thích cú đá cay của gừng.',
     },
@@ -113,7 +113,11 @@ export const moscowMule: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_GINGER_BEER',
@@ -163,7 +167,14 @@ export const moscowMule: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -182,7 +193,8 @@ export const moscowMule: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['kentucky-mule', 'mexican-mule', 'london-mule'],
 
-  notes_for_staff: 'Traditionally served in a copper mug which keeps the drink ice-cold and adds to the experience. Use quality ginger beer (not ginger ale). Fresh lime juice is essential. The Kentucky Mule uses bourbon, Mexican Mule uses tequila.',
+  notes_for_staff:
+    'Traditionally served in a copper mug which keeps the drink ice-cold and adds to the experience. Use quality ginger beer (not ginger ale). Fresh lime juice is essential. The Kentucky Mule uses bourbon, Mexican Mule uses tequila.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +207,7 @@ export const moscowMule: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/moscow-mule/',
-    note: 'IBA Official Recipe. The drink that made vodka popular in America.',
+    notes: 'IBA Official Recipe. The drink that made vodka popular in America.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -65,7 +65,7 @@ export const brandyCrusta: Cocktail = {
     profile: ['citrus', 'sweet', 'complex'],
     description: {
       en: 'Bright and citrus-forward with brandy warmth, balanced by maraschino sweetness and orange complexity. The sugar rim adds textural sweetness while bitters provide aromatic depth.',
-      it: 'Brillante e ricco di agrumi con calore di brandy, bilanciato dalla dolcezza del maraschino e dalla complessità dell\'arancia. Il bordo di zucchero aggiunge dolcezza strutturale mentre i bitters forniscono profondità aromatica.',
+      it: "Brillante e ricco di agrumi con calore di brandy, bilanciato dalla dolcezza del maraschino e dalla complessità dell'arancia. Il bordo di zucchero aggiunge dolcezza strutturale mentre i bitters forniscono profondità aromatica.",
       vi: 'Tươi sáng và hướng cam quýt với sự ấm áp của brandy, cân bằng bởi vị ngọt maraschino và độ phức tạp của cam. Viền đường thêm vị ngọt kết cấu trong khi bitters cung cấp chiều sâu thơm.',
     },
     first_impression: {
@@ -113,7 +113,11 @@ export const brandyCrusta: Cocktail = {
     {
       ingredient_id: 'ING_MARASCHINO',
       quantity: { amount: 7.5, unit: 'ml' },
-      display_name: { en: 'Maraschino Luxardo', it: 'Maraschino Luxardo', vi: 'Maraschino Luxardo' },
+      display_name: {
+        en: 'Maraschino Luxardo',
+        it: 'Maraschino Luxardo',
+        vi: 'Maraschino Luxardo',
+      },
     },
     {
       ingredient_id: 'ING_CURACAO',
@@ -123,7 +127,11 @@ export const brandyCrusta: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -141,7 +149,7 @@ export const brandyCrusta: Cocktail = {
 
   instructions: {
     en: 'Rub a slice of orange (or lemon) around the rim of the glass and dip it in pulverized white sugar, so that the sugar will adhere to the edge of the glass. Mix together all ingredients with ice cubes in a mixing glass and strain into a prepared slim cocktail glass.',
-    it: 'Strofinare una fetta d\'arancia (o limone) intorno al bordo del bicchiere e immergerlo in zucchero bianco polverizzato, in modo che lo zucchero aderisca al bordo del bicchiere. Mescolare insieme tutti gli ingredienti con cubetti di ghiaccio in un mixing glass e filtrare in un bicchiere da cocktail sottile preparato.',
+    it: "Strofinare una fetta d'arancia (o limone) intorno al bordo del bicchiere e immergerlo in zucchero bianco polverizzato, in modo che lo zucchero aderisca al bordo del bicchiere. Mescolare insieme tutti gli ingredienti con cubetti di ghiaccio in un mixing glass e filtrare in un bicchiere da cocktail sottile preparato.",
     vi: 'Chà một lát cam (hoặc chanh) quanh viền ly và nhúng vào đường trắng xay, để đường dính vào viền ly. Trộn tất cả nguyên liệu với đá viên trong ly trộn và lọc vào ly cocktail mỏng đã chuẩn bị.',
   },
 
@@ -178,7 +186,14 @@ export const brandyCrusta: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -197,7 +212,8 @@ export const brandyCrusta: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['sidecar', 'margarita', 'whiskey-crusta'],
 
-  notes_for_staff: 'The presentation is crucial - take time with the sugar rim and lemon spiral. The lemon peel should be cut in one continuous spiral to line the inside of the glass. This is a showpiece cocktail. Use quality brandy or cognac.',
+  notes_for_staff:
+    'The presentation is crucial - take time with the sugar rim and lemon spiral. The lemon peel should be cut in one continuous spiral to line the inside of the glass. This is a showpiece cocktail. Use quality brandy or cognac.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -210,7 +226,8 @@ export const brandyCrusta: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/brandy-crusta/',
-    note: 'IBA Official Recipe. Historical information from New Orleans cocktail history and Joseph Santini documentation.',
+    notes:
+      'IBA Official Recipe. Historical information from New Orleans cocktail history and Joseph Santini documentation.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

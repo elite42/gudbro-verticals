@@ -34,7 +34,7 @@ export const portoFlip: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A rich, velvety historical cocktail combining brandy, ruby port, and egg yolk. Dating back to the 19th century, the Porto Flip is silky smooth, decadent, and warming - a luxurious after-dinner indulgence topped with freshly grated nutmeg.',
-    it: 'Un cocktail storico ricco e vellutato che combina brandy, porto ruby e tuorlo d\'uovo. Risalente al XIX secolo, il Porto Flip è setoso, decadente e caldo - un\'indulgenza lussuosa dopo cena guarnita con noce moscata appena grattugiata.',
+    it: "Un cocktail storico ricco e vellutato che combina brandy, porto ruby e tuorlo d'uovo. Risalente al XIX secolo, il Porto Flip è setoso, decadente e caldo - un'indulgenza lussuosa dopo cena guarnita con noce moscata appena grattugiata.",
     vi: 'Một cocktail lịch sử đậm đà, mượt mà kết hợp brandy, porto ruby và lòng đỏ trứng. Có từ thế kỷ 19, Porto Flip mịn màng như lụa, xa hoa và ấm áp - một sự nuông chiều sang trọng sau bữa tối với nhục đậu khấu mới xay.',
   },
 
@@ -65,7 +65,7 @@ export const portoFlip: Cocktail = {
     profile: ['rich', 'creamy', 'sweet'],
     description: {
       en: 'Rich and luxurious with velvety egg yolk creating a silky texture. The brandy provides warmth and depth, while ruby port adds sweet, fruity notes with hints of berries and spice. Nutmeg on top adds aromatic complexity. Decadent and satisfying.',
-      it: 'Ricco e lussuoso con tuorlo d\'uovo vellutato che crea una consistenza setosa. Il brandy fornisce calore e profondità, mentre il porto ruby aggiunge note dolci e fruttate con sentori di bacche e spezie. La noce moscata in cima aggiunge complessità aromatica. Decadente e soddisfacente.',
+      it: "Ricco e lussuoso con tuorlo d'uovo vellutato che crea una consistenza setosa. Il brandy fornisce calore e profondità, mentre il porto ruby aggiunge note dolci e fruttate con sentori di bacche e spezie. La noce moscata in cima aggiunge complessità aromatica. Decadente e soddisfacente.",
       vi: 'Đậm đà và sang trọng với lòng đỏ trứng mượt mà tạo kết cấu như lụa. Brandy cung cấp sự ấm áp và chiều sâu, trong khi porto ruby thêm hương vị ngọt, trái cây với gợi ý quả mọng và gia vị. Nhục đậu khấu trên đỉnh thêm độ phức tạp thơm. Xa hoa và thỏa mãn.',
     },
     first_impression: {
@@ -118,7 +118,7 @@ export const portoFlip: Cocktail = {
     {
       ingredient_id: 'ING_EGG_YOLK',
       quantity: { amount: 1, unit: 'whole' },
-      display_name: { en: 'Egg yolk', it: 'Tuorlo d\'uovo', vi: 'Lòng đỏ trứng' },
+      display_name: { en: 'Egg yolk', it: "Tuorlo d'uovo", vi: 'Lòng đỏ trứng' },
     },
   ],
 
@@ -182,7 +182,8 @@ export const portoFlip: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['sherry-flip', 'brandy-flip', 'alexander'],
 
-  notes_for_staff: 'Use fresh egg yolk only. Shake vigorously to properly emulsify the yolk. Ruby port is traditional - tawny port can also be used. Freshly grate nutmeg over the top just before serving. Some variations use whole egg instead of just yolk.',
+  notes_for_staff:
+    'Use fresh egg yolk only. Shake vigorously to properly emulsify the yolk. Ruby port is traditional - tawny port can also be used. Freshly grate nutmeg over the top just before serving. Some variations use whole egg instead of just yolk.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +196,8 @@ export const portoFlip: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/porto-flip/',
-    note: 'IBA Official Recipe. Historical information from Jerry Thomas "How to Mix Drinks" (1887) and 19th century cocktail documentation.',
+    notes:
+      'IBA Official Recipe. Historical information from Jerry Thomas "How to Mix Drinks" (1887) and 19th century cocktail documentation.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

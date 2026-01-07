@@ -30,8 +30,8 @@ export const mezcalMargarita: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A smoky, sophisticated twist on the classic Margarita, replacing tequila with mezcal. The earthy, smoky notes of mezcal add remarkable depth and complexity to the traditional lime-orange liqueur combination, creating a drink that\'s both familiar and entirely new.',
-    it: 'Una svolta affumicata e sofisticata sul classico Margarita, sostituendo la tequila con il mezcal. Le note terrose e affumicate del mezcal aggiungono notevole profondità e complessità alla tradizionale combinazione di lime e liquore all\'arancia, creando una bevanda che è allo stesso tempo familiare e completamente nuova.',
+    en: "A smoky, sophisticated twist on the classic Margarita, replacing tequila with mezcal. The earthy, smoky notes of mezcal add remarkable depth and complexity to the traditional lime-orange liqueur combination, creating a drink that's both familiar and entirely new.",
+    it: "Una svolta affumicata e sofisticata sul classico Margarita, sostituendo la tequila con il mezcal. Le note terrose e affumicate del mezcal aggiungono notevole profondità e complessità alla tradizionale combinazione di lime e liquore all'arancia, creando una bevanda che è allo stesso tempo familiare e completamente nuova.",
     vi: 'Một biến tấu khói và tinh tế của Margarita cổ điển, thay thế tequila bằng mezcal. Hương khói, đất của mezcal thêm độ sâu và phức tạp đáng kể vào sự kết hợp chanh-rượu mùi cam truyền thống, tạo ra thức uống vừa quen thuộc vừa hoàn toàn mới.',
   },
 
@@ -46,7 +46,7 @@ export const mezcalMargarita: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Mezcal Margarita emerged in the 2000s as mezcal began gaining international recognition beyond Mexico. While tequila had long dominated the agave spirits market, bartenders and mezcal producers in Oaxaca began promoting mezcal\'s unique smoky character. The Mezcal Margarita became the gateway cocktail for introducing people to mezcal, as the familiar Margarita format helped ease drinkers into mezcal\'s complex, smoky profile. By the 2010s, it had become a modern classic on cocktail menus worldwide.',
+      en: "The Mezcal Margarita emerged in the 2000s as mezcal began gaining international recognition beyond Mexico. While tequila had long dominated the agave spirits market, bartenders and mezcal producers in Oaxaca began promoting mezcal's unique smoky character. The Mezcal Margarita became the gateway cocktail for introducing people to mezcal, as the familiar Margarita format helped ease drinkers into mezcal's complex, smoky profile. By the 2010s, it had become a modern classic on cocktail menus worldwide.",
       it: 'Il Mezcal Margarita emerse negli anni 2000 quando il mezcal iniziò a guadagnare riconoscimento internazionale oltre il Messico. Mentre la tequila aveva a lungo dominato il mercato degli spiriti di agave, i barman e i produttori di mezcal a Oaxaca iniziarono a promuovere il carattere affumicato unico del mezcal. Il Mezcal Margarita divenne il cocktail introduttivo per presentare le persone al mezcal, poiché il formato familiare del Margarita aiutava ad abituare i bevitori al profilo complesso e affumicato del mezcal. Entro gli anni 2010, era diventato un classico moderno nei menu dei cocktail in tutto il mondo.',
       vi: 'Mezcal Margarita xuất hiện vào những năm 2000 khi mezcal bắt đầu được công nhận quốc tế ngoài Mexico. Trong khi tequila từ lâu đã thống trị thị trường rượu mạnh agave, các bartender và nhà sản xuất mezcal ở Oaxaca bắt đầu quảng bá đặc tính khói độc đáo của mezcal. Mezcal Margarita trở thành cocktail cổng vào để giới thiệu người ta với mezcal, vì định dạng Margarita quen thuộc giúp người uống dễ dàng làm quen với hương vị khói phức tạp của mezcal. Đến những năm 2010, nó đã trở thành một tác phẩm cổ điển hiện đại trên menu cocktail trên toàn thế giới.',
     },
@@ -60,8 +60,8 @@ export const mezcalMargarita: Cocktail = {
   taste: {
     profile: ['smoky', 'citrus', 'agave', 'complex'],
     description: {
-      en: 'Complex and layered. Mezcal provides earthy, smoky notes with hints of roasted agave and minerals. Fresh lime adds brightness, while orange liqueur contributes sweetness and depth. The smoke doesn\'t overpower but adds sophistication. More complex and contemplative than a standard Margarita.',
-      it: 'Complesso e stratificato. Il mezcal fornisce note terrose e affumicate con accenni di agave tostata e minerali. Il lime fresco aggiunge brillantezza, mentre il liquore all\'arancia contribuisce con dolcezza e profondità. Il fumo non sopraffà ma aggiunge sofisticazione. Più complesso e contemplativo di un Margarita standard.',
+      en: "Complex and layered. Mezcal provides earthy, smoky notes with hints of roasted agave and minerals. Fresh lime adds brightness, while orange liqueur contributes sweetness and depth. The smoke doesn't overpower but adds sophistication. More complex and contemplative than a standard Margarita.",
+      it: "Complesso e stratificato. Il mezcal fornisce note terrose e affumicate con accenni di agave tostata e minerali. Il lime fresco aggiunge brillantezza, mentre il liquore all'arancia contribuisce con dolcezza e profondità. Il fumo non sopraffà ma aggiunge sofisticazione. Più complesso e contemplativo di un Margarita standard.",
       vi: 'Phức tạp và nhiều tầng. Mezcal mang đến hương khói, đất với dấu vết agave rang và khoáng chất. Chanh tươi thêm độ tươi sáng, trong khi rượu mùi cam đóng góp vị ngọt và độ sâu. Khói không át vị nhưng thêm sự tinh tế. Phức tạp và đáng suy ngẫm hơn Margarita tiêu chuẩn.',
     },
     first_impression: {
@@ -109,7 +109,11 @@ export const mezcalMargarita: Cocktail = {
     {
       ingredient_id: 'ING_COINTREAU',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Cointreau (or orange liqueur)', it: 'Cointreau (o liquore all\'arancia)', vi: 'Cointreau (hoặc rượu mùi cam)' },
+      display_name: {
+        en: 'Cointreau (or orange liqueur)',
+        it: "Cointreau (o liquore all'arancia)",
+        vi: 'Cointreau (hoặc rượu mùi cam)',
+      },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
@@ -184,7 +188,8 @@ export const mezcalMargarita: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['mezcal-paloma', 'naked-and-famous', 'oaxaca-old-fashioned'],
 
-  notes_for_staff: 'Use quality artisanal mezcal - not mass-produced. Fresh lime juice essential. Sal de gusano (worm salt with chili and agave larvae) is traditional Oaxacan rim salt. Can do half mezcal, half tequila for lighter smoke.',
+  notes_for_staff:
+    'Use quality artisanal mezcal - not mass-produced. Fresh lime juice essential. Sal de gusano (worm salt with chili and agave larvae) is traditional Oaxacan rim salt. Can do half mezcal, half tequila for lighter smoke.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +202,8 @@ export const mezcalMargarita: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/5078/mezcal-margarita',
-    note: 'Modern variation popularized in 2000s-2010s as mezcal gained international recognition.',
+    notes:
+      'Modern variation popularized in 2000s-2010s as mezcal gained international recognition.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

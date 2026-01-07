@@ -34,7 +34,7 @@ export const manhattan: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The king of cocktails. A timeless New York classic combining rye whiskey, sweet vermouth, and aromatic bitters, the Manhattan represents the pinnacle of stirred cocktail elegance and has influenced countless variations.',
-    it: 'Il re dei cocktail. Un classico senza tempo di New York che combina whiskey di segale, vermouth dolce e bitter aromatici, il Manhattan rappresenta l\'apice dell\'eleganza dei cocktail mescolati e ha influenzato innumerevoli variazioni.',
+    it: "Il re dei cocktail. Un classico senza tempo di New York che combina whiskey di segale, vermouth dolce e bitter aromatici, il Manhattan rappresenta l'apice dell'eleganza dei cocktail mescolati e ha influenzato innumerevoli variazioni.",
     vi: 'Vua của các cocktail. Một kiệt tác New York vượt thời gian kết hợp rye whiskey, vermouth ngọt và bitters thơm, Manhattan đại diện cho đỉnh cao của sự thanh lịch cocktail khuấy và đã ảnh hưởng đến vô số biến thể.',
   },
 
@@ -50,9 +50,9 @@ export const manhattan: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Manhattan\'s true origin remains debated among cocktail historians. The popular story attributes its creation to a banquet at the Manhattan Club in the 1870s hosted by Jennie Jerome (Winston Churchill\'s mother), but this has been debunked as she was in England at the time. The most credible theory, supported by bartender William F. Mulhall\'s 1880s recollection in the 1923 Valentine\'s Manual of Old New York, credits George Black, who owned a lunch and sample room called the Manhattan Inn on Broadway below Houston Street, with creating the cocktail in the 1860s. The first written mention appeared in the September 5, 1882 issue of The Olean Democrat. The first full recipe was published in 1884 in multiple bartending guides. Most experts agree the Manhattan originated in New York City between the mid-1860s and early 1880s.',
-      it: 'La vera origine del Manhattan rimane dibattuta tra gli storici dei cocktail. La storia popolare attribuisce la sua creazione a un banchetto al Manhattan Club negli anni 1870 ospitato da Jennie Jerome (madre di Winston Churchill), ma questo è stato smentito poiché era in Inghilterra all\'epoca. La teoria più credibile, supportata dal ricordo degli anni 1880 del barman William F. Mulhall nel Valentine\'s Manual of Old New York del 1923, attribuisce a George Black, che possedeva un locale chiamato Manhattan Inn su Broadway sotto Houston Street, la creazione del cocktail negli anni 1860. La prima menzione scritta apparve nel numero del 5 settembre 1882 di The Olean Democrat. La prima ricetta completa fu pubblicata nel 1884 in diverse guide per barman. La maggior parte degli esperti concorda che il Manhattan abbia avuto origine a New York City tra la metà degli anni 1860 e l\'inizio degli anni 1880.',
-      vi: 'Nguồn gốc thực sự của Manhattan vẫn còn tranh cãi giữa các nhà sử học cocktail. Câu chuyện phổ biến cho rằng nó được tạo ra tại một yến tiệc ở Manhattan Club vào những năm 1870 do Jennie Jerome (mẹ của Winston Churchill) tổ chức, nhưng điều này đã bị bác bỏ vì bà ở Anh vào thời điểm đó. Lý thuyết đáng tin cậy nhất, được hỗ trợ bởi hồi ức những năm 1880 của bartender William F. Mulhall trong Valentine\'s Manual of Old New York năm 1923, cho rằng George Black, người sở hữu một quán ăn và phòng mẫu có tên Manhattan Inn trên Broadway dưới phố Houston, đã tạo ra cocktail này vào những năm 1860. Lần đề cập bằng văn bản đầu tiên xuất hiện trong số ngày 5 tháng 9 năm 1882 của The Olean Democrat. Công thức đầy đủ đầu tiên được xuất bản năm 1884 trong nhiều hướng dẫn pha chế. Hầu hết các chuyên gia đồng ý rằng Manhattan có nguồn gốc ở New York City từ giữa những năm 1860 đến đầu những năm 1880.',
+      en: "The Manhattan's true origin remains debated among cocktail historians. The popular story attributes its creation to a banquet at the Manhattan Club in the 1870s hosted by Jennie Jerome (Winston Churchill's mother), but this has been debunked as she was in England at the time. The most credible theory, supported by bartender William F. Mulhall's 1880s recollection in the 1923 Valentine's Manual of Old New York, credits George Black, who owned a lunch and sample room called the Manhattan Inn on Broadway below Houston Street, with creating the cocktail in the 1860s. The first written mention appeared in the September 5, 1882 issue of The Olean Democrat. The first full recipe was published in 1884 in multiple bartending guides. Most experts agree the Manhattan originated in New York City between the mid-1860s and early 1880s.",
+      it: "La vera origine del Manhattan rimane dibattuta tra gli storici dei cocktail. La storia popolare attribuisce la sua creazione a un banchetto al Manhattan Club negli anni 1870 ospitato da Jennie Jerome (madre di Winston Churchill), ma questo è stato smentito poiché era in Inghilterra all'epoca. La teoria più credibile, supportata dal ricordo degli anni 1880 del barman William F. Mulhall nel Valentine's Manual of Old New York del 1923, attribuisce a George Black, che possedeva un locale chiamato Manhattan Inn su Broadway sotto Houston Street, la creazione del cocktail negli anni 1860. La prima menzione scritta apparve nel numero del 5 settembre 1882 di The Olean Democrat. La prima ricetta completa fu pubblicata nel 1884 in diverse guide per barman. La maggior parte degli esperti concorda che il Manhattan abbia avuto origine a New York City tra la metà degli anni 1860 e l'inizio degli anni 1880.",
+      vi: "Nguồn gốc thực sự của Manhattan vẫn còn tranh cãi giữa các nhà sử học cocktail. Câu chuyện phổ biến cho rằng nó được tạo ra tại một yến tiệc ở Manhattan Club vào những năm 1870 do Jennie Jerome (mẹ của Winston Churchill) tổ chức, nhưng điều này đã bị bác bỏ vì bà ở Anh vào thời điểm đó. Lý thuyết đáng tin cậy nhất, được hỗ trợ bởi hồi ức những năm 1880 của bartender William F. Mulhall trong Valentine's Manual of Old New York năm 1923, cho rằng George Black, người sở hữu một quán ăn và phòng mẫu có tên Manhattan Inn trên Broadway dưới phố Houston, đã tạo ra cocktail này vào những năm 1860. Lần đề cập bằng văn bản đầu tiên xuất hiện trong số ngày 5 tháng 9 năm 1882 của The Olean Democrat. Công thức đầy đủ đầu tiên được xuất bản năm 1884 trong nhiều hướng dẫn pha chế. Hầu hết các chuyên gia đồng ý rằng Manhattan có nguồn gốc ở New York City từ giữa những năm 1860 đến đầu những năm 1880.",
     },
     named_after: {
       en: 'Named after the Manhattan borough of New York City, where it was created. One of five cocktails named for New York City boroughs.',
@@ -69,18 +69,18 @@ export const manhattan: Cocktail = {
       vi: 'Một cocktail táo bạo, tinh tế với chiều sâu đáng chú ý. Rye whiskey mang lại tính cách cay, mạnh mẽ, vermouth ngọt thêm độ phức tạp thảo mộc phong phú, và bitters thơm gắn kết mọi thứ với các nốt gia vị ấm áp. Kết quả là cân bằng hoàn hảo, mượt mà và thỏa mãn sâu sắc.',
     },
     first_impression: {
-      en: 'Rich whiskey warmth immediately followed by sweet vermouth\'s herbal complexity. The bitters provide aromatic depth and subtle spice from the first sip.',
+      en: "Rich whiskey warmth immediately followed by sweet vermouth's herbal complexity. The bitters provide aromatic depth and subtle spice from the first sip.",
       it: 'Calore ricco del whiskey immediatamente seguito dalla complessità erbacea del vermouth dolce. I bitter forniscono profondità aromatica e spezie sottili dal primo sorso.',
       vi: 'Hơi ấm whiskey phong phú ngay lập tức theo sau là độ phức tạp thảo mộc của vermouth ngọt. Bitters cung cấp chiều sâu thơm và gia vị tinh tế từ ngụm đầu tiên.',
     },
     finish: {
-      en: 'Long, warming finish with lingering whiskey spice and vermouth\'s herbal notes. The cherry garnish adds a subtle fruity sweetness to the final moments.',
+      en: "Long, warming finish with lingering whiskey spice and vermouth's herbal notes. The cherry garnish adds a subtle fruity sweetness to the final moments.",
       it: 'Finale lungo e caldo con spezie persistenti del whiskey e note erbacee del vermouth. La ciliegia aggiunge una sottile dolcezza fruttata ai momenti finali.',
       vi: 'Hậu vị dài, ấm áp với gia vị whiskey kéo dài và các nốt thảo mộc của vermouth. Cherry trang trí thêm vị ngọt trái cây tinh tế vào những khoảnh khắc cuối cùng.',
     },
     balance: {
-      en: 'The classic 2.5:1 ratio showcases rye\'s character while vermouth provides essential sweetness and complexity. Bitters add aromatic backbone, creating perfect harmony.',
-      it: 'Il classico rapporto 2,5:1 mette in risalto il carattere della segale mentre il vermouth fornisce dolcezza e complessità essenziali. I bitter aggiungono una spina dorsale aromatica, creando un\'armonia perfetta.',
+      en: "The classic 2.5:1 ratio showcases rye's character while vermouth provides essential sweetness and complexity. Bitters add aromatic backbone, creating perfect harmony.",
+      it: "Il classico rapporto 2,5:1 mette in risalto il carattere della segale mentre il vermouth fornisce dolcezza e complessità essenziali. I bitter aggiungono una spina dorsale aromatica, creando un'armonia perfetta.",
       vi: 'Tỷ lệ cổ điển 2,5:1 làm nổi bật tính cách của rye trong khi vermouth cung cấp vị ngọt và độ phức tạp thiết yếu. Bitters thêm xương sống thơm, tạo ra sự hài hòa hoàn hảo.',
     },
   },
@@ -113,7 +113,11 @@ export const manhattan: Cocktail = {
     {
       ingredient_id: 'ING_VERMOUTH_SWEET',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Sweet Red Vermouth', it: 'Vermouth Rosso Dolce', vi: 'Vermouth đỏ ngọt' },
+      display_name: {
+        en: 'Sweet Red Vermouth',
+        it: 'Vermouth Rosso Dolce',
+        vi: 'Vermouth đỏ ngọt',
+      },
     },
     {
       ingredient_id: 'ING_BITTERS_ANGOSTURA',
@@ -157,7 +161,14 @@ export const manhattan: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -193,7 +204,8 @@ export const manhattan: Cocktail = {
     },
   ],
 
-  notes_for_staff: 'Rye whiskey is traditional and preferred for its spicy character, though bourbon can be used. Always use fresh vermouth stored in the fridge. Stir (don\'t shake) for proper dilution and clarity. Chill glass thoroughly. Quality of cherry garnish matters - use Luxardo or similar premium cherries.',
+  notes_for_staff:
+    "Rye whiskey is traditional and preferred for its spicy character, though bourbon can be used. Always use fresh vermouth stored in the fridge. Stir (don't shake) for proper dilution and clarity. Chill glass thoroughly. Quality of cherry garnish matters - use Luxardo or similar premium cherries.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -206,7 +218,7 @@ export const manhattan: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/manhattan/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

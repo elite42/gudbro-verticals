@@ -30,7 +30,7 @@ export const gimlet: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A crisp, refreshing gin cocktail with a perfect balance of botanical gin and tart lime. Simple yet sophisticated, the Gimlet is proof that great cocktails don\'t need complexity - just quality ingredients and proper proportions.',
+    en: "A crisp, refreshing gin cocktail with a perfect balance of botanical gin and tart lime. Simple yet sophisticated, the Gimlet is proof that great cocktails don't need complexity - just quality ingredients and proper proportions.",
     it: 'Un cocktail al gin fresco e croccante con un perfetto equilibrio di gin botanico e lime aspro. Semplice ma sofisticato, il Gimlet è la prova che i grandi cocktail non hanno bisogno di complessità - solo ingredienti di qualità e proporzioni corrette.',
     vi: 'Một loại cocktail gin giòn, sảng khoái với sự cân bằng hoàn hảo của gin thực vật và chanh chua. Đơn giản nhưng tinh tế, Gimlet là bằng chứng rằng cocktail tuyệt vời không cần sự phức tạp - chỉ cần nguyên liệu chất lượng và tỷ lệ phù hợp.',
   },
@@ -53,7 +53,7 @@ export const gimlet: Cocktail = {
     },
     named_after: {
       en: 'Possibly named after Rear Admiral Sir Thomas Gimlette, or the gimlet tool (a small drill) for its sharp, penetrating character.',
-      it: 'Probabilmente prende il nome dal Contrammiraglio Sir Thomas Gimlette, o dall\'attrezzo gimlet (un piccolo trapano) per il suo carattere tagliente e penetrante.',
+      it: "Probabilmente prende il nome dal Contrammiraglio Sir Thomas Gimlette, o dall'attrezzo gimlet (un piccolo trapano) per il suo carattere tagliente e penetrante.",
       vi: 'Có thể được đặt theo tên Đô đốc Sir Thomas Gimlette, hoặc công cụ gimlet (một mũi khoan nhỏ) vì tính cách sắc bén, xuyên thấu của nó.',
     },
   },
@@ -61,9 +61,9 @@ export const gimlet: Cocktail = {
   taste: {
     profile: ['citrus', 'herbal', 'crisp'],
     description: {
-      en: 'Clean, bright, and refreshing. The Gimlet showcases the botanical complexity of gin balanced perfectly against the tartness of fresh lime. Modern versions emphasize fresh lime juice over the traditional Rose\'s Lime Cordial, resulting in a more vibrant, less sweet profile.',
-      it: 'Pulito, brillante e rinfrescante. Il Gimlet mette in mostra la complessità botanica del gin bilanciata perfettamente contro l\'acidità del lime fresco. Le versioni moderne enfatizzano il succo di lime fresco rispetto al tradizionale Rose\'s Lime Cordial, risultando in un profilo più vibrante e meno dolce.',
-      vi: 'Sạch, tươi sáng và sảng khoái. Gimlet thể hiện sự phức tạp thực vật của gin được cân bằng hoàn hảo với vị chua của chanh tươi. Các phiên bản hiện đại nhấn mạnh nước cốt chanh tươi thay vì Rose\'s Lime Cordial truyền thống, mang lại hương vị sống động hơn, ít ngọt hơn.',
+      en: "Clean, bright, and refreshing. The Gimlet showcases the botanical complexity of gin balanced perfectly against the tartness of fresh lime. Modern versions emphasize fresh lime juice over the traditional Rose's Lime Cordial, resulting in a more vibrant, less sweet profile.",
+      it: "Pulito, brillante e rinfrescante. Il Gimlet mette in mostra la complessità botanica del gin bilanciata perfettamente contro l'acidità del lime fresco. Le versioni moderne enfatizzano il succo di lime fresco rispetto al tradizionale Rose's Lime Cordial, risultando in un profilo più vibrante e meno dolce.",
+      vi: "Sạch, tươi sáng và sảng khoái. Gimlet thể hiện sự phức tạp thực vật của gin được cân bằng hoàn hảo với vị chua của chanh tươi. Các phiên bản hiện đại nhấn mạnh nước cốt chanh tươi thay vì Rose's Lime Cordial truyền thống, mang lại hương vị sống động hơn, ít ngọt hơn.",
     },
     first_impression: {
       en: 'Sharp lime acidity followed immediately by gin botanicals',
@@ -110,7 +110,11 @@ export const gimlet: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -160,7 +164,14 @@ export const gimlet: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'nut_free', 'dairy_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'nut_free',
+      'dairy_free',
+    ],
     spice_level: 0,
   },
 
@@ -179,7 +190,8 @@ export const gimlet: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['vodka-gimlet', 'gin-rickey', 'classic-gimlet-with-roses'],
 
-  notes_for_staff: 'Always use fresh lime juice for best results. The traditional version uses Rose\'s Lime Cordial - offer as alternative. Modern ratio is typically 2:1 gin to lime/syrup. Some prefer it slightly drier with less syrup.',
+  notes_for_staff:
+    "Always use fresh lime juice for best results. The traditional version uses Rose's Lime Cordial - offer as alternative. Modern ratio is typically 2:1 gin to lime/syrup. Some prefer it slightly drier with less syrup.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +204,8 @@ export const gimlet: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1318/gimlet',
-    note: 'Classic recipe adapted from Harry MacElhone\'s ABC of Mixing Cocktails (1922) and modern interpretations.',
+    notes:
+      "Classic recipe adapted from Harry MacElhone's ABC of Mixing Cocktails (1922) and modern interpretations.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

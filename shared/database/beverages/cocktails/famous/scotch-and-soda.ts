@@ -32,7 +32,7 @@ export const scotchAndSoda: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'The ultimate minimalist cocktail - Scotch whisky lengthened with club soda. This classic highball is beloved for its simplicity, allowing the Scotch\'s character to shine while adding refreshing effervescence.',
+    en: "The ultimate minimalist cocktail - Scotch whisky lengthened with club soda. This classic highball is beloved for its simplicity, allowing the Scotch's character to shine while adding refreshing effervescence.",
     it: 'Il cocktail minimalista per eccellenza - whisky scozzese allungato con acqua di seltz. Questo classico highball è amato per la sua semplicità, permettendo al carattere dello Scotch di brillare mentre aggiunge effervescenza rinfrescante.',
     vi: 'Cocktail tối giản tối thượng - whisky Scotch pha loãng với soda. Highball cổ điển này được yêu thích vì sự đơn giản, cho phép đặc tính của Scotch tỏa sáng trong khi thêm bọt khí tươi mát.',
   },
@@ -44,8 +44,8 @@ export const scotchAndSoda: Cocktail = {
       country: 'UK',
     },
     story: {
-      en: 'The Scotch and Soda is one of the oldest and simplest highball cocktails, dating back to the late 19th century when carbonated water became commercially available. It gained popularity in gentlemen\'s clubs in Britain and later became a staple in American bars during the mid-20th century. The drink became synonymous with sophistication and was the preferred drink of many business executives and Mad Men-era advertising executives. Its enduring appeal lies in its simplicity and the way it showcases quality Scotch without masking its character.',
-      it: 'Lo Scotch and Soda è uno dei cocktail highball più antichi e semplici, risalente alla fine del XIX secolo quando l\'acqua gassata divenne disponibile commercialmente. Guadagnò popolarità nei club per gentiluomini in Gran Bretagna e successivamente divenne un punto fermo nei bar americani a metà del XX secolo. Il drink divenne sinonimo di raffinatezza e fu la bevanda preferita di molti dirigenti d\'azienda e dirigenti pubblicitari dell\'era Mad Men. Il suo fascino duraturo risiede nella sua semplicità e nel modo in cui mette in mostra uno Scotch di qualità senza mascherarne il carattere.',
+      en: "The Scotch and Soda is one of the oldest and simplest highball cocktails, dating back to the late 19th century when carbonated water became commercially available. It gained popularity in gentlemen's clubs in Britain and later became a staple in American bars during the mid-20th century. The drink became synonymous with sophistication and was the preferred drink of many business executives and Mad Men-era advertising executives. Its enduring appeal lies in its simplicity and the way it showcases quality Scotch without masking its character.",
+      it: "Lo Scotch and Soda è uno dei cocktail highball più antichi e semplici, risalente alla fine del XIX secolo quando l'acqua gassata divenne disponibile commercialmente. Guadagnò popolarità nei club per gentiluomini in Gran Bretagna e successivamente divenne un punto fermo nei bar americani a metà del XX secolo. Il drink divenne sinonimo di raffinatezza e fu la bevanda preferita di molti dirigenti d'azienda e dirigenti pubblicitari dell'era Mad Men. Il suo fascino duraturo risiede nella sua semplicità e nel modo in cui mette in mostra uno Scotch di qualità senza mascherarne il carattere.",
       vi: 'Scotch and Soda là một trong những cocktail highball lâu đời nhất và đơn giản nhất, có từ cuối thế kỷ 19 khi nước có ga trở nên có sẵn trên thương mại. Nó trở nên phổ biến ở các câu lạc bộ quý ông ở Anh và sau đó trở thành thức uống chính ở các quán bar Mỹ vào giữa thế kỷ 20. Thức uống trở thành đồng nghĩa với sự tinh tế và là thức uống ưa thích của nhiều giám đốc điều hành kinh doanh và giám đốc quảng cáo thời kỳ Mad Men. Sức hấp dẫn lâu dài của nó nằm ở sự đơn giản và cách nó thể hiện Scotch chất lượng mà không che giấu đặc tính của nó.',
     },
     named_after: {
@@ -58,7 +58,7 @@ export const scotchAndSoda: Cocktail = {
   taste: {
     profile: ['smoky', 'malty', 'refreshing', 'clean'],
     description: {
-      en: 'The Scotch\'s character takes center stage - whether smoky, peaty, or smooth and sweet - diluted just enough to be refreshing without losing complexity. The soda adds effervescence and opens up the whisky\'s aromatics, creating a lighter, more sessionable drink.',
+      en: "The Scotch's character takes center stage - whether smoky, peaty, or smooth and sweet - diluted just enough to be refreshing without losing complexity. The soda adds effervescence and opens up the whisky's aromatics, creating a lighter, more sessionable drink.",
       it: 'Il carattere dello Scotch prende il centro della scena - che sia affumicato, torbato, o morbido e dolce - diluito quanto basta per essere rinfrescante senza perdere complessità. La soda aggiunge effervescenza e apre gli aromi del whisky, creando un drink più leggero e più bevibile.',
       vi: 'Đặc tính của Scotch chiếm vị trí trung tâm - dù khói, than bùn, hoặc mượt mà và ngọt ngào - được pha loãng vừa đủ để tươi mát mà không mất đi sự phức tạp. Soda thêm bọt khí và mở ra hương thơm của whisky, tạo ra thức uống nhẹ hơn, dễ uống hơn.',
     },
@@ -68,12 +68,12 @@ export const scotchAndSoda: Cocktail = {
       vi: 'Đặc tính Scotch (khói hoặc ngọt) với bọt khí trong sạch',
     },
     finish: {
-      en: 'Clean finish showcasing the Scotch\'s natural character',
+      en: "Clean finish showcasing the Scotch's natural character",
       it: 'Finale pulito che mette in mostra il carattere naturale dello Scotch',
       vi: 'Kết thúc trong sạch thể hiện đặc tính tự nhiên của Scotch',
     },
     balance: {
-      en: 'Perfect dilution - refreshing without over-diluting the whisky\'s complexity',
+      en: "Perfect dilution - refreshing without over-diluting the whisky's complexity",
       it: 'Diluizione perfetta - rinfrescante senza diluire eccessivamente la complessità del whisky',
       vi: 'Pha loãng hoàn hảo - tươi mát mà không pha loãng quá mức sự phức tạp của whisky',
     },
@@ -82,7 +82,7 @@ export const scotchAndSoda: Cocktail = {
   recommendations: {
     best_time: ['evening', 'afternoon', 'late_night'],
     occasions: ['casual', 'business', 'social', 'relaxation'],
-    seasons: ['all-year'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Pairs excellently with Scottish fare, smoked salmon, oysters, aged cheeses, and charcuterie. Perfect with steak, grilled meats, and hearty pub food.',
       it: 'Si abbina eccellentemente con piatti scozzesi, salmone affumicato, ostriche, formaggi stagionati e salumi. Perfetto con bistecca, carni alla griglia e piatti sostanziosi da pub.',
@@ -160,7 +160,7 @@ export const scotchAndSoda: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'dairy-free'],
-  season_tags: ['all-year'],
+  season_tags: ['all_year'],
   occasion_tags: ['casual', 'business', 'social'],
 
   is_mocktail: false,
@@ -171,7 +171,8 @@ export const scotchAndSoda: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['bourbon-and-soda', 'whisky-highball'],
 
-  notes_for_staff: 'Use quality Scotch as it\'s the star. Ratio is flexible - some prefer 2:1 soda to Scotch, others prefer equal parts. Stir gently to preserve carbonation. Some purists serve without garnish.',
+  notes_for_staff:
+    "Use quality Scotch as it's the star. Ratio is flexible - some prefer 2:1 soda to Scotch, others prefer equal parts. Stir gently to preserve carbonation. Some purists serve without garnish.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -184,7 +185,7 @@ export const scotchAndSoda: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1244/scotch-and-soda',
-    note: 'Classic highball from late 19th century, popularized in gentlemen\'s clubs.',
+    notes: "Classic highball from late 19th century, popularized in gentlemen's clubs.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

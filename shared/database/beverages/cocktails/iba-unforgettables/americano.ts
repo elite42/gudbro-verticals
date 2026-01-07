@@ -34,7 +34,7 @@ export const americano: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The original Italian aperitivo cocktail - a refreshing, bittersweet blend of Campari and sweet vermouth, lengthened with soda water. Light, effervescent, and perfect before dinner.',
-    it: 'L\'originale cocktail aperitivo italiano - una miscela rinfrescante e agrodolce di Campari e vermouth rosso, allungata con acqua frizzante. Leggero, effervescente e perfetto prima di cena.',
+    it: "L'originale cocktail aperitivo italiano - una miscela rinfrescante e agrodolce di Campari e vermouth rosso, allungata con acqua frizzante. Leggero, effervescente e perfetto prima di cena.",
     vi: 'Cocktail khai vị Ý nguyên bản - sự pha trộn tươi mát, đắng ngọt của Campari và vermouth ngọt, pha thêm soda. Nhẹ nhàng, sủi bọt và hoàn hảo trước bữa tối.',
   },
 
@@ -65,7 +65,7 @@ export const americano: Cocktail = {
     profile: ['bitter', 'sweet', 'herbal', 'refreshing'],
     description: {
       en: 'Pleasantly bitter with herbal sweetness. The Campari brings its signature bitter-orange complexity while the sweet vermouth adds depth with vanilla and spice notes. The soda water lifts everything, making it light and effervescent.',
-      it: 'Piacevolmente amaro con dolcezza erbacea. Il Campari porta la sua caratteristica complessità amaro-arancio mentre il vermouth rosso aggiunge profondità con note di vaniglia e spezie. L\'acqua frizzante alleggerisce tutto, rendendolo leggero ed effervescente.',
+      it: "Piacevolmente amaro con dolcezza erbacea. Il Campari porta la sua caratteristica complessità amaro-arancio mentre il vermouth rosso aggiunge profondità con note di vaniglia e spezie. L'acqua frizzante alleggerisce tutto, rendendolo leggero ed effervescente.",
       vi: 'Đắng dễ chịu với vị ngọt thảo mộc. Campari mang đến sự phức tạp đặc trưng đắng-cam trong khi vermouth ngọt thêm chiều sâu với hương vanilla và gia vị. Soda nâng mọi thứ lên, làm cho nó nhẹ nhàng và sủi bọt.',
     },
     first_impression: {
@@ -91,12 +91,12 @@ export const americano: Cocktail = {
     seasons: ['spring', 'summer', 'all_year'],
     food_pairings: {
       en: 'Perfect aperitivo companion with olives, cured meats, bruschetta, and light antipasti. The bitterness stimulates the appetite before any meal.',
-      it: 'Perfetto compagno per l\'aperitivo con olive, salumi, bruschetta e antipasti leggeri. L\'amarezza stimola l\'appetito prima di qualsiasi pasto.',
+      it: "Perfetto compagno per l'aperitivo con olive, salumi, bruschetta e antipasti leggeri. L'amarezza stimola l'appetito prima di qualsiasi pasto.",
       vi: 'Người bạn khai vị hoàn hảo với ô liu, thịt nguội, bruschetta và antipasti nhẹ. Vị đắng kích thích sự thèm ăn trước bữa ăn.',
     },
     ideal_for: {
       en: 'Those who enjoy bitter flavors but want something lighter than a Negroni. Perfect for hot weather or as a gentle introduction to Italian aperitivo culture. Excellent choice for anyone seeking a lower-alcohol option.',
-      it: 'Chi apprezza i sapori amari ma vuole qualcosa di più leggero di un Negroni. Perfetto per il clima caldo o come gentile introduzione alla cultura dell\'aperitivo italiano. Ottima scelta per chi cerca un\'opzione a bassa gradazione.',
+      it: "Chi apprezza i sapori amari ma vuole qualcosa di più leggero di un Negroni. Perfetto per il clima caldo o come gentile introduzione alla cultura dell'aperitivo italiano. Ottima scelta per chi cerca un'opzione a bassa gradazione.",
       vi: 'Những ai thích hương vị đắng nhưng muốn thứ gì đó nhẹ hơn Negroni. Hoàn hảo cho thời tiết nóng hoặc như sự giới thiệu nhẹ nhàng về văn hóa aperitivo Ý. Lựa chọn tuyệt vời cho những ai tìm kiếm lựa chọn ít cồn.',
     },
   },
@@ -135,7 +135,7 @@ export const americano: Cocktail = {
 
   instructions: {
     en: 'Mix the Campari and sweet vermouth directly in an old fashioned glass filled with ice cubes. Add a splash of soda water. Stir gently to combine. Garnish with half an orange slice and a lemon twist.',
-    it: 'Mescolare il Campari e il vermouth rosso direttamente in un bicchiere old fashioned pieno di cubetti di ghiaccio. Aggiungere uno spruzzo di acqua frizzante. Mescolare delicatamente. Guarnire con mezza fetta d\'arancia e una twist di limone.',
+    it: "Mescolare il Campari e il vermouth rosso direttamente in un bicchiere old fashioned pieno di cubetti di ghiaccio. Aggiungere uno spruzzo di acqua frizzante. Mescolare delicatamente. Guarnire con mezza fetta d'arancia e una twist di limone.",
     vi: 'Trộn Campari và vermouth ngọt trực tiếp trong ly old fashioned đầy đá viên. Thêm một chút soda. Khuấy nhẹ để hòa quyện. Trang trí với nửa lát cam và vỏ chanh vắt.',
   },
 
@@ -143,7 +143,7 @@ export const americano: Cocktail = {
 
   garnish: {
     en: 'Half orange slice and lemon twist',
-    it: 'Mezza fetta d\'arancia e twist di limone',
+    it: "Mezza fetta d'arancia e twist di limone",
     vi: 'Nửa lát cam và vỏ chanh vắt',
   },
 
@@ -172,7 +172,14 @@ export const americano: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -191,7 +198,8 @@ export const americano: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['negroni', 'negroni-sbagliato', 'americano-perfetto'],
 
-  notes_for_staff: 'Keep it simple - the beauty is in the simplicity. Use good quality Campari and vermouth. Soda should be fresh with good carbonation. The Negroni is this drink with gin instead of soda - offer as an upgrade for those seeking something stronger.',
+  notes_for_staff:
+    'Keep it simple - the beauty is in the simplicity. Use good quality Campari and vermouth. Soda should be fresh with good carbonation. The Negroni is this drink with gin instead of soda - offer as an upgrade for those seeking something stronger.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -204,7 +212,8 @@ export const americano: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/americano/',
-    note: 'IBA Official Recipe. Historical information from various cocktail history sources and Italian aperitivo tradition.',
+    notes:
+      'IBA Official Recipe. Historical information from various cocktail history sources and Italian aperitivo tradition.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

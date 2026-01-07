@@ -33,9 +33,9 @@ export const vieuxCarre: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A sophisticated New Orleans classic that masterfully blends rye whiskey, cognac, and sweet vermouth with the herbal complexity of Bénédictine and aromatic Peychaud\'s bitters. Named after the French Quarter, this cocktail represents the cultural fusion of French and American spirits.',
-    it: 'Un sofisticato classico di New Orleans che unisce magistralmente rye whiskey, cognac e vermouth dolce con la complessità erbacea del Bénédictine e gli aromatici Peychaud\'s bitters. Prende il nome dal quartiere francese, questo cocktail rappresenta la fusione culturale degli spiriti francesi e americani.',
-    vi: 'Một tác phẩm kinh điển tinh tế của New Orleans khéo léo pha trộn rye whiskey, cognac và vermouth ngọt với độ phức tạp thảo mộc của Bénédictine và Peychaud\'s bitters thơm. Được đặt tên theo Khu Pháp, cocktail này đại diện cho sự hợp nhất văn hóa của rượu Pháp và Mỹ.',
+    en: "A sophisticated New Orleans classic that masterfully blends rye whiskey, cognac, and sweet vermouth with the herbal complexity of Bénédictine and aromatic Peychaud's bitters. Named after the French Quarter, this cocktail represents the cultural fusion of French and American spirits.",
+    it: "Un sofisticato classico di New Orleans che unisce magistralmente rye whiskey, cognac e vermouth dolce con la complessità erbacea del Bénédictine e gli aromatici Peychaud's bitters. Prende il nome dal quartiere francese, questo cocktail rappresenta la fusione culturale degli spiriti francesi e americani.",
+    vi: "Một tác phẩm kinh điển tinh tế của New Orleans khéo léo pha trộn rye whiskey, cognac và vermouth ngọt với độ phức tạp thảo mộc của Bénédictine và Peychaud's bitters thơm. Được đặt tên theo Khu Pháp, cocktail này đại diện cho sự hợp nhất văn hóa của rượu Pháp và Mỹ.",
   },
 
   history: {
@@ -64,9 +64,9 @@ export const vieuxCarre: Cocktail = {
   taste: {
     profile: ['complex', 'herbal', 'boozy'],
     description: {
-      en: 'Rich, complex, and beautifully balanced. The combination of rye and cognac creates depth and warmth, while sweet vermouth adds smoothness. Bénédictine brings herbal complexity, and Peychaud\'s bitters provide a distinctive anise-forward spice.',
-      it: 'Ricco, complesso e magnificamente bilanciato. La combinazione di segale e cognac crea profondità e calore, mentre il vermouth dolce aggiunge morbidezza. Il Bénédictine porta complessità erbacea e i Peychaud\'s bitters forniscono una spezia distintiva all\'anice.',
-      vi: 'Đậm đà, phức tạp và cân bằng tuyệt đẹp. Sự kết hợp giữa rye và cognac tạo ra chiều sâu và ấm áp, trong khi vermouth ngọt thêm độ mượt mà. Bénédictine mang đến độ phức tạp thảo mộc và Peychaud\'s bitters cung cấp gia vị hồi đặc trưng.',
+      en: "Rich, complex, and beautifully balanced. The combination of rye and cognac creates depth and warmth, while sweet vermouth adds smoothness. Bénédictine brings herbal complexity, and Peychaud's bitters provide a distinctive anise-forward spice.",
+      it: "Ricco, complesso e magnificamente bilanciato. La combinazione di segale e cognac crea profondità e calore, mentre il vermouth dolce aggiunge morbidezza. Il Bénédictine porta complessità erbacea e i Peychaud's bitters forniscono una spezia distintiva all'anice.",
+      vi: "Đậm đà, phức tạp và cân bằng tuyệt đẹp. Sự kết hợp giữa rye và cognac tạo ra chiều sâu và ấm áp, trong khi vermouth ngọt thêm độ mượt mà. Bénédictine mang đến độ phức tạp thảo mộc và Peychaud's bitters cung cấp gia vị hồi đặc trưng.",
     },
     first_impression: {
       en: 'Herbal and spicy with anise notes, followed by warming whiskey and brandy',
@@ -128,7 +128,11 @@ export const vieuxCarre: Cocktail = {
     {
       ingredient_id: 'ING_PEYCHAUDS_BITTERS',
       quantity: { amount: 2, unit: 'dash' },
-      display_name: { en: 'Peychaud\'s bitters', it: 'Peychaud\'s bitters', vi: 'Peychaud\'s bitters' },
+      display_name: {
+        en: "Peychaud's bitters",
+        it: "Peychaud's bitters",
+        vi: "Peychaud's bitters",
+      },
     },
   ],
 
@@ -136,7 +140,7 @@ export const vieuxCarre: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into mixing glass with ice cubes. Stir well. Strain into chilled cocktail glass. Garnish with orange zest and a maraschino cherry.',
-    it: 'Versare tutti gli ingredienti in un mixing glass con cubetti di ghiaccio. Mescolare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con scorza d\'arancia e una ciliegia maraschino.',
+    it: "Versare tutti gli ingredienti in un mixing glass con cubetti di ghiaccio. Mescolare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con scorza d'arancia e una ciliegia maraschino.",
     vi: 'Đổ tất cả nguyên liệu vào ly trộn với đá viên. Khuấy đều. Lọc vào ly cocktail đã làm lạnh. Trang trí với vỏ cam và cherry maraschino.',
   },
 
@@ -144,7 +148,7 @@ export const vieuxCarre: Cocktail = {
 
   garnish: {
     en: 'Orange zest and maraschino cherry',
-    it: 'Scorza d\'arancia e ciliegia maraschino',
+    it: "Scorza d'arancia e ciliegia maraschino",
     vi: 'Vỏ cam và cherry maraschino',
   },
 
@@ -173,7 +177,14 @@ export const vieuxCarre: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -192,7 +203,8 @@ export const vieuxCarre: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['manhattan', 'sazerac', 'remember-the-maine'],
 
-  notes_for_staff: 'Bénédictine is essential - don\'t substitute. Use Peychaud\'s bitters specifically, not Angostura. Equal parts of rye, cognac, and vermouth make this unique. Stir well for proper dilution. Express orange oils over the drink before garnishing.',
+  notes_for_staff:
+    "Bénédictine is essential - don't substitute. Use Peychaud's bitters specifically, not Angostura. Equal parts of rye, cognac, and vermouth make this unique. Stir well for proper dilution. Express orange oils over the drink before garnishing.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +217,8 @@ export const vieuxCarre: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/vieux-carre/',
-    note: 'IBA Official Recipe. Historical information from Hotel Monteleone and New Orleans cocktail history.',
+    notes:
+      'IBA Official Recipe. Historical information from Hotel Monteleone and New Orleans cocktail history.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

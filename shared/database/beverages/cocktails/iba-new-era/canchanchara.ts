@@ -33,7 +33,7 @@ export const canchanchara: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'One of Cuba\'s oldest cocktails, the Canchánchara is a simple yet historic blend of rum, honey, and lime. This rustic drink was the precursor to the Daiquiri and remains a beloved Cuban classic.',
+    en: "One of Cuba's oldest cocktails, the Canchánchara is a simple yet historic blend of rum, honey, and lime. This rustic drink was the precursor to the Daiquiri and remains a beloved Cuban classic.",
     it: 'Uno dei cocktail più antichi di Cuba, il Canchánchara è una miscela semplice ma storica di rum, miele e lime. Questa bevanda rustica fu il precursore del Daiquiri e rimane un classico cubano amato.',
     vi: 'Một trong những cocktail lâu đời nhất của Cuba, Canchánchara là sự pha trộn đơn giản nhưng lịch sử của rum, mật ong và chanh. Thức uống mộc mạc này là tiền thân của Daiquiri và vẫn là một cocktail Cuba được yêu thích.',
   },
@@ -56,7 +56,7 @@ export const canchanchara: Cocktail = {
     },
     named_after: {
       en: 'Named after a traditional Cuban song and dance from the independence era.',
-      it: 'Prende il nome da una canzone e danza tradizionale cubana dell\'era dell\'indipendenza.',
+      it: "Prende il nome da una canzone e danza tradizionale cubana dell'era dell'indipendenza.",
       vi: 'Được đặt theo tên một bài hát và điệu nhảy truyền thống Cuba từ thời kỳ độc lập.',
     },
   },
@@ -65,7 +65,7 @@ export const canchanchara: Cocktail = {
     profile: ['sweet', 'citrus', 'simple'],
     description: {
       en: 'Rustic and straightforward with natural honey sweetness, bright lime tartness, and the raw character of aguardiente or light rum. Simple yet perfectly balanced.',
-      it: 'Rustico e diretto con dolcezza naturale del miele, acidità brillante del lime e il carattere grezzo dell\'aguardiente o del rum leggero. Semplice ma perfettamente bilanciato.',
+      it: "Rustico e diretto con dolcezza naturale del miele, acidità brillante del lime e il carattere grezzo dell'aguardiente o del rum leggero. Semplice ma perfettamente bilanciato.",
       vi: 'Mộc mạc và đơn giản với vị ngọt tự nhiên của mật ong, vị chua tươi mát của chanh và tính cách thô của aguardiente hoặc rum nhẹ. Đơn giản nhưng cân bằng hoàn hảo.',
     },
     first_impression: {
@@ -80,7 +80,7 @@ export const canchanchara: Cocktail = {
     },
     balance: {
       en: 'Perfectly balanced between honey sweetness and lime tartness',
-      it: 'Perfettamente bilanciato tra la dolcezza del miele e l\'acidità del lime',
+      it: "Perfettamente bilanciato tra la dolcezza del miele e l'acidità del lime",
       vi: 'Cân bằng hoàn hảo giữa vị ngọt mật ong và vị chua chanh',
     },
   },
@@ -187,7 +187,8 @@ export const canchanchara: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: [],
 
-  notes_for_staff: 'Traditionally served in clay cups called "jícaras." Use raw honey for authentic flavor. Can be served with or without ice.',
+  notes_for_staff:
+    'Traditionally served in clay cups called "jícaras." Use raw honey for authentic flavor. Can be served with or without ice.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +201,7 @@ export const canchanchara: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/canchanchara/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

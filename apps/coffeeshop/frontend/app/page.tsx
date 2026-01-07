@@ -93,60 +93,62 @@ export default function HomePage() {
           <p className="mt-2 text-sm text-white/90">{t.home.feedbackButton.subtitle}</p>
         </button>
 
-        {/* Popular Items Section - DISABLED */}
-        {/* {isClient && popularItems.length > 0 && (
+        {/* Popular Items Section */}
+        {isClient && popularItems.length > 0 && (
           <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-theme-text-primary">
-                ⭐ Popular
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-theme-text-primary text-2xl font-bold">
+                {t.home.sections.popular?.title || '⭐ Popular'}
               </h2>
               <Link
                 href="/menu"
-                className="text-primary font-semibold hover:underline flex items-center gap-1"
+                className="flex items-center gap-1 font-semibold text-pink-500 hover:underline"
               >
-                View All
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                {t.home.sections.popular?.viewAll || 'View All'}
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </Link>
             </div>
 
-            <div className="flex gap-2 overflow-x-auto px-3 pb-2 scrollbar-hide">
+            <div className="scrollbar-hide -mx-4 flex gap-3 overflow-x-auto px-4 pb-2">
               {popularItems.map((item) => (
-                <div
+                <Link
                   key={item.id}
-                  className="flex-shrink-0 w-32 flex flex-col"
+                  href={`/menu?highlight=${item.id}`}
+                  className="group flex w-36 flex-shrink-0 flex-col"
                 >
-                  <div className="relative w-32 h-32 bg-gray-900 rounded-2xl overflow-hidden mb-2">
-                    <Link href="/menu" className="w-full h-full">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src =
-                            'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop';
-                        }}
-                      />
-                    </Link>
+                  <div className="bg-theme-bg-tertiary relative mb-2 h-36 w-36 overflow-hidden rounded-2xl shadow-md transition-shadow group-hover:shadow-lg">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop';
+                      }}
+                    />
+                    {item.isNew && (
+                      <span className="absolute left-2 top-2 rounded-full bg-pink-500 px-2 py-1 text-xs font-bold text-white">
+                        NEW
+                      </span>
+                    )}
                   </div>
 
-                  <Link
-                    href="/menu"
-                    className="flex flex-col text-left"
-                  >
-                    <h3 className="font-bold text-sm text-theme-text-primary mb-1 line-clamp-2 leading-tight h-8">
-                      {item.name}
-                    </h3>
-                    <p className="text-sm font-bold text-theme-text-primary">
-                      {formatPrice(item.price)}
-                    </p>
-                  </Link>
-                </div>
+                  <h3 className="text-theme-text-primary mb-1 line-clamp-2 text-sm font-bold leading-tight">
+                    {item.name}
+                  </h3>
+                  <p className="text-sm font-bold text-pink-500">{formatPrice(item.price)}</p>
+                </Link>
               ))}
             </div>
           </div>
-        )} */}
+        )}
 
         {/* Engagement Hub - PRO TIER Feature */}
         <EngagementHub />

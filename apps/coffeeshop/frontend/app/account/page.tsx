@@ -10,7 +10,13 @@ import { coffeeshopConfig } from '../../config/coffeeshop.config';
 import { useTranslation } from '@/lib/use-translation';
 import { userProfileStore, UserProfile } from '@/lib/user-profile-store';
 import { preferencesStore, UserPreferences } from '@/lib/user-preferences';
-import { safetyFilters, getAllergens, getIntolerances, getDiets, SafetyFilter } from '@/lib/safety/safety-filters';
+import {
+  safetyFilters,
+  getAllergens,
+  getIntolerances,
+  getDiets,
+  SafetyFilter,
+} from '@/lib/safety/safety-filters';
 import { favoritesStore } from '@/lib/favorites-store';
 import { orderHistoryStore } from '@/lib/order-history-store';
 import { languagePreferencesStore } from '@/lib/language-preferences';
@@ -22,11 +28,13 @@ import { UserLoyaltyState } from '@/types/loyalty';
 // Wrapper component to handle Suspense for useSearchParams
 export default function AccountPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-theme-bg-secondary flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-theme-text-primary"></div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="bg-theme-bg-secondary flex min-h-screen items-center justify-center">
+          <div className="border-theme-text-primary h-8 w-8 animate-spin rounded-full border-b-2"></div>
+        </div>
+      }
+    >
       <AccountPageContent />
     </Suspense>
   );
@@ -108,7 +116,7 @@ function AccountPageContent() {
   const handleSaveName = () => {
     if (editName.trim()) {
       userProfileStore.setName(editName.trim());
-      setProfile(prev => prev ? { ...prev, name: editName.trim() } : null);
+      setProfile((prev) => (prev ? { ...prev, name: editName.trim() } : null));
     }
     setIsEditingName(false);
   };
@@ -118,41 +126,43 @@ function AccountPageContent() {
     setSelectedCurrency(currency);
     currencyPreferencesStore.set({
       selectedCurrency: currency,
-      enabled: currency !== i18n.baseCurrency
+      enabled: currency !== i18n.baseCurrency,
     });
   };
 
   // Format date
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
-    return date.toLocaleDateString(language === 'it' ? 'it-IT' : language === 'vi' ? 'vi-VN' : 'en-US', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
+    return date.toLocaleDateString(
+      language === 'it' ? 'it-IT' : language === 'vi' ? 'vi-VN' : 'en-US',
+      {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }
+    );
   };
 
   if (!profile || !preferences) {
     return (
-      <div className="min-h-screen bg-theme-bg-secondary flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-theme-text-primary"></div>
+      <div className="bg-theme-bg-secondary flex min-h-screen items-center justify-center">
+        <div className="border-theme-text-primary h-8 w-8 animate-spin rounded-full border-b-2"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-theme-bg-secondary pb-28">
+    <div className="bg-theme-bg-secondary min-h-screen pb-28">
       {/* Header */}
       <AccountHeader />
 
       {/* Account Content */}
-      <div className="container mx-auto px-4 pt-6 space-y-4">
-
+      <div className="container mx-auto space-y-4 px-4 pt-6">
         {/* Profile Card */}
         <div className="bg-theme-bg-elevated rounded-2xl p-5 shadow-lg">
           <div className="flex items-center gap-4">
             {/* Avatar */}
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-purple-500 text-2xl font-bold text-white">
               {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
             </div>
 
@@ -163,20 +173,20 @@ function AccountPageContent() {
                     type="text"
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-lg bg-theme-bg-secondary border border-theme-border-light text-theme-text-primary focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    className="bg-theme-bg-secondary border-theme-border-light text-theme-text-primary flex-1 rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
                     placeholder="Il tuo nome"
                     autoFocus
                   />
                   <button
                     onClick={handleSaveName}
-                    className="px-4 py-2 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition-colors"
+                    className="rounded-lg bg-pink-500 px-4 py-2 font-medium text-white transition-colors hover:bg-pink-600"
                   >
                     Salva
                   </button>
                 </div>
               ) : (
                 <>
-                  <h2 className="text-xl font-bold text-theme-text-primary">
+                  <h2 className="text-theme-text-primary text-xl font-bold">
                     {profile.name || 'Ospite'}
                   </h2>
                   <button
@@ -192,23 +202,33 @@ function AccountPageContent() {
 
           {/* Guest CTA - Sign up/Login */}
           {isGuest && (
-            <div className="mt-4 p-4 bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-xl border border-pink-200 dark:border-pink-800">
+            <div className="mt-4 rounded-xl border border-pink-200 bg-gradient-to-r from-pink-50 to-purple-50 p-4 dark:border-pink-800 dark:from-pink-900/20 dark:to-purple-900/20">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-pink-100 dark:bg-pink-900/30">
+                  <svg
+                    className="h-5 w-5 text-pink-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-theme-text-primary text-sm">Crea un account</h3>
-                  <p className="text-xs text-theme-text-secondary mt-0.5">
+                  <h3 className="text-theme-text-primary text-sm font-semibold">Crea un account</h3>
+                  <p className="text-theme-text-secondary mt-0.5 text-xs">
                     Salva i tuoi preferiti, sincronizza le preferenze e ottieni offerte esclusive.
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setShowAuthModal(true)}
-                className="w-full mt-3 py-2.5 px-4 bg-pink-500 hover:bg-pink-600 text-white font-medium rounded-xl transition-colors text-sm"
+                className="mt-3 w-full rounded-xl bg-pink-500 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-pink-600"
               >
                 Accedi o Registrati
               </button>
@@ -216,22 +236,22 @@ function AccountPageContent() {
           )}
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-theme-border-light">
+          <div className="border-theme-border-light mt-4 grid grid-cols-3 gap-3 border-t pt-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-theme-text-primary">{profile.visitCount}</div>
-              <div className="text-xs text-theme-text-secondary">Visite</div>
+              <div className="text-theme-text-primary text-2xl font-bold">{profile.visitCount}</div>
+              <div className="text-theme-text-secondary text-xs">Visite</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-theme-text-primary">{favoritesCount}</div>
-              <div className="text-xs text-theme-text-secondary">Preferiti</div>
+              <div className="text-theme-text-primary text-2xl font-bold">{favoritesCount}</div>
+              <div className="text-theme-text-secondary text-xs">Preferiti</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-theme-text-primary">{ordersCount}</div>
-              <div className="text-xs text-theme-text-secondary">Ordini</div>
+              <div className="text-theme-text-primary text-2xl font-bold">{ordersCount}</div>
+              <div className="text-theme-text-secondary text-xs">Ordini</div>
             </div>
           </div>
 
-          <div className="text-xs text-theme-text-tertiary mt-3 text-center">
+          <div className="text-theme-text-tertiary mt-3 text-center text-xs">
             Prima visita: {formatDate(profile.firstVisit)}
           </div>
         </div>
@@ -249,46 +269,46 @@ function AccountPageContent() {
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => router.push('/orders')}
-            className="bg-theme-bg-elevated rounded-xl p-4 shadow-lg flex items-center gap-3 hover:bg-theme-bg-secondary transition-colors"
+            className="bg-theme-bg-elevated hover:bg-theme-bg-secondary flex items-center gap-3 rounded-xl p-4 shadow-lg transition-colors"
           >
-            <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-xl">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100 text-xl dark:bg-purple-900/30">
               📦
             </div>
             <div className="text-left">
-              <div className="font-semibold text-theme-text-primary">I miei ordini</div>
-              <div className="text-xs text-theme-text-secondary">{ordersCount} ordini</div>
+              <div className="text-theme-text-primary font-semibold">I miei ordini</div>
+              <div className="text-theme-text-secondary text-xs">{ordersCount} ordini</div>
             </div>
           </button>
 
           <button
             onClick={() => router.push('/menu?filter=favorites')}
-            className="bg-theme-bg-elevated rounded-xl p-4 shadow-lg flex items-center gap-3 hover:bg-theme-bg-secondary transition-colors"
+            className="bg-theme-bg-elevated hover:bg-theme-bg-secondary flex items-center gap-3 rounded-xl p-4 shadow-lg transition-colors"
           >
-            <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-xl">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-xl dark:bg-red-900/30">
               ❤️
             </div>
             <div className="text-left">
-              <div className="font-semibold text-theme-text-primary">Preferiti</div>
-              <div className="text-xs text-theme-text-secondary">{favoritesCount} piatti</div>
+              <div className="text-theme-text-primary font-semibold">Preferiti</div>
+              <div className="text-theme-text-secondary text-xs">{favoritesCount} piatti</div>
             </div>
           </button>
         </div>
 
         {/* Dietary Preferences */}
         <div className="bg-theme-bg-elevated rounded-2xl p-5 shadow-lg">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold text-theme-text-primary">Preferenze Alimentari</h3>
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-theme-text-primary text-lg font-bold">Preferenze Alimentari</h3>
             <button
               onClick={() => setShowPreferencesModal(true)}
-              className="text-sm text-pink-500 hover:text-pink-600 font-medium"
+              className="text-sm font-medium text-pink-500 hover:text-pink-600"
             >
               Modifica
             </button>
           </div>
 
           {preferences.allergens_to_avoid.length === 0 &&
-           preferences.intolerances.length === 0 &&
-           preferences.dietary_preferences.length === 0 ? (
+          preferences.intolerances.length === 0 &&
+          preferences.dietary_preferences.length === 0 ? (
             <p className="text-theme-text-secondary text-sm">
               Nessuna preferenza impostata. Tocca "Modifica" per personalizzare la tua esperienza.
             </p>
@@ -296,15 +316,20 @@ function AccountPageContent() {
             <div className="space-y-3">
               {preferences.allergens_to_avoid.length > 0 && (
                 <div>
-                  <div className="text-xs font-medium text-theme-text-secondary mb-2">Allergeni da evitare:</div>
+                  <div className="text-theme-text-secondary mb-2 text-xs font-medium">
+                    Allergeni da evitare:
+                  </div>
                   <div className="flex flex-wrap gap-2">
-                    {preferences.allergens_to_avoid.map(allergenId => {
-                      const filter = safetyFilters.find(f => f.id === allergenId);
-                      const label = filter?.label[language as 'en' | 'it' | 'vi'] || filter?.label.en || allergenId;
+                    {preferences.allergens_to_avoid.map((allergenId) => {
+                      const filter = safetyFilters.find((f) => f.id === allergenId);
+                      const label =
+                        filter?.label[language as 'en' | 'it' | 'vi'] ||
+                        filter?.label.en ||
+                        allergenId;
                       return (
                         <span
                           key={allergenId}
-                          className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-full text-sm flex items-center gap-1"
+                          className="flex items-center gap-1 rounded-full bg-red-100 px-3 py-1 text-sm text-red-700 dark:bg-red-900/30 dark:text-red-300"
                         >
                           {filter?.icon && <span>{filter.icon}</span>}
                           {label}
@@ -317,15 +342,20 @@ function AccountPageContent() {
 
               {preferences.intolerances.length > 0 && (
                 <div>
-                  <div className="text-xs font-medium text-theme-text-secondary mb-2">Intolleranze:</div>
+                  <div className="text-theme-text-secondary mb-2 text-xs font-medium">
+                    Intolleranze:
+                  </div>
                   <div className="flex flex-wrap gap-2">
-                    {preferences.intolerances.map(intoleranceId => {
-                      const filter = safetyFilters.find(f => f.id === intoleranceId);
-                      const label = filter?.label[language as 'en' | 'it' | 'vi'] || filter?.label.en || intoleranceId;
+                    {preferences.intolerances.map((intoleranceId) => {
+                      const filter = safetyFilters.find((f) => f.id === intoleranceId);
+                      const label =
+                        filter?.label[language as 'en' | 'it' | 'vi'] ||
+                        filter?.label.en ||
+                        intoleranceId;
                       return (
                         <span
                           key={intoleranceId}
-                          className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-full text-sm flex items-center gap-1"
+                          className="flex items-center gap-1 rounded-full bg-orange-100 px-3 py-1 text-sm text-orange-700 dark:bg-orange-900/30 dark:text-orange-300"
                         >
                           {filter?.icon && <span>{filter.icon}</span>}
                           {label}
@@ -338,15 +368,16 @@ function AccountPageContent() {
 
               {preferences.dietary_preferences.length > 0 && (
                 <div>
-                  <div className="text-xs font-medium text-theme-text-secondary mb-2">Dieta:</div>
+                  <div className="text-theme-text-secondary mb-2 text-xs font-medium">Dieta:</div>
                   <div className="flex flex-wrap gap-2">
-                    {preferences.dietary_preferences.map(dietId => {
-                      const filter = safetyFilters.find(f => f.id === dietId);
-                      const label = filter?.label[language as 'en' | 'it' | 'vi'] || filter?.label.en || dietId;
+                    {preferences.dietary_preferences.map((dietId) => {
+                      const filter = safetyFilters.find((f) => f.id === dietId);
+                      const label =
+                        filter?.label[language as 'en' | 'it' | 'vi'] || filter?.label.en || dietId;
                       return (
                         <span
                           key={dietId}
-                          className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm flex items-center gap-1"
+                          className="flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-sm text-green-700 dark:bg-green-900/30 dark:text-green-300"
                         >
                           {filter?.icon && <span>{filter.icon}</span>}
                           {label}
@@ -362,7 +393,7 @@ function AccountPageContent() {
 
         {/* Settings */}
         <div className="bg-theme-bg-elevated rounded-2xl p-5 shadow-lg">
-          <h3 className="text-lg font-bold text-theme-text-primary mb-4">Impostazioni</h3>
+          <h3 className="text-theme-text-primary mb-4 text-lg font-bold">Impostazioni</h3>
 
           <div className="space-y-4">
             {/* Language */}
@@ -377,9 +408,9 @@ function AccountPageContent() {
                   setLanguage(e.target.value as 'en' | 'it' | 'vi');
                   languagePreferencesStore.set({ selectedLanguage: e.target.value });
                 }}
-                className="px-3 py-2 rounded-lg bg-theme-bg-secondary border border-theme-border-light text-theme-text-primary"
+                className="bg-theme-bg-secondary border-theme-border-light text-theme-text-primary rounded-lg border px-3 py-2"
               >
-                {i18n.supportedLanguages.map(lang => (
+                {i18n.supportedLanguages.map((lang) => (
                   <option key={lang.code} value={lang.code}>
                     {lang.flag} {lang.name}
                   </option>
@@ -396,9 +427,9 @@ function AccountPageContent() {
               <select
                 value={selectedCurrency}
                 onChange={(e) => handleCurrencyChange(e.target.value)}
-                className="px-3 py-2 rounded-lg bg-theme-bg-secondary border border-theme-border-light text-theme-text-primary"
+                className="bg-theme-bg-secondary border-theme-border-light text-theme-text-primary rounded-lg border px-3 py-2"
               >
-                {i18n.supportedCurrencies.map(currency => (
+                {i18n.supportedCurrencies.map((currency) => (
                   <option key={currency} value={currency}>
                     {currency}
                   </option>
@@ -414,7 +445,7 @@ function AccountPageContent() {
               </div>
               <button
                 onClick={toggleTheme}
-                className="px-4 py-2 rounded-lg bg-theme-bg-secondary border border-theme-border-light text-theme-text-primary hover:bg-theme-bg-tertiary transition-colors"
+                className="bg-theme-bg-secondary border-theme-border-light text-theme-text-primary hover:bg-theme-bg-tertiary rounded-lg border px-4 py-2 transition-colors"
               >
                 {themeMode === 'light' ? 'Scuro' : 'Chiaro'}
               </button>
@@ -424,10 +455,12 @@ function AccountPageContent() {
 
         {/* About & Follow Locale */}
         <div className="bg-theme-bg-elevated rounded-2xl p-5 shadow-lg">
-          <div className="flex items-start justify-between gap-4 mb-3">
+          <div className="mb-3 flex items-start justify-between gap-4">
             <div>
-              <h3 className="text-lg font-bold text-theme-text-primary">{coffeeshopConfig.business.name}</h3>
-              <p className="text-sm text-theme-text-secondary mt-1">
+              <h3 className="text-theme-text-primary text-lg font-bold">
+                {coffeeshopConfig.business.name}
+              </h3>
+              <p className="text-theme-text-secondary mt-1 text-sm">
                 {coffeeshopConfig.business.description}
               </p>
             </div>
@@ -439,11 +472,11 @@ function AccountPageContent() {
               />
             )}
           </div>
-          <div className="flex items-center gap-2 text-sm text-theme-text-secondary">
+          <div className="text-theme-text-secondary flex items-center gap-2 text-sm">
             <span>📍</span>
             <span>{coffeeshopConfig.location.address}</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-theme-text-secondary mt-1">
+          <div className="text-theme-text-secondary mt-1 flex items-center gap-2 text-sm">
             <span>📞</span>
             <a href={`tel:${coffeeshopConfig.contact.phone}`} className="text-pink-500">
               {coffeeshopConfig.contact.phone}
@@ -452,7 +485,7 @@ function AccountPageContent() {
         </div>
 
         {/* Version Info */}
-        <div className="text-center text-xs text-theme-text-tertiary py-4">
+        <div className="text-theme-text-tertiary py-4 text-center text-xs">
           Powered by GudBro • v1.0.0
         </div>
       </div>
@@ -478,7 +511,9 @@ function AccountPageContent() {
         onSuccess={(user) => {
           // Update profile with logged-in user data
           if (user.email) {
-            setProfile(prev => prev ? { ...prev, email: user.email, name: user.name || prev.name } : null);
+            setProfile((prev) =>
+              prev ? { ...prev, email: user.email, name: user.name || prev.name } : null
+            );
           }
           setShowAuthModal(false);
         }}
@@ -495,9 +530,26 @@ function AccountPageContent() {
           facebook: 'cafferossi',
         }}
         language={language as 'en' | 'it'}
-        onActionComplete={(actionType, points) => {
-          // TODO: In production, call API to record points
-          console.log(`Action: ${actionType}, Points: ${points}`);
+        onActionComplete={async (actionType, points) => {
+          try {
+            const response = await fetch('/api/loyalty/points', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                accountId: profile?.isRegistered ? profile.id : null,
+                sessionId: profile?.id || null, // Use id as session identifier
+                actionType,
+                metadata: { source: 'earn_points_modal' },
+              }),
+            });
+
+            const result = await response.json();
+            if (result.success) {
+              console.log(`Points recorded: ${actionType} = ${result.points}`);
+            }
+          } catch (error) {
+            console.error('Failed to record points:', error);
+          }
         }}
       />
 
@@ -512,7 +564,7 @@ function PreferencesModal({
   preferences,
   onSave,
   onClose,
-  currentLanguage
+  currentLanguage,
 }: {
   preferences: UserPreferences;
   onSave: (prefs: UserPreferences) => void;
@@ -534,20 +586,20 @@ function PreferencesModal({
   };
 
   const toggleAllergen = (allergenId: string) => {
-    setLocalPrefs(prev => ({
+    setLocalPrefs((prev) => ({
       ...prev,
       allergens_to_avoid: prev.allergens_to_avoid.includes(allergenId)
-        ? prev.allergens_to_avoid.filter(a => a !== allergenId)
-        : [...prev.allergens_to_avoid, allergenId]
+        ? prev.allergens_to_avoid.filter((a) => a !== allergenId)
+        : [...prev.allergens_to_avoid, allergenId],
     }));
   };
 
   const toggleIntolerance = (intoleranceId: string) => {
-    setLocalPrefs(prev => ({
+    setLocalPrefs((prev) => ({
       ...prev,
       intolerances: prev.intolerances.includes(intoleranceId)
-        ? prev.intolerances.filter(i => i !== intoleranceId)
-        : [...prev.intolerances, intoleranceId]
+        ? prev.intolerances.filter((i) => i !== intoleranceId)
+        : [...prev.intolerances, intoleranceId],
     }));
   };
 
@@ -555,11 +607,11 @@ function PreferencesModal({
   // Only one diet per group can be selected at a time
   const DIET_EXCLUSIVITY_GROUPS: Record<string, string[]> = {
     // Main dietary pattern - mutually exclusive
-    'main': ['vegan', 'vegetarian', 'pescatarian', 'raw'],
+    main: ['vegan', 'vegetarian', 'pescatarian', 'raw'],
     // Religious diets - can overlap with some restrictions
-    'religious': ['halal', 'kosher', 'buddhist'],
+    religious: ['halal', 'kosher', 'buddhist'],
     // Carb-related - mutually exclusive
-    'carb': ['low-carb', 'keto', 'paleo'],
+    carb: ['low-carb', 'keto', 'paleo'],
   };
 
   // Check if selecting a diet would conflict with existing selections
@@ -569,7 +621,7 @@ function PreferencesModal({
       if (groupDiets.includes(dietId)) {
         // Find other selected diets in the same group
         const selectedInGroup = localPrefs.dietary_preferences.filter(
-          d => groupDiets.includes(d) && d !== dietId
+          (d) => groupDiets.includes(d) && d !== dietId
         );
         conflicts.push(...selectedInGroup);
       }
@@ -578,22 +630,22 @@ function PreferencesModal({
   };
 
   const toggleDiet = (dietId: string) => {
-    setLocalPrefs(prev => {
+    setLocalPrefs((prev) => {
       const isCurrentlySelected = prev.dietary_preferences.includes(dietId);
 
       if (isCurrentlySelected) {
         // Deselecting - just remove it
         return {
           ...prev,
-          dietary_preferences: prev.dietary_preferences.filter(d => d !== dietId)
+          dietary_preferences: prev.dietary_preferences.filter((d) => d !== dietId),
         };
       } else {
         // Selecting - remove conflicting diets first
         const conflicts = getDietConflicts(dietId);
-        const filteredDiets = prev.dietary_preferences.filter(d => !conflicts.includes(d));
+        const filteredDiets = prev.dietary_preferences.filter((d) => !conflicts.includes(d));
         return {
           ...prev,
-          dietary_preferences: [...filteredDiets, dietId]
+          dietary_preferences: [...filteredDiets, dietId],
         };
       }
     });
@@ -608,33 +660,40 @@ function PreferencesModal({
   return (
     <>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000]"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal */}
-      <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-theme-bg-elevated rounded-2xl shadow-2xl z-[10001] max-w-md mx-auto max-h-[80vh] overflow-hidden">
+      <div className="bg-theme-bg-elevated fixed inset-x-4 top-1/2 z-[10001] mx-auto max-h-[80vh] max-w-md -translate-y-1/2 overflow-hidden rounded-2xl shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-theme-border-light">
-          <h2 className="text-xl font-bold text-theme-text-primary">Preferenze Alimentari</h2>
+        <div className="border-theme-border-light flex items-center justify-between border-b p-4">
+          <h2 className="text-theme-text-primary text-xl font-bold">Preferenze Alimentari</h2>
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-theme-bg-tertiary flex items-center justify-center hover:bg-theme-bg-secondary transition-colors"
+            className="bg-theme-bg-tertiary hover:bg-theme-bg-secondary flex h-10 w-10 items-center justify-center rounded-full transition-colors"
           >
-            <svg className="w-6 h-6 text-theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="text-theme-text-secondary h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-theme-border-light">
+        <div className="border-theme-border-light flex border-b">
           <button
             onClick={() => setActiveTab('allergens')}
             className={`flex-1 py-3 text-sm font-medium transition-colors ${
               activeTab === 'allergens'
-                ? 'text-pink-500 border-b-2 border-pink-500'
+                ? 'border-b-2 border-pink-500 text-pink-500'
                 : 'text-theme-text-secondary'
             }`}
           >
@@ -644,7 +703,7 @@ function PreferencesModal({
             onClick={() => setActiveTab('intolerances')}
             className={`flex-1 py-3 text-sm font-medium transition-colors ${
               activeTab === 'intolerances'
-                ? 'text-pink-500 border-b-2 border-pink-500'
+                ? 'border-b-2 border-pink-500 text-pink-500'
                 : 'text-theme-text-secondary'
             }`}
           >
@@ -654,7 +713,7 @@ function PreferencesModal({
             onClick={() => setActiveTab('diets')}
             className={`flex-1 py-3 text-sm font-medium transition-colors ${
               activeTab === 'diets'
-                ? 'text-pink-500 border-b-2 border-pink-500'
+                ? 'border-b-2 border-pink-500 text-pink-500'
                 : 'text-theme-text-secondary'
             }`}
           >
@@ -663,21 +722,23 @@ function PreferencesModal({
         </div>
 
         {/* Content */}
-        <div className="p-4 overflow-y-auto max-h-[50vh]">
+        <div className="max-h-[50vh] overflow-y-auto p-4">
           {activeTab === 'allergens' && (
             <div className="grid grid-cols-2 gap-2">
-              {allergensList.map(allergen => (
+              {allergensList.map((allergen) => (
                 <button
                   key={allergen.id}
                   onClick={() => toggleAllergen(allergen.id)}
-                  className={`flex items-center gap-2 p-3 rounded-xl transition-colors ${
+                  className={`flex items-center gap-2 rounded-xl p-3 transition-colors ${
                     localPrefs.allergens_to_avoid.includes(allergen.id)
-                      ? 'bg-red-100 dark:bg-red-900/30 border-2 border-red-500'
+                      ? 'border-2 border-red-500 bg-red-100 dark:bg-red-900/30'
                       : 'bg-theme-bg-secondary border-2 border-transparent'
                   }`}
                 >
                   <span className="text-xl">{allergen.icon}</span>
-                  <span className="text-sm font-medium text-theme-text-primary truncate">{getLabel(allergen)}</span>
+                  <span className="text-theme-text-primary truncate text-sm font-medium">
+                    {getLabel(allergen)}
+                  </span>
                 </button>
               ))}
             </div>
@@ -685,18 +746,20 @@ function PreferencesModal({
 
           {activeTab === 'intolerances' && (
             <div className="grid grid-cols-2 gap-2">
-              {intolerancesList.map(intolerance => (
+              {intolerancesList.map((intolerance) => (
                 <button
                   key={intolerance.id}
                   onClick={() => toggleIntolerance(intolerance.id)}
-                  className={`flex items-center gap-2 p-3 rounded-xl transition-colors ${
+                  className={`flex items-center gap-2 rounded-xl p-3 transition-colors ${
                     localPrefs.intolerances.includes(intolerance.id)
-                      ? 'bg-orange-100 dark:bg-orange-900/30 border-2 border-orange-500'
+                      ? 'border-2 border-orange-500 bg-orange-100 dark:bg-orange-900/30'
                       : 'bg-theme-bg-secondary border-2 border-transparent'
                   }`}
                 >
                   <span className="text-xl">{intolerance.icon}</span>
-                  <span className="text-sm font-medium text-theme-text-primary truncate">{getLabel(intolerance)}</span>
+                  <span className="text-theme-text-primary truncate text-sm font-medium">
+                    {getLabel(intolerance)}
+                  </span>
                 </button>
               ))}
             </div>
@@ -704,11 +767,11 @@ function PreferencesModal({
 
           {activeTab === 'diets' && (
             <>
-              <p className="text-xs text-theme-text-secondary mb-3">
+              <p className="text-theme-text-secondary mb-3 text-xs">
                 Alcune diete sono incompatibili tra loro e verranno deselezionate automaticamente.
               </p>
               <div className="grid grid-cols-2 gap-2">
-                {dietsList.map(diet => {
+                {dietsList.map((diet) => {
                   const isSelected = localPrefs.dietary_preferences.includes(diet.id);
                   const hasConflict = isDietInConflict(diet.id);
 
@@ -716,16 +779,18 @@ function PreferencesModal({
                     <button
                       key={diet.id}
                       onClick={() => toggleDiet(diet.id)}
-                      className={`flex items-center gap-2 p-3 rounded-xl transition-colors ${
+                      className={`flex items-center gap-2 rounded-xl p-3 transition-colors ${
                         isSelected
-                          ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500'
+                          ? 'border-2 border-green-500 bg-green-100 dark:bg-green-900/30'
                           : hasConflict
                             ? 'bg-theme-bg-secondary border-2 border-transparent opacity-50'
                             : 'bg-theme-bg-secondary border-2 border-transparent'
                       }`}
                     >
                       <span className="text-xl">{diet.icon}</span>
-                      <span className="text-sm font-medium text-theme-text-primary truncate">{getLabel(diet)}</span>
+                      <span className="text-theme-text-primary truncate text-sm font-medium">
+                        {getLabel(diet)}
+                      </span>
                     </button>
                   );
                 })}
@@ -735,16 +800,16 @@ function PreferencesModal({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-theme-border-light flex gap-3">
+        <div className="border-theme-border-light flex gap-3 border-t p-4">
           <button
             onClick={onClose}
-            className="flex-1 py-3 px-4 rounded-xl bg-theme-bg-tertiary text-theme-text-primary font-medium hover:bg-theme-bg-secondary transition-colors"
+            className="bg-theme-bg-tertiary text-theme-text-primary hover:bg-theme-bg-secondary flex-1 rounded-xl px-4 py-3 font-medium transition-colors"
           >
             Annulla
           </button>
           <button
             onClick={() => onSave(localPrefs)}
-            className="flex-1 py-3 px-4 rounded-xl bg-pink-500 text-white font-medium hover:bg-pink-600 transition-colors"
+            className="flex-1 rounded-xl bg-pink-500 px-4 py-3 font-medium text-white transition-colors hover:bg-pink-600"
           >
             Salva
           </button>
@@ -753,4 +818,3 @@ function PreferencesModal({
     </>
   );
 }
-

@@ -33,7 +33,7 @@ export const hemingwaySpecial: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A sophisticated daiquiri variation created for Ernest Hemingway, combining white rum, lime juice, grapefruit juice, and maraschino liqueur. Dry, complex, and citrus-forward, this drink reflects Hemingway\'s preference for less-sweet cocktails.',
+    en: "A sophisticated daiquiri variation created for Ernest Hemingway, combining white rum, lime juice, grapefruit juice, and maraschino liqueur. Dry, complex, and citrus-forward, this drink reflects Hemingway's preference for less-sweet cocktails.",
     it: 'Una sofisticata variazione del daiquiri creata per Ernest Hemingway, che combina rum bianco, succo di lime, succo di pompelmo e liquore maraschino. Secco, complesso e agrumato, questo drink riflette la preferenza di Hemingway per cocktail meno dolci.',
     vi: 'Một biến thể daiquiri tinh tế được tạo ra cho Ernest Hemingway, kết hợp rum trắng, nước chanh, nước bưởi và rượu mùi maraschino. Khô, phức tạp và hương chanh nổi bật, thức uống này phản ánh sở thích của Hemingway về cocktail ít ngọt hơn.',
   },
@@ -51,7 +51,7 @@ export const hemingwaySpecial: Cocktail = {
     },
     story: {
       en: 'Created by Constantino Ribalaigua at El Floridita in Havana for Ernest Hemingway in the 1930s. Hemingway, who was diabetic, requested a daiquiri without sugar. Ribalaigua compensated by doubling the rum and adding grapefruit juice and maraschino liqueur. Hemingway loved it and it became his signature drink. He reportedly drank up to 17 in a single sitting. Also known as "Papa Doble" (Papa was Hemingway\'s nickname, Doble for double rum).',
-      it: 'Creato da Constantino Ribalaigua all\'El Floridita all\'Avana per Ernest Hemingway negli anni \'30. Hemingway, che era diabetico, chiese un daiquiri senza zucchero. Ribalaigua compensò raddoppiando il rum e aggiungendo succo di pompelmo e liquore maraschino. Hemingway lo adorò e divenne il suo drink signature. Pare che ne bevesse fino a 17 in una sola seduta. Conosciuto anche come "Papa Doble" (Papa era il soprannome di Hemingway, Doble per il doppio rum).',
+      it: "Creato da Constantino Ribalaigua all'El Floridita all'Avana per Ernest Hemingway negli anni '30. Hemingway, che era diabetico, chiese un daiquiri senza zucchero. Ribalaigua compensò raddoppiando il rum e aggiungendo succo di pompelmo e liquore maraschino. Hemingway lo adorò e divenne il suo drink signature. Pare che ne bevesse fino a 17 in una sola seduta. Conosciuto anche come \"Papa Doble\" (Papa era il soprannome di Hemingway, Doble per il doppio rum).",
       vi: 'Được tạo ra bởi Constantino Ribalaigua tại El Floridita ở Havana cho Ernest Hemingway vào những năm 1930. Hemingway, người bị tiểu đường, yêu cầu một daiquiri không đường. Ribalaigua đã bù đắp bằng cách tăng gấp đôi rum và thêm nước bưởi và rượu mùi maraschino. Hemingway yêu thích nó và nó trở thành thức uống đặc trưng của ông. Ông được cho là đã uống tới 17 ly trong một lần ngồi. Còn được gọi là "Papa Doble" (Papa là biệt danh của Hemingway, Doble cho rum đôi).',
     },
     named_after: {
@@ -123,7 +123,11 @@ export const hemingwaySpecial: Cocktail = {
     {
       ingredient_id: 'ING_MARASCHINO',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Maraschino liqueur', it: 'Liquore maraschino', vi: 'Rượu mùi maraschino' },
+      display_name: {
+        en: 'Maraschino liqueur',
+        it: 'Liquore maraschino',
+        vi: 'Rượu mùi maraschino',
+      },
     },
   ],
 
@@ -168,7 +172,14 @@ export const hemingwaySpecial: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +198,8 @@ export const hemingwaySpecial: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['papa-doble', 'hemingway-daiquiri'],
 
-  notes_for_staff: 'Also called "Papa Doble." Hemingway requested no sugar due to diabetes. Use fresh grapefruit juice for best results. Quality maraschino liqueur (like Luxardo) is essential. Can serve frozen/blended as Hemingway preferred.',
+  notes_for_staff:
+    'Also called "Papa Doble." Hemingway requested no sugar due to diabetes. Use fresh grapefruit juice for best results. Quality maraschino liqueur (like Luxardo) is essential. Can serve frozen/blended as Hemingway preferred.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +212,7 @@ export const hemingwaySpecial: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/hemingway-special/',
-    note: 'IBA Official Recipe. Created at El Floridita, Havana.',
+    notes: 'IBA Official Recipe. Created at El Floridita, Havana.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

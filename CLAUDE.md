@@ -2,8 +2,17 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-05
-> **Version:** 5.0 (Numbered sections for reliable memorization)
+> **Last Updated:** 2026-01-07
+> **Version:** 6.1 (Added Plan Mode + verify-app subagent + auto-format hook)
+
+---
+
+# 0. CURRENT FOCUS (Aggiorna quando cambi task)
+
+> **Task attiva:** ING-TRANSLATIONS-ALL
+> **Stato:** Fase 2 in corso (~10%)
+> **Azione:** Continua traduzioni ingredienti da OFFSET 150
+> **Dettagli:** Vedi `docs/backlog/2-IN-PROGRESS.md`
 
 ---
 
@@ -31,10 +40,10 @@ RISPONDI con questo formato ESATTO:
 
 "GUDBRO Ready.
 
-IN PROGRESS: [lista task da 2-IN-PROGRESS.md, o "Nessuna"]
-ULTIME COMPLETATE: [ultime 3 da 4-DONE.md con data]
+FOCUS: [task da sezione 0, o "Nessuno"]
+IN PROGRESS: [lista task da 2-IN-PROGRESS.md]
 
-Cosa facciamo?"
+Vuoi continuare [FOCUS task] o fare altro?"
 ```
 
 ## 1.2 Esempio di Risposta Corretta
@@ -42,13 +51,10 @@ Cosa facciamo?"
 ```
 GUDBRO Ready.
 
-IN PROGRESS: GB-AI-P14 (AI Reports Dashboard)
-ULTIME COMPLETATE:
-- 2026-01-05: MT-EMPTY-STATES (Empty State component)
-- 2026-01-05: MT-NOTIF-SOUNDS (Notification Sounds)
-- 2026-01-05: GB-AI-SEED (AI Seed Data)
+FOCUS: ING-TRANSLATIONS-ALL (traduzioni ingredienti, ~10%, OFFSET 150)
+IN PROGRESS: ING-TRANSLATIONS-ALL
 
-Cosa facciamo?
+Vuoi continuare le traduzioni o fare altro?
 ```
 
 ## 1.3 Se l'utente chiede contesto aggiuntivo
@@ -63,20 +69,129 @@ Solo se richiesto, leggi anche:
 
 # 2. DEVELOPMENT WORKFLOW
 
-> **REGOLA D'ORO:** Explore → Plan → Validate → Implement → Document
+> **REGOLA D'ORO:** Explore → Plan → **Verify** → Validate → Implement → Document
 
 **Mai saltare fasi.** Gli errori nascono saltando direttamente all'implementazione.
 
-| Fase      | Azione                       | Output          |
-| --------- | ---------------------------- | --------------- |
-| EXPLORE   | Leggi, capisci, NON scrivere | Comprensione    |
-| PLAN      | Cosa, Come, Perche, Rischi   | Piano           |
-| VALIDATE  | Check PRIMA di implementare  | ✅ o ❌         |
-| IMPLEMENT | Codice con confidenza        | Funziona        |
-| DOCUMENT  | Mantieni la conoscenza       | Docs aggiornati |
+| Fase       | Azione                                | Output          |
+| ---------- | ------------------------------------- | --------------- |
+| EXPLORE    | Leggi, capisci, NON scrivere          | Comprensione    |
+| PLAN       | Cosa, Come, Perche, Rischi            | Piano           |
+| **VERIFY** | **Ricerca online se confidenza <95%** | **Cross-check** |
+| VALIDATE   | Check PRIMA di implementare           | ✅ o ❌         |
+| IMPLEMENT  | Codice con confidenza                 | Funziona        |
+| DOCUMENT   | Mantieni la conoscenza                | Docs aggiornati |
+
+## 2.1 VERIFY Online (Step Opzionale ma Raccomandato)
+
+> **Principio:** "Measure twice, cut once" - 2 min di ricerca possono risparmiare ore di debug.
+
+**QUANDO FARE RICERCA ONLINE:**
+
+| Situazione              | Esempio                                        |
+| ----------------------- | ---------------------------------------------- |
+| Confidenza < 95%        | "Credo che si faccia così, ma non sono sicuro" |
+| Tecnologie che cambiano | Supabase, Next.js, Vercel, PostgreSQL          |
+| Errori criptici         | Messaggi di errore non chiari                  |
+| Security-related        | RLS, auth, permessi                            |
+| Edge cases              | Comportamenti non standard                     |
+
+**QUANDO NON SERVE:**
+
+| Situazione              | Esempio                            |
+| ----------------------- | ---------------------------------- |
+| Pattern consolidati     | CRUD, async/await, TypeScript base |
+| Logica interna progetto | Come funziona GUDBRO               |
+| Confidenza > 95%        | So esattamente cosa fare           |
+
+**COME CERCARE:**
+
+```
+WebSearch("supabase RLS service_role best practice 2025")
+WebFetch("https://supabase.com/docs/guides/auth/row-level-security")
+```
 
 **Riferimento completo:** `docs/DEVELOPMENT-WORKFLOW.md`
 **Checklist per tipo task:** `docs/PROCEDURE-CHECKLIST.md`
+
+## 2.2 PLAN MODE (Per Task Complesse)
+
+> **Ispirato a Boris Cherny:** "Plan mode permette a Claude di esplorare e progettare prima di implementare."
+
+**COS'È PLAN MODE:**
+
+Plan mode è una modalità speciale di Claude Code che:
+
+- Permette di esplorare il codebase senza scrivere
+- Crea un piano dettagliato prima dell'implementazione
+- Richiede approvazione utente prima di procedere
+- Riduce errori e rework
+
+**QUANDO USARE PLAN MODE:**
+
+| Situazione                | Esempio                            |
+| ------------------------- | ---------------------------------- |
+| Nuove feature multi-file  | "Aggiungi sistema di prenotazioni" |
+| Refactoring significativo | "Ristruttura il sistema di auth"   |
+| Decisioni architetturali  | "Come integrare pagamenti?"        |
+| Task > 30 min stimate     | Qualsiasi lavoro complesso         |
+| Incertezza alta           | "Non so bene da dove partire"      |
+
+**QUANDO NON SERVE:**
+
+| Situazione         | Esempio                        |
+| ------------------ | ------------------------------ |
+| Bug fix singolo    | "Fixxa il typo in questo file" |
+| Modifiche puntuali | "Cambia il colore del bottone" |
+| Task < 10 min      | Lavoro triviale                |
+
+**COME ATTIVARE:**
+
+```
+Metodo 1: Shift+Tab (due volte)
+Metodo 2: Chiedere "entra in plan mode"
+Metodo 3: Claude lo suggerisce per task complesse
+```
+
+**OUTPUT DI PLAN MODE:**
+
+1. **Analisi** - Comprensione del problema
+2. **Files coinvolti** - Lista file da creare/modificare
+3. **Piano step-by-step** - Sequenza di azioni
+4. **Rischi identificati** - Potenziali problemi
+5. **Richiesta approvazione** - Prima di implementare
+
+**ESEMPIO:**
+
+```
+User: "Aggiungi dark mode all'app"
+
+Claude (Plan Mode):
+## Piano: Dark Mode Implementation
+
+### Analisi
+- L'app usa Tailwind CSS
+- Nessun sistema di temi presente
+- 15 componenti da aggiornare
+
+### Files da modificare
+1. tailwind.config.js - aggiungere dark mode
+2. lib/theme-context.tsx - nuovo context
+3. components/ThemeToggle.tsx - nuovo componente
+4. 15 componenti esistenti - classi dark:
+
+### Steps
+1. Configurare Tailwind per dark mode
+2. Creare ThemeContext e provider
+3. Aggiungere toggle in header
+4. Aggiornare componenti uno alla volta
+
+### Rischi
+- Alcuni colori hardcoded potrebbero sfuggire
+- Test manuale richiesto su tutti i componenti
+
+Approvi questo piano?
+```
 
 ---
 
@@ -113,6 +228,58 @@ VERIFICA SEMPRE:
 
 ---
 
+# 3.5 COMPOUNDING ENGINEERING
+
+> **Principio Boris Cherny:** "Ogni volta che Claude fa qualcosa di sbagliato, lo aggiungiamo qui."
+> Questo file cresce nel tempo, Claude impara e non ripete gli stessi errori.
+
+## Errori Passati (Aggiungi qui quando succedono!)
+
+| Data    | Errore                     | Causa                               | Soluzione                                        | File/Area          |
+| ------- | -------------------------- | ----------------------------------- | ------------------------------------------------ | ------------------ |
+| 2026-01 | UUID con lettere g-z       | Generazione manuale                 | Solo 0-9, a-f                                    | Database seeds     |
+| 2026-01 | Array `[]` invece `{}`     | Sintassi JS vs PG                   | PostgreSQL usa `'{a,b}'`                         | SQL inserts        |
+| 2026-01 | Import types sbagliati     | Path relativi errati                | Usa `@/types/`                                   | TypeScript         |
+| 2026-01 | Feature gia esistente      | Non cercato prima                   | Grep/Glob PRIMA di implementare                  | Tutto              |
+| 2026-01 | Pieces MCP timeout         | Server non ancora sincronizzato     | Aspetta ~4 giorni (fino ~11 Jan)                 | End session        |
+| 2026-01 | RLS policy `true`          | Permette accesso a tutti            | Usare `auth.role() = 'service_role'` per backend | AI tables          |
+| 2026-01 | Policies "dev\_\*" in prod | Lasciate da sviluppo                | Rimuovere o sostituire con policies proper       | events table       |
+| 2026-01 | function search_path       | Vulnerabilità injection             | `ALTER FUNCTION x SET search_path = public`      | Tutte le functions |
+| 2026-01 | MultiLangText vi required  | Traduzioni incomplete               | Rendere `vi?` opzionale finché non completate    | Tipi database      |
+| 2026-01 | note vs notes              | Inconsistenza naming                | Usare sempre plurale `notes` per chiarezza       | Cocktail types     |
+| 2026-01 | Export duplicati           | `export interface` + default export | Mai duplicare - usare solo uno dei due           | menu-management.ts |
+| 2026-01 | Tentare senza verificare   | Confidenza < 95% ma procedo         | **VERIFY online** prima di implementare          | Workflow generale  |
+
+## Pattern da Seguire
+
+| Area            | Pattern Corretto                | Anti-Pattern              |
+| --------------- | ------------------------------- | ------------------------- |
+| SQL Arrays      | `'{\"a\",\"b\"}'`               | `'["a","b"]'`             |
+| UUID            | `a1b2c3d4-...` (solo hex)       | `ghij-klmn-...`           |
+| Imports         | `import { X } from '@/lib/...'` | Path relativi profondi    |
+| Error handling  | `try/catch` con logging         | Silent failures           |
+| RLS Backend     | `auth.role() = 'service_role'`  | `WITH CHECK (true)`       |
+| RLS User        | `auth.uid() = user_id`          | `USING (true)`            |
+| RLS Public Read | `FOR SELECT USING (true)` OK    | `FOR ALL USING (true)` NO |
+
+## Come Aggiornare
+
+Quando Claude fa un errore, l'utente puo' dire:
+
+- "questa e' una nuova lezione"
+- "ricordati questo errore"
+- "non farlo piu'"
+- "segnati questo"
+- "lesson learned"
+
+Claude deve:
+
+1. Aggiungere riga alla tabella "Errori Passati"
+2. Se e' un pattern, aggiungere a "Pattern da Seguire"
+3. Confermare: "Aggiunto a Compounding Engineering"
+
+---
+
 # 4. REPOSITORY STRUCTURE
 
 ```
@@ -145,13 +312,13 @@ gudbro-verticals/
 
 ## 5.1 Stato Attuale (2026-01-05)
 
-| Metrica           | Valore                |
-| ----------------- | --------------------- |
-| Database Food     | 75                    |
-| Prodotti          | ~4653                 |
-| Ingredienti       | 2548 (100% nutrition) |
-| Migrations Schema | 37 (27 core + 10 AI)  |
-| AI Services       | 13                    |
+| Metrica           | Valore                       |
+| ----------------- | ---------------------------- |
+| Database Food     | 75                           |
+| Prodotti          | ~4653                        |
+| Ingredienti       | 2548 (100% nutrition)        |
+| Migrations Schema | 41 (27 core + 10 AI + 4 sec) |
+| AI Services       | 13                           |
 
 ## 5.2 Schema Source of Truth
 
@@ -292,6 +459,44 @@ npx supabase gen types typescript
 ## 11.2 API Routes (apps/backoffice/app/api/ai/)
 
 All routes follow pattern: `/api/ai/[feature]`
+
+---
+
+# 11.5 SLASH COMMANDS & HOOKS
+
+> **Ispirato a Boris Cherny** (creatore Claude Code): automazione e verifica integrata.
+
+## Comandi Disponibili
+
+| Comando            | Descrizione                                      |
+| ------------------ | ------------------------------------------------ |
+| `/start-session`   | Inizia sessione, legge backlog e CLAUDE.md       |
+| `/end-session`     | Chiudi sessione, salva contesto                  |
+| `/deploy`          | Build + push + verifica Vercel                   |
+| `/typecheck`       | Esegui typecheck TypeScript                      |
+| `/verify`          | Verifica completa (typecheck + build + advisors) |
+| `/db-status`       | Stato database e traduzioni                      |
+| `/translate-batch` | Continua traduzioni da dove interrotto           |
+
+## Hooks Attivi
+
+| Hook         | Trigger         | Azione                          |
+| ------------ | --------------- | ------------------------------- |
+| post-edit.sh | Edit/Write file | Reminder typecheck per .ts/.tsx |
+
+## Come Aggiungere Comandi
+
+```bash
+# Crea nuovo comando
+touch .claude/commands/nome-comando.md
+
+# Struttura:
+---
+description: Breve descrizione
+allowed-tools: Bash(*), mcp__supabase__*
+---
+# Contenuto del comando
+```
 
 ---
 
@@ -516,6 +721,10 @@ mcp__Pieces__ask_pieces_ltm(
 ---
 
 **File:** `CLAUDE.md`
-**Version:** 5.4
-**Updated:** 2026-01-05
-**Changes:** v5.4 - Aggiunta sezione 16 GitHub Issues Sync per tracking pubblico.
+**Version:** 6.1
+**Updated:** 2026-01-07
+**Changes:**
+
+- v6.1 - Plan Mode (2.2), verify-app subagent, auto-format hook (Boris Cherny improvements)
+- v6.0 - Compounding Engineering (3.5), Slash Commands & Hooks (11.5), Current Focus (0)
+- v5.4 - Aggiunta sezione 16 GitHub Issues Sync per tracking pubblico.

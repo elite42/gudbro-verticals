@@ -113,7 +113,11 @@ export const whiteRussian: Cocktail = {
     {
       ingredient_id: 'ING_COFFEE_LIQUEUR',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Coffee liqueur (Kahlúa)', it: 'Liquore al caffè (Kahlúa)', vi: 'Rượu mùi cà phê (Kahlúa)' },
+      display_name: {
+        en: 'Coffee liqueur (Kahlúa)',
+        it: 'Liquore al caffè (Kahlúa)',
+        vi: 'Rượu mùi cà phê (Kahlúa)',
+      },
     },
     {
       ingredient_id: 'ING_HEAVY_CREAM',
@@ -182,7 +186,8 @@ export const whiteRussian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['black-russian', 'dirty-russian', 'mudslide', 'colorado-bulldog'],
 
-  notes_for_staff: 'The cream can be floated on top (layered) for visual appeal, or stirred in for consistency. "The Dude" from The Big Lebowski is famous for drinking these - popular culture reference. Can substitute half-and-half for cream if preferred lighter. Kahlúa is traditional but any coffee liqueur works. Deceptively strong despite creamy sweetness.',
+  notes_for_staff:
+    'The cream can be floated on top (layered) for visual appeal, or stirred in for consistency. "The Dude" from The Big Lebowski is famous for drinking these - popular culture reference. Can substitute half-and-half for cream if preferred lighter. Kahlúa is traditional but any coffee liqueur works. Deceptively strong despite creamy sweetness.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +200,7 @@ export const whiteRussian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/white-russian/',
-    note: 'IBA Official Recipe. Cultural reference from "The Big Lebowski" (1998).',
+    notes: 'IBA Official Recipe. Cultural reference from "The Big Lebowski" (1998).',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

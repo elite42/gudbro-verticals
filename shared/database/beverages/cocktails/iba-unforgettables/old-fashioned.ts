@@ -39,7 +39,7 @@ export const oldFashioned: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The Old Fashioned is the original cocktail, the definition of what a cocktail should be. Simple yet sophisticated, it combines whiskey, sugar, bitters, and water. A timeless American classic that showcases the quality of the spirit.',
-    it: 'L\'Old Fashioned è il cocktail originale, la definizione di ciò che dovrebbe essere un cocktail. Semplice ma sofisticato, combina whiskey, zucchero, bitters e acqua. Un classico americano senza tempo che mette in mostra la qualità dello spirito.',
+    it: "L'Old Fashioned è il cocktail originale, la definizione di ciò che dovrebbe essere un cocktail. Semplice ma sofisticato, combina whiskey, zucchero, bitters e acqua. Un classico americano senza tempo che mette in mostra la qualità dello spirito.",
     vi: 'Old Fashioned là cocktail gốc, định nghĩa về những gì một cocktail nên là. Đơn giản nhưng tinh tế, kết hợp whiskey, đường, bitters và nước. Một tác phẩm kinh điển Mỹ vượt thời gian thể hiện chất lượng rượu mạnh.',
   },
 
@@ -69,8 +69,8 @@ export const oldFashioned: Cocktail = {
   taste: {
     profile: ['spirit-forward', 'sweet', 'aromatic', 'smooth'],
     description: {
-      en: 'The Old Fashioned is spirit-forward, allowing the whiskey\'s character to shine. Sugar provides gentle sweetness, while Angostura bitters add complexity with notes of cinnamon, clove, and orange. The muddling and dilution create a smooth, well-integrated drink that highlights the bourbon or rye.',
-      it: 'L\'Old Fashioned è incentrato sullo spirito, permettendo al carattere del whiskey di brillare. Lo zucchero fornisce dolcezza delicata, mentre gli Angostura bitters aggiungono complessità con note di cannella, chiodi di garofano e arancia. Il muddling e la diluizione creano un drink morbido e ben integrato che mette in evidenza il bourbon o il rye.',
+      en: "The Old Fashioned is spirit-forward, allowing the whiskey's character to shine. Sugar provides gentle sweetness, while Angostura bitters add complexity with notes of cinnamon, clove, and orange. The muddling and dilution create a smooth, well-integrated drink that highlights the bourbon or rye.",
+      it: "L'Old Fashioned è incentrato sullo spirito, permettendo al carattere del whiskey di brillare. Lo zucchero fornisce dolcezza delicata, mentre gli Angostura bitters aggiungono complessità con note di cannella, chiodi di garofano e arancia. Il muddling e la diluizione creano un drink morbido e ben integrato che mette in evidenza il bourbon o il rye.",
       vi: 'Old Fashioned hướng về rượu mạnh, cho phép đặc tính whiskey tỏa sáng. Đường cung cấp vị ngọt nhẹ nhàng, trong khi Angostura bitters thêm độ phức tạp với hương quế, đinh hương và cam. Việc nghiền và pha loãng tạo ra đồ uống mượt mà, hòa quyện tốt làm nổi bật bourbon hoặc rye.',
     },
     first_impression: {
@@ -100,7 +100,7 @@ export const oldFashioned: Cocktail = {
       vi: 'Tuyệt vời với thực phẩm đậm đà, mặn: bít tết nướng, thịt hun khói, phô mai lâu năm, sô-cô-la đen và xì gà. Whiskey chịu được hương vị đậm.',
     },
     ideal_for: {
-      en: 'Perfect for whiskey enthusiasts, those who appreciate spirit-forward cocktails, sophisticated evenings, and anyone seeking a timeless classic. Louisville\'s official cocktail.',
+      en: "Perfect for whiskey enthusiasts, those who appreciate spirit-forward cocktails, sophisticated evenings, and anyone seeking a timeless classic. Louisville's official cocktail.",
       it: 'Perfetto per gli appassionati di whiskey, coloro che apprezzano i cocktail incentrati sullo spirito, serate sofisticate e chiunque cerchi un classico senza tempo. Cocktail ufficiale di Louisville.',
       vi: 'Hoàn hảo cho người đam mê whiskey, những ai đánh giá cao cocktail hướng rượu mạnh, buổi tối tinh tế và bất kỳ ai tìm kiếm tác phẩm kinh điển vượt thời gian. Cocktail chính thức của Louisville.',
     },
@@ -113,7 +113,11 @@ export const oldFashioned: Cocktail = {
     {
       ingredient_id: 'ING_BOURBON',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Bourbon or Rye Whiskey', it: 'Bourbon o Rye Whiskey', vi: 'Bourbon hoặc Rye Whiskey' },
+      display_name: {
+        en: 'Bourbon or Rye Whiskey',
+        it: 'Bourbon o Rye Whiskey',
+        vi: 'Bourbon hoặc Rye Whiskey',
+      },
     },
     {
       ingredient_id: 'ING_SUPERFINE_SUGAR',
@@ -131,7 +135,7 @@ export const oldFashioned: Cocktail = {
 
   instructions: {
     en: 'Place sugar cube in an old fashioned glass and saturate with Angostura bitters. Add a few dashes of plain water. Muddle until the sugar is dissolved. Fill the glass with large ice cubes and add the whiskey. Stir gently for about 20 seconds. Garnish with an orange slice or zest and a cocktail cherry.',
-    it: 'Posizionare la zolletta di zucchero in un bicchiere old fashioned e saturare con Angostura bitters. Aggiungere qualche goccia di acqua naturale. Pestare fino a quando lo zucchero si dissolve. Riempire il bicchiere con cubetti di ghiaccio grandi e aggiungere il whiskey. Mescolare delicatamente per circa 20 secondi. Guarnire con una fetta d\'arancia o scorza e una ciliegia da cocktail.',
+    it: "Posizionare la zolletta di zucchero in un bicchiere old fashioned e saturare con Angostura bitters. Aggiungere qualche goccia di acqua naturale. Pestare fino a quando lo zucchero si dissolve. Riempire il bicchiere con cubetti di ghiaccio grandi e aggiungere il whiskey. Mescolare delicatamente per circa 20 secondi. Guarnire con una fetta d'arancia o scorza e una ciliegia da cocktail.",
     vi: 'Đặt viên đường vào ly old fashioned và bão hòa với Angostura bitters. Thêm vài giọt nước lọc. Nghiền cho đến khi đường tan. Đổ đầy ly bằng viên đá lớn và thêm whiskey. Khuấy nhẹ nhàng khoảng 20 giây. Trang trí bằng lát cam hoặc vỏ cam và cherry cocktail.',
   },
 
@@ -139,7 +143,7 @@ export const oldFashioned: Cocktail = {
 
   garnish: {
     en: 'Orange slice or zest, and a cocktail cherry',
-    it: 'Fetta d\'arancia o scorza, e una ciliegia da cocktail',
+    it: "Fetta d'arancia o scorza, e una ciliegia da cocktail",
     vi: 'Lát cam hoặc vỏ cam, và cherry cocktail',
   },
 
@@ -162,7 +166,14 @@ export const oldFashioned: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -181,7 +192,8 @@ export const oldFashioned: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: [],
 
-  notes_for_staff: 'Use quality bourbon or rye - the spirit is the star. Large ice cubes are essential to minimize dilution. Muddle gently - you want to dissolve the sugar, not pulverize it. The classic garnish is orange and cherry, but some prefer just an expressed orange peel. Wisconsin-style Old Fashioned uses brandy and adds soda - specify which style customer wants. During Louisville\'s "Old Fashioned Fortnight" (first two weeks of June), feature this cocktail prominently.',
+  notes_for_staff:
+    'Use quality bourbon or rye - the spirit is the star. Large ice cubes are essential to minimize dilution. Muddle gently - you want to dissolve the sugar, not pulverize it. The classic garnish is orange and cherry, but some prefer just an expressed orange peel. Wisconsin-style Old Fashioned uses brandy and adds soda - specify which style customer wants. During Louisville\'s "Old Fashioned Fortnight" (first two weeks of June), feature this cocktail prominently.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -194,7 +206,8 @@ export const oldFashioned: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/old-fashioned/',
-    note: 'IBA Official Recipe. Historical information from Chicago Daily Tribune (1880) and cocktail historians David Wondrich and Robert Simonson. Named official cocktail of Louisville, Kentucky on June 4, 2015.',
+    notes:
+      'IBA Official Recipe. Historical information from Chicago Daily Tribune (1880) and cocktail historians David Wondrich and Robert Simonson. Named official cocktail of Louisville, Kentucky on June 4, 2015.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

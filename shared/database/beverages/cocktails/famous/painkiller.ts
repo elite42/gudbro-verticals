@@ -31,7 +31,7 @@ export const painkiller: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The Painkiller is the signature cocktail of the British Virgin Islands, combining dark rum with pineapple juice, orange juice, and coconut cream. This creamy tropical drink topped with nutmeg is the ultimate island escape in a glass.',
-    it: 'Il Painkiller è il cocktail emblematico delle Isole Vergini Britanniche, che combina rum scuro con succo di ananas, succo di arancia e crema di cocco. Questa bevanda tropicale e cremosa guarnita con noce moscata è la fuga definitiva verso l\'isola in un bicchiere.',
+    it: "Il Painkiller è il cocktail emblematico delle Isole Vergini Britanniche, che combina rum scuro con succo di ananas, succo di arancia e crema di cocco. Questa bevanda tropicale e cremosa guarnita con noce moscata è la fuga definitiva verso l'isola in un bicchiere.",
     vi: 'Painkiller là cocktail đặc trưng của Quần đảo Virgin thuộc Anh, kết hợp rum đen với nước ananás, nước cam và kem dừa. Thức uống nhiệt đới béo ngậy này được phủ nhục đậu khấu là sự thoát ly hoàn hảo đến hòn đảo trong ly.',
   },
 
@@ -62,7 +62,7 @@ export const painkiller: Cocktail = {
     profile: ['tropical', 'creamy', 'sweet'],
     description: {
       en: 'Rich and indulgent with layers of tropical fruit flavors. The Painkiller balances pineapple brightness with orange tang, coconut creaminess, and the deep, warming notes of aged rum, finished with aromatic nutmeg.',
-      it: 'Ricco e indulgente con strati di sapori di frutta tropicale. Il Painkiller bilancia la brillantezza dell\'ananas con il sapore aspro dell\'arancia, la cremosità del cocco e le note profonde e calde del rum invecchiato, finito con noce moscata aromatica.',
+      it: "Ricco e indulgente con strati di sapori di frutta tropicale. Il Painkiller bilancia la brillantezza dell'ananas con il sapore aspro dell'arancia, la cremosità del cocco e le note profonde e calde del rum invecchiato, finito con noce moscata aromatica.",
       vi: 'Đậm đà và nuông chiều với nhiều lớp hương vị trái cây nhiệt đới. Painkiller cân bằng độ tươi sáng của ananás với vị chua của cam, độ béo ngậy của dừa và hương vị sâu, ấm áp của rum già, hoàn thiện với nhục đậu khấu thơm.',
     },
     first_impression: {
@@ -93,7 +93,7 @@ export const painkiller: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for beach lovers and tropical cocktail enthusiasts. Ideal for anyone seeking a vacation vibe or looking to escape to an island paradise. Great for those who enjoy creamy, dessert-like cocktails.',
-      it: 'Perfetto per gli amanti della spiaggia e gli appassionati di cocktail tropicali. Ideale per chiunque cerchi un\'atmosfera di vacanza o voglia fuggire in un paradiso insulare. Ottimo per chi ama i cocktail cremosi simili ai dessert.',
+      it: "Perfetto per gli amanti della spiaggia e gli appassionati di cocktail tropicali. Ideale per chiunque cerchi un'atmosfera di vacanza o voglia fuggire in un paradiso insulare. Ottimo per chi ama i cocktail cremosi simili ai dessert.",
       vi: 'Hoàn hảo cho những người yêu biển và những người đam mê cocktail nhiệt đới. Lý tưởng cho bất kỳ ai tìm kiếm không khí nghỉ dưỡng hoặc muốn trốn đến thiên đường hòn đảo. Tuyệt vời cho những ai thích cocktail béo ngậy giống món tráng miệng.',
     },
   },
@@ -105,7 +105,11 @@ export const painkiller: Cocktail = {
     {
       ingredient_id: 'ING_RUM_DARK',
       quantity: { amount: 60, unit: 'ml' },
-      display_name: { en: 'Dark rum (Pusser\'s)', it: 'Rum scuro (Pusser\'s)', vi: 'Rum đen (Pusser\'s)' },
+      display_name: {
+        en: "Dark rum (Pusser's)",
+        it: "Rum scuro (Pusser's)",
+        vi: "Rum đen (Pusser's)",
+      },
     },
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
@@ -115,7 +119,7 @@ export const painkiller: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Orange juice', it: 'Succo d\'arancia', vi: 'Nước cam' },
+      display_name: { en: 'Orange juice', it: "Succo d'arancia", vi: 'Nước cam' },
     },
     {
       ingredient_id: 'ING_COCONUT_CREAM',
@@ -136,7 +140,7 @@ export const painkiller: Cocktail = {
 
   garnish: {
     en: 'Freshly grated nutmeg, pineapple wedge, orange slice',
-    it: 'Noce moscata appena grattugiata, spicchio di ananas, fetta d\'arancia',
+    it: "Noce moscata appena grattugiata, spicchio di ananas, fetta d'arancia",
     vi: 'Nhục đậu khấu mới xay, nhánh ananás, lát cam',
   },
 
@@ -165,7 +169,14 @@ export const painkiller: Cocktail = {
   computed: {
     allergens: ['coconut', 'sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 1,
   },
 
@@ -184,7 +195,8 @@ export const painkiller: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['painkiller-2', 'painkiller-3', 'painkiller-4'],
 
-  notes_for_staff: 'Original recipe calls for Pusser\'s Navy Rum. Ratios vary: Painkiller #2 (2oz rum), #3 (3oz rum), #4 (4oz rum). Always use freshly grated nutmeg, not pre-ground. Crushed ice is essential for proper dilution.',
+  notes_for_staff:
+    "Original recipe calls for Pusser's Navy Rum. Ratios vary: Painkiller #2 (2oz rum), #3 (3oz rum), #4 (4oz rum). Always use freshly grated nutmeg, not pre-ground. Crushed ice is essential for proper dilution.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +209,8 @@ export const painkiller: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://pussersrum.com/painkiller-cocktail/',
-    note: 'Official Pusser\'s Rum recipe. Historical information from Soggy Dollar Bar and Caribbean cocktail sources.',
+    notes:
+      "Official Pusser's Rum recipe. Historical information from Soggy Dollar Bar and Caribbean cocktail sources.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

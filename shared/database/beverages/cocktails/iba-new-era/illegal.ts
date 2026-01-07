@@ -33,7 +33,7 @@ export const illegal: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A smoky, sophisticated cocktail featuring mezcal, aged rum, maraschino liqueur, and falernum. This modern classic showcases the complex interplay between mezcal\'s smoke, rum\'s richness, and exotic tiki spices, creating a drink that\'s both mysterious and utterly compelling.',
+    en: "A smoky, sophisticated cocktail featuring mezcal, aged rum, maraschino liqueur, and falernum. This modern classic showcases the complex interplay between mezcal's smoke, rum's richness, and exotic tiki spices, creating a drink that's both mysterious and utterly compelling.",
     it: 'Un cocktail affumicato e sofisticato con mezcal, rum invecchiato, liquore di maraschino e falernum. Questo classico moderno mostra il complesso gioco tra il fumo del mezcal, la ricchezza del rum e le spezie tiki esotiche, creando una bevanda misteriosa e assolutamente avvincente.',
     vi: 'Một cocktail khói, tinh tế với mezcal, rum ủ, rượu mùi maraschino và falernum. Tác phẩm hiện đại này thể hiện sự tương tác phức tạp giữa khói mezcal, sự đậm đà của rum và gia vị tiki kỳ lạ, tạo ra đồ uống vừa bí ẩn vừa hấp dẫn tuyệt đối.',
   },
@@ -64,7 +64,7 @@ export const illegal: Cocktail = {
   taste: {
     profile: ['smoky', 'complex', 'spiced', 'sophisticated'],
     description: {
-      en: 'Beautifully layered with mezcal\'s signature smoke melding with aged rum\'s caramel richness, maraschino\'s cherry-almond complexity, and falernum\'s exotic spices. The lime provides brightness while bitters add depth. Each sip reveals new dimensions.',
+      en: "Beautifully layered with mezcal's signature smoke melding with aged rum's caramel richness, maraschino's cherry-almond complexity, and falernum's exotic spices. The lime provides brightness while bitters add depth. Each sip reveals new dimensions.",
       it: 'Magnificamente stratificato con il caratteristico fumo del mezcal che si fonde con la ricchezza caramellata del rum invecchiato, la complessità ciliegia-mandorla del maraschino e le spezie esotiche del falernum. Il lime fornisce luminosità mentre i bitter aggiungono profondità. Ogni sorso rivela nuove dimensioni.',
       vi: 'Nhiều lớp tuyệt đẹp với khói đặc trưng của mezcal hòa quyện với sự đậm đà caramel của rum ủ, độ phức tạp cherry-hạnh nhân của maraschino và gia vị kỳ lạ của falernum. Chanh cung cấp độ sáng trong khi bitters thêm chiều sâu. Mỗi ngụm tiết lộ những chiều hướng mới.',
     },
@@ -118,7 +118,11 @@ export const illegal: Cocktail = {
     {
       ingredient_id: 'ING_MARASCHINO_LIQUEUR',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Maraschino liqueur', it: 'Liquore di maraschino', vi: 'Rượu mùi maraschino' },
+      display_name: {
+        en: 'Maraschino liqueur',
+        it: 'Liquore di maraschino',
+        vi: 'Rượu mùi maraschino',
+      },
     },
     {
       ingredient_id: 'ING_FALERNUM',
@@ -178,7 +182,14 @@ export const illegal: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -197,7 +208,8 @@ export const illegal: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['legal-cocktail', 'illegal-on-rocks'],
 
-  notes_for_staff: 'Quality mezcal is essential - use Espadin or similar. Luxardo maraschino preferred. Falernum adds critical spice notes. Double strain for clarity. Smoke should be present but balanced.',
+  notes_for_staff:
+    'Quality mezcal is essential - use Espadin or similar. Luxardo maraschino preferred. Falernum adds critical spice notes. Double strain for clarity. Smoke should be present but balanced.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -210,7 +222,7 @@ export const illegal: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/illegal/',
-    note: 'IBA Official Recipe. Created by Joaquín Simó at Pouring Ribbons, NYC, 2011.',
+    notes: 'IBA Official Recipe. Created by Joaquín Simó at Pouring Ribbons, NYC, 2011.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

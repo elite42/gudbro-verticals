@@ -50,7 +50,7 @@ export const missionarysDownfall: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by Donn Beach (Don the Beachcomber) around 1950, this playfully named cocktail became a tiki bar favorite. The name humorously suggests that even the most virtuous missionary could be tempted by this delicious frozen concoction. The drink\'s combination of fresh mint and tropical fruit was innovative for its time and remains a beloved frozen tiki classic.',
+      en: "Created by Donn Beach (Don the Beachcomber) around 1950, this playfully named cocktail became a tiki bar favorite. The name humorously suggests that even the most virtuous missionary could be tempted by this delicious frozen concoction. The drink's combination of fresh mint and tropical fruit was innovative for its time and remains a beloved frozen tiki classic.",
       it: 'Creato da Donn Beach (Don the Beachcomber) intorno al 1950, questo cocktail dal nome giocoso divenne un favorito dei bar tiki. Il nome suggerisce umoristicamente che anche il missionario più virtuoso potrebbe essere tentato da questa deliziosa miscela ghiacciata. La combinazione di menta fresca e frutta tropicale era innovativa per il suo tempo e rimane un amato classico tiki frozen.',
       vi: 'Được tạo ra bởi Donn Beach (Don the Beachcomber) khoảng năm 1950, cocktail có tên vui nhộn này trở thành món yêu thích của quầy bar tiki. Cái tên hài hước gợi ý rằng ngay cả nhà truyền giáo đức hạnh nhất cũng có thể bị cám dỗ bởi hỗn hợp đông lạnh ngon này. Sự kết hợp bạc hà tươi và trái cây nhiệt đới rất sáng tạo cho thời đó và vẫn là tiki đông lạnh cổ điển được yêu thích.',
     },
@@ -123,7 +123,11 @@ export const missionarysDownfall: Cocktail = {
     {
       ingredient_id: 'ING_PINEAPPLE_FRESH',
       quantity: { amount: 60, unit: 'g' },
-      display_name: { en: 'Fresh pineapple chunks', it: 'Pezzi di ananas fresco', vi: 'Miếng dứa tươi' },
+      display_name: {
+        en: 'Fresh pineapple chunks',
+        it: 'Pezzi di ananas fresco',
+        vi: 'Miếng dứa tươi',
+      },
     },
     {
       ingredient_id: 'ING_MINT_LEAVES',
@@ -178,7 +182,14 @@ export const missionarysDownfall: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -197,7 +208,8 @@ export const missionarysDownfall: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['virgin-missionarys-downfall'],
 
-  notes_for_staff: 'Fresh pineapple is essential - do not use canned. Blend thoroughly for smooth texture. Can adjust ice quantity for desired consistency. Mint should be fresh and aromatic.',
+  notes_for_staff:
+    'Fresh pineapple is essential - do not use canned. Blend thoroughly for smooth texture. Can adjust ice quantity for desired consistency. Mint should be fresh and aromatic.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -210,7 +222,7 @@ export const missionarysDownfall: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/missionarys-downfall/',
-    note: 'IBA Official Recipe. Historical information from Don the Beachcomber archives.',
+    notes: 'IBA Official Recipe. Historical information from Don the Beachcomber archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

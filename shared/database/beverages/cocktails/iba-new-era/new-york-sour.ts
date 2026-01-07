@@ -51,7 +51,7 @@ export const newYorkSour: Cocktail = {
     },
     story: {
       en: 'The New York Sour originated in the 1880s, originally known as the Continental Sour or Southern Whiskey Sour. The addition of a red wine float transformed the classic whiskey sour into an elegant layered cocktail. The drink became popular in New York establishments and eventually took on the name New York Sour.',
-      it: 'Il New York Sour ebbe origine negli anni 1880, originariamente conosciuto come Continental Sour o Southern Whiskey Sour. L\'aggiunta di un galleggiante di vino rosso trasformò il classico whiskey sour in un elegante cocktail stratificato. Il drink divenne popolare negli stabilimenti di New York e alla fine prese il nome di New York Sour.',
+      it: "Il New York Sour ebbe origine negli anni 1880, originariamente conosciuto come Continental Sour o Southern Whiskey Sour. L'aggiunta di un galleggiante di vino rosso trasformò il classico whiskey sour in un elegante cocktail stratificato. Il drink divenne popolare negli stabilimenti di New York e alla fine prese il nome di New York Sour.",
       vi: 'New York Sour có nguồn gốc từ những năm 1880, ban đầu được gọi là Continental Sour hoặc Southern Whiskey Sour. Việc thêm lớp rượu vang đỏ nổi đã biến whiskey sour cổ điển thành một cocktail phân lớp thanh lịch. Thức uống trở nên phổ biến ở các cơ sở New York và cuối cùng lấy tên là New York Sour.',
     },
     named_after: {
@@ -79,7 +79,7 @@ export const newYorkSour: Cocktail = {
       vi: 'Kết thúc dài với hương chát của rượu vang đỏ và hương ấm whiskey kéo dài',
     },
     balance: {
-      en: 'Perfectly balanced between sour, sweet, and the wine\'s complexity',
+      en: "Perfectly balanced between sour, sweet, and the wine's complexity",
       it: 'Perfettamente bilanciato tra acido, dolce e la complessità del vino',
       vi: 'Cân bằng hoàn hảo giữa chua, ngọt và độ phức tạp của rượu vang',
     },
@@ -91,7 +91,7 @@ export const newYorkSour: Cocktail = {
     seasons: ['autumn', 'winter', 'spring'],
     food_pairings: {
       en: 'Excellent with charcuterie boards, grilled meats, aged cheeses, or as an aperitif before a fine dining experience.',
-      it: 'Eccellente con taglieri di salumi, carni alla griglia, formaggi stagionati, o come aperitivo prima di un\'esperienza di alta cucina.',
+      it: "Eccellente con taglieri di salumi, carni alla griglia, formaggi stagionati, o come aperitivo prima di un'esperienza di alta cucina.",
       vi: 'Tuyệt vời với đĩa thịt nguội, thịt nướng, phô mai lâu năm, hoặc làm aperitif trước bữa ăn cao cấp.',
     },
     ideal_for: {
@@ -113,7 +113,11 @@ export const newYorkSour: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -193,7 +197,8 @@ export const newYorkSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['boston-sour', 'continental-sour', 'claret-snap'],
 
-  notes_for_staff: 'Pour the red wine float slowly over the back of a spoon to create the signature layered effect. Use a dry, fruity red wine like Shiraz or Malbec. Egg white is optional but adds a nice foam.',
+  notes_for_staff:
+    'Pour the red wine float slowly over the back of a spoon to create the signature layered effect. Use a dry, fruity red wine like Shiraz or Malbec. Egg white is optional but adds a nice foam.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -206,7 +211,7 @@ export const newYorkSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/new-york-sour/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

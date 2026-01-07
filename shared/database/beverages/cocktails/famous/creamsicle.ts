@@ -31,7 +31,7 @@ export const creamsicle: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A nostalgic cocktail inspired by the classic orange-vanilla ice cream bar. Combining vodka, orange liqueur, cream, and orange juice, this drink recreates the beloved childhood treat in liquid form with an adult twist.',
-    it: 'Un cocktail nostalgico ispirato al classico ghiacciolo all\'arancia e vaniglia. Combinando vodka, liquore all\'arancia, panna e succo d\'arancia, questa bevanda ricrea l\'amato dolcetto dell\'infanzia in forma liquida con un tocco adulto.',
+    it: "Un cocktail nostalgico ispirato al classico ghiacciolo all'arancia e vaniglia. Combinando vodka, liquore all'arancia, panna e succo d'arancia, questa bevanda ricrea l'amato dolcetto dell'infanzia in forma liquida con un tocco adulto.",
     vi: 'Một loại cocktail hoài niệm lấy cảm hứng từ thanh kem vani-cam cổ điển. Kết hợp vodka, rượu mùi cam, kem và nước cam, thức uống này tái tạo món ăn tuổi thơ yêu thích dưới dạng lỏng với twist dành cho người lớn.',
   },
 
@@ -42,12 +42,12 @@ export const creamsicle: Cocktail = {
     },
     story: {
       en: 'The Creamsicle cocktail emerged in the 1990s as bartenders sought to recreate beloved childhood flavors in adult beverages. Inspired by the iconic Creamsicle ice cream bar (orange sherbet with vanilla ice cream center) that was popular from the 1920s onward, mixologists combined orange and cream with vodka to capture that nostalgic orange-vanilla flavor. The drink became especially popular in the 2000s during the dessert cocktail boom, offering a refreshing yet indulgent option that bridges the gap between fruity and creamy cocktails.',
-      it: 'Il cocktail Creamsicle emerse negli anni \'90 quando i barman cercarono di ricreare i sapori amati dell\'infanzia nelle bevande per adulti. Ispirato dall\'iconico ghiacciolo Creamsicle (sorbetto all\'arancia con centro di gelato alla vaniglia) popolare dagli anni \'20 in poi, i mixologist combinarono arancia e panna con vodka per catturare quel sapore nostalgico arancia-vaniglia. La bevanda divenne particolarmente popolare negli anni 2000 durante il boom dei cocktail da dessert, offrendo un\'opzione rinfrescante ma indulgente che colma il divario tra cocktail fruttati e cremosi.',
+      it: "Il cocktail Creamsicle emerse negli anni '90 quando i barman cercarono di ricreare i sapori amati dell'infanzia nelle bevande per adulti. Ispirato dall'iconico ghiacciolo Creamsicle (sorbetto all'arancia con centro di gelato alla vaniglia) popolare dagli anni '20 in poi, i mixologist combinarono arancia e panna con vodka per catturare quel sapore nostalgico arancia-vaniglia. La bevanda divenne particolarmente popolare negli anni 2000 durante il boom dei cocktail da dessert, offrendo un'opzione rinfrescante ma indulgente che colma il divario tra cocktail fruttati e cremosi.",
       vi: 'Cocktail Creamsicle xuất hiện vào những năm 1990 khi bartender tìm cách tái tạo hương vị tuổi thơ yêu thích trong đồ uống người lớn. Lấy cảm hứng từ thanh kem Creamsicle biểu tượng (kem chanh cam với lõi kem vani) phổ biến từ những năm 1920 trở đi, mixologist đã kết hợp cam và kem với vodka để nắm bắt hương vị cam-vani hoài niệm đó. Thức uống trở nên đặc biệt phổ biến vào những năm 2000 trong thời kỳ bùng nổ cocktail tráng miệng, cung cấp lựa chọn sảng khoái nhưng nuông chiều bắc cầu giữa cocktail trái cây và béo ngậy.',
     },
     named_after: {
       en: 'Named after the iconic Creamsicle ice cream bar, known for its orange and vanilla cream combination.',
-      it: 'Prende il nome dall\'iconico ghiacciolo Creamsicle, noto per la sua combinazione di arancia e crema alla vaniglia.',
+      it: "Prende il nome dall'iconico ghiacciolo Creamsicle, noto per la sua combinazione di arancia e crema alla vaniglia.",
       vi: 'Được đặt tên theo thanh kem Creamsicle biểu tượng, nổi tiếng với sự kết hợp cam và kem vani.',
     },
   },
@@ -56,12 +56,12 @@ export const creamsicle: Cocktail = {
     profile: ['creamy', 'sweet', 'fruity', 'citrus'],
     description: {
       en: 'Sweet and refreshing with pronounced orange citrus notes balanced by smooth vanilla cream. Tastes remarkably like the ice cream bar with a pleasant vodka backbone. The combination of fresh orange juice and cream creates a luscious, dessert-like texture.',
-      it: 'Dolce e rinfrescante con pronunciate note di agrumi d\'arancia bilanciate da crema liscia alla vaniglia. Ha un sapore straordinariamente simile al ghiacciolo con una piacevole base di vodka. La combinazione di succo d\'arancia fresco e panna crea una consistenza lussuosa simile al dessert.',
+      it: "Dolce e rinfrescante con pronunciate note di agrumi d'arancia bilanciate da crema liscia alla vaniglia. Ha un sapore straordinariamente simile al ghiacciolo con una piacevole base di vodka. La combinazione di succo d'arancia fresco e panna crea una consistenza lussuosa simile al dessert.",
       vi: 'Ngọt và sảng khoái với hương cam quýt rõ rệt được cân bằng bởi kem vani mượt mà. Có vị giống đáng kinh ngạc với thanh kem với xương sống vodka dễ chịu. Sự kết hợp của nước cam tươi và kem tạo ra kết cấu tươi tốt giống món tráng miệng.',
     },
     first_impression: {
       en: 'Sweet orange cream with immediate nostalgia for childhood ice cream bars',
-      it: 'Crema d\'arancia dolce con immediata nostalgia per i ghiaccioli dell\'infanzia',
+      it: "Crema d'arancia dolce con immediata nostalgia per i ghiaccioli dell'infanzia",
       vi: 'Kem cam ngọt với nỗi nhớ ngay lập tức cho thanh kem tuổi thơ',
     },
     finish: {
@@ -79,7 +79,7 @@ export const creamsicle: Cocktail = {
   recommendations: {
     best_time: ['afternoon', 'evening'],
     occasions: ['brunch', 'dessert', 'pool_party', 'casual', 'summer'],
-    seasons: ['spring', 'summer', 'all_seasons'],
+    seasons: ['spring', 'summer', 'all_year'],
     food_pairings: {
       en: 'Perfect with citrus desserts, vanilla cake, cheesecake, or as a dessert replacement. Also pairs well with fresh fruit and light pastries.',
       it: 'Perfetto con dessert agli agrumi, torta alla vaniglia, cheesecake, o come sostituto del dessert. Si abbina bene anche con frutta fresca e dolci leggeri.',
@@ -99,26 +99,34 @@ export const creamsicle: Cocktail = {
     {
       ingredient_id: 'ING_VODKA',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Vodka (vanilla vodka optional)', it: 'Vodka (vodka alla vaniglia opzionale)', vi: 'Vodka (vodka vani tùy chọn)' },
+      display_name: {
+        en: 'Vodka (vanilla vodka optional)',
+        it: 'Vodka (vodka alla vaniglia opzionale)',
+        vi: 'Vodka (vodka vani tùy chọn)',
+      },
     },
     {
       ingredient_id: 'ING_TRIPLE_SEC',
       quantity: { amount: 15, unit: 'ml' },
       display_name: {
         en: 'Orange liqueur (Triple Sec)',
-        it: 'Liquore all\'arancia (Triple Sec)',
+        it: "Liquore all'arancia (Triple Sec)",
         vi: 'Rượu mùi cam (Triple Sec)',
       },
     },
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 60, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_HEAVY_CREAM',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Heavy cream (or half-and-half)', it: 'Panna (o half-and-half)', vi: 'Kem tươi (hoặc half-and-half)' },
+      display_name: {
+        en: 'Heavy cream (or half-and-half)',
+        it: 'Panna (o half-and-half)',
+        vi: 'Kem tươi (hoặc half-and-half)',
+      },
     },
   ],
 
@@ -126,7 +134,7 @@ export const creamsicle: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a cocktail shaker filled with ice. Shake vigorously for 15 seconds until well-chilled and frothy. Strain into an ice-filled highball or rocks glass. Garnish with an orange wheel or wedge. Can also be served frozen by blending with ice for a slushy texture.',
-    it: 'Aggiungere tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare vigorosamente per 15 secondi fino a quando è ben freddo e schiumoso. Filtrare in un bicchiere highball o rocks pieno di ghiaccio. Guarnire con una ruota o spicchio d\'arancia. Può anche essere servito frozen frullando con ghiaccio per una consistenza granita.',
+    it: "Aggiungere tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare vigorosamente per 15 secondi fino a quando è ben freddo e schiumoso. Filtrare in un bicchiere highball o rocks pieno di ghiaccio. Guarnire con una ruota o spicchio d'arancia. Può anche essere servito frozen frullando con ghiaccio per una consistenza granita.",
     vi: 'Cho tất cả nguyên liệu vào bình lắc cocktail đầy đá. Lắc mạnh trong 15 giây cho đến khi lạnh kỹ và có bọt. Lọc vào ly highball hoặc rocks đầy đá. Trang trí bằng vòng tròn hoặc miếng cam. Cũng có thể được phục vụ đông lạnh bằng cách xay với đá để có kết cấu slushy.',
   },
 
@@ -134,7 +142,7 @@ export const creamsicle: Cocktail = {
 
   garnish: {
     en: 'Orange wheel or wedge, whipped cream (optional)',
-    it: 'Ruota o spicchio d\'arancia, panna montata (opzionale)',
+    it: "Ruota o spicchio d'arancia, panna montata (opzionale)",
     vi: 'Vòng tròn hoặc miếng cam, kem tươi (tùy chọn)',
   },
 
@@ -171,7 +179,7 @@ export const creamsicle: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['spring', 'summer', 'all-seasons'],
+  season_tags: ['spring', 'summer', 'all_year'],
   occasion_tags: ['brunch', 'dessert', 'casual', 'pool-party'],
 
   is_mocktail: false,
@@ -182,7 +190,8 @@ export const creamsicle: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['frozen-creamsicle', 'creamsicle-martini', 'orange-dream-cocktail'],
 
-  notes_for_staff: 'Use vanilla vodka for more authentic Creamsicle flavor. Fresh orange juice is essential - never use concentrate. Can add a splash of vanilla extract if not using vanilla vodka. Popular served frozen/blended in summer. Very Instagram-friendly presentation.',
+  notes_for_staff:
+    'Use vanilla vodka for more authentic Creamsicle flavor. Fresh orange juice is essential - never use concentrate. Can add a splash of vanilla extract if not using vanilla vodka. Popular served frozen/blended in summer. Very Instagram-friendly presentation.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +204,7 @@ export const creamsicle: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/creamsicle-cocktail/',
-    note: 'Nostalgic cocktail inspired by the classic orange-vanilla ice cream bar.',
+    notes: 'Nostalgic cocktail inspired by the classic orange-vanilla ice cream bar.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

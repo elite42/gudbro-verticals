@@ -3,15 +3,29 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-06
+**Last Updated:** 2026-01-07
+
+---
+
+## 2026-01-07
+
+| ID          | Feature             | Descrizione                                                                                           | Completato |
+| ----------- | ------------------- | ----------------------------------------------------------------------------------------------------- | ---------- |
+| SEC-CLEANUP | Security Cleanup    | Migrations 039-041: fix function search_path (37), RLS policies AI tables (30+), RLS core tables (12) | 2026-01-07 |
+| MAINT-DEPS  | Dependencies Update | Minor deps updated, React 19/Next 16/TW4/Zod 4 documented as future                                   | 2026-01-07 |
+| MAINT-TS    | TypeScript Fixes    | Cocktail types extended, export conflicts fixed, vi optional                                          | 2026-01-07 |
 
 ---
 
 ## 2026-01-06
 
-| ID         | Feature      | Descrizione                                                                | Completato |
-| ---------- | ------------ | -------------------------------------------------------------------------- | ---------- |
-| GB-AI-DASH | AI Dashboard | Pagina dedicata AI Co-Manager con widgets briefing, tasks, alerts, finance | 2026-01-06 |
+| ID               | Feature              | Descrizione                                                                             | Completato |
+| ---------------- | -------------------- | --------------------------------------------------------------------------------------- | ---------- |
+| ING-TRANSLATIONS | Ingredient Transl.   | 1684 traduzioni (137 ingredienti core × 13 lingue: it,vi,ko,ja,ru,zh,th,fr,es,pt,de,tr) | 2026-01-06 |
+| LP-SECTIONS      | Landing Page Updates | AICoManagerSection, FoodCostsSection, AnalyticsSection, KitchenDisplaySect              | 2026-01-06 |
+| GB-AI-DASH       | AI Dashboard         | Pagina dedicata AI Co-Manager con widgets briefing, tasks, alerts, finance              | 2026-01-06 |
+
+> **Note:** GB-STAFF-MGT spostato in TESTING per validazione completa
 
 ---
 
@@ -104,6 +118,6 @@
 | Database Food     | 75                    |
 | Prodotti          | ~4653                 |
 | Ingredienti       | 2548 (100% nutrition) |
-| Migrazioni Schema | 37 (27 core + 10 AI)  |
-| AI Services       | 13                    |
-| AI API Routes     | 13                    |
+| Migrazioni Schema | 38 (27 core + 11 AI)  |
+| AI Services       | 15                    |
+| AI API Routes     | 15                    |

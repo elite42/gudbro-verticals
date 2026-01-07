@@ -56,7 +56,7 @@ export const zombie: Cocktail = {
     },
     named_after: {
       en: 'Named for its zombifying effect on drinkers due to high alcohol content.',
-      it: 'Prende il nome dal suo effetto zombificante sui bevitori a causa dell\'alto contenuto alcolico.',
+      it: "Prende il nome dal suo effetto zombificante sui bevitori a causa dell'alto contenuto alcolico.",
       vi: 'Được đặt tên theo hiệu ứng zombie hóa trên người uống do hàm lượng cồn cao.',
     },
   },
@@ -65,7 +65,7 @@ export const zombie: Cocktail = {
     profile: ['tropical', 'sweet', 'strong', 'complex'],
     description: {
       en: 'Complex, fruity, and dangerously drinkable. Multiple rums create depth, tropical juices provide sweetness, and secret spices add complexity. The high alcohol is masterfully hidden beneath layers of flavor.',
-      it: 'Complesso, fruttato e pericolosamente bevibile. Più rum creano profondità, i succhi tropicali forniscono dolcezza e le spezie segrete aggiungono complessità. L\'alto contenuto alcolico è magistralmente nascosto sotto strati di sapore.',
+      it: "Complesso, fruttato e pericolosamente bevibile. Più rum creano profondità, i succhi tropicali forniscono dolcezza e le spezie segrete aggiungono complessità. L'alto contenuto alcolico è magistralmente nascosto sotto strati di sapore.",
       vi: 'Phức tạp, trái cây và nguy hiểm dễ uống. Nhiều loại rum tạo ra chiều sâu, nước ép nhiệt đới cung cấp vị ngọt và gia vị bí mật thêm độ phức tạp. Rượu cao được che giấu khéo léo bên dưới các lớp hương vị.',
     },
     first_impression: {
@@ -74,7 +74,7 @@ export const zombie: Cocktail = {
       vi: 'Vị ngọt trái cây nhiệt đới với gợi ý gia vị',
     },
     finish: {
-      en: 'Long, warm finish revealing the drink\'s true strength',
+      en: "Long, warm finish revealing the drink's true strength",
       it: 'Finale lungo e caldo che rivela la vera forza del drink',
       vi: 'Kết thúc dài, ấm tiết lộ sức mạnh thực sự của thức uống',
     },
@@ -193,7 +193,14 @@ export const zombie: Cocktail = {
   computed: {
     allergens: ['sulphites', 'wormwood'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 1,
   },
 
@@ -212,7 +219,8 @@ export const zombie: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['1934-zombie', 'modern-zombie'],
 
-  notes_for_staff: 'CRITICAL: Extremely high alcohol content. Limit customers to 2 maximum. Original Don the Beachcomber rule. Use quality rums for best results. The exact "Don\'s Mix" recipe varies - this is the modern IBA standard.',
+  notes_for_staff:
+    'CRITICAL: Extremely high alcohol content. Limit customers to 2 maximum. Original Don the Beachcomber rule. Use quality rums for best results. The exact "Don\'s Mix" recipe varies - this is the modern IBA standard.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -225,7 +233,7 @@ export const zombie: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/zombie/',
-    note: 'IBA Official Recipe. Original recipe by Donn Beach.',
+    notes: 'IBA Official Recipe. Original recipe by Donn Beach.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

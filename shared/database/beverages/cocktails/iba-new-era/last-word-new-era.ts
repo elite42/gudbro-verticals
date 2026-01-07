@@ -32,7 +32,7 @@ export const lastWordNewEra: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A perfectly balanced Prohibition-era cocktail featuring gin, green Chartreuse, maraschino liqueur, and lime juice in equal parts. The Last Word is a complex, herbal masterpiece that was forgotten for decades before being rediscovered in the 2000s.',
-    it: 'Un cocktail dell\'era del Proibizionismo perfettamente bilanciato con gin, Chartreuse verde, liquore di maraschino e succo di lime in parti uguali. Il Last Word è un capolavoro erbaceo complesso che è stato dimenticato per decenni prima di essere riscoperto negli anni 2000.',
+    it: "Un cocktail dell'era del Proibizionismo perfettamente bilanciato con gin, Chartreuse verde, liquore di maraschino e succo di lime in parti uguali. Il Last Word è un capolavoro erbaceo complesso che è stato dimenticato per decenni prima di essere riscoperto negli anni 2000.",
     vi: 'Một cocktail thời kỳ Cấm rượu cân bằng hoàn hảo với gin, Chartreuse xanh lá, rượu maraschino và nước cốt chanh theo tỷ lệ bằng nhau. Last Word là một kiệt tác thảo mộc phức tạp đã bị lãng quên hàng thập kỷ trước khi được tái khám phá vào những năm 2000.',
   },
 
@@ -48,7 +48,7 @@ export const lastWordNewEra: Cocktail = {
       profession: 'vaudeville performer & bartender',
     },
     story: {
-      en: 'The Last Word was created around 1915 at the Detroit Athletic Club, introduced by vaudeville performer Frank Fogarty. The drink appeared in Ted Saucier\'s 1951 book "Bottoms Up" but then faded into obscurity. It was rediscovered in 2004 by Murray Stenson at the Zig Zag Café in Seattle, who found the recipe in Saucier\'s book. Stenson\'s revival of the Last Word sparked a global renaissance, inspiring countless variations and helping to establish equal-parts cocktails as a modern mixing technique.',
+      en: "The Last Word was created around 1915 at the Detroit Athletic Club, introduced by vaudeville performer Frank Fogarty. The drink appeared in Ted Saucier's 1951 book \"Bottoms Up\" but then faded into obscurity. It was rediscovered in 2004 by Murray Stenson at the Zig Zag Café in Seattle, who found the recipe in Saucier's book. Stenson's revival of the Last Word sparked a global renaissance, inspiring countless variations and helping to establish equal-parts cocktails as a modern mixing technique.",
       it: 'Il Last Word fu creato intorno al 1915 al Detroit Athletic Club, introdotto dall\'artista di vaudeville Frank Fogarty. Il drink apparve nel libro di Ted Saucier del 1951 "Bottoms Up" ma poi svanì nell\'oscurità. Fu riscoperto nel 2004 da Murray Stenson allo Zig Zag Café di Seattle, che trovò la ricetta nel libro di Saucier. La rinascita del Last Word da parte di Stenson ha scatenato un rinascimento globale, ispirando innumerevoli varianti e aiutando a stabilire i cocktail a parti uguali come tecnica moderna di miscelazione.',
       vi: 'Last Word được tạo ra vào khoảng năm 1915 tại Detroit Athletic Club, được giới thiệu bởi nghệ sĩ vaudeville Frank Fogarty. Thức uống xuất hiện trong cuốn sách "Bottoms Up" năm 1951 của Ted Saucier nhưng sau đó biến mất trong bóng tối. Nó được tái khám phá vào năm 2004 bởi Murray Stenson tại Zig Zag Café ở Seattle, người tìm thấy công thức trong sách của Saucier. Sự hồi sinh của Last Word bởi Stenson đã châm ngòi cho một sự phục hưng toàn cầu, truyền cảm hứng cho vô số biến thể và giúp thiết lập cocktail phần bằng nhau như một kỹ thuật pha chế hiện đại.',
     },
@@ -178,7 +178,14 @@ export const lastWordNewEra: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -197,7 +204,8 @@ export const lastWordNewEra: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['naked-and-famous', 'final-ward', 'division-bell', 'paper-plane'],
 
-  notes_for_staff: 'Equal parts (22.5ml each) is critical - this is the foundation of the drink. Use high-quality gin with good botanical character. Fresh lime juice essential. Luxardo Maraschino is preferred. This drink inspired countless modern equal-parts variations. Educate guests on the 2004 revival story.',
+  notes_for_staff:
+    'Equal parts (22.5ml each) is critical - this is the foundation of the drink. Use high-quality gin with good botanical character. Fresh lime juice essential. Luxardo Maraschino is preferred. This drink inspired countless modern equal-parts variations. Educate guests on the 2004 revival story.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -210,7 +218,8 @@ export const lastWordNewEra: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/last-word/',
-    note: 'IBA Official Recipe. Originally from Ted Saucier\'s "Bottoms Up" (1951), revived by Murray Stenson at Zig Zag Café, Seattle, 2004.',
+    notes:
+      'IBA Official Recipe. Originally from Ted Saucier\'s "Bottoms Up" (1951), revived by Murray Stenson at Zig Zag Café, Seattle, 2004.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

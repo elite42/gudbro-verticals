@@ -41,13 +41,13 @@ export const butteryNipple: Cocktail = {
       country: 'USA',
     },
     story: {
-      en: 'The Buttery Nipple emerged in the 1980s during the shooter craze that swept American bars. It became one of the most popular layered shots of the era, known for its sweet, approachable flavor and eye-catching presentation. The drink\'s popularity was driven by the rise of schnapps and cream liqueurs in American drinking culture. Its suggestive name made it a frequent request at parties and bachelor/bachelorette celebrations. The shot remains popular today as a gateway drink for those new to spirits.',
-      it: 'Il Buttery Nipple emerse negli anni \'80 durante la mania degli shooter che travolse i bar americani. Divenne uno degli shot a strati più popolari dell\'epoca, noto per il suo sapore dolce e accessibile e la presentazione accattivante. La popolarità della bevanda fu guidata dall\'ascesa degli schnapps e dei liquori alla crema nella cultura del bere americana. Il suo nome suggestivo lo rese una richiesta frequente a feste e celebrazioni di addio al celibato/nubilato. Lo shot rimane popolare oggi come bevanda introduttiva per chi è nuovo agli spiriti.',
+      en: "The Buttery Nipple emerged in the 1980s during the shooter craze that swept American bars. It became one of the most popular layered shots of the era, known for its sweet, approachable flavor and eye-catching presentation. The drink's popularity was driven by the rise of schnapps and cream liqueurs in American drinking culture. Its suggestive name made it a frequent request at parties and bachelor/bachelorette celebrations. The shot remains popular today as a gateway drink for those new to spirits.",
+      it: "Il Buttery Nipple emerse negli anni '80 durante la mania degli shooter che travolse i bar americani. Divenne uno degli shot a strati più popolari dell'epoca, noto per il suo sapore dolce e accessibile e la presentazione accattivante. La popolarità della bevanda fu guidata dall'ascesa degli schnapps e dei liquori alla crema nella cultura del bere americana. Il suo nome suggestivo lo rese una richiesta frequente a feste e celebrazioni di addio al celibato/nubilato. Lo shot rimane popolare oggi come bevanda introduttiva per chi è nuovo agli spiriti.",
       vi: 'Buttery Nipple xuất hiện vào những năm 1980 trong cơn sốt shooter quét qua các quầy bar Mỹ. Nó đã trở thành một trong những shot nhiều lớp phổ biến nhất thời đó, nổi tiếng với hương vị ngọt, dễ tiếp cận và cách trình bày bắt mắt. Sự phổ biến của thức uống được thúc đẩy bởi sự gia tăng của schnapps và rượu mùi kem trong văn hóa uống rượu Mỹ. Cái tên gợi cảm của nó khiến nó trở thành yêu cầu thường xuyên tại các bữa tiệc và lễ kỷ niệm độc thân. Shot vẫn phổ biến ngày nay như một thức uống cửa ngõ cho những người mới làm quen với rượu mạnh.',
     },
     named_after: {
       en: 'The suggestive name refers to the creamy, buttery appearance and smooth texture of the layered shot.',
-      it: 'Il nome suggestivo si riferisce all\'aspetto cremoso e burroso e alla consistenza liscia dello shot a strati.',
+      it: "Il nome suggestivo si riferisce all'aspetto cremoso e burroso e alla consistenza liscia dello shot a strati.",
       vi: 'Cái tên gợi cảm đề cập đến vẻ ngoài béo ngậy, bơ và kết cấu mượt mà của shot nhiều lớp.',
     },
   },
@@ -79,7 +79,7 @@ export const butteryNipple: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['party', 'celebration', 'casual', 'bachelor_party'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Typically consumed as a standalone shot between other drinks. Can accompany desserts or be served as a liquid dessert itself.',
       it: 'Tipicamente consumato come shot standalone tra altre bevande. Può accompagnare dessert o essere servito come dessert liquido stesso.',
@@ -87,7 +87,7 @@ export const butteryNipple: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for those new to shots or who prefer very sweet drinks. Ideal for parties, celebrations, and social drinking occasions. Popular with guests who want an easy, non-threatening shot experience.',
-      it: 'Perfetto per chi è nuovo agli shot o preferisce bevande molto dolci. Ideale per feste, celebrazioni e occasioni di bevute sociali. Popolare con gli ospiti che vogliono un\'esperienza di shot facile e non minacciosa.',
+      it: "Perfetto per chi è nuovo agli shot o preferisce bevande molto dolci. Ideale per feste, celebrazioni e occasioni di bevute sociali. Popolare con gli ospiti che vogliono un'esperienza di shot facile e non minacciosa.",
       vi: 'Hoàn hảo cho những người mới uống shot hoặc thích đồ uống rất ngọt. Lý tưởng cho các bữa tiệc, lễ kỷ niệm và dịp uống rượu xã hội. Phổ biến với khách muốn trải nghiệm shot dễ dàng, không đe dọa.',
     },
   },
@@ -120,7 +120,7 @@ export const butteryNipple: Cocktail = {
 
   instructions: {
     en: 'Pour butterscotch schnapps into a shot glass. Using the back of a bar spoon, slowly layer the Irish cream on top by pouring it gently over the spoon. The two liqueurs should form distinct layers. Shoot or sip slowly to enjoy the layered effect.',
-    it: 'Versare schnapps al butterscotch in un bicchierino. Usando il retro di un cucchiaio da bar, stratificare lentamente la crema irlandese sopra versandola delicatamente sul cucchiaio. I due liquori dovrebbero formare strati distinti. Bere in un colpo o sorseggiare lentamente per godere dell\'effetto a strati.',
+    it: "Versare schnapps al butterscotch in un bicchierino. Usando il retro di un cucchiaio da bar, stratificare lentamente la crema irlandese sopra versandola delicatamente sul cucchiaio. I due liquori dovrebbero formare strati distinti. Bere in un colpo o sorseggiare lentamente per godere dell'effetto a strati.",
     vi: 'Rót schnapps butterscotch vào ly shot. Sử dụng mặt sau của thìa bar, từ từ xếp lớp kem Ireland lên trên bằng cách rót nhẹ nhàng qua thìa. Hai loại rượu mùi sẽ tạo thành các lớp riêng biệt. Uống một hơi hoặc nhấp từ từ để thưởng thức hiệu ứng nhiều lớp.',
   },
 
@@ -165,7 +165,7 @@ export const butteryNipple: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'celebration', 'casual'],
 
   is_mocktail: false,
@@ -176,7 +176,8 @@ export const butteryNipple: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['slippery-nipple', 'comfortable-screw', 'buttery-finger'],
 
-  notes_for_staff: 'Very popular party shot. Layering technique is important for visual appeal - pour slowly. Can add vodka on bottom for "Slippery Nipple" variation. Very sweet - warn guests. Name may require discretion with certain clientele.',
+  notes_for_staff:
+    'Very popular party shot. Layering technique is important for visual appeal - pour slowly. Can add vodka on bottom for "Slippery Nipple" variation. Very sweet - warn guests. Name may require discretion with certain clientele.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -189,7 +190,7 @@ export const butteryNipple: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/buttery-nipple/',
-    note: 'Classic 1980s layered shooter, popular at parties.',
+    notes: 'Classic 1980s layered shooter, popular at parties.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

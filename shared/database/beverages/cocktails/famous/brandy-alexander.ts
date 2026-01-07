@@ -31,7 +31,7 @@ export const brandyAlexander: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The most popular variation of the Alexander, made with brandy (or cognac) instead of gin. This elegant, creamy cocktail combines the warmth of brandy with the richness of chocolate and cream, creating a sophisticated after-dinner indulgence.',
-    it: 'La variazione più popolare dell\'Alexander, fatta con brandy (o cognac) invece di gin. Questo elegante cocktail cremoso combina il calore del brandy con la ricchezza del cioccolato e della panna, creando un\'indulgenza sofisticata dopo cena.',
+    it: "La variazione più popolare dell'Alexander, fatta con brandy (o cognac) invece di gin. Questo elegante cocktail cremoso combina il calore del brandy con la ricchezza del cioccolato e della panna, creando un'indulgenza sofisticata dopo cena.",
     vi: 'Biến thể phổ biến nhất của Alexander, được làm với brandy (hoặc cognac) thay vì gin. Cocktail béo ngậy thanh lịch này kết hợp sự ấm áp của brandy với sự đậm đà của chocolate và kem, tạo ra sự nuông chiều tinh tế sau bữa tối.',
   },
 
@@ -43,7 +43,7 @@ export const brandyAlexander: Cocktail = {
     },
     story: {
       en: 'The Brandy Alexander emerged in the 1920s-30s as a more refined variation of the original gin-based Alexander. While the exact origin is debated, it became the definitive version of the drink, especially popular during the mid-20th century. The cocktail enjoyed particular fame after being featured in the film "Days of Wine and Roses" (1962) and was reportedly a favorite of John Lennon. Its popularity peaked in the 1970s as a glamorous after-dinner drink.',
-      it: 'Il Brandy Alexander emerse negli anni \'20-\'30 come variazione più raffinata dell\'Alexander originale a base di gin. Sebbene l\'origine esatta sia dibattuta, divenne la versione definitiva della bevanda, particolarmente popolare durante la metà del XX secolo. Il cocktail ha goduto di particolare fama dopo essere stato presente nel film "Days of Wine and Roses" (1962) ed era secondo quanto riferito un favorito di John Lennon. La sua popolarità raggiunse il picco negli anni \'70 come glamorosa bevanda dopo cena.',
+      it: "Il Brandy Alexander emerse negli anni '20-'30 come variazione più raffinata dell'Alexander originale a base di gin. Sebbene l'origine esatta sia dibattuta, divenne la versione definitiva della bevanda, particolarmente popolare durante la metà del XX secolo. Il cocktail ha goduto di particolare fama dopo essere stato presente nel film \"Days of Wine and Roses\" (1962) ed era secondo quanto riferito un favorito di John Lennon. La sua popolarità raggiunse il picco negli anni '70 come glamorosa bevanda dopo cena.",
       vi: 'Brandy Alexander xuất hiện vào những năm 1920-30 như một biến thể tinh tế hơn của Alexander gốc làm từ gin. Mặc dù nguồn gốc chính xác còn tranh cãi, nó đã trở thành phiên bản xác định của thức uống, đặc biệt phổ biến trong giữa thế kỷ 20. Cocktail này đặc biệt nổi tiếng sau khi xuất hiện trong bộ phim "Days of Wine and Roses" (1962) và được cho là yêu thích của John Lennon. Sự phổ biến của nó đạt đỉnh vào những năm 1970 như một thức uống quyến rũ sau bữa tối.',
     },
     named_after: {
@@ -80,7 +80,7 @@ export const brandyAlexander: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['digestivo', 'date_night', 'celebration', 'nightcap'],
-    seasons: ['autumn', 'winter', 'all_seasons'],
+    seasons: ['autumn', 'winter', 'all_year'],
     food_pairings: {
       en: 'Excellent with chocolate desserts, crème brûlée, tiramisu, or as a dessert replacement. Pairs beautifully with aged cheese, chocolate truffles, and espresso.',
       it: 'Eccellente con dessert al cioccolato, crème brûlée, tiramisù, o come sostituto del dessert. Si abbina magnificamente con formaggi stagionati, tartufi al cioccolato ed espresso.',
@@ -100,7 +100,11 @@ export const brandyAlexander: Cocktail = {
     {
       ingredient_id: 'ING_COGNAC',
       quantity: { amount: 40, unit: 'ml' },
-      display_name: { en: 'Cognac (or Brandy)', it: 'Cognac (o Brandy)', vi: 'Cognac (hoặc Brandy)' },
+      display_name: {
+        en: 'Cognac (or Brandy)',
+        it: 'Cognac (o Brandy)',
+        vi: 'Cognac (hoặc Brandy)',
+      },
     },
     {
       ingredient_id: 'ING_CREME_DE_CACAO_DARK',
@@ -167,7 +171,7 @@ export const brandyAlexander: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['autumn', 'winter', 'all-seasons'],
+  season_tags: ['autumn', 'winter', 'all_year'],
   occasion_tags: ['digestivo', 'date-night', 'celebration', 'nightcap'],
 
   is_mocktail: false,
@@ -178,7 +182,8 @@ export const brandyAlexander: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['alexander', 'coffee-alexander', 'alexander-sister'],
 
-  notes_for_staff: 'This is the more popular version of the Alexander. Always use freshly grated nutmeg. Shake hard to properly emulsify cream. Can use quality brandy instead of cognac for cost savings. Some recipes call for equal parts (30ml each) - adjust to guest preference.',
+  notes_for_staff:
+    'This is the more popular version of the Alexander. Always use freshly grated nutmeg. Shake hard to properly emulsify cream. Can use quality brandy instead of cognac for cost savings. Some recipes call for equal parts (30ml each) - adjust to guest preference.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -191,7 +196,7 @@ export const brandyAlexander: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/253/brandy-alexander',
-    note: 'Classic variation of the Alexander, more popular than the original gin-based version.',
+    notes: 'Classic variation of the Alexander, more popular than the original gin-based version.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

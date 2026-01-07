@@ -52,7 +52,7 @@ export const chrysanthemum: Cocktail = {
       vi: 'Chrysanthemum được tạo ra bởi Hugo Ensslin và xuất bản trong cuốn sách năm 1916 của ông "Recipes for Mixed Drinks." Được đặt theo tên loài hoa tượng trưng cho sự trường thọ và trẻ hóa trong văn hóa châu Á, cocktail này đại diện cho cách tiếp cận tinh tế với khai vị của thời kỳ trước Cấm rượu. Nó được phổ biến trở lại trong sự hồi sinh cocktail thủ công những năm 2000.',
     },
     named_after: {
-      en: 'Named after the chrysanthemum flower, which symbolizes longevity and rejuvenation in Asian culture, reflecting the drink\'s refreshing, aperitif qualities.',
+      en: "Named after the chrysanthemum flower, which symbolizes longevity and rejuvenation in Asian culture, reflecting the drink's refreshing, aperitif qualities.",
       it: 'Prende il nome dal fiore di crisantemo, che simboleggia longevità e ringiovanimento nella cultura asiatica, riflettendo le qualità rinfrescanti e aperitive del drink.',
       vi: 'Được đặt theo tên hoa cúc, tượng trưng cho sự trường thọ và trẻ hóa trong văn hóa châu Á, phản ánh phẩm chất khai vị, sảng khoái của thức uống.',
     },
@@ -61,8 +61,8 @@ export const chrysanthemum: Cocktail = {
   taste: {
     profile: ['dry', 'herbal', 'complex'],
     description: {
-      en: 'Dry and herbaceous with layers of complexity from Benedictine\'s honey-herb notes, vermouth\'s botanicals, and absinthe\'s distinctive anise character. Light, refreshing, and appetite-stimulating.',
-      it: 'Secco ed erbaceo con strati di complessità dalle note miele-erbe del Benedictine, i botanici del vermut e il caratteristico carattere di anice dell\'assenzio. Leggero, rinfrescante e stimolante dell\'appetito.',
+      en: "Dry and herbaceous with layers of complexity from Benedictine's honey-herb notes, vermouth's botanicals, and absinthe's distinctive anise character. Light, refreshing, and appetite-stimulating.",
+      it: "Secco ed erbaceo con strati di complessità dalle note miele-erbe del Benedictine, i botanici del vermut e il caratteristico carattere di anice dell'assenzio. Leggero, rinfrescante e stimolante dell'appetito.",
       vi: 'Khô và thảo mộc với các lớp phức tạp từ nốt mật ong-thảo mộc của Benedictine, thực vật của vermouth và tính chất hồi đặc trưng của absinthe. Nhẹ nhàng, sảng khoái và kích thích khẩu vị.',
     },
     first_impression: {
@@ -88,7 +88,7 @@ export const chrysanthemum: Cocktail = {
     seasons: ['spring', 'summer', 'autumn'],
     food_pairings: {
       en: 'Excellent as an aperitif before meals. Pairs well with light appetizers, olives, almonds, or seafood. Perfect for stimulating the appetite.',
-      it: 'Eccellente come aperitivo prima dei pasti. Si abbina bene con antipasti leggeri, olive, mandorle o frutti di mare. Perfetto per stimolare l\'appetito.',
+      it: "Eccellente come aperitivo prima dei pasti. Si abbina bene con antipasti leggeri, olive, mandorle o frutti di mare. Perfetto per stimolare l'appetito.",
       vi: 'Tuyệt vời như khai vị trước bữa ăn. Kết hợp tốt với món khai vị nhẹ, ô liu, hạnh nhân hoặc hải sản. Hoàn hảo để kích thích khẩu vị.',
     },
     ideal_for: {
@@ -123,7 +123,7 @@ export const chrysanthemum: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a mixing glass filled with ice. Stir gently for 20-30 seconds until well-chilled. Strain into a chilled coupe or Nick & Nora glass. Garnish with an orange twist, expressing the oils over the drink.',
-    it: 'Aggiungere tutti gli ingredienti in un mixing glass pieno di ghiaccio. Mescolare delicatamente per 20-30 secondi fino a raffreddare bene. Filtrare in una coppa raffreddata o bicchiere Nick & Nora. Guarnire con una scorza d\'arancia, esprimendo gli oli sulla bevanda.',
+    it: "Aggiungere tutti gli ingredienti in un mixing glass pieno di ghiaccio. Mescolare delicatamente per 20-30 secondi fino a raffreddare bene. Filtrare in una coppa raffreddata o bicchiere Nick & Nora. Guarnire con una scorza d'arancia, esprimendo gli oli sulla bevanda.",
     vi: 'Thêm tất cả nguyên liệu vào ly trộn đầy đá. Khuấy nhẹ nhàng trong 20-30 giây cho đến khi lạnh kỹ. Lọc vào ly coupe hoặc ly Nick & Nora đã làm lạnh. Trang trí với vỏ cam xoắn, ép tinh dầu lên thức uống.',
   },
 
@@ -131,7 +131,7 @@ export const chrysanthemum: Cocktail = {
 
   garnish: {
     en: 'Orange twist',
-    it: 'Scorza d\'arancia',
+    it: "Scorza d'arancia",
     vi: 'Vỏ cam xoắn',
   },
 
@@ -160,7 +160,14 @@ export const chrysanthemum: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -179,7 +186,8 @@ export const chrysanthemum: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['chrysanthemum-moderne'],
 
-  notes_for_staff: 'Use quality dry vermouth - Dolin Dry recommended. Absinthe can be strong; measure carefully. The drink should be dry and herbal, not sweet. Best served very cold as an aperitif.',
+  notes_for_staff:
+    'Use quality dry vermouth - Dolin Dry recommended. Absinthe can be strong; measure carefully. The drink should be dry and herbal, not sweet. Best served very cold as an aperitif.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +200,7 @@ export const chrysanthemum: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1188/chrysanthemum',
-    note: 'Hugo Ensslin\'s 1916 "Recipes for Mixed Drinks." Classic pre-Prohibition aperitif.',
+    notes: 'Hugo Ensslin\'s 1916 "Recipes for Mixed Drinks." Classic pre-Prohibition aperitif.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -33,8 +33,8 @@ export const maiTai: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'The quintessential tiki cocktail, combining rum, lime juice, orange curaçao, and orgeat syrup. Tropical, balanced, and complex, the Mai Tai is one of the world\'s most beloved rum cocktails and a symbol of tiki culture.',
-    it: 'Il cocktail tiki per eccellenza, che combina rum, succo di lime, curaçao all\'arancia e sciroppo di orzata. Tropicale, bilanciato e complesso, il Mai Tai è uno dei cocktail a base di rum più amati al mondo e un simbolo della cultura tiki.',
+    en: "The quintessential tiki cocktail, combining rum, lime juice, orange curaçao, and orgeat syrup. Tropical, balanced, and complex, the Mai Tai is one of the world's most beloved rum cocktails and a symbol of tiki culture.",
+    it: "Il cocktail tiki per eccellenza, che combina rum, succo di lime, curaçao all'arancia e sciroppo di orzata. Tropicale, bilanciato e complesso, il Mai Tai è uno dei cocktail a base di rum più amati al mondo e un simbolo della cultura tiki.",
     vi: 'Cocktail tiki tinh túy, kết hợp rum, nước chanh, curaçao cam và siro orgeat. Nhiệt đới, cân bằng và phức tạp, Mai Tai là một trong những cocktail rum được yêu thích nhất thế giới và là biểu tượng của văn hóa tiki.',
   },
 
@@ -42,7 +42,7 @@ export const maiTai: Cocktail = {
     created_year: '1944',
     origin: {
       city: 'Oakland',
-      bar: 'Trader Vic\'s',
+      bar: "Trader Vic's",
       country: 'USA',
     },
     creator: {
@@ -65,7 +65,7 @@ export const maiTai: Cocktail = {
     profile: ['tropical', 'citrus', 'sweet', 'balanced'],
     description: {
       en: 'Complex, balanced, and tropical. Fresh lime provides tartness, orgeat adds almond sweetness and richness, orange curaçao brings citrus depth, and rum provides the boozy backbone. A perfect tropical balance.',
-      it: 'Complesso, bilanciato e tropicale. Il lime fresco fornisce acidità, l\'orzata aggiunge dolcezza di mandorla e ricchezza, il curaçao all\'arancia porta profondità di agrumi e il rum fornisce la struttura alcolica. Un perfetto equilibrio tropicale.',
+      it: "Complesso, bilanciato e tropicale. Il lime fresco fornisce acidità, l'orzata aggiunge dolcezza di mandorla e ricchezza, il curaçao all'arancia porta profondità di agrumi e il rum fornisce la struttura alcolica. Un perfetto equilibrio tropicale.",
       vi: 'Phức tạp, cân bằng và nhiệt đới. Chanh tươi cung cấp vị chua, orgeat thêm vị ngọt hạnh nhân và sự phong phú, curaçao cam mang đến chiều sâu chanh và rum cung cấp xương sống rượu. Một sự cân bằng nhiệt đới hoàn hảo.',
     },
     first_impression: {
@@ -118,7 +118,7 @@ export const maiTai: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_CURACAO',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Orange curaçao', it: 'Curaçao all\'arancia', vi: 'Curaçao cam' },
+      display_name: { en: 'Orange curaçao', it: "Curaçao all'arancia", vi: 'Curaçao cam' },
     },
     {
       ingredient_id: 'ING_ORGEAT',
@@ -192,7 +192,8 @@ export const maiTai: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['royal-mai-tai', 'navy-grog'],
 
-  notes_for_staff: 'Use quality orgeat (almond syrup) - it\'s essential. Original recipe used 17-year-old J. Wray & Nephew rum (no longer available). Crushed ice is traditional. Garnish lavishly for tiki presentation. Often served in special tiki mugs.',
+  notes_for_staff:
+    "Use quality orgeat (almond syrup) - it's essential. Original recipe used 17-year-old J. Wray & Nephew rum (no longer available). Crushed ice is traditional. Garnish lavishly for tiki presentation. Often served in special tiki mugs.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +206,7 @@ export const maiTai: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/mai-tai/',
-    note: 'IBA Official Recipe. Original Trader Vic\'s recipe 1944.',
+    notes: "IBA Official Recipe. Original Trader Vic's recipe 1944.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

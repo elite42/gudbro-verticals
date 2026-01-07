@@ -30,7 +30,7 @@ export const robRoy: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'The Scottish cousin of the Manhattan, the Rob Roy substitutes Scotch whisky for rye or bourbon. Rich, complex, and slightly smoky, it\'s a sophisticated sipper that showcases the marriage of fine Scotch with sweet vermouth and aromatic bitters.',
+    en: "The Scottish cousin of the Manhattan, the Rob Roy substitutes Scotch whisky for rye or bourbon. Rich, complex, and slightly smoky, it's a sophisticated sipper that showcases the marriage of fine Scotch with sweet vermouth and aromatic bitters.",
     it: 'Il cugino scozzese del Manhattan, il Rob Roy sostituisce il whisky scozzese con rye o bourbon. Ricco, complesso e leggermente affumicato, è un sofisticato drink da sorseggiare che mette in mostra il matrimonio di Scotch pregiato con vermouth dolce e bitter aromatici.',
     vi: 'Người anh em họ Scotland của Manhattan, Rob Roy thay thế whisky Scotch cho rye hoặc bourbon. Đậm đà, phức tạp và hơi khói, đây là thức uống tinh tế thể hiện sự kết hợp của Scotch cao cấp với vermouth ngọt và bitter thơm.',
   },
@@ -48,7 +48,7 @@ export const robRoy: Cocktail = {
     },
     story: {
       en: 'The Rob Roy was created in 1894 at the Waldorf Astoria Hotel in New York City to commemorate the premiere of Rob Roy, an operetta based on the life of Scottish folk hero Robert Roy MacGregor. The drink was essentially a Manhattan made with Scotch whisky instead of American whiskey, paying homage to its Scottish namesake. The cocktail quickly became popular among whisky enthusiasts who appreciated the smoky complexity of Scotch in the Manhattan formula. It remains a classic choice for those who prefer their whisky drinks with a Scottish accent.',
-      it: 'Il Rob Roy fu creato nel 1894 al Waldorf Astoria Hotel di New York City per commemorare la prima di Rob Roy, un\'operetta basata sulla vita dell\'eroe popolare scozzese Robert Roy MacGregor. La bevanda era essenzialmente un Manhattan fatto con whisky scozzese invece di whiskey americano, rendendo omaggio al suo omonimo scozzese. Il cocktail divenne rapidamente popolare tra gli appassionati di whisky che apprezzavano la complessità affumicata dello Scotch nella formula del Manhattan. Rimane una scelta classica per chi preferisce le bevande al whisky con un accento scozzese.',
+      it: "Il Rob Roy fu creato nel 1894 al Waldorf Astoria Hotel di New York City per commemorare la prima di Rob Roy, un'operetta basata sulla vita dell'eroe popolare scozzese Robert Roy MacGregor. La bevanda era essenzialmente un Manhattan fatto con whisky scozzese invece di whiskey americano, rendendo omaggio al suo omonimo scozzese. Il cocktail divenne rapidamente popolare tra gli appassionati di whisky che apprezzavano la complessità affumicata dello Scotch nella formula del Manhattan. Rimane una scelta classica per chi preferisce le bevande al whisky con un accento scozzese.",
       vi: 'Rob Roy được tạo ra năm 1894 tại Khách sạn Waldorf Astoria ở New York City để kỷ niệm buổi ra mắt Rob Roy, một vở opera dựa trên cuộc đời của anh hùng dân gian Scotland Robert Roy MacGregor. Thức uống về cơ bản là Manhattan được làm bằng whisky Scotch thay vì whiskey Mỹ, tôn vinh người cùng tên Scotland của nó. Cocktail nhanh chóng trở nên phổ biến trong số những người đam mê whisky đánh giá cao sự phức tạp khói của Scotch trong công thức Manhattan. Nó vẫn là lựa chọn cổ điển cho những ai thích đồ uống whisky với giọng Scotland.',
     },
     named_after: {
@@ -76,8 +76,8 @@ export const robRoy: Cocktail = {
       vi: 'Kết thúc dài, ấm áp với khói kéo dài, gỗ sồi và hương gia vị tinh tế',
     },
     balance: {
-      en: 'Beautifully balanced between Scotch\'s boldness and vermouth\'s sweetness - neither dominates',
-      it: 'Magnificamente bilanciato tra l\'audacia dello Scotch e la dolcezza del vermouth - nessuno domina',
+      en: "Beautifully balanced between Scotch's boldness and vermouth's sweetness - neither dominates",
+      it: "Magnificamente bilanciato tra l'audacia dello Scotch e la dolcezza del vermouth - nessuno domina",
       vi: 'Cân bằng tuyệt đẹp giữa sự táo bạo của Scotch và vị ngọt của vermouth - không cái nào chiếm ưu thế',
     },
   },
@@ -160,7 +160,14 @@ export const robRoy: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'nut_free', 'dairy_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'nut_free',
+      'dairy_free',
+    ],
     spice_level: 0,
   },
 
@@ -179,7 +186,8 @@ export const robRoy: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['dry-rob-roy', 'perfect-rob-roy', 'bobby-burns'],
 
-  notes_for_staff: 'Use a quality blended Scotch - single malts can be too assertive. The traditional ratio is 2:1 Scotch to vermouth. Stir, don\'t shake, to maintain clarity. Dry Rob Roy uses dry vermouth, Perfect Rob Roy uses equal parts sweet and dry vermouth.',
+  notes_for_staff:
+    "Use a quality blended Scotch - single malts can be too assertive. The traditional ratio is 2:1 Scotch to vermouth. Stir, don't shake, to maintain clarity. Dry Rob Roy uses dry vermouth, Perfect Rob Roy uses equal parts sweet and dry vermouth.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +200,8 @@ export const robRoy: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1795/rob-roy',
-    note: 'Classic recipe from Waldorf Astoria (1894). Historical information from cocktail history sources.',
+    notes:
+      'Classic recipe from Waldorf Astoria (1894). Historical information from cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

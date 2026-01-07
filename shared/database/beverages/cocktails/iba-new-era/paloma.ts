@@ -33,7 +33,7 @@ export const paloma: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'Mexico\'s most popular tequila cocktail, the Paloma combines tequila with fresh grapefruit and lime, topped with soda. Simple, refreshing, and perfectly balanced between sweet, sour, and bitter.',
+    en: "Mexico's most popular tequila cocktail, the Paloma combines tequila with fresh grapefruit and lime, topped with soda. Simple, refreshing, and perfectly balanced between sweet, sour, and bitter.",
     it: 'Il cocktail tequila più popolare del Messico, la Paloma combina tequila con pompelmo e lime freschi, completato con soda. Semplice, rinfrescante e perfettamente bilanciato tra dolce, acido e amaro.',
     vi: 'Cocktail tequila phổ biến nhất của Mexico, Paloma kết hợp tequila với bưởi và chanh tươi, phủ soda. Đơn giản, sảng khoái và cân bằng hoàn hảo giữa ngọt, chua và đắng.',
   },
@@ -65,7 +65,7 @@ export const paloma: Cocktail = {
     profile: ['grapefruit', 'refreshing', 'balanced'],
     description: {
       en: 'Bright grapefruit with tequila warmth, lime tartness, and sparkling soda. The natural bitterness of grapefruit balances the sweetness perfectly. Refreshing and easy-drinking.',
-      it: 'Pompelmo brillante con calore di tequila, acidità del lime e soda frizzante. L\'amarezza naturale del pompelmo bilancia perfettamente la dolcezza. Rinfrescante e facile da bere.',
+      it: "Pompelmo brillante con calore di tequila, acidità del lime e soda frizzante. L'amarezza naturale del pompelmo bilancia perfettamente la dolcezza. Rinfrescante e facile da bere.",
       vi: 'Bưởi tươi mát với hương ấm tequila, vị chua chanh và soda có ga. Vị đắng tự nhiên của bưởi cân bằng hoàn hảo với vị ngọt. Sảng khoái và dễ uống.',
     },
     first_impression: {
@@ -163,7 +163,14 @@ export const paloma: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +189,8 @@ export const paloma: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['paloma-with-fresh-grapefruit'],
 
-  notes_for_staff: 'Can use fresh grapefruit juice + soda water instead of grapefruit soda for a more refined version. Salt rim is traditional but optional.',
+  notes_for_staff:
+    'Can use fresh grapefruit juice + soda water instead of grapefruit soda for a more refined version. Salt rim is traditional but optional.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +203,7 @@ export const paloma: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/paloma/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

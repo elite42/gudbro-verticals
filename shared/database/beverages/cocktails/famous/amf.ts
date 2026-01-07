@@ -33,7 +33,7 @@ export const amf: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'An infamously strong blue cocktail combining five spirits with sweet and sour mix and lemon-lime soda, topped with blue curaçao. The AMF is essentially a Long Island Iced Tea with blue curaçao, creating one of the strongest mixed drinks in existence.',
-    it: 'Un cocktail blu famigeratamente forte che combina cinque spiriti con sweet and sour mix e soda limone-lime, completato con blue curaçao. L\'AMF è essenzialmente un Long Island Iced Tea con blue curaçao, creando uno dei drink misti più forti in esistenza.',
+    it: "Un cocktail blu famigeratamente forte che combina cinque spiriti con sweet and sour mix e soda limone-lime, completato con blue curaçao. L'AMF è essenzialmente un Long Island Iced Tea con blue curaçao, creando uno dei drink misti più forti in esistenza.",
     vi: 'Một cocktail xanh lam nổi tiếng mạnh mẽ kết hợp năm loại rượu với hỗn hợp chua ngọt và soda chanh-lime, phủ blue curaçao. AMF về cơ bản là Long Island Iced Tea với blue curaçao, tạo ra một trong những thức uống pha trộn mạnh nhất tồn tại.',
   },
 
@@ -58,8 +58,8 @@ export const amf: Cocktail = {
   taste: {
     profile: ['sweet', 'citrus', 'orange', 'strong'],
     description: {
-      en: 'Sweet and citrusy with blue curaçao\'s orange flavor dominating, barely masking the staggering alcohol content from six alcoholic ingredients. The lemon-lime soda adds effervescence while sweet and sour provides citrus notes. Dangerously smooth despite containing more alcohol than most cocktails.',
-      it: 'Dolce e agrumato con il sapore d\'arancia del blue curaçao dominante, mascherando a malapena lo sbalorditivo contenuto alcolico di sei ingredienti alcolici. La soda limone-lime aggiunge effervescenza mentre il sweet and sour fornisce note di agrumi. Pericolosamente morbido nonostante contenga più alcol della maggior parte dei cocktail.',
+      en: "Sweet and citrusy with blue curaçao's orange flavor dominating, barely masking the staggering alcohol content from six alcoholic ingredients. The lemon-lime soda adds effervescence while sweet and sour provides citrus notes. Dangerously smooth despite containing more alcohol than most cocktails.",
+      it: "Dolce e agrumato con il sapore d'arancia del blue curaçao dominante, mascherando a malapena lo sbalorditivo contenuto alcolico di sei ingredienti alcolici. La soda limone-lime aggiunge effervescenza mentre il sweet and sour fornisce note di agrumi. Pericolosamente morbido nonostante contenga più alcol della maggior parte dei cocktail.",
       vi: 'Ngọt ngào và cam quýt với hương cam của blue curaçao chiếm ưu thế, hầu như không che giấu được hàm lượng cồn đáng kinh ngạc từ sáu thành phần có cồn. Soda chanh-lime thêm bọt khí trong khi chua ngọt cung cấp hương cam quýt. Mượt mà đến nguy hiểm mặc dù chứa nhiều cồn hơn hầu hết các cocktail.',
     },
     first_impression: {
@@ -82,7 +82,7 @@ export const amf: Cocktail = {
   recommendations: {
     best_time: ['night', 'late_night'],
     occasions: ['party', 'celebration', 'nightclub', 'dare'],
-    seasons: ['all-year'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Not recommended with food. This is strictly a party/celebration drink. Consume responsibly and slowly.',
       it: 'Non raccomandato con il cibo. Questo è rigorosamente un drink da festa/celebrazione. Consumare responsabilmente e lentamente.',
@@ -132,7 +132,11 @@ export const amf: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_LIME_SODA',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Lemon-lime soda (7-Up or Sprite)', it: 'Soda limone-lime (7-Up o Sprite)', vi: 'Soda chanh-lime (7-Up hoặc Sprite)' },
+      display_name: {
+        en: 'Lemon-lime soda (7-Up or Sprite)',
+        it: 'Soda limone-lime (7-Up o Sprite)',
+        vi: 'Soda chanh-lime (7-Up hoặc Sprite)',
+      },
     },
   ],
 
@@ -177,7 +181,14 @@ export const amf: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -185,7 +196,7 @@ export const amf: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-year'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'celebration', 'nightclub'],
 
   is_mocktail: false,
@@ -196,7 +207,8 @@ export const amf: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['long-island-iced-tea', 'tokyo-tea', 'blue-long-island'],
 
-  notes_for_staff: 'EXTREMELY DANGEROUS - highest alcohol content of common cocktails. ALWAYS warn customers. Some bars refuse to serve. Responsible service practices essential. Also known as "Blue Motherfucker" or "Blue Long Island."',
+  notes_for_staff:
+    'EXTREMELY DANGEROUS - highest alcohol content of common cocktails. ALWAYS warn customers. Some bars refuse to serve. Responsible service practices essential. Also known as "Blue Motherfucker" or "Blue Long Island."',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -209,7 +221,7 @@ export const amf: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1252/adios-motherfucker',
-    note: 'Extreme 1990s variation, strongest of the "iced tea" family.',
+    notes: 'Extreme 1990s variation, strongest of the "iced tea" family.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

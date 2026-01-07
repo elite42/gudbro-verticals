@@ -48,12 +48,12 @@ export const mexicanFiringSquad: Cocktail = {
     },
     story: {
       en: 'First documented by Charles H. Baker Jr. in his 1937 book "The Gentleman\'s Companion," the Mexican Firing Squad is a forgotten classic that was rediscovered during the modern cocktail renaissance. Baker encountered the drink during his travels in Mexico. The cocktail fell into obscurity until it was revived by craft bartenders in the 2000s who appreciated its bold flavors and unusual combination of tequila with grenadine and bitters.',
-      it: 'Documentato per la prima volta da Charles H. Baker Jr. nel suo libro del 1937 "The Gentleman\'s Companion," il Mexican Firing Squad è un classico dimenticato che fu riscoperto durante il rinascimento moderno dei cocktail. Baker incontrò la bevanda durante i suoi viaggi in Messico. Il cocktail cadde nell\'oblio fino a quando non fu fatto rivivere dai bartender artigianali negli anni 2000 che apprezzarono i suoi sapori audaci e l\'insolita combinazione di tequila con granatina e bitter.',
+      it: "Documentato per la prima volta da Charles H. Baker Jr. nel suo libro del 1937 \"The Gentleman's Companion,\" il Mexican Firing Squad è un classico dimenticato che fu riscoperto durante il rinascimento moderno dei cocktail. Baker incontrò la bevanda durante i suoi viaggi in Messico. Il cocktail cadde nell'oblio fino a quando non fu fatto rivivere dai bartender artigianali negli anni 2000 che apprezzarono i suoi sapori audaci e l'insolita combinazione di tequila con granatina e bitter.",
       vi: 'Lần đầu được ghi chép bởi Charles H. Baker Jr. trong cuốn sách năm 1937 "The Gentleman\'s Companion," Mexican Firing Squad là cocktail cổ điển bị lãng quên được tái khám phá trong thời kỳ phục흥 cocktail hiện đại. Baker gặp thức uống này trong chuyến đi Mexico. Cocktail này rơi vào quên lãng cho đến khi được các bartender thủ công hồi sinh vào những năm 2000, những người đánh giá cao hương vị táo bạo và sự kết hợp bất thường của tequila với grenadine và bitters.',
     },
     named_after: {
       en: 'The dramatic name references the Mexican tradition of offering a final drink to condemned prisoners before execution.',
-      it: 'Il nome drammatico fa riferimento alla tradizione messicana di offrire un\'ultima bevanda ai prigionieri condannati prima dell\'esecuzione.',
+      it: "Il nome drammatico fa riferimento alla tradizione messicana di offrire un'ultima bevanda ai prigionieri condannati prima dell'esecuzione.",
       vi: 'Tên gọi kịch tính ám chỉ truyền thống Mexico về việc cung cấp thức uống cuối cùng cho tù nhân bị kết án trước khi hành quyết.',
     },
   },
@@ -85,7 +85,7 @@ export const mexicanFiringSquad: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_afternoon'],
     occasions: ['cocktail_hour', 'dinner_party', 'celebration'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Excellent with Mexican cuisine, tacos, ceviche, grilled meats, and spicy dishes. The citrus and spice complement bold, flavorful foods.',
       it: 'Eccellente con cucina messicana, tacos, ceviche, carni alla griglia e piatti piccanti. Gli agrumi e le spezie complementano cibi audaci e saporiti.',
@@ -177,7 +177,14 @@ export const mexicanFiringSquad: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -185,7 +192,7 @@ export const mexicanFiringSquad: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['cocktail_hour', 'dinner_party', 'celebration'],
 
   is_mocktail: false,
@@ -196,7 +203,8 @@ export const mexicanFiringSquad: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['margarita', 'paloma'],
 
-  notes_for_staff: 'Use quality grenadine (preferably house-made) for best results. The Angostura bitters are essential - they provide the signature spicy character. Can garnish with a chili salt rim for extra heat.',
+  notes_for_staff:
+    'Use quality grenadine (preferably house-made) for best results. The Angostura bitters are essential - they provide the signature spicy character. Can garnish with a chili salt rim for extra heat.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -208,8 +216,8 @@ export const mexicanFiringSquad: Cocktail = {
   // SOURCES
   // ─────────────────────────────────────────────────────────────────────────
   source: {
-    primary: 'The Gentleman\'s Companion by Charles H. Baker Jr., 1937',
-    note: 'Rediscovered classic from 1937. Revived during modern cocktail renaissance.',
+    primary: "The Gentleman's Companion by Charles H. Baker Jr., 1937",
+    notes: 'Rediscovered classic from 1937. Revived during modern cocktail renaissance.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

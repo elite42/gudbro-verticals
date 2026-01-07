@@ -47,7 +47,7 @@ export const navyGrog: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Navy Grog was created in 1941 by Ernest Raymond Beaumont Gantt, better known as Don the Beachcomber, at his Hollywood restaurant. The drink pays homage to traditional naval grog - the rum ration given to British sailors since the 18th century. Don\'s version elevated the simple rum-and-water mixture into a sophisticated tiki cocktail by combining three different rums with honey, fresh citrus, and club soda. The signature presentation features a carved ice cone in the center of the glass, which slowly dilutes the drink as it melts. During World War II, the Navy Grog became particularly popular with servicemen on leave. The recipe remained a closely guarded secret for decades.',
+      en: "The Navy Grog was created in 1941 by Ernest Raymond Beaumont Gantt, better known as Don the Beachcomber, at his Hollywood restaurant. The drink pays homage to traditional naval grog - the rum ration given to British sailors since the 18th century. Don's version elevated the simple rum-and-water mixture into a sophisticated tiki cocktail by combining three different rums with honey, fresh citrus, and club soda. The signature presentation features a carved ice cone in the center of the glass, which slowly dilutes the drink as it melts. During World War II, the Navy Grog became particularly popular with servicemen on leave. The recipe remained a closely guarded secret for decades.",
       it: 'Il Navy Grog fu creato nel 1941 da Ernest Raymond Beaumont Gantt, meglio noto come Don the Beachcomber, nel suo ristorante di Hollywood. La bevanda rende omaggio al tradizionale grog navale - la razione di rum data ai marinai britannici dal XVIII secolo. La versione di Don ha elevato la semplice miscela di rum e acqua in un sofisticato cocktail tiki combinando tre diversi rum con miele, agrumi freschi e club soda. La presentazione distintiva presenta un cono di ghiaccio scolpito al centro del bicchiere, che diluisce lentamente la bevanda mentre si scioglie. Durante la seconda guerra mondiale, il Navy Grog divenne particolarmente popolare tra i militari in licenza. La ricetta rimase un segreto custodito gelosamente per decenni.',
       vi: 'Navy Grog được tạo ra năm 1941 bởi Ernest Raymond Beaumont Gantt, được biết đến nhiều hơn với tên Don the Beachcomber, tại nhà hàng Hollywood của ông. Thức uống tôn vinh grog hải quân truyền thống - khẩu phần rum được cung cấp cho các thủy thủ Anh từ thế kỷ 18. Phiên bản của Don đã nâng hỗn hợp rum và nước đơn giản thành một loại cocktail tiki tinh tế bằng cách kết hợp ba loại rum khác nhau với mật ong, cam quýt tươi và soda. Cách trình bày đặc trưng có hình nón đá chạm khắc ở giữa ly, từ từ pha loãng thức uống khi nó tan chảy. Trong Thế chiến II, Navy Grog trở nên đặc biệt phổ biến với quân nhân đang nghỉ phép. Công thức vẫn là một bí mật được giữ kín trong nhiều thập kỷ.',
     },
@@ -77,7 +77,7 @@ export const navyGrog: Cocktail = {
     },
     balance: {
       en: 'Well-balanced between strong rum foundation and refreshing citrus-soda lift, honey provides smooth integration',
-      it: 'Ben bilanciato tra forte fondazione di rum e rinfrescante sollevamento di agrumi-soda, il miele fornisce un\'integrazione liscia',
+      it: "Ben bilanciato tra forte fondazione di rum e rinfrescante sollevamento di agrumi-soda, il miele fornisce un'integrazione liscia",
       vi: 'Cân bằng tốt giữa nền rum mạnh và sự nâng cam quýt-soda sảng khoái, mật ong cung cấp sự tích hợp mịn màng',
     },
   },
@@ -93,7 +93,7 @@ export const navyGrog: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for tiki purists and rum enthusiasts seeking an authentic Don the Beachcomber experience. Ideal for those who appreciate balanced, citrus-forward cocktails with serious rum complexity. Great for hot weather refreshment.',
-      it: 'Perfetto per i puristi del tiki e gli appassionati di rum che cercano un\'autentica esperienza Don the Beachcomber. Ideale per chi apprezza cocktail equilibrati orientati agli agrumi con seria complessità del rum. Ottimo per rinfrescarsi con il caldo.',
+      it: "Perfetto per i puristi del tiki e gli appassionati di rum che cercano un'autentica esperienza Don the Beachcomber. Ideale per chi apprezza cocktail equilibrati orientati agli agrumi con seria complessità del rum. Ottimo per rinfrescarsi con il caldo.",
       vi: 'Hoàn hảo cho những người theo chủ nghĩa thuần túy tiki và những người đam mê rum tìm kiếm trải nghiệm Don the Beachcomber chính thống. Lý tưởng cho những ai đánh giá cao cocktail cân bằng, hướng về cam quýt với độ phức tạp rum nghiêm túc. Tuyệt vời cho làm mát thời tiết nóng.',
     },
   },
@@ -110,7 +110,11 @@ export const navyGrog: Cocktail = {
     {
       ingredient_id: 'ING_RUM_DARK',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Dark rum (Jamaican)', it: 'Rum scuro (giamaicano)', vi: 'Rum đen (Jamaica)' },
+      display_name: {
+        en: 'Dark rum (Jamaican)',
+        it: 'Rum scuro (giamaicano)',
+        vi: 'Rum đen (Jamaica)',
+      },
     },
     {
       ingredient_id: 'ING_RUM_DEMERARA',
@@ -120,12 +124,20 @@ export const navyGrog: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước chanh xanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước chanh xanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_GRAPEFRUIT_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh grapefruit juice', it: 'Succo di pompelmo fresco', vi: 'Nước bưởi tươi' },
+      display_name: {
+        en: 'Fresh grapefruit juice',
+        it: 'Succo di pompelmo fresco',
+        vi: 'Nước bưởi tươi',
+      },
     },
     {
       ingredient_id: 'ING_HONEY_SYRUP',
@@ -180,7 +192,14 @@ export const navyGrog: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -199,7 +218,8 @@ export const navyGrog: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['don-the-beachcomber-navy-grog'],
 
-  notes_for_staff: 'Original Don the Beachcomber recipe from 1941. Three-rum blend is essential - each rum adds unique character. Ice cone is traditional but optional - if making cone, carve from block ice. Honey syrup is 1:1 honey to water. Pour unstrained for authentic presentation.',
+  notes_for_staff:
+    'Original Don the Beachcomber recipe from 1941. Three-rum blend is essential - each rum adds unique character. Ice cone is traditional but optional - if making cone, carve from block ice. Honey syrup is 1:1 honey to water. Pour unstrained for authentic presentation.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -212,7 +232,8 @@ export const navyGrog: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://beachbumberry.com/navy-grog.html',
-    note: 'Original Don the Beachcomber recipe from 1941. Jeff "Beachbum" Berry\'s Sippin\' Safari. Tiki cocktail archives.',
+    notes:
+      'Original Don the Beachcomber recipe from 1941. Jeff "Beachbum" Berry\'s Sippin\' Safari. Tiki cocktail archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

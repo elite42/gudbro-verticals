@@ -48,8 +48,8 @@ export const venom: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Venom is a modern cocktail that emerged during the craft cocktail renaissance of the 2010s. While its exact origins are not definitively documented, it represents the era\'s focus on botanical complexity and bitter-herbal flavor profiles. The drink gained recognition for its sophisticated balance and intriguing flavor combination, earning its place in the IBA New Era Drinks category.',
-      it: 'Il Venom è un cocktail moderno emerso durante il rinascimento dei cocktail artigianali degli anni 2010. Sebbene le sue origini esatte non siano definitivamente documentate, rappresenta l\'attenzione dell\'epoca sulla complessità botanica e sui profili di sapore erbaceo-amaro. Il drink ha guadagnato riconoscimento per il suo equilibrio sofisticato e l\'intrigante combinazione di sapori, guadagnandosi un posto nella categoria IBA New Era Drinks.',
+      en: "The Venom is a modern cocktail that emerged during the craft cocktail renaissance of the 2010s. While its exact origins are not definitively documented, it represents the era's focus on botanical complexity and bitter-herbal flavor profiles. The drink gained recognition for its sophisticated balance and intriguing flavor combination, earning its place in the IBA New Era Drinks category.",
+      it: "Il Venom è un cocktail moderno emerso durante il rinascimento dei cocktail artigianali degli anni 2010. Sebbene le sue origini esatte non siano definitivamente documentate, rappresenta l'attenzione dell'epoca sulla complessità botanica e sui profili di sapore erbaceo-amaro. Il drink ha guadagnato riconoscimento per il suo equilibrio sofisticato e l'intrigante combinazione di sapori, guadagnandosi un posto nella categoria IBA New Era Drinks.",
       vi: 'Venom là một cocktail hiện đại xuất hiện trong thời kỳ phục hưng cocktail thủ công của những năm 2010. Mặc dù nguồn gốc chính xác không được ghi chép rõ ràng, nó đại diện cho sự tập trung của thời đại vào độ phức tạp thực vật và hương vị thảo mộc-đắng. Thức uống được công nhận về sự cân bằng tinh tế và sự kết hợp hương vị hấp dẫn, giành được vị trí trong danh mục IBA New Era Drinks.',
     },
     named_after: {
@@ -62,7 +62,7 @@ export const venom: Cocktail = {
   taste: {
     profile: ['herbal', 'bitter', 'citrus', 'botanical'],
     description: {
-      en: 'Complex and layered. The gin provides a botanical foundation, while herbal liqueurs add depth and slight sweetness. Fresh lemon juice brings brightness and acidity, creating a drink that\'s both refreshing and contemplative.',
+      en: "Complex and layered. The gin provides a botanical foundation, while herbal liqueurs add depth and slight sweetness. Fresh lemon juice brings brightness and acidity, creating a drink that's both refreshing and contemplative.",
       it: 'Complesso e stratificato. Il gin fornisce una base botanica, mentre i liquori erbacei aggiungono profondità e leggera dolcezza. Il succo di limone fresco porta luminosità e acidità, creando un drink sia rinfrescante che contemplativo.',
       vi: 'Phức tạp và nhiều lớp. Gin cung cấp nền tảng thực vật, trong khi rượu mùi thảo mộc thêm chiều sâu và vị ngọt nhẹ. Nước cốt chanh tươi mang lại sự tươi sáng và độ acid, tạo ra một thức uống vừa sảng khoái vừa trầm tư.',
     },
@@ -85,7 +85,12 @@ export const venom: Cocktail = {
 
   recommendations: {
     best_time: ['evening', 'late_afternoon'],
-    occasions: ['aperitivo', 'cocktail_hour', 'craft_cocktail_experience', 'sophisticated_gathering'],
+    occasions: [
+      'aperitivo',
+      'cocktail_hour',
+      'craft_cocktail_experience',
+      'sophisticated_gathering',
+    ],
     seasons: ['spring', 'summer', 'autumn'],
     food_pairings: {
       en: 'Pairs well with light appetizers, fresh salads, herb-crusted vegetables, goat cheese, and seafood. The herbal complexity complements Mediterranean and contemporary cuisine.',
@@ -174,7 +179,14 @@ export const venom: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -193,7 +205,8 @@ export const venom: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['alaska', 'bijou', 'last-word'],
 
-  notes_for_staff: 'Use a gin with good botanical character. Fresh lemon juice is essential. Bénédictine and Yellow Chartreuse both bring herbal complexity - ensure proper measures for balance. Serve in a chilled coupe or cocktail glass.',
+  notes_for_staff:
+    'Use a gin with good botanical character. Fresh lemon juice is essential. Bénédictine and Yellow Chartreuse both bring herbal complexity - ensure proper measures for balance. Serve in a chilled coupe or cocktail glass.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -206,7 +219,7 @@ export const venom: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/venom/',
-    note: 'IBA Official Recipe. Modern cocktail from the craft cocktail renaissance.',
+    notes: 'IBA Official Recipe. Modern cocktail from the craft cocktail renaissance.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -31,7 +31,7 @@ export const springForward: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A floral and refreshing gin cocktail featuring elderflower liqueur, lemon juice, and Aperol. The Spring Forward captures the essence of springtime in a glass with its bright, botanical flavors.',
-    it: 'Un cocktail floreale e rinfrescante a base di gin con liquore di fiori di sambuco, succo di limone e Aperol. Il Spring Forward cattura l\'essenza della primavera in un bicchiere con i suoi sapori botanici e luminosi.',
+    it: "Un cocktail floreale e rinfrescante a base di gin con liquore di fiori di sambuco, succo di limone e Aperol. Il Spring Forward cattura l'essenza della primavera in un bicchiere con i suoi sapori botanici e luminosi.",
     vi: 'Một loại cocktail gin hoa và sảng khoái với rượu mùi hoa cơm cháy, nước chanh và Aperol. Spring Forward nắm bắt bản chất của mùa xuân trong ly với hương vị thực vật sáng.',
   },
 
@@ -39,7 +39,7 @@ export const springForward: Cocktail = {
     created_year: '2009',
     origin: {
       city: 'New York City',
-      bar: 'PDT (Please Don\'t Tell)',
+      bar: "PDT (Please Don't Tell)",
       country: 'USA',
     },
     creator: {
@@ -48,7 +48,7 @@ export const springForward: Cocktail = {
     },
     story: {
       en: 'Created by Jim Meehan at the legendary PDT in New York City in 2009, the Spring Forward was designed as a seasonal cocktail to celebrate the arrival of spring. Meehan combined gin with elderflower liqueur and Aperol to create a drink that perfectly captures the fresh, floral character of the season. The name cleverly references both the spring season and the daylight saving time change.',
-      it: 'Creato da Jim Meehan al leggendario PDT di New York City nel 2009, il Spring Forward è stato progettato come cocktail stagionale per celebrare l\'arrivo della primavera. Meehan ha combinato gin con liquore di fiori di sambuco e Aperol per creare una bevanda che cattura perfettamente il carattere fresco e floreale della stagione. Il nome fa riferimento abilmente sia alla stagione primaverile che al cambio dell\'ora legale.',
+      it: "Creato da Jim Meehan al leggendario PDT di New York City nel 2009, il Spring Forward è stato progettato come cocktail stagionale per celebrare l'arrivo della primavera. Meehan ha combinato gin con liquore di fiori di sambuco e Aperol per creare una bevanda che cattura perfettamente il carattere fresco e floreale della stagione. Il nome fa riferimento abilmente sia alla stagione primaverile che al cambio dell'ora legale.",
       vi: 'Được tạo ra bởi Jim Meehan tại PDT huyền thoại ở New York City năm 2009, Spring Forward được thiết kế như một cocktail theo mùa để chào đón mùa xuân. Meehan kết hợp gin với rượu mùi hoa cơm cháy và Aperol để tạo ra đồ uống nắm bắt hoàn hảo đặc tính tươi mát, hoa của mùa. Tên gọi khéo léo ám chỉ cả mùa xuân và thay đổi giờ tiết kiệm ánh sáng ban ngày.',
     },
     named_after: {
@@ -62,7 +62,7 @@ export const springForward: Cocktail = {
     profile: ['floral', 'citrus', 'refreshing'],
     description: {
       en: 'Light, floral, and refreshing with botanical complexity. Gin provides a juniper backbone, elderflower liqueur adds delicate floral sweetness, lemon brings bright acidity, and Aperol contributes subtle bitter-orange notes.',
-      it: 'Leggero, floreale e rinfrescante con complessità botanica. Il gin fornisce una struttura di ginepro, il liquore di fiori di sambuco aggiunge dolcezza floreale delicata, il limone porta acidità brillante e l\'Aperol contribuisce con note sottili di arancia amara.',
+      it: "Leggero, floreale e rinfrescante con complessità botanica. Il gin fornisce una struttura di ginepro, il liquore di fiori di sambuco aggiunge dolcezza floreale delicata, il limone porta acidità brillante e l'Aperol contribuisce con note sottili di arancia amara.",
       vi: 'Nhẹ nhàng, hoa và sảng khoái với độ phức tạp thực vật. Gin mang đến xương sống bách xù, rượu mùi hoa cơm cháy thêm vị ngọt hoa tinh tế, chanh mang độ chua sáng, và Aperol đóng góp hương cam đắng tinh tế.',
     },
     first_impression: {
@@ -177,7 +177,14 @@ export const springForward: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -196,7 +203,8 @@ export const springForward: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['french-75', 'southside'],
 
-  notes_for_staff: 'Use quality elderflower liqueur (St-Germain recommended). Fresh lemon juice is essential. Edible flowers make a beautiful seasonal garnish for special occasions.',
+  notes_for_staff:
+    'Use quality elderflower liqueur (St-Germain recommended). Fresh lemon juice is essential. Edible flowers make a beautiful seasonal garnish for special occasions.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -209,7 +217,7 @@ export const springForward: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'PDT Cocktail Book by Jim Meehan',
-    note: 'Created by Jim Meehan at PDT, 2009. Modern classic cocktail.',
+    notes: 'Created by Jim Meehan at PDT, 2009. Modern classic cocktail.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -1,21 +1,27 @@
+---
+description: Inizia una nuova sessione GUDBRO
+---
+
 # Start Session Protocol
 
-When starting a new coding session:
+Leggi questi file per iniziare la sessione:
 
-1. **Read Inventory First**
-   - Read `docs/inventory.md` for full feature list
-   - Read `docs/sprints/current.md` for active sprint (if exists)
+1. **CLAUDE.md** - Contesto progetto e sezione 0 (Current Focus)
+   !`cat CLAUDE.md | head -50`
 
-2. **Check Context**
-   - What was the last task completed?
-   - Are there pending items from previous session?
+2. **Backlog IN-PROGRESS** - Task attive
+   !`cat docs/backlog/2-IN-PROGRESS.md`
 
-3. **Clarify Goals**
-   - Ask user: "What would you like to work on today?"
-   - Cross-reference with inventory to avoid duplicates
+3. **Backlog DONE** - Ultime 3 completate (per contesto)
+   !`cat docs/backlog/4-DONE.md | head -30`
 
-4. **Set Up TodoWrite**
-   - Create todo list for the session
-   - Mark items as completed as you go
+## Rispondi con questo formato:
 
-This ensures continuity between sessions.
+```
+GUDBRO Ready.
+
+FOCUS: [task da sezione 0 di CLAUDE.md]
+IN PROGRESS: [lista task da 2-IN-PROGRESS.md]
+
+Vuoi continuare [FOCUS task] o fare altro?
+```

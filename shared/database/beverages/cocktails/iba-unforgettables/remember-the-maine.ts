@@ -34,7 +34,7 @@ export const rememberTheMaine: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A richly complex, Prohibition-era classic that blends the bold character of rye whiskey with the herbal depth of sweet vermouth, a touch of cherry liqueur, and a whisper of absinthe. Named after the rallying cry that sparked the Spanish-American War.',
-    it: 'Un classico complesso dell\'era del Proibizionismo che unisce il carattere audace del rye whiskey con la profondità erbacea del vermouth dolce, un tocco di liquore di ciliegie e un sussurro di assenzio. Prende il nome dal grido di battaglia che scatenò la guerra ispano-americana.',
+    it: "Un classico complesso dell'era del Proibizionismo che unisce il carattere audace del rye whiskey con la profondità erbacea del vermouth dolce, un tocco di liquore di ciliegie e un sussurro di assenzio. Prende il nome dal grido di battaglia che scatenò la guerra ispano-americana.",
     vi: 'Một tác phẩm kinh điển phức tạp từ thời Cấm rượu, pha trộn tính cách táo bạo của rye whiskey với độ sâu thảo mộc của vermouth ngọt, một chút rượu cherry và một chút absinthe. Được đặt tên theo khẩu hiệu kêu gọi đã châm ngòi cho Chiến tranh Tây Ban Nha-Mỹ.',
   },
 
@@ -70,7 +70,7 @@ export const rememberTheMaine: Cocktail = {
     },
     first_impression: {
       en: 'Anise and herbal notes from absinthe, followed by bold rye spice',
-      it: 'Note di anice ed erbe dall\'assenzio, seguite da spezie audaci di segale',
+      it: "Note di anice ed erbe dall'assenzio, seguite da spezie audaci di segale",
       vi: 'Hương hồi và thảo mộc từ absinthe, tiếp theo là gia vị rye táo bạo',
     },
     finish: {
@@ -135,7 +135,7 @@ export const rememberTheMaine: Cocktail = {
 
   instructions: {
     en: 'Pour the absinthe into a coupe glass and swirl to completely coat the inside. Discard the absinthe and set the glass aside. Add the other ingredients to a mixing glass and fill it 3/4 full with ice. Stir until chilled, then strain into the glass rinsed with the absinthe.',
-    it: 'Versare l\'assenzio in una coppa e ruotare per ricoprire completamente l\'interno. Scartare l\'assenzio e mettere da parte il bicchiere. Aggiungere gli altri ingredienti in un mixing glass e riempirlo per 3/4 con ghiaccio. Mescolare fino a raffreddare, quindi filtrare nel bicchiere sciacquato con l\'assenzio.',
+    it: "Versare l'assenzio in una coppa e ruotare per ricoprire completamente l'interno. Scartare l'assenzio e mettere da parte il bicchiere. Aggiungere gli altri ingredienti in un mixing glass e riempirlo per 3/4 con ghiaccio. Mescolare fino a raffreddare, quindi filtrare nel bicchiere sciacquato con l'assenzio.",
     vi: 'Đổ absinthe vào ly coupe và xoay để phủ hoàn toàn bên trong. Loại bỏ absinthe và để ly sang một bên. Thêm các nguyên liệu khác vào ly trộn và đổ đầy 3/4 với đá. Khuấy cho đến khi lạnh, sau đó lọc vào ly đã rửa bằng absinthe.',
   },
 
@@ -172,7 +172,14 @@ export const rememberTheMaine: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -191,7 +198,8 @@ export const rememberTheMaine: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['manhattan', 'brooklyn', 'vieux-carre'],
 
-  notes_for_staff: 'The absinthe rinse is essential - don\'t skip it. Use Cherry Heering for authenticity. Can substitute bourbon for rye if needed, but rye\'s spice is traditional. Ensure proper stirring to achieve ideal dilution.',
+  notes_for_staff:
+    "The absinthe rinse is essential - don't skip it. Use Cherry Heering for authenticity. Can substitute bourbon for rye if needed, but rye's spice is traditional. Ensure proper stirring to achieve ideal dilution.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -204,7 +212,8 @@ export const rememberTheMaine: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/remember-the-maine/',
-    note: 'IBA Official Recipe. Historical information from Charles H. Baker Jr. "The Gentleman\'s Companion" (1939).',
+    notes:
+      'IBA Official Recipe. Historical information from Charles H. Baker Jr. "The Gentleman\'s Companion" (1939).',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

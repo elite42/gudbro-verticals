@@ -64,7 +64,7 @@ export const ginBasilSmash: Cocktail = {
   taste: {
     profile: ['herbal', 'refreshing', 'citrus', 'aromatic'],
     description: {
-      en: 'Bright and herbaceous with a perfect balance of botanical gin, fresh basil\'s peppery sweetness, and zesty lemon tartness. The muddled basil releases essential oils that complement the gin\'s botanicals beautifully.',
+      en: "Bright and herbaceous with a perfect balance of botanical gin, fresh basil's peppery sweetness, and zesty lemon tartness. The muddled basil releases essential oils that complement the gin's botanicals beautifully.",
       it: 'Luminoso ed erbaceo con un perfetto equilibrio di gin botanico, dolcezza pepata del basilico fresco e acidità vivace del limone. Il basilico pestato rilascia oli essenziali che completano meravigliosamente i botanici del gin.',
       vi: 'Tươi sáng và thảo mộc với sự cân bằng hoàn hảo của gin thực vật, vị ngọt cay của húng quế tươi và vị chua sảng khoái của chanh. Húng quế nghiền giải phóng tinh dầu bổ sung tuyệt vời cho thực vật của gin.',
     },
@@ -113,7 +113,11 @@ export const ginBasilSmash: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -123,7 +127,11 @@ export const ginBasilSmash: Cocktail = {
     {
       ingredient_id: 'ING_BASIL_LEAVES',
       quantity: { amount: 8, unit: 'leaves' },
-      display_name: { en: 'Fresh basil leaves', it: 'Foglie di basilico fresco', vi: 'Lá húng quế tươi' },
+      display_name: {
+        en: 'Fresh basil leaves',
+        it: 'Foglie di basilico fresco',
+        vi: 'Lá húng quế tươi',
+      },
     },
   ],
 
@@ -168,7 +176,14 @@ export const ginBasilSmash: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +202,8 @@ export const ginBasilSmash: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['strawberry-basil-smash', 'cucumber-basil-smash'],
 
-  notes_for_staff: 'Fresh basil is critical - do not use dried. Muddle gently to avoid bitterness. Double strain to remove basil pieces. Use a quality gin with good botanical profile. Can substitute lime for lemon for variation.',
+  notes_for_staff:
+    'Fresh basil is critical - do not use dried. Muddle gently to avoid bitterness. Double strain to remove basil pieces. Use a quality gin with good botanical profile. Can substitute lime for lemon for variation.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +216,7 @@ export const ginBasilSmash: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/gin-basil-smash/',
-    note: 'IBA Official Recipe. Created by Jörg Meyer at Le Lion Bar de Paris, Hamburg.',
+    notes: 'IBA Official Recipe. Created by Jörg Meyer at Le Lion Bar de Paris, Hamburg.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

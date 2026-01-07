@@ -50,8 +50,8 @@ export const paperPlane: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by Sam Ross at The Violet Hour in Chicago in 2008, inspired by the M.I.A. song "Paper Planes." Ross wanted to create a Last Word variation using bourbon instead of gin. The equal-parts formula (¾ oz of each ingredient) creates perfect harmony between bourbon\'s sweetness, Aperol\'s bitter orange, Amaro Nonino\'s complex herbal notes, and lemon\'s acidity. The drink spread rapidly through cocktail bars worldwide and became one of the defining cocktails of the craft cocktail renaissance.',
-      it: 'Creato da Sam Ross al The Violet Hour di Chicago nel 2008, ispirato dalla canzone "Paper Planes" di M.I.A. Ross voleva creare una variazione del Last Word usando bourbon invece di gin. La formula a parti uguali (22,5 ml di ogni ingrediente) crea un\'armonia perfetta tra la dolcezza del bourbon, l\'arancia amara dell\'Aperol, le note erbacee complesse dell\'Amaro Nonino e l\'acidità del limone. La bevanda si diffuse rapidamente nei cocktail bar di tutto il mondo e divenne uno dei cocktail più significativi del rinascimento dei cocktail artigianali.',
+      en: "Created by Sam Ross at The Violet Hour in Chicago in 2008, inspired by the M.I.A. song \"Paper Planes.\" Ross wanted to create a Last Word variation using bourbon instead of gin. The equal-parts formula (¾ oz of each ingredient) creates perfect harmony between bourbon's sweetness, Aperol's bitter orange, Amaro Nonino's complex herbal notes, and lemon's acidity. The drink spread rapidly through cocktail bars worldwide and became one of the defining cocktails of the craft cocktail renaissance.",
+      it: "Creato da Sam Ross al The Violet Hour di Chicago nel 2008, ispirato dalla canzone \"Paper Planes\" di M.I.A. Ross voleva creare una variazione del Last Word usando bourbon invece di gin. La formula a parti uguali (22,5 ml di ogni ingrediente) crea un'armonia perfetta tra la dolcezza del bourbon, l'arancia amara dell'Aperol, le note erbacee complesse dell'Amaro Nonino e l'acidità del limone. La bevanda si diffuse rapidamente nei cocktail bar di tutto il mondo e divenne uno dei cocktail più significativi del rinascimento dei cocktail artigianali.",
       vi: 'Được tạo ra bởi Sam Ross tại The Violet Hour ở Chicago năm 2008, lấy cảm hứng từ bài hát "Paper Planes" của M.I.A. Ross muốn tạo một biến thể Last Word sử dụng bourbon thay vì gin. Công thức tỷ lệ bằng nhau (22,5 ml mỗi nguyên liệu) tạo sự hài hòa hoàn hảo giữa vị ngọt bourbon, cam đắng Aperol, nốt thảo mộc phức tạp Amaro Nonino và độ chua chanh. Đồ uống lan rộng nhanh chóng qua các quầy bar cocktail toàn thế giới và trở thành một trong những cocktail định nghĩa của thời kỳ phục hưng cocktail thủ công.',
     },
     named_after: {
@@ -64,8 +64,8 @@ export const paperPlane: Cocktail = {
   taste: {
     profile: ['balanced', 'bitter', 'citrus', 'complex'],
     description: {
-      en: 'Perfectly harmonious with bourbon\'s caramel and vanilla notes balanced by Aperol\'s bitter orange, Amaro Nonino\'s herbal complexity, and bright lemon acidity. No single element dominates, creating a beautifully integrated whole that\'s both sophisticated and approachable.',
-      it: 'Perfettamente armonioso con le note di caramello e vaniglia del bourbon bilanciate dall\'arancia amara dell\'Aperol, dalla complessità erbacea dell\'Amaro Nonino e dalla vivace acidità del limone. Nessun elemento singolo domina, creando un insieme magnificamente integrato che è sia sofisticato che accessibile.',
+      en: "Perfectly harmonious with bourbon's caramel and vanilla notes balanced by Aperol's bitter orange, Amaro Nonino's herbal complexity, and bright lemon acidity. No single element dominates, creating a beautifully integrated whole that's both sophisticated and approachable.",
+      it: "Perfettamente armonioso con le note di caramello e vaniglia del bourbon bilanciate dall'arancia amara dell'Aperol, dalla complessità erbacea dell'Amaro Nonino e dalla vivace acidità del limone. Nessun elemento singolo domina, creando un insieme magnificamente integrato che è sia sofisticato che accessibile.",
       vi: 'Hài hòa hoàn hảo với nốt caramel và vani của bourbon cân bằng bởi cam đắng Aperol, độ phức tạp thảo mộc Amaro Nonino và độ chua chanh tươi sáng. Không có yếu tố đơn lẻ nào chi phối, tạo ra tổng thể hòa nhập tuyệt đẹp vừa tinh tế vừa dễ tiếp cận.',
     },
     first_impression: {
@@ -80,7 +80,7 @@ export const paperPlane: Cocktail = {
     },
     balance: {
       en: 'Exemplary balance - the equal parts formula creates perfect harmony between all elements',
-      it: 'Equilibrio esemplare - la formula a parti uguali crea un\'armonia perfetta tra tutti gli elementi',
+      it: "Equilibrio esemplare - la formula a parti uguali crea un'armonia perfetta tra tutti gli elementi",
       vi: 'Sự cân bằng mẫu mực - công thức tỷ lệ bằng nhau tạo sự hài hòa hoàn hảo giữa tất cả các yếu tố',
     },
   },
@@ -123,7 +123,11 @@ export const paperPlane: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
   ],
 
@@ -168,7 +172,14 @@ export const paperPlane: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +198,8 @@ export const paperPlane: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['rye-paper-plane', 'mezcal-paper-plane'],
 
-  notes_for_staff: 'Equal parts (¾ oz each) is essential for balance. Amaro Nonino is critical - do not substitute. Fresh lemon juice required. Double strain for clarity. Some prefer rye whiskey for extra spice.',
+  notes_for_staff:
+    'Equal parts (¾ oz each) is essential for balance. Amaro Nonino is critical - do not substitute. Fresh lemon juice required. Double strain for clarity. Some prefer rye whiskey for extra spice.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +212,7 @@ export const paperPlane: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/paper-plane/',
-    note: 'IBA Official Recipe. Created by Sam Ross at The Violet Hour, Chicago, 2008.',
+    notes: 'IBA Official Recipe. Created by Sam Ross at The Violet Hour, Chicago, 2008.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

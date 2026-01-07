@@ -34,7 +34,7 @@ export const singaporeSling: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A legendary gin-based cocktail with a complex blend of citrus, cherry liqueur, and tropical flavors. Created at the iconic Raffles Hotel, this pink-hued classic is one of the most famous cocktails in the world.',
-    it: 'Un leggendario cocktail a base di gin con una miscela complessa di agrumi, liquore di ciliegie e sapori tropicali. Creato nell\'iconico Raffles Hotel, questo classico dalle tonalità rosa è uno dei cocktail più famosi al mondo.',
+    it: "Un leggendario cocktail a base di gin con una miscela complessa di agrumi, liquore di ciliegie e sapori tropicali. Creato nell'iconico Raffles Hotel, questo classico dalle tonalità rosa è uno dei cocktail più famosi al mondo.",
     vi: 'Một cocktail huyền thoại dựa trên gin với sự pha trộn phức tạp của cam quýt, rượu mùi anh đào và hương vị nhiệt đới. Được tạo ra tại khách sạn Raffles biểu tượng, tác phẩm màu hồng cổ điển này là một trong những cocktail nổi tiếng nhất thế giới.',
   },
 
@@ -50,8 +50,8 @@ export const singaporeSling: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by Hainanese-Chinese bartender Ngiam Tong Boon at Raffles Hotel\'s Long Bar around 1915. Originally designed to appeal to ladies who weren\'t supposed to drink in public, the cocktail\'s fruity appearance disguised its alcoholic content. The original recipe was lost and recreated in the 1970s.',
-      it: 'Creato dal barman sino-hainanese Ngiam Tong Boon al Long Bar del Raffles Hotel intorno al 1915. Originariamente progettato per attirare le signore che non dovevano bere in pubblico, l\'aspetto fruttato del cocktail nascondeva il suo contenuto alcolico. La ricetta originale è stata persa e ricreata negli anni \'70.',
+      en: "Created by Hainanese-Chinese bartender Ngiam Tong Boon at Raffles Hotel's Long Bar around 1915. Originally designed to appeal to ladies who weren't supposed to drink in public, the cocktail's fruity appearance disguised its alcoholic content. The original recipe was lost and recreated in the 1970s.",
+      it: "Creato dal barman sino-hainanese Ngiam Tong Boon al Long Bar del Raffles Hotel intorno al 1915. Originariamente progettato per attirare le signore che non dovevano bere in pubblico, l'aspetto fruttato del cocktail nascondeva il suo contenuto alcolico. La ricetta originale è stata persa e ricreata negli anni '70.",
       vi: 'Được tạo ra bởi bartender gốc Hải Nam-Trung Quốc Ngiam Tong Boon tại Long Bar của khách sạn Raffles khoảng năm 1915. Ban đầu được thiết kế để thu hút phụ nữ không được phép uống rượu nơi công cộng, vẻ ngoài trái cây của cocktail che giấu hàm lượng cồn. Công thức gốc đã bị mất và được tạo lại vào những năm 1970.',
     },
     named_after: {
@@ -133,12 +133,16 @@ export const singaporeSling: Cocktail = {
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
       quantity: { amount: 120, unit: 'ml' },
-      display_name: { en: 'Pineapple juice', it: 'Succo d\'ananas', vi: 'Nước dứa' },
+      display_name: { en: 'Pineapple juice', it: "Succo d'ananas", vi: 'Nước dứa' },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ANGOSTURA_BITTERS',
@@ -188,7 +192,14 @@ export const singaporeSling: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -207,7 +218,8 @@ export const singaporeSling: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['classic-singapore-sling', 'modern-singapore-sling'],
 
-  notes_for_staff: 'Use fresh pineapple juice if possible. The original recipe was lost and multiple versions exist. This is the IBA official version. Shake vigorously to properly integrate all ingredients.',
+  notes_for_staff:
+    'Use fresh pineapple juice if possible. The original recipe was lost and multiple versions exist. This is the IBA official version. Shake vigorously to properly integrate all ingredients.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -220,7 +232,7 @@ export const singaporeSling: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/singapore-sling/',
-    note: 'IBA Official Recipe. Historical information from Raffles Hotel archives.',
+    notes: 'IBA Official Recipe. Historical information from Raffles Hotel archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

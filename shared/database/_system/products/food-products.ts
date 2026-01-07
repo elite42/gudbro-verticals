@@ -38,7 +38,11 @@ export const banhMiThitNuong: Product = {
   category: { main: 'piatti-unici', sub: 'vietnamese', tertiary: 'sandwich' },
 
   ingredients: [
-    { ingredient_id: 'ING_WHEAT_FLOUR', quantity: { amount: 80, unit: 'g' }, notes: { en: 'Baguette bread' } },
+    {
+      ingredient_id: 'ING_WHEAT_FLOUR',
+      quantity: { amount: 80, unit: 'g' },
+      notes: { en: 'Baguette bread' },
+    },
     { ingredient_id: 'ING_PORK', quantity: { amount: 100, unit: 'g' } },
     { ingredient_id: 'ING_FISH_SAUCE', quantity: { amount: 10, unit: 'ml' } },
     { ingredient_id: 'ING_SOY_SAUCE', quantity: { amount: 5, unit: 'ml' } },
@@ -54,7 +58,17 @@ export const banhMiThitNuong: Product = {
     intolerances: ['gluten'],
     suitable_for_diets: [],
     spice_level: 2,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -118,7 +132,17 @@ export const banhMiDacBiet: Product = {
     intolerances: ['gluten', 'egg'],
     suitable_for_diets: [],
     spice_level: 2,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -180,7 +204,17 @@ export const banhMiGa: Product = {
     intolerances: ['gluten'],
     suitable_for_diets: [],
     spice_level: 1,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -241,7 +275,17 @@ export const banhMiTom: Product = {
     intolerances: ['gluten', 'shellfish'],
     suitable_for_diets: [],
     spice_level: 2,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -290,7 +334,11 @@ export const banhMiThitHeo: Product = {
 
   ingredients: [
     { ingredient_id: 'ING_WHEAT_FLOUR', quantity: { amount: 80, unit: 'g' } },
-    { ingredient_id: 'ING_PORK', quantity: { amount: 120, unit: 'g' }, notes: { en: 'Pork belly' } },
+    {
+      ingredient_id: 'ING_PORK',
+      quantity: { amount: 120, unit: 'g' },
+      notes: { en: 'Pork belly' },
+    },
     { ingredient_id: 'ING_FISH_SAUCE', quantity: { amount: 10, unit: 'ml' } },
     { ingredient_id: 'ING_GARLIC', quantity: { amount: 5, unit: 'g' } },
     { ingredient_id: 'ING_CARROT', quantity: { amount: 30, unit: 'g' } },
@@ -303,7 +351,17 @@ export const banhMiThitHeo: Product = {
     intolerances: ['gluten'],
     suitable_for_diets: [],
     spice_level: 1,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -368,7 +426,17 @@ export const basqueCheesecake: Product = {
     intolerances: ['lactose', 'gluten'],
     suitable_for_diets: ['vegetarian'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -429,7 +497,17 @@ export const redVelvetCake: Product = {
     intolerances: ['lactose', 'gluten'],
     suitable_for_diets: ['vegetarian'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -489,7 +567,17 @@ export const passionFruitCheesecake: Product = {
     intolerances: ['lactose'],
     suitable_for_diets: ['vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -549,7 +637,17 @@ export const chocolateMousse: Product = {
     intolerances: ['lactose'],
     suitable_for_diets: ['vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -609,7 +707,17 @@ export const flanCaramel: Product = {
     intolerances: ['lactose'],
     suitable_for_diets: ['vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -669,7 +777,17 @@ export const matchaCheesecake: Product = {
     intolerances: ['lactose'],
     suitable_for_diets: ['vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -731,7 +849,17 @@ export const matchaLatte: Product = {
     intolerances: ['lactose'],
     suitable_for_diets: ['vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -790,7 +918,17 @@ export const strawberrySmoothie: Product = {
     intolerances: ['lactose'],
     suitable_for_diets: ['vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -848,7 +986,17 @@ export const affogato: Product = {
     intolerances: ['lactose', 'caffeine'],
     suitable_for_diets: ['vegetarian'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -885,19 +1033,23 @@ export const eggCoffee: Product = {
   same_id: 'BEVERAGE_EGG_COFFEE',
   name: {
     en: 'Vietnamese Egg Coffee',
-    it: 'Caffè all\'Uovo Vietnamita',
+    it: "Caffè all'Uovo Vietnamita",
     vi: 'Cà Phê Trứng',
   },
   description: {
     en: 'Hanoi specialty - rich espresso topped with creamy whipped egg yolk and condensed milk',
-    it: 'Specialità di Hanoi - espresso ricco con crema di tuorlo d\'uovo e latte condensato',
+    it: "Specialità di Hanoi - espresso ricco con crema di tuorlo d'uovo e latte condensato",
     vi: 'Đặc sản Hà Nội - espresso đậm đà phủ kem trứng béo ngậy và sữa đặc',
   },
   category: { main: 'bevande', sub: 'coffee', tertiary: 'vietnamese' },
 
   ingredients: [
     { ingredient_id: 'ING_ESPRESSO', quantity: { amount: 40, unit: 'ml' } },
-    { ingredient_id: 'ING_EGG', quantity: { amount: 1, unit: 'piece' }, notes: { en: 'Egg yolk only' } },
+    {
+      ingredient_id: 'ING_EGG',
+      quantity: { amount: 1, unit: 'piece' },
+      notes: { en: 'Egg yolk only' },
+    },
     { ingredient_id: 'ING_CONDENSED_MILK', quantity: { amount: 30, unit: 'ml' } },
     { ingredient_id: 'ING_SUGAR', quantity: { amount: 10, unit: 'g' } },
   ],
@@ -907,7 +1059,17 @@ export const eggCoffee: Product = {
     intolerances: ['lactose', 'caffeine'],
     suitable_for_diets: ['vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -967,7 +1129,17 @@ export const lemonIcedTea: Product = {
     intolerances: [],
     suitable_for_diets: ['vegan', 'vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -1027,7 +1199,17 @@ export const caramelFrappuccino: Product = {
     intolerances: ['lactose', 'caffeine'],
     suitable_for_diets: ['vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {
@@ -1064,12 +1246,12 @@ export const orangeCoffee: Product = {
   same_id: 'BEVERAGE_ORANGE_COFFEE',
   name: {
     en: 'Orange Coffee',
-    it: 'Caffè all\'Arancia',
+    it: "Caffè all'Arancia",
     vi: 'Cà Phê Cam',
   },
   description: {
     en: 'Unique fusion - cold brew coffee layered with fresh orange juice and mint',
-    it: 'Fusione unica - cold brew stratificato con succo d\'arancia fresco e menta',
+    it: "Fusione unica - cold brew stratificato con succo d'arancia fresco e menta",
     vi: 'Sự kết hợp độc đáo - cà phê cold brew phân tầng với nước cam tươi và bạc hà',
   },
   category: { main: 'bevande', sub: 'coffee', tertiary: 'specialty' },
@@ -1086,7 +1268,17 @@ export const orangeCoffee: Product = {
     intolerances: ['caffeine'],
     suitable_for_diets: ['vegan', 'vegetarian', 'gluten-free'],
     spice_level: 0,
-    allergen_compliance: { EU: true, USA: true, Korea: true, Japan: true },
+    allergen_compliance: {
+      EU: true,
+      USA: true,
+      Korea: true,
+      Japan: true,
+      Canada: true,
+      Australia: true,
+      China: true,
+      Singapore: true,
+      Vietnam: true,
+    },
   },
 
   pricing: {

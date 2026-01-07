@@ -1,166 +1,256 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import {
-  getStaffMembers,
-  getPendingInvitations,
-  getRoleTemplates,
-  inviteStaffMember,
-  revokeInvitation,
-  removeStaffMember,
-  updateStaffPermissions,
-  PERMISSION_LABELS,
-  type StaffMember,
-  type StaffInvitation,
-  type RoleTemplate,
-} from '@/lib/staff-service';
+import { useState, useEffect, useCallback } from 'react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { EmptyState } from '@/components/ui/empty-state';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
+
+// Types
+interface StaffProfile {
+  id: string;
+  accountId: string;
+  displayName: string;
+  photoUrl?: string;
+  jobTitle: string;
+  specialties: string[];
+  employmentType: string;
+  isPublic: boolean;
+  status: string;
+  totalReviews: number;
+  averageRating: number;
+  positiveReviewRate: number;
+}
+
+interface TeamSettings {
+  locationId: string;
+  showTeamOnMenu: boolean;
+  teamDisplayStyle: 'cards' | 'list' | 'minimal';
+  allowStaffReviews: boolean;
+  reviewRequiresOrder: boolean;
+  allowAnonymousReviews: boolean;
+  enableWeeklyRecognition: boolean;
+  recognitionRewardType: string;
+}
+
+interface TopPerformer {
+  staffId: string;
+  displayName: string;
+  photoUrl?: string;
+  jobTitle: string;
+  averageRating: number;
+  reviewsCount: number;
+  rankInLocation: number;
+  topCategories: string[];
+}
+
+interface WeeklyReport {
+  periodStart: string;
+  periodEnd: string;
+  topPerformers: {
+    byRating: TopPerformer | null;
+    byReviews: TopPerformer | null;
+    mostImproved: TopPerformer | null;
+  };
+  teamStats: {
+    totalReviews: number;
+    averageRating: number;
+    positiveRate: number;
+    topCategories: { category: string; count: number }[];
+  };
+  alerts: { type: string; staffName?: string; message: string }[];
+  aiSuggestion?: string;
+}
+
+// Tab definitions
+const TABS = [
+  { id: 'members', label: 'Team', icon: '👥' },
+  { id: 'performance', label: 'Performance', icon: '📊' },
+  { id: 'settings', label: 'Impostazioni', icon: '⚙️' },
+] as const;
+
+type TabId = (typeof TABS)[number]['id'];
+
+// Category labels
+const CATEGORY_LABELS: Record<string, { label: string; emoji: string }> = {
+  friendly: { label: 'Cordiale', emoji: '😊' },
+  fast: { label: 'Veloce', emoji: '⚡' },
+  helpful: { label: 'Disponibile', emoji: '🤝' },
+  knowledgeable: { label: 'Preparato', emoji: '🎓' },
+  attentive: { label: 'Attento', emoji: '👀' },
+  professional: { label: 'Professionale', emoji: '💼' },
+  patient: { label: 'Paziente', emoji: '🙏' },
+  welcoming: { label: 'Accogliente', emoji: '🏠' },
+};
 
 export default function TeamPage() {
-  const { organization } = useTenant();
-  const [staffMembers, setStaffMembers] = useState<StaffMember[]>([]);
-  const [pendingInvitations, setPendingInvitations] = useState<StaffInvitation[]>([]);
-  const [roleTemplates, setRoleTemplates] = useState<RoleTemplate[]>([]);
+  const { location, brand } = useTenant();
+  const locationId = location?.id || brand?.id;
+
+  const [activeTab, setActiveTab] = useState<TabId>('members');
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Data state
+  const [staffProfiles, setStaffProfiles] = useState<StaffProfile[]>([]);
+  const [teamSettings, setTeamSettings] = useState<TeamSettings | null>(null);
+  const [weeklyReport, setWeeklyReport] = useState<WeeklyReport | null>(null);
+  const [topPerformers, setTopPerformers] = useState<TopPerformer[]>([]);
 
   // Modal state
-  const [showInviteModal, setShowInviteModal] = useState(false);
-  const [showPermissionsModal, setShowPermissionsModal] = useState(false);
-  const [selectedMember, setSelectedMember] = useState<StaffMember | null>(null);
+  const [showSettingsTooltip, setShowSettingsTooltip] = useState(false);
+  const [showAddStaffModal, setShowAddStaffModal] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
 
-  // Invite form state
-  const [inviteEmail, setInviteEmail] = useState('');
-  const [inviteFirstName, setInviteFirstName] = useState('');
-  const [inviteLastName, setInviteLastName] = useState('');
-  const [inviteRole, setInviteRole] = useState('waiter');
-  const [inviteMessage, setInviteMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-
-  // Mock current user - in production from auth
-  const currentAccountId = '00000000-0000-0000-0000-000000000000';
-
-  useEffect(() => {
-    if (organization?.id) {
-      loadData();
-    }
-  }, [organization?.id]);
-
-  const loadData = async () => {
-    if (!organization?.id) return;
+  // Load data
+  const loadData = useCallback(async () => {
+    if (!locationId) return;
 
     setIsLoading(true);
-    const [staff, invitations, templates] = await Promise.all([
-      getStaffMembers(organization.id),
-      getPendingInvitations(organization.id),
-      getRoleTemplates(),
-    ]);
-    setStaffMembers(staff);
-    setPendingInvitations(invitations);
-    setRoleTemplates(templates);
-    setIsLoading(false);
-  };
-
-  const handleInvite = async () => {
-    if (!organization?.id || !inviteEmail) return;
-
-    setIsSubmitting(true);
     setError(null);
 
-    const template = roleTemplates.find((t) => t.id === inviteRole);
-    const result = await inviteStaffMember(currentAccountId, organization.id, inviteEmail, {
-      roleTitle: template?.name || 'Staff',
-      permissions: template?.permissions || {},
-      firstName: inviteFirstName || undefined,
-      lastName: inviteLastName || undefined,
-      message: inviteMessage || undefined,
-    });
+    try {
+      // Load profiles
+      const profilesRes = await fetch(`/api/staff?locationId=${locationId}&type=profiles`);
+      const profilesData = await profilesRes.json();
+      if (profilesData.success) setStaffProfiles(profilesData.profiles);
 
-    setIsSubmitting(false);
+      // Load settings
+      const settingsRes = await fetch(`/api/staff?locationId=${locationId}&type=settings`);
+      const settingsData = await settingsRes.json();
+      if (settingsData.success) setTeamSettings(settingsData.settings);
 
-    if (result.success) {
-      setSuccess(`Invitation sent to ${inviteEmail}`);
-      setShowInviteModal(false);
-      setInviteEmail('');
-      setInviteFirstName('');
-      setInviteLastName('');
-      setInviteMessage('');
-      loadData();
-      setTimeout(() => setSuccess(null), 3000);
-    } else {
-      setError(result.error || 'Failed to send invitation');
+      // Load performance
+      const perfRes = await fetch(`/api/staff?locationId=${locationId}&type=performance`);
+      const perfData = await perfRes.json();
+      if (perfData.success) {
+        setTopPerformers(perfData.topPerformers);
+        setWeeklyReport(perfData.report);
+      }
+    } catch (err) {
+      setError('Errore nel caricamento dei dati');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [locationId]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  // Save settings
+  const handleSaveSettings = async (newSettings: Partial<TeamSettings>) => {
+    if (!locationId) return;
+
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/staff', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'updateSettings',
+          locationId,
+          ...newSettings,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setTeamSettings((prev) => (prev ? { ...prev, ...newSettings } : null));
+        setSaveSuccess('Impostazioni salvate!');
+        setTimeout(() => setSaveSuccess(null), 3000);
+      }
+    } catch (err) {
+      setError('Errore nel salvataggio');
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  const handleRevokeInvitation = async (invitationId: string) => {
-    if (!confirm('Are you sure you want to revoke this invitation?')) return;
+  // Generate report
+  const handleGenerateReport = async () => {
+    if (!locationId) return;
 
-    const success = await revokeInvitation(invitationId, currentAccountId);
-    if (success) {
-      loadData();
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/staff', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'generateReport',
+          locationId,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setWeeklyReport(data.report);
+        setSaveSuccess('Report generato!');
+        setTimeout(() => setSaveSuccess(null), 3000);
+      }
+    } catch (err) {
+      setError('Errore nella generazione del report');
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  const handleRemoveMember = async (roleId: string, email: string) => {
-    if (!confirm(`Are you sure you want to remove ${email} from the team?`)) return;
+  // Auto award achievements
+  const handleAutoAward = async () => {
+    if (!locationId) return;
 
-    const success = await removeStaffMember(roleId, currentAccountId);
-    if (success) {
-      loadData();
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/staff', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'autoAwardAchievements',
+          locationId,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setSaveSuccess(`${data.count} premi assegnati!`);
+        setTimeout(() => setSaveSuccess(null), 3000);
+        loadData();
+      }
+    } catch (err) {
+      setError("Errore nell'assegnazione premi");
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  const handleUpdatePermissions = async () => {
-    if (!selectedMember) return;
-
-    // For now, just close the modal - full implementation would update permissions
-    setShowPermissionsModal(false);
-    setSelectedMember(null);
+  // Render stars
+  const renderStars = (rating: number) => {
+    return (
+      <div className="flex items-center gap-0.5">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <svg
+            key={star}
+            className={`h-4 w-4 ${star <= rating ? 'text-yellow-400' : 'text-gray-200'}`}
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        ))}
+        <span className="ml-1 text-sm font-medium text-gray-700">{rating.toFixed(1)}</span>
+      </div>
+    );
   };
 
-  const getRoleColor = (permissions: Record<string, boolean>) => {
-    if (permissions.is_owner) return 'bg-purple-100 text-purple-700';
-    if (permissions.staff_manage) return 'bg-blue-100 text-blue-700';
-    if (permissions.menu_edit) return 'bg-green-100 text-green-700';
-    return 'bg-gray-100 text-gray-700';
-  };
-
-  const getRoleTitle = (permissions: Record<string, boolean>) => {
-    if (permissions.is_owner) return 'Owner';
-    if (permissions.staff_manage && permissions.billing_manage) return 'Manager';
-    if (permissions.menu_edit && !permissions.orders_manage) return 'Chef';
-    if (permissions.orders_manage && !permissions.menu_edit) return 'Waiter';
-    if (permissions.analytics_view && !permissions.menu_edit) return 'Viewer';
-    return 'Staff';
-  };
-
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
-
-  const getTimeAgo = (dateStr: string | undefined) => {
-    if (!dateStr) return 'Never';
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMins / 60);
-    const diffDays = Math.floor(diffHours / 24);
-
-    if (diffMins < 5) return 'Just now';
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
-    return formatDate(dateStr);
-  };
-
+  // Loading state
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -174,387 +264,796 @@ export default function TeamPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Team</h1>
-          <p className="mt-1 text-sm text-gray-500">Manage who has access to your GUDBRO account</p>
+          <h1 className="text-2xl font-bold text-gray-900">Team Management</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Gestisci il tuo team, monitora le performance e raccogli feedback
+          </p>
         </div>
+      </div>
+
+      {/* Success/Error Messages */}
+      {saveSuccess && (
+        <div className="animate-fade-in rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
+          ✅ {saveSuccess}
+        </div>
+      )}
+      {error && (
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+          ❌ {error}
+        </div>
+      )}
+
+      {/* Tabs */}
+      <div className="border-b border-gray-200">
+        <nav className="-mb-px flex gap-6">
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 border-b-2 px-1 py-3 text-sm font-medium transition-colors ${
+                activeTab === tab.id
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+              }`}
+            >
+              <span>{tab.icon}</span>
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Tab Content */}
+      {activeTab === 'members' && (
+        <MembersTab profiles={staffProfiles} onAddStaff={() => setShowAddStaffModal(true)} />
+      )}
+
+      {activeTab === 'performance' && (
+        <PerformanceTab
+          report={weeklyReport}
+          topPerformers={topPerformers}
+          onGenerateReport={handleGenerateReport}
+          onAutoAward={handleAutoAward}
+          isSaving={isSaving}
+          renderStars={renderStars}
+        />
+      )}
+
+      {activeTab === 'settings' && (
+        <SettingsTab
+          settings={teamSettings}
+          onSave={handleSaveSettings}
+          isSaving={isSaving}
+          onShowTooltip={() => setShowSettingsTooltip(true)}
+        />
+      )}
+
+      {/* Settings Tooltip Modal */}
+      <Dialog open={showSettingsTooltip} onOpenChange={setShowSettingsTooltip}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>💡 Perché attivare il Team pubblico?</DialogTitle>
+            <DialogDescription>
+              Scopri i vantaggi di mostrare il tuo team ai clienti
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            <div>
+              <h4 className="mb-2 font-medium text-green-700">✅ Vantaggi</h4>
+              <ul className="space-y-1.5 text-sm text-gray-600">
+                <li>📈 Staff motivato a fornire servizio migliore</li>
+                <li>💬 Feedback diretto dai clienti</li>
+                <li>🏆 Sistema di riconoscimento aumenta la retention</li>
+                <li>📱 Clienti usano di più il menu digitale</li>
+                <li>🗣️ Passaparola: clienti soddisfatti condividono</li>
+                <li>📊 Dati per decisioni su bonus e promozioni</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-2 font-medium text-amber-700">⚠️ Considerazioni</h4>
+              <ul className="space-y-1.5 text-sm text-gray-600">
+                <li>⏰ Richiede tempo iniziale per setup profili</li>
+                <li>📝 Review negative possono demotivare (ma puoi moderarle)</li>
+                <li>🔒 Privacy staff: consenso richiesto per foto pubbliche</li>
+              </ul>
+            </div>
+
+            <div className="rounded-lg bg-blue-50 p-3">
+              <h4 className="mb-2 font-medium text-blue-700">💡 Consigli</h4>
+              <ul className="space-y-1 text-sm text-blue-600">
+                <li>• Inizia con bonus settimanali piccoli (es. caffè gratis)</li>
+                <li>• Mostra le review positive nel break room</li>
+                <li>• Usa le categorie più votate per training</li>
+              </ul>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <button
+              onClick={() => setShowSettingsTooltip(false)}
+              className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              Ho capito
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+// ============================================
+// Members Tab
+// ============================================
+function MembersTab({
+  profiles,
+  onAddStaff,
+}: {
+  profiles: StaffProfile[];
+  onAddStaff: () => void;
+}) {
+  if (profiles.length === 0) {
+    return (
+      <EmptyState
+        icon={<span className="text-5xl">👥</span>}
+        title="Nessun membro del team"
+        description="Aggiungi i profili del tuo staff per iniziare a raccogliere feedback dai clienti."
+        action={{ label: 'Aggiungi Staff', onClick: onAddStaff }}
+        variant="default"
+        size="default"
+      />
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Actions */}
+      <div className="flex justify-end">
         <button
-          onClick={() => setShowInviteModal(true)}
+          onClick={onAddStaff}
           className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Invite Member
+          Aggiungi Staff
         </button>
       </div>
 
-      {/* Success/Error Messages */}
-      {success && (
-        <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
-          {success}
-        </div>
-      )}
-      {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">{error}</div>
-      )}
+      {/* Staff Grid */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {profiles.map((profile) => (
+          <StaffCard key={profile.id} profile={profile} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
-      {/* Pending Invitations */}
-      {pendingInvitations.length > 0 && (
-        <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4">
-          <h3 className="mb-3 flex items-center gap-2 font-semibold text-yellow-800">
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+// ============================================
+// Staff Card Component
+// ============================================
+function StaffCard({ profile }: { profile: StaffProfile }) {
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active':
+        return 'bg-green-100 text-green-700';
+      case 'on_leave':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'terminated':
+        return 'bg-gray-100 text-gray-500';
+      default:
+        return 'bg-gray-100 text-gray-500';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'active':
+        return 'Attivo';
+      case 'on_leave':
+        return 'In ferie';
+      case 'terminated':
+        return 'Non attivo';
+      default:
+        return status;
+    }
+  };
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white transition-shadow hover:shadow-md">
+      {/* Header with photo */}
+      <div className="relative bg-gradient-to-br from-blue-500 to-indigo-600 p-4">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-3">
+            {profile.photoUrl ? (
+              <img
+                src={profile.photoUrl}
+                alt={profile.displayName}
+                className="h-14 w-14 rounded-full border-2 border-white object-cover shadow-lg"
               />
-            </svg>
-            Pending Invitations ({pendingInvitations.length})
-          </h3>
-          <div className="space-y-2">
-            {pendingInvitations.map((invitation) => (
-              <div
-                key={invitation.id}
-                className="flex items-center justify-between rounded-lg bg-white p-3"
-              >
-                <div>
-                  <p className="font-medium text-gray-900">{invitation.email}</p>
-                  <p className="text-sm text-gray-500">
-                    {invitation.roleTitle} · Expires {formatDate(invitation.expiresAt)}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      /* Resend logic */
-                    }}
-                    className="rounded-lg px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50"
-                  >
-                    Resend
-                  </button>
-                  <button
-                    onClick={() => handleRevokeInvitation(invitation.id)}
-                    className="rounded-lg px-3 py-1.5 text-sm text-red-600 hover:bg-red-50"
-                  >
-                    Revoke
-                  </button>
-                </div>
+            ) : (
+              <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white bg-white/20 text-xl font-bold text-white shadow-lg">
+                {profile.displayName.charAt(0).toUpperCase()}
               </div>
+            )}
+            <div>
+              <h3 className="font-semibold text-white">{profile.displayName}</h3>
+              <p className="text-sm text-white/80">{profile.jobTitle}</p>
+            </div>
+          </div>
+          {profile.isPublic && (
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs text-white">
+              👁️ Pubblico
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-4">
+        {/* Rating */}
+        <div className="mb-3 flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <svg
+                key={star}
+                className={`h-4 w-4 ${star <= profile.averageRating ? 'text-yellow-400' : 'text-gray-200'}`}
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            ))}
+            <span className="ml-1 text-sm font-medium text-gray-700">
+              {profile.averageRating.toFixed(1)}
+            </span>
+          </div>
+          <span className="text-xs text-gray-500">{profile.totalReviews} review</span>
+        </div>
+
+        {/* Progress bar */}
+        <div className="mb-3">
+          <div className="mb-1 flex justify-between text-xs">
+            <span className="text-gray-500">Positive rate</span>
+            <span className="font-medium text-gray-700">
+              {profile.positiveReviewRate.toFixed(0)}%
+            </span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-gray-100">
+            <div
+              className="h-full rounded-full bg-green-500 transition-all"
+              style={{ width: `${profile.positiveReviewRate}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Specialties */}
+        {profile.specialties.length > 0 && (
+          <div className="mb-3 flex flex-wrap gap-1">
+            {profile.specialties.slice(0, 3).map((s) => (
+              <span key={s} className="rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-600">
+                {s}
+              </span>
+            ))}
+            {profile.specialties.length > 3 && (
+              <span className="text-xs text-gray-400">+{profile.specialties.length - 3}</span>
+            )}
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+          <span
+            className={`rounded-full px-2 py-0.5 text-xs font-medium ${getStatusColor(profile.status)}`}
+          >
+            {getStatusLabel(profile.status)}
+          </span>
+          <button className="text-xs text-blue-600 hover:text-blue-700">Modifica →</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// Performance Tab
+// ============================================
+function PerformanceTab({
+  report,
+  topPerformers,
+  onGenerateReport,
+  onAutoAward,
+  isSaving,
+  renderStars,
+}: {
+  report: WeeklyReport | null;
+  topPerformers: TopPerformer[];
+  onGenerateReport: () => void;
+  onAutoAward: () => void;
+  isSaving: boolean;
+  renderStars: (rating: number) => React.ReactNode;
+}) {
+  if (!report) {
+    return (
+      <EmptyState
+        icon={<span className="text-5xl">📊</span>}
+        title="Nessun report disponibile"
+        description="Genera il primo report settimanale per vedere le performance del team."
+        action={{ label: 'Genera Report', onClick: onGenerateReport }}
+        variant="default"
+        size="default"
+      />
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Actions */}
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={onAutoAward}
+          disabled={isSaving}
+          className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+        >
+          🏆 Assegna Premi
+        </button>
+        <button
+          onClick={onGenerateReport}
+          disabled={isSaving}
+          className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+        >
+          🔄 Aggiorna Report
+        </button>
+      </div>
+
+      {/* Period */}
+      <div className="text-sm text-gray-500">
+        Periodo: {new Date(report.periodStart).toLocaleDateString('it-IT')} -{' '}
+        {new Date(report.periodEnd).toLocaleDateString('it-IT')}
+      </div>
+
+      {/* Stats Overview */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+        <StatCard
+          label="Review Totali"
+          value={report.teamStats.totalReviews.toString()}
+          icon="📝"
+          color="blue"
+        />
+        <StatCard
+          label="Rating Medio"
+          value={report.teamStats.averageRating.toFixed(1)}
+          icon="⭐"
+          color="yellow"
+          suffix="/5"
+        />
+        <StatCard
+          label="Positive Rate"
+          value={report.teamStats.positiveRate.toFixed(0)}
+          icon="👍"
+          color="green"
+          suffix="%"
+        />
+        <StatCard
+          label="Top Performer"
+          value={report.topPerformers.byRating?.displayName || '-'}
+          icon="🏆"
+          color="purple"
+        />
+      </div>
+
+      {/* Top Performers */}
+      <div className="rounded-xl border border-gray-200 bg-white">
+        <div className="border-b border-gray-200 p-4">
+          <h3 className="font-semibold text-gray-900">🏆 Top Performers della Settimana</h3>
+        </div>
+        <div className="grid grid-cols-1 divide-y divide-gray-100 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          {/* By Rating */}
+          <PerformerCard
+            title="Miglior Rating"
+            performer={report.topPerformers.byRating}
+            metric={
+              report.topPerformers.byRating
+                ? `${report.topPerformers.byRating.averageRating.toFixed(1)}/5`
+                : '-'
+            }
+            icon="⭐"
+          />
+          {/* By Reviews */}
+          <PerformerCard
+            title="Più Feedback"
+            performer={report.topPerformers.byReviews}
+            metric={
+              report.topPerformers.byReviews
+                ? `${report.topPerformers.byReviews.reviewsCount} review`
+                : '-'
+            }
+            icon="📊"
+          />
+          {/* Most Improved */}
+          <PerformerCard
+            title="Most Improved"
+            performer={report.topPerformers.mostImproved}
+            metric="Miglioramento"
+            icon="📈"
+          />
+        </div>
+      </div>
+
+      {/* Top Categories */}
+      {report.teamStats.topCategories.length > 0 && (
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <h3 className="mb-4 font-semibold text-gray-900">🏷️ Categorie più votate</h3>
+          <div className="flex flex-wrap gap-2">
+            {report.teamStats.topCategories.map(({ category, count }) => (
+              <span
+                key={category}
+                className="flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1.5 text-sm"
+              >
+                <span>{CATEGORY_LABELS[category]?.emoji || '📌'}</span>
+                <span className="font-medium text-blue-700">
+                  {CATEGORY_LABELS[category]?.label || category}
+                </span>
+                <span className="text-blue-500">({count})</span>
+              </span>
             ))}
           </div>
         </div>
       )}
 
-      {/* Team Members */}
-      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-        <div className="border-b border-gray-200 px-6 py-4">
-          <h2 className="font-semibold text-gray-900">Team Members ({staffMembers.length})</h2>
-        </div>
-
-        {staffMembers.length === 0 ? (
-          <EmptyState
-            icon={<span className="text-5xl">👥</span>}
-            title="No team members yet"
-            description="Invite your first team member to help manage your business."
-            action={{ label: 'Invite Member', onClick: () => setShowInviteModal(true) }}
-            variant="minimal"
-            size="default"
-          />
-        ) : (
-          <table className="w-full">
-            <thead className="border-b border-gray-200 bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Member
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Role
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Joined
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Last Active
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {staffMembers.map((member) => (
-                <tr key={member.roleId} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500 font-medium text-white">
-                        {(member.displayName || member.firstName || member.email)
-                          .charAt(0)
-                          .toUpperCase()}
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {member.displayName ||
-                            `${member.firstName || ''} ${member.lastName || ''}`.trim() ||
-                            member.email.split('@')[0]}
-                        </p>
-                        <p className="text-sm text-gray-500">{member.email}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-xs font-medium ${getRoleColor(member.permissions)}`}
-                    >
-                      {getRoleTitle(member.permissions)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    {member.acceptedAt ? formatDate(member.acceptedAt) : 'N/A'}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    {getTimeAgo(member.lastLoginAt)}
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    {!member.permissions.is_owner ? (
-                      <div className="flex items-center justify-end gap-1">
-                        <button
-                          onClick={() => {
-                            setSelectedMember(member);
-                            setShowPermissionsModal(true);
-                          }}
-                          className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-blue-50 hover:text-blue-600"
-                          title="Edit permissions"
-                        >
-                          <svg
-                            className="h-4 w-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                            />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => handleRemoveMember(member.roleId, member.email)}
-                          className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
-                          title="Remove member"
-                        >
-                          <svg
-                            className="h-4 w-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    ) : (
-                      <span className="text-xs text-gray-400">Owner</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-
-      {/* Role Templates */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <h3 className="mb-1 font-semibold text-gray-900">Role Templates</h3>
-        <p className="mb-4 text-sm text-gray-500">Predefined permission sets for common roles</p>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {roleTemplates.map((template) => (
+      {/* Alerts */}
+      {report.alerts.length > 0 && (
+        <div className="space-y-2">
+          {report.alerts.map((alert, i) => (
             <div
-              key={template.id}
-              className="rounded-lg border border-gray-200 p-4 transition-colors hover:border-gray-300"
+              key={i}
+              className={`rounded-lg p-3 ${
+                alert.type === 'warning'
+                  ? 'border border-amber-200 bg-amber-50 text-amber-700'
+                  : alert.type === 'success'
+                    ? 'border border-green-200 bg-green-50 text-green-700'
+                    : 'border border-blue-200 bg-blue-50 text-blue-700'
+              }`}
             >
-              <span
-                className={`rounded-full px-2 py-1 text-xs font-medium ${getRoleColor(template.permissions)}`}
-              >
-                {template.name}
-              </span>
-              <p className="mt-2 text-sm text-gray-600">{template.description}</p>
+              {alert.message}
             </div>
           ))}
         </div>
+      )}
+
+      {/* AI Suggestion */}
+      {report.aiSuggestion && (
+        <div className="rounded-xl border border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50 p-4">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">💡</span>
+            <div>
+              <h4 className="font-semibold text-purple-900">Suggerimento AI</h4>
+              <p className="mt-1 text-sm text-purple-700">{report.aiSuggestion}</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============================================
+// Stat Card
+// ============================================
+function StatCard({
+  label,
+  value,
+  icon,
+  color,
+  suffix,
+}: {
+  label: string;
+  value: string;
+  icon: string;
+  color: 'blue' | 'yellow' | 'green' | 'purple';
+  suffix?: string;
+}) {
+  const colors = {
+    blue: 'from-blue-500 to-blue-600',
+    yellow: 'from-yellow-400 to-orange-500',
+    green: 'from-green-500 to-emerald-600',
+    purple: 'from-purple-500 to-indigo-600',
+  };
+
+  return (
+    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+      <div className={`bg-gradient-to-r ${colors[color]} p-3`}>
+        <span className="text-2xl">{icon}</span>
+      </div>
+      <div className="p-4">
+        <p className="text-sm text-gray-500">{label}</p>
+        <p className="mt-1 text-2xl font-bold text-gray-900">
+          {value}
+          {suffix && <span className="text-base font-normal text-gray-500">{suffix}</span>}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// Performer Card
+// ============================================
+function PerformerCard({
+  title,
+  performer,
+  metric,
+  icon,
+}: {
+  title: string;
+  performer: TopPerformer | null;
+  metric: string;
+  icon: string;
+}) {
+  return (
+    <div className="p-4 text-center">
+      <p className="text-xs text-gray-500">{title}</p>
+      {performer ? (
+        <>
+          <div className="my-3 flex justify-center">
+            {performer.photoUrl ? (
+              <img
+                src={performer.photoUrl}
+                alt={performer.displayName}
+                className="h-16 w-16 rounded-full border-2 border-blue-100 object-cover"
+              />
+            ) : (
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-xl font-bold text-white">
+                {performer.displayName.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
+          <p className="font-semibold text-gray-900">{performer.displayName}</p>
+          <p className="text-sm text-gray-500">{performer.jobTitle}</p>
+          <p className="mt-2 text-lg font-bold text-blue-600">
+            {icon} {metric}
+          </p>
+        </>
+      ) : (
+        <div className="py-8 text-gray-400">
+          <span className="text-4xl opacity-30">{icon}</span>
+          <p className="mt-2 text-sm">Nessun dato</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============================================
+// Settings Tab
+// ============================================
+function SettingsTab({
+  settings,
+  onSave,
+  isSaving,
+  onShowTooltip,
+}: {
+  settings: TeamSettings | null;
+  onSave: (settings: Partial<TeamSettings>) => void;
+  isSaving: boolean;
+  onShowTooltip: () => void;
+}) {
+  const [localSettings, setLocalSettings] = useState<TeamSettings | null>(settings);
+
+  useEffect(() => {
+    setLocalSettings(settings);
+  }, [settings]);
+
+  if (!localSettings) return null;
+
+  const handleToggle = (key: keyof TeamSettings) => {
+    setLocalSettings((prev) => {
+      if (!prev) return prev;
+      const newSettings = { ...prev, [key]: !prev[key] };
+      onSave({ [key]: newSettings[key] });
+      return newSettings;
+    });
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Team Visibility */}
+      <div className="rounded-xl border border-gray-200 bg-white">
+        <div className="border-b border-gray-200 p-4">
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-gray-900">👥 Visibilità Team</h3>
+            <button onClick={onShowTooltip} className="text-sm text-blue-600 hover:text-blue-700">
+              Perché attivarlo? →
+            </button>
+          </div>
+          <p className="mt-1 text-sm text-gray-500">
+            Controlla se i clienti possono vedere il tuo team sul menu digitale
+          </p>
+        </div>
+        <div className="space-y-4 p-4">
+          <SettingToggle
+            label="Mostra team sul menu"
+            description="I clienti vedranno le schede del team con foto e nome"
+            enabled={localSettings.showTeamOnMenu}
+            onToggle={() => handleToggle('showTeamOnMenu')}
+            disabled={isSaving}
+          />
+
+          {localSettings.showTeamOnMenu && (
+            <div className="ml-10">
+              <label className="block text-sm font-medium text-gray-700">
+                Stile visualizzazione
+              </label>
+              <select
+                value={localSettings.teamDisplayStyle}
+                onChange={(e) => {
+                  const value = e.target.value as 'cards' | 'list' | 'minimal';
+                  setLocalSettings((prev) => prev && { ...prev, teamDisplayStyle: value });
+                  onSave({ teamDisplayStyle: value });
+                }}
+                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              >
+                <option value="cards">Cards (con foto)</option>
+                <option value="list">Lista compatta</option>
+                <option value="minimal">Minimo (solo nome)</option>
+              </select>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Invite Modal */}
-      {showInviteModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-white">
-            <div className="border-b border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900">Invite Team Member</h3>
-              <p className="text-sm text-gray-500">Send an invitation to join your team</p>
-            </div>
-
-            <div className="space-y-4 p-6">
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  value={inviteEmail}
-                  onChange={(e) => setInviteEmail(e.target.value)}
-                  placeholder="colleague@restaurant.com"
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">First Name</label>
-                  <input
-                    type="text"
-                    value={inviteFirstName}
-                    onChange={(e) => setInviteFirstName(e.target.value)}
-                    placeholder="John"
-                    className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">Last Name</label>
-                  <input
-                    type="text"
-                    value={inviteLastName}
-                    onChange={(e) => setInviteLastName(e.target.value)}
-                    placeholder="Doe"
-                    className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Role</label>
-                <select
-                  value={inviteRole}
-                  onChange={(e) => setInviteRole(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                >
-                  {roleTemplates
-                    .filter((t) => t.id !== 'owner')
-                    .map((template) => (
-                      <option key={template.id} value={template.id}>
-                        {template.name}
-                      </option>
-                    ))}
-                </select>
-                <p className="mt-1 text-xs text-gray-500">
-                  {roleTemplates.find((t) => t.id === inviteRole)?.description}
-                </p>
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  Personal Message (optional)
-                </label>
-                <textarea
-                  value={inviteMessage}
-                  onChange={(e) => setInviteMessage(e.target.value)}
-                  placeholder="Hey, I'd like you to join our team on GUDBRO..."
-                  rows={2}
-                  className="w-full resize-none rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="flex gap-3 border-t border-gray-200 p-6">
-              <button
-                onClick={() => setShowInviteModal(false)}
-                className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleInvite}
-                disabled={isSubmitting || !inviteEmail}
-                className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isSubmitting ? 'Sending...' : 'Send Invitation'}
-              </button>
-            </div>
-          </div>
+      {/* Review Settings */}
+      <div className="rounded-xl border border-gray-200 bg-white">
+        <div className="border-b border-gray-200 p-4">
+          <h3 className="font-semibold text-gray-900">⭐ Impostazioni Review</h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Configura come i clienti possono lasciare feedback sullo staff
+          </p>
         </div>
-      )}
+        <div className="space-y-4 p-4">
+          <SettingToggle
+            label="Permetti review staff"
+            description="I clienti possono valutare singoli membri del team"
+            enabled={localSettings.allowStaffReviews}
+            onToggle={() => handleToggle('allowStaffReviews')}
+            disabled={isSaving}
+          />
 
-      {/* Permissions Modal */}
-      {showPermissionsModal && selectedMember && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-white">
-            <div className="border-b border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900">Edit Permissions</h3>
-              <p className="text-sm text-gray-500">{selectedMember.email}</p>
-            </div>
+          {localSettings.allowStaffReviews && (
+            <>
+              <SettingToggle
+                label="Richiedi ordine verificato"
+                description="Solo chi ha ordinato può lasciare una review"
+                enabled={localSettings.reviewRequiresOrder}
+                onToggle={() => handleToggle('reviewRequiresOrder')}
+                disabled={isSaving}
+              />
 
-            <div className="space-y-3 p-6">
-              {Object.entries(PERMISSION_LABELS).map(([key, { label, description }]) => (
-                <label
-                  key={key}
-                  className="flex cursor-pointer items-start gap-3 rounded-lg p-3 hover:bg-gray-50"
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedMember.permissions[key] === true}
-                    onChange={() => {
-                      setSelectedMember({
-                        ...selectedMember,
-                        permissions: {
-                          ...selectedMember.permissions,
-                          [key]: !selectedMember.permissions[key],
-                        },
-                      });
-                    }}
-                    className="mt-1 h-4 w-4 rounded text-blue-600 focus:ring-blue-500"
-                  />
-                  <div>
-                    <p className="font-medium text-gray-900">{label}</p>
-                    <p className="text-sm text-gray-500">{description}</p>
-                  </div>
-                </label>
-              ))}
-            </div>
+              <SettingToggle
+                label="Permetti review anonime"
+                description="I clienti possono lasciare feedback senza identificarsi (no punti)"
+                enabled={localSettings.allowAnonymousReviews}
+                onToggle={() => handleToggle('allowAnonymousReviews')}
+                disabled={isSaving}
+              />
+            </>
+          )}
+        </div>
+      </div>
 
-            <div className="flex gap-3 border-t border-gray-200 p-6">
-              <button
-                onClick={() => {
-                  setShowPermissionsModal(false);
-                  setSelectedMember(null);
+      {/* Recognition Settings */}
+      <div className="rounded-xl border border-gray-200 bg-white">
+        <div className="border-b border-gray-200 p-4">
+          <h3 className="font-semibold text-gray-900">🏆 Riconoscimenti</h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Configura il sistema di premi e riconoscimenti per lo staff
+          </p>
+        </div>
+        <div className="space-y-4 p-4">
+          <SettingToggle
+            label="Riconoscimenti settimanali"
+            description="L'AI suggerisce automaticamente i migliori della settimana"
+            enabled={localSettings.enableWeeklyRecognition}
+            onToggle={() => handleToggle('enableWeeklyRecognition')}
+            disabled={isSaving}
+          />
+
+          {localSettings.enableWeeklyRecognition && (
+            <div className="ml-10">
+              <label className="block text-sm font-medium text-gray-700">
+                Tipo di premio predefinito
+              </label>
+              <select
+                value={localSettings.recognitionRewardType}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setLocalSettings((prev) => prev && { ...prev, recognitionRewardType: value });
+                  onSave({ recognitionRewardType: value });
                 }}
-                className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
               >
-                Cancel
-              </button>
-              <button
-                onClick={handleUpdatePermissions}
-                className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-              >
-                Save Changes
-              </button>
+                <option value="badge">Badge digitale</option>
+                <option value="bonus">Bonus economico</option>
+                <option value="time_off">Ore extra di riposo</option>
+                <option value="meal">Pasto omaggio</option>
+                <option value="custom">Personalizzato</option>
+              </select>
             </div>
+          )}
+        </div>
+      </div>
+
+      {/* Loyalty Points Info */}
+      <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+        <div className="flex items-start gap-3">
+          <span className="text-2xl">💎</span>
+          <div>
+            <h4 className="font-semibold text-blue-900">Sistema Punti Fedeltà</h4>
+            <p className="mt-1 text-sm text-blue-700">
+              I clienti guadagnano punti quando lasciano review identificate:
+            </p>
+            <ul className="mt-2 space-y-1 text-sm text-blue-600">
+              <li>
+                • <strong>10 punti</strong> - Review base
+              </li>
+              <li>
+                • <strong>+5 punti</strong> - Con ordine verificato
+              </li>
+              <li>
+                • <strong>+5 punti</strong> - Con commento dettagliato
+              </li>
+            </ul>
+            <p className="mt-2 text-xs text-blue-500">
+              Le review anonime non danno punti ma sono comunque registrate.
+            </p>
           </div>
         </div>
-      )}
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// Setting Toggle
+// ============================================
+function SettingToggle({
+  label,
+  description,
+  enabled,
+  onToggle,
+  disabled,
+}: {
+  label: string;
+  description: string;
+  enabled: boolean;
+  onToggle: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4">
+      <div className="flex-1">
+        <p className="font-medium text-gray-900">{label}</p>
+        <p className="text-sm text-gray-500">{description}</p>
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={enabled}
+        disabled={disabled}
+        onClick={onToggle}
+        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
+          enabled ? 'bg-blue-600' : 'bg-gray-200'
+        }`}
+      >
+        <span
+          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+            enabled ? 'translate-x-5' : 'translate-x-0'
+          }`}
+        />
+      </button>
     </div>
   );
 }

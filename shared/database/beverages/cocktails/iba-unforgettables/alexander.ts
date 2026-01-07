@@ -65,7 +65,7 @@ export const alexander: Cocktail = {
     profile: ['creamy', 'sweet', 'boozy'],
     description: {
       en: 'Rich, velvety, and indulgent. The Alexander delivers a harmonious blend of chocolate sweetness from the crème de cacao, the warming depth of cognac, and the silky smoothness of fresh cream.',
-      it: 'Ricco, vellutato e indulgente. L\'Alexander offre un\'armoniosa miscela di dolcezza al cioccolato dalla crème de cacao, la profondità calda del cognac e la morbidezza setosa della panna fresca.',
+      it: "Ricco, vellutato e indulgente. L'Alexander offre un'armoniosa miscela di dolcezza al cioccolato dalla crème de cacao, la profondità calda del cognac e la morbidezza setosa della panna fresca.",
       vi: 'Đậm đà, mượt mà và nuông chiều. Alexander mang đến sự pha trộn hài hòa của vị ngọt chocolate từ crème de cacao, độ ấm sâu của cognac và sự mịn màng như lụa của kem tươi.',
     },
     first_impression: {
@@ -96,7 +96,7 @@ export const alexander: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for those who enjoy dessert cocktails and creamy drinks. A great choice for brandy lovers who want something indulgent, or for anyone looking for a sophisticated after-dinner drink.',
-      it: 'Perfetto per chi ama i cocktail da dessert e le bevande cremose. Un\'ottima scelta per gli amanti del brandy che vogliono qualcosa di indulgente, o per chiunque cerchi una bevanda sofisticata dopo cena.',
+      it: "Perfetto per chi ama i cocktail da dessert e le bevande cremose. Un'ottima scelta per gli amanti del brandy che vogliono qualcosa di indulgente, o per chiunque cerchi una bevanda sofisticata dopo cena.",
       vi: 'Hoàn hảo cho những ai thích cocktail tráng miệng và đồ uống béo ngậy. Lựa chọn tuyệt vời cho người yêu brandy muốn thứ gì đó nuông chiều, hoặc cho bất kỳ ai tìm kiếm thức uống tinh tế sau bữa tối.',
     },
   },
@@ -186,7 +186,8 @@ export const alexander: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['brandy-alexander', 'coffee-alexander', 'alexander-sister'],
 
-  notes_for_staff: 'Use freshly grated nutmeg, not pre-ground. Shake hard to properly emulsify the cream. Can substitute with Brandy if Cognac unavailable. Original recipe used gin - offer as variation for curious guests.',
+  notes_for_staff:
+    'Use freshly grated nutmeg, not pre-ground. Shake hard to properly emulsify the cream. Can substitute with Brandy if Cognac unavailable. Original recipe used gin - offer as variation for curious guests.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -199,7 +200,8 @@ export const alexander: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/alexander/',
-    note: 'IBA Official Recipe. Historical information from David Wondrich and various cocktail history sources.',
+    notes:
+      'IBA Official Recipe. Historical information from David Wondrich and various cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

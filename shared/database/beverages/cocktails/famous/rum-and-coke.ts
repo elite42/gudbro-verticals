@@ -32,7 +32,7 @@ export const rumAndCoke: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'One of the world\'s most popular cocktails, combining rum with cola and lime. Simple yet timeless, the Rum and Coke (or Cuba Libre with lime) is the ultimate crowd-pleaser and a staple in bars worldwide.',
+    en: "One of the world's most popular cocktails, combining rum with cola and lime. Simple yet timeless, the Rum and Coke (or Cuba Libre with lime) is the ultimate crowd-pleaser and a staple in bars worldwide.",
     it: 'Uno dei cocktail più popolari al mondo, che combina rum con cola e lime. Semplice ma senza tempo, il Rum and Coke (o Cuba Libre con lime) è il piacere della folla per eccellenza e un punto fermo nei bar di tutto il mondo.',
     vi: 'Một trong những cocktail phổ biến nhất thế giới, kết hợp rum với cola và chanh. Đơn giản nhưng vượt thời gian, Rum and Coke (hoặc Cuba Libre với chanh) là thức uống được nhiều người yêu thích nhất và là thức uống chính ở các quán bar trên toàn thế giới.',
   },
@@ -45,7 +45,7 @@ export const rumAndCoke: Cocktail = {
     },
     story: {
       en: 'The Rum and Coke emerged around 1900 in Havana, Cuba, shortly after Coca-Cola arrived in the Caribbean. The drink gained its patriotic name "Cuba Libre" (Free Cuba) during the Spanish-American War when American soldiers mixed local rum with the newly available Coca-Cola and toasted to Cuba\'s independence. The addition of lime juice transforms it into the Cuba Libre, though many call any rum and cola combination by this name. It became one of the most ordered drinks worldwide and remains a symbol of Cuban-American cultural exchange.',
-      it: 'Il Rum and Coke emerse intorno al 1900 all\'Avana, Cuba, poco dopo l\'arrivo della Coca-Cola nei Caraibi. Il drink ottenne il suo nome patriottico "Cuba Libre" (Cuba Libera) durante la guerra ispano-americana quando i soldati americani mescolavano rum locale con la Coca-Cola appena disponibile e brindavano all\'indipendenza di Cuba. L\'aggiunta di succo di lime lo trasforma nel Cuba Libre, anche se molti chiamano qualsiasi combinazione di rum e cola con questo nome. Divenne una delle bevande più ordinate al mondo e rimane un simbolo dello scambio culturale cubano-americano.',
+      it: "Il Rum and Coke emerse intorno al 1900 all'Avana, Cuba, poco dopo l'arrivo della Coca-Cola nei Caraibi. Il drink ottenne il suo nome patriottico \"Cuba Libre\" (Cuba Libera) durante la guerra ispano-americana quando i soldati americani mescolavano rum locale con la Coca-Cola appena disponibile e brindavano all'indipendenza di Cuba. L'aggiunta di succo di lime lo trasforma nel Cuba Libre, anche se molti chiamano qualsiasi combinazione di rum e cola con questo nome. Divenne una delle bevande più ordinate al mondo e rimane un simbolo dello scambio culturale cubano-americano.",
       vi: 'Rum and Coke xuất hiện vào khoảng năm 1900 ở Havana, Cuba, ngay sau khi Coca-Cola đến vùng Caribe. Thức uống có tên yêu nước "Cuba Libre" (Cuba Tự do) trong Chiến tranh Tây Ban Nha-Mỹ khi binh lính Mỹ trộn rum địa phương với Coca-Cola mới có và chúc mừng độc lập của Cuba. Việc thêm nước cốt chanh biến nó thành Cuba Libre, mặc dù nhiều người gọi bất kỳ sự kết hợp rum và cola nào bằng tên này. Nó trở thành một trong những thức uống được gọi nhiều nhất trên toàn thế giới và vẫn là biểu tượng của sự trao đổi văn hóa Cuba-Mỹ.',
     },
     named_after: {
@@ -58,7 +58,7 @@ export const rumAndCoke: Cocktail = {
   taste: {
     profile: ['sweet', 'cola', 'caramel', 'lime'],
     description: {
-      en: 'Sweet cola flavor with rum\'s vanilla and caramel notes, brightened by fresh lime. The rum adds warmth and complexity to the cola\'s sweetness, while lime provides a crucial citrus balance that elevates it beyond a simple mixer.',
+      en: "Sweet cola flavor with rum's vanilla and caramel notes, brightened by fresh lime. The rum adds warmth and complexity to the cola's sweetness, while lime provides a crucial citrus balance that elevates it beyond a simple mixer.",
       it: 'Sapore dolce di cola con note di vaniglia e caramello del rum, illuminato dal lime fresco. Il rum aggiunge calore e complessità alla dolcezza della cola, mentre il lime fornisce un equilibrio di agrumi cruciale che lo eleva oltre un semplice mixer.',
       vi: 'Hương vị cola ngọt với hương vani và caramel của rum, được làm sáng bởi chanh tươi. Rum thêm hơi ấm và sự phức tạp cho vị ngọt của cola, trong khi chanh cung cấp sự cân bằng cam quýt quan trọng nâng nó lên trên một chất pha trộn đơn giản.',
     },
@@ -74,7 +74,7 @@ export const rumAndCoke: Cocktail = {
     },
     balance: {
       en: 'The lime is essential for balance - without it, overly sweet; with it, perfectly refreshing',
-      it: 'Il lime è essenziale per l\'equilibrio - senza di esso, troppo dolce; con esso, perfettamente rinfrescante',
+      it: "Il lime è essenziale per l'equilibrio - senza di esso, troppo dolce; con esso, perfettamente rinfrescante",
       vi: 'Chanh là thiết yếu cho sự cân bằng - không có nó, quá ngọt; có nó, hoàn hảo tươi mát',
     },
   },
@@ -82,7 +82,7 @@ export const rumAndCoke: Cocktail = {
   recommendations: {
     best_time: ['afternoon', 'evening', 'night'],
     occasions: ['casual', 'party', 'beach', 'social'],
-    seasons: ['all-year'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Pairs excellently with Cuban food, burgers, pizza, BBQ, fried foods, and casual pub fare. Perfect with spicy foods as the sweetness balances heat.',
       it: 'Si abbina eccellentemente con cibo cubano, hamburger, pizza, BBQ, cibi fritti e piatti casual da pub. Perfetto con cibi piccanti poiché la dolcezza bilancia il calore.',
@@ -112,7 +112,11 @@ export const rumAndCoke: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 10, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
   ],
 
@@ -157,7 +161,14 @@ export const rumAndCoke: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance', 'caffeine_sensitivity'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -165,7 +176,7 @@ export const rumAndCoke: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-year'],
+  season_tags: ['all_year'],
   occasion_tags: ['casual', 'party', 'beach'],
 
   is_mocktail: false,
@@ -176,7 +187,8 @@ export const rumAndCoke: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['cuba-libre', 'captain-and-coke', 'bacardi-and-coke'],
 
-  notes_for_staff: 'With lime = Cuba Libre. Without lime = Rum and Coke. Use Mexican Coke (cane sugar) for best flavor if available. Fresh lime is crucial - don\'t skip it. Works with white, gold, or dark rum.',
+  notes_for_staff:
+    "With lime = Cuba Libre. Without lime = Rum and Coke. Use Mexican Coke (cane sugar) for best flavor if available. Fresh lime is crucial - don't skip it. Works with white, gold, or dark rum.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -189,7 +201,7 @@ export const rumAndCoke: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1246/cuba-libre',
-    note: 'Born in Havana circa 1900, one of world\'s most popular cocktails.',
+    notes: "Born in Havana circa 1900, one of world's most popular cocktails.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

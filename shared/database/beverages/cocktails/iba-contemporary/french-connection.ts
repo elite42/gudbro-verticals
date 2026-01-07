@@ -65,7 +65,7 @@ export const frenchConnection: Cocktail = {
     profile: ['sweet', 'nutty', 'boozy'],
     description: {
       en: 'Rich and warming with prominent almond sweetness from Amaretto balanced by the complex, oaky depth of cognac. Smooth, sippable, and luxurious - perfect for slow enjoyment.',
-      it: 'Ricco e caldo con una dolcezza di mandorla prominente dall\'Amaretto bilanciata dalla profondità complessa e legnosa del cognac. Morbido, sorseggiabile e lussuoso - perfetto per un lento godimento.',
+      it: "Ricco e caldo con una dolcezza di mandorla prominente dall'Amaretto bilanciata dalla profondità complessa e legnosa del cognac. Morbido, sorseggiabile e lussuoso - perfetto per un lento godimento.",
       vi: 'Đậm đà và ấm áp với vị ngọt hạnh nhân nổi bật từ Amaretto cân bằng với chiều sâu phức tạp, gỗ sồi của cognac. Mượt mà, nhấm nháp và sang trọng - hoàn hảo để thưởng thức chậm rãi.',
     },
     first_impression: {
@@ -96,7 +96,7 @@ export const frenchConnection: Cocktail = {
     },
     ideal_for: {
       en: 'Ideal for those who appreciate simple, spirit-forward cocktails. Perfect for cognac and amaretto lovers seeking an elegant nightcap.',
-      it: 'Ideale per chi apprezza cocktail semplici e spirit-forward. Perfetto per gli amanti del cognac e dell\'amaretto che cercano un elegante nightcap.',
+      it: "Ideale per chi apprezza cocktail semplici e spirit-forward. Perfetto per gli amanti del cognac e dell'amaretto che cercano un elegante nightcap.",
       vi: 'Lý tưởng cho những ai đánh giá cao cocktail đơn giản, hướng về rượu. Hoàn hảo cho người yêu cognac và amaretto tìm kiếm nightcap thanh lịch.',
     },
   },
@@ -177,7 +177,8 @@ export const frenchConnection: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['italian-connection', 'godfather'],
 
-  notes_for_staff: 'Equal parts cognac and amaretto. Can be served neat or on the rocks. The Godfather is a similar drink using scotch instead of cognac. Simple build - no shaking required.',
+  notes_for_staff:
+    'Equal parts cognac and amaretto. Can be served neat or on the rocks. The Godfather is a similar drink using scotch instead of cognac. Simple build - no shaking required.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +191,7 @@ export const frenchConnection: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/french-connection/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

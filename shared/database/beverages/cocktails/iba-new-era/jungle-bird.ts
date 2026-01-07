@@ -34,7 +34,7 @@ export const jungleBird: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A bold tropical cocktail that breaks the tiki mold by incorporating bitter Campari with rum and pineapple. This Malaysian creation balances sweet tropical fruit with sophisticated bitterness, creating a complex and refreshing drink that has become a modern tiki favorite.',
-    it: 'Un cocktail tropicale audace che rompe lo stampo tiki incorporando il Campari amaro con rum e ananas. Questa creazione malese bilancia la frutta tropicale dolce con un\'amarezza sofisticata, creando una bevanda complessa e rinfrescante che è diventata un favorito tiki moderno.',
+    it: "Un cocktail tropicale audace che rompe lo stampo tiki incorporando il Campari amaro con rum e ananas. Questa creazione malese bilancia la frutta tropicale dolce con un'amarezza sofisticata, creando una bevanda complessa e rinfrescante che è diventata un favorito tiki moderno.",
     vi: 'Một cocktail nhiệt đới táo bạo phá vỡ khuôn mẫu tiki bằng cách kết hợp Campari đắng với rum và dứa. Tác phẩm Malaysia này cân bằng trái cây nhiệt đới ngọt với vị đắng tinh tế, tạo ra đồ uống phức tạp và sảng khoái đã trở thành món yêu thích tiki hiện đại.',
   },
 
@@ -50,12 +50,12 @@ export const jungleBird: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created in 1978 by Jeffrey Ong at the Kuala Lumpur Hilton\'s Aviary Bar for the hotel\'s opening. The drink was named after the hornbills that inhabited the bar\'s aviary. While initially a hotel signature, it remained relatively obscure until Giuseppe Gonzalez reintroduced it to New York\'s cocktail scene in the 2000s. The unusual combination of Campari in a tiki drink was revolutionary and helped spark renewed interest in tiki cocktails.',
-      it: 'Creato nel 1978 da Jeffrey Ong all\'Aviary Bar del Kuala Lumpur Hilton per l\'apertura dell\'hotel. La bevanda prese il nome dai buceri che abitavano la voliera del bar. Sebbene inizialmente fosse un signature dell\'hotel, rimase relativamente oscuro fino a quando Giuseppe Gonzalez lo reintrodusse nella scena cocktail di New York negli anni 2000. L\'insolita combinazione di Campari in un drink tiki fu rivoluzionaria e contribuì a riaccendere l\'interesse per i cocktail tiki.',
+      en: "Created in 1978 by Jeffrey Ong at the Kuala Lumpur Hilton's Aviary Bar for the hotel's opening. The drink was named after the hornbills that inhabited the bar's aviary. While initially a hotel signature, it remained relatively obscure until Giuseppe Gonzalez reintroduced it to New York's cocktail scene in the 2000s. The unusual combination of Campari in a tiki drink was revolutionary and helped spark renewed interest in tiki cocktails.",
+      it: "Creato nel 1978 da Jeffrey Ong all'Aviary Bar del Kuala Lumpur Hilton per l'apertura dell'hotel. La bevanda prese il nome dai buceri che abitavano la voliera del bar. Sebbene inizialmente fosse un signature dell'hotel, rimase relativamente oscuro fino a quando Giuseppe Gonzalez lo reintrodusse nella scena cocktail di New York negli anni 2000. L'insolita combinazione di Campari in un drink tiki fu rivoluzionaria e contribuì a riaccendere l'interesse per i cocktail tiki.",
       vi: 'Được tạo ra năm 1978 bởi Jeffrey Ong tại Aviary Bar của Kuala Lumpur Hilton cho lễ khai trương khách sạn. Đồ uống được đặt tên theo loài chim hornbill sống trong chuồng chim của quầy bar. Mặc dù ban đầu là signature của khách sạn, nó vẫn tương đối mờ nhạt cho đến khi Giuseppe Gonzalez giới thiệu lại nó vào làng cocktail New York những năm 2000. Sự kết hợp bất thường của Campari trong đồ uống tiki là cách mạng và giúp khơi dậy sự quan tâm mới về cocktail tiki.',
     },
     named_after: {
-      en: 'Named after the hornbills (jungle birds) that were kept in an aviary at the Kuala Lumpur Hilton\'s bar where the drink was created.',
+      en: "Named after the hornbills (jungle birds) that were kept in an aviary at the Kuala Lumpur Hilton's bar where the drink was created.",
       it: 'Prende il nome dai buceri (uccelli della giungla) che erano tenuti in una voliera nel bar del Kuala Lumpur Hilton dove fu creata la bevanda.',
       vi: 'Được đặt tên theo loài chim hornbill (chim rừng) được nuôi trong chuồng chim tại quầy bar Kuala Lumpur Hilton nơi đồ uống được tạo ra.',
     },
@@ -65,7 +65,7 @@ export const jungleBird: Cocktail = {
     profile: ['bitter', 'tropical', 'complex', 'balanced'],
     description: {
       en: 'Beautifully complex with bittersweet Campari playing against tropical pineapple sweetness, dark rum richness, and bright lime acidity. The bitterness cuts through the tropical elements creating a sophisticated, layered experience.',
-      it: 'Magnificamente complesso con Campari amarognolo che gioca contro la dolcezza tropicale dell\'ananas, la ricchezza del rum scuro e l\'acidità vivace del lime. L\'amarezza taglia attraverso gli elementi tropicali creando un\'esperienza sofisticata e stratificata.',
+      it: "Magnificamente complesso con Campari amarognolo che gioca contro la dolcezza tropicale dell'ananas, la ricchezza del rum scuro e l'acidità vivace del lime. L'amarezza taglia attraverso gli elementi tropicali creando un'esperienza sofisticata e stratificata.",
       vi: 'Phức tạp tuyệt đẹp với Campari đắng ngọt đối lập với vị ngọt dứa nhiệt đới, sự đậm đà của rum đen và độ chua chanh tươi sáng. Vị đắng xuyên qua các yếu tố nhiệt đới tạo ra trải nghiệm tinh tế, nhiều lớp.',
     },
     first_impression: {
@@ -173,7 +173,14 @@ export const jungleBird: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -192,7 +199,8 @@ export const jungleBird: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['mezcal-jungle-bird', 'jungle-bird-swizzle'],
 
-  notes_for_staff: 'Campari is essential - do not substitute. Use a dark Jamaican rum for best results. Fresh pineapple juice preferred. The bitterness balances the tropical sweetness - do not reduce Campari.',
+  notes_for_staff:
+    'Campari is essential - do not substitute. Use a dark Jamaican rum for best results. Fresh pineapple juice preferred. The bitterness balances the tropical sweetness - do not reduce Campari.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +213,7 @@ export const jungleBird: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/jungle-bird/',
-    note: 'IBA Official Recipe. Created by Jeffrey Ong at Kuala Lumpur Hilton, 1978.',
+    notes: 'IBA Official Recipe. Created by Jeffrey Ong at Kuala Lumpur Hilton, 1978.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -64,8 +64,8 @@ export const chartreuseSwizzle: Cocktail = {
   taste: {
     profile: ['herbal', 'tropical', 'complex', 'refreshing'],
     description: {
-      en: 'Intensely herbaceous with Green Chartreuse\'s 130 botanical complexity balanced by tropical pineapple sweetness, tart lime, and aromatic falernum spices. The swizzle dilution makes it remarkably smooth and refreshing.',
-      it: 'Intensamente erbaceo con la complessità di 130 botanici della Chartreuse Verde bilanciata dalla dolcezza tropicale dell\'ananas, lime aspro e spezie aromatiche del falernum. La diluizione dello swizzle lo rende straordinariamente morbido e rinfrescante.',
+      en: "Intensely herbaceous with Green Chartreuse's 130 botanical complexity balanced by tropical pineapple sweetness, tart lime, and aromatic falernum spices. The swizzle dilution makes it remarkably smooth and refreshing.",
+      it: "Intensamente erbaceo con la complessità di 130 botanici della Chartreuse Verde bilanciata dalla dolcezza tropicale dell'ananas, lime aspro e spezie aromatiche del falernum. La diluizione dello swizzle lo rende straordinariamente morbido e rinfrescante.",
       vi: 'Thảo mộc mãnh liệt với độ phức tạp 130 thực vật của Green Chartreuse cân bằng bởi vị ngọt dứa nhiệt đới, chanh chua và gia vị thơm của falernum. Sự pha loãng swizzle làm cho nó mượt mà và sảng khoái đáng kinh ngạc.',
     },
     first_impression: {
@@ -96,7 +96,7 @@ export const chartreuseSwizzle: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for adventurous drinkers who love herbal complexity in tropical cocktails. Ideal for Chartreuse enthusiasts and those seeking a sophisticated tiki experience. Great for hot weather sipping.',
-      it: 'Perfetto per bevitori avventurosi che amano la complessità erbacea nei cocktail tropicali. Ideale per gli appassionati di Chartreuse e chi cerca un\'esperienza tiki sofisticata. Ottimo per sorseggiare con tempo caldo.',
+      it: "Perfetto per bevitori avventurosi che amano la complessità erbacea nei cocktail tropicali. Ideale per gli appassionati di Chartreuse e chi cerca un'esperienza tiki sofisticata. Ottimo per sorseggiare con tempo caldo.",
       vi: 'Hoàn hảo cho người uống phiêu lưu yêu thích độ phức tạp thảo mộc trong cocktail nhiệt đới. Lý tưởng cho người đam mê Chartreuse và những ai tìm kiếm trải nghiệm tiki tinh tế. Tuyệt vời để nhâm nhi thời tiết nóng.',
     },
   },
@@ -131,7 +131,7 @@ export const chartreuseSwizzle: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a Collins or highball glass. Fill with crushed ice. Insert a swizzle stick or bar spoon and rapidly rotate between your palms for 10-15 seconds until the outside of the glass frosts. Top with more crushed ice to form a snow cone. Garnish with a pineapple frond and fresh mint sprig.',
-    it: 'Aggiungere tutti gli ingredienti in un bicchiere Collins o highball. Riempire con ghiaccio tritato. Inserire uno swizzle stick o cucchiaio da bar e ruotare rapidamente tra i palmi per 10-15 secondi fino a quando l\'esterno del bicchiere si congela. Completare con più ghiaccio tritato per formare un cono di neve. Guarnire con una fronda di ananas e rametto di menta fresca.',
+    it: "Aggiungere tutti gli ingredienti in un bicchiere Collins o highball. Riempire con ghiaccio tritato. Inserire uno swizzle stick o cucchiaio da bar e ruotare rapidamente tra i palmi per 10-15 secondi fino a quando l'esterno del bicchiere si congela. Completare con più ghiaccio tritato per formare un cono di neve. Guarnire con una fronda di ananas e rametto di menta fresca.",
     vi: 'Thêm tất cả nguyên liệu vào ly Collins hoặc highball. Đổ đầy đá bào. Đặt que swizzle hoặc thìa bar và quay nhanh giữa lòng bàn tay trong 10-15 giây cho đến khi bên ngoài ly đóng băng. Thêm đá bào để tạo thành nón tuyết. Trang trí với lá dứa và cành bạc hà tươi.',
   },
 
@@ -168,7 +168,14 @@ export const chartreuseSwizzle: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 1,
   },
 
@@ -187,7 +194,8 @@ export const chartreuseSwizzle: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['yellow-chartreuse-swizzle', 'rum-chartreuse-swizzle'],
 
-  notes_for_staff: 'Green Chartreuse is essential (55% ABV). Proper swizzle technique creates frost on outside of glass. Use plenty of crushed ice. Falernum adds essential spice notes. Fresh pineapple juice preferred.',
+  notes_for_staff:
+    'Green Chartreuse is essential (55% ABV). Proper swizzle technique creates frost on outside of glass. Use plenty of crushed ice. Falernum adds essential spice notes. Fresh pineapple juice preferred.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +208,7 @@ export const chartreuseSwizzle: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/chartreuse-swizzle/',
-    note: 'IBA Official Recipe. Created by Marcovaldo Dionysos at Alembic, San Francisco.',
+    notes: 'IBA Official Recipe. Created by Marcovaldo Dionysos at Alembic, San Francisco.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -33,9 +33,9 @@ export const sazerac: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'New Orleans\' official cocktail, the Sazerac is a bold, spirit-forward classic combining cognac or rye whiskey with Peychaud\'s bitters, sugar, and an absinthe rinse. One of America\'s oldest cocktails, it embodies the soul of the Crescent City.',
-    it: 'Il cocktail ufficiale di New Orleans, il Sazerac è un classico audace e ricco di spirito che combina cognac o rye whiskey con Peychaud\'s bitters, zucchero e un risciacquo di assenzio. Uno dei cocktail più antichi d\'America, incarna l\'anima della Città della Mezzaluna.',
-    vi: 'Cocktail chính thức của New Orleans, Sazerac là một tác phẩm kinh điển táo bạo, hướng rượu kết hợp cognac hoặc rye whiskey với Peychaud\'s bitters, đường và lớp absinthe rửa ly. Một trong những cocktail lâu đời nhất của Mỹ, nó thể hiện linh hồn của Thành phố Lưỡi Liềm.',
+    en: "New Orleans' official cocktail, the Sazerac is a bold, spirit-forward classic combining cognac or rye whiskey with Peychaud's bitters, sugar, and an absinthe rinse. One of America's oldest cocktails, it embodies the soul of the Crescent City.",
+    it: "Il cocktail ufficiale di New Orleans, il Sazerac è un classico audace e ricco di spirito che combina cognac o rye whiskey con Peychaud's bitters, zucchero e un risciacquo di assenzio. Uno dei cocktail più antichi d'America, incarna l'anima della Città della Mezzaluna.",
+    vi: "Cocktail chính thức của New Orleans, Sazerac là một tác phẩm kinh điển táo bạo, hướng rượu kết hợp cognac hoặc rye whiskey với Peychaud's bitters, đường và lớp absinthe rửa ly. Một trong những cocktail lâu đời nhất của Mỹ, nó thể hiện linh hồn của Thành phố Lưỡi Liềm.",
   },
 
   history: {
@@ -50,9 +50,9 @@ export const sazerac: Cocktail = {
       profession: 'pharmacist/bartender',
     },
     story: {
-      en: 'The Sazerac is a local variation of a cognac or whiskey cocktail originally from New Orleans, named for the Sazerac de Forge et Fils brand of cognac that served as its original main ingredient. Created around 1838 by Antoine Amédée Peychaud, a Creole apothecary who invented Peychaud\'s bitters. The original recipe changed after the American Civil War when rye whiskey substituted cognac as it became hard to obtain. In 2008, the Louisiana Legislature declared the Sazerac as New Orleans\' official cocktail. The Sazerac Coffee House, where it was popularized, is now a protected historic site.',
-      it: 'Il Sazerac è una variazione locale di un cocktail al cognac o whiskey originario di New Orleans, prende il nome dal marchio di cognac Sazerac de Forge et Fils che serviva come ingrediente principale originale. Creato intorno al 1838 da Antoine Amédée Peychaud, un farmacista creolo che inventò i Peychaud\'s bitters. La ricetta originale cambiò dopo la Guerra Civile Americana quando il rye whiskey sostituì il cognac poiché divenne difficile da ottenere. Nel 2008, la Legislatura della Louisiana dichiarò il Sazerac come cocktail ufficiale di New Orleans. Il Sazerac Coffee House, dove fu reso popolare, è ora un sito storico protetto.',
-      vi: 'Sazerac là một biến thể địa phương của cocktail cognac hoặc whiskey có nguồn gốc từ New Orleans, được đặt tên theo nhãn hiệu cognac Sazerac de Forge et Fils từng là thành phần chính ban đầu của nó. Được tạo ra vào khoảng năm 1838 bởi Antoine Amédée Peychaud, một dược sĩ Creole đã phát minh ra Peychaud\'s bitters. Công thức gốc thay đổi sau Nội chiến Mỹ khi rye whiskey thay thế cognac vì khó kiếm. Năm 2008, Cơ quan Lập pháp Louisiana tuyên bố Sazerac là cocktail chính thức của New Orleans. Sazerac Coffee House, nơi nó được phổ biến, hiện là di tích lịch sử được bảo vệ.',
+      en: "The Sazerac is a local variation of a cognac or whiskey cocktail originally from New Orleans, named for the Sazerac de Forge et Fils brand of cognac that served as its original main ingredient. Created around 1838 by Antoine Amédée Peychaud, a Creole apothecary who invented Peychaud's bitters. The original recipe changed after the American Civil War when rye whiskey substituted cognac as it became hard to obtain. In 2008, the Louisiana Legislature declared the Sazerac as New Orleans' official cocktail. The Sazerac Coffee House, where it was popularized, is now a protected historic site.",
+      it: "Il Sazerac è una variazione locale di un cocktail al cognac o whiskey originario di New Orleans, prende il nome dal marchio di cognac Sazerac de Forge et Fils che serviva come ingrediente principale originale. Creato intorno al 1838 da Antoine Amédée Peychaud, un farmacista creolo che inventò i Peychaud's bitters. La ricetta originale cambiò dopo la Guerra Civile Americana quando il rye whiskey sostituì il cognac poiché divenne difficile da ottenere. Nel 2008, la Legislatura della Louisiana dichiarò il Sazerac come cocktail ufficiale di New Orleans. Il Sazerac Coffee House, dove fu reso popolare, è ora un sito storico protetto.",
+      vi: "Sazerac là một biến thể địa phương của cocktail cognac hoặc whiskey có nguồn gốc từ New Orleans, được đặt tên theo nhãn hiệu cognac Sazerac de Forge et Fils từng là thành phần chính ban đầu của nó. Được tạo ra vào khoảng năm 1838 bởi Antoine Amédée Peychaud, một dược sĩ Creole đã phát minh ra Peychaud's bitters. Công thức gốc thay đổi sau Nội chiến Mỹ khi rye whiskey thay thế cognac vì khó kiếm. Năm 2008, Cơ quan Lập pháp Louisiana tuyên bố Sazerac là cocktail chính thức của New Orleans. Sazerac Coffee House, nơi nó được phổ biến, hiện là di tích lịch sử được bảo vệ.",
     },
     named_after: {
       en: 'Named after Sazerac de Forge et Fils, the cognac brand originally used in the drink.',
@@ -64,9 +64,9 @@ export const sazerac: Cocktail = {
   taste: {
     profile: ['complex', 'herbal', 'anise'],
     description: {
-      en: 'Bold and complex with anise and herbal notes from absinthe dominating the aroma, followed by the rich warmth of cognac or rye. Peychaud\'s bitters provide distinctive fruity-floral complexity. The sugar softens the edges while lemon oils add brightness.',
-      it: 'Audace e complesso con note di anice ed erbacee dall\'assenzio che dominano l\'aroma, seguite dal ricco calore del cognac o della segale. I Peychaud\'s bitters forniscono una distintiva complessità fruttata-floreale. Lo zucchero ammorbidisce i bordi mentre gli oli di limone aggiungono luminosità.',
-      vi: 'Táo bạo và phức tạp với hương hồi và thảo mộc từ absinthe chi phối mùi hương, tiếp theo là sự ấm áp đậm đà của cognac hoặc rye. Peychaud\'s bitters cung cấp độ phức tạp trái cây-hoa đặc trưng. Đường làm mềm các cạnh trong khi dầu chanh thêm độ sáng.',
+      en: "Bold and complex with anise and herbal notes from absinthe dominating the aroma, followed by the rich warmth of cognac or rye. Peychaud's bitters provide distinctive fruity-floral complexity. The sugar softens the edges while lemon oils add brightness.",
+      it: "Audace e complesso con note di anice ed erbacee dall'assenzio che dominano l'aroma, seguite dal ricco calore del cognac o della segale. I Peychaud's bitters forniscono una distintiva complessità fruttata-floreale. Lo zucchero ammorbidisce i bordi mentre gli oli di limone aggiungono luminosità.",
+      vi: "Táo bạo và phức tạp với hương hồi và thảo mộc từ absinthe chi phối mùi hương, tiếp theo là sự ấm áp đậm đà của cognac hoặc rye. Peychaud's bitters cung cấp độ phức tạp trái cây-hoa đặc trưng. Đường làm mềm các cạnh trong khi dầu chanh thêm độ sáng.",
     },
     first_impression: {
       en: 'Anise and herbal aromatics, followed by bold spirit and bitters',
@@ -123,7 +123,11 @@ export const sazerac: Cocktail = {
     {
       ingredient_id: 'ING_PEYCHAUDS_BITTERS',
       quantity: { amount: 2, unit: 'dash' },
-      display_name: { en: 'Peychaud\'s bitters', it: 'Peychaud\'s bitters', vi: 'Peychaud\'s bitters' },
+      display_name: {
+        en: "Peychaud's bitters",
+        it: "Peychaud's bitters",
+        vi: "Peychaud's bitters",
+      },
     },
   ],
 
@@ -131,7 +135,7 @@ export const sazerac: Cocktail = {
 
   instructions: {
     en: 'Rinse a chilled old-fashioned glass with the absinthe, add crushed ice and set it aside. Stir the remaining ingredients over ice in a mixing glass. Discard the ice and any excess absinthe from the prepared glass, strain the mixed drink into the glass. Add the lemon peel for garnish.',
-    it: 'Sciacquare un bicchiere old-fashioned raffreddato con l\'assenzio, aggiungere ghiaccio tritato e metterlo da parte. Mescolare gli ingredienti rimanenti sul ghiaccio in un mixing glass. Scartare il ghiaccio e l\'assenzio in eccesso dal bicchiere preparato, filtrare il drink mescolato nel bicchiere. Aggiungere la scorza di limone per guarnire.',
+    it: "Sciacquare un bicchiere old-fashioned raffreddato con l'assenzio, aggiungere ghiaccio tritato e metterlo da parte. Mescolare gli ingredienti rimanenti sul ghiaccio in un mixing glass. Scartare il ghiaccio e l'assenzio in eccesso dal bicchiere preparato, filtrare il drink mescolato nel bicchiere. Aggiungere la scorza di limone per guarnire.",
     vi: 'Rửa ly old-fashioned đã làm lạnh bằng absinthe, thêm đá nghiền và để sang một bên. Khuấy các nguyên liệu còn lại trên đá trong ly trộn. Loại bỏ đá và absinthe dư thừa khỏi ly đã chuẩn bị, lọc thức uống đã trộn vào ly. Thêm vỏ chanh để trang trí.',
   },
 
@@ -168,7 +172,14 @@ export const sazerac: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +198,8 @@ export const sazerac: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['rye-sazerac', 'old-fashioned', 'vieux-carre'],
 
-  notes_for_staff: 'The absinthe rinse is essential - coat the glass and discard excess. Peychaud\'s bitters are specific and non-negotiable. Traditional recipe uses cognac, but rye whiskey is also acceptable (and often preferred in New Orleans today). Express lemon oils over drink but traditionally don\'t drop the peel in.',
+  notes_for_staff:
+    "The absinthe rinse is essential - coat the glass and discard excess. Peychaud's bitters are specific and non-negotiable. Traditional recipe uses cognac, but rye whiskey is also acceptable (and often preferred in New Orleans today). Express lemon oils over drink but traditionally don't drop the peel in.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +212,8 @@ export const sazerac: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/sazerac/',
-    note: 'IBA Official Recipe. Historical information from New Orleans cocktail history and Antoine Amédée Peychaud documentation.',
+    notes:
+      'IBA Official Recipe. Historical information from New Orleans cocktail history and Antoine Amédée Peychaud documentation.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

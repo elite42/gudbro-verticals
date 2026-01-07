@@ -51,7 +51,7 @@ export const maryPickford: Cocktail = {
     },
     story: {
       en: 'The Mary Pickford was created in the 1920s during Prohibition at the Hotel Nacional in Havana, Cuba - a popular destination for Americans escaping Prohibition. It was created for silent film star Mary Pickford during her visit to Cuba with husband Douglas Fairbanks. The bartenders, either Eddie Woelke or Fred Kaufman (sources vary), created this elegant tropical drink to honor "America\'s Sweetheart." The cocktail was included in the original 1961 IBA list of 50 official cocktails and has remained a classic ever since.',
-      it: 'Il Mary Pickford fu creato negli anni \'20 durante il Proibizionismo all\'Hotel Nacional dell\'Avana, Cuba - una destinazione popolare per gli americani che sfuggivano al Proibizionismo. Fu creato per la star del cinema muto Mary Pickford durante la sua visita a Cuba con il marito Douglas Fairbanks. I barman, Eddie Woelke o Fred Kaufman (le fonti variano), crearono questo elegante drink tropicale per onorare "America\'s Sweetheart." Il cocktail fu incluso nella lista IBA originale del 1961 di 50 cocktail ufficiali ed è rimasto un classico da allora.',
+      it: "Il Mary Pickford fu creato negli anni '20 durante il Proibizionismo all'Hotel Nacional dell'Avana, Cuba - una destinazione popolare per gli americani che sfuggivano al Proibizionismo. Fu creato per la star del cinema muto Mary Pickford durante la sua visita a Cuba con il marito Douglas Fairbanks. I barman, Eddie Woelke o Fred Kaufman (le fonti variano), crearono questo elegante drink tropicale per onorare \"America's Sweetheart.\" Il cocktail fu incluso nella lista IBA originale del 1961 di 50 cocktail ufficiali ed è rimasto un classico da allora.",
       vi: 'Mary Pickford được tạo ra vào những năm 1920 trong thời Cấm rượu tại Hotel Nacional ở Havana, Cuba - một điểm đến phổ biến cho người Mỹ trốn tránh Cấm rượu. Nó được tạo ra cho ngôi sao phim câm Mary Pickford trong chuyến thăm Cuba của cô với chồng Douglas Fairbanks. Các bartender, Eddie Woelke hoặc Fred Kaufman (nguồn khác nhau), đã tạo ra thức uống nhiệt đới thanh lịch này để vinh danh "Người tình của nước Mỹ." Cocktail được bao gồm trong danh sách IBA gốc năm 1961 gồm 50 cocktail chính thức và đã là một tác phẩm kinh điển kể từ đó.',
     },
     named_after: {
@@ -64,7 +64,7 @@ export const maryPickford: Cocktail = {
   taste: {
     profile: ['tropical', 'sweet', 'fruity'],
     description: {
-      en: 'Bright and tropical with sweet pineapple leading the way, balanced by rum\'s warmth and subtle cherry-almond notes from maraschino. Grenadine adds a hint of pomegranate sweetness and a beautiful pink hue.',
+      en: "Bright and tropical with sweet pineapple leading the way, balanced by rum's warmth and subtle cherry-almond notes from maraschino. Grenadine adds a hint of pomegranate sweetness and a beautiful pink hue.",
       it: 'Brillante e tropicale con ananas dolce in testa, bilanciato dal calore del rum e sottili note di ciliegia-mandorla dal maraschino. La granatina aggiunge un tocco di dolcezza di melograno e una bella tonalità rosa.',
       vi: 'Tươi sáng và nhiệt đới với dứa ngọt dẫn đầu, cân bằng bởi sự ấm áp của rum và hương cherry-hạnh nhân tinh tế từ maraschino. Grenadine thêm một chút vị ngọt lựu và màu hồng đẹp.',
     },
@@ -113,12 +113,20 @@ export const maryPickford: Cocktail = {
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Fresh pineapple juice', it: 'Succo di ananas fresco', vi: 'Nước dứa tươi' },
+      display_name: {
+        en: 'Fresh pineapple juice',
+        it: 'Succo di ananas fresco',
+        vi: 'Nước dứa tươi',
+      },
     },
     {
       ingredient_id: 'ING_MARASCHINO',
       quantity: { amount: 7.5, unit: 'ml' },
-      display_name: { en: 'Maraschino Luxardo', it: 'Maraschino Luxardo', vi: 'Maraschino Luxardo' },
+      display_name: {
+        en: 'Maraschino Luxardo',
+        it: 'Maraschino Luxardo',
+        vi: 'Maraschino Luxardo',
+      },
     },
     {
       ingredient_id: 'ING_GRENADINE',
@@ -168,7 +176,14 @@ export const maryPickford: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +202,8 @@ export const maryPickford: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['daiquiri', 'pina-colada', 'bacardi-cocktail'],
 
-  notes_for_staff: 'Use fresh pineapple juice for best results. The drink should have a beautiful pink color from the grenadine. Shake well to properly mix and chill. Often served with a cherry garnish in homage to the maraschino.',
+  notes_for_staff:
+    'Use fresh pineapple juice for best results. The drink should have a beautiful pink color from the grenadine. Shake well to properly mix and chill. Often served with a cherry garnish in homage to the maraschino.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +216,8 @@ export const maryPickford: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/mary-pickford/',
-    note: 'IBA Official Recipe. Historical information from Hotel Nacional Havana and Prohibition-era cocktail history.',
+    notes:
+      'IBA Official Recipe. Historical information from Hotel Nacional Havana and Prohibition-era cocktail history.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

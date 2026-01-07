@@ -42,7 +42,7 @@ export const bloodyMary: Cocktail = {
     created_year: '1921',
     origin: {
       city: 'Paris',
-      bar: 'Harry\'s New York Bar',
+      bar: "Harry's New York Bar",
       country: 'France',
     },
     creator: {
@@ -50,9 +50,9 @@ export const bloodyMary: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by Fernand Petiot at Harry\'s New York Bar in Paris in 1921, mixing vodka with tomato juice. When Petiot moved to New York\'s King Cole Bar in the 1930s, he refined the recipe with spices, creating the modern Bloody Mary. The drink became synonymous with brunch culture and hangover remedies.',
-      it: 'Creato da Fernand Petiot all\'Harry\'s New York Bar di Parigi nel 1921, mescolando vodka con succo di pomodoro. Quando Petiot si trasferì al King Cole Bar di New York negli anni \'30, perfezionò la ricetta con spezie, creando il moderno Bloody Mary. Il drink divenne sinonimo di cultura del brunch e rimedi per i postumi della sbornia.',
-      vi: 'Được tạo ra bởi Fernand Petiot tại Harry\'s New York Bar ở Paris năm 1921, trộn vodka với nước cà chua. Khi Petiot chuyển đến King Cole Bar của New York vào những năm 1930, ông đã tinh chỉnh công thức với gia vị, tạo ra Bloody Mary hiện đại. Thức uống trở thành đồng nghĩa với văn hóa brunch và thuốc chữa say.',
+      en: "Created by Fernand Petiot at Harry's New York Bar in Paris in 1921, mixing vodka with tomato juice. When Petiot moved to New York's King Cole Bar in the 1930s, he refined the recipe with spices, creating the modern Bloody Mary. The drink became synonymous with brunch culture and hangover remedies.",
+      it: "Creato da Fernand Petiot all'Harry's New York Bar di Parigi nel 1921, mescolando vodka con succo di pomodoro. Quando Petiot si trasferì al King Cole Bar di New York negli anni '30, perfezionò la ricetta con spezie, creando il moderno Bloody Mary. Il drink divenne sinonimo di cultura del brunch e rimedi per i postumi della sbornia.",
+      vi: "Được tạo ra bởi Fernand Petiot tại Harry's New York Bar ở Paris năm 1921, trộn vodka với nước cà chua. Khi Petiot chuyển đến King Cole Bar của New York vào những năm 1930, ông đã tinh chỉnh công thức với gia vị, tạo ra Bloody Mary hiện đại. Thức uống trở thành đồng nghĩa với văn hóa brunch và thuốc chữa say.",
     },
     named_after: {
       en: 'Named after Queen Mary I of England (aka "Bloody Mary") or a waitress named Mary at a Chicago bar. Origins are disputed.',
@@ -88,7 +88,7 @@ export const bloodyMary: Cocktail = {
   recommendations: {
     best_time: ['brunch', 'morning', 'afternoon'],
     occasions: ['brunch', 'casual', 'recovery'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Perfect with brunch dishes: eggs Benedict, bacon, breakfast sandwiches, oysters, shrimp cocktail. Often served as a meal replacement with elaborate garnishes.',
       it: 'Perfetto con piatti da brunch: uova Benedict, bacon, sandwich per colazione, ostriche, cocktail di gamberetti. Spesso servito come sostituto del pasto con guarnizioni elaborate.',
@@ -118,12 +118,20 @@ export const bloodyMary: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_WORCESTERSHIRE',
       quantity: { amount: 2, unit: 'dash' },
-      display_name: { en: 'Worcestershire sauce', it: 'Salsa Worcestershire', vi: 'Tương Worcestershire' },
+      display_name: {
+        en: 'Worcestershire sauce',
+        it: 'Salsa Worcestershire',
+        vi: 'Tương Worcestershire',
+      },
     },
     {
       ingredient_id: 'ING_TABASCO',
@@ -191,7 +199,7 @@ export const bloodyMary: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free', 'dairy-free'],
-  season_tags: ['all_seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['brunch', 'casual', 'recovery'],
 
   is_mocktail: false,
@@ -202,7 +210,8 @@ export const bloodyMary: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['virgin-mary', 'bloody-caesar', 'red-snapper', 'michelada'],
 
-  notes_for_staff: 'Highly customizable - ask customer about spice preference. Common garnishes include bacon, shrimp, pickles, olives, cheese. Rolling (not shaking) preserves texture. Worcestershire contains anchovies (not vegetarian).',
+  notes_for_staff:
+    'Highly customizable - ask customer about spice preference. Common garnishes include bacon, shrimp, pickles, olives, cheese. Rolling (not shaking) preserves texture. Worcestershire contains anchovies (not vegetarian).',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -215,7 +224,7 @@ export const bloodyMary: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/bloody-mary/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

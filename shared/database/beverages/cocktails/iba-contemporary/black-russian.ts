@@ -51,7 +51,7 @@ export const blackRussian: Cocktail = {
     },
     story: {
       en: 'Created by bartender Gustave Tops at the Hotel Metropole in Brussels, Belgium in 1949. It was created for Perle Mesta, the U.S. Ambassador to Luxembourg. The drink gained popularity during the Cold War era, and its name reflects the Russian origins of vodka. The White Russian variation (adding cream) came later.',
-      it: 'Creato dal barman Gustave Tops all\'Hotel Metropole di Bruxelles, Belgio nel 1949. Fu creato per Perle Mesta, l\'ambasciatore statunitense in Lussemburgo. La bevanda ottenne popolarità durante l\'era della Guerra Fredda, e il suo nome riflette le origini russe della vodka. La variante White Russian (aggiungendo panna) venne dopo.',
+      it: "Creato dal barman Gustave Tops all'Hotel Metropole di Bruxelles, Belgio nel 1949. Fu creato per Perle Mesta, l'ambasciatore statunitense in Lussemburgo. La bevanda ottenne popolarità durante l'era della Guerra Fredda, e il suo nome riflette le origini russe della vodka. La variante White Russian (aggiungendo panna) venne dopo.",
       vi: 'Được tạo ra bởi bartender Gustave Tops tại khách sạn Metropole ở Brussels, Bỉ vào năm 1949. Nó được tạo ra cho Perle Mesta, Đại sứ Mỹ tại Luxembourg. Thức uống trở nên phổ biến trong thời kỳ Chiến tranh Lạnh, và tên của nó phản ánh nguồn gốc Nga của vodka. Biến thể White Russian (thêm kem) ra đời sau đó.',
     },
     named_after: {
@@ -113,7 +113,11 @@ export const blackRussian: Cocktail = {
     {
       ingredient_id: 'ING_COFFEE_LIQUEUR',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Coffee liqueur (Kahlúa)', it: 'Liquore al caffè (Kahlúa)', vi: 'Rượu mùi cà phê (Kahlúa)' },
+      display_name: {
+        en: 'Coffee liqueur (Kahlúa)',
+        it: 'Liquore al caffè (Kahlúa)',
+        vi: 'Rượu mùi cà phê (Kahlúa)',
+      },
     },
   ],
 
@@ -158,7 +162,14 @@ export const blackRussian: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance', 'caffeine'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -177,7 +188,8 @@ export const blackRussian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['white-russian', 'dirty-russian', 'blind-russian'],
 
-  notes_for_staff: 'Simple two-ingredient build. The White Russian adds cream on top. Kahlúa is the traditional coffee liqueur, but any good coffee liqueur works. Can be served neat or on the rocks. Deceptively strong - warn guests.',
+  notes_for_staff:
+    'Simple two-ingredient build. The White Russian adds cream on top. Kahlúa is the traditional coffee liqueur, but any good coffee liqueur works. Can be served neat or on the rocks. Deceptively strong - warn guests.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +202,7 @@ export const blackRussian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/black-russian/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

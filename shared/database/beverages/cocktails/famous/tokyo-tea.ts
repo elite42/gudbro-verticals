@@ -74,7 +74,7 @@ export const tokyoTea: Cocktail = {
     },
     balance: {
       en: 'Very sweet with melon dominating - the substantial alcohol is well-masked, making it dangerously easy to drink',
-      it: 'Molto dolce con il melone dominante - l\'alcol sostanziale è ben mascherato, rendendolo pericolosamente facile da bere',
+      it: "Molto dolce con il melone dominante - l'alcol sostanziale è ben mascherato, rendendolo pericolosamente facile da bere",
       vi: 'Rất ngọt với dưa chiếm ưu thế - cồn đáng kể được che giấu tốt, khiến nó cực kỳ dễ uống',
     },
   },
@@ -82,7 +82,7 @@ export const tokyoTea: Cocktail = {
   recommendations: {
     best_time: ['evening', 'night', 'late_night'],
     occasions: ['party', 'celebration', 'nightclub', 'birthday'],
-    seasons: ['all-year'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Best enjoyed as a party drink without food. If pairing, works with Asian fusion appetizers, sushi, and light party snacks.',
       it: 'Meglio gustato come drink da festa senza cibo. Se abbinato, funziona con antipasti fusion asiatici, sushi e snack leggeri da festa.',
@@ -122,7 +122,11 @@ export const tokyoTea: Cocktail = {
     {
       ingredient_id: 'ING_MIDORI',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Midori melon liqueur', it: 'Liquore di melone Midori', vi: 'Liqueur dưa Midori' },
+      display_name: {
+        en: 'Midori melon liqueur',
+        it: 'Liquore di melone Midori',
+        vi: 'Liqueur dưa Midori',
+      },
     },
     {
       ingredient_id: 'ING_SWEET_AND_SOUR',
@@ -132,7 +136,11 @@ export const tokyoTea: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_LIME_SODA',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Lemon-lime soda (7-Up or Sprite)', it: 'Soda limone-lime (7-Up o Sprite)', vi: 'Soda chanh-lime (7-Up hoặc Sprite)' },
+      display_name: {
+        en: 'Lemon-lime soda (7-Up or Sprite)',
+        it: 'Soda limone-lime (7-Up o Sprite)',
+        vi: 'Soda chanh-lime (7-Up hoặc Sprite)',
+      },
     },
   ],
 
@@ -177,7 +185,14 @@ export const tokyoTea: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -185,7 +200,7 @@ export const tokyoTea: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-year'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'celebration', 'nightclub'],
 
   is_mocktail: false,
@@ -196,7 +211,8 @@ export const tokyoTea: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['long-island-iced-tea', 'long-beach-iced-tea', 'miami-iced-tea'],
 
-  notes_for_staff: 'EXTREMELY STRONG - 5 spirits total. The green color makes it visually appealing. Midori is essential for authentic Tokyo Tea. Warn customers about high alcohol content.',
+  notes_for_staff:
+    'EXTREMELY STRONG - 5 spirits total. The green color makes it visually appealing. Midori is essential for authentic Tokyo Tea. Warn customers about high alcohol content.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -209,7 +225,7 @@ export const tokyoTea: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1251/tokyo-tea',
-    note: 'Part of 1990s "geography iced tea" trend, featuring Midori melon liqueur.',
+    notes: 'Part of 1990s "geography iced tea" trend, featuring Midori melon liqueur.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

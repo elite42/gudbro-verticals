@@ -31,7 +31,7 @@ export const fireballShot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A straight shot of Fireball Cinnamon Whisky, the iconic spicy-sweet liqueur that became a cultural phenomenon. This simple but intense shot delivers powerful cinnamon candy flavor with a fiery kick that lives up to its name.',
-    it: 'Un shot diretto di Fireball Cinnamon Whisky, l\'iconico liquore piccante-dolce che è diventato un fenomeno culturale. Questo shot semplice ma intenso offre un potente sapore di caramella alla cannella con un calcio infuocato che è all\'altezza del suo nome.',
+    it: "Un shot diretto di Fireball Cinnamon Whisky, l'iconico liquore piccante-dolce che è diventato un fenomeno culturale. Questo shot semplice ma intenso offre un potente sapore di caramella alla cannella con un calcio infuocato che è all'altezza del suo nome.",
     vi: 'Một shot thẳng của Fireball Cinnamon Whisky, loại rượu mùi cay-ngọt mang tính biểu tượng đã trở thành hiện tượng văn hóa. Shot đơn giản nhưng mãnh liệt này mang đến hương vị kẹo quế mạnh mẽ với cú đá nóng bỏng xứng đáng với cái tên của nó.',
   },
 
@@ -101,7 +101,11 @@ export const fireballShot: Cocktail = {
     {
       ingredient_id: 'ING_FIREBALL_WHISKY',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Fireball Cinnamon Whisky', it: 'Fireball Cinnamon Whisky', vi: 'Fireball Cinnamon Whisky' },
+      display_name: {
+        en: 'Fireball Cinnamon Whisky',
+        it: 'Fireball Cinnamon Whisky',
+        vi: 'Fireball Cinnamon Whisky',
+      },
     },
   ],
 
@@ -146,7 +150,14 @@ export const fireballShot: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 3,
   },
 
@@ -165,7 +176,8 @@ export const fireballShot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['fireball-apple-cider', 'cinnamon-toast-crunch-shot', 'angry-balls'],
 
-  notes_for_staff: 'Store in freezer for smoother shots - the cold reduces the burn. Extremely popular but polarizing. Some customers prefer it mixed with apple cider or ginger ale. Check ID carefully as this is often requested by younger drinkers.',
+  notes_for_staff:
+    'Store in freezer for smoother shots - the cold reduces the burn. Extremely popular but polarizing. Some customers prefer it mixed with apple cider or ginger ale. Check ID carefully as this is often requested by younger drinkers.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -178,7 +190,7 @@ export const fireballShot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.fireballwhisky.com/',
-    note: 'Iconic cinnamon whisky that became a cultural phenomenon in the 2010s.',
+    notes: 'Iconic cinnamon whisky that became a cultural phenomenon in the 2010s.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

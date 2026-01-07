@@ -47,8 +47,8 @@ export const brownDerby: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created at the legendary Brown Derby Restaurant in Los Angeles during the 1930s, this cocktail became a favorite among Hollywood celebrities. The Brown Derby was one of the most famous restaurants of the Golden Age of Hollywood, frequented by stars like Clark Gable and Greta Garbo. The cocktail\'s simple recipe of bourbon, grapefruit, and honey created a refreshing drink that matched the California lifestyle. After falling into obscurity, it was rediscovered during the modern cocktail renaissance.',
-      it: 'Creato al leggendario Brown Derby Restaurant di Los Angeles durante gli anni \'30, questo cocktail divenne un favorito tra le celebrità di Hollywood. Il Brown Derby era uno dei ristoranti più famosi dell\'età d\'oro di Hollywood, frequentato da stelle come Clark Gable e Greta Garbo. La ricetta semplice del cocktail di bourbon, pompelmo e miele creò una bevanda rinfrescante che si adattava allo stile di vita californiano. Dopo essere caduto nell\'oblio, fu riscoperto durante il rinascimento moderno dei cocktail.',
+      en: "Created at the legendary Brown Derby Restaurant in Los Angeles during the 1930s, this cocktail became a favorite among Hollywood celebrities. The Brown Derby was one of the most famous restaurants of the Golden Age of Hollywood, frequented by stars like Clark Gable and Greta Garbo. The cocktail's simple recipe of bourbon, grapefruit, and honey created a refreshing drink that matched the California lifestyle. After falling into obscurity, it was rediscovered during the modern cocktail renaissance.",
+      it: "Creato al leggendario Brown Derby Restaurant di Los Angeles durante gli anni '30, questo cocktail divenne un favorito tra le celebrità di Hollywood. Il Brown Derby era uno dei ristoranti più famosi dell'età d'oro di Hollywood, frequentato da stelle come Clark Gable e Greta Garbo. La ricetta semplice del cocktail di bourbon, pompelmo e miele creò una bevanda rinfrescante che si adattava allo stile di vita californiano. Dopo essere caduto nell'oblio, fu riscoperto durante il rinascimento moderno dei cocktail.",
       vi: 'Được tạo ra tại Nhà hàng Brown Derby huyền thoại ở Los Angeles trong những năm 1930, cocktail này trở thành yêu thích của các ngôi sao Hollywood. Brown Derby là một trong những nhà hàng nổi tiếng nhất của Thời kỳ Hoàng kim Hollywood, được các ngôi sao như Clark Gable và Greta Garbo lui tới. Công thức đơn giản của cocktail với bourbon, bưởi và mật ong tạo ra thức uống sảng khoái phù hợp với lối sống California. Sau khi rơi vào quên lãng, nó được tái khám phá trong thời kỳ phục흥 cocktail hiện đại.',
     },
     named_after: {
@@ -168,7 +168,14 @@ export const brownDerby: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +194,8 @@ export const brownDerby: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['whiskey-sour', 'gold-rush'],
 
-  notes_for_staff: 'Use fresh grapefruit juice for best results. Honey syrup should be 1:1 ratio (honey:hot water). Shake hard to properly emulsify the honey. Can serve on rocks for a longer drink.',
+  notes_for_staff:
+    'Use fresh grapefruit juice for best results. Honey syrup should be 1:1 ratio (honey:hot water). Shake hard to properly emulsify the honey. Can serve on rocks for a longer drink.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +208,7 @@ export const brownDerby: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'Brown Derby Restaurant, Los Angeles, 1930s',
-    note: 'Classic Hollywood cocktail. Rediscovered during modern cocktail renaissance.',
+    notes: 'Classic Hollywood cocktail. Rediscovered during modern cocktail renaissance.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

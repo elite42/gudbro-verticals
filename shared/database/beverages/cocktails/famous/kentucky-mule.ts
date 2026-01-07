@@ -30,7 +30,7 @@ export const kentuckyMule: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A bourbon-based variation of the classic Moscow Mule, the Kentucky Mule combines bourbon whiskey with spicy ginger beer and fresh lime juice. Served in the traditional copper mug, this refreshing highball showcases how bourbon\'s vanilla and caramel notes harmonize beautifully with ginger\'s spice.',
+    en: "A bourbon-based variation of the classic Moscow Mule, the Kentucky Mule combines bourbon whiskey with spicy ginger beer and fresh lime juice. Served in the traditional copper mug, this refreshing highball showcases how bourbon's vanilla and caramel notes harmonize beautifully with ginger's spice.",
     it: 'Una variante a base di bourbon del classico Moscow Mule, il Kentucky Mule combina bourbon whiskey con ginger beer piccante e succo di lime fresco. Servito nella tradizionale tazza di rame, questo rinfrescante highball mostra come le note di vaniglia e caramello del bourbon si armonizzano magnificamente con il piccante dello zenzero.',
     vi: 'Một biến thể dựa trên bourbon của Moscow Mule cổ điển, Kentucky Mule kết hợp whiskey bourbon với bia gừng cay và nước chanh tươi. Được phục vụ trong cốc đồng truyền thống, highball sảng khoái này cho thấy cách hương vani và caramel của bourbon hòa quyện tuyệt đẹp với vị cay của gừng.',
   },
@@ -47,7 +47,7 @@ export const kentuckyMule: Cocktail = {
     },
     story: {
       en: 'The Kentucky Mule emerged as a natural variation of the Moscow Mule, which was created in the 1940s. As the Moscow Mule gained popularity, bartenders across America began substituting vodka with their local spirits. In Kentucky, the bourbon capital of the United States, it was only natural to create a version with bourbon. The drink gained mainstream popularity in the 2010s during the craft cocktail renaissance, becoming a go-to bourbon cocktail for those who find Old Fashioneds too strong.',
-      it: 'Il Kentucky Mule emerse come variazione naturale del Moscow Mule, creato negli anni \'40. Man mano che il Moscow Mule guadagnava popolarità, i barman in tutta l\'America iniziarono a sostituire la vodka con i loro spiriti locali. In Kentucky, la capitale del bourbon degli Stati Uniti, era naturale creare una versione con il bourbon. La bevanda guadagnò popolarità mainstream negli anni 2010 durante la rinascita dei cocktail artigianali, diventando un cocktail al bourbon di riferimento per chi trova gli Old Fashioned troppo forti.',
+      it: "Il Kentucky Mule emerse come variazione naturale del Moscow Mule, creato negli anni '40. Man mano che il Moscow Mule guadagnava popolarità, i barman in tutta l'America iniziarono a sostituire la vodka con i loro spiriti locali. In Kentucky, la capitale del bourbon degli Stati Uniti, era naturale creare una versione con il bourbon. La bevanda guadagnò popolarità mainstream negli anni 2010 durante la rinascita dei cocktail artigianali, diventando un cocktail al bourbon di riferimento per chi trova gli Old Fashioned troppo forti.",
       vi: 'Kentucky Mule xuất hiện như một biến thể tự nhiên của Moscow Mule, được tạo ra vào những năm 1940. Khi Moscow Mule trở nên phổ biến, các bartender khắp nước Mỹ bắt đầu thay thế vodka bằng rượu mạnh địa phương của họ. Ở Kentucky, thủ phủ bourbon của Hoa Kỳ, việc tạo ra một phiên bản với bourbon là điều tự nhiên. Thức uống trở nên phổ biến rộng rãi vào những năm 2010 trong thời kỳ phục hưng cocktail thủ công, trở thành cocktail bourbon ưa thích cho những ai thấy Old Fashioned quá mạnh.',
     },
     named_after: {
@@ -60,7 +60,7 @@ export const kentuckyMule: Cocktail = {
   taste: {
     profile: ['ginger', 'bourbon', 'citrus', 'refreshing'],
     description: {
-      en: 'Refreshing and complex. Bourbon\'s vanilla, oak, and caramel notes are lifted by spicy ginger beer, while fresh lime adds bright acidity. The copper mug keeps it ice cold, emphasizing the refreshing quality. Ginger\'s spice complements bourbon\'s warmth beautifully.',
+      en: "Refreshing and complex. Bourbon's vanilla, oak, and caramel notes are lifted by spicy ginger beer, while fresh lime adds bright acidity. The copper mug keeps it ice cold, emphasizing the refreshing quality. Ginger's spice complements bourbon's warmth beautifully.",
       it: 'Rinfrescante e complesso. Le note di vaniglia, rovere e caramello del bourbon sono sollevate dalla ginger beer piccante, mentre il lime fresco aggiunge acidità brillante. La tazza di rame lo mantiene ghiacciato, enfatizzando la qualità rinfrescante. Il piccante dello zenzero completa magnificamente il calore del bourbon.',
       vi: 'Sảng khoái và phức tạp. Hương vani, gỗ sồi và caramel của bourbon được nâng lên bởi bia gừng cay, trong khi chanh tươi thêm độ chua tươi sáng. Cốc đồng giữ nó lạnh như băng, nhấn mạnh chất lượng sảng khoái. Vị cay của gừng bổ sung tuyệt đẹp cho hơi ấm của bourbon.',
     },
@@ -75,7 +75,7 @@ export const kentuckyMule: Cocktail = {
       vi: 'Kết thúc sạch sẽ, sảng khoái với vị cay gừng và hương bourbon kéo dài',
     },
     balance: {
-      en: 'Well-balanced - ginger spice cuts bourbon\'s sweetness, lime adds brightness',
+      en: "Well-balanced - ginger spice cuts bourbon's sweetness, lime adds brightness",
       it: 'Ben bilanciato - il piccante dello zenzero taglia la dolcezza del bourbon, il lime aggiunge brillantezza',
       vi: 'Cân bằng tốt - vị cay gừng cắt vị ngọt bourbon, chanh thêm độ tươi sáng',
     },
@@ -178,7 +178,8 @@ export const kentuckyMule: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['spicy-kentucky-mule', 'apple-kentucky-mule', 'smoky-kentucky-mule'],
 
-  notes_for_staff: 'Use quality ginger beer with real ginger - not ginger ale. Copper mug preferred for presentation and temperature. Can muddle mint for extra freshness. Fresh lime juice essential.',
+  notes_for_staff:
+    'Use quality ginger beer with real ginger - not ginger ale. Copper mug preferred for presentation and temperature. Can muddle mint for extra freshness. Fresh lime juice essential.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -191,7 +192,7 @@ export const kentuckyMule: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/kentucky-mule/',
-    note: 'Modern variation of Moscow Mule, popularized in 2010s.',
+    notes: 'Modern variation of Moscow Mule, popularized in 2010s.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

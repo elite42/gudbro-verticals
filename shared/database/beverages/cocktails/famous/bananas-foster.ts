@@ -41,9 +41,9 @@ export const bananasFoster: Cocktail = {
       country: 'USA',
     },
     story: {
-      en: 'The Bananas Foster cocktail is a modern creation inspired by the classic dessert that was created in 1951 at Brennan\'s Restaurant in New Orleans. The original dessert, made with bananas, butter, brown sugar, cinnamon, dark rum, and banana liqueur, flambéed tableside, became an iconic New Orleans specialty. Bartenders in the 2000s began creating cocktail versions to capture those beloved flavors in a drinkable form. This liquid tribute combines the key flavors of rum, banana, and cream to evoke the rich, caramelized dessert.',
-      it: 'Il cocktail Bananas Foster è una creazione moderna ispirata al classico dessert creato nel 1951 al Brennan\'s Restaurant di New Orleans. Il dessert originale, fatto con banane, burro, zucchero di canna, cannella, rum scuro e liquore alla banana, flambé al tavolo, divenne una specialità iconica di New Orleans. I barman negli anni 2000 iniziarono a creare versioni cocktail per catturare quei sapori amati in forma bevibile. Questo tributo liquido combina i sapori chiave di rum, banana e panna per evocare il ricco dessert caramellato.',
-      vi: 'Cocktail Bananas Foster là sáng tạo hiện đại lấy cảm hứng từ món tráng miệng cổ điển được tạo ra vào năm 1951 tại Nhà hàng Brennan\'s ở New Orleans. Món tráng miệng gốc, được làm với chuối, bơ, đường nâu, quế, rum tối và rượu mùi chuối, đốt cháy bên bàn, đã trở thành đặc sản biểu tượng của New Orleans. Bartender vào những năm 2000 bắt đầu tạo ra các phiên bản cocktail để nắm bắt những hương vị được yêu thích đó dưới dạng có thể uống được. Lời tri ân lỏng này kết hợp các hương vị chính của rum, chuối và kem để gợi lên món tráng miệng caramen đậm đà.',
+      en: "The Bananas Foster cocktail is a modern creation inspired by the classic dessert that was created in 1951 at Brennan's Restaurant in New Orleans. The original dessert, made with bananas, butter, brown sugar, cinnamon, dark rum, and banana liqueur, flambéed tableside, became an iconic New Orleans specialty. Bartenders in the 2000s began creating cocktail versions to capture those beloved flavors in a drinkable form. This liquid tribute combines the key flavors of rum, banana, and cream to evoke the rich, caramelized dessert.",
+      it: "Il cocktail Bananas Foster è una creazione moderna ispirata al classico dessert creato nel 1951 al Brennan's Restaurant di New Orleans. Il dessert originale, fatto con banane, burro, zucchero di canna, cannella, rum scuro e liquore alla banana, flambé al tavolo, divenne una specialità iconica di New Orleans. I barman negli anni 2000 iniziarono a creare versioni cocktail per catturare quei sapori amati in forma bevibile. Questo tributo liquido combina i sapori chiave di rum, banana e panna per evocare il ricco dessert caramellato.",
+      vi: "Cocktail Bananas Foster là sáng tạo hiện đại lấy cảm hứng từ món tráng miệng cổ điển được tạo ra vào năm 1951 tại Nhà hàng Brennan's ở New Orleans. Món tráng miệng gốc, được làm với chuối, bơ, đường nâu, quế, rum tối và rượu mùi chuối, đốt cháy bên bàn, đã trở thành đặc sản biểu tượng của New Orleans. Bartender vào những năm 2000 bắt đầu tạo ra các phiên bản cocktail để nắm bắt những hương vị được yêu thích đó dưới dạng có thể uống được. Lời tri ân lỏng này kết hợp các hương vị chính của rum, chuối và kem để gợi lên món tráng miệng caramen đậm đà.",
     },
     named_after: {
       en: 'Named after the classic New Orleans dessert "Bananas Foster," which was created at Brennan\'s Restaurant and named after Richard Foster, a local civic leader.',
@@ -79,7 +79,7 @@ export const bananasFoster: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['dessert', 'celebration', 'tropical_party', 'mardi_gras'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Perfect as a dessert replacement or with banana-based desserts, bread pudding, or vanilla ice cream. Also pairs well with caramel desserts and pecan pie.',
       it: 'Perfetto come sostituto del dessert o con dessert a base di banana, budino di pane o gelato alla vaniglia. Si abbina bene anche con dessert al caramello e torta di noci pecan.',
@@ -166,7 +166,7 @@ export const bananasFoster: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['dessert', 'celebration'],
 
   is_mocktail: false,
@@ -177,7 +177,8 @@ export const bananasFoster: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['frozen-bananas-foster', 'bananas-foster-colada', 'flaming-bananas-foster'],
 
-  notes_for_staff: 'Inspired by the classic New Orleans dessert. Some versions add a dash of cinnamon syrup or butterscotch liqueur for extra authenticity. Can be served frozen for a more dessert-like experience. For dramatic presentation, can lightly flame the banana garnish tableside (use caution).',
+  notes_for_staff:
+    'Inspired by the classic New Orleans dessert. Some versions add a dash of cinnamon syrup or butterscotch liqueur for extra authenticity. Can be served frozen for a more dessert-like experience. For dramatic presentation, can lightly flame the banana garnish tableside (use caution).',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +191,7 @@ export const bananasFoster: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/8713/bananas-foster-cocktail',
-    note: 'Cocktail version of the famous 1951 New Orleans dessert.',
+    notes: 'Cocktail version of the famous 1951 New Orleans dessert.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

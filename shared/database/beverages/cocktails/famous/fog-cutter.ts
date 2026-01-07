@@ -39,7 +39,7 @@ export const fogCutter: Cocktail = {
     created_year: '1947',
     origin: {
       city: 'Oakland',
-      bar: 'Trader Vic\'s',
+      bar: "Trader Vic's",
       country: 'USA',
     },
     creator: {
@@ -87,13 +87,13 @@ export const fogCutter: Cocktail = {
     occasions: ['tiki_bar', 'celebration', 'adventurous_drinking'],
     seasons: ['summer', 'autumn'],
     food_pairings: {
-      en: 'Perfect with Polynesian-style dishes, teriyaki chicken, grilled pork, or Chinese spare ribs. Also pairs well with rich, fatty foods that can stand up to the drink\'s intensity.',
-      it: 'Perfetto con piatti in stile polinesiano, pollo teriyaki, maiale alla griglia o costine cinesi. Si abbina bene anche con cibi ricchi e grassi che possono reggere l\'intensità della bevanda.',
+      en: "Perfect with Polynesian-style dishes, teriyaki chicken, grilled pork, or Chinese spare ribs. Also pairs well with rich, fatty foods that can stand up to the drink's intensity.",
+      it: "Perfetto con piatti in stile polinesiano, pollo teriyaki, maiale alla griglia o costine cinesi. Si abbina bene anche con cibi ricchi e grassi che possono reggere l'intensità della bevanda.",
       vi: 'Hoàn hảo với các món kiểu Polynesia, gà teriyaki, thịt lợn nướng hoặc sườn Trung Quốc. Cũng kết hợp tốt với thức ăn giàu chất béo có thể chịu được cường độ của thức uống.',
     },
     ideal_for: {
       en: 'Perfect for adventurous drinkers and tiki enthusiasts seeking an authentic Trader Vic experience. Ideal for those who appreciate complex, spirit-forward cocktails. Warning: extremely potent - pace yourself.',
-      it: 'Perfetto per bevitori avventurosi e appassionati di tiki che cercano un\'autentica esperienza Trader Vic. Ideale per chi apprezza cocktail complessi orientati ai distillati. Avvertimento: estremamente potente - fai le cose con calma.',
+      it: "Perfetto per bevitori avventurosi e appassionati di tiki che cercano un'autentica esperienza Trader Vic. Ideale per chi apprezza cocktail complessi orientati ai distillati. Avvertimento: estremamente potente - fai le cose con calma.",
       vi: 'Hoàn hảo cho những người uống mạo hiểm và những người đam mê tiki tìm kiếm trải nghiệm Trader Vic chính thống. Lý tưởng cho những ai đánh giá cao cocktail phức tạp, hướng về rượu mạnh. Cảnh báo: cực kỳ mạnh - hãy uống từ từ.',
     },
   },
@@ -120,12 +120,16 @@ export const fogCutter: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_ORGEAT',
@@ -135,7 +139,11 @@ export const fogCutter: Cocktail = {
     {
       ingredient_id: 'ING_SHERRY_CREAM',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Cream sherry (float)', it: 'Sherry crema (galleggiante)', vi: 'Cream sherry (nổi)' },
+      display_name: {
+        en: 'Cream sherry (float)',
+        it: 'Sherry crema (galleggiante)',
+        vi: 'Cream sherry (nổi)',
+      },
     },
   ],
 
@@ -151,7 +159,7 @@ export const fogCutter: Cocktail = {
 
   garnish: {
     en: 'Fresh mint sprig, orange slice',
-    it: 'Rametto di menta fresca, fetta d\'arancia',
+    it: "Rametto di menta fresca, fetta d'arancia",
     vi: 'Nhành bạc hà tươi, lát cam',
   },
 
@@ -199,7 +207,8 @@ export const fogCutter: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['trader-vics-fog-cutter'],
 
-  notes_for_staff: 'One of Trader Vic\'s most potent creations. The sherry float is essential - pour carefully over the back of a spoon. Orgeat contains almonds. Warn guests: "Two of these and you won\'t see any fog." Very strong - limit to 1-2 per guest.',
+  notes_for_staff:
+    'One of Trader Vic\'s most potent creations. The sherry float is essential - pour carefully over the back of a spoon. Orgeat contains almonds. Warn guests: "Two of these and you won\'t see any fog." Very strong - limit to 1-2 per guest.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -212,7 +221,8 @@ export const fogCutter: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://tradervics.com/cocktails/',
-    note: 'Original Trader Vic recipe from 1947. Trader Vic\'s Bartender\'s Guide. Tiki cocktail archives.',
+    notes:
+      "Original Trader Vic recipe from 1947. Trader Vic's Bartender's Guide. Tiki cocktail archives.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

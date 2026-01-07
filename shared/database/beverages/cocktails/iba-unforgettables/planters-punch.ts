@@ -56,7 +56,7 @@ export const plantersPunch: Cocktail = {
     },
     named_after: {
       en: 'Named after the plantation owners (planters) in the Caribbean who popularized this refreshing rum punch during the colonial era.',
-      it: 'Prende il nome dai proprietari delle piantagioni (planters) nei Caraibi che resero popolare questo rinfrescante punch al rum durante l\'era coloniale.',
+      it: "Prende il nome dai proprietari delle piantagioni (planters) nei Caraibi che resero popolare questo rinfrescante punch al rum durante l'era coloniale.",
       vi: 'Được đặt theo tên chủ đồn điền (planters) ở vùng Caribbean, những người đã phổ biến loại punch rượu rum sảng khoái này trong thời kỳ thuộc địa.',
     },
   },
@@ -64,7 +64,7 @@ export const plantersPunch: Cocktail = {
   taste: {
     profile: ['tropical', 'citrus', 'sweet'],
     description: {
-      en: 'Bold and tropical with rich dark rum as the foundation, balanced by tart lime and orange juices. The sugar syrup rounds out the flavors, creating a harmonious blend that\'s both refreshing and satisfying. The dark rum provides depth and complexity with notes of molasses and caramel, while the citrus keeps it bright and lively.',
+      en: "Bold and tropical with rich dark rum as the foundation, balanced by tart lime and orange juices. The sugar syrup rounds out the flavors, creating a harmonious blend that's both refreshing and satisfying. The dark rum provides depth and complexity with notes of molasses and caramel, while the citrus keeps it bright and lively.",
       it: 'Audace e tropicale con rum scuro ricco come base, bilanciato da succhi aspri di lime e arancia. Lo sciroppo di zucchero arrotonda i sapori, creando una miscela armoniosa che è sia rinfrescante che soddisfacente. Il rum scuro fornisce profondità e complessità con note di melassa e caramello, mentre gli agrumi lo mantengono brillante e vivace.',
       vi: 'Táo bạo và nhiệt đới với rượu rum đen đậm đà làm nền, được cân bằng bởi nước cốt chanh và cam chua. Xi-rô đường làm tròn hương vị, tạo ra sự pha trộn hài hòa vừa sảng khoái vừa thỏa mãn. Rượu rum đen mang lại chiều sâu và độ phức tạp với hương mật mía và caramel, trong khi cam quýt giữ cho nó tươi sáng và sống động.',
     },
@@ -96,7 +96,7 @@ export const plantersPunch: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for rum enthusiasts who love tropical classics. An excellent choice for summer parties, tiki gatherings, or anyone seeking an authentic Caribbean experience. The drink is social and shareable, making it ideal for group celebrations.',
-      it: 'Perfetto per gli appassionati di rum che amano i classici tropicali. Una scelta eccellente per feste estive, riunioni tiki, o per chiunque cerchi un\'esperienza caraibica autentica. Il drink è sociale e condivisibile, rendendolo ideale per le celebrazioni di gruppo.',
+      it: "Perfetto per gli appassionati di rum che amano i classici tropicali. Una scelta eccellente per feste estive, riunioni tiki, o per chiunque cerchi un'esperienza caraibica autentica. Il drink è sociale e condivisibile, rendendolo ideale per le celebrazioni di gruppo.",
       vi: 'Hoàn hảo cho những người đam mê rượu rum yêu thích các loại cocktail nhiệt đới cổ điển. Lựa chọn tuyệt vời cho các bữa tiệc mùa hè, các buổi tụ tập tiki hoặc bất kỳ ai tìm kiếm trải nghiệm Caribbean chính thống. Đồ uống mang tính xã hội và chia sẻ, làm cho nó lý tưởng cho các lễ kỷ niệm nhóm.',
     },
   },
@@ -113,17 +113,25 @@ export const plantersPunch: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 35, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
       quantity: { amount: 35, unit: 'ml' },
-      display_name: { en: 'Fresh pineapple juice', it: 'Succo di ananas fresco', vi: 'Nước ép dứa tươi' },
+      display_name: {
+        en: 'Fresh pineapple juice',
+        it: 'Succo di ananas fresco',
+        vi: 'Nước ép dứa tươi',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_GRENADINE',
@@ -154,7 +162,7 @@ export const plantersPunch: Cocktail = {
 
   garnish: {
     en: 'Pineapple slice, maraschino cherry, and orange slice',
-    it: 'Fetta di ananas, ciliegia maraschino e fetta d\'arancia',
+    it: "Fetta di ananas, ciliegia maraschino e fetta d'arancia",
     vi: 'Lát dứa, quả anh đào maraschino và lát cam',
   },
 
@@ -183,7 +191,14 @@ export const plantersPunch: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -202,7 +217,8 @@ export const plantersPunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['jamaican-planters-punch', 'navy-grog', 'tropical-punch'],
 
-  notes_for_staff: 'Use fresh juices for best results - never use concentrate. The classic ratio is "one of sour, two of sweet, three of strong, four of weak." Myers\'s Dark Rum is traditional. Garnish generously for tropical presentation. Can be scaled up for party punch bowls.',
+  notes_for_staff:
+    'Use fresh juices for best results - never use concentrate. The classic ratio is "one of sour, two of sweet, three of strong, four of weak." Myers\'s Dark Rum is traditional. Garnish generously for tropical presentation. Can be scaled up for party punch bowls.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -215,7 +231,8 @@ export const plantersPunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/planters-punch/',
-    note: 'IBA Official Recipe. Historical information from the Jamaican newspaper "Fun" (1878) and Myers Rum Distillery archives.',
+    notes:
+      'IBA Official Recipe. Historical information from the Jamaican newspaper "Fun" (1878) and Myers Rum Distillery archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

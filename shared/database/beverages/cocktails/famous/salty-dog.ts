@@ -45,7 +45,7 @@ export const saltyDog: Cocktail = {
     },
     story: {
       en: 'The Salty Dog is a variation of the Greyhound that emerged in the early 1950s. The addition of the salt rim was inspired by the Margarita\'s salted edge, which had gained popularity around the same time. Originally made with gin, the vodka version became more popular during the vodka boom of the 1960s and 1970s. The name "Salty Dog" is a nautical term for a seasoned sailor, fitting the drink\'s coastal, refreshing character.',
-      it: 'Il Salty Dog è una variazione del Greyhound emersa all\'inizio degli anni \'50. L\'aggiunta del bordo salato fu ispirata dal bordo salato del Margarita, che aveva guadagnato popolarità nello stesso periodo. Originariamente fatto con gin, la versione con vodka divenne più popolare durante il boom della vodka degli anni \'60 e \'70. Il nome "Salty Dog" è un termine nautico per un marinaio esperto, adatto al carattere costiero e rinfrescante del drink.',
+      it: "Il Salty Dog è una variazione del Greyhound emersa all'inizio degli anni '50. L'aggiunta del bordo salato fu ispirata dal bordo salato del Margarita, che aveva guadagnato popolarità nello stesso periodo. Originariamente fatto con gin, la versione con vodka divenne più popolare durante il boom della vodka degli anni '60 e '70. Il nome \"Salty Dog\" è un termine nautico per un marinaio esperto, adatto al carattere costiero e rinfrescante del drink.",
       vi: 'Salty Dog là một biến thể của Greyhound xuất hiện vào đầu những năm 1950. Việc thêm viền muối được lấy cảm hứng từ viền muối của Margarita, cũng trở nên phổ biến vào cùng thời kỳ. Ban đầu được làm với gin, phiên bản vodka trở nên phổ biến hơn trong thời kỳ bùng nổ vodka của những năm 1960 và 1970. Cái tên "Salty Dog" là thuật ngữ hàng hải cho một thủy thủ dày dạn, phù hợp với đặc tính ven biển, tươi mát của thức uống.',
     },
     named_after: {
@@ -58,8 +58,8 @@ export const saltyDog: Cocktail = {
   taste: {
     profile: ['citrus', 'bitter', 'salty', 'refreshing'],
     description: {
-      en: 'The salt rim transforms the drink, adding a savory dimension that enhances the grapefruit\'s natural tartness and bitterness. Each sip provides a complex interplay between the salty edge, bitter citrus, and clean vodka.',
-      it: 'Il bordo salato trasforma il drink, aggiungendo una dimensione salata che esalta l\'acidità naturale e l\'amaro del pompelmo. Ogni sorso offre una complessa interazione tra il bordo salato, gli agrumi amari e la vodka pulita.',
+      en: "The salt rim transforms the drink, adding a savory dimension that enhances the grapefruit's natural tartness and bitterness. Each sip provides a complex interplay between the salty edge, bitter citrus, and clean vodka.",
+      it: "Il bordo salato trasforma il drink, aggiungendo una dimensione salata che esalta l'acidità naturale e l'amaro del pompelmo. Ogni sorso offre una complessa interazione tra il bordo salato, gli agrumi amari e la vodka pulita.",
       vi: 'Viền muối biến đổi thức uống, thêm chiều hướng mặn mà làm nổi bật vị chua tự nhiên và đắng của bưởi. Mỗi ngụm mang lại sự tương tác phức tạp giữa viền mặn, cam quýt đắng và vodka trong sạch.',
     },
     first_impression: {
@@ -74,7 +74,7 @@ export const saltyDog: Cocktail = {
     },
     balance: {
       en: 'The salt rim creates a perfect harmony between sweet, sour, bitter, and salty - a true four-dimensional cocktail',
-      it: 'Il bordo salato crea un\'armonia perfetta tra dolce, acido, amaro e salato - un vero cocktail a quattro dimensioni',
+      it: "Il bordo salato crea un'armonia perfetta tra dolce, acido, amaro e salato - un vero cocktail a quattro dimensioni",
       vi: 'Viền muối tạo ra sự hài hòa hoàn hảo giữa ngọt, chua, đắng và mặn - cocktail thực sự bốn chiều',
     },
   },
@@ -107,12 +107,20 @@ export const saltyDog: Cocktail = {
     {
       ingredient_id: 'ING_GRAPEFRUIT_JUICE',
       quantity: { amount: 120, unit: 'ml' },
-      display_name: { en: 'Fresh grapefruit juice', it: 'Succo di pompelmo fresco', vi: 'Nước ép bưởi tươi' },
+      display_name: {
+        en: 'Fresh grapefruit juice',
+        it: 'Succo di pompelmo fresco',
+        vi: 'Nước ép bưởi tươi',
+      },
     },
     {
       ingredient_id: 'ING_SALT',
       quantity: { amount: 1, unit: 'tsp' },
-      display_name: { en: 'Coarse salt (for rim)', it: 'Sale grosso (per il bordo)', vi: 'Muối thô (cho viền)' },
+      display_name: {
+        en: 'Coarse salt (for rim)',
+        it: 'Sale grosso (per il bordo)',
+        vi: 'Muối thô (cho viền)',
+      },
     },
   ],
 
@@ -157,7 +165,14 @@ export const saltyDog: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -176,7 +191,8 @@ export const saltyDog: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['greyhound', 'gin-salty-dog'],
 
-  notes_for_staff: 'Use coarse salt, not fine table salt, for proper rim texture. Pink Himalayan salt looks beautiful. Original recipe used gin instead of vodka - offer as variation. Be generous with the salt rim.',
+  notes_for_staff:
+    'Use coarse salt, not fine table salt, for proper rim texture. Pink Himalayan salt looks beautiful. Original recipe used gin instead of vodka - offer as variation. Be generous with the salt rim.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -189,7 +205,7 @@ export const saltyDog: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1235/salty-dog',
-    note: 'Variant of the Greyhound, documented in classic cocktail literature.',
+    notes: 'Variant of the Greyhound, documented in classic cocktail literature.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

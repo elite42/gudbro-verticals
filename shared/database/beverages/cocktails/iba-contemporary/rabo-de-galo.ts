@@ -33,7 +33,7 @@ export const raboDeGalo: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'Brazil\'s classic cachaça cocktail, combining cachaça with sweet vermouth and a touch of Cynar. Simple yet sophisticated, this drink showcases the grassy, vegetal notes of cachaça balanced with Italian bitters.',
+    en: "Brazil's classic cachaça cocktail, combining cachaça with sweet vermouth and a touch of Cynar. Simple yet sophisticated, this drink showcases the grassy, vegetal notes of cachaça balanced with Italian bitters.",
     it: 'Il cocktail classico brasiliano a base di cachaça, che combina cachaça con vermut dolce e un tocco di Cynar. Semplice ma sofisticato, questo drink mette in mostra le note erbacee e vegetali della cachaça bilanciate con amari italiani.',
     vi: 'Cocktail cachaça kinh điển của Brazil, kết hợp cachaça với vermouth ngọt và một chút Cynar. Đơn giản nhưng tinh tế, thức uống này thể hiện hương vị cỏ, thực vật của cachaça cân bằng với rượu mùi Ý.',
   },
@@ -86,12 +86,12 @@ export const raboDeGalo: Cocktail = {
     seasons: ['autumn', 'winter', 'spring'],
     food_pairings: {
       en: 'Excellent as an aperitivo with Brazilian snacks, coxinha, pão de queijo, olives, or charcuterie. The bitter notes stimulate appetite.',
-      it: 'Eccellente come aperitivo con snack brasiliani, coxinha, pão de queijo, olive o salumi. Le note amare stimolano l\'appetito.',
+      it: "Eccellente come aperitivo con snack brasiliani, coxinha, pão de queijo, olive o salumi. Le note amare stimolano l'appetito.",
       vi: 'Tuyệt vời như một aperitivo với đồ ăn nhẹ Brazil, coxinha, pão de queijo, ô liu hoặc charcuterie. Hương vị đắng kích thích vị giác.',
     },
     ideal_for: {
       en: 'Perfect for those who appreciate bitter, complex cocktails and want to explore Brazilian spirits. Great for aperitivo hour.',
-      it: 'Perfetto per chi apprezza cocktail amari e complessi e vuole esplorare gli spiriti brasiliani. Ottimo per l\'ora dell\'aperitivo.',
+      it: "Perfetto per chi apprezza cocktail amari e complessi e vuole esplorare gli spiriti brasiliani. Ottimo per l'ora dell'aperitivo.",
       vi: 'Hoàn hảo cho những ai đánh giá cao cocktail đắng, phức tạp và muốn khám phá rượu mạnh Brazil. Tuyệt vời cho giờ aperitivo.',
     },
   },
@@ -121,7 +121,7 @@ export const raboDeGalo: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into a mixing glass with ice. Stir well. Strain into a chilled cocktail glass. Garnish with an orange twist.',
-    it: 'Versare tutti gli ingredienti in un mixing glass con ghiaccio. Mescolare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con una scorza d\'arancia.',
+    it: "Versare tutti gli ingredienti in un mixing glass con ghiaccio. Mescolare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con una scorza d'arancia.",
     vi: 'Đổ tất cả nguyên liệu vào ly trộn với đá. Khuấy kỹ. Lọc vào ly cocktail đã làm lạnh. Trang trí với vỏ cam xoắn.',
   },
 
@@ -129,7 +129,7 @@ export const raboDeGalo: Cocktail = {
 
   garnish: {
     en: 'Orange twist',
-    it: 'Scorza d\'arancia',
+    it: "Scorza d'arancia",
     vi: 'Vỏ cam xoắn',
   },
 
@@ -158,7 +158,14 @@ export const raboDeGalo: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -177,7 +184,8 @@ export const raboDeGalo: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['rabo-de-galo-aged'],
 
-  notes_for_staff: 'Stir, don\'t shake - maintains clarity. Use quality cachaça (aged is nice but not required). Cynar is essential - don\'t substitute. Express orange oils over drink before garnishing.',
+  notes_for_staff:
+    "Stir, don't shake - maintains clarity. Use quality cachaça (aged is nice but not required). Cynar is essential - don't substitute. Express orange oils over drink before garnishing.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +198,7 @@ export const raboDeGalo: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/rabo-de-galo/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

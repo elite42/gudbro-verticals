@@ -32,7 +32,7 @@ export const tequilaSlammer: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A festive party drink combining tequila with lemon-lime soda or champagne, served with a slam-and-shoot ritual. The Tequila Slammer is as much about the performance as the taste, creating an effervescent, fizzy shot that\'s become a nightclub staple.',
+    en: "A festive party drink combining tequila with lemon-lime soda or champagne, served with a slam-and-shoot ritual. The Tequila Slammer is as much about the performance as the taste, creating an effervescent, fizzy shot that's become a nightclub staple.",
     it: 'Un drink da festa festivo che combina tequila con soda al limone-lime o champagne, servito con un rituale di slam-and-shoot. Il Tequila Slammer riguarda tanto la performance quanto il gusto, creando uno shot effervescente e frizzante che è diventato un punto fermo dei nightclub.',
     vi: 'Một thức uống tiệc tùng lễ hội kết hợp tequila với soda chanh-lime hoặc champagne, được phục vụ với nghi lệ đập-và-uống. Tequila Slammer là về màn trình diễn nhiều như hương vị, tạo ra một shot sủi bọt, có ga đã trở thành thức uống chính của hộp đêm.',
   },
@@ -58,8 +58,8 @@ export const tequilaSlammer: Cocktail = {
   taste: {
     profile: ['sweet', 'citrus', 'fizzy', 'agave'],
     description: {
-      en: 'Bright citrus sweetness with tequila\'s agave notes, enhanced by intense carbonation from the slamming action. The fizz creates a unique tingling sensation and makes the drink surprisingly smooth and easy to shoot despite the tequila base.',
-      it: 'Dolcezza agrumata brillante con note di agave della tequila, esaltata dall\'intensa carbonazione dall\'azione di slamming. La frizzantezza crea una sensazione di formicolio unica e rende il drink sorprendentemente morbido e facile da bere nonostante la base di tequila.',
+      en: "Bright citrus sweetness with tequila's agave notes, enhanced by intense carbonation from the slamming action. The fizz creates a unique tingling sensation and makes the drink surprisingly smooth and easy to shoot despite the tequila base.",
+      it: "Dolcezza agrumata brillante con note di agave della tequila, esaltata dall'intensa carbonazione dall'azione di slamming. La frizzantezza crea una sensazione di formicolio unica e rende il drink sorprendentemente morbido e facile da bere nonostante la base di tequila.",
       vi: 'Vị ngọt cam quýt tươi sáng với hương agave của tequila, được tăng cường bởi khí CO2 mạnh từ hành động đập. Bọt tạo ra cảm giác ngứa ran độc đáo và làm cho thức uống mượt mà và dễ uống một cách đáng ngạc nhiên mặc dù có cơ sở tequila.',
     },
     first_impression: {
@@ -73,7 +73,7 @@ export const tequilaSlammer: Cocktail = {
       vi: 'Kết thúc nhanh, trong sạch với hơi ấm tequila kéo dài',
     },
     balance: {
-      en: 'The soda sweetness balances the tequila\'s bite, while carbonation makes it dangerously easy to drink',
+      en: "The soda sweetness balances the tequila's bite, while carbonation makes it dangerously easy to drink",
       it: 'La dolcezza della soda bilancia il morso della tequila, mentre la carbonazione lo rende pericolosamente facile da bere',
       vi: 'Vị ngọt của soda cân bằng vị nồng của tequila, trong khi khí CO2 khiến nó cực kỳ dễ uống',
     },
@@ -82,7 +82,7 @@ export const tequilaSlammer: Cocktail = {
   recommendations: {
     best_time: ['night', 'late_night'],
     occasions: ['party', 'celebration', 'nightclub', 'birthday'],
-    seasons: ['all-year'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Typically consumed as a party shot without food. If pairing, works with Mexican appetizers, nachos, tacos, and salty snacks.',
       it: 'Tipicamente consumato come shot da festa senza cibo. Se abbinato, funziona con antipasti messicani, nachos, tacos e snack salati.',
@@ -107,14 +107,18 @@ export const tequilaSlammer: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_LIME_SODA',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Lemon-lime soda (7-Up or Sprite)', it: 'Soda limone-lime (7-Up o Sprite)', vi: 'Soda chanh-lime (7-Up hoặc Sprite)' },
+      display_name: {
+        en: 'Lemon-lime soda (7-Up or Sprite)',
+        it: 'Soda limone-lime (7-Up o Sprite)',
+        vi: 'Soda chanh-lime (7-Up hoặc Sprite)',
+      },
     },
   ],
 
   method: 'build',
 
   instructions: {
-    en: 'Pour tequila into a rocks glass or highball glass. Add lemon-lime soda. Cover the top of the glass firmly with your hand. Slam the glass down on the bar to create fizz. Immediately shoot the drink while it\'s still fizzing.',
+    en: "Pour tequila into a rocks glass or highball glass. Add lemon-lime soda. Cover the top of the glass firmly with your hand. Slam the glass down on the bar to create fizz. Immediately shoot the drink while it's still fizzing.",
     it: 'Versare la tequila in un bicchiere rocks o highball. Aggiungere soda limone-lime. Coprire saldamente la parte superiore del bicchiere con la mano. Sbattere il bicchiere sul bancone per creare effervescenza. Bere immediatamente il drink mentre è ancora frizzante.',
     vi: 'Rót tequila vào ly rocks hoặc ly highball. Thêm soda chanh-lime. Che chặt đỉnh ly bằng tay. Đập ly xuống quầy bar để tạo bọt. Uống ngay thức uống khi nó còn đang sủi bọt.',
   },
@@ -152,7 +156,14 @@ export const tequilaSlammer: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -160,7 +171,7 @@ export const tequilaSlammer: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-year'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'celebration', 'nightclub'],
 
   is_mocktail: false,
@@ -171,7 +182,8 @@ export const tequilaSlammer: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['tequila-boom-boom', 'champagne-slammer'],
 
-  notes_for_staff: 'Champagne version uses equal parts tequila and champagne - more expensive but smoother. Demonstrate the slam technique to customers. Use sturdy glassware. Popular as a group shot. Equal parts (50/50) ratio is standard.',
+  notes_for_staff:
+    'Champagne version uses equal parts tequila and champagne - more expensive but smoother. Demonstrate the slam technique to customers. Use sturdy glassware. Popular as a group shot. Equal parts (50/50) ratio is standard.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -184,7 +196,7 @@ export const tequilaSlammer: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1242/tequila-slammer',
-    note: 'Mexican party shot popularized in 1980s, featured in "Cocktail" (1988).',
+    notes: 'Mexican party shot popularized in 1980s, featured in "Cocktail" (1988).',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

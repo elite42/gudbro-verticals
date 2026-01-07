@@ -43,8 +43,8 @@ export const mudslide: Cocktail = {
       country: 'Cayman Islands',
     },
     story: {
-      en: 'The Mudslide was created in the 1970s at the Wreck Bar on Grand Cayman Island. The original version was made with vodka, Kahlúa, and Baileys Irish Cream, served over ice. As the drink gained popularity in beach bars and resorts, the frozen blended version became more common, transforming it into the dessert-like cocktail we know today. The name references the drink\'s thick, muddy appearance when blended.',
-      it: 'Il Mudslide fu creato negli anni \'70 al Wreck Bar sull\'isola di Grand Cayman. La versione originale era fatta con vodka, Kahlúa e Baileys Irish Cream, servita con ghiaccio. Con la popolarità acquisita nei bar sulla spiaggia e nei resort, la versione frozen frullata divenne più comune, trasformandola nel cocktail simile a un dessert che conosciamo oggi. Il nome fa riferimento all\'aspetto denso e fangoso della bevanda quando è frullata.',
+      en: "The Mudslide was created in the 1970s at the Wreck Bar on Grand Cayman Island. The original version was made with vodka, Kahlúa, and Baileys Irish Cream, served over ice. As the drink gained popularity in beach bars and resorts, the frozen blended version became more common, transforming it into the dessert-like cocktail we know today. The name references the drink's thick, muddy appearance when blended.",
+      it: "Il Mudslide fu creato negli anni '70 al Wreck Bar sull'isola di Grand Cayman. La versione originale era fatta con vodka, Kahlúa e Baileys Irish Cream, servita con ghiaccio. Con la popolarità acquisita nei bar sulla spiaggia e nei resort, la versione frozen frullata divenne più comune, trasformandola nel cocktail simile a un dessert che conosciamo oggi. Il nome fa riferimento all'aspetto denso e fangoso della bevanda quando è frullata.",
       vi: 'Mudslide được tạo ra vào những năm 1970 tại Wreck Bar trên đảo Grand Cayman. Phiên bản gốc được làm với vodka, Kahlúa và Baileys Irish Cream, phục vụ với đá. Khi thức uống trở nên phổ biến ở các quầy bar bãi biển và khu nghỉ dưỡng, phiên bản xay đông lạnh trở nên phổ biến hơn, biến nó thành cocktail giống món tráng miệng mà chúng ta biết ngày nay. Cái tên ám chỉ vẻ ngoài dày, đục như bùn của thức uống khi xay.',
     },
     named_after: {
@@ -58,7 +58,7 @@ export const mudslide: Cocktail = {
     profile: ['creamy', 'sweet', 'coffee', 'chocolate'],
     description: {
       en: 'Extremely rich and dessert-like, with chocolate and coffee flavors melding into a creamy, ice cream-like consistency. Sweet and indulgent with minimal alcohol taste despite the high spirit content.',
-      it: 'Estremamente ricco e simile a un dessert, con sapori di cioccolato e caffè che si fondono in una consistenza cremosa simile al gelato. Dolce e indulgente con un sapore alcolico minimo nonostante l\'alto contenuto di spiriti.',
+      it: "Estremamente ricco e simile a un dessert, con sapori di cioccolato e caffè che si fondono in una consistenza cremosa simile al gelato. Dolce e indulgente con un sapore alcolico minimo nonostante l'alto contenuto di spiriti.",
       vi: 'Cực kỳ đậm đà và giống món tráng miệng, với hương vị chocolate và cà phê hòa quyện thành kết cấu béo ngậy như kem. Ngọt và nuông chiều với vị cồn tối thiểu mặc dù hàm lượng rượu cao.',
     },
     first_impression: {
@@ -81,7 +81,7 @@ export const mudslide: Cocktail = {
   recommendations: {
     best_time: ['afternoon', 'evening'],
     occasions: ['dessert', 'celebration', 'beach', 'casual'],
-    seasons: ['summer', 'all_seasons'],
+    seasons: ['summer', 'all_year'],
     food_pairings: {
       en: 'Best enjoyed as a dessert replacement. Pairs well with light appetizers or as an after-dinner treat. Can accompany chocolate cake or brownie.',
       it: 'Si gusta meglio come sostituto del dessert. Si abbina bene con antipasti leggeri o come dolcetto dopo cena. Può accompagnare torta al cioccolato o brownie.',
@@ -132,7 +132,7 @@ export const mudslide: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a blender with 1 cup of ice. Blend until smooth and creamy. Optionally, drizzle chocolate syrup inside a hurricane or poco grande glass. Pour blended mixture into glass. Top with whipped cream and chocolate shavings.',
-    it: 'Aggiungere tutti gli ingredienti in un frullatore con 1 tazza di ghiaccio. Frullare fino a ottenere una consistenza liscia e cremosa. Opzionalmente, decorare l\'interno di un bicchiere hurricane o poco grande con sciroppo di cioccolato. Versare il composto frullato nel bicchiere. Guarnire con panna montata e scaglie di cioccolato.',
+    it: "Aggiungere tutti gli ingredienti in un frullatore con 1 tazza di ghiaccio. Frullare fino a ottenere una consistenza liscia e cremosa. Opzionalmente, decorare l'interno di un bicchiere hurricane o poco grande con sciroppo di cioccolato. Versare il composto frullato nel bicchiere. Guarnire con panna montata e scaglie di cioccolato.",
     vi: 'Cho tất cả nguyên liệu vào máy xay với 1 chén đá. Xay cho đến khi mịn và béo ngậy. Tùy chọn, rưới siro chocolate bên trong ly hurricane hoặc poco grande. Rót hỗn hợp đã xay vào ly. Phủ kem tươi và phoi chocolate lên trên.',
   },
 
@@ -177,7 +177,7 @@ export const mudslide: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['summer', 'all-seasons'],
+  season_tags: ['summer', 'all_year'],
   occasion_tags: ['dessert', 'casual', 'celebration'],
 
   is_mocktail: false,
@@ -188,7 +188,8 @@ export const mudslide: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['chocolate-mudslide', 'peanut-butter-mudslide', 'frozen-mudslide'],
 
-  notes_for_staff: 'Can be served on the rocks or frozen - frozen version is more popular. Use vanilla ice cream instead of cream for an even richer version. Chocolate rim optional but popular. High calorie count - warn health-conscious guests.',
+  notes_for_staff:
+    'Can be served on the rocks or frozen - frozen version is more popular. Use vanilla ice cream instead of cream for an even richer version. Chocolate rim optional but popular. High calorie count - warn health-conscious guests.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -201,7 +202,7 @@ export const mudslide: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/mudslide/',
-    note: 'Classic frozen dessert cocktail from Cayman Islands.',
+    notes: 'Classic frozen dessert cocktail from Cayman Islands.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -47,7 +47,7 @@ export const pickleback: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Pickleback was invented in 2006 by bartender Reggie Cunningham at the Bushwick Country Club in Brooklyn, New York. The story goes that a regular customer requested pickle juice to chase his whiskey shot, and the combination was so surprisingly effective that it caught on. The drink spread rapidly through Brooklyn\'s bar scene and eventually became a nationwide phenomenon, spawning variations with different pickle brines and spirits.',
+      en: "The Pickleback was invented in 2006 by bartender Reggie Cunningham at the Bushwick Country Club in Brooklyn, New York. The story goes that a regular customer requested pickle juice to chase his whiskey shot, and the combination was so surprisingly effective that it caught on. The drink spread rapidly through Brooklyn's bar scene and eventually became a nationwide phenomenon, spawning variations with different pickle brines and spirits.",
       it: 'Il Pickleback è stato inventato nel 2006 dal barman Reggie Cunningham al Bushwick Country Club di Brooklyn, New York. La storia racconta che un cliente abituale ha chiesto succo di cetrioli per accompagnare il suo shot di whiskey, e la combinazione è stata così sorprendentemente efficace che ha preso piede. La bevanda si è diffusa rapidamente nella scena dei bar di Brooklyn ed è infine diventata un fenomeno nazionale, generando variazioni con diverse salamoie di cetrioli e distillati.',
       vi: 'Pickleback được phát minh vào năm 2006 bởi bartender Reggie Cunningham tại Bushwick Country Club ở Brooklyn, New York. Câu chuyện kể rằng một khách hàng thường xuyên yêu cầu nước dưa chuột để chaser shot whiskey của mình, và sự kết hợp này hiệu quả đến mức đáng ngạc nhiên đến nỗi nó bắt đầu lan truyền. Thức uống lan nhanh qua làng bar Brooklyn và cuối cùng trở thành hiện tượng toàn quốc, tạo ra các biến thể với nước muối dưa chuột và rượu khác nhau.',
     },
@@ -62,7 +62,7 @@ export const pickleback: Cocktail = {
     profile: ['savory', 'salty', 'sour', 'briny'],
     description: {
       en: 'The whiskey hits first with its characteristic burn and warmth. The pickle brine chaser immediately follows, cutting through the alcohol with tangy, salty, vinegar-forward flavor. The combination neutralizes the whiskey burn surprisingly well, leaving a clean, refreshing finish.',
-      it: 'Il whiskey colpisce per primo con il suo caratteristico bruciore e calore. Il chaser di salamoia di cetrioli segue immediatamente, tagliando l\'alcol con un sapore piccante, salato, orientato all\'aceto. La combinazione neutralizza sorprendentemente bene il bruciore del whiskey, lasciando un finale pulito e rinfrescante.',
+      it: "Il whiskey colpisce per primo con il suo caratteristico bruciore e calore. Il chaser di salamoia di cetrioli segue immediatamente, tagliando l'alcol con un sapore piccante, salato, orientato all'aceto. La combinazione neutralizza sorprendentemente bene il bruciore del whiskey, lasciando un finale pulito e rinfrescante.",
       vi: 'Whiskey đập vào đầu tiên với cảm giác bỏng rát và hơi ấm đặc trưng. Chaser nước muối dưa chuột ngay lập tức theo sau, cắt qua rượu với hương vị chua, mặn, hướng giấm. Sự kết hợp trung hòa cảm giác bỏng whiskey một cách đáng ngạc nhiên, để lại kết thúc sạch sẽ, sảng khoái.',
     },
     first_impression: {
@@ -85,7 +85,7 @@ export const pickleback: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['party', 'casual', 'bar_hopping', 'dive_bar'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Excellent with bar snacks, fried foods, burgers, and deli sandwiches. The savory nature complements salty, fatty foods perfectly.',
       it: 'Eccellente con snack da bar, cibi fritti, hamburger e panini della gastronomia. La natura salata completa perfettamente i cibi salati e grassi.',
@@ -93,7 +93,7 @@ export const pickleback: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for whiskey drinkers who want an easier chaser than beer or water. Great for those who love pickles and savory drinks. A fun novelty that actually works remarkably well.',
-      it: 'Perfetto per i bevitori di whiskey che vogliono un chaser più facile della birra o dell\'acqua. Ottimo per chi ama i cetrioli e le bevande salate. Una novità divertente che in realtà funziona notevolmente bene.',
+      it: "Perfetto per i bevitori di whiskey che vogliono un chaser più facile della birra o dell'acqua. Ottimo per chi ama i cetrioli e le bevande salate. Una novità divertente che in realtà funziona notevolmente bene.",
       vi: 'Hoàn hảo cho người uống whiskey muốn chaser dễ dàng hơn bia hoặc nước. Tuyệt vời cho những ai yêu dưa chuột và đồ uống mặn mà. Một món mới lạ vui vẻ thực sự hoạt động tuyệt vời.',
     },
   },
@@ -105,12 +105,20 @@ export const pickleback: Cocktail = {
     {
       ingredient_id: 'ING_WHISKEY',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Whiskey (bourbon or rye)', it: 'Whiskey (bourbon o rye)', vi: 'Whiskey (bourbon hoặc rye)' },
+      display_name: {
+        en: 'Whiskey (bourbon or rye)',
+        it: 'Whiskey (bourbon o rye)',
+        vi: 'Whiskey (bourbon hoặc rye)',
+      },
     },
     {
       ingredient_id: 'ING_PICKLE_BRINE',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Pickle Brine (dill pickle juice)', it: 'Salamoia di Cetrioli (succo di cetrioli all\'aneto)', vi: 'Nước Muối Dưa Chuột (nước dưa chuột thì là)' },
+      display_name: {
+        en: 'Pickle Brine (dill pickle juice)',
+        it: "Salamoia di Cetrioli (succo di cetrioli all'aneto)",
+        vi: 'Nước Muối Dưa Chuột (nước dưa chuột thì là)',
+      },
     },
   ],
 
@@ -155,7 +163,14 @@ export const pickleback: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -163,7 +178,7 @@ export const pickleback: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'casual', 'bar-hopping'],
 
   is_mocktail: false,
@@ -174,7 +189,8 @@ export const pickleback: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['tequila-pickleback', 'mezcal-pickleback', 'vodka-pickleback', 'kimchi-back'],
 
-  notes_for_staff: 'Use dill pickle brine from good quality pickles - avoid sweet pickle juice. Some customers prefer spicy pickle brine. Serve both shots at the same time. Can substitute with other whiskeys or even tequila/mezcal. Very polarizing - some love it, others hate the idea.',
+  notes_for_staff:
+    'Use dill pickle brine from good quality pickles - avoid sweet pickle juice. Some customers prefer spicy pickle brine. Serve both shots at the same time. Can substitute with other whiskeys or even tequila/mezcal. Very polarizing - some love it, others hate the idea.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -187,7 +203,7 @@ export const pickleback: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://en.wikipedia.org/wiki/Pickleback',
-    note: 'Brooklyn bar invention from 2006. Whiskey shot with pickle brine chaser.',
+    notes: 'Brooklyn bar invention from 2006. Whiskey shot with pickle brine chaser.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

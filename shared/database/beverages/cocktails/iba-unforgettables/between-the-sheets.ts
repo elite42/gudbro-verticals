@@ -24,8 +24,8 @@ export const betweenTheSheets: Cocktail = {
   tags: ['iba', 'official', 'classic', 'strong', 'prohibition-era', 'citrus', 'sidecar-variation'],
 
   description: {
-    en: 'A potent Prohibition-era cocktail that\'s essentially a Sidecar with rum added. The suggestive name and smooth, citrusy taste made it a favorite during the roaring twenties. Three spirits unite with orange and lemon for a sophisticated, dangerously drinkable classic.',
-    it: 'Un potente cocktail dell\'era del Proibizionismo che è essenzialmente un Sidecar con l\'aggiunta di rum. Il nome suggestivo e il gusto morbido e agrumato lo resero un favorito durante i ruggenti anni \'20. Tre distillati si uniscono con arancia e limone per un classico sofisticato e pericolosamente bevibile.',
+    en: "A potent Prohibition-era cocktail that's essentially a Sidecar with rum added. The suggestive name and smooth, citrusy taste made it a favorite during the roaring twenties. Three spirits unite with orange and lemon for a sophisticated, dangerously drinkable classic.",
+    it: "Un potente cocktail dell'era del Proibizionismo che è essenzialmente un Sidecar con l'aggiunta di rum. Il nome suggestivo e il gusto morbido e agrumato lo resero un favorito durante i ruggenti anni '20. Tre distillati si uniscono con arancia e limone per un classico sofisticato e pericolosamente bevibile.",
     vi: 'Một cocktail mạnh mẽ thời Cấm rượu về cơ bản là Sidecar với rum thêm vào. Cái tên gợi cảm và hương vị cam quýt mượt mà khiến nó trở thành món yêu thích trong những năm 1920 cuồng nhiệt. Ba loại rượu kết hợp với cam và chanh tạo nên một tác phẩm kinh điển tinh tế, nguy hiểm dễ uống.',
   },
 
@@ -33,7 +33,7 @@ export const betweenTheSheets: Cocktail = {
     created_year: '1920s',
     origin: {
       city: 'Paris',
-      bar: 'Harry\'s New York Bar',
+      bar: "Harry's New York Bar",
       country: 'France',
     },
     creator: {
@@ -41,8 +41,8 @@ export const betweenTheSheets: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Between the Sheets was created at Harry\'s New York Bar in Paris during the 1920s Prohibition era, when Americans flocked to Europe to drink legally. The cocktail is essentially a variation of the Sidecar (also born at Harry\'s Bar) with white rum added to the mix. The provocative name was typical of the era\'s playful attitude toward drinking. Some attribute it to a French bartender who created it as a "nightcap" - hence the bedroom reference.',
-      it: 'Between the Sheets fu creato all\'Harry\'s New York Bar di Parigi durante l\'era del Proibizionismo degli anni \'20, quando gli americani affluivano in Europa per bere legalmente. Il cocktail è essenzialmente una variazione del Sidecar (anch\'esso nato all\'Harry\'s Bar) con l\'aggiunta di rum bianco. Il nome provocante era tipico dell\'atteggiamento giocoso dell\'epoca verso il bere. Alcuni lo attribuiscono a un barman francese che lo creò come "nightcap" - da qui il riferimento alla camera da letto.',
+      en: "Between the Sheets was created at Harry's New York Bar in Paris during the 1920s Prohibition era, when Americans flocked to Europe to drink legally. The cocktail is essentially a variation of the Sidecar (also born at Harry's Bar) with white rum added to the mix. The provocative name was typical of the era's playful attitude toward drinking. Some attribute it to a French bartender who created it as a \"nightcap\" - hence the bedroom reference.",
+      it: "Between the Sheets fu creato all'Harry's New York Bar di Parigi durante l'era del Proibizionismo degli anni '20, quando gli americani affluivano in Europa per bere legalmente. Il cocktail è essenzialmente una variazione del Sidecar (anch'esso nato all'Harry's Bar) con l'aggiunta di rum bianco. Il nome provocante era tipico dell'atteggiamento giocoso dell'epoca verso il bere. Alcuni lo attribuiscono a un barman francese che lo creò come \"nightcap\" - da qui il riferimento alla camera da letto.",
       vi: 'Between the Sheets được tạo ra tại Harry\'s New York Bar ở Paris trong thời kỳ Cấm rượu những năm 1920, khi người Mỹ đổ xô đến châu Âu để uống hợp pháp. Cocktail về cơ bản là một biến thể của Sidecar (cũng sinh ra tại Harry\'s Bar) với rum trắng thêm vào. Cái tên khiêu khích là điển hình của thái độ vui vẻ của thời đại đối với việc uống rượu. Một số người cho rằng nó được tạo ra bởi một bartender Pháp như một "nightcap" - do đó có ám chỉ phòng ngủ.',
     },
     named_after: {
@@ -111,7 +111,11 @@ export const betweenTheSheets: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh Lemon Juice', it: 'Succo di Limone Fresco', vi: 'Nước Chanh Tươi' },
+      display_name: {
+        en: 'Fresh Lemon Juice',
+        it: 'Succo di Limone Fresco',
+        vi: 'Nước Chanh Tươi',
+      },
     },
   ],
 
@@ -144,7 +148,14 @@ export const betweenTheSheets: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -157,14 +168,15 @@ export const betweenTheSheets: Cocktail = {
 
   variants: ['sidecar'],
 
-  notes_for_staff: 'Very strong cocktail - warn guests. Think of it as a boozy Sidecar. Use quality cognac and fresh lemon juice. Some variations use Cointreau instead of triple sec for a richer orange flavor.',
+  notes_for_staff:
+    'Very strong cocktail - warn guests. Think of it as a boozy Sidecar. Use quality cognac and fresh lemon juice. Some variations use Cointreau instead of triple sec for a richer orange flavor.',
 
   price_tier: 'mid',
   popularity: 55,
 
   source: {
     primary: 'https://iba-world.com/between-the-sheets/',
-    note: 'IBA Official Recipe. Originated at Harry\'s New York Bar, Paris, 1920s.',
+    notes: "IBA Official Recipe. Originated at Harry's New York Bar, Paris, 1920s.",
   },
 
   created_at: NOW,

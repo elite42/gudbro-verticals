@@ -33,8 +33,8 @@ export const paradise: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A delightful Prohibition-era cocktail that combines gin\'s botanical character with the stone-fruit sweetness of apricot brandy and bright citrus. One of the original IBA cocktails, the Paradise offers a perfect balance of fruity and herbal notes.',
-    it: 'Un delizioso cocktail dell\'era del Proibizionismo che combina il carattere botanico del gin con la dolcezza di frutta a nocciolo del brandy di albicocca e agrumi brillanti. Uno dei cocktail IBA originali, il Paradise offre un perfetto equilibrio di note fruttate ed erbacee.',
+    en: "A delightful Prohibition-era cocktail that combines gin's botanical character with the stone-fruit sweetness of apricot brandy and bright citrus. One of the original IBA cocktails, the Paradise offers a perfect balance of fruity and herbal notes.",
+    it: "Un delizioso cocktail dell'era del Proibizionismo che combina il carattere botanico del gin con la dolcezza di frutta a nocciolo del brandy di albicocca e agrumi brillanti. Uno dei cocktail IBA originali, il Paradise offre un perfetto equilibrio di note fruttate ed erbacee.",
     vi: 'Một cocktail thú vị từ thời Cấm rượu kết hợp đặc tính thực vật của gin với vị ngọt trái cây có hạt của brandy mơ và cam quýt tươi sáng. Một trong những cocktail IBA gốc, Paradise mang đến sự cân bằng hoàn hảo giữa hương vị trái cây và thảo mộc.',
   },
 
@@ -64,8 +64,8 @@ export const paradise: Cocktail = {
   taste: {
     profile: ['fruity', 'citrus', 'botanical'],
     description: {
-      en: 'Bright and fruity with apricot sweetness balanced by citrus acidity and gin\'s botanical backbone. The orange juice provides body while lemon adds zing, creating a harmonious and refreshing cocktail.',
-      it: 'Luminoso e fruttato con dolcezza di albicocca bilanciata dall\'acidità degli agrumi e dalla struttura botanica del gin. Il succo d\'arancia fornisce corpo mentre il limone aggiunge vivacità, creando un cocktail armonioso e rinfrescante.',
+      en: "Bright and fruity with apricot sweetness balanced by citrus acidity and gin's botanical backbone. The orange juice provides body while lemon adds zing, creating a harmonious and refreshing cocktail.",
+      it: "Luminoso e fruttato con dolcezza di albicocca bilanciata dall'acidità degli agrumi e dalla struttura botanica del gin. Il succo d'arancia fornisce corpo mentre il limone aggiunge vivacità, creando un cocktail armonioso e rinfrescante.",
       vi: 'Tươi sáng và trái cây với vị ngọt mơ cân bằng bởi độ chua cam quýt và xương sống thực vật của gin. Nước cam cung cấp thân thể trong khi chanh thêm sức sống, tạo ra một cocktail hài hòa và sảng khoái.',
     },
     first_impression: {
@@ -118,12 +118,16 @@ export const paradise: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 10, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
   ],
 
@@ -139,7 +143,7 @@ export const paradise: Cocktail = {
 
   garnish: {
     en: 'Orange twist or lemon twist',
-    it: 'Scorza d\'arancia o scorza di limone',
+    it: "Scorza d'arancia o scorza di limone",
     vi: 'Vỏ cam hoặc vỏ chanh',
   },
 
@@ -168,7 +172,14 @@ export const paradise: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +198,8 @@ export const paradise: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['aviation', 'clover-club', 'white-lady'],
 
-  notes_for_staff: 'Use fresh citrus juices only - bottled will not do. The 2:1:1 ratio is easy to remember. Quality apricot brandy makes a big difference. Shake well for proper dilution and to integrate fruit juices.',
+  notes_for_staff:
+    'Use fresh citrus juices only - bottled will not do. The 2:1:1 ratio is easy to remember. Quality apricot brandy makes a big difference. Shake well for proper dilution and to integrate fruit juices.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +212,8 @@ export const paradise: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/paradise/',
-    note: 'IBA Official Recipe. Historical information from Harry Craddock\'s "Savoy Cocktail Book" (1930).',
+    notes:
+      'IBA Official Recipe. Historical information from Harry Craddock\'s "Savoy Cocktail Book" (1930).',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

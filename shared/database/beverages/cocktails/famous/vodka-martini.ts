@@ -47,13 +47,13 @@ export const vodkaMartini: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Vodka Martini emerged in the 1950s during vodka\'s rise to popularity in America. While gin purists considered it sacrilege, the vodka variation quickly gained a following for its clean, neutral character. The drink was catapulted to iconic status by Ian Fleming\'s James Bond, who ordered it "shaken, not stirred" in the novels and films. Bond\'s specific order - the Vesper - called for vodka, gin, and Kina Lillet. The standard Vodka Martini became the drink of choice for those who wanted the sophistication of a martini without gin\'s assertive botanicals. By the 1980s and 90s, the Vodka Martini had become more popular than the original gin version in many American bars.',
-      it: 'Il Vodka Martini emerse negli anni \'50 durante l\'ascesa della popolarità della vodka in America. Mentre i puristi del gin lo consideravano un sacrilegio, la variante vodka guadagnò rapidamente un seguito per il suo carattere pulito e neutrale. La bevanda fu catapultata allo status iconico da James Bond di Ian Fleming, che lo ordinava "shakerato, non mescolato" nei romanzi e nei film. L\'ordine specifico di Bond - il Vesper - richiedeva vodka, gin e Kina Lillet. Il Vodka Martini standard divenne la bevanda preferita per chi voleva la sofisticazione di un martini senza i botanici assertivi del gin. Negli anni \'80 e \'90, il Vodka Martini era diventato più popolare della versione originale al gin in molti bar americani.',
+      en: "The Vodka Martini emerged in the 1950s during vodka's rise to popularity in America. While gin purists considered it sacrilege, the vodka variation quickly gained a following for its clean, neutral character. The drink was catapulted to iconic status by Ian Fleming's James Bond, who ordered it \"shaken, not stirred\" in the novels and films. Bond's specific order - the Vesper - called for vodka, gin, and Kina Lillet. The standard Vodka Martini became the drink of choice for those who wanted the sophistication of a martini without gin's assertive botanicals. By the 1980s and 90s, the Vodka Martini had become more popular than the original gin version in many American bars.",
+      it: "Il Vodka Martini emerse negli anni '50 durante l'ascesa della popolarità della vodka in America. Mentre i puristi del gin lo consideravano un sacrilegio, la variante vodka guadagnò rapidamente un seguito per il suo carattere pulito e neutrale. La bevanda fu catapultata allo status iconico da James Bond di Ian Fleming, che lo ordinava \"shakerato, non mescolato\" nei romanzi e nei film. L'ordine specifico di Bond - il Vesper - richiedeva vodka, gin e Kina Lillet. Il Vodka Martini standard divenne la bevanda preferita per chi voleva la sofisticazione di un martini senza i botanici assertivi del gin. Negli anni '80 e '90, il Vodka Martini era diventato più popolare della versione originale al gin in molti bar americani.",
       vi: 'Vodka Martini xuất hiện vào những năm 1950 trong thời kỳ vodka tăng độ phổ biến ở Mỹ. Trong khi những người thuần túy gin coi đó là tội lỗi, biến thể vodka nhanh chóng có được lượng người theo dõi vì tính cách sạch, trung tính của nó. Thức uống được đưa lên vị trí biểu tượng bởi James Bond của Ian Fleming, người đã gọi nó "lắc, không khuấy" trong tiểu thuyết và phim. Đơn hàng cụ thể của Bond - Vesper - yêu cầu vodka, gin và Kina Lillet. Vodka Martini tiêu chuẩn trở thành lựa chọn của những ai muốn sự tinh tế của martini mà không có thực vật quyết đoán của gin. Đến những năm 1980 và 90, Vodka Martini đã trở nên phổ biến hơn phiên bản gin gốc ở nhiều quán bar Mỹ.',
     },
     named_after: {
-      en: 'Named as the vodka variation of the classic Martini cocktail. Made globally famous by James Bond\'s signature order.',
-      it: 'Prende il nome come variante vodka del classico cocktail Martini. Reso famoso a livello globale dall\'ordine caratteristico di James Bond.',
+      en: "Named as the vodka variation of the classic Martini cocktail. Made globally famous by James Bond's signature order.",
+      it: "Prende il nome come variante vodka del classico cocktail Martini. Reso famoso a livello globale dall'ordine caratteristico di James Bond.",
       vi: 'Được đặt tên là biến thể vodka của cocktail Martini cổ điển. Nổi tiếng toàn cầu nhờ đơn hàng đặc trưng của James Bond.',
     },
   },
@@ -61,7 +61,7 @@ export const vodkaMartini: Cocktail = {
   taste: {
     profile: ['clean', 'smooth', 'crisp'],
     description: {
-      en: 'Exceptionally clean and smooth with a silky mouthfeel. The Vodka Martini is all about the quality of the vodka and the subtle vermouth influence. When made well, it\'s crystal clear in flavor - smooth, slightly herbal from the vermouth, with a cold, clean finish.',
+      en: "Exceptionally clean and smooth with a silky mouthfeel. The Vodka Martini is all about the quality of the vodka and the subtle vermouth influence. When made well, it's crystal clear in flavor - smooth, slightly herbal from the vermouth, with a cold, clean finish.",
       it: 'Eccezionalmente pulito e liscio con una sensazione setosa in bocca. Il Vodka Martini riguarda la qualità della vodka e la sottile influenza del vermouth. Quando fatto bene, è cristallino nel sapore - liscio, leggermente erbaceo dal vermouth, con un finale freddo e pulito.',
       vi: 'Đặc biệt sạch và mượt với cảm giác lụa trong miệng. Vodka Martini là tất cả về chất lượng của vodka và ảnh hưởng tinh tế của vermouth. Khi được pha chế tốt, nó trong như pha lê về hương vị - mượt, hơi thảo mộc từ vermouth, với kết thúc lạnh, sạch.',
     },
@@ -92,7 +92,7 @@ export const vodkaMartini: Cocktail = {
       vi: 'Kết hợp cổ điển bao gồm hàu, trứng cá muối, cá hồi hun khói và các loại hải sản tinh tế khác. Cũng tuyệt vời với ô liu, hạnh nhân và món khai vị nhẹ.',
     },
     ideal_for: {
-      en: 'Perfect for those who appreciate clean, minimalist cocktails. Ideal for vodka enthusiasts who want the sophistication of a martini without gin\'s botanical complexity. The choice of sophisticates and James Bond fans worldwide.',
+      en: "Perfect for those who appreciate clean, minimalist cocktails. Ideal for vodka enthusiasts who want the sophistication of a martini without gin's botanical complexity. The choice of sophisticates and James Bond fans worldwide.",
       it: 'Perfetto per chi apprezza cocktail puliti e minimalisti. Ideale per gli appassionati di vodka che vogliono la sofisticazione di un martini senza la complessità botanica del gin. La scelta di sofisticati e fan di James Bond in tutto il mondo.',
       vi: 'Hoàn hảo cho những ai đánh giá cao cocktail sạch, tối giản. Lý tưởng cho những người đam mê vodka muốn sự tinh tế của martini mà không có sự phức tạp thực vật của gin. Lựa chọn của những người tinh tế và người hâm mộ James Bond trên toàn thế giới.',
     },
@@ -155,7 +155,14 @@ export const vodkaMartini: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'nut_free', 'dairy_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'nut_free',
+      'dairy_free',
+    ],
     spice_level: 0,
   },
 
@@ -174,7 +181,8 @@ export const vodkaMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['vesper', 'dirty-martini', 'espresso-martini'],
 
-  notes_for_staff: 'Use premium vodka - quality is paramount here. Store vodka and vermouth in freezer for extra-cold serve. Traditional method is stirred, but offer shaken if requested (Bond-style). Vermouth amount varies: "dry" = less vermouth, "wet" = more vermouth, "dirty" = add olive brine. Always use fresh vermouth.',
+  notes_for_staff:
+    'Use premium vodka - quality is paramount here. Store vodka and vermouth in freezer for extra-cold serve. Traditional method is stirred, but offer shaken if requested (Bond-style). Vermouth amount varies: "dry" = less vermouth, "wet" = more vermouth, "dirty" = add olive brine. Always use fresh vermouth.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -187,7 +195,7 @@ export const vodkaMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/2374/vodka-martini',
-    note: 'Classic recipe with James Bond cultural influence. Various cocktail history sources.',
+    notes: 'Classic recipe with James Bond cultural influence. Various cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

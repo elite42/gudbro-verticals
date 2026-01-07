@@ -92,7 +92,7 @@ export const hemingwayDaiquiri: Cocktail = {
       vi: 'Tuyệt vời với hải sản tươi, ceviche, hàu hoặc salad nhẹ. Hoàn hảo như khai vị làm sạch vị giác trước bữa ăn giàu dinh dưỡng.',
     },
     ideal_for: {
-      en: 'Perfect for those who prefer tart, sugar-free cocktails. Ideal for rum lovers seeking a bright, refreshing drink without sweetness, or anyone following Hemingway\'s legendary example.',
+      en: "Perfect for those who prefer tart, sugar-free cocktails. Ideal for rum lovers seeking a bright, refreshing drink without sweetness, or anyone following Hemingway's legendary example.",
       it: 'Perfetto per chi preferisce cocktail aspri e senza zucchero. Ideale per gli amanti del rum che cercano un drink brillante e rinfrescante senza dolcezza, o chiunque segua il leggendario esempio di Hemingway.',
       vi: 'Hoàn hảo cho những ai thích cocktail chua, không đường. Lý tưởng cho người yêu rum tìm kiếm thức uống tươi sáng, sảng khoái mà không có vị ngọt, hoặc bất kỳ ai theo gương huyền thoại của Hemingway.',
     },
@@ -115,7 +115,11 @@ export const hemingwayDaiquiri: Cocktail = {
     {
       ingredient_id: 'ING_GRAPEFRUIT_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh grapefruit juice', it: 'Succo di pompelmo fresco', vi: 'Nước bưởi tươi' },
+      display_name: {
+        en: 'Fresh grapefruit juice',
+        it: 'Succo di pompelmo fresco',
+        vi: 'Nước bưởi tươi',
+      },
     },
     {
       ingredient_id: 'ING_MARASCHINO_LIQUEUR',
@@ -165,7 +169,15 @@ export const hemingwayDaiquiri: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free', 'sugar_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+      'sugar_free',
+    ],
     spice_level: 0,
   },
 
@@ -184,7 +196,8 @@ export const hemingwayDaiquiri: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['papa-doble', 'hemingway-special', 'daiquiri-natural'],
 
-  notes_for_staff: 'No sugar added - Hemingway was diabetic. Double rum makes this strong. Use fresh grapefruit juice only. Luxardo maraschino is preferred. Legend says Hemingway drank these in quantities of 6-12 per session. Serve very cold.',
+  notes_for_staff:
+    'No sugar added - Hemingway was diabetic. Double rum makes this strong. Use fresh grapefruit juice only. Luxardo maraschino is preferred. Legend says Hemingway drank these in quantities of 6-12 per session. Serve very cold.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +210,8 @@ export const hemingwayDaiquiri: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1375/hemingway-daiquiri',
-    note: 'Created at El Floridita, Havana, 1930s. Hemingway\'s signature drink, also known as Papa Doble.',
+    notes:
+      "Created at El Floridita, Havana, 1930s. Hemingway's signature drink, also known as Papa Doble.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

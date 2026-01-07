@@ -34,7 +34,7 @@ export const mimosa: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'An elegant and refreshing champagne cocktail combining sparkling wine with fresh orange juice. The quintessential brunch cocktail, beloved for its simplicity and bright, effervescent character.',
-    it: 'Un elegante e rinfrescante cocktail a base di champagne che combina vino spumante con succo d\'arancia fresco. Il cocktail per brunch per eccellenza, amato per la sua semplicità e il suo carattere brillante ed effervescente.',
+    it: "Un elegante e rinfrescante cocktail a base di champagne che combina vino spumante con succo d'arancia fresco. Il cocktail per brunch per eccellenza, amato per la sua semplicità e il suo carattere brillante ed effervescente.",
     vi: 'Một cocktail champagne thanh lịch và sảng khoái kết hợp rượu vang sủi với nước cam tươi. Cocktail brunch tinh túy, được yêu thích vì sự đơn giản và tính chất sáng, sủi bọt.',
   },
 
@@ -51,7 +51,7 @@ export const mimosa: Cocktail = {
     },
     story: {
       en: 'Created at the Hôtel Ritz Paris in 1925, allegedly by bartender Frank Meier. The drink was named after the mimosa flower due to its similar yellow-orange color. It became the signature drink of the Parisian elite and gained international fame as the ultimate brunch cocktail.',
-      it: 'Creato all\'Hôtel Ritz Paris nel 1925, presumibilmente dal barman Frank Meier. La bevanda prende il nome dal fiore di mimosa per il suo simile colore giallo-arancio. Divenne la bevanda distintiva dell\'élite parigina e ottenne fama internazionale come il cocktail da brunch per eccellenza.',
+      it: "Creato all'Hôtel Ritz Paris nel 1925, presumibilmente dal barman Frank Meier. La bevanda prende il nome dal fiore di mimosa per il suo simile colore giallo-arancio. Divenne la bevanda distintiva dell'élite parigina e ottenne fama internazionale come il cocktail da brunch per eccellenza.",
       vi: 'Được tạo ra tại Hôtel Ritz Paris vào năm 1925, được cho là bởi bartender Frank Meier. Thức uống được đặt tên theo hoa mimosa do màu vàng cam tương tự. Nó trở thành thức uống đặc trưng của giới thượng lưu Paris và nổi tiếng quốc tế như cocktail brunch tối thượng.',
     },
     named_after: {
@@ -65,7 +65,7 @@ export const mimosa: Cocktail = {
     profile: ['citrus', 'sparkling', 'refreshing'],
     description: {
       en: 'Light, bright, and effervescent. Fresh orange juice provides natural sweetness and acidity, while champagne adds sophisticated bubbles and crisp dryness. Simple yet elegant.',
-      it: 'Leggero, brillante ed effervescente. Il succo d\'arancia fresco fornisce dolcezza naturale e acidità, mentre lo champagne aggiunge bollicine sofisticate e secchezza croccante. Semplice ma elegante.',
+      it: "Leggero, brillante ed effervescente. Il succo d'arancia fresco fornisce dolcezza naturale e acidità, mentre lo champagne aggiunge bollicine sofisticate e secchezza croccante. Semplice ma elegante.",
       vi: 'Nhẹ nhàng, sáng và sủi bọt. Nước cam tươi cung cấp vị ngọt tự nhiên và độ acid, trong khi champagne thêm bong bóng tinh tế và độ khô giòn. Đơn giản nhưng thanh lịch.',
     },
     first_impression: {
@@ -80,7 +80,7 @@ export const mimosa: Cocktail = {
     },
     balance: {
       en: 'Perfect balance between champagne dryness and orange sweetness',
-      it: 'Equilibrio perfetto tra la secchezza dello champagne e la dolcezza dell\'arancia',
+      it: "Equilibrio perfetto tra la secchezza dello champagne e la dolcezza dell'arancia",
       vi: 'Cân bằng hoàn hảo giữa độ khô của champagne và vị ngọt của cam',
     },
   },
@@ -108,12 +108,16 @@ export const mimosa: Cocktail = {
     {
       ingredient_id: 'ING_CHAMPAGNE',
       quantity: { amount: 75, unit: 'ml' },
-      display_name: { en: 'Champagne (or sparkling wine)', it: 'Champagne (o spumante)', vi: 'Champagne (hoặc rượu vang sủi)' },
+      display_name: {
+        en: 'Champagne (or sparkling wine)',
+        it: 'Champagne (o spumante)',
+        vi: 'Champagne (hoặc rượu vang sủi)',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 75, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
   ],
 
@@ -121,7 +125,7 @@ export const mimosa: Cocktail = {
 
   instructions: {
     en: 'Pour orange juice into a champagne flute. Gently top with chilled champagne. Stir gently and briefly. Optionally garnish with an orange twist.',
-    it: 'Versare il succo d\'arancia in una coppa da champagne. Completare delicatamente con champagne freddo. Mescolare delicatamente e brevemente. Guarnire opzionalmente con una scorza d\'arancia.',
+    it: "Versare il succo d'arancia in una coppa da champagne. Completare delicatamente con champagne freddo. Mescolare delicatamente e brevemente. Guarnire opzionalmente con una scorza d'arancia.",
     vi: 'Đổ nước cam vào ly champagne flute. Nhẹ nhàng rót champagne lạnh lên trên. Kấy nhẹ và ngắn gọn. Tùy chọn trang trí với vỏ cam xoắn.',
   },
 
@@ -129,7 +133,7 @@ export const mimosa: Cocktail = {
 
   garnish: {
     en: 'Orange twist (optional)',
-    it: 'Scorza d\'arancia (opzionale)',
+    it: "Scorza d'arancia (opzionale)",
     vi: 'Vỏ cam xoắn (tùy chọn)',
   },
 
@@ -158,7 +162,14 @@ export const mimosa: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -177,7 +188,8 @@ export const mimosa: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['grand-mimosa', 'poinsettia', 'bellini'],
 
-  notes_for_staff: 'Always use fresh-squeezed orange juice for best results. Champagne should be well-chilled. Pour orange juice first, then top with champagne. Traditional ratio is 1:1 but can be adjusted to taste.',
+  notes_for_staff:
+    'Always use fresh-squeezed orange juice for best results. Champagne should be well-chilled. Pour orange juice first, then top with champagne. Traditional ratio is 1:1 but can be adjusted to taste.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +202,7 @@ export const mimosa: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/mimosa/',
-    note: 'IBA Official Recipe. Historical information from Ritz Paris archives.',
+    notes: 'IBA Official Recipe. Historical information from Ritz Paris archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

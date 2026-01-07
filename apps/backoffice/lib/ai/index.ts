@@ -16,3 +16,4 @@ export * from './task-delegation-service';
 export * from './agentic-workflow-service';
 export * from './inventory-negotiation-service';
 export * from './onboarding-service';
+export * from './translation-service';

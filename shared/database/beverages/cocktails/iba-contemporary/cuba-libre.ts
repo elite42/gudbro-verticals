@@ -46,7 +46,7 @@ export const cubaLibre: Cocktail = {
     },
     story: {
       en: 'The Cuba Libre was born during the Spanish-American War around 1900 in Havana. American soldiers mixed their Coca-Cola (newly arrived in Cuba) with local rum and lime, creating this iconic drink. The name means "Free Cuba" in Spanish, celebrating Cuba\'s independence from Spain. The drink became a symbol of the Cuban independence movement and American-Cuban friendship of that era.',
-      it: 'Il Cuba Libre nacque durante la Guerra Ispano-Americana intorno al 1900 all\'Avana. I soldati americani mescolarono la loro Coca-Cola (appena arrivata a Cuba) con rum locale e lime, creando questa bevanda iconica. Il nome significa "Cuba Libera" in spagnolo, celebrando l\'indipendenza di Cuba dalla Spagna. La bevanda divenne un simbolo del movimento indipendentista cubano e dell\'amicizia americano-cubana di quell\'epoca.',
+      it: "Il Cuba Libre nacque durante la Guerra Ispano-Americana intorno al 1900 all'Avana. I soldati americani mescolarono la loro Coca-Cola (appena arrivata a Cuba) con rum locale e lime, creando questa bevanda iconica. Il nome significa \"Cuba Libera\" in spagnolo, celebrando l'indipendenza di Cuba dalla Spagna. La bevanda divenne un simbolo del movimento indipendentista cubano e dell'amicizia americano-cubana di quell'epoca.",
       vi: 'Cuba Libre ra đời trong Chiến tranh Tây Ban Nha-Mỹ vào khoảng năm 1900 tại Havana. Những người lính Mỹ đã trộn Coca-Cola của họ (mới đến Cuba) với rum địa phương và chanh, tạo ra thức uống mang tính biểu tượng này. Cái tên có nghĩa là "Cuba Tự Do" trong tiếng Tây Ban Nha, kỷ niệm sự độc lập của Cuba khỏi Tây Ban Nha. Thức uống trở thành biểu tượng của phong trào độc lập Cuba và tình hữu nghị Mỹ-Cuba thời đó.',
     },
     named_after: {
@@ -114,7 +114,7 @@ export const cubaLibre: Cocktail = {
       ingredient_id: 'ING_COLA',
       quantity: { amount: 120, unit: 'ml' },
       display_name: { en: 'Cola', it: 'Cola', vi: 'Cola' },
-      note: { en: 'to top', it: 'per riempire', vi: 'để đổ đầy' },
+      notes: { en: 'to top', it: 'per riempire', vi: 'để đổ đầy' },
     },
   ],
 
@@ -159,7 +159,14 @@ export const cubaLibre: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'caffeine', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -178,7 +185,8 @@ export const cubaLibre: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['rum-and-coke', 'cuba-libre-premium'],
 
-  notes_for_staff: 'The lime is what differentiates a Cuba Libre from a simple rum and coke - never skip it. Use fresh lime juice, not bottled. Build in glass to preserve carbonation. Mexican Coke (made with cane sugar) is preferred by some bartenders.',
+  notes_for_staff:
+    'The lime is what differentiates a Cuba Libre from a simple rum and coke - never skip it. Use fresh lime juice, not bottled. Build in glass to preserve carbonation. Mexican Coke (made with cane sugar) is preferred by some bartenders.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -191,7 +199,7 @@ export const cubaLibre: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/cuba-libre/',
-    note: 'IBA Official Recipe. Historical information from Cuban cocktail history sources.',
+    notes: 'IBA Official Recipe. Historical information from Cuban cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

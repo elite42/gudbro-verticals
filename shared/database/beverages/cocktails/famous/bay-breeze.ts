@@ -30,7 +30,7 @@ export const bayBreeze: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A light and refreshing tropical cocktail combining vodka with cranberry and pineapple juices. The Bay Breeze is the perfect poolside sipper, offering a beautiful pink hue and balanced sweet-tart flavor that\'s dangerously easy to drink.',
+    en: "A light and refreshing tropical cocktail combining vodka with cranberry and pineapple juices. The Bay Breeze is the perfect poolside sipper, offering a beautiful pink hue and balanced sweet-tart flavor that's dangerously easy to drink.",
     it: 'Un cocktail tropicale leggero e rinfrescante che combina vodka con succhi di mirtillo rosso e ananas. Il Bay Breeze è il perfetto sorso a bordo piscina, offrendo una bella tonalità rosa e un sapore dolce-aspro bilanciato che è pericolosamente facile da bere.',
     vi: 'Một loại cocktail nhiệt đới nhẹ nhàng và sảng khoái kết hợp vodka với nước ép nam việt quất và dứa. Bay Breeze là thức uống hoàn hảo bên hồ bơi, mang đến sắc hồng đẹp mắt và hương vị ngọt chua cân bằng cực kỳ dễ uống.',
   },
@@ -47,8 +47,8 @@ export const bayBreeze: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Bay Breeze emerged in the 1980s as a variation of the classic Sea Breeze, swapping grapefruit juice for pineapple. Created in Miami beach bars during the height of vodka cocktail popularity, it became a staple of tropical resort menus. The drink\'s name evokes the gentle ocean breezes of coastal bays, while its easy-drinking nature made it a favorite among beachgoers and pool parties.',
-      it: 'Il Bay Breeze emerse negli anni \'80 come variazione del classico Sea Breeze, sostituendo il succo di pompelmo con l\'ananas. Creato nei bar sulla spiaggia di Miami durante l\'apice della popolarità dei cocktail alla vodka, divenne un punto fermo dei menu dei resort tropicali. Il nome della bevanda evoca le dolci brezze oceaniche delle baie costiere, mentre la sua natura facile da bere la rese una favorita tra i frequentatori della spiaggia e delle feste in piscina.',
+      en: "The Bay Breeze emerged in the 1980s as a variation of the classic Sea Breeze, swapping grapefruit juice for pineapple. Created in Miami beach bars during the height of vodka cocktail popularity, it became a staple of tropical resort menus. The drink's name evokes the gentle ocean breezes of coastal bays, while its easy-drinking nature made it a favorite among beachgoers and pool parties.",
+      it: "Il Bay Breeze emerse negli anni '80 come variazione del classico Sea Breeze, sostituendo il succo di pompelmo con l'ananas. Creato nei bar sulla spiaggia di Miami durante l'apice della popolarità dei cocktail alla vodka, divenne un punto fermo dei menu dei resort tropicali. Il nome della bevanda evoca le dolci brezze oceaniche delle baie costiere, mentre la sua natura facile da bere la rese una favorita tra i frequentatori della spiaggia e delle feste in piscina.",
       vi: 'Bay Breeze xuất hiện vào những năm 1980 như một biến thể của Sea Breeze cổ điển, thay nước ép bưởi bằng dứa. Được tạo ra tại các quán bar bãi biển Miami trong thời kỳ đỉnh cao của sự phổ biến cocktail vodka, nó trở thành món chính trong thực đơn khu nghỉ dưỡng nhiệt đới. Tên của thức uống gợi lên những làn gió biển nhẹ nhàng của các vịnh ven biển, trong khi bản chất dễ uống của nó khiến nó trở thành món ưa thích của những người đi biển và tiệc hồ bơi.',
     },
     named_after: {
@@ -67,7 +67,7 @@ export const bayBreeze: Cocktail = {
     },
     first_impression: {
       en: 'Tart cranberry hits first, followed by tropical pineapple sweetness',
-      it: 'Il mirtillo rosso aspro colpisce per primo, seguito dalla dolcezza tropicale dell\'ananas',
+      it: "Il mirtillo rosso aspro colpisce per primo, seguito dalla dolcezza tropicale dell'ananas",
       vi: 'Nam việt quất chua đập vào đầu tiên, tiếp theo là vị ngọt dứa nhiệt đới',
     },
     finish: {
@@ -77,7 +77,7 @@ export const bayBreeze: Cocktail = {
     },
     balance: {
       en: 'Perfectly balanced between sweet and tart - the pineapple and cranberry complement each other beautifully',
-      it: 'Perfettamente bilanciato tra dolce e aspro - l\'ananas e il mirtillo rosso si completano a vicenda magnificamente',
+      it: "Perfettamente bilanciato tra dolce e aspro - l'ananas e il mirtillo rosso si completano a vicenda magnificamente",
       vi: 'Cân bằng hoàn hảo giữa ngọt và chua - dứa và nam việt quất bổ sung cho nhau một cách tuyệt đẹp',
     },
   },
@@ -93,7 +93,7 @@ export const bayBreeze: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for beach days, poolside lounging, and casual summer gatherings. Ideal for those who prefer lighter, refreshing cocktails over heavy tiki drinks. A great choice for brunch or afternoon sipping.',
-      it: 'Perfetto per giornate in spiaggia, relax a bordo piscina e incontri estivi informali. Ideale per chi preferisce cocktail leggeri e rinfrescanti rispetto ai pesanti drink tiki. Un\'ottima scelta per il brunch o per sorseggiare nel pomeriggio.',
+      it: "Perfetto per giornate in spiaggia, relax a bordo piscina e incontri estivi informali. Ideale per chi preferisce cocktail leggeri e rinfrescanti rispetto ai pesanti drink tiki. Un'ottima scelta per il brunch o per sorseggiare nel pomeriggio.",
       vi: 'Hoàn hảo cho những ngày biển, thư giãn bên hồ bơi và các buổi họp mặt mùa hè thông thường. Lý tưởng cho những ai thích cocktail nhẹ nhàng, sảng khoái hơn đồ uống tiki nặng. Lựa chọn tuyệt vời cho bữa brunch hoặc nhâm nhi buổi chiều.',
     },
   },
@@ -110,7 +110,11 @@ export const bayBreeze: Cocktail = {
     {
       ingredient_id: 'ING_CRANBERRY_JUICE',
       quantity: { amount: 90, unit: 'ml' },
-      display_name: { en: 'Cranberry juice', it: 'Succo di mirtillo rosso', vi: 'Nước ép nam việt quất' },
+      display_name: {
+        en: 'Cranberry juice',
+        it: 'Succo di mirtillo rosso',
+        vi: 'Nước ép nam việt quất',
+      },
     },
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
@@ -160,7 +164,14 @@ export const bayBreeze: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -179,7 +190,8 @@ export const bayBreeze: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['sea-breeze', 'madras', 'virgin-bay-breeze'],
 
-  notes_for_staff: 'Very easy to make - just build in glass. Use quality cranberry juice (not cocktail). Can adjust juice ratios to taste. Popular brunch and poolside drink. Sister cocktails: Sea Breeze (grapefruit instead of pineapple) and Madras (orange instead of pineapple).',
+  notes_for_staff:
+    'Very easy to make - just build in glass. Use quality cranberry juice (not cocktail). Can adjust juice ratios to taste. Popular brunch and poolside drink. Sister cocktails: Sea Breeze (grapefruit instead of pineapple) and Madras (orange instead of pineapple).',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +204,7 @@ export const bayBreeze: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/bay-breeze/',
-    note: 'Classic tropical cocktail, variation of Sea Breeze.',
+    notes: 'Classic tropical cocktail, variation of Sea Breeze.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

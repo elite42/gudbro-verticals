@@ -81,7 +81,7 @@ export const alexander: Cocktail = {
     profile: ['creamy', 'sweet', 'boozy'],
     description: {
       en: 'Rich, velvety, and indulgent. The Alexander delivers a harmonious blend of chocolate sweetness from the crème de cacao, the warming depth of cognac, and the silky smoothness of fresh cream.',
-      it: 'Ricco, vellutato e indulgente. L\'Alexander offre un\'armoniosa miscela di dolcezza al cioccolato dalla crème de cacao, la profondità calda del cognac e la morbidezza setosa della panna fresca.',
+      it: "Ricco, vellutato e indulgente. L'Alexander offre un'armoniosa miscela di dolcezza al cioccolato dalla crème de cacao, la profondità calda del cognac e la morbidezza setosa della panna fresca.",
       vi: 'Đậm đà, mượt mà và nuông chiều. Alexander mang đến sự pha trộn hài hòa của vị ngọt chocolate từ crème de cacao, độ ấm sâu của cognac và sự mịn màng như lụa của kem tươi.',
     },
     first_impression: {
@@ -112,7 +112,7 @@ export const alexander: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for those who enjoy dessert cocktails and creamy drinks. A great choice for brandy lovers who want something indulgent, or for anyone looking for a sophisticated after-dinner drink.',
-      it: 'Perfetto per chi ama i cocktail da dessert e le bevande cremose. Un\'ottima scelta per gli amanti del brandy che vogliono qualcosa di indulgente, o per chiunque cerchi una bevanda sofisticata dopo cena.',
+      it: "Perfetto per chi ama i cocktail da dessert e le bevande cremose. Un'ottima scelta per gli amanti del brandy che vogliono qualcosa di indulgente, o per chiunque cerchi una bevanda sofisticata dopo cena.",
       vi: 'Hoàn hảo cho những ai thích cocktail tráng miệng và đồ uống béo ngậy. Lựa chọn tuyệt vời cho người yêu brandy muốn thứ gì đó nuông chiều, hoặc cho bất kỳ ai tìm kiếm thức uống tinh tế sau bữa tối.',
     },
   },
@@ -202,7 +202,8 @@ export const alexander: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['brandy-alexander', 'coffee-alexander', 'alexander-sister'],
 
-  notes_for_staff: 'Use freshly grated nutmeg, not pre-ground. Shake hard to properly emulsify the cream. Can substitute with Brandy if Cognac unavailable. Original recipe used gin - offer as variation for curious guests.',
+  notes_for_staff:
+    'Use freshly grated nutmeg, not pre-ground. Shake hard to properly emulsify the cream. Can substitute with Brandy if Cognac unavailable. Original recipe used gin - offer as variation for curious guests.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -215,7 +216,8 @@ export const alexander: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/alexander/',
-    note: 'IBA Official Recipe. Historical information from David Wondrich and various cocktail history sources.',
+    notes:
+      'IBA Official Recipe. Historical information from David Wondrich and various cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -258,7 +260,7 @@ export const americano: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The original Italian aperitivo cocktail - a refreshing, bittersweet blend of Campari and sweet vermouth, lengthened with soda water. Light, effervescent, and perfect before dinner.',
-    it: 'L\'originale cocktail aperitivo italiano - una miscela rinfrescante e agrodolce di Campari e vermouth rosso, allungata con acqua frizzante. Leggero, effervescente e perfetto prima di cena.',
+    it: "L'originale cocktail aperitivo italiano - una miscela rinfrescante e agrodolce di Campari e vermouth rosso, allungata con acqua frizzante. Leggero, effervescente e perfetto prima di cena.",
     vi: 'Cocktail khai vị Ý nguyên bản - sự pha trộn tươi mát, đắng ngọt của Campari và vermouth ngọt, pha thêm soda. Nhẹ nhàng, sủi bọt và hoàn hảo trước bữa tối.',
   },
 
@@ -289,7 +291,7 @@ export const americano: Cocktail = {
     profile: ['bitter', 'sweet', 'herbal', 'refreshing'],
     description: {
       en: 'Pleasantly bitter with herbal sweetness. The Campari brings its signature bitter-orange complexity while the sweet vermouth adds depth with vanilla and spice notes. The soda water lifts everything, making it light and effervescent.',
-      it: 'Piacevolmente amaro con dolcezza erbacea. Il Campari porta la sua caratteristica complessità amaro-arancio mentre il vermouth rosso aggiunge profondità con note di vaniglia e spezie. L\'acqua frizzante alleggerisce tutto, rendendolo leggero ed effervescente.',
+      it: "Piacevolmente amaro con dolcezza erbacea. Il Campari porta la sua caratteristica complessità amaro-arancio mentre il vermouth rosso aggiunge profondità con note di vaniglia e spezie. L'acqua frizzante alleggerisce tutto, rendendolo leggero ed effervescente.",
       vi: 'Đắng dễ chịu với vị ngọt thảo mộc. Campari mang đến sự phức tạp đặc trưng đắng-cam trong khi vermouth ngọt thêm chiều sâu với hương vanilla và gia vị. Soda nâng mọi thứ lên, làm cho nó nhẹ nhàng và sủi bọt.',
     },
     first_impression: {
@@ -315,12 +317,12 @@ export const americano: Cocktail = {
     seasons: ['spring', 'summer', 'all_year'],
     food_pairings: {
       en: 'Perfect aperitivo companion with olives, cured meats, bruschetta, and light antipasti. The bitterness stimulates the appetite before any meal.',
-      it: 'Perfetto compagno per l\'aperitivo con olive, salumi, bruschetta e antipasti leggeri. L\'amarezza stimola l\'appetito prima di qualsiasi pasto.',
+      it: "Perfetto compagno per l'aperitivo con olive, salumi, bruschetta e antipasti leggeri. L'amarezza stimola l'appetito prima di qualsiasi pasto.",
       vi: 'Người bạn khai vị hoàn hảo với ô liu, thịt nguội, bruschetta và antipasti nhẹ. Vị đắng kích thích sự thèm ăn trước bữa ăn.',
     },
     ideal_for: {
       en: 'Those who enjoy bitter flavors but want something lighter than a Negroni. Perfect for hot weather or as a gentle introduction to Italian aperitivo culture. Excellent choice for anyone seeking a lower-alcohol option.',
-      it: 'Chi apprezza i sapori amari ma vuole qualcosa di più leggero di un Negroni. Perfetto per il clima caldo o come gentile introduzione alla cultura dell\'aperitivo italiano. Ottima scelta per chi cerca un\'opzione a bassa gradazione.',
+      it: "Chi apprezza i sapori amari ma vuole qualcosa di più leggero di un Negroni. Perfetto per il clima caldo o come gentile introduzione alla cultura dell'aperitivo italiano. Ottima scelta per chi cerca un'opzione a bassa gradazione.",
       vi: 'Những ai thích hương vị đắng nhưng muốn thứ gì đó nhẹ hơn Negroni. Hoàn hảo cho thời tiết nóng hoặc như sự giới thiệu nhẹ nhàng về văn hóa aperitivo Ý. Lựa chọn tuyệt vời cho những ai tìm kiếm lựa chọn ít cồn.',
     },
   },
@@ -359,7 +361,7 @@ export const americano: Cocktail = {
 
   instructions: {
     en: 'Mix the Campari and sweet vermouth directly in an old fashioned glass filled with ice cubes. Add a splash of soda water. Stir gently to combine. Garnish with half an orange slice and a lemon twist.',
-    it: 'Mescolare il Campari e il vermouth rosso direttamente in un bicchiere old fashioned pieno di cubetti di ghiaccio. Aggiungere uno spruzzo di acqua frizzante. Mescolare delicatamente. Guarnire con mezza fetta d\'arancia e una twist di limone.',
+    it: "Mescolare il Campari e il vermouth rosso direttamente in un bicchiere old fashioned pieno di cubetti di ghiaccio. Aggiungere uno spruzzo di acqua frizzante. Mescolare delicatamente. Guarnire con mezza fetta d'arancia e una twist di limone.",
     vi: 'Trộn Campari và vermouth ngọt trực tiếp trong ly old fashioned đầy đá viên. Thêm một chút soda. Khuấy nhẹ để hòa quyện. Trang trí với nửa lát cam và vỏ chanh vắt.',
   },
 
@@ -367,7 +369,7 @@ export const americano: Cocktail = {
 
   garnish: {
     en: 'Half orange slice and lemon twist',
-    it: 'Mezza fetta d\'arancia e twist di limone',
+    it: "Mezza fetta d'arancia e twist di limone",
     vi: 'Nửa lát cam và vỏ chanh vắt',
   },
 
@@ -396,7 +398,14 @@ export const americano: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -415,7 +424,8 @@ export const americano: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['negroni', 'negroni-sbagliato', 'americano-perfetto'],
 
-  notes_for_staff: 'Keep it simple - the beauty is in the simplicity. Use good quality Campari and vermouth. Soda should be fresh with good carbonation. The Negroni is this drink with gin instead of soda - offer as an upgrade for those seeking something stronger.',
+  notes_for_staff:
+    'Keep it simple - the beauty is in the simplicity. Use good quality Campari and vermouth. Soda should be fresh with good carbonation. The Negroni is this drink with gin instead of soda - offer as an upgrade for those seeking something stronger.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -428,7 +438,8 @@ export const americano: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/americano/',
-    note: 'IBA Official Recipe. Historical information from various cocktail history sources and Italian aperitivo tradition.',
+    notes:
+      'IBA Official Recipe. Historical information from various cocktail history sources and Italian aperitivo tradition.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -462,7 +473,7 @@ export const angelFace: Cocktail = {
 
   description: {
     en: 'An elegant Prohibition-era cocktail combining gin with apple brandy and apricot liqueur. Deceptively smooth and dangerously potent, the Angel Face earned its name for its innocent appearance that masks a powerful punch.',
-    it: 'Un elegante cocktail dell\'era del Proibizionismo che combina gin con brandy di mele e liquore all\'albicocca. Ingannevolmente morbido e pericolosamente potente, l\'Angel Face ha guadagnato il suo nome per il suo aspetto innocente che maschera una potenza notevole.',
+    it: "Un elegante cocktail dell'era del Proibizionismo che combina gin con brandy di mele e liquore all'albicocca. Ingannevolmente morbido e pericolosamente potente, l'Angel Face ha guadagnato il suo nome per il suo aspetto innocente che maschera una potenza notevole.",
     vi: 'Một cocktail thanh lịch thời Cấm rượu kết hợp gin với brandy táo và rượu mùi mơ. Mượt mà đánh lừa và nguy hiểm mạnh mẽ, Angel Face có được tên vì vẻ ngoài vô tội che giấu sức mạnh đáng kể.',
   },
 
@@ -473,8 +484,8 @@ export const angelFace: Cocktail = {
       country: 'France/UK',
     },
     story: {
-      en: 'The Angel Face emerged during the Prohibition era and first appeared in the 1930 Savoy Cocktail Book compiled by Harry Craddock at London\'s Savoy Hotel. Its name is a playful warning: despite its smooth, fruity taste and angelic appearance, this cocktail is deceptively strong with no non-alcoholic ingredients to dilute its potency. The equal-parts formula makes it easy to remember but dangerous to underestimate.',
-      it: 'L\'Angel Face emerse durante l\'era del Proibizionismo e apparve per la prima volta nel Savoy Cocktail Book del 1930 compilato da Harry Craddock al Savoy Hotel di Londra. Il suo nome è un avvertimento giocoso: nonostante il suo gusto morbido e fruttato e l\'aspetto angelico, questo cocktail è ingannevolmente forte senza ingredienti analcolici a diluire la sua potenza. La formula in parti uguali lo rende facile da ricordare ma pericoloso da sottovalutare.',
+      en: "The Angel Face emerged during the Prohibition era and first appeared in the 1930 Savoy Cocktail Book compiled by Harry Craddock at London's Savoy Hotel. Its name is a playful warning: despite its smooth, fruity taste and angelic appearance, this cocktail is deceptively strong with no non-alcoholic ingredients to dilute its potency. The equal-parts formula makes it easy to remember but dangerous to underestimate.",
+      it: "L'Angel Face emerse durante l'era del Proibizionismo e apparve per la prima volta nel Savoy Cocktail Book del 1930 compilato da Harry Craddock al Savoy Hotel di Londra. Il suo nome è un avvertimento giocoso: nonostante il suo gusto morbido e fruttato e l'aspetto angelico, questo cocktail è ingannevolmente forte senza ingredienti analcolici a diluire la sua potenza. La formula in parti uguali lo rende facile da ricordare ma pericoloso da sottovalutare.",
       vi: 'Angel Face xuất hiện trong thời kỳ Cấm rượu và lần đầu tiên xuất hiện trong Savoy Cocktail Book năm 1930 được biên soạn bởi Harry Craddock tại Khách sạn Savoy London. Tên của nó là một lời cảnh báo vui vẻ: mặc dù có vị trái cây mượt mà và vẻ ngoài thiên thần, cocktail này mạnh đáng kinh ngạc không có thành phần không cồn để pha loãng độ mạnh của nó.',
     },
     named_after: {
@@ -488,7 +499,7 @@ export const angelFace: Cocktail = {
     profile: ['fruity', 'sweet', 'boozy', 'dry'],
     description: {
       en: 'Fruity and deceptively smooth. The apricot brandy provides stone fruit sweetness while the Calvados adds apple complexity and the gin brings botanical dryness. Together they create a harmonious but potent sipper.',
-      it: 'Fruttato e ingannevolmente morbido. Il brandy all\'albicocca fornisce dolcezza di frutta a nocciolo mentre il Calvados aggiunge complessità di mela e il gin porta secchezza botanica. Insieme creano un sorso armonioso ma potente.',
+      it: "Fruttato e ingannevolmente morbido. Il brandy all'albicocca fornisce dolcezza di frutta a nocciolo mentre il Calvados aggiunge complessità di mela e il gin porta secchezza botanica. Insieme creano un sorso armonioso ma potente.",
       vi: 'Trái cây và mượt mà đánh lừa. Brandy mơ cung cấp vị ngọt trái cây hạt trong khi Calvados thêm sự phức tạp của táo và gin mang đến vị khô thực vật. Cùng nhau tạo ra một ngụm hài hòa nhưng mạnh mẽ.',
     },
     first_impression: {
@@ -533,7 +544,7 @@ export const angelFace: Cocktail = {
     {
       ingredient_id: 'ING_APRICOT_BRANDY',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Apricot Brandy', it: 'Brandy all\'Albicocca', vi: 'Brandy Mơ' },
+      display_name: { en: 'Apricot Brandy', it: "Brandy all'Albicocca", vi: 'Brandy Mơ' },
     },
     {
       ingredient_id: 'ING_CALVADOS',
@@ -571,7 +582,14 @@ export const angelFace: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -584,14 +602,15 @@ export const angelFace: Cocktail = {
 
   variants: [],
 
-  notes_for_staff: 'Warn guests this is a strong cocktail (100% alcohol, no mixers). The equal parts ratio makes it easy to scale. Use quality Calvados for best results.',
+  notes_for_staff:
+    'Warn guests this is a strong cocktail (100% alcohol, no mixers). The equal parts ratio makes it easy to scale. Use quality Calvados for best results.',
 
   price_tier: 'mid',
   popularity: 45,
 
   source: {
     primary: 'https://iba-world.com/angel-face/',
-    note: 'IBA Official Recipe. First published in Savoy Cocktail Book 1930.',
+    notes: 'IBA Official Recipe. First published in Savoy Cocktail Book 1930.',
   },
 
   created_at: NOW,
@@ -622,7 +641,7 @@ export const aviation: Cocktail = {
 
   description: {
     en: 'A stunning pre-Prohibition classic with a distinctive pale sky-blue color from crème de violette. The Aviation captures the wonder and romance of early flight with its ethereal appearance and delicate floral-citrus balance.',
-    it: 'Un splendido classico pre-Proibizionismo con un distintivo colore celeste pallido dalla crème de violette. L\'Aviation cattura la meraviglia e il romanticismo dei primi voli con il suo aspetto etereo e il delicato equilibrio floreale-agrumato.',
+    it: "Un splendido classico pre-Proibizionismo con un distintivo colore celeste pallido dalla crème de violette. L'Aviation cattura la meraviglia e il romanticismo dei primi voli con il suo aspetto etereo e il delicato equilibrio floreale-agrumato.",
     vi: 'Một tác phẩm kinh điển tiền-Cấm rượu tuyệt đẹp với màu xanh nhạt đặc trưng từ crème de violette. Aviation gợi lên sự kỳ diệu và lãng mạn của những chuyến bay đầu tiên với vẻ ngoài thanh tao và sự cân bằng hoa-cam quýt tinh tế.',
   },
 
@@ -644,7 +663,7 @@ export const aviation: Cocktail = {
     },
     named_after: {
       en: 'Named to honor early aviation pioneers. The pale blue color from crème de violette represents the sky, making it a tribute to the romance of flight.',
-      it: 'Nominato per onorare i primi pionieri dell\'aviazione. Il colore celeste pallido dalla crème de violette rappresenta il cielo, rendendolo un tributo al romanticismo del volo.',
+      it: "Nominato per onorare i primi pionieri dell'aviazione. Il colore celeste pallido dalla crème de violette rappresenta il cielo, rendendolo un tributo al romanticismo del volo.",
       vi: 'Được đặt tên để tôn vinh những người tiên phong hàng không đầu tiên. Màu xanh nhạt từ crème de violette đại diện cho bầu trời, biến nó thành lời tri ân cho sự lãng mạn của bay.',
     },
   },
@@ -667,7 +686,7 @@ export const aviation: Cocktail = {
       vi: 'Kết thúc sạch, khô với sự thanh lịch hoa kéo dài',
     },
     balance: {
-      en: 'Perfectly balanced between citrus brightness, floral delicacy, and gin\'s botanical complexity',
+      en: "Perfectly balanced between citrus brightness, floral delicacy, and gin's botanical complexity",
       it: 'Perfettamente bilanciato tra luminosità agrumata, delicatezza floreale e complessità botanica del gin',
       vi: 'Cân bằng hoàn hảo giữa độ sáng cam quýt, sự tinh tế hoa và sự phức tạp thực vật của gin',
     },
@@ -698,12 +717,20 @@ export const aviation: Cocktail = {
     {
       ingredient_id: 'ING_MARASCHINO',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Maraschino Luxardo', it: 'Maraschino Luxardo', vi: 'Maraschino Luxardo' },
+      display_name: {
+        en: 'Maraschino Luxardo',
+        it: 'Maraschino Luxardo',
+        vi: 'Maraschino Luxardo',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh Lemon Juice', it: 'Succo di Limone Fresco', vi: 'Nước Chanh Tươi' },
+      display_name: {
+        en: 'Fresh Lemon Juice',
+        it: 'Succo di Limone Fresco',
+        vi: 'Nước Chanh Tươi',
+      },
     },
     {
       ingredient_id: 'ING_CREME_DE_VIOLETTE',
@@ -742,7 +769,14 @@ export const aviation: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -755,14 +789,15 @@ export const aviation: Cocktail = {
 
   variants: ['aviation-without-violette'],
 
-  notes_for_staff: 'The crème de violette is essential for the authentic sky-blue color - don\'t skip it. Use Luxardo maraschino, not cheap imitations. Use sparingly - too much violette makes it taste like perfume. A tiny amount goes a long way.',
+  notes_for_staff:
+    "The crème de violette is essential for the authentic sky-blue color - don't skip it. Use Luxardo maraschino, not cheap imitations. Use sparingly - too much violette makes it taste like perfume. A tiny amount goes a long way.",
 
   price_tier: 'mid',
   popularity: 72,
 
   source: {
     primary: 'https://iba-world.com/aviation/',
-    note: 'IBA Official Recipe. Originally from Hugo Ensslin\'s 1916 "Recipes for Mixed Drinks."',
+    notes: 'IBA Official Recipe. Originally from Hugo Ensslin\'s 1916 "Recipes for Mixed Drinks."',
   },
 
   created_at: NOW,
@@ -792,8 +827,8 @@ export const betweenTheSheets: Cocktail = {
   tags: ['iba', 'official', 'classic', 'strong', 'prohibition-era', 'citrus', 'sidecar-variation'],
 
   description: {
-    en: 'A potent Prohibition-era cocktail that\'s essentially a Sidecar with rum added. The suggestive name and smooth, citrusy taste made it a favorite during the roaring twenties. Three spirits unite with orange and lemon for a sophisticated, dangerously drinkable classic.',
-    it: 'Un potente cocktail dell\'era del Proibizionismo che è essenzialmente un Sidecar con l\'aggiunta di rum. Il nome suggestivo e il gusto morbido e agrumato lo resero un favorito durante i ruggenti anni \'20. Tre distillati si uniscono con arancia e limone per un classico sofisticato e pericolosamente bevibile.',
+    en: "A potent Prohibition-era cocktail that's essentially a Sidecar with rum added. The suggestive name and smooth, citrusy taste made it a favorite during the roaring twenties. Three spirits unite with orange and lemon for a sophisticated, dangerously drinkable classic.",
+    it: "Un potente cocktail dell'era del Proibizionismo che è essenzialmente un Sidecar con l'aggiunta di rum. Il nome suggestivo e il gusto morbido e agrumato lo resero un favorito durante i ruggenti anni '20. Tre distillati si uniscono con arancia e limone per un classico sofisticato e pericolosamente bevibile.",
     vi: 'Một cocktail mạnh mẽ thời Cấm rượu về cơ bản là Sidecar với rum thêm vào. Cái tên gợi cảm và hương vị cam quýt mượt mà khiến nó trở thành món yêu thích trong những năm 1920 cuồng nhiệt. Ba loại rượu kết hợp với cam và chanh tạo nên một tác phẩm kinh điển tinh tế, nguy hiểm dễ uống.',
   },
 
@@ -801,7 +836,7 @@ export const betweenTheSheets: Cocktail = {
     created_year: '1920s',
     origin: {
       city: 'Paris',
-      bar: 'Harry\'s New York Bar',
+      bar: "Harry's New York Bar",
       country: 'France',
     },
     creator: {
@@ -809,8 +844,8 @@ export const betweenTheSheets: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Between the Sheets was created at Harry\'s New York Bar in Paris during the 1920s Prohibition era, when Americans flocked to Europe to drink legally. The cocktail is essentially a variation of the Sidecar (also born at Harry\'s Bar) with white rum added to the mix. The provocative name was typical of the era\'s playful attitude toward drinking. Some attribute it to a French bartender who created it as a "nightcap" - hence the bedroom reference.',
-      it: 'Between the Sheets fu creato all\'Harry\'s New York Bar di Parigi durante l\'era del Proibizionismo degli anni \'20, quando gli americani affluivano in Europa per bere legalmente. Il cocktail è essenzialmente una variazione del Sidecar (anch\'esso nato all\'Harry\'s Bar) con l\'aggiunta di rum bianco. Il nome provocante era tipico dell\'atteggiamento giocoso dell\'epoca verso il bere. Alcuni lo attribuiscono a un barman francese che lo creò come "nightcap" - da qui il riferimento alla camera da letto.',
+      en: "Between the Sheets was created at Harry's New York Bar in Paris during the 1920s Prohibition era, when Americans flocked to Europe to drink legally. The cocktail is essentially a variation of the Sidecar (also born at Harry's Bar) with white rum added to the mix. The provocative name was typical of the era's playful attitude toward drinking. Some attribute it to a French bartender who created it as a \"nightcap\" - hence the bedroom reference.",
+      it: "Between the Sheets fu creato all'Harry's New York Bar di Parigi durante l'era del Proibizionismo degli anni '20, quando gli americani affluivano in Europa per bere legalmente. Il cocktail è essenzialmente una variazione del Sidecar (anch'esso nato all'Harry's Bar) con l'aggiunta di rum bianco. Il nome provocante era tipico dell'atteggiamento giocoso dell'epoca verso il bere. Alcuni lo attribuiscono a un barman francese che lo creò come \"nightcap\" - da qui il riferimento alla camera da letto.",
       vi: 'Between the Sheets được tạo ra tại Harry\'s New York Bar ở Paris trong thời kỳ Cấm rượu những năm 1920, khi người Mỹ đổ xô đến châu Âu để uống hợp pháp. Cocktail về cơ bản là một biến thể của Sidecar (cũng sinh ra tại Harry\'s Bar) với rum trắng thêm vào. Cái tên khiêu khích là điển hình của thái độ vui vẻ của thời đại đối với việc uống rượu. Một số người cho rằng nó được tạo ra bởi một bartender Pháp như một "nightcap" - do đó có ám chỉ phòng ngủ.',
     },
     named_after: {
@@ -879,7 +914,11 @@ export const betweenTheSheets: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh Lemon Juice', it: 'Succo di Limone Fresco', vi: 'Nước Chanh Tươi' },
+      display_name: {
+        en: 'Fresh Lemon Juice',
+        it: 'Succo di Limone Fresco',
+        vi: 'Nước Chanh Tươi',
+      },
     },
   ],
 
@@ -912,7 +951,14 @@ export const betweenTheSheets: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -925,14 +971,15 @@ export const betweenTheSheets: Cocktail = {
 
   variants: ['sidecar'],
 
-  notes_for_staff: 'Very strong cocktail - warn guests. Think of it as a boozy Sidecar. Use quality cognac and fresh lemon juice. Some variations use Cointreau instead of triple sec for a richer orange flavor.',
+  notes_for_staff:
+    'Very strong cocktail - warn guests. Think of it as a boozy Sidecar. Use quality cognac and fresh lemon juice. Some variations use Cointreau instead of triple sec for a richer orange flavor.',
 
   price_tier: 'mid',
   popularity: 55,
 
   source: {
     primary: 'https://iba-world.com/between-the-sheets/',
-    note: 'IBA Official Recipe. Originated at Harry\'s New York Bar, Paris, 1920s.',
+    notes: "IBA Official Recipe. Originated at Harry's New York Bar, Paris, 1920s.",
   },
 
   created_at: NOW,
@@ -962,7 +1009,7 @@ export const boulevardier: Cocktail = {
   tags: ['iba', 'official', 'classic', 'bitter', 'whiskey', 'negroni-variation', 'prohibition-era'],
 
   description: {
-    en: 'The whiskey-lover\'s Negroni - a rich, bittersweet cocktail that swaps gin for bourbon or rye. Created by an American expatriate in Paris, the Boulevardier offers deeper, warmer flavors while maintaining the perfect bitter-sweet balance.',
+    en: "The whiskey-lover's Negroni - a rich, bittersweet cocktail that swaps gin for bourbon or rye. Created by an American expatriate in Paris, the Boulevardier offers deeper, warmer flavors while maintaining the perfect bitter-sweet balance.",
     it: 'Il Negroni per gli amanti del whiskey - un cocktail ricco e agrodolce che sostituisce il gin con bourbon o segale. Creato da un espatriato americano a Parigi, il Boulevardier offre sapori più profondi e caldi mantenendo il perfetto equilibrio amaro-dolce.',
     vi: 'Negroni dành cho người yêu whiskey - một cocktail đậm đà, đắng ngọt thay thế gin bằng bourbon hoặc rye. Được tạo ra bởi một người Mỹ tha hương ở Paris, Boulevardier mang đến hương vị sâu hơn, ấm hơn trong khi duy trì sự cân bằng đắng-ngọt hoàn hảo.',
   },
@@ -971,7 +1018,7 @@ export const boulevardier: Cocktail = {
     created_year: 1927,
     origin: {
       city: 'Paris',
-      bar: 'Harry\'s New York Bar',
+      bar: "Harry's New York Bar",
       country: 'France',
     },
     creator: {
@@ -993,8 +1040,8 @@ export const boulevardier: Cocktail = {
   taste: {
     profile: ['bitter', 'sweet', 'boozy', 'herbal'],
     description: {
-      en: 'Richer and more robust than a Negroni. The bourbon/rye provides caramel, vanilla, and oak notes that complement Campari\'s bitterness beautifully. The sweet vermouth adds herbal complexity. A warming, sophisticated sipper.',
-      it: 'Più ricco e robusto di un Negroni. Il bourbon/segale fornisce note di caramello, vaniglia e quercia che completano magnificamente l\'amarezza del Campari. Il vermouth rosso aggiunge complessità erbacea. Un sorso caldo e sofisticato.',
+      en: "Richer and more robust than a Negroni. The bourbon/rye provides caramel, vanilla, and oak notes that complement Campari's bitterness beautifully. The sweet vermouth adds herbal complexity. A warming, sophisticated sipper.",
+      it: "Più ricco e robusto di un Negroni. Il bourbon/segale fornisce note di caramello, vaniglia e quercia che completano magnificamente l'amarezza del Campari. Il vermouth rosso aggiunge complessità erbacea. Un sorso caldo e sofisticato.",
       vi: 'Đậm đà và mạnh mẽ hơn Negroni. Bourbon/rye cung cấp hương caramel, vanilla và gỗ sồi bổ sung hoàn hảo cho vị đắng của Campari. Vermouth ngọt thêm sự phức tạp thảo mộc. Một ngụm ấm áp, tinh tế.',
     },
     first_impression: {
@@ -1008,8 +1055,8 @@ export const boulevardier: Cocktail = {
       vi: 'Kết thúc dài, ấm áp với cam đắng và gỗ sồi kéo dài',
     },
     balance: {
-      en: 'The whiskey\'s sweetness counterbalances Campari\'s bitterness, with vermouth as the bridge',
-      it: 'La dolcezza del whiskey controbilancia l\'amarezza del Campari, con il vermouth come ponte',
+      en: "The whiskey's sweetness counterbalances Campari's bitterness, with vermouth as the bridge",
+      it: "La dolcezza del whiskey controbilancia l'amarezza del Campari, con il vermouth come ponte",
       vi: 'Vị ngọt của whiskey cân bằng vị đắng của Campari, với vermouth là cầu nối',
     },
   },
@@ -1034,7 +1081,11 @@ export const boulevardier: Cocktail = {
     {
       ingredient_id: 'ING_BOURBON',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Bourbon or Rye Whiskey', it: 'Bourbon o Whiskey di Segale', vi: 'Bourbon hoặc Rye Whiskey' },
+      display_name: {
+        en: 'Bourbon or Rye Whiskey',
+        it: 'Bourbon o Whiskey di Segale',
+        vi: 'Bourbon hoặc Rye Whiskey',
+      },
       substitutes: ['ING_RYE_WHISKEY'],
     },
     {
@@ -1053,7 +1104,7 @@ export const boulevardier: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into a mixing glass with ice cubes. Stir well until properly chilled and diluted. Strain into a chilled cocktail glass. Garnish with orange zest.',
-    it: 'Versare tutti gli ingredienti in un mixing glass con cubetti di ghiaccio. Mescolare bene fino a raffreddare e diluire. Filtrare in una coppa da cocktail raffreddata. Guarnire con scorza d\'arancia.',
+    it: "Versare tutti gli ingredienti in un mixing glass con cubetti di ghiaccio. Mescolare bene fino a raffreddare e diluire. Filtrare in una coppa da cocktail raffreddata. Guarnire con scorza d'arancia.",
     vi: 'Đổ tất cả nguyên liệu vào ly pha với đá viên. Khuấy kỹ cho đến khi lạnh và pha loãng đúng mức. Lọc vào ly cocktail đã làm lạnh. Trang trí với vỏ cam.',
   },
 
@@ -1061,7 +1112,7 @@ export const boulevardier: Cocktail = {
 
   garnish: {
     en: 'Orange zest, optionally with lemon zest',
-    it: 'Scorza d\'arancia, opzionalmente con scorza di limone',
+    it: "Scorza d'arancia, opzionalmente con scorza di limone",
     vi: 'Vỏ cam, tùy chọn với vỏ chanh',
   },
 
@@ -1091,14 +1142,15 @@ export const boulevardier: Cocktail = {
 
   variants: ['negroni', 'old-pal'],
 
-  notes_for_staff: 'Use good bourbon (Bulleit, Buffalo Trace) or rye (Rittenhouse). Some prefer equal parts (1:1:1) for a more bitter drink. Can serve on the rocks for a longer drink. The "whiskey Negroni" nickname helps explain it to guests.',
+  notes_for_staff:
+    'Use good bourbon (Bulleit, Buffalo Trace) or rye (Rittenhouse). Some prefer equal parts (1:1:1) for a more bitter drink. Can serve on the rocks for a longer drink. The "whiskey Negroni" nickname helps explain it to guests.',
 
   price_tier: 'mid',
   popularity: 78,
 
   source: {
     primary: 'https://iba-world.com/boulevardier/',
-    note: 'IBA Official Recipe. First published in "Barflies and Cocktails" 1927.',
+    notes: 'IBA Official Recipe. First published in "Barflies and Cocktails" 1927.',
   },
 
   created_at: NOW,
@@ -1128,8 +1180,8 @@ export const cloverClub: Cocktail = {
   tags: ['iba', 'official', 'classic', 'fruity', 'pre-prohibition', 'egg-white', 'pink'],
 
   description: {
-    en: 'An elegant pre-Prohibition cocktail with a beautiful pink color and silky foam from egg white. The Clover Club combines gin with raspberry and lemon for a perfectly balanced, sophisticated drink that\'s fruity without being sweet.',
-    it: 'Un elegante cocktail pre-Proibizionismo con un bel colore rosa e schiuma setosa dall\'albume. Il Clover Club combina gin con lampone e limone per una bevanda perfettamente bilanciata e sofisticata, fruttata senza essere dolce.',
+    en: "An elegant pre-Prohibition cocktail with a beautiful pink color and silky foam from egg white. The Clover Club combines gin with raspberry and lemon for a perfectly balanced, sophisticated drink that's fruity without being sweet.",
+    it: "Un elegante cocktail pre-Proibizionismo con un bel colore rosa e schiuma setosa dall'albume. Il Clover Club combina gin con lampone e limone per una bevanda perfettamente bilanciata e sofisticata, fruttata senza essere dolce.",
     vi: 'Một cocktail thanh lịch tiền-Cấm rượu với màu hồng đẹp và bọt mượt từ lòng trắng trứng. Clover Club kết hợp gin với mâm xôi và chanh tạo nên thức uống cân bằng hoàn hảo, tinh tế, trái cây mà không ngọt.',
   },
 
@@ -1142,12 +1194,12 @@ export const cloverClub: Cocktail = {
     },
     story: {
       en: 'The Clover Club originated in the pre-Prohibition era at the Bellevue-Stratford Hotel in Philadelphia, where a men\'s club of the same name met. The Clover Club was an exclusive gentlemen\'s club of lawyers, writers, and businessmen who gathered to discuss literature and politics. The pink, frothy cocktail became their signature drink. After Prohibition and the rise of "girly drink" stigma, the cocktail fell out of favor, unfairly dismissed as too feminine. It was rediscovered in the craft cocktail renaissance of the 2000s and is now rightfully celebrated as a sophisticated classic.',
-      it: 'Il Clover Club ha origine nell\'era pre-Proibizionismo al Bellevue-Stratford Hotel di Philadelphia, dove si riuniva un club maschile omonimo. Il Clover Club era un esclusivo club di gentiluomini formato da avvocati, scrittori e uomini d\'affari che si riunivano per discutere di letteratura e politica. Il cocktail rosa e spumoso divenne la loro bevanda distintiva. Dopo il Proibizionismo, il cocktail cadde in disgrazia, ingiustamente liquidato come troppo femminile. Fu riscoperto nel rinascimento dei cocktail artigianali degli anni 2000.',
+      it: "Il Clover Club ha origine nell'era pre-Proibizionismo al Bellevue-Stratford Hotel di Philadelphia, dove si riuniva un club maschile omonimo. Il Clover Club era un esclusivo club di gentiluomini formato da avvocati, scrittori e uomini d'affari che si riunivano per discutere di letteratura e politica. Il cocktail rosa e spumoso divenne la loro bevanda distintiva. Dopo il Proibizionismo, il cocktail cadde in disgrazia, ingiustamente liquidato come troppo femminile. Fu riscoperto nel rinascimento dei cocktail artigianali degli anni 2000.",
       vi: 'Clover Club có nguồn gốc từ thời kỳ tiền-Cấm rượu tại Khách sạn Bellevue-Stratford ở Philadelphia, nơi một câu lạc bộ nam giới cùng tên họp mặt. Clover Club là câu lạc bộ quý ông độc quyền của luật sư, nhà văn và doanh nhân tụ họp để thảo luận về văn học và chính trị. Cocktail màu hồng sủi bọt trở thành thức uống đặc trưng của họ. Sau Cấm rượu, cocktail không còn được ưa chuộng, bị coi là quá nữ tính. Nó được tái khám phá trong thời kỳ phục hưng cocktail thủ công những năm 2000.',
     },
     named_after: {
-      en: 'Named after the Clover Club, an exclusive Philadelphia gentlemen\'s club that met at the Bellevue-Stratford Hotel from the 1880s to 1920s.',
-      it: 'Prende il nome dal Clover Club, un esclusivo club di gentiluomini di Philadelphia che si riuniva al Bellevue-Stratford Hotel dal 1880 agli anni \'20.',
+      en: "Named after the Clover Club, an exclusive Philadelphia gentlemen's club that met at the Bellevue-Stratford Hotel from the 1880s to 1920s.",
+      it: "Prende il nome dal Clover Club, un esclusivo club di gentiluomini di Philadelphia che si riuniva al Bellevue-Stratford Hotel dal 1880 agli anni '20.",
       vi: 'Được đặt tên theo Clover Club, một câu lạc bộ quý ông độc quyền ở Philadelphia họp tại Khách sạn Bellevue-Stratford từ những năm 1880 đến 1920.',
     },
   },
@@ -1156,7 +1208,7 @@ export const cloverClub: Cocktail = {
     profile: ['fruity', 'sour', 'dry', 'refreshing'],
     description: {
       en: 'Bright and refreshing with a silky texture from the egg white. The raspberry provides fruitiness without cloying sweetness, while lemon adds tartness and gin contributes botanical backbone. The foam creates a luxurious mouthfeel.',
-      it: 'Luminoso e rinfrescante con una consistenza setosa dall\'albume. Il lampone fornisce fruttato senza dolcezza stucchevole, mentre il limone aggiunge acidità e il gin contribuisce alla struttura botanica. La schiuma crea una sensazione lussuosa in bocca.',
+      it: "Luminoso e rinfrescante con una consistenza setosa dall'albume. Il lampone fornisce fruttato senza dolcezza stucchevole, mentre il limone aggiunge acidità e il gin contribuisce alla struttura botanica. La schiuma crea una sensazione lussuosa in bocca.",
       vi: 'Tươi sáng và sảng khoái với kết cấu mượt mà từ lòng trắng trứng. Mâm xôi cung cấp vị trái cây không ngọt gắt, trong khi chanh thêm vị chua và gin đóng góp xương sống thực vật. Bọt tạo cảm giác sang trọng trong miệng.',
     },
     first_impression: {
@@ -1187,7 +1239,7 @@ export const cloverClub: Cocktail = {
     },
     ideal_for: {
       en: 'Anyone who enjoys sours and gin cocktails. Perfect for those who appreciate texture in their drinks. A great introduction to egg white cocktails.',
-      it: 'Chiunque apprezzi i sour e i cocktail a base di gin. Perfetto per chi apprezza la texture nelle bevande. Un\'ottima introduzione ai cocktail con albume.',
+      it: "Chiunque apprezzi i sour e i cocktail a base di gin. Perfetto per chi apprezza la texture nelle bevande. Un'ottima introduzione ai cocktail con albume.",
       vi: 'Bất kỳ ai thích sour và cocktail gin. Hoàn hảo cho những ai đánh giá cao kết cấu trong đồ uống. Giới thiệu tuyệt vời về cocktail lòng trắng trứng.',
     },
   },
@@ -1206,12 +1258,16 @@ export const cloverClub: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh Lemon Juice', it: 'Succo di Limone Fresco', vi: 'Nước Chanh Tươi' },
+      display_name: {
+        en: 'Fresh Lemon Juice',
+        it: 'Succo di Limone Fresco',
+        vi: 'Nước Chanh Tươi',
+      },
     },
     {
       ingredient_id: 'ING_EGG_WHITE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Egg White', it: 'Albume d\'Uovo', vi: 'Lòng Trắng Trứng' },
+      display_name: { en: 'Egg White', it: "Albume d'Uovo", vi: 'Lòng Trắng Trứng' },
       notes: { en: 'Few drops', it: 'Qualche goccia', vi: 'Vài giọt' },
       substitutes: ['ING_AQUAFABA'],
     },
@@ -1221,7 +1277,7 @@ export const cloverClub: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into a cocktail shaker. Dry shake (without ice) vigorously to emulsify the egg white. Add ice and shake again until well chilled. Strain into a chilled cocktail glass. Garnish with fresh raspberries.',
-    it: 'Versare tutti gli ingredienti in uno shaker. Shakerare a secco (senza ghiaccio) vigorosamente per emulsionare l\'albume. Aggiungere ghiaccio e shakerare di nuovo fino a raffreddare. Filtrare in una coppa da cocktail raffreddata. Guarnire con lamponi freschi.',
+    it: "Versare tutti gli ingredienti in uno shaker. Shakerare a secco (senza ghiaccio) vigorosamente per emulsionare l'albume. Aggiungere ghiaccio e shakerare di nuovo fino a raffreddare. Filtrare in una coppa da cocktail raffreddata. Guarnire con lamponi freschi.",
     vi: 'Đổ tất cả nguyên liệu vào bình lắc cocktail. Lắc khô (không có đá) mạnh mẽ để nhũ hóa lòng trắng trứng. Thêm đá và lắc lại cho đến khi lạnh. Lọc vào ly cocktail đã làm lạnh. Trang trí với mâm xôi tươi.',
   },
 
@@ -1259,14 +1315,15 @@ export const cloverClub: Cocktail = {
 
   variants: ['clover-club-royal'],
 
-  notes_for_staff: 'The dry shake is essential for the silky foam. Offer aquafaba for vegan guests. Fresh raspberries for garnish make it special. Don\'t skip the egg white - it transforms the texture completely.',
+  notes_for_staff:
+    "The dry shake is essential for the silky foam. Offer aquafaba for vegan guests. Fresh raspberries for garnish make it special. Don't skip the egg white - it transforms the texture completely.",
 
   price_tier: 'mid',
   popularity: 68,
 
   source: {
     primary: 'https://iba-world.com/clover-club/',
-    note: 'IBA Official Recipe. Pre-Prohibition classic from Philadelphia.',
+    notes: 'IBA Official Recipe. Pre-Prohibition classic from Philadelphia.',
   },
 
   created_at: NOW,
@@ -1297,7 +1354,7 @@ export const daiquiri: Cocktail = {
 
   description: {
     en: 'The quintessential rum sour - a perfect balance of white rum, fresh lime, and just enough sugar. Simple, elegant, and refreshing, the classic Daiquiri is a testament to the beauty of restraint. Forget the frozen strawberry versions - this is the real deal.',
-    it: 'Il sour di rum per eccellenza - un equilibrio perfetto di rum bianco, lime fresco e giusto un po\' di zucchero. Semplice, elegante e rinfrescante, il classico Daiquiri è una testimonianza della bellezza della moderazione. Dimentica le versioni frozen alla fragola - questo è l\'originale.',
+    it: "Il sour di rum per eccellenza - un equilibrio perfetto di rum bianco, lime fresco e giusto un po' di zucchero. Semplice, elegante e rinfrescante, il classico Daiquiri è una testimonianza della bellezza della moderazione. Dimentica le versioni frozen alla fragola - questo è l'originale.",
     vi: 'Rum sour tinh túy - sự cân bằng hoàn hảo của rum trắng, chanh tươi và đủ đường. Đơn giản, thanh lịch và sảng khoái, Daiquiri cổ điển là minh chứng cho vẻ đẹp của sự tiết chế. Quên các phiên bản frozen dâu đi - đây mới là thật.',
   },
 
@@ -1358,7 +1415,7 @@ export const daiquiri: Cocktail = {
       vi: 'Hoàn hảo với hải sản, đặc biệt là ceviche, hàu và cá nướng. Cũng tuyệt vời với ẩm thực Cuba và các món Caribe.',
     },
     ideal_for: {
-      en: 'Everyone. A true crowd-pleaser that showcases rum\'s versatility. Perfect for rum skeptics and enthusiasts alike. The benchmark for all rum sours.',
+      en: "Everyone. A true crowd-pleaser that showcases rum's versatility. Perfect for rum skeptics and enthusiasts alike. The benchmark for all rum sours.",
       it: 'Tutti. Un vero piacere per tutti che mette in mostra la versatilità del rum. Perfetto sia per scettici che entusiasti del rum. Il benchmark per tutti i rum sour.',
       vi: 'Tất cả mọi người. Một thức uống hài lòng mọi người thể hiện tính linh hoạt của rum. Hoàn hảo cho cả người hoài nghi và yêu thích rum. Tiêu chuẩn cho tất cả rum sour.',
     },
@@ -1373,7 +1430,11 @@ export const daiquiri: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh Lime Juice', it: 'Succo di Lime Fresco', vi: 'Nước Chanh Xanh Tươi' },
+      display_name: {
+        en: 'Fresh Lime Juice',
+        it: 'Succo di Lime Fresco',
+        vi: 'Nước Chanh Xanh Tươi',
+      },
     },
     {
       ingredient_id: 'ING_SUPERFINE_SUGAR',
@@ -1412,7 +1473,14 @@ export const daiquiri: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'fructose', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -1425,14 +1493,15 @@ export const daiquiri: Cocktail = {
 
   variants: ['frozen-daiquiri', 'hemingway-daiquiri', 'strawberry-daiquiri'],
 
-  notes_for_staff: 'Use quality white rum (Havana Club, Bacardi Superior). Fresh lime juice is non-negotiable. Dissolve sugar before adding ice. This is NOT a frozen drink - that\'s a different (and lesser) beast. Offer the Hemingway Daiquiri (Papa Doble) as a drier variation.',
+  notes_for_staff:
+    "Use quality white rum (Havana Club, Bacardi Superior). Fresh lime juice is non-negotiable. Dissolve sugar before adding ice. This is NOT a frozen drink - that's a different (and lesser) beast. Offer the Hemingway Daiquiri (Papa Doble) as a drier variation.",
 
   price_tier: 'low',
   popularity: 92,
 
   source: {
     primary: 'https://iba-world.com/daiquiri/',
-    note: 'IBA Official Recipe. Cuban classic from 1898.',
+    notes: 'IBA Official Recipe. Cuban classic from 1898.',
   },
 
   created_at: NOW,

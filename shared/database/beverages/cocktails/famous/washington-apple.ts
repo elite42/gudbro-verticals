@@ -43,8 +43,8 @@ export const washingtonApple: Cocktail = {
       country: 'USA',
     },
     story: {
-      en: 'The Washington Apple shot gained popularity in the 1990s, likely created as a tribute to Washington State\'s famous apple orchards. The combination of Crown Royal whisky with apple schnapps created a uniquely smooth and approachable shooter that became a bar staple across North America.',
-      it: 'Lo shot Washington Apple ha guadagnato popolarità negli anni \'90, probabilmente creato come tributo ai famosi frutteti di mele dello Stato di Washington. La combinazione di whisky Crown Royal con schnapps di mela ha creato uno shooter unico, morbido e accessibile che è diventato un elemento base nei bar del Nord America.',
+      en: "The Washington Apple shot gained popularity in the 1990s, likely created as a tribute to Washington State's famous apple orchards. The combination of Crown Royal whisky with apple schnapps created a uniquely smooth and approachable shooter that became a bar staple across North America.",
+      it: "Lo shot Washington Apple ha guadagnato popolarità negli anni '90, probabilmente creato come tributo ai famosi frutteti di mele dello Stato di Washington. La combinazione di whisky Crown Royal con schnapps di mela ha creato uno shooter unico, morbido e accessibile che è diventato un elemento base nei bar del Nord America.",
       vi: 'Shot Washington Apple trở nên phổ biến vào những năm 1990, có thể được tạo ra như một lời tri ân đến những vườn táo nổi tiếng của Tiểu bang Washington. Sự kết hợp của whisky Crown Royal với schnapps táo tạo ra một loại shooter mượt mà và dễ tiếp cận độc đáo đã trở thành món chính tại các quầy bar khắp Bắc Mỹ.',
     },
     named_after: {
@@ -89,7 +89,7 @@ export const washingtonApple: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for whiskey drinkers who enjoy fruity, approachable shots. A great introduction to whiskey-based shooters for those who prefer sweeter drinks.',
-      it: 'Perfetto per i bevitori di whisky che amano gli shot fruttati e accessibili. Un\'ottima introduzione agli shooter a base di whisky per chi preferisce le bevande più dolci.',
+      it: "Perfetto per i bevitori di whisky che amano gli shot fruttati e accessibili. Un'ottima introduzione agli shooter a base di whisky per chi preferisce le bevande più dolci.",
       vi: 'Hoàn hảo cho người uống whisky thích shot trái cây, dễ tiếp cận. Giới thiệu tuyệt vời cho shooter whisky cho những ai thích đồ uống ngọt hơn.',
     },
   },
@@ -101,17 +101,29 @@ export const washingtonApple: Cocktail = {
     {
       ingredient_id: 'ING_CANADIAN_WHISKY',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Canadian Whisky (Crown Royal)', it: 'Whisky Canadese (Crown Royal)', vi: 'Whisky Canada (Crown Royal)' },
+      display_name: {
+        en: 'Canadian Whisky (Crown Royal)',
+        it: 'Whisky Canadese (Crown Royal)',
+        vi: 'Whisky Canada (Crown Royal)',
+      },
     },
     {
       ingredient_id: 'ING_SOUR_APPLE_SCHNAPPS',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Sour Apple Schnapps', it: 'Schnapps di Mela Acida', vi: 'Schnapps Táo Chua' },
+      display_name: {
+        en: 'Sour Apple Schnapps',
+        it: 'Schnapps di Mela Acida',
+        vi: 'Schnapps Táo Chua',
+      },
     },
     {
       ingredient_id: 'ING_CRANBERRY_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Cranberry Juice', it: 'Succo di Mirtillo Rosso', vi: 'Nước Ép Nam Việt Quất' },
+      display_name: {
+        en: 'Cranberry Juice',
+        it: 'Succo di Mirtillo Rosso',
+        vi: 'Nước Ép Nam Việt Quất',
+      },
     },
   ],
 
@@ -156,7 +168,14 @@ export const washingtonApple: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -175,7 +194,8 @@ export const washingtonApple: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['washington-apple-martini', 'canadian-apple', 'crown-apple-shot'],
 
-  notes_for_staff: 'Crown Royal is the traditional choice for this shot, but any Canadian whisky works. DeKuyper Sour Apple Pucker is the most common schnapps used. Can be served as a cocktail over ice in a rocks glass.',
+  notes_for_staff:
+    'Crown Royal is the traditional choice for this shot, but any Canadian whisky works. DeKuyper Sour Apple Pucker is the most common schnapps used. Can be served as a cocktail over ice in a rocks glass.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -188,7 +208,7 @@ export const washingtonApple: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/washington-apple-shot/',
-    note: 'Popular 1990s shooter featuring Crown Royal and apple schnapps.',
+    notes: 'Popular 1990s shooter featuring Crown Royal and apple schnapps.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

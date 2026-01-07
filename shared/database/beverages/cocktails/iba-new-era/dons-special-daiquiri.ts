@@ -51,7 +51,7 @@ export const donsSpecialDaiquiri: Cocktail = {
     },
     story: {
       en: 'Created by Donn Beach (Don the Beachcomber) in 1937 as his personal take on the classic Cuban daiquiri. Don the Beachcomber was known for elevating simple cocktails with sophisticated additions, and this daiquiri showcases his skill. The addition of grapefruit juice and maraschino liqueur transforms the straightforward daiquiri into something more complex and nuanced, while still honoring the original spirit of the drink.',
-      it: 'Creato da Donn Beach (Don the Beachcomber) nel 1937 come sua interpretazione personale del classico daiquiri cubano. Don the Beachcomber era noto per elevare cocktail semplici con aggiunte sofisticate, e questo daiquiri mostra la sua abilità. L\'aggiunta di succo di pompelmo e liquore di maraschino trasforma il semplice daiquiri in qualcosa di più complesso e sfumato, onorando comunque lo spirito originale della bevanda.',
+      it: "Creato da Donn Beach (Don the Beachcomber) nel 1937 come sua interpretazione personale del classico daiquiri cubano. Don the Beachcomber era noto per elevare cocktail semplici con aggiunte sofisticate, e questo daiquiri mostra la sua abilità. L'aggiunta di succo di pompelmo e liquore di maraschino trasforma il semplice daiquiri in qualcosa di più complesso e sfumato, onorando comunque lo spirito originale della bevanda.",
       vi: 'Được tạo ra bởi Donn Beach (Don the Beachcomber) năm 1937 như cách hiểu riêng của ông về daiquiri Cuba cổ điển. Don the Beachcomber nổi tiếng với việc nâng cao các cocktail đơn giản bằng những bổ sung tinh tế, và daiquiri này thể hiện kỹ năng của ông. Việc thêm nước bưởi và rượu mùi maraschino biến đổi daiquiri đơn giản thành thứ gì đó phức tạp và tinh tế hơn, trong khi vẫn tôn vinh tinh thần gốc của đồ uống.',
     },
     named_after: {
@@ -96,7 +96,7 @@ export const donsSpecialDaiquiri: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for rum enthusiasts who appreciate sophisticated daiquiri variations. Ideal for those seeking a complex yet refreshing citrus cocktail. Great for aperitif hour and warm weather occasions.',
-      it: 'Perfetto per gli appassionati di rum che apprezzano variazioni sofisticate del daiquiri. Ideale per chi cerca un cocktail di agrumi complesso ma rinfrescante. Ottimo per l\'ora dell\'aperitivo e occasioni con tempo caldo.',
+      it: "Perfetto per gli appassionati di rum che apprezzano variazioni sofisticate del daiquiri. Ideale per chi cerca un cocktail di agrumi complesso ma rinfrescante. Ottimo per l'ora dell'aperitivo e occasioni con tempo caldo.",
       vi: 'Hoàn hảo cho người đam mê rum đánh giá cao các biến thể daiquiri tinh tế. Lý tưởng cho những ai tìm kiếm cocktail cam chanh phức tạp nhưng sảng khoái. Tuyệt vời cho giờ aperitif và dịp thời tiết ấm.',
     },
   },
@@ -118,12 +118,20 @@ export const donsSpecialDaiquiri: Cocktail = {
     {
       ingredient_id: 'ING_GRAPEFRUIT_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh grapefruit juice', it: 'Succo di pompelmo fresco', vi: 'Nước bưởi tươi' },
+      display_name: {
+        en: 'Fresh grapefruit juice',
+        it: 'Succo di pompelmo fresco',
+        vi: 'Nước bưởi tươi',
+      },
     },
     {
       ingredient_id: 'ING_MARASCHINO_LIQUEUR',
       quantity: { amount: 7.5, unit: 'ml' },
-      display_name: { en: 'Maraschino liqueur', it: 'Liquore di maraschino', vi: 'Rượu mùi maraschino' },
+      display_name: {
+        en: 'Maraschino liqueur',
+        it: 'Liquore di maraschino',
+        vi: 'Rượu mùi maraschino',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -173,7 +181,14 @@ export const donsSpecialDaiquiri: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -192,7 +207,8 @@ export const donsSpecialDaiquiri: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['hemingway-daiquiri', 'classic-daiquiri'],
 
-  notes_for_staff: 'Fresh citrus juices are essential. Luxardo maraschino is preferred. Double strain to ensure clarity. Grapefruit twist expresses oils over drink before placing. Can adjust sweetness to taste.',
+  notes_for_staff:
+    'Fresh citrus juices are essential. Luxardo maraschino is preferred. Double strain to ensure clarity. Grapefruit twist expresses oils over drink before placing. Can adjust sweetness to taste.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +221,7 @@ export const donsSpecialDaiquiri: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/dons-special-daiquiri/',
-    note: 'IBA Official Recipe. Created by Donn Beach at Don the Beachcomber\'s, 1937.',
+    notes: "IBA Official Recipe. Created by Donn Beach at Don the Beachcomber's, 1937.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

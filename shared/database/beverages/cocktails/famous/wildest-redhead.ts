@@ -30,9 +30,9 @@ export const wildestRedhead: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A bold bourbon cocktail featuring ginger liqueur, strawberry, lemon juice, and Peychaud\'s bitters. The Wildest Redhead is a spicy, fruity drink with a beautiful pink hue and complex flavor profile.',
+    en: "A bold bourbon cocktail featuring ginger liqueur, strawberry, lemon juice, and Peychaud's bitters. The Wildest Redhead is a spicy, fruity drink with a beautiful pink hue and complex flavor profile.",
     it: 'Un cocktail audace a base di bourbon con liquore allo zenzero, fragola, succo di limone e bitter Peychaud. Il Wildest Redhead è una bevanda piccante e fruttata con una bellissima tonalità rosa e un profilo aromatico complesso.',
-    vi: 'Một loại cocktail bourbon táo bạo với rượu mùi gừng, dâu tây, nước chanh và Peychaud\'s bitters. Wildest Redhead là thức uống cay, trái cây với sắc hồng đẹp mắt và hương vị phức tạp.',
+    vi: "Một loại cocktail bourbon táo bạo với rượu mùi gừng, dâu tây, nước chanh và Peychaud's bitters. Wildest Redhead là thức uống cay, trái cây với sắc hồng đẹp mắt và hương vị phức tạp.",
   },
 
   history: {
@@ -47,7 +47,7 @@ export const wildestRedhead: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by Toby Maloney at the legendary Pegu Club in New York City in 2008, the Wildest Redhead was designed as a bold, feminine cocktail that plays with strawberry and ginger flavors. Maloney combined bourbon with muddled strawberries and ginger liqueur, creating a drink that balances fruit, spice, and spirit strength. The cocktail\'s vibrant color and bold flavor profile made it an instant hit and it quickly became a modern classic.',
+      en: "Created by Toby Maloney at the legendary Pegu Club in New York City in 2008, the Wildest Redhead was designed as a bold, feminine cocktail that plays with strawberry and ginger flavors. Maloney combined bourbon with muddled strawberries and ginger liqueur, creating a drink that balances fruit, spice, and spirit strength. The cocktail's vibrant color and bold flavor profile made it an instant hit and it quickly became a modern classic.",
       it: 'Creato da Toby Maloney al leggendario Pegu Club di New York City nel 2008, il Wildest Redhead è stato progettato come un cocktail audace e femminile che gioca con i sapori di fragola e zenzero. Maloney ha combinato bourbon con fragole pestate e liquore allo zenzero, creando una bevanda che bilancia frutta, spezie e forza alcolica. Il colore vibrante e il profilo aromatico audace del cocktail lo hanno reso un successo immediato ed è rapidamente diventato un classico moderno.',
       vi: 'Được tạo ra bởi Toby Maloney tại Pegu Club huyền thoại ở New York City năm 2008, Wildest Redhead được thiết kế như một cocktail táo bạo, nữ tính chơi với hương vị dâu tây và gừng. Maloney kết hợp bourbon với dâu tây giã và rượu mùi gừng, tạo ra đồ uống cân bằng trái cây, gia vị và độ mạnh rượu. Màu sắc rực rỡ và hương vị táo bạo của cocktail làm nó thành công ngay lập tức và nhanh chóng trở thành cocktail cổ điển hiện đại.',
     },
@@ -61,9 +61,9 @@ export const wildestRedhead: Cocktail = {
   taste: {
     profile: ['fruity', 'spicy', 'sweet'],
     description: {
-      en: 'Bold and fruity with warming spice. Bourbon provides a rich, oaky backbone, fresh strawberries add sweet-tart fruit notes, ginger liqueur contributes spicy warmth, and lemon juice brings bright acidity. Peychaud\'s bitters add aromatic complexity.',
+      en: "Bold and fruity with warming spice. Bourbon provides a rich, oaky backbone, fresh strawberries add sweet-tart fruit notes, ginger liqueur contributes spicy warmth, and lemon juice brings bright acidity. Peychaud's bitters add aromatic complexity.",
       it: 'Audace e fruttato con spezie calde. Il bourbon fornisce una struttura ricca e legnosa, le fragole fresche aggiungono note fruttate dolci-aspre, il liquore allo zenzero contribuisce con calore speziato e il succo di limone porta acidità brillante. I bitter Peychaud aggiungono complessità aromatica.',
-      vi: 'Táo bạo và trái cây với gia vị ấm áp. Bourbon mang đến xương sống giàu, gỗ sồi, dâu tây tươi thêm hương trái cây ngọt-chua, rượu mùi gừng đóng góp hơi ấm cay, và nước chanh mang độ chua sáng. Peychaud\'s bitters thêm độ phức tạp thơm.',
+      vi: "Táo bạo và trái cây với gia vị ấm áp. Bourbon mang đến xương sống giàu, gỗ sồi, dâu tây tươi thêm hương trái cây ngọt-chua, rượu mùi gừng đóng góp hơi ấm cay, và nước chanh mang độ chua sáng. Peychaud's bitters thêm độ phức tạp thơm.",
     },
     first_impression: {
       en: 'Sweet strawberry and spicy ginger hit first, followed by bourbon warmth and citrus',
@@ -138,9 +138,9 @@ export const wildestRedhead: Cocktail = {
       ingredient_id: 'ING_PEYCHAUDS_BITTERS',
       quantity: { amount: 2, unit: 'dashes' },
       display_name: {
-        en: 'Peychaud\'s bitters',
+        en: "Peychaud's bitters",
         it: 'Bitter Peychaud',
-        vi: 'Peychaud\'s bitters',
+        vi: "Peychaud's bitters",
       },
     },
   ],
@@ -186,7 +186,14 @@ export const wildestRedhead: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -205,7 +212,8 @@ export const wildestRedhead: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['whiskey-smash', 'strawberry-basil-smash'],
 
-  notes_for_staff: 'Use fresh, ripe strawberries for best flavor. Muddle gently to avoid bitterness. Double strain to remove strawberry seeds and pulp. Can rim glass with sugar for extra sweetness.',
+  notes_for_staff:
+    'Use fresh, ripe strawberries for best flavor. Muddle gently to avoid bitterness. Double strain to remove strawberry seeds and pulp. Can rim glass with sugar for extra sweetness.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -218,7 +226,7 @@ export const wildestRedhead: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'Created by Toby Maloney at Pegu Club, 2008',
-    note: 'Modern classic cocktail. Featured in craft cocktail publications.',
+    notes: 'Modern classic cocktail. Featured in craft cocktail publications.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

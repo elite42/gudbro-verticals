@@ -34,14 +34,14 @@ export interface OnboardingStep {
   fields: MissingField[];
 }
 
-interface OrganizationData {
+export interface OrganizationData {
   id: string;
   name: string;
   type: string | null;
   subscription_plan: string | null;
 }
 
-interface BrandData {
+export interface BrandData {
   id: string;
   name: string;
   business_type: string | null;
@@ -50,7 +50,7 @@ interface BrandData {
   primary_color: string;
 }
 
-interface LocationData {
+export interface LocationData {
   id: string;
   name: string;
   address: string | null;

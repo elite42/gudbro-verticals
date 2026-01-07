@@ -62,7 +62,7 @@ export const trinidadEspecial: Cocktail = {
     profile: ['spicy', 'bitter', 'complex'],
     description: {
       en: 'Intensely aromatic and spicy with surprising balance. The dominant Angostura bitters provide warm spice notes of cinnamon, clove, and gentian. Orgeat adds almond sweetness and creamy texture, while rye whiskey and lemon juice provide structure and brightness.',
-      it: 'Intensamente aromatico e speziato con equilibrio sorprendente. I bitter Angostura dominanti forniscono note speziate calde di cannella, chiodi di garofano e genziana. L\'orzata aggiunge dolcezza di mandorla e consistenza cremosa, mentre il whiskey di segale e il succo di limone forniscono struttura e luminosità.',
+      it: "Intensamente aromatico e speziato con equilibrio sorprendente. I bitter Angostura dominanti forniscono note speziate calde di cannella, chiodi di garofano e genziana. L'orzata aggiunge dolcezza di mandorla e consistenza cremosa, mentre il whiskey di segale e il succo di limone forniscono struttura e luminosità.",
       vi: 'Thơm mãnh liệt và cay với sự cân bằng đáng ngạc nhiên. Angostura bitters chủ đạo mang đến hương gia vị ấm của quế, đinh hương và long đởm. Orgeat thêm vị ngọt hạnh nhân và kết cấu kem, trong khi rye whiskey và nước chanh mang đến cấu trúc và độ sáng.',
     },
     first_impression: {
@@ -77,7 +77,7 @@ export const trinidadEspecial: Cocktail = {
     },
     balance: {
       en: 'Remarkably balanced despite unconventional proportions - orgeat sweetness tames the intense bitters',
-      it: 'Straordinariamente bilanciato nonostante le proporzioni non convenzionali - la dolcezza dell\'orzata doma i bitter intensi',
+      it: "Straordinariamente bilanciato nonostante le proporzioni non convenzionali - la dolcezza dell'orzata doma i bitter intensi",
       vi: 'Cân bằng đáng kể mặc dù tỷ lệ không theo quy ước - vị ngọt orgeat thuần hóa bitters mạnh mẽ',
     },
   },
@@ -196,7 +196,8 @@ export const trinidadEspecial: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['trinidad-sour'],
 
-  notes_for_staff: 'Yes, the recipe calls for 1.5 oz of Angostura bitters as the base! This is intentional and creates the signature character. Use quality orgeat (preferably house-made). Warn guests about the unconventional nature before serving.',
+  notes_for_staff:
+    'Yes, the recipe calls for 1.5 oz of Angostura bitters as the base! This is intentional and creates the signature character. Use quality orgeat (preferably house-made). Warn guests about the unconventional nature before serving.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -209,7 +210,8 @@ export const trinidadEspecial: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'Created by Giuseppe González, 2009',
-    note: 'One of the most unconventional modern classics. Featured in numerous cocktail publications.',
+    notes:
+      'One of the most unconventional modern classics. Featured in numerous cocktail publications.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

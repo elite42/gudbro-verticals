@@ -53,7 +53,7 @@ export const rumRunner: Cocktail = {
     },
     named_after: {
       en: 'Named after prohibition-era rum smugglers who operated in the Caribbean and Florida Keys.',
-      it: 'Prende il nome dai contrabbandieri di rum dell\'era del proibizionismo che operavano nei Caraibi e nelle Florida Keys.',
+      it: "Prende il nome dai contrabbandieri di rum dell'era del proibizionismo che operavano nei Caraibi e nelle Florida Keys.",
       vi: 'Được đặt theo tên những kẻ buôn lậu rum thời kỳ cấm rượu hoạt động ở vùng Caribbean và Florida Keys.',
     },
   },
@@ -120,7 +120,11 @@ export const rumRunner: Cocktail = {
     {
       ingredient_id: 'ING_BLACKBERRY_LIQUEUR',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Blackberry liqueur', it: 'Liquore ai frutti di bosco', vi: 'Rượu mùi dâu đen' },
+      display_name: {
+        en: 'Blackberry liqueur',
+        it: 'Liquore ai frutti di bosco',
+        vi: 'Rượu mùi dâu đen',
+      },
     },
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
@@ -130,7 +134,11 @@ export const rumRunner: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước chanh xanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước chanh xanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_GRENADINE',
@@ -143,7 +151,7 @@ export const rumRunner: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a blender with 1 cup of crushed ice. Blend until smooth. Pour into a hurricane glass. Garnish with orange slice and maraschino cherry.',
-    it: 'Aggiungere tutti gli ingredienti in un frullatore con 1 tazza di ghiaccio tritato. Frullare fino a quando liscio. Versare in un bicchiere hurricane. Guarnire con fetta d\'arancia e ciliegia maraschino.',
+    it: "Aggiungere tutti gli ingredienti in un frullatore con 1 tazza di ghiaccio tritato. Frullare fino a quando liscio. Versare in un bicchiere hurricane. Guarnire con fetta d'arancia e ciliegia maraschino.",
     vi: 'Thêm tất cả nguyên liệu vào máy xay sinh tố với 1 cốc đá nghiền. Xay cho đến khi mịn. Đổ vào ly hurricane. Trang trí với lát cam và cherry maraschino.',
   },
 
@@ -151,7 +159,7 @@ export const rumRunner: Cocktail = {
 
   garnish: {
     en: 'Orange slice, maraschino cherry, pineapple wedge',
-    it: 'Fetta d\'arancia, ciliegia maraschino, spicchio di ananas',
+    it: "Fetta d'arancia, ciliegia maraschino, spicchio di ananas",
     vi: 'Lát cam, cherry maraschino, nhánh ananás',
   },
 
@@ -180,7 +188,14 @@ export const rumRunner: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -199,7 +214,8 @@ export const rumRunner: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['key-west-rum-runner', 'florida-keys-runner'],
 
-  notes_for_staff: 'Created at Holiday Isle Tiki Bar in 1972. Can use crème de cassis if blackberry liqueur unavailable. Some recipes add orange juice. Blended version is traditional, but can be shaken and served over ice for a non-frozen variant.',
+  notes_for_staff:
+    'Created at Holiday Isle Tiki Bar in 1972. Can use crème de cassis if blackberry liqueur unavailable. Some recipes add orange juice. Blended version is traditional, but can be shaken and served over ice for a non-frozen variant.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -212,7 +228,8 @@ export const rumRunner: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.holidayisle.com/rum-runner',
-    note: 'Original recipe from Holiday Isle Tiki Bar, created by Tiki John Ebert in 1972. Florida Keys cocktail archives.',
+    notes:
+      'Original recipe from Holiday Isle Tiki Bar, created by Tiki John Ebert in 1972. Florida Keys cocktail archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

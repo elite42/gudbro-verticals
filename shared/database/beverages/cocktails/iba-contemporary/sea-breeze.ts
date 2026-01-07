@@ -33,7 +33,7 @@ export const seaBreeze: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A refreshing vodka-based cocktail combining cranberry and grapefruit juices. Light, fruity, and perfectly balanced, it\'s the ideal beach-side companion with its beautiful pink hue.',
+    en: "A refreshing vodka-based cocktail combining cranberry and grapefruit juices. Light, fruity, and perfectly balanced, it's the ideal beach-side companion with its beautiful pink hue.",
     it: 'Un cocktail rinfrescante a base di vodka che combina succhi di mirtillo rosso e pompelmo. Leggero, fruttato e perfettamente bilanciato, è il compagno ideale in spiaggia con la sua bellissima tonalità rosa.',
     vi: 'Một cocktail sảng khoái dựa trên vodka kết hợp nước nam việt quất và bưởi. Nhẹ nhàng, trái cây và cân bằng hoàn hảo, nó là người bạn đồng hành lý tưởng bên bãi biển với sắc hồng tuyệt đẹp.',
   },
@@ -51,7 +51,7 @@ export const seaBreeze: Cocktail = {
     },
     story: {
       en: 'The Sea Breeze evolved from earlier gin-based recipes in the 1920s-30s. The modern vodka version with cranberry and grapefruit juice became popular in the 1970s, particularly during the cranberry juice marketing boom by Ocean Spray.',
-      it: 'Il Sea Breeze si è evoluto da precedenti ricette a base di gin negli anni \'20-\'30. La versione moderna con vodka, succo di mirtillo rosso e pompelmo divenne popolare negli anni \'70, in particolare durante il boom del marketing del succo di mirtillo rosso da parte di Ocean Spray.',
+      it: "Il Sea Breeze si è evoluto da precedenti ricette a base di gin negli anni '20-'30. La versione moderna con vodka, succo di mirtillo rosso e pompelmo divenne popolare negli anni '70, in particolare durante il boom del marketing del succo di mirtillo rosso da parte di Ocean Spray.",
       vi: 'Sea Breeze phát triển từ các công thức dựa trên gin trước đó vào những năm 1920-30. Phiên bản vodka hiện đại với nước nam việt quất và bưởi trở nên phổ biến vào những năm 1970, đặc biệt trong thời kỳ bùng nổ tiếp thị nước nam việt quất của Ocean Spray.',
     },
     named_after: {
@@ -113,7 +113,11 @@ export const seaBreeze: Cocktail = {
     {
       ingredient_id: 'ING_CRANBERRY_JUICE',
       quantity: { amount: 120, unit: 'ml' },
-      display_name: { en: 'Cranberry juice', it: 'Succo di mirtillo rosso', vi: 'Nước nam việt quất' },
+      display_name: {
+        en: 'Cranberry juice',
+        it: 'Succo di mirtillo rosso',
+        vi: 'Nước nam việt quất',
+      },
     },
     {
       ingredient_id: 'ING_GRAPEFRUIT_JUICE',
@@ -163,7 +167,14 @@ export const seaBreeze: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +193,8 @@ export const seaBreeze: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['bay-breeze', 'cape-codder', 'madras'],
 
-  notes_for_staff: 'Use fresh-squeezed grapefruit juice when possible. The Bay Breeze variation uses pineapple instead of grapefruit. Build in glass - no shaking needed.',
+  notes_for_staff:
+    'Use fresh-squeezed grapefruit juice when possible. The Bay Breeze variation uses pineapple instead of grapefruit. Build in glass - no shaking needed.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +207,7 @@ export const seaBreeze: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/sea-breeze/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

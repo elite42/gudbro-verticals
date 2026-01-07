@@ -32,8 +32,8 @@ export const presbyterian: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A classic American highball combining whiskey with ginger ale and club soda. The Presbyterian is a light, refreshing drink that softens the whiskey\'s edge with effervescence, making it perfect for casual sipping.',
-    it: 'Un classico highball americano che combina whiskey con ginger ale e acqua di seltz. Il Presbyterian è un drink leggero e rinfrescante che ammorbidisce il carattere del whiskey con l\'effervescenza, rendendolo perfetto per un sorso casuale.',
+    en: "A classic American highball combining whiskey with ginger ale and club soda. The Presbyterian is a light, refreshing drink that softens the whiskey's edge with effervescence, making it perfect for casual sipping.",
+    it: "Un classico highball americano che combina whiskey con ginger ale e acqua di seltz. Il Presbyterian è un drink leggero e rinfrescante che ammorbidisce il carattere del whiskey con l'effervescenza, rendendolo perfetto per un sorso casuale.",
     vi: 'Một highball cổ điển của Mỹ kết hợp whiskey với ginger ale và soda. Presbyterian là thức uống nhẹ nhàng, tươi mát làm dịu vị nồng của whiskey bằng khí CO2, làm cho nó hoàn hảo cho việc nhâm nhi thư giãn.',
   },
 
@@ -44,13 +44,13 @@ export const presbyterian: Cocktail = {
       country: 'USA',
     },
     story: {
-      en: 'The Presbyterian dates back to the late 19th century and is one of America\'s oldest highball cocktails. The name\'s origin is debated - some believe it references the Presbyterian church\'s temperance movement (the drink being relatively light on alcohol), while others suggest it was simply a popular drink among Presbyterian communities. The combination of ginger ale and club soda creates a unique effervescence that sets it apart from simpler whiskey highballs. It gained popularity in country clubs and became a staple "golf course drink" in the mid-20th century.',
+      en: "The Presbyterian dates back to the late 19th century and is one of America's oldest highball cocktails. The name's origin is debated - some believe it references the Presbyterian church's temperance movement (the drink being relatively light on alcohol), while others suggest it was simply a popular drink among Presbyterian communities. The combination of ginger ale and club soda creates a unique effervescence that sets it apart from simpler whiskey highballs. It gained popularity in country clubs and became a staple \"golf course drink\" in the mid-20th century.",
       it: 'Il Presbyterian risale alla fine del XIX secolo ed è uno dei più antichi cocktail highball americani. L\'origine del nome è dibattuta - alcuni credono che si riferisca al movimento temperante della chiesa presbiteriana (il drink essendo relativamente leggero in alcol), mentre altri suggeriscono che fosse semplicemente una bevanda popolare tra le comunità presbiteriane. La combinazione di ginger ale e acqua di seltz crea un\'effervescenza unica che lo distingue dai semplici highball di whiskey. Guadagnò popolarità nei country club e divenne un "drink da campo da golf" di base a metà del XX secolo.',
       vi: 'Presbyterian có từ cuối thế kỷ 19 và là một trong những cocktail highball lâu đời nhất của Mỹ. Nguồn gốc của tên gọi còn được tranh luận - một số tin rằng nó ám chỉ phong trào tiết chế của giáo hội Presbyterian (thức uống có ít cồn tương đối), trong khi những người khác cho rằng nó đơn giản là thức uống phổ biến trong cộng đồng Presbyterian. Sự kết hợp của ginger ale và soda tạo ra khí CO2 độc đáo phân biệt nó với các whiskey highball đơn giản hơn. Nó trở nên phổ biến ở các câu lạc bộ đồng quê và trở thành "thức uống sân golf" chính vào giữa thế kỷ 20.',
     },
     named_after: {
       en: 'Likely named after the Presbyterian church community, though the exact origin remains uncertain.',
-      it: 'Probabilmente prende il nome dalla comunità della chiesa presbiteriana, anche se l\'origine esatta rimane incerta.',
+      it: "Probabilmente prende il nome dalla comunità della chiesa presbiteriana, anche se l'origine esatta rimane incerta.",
       vi: 'Có thể được đặt theo tên cộng đồng giáo hội Presbyterian, mặc dù nguồn gốc chính xác vẫn không chắc chắn.',
     },
   },
@@ -58,7 +58,7 @@ export const presbyterian: Cocktail = {
   taste: {
     profile: ['refreshing', 'spicy', 'ginger', 'whiskey'],
     description: {
-      en: 'Light and refreshing with whiskey warmth balanced by ginger spice and carbonation. The dual soda combination creates a unique texture that\'s more effervescent than a standard highball, while the ginger ale adds subtle sweetness and spice.',
+      en: "Light and refreshing with whiskey warmth balanced by ginger spice and carbonation. The dual soda combination creates a unique texture that's more effervescent than a standard highball, while the ginger ale adds subtle sweetness and spice.",
       it: 'Leggero e rinfrescante con il calore del whiskey bilanciato dalla spezia di zenzero e dalla carbonazione. La doppia combinazione di soda crea una texture unica più effervescente di un highball standard, mentre il ginger ale aggiunge dolcezza e spezia sottili.',
       vi: 'Nhẹ nhàng và tươi mát với hơi ấm whiskey được cân bằng bởi vị cay gừng và khí CO2. Sự kết hợp soda kép tạo ra kết cấu độc đáo có nhiều bọt hơn highball tiêu chuẩn, trong khi ginger ale thêm vị ngọt và cay tinh tế.',
     },
@@ -82,7 +82,7 @@ export const presbyterian: Cocktail = {
   recommendations: {
     best_time: ['afternoon', 'evening', 'daytime'],
     occasions: ['casual', 'golf', 'outdoor', 'social'],
-    seasons: ['all-year'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Pairs well with grilled meats, barbecue, burgers, and pub fare. Excellent with smoked foods and charcuterie. Traditional golf course accompaniment.',
       it: 'Si abbina bene con carni alla griglia, barbecue, hamburger e piatti da pub. Eccellente con cibi affumicati e salumi. Accompagnamento tradizionale del campo da golf.',
@@ -102,7 +102,11 @@ export const presbyterian: Cocktail = {
     {
       ingredient_id: 'ING_BOURBON',
       quantity: { amount: 60, unit: 'ml' },
-      display_name: { en: 'Bourbon or rye whiskey', it: 'Bourbon o whiskey di segale', vi: 'Bourbon hoặc rye whiskey' },
+      display_name: {
+        en: 'Bourbon or rye whiskey',
+        it: 'Bourbon o whiskey di segale',
+        vi: 'Bourbon hoặc rye whiskey',
+      },
     },
     {
       ingredient_id: 'ING_GINGER_ALE',
@@ -157,7 +161,14 @@ export const presbyterian: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 1,
   },
 
@@ -165,7 +176,7 @@ export const presbyterian: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-year'],
+  season_tags: ['all_year'],
   occasion_tags: ['casual', 'golf', 'outdoor'],
 
   is_mocktail: false,
@@ -176,7 +187,8 @@ export const presbyterian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['whiskey-ginger', 'mamie-taylor'],
 
-  notes_for_staff: 'Equal parts ginger ale and club soda is traditional, but ratio can be adjusted to taste. Works with bourbon, rye, or blended whiskey. Sometimes called "Press" in some regions.',
+  notes_for_staff:
+    'Equal parts ginger ale and club soda is traditional, but ratio can be adjusted to taste. Works with bourbon, rye, or blended whiskey. Sometimes called "Press" in some regions.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -189,7 +201,7 @@ export const presbyterian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1243/presbyterian',
-    note: 'Classic American highball from late 19th century.',
+    notes: 'Classic American highball from late 19th century.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

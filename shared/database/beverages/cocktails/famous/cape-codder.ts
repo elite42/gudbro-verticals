@@ -83,7 +83,7 @@ export const capeCodder: Cocktail = {
   recommendations: {
     best_time: ['afternoon', 'evening', 'happy_hour'],
     occasions: ['casual', 'happy_hour', 'beach', 'poolside'],
-    seasons: ['all-year'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Pairs well with turkey, chicken dishes, cheese plates, and light appetizers. A traditional Thanksgiving cocktail. Also complements seafood and salads.',
       it: 'Si abbina bene con tacchino, piatti di pollo, taglieri di formaggi e antipasti leggeri. Un cocktail tradizionale del Ringraziamento. Completa anche frutti di mare e insalate.',
@@ -181,7 +181,7 @@ export const capeCodder: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-year'],
+  season_tags: ['all_year'],
   occasion_tags: ['casual', 'happy_hour', 'beach'],
 
   is_mocktail: false,
@@ -206,7 +206,7 @@ export const capeCodder: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1237/cape-codder',
-    note: 'Classic New England cocktail, promoted by Ocean Spray.',
+    notes: 'Classic New England cocktail, promoted by Ocean Spray.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

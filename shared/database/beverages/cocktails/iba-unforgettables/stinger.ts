@@ -33,7 +33,7 @@ export const stinger: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A sophisticated two-ingredient after-dinner cocktail combining cognac with white crème de menthe. The Stinger is refreshingly minty yet warming - a classic digestif that\'s both simple and elegant, perfect for ending an evening on a refined note.',
+    en: "A sophisticated two-ingredient after-dinner cocktail combining cognac with white crème de menthe. The Stinger is refreshingly minty yet warming - a classic digestif that's both simple and elegant, perfect for ending an evening on a refined note.",
     it: 'Un sofisticato cocktail dopo cena a due ingredienti che combina cognac con crème de menthe bianca. Lo Stinger è rinfrescante alla menta ma caldo - un classico digestivo che è allo stesso tempo semplice ed elegante, perfetto per concludere una serata con una nota raffinata.',
     vi: 'Một cocktail tinh tế hai thành phần sau bữa tối kết hợp cognac với crème de menthe trắng. Stinger mát mẻ bạc hà nhưng ấm áp - một digestif cổ điển vừa đơn giản vừa thanh lịch, hoàn hảo để kết thúc buổi tối với nốt nhạc tinh tế.',
   },
@@ -51,7 +51,7 @@ export const stinger: Cocktail = {
     },
     story: {
       en: 'The Stinger likely originated in the 1890s and became particularly popular during Prohibition (1920-1933) when the mint helped mask inferior spirits. The drink gained significant cultural cache in the mid-20th century, becoming the preferred nightcap of high society and appearing in numerous films and novels. It was famously enjoyed by characters in works by F. Scott Fitzgerald and Evelyn Waugh. The simplicity of just two ingredients belies its sophisticated appeal.',
-      it: 'Lo Stinger probabilmente ebbe origine negli anni 1890 e divenne particolarmente popolare durante il Proibizionismo (1920-1933) quando la menta aiutava a mascherare spiriti inferiori. La bevanda guadagnò un significativo prestigio culturale a metà del XX secolo, diventando il nightcap preferito dell\'alta società e apparendo in numerosi film e romanzi. Fu famosamente apprezzato da personaggi nelle opere di F. Scott Fitzgerald ed Evelyn Waugh. La semplicità di soli due ingredienti nasconde il suo fascino sofisticato.',
+      it: "Lo Stinger probabilmente ebbe origine negli anni 1890 e divenne particolarmente popolare durante il Proibizionismo (1920-1933) quando la menta aiutava a mascherare spiriti inferiori. La bevanda guadagnò un significativo prestigio culturale a metà del XX secolo, diventando il nightcap preferito dell'alta società e apparendo in numerosi film e romanzi. Fu famosamente apprezzato da personaggi nelle opere di F. Scott Fitzgerald ed Evelyn Waugh. La semplicità di soli due ingredienti nasconde il suo fascino sofisticato.",
       vi: 'Stinger có thể có nguồn gốc từ những năm 1890 và trở nên đặc biệt phổ biến trong thời Cấm rượu (1920-1933) khi bạc hà giúp che giấu rượu kém chất lượng. Thức uống đạt được uy tín văn hóa đáng kể vào giữa thế kỷ 20, trở thành nightcap ưa thích của giới thượng lưu và xuất hiện trong nhiều bộ phim và tiểu thuyết. Nó được các nhân vật trong tác phẩm của F. Scott Fitzgerald và Evelyn Waugh yêu thích. Sự đơn giản của chỉ hai thành phần che giấu sức hấp dẫn tinh tế của nó.',
     },
     named_after: {
@@ -162,7 +162,14 @@ export const stinger: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -181,7 +188,8 @@ export const stinger: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['vodka-stinger', 'brandy-alexander', 'grasshopper'],
 
-  notes_for_staff: 'Use white crème de menthe (not green) for a clear appearance. Can be served on the rocks if preferred. Quality cognac is important - the simplicity means there\'s nowhere to hide. Some guests may request it shaken for extra chill.',
+  notes_for_staff:
+    "Use white crème de menthe (not green) for a clear appearance. Can be served on the rocks if preferred. Quality cognac is important - the simplicity means there's nowhere to hide. Some guests may request it shaken for extra chill.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -194,7 +202,8 @@ export const stinger: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/stinger/',
-    note: 'IBA Official Recipe. Historical information from cocktail history sources and literary references.',
+    notes:
+      'IBA Official Recipe. Historical information from cocktail history sources and literary references.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

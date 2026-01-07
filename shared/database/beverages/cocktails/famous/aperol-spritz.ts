@@ -30,8 +30,8 @@ export const aperolSpritz: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'Italy\'s most iconic aperitivo cocktail, the Aperol Spritz combines Aperol\'s bittersweet orange flavor with prosecco and soda water. Light, refreshing, and impossibly drinkable, it\'s the perfect pre-dinner drink that embodies the Italian art of "la dolce vita."',
-    it: 'Il cocktail aperitivo più iconico d\'Italia, l\'Aperol Spritz combina il sapore amarognolo e dolce dell\'Aperol con prosecco e acqua frizzante. Leggero, rinfrescante e incredibilmente beverino, è il perfetto drink pre-cena che incarna l\'arte italiana della "dolce vita."',
+    en: "Italy's most iconic aperitivo cocktail, the Aperol Spritz combines Aperol's bittersweet orange flavor with prosecco and soda water. Light, refreshing, and impossibly drinkable, it's the perfect pre-dinner drink that embodies the Italian art of \"la dolce vita.\"",
+    it: "Il cocktail aperitivo più iconico d'Italia, l'Aperol Spritz combina il sapore amarognolo e dolce dell'Aperol con prosecco e acqua frizzante. Leggero, rinfrescante e incredibilmente beverino, è il perfetto drink pre-cena che incarna l'arte italiana della \"dolce vita.\"",
     vi: 'Cocktail khai vị mang tính biểu tượng nhất của Ý, Aperol Spritz kết hợp hương vị cam đắng ngọt của Aperol với prosecco và nước soda. Nhẹ nhàng, sảng khoái và dễ uống không thể tin được, đây là thức uống trước bữa tối hoàn hảo thể hiện nghệ thuật "la dolce vita" của Ý.',
   },
 
@@ -48,7 +48,7 @@ export const aperolSpritz: Cocktail = {
     },
     story: {
       en: 'The Aperol Spritz has its roots in the Habsburg Empire\'s occupation of Venice in the 1800s. Austrian soldiers found local Italian wines too strong and began diluting them with water - creating the "spritz." When Aperol was created by the Barbieri brothers in Padua in 1919, bartenders in the Veneto region began mixing it with prosecco and soda water. The drink exploded in popularity in the 1950s and became synonymous with Italian aperitivo culture. It gained worldwide fame in the 2000s, becoming the unofficial drink of summer.',
-      it: 'L\'Aperol Spritz ha le sue radici nell\'occupazione di Venezia da parte dell\'Impero Asburgico nel 1800. I soldati austriaci trovavano i vini locali italiani troppo forti e cominciarono a diluirli con acqua - creando lo "spritz." Quando l\'Aperol fu creato dai fratelli Barbieri a Padova nel 1919, i barman nella regione Veneto cominciarono a mescolarlo con prosecco e acqua frizzante. La bevanda esplose in popolarità negli anni \'50 e divenne sinonimo della cultura dell\'aperitivo italiano. Ha guadagnato fama mondiale negli anni 2000, diventando il drink non ufficiale dell\'estate.',
+      it: "L'Aperol Spritz ha le sue radici nell'occupazione di Venezia da parte dell'Impero Asburgico nel 1800. I soldati austriaci trovavano i vini locali italiani troppo forti e cominciarono a diluirli con acqua - creando lo \"spritz.\" Quando l'Aperol fu creato dai fratelli Barbieri a Padova nel 1919, i barman nella regione Veneto cominciarono a mescolarlo con prosecco e acqua frizzante. La bevanda esplose in popolarità negli anni '50 e divenne sinonimo della cultura dell'aperitivo italiano. Ha guadagnato fama mondiale negli anni 2000, diventando il drink non ufficiale dell'estate.",
       vi: 'Aperol Spritz có nguồn gốc từ thời Đế chế Habsburg chiếm đóng Venice vào những năm 1800. Binh lính Áo thấy rượu vang Ý địa phương quá mạnh và bắt đầu pha loãng với nước - tạo ra "spritz." Khi Aperol được tạo ra bởi anh em nhà Barbieri ở Padua năm 1919, các bartender ở vùng Veneto bắt đầu trộn nó với prosecco và nước soda. Thức uống bùng nổ phổ biến vào những năm 1950 và trở thành từ đồng nghĩa với văn hóa aperitivo của Ý. Nó nổi tiếng toàn cầu vào những năm 2000, trở thành thức uống không chính thức của mùa hè.',
     },
     named_after: {
@@ -62,7 +62,7 @@ export const aperolSpritz: Cocktail = {
     profile: ['bitter', 'sweet', 'citrus'],
     description: {
       en: 'Bright, refreshing, and perfectly balanced. The Aperol Spritz delivers a bittersweet orange flavor with subtle herbal notes, lifted by prosecco bubbles and lengthened with a splash of soda. Low in alcohol, high in drinkability.',
-      it: 'Brillante, rinfrescante e perfettamente bilanciato. L\'Aperol Spritz offre un sapore di arancia amarognola con note erbacee sottili, sollevato dalle bollicine del prosecco e allungato con uno splash di soda. Basso contenuto alcolico, alta bevibilità.',
+      it: "Brillante, rinfrescante e perfettamente bilanciato. L'Aperol Spritz offre un sapore di arancia amarognola con note erbacee sottili, sollevato dalle bollicine del prosecco e allungato con uno splash di soda. Basso contenuto alcolico, alta bevibilità.",
       vi: 'Tươi sáng, sảng khoái và cân bằng hoàn hảo. Aperol Spritz mang đến hương vị cam đắng ngọt với nốt thảo mộc tinh tế, được nâng lên bởi bọt prosecco và kéo dài với một chút soda. Độ cồn thấp, độ dễ uống cao.',
     },
     first_impression: {
@@ -77,7 +77,7 @@ export const aperolSpritz: Cocktail = {
     },
     balance: {
       en: 'Masterfully balanced between bitter and sweet, with effervescence adding lightness and drinkability',
-      it: 'Magistralmente bilanciato tra amaro e dolce, con l\'effervescenza che aggiunge leggerezza e bevibilità',
+      it: "Magistralmente bilanciato tra amaro e dolce, con l'effervescenza che aggiunge leggerezza e bevibilità",
       vi: 'Cân bằng tuyệt vời giữa đắng và ngọt, với sủi bọt thêm sự nhẹ nhàng và dễ uống',
     },
   },
@@ -88,12 +88,12 @@ export const aperolSpritz: Cocktail = {
     seasons: ['spring', 'summer'],
     food_pairings: {
       en: 'Perfect with Italian aperitivo classics: olives, bruschetta, prosciutto, cheese, cicchetti. Also pairs well with seafood, light salads, and salty snacks.',
-      it: 'Perfetto con i classici dell\'aperitivo italiano: olive, bruschetta, prosciutto, formaggio, cicchetti. Si abbina bene anche con frutti di mare, insalate leggere e snack salati.',
+      it: "Perfetto con i classici dell'aperitivo italiano: olive, bruschetta, prosciutto, formaggio, cicchetti. Si abbina bene anche con frutti di mare, insalate leggere e snack salati.",
       vi: 'Hoàn hảo với các món khai vị Ý cổ điển: ô liu, bruschetta, prosciutto, phô mai, cicchetti. Cũng kết hợp tốt với hải sản, salad nhẹ và đồ ăn vặt mặn.',
     },
     ideal_for: {
       en: 'Perfect for those who enjoy light, refreshing aperitifs. Ideal for social gatherings, outdoor terraces, and lazy summer afternoons. A gateway cocktail for those new to bittersweet flavors.',
-      it: 'Perfetto per chi ama aperitivi leggeri e rinfrescanti. Ideale per incontri sociali, terrazze all\'aperto e pigri pomeriggi estivi. Un cocktail d\'ingresso per chi è nuovo ai sapori amarognoli.',
+      it: "Perfetto per chi ama aperitivi leggeri e rinfrescanti. Ideale per incontri sociali, terrazze all'aperto e pigri pomeriggi estivi. Un cocktail d'ingresso per chi è nuovo ai sapori amarognoli.",
       vi: 'Hoàn hảo cho những ai thích đồ uống khai vị nhẹ, sảng khoái. Lý tưởng cho các buổi họp mặt, sân thượng ngoài trời và những buổi chiều hè lười biếng. Cocktail cửa ngõ cho những người mới làm quen với hương vị đắng ngọt.',
     },
   },
@@ -123,7 +123,7 @@ export const aperolSpritz: Cocktail = {
 
   instructions: {
     en: 'Fill a large wine glass with ice. Add Aperol, followed by prosecco, and finish with a splash of soda water. Stir gently to combine. Garnish with an orange slice.',
-    it: 'Riempire un grande bicchiere da vino con ghiaccio. Aggiungere l\'Aperol, seguito dal prosecco, e finire con uno splash di acqua frizzante. Mescolare delicatamente. Guarnire con una fetta d\'arancia.',
+    it: "Riempire un grande bicchiere da vino con ghiaccio. Aggiungere l'Aperol, seguito dal prosecco, e finire con uno splash di acqua frizzante. Mescolare delicatamente. Guarnire con una fetta d'arancia.",
     vi: 'Đổ đầy ly rượu vang lớn với đá. Thêm Aperol, tiếp theo prosecco, và kết thúc với một chút nước soda. Khuấy nhẹ để pha trộn. Trang trí với lát cam.',
   },
 
@@ -131,7 +131,7 @@ export const aperolSpritz: Cocktail = {
 
   garnish: {
     en: 'Orange slice',
-    it: 'Fetta d\'arancia',
+    it: "Fetta d'arancia",
     vi: 'Lát cam',
   },
 
@@ -160,7 +160,14 @@ export const aperolSpritz: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'nut_free', 'dairy_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'nut_free',
+      'dairy_free',
+    ],
     spice_level: 0,
   },
 
@@ -179,7 +186,8 @@ export const aperolSpritz: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['campari-spritz', 'select-spritz', 'cynar-spritz'],
 
-  notes_for_staff: 'The traditional ratio is 3-2-1 (prosecco-Aperol-soda). Use well-chilled prosecco. Don\'t over-stir - gentle integration is key. Serve immediately while bubbles are active.',
+  notes_for_staff:
+    "The traditional ratio is 3-2-1 (prosecco-Aperol-soda). Use well-chilled prosecco. Don't over-stir - gentle integration is key. Serve immediately while bubbles are active.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +200,7 @@ export const aperolSpritz: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.aperol.com/en-us/cocktails/aperol-spritz/',
-    note: 'Official Aperol recipe. Historical information from various cocktail history sources.',
+    notes: 'Official Aperol recipe. Historical information from various cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

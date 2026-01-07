@@ -93,7 +93,7 @@ export const bijou: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for adventurous drinkers who appreciate complex, spirit-forward cocktails. An excellent choice for gin lovers seeking something more sophisticated than a martini.',
-      it: 'Perfetto per bevitori avventurosi che apprezzano cocktail complessi a base di spiriti. Un\'ottima scelta per gli amanti del gin che cercano qualcosa di più sofisticato di un martini.',
+      it: "Perfetto per bevitori avventurosi che apprezzano cocktail complessi a base di spiriti. Un'ottima scelta per gli amanti del gin che cercano qualcosa di più sofisticato di un martini.",
       vi: 'Hoàn hảo cho người thích phiêu lưu đánh giá cao các loại cocktail phức tạp, hướng đến rượu mạnh. Lựa chọn tuyệt vời cho người yêu gin tìm kiếm thứ gì đó tinh tế hơn martini.',
     },
   },
@@ -120,7 +120,7 @@ export const bijou: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_BITTERS',
       quantity: { amount: 1, unit: 'dash' },
-      display_name: { en: 'Orange bitters', it: 'Bitter all\'arancia', vi: 'Bitter cam' },
+      display_name: { en: 'Orange bitters', it: "Bitter all'arancia", vi: 'Bitter cam' },
     },
   ],
 
@@ -165,7 +165,14 @@ export const bijou: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -184,7 +191,8 @@ export const bijou: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['bijou-moderne', 'reverse-bijou'],
 
-  notes_for_staff: 'Equal parts recipe creates perfect balance. Stir gently to avoid over-dilution given the potency of ingredients. Green Chartreuse is essential - yellow Chartreuse is NOT a substitute. Express lemon oils generously for aromatic impact.',
+  notes_for_staff:
+    'Equal parts recipe creates perfect balance. Stir gently to avoid over-dilution given the potency of ingredients. Green Chartreuse is essential - yellow Chartreuse is NOT a substitute. Express lemon oils generously for aromatic impact.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +205,8 @@ export const bijou: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/353/bijou-cocktail',
-    note: 'Harry Johnson\'s 1900 Bartender\'s Manual. Historical cocktail from the golden age of bartending.',
+    notes:
+      "Harry Johnson's 1900 Bartender's Manual. Historical cocktail from the golden age of bartending.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

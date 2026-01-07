@@ -39,7 +39,7 @@ export const tradeWinds: Cocktail = {
     created_year: '1940s',
     origin: {
       city: 'Oakland',
-      bar: 'Trader Vic\'s',
+      bar: "Trader Vic's",
       country: 'USA',
     },
     creator: {
@@ -48,12 +48,12 @@ export const tradeWinds: Cocktail = {
     },
     story: {
       en: 'The Trade Winds was created by Victor "Trader Vic" Bergeron in the 1940s at his legendary Trader Vic\'s restaurant in Oakland, California. As one of the pioneers of tiki culture alongside Don the Beachcomber, Trader Vic crafted this cocktail to showcase the exotic flavors that defined his establishment. The drink\'s name references the prevailing winds that blow from east to west near the equator, essential for historical maritime trade routes - a fitting tribute to the exotic ingredients and Polynesian-inspired culture that tiki bars celebrated. Unlike many tiki drinks that rely heavily on tropical fruit juices, the Trade Winds stands out with its sophisticated use of plum brandy (slivovitz), creating a more complex, less sweet profile.',
-      it: 'Il Venti Alisei fu creato da Victor "Trader Vic" Bergeron negli anni \'40 nel suo leggendario ristorante Trader Vic\'s a Oakland, California. Come uno dei pionieri della cultura tiki insieme a Don the Beachcomber, Trader Vic creò questo cocktail per mostrare i sapori esotici che definivano il suo locale. Il nome della bevanda fa riferimento ai venti prevalenti che soffiano da est a ovest vicino all\'equatore, essenziali per le rotte commerciali marittime storiche - un tributo appropriato agli ingredienti esotici e alla cultura ispirata polinesiana che i bar tiki celebravano. A differenza di molti drink tiki che si basano fortemente sui succhi di frutta tropicale, il Venti Alisei si distingue per il suo uso sofisticato del brandy alla prugna (slivovitz), creando un profilo più complesso e meno dolce.',
+      it: "Il Venti Alisei fu creato da Victor \"Trader Vic\" Bergeron negli anni '40 nel suo leggendario ristorante Trader Vic's a Oakland, California. Come uno dei pionieri della cultura tiki insieme a Don the Beachcomber, Trader Vic creò questo cocktail per mostrare i sapori esotici che definivano il suo locale. Il nome della bevanda fa riferimento ai venti prevalenti che soffiano da est a ovest vicino all'equatore, essenziali per le rotte commerciali marittime storiche - un tributo appropriato agli ingredienti esotici e alla cultura ispirata polinesiana che i bar tiki celebravano. A differenza di molti drink tiki che si basano fortemente sui succhi di frutta tropicale, il Venti Alisei si distingue per il suo uso sofisticato del brandy alla prugna (slivovitz), creando un profilo più complesso e meno dolce.",
       vi: 'Trade Winds được tạo ra bởi Victor "Trader Vic" Bergeron vào những năm 1940 tại nhà hàng huyền thoại Trader Vic\'s ở Oakland, California. Là một trong những người tiên phong của văn hóa tiki cùng với Don the Beachcomber, Trader Vic đã tạo ra cocktail này để giới thiệu hương vị kỳ lạ xác định cơ sở của ông. Tên của thức uống tham chiếu đến những làn gió thịnh hành thổi từ đông sang tây gần xích đạo, cần thiết cho các tuyến đường thương mại hàng hải lịch sử - một sự tôn vinh phù hợp cho các thành phần kỳ lạ và văn hóa lấy cảm hứng từ Polynesia mà các quán bar tiki kỷ niệm. Không giống như nhiều đồ uống tiki phụ thuộc nhiều vào nước ép trái cây nhiệt đới, Trade Winds nổi bật với việc sử dụng rượu mận tinh tế (slivovitz), tạo ra một hồ sơ phức tạp hơn, ít ngọt hơn.',
     },
     named_after: {
       en: 'Named after the trade winds - prevailing tropical winds near the equator that were essential for historical maritime trade routes, symbolizing exotic travel and cultural exchange.',
-      it: 'Prende il nome dai venti alisei - venti tropicali prevalenti vicino all\'equatore che erano essenziali per le rotte commerciali marittime storiche, simboleggiando viaggi esotici e scambi culturali.',
+      it: "Prende il nome dai venti alisei - venti tropicali prevalenti vicino all'equatore che erano essenziali per le rotte commerciali marittime storiche, simboleggiando viaggi esotici e scambi culturali.",
       vi: 'Được đặt theo tên gió mậu dịch - gió nhiệt đới thịnh hành gần xích đạo rất cần thiết cho các tuyến đường thương mại hàng hải lịch sử, tượng trưng cho du lịch kỳ lạ và trao đổi văn hóa.',
     },
   },
@@ -93,7 +93,7 @@ export const tradeWinds: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for tiki enthusiasts seeking something more sophisticated than typical tropical drinks. Ideal for cocktail connoisseurs who appreciate complexity and balance. A great choice for those who find standard tiki drinks too sweet.',
-      it: 'Perfetto per gli appassionati di tiki che cercano qualcosa di più sofisticato delle tipiche bevande tropicali. Ideale per intenditori di cocktail che apprezzano complessità e equilibrio. Un\'ottima scelta per chi trova i drink tiki standard troppo dolci.',
+      it: "Perfetto per gli appassionati di tiki che cercano qualcosa di più sofisticato delle tipiche bevande tropicali. Ideale per intenditori di cocktail che apprezzano complessità e equilibrio. Un'ottima scelta per chi trova i drink tiki standard troppo dolci.",
       vi: 'Hoàn hảo cho những người đam mê tiki tìm kiếm thứ gì đó tinh tế hơn đồ uống nhiệt đới thông thường. Lý tưởng cho những người sành cocktail đánh giá cao sự phức tạp và cân bằng. Lựa chọn tuyệt vời cho những ai thấy đồ uống tiki tiêu chuẩn quá ngọt.',
     },
   },
@@ -110,17 +110,25 @@ export const tradeWinds: Cocktail = {
     {
       ingredient_id: 'ING_PLUM_BRANDY',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Plum brandy (slivovitz)', it: 'Brandy alla prugna (slivovitz)', vi: 'Rượu mận (slivovitz)' },
+      display_name: {
+        en: 'Plum brandy (slivovitz)',
+        it: 'Brandy alla prugna (slivovitz)',
+        vi: 'Rượu mận (slivovitz)',
+      },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 22, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 22, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_ORGEAT',
@@ -189,7 +197,8 @@ export const tradeWinds: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['trader-vic-original'],
 
-  notes_for_staff: 'Classic Trader Vic\'s creation. Plum brandy (slivovitz) is essential - don\'t substitute. Orgeat contains almonds. Less sweet than typical tiki drinks - appeals to sophisticated palates. Fresh juices crucial for balance.',
+  notes_for_staff:
+    "Classic Trader Vic's creation. Plum brandy (slivovitz) is essential - don't substitute. Orgeat contains almonds. Less sweet than typical tiki drinks - appeals to sophisticated palates. Fresh juices crucial for balance.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -201,8 +210,9 @@ export const tradeWinds: Cocktail = {
   // SOURCES
   // ─────────────────────────────────────────────────────────────────────────
   source: {
-    primary: 'https://www.smugglerscovesf.com/store/smugglers-cove-exotic-cocktails-rum-and-the-cult-of-tiki',
-    note: 'Classic Trader Vic recipe. From tiki cocktail history archives.',
+    primary:
+      'https://www.smugglerscovesf.com/store/smugglers-cove-exotic-cocktails-rum-and-the-cult-of-tiki',
+    notes: 'Classic Trader Vic recipe. From tiki cocktail history archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

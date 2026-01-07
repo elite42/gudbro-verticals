@@ -93,7 +93,7 @@ export const pinaColadaFamous: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for beach vacations, pool parties, and cruise ships. Ideal for those who love creamy, dessert-like cocktails. The ultimate tropical indulgence and beach resort staple. Great for hot summer days.',
-      it: 'Perfetto per vacanze al mare, feste in piscina e navi da crociera. Ideale per chi ama i cocktail cremosi simili ai dessert. L\'indulgenza tropicale definitiva e il pilastro dei resort sulla spiaggia. Ottimo per le calde giornate estive.',
+      it: "Perfetto per vacanze al mare, feste in piscina e navi da crociera. Ideale per chi ama i cocktail cremosi simili ai dessert. L'indulgenza tropicale definitiva e il pilastro dei resort sulla spiaggia. Ottimo per le calde giornate estive.",
       vi: 'Hoàn hảo cho kỳ nghỉ biển, tiệc hồ bơi và tàu du lịch. Lý tưởng cho những ai yêu thích cocktail béo ngậy giống món tráng miệng. Sự nuông chiều nhiệt đới tối thượng và món chính của khu nghỉ dưỡng bãi biển. Tuyệt vời cho những ngày hè nóng bức.',
     },
   },
@@ -115,7 +115,11 @@ export const pinaColadaFamous: Cocktail = {
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
       quantity: { amount: 90, unit: 'ml' },
-      display_name: { en: 'Fresh pineapple juice', it: 'Succo di ananas fresco', vi: 'Nước ép dứa tươi' },
+      display_name: {
+        en: 'Fresh pineapple juice',
+        it: 'Succo di ananas fresco',
+        vi: 'Nước ép dứa tươi',
+      },
     },
   ],
 
@@ -179,7 +183,8 @@ export const pinaColadaFamous: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['pina-colada-iba-official', 'virgin-pina-colada', 'strawberry-colada', 'lava-flow'],
 
-  notes_for_staff: 'This is the popular frozen version, different from IBA official recipe. Blend until smooth like a milkshake. Use Coco López or similar cream of coconut (NOT coconut milk). Fresh pineapple juice highly recommended. Official drink of Puerto Rico since 1978. Made famous by Rupert Holmes song. Very popular at beach resorts.',
+  notes_for_staff:
+    'This is the popular frozen version, different from IBA official recipe. Blend until smooth like a milkshake. Use Coco López or similar cream of coconut (NOT coconut milk). Fresh pineapple juice highly recommended. Official drink of Puerto Rico since 1978. Made famous by Rupert Holmes song. Very popular at beach resorts.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +197,8 @@ export const pinaColadaFamous: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/pina-colada/',
-    note: 'Popular frozen variant. Official drink of Puerto Rico. Different from IBA official recipe.',
+    notes:
+      'Popular frozen variant. Official drink of Puerto Rico. Different from IBA official recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

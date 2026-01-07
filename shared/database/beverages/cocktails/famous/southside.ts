@@ -47,8 +47,8 @@ export const southside: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Southside emerged during Prohibition in the 1920s, with disputed origins between New York\'s 21 Club and Chicago\'s South Side gangsters. Some believe it was created to mask the harsh taste of bathtub gin with fresh mint and citrus. The drink became a sophisticated staple at speakeasies and has remained popular ever since.',
-      it: 'Il Southside emerse durante il Proibizionismo negli anni \'20, con origini contese tra il 21 Club di New York e i gangster del South Side di Chicago. Alcuni credono che sia stato creato per mascherare il sapore aspro del gin fatto in casa con menta fresca e agrumi. Il drink divenne un elemento sofisticato degli speakeasy ed è rimasto popolare da allora.',
+      en: "The Southside emerged during Prohibition in the 1920s, with disputed origins between New York's 21 Club and Chicago's South Side gangsters. Some believe it was created to mask the harsh taste of bathtub gin with fresh mint and citrus. The drink became a sophisticated staple at speakeasies and has remained popular ever since.",
+      it: "Il Southside emerse durante il Proibizionismo negli anni '20, con origini contese tra il 21 Club di New York e i gangster del South Side di Chicago. Alcuni credono che sia stato creato per mascherare il sapore aspro del gin fatto in casa con menta fresca e agrumi. Il drink divenne un elemento sofisticato degli speakeasy ed è rimasto popolare da allora.",
       vi: 'Southside xuất hiện trong thời kỳ Cấm rượu những năm 1920, với nguồn gốc tranh cãi giữa 21 Club của New York và băng đảng South Side Chicago. Một số người tin rằng nó được tạo ra để che giấu vị gin tự chưng khó chịu bằng bạc hà tươi và cam quýt. Thức uống đã trở thành món chính tinh tế tại các quán rượu lậu và vẫn phổ biến kể từ đó.',
     },
     named_after: {
@@ -67,7 +67,7 @@ export const southside: Cocktail = {
     },
     first_impression: {
       en: 'Fresh mint aroma hits first, followed by bright lime and botanical gin notes',
-      it: 'L\'aroma di menta fresca colpisce per primo, seguito da note brillanti di lime e gin botanico',
+      it: "L'aroma di menta fresca colpisce per primo, seguito da note brillanti di lime e gin botanico",
       vi: 'Hương bạc hà tươi đập vào đầu tiên, tiếp theo là chanh tươi sáng và nốt gin thực vật',
     },
     finish: {
@@ -93,7 +93,7 @@ export const southside: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for gin lovers who enjoy fresh, herbaceous cocktails. An excellent choice for warm weather or anyone seeking a sophisticated alternative to the mojito.',
-      it: 'Perfetto per gli amanti del gin che apprezzano cocktail freschi ed erbacei. Un\'eccellente scelta per il clima caldo o per chiunque cerchi un\'alternativa sofisticata al mojito.',
+      it: "Perfetto per gli amanti del gin che apprezzano cocktail freschi ed erbacei. Un'eccellente scelta per il clima caldo o per chiunque cerchi un'alternativa sofisticata al mojito.",
       vi: 'Hoàn hảo cho người yêu gin thích cocktail tươi mát, thảo mộc. Lựa chọn tuyệt vời cho thời tiết ấm hoặc bất kỳ ai tìm kiếm giải pháp thay thế tinh tế cho mojito.',
     },
   },
@@ -165,7 +165,14 @@ export const southside: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -184,7 +191,8 @@ export const southside: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['southside-royale', 'southside-fizz'],
 
-  notes_for_staff: 'Muddle mint gently to avoid bitterness. Double strain to remove mint particles. Use fresh lime juice only - never bottled. Can be served fizz-style by topping with champagne.',
+  notes_for_staff:
+    'Muddle mint gently to avoid bitterness. Double strain to remove mint particles. Use fresh lime juice only - never bottled. Can be served fizz-style by topping with champagne.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +205,7 @@ export const southside: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://punchdrink.com/articles/southside-cocktail-recipe-gin-mint-lime/',
-    note: 'Classic Prohibition-era recipe. Historical information from cocktail history sources.',
+    notes: 'Classic Prohibition-era recipe. Historical information from cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

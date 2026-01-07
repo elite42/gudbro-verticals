@@ -51,11 +51,11 @@ export const barracuda: Cocktail = {
     },
     story: {
       en: 'The Barracuda emerged in the 1980s as a tropical variation on the classic Champagne cocktail. Its combination of rum, pineapple, and sparkling wine made it popular in beach resorts and tropical destinations. The addition of Galliano adds a distinctive herbal-vanilla note that sets it apart from simpler tropical drinks.',
-      it: 'Il Barracuda è emerso negli anni \'80 come una variazione tropicale del classico cocktail Champagne. La sua combinazione di rum, ananas e vino spumante lo ha reso popolare nei resort sulla spiaggia e nelle destinazioni tropicali. L\'aggiunta di Galliano aggiunge una nota distintiva erbacea-vaniglia che lo distingue dalle bevande tropicali più semplici.',
+      it: "Il Barracuda è emerso negli anni '80 come una variazione tropicale del classico cocktail Champagne. La sua combinazione di rum, ananas e vino spumante lo ha reso popolare nei resort sulla spiaggia e nelle destinazioni tropicali. L'aggiunta di Galliano aggiunge una nota distintiva erbacea-vaniglia che lo distingue dalle bevande tropicali più semplici.",
       vi: 'Barracuda xuất hiện vào những năm 1980 như một biến thể nhiệt đới của cocktail Champagne cổ điển. Sự kết hợp rum, dứa và rượu vang có ga đã làm cho nó phổ biến ở các khu nghỉ dưỡng bãi biển và điểm đến nhiệt đới. Việc thêm Galliano tạo ra hương vị thảo mộc-vani đặc trưng khiến nó khác biệt với các loại đồ uống nhiệt đới đơn giản hơn.',
     },
     named_after: {
-      en: 'Named after the barracuda fish, known for being swift and striking - qualities that match the drink\'s refreshing and bold character.',
+      en: "Named after the barracuda fish, known for being swift and striking - qualities that match the drink's refreshing and bold character.",
       it: 'Prende il nome dal pesce barracuda, noto per essere veloce e sorprendente - qualità che corrispondono al carattere rinfrescante e audace della bevanda.',
       vi: 'Được đặt theo tên loài cá barracuda, được biết đến là nhanh nhẹn và ấn tượng - những phẩm chất phù hợp với tính cách sảng khoái và táo bạo của thức uống.',
     },
@@ -173,7 +173,14 @@ export const barracuda: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -192,7 +199,8 @@ export const barracuda: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: [],
 
-  notes_for_staff: 'Add Prosecco last to preserve carbonation. Use fresh pineapple juice for best results. Can substitute Champagne for Prosecco.',
+  notes_for_staff:
+    'Add Prosecco last to preserve carbonation. Use fresh pineapple juice for best results. Can substitute Champagne for Prosecco.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +213,7 @@ export const barracuda: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/barracuda/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

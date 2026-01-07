@@ -38,7 +38,7 @@ export const mintJulep: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The Mint Julep is an iconic Southern cocktail synonymous with the Kentucky Derby. Built in a traditional julep cup, it combines bourbon, fresh mint, and sugar for a refreshing, aromatic drink that embodies Southern hospitality.',
-    it: 'Il Mint Julep è un iconico cocktail del Sud americano sinonimo del Kentucky Derby. Costruito in una tradizionale coppa julep, combina bourbon, menta fresca e zucchero per una bevanda rinfrescante e aromatica che incarna l\'ospitalità del Sud.',
+    it: "Il Mint Julep è un iconico cocktail del Sud americano sinonimo del Kentucky Derby. Costruito in una tradizionale coppa julep, combina bourbon, menta fresca e zucchero per una bevanda rinfrescante e aromatica che incarna l'ospitalità del Sud.",
     vi: 'Mint Julep là cocktail mang tính biểu tượng miền Nam đồng nghĩa với Kentucky Derby. Được làm trong cốc julep truyền thống, kết hợp bourbon, bạc hà tươi và đường tạo đồ uống sảng khoái, thơm ngát thể hiện lòng hiếu khách miền Nam.',
   },
 
@@ -69,7 +69,7 @@ export const mintJulep: Cocktail = {
     profile: ['refreshing', 'minty', 'sweet', 'herbaceous'],
     description: {
       en: 'The Mint Julep offers a refreshing combination of cool mint and smooth bourbon sweetness. The muddled mint releases aromatic oils that blend with the caramel and vanilla notes of bourbon, while crushed ice provides a frosty, diluted sipping experience. The sugar balances the herbaceous bite.',
-      it: 'Il Mint Julep offre una combinazione rinfrescante di menta fresca e dolcezza morbida del bourbon. La menta pestata rilascia oli aromatici che si fondono con le note di caramello e vaniglia del bourbon, mentre il ghiaccio tritato fornisce un\'esperienza di sorseggio gelida e diluita. Lo zucchero bilancia il morso erbaceo.',
+      it: "Il Mint Julep offre una combinazione rinfrescante di menta fresca e dolcezza morbida del bourbon. La menta pestata rilascia oli aromatici che si fondono con le note di caramello e vaniglia del bourbon, mentre il ghiaccio tritato fornisce un'esperienza di sorseggio gelida e diluita. Lo zucchero bilancia il morso erbaceo.",
       vi: 'Mint Julep mang sự kết hợp sảng khoái của bạc hà mát và vị ngọt bourbon mượt. Bạc hà nghiền giải phóng tinh dầu thơm hòa quyện với hương caramel và vani của bourbon, trong khi đá nghiền tạo trải nghiệm nhấm nháp lạnh buốt, pha loãng. Đường cân bằng vị cay thảo mộc.',
     },
     first_impression: {
@@ -99,7 +99,7 @@ export const mintJulep: Cocktail = {
       vi: 'Kết hợp cổ điển với ẩm thực miền Nam: gà rán, BBQ, giăm bông quê, phô mai pimento và bánh Derby. Cũng tuyệt vời với thịt nướng và món đậm đà, mặn.',
     },
     ideal_for: {
-      en: 'Perfect for Kentucky Derby celebrations, summer garden parties, bourbon enthusiasts, and anyone seeking a refreshing Southern classic. Louisville\'s official cocktail.',
+      en: "Perfect for Kentucky Derby celebrations, summer garden parties, bourbon enthusiasts, and anyone seeking a refreshing Southern classic. Louisville's official cocktail.",
       it: 'Perfetto per le celebrazioni del Kentucky Derby, feste estive in giardino, appassionati di bourbon e chiunque cerchi un classico rinfrescante del Sud. Cocktail ufficiale di Louisville.',
       vi: 'Hoàn hảo cho lễ kỷ niệm Kentucky Derby, tiệc vườn mùa hè, người đam mê bourbon và bất kỳ ai tìm kiếm cocktail cổ điển sảng khoái miền Nam. Cocktail chính thức của Louisville.',
     },
@@ -117,7 +117,11 @@ export const mintJulep: Cocktail = {
     {
       ingredient_id: 'ING_MINT_SPRIG',
       quantity: { amount: 4, unit: 'sprig' },
-      display_name: { en: 'Fresh Mint Sprigs', it: 'Rametti di Menta Fresca', vi: 'Cành Bạc Hà Tươi' },
+      display_name: {
+        en: 'Fresh Mint Sprigs',
+        it: 'Rametti di Menta Fresca',
+        vi: 'Cành Bạc Hà Tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -135,7 +139,7 @@ export const mintJulep: Cocktail = {
 
   instructions: {
     en: 'In a julep stainless steel cup, gently muddle the mint with powdered sugar and water until sugar is dissolved and mint releases its oils. Fill the cup with crushed ice. Add the bourbon and stir well until the cup frosts on the outside. Top with more crushed ice to form a dome. Garnish with a fresh mint sprig. Serve with a straw.',
-    it: 'In una coppa julep in acciaio inossidabile, pestare delicatamente la menta con lo zucchero in polvere e l\'acqua fino a quando lo zucchero si dissolve e la menta rilascia i suoi oli. Riempire la coppa con ghiaccio tritato. Aggiungere il bourbon e mescolare bene fino a quando la coppa si gela all\'esterno. Completare con altro ghiaccio tritato per formare una cupola. Guarnire con un rametto di menta fresca. Servire con una cannuccia.',
+    it: "In una coppa julep in acciaio inossidabile, pestare delicatamente la menta con lo zucchero in polvere e l'acqua fino a quando lo zucchero si dissolve e la menta rilascia i suoi oli. Riempire la coppa con ghiaccio tritato. Aggiungere il bourbon e mescolare bene fino a quando la coppa si gela all'esterno. Completare con altro ghiaccio tritato per formare una cupola. Guarnire con un rametto di menta fresca. Servire con una cannuccia.",
     vi: 'Trong cốc julep thép không gỉ, nhẹ nhàng nghiền bạc hà với đường bột và nước cho đến khi đường tan và bạc hà giải phóng tinh dầu. Đổ đầy cốc bằng đá nghiền. Thêm bourbon và khuấy đều cho đến khi cốc đóng băng bên ngoài. Thêm đá nghiền để tạo hình vòm. Trang trí bằng cành bạc hà tươi. Phục vụ với ống hút.',
   },
 
@@ -166,7 +170,14 @@ export const mintJulep: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -185,7 +196,8 @@ export const mintJulep: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: [],
 
-  notes_for_staff: 'Use fresh spearmint for authentic flavor. Muddle gently - bruising mint too aggressively can release bitter flavors. Traditional silver julep cups frost beautifully and keep drinks colder. Crushed ice is essential - use a Lewis bag or ice crusher. The drink should be constantly refreshed with ice as it dilutes. During Derby weekend, pre-batch simple syrup with muddled mint for faster service.',
+  notes_for_staff:
+    'Use fresh spearmint for authentic flavor. Muddle gently - bruising mint too aggressively can release bitter flavors. Traditional silver julep cups frost beautifully and keep drinks colder. Crushed ice is essential - use a Lewis bag or ice crusher. The drink should be constantly refreshed with ice as it dilutes. During Derby weekend, pre-batch simple syrup with muddled mint for faster service.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -198,7 +210,8 @@ export const mintJulep: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/mint-julep/',
-    note: 'IBA Official Recipe. Historical information from Kentucky Derby Museum and cocktail historians. Named official cocktail of Louisville, Kentucky in 2015.',
+    notes:
+      'IBA Official Recipe. Historical information from Kentucky Derby Museum and cocktail historians. Named official cocktail of Louisville, Kentucky in 2015.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

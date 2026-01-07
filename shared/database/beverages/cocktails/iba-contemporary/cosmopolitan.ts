@@ -50,8 +50,8 @@ export const cosmopolitan: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'While several bartenders claim to have invented the Cosmopolitan in the 1970s-80s, it was Toby Cecchini at The Odeon in Manhattan who created the modern version in 1987-88 using Absolut Citron. The drink exploded in popularity after being featured regularly on HBO\'s Sex and the City (1998-2004), becoming synonymous with urban sophistication.',
-      it: 'Mentre diversi barman sostengono di aver inventato il Cosmopolitan negli anni \'70-\'80, fu Toby Cecchini all\'Odeon di Manhattan che creò la versione moderna nel 1987-88 utilizzando Absolut Citron. La bevanda esplose in popolarità dopo essere stata presentata regolarmente in Sex and the City di HBO (1998-2004), diventando sinonimo di sofisticazione urbana.',
+      en: "While several bartenders claim to have invented the Cosmopolitan in the 1970s-80s, it was Toby Cecchini at The Odeon in Manhattan who created the modern version in 1987-88 using Absolut Citron. The drink exploded in popularity after being featured regularly on HBO's Sex and the City (1998-2004), becoming synonymous with urban sophistication.",
+      it: "Mentre diversi barman sostengono di aver inventato il Cosmopolitan negli anni '70-'80, fu Toby Cecchini all'Odeon di Manhattan che creò la versione moderna nel 1987-88 utilizzando Absolut Citron. La bevanda esplose in popolarità dopo essere stata presentata regolarmente in Sex and the City di HBO (1998-2004), diventando sinonimo di sofisticazione urbana.",
       vi: 'Trong khi nhiều bartender tuyên bố đã phát minh ra Cosmopolitan vào những năm 1970-80, chính Toby Cecchini tại The Odeon ở Manhattan đã tạo ra phiên bản hiện đại vào năm 1987-88 sử dụng Absolut Citron. Thức uống bùng nổ về độ phổ biến sau khi được giới thiệu thường xuyên trên Sex and the City của HBO (1998-2004), trở thành đồng nghĩa với sự tinh tế đô thị.',
     },
     named_after: {
@@ -118,12 +118,20 @@ export const cosmopolitan: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_CRANBERRY_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Cranberry juice', it: 'Succo di mirtillo rosso', vi: 'Nước nam việt quất' },
+      display_name: {
+        en: 'Cranberry juice',
+        it: 'Succo di mirtillo rosso',
+        vi: 'Nước nam việt quất',
+      },
     },
   ],
 
@@ -131,7 +139,7 @@ export const cosmopolitan: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into a cocktail shaker filled with ice cubes. Shake well. Strain into a chilled cocktail glass. Garnish with a flamed orange peel or lime wheel.',
-    it: 'Versare tutti gli ingredienti in uno shaker pieno di cubetti di ghiaccio. Shakerare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con una scorza d\'arancia fiammeggiata o una fetta di lime.',
+    it: "Versare tutti gli ingredienti in uno shaker pieno di cubetti di ghiaccio. Shakerare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con una scorza d'arancia fiammeggiata o una fetta di lime.",
     vi: 'Đổ tất cả nguyên liệu vào bình lắc cocktail đầy đá viên. Lắc kỹ. Lọc vào ly cocktail đã làm lạnh. Trang trí bằng vỏ cam cháy hoặc bánh xe chanh.',
   },
 
@@ -139,7 +147,7 @@ export const cosmopolitan: Cocktail = {
 
   garnish: {
     en: 'Flamed orange peel or lime wheel',
-    it: 'Scorza d\'arancia fiammeggiata o fetta di lime',
+    it: "Scorza d'arancia fiammeggiata o fetta di lime",
     vi: 'Vỏ cam cháy hoặc bánh xe chanh',
   },
 
@@ -168,7 +176,14 @@ export const cosmopolitan: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +202,8 @@ export const cosmopolitan: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['metropolitan', 'flirtini', 'white-cosmopolitan'],
 
-  notes_for_staff: 'Use Absolut Citron or similar citrus vodka for authenticity. Fresh lime juice is essential. Shake hard for proper dilution. The drink should be a distinctive pink color. Flame the orange peel for added aromatics.',
+  notes_for_staff:
+    'Use Absolut Citron or similar citrus vodka for authenticity. Fresh lime juice is essential. Shake hard for proper dilution. The drink should be a distinctive pink color. Flame the orange peel for added aromatics.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +216,7 @@ export const cosmopolitan: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/cosmopolitan/',
-    note: 'IBA Official Recipe. Made famous by Sex and the City.',
+    notes: 'IBA Official Recipe. Made famous by Sex and the City.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

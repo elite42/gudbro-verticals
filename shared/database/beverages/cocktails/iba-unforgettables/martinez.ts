@@ -38,7 +38,7 @@ export const martinez: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The Martinez is a classic gin-based cocktail that predates the Martini. Rich and complex, it combines Old Tom gin with sweet vermouth, maraschino liqueur, and orange bitters for a sophisticated, slightly sweet aperitivo.',
-    it: "Il Martinez è un classico cocktail a base di gin che precede il Martini. Ricco e complesso, combina Old Tom gin con vermouth dolce, liquore maraschino e orange bitters per un aperitivo sofisticato e leggermente dolce.",
+    it: 'Il Martinez è un classico cocktail a base di gin che precede il Martini. Ricco e complesso, combina Old Tom gin con vermouth dolce, liquore maraschino e orange bitters per un aperitivo sofisticato e leggermente dolce.',
     vi: 'Martinez là một cocktail cổ điển từ gin có trước Martini. Đậm đà và phức hợp, kết hợp Old Tom gin với vermouth ngọt, rượu maraschino và orange bitters tạo nên aperitivo tinh tế, hơi ngọt.',
   },
 
@@ -60,7 +60,7 @@ export const martinez: Cocktail = {
     },
     named_after: {
       en: 'Named after the city of Martinez, California, the destination of a gold miner who requested the drink, or possibly the location where it was first created.',
-      it: 'Prende il nome dalla città di Martinez, California, destinazione di un cercatore d\'oro che richiese il drink, o forse il luogo dove fu creato per la prima volta.',
+      it: "Prende il nome dalla città di Martinez, California, destinazione di un cercatore d'oro che richiese il drink, o forse il luogo dove fu creato per la prima volta.",
       vi: 'Được đặt tên theo thành phố Martinez, California, điểm đến của một thợ mỏ vàng yêu cầu làm đồ uống này, hoặc có thể là nơi nó được tạo ra lần đầu.',
     },
   },
@@ -117,12 +117,20 @@ export const martinez: Cocktail = {
     {
       ingredient_id: 'ING_VERMOUTH_SWEET',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Sweet Red Vermouth', it: 'Vermouth Rosso Dolce', vi: 'Vermouth Đỏ Ngọt' },
+      display_name: {
+        en: 'Sweet Red Vermouth',
+        it: 'Vermouth Rosso Dolce',
+        vi: 'Vermouth Đỏ Ngọt',
+      },
     },
     {
       ingredient_id: 'ING_MARASCHINO',
       quantity: { amount: 1, unit: 'bar_spoon' },
-      display_name: { en: 'Maraschino Luxardo', it: 'Maraschino Luxardo', vi: 'Maraschino Luxardo' },
+      display_name: {
+        en: 'Maraschino Luxardo',
+        it: 'Maraschino Luxardo',
+        vi: 'Maraschino Luxardo',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_BITTERS',
@@ -166,7 +174,14 @@ export const martinez: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -185,7 +200,8 @@ export const martinez: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: [],
 
-  notes_for_staff: 'Use quality Old Tom gin for authentic sweetness. Stir gently to maintain clarity. The drink should be served ice-cold. If Old Tom gin is unavailable, London Dry gin with a small amount of simple syrup can be substituted, though the result will differ from the traditional recipe.',
+  notes_for_staff:
+    'Use quality Old Tom gin for authentic sweetness. Stir gently to maintain clarity. The drink should be served ice-cold. If Old Tom gin is unavailable, London Dry gin with a small amount of simple syrup can be substituted, though the result will differ from the traditional recipe.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -198,7 +214,8 @@ export const martinez: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/martinez/',
-    note: 'IBA Official Recipe. Historical information from The Modern Bartender (O.H. Byron, 1884) and cocktail historians.',
+    notes:
+      'IBA Official Recipe. Historical information from The Modern Bartender (O.H. Byron, 1884) and cocktail historians.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -34,7 +34,7 @@ export const piscoPunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A legendary San Francisco punch combining Pisco with pineapple, citrus, and aromatic bitters. This historic cocktail was the drink of choice during the California Gold Rush era.',
-    it: 'Un leggendario punch di San Francisco che combina Pisco con ananas, agrumi e bitter aromatici. Questo cocktail storico fu la bevanda preferita durante l\'era della corsa all\'oro della California.',
+    it: "Un leggendario punch di San Francisco che combina Pisco con ananas, agrumi e bitter aromatici. Questo cocktail storico fu la bevanda preferita durante l'era della corsa all'oro della California.",
     vi: 'Một loại punch huyền thoại San Francisco kết hợp Pisco với dứa, cam quýt và bitters thơm. Cocktail lịch sử này là thức uống được ưa chuộng trong thời kỳ Cơn sốt vàng California.',
   },
 
@@ -50,13 +50,13 @@ export const piscoPunch: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created around 1878 by Duncan Nicol at the Bank Exchange Saloon in San Francisco. The drink became legendary during the Gold Rush era and was considered one of San Francisco\'s most famous cocktails. Mark Twain and other literary figures were known to frequent the Bank Exchange specifically for this punch. The original recipe was a closely guarded secret, and when Nicol died in 1926, the exact formula was lost. Modern versions are reconstructions based on historical accounts and tasting notes.',
-      it: 'Creato intorno al 1878 da Duncan Nicol al Bank Exchange Saloon di San Francisco. La bevanda divenne leggendaria durante l\'era della corsa all\'oro e fu considerata uno dei cocktail più famosi di San Francisco. Mark Twain e altri personaggi letterari erano noti per frequentare il Bank Exchange specificamente per questo punch. La ricetta originale era un segreto gelosamente custodito, e quando Nicol morì nel 1926, la formula esatta fu persa. Le versioni moderne sono ricostruzioni basate su resoconti storici e note di degustazione.',
+      en: "Created around 1878 by Duncan Nicol at the Bank Exchange Saloon in San Francisco. The drink became legendary during the Gold Rush era and was considered one of San Francisco's most famous cocktails. Mark Twain and other literary figures were known to frequent the Bank Exchange specifically for this punch. The original recipe was a closely guarded secret, and when Nicol died in 1926, the exact formula was lost. Modern versions are reconstructions based on historical accounts and tasting notes.",
+      it: "Creato intorno al 1878 da Duncan Nicol al Bank Exchange Saloon di San Francisco. La bevanda divenne leggendaria durante l'era della corsa all'oro e fu considerata uno dei cocktail più famosi di San Francisco. Mark Twain e altri personaggi letterari erano noti per frequentare il Bank Exchange specificamente per questo punch. La ricetta originale era un segreto gelosamente custodito, e quando Nicol morì nel 1926, la formula esatta fu persa. Le versioni moderne sono ricostruzioni basate su resoconti storici e note di degustazione.",
       vi: 'Được tạo ra vào khoảng năm 1878 bởi Duncan Nicol tại Bank Exchange Saloon ở San Francisco. Thức uống trở nên huyền thoại trong thời kỳ Cơn sốt vàng và được coi là một trong những cocktail nổi tiếng nhất của San Francisco. Mark Twain và các nhân vật văn học khác được biết đến là thường xuyên lui tới Bank Exchange đặc biệt vì loại punch này. Công thức gốc là một bí mật được giữ kín, và khi Nicol qua đời năm 1926, công thức chính xác đã bị thất lạc. Các phiên bản hiện đại là tái tạo dựa trên các ghi chép lịch sử và ghi chú hương vị.',
     },
     named_after: {
       en: 'Named after Pisco, the Peruvian/Chilean grape brandy that forms its base.',
-      it: 'Prende il nome dal Pisco, il brandy d\'uva peruviano/cileno che costituisce la sua base.',
+      it: "Prende il nome dal Pisco, il brandy d'uva peruviano/cileno che costituisce la sua base.",
       vi: 'Được đặt theo tên Pisco, rượu brandy nho Peru/Chile tạo nên cơ sở của nó.',
     },
   },
@@ -64,8 +64,8 @@ export const piscoPunch: Cocktail = {
   taste: {
     profile: ['tropical', 'citrus', 'complex'],
     description: {
-      en: 'Tropical pineapple sweetness with Pisco\'s grape brandy character, bright citrus notes, and aromatic complexity. Smooth, fruity, and deceptively strong.',
-      it: 'Dolcezza tropicale di ananas con il carattere di brandy d\'uva del Pisco, note brillanti di agrumi e complessità aromatica. Liscio, fruttato e ingannevolmente forte.',
+      en: "Tropical pineapple sweetness with Pisco's grape brandy character, bright citrus notes, and aromatic complexity. Smooth, fruity, and deceptively strong.",
+      it: "Dolcezza tropicale di ananas con il carattere di brandy d'uva del Pisco, note brillanti di agrumi e complessità aromatica. Liscio, fruttato e ingannevolmente forte.",
       vi: 'Vị ngọt dứa nhiệt đới với đặc tính brandy nho của Pisco, hương vị cam quýt tươi mát và độ phức tạp thơm. Mượt mà, trái cây và mạnh một cách lừa dối.',
     },
     first_impression: {
@@ -75,7 +75,7 @@ export const piscoPunch: Cocktail = {
     },
     finish: {
       en: 'Long, smooth finish with lingering tropical fruit and grape notes',
-      it: 'Finale lungo e liscio con frutta tropicale e note d\'uva persistenti',
+      it: "Finale lungo e liscio con frutta tropicale e note d'uva persistenti",
       vi: 'Kết thúc dài, mượt mà với trái cây nhiệt đới kéo dài và hương nho',
     },
     balance: {
@@ -95,7 +95,7 @@ export const piscoPunch: Cocktail = {
       vi: 'Tuyệt vời với ceviche Peru, đĩa trái cây nhiệt đới hoặc món hải sản nhẹ.',
     },
     ideal_for: {
-      en: 'Perfect for Pisco enthusiasts and cocktail history buffs. Ideal for those seeking a taste of San Francisco\'s legendary drinking culture.',
+      en: "Perfect for Pisco enthusiasts and cocktail history buffs. Ideal for those seeking a taste of San Francisco's legendary drinking culture.",
       it: 'Perfetto per gli appassionati di Pisco e gli appassionati di storia dei cocktail. Ideale per chi cerca un assaggio della leggendaria cultura del bere di San Francisco.',
       vi: 'Hoàn hảo cho người đam mê Pisco và những người yêu lịch sử cocktail. Lý tưởng cho những ai tìm kiếm hương vị văn hóa uống huyền thoại của San Francisco.',
     },
@@ -168,7 +168,14 @@ export const piscoPunch: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +194,8 @@ export const piscoPunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['original-pisco-punch'],
 
-  notes_for_staff: 'The original recipe was lost, this is a modern reconstruction. Use quality Pisco for best results. Deceptively strong - warn guests.',
+  notes_for_staff:
+    'The original recipe was lost, this is a modern reconstruction. Use quality Pisco for best results. Deceptively strong - warn guests.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +208,7 @@ export const piscoPunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/pisco-punch/',
-    note: 'IBA Official Recipe - Modern reconstruction of historic recipe',
+    notes: 'IBA Official Recipe - Modern reconstruction of historic recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

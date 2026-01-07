@@ -11,7 +11,7 @@ import type { Cocktail } from '../../types/cocktail';
 
 const NOW = new Date().toISOString();
 
-export const {variableName}: Cocktail = {
+export const { variableName }: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   // IDENTIFIERS
   // ─────────────────────────────────────────────────────────────────────────
@@ -152,7 +152,14 @@ export const {variableName}: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -184,7 +191,7 @@ export const {variableName}: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/{slug}/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

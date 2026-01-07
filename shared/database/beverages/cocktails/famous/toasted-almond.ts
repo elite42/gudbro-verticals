@@ -41,8 +41,8 @@ export const toastedAlmond: Cocktail = {
       country: 'USA',
     },
     story: {
-      en: 'The Toasted Almond emerged in the 1970s during the golden age of creamy cocktails in America. It\'s often considered a variation of the Sombrero (Kahlúa and cream) or a cousin to the Orgasm family of shooters. The drink became popular in bars and restaurants as an accessible, crowd-pleasing dessert cocktail that showcased the then-trendy amaretto liqueur. Its simple recipe and delicious flavor profile have kept it popular in casual dining establishments.',
-      it: 'Il Toasted Almond emerse negli anni \'70 durante l\'età d\'oro dei cocktail cremosi in America. È spesso considerato una variazione del Sombrero (Kahlúa e panna) o un cugino della famiglia di shooter Orgasm. La bevanda divenne popolare nei bar e ristoranti come un cocktail da dessert accessibile e apprezzato che metteva in mostra il liquore amaretto allora di tendenza. La sua ricetta semplice e il delizioso profilo aromatico l\'hanno mantenuto popolare negli stabilimenti di ristorazione casual.',
+      en: "The Toasted Almond emerged in the 1970s during the golden age of creamy cocktails in America. It's often considered a variation of the Sombrero (Kahlúa and cream) or a cousin to the Orgasm family of shooters. The drink became popular in bars and restaurants as an accessible, crowd-pleasing dessert cocktail that showcased the then-trendy amaretto liqueur. Its simple recipe and delicious flavor profile have kept it popular in casual dining establishments.",
+      it: "Il Toasted Almond emerse negli anni '70 durante l'età d'oro dei cocktail cremosi in America. È spesso considerato una variazione del Sombrero (Kahlúa e panna) o un cugino della famiglia di shooter Orgasm. La bevanda divenne popolare nei bar e ristoranti come un cocktail da dessert accessibile e apprezzato che metteva in mostra il liquore amaretto allora di tendenza. La sua ricetta semplice e il delizioso profilo aromatico l'hanno mantenuto popolare negli stabilimenti di ristorazione casual.",
       vi: 'Toasted Almond xuất hiện vào những năm 1970 trong thời kỳ hoàng kim của cocktail béo ngậy ở Mỹ. Nó thường được coi là một biến thể của Sombrero (Kahlúa và kem) hoặc anh em họ với họ shooter Orgasm. Thức uống trở nên phổ biến ở các quầy bar và nhà hàng như một cocktail tráng miệng dễ tiếp cận, được đông đảo ưa chuộng, thể hiện rượu mùi amaretto thời thượng lúc bấy giờ. Công thức đơn giản và hồ sơ hương vị ngon đã giữ cho nó phổ biến trong các cơ sở ăn uống bình thường.',
     },
     named_after: {
@@ -56,7 +56,7 @@ export const toastedAlmond: Cocktail = {
     profile: ['creamy', 'sweet', 'nutty', 'coffee'],
     description: {
       en: 'Rich and creamy with pronounced almond and coffee notes. The amaretto provides sweet nuttiness while the coffee liqueur adds depth and a subtle roasted quality, all softened by cream into a smooth, dessert-like drink.',
-      it: 'Ricco e cremoso con pronunciate note di mandorla e caffè. L\'amaretto fornisce dolcezza nocciolata mentre il liquore al caffè aggiunge profondità e una sottile qualità tostata, tutto ammorbidito dalla panna in una bevanda liscia simile a un dessert.',
+      it: "Ricco e cremoso con pronunciate note di mandorla e caffè. L'amaretto fornisce dolcezza nocciolata mentre il liquore al caffè aggiunge profondità e una sottile qualità tostata, tutto ammorbidito dalla panna in una bevanda liscia simile a un dessert.",
       vi: 'Đậm đà và béo ngậy với hương vị hạnh nhân và cà phê rõ rệt. Amaretto cung cấp vị hạt ngọt trong khi rượu mùi cà phê thêm chiều sâu và chất lượng rang nhẹ, tất cả được làm mềm bởi kem thành thức uống mượt mà giống món tráng miệng.',
     },
     first_impression: {
@@ -79,7 +79,7 @@ export const toastedAlmond: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['digestivo', 'casual', 'dessert', 'nightcap'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Perfect with almond-based desserts, biscotti, tiramisu, or chocolate cake. Also pairs well with vanilla ice cream and amaretti cookies.',
       it: 'Perfetto con dessert a base di mandorle, biscotti, tiramisù o torta al cioccolato. Si abbina bene anche con gelato alla vaniglia e amaretti.',
@@ -87,7 +87,7 @@ export const toastedAlmond: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for those who enjoy nutty, coffee-flavored dessert drinks. Ideal for casual dining settings and anyone seeking a simple but delicious after-dinner cocktail. Great alternative to Irish Coffee or White Russian.',
-      it: 'Perfetto per chi ama le bevande da dessert al sapore di nocciole e caffè. Ideale per ambienti di ristorazione casual e chiunque cerchi un cocktail semplice ma delizioso dopo cena. Ottima alternativa all\'Irish Coffee o al White Russian.',
+      it: "Perfetto per chi ama le bevande da dessert al sapore di nocciole e caffè. Ideale per ambienti di ristorazione casual e chiunque cerchi un cocktail semplice ma delizioso dopo cena. Ottima alternativa all'Irish Coffee o al White Russian.",
       vi: 'Hoàn hảo cho những ai thích đồ uống tráng miệng có vị hạt, cà phê. Lý tưởng cho môi trường ăn uống bình thường và bất kỳ ai tìm kiếm một cocktail đơn giản nhưng ngon miệng sau bữa tối. Sự thay thế tuyệt vời cho Irish Coffee hoặc White Russian.',
     },
   },
@@ -166,7 +166,7 @@ export const toastedAlmond: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['digestivo', 'casual', 'dessert', 'nightcap'],
 
   is_mocktail: false,
@@ -177,7 +177,8 @@ export const toastedAlmond: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['toasted-almond-shooter', 'frozen-toasted-almond', 'italian-toasted-almond'],
 
-  notes_for_staff: 'Simple three-ingredient recipe. Can be served on rocks or up depending on preference. Some recipes add vodka for extra strength. Contains nut liqueur - always check for allergies. Popular as both a cocktail and a shooter.',
+  notes_for_staff:
+    'Simple three-ingredient recipe. Can be served on rocks or up depending on preference. Some recipes add vodka for extra strength. Contains nut liqueur - always check for allergies. Popular as both a cocktail and a shooter.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +191,7 @@ export const toastedAlmond: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/toasted-almond/',
-    note: 'Popular creamy cocktail from the 1970s American bar scene.',
+    notes: 'Popular creamy cocktail from the 1970s American bar scene.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -34,7 +34,7 @@ export const frenchMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A luxurious and fruity cocktail featuring vodka, Chambord raspberry liqueur, and pineapple juice. Despite its name, this elegant drink is neither French nor a true Martini, but rather a sophisticated vodka cocktail with a beautiful foam cap and complex fruit flavors that became iconic in the 1990s.',
-    it: 'Un cocktail lussuoso e fruttato con vodka, liquore di lamponi Chambord e succo di ananas. Nonostante il nome, questa elegante bevanda non è né francese né un vero Martini, ma piuttosto un sofisticato cocktail di vodka con una bellissima schiuma e sapori di frutta complessi che divenne iconico negli anni \'90.',
+    it: "Un cocktail lussuoso e fruttato con vodka, liquore di lamponi Chambord e succo di ananas. Nonostante il nome, questa elegante bevanda non è né francese né un vero Martini, ma piuttosto un sofisticato cocktail di vodka con una bellissima schiuma e sapori di frutta complessi che divenne iconico negli anni '90.",
     vi: 'Một cocktail sang trọng và trái cây với vodka, rượu mùi mâm xôi Chambord và nước dứa. Bất chấp tên gọi, đồ uống thanh lịch này không phải là Pháp cũng không phải Martini thực sự, mà là cocktail vodka tinh tế với lớp bọt đẹp và hương vị trái cây phức tạp trở nên biểu tượng trong những năm 1990.',
   },
 
@@ -51,7 +51,7 @@ export const frenchMartini: Cocktail = {
     },
     story: {
       en: 'The French Martini emerged in the 1980s at Keith McNally\'s New York establishments and was popularized by legendary bartender Dale DeGroff in the 1990s. The name "French" refers to Chambord, a French raspberry liqueur from the Loire Valley. The drink became a symbol of 1990s cocktail culture and the vodka craze of that era. Its distinctive frothy texture comes from the pineapple juice when shaken vigorously. The cocktail experienced a resurgence in the 2010s-2020s as part of the nostalgic revival of \'90s drinks.',
-      it: 'Il French Martini emerse negli anni \'80 nei locali di Keith McNally a New York e fu reso popolare dal leggendario barman Dale DeGroff negli anni \'90. Il nome "French" si riferisce al Chambord, un liquore di lamponi francese della Valle della Loira. La bevanda divenne un simbolo della cultura dei cocktail degli anni \'90 e della mania della vodka di quell\'epoca. La sua distintiva consistenza spumosa proviene dal succo di ananas quando shakerato vigorosamente. Il cocktail ha vissuto una rinascita negli anni 2010-2020 come parte del revival nostalgico delle bevande degli anni \'90.',
+      it: "Il French Martini emerse negli anni '80 nei locali di Keith McNally a New York e fu reso popolare dal leggendario barman Dale DeGroff negli anni '90. Il nome \"French\" si riferisce al Chambord, un liquore di lamponi francese della Valle della Loira. La bevanda divenne un simbolo della cultura dei cocktail degli anni '90 e della mania della vodka di quell'epoca. La sua distintiva consistenza spumosa proviene dal succo di ananas quando shakerato vigorosamente. Il cocktail ha vissuto una rinascita negli anni 2010-2020 come parte del revival nostalgico delle bevande degli anni '90.",
       vi: 'French Martini xuất hiện những năm 1980 tại các cơ sở của Keith McNally ở New York và được phổ biến bởi bartender huyền thoại Dale DeGroff những năm 1990. Tên "French" đề cập đến Chambord, một rượu mùi mâm xôi Pháp từ thung lũng Loire. Đồ uống trở thành biểu tượng của văn hóa cocktail những năm 1990 và cơn sốt vodka thời đó. Kết cấu bọt đặc trưng đến từ nước dứa khi lắc mạnh. Cocktail trải qua sự hồi sinh trong những năm 2010-2020 như một phần của sự phục hưng hoài niệm đồ uống những năm 90.',
     },
     named_after: {
@@ -80,7 +80,7 @@ export const frenchMartini: Cocktail = {
     },
     balance: {
       en: 'Well balanced between raspberry liqueur sweetness and pineapple tartness with smooth vodka base',
-      it: 'Ben bilanciato tra dolcezza del liquore di lamponi e acidità dell\'ananas con base morbida di vodka',
+      it: "Ben bilanciato tra dolcezza del liquore di lamponi e acidità dell'ananas con base morbida di vodka",
       vi: 'Cân bằng tốt giữa vị ngọt rượu mùi mâm xôi và vị chua dứa với nền vodka mượt mà',
     },
   },
@@ -95,8 +95,8 @@ export const frenchMartini: Cocktail = {
       vi: 'Kết hợp tốt với tráng miệng chocolate, đĩa phô mai, quả mọng tươi, món kem và món khai vị nhẹ.',
     },
     ideal_for: {
-      en: 'Perfect for those who enjoy fruity, elegant cocktails with a luxurious feel. Ideal for celebrations, date nights, and anyone seeking a glamorous \'90s throwback. Great for vodka enthusiasts who appreciate fruit-forward drinks.',
-      it: 'Perfetto per chi ama cocktail fruttati ed eleganti con un tocco lussuoso. Ideale per celebrazioni, serate romantiche e chiunque cerchi un glamour throwback agli anni \'90. Ottimo per gli appassionati di vodka che apprezzano bevande con frutta in primo piano.',
+      en: "Perfect for those who enjoy fruity, elegant cocktails with a luxurious feel. Ideal for celebrations, date nights, and anyone seeking a glamorous '90s throwback. Great for vodka enthusiasts who appreciate fruit-forward drinks.",
+      it: "Perfetto per chi ama cocktail fruttati ed eleganti con un tocco lussuoso. Ideale per celebrazioni, serate romantiche e chiunque cerchi un glamour throwback agli anni '90. Ottimo per gli appassionati di vodka che apprezzano bevande con frutta in primo piano.",
       vi: 'Hoàn hảo cho những ai thích cocktail trái cây, thanh lịch với cảm giác sang trọng. Lý tưởng cho lễ kỷ niệm, tối hẹn hò và ai đang tìm kiếm sự quyến rũ hoài niệm những năm 90. Tuyệt vời cho người đam mê vodka đánh giá cao đồ uống hương trái cây.',
     },
   },
@@ -113,7 +113,11 @@ export const frenchMartini: Cocktail = {
     {
       ingredient_id: 'ING_CHAMBORD',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Chambord (raspberry liqueur)', it: 'Chambord (liquore di lamponi)', vi: 'Chambord (rượu mùi mâm xôi)' },
+      display_name: {
+        en: 'Chambord (raspberry liqueur)',
+        it: 'Chambord (liquore di lamponi)',
+        vi: 'Chambord (rượu mùi mâm xôi)',
+      },
     },
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
@@ -163,7 +167,14 @@ export const frenchMartini: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +193,8 @@ export const frenchMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['pornstar-martini', 'raspberry-martini'],
 
-  notes_for_staff: 'Chambord is essential - do not substitute with other raspberry liqueurs. Vigorous shaking creates signature foam. Fresh pineapple juice preferred. Fine strain for smooth texture.',
+  notes_for_staff:
+    'Chambord is essential - do not substitute with other raspberry liqueurs. Vigorous shaking creates signature foam. Fresh pineapple juice preferred. Fine strain for smooth texture.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +207,7 @@ export const frenchMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/french-martini/',
-    note: 'IBA Official Recipe. Popularized by Dale DeGroff in 1990s New York.',
+    notes: 'IBA Official Recipe. Popularized by Dale DeGroff in 1990s New York.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

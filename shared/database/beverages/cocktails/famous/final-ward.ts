@@ -61,8 +61,8 @@ export const finalWard: Cocktail = {
   taste: {
     profile: ['herbal', 'spicy', 'complex', 'balanced'],
     description: {
-      en: 'Intensely complex and perfectly balanced. Rye whiskey provides spicy, peppery notes that contrast beautifully with Green Chartreuse\'s herbal sweetness. Maraschino adds almond-cherry complexity with a subtle bitterness, while lemon brings brightness. The equal-parts formula creates harmony where no single ingredient dominates. More assertive and whiskey-forward than the gin-based Last Word.',
-      it: 'Intensamente complesso e perfettamente bilanciato. Il rye whiskey fornisce note piccanti e pepate che contrastano magnificamente con la dolcezza erbacea del Green Chartreuse. Il Maraschino aggiunge complessità di mandorla e ciliegia con un\'amarezza sottile, mentre il limone porta brillantezza. La formula a parti uguali crea armonia dove nessun singolo ingrediente domina. Più assertivo e incentrato sul whiskey rispetto al Last Word a base di gin.',
+      en: "Intensely complex and perfectly balanced. Rye whiskey provides spicy, peppery notes that contrast beautifully with Green Chartreuse's herbal sweetness. Maraschino adds almond-cherry complexity with a subtle bitterness, while lemon brings brightness. The equal-parts formula creates harmony where no single ingredient dominates. More assertive and whiskey-forward than the gin-based Last Word.",
+      it: "Intensamente complesso e perfettamente bilanciato. Il rye whiskey fornisce note piccanti e pepate che contrastano magnificamente con la dolcezza erbacea del Green Chartreuse. Il Maraschino aggiunge complessità di mandorla e ciliegia con un'amarezza sottile, mentre il limone porta brillantezza. La formula a parti uguali crea armonia dove nessun singolo ingrediente domina. Più assertivo e incentrato sul whiskey rispetto al Last Word a base di gin.",
       vi: 'Cực kỳ phức tạp và cân bằng hoàn hảo. Rye whiskey mang đến hương cay, tiêu đối lập tuyệt đẹp với vị ngọt thảo mộc của Green Chartreuse. Maraschino thêm độ phức tạp hạnh nhân-cherry với vị đắng tinh tế, trong khi chanh mang lại độ tươi sáng. Công thức phần bằng nhau tạo sự hài hòa nơi không có thành phần nào thống trị. Quyết đoán hơn và tập trung vào whiskey hơn Last Word dựa trên gin.',
     },
     first_impression: {
@@ -115,12 +115,20 @@ export const finalWard: Cocktail = {
     {
       ingredient_id: 'ING_MARASCHINO',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Maraschino liqueur', it: 'Liquore Maraschino', vi: 'Rượu mùi Maraschino' },
+      display_name: {
+        en: 'Maraschino liqueur',
+        it: 'Liquore Maraschino',
+        vi: 'Rượu mùi Maraschino',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
   ],
 
@@ -184,7 +192,8 @@ export const finalWard: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['last-word', 'division-bell', 'naked-and-famous'],
 
-  notes_for_staff: 'Equal parts formula - precision matters. Use fresh lemon juice only. Green Chartreuse essential (not yellow). Shake hard to properly chill and dilute. Cousin to Last Word, Division Bell, and Naked & Famous.',
+  notes_for_staff:
+    'Equal parts formula - precision matters. Use fresh lemon juice only. Green Chartreuse essential (not yellow). Shake hard to properly chill and dilute. Cousin to Last Word, Division Bell, and Naked & Famous.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +206,7 @@ export const finalWard: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.deathandcompany.com/',
-    note: 'Created by Phil Ward at Death & Co, New York City, 2007.',
+    notes: 'Created by Phil Ward at Death & Co, New York City, 2007.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

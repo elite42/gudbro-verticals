@@ -48,7 +48,7 @@ export const voodooDoctor: Cocktail = {
     },
     story: {
       en: 'The Voodoo Doctor emerged in the 1980s from the tiki bar renaissance, particularly popular in New Orleans where voodoo culture and tiki aesthetics merged. The cocktail draws inspiration from New Orleans\' rich voodoo history and mystical traditions, combining them with classic tiki flavors. The name references the spiritual healers and practitioners of voodoo, suggesting this drink has "magical" restorative powers. While the exact origin is disputed, the cocktail became a staple at themed tiki bars that embraced the mysterious, supernatural elements of Polynesian and Caribbean cultures.',
-      it: 'Il Dottore Voodoo emerse negli anni \'80 dalla rinascita dei bar tiki, particolarmente popolare a New Orleans dove la cultura voodoo e l\'estetica tiki si fusero. Il cocktail trae ispirazione dalla ricca storia voodoo di New Orleans e dalle tradizioni mistiche, combinandole con i classici sapori tiki. Il nome fa riferimento ai guaritori spirituali e praticanti del voodoo, suggerendo che questa bevanda ha poteri "magici" di restaurazione. Sebbene l\'origine esatta sia controversa, il cocktail divenne un punto fermo nei bar tiki a tema che abbracciarono gli elementi misteriosi e soprannaturali delle culture polinesiana e caraibica.',
+      it: "Il Dottore Voodoo emerse negli anni '80 dalla rinascita dei bar tiki, particolarmente popolare a New Orleans dove la cultura voodoo e l'estetica tiki si fusero. Il cocktail trae ispirazione dalla ricca storia voodoo di New Orleans e dalle tradizioni mistiche, combinandole con i classici sapori tiki. Il nome fa riferimento ai guaritori spirituali e praticanti del voodoo, suggerendo che questa bevanda ha poteri \"magici\" di restaurazione. Sebbene l'origine esatta sia controversa, il cocktail divenne un punto fermo nei bar tiki a tema che abbracciarono gli elementi misteriosi e soprannaturali delle culture polinesiana e caraibica.",
       vi: 'Voodoo Doctor xuất hiện vào những năm 1980 từ thời kỳ phục hưng quán bar tiki, đặc biệt phổ biến ở New Orleans nơi văn hóa voodoo và thẩm mỹ tiki hợp nhất. Cocktail lấy cảm hứng từ lịch sử voodoo phong phú và truyền thống huyền bí của New Orleans, kết hợp chúng với hương vị tiki cổ điển. Cái tên tham chiếu đến các nhà chữa bệnh tâm linh và người hành nghề voodoo, gợi ý thức uống này có sức mạnh phục hồi "ma thuật". Mặc dù nguồn gốc chính xác còn tranh cãi, cocktail trở thành món chính tại các quán bar tiki theo chủ đề ôm lấy các yếu tố bí ẩn, siêu nhiên của văn hóa Polynesia và Caribbean.',
     },
     named_after: {
@@ -93,7 +93,7 @@ export const voodooDoctor: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for Halloween parties, mysterious themed events, and tiki bars with a darker aesthetic. Ideal for those who love spiced rum and complex, warming cocktails. Great for cool evenings and autumn nights.',
-      it: 'Perfetto per feste di Halloween, eventi a tema misterioso e bar tiki con un\'estetica più oscura. Ideale per chi ama il rum speziato e cocktail complessi e caldi. Ottimo per serate fresche e notti autunnali.',
+      it: "Perfetto per feste di Halloween, eventi a tema misterioso e bar tiki con un'estetica più oscura. Ideale per chi ama il rum speziato e cocktail complessi e caldi. Ottimo per serate fresche e notti autunnali.",
       vi: 'Hoàn hảo cho tiệc Halloween, sự kiện chủ đề bí ẩn và quán bar tiki với thẩm mỹ tối hơn. Lý tưởng cho những ai yêu thích rum gia vị và cocktail phức tạp, ấm áp. Tuyệt vời cho những buổi tối mát mẻ và đêm mùa thu.',
     },
   },
@@ -125,7 +125,11 @@ export const voodooDoctor: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 22, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ANGOSTURA_BITTERS',
@@ -175,7 +179,14 @@ export const voodooDoctor: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 1,
   },
 
@@ -194,7 +205,8 @@ export const voodooDoctor: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['virgin-voodoo-doctor', 'voodoo-priestess'],
 
-  notes_for_staff: 'Falernum is a spiced Caribbean liqueur - essential for authentic flavor. Spiced rum and dark rum combination creates complexity. Cinnamon garnish adds aroma and visual appeal. Popular for Halloween and mysterious themed events. Can flame dark rum floater for theatrical presentation if desired.',
+  notes_for_staff:
+    'Falernum is a spiced Caribbean liqueur - essential for authentic flavor. Spiced rum and dark rum combination creates complexity. Cinnamon garnish adds aroma and visual appeal. Popular for Halloween and mysterious themed events. Can flame dark rum floater for theatrical presentation if desired.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -207,7 +219,7 @@ export const voodooDoctor: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/5241/voodoo-doctor',
-    note: 'Modern tiki cocktail. Multiple recipe variations exist.',
+    notes: 'Modern tiki cocktail. Multiple recipe variations exist.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

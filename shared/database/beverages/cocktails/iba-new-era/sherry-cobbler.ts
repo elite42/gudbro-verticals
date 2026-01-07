@@ -34,7 +34,7 @@ export const sherryCobbler: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A historic low-ABV cocktail featuring sherry wine, fresh citrus, and seasonal berries served over crushed ice. One of the first drinks to popularize the use of a drinking straw, the Sherry Cobbler was the height of sophistication in 19th century America.',
-    it: 'Un cocktail storico a bassa gradazione con vino sherry, agrumi freschi e bacche di stagione servito su ghiaccio tritato. Una delle prime bevande a rendere popolare l\'uso della cannuccia, lo Sherry Cobbler era l\'apice della raffinatezza nell\'America del XIX secolo.',
+    it: "Un cocktail storico a bassa gradazione con vino sherry, agrumi freschi e bacche di stagione servito su ghiaccio tritato. Una delle prime bevande a rendere popolare l'uso della cannuccia, lo Sherry Cobbler era l'apice della raffinatezza nell'America del XIX secolo.",
     vi: 'Một cocktail lịch sử độ cồn thấp với rượu sherry, cam chanh tươi và quả mọng theo mùa phục vụ trên đá bào. Một trong những đồ uống đầu tiên phổ biến việc sử dụng ống hút, Sherry Cobbler là đỉnh cao của sự tinh tế ở Mỹ thế kỷ 19.',
   },
 
@@ -50,8 +50,8 @@ export const sherryCobbler: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Sherry Cobbler emerged in the 1830s-1840s and became phenomenally popular in America during the mid-19th century. It was one of the first cocktails to be served with crushed ice and a drinking straw - both innovations at the time. The drink was so fashionable that it helped create demand for imported sherry in the United States. Charles Dickens mentioned it in his writings, and it appeared in Jerry Thomas\'s seminal 1862 cocktail book. The cobbler style (spirit, sugar, fruit, crushed ice) spawned many variations.',
-      it: 'Lo Sherry Cobbler emerse negli anni 1830-1840 e divenne fenomenalmente popolare in America durante la metà del XIX secolo. Fu uno dei primi cocktail ad essere servito con ghiaccio tritato e cannuccia - entrambe innovazioni all\'epoca. La bevanda era così alla moda che contribuì a creare domanda per lo sherry importato negli Stati Uniti. Charles Dickens lo menzionò nei suoi scritti, e apparve nel libro seminale sui cocktail di Jerry Thomas del 1862. Lo stile cobbler (spirito, zucchero, frutta, ghiaccio tritato) generò molte varianti.',
+      en: "The Sherry Cobbler emerged in the 1830s-1840s and became phenomenally popular in America during the mid-19th century. It was one of the first cocktails to be served with crushed ice and a drinking straw - both innovations at the time. The drink was so fashionable that it helped create demand for imported sherry in the United States. Charles Dickens mentioned it in his writings, and it appeared in Jerry Thomas's seminal 1862 cocktail book. The cobbler style (spirit, sugar, fruit, crushed ice) spawned many variations.",
+      it: "Lo Sherry Cobbler emerse negli anni 1830-1840 e divenne fenomenalmente popolare in America durante la metà del XIX secolo. Fu uno dei primi cocktail ad essere servito con ghiaccio tritato e cannuccia - entrambe innovazioni all'epoca. La bevanda era così alla moda che contribuì a creare domanda per lo sherry importato negli Stati Uniti. Charles Dickens lo menzionò nei suoi scritti, e apparve nel libro seminale sui cocktail di Jerry Thomas del 1862. Lo stile cobbler (spirito, zucchero, frutta, ghiaccio tritato) generò molte varianti.",
       vi: 'Sherry Cobbler xuất hiện vào những năm 1830-1840 và trở nên cực kỳ phổ biến ở Mỹ vào giữa thế kỷ 19. Đây là một trong những cocktail đầu tiên được phục vụ với đá bào và ống hút - cả hai đều là sáng kiến vào thời điểm đó. Thức uống quá thời thượng đến nỗi giúp tạo nhu cầu cho sherry nhập khẩu tại Hoa Kỳ. Charles Dickens đề cập đến nó trong các tác phẩm của mình, và nó xuất hiện trong cuốn sách cocktail quan trọng năm 1862 của Jerry Thomas. Phong cách cobbler (rượu mạnh, đường, trái cây, đá bào) tạo ra nhiều biến thể.',
     },
     named_after: {
@@ -64,7 +64,7 @@ export const sherryCobbler: Cocktail = {
   taste: {
     profile: ['fruity', 'wine-forward', 'refreshing', 'delicate'],
     description: {
-      en: 'Elegant and refreshing with nutty, oxidized sherry flavors complemented by bright citrus and sweet berries. The crushed ice dilution makes it incredibly easy to drink while preserving the wine\'s character.',
+      en: "Elegant and refreshing with nutty, oxidized sherry flavors complemented by bright citrus and sweet berries. The crushed ice dilution makes it incredibly easy to drink while preserving the wine's character.",
       it: 'Elegante e rinfrescante con sapori di sherry nocciolato e ossidato completati da agrumi luminosi e bacche dolci. La diluizione del ghiaccio tritato lo rende incredibilmente facile da bere preservando il carattere del vino.',
       vi: 'Thanh lịch và sảng khoái với hương vị sherry hạt dẻ, oxy hóa được bổ sung bởi cam chanh tươi sáng và quả mọng ngọt. Sự pha loãng của đá bào làm cho nó cực kỳ dễ uống trong khi bảo tồn tính cách của rượu vang.',
     },
@@ -108,7 +108,11 @@ export const sherryCobbler: Cocktail = {
     {
       ingredient_id: 'ING_SHERRY_AMONTILLADO',
       quantity: { amount: 90, unit: 'ml' },
-      display_name: { en: 'Amontillado sherry', it: 'Sherry Amontillado', vi: 'Sherry Amontillado' },
+      display_name: {
+        en: 'Amontillado sherry',
+        it: 'Sherry Amontillado',
+        vi: 'Sherry Amontillado',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -168,7 +172,14 @@ export const sherryCobbler: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +198,8 @@ export const sherryCobbler: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['port-cobbler', 'champagne-cobbler', 'whiskey-cobbler'],
 
-  notes_for_staff: 'Amontillado sherry is traditional but can use Fino or Oloroso. Crushed ice is essential for proper dilution. Generous fruit garnish is part of the experience. Historically served with a straw.',
+  notes_for_staff:
+    'Amontillado sherry is traditional but can use Fino or Oloroso. Crushed ice is essential for proper dilution. Generous fruit garnish is part of the experience. Historically served with a straw.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +212,8 @@ export const sherryCobbler: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/sherry-cobbler/',
-    note: 'IBA Official Recipe. Historical references from Jerry Thomas\'s 1862 "The Bon Vivant\'s Companion".',
+    notes:
+      'IBA Official Recipe. Historical references from Jerry Thomas\'s 1862 "The Bon Vivant\'s Companion".',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

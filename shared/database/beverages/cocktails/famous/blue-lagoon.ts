@@ -48,7 +48,7 @@ export const blueLagoon: Cocktail = {
     },
     story: {
       en: 'The Blue Lagoon was created in the 1960s by Andy MacElhone at Harry\'s New York Bar in Paris, the same legendary establishment that gave us the Bloody Mary and French 75. The cocktail was designed to showcase blue curaçao, a liqueur that was gaining popularity at the time. Its striking electric blue color made it an instant hit, especially as color photography became more prevalent in advertising. The drink gained even more fame when it shared its name with the 1980 film "The Blue Lagoon," starring Brooke Shields.',
-      it: 'La Laguna Blu fu creata negli anni \'60 da Andy MacElhone all\'Harry\'s New York Bar di Parigi, lo stesso leggendario locale che ci ha dato il Bloody Mary e il French 75. Il cocktail fu progettato per mostrare il blue curaçao, un liquore che stava guadagnando popolarità all\'epoca. Il suo sorprendente colore blu elettrico lo rese un successo istantaneo, soprattutto quando la fotografia a colori divenne più diffusa nella pubblicità. La bevanda guadagnò ancora più fama quando condivise il suo nome con il film del 1980 "La Laguna Blu," con Brooke Shields.',
+      it: "La Laguna Blu fu creata negli anni '60 da Andy MacElhone all'Harry's New York Bar di Parigi, lo stesso leggendario locale che ci ha dato il Bloody Mary e il French 75. Il cocktail fu progettato per mostrare il blue curaçao, un liquore che stava guadagnando popolarità all'epoca. Il suo sorprendente colore blu elettrico lo rese un successo istantaneo, soprattutto quando la fotografia a colori divenne più diffusa nella pubblicità. La bevanda guadagnò ancora più fama quando condivise il suo nome con il film del 1980 \"La Laguna Blu,\" con Brooke Shields.",
       vi: 'Blue Lagoon được tạo ra vào những năm 1960 bởi Andy MacElhone tại Harry\'s New York Bar ở Paris, cùng cơ sở huyền thoại đã cho chúng ta Bloody Mary và French 75. Cocktail được thiết kế để giới thiệu blue curaçao, một loại rượu mùi đang trở nên phổ biến vào thời điểm đó. Màu xanh điện nổi bật của nó khiến nó thành công ngay lập tức, đặc biệt khi nhiếp ảnh màu trở nên phổ biến hơn trong quảng cáo. Thức uống càng nổi tiếng hơn khi nó cùng tên với bộ phim năm 1980 "The Blue Lagoon," với sự tham gia của Brooke Shields.',
     },
     named_after: {
@@ -67,7 +67,7 @@ export const blueLagoon: Cocktail = {
     },
     first_impression: {
       en: 'Bright lemon sweetness with orange citrus notes from curaçao',
-      it: 'Luminosa dolcezza di limone con note di agrumi d\'arancia dal curaçao',
+      it: "Luminosa dolcezza di limone con note di agrumi d'arancia dal curaçao",
       vi: 'Vị ngọt chanh tươi sáng với hương cam quýt từ curaçao',
     },
     finish: {
@@ -160,7 +160,14 @@ export const blueLagoon: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -179,7 +186,8 @@ export const blueLagoon: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['electric-lemonade', 'blue-hawaiian', 'swimming-pool'],
 
-  notes_for_staff: 'Very easy to make and visually stunning. The electric blue color is the main attraction. Can substitute Sprite for lemonade if unavailable. Popular for Instagram photos - ensure good presentation. Some recipes use lemon-lime soda instead of lemonade.',
+  notes_for_staff:
+    'Very easy to make and visually stunning. The electric blue color is the main attraction. Can substitute Sprite for lemonade if unavailable. Popular for Instagram photos - ensure good presentation. Some recipes use lemon-lime soda instead of lemonade.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +200,7 @@ export const blueLagoon: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/blue-lagoon/',
-    note: 'Classic cocktail from Harry\'s New York Bar, Paris. Recipe variations exist.',
+    notes: "Classic cocktail from Harry's New York Bar, Paris. Recipe variations exist.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

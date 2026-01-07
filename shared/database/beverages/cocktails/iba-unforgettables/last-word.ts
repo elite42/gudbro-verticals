@@ -34,7 +34,7 @@ export const lastWord: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A perfectly balanced Prohibition-era cocktail from Detroit. The Last Word combines equal parts gin, Green Chartreuse, maraschino liqueur, and lime juice for a complex, herbal, and refreshing drink that became a modern classic.',
-    it: 'Un cocktail dell\'era del Proibizionismo perfettamente bilanciato da Detroit. Il Last Word combina parti uguali di gin, Chartreuse verde, liquore maraschino e succo di lime per un drink complesso, erbaceo e rinfrescante diventato un classico moderno.',
+    it: "Un cocktail dell'era del Proibizionismo perfettamente bilanciato da Detroit. Il Last Word combina parti uguali di gin, Chartreuse verde, liquore maraschino e succo di lime per un drink complesso, erbaceo e rinfrescante diventato un classico moderno.",
     vi: 'Một cocktail thời kỳ Cấm rượu cân bằng hoàn hảo từ Detroit. Last Word kết hợp tỷ lệ bằng nhau gin, Green Chartreuse, rượu mùi maraschino và nước cốt chanh cho một thức uống phức tạp, thảo mộc và sảng khoái đã trở thành kiệt tác hiện đại.',
   },
 
@@ -64,13 +64,13 @@ export const lastWord: Cocktail = {
   taste: {
     profile: ['herbal', 'complex', 'balanced', 'citrus'],
     description: {
-      en: 'A masterclass in balance. The equal-parts formula creates perfect harmony between gin\'s botanicals, Chartreuse\'s intense herbal complexity, maraschino\'s subtle almond sweetness, and lime\'s bright acidity. Each ingredient shines while supporting the others, resulting in a sophisticated, layered cocktail.',
-      it: 'Un esempio di equilibrio. La formula in parti uguali crea un\'armonia perfetta tra i botanici del gin, la complessa intensità erbacea della Chartreuse, la sottile dolcezza di mandorla del maraschino e l\'acidità brillante del lime. Ogni ingrediente brilla supportando gli altri, risultando in un cocktail sofisticato e stratificato.',
+      en: "A masterclass in balance. The equal-parts formula creates perfect harmony between gin's botanicals, Chartreuse's intense herbal complexity, maraschino's subtle almond sweetness, and lime's bright acidity. Each ingredient shines while supporting the others, resulting in a sophisticated, layered cocktail.",
+      it: "Un esempio di equilibrio. La formula in parti uguali crea un'armonia perfetta tra i botanici del gin, la complessa intensità erbacea della Chartreuse, la sottile dolcezza di mandorla del maraschino e l'acidità brillante del lime. Ogni ingrediente brilla supportando gli altri, risultando in un cocktail sofisticato e stratificato.",
       vi: 'Một kiệt tác về sự cân bằng. Công thức tỷ lệ bằng nhau tạo ra sự hài hòa hoàn hảo giữa thảo mộc của gin, độ phức tạp thảo mộc mãnh liệt của Chartreuse, vị ngọt hạnh nhân tinh tế của maraschino và độ chua tươi sáng của chanh. Mỗi thành phần tỏa sáng trong khi hỗ trợ những thành phần khác, tạo ra một cocktail tinh tế, nhiều tầng.',
     },
     first_impression: {
       en: 'Immediate bright lime acidity, followed by a wave of herbal complexity from the Chartreuse. The maraschino adds subtle sweetness and almond notes while gin provides botanical structure.',
-      it: 'Acidità di lime brillante immediata, seguita da un\'ondata di complessità erbacea dalla Chartreuse. Il maraschino aggiunge dolcezza sottile e note di mandorla mentre il gin fornisce struttura botanica.',
+      it: "Acidità di lime brillante immediata, seguita da un'ondata di complessità erbacea dalla Chartreuse. Il maraschino aggiunge dolcezza sottile e note di mandorla mentre il gin fornisce struttura botanica.",
       vi: 'Độ chua chanh tươi sáng ngay lập tức, theo sau là làn sóng phức tạp thảo mộc từ Chartreuse. Maraschino thêm vị ngọt tinh tế và các nốt hạnh nhân trong khi gin cung cấp cấu trúc thảo mộc.',
     },
     finish: {
@@ -118,12 +118,20 @@ export const lastWord: Cocktail = {
     {
       ingredient_id: 'ING_MARASCHINO_LIQUEUR',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Maraschino Luxardo', it: 'Maraschino Luxardo', vi: 'Maraschino Luxardo' },
+      display_name: {
+        en: 'Maraschino Luxardo',
+        it: 'Maraschino Luxardo',
+        vi: 'Maraschino Luxardo',
+      },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh Lime Juice', it: 'Succo di Lime Fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh Lime Juice',
+        it: 'Succo di Lime Fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
   ],
 
@@ -162,7 +170,14 @@ export const lastWord: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -194,7 +209,8 @@ export const lastWord: Cocktail = {
     },
   ],
 
-  notes_for_staff: 'Use equal parts of all ingredients - this is critical to the drink\'s balance. Green Chartreuse is essential, not yellow. Fresh lime juice is mandatory. Shake vigorously to properly chill and dilute. This drink has a passionate following among cocktail enthusiasts.',
+  notes_for_staff:
+    "Use equal parts of all ingredients - this is critical to the drink's balance. Green Chartreuse is essential, not yellow. Fresh lime juice is mandatory. Shake vigorously to properly chill and dilute. This drink has a passionate following among cocktail enthusiasts.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -207,7 +223,7 @@ export const lastWord: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/last-word/',
-    note: 'IBA Official Recipe. Originally from Detroit Athletic Club (1916).',
+    notes: 'IBA Official Recipe. Originally from Detroit Athletic Club (1916).',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

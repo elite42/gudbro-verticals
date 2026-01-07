@@ -42,7 +42,7 @@ export const lemonDrop: Cocktail = {
     created_year: '1970',
     origin: {
       city: 'San Francisco',
-      bar: 'Henry Africa\'s',
+      bar: "Henry Africa's",
       country: 'USA',
     },
     creator: {
@@ -50,9 +50,9 @@ export const lemonDrop: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Lemon Drop was created in the 1970s by Norman Jay Hobday at Henry Africa\'s bar in San Francisco. Inspired by the popular lemon drop candy, Hobday created a cocktail version that captured the same sweet-tart flavor profile. The drink became hugely popular in the 1980s and 1990s, particularly among vodka cocktail enthusiasts. Its bright, accessible flavor made it a staple of modern cocktail culture.',
-      it: 'Il Lemon Drop fu creato negli anni \'70 da Norman Jay Hobday al bar Henry Africa\'s a San Francisco. Ispirato dalla popolare caramella lemon drop, Hobday creò una versione cocktail che catturava lo stesso profilo di sapore dolce-aspro. La bevanda divenne estremamente popolare negli anni \'80 e \'90, particolarmente tra gli appassionati di cocktail vodka. Il suo sapore brillante e accessibile lo ha reso un punto fermo della cultura del cocktail moderna.',
-      vi: 'Lemon Drop được tạo ra vào những năm 1970 bởi Norman Jay Hobday tại quán bar Henry Africa\'s ở San Francisco. Lấy cảm hứng từ kẹo lemon drop phổ biến, Hobday đã tạo ra phiên bản cocktail nắm bắt cùng hương vị ngọt-chua. Thức uống trở nên cực kỳ phổ biến vào những năm 1980 và 1990, đặc biệt trong số những người đam mê cocktail vodka. Hương vị tươi sáng, dễ tiếp cận của nó đã làm cho nó trở thành món chủ lực của văn hóa cocktail hiện đại.',
+      en: "The Lemon Drop was created in the 1970s by Norman Jay Hobday at Henry Africa's bar in San Francisco. Inspired by the popular lemon drop candy, Hobday created a cocktail version that captured the same sweet-tart flavor profile. The drink became hugely popular in the 1980s and 1990s, particularly among vodka cocktail enthusiasts. Its bright, accessible flavor made it a staple of modern cocktail culture.",
+      it: "Il Lemon Drop fu creato negli anni '70 da Norman Jay Hobday al bar Henry Africa's a San Francisco. Ispirato dalla popolare caramella lemon drop, Hobday creò una versione cocktail che catturava lo stesso profilo di sapore dolce-aspro. La bevanda divenne estremamente popolare negli anni '80 e '90, particolarmente tra gli appassionati di cocktail vodka. Il suo sapore brillante e accessibile lo ha reso un punto fermo della cultura del cocktail moderna.",
+      vi: "Lemon Drop được tạo ra vào những năm 1970 bởi Norman Jay Hobday tại quán bar Henry Africa's ở San Francisco. Lấy cảm hứng từ kẹo lemon drop phổ biến, Hobday đã tạo ra phiên bản cocktail nắm bắt cùng hương vị ngọt-chua. Thức uống trở nên cực kỳ phổ biến vào những năm 1980 và 1990, đặc biệt trong số những người đam mê cocktail vodka. Hương vị tươi sáng, dễ tiếp cận của nó đã làm cho nó trở thành món chủ lực của văn hóa cocktail hiện đại.",
     },
     named_after: {
       en: 'Named after the popular lemon drop candy, known for its sweet-tart flavor.',
@@ -80,7 +80,7 @@ export const lemonDrop: Cocktail = {
     },
     balance: {
       en: 'Well-balanced between lemon tartness and sugar sweetness',
-      it: 'Ben bilanciato tra l\'acidità del limone e la dolcezza dello zucchero',
+      it: "Ben bilanciato tra l'acidità del limone e la dolcezza dello zucchero",
       vi: 'Cân bằng tốt giữa vị chua chanh và vị ngọt đường',
     },
   },
@@ -118,7 +118,11 @@ export const lemonDrop: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
   ],
 
@@ -163,7 +167,14 @@ export const lemonDrop: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +193,8 @@ export const lemonDrop: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['lemon-drop-shot'],
 
-  notes_for_staff: 'Sugar rim is essential for authentic presentation. Can use regular vodka if citrus vodka unavailable. Shake vigorously for proper dilution.',
+  notes_for_staff:
+    'Sugar rim is essential for authentic presentation. Can use regular vodka if citrus vodka unavailable. Shake vigorously for proper dilution.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +207,7 @@ export const lemonDrop: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/lemon-drop/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -39,7 +39,7 @@ export const irishCarBomb: Cocktail = {
     created_year: '1979',
     origin: {
       city: 'Norwich',
-      bar: 'Wilson\'s Saloon',
+      bar: "Wilson's Saloon",
       country: 'USA',
     },
     creator: {
@@ -47,8 +47,8 @@ export const irishCarBomb: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created in 1979 by bartender Charles Oat at Wilson\'s Saloon in Norwich, Connecticut. While popular in America, especially around St. Patrick\'s Day, the drink\'s name is highly controversial and considered deeply offensive in Ireland due to its reference to the car bombings during The Troubles (1960s-1990s). Many Irish pubs refuse to serve it, and bartenders recommend using alternative names like "Irish Slammer" or simply avoiding the drink in Irish establishments.',
-      it: 'Creato nel 1979 dal barman Charles Oat al Wilson\'s Saloon di Norwich, Connecticut. Sebbene popolare in America, specialmente intorno al giorno di San Patrizio, il nome della bevanda è altamente controverso e considerato profondamente offensivo in Irlanda a causa del suo riferimento agli attentati bomba durante i Troubles (anni \'60-\'90). Molti pub irlandesi si rifiutano di servirlo e i barman consigliano di usare nomi alternativi come "Irish Slammer" o semplicemente di evitare la bevanda negli stabilimenti irlandesi.',
+      en: "Created in 1979 by bartender Charles Oat at Wilson's Saloon in Norwich, Connecticut. While popular in America, especially around St. Patrick's Day, the drink's name is highly controversial and considered deeply offensive in Ireland due to its reference to the car bombings during The Troubles (1960s-1990s). Many Irish pubs refuse to serve it, and bartenders recommend using alternative names like \"Irish Slammer\" or simply avoiding the drink in Irish establishments.",
+      it: "Creato nel 1979 dal barman Charles Oat al Wilson's Saloon di Norwich, Connecticut. Sebbene popolare in America, specialmente intorno al giorno di San Patrizio, il nome della bevanda è altamente controverso e considerato profondamente offensivo in Irlanda a causa del suo riferimento agli attentati bomba durante i Troubles (anni '60-'90). Molti pub irlandesi si rifiutano di servirlo e i barman consigliano di usare nomi alternativi come \"Irish Slammer\" o semplicemente di evitare la bevanda negli stabilimenti irlandesi.",
       vi: 'Được tạo ra vào năm 1979 bởi bartender Charles Oat tại Wilson\'s Saloon ở Norwich, Connecticut. Mặc dù phổ biến ở Mỹ, đặc biệt là vào Ngày Thánh Patrick, tên của thức uống này rất gây tranh cãi và được coi là xúc phạm sâu sắc ở Ireland do ám chỉ đến các vụ đánh bom xe trong The Troubles (những năm 1960-1990). Nhiều quán rượu Ireland từ chối phục vụ nó, và các bartender khuyên dùng tên thay thế như "Irish Slammer" hoặc đơn giản là tránh thức uống này tại các cơ sở Ireland.',
     },
     named_after: {
@@ -67,7 +67,7 @@ export const irishCarBomb: Cocktail = {
     },
     first_impression: {
       en: 'Creamy sweetness meets roasted stout bitterness',
-      it: 'Dolcezza cremosa incontra l\'amarezza della stout tostata',
+      it: "Dolcezza cremosa incontra l'amarezza della stout tostata",
       vi: 'Vị ngọt béo ngậy gặp vị đắng bia đen rang',
     },
     finish: {
@@ -85,11 +85,11 @@ export const irishCarBomb: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['party', 'st_patricks_day', 'celebration'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
-      en: 'Not typically paired with food. Best consumed as a standalone drink. If serving around St. Patrick\'s Day, pairs with Irish pub food like shepherd\'s pie or fish and chips.',
-      it: 'In genere non abbinato al cibo. Meglio consumato come bevanda standalone. Se servito intorno al giorno di San Patrizio, si abbina al cibo da pub irlandese come shepherd\'s pie o fish and chips.',
-      vi: 'Thường không kết hợp với thức ăn. Tốt nhất là tiêu thụ như một thức uống độc lập. Nếu phục vụ vào Ngày Thánh Patrick, kết hợp với món ăn pub Ireland như bánh shepherd\'s pie hoặc cá và khoai tây chiên.',
+      en: "Not typically paired with food. Best consumed as a standalone drink. If serving around St. Patrick's Day, pairs with Irish pub food like shepherd's pie or fish and chips.",
+      it: "In genere non abbinato al cibo. Meglio consumato come bevanda standalone. Se servito intorno al giorno di San Patrizio, si abbina al cibo da pub irlandese come shepherd's pie o fish and chips.",
+      vi: "Thường không kết hợp với thức ăn. Tốt nhất là tiêu thụ như một thức uống độc lập. Nếu phục vụ vào Ngày Thánh Patrick, kết hợp với món ăn pub Ireland như bánh shepherd's pie hoặc cá và khoai tây chiên.",
     },
     ideal_for: {
       en: 'Popular in American bars around St. Patrick\'s Day. WARNING: Highly offensive in Ireland - use alternative names "Irish Slammer" or "Dublin Drop" or avoid entirely in Irish establishments. Must be consumed immediately.',
@@ -110,7 +110,11 @@ export const irishCarBomb: Cocktail = {
     {
       ingredient_id: 'ING_BAILEYS',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Baileys Irish Cream', it: 'Baileys Irish Cream', vi: 'Baileys Irish Cream' },
+      display_name: {
+        en: 'Baileys Irish Cream',
+        it: 'Baileys Irish Cream',
+        vi: 'Baileys Irish Cream',
+      },
     },
     {
       ingredient_id: 'ING_GUINNESS',
@@ -168,7 +172,7 @@ export const irishCarBomb: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'celebration', 'st-patricks-day'],
 
   is_mocktail: false,
@@ -179,7 +183,8 @@ export const irishCarBomb: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['irish-slammer', 'dublin-drop', 'irish-bomb'],
 
-  notes_for_staff: 'CULTURAL SENSITIVITY WARNING: This drink\'s name is highly offensive in Ireland. Recommend using "Irish Slammer" or "Dublin Drop" as alternative names. NEVER serve this in Irish pubs or to Irish customers. Must be consumed immediately as Baileys will curdle in Guinness. Use fresh Guinness and serve quickly.',
+  notes_for_staff:
+    'CULTURAL SENSITIVITY WARNING: This drink\'s name is highly offensive in Ireland. Recommend using "Irish Slammer" or "Dublin Drop" as alternative names. NEVER serve this in Irish pubs or to Irish customers. Must be consumed immediately as Baileys will curdle in Guinness. Use fresh Guinness and serve quickly.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +197,8 @@ export const irishCarBomb: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://en.wikipedia.org/wiki/Irish_Car_Bomb',
-    note: 'Controversial bomb shot created in 1979. Name is offensive in Ireland - use alternatives.',
+    notes:
+      'Controversial bomb shot created in 1979. Name is offensive in Ireland - use alternatives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

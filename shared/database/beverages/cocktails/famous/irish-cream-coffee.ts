@@ -31,7 +31,7 @@ export const irishCreamCoffee: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A warming, indulgent hot coffee cocktail made with Irish cream liqueur and topped with whipped cream. This creamy alternative to Irish Coffee offers a sweeter, more dessert-like experience perfect for cold evenings.',
-    it: 'Un cocktail caldo e indulgente al caffè fatto con liquore alla crema irlandese e guarnito con panna montata. Questa alternativa cremosa all\'Irish Coffee offre un\'esperienza più dolce e simile al dessert, perfetta per serate fredde.',
+    it: "Un cocktail caldo e indulgente al caffè fatto con liquore alla crema irlandese e guarnito con panna montata. Questa alternativa cremosa all'Irish Coffee offre un'esperienza più dolce e simile al dessert, perfetta per serate fredde.",
     vi: 'Một loại cocktail cà phê nóng ấm áp, nuông chiều làm từ rượu mùi kem Ireland và phủ kem tươi. Sự thay thế béo ngậy này cho Irish Coffee cung cấp trải nghiệm ngọt hơn, giống món tráng miệng hơn, hoàn hảo cho những buổi tối lạnh.',
   },
 
@@ -42,7 +42,7 @@ export const irishCreamCoffee: Cocktail = {
     },
     story: {
       en: 'Irish Cream Coffee emerged in the 1970s following the creation and commercial success of Baileys Irish Cream in 1974. As Baileys became popular worldwide, bartenders and home enthusiasts began adding it to hot coffee as a simpler, sweeter alternative to the classic Irish Coffee (which uses whiskey, coffee, sugar, and cream). The drink became especially popular in cafes and restaurants as an after-dinner beverage, offering a more accessible entry point to spiked coffee drinks. It remains a favorite winter warmer and dessert coffee option.',
-      it: 'L\'Irish Cream Coffee emerse negli anni \'70 dopo la creazione e il successo commerciale di Baileys Irish Cream nel 1974. Mentre Baileys diventava popolare in tutto il mondo, barman e appassionati casalinghi iniziarono ad aggiungerlo al caffè caldo come alternativa più semplice e dolce al classico Irish Coffee (che usa whiskey, caffè, zucchero e panna). La bevanda divenne particolarmente popolare nei caffè e ristoranti come bevanda dopo cena, offrendo un punto di ingresso più accessibile alle bevande al caffè alcoliche. Rimane un favorito scaldante invernale e opzione di caffè da dessert.',
+      it: "L'Irish Cream Coffee emerse negli anni '70 dopo la creazione e il successo commerciale di Baileys Irish Cream nel 1974. Mentre Baileys diventava popolare in tutto il mondo, barman e appassionati casalinghi iniziarono ad aggiungerlo al caffè caldo come alternativa più semplice e dolce al classico Irish Coffee (che usa whiskey, caffè, zucchero e panna). La bevanda divenne particolarmente popolare nei caffè e ristoranti come bevanda dopo cena, offrendo un punto di ingresso più accessibile alle bevande al caffè alcoliche. Rimane un favorito scaldante invernale e opzione di caffè da dessert.",
       vi: 'Irish Cream Coffee xuất hiện vào những năm 1970 sau khi tạo ra và thành công thương mại của Baileys Irish Cream vào năm 1974. Khi Baileys trở nên phổ biến trên toàn thế giới, bartender và những người đam mê tại nhà bắt đầu thêm nó vào cà phê nóng như một sự thay thế đơn giản hơn, ngọt hơn cho Irish Coffee cổ điển (sử dụng whiskey, cà phê, đường và kem). Thức uống trở nên đặc biệt phổ biến ở các quán cà phê và nhà hàng như một thức uống sau bữa tối, cung cấp điểm khởi đầu dễ tiếp cận hơn cho đồ uống cà phê có cồn. Nó vẫn là món ấm mùa đông yêu thích và lựa chọn cà phê tráng miệng.',
     },
     named_after: {
@@ -87,7 +87,7 @@ export const irishCreamCoffee: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for coffee and Irish cream lovers seeking a warming dessert drink. Ideal for cold weather, après-ski, brunch occasions, and anyone who wants a sweeter, easier alternative to Irish Coffee.',
-      it: 'Perfetto per gli amanti del caffè e della crema irlandese che cercano una bevanda da dessert riscaldante. Ideale per il freddo, après-ski, occasioni di brunch e chiunque voglia un\'alternativa più dolce e facile all\'Irish Coffee.',
+      it: "Perfetto per gli amanti del caffè e della crema irlandese che cercano una bevanda da dessert riscaldante. Ideale per il freddo, après-ski, occasioni di brunch e chiunque voglia un'alternativa più dolce e facile all'Irish Coffee.",
       vi: 'Hoàn hảo cho người yêu cà phê và kem Ireland tìm kiếm thức uống tráng miệng ấm áp. Lý tưởng cho thời tiết lạnh, après-ski, dịp brunch và bất kỳ ai muốn một sự thay thế ngọt hơn, dễ dàng hơn cho Irish Coffee.',
     },
   },
@@ -178,7 +178,8 @@ export const irishCreamCoffee: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['irish-coffee', 'nutty-irishman', 'mudslide-coffee'],
 
-  notes_for_staff: 'Simpler and sweeter than traditional Irish Coffee. Use fresh, hot coffee for best results. Can add extra shot of espresso for stronger coffee flavor. Popular as a dessert coffee option. Baileys is the preferred Irish cream brand.',
+  notes_for_staff:
+    'Simpler and sweeter than traditional Irish Coffee. Use fresh, hot coffee for best results. Can add extra shot of espresso for stronger coffee flavor. Popular as a dessert coffee option. Baileys is the preferred Irish cream brand.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -191,7 +192,7 @@ export const irishCreamCoffee: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.baileys.com/en-us/recipes/baileys-coffee/',
-    note: 'Popular hot coffee drink made with Baileys Irish Cream.',
+    notes: 'Popular hot coffee drink made with Baileys Irish Cream.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

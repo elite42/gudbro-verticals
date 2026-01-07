@@ -48,7 +48,7 @@ export const riff: Cocktail = {
     },
     story: {
       en: 'Created by Zachary Gelnaw-Rubin at Dutch Kills in Queens, New York in 2010, the Riff is a riff on the classic Paper Plane cocktail. Gelnaw-Rubin substituted Aperol for Campari and added dry vermouth, creating a more nuanced and accessible version. The cocktail quickly gained popularity in the craft cocktail community and has become a modern classic in its own right.',
-      it: 'Creato da Zachary Gelnaw-Rubin al Dutch Kills a Queens, New York nel 2010, il Riff è una variazione del classico cocktail Paper Plane. Gelnaw-Rubin ha sostituito l\'Aperol al Campari e aggiunto vermouth dry, creando una versione più sfumata e accessibile. Il cocktail ha rapidamente guadagnato popolarità nella comunità dei cocktail artigianali ed è diventato un classico moderno a pieno titolo.',
+      it: "Creato da Zachary Gelnaw-Rubin al Dutch Kills a Queens, New York nel 2010, il Riff è una variazione del classico cocktail Paper Plane. Gelnaw-Rubin ha sostituito l'Aperol al Campari e aggiunto vermouth dry, creando una versione più sfumata e accessibile. Il cocktail ha rapidamente guadagnato popolarità nella comunità dei cocktail artigianali ed è diventato un classico moderno a pieno titolo.",
       vi: 'Được tạo ra bởi Zachary Gelnaw-Rubin tại Dutch Kills ở Queens, New York năm 2010, Riff là biến t주 của cocktail Paper Plane cổ điển. Gelnaw-Rubin thay Aperol cho Campari và thêm vermouth khô, tạo ra phiên bản tinh tế và dễ tiếp cận hơn. Cocktail nhanh chóng trở nên phổ biến trong cộng đồng cocktail thủ công và đã trở thành cocktail cổ điển hiện đại.',
     },
     named_after: {
@@ -62,12 +62,12 @@ export const riff: Cocktail = {
     profile: ['bitter', 'complex', 'spirit-forward'],
     description: {
       en: 'Balanced and sophisticated with layers of flavor. Rye whiskey provides spicy backbone, Aperol contributes gentle bitterness and orange notes, dry vermouth adds herbal complexity, and maraschino liqueur brings subtle cherry sweetness.',
-      it: 'Bilanciato e sofisticato con strati di sapore. Il whiskey di segale fornisce una struttura piccante, l\'Aperol contribuisce con amarezza delicata e note d\'arancia, il vermouth dry aggiunge complessità erbale e il liquore di maraschino porta dolcezza sottile di ciliegia.',
+      it: "Bilanciato e sofisticato con strati di sapore. Il whiskey di segale fornisce una struttura piccante, l'Aperol contribuisce con amarezza delicata e note d'arancia, il vermouth dry aggiunge complessità erbale e il liquore di maraschino porta dolcezza sottile di ciliegia.",
       vi: 'Cân bằng và tinh tế với nhiều tầng hương vị. Rye whiskey mang đến xương sống cay, Aperol đóng góp vị đắng nhẹ nhàng và hương cam, vermouth khô thêm độ phức tạp thảo mộc, và rượu mùi maraschino mang vị ngọt anh đào tinh tế.',
     },
     first_impression: {
       en: 'Whiskey spice and Aperol bitterness hit first, followed by herbal and cherry complexity',
-      it: 'Spezie del whiskey e amarezza dell\'Aperol colpiscono per primi, seguiti da complessità erbale e di ciliegia',
+      it: "Spezie del whiskey e amarezza dell'Aperol colpiscono per primi, seguiti da complessità erbale e di ciliegia",
       vi: 'Vị cay whiskey và đắng Aperol đập vào đầu tiên, tiếp theo là độ phức tạp thảo mộc và anh đào',
     },
     finish: {
@@ -85,7 +85,7 @@ export const riff: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_afternoon'],
     occasions: ['cocktail_hour', 'date_night', 'aperitivo'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Excellent with charcuterie, aged cheeses, roasted nuts, and savory appetizers. The bitter-sweet profile makes it a perfect aperitivo.',
       it: 'Eccellente con salumi, formaggi stagionati, noci tostate e antipasti salati. Il profilo amaro-dolce lo rende un perfetto aperitivo.',
@@ -140,7 +140,7 @@ export const riff: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a mixing glass filled with ice. Stir until well-chilled, about 30 seconds. Strain into a chilled coupe glass. Express an orange peel over the drink and use as garnish.',
-    it: 'Aggiungere tutti gli ingredienti in un mixing glass pieno di ghiaccio. Mescolare fino a raffreddare bene, circa 30 secondi. Filtrare in una coppa raffreddata. Esprimere una scorza d\'arancia sulla bevanda e usarla come guarnizione.',
+    it: "Aggiungere tutti gli ingredienti in un mixing glass pieno di ghiaccio. Mescolare fino a raffreddare bene, circa 30 secondi. Filtrare in una coppa raffreddata. Esprimere una scorza d'arancia sulla bevanda e usarla come guarnizione.",
     vi: 'Thêm tất cả nguyên liệu vào ly trộn đầy đá. Khuấy cho đến khi lạnh kỹ, khoảng 30 giây. Lọc vào ly coupe đã làm lạnh. Vắt vỏ cam lên đồ uống và dùng làm trang trí.',
   },
 
@@ -148,7 +148,7 @@ export const riff: Cocktail = {
 
   garnish: {
     en: 'Orange peel',
-    it: 'Scorza d\'arancia',
+    it: "Scorza d'arancia",
     vi: 'Vỏ cam',
   },
 
@@ -177,7 +177,14 @@ export const riff: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -185,7 +192,7 @@ export const riff: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['cocktail_hour', 'date_night', 'aperitivo'],
 
   is_mocktail: false,
@@ -196,7 +203,8 @@ export const riff: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['paper-plane', 'boulevardier'],
 
-  notes_for_staff: 'Stir, don\'t shake - this is a spirit-forward cocktail. Use quality rye whiskey for best results. Express orange oils over the drink before adding peel as garnish.',
+  notes_for_staff:
+    "Stir, don't shake - this is a spirit-forward cocktail. Use quality rye whiskey for best results. Express orange oils over the drink before adding peel as garnish.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -209,7 +217,7 @@ export const riff: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://dutch-kills.com',
-    note: 'Created by Zachary Gelnaw-Rubin at Dutch Kills, 2010. Modern classic cocktail.',
+    notes: 'Created by Zachary Gelnaw-Rubin at Dutch Kills, 2010. Modern classic cocktail.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

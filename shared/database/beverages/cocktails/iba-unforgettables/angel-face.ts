@@ -25,7 +25,7 @@ export const angelFace: Cocktail = {
 
   description: {
     en: 'An elegant Prohibition-era cocktail combining gin with apple brandy and apricot liqueur. Deceptively smooth and dangerously potent, the Angel Face earned its name for its innocent appearance that masks a powerful punch.',
-    it: 'Un elegante cocktail dell\'era del Proibizionismo che combina gin con brandy di mele e liquore all\'albicocca. Ingannevolmente morbido e pericolosamente potente, l\'Angel Face ha guadagnato il suo nome per il suo aspetto innocente che maschera una potenza notevole.',
+    it: "Un elegante cocktail dell'era del Proibizionismo che combina gin con brandy di mele e liquore all'albicocca. Ingannevolmente morbido e pericolosamente potente, l'Angel Face ha guadagnato il suo nome per il suo aspetto innocente che maschera una potenza notevole.",
     vi: 'Một cocktail thanh lịch thời Cấm rượu kết hợp gin với brandy táo và rượu mùi mơ. Mượt mà đánh lừa và nguy hiểm mạnh mẽ, Angel Face có được tên vì vẻ ngoài vô tội che giấu sức mạnh đáng kể.',
   },
 
@@ -36,8 +36,8 @@ export const angelFace: Cocktail = {
       country: 'France/UK',
     },
     story: {
-      en: 'The Angel Face emerged during the Prohibition era and first appeared in the 1930 Savoy Cocktail Book compiled by Harry Craddock at London\'s Savoy Hotel. Its name is a playful warning: despite its smooth, fruity taste and angelic appearance, this cocktail is deceptively strong with no non-alcoholic ingredients to dilute its potency. The equal-parts formula makes it easy to remember but dangerous to underestimate.',
-      it: 'L\'Angel Face emerse durante l\'era del Proibizionismo e apparve per la prima volta nel Savoy Cocktail Book del 1930 compilato da Harry Craddock al Savoy Hotel di Londra. Il suo nome è un avvertimento giocoso: nonostante il suo gusto morbido e fruttato e l\'aspetto angelico, questo cocktail è ingannevolmente forte senza ingredienti analcolici a diluire la sua potenza. La formula in parti uguali lo rende facile da ricordare ma pericoloso da sottovalutare.',
+      en: "The Angel Face emerged during the Prohibition era and first appeared in the 1930 Savoy Cocktail Book compiled by Harry Craddock at London's Savoy Hotel. Its name is a playful warning: despite its smooth, fruity taste and angelic appearance, this cocktail is deceptively strong with no non-alcoholic ingredients to dilute its potency. The equal-parts formula makes it easy to remember but dangerous to underestimate.",
+      it: "L'Angel Face emerse durante l'era del Proibizionismo e apparve per la prima volta nel Savoy Cocktail Book del 1930 compilato da Harry Craddock al Savoy Hotel di Londra. Il suo nome è un avvertimento giocoso: nonostante il suo gusto morbido e fruttato e l'aspetto angelico, questo cocktail è ingannevolmente forte senza ingredienti analcolici a diluire la sua potenza. La formula in parti uguali lo rende facile da ricordare ma pericoloso da sottovalutare.",
       vi: 'Angel Face xuất hiện trong thời kỳ Cấm rượu và lần đầu tiên xuất hiện trong Savoy Cocktail Book năm 1930 được biên soạn bởi Harry Craddock tại Khách sạn Savoy London. Tên của nó là một lời cảnh báo vui vẻ: mặc dù có vị trái cây mượt mà và vẻ ngoài thiên thần, cocktail này mạnh đáng kinh ngạc không có thành phần không cồn để pha loãng độ mạnh của nó.',
     },
     named_after: {
@@ -51,7 +51,7 @@ export const angelFace: Cocktail = {
     profile: ['fruity', 'sweet', 'boozy', 'dry'],
     description: {
       en: 'Fruity and deceptively smooth. The apricot brandy provides stone fruit sweetness while the Calvados adds apple complexity and the gin brings botanical dryness. Together they create a harmonious but potent sipper.',
-      it: 'Fruttato e ingannevolmente morbido. Il brandy all\'albicocca fornisce dolcezza di frutta a nocciolo mentre il Calvados aggiunge complessità di mela e il gin porta secchezza botanica. Insieme creano un sorso armonioso ma potente.',
+      it: "Fruttato e ingannevolmente morbido. Il brandy all'albicocca fornisce dolcezza di frutta a nocciolo mentre il Calvados aggiunge complessità di mela e il gin porta secchezza botanica. Insieme creano un sorso armonioso ma potente.",
       vi: 'Trái cây và mượt mà đánh lừa. Brandy mơ cung cấp vị ngọt trái cây hạt trong khi Calvados thêm sự phức tạp của táo và gin mang đến vị khô thực vật. Cùng nhau tạo ra một ngụm hài hòa nhưng mạnh mẽ.',
     },
     first_impression: {
@@ -96,7 +96,7 @@ export const angelFace: Cocktail = {
     {
       ingredient_id: 'ING_APRICOT_BRANDY',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Apricot Brandy', it: 'Brandy all\'Albicocca', vi: 'Brandy Mơ' },
+      display_name: { en: 'Apricot Brandy', it: "Brandy all'Albicocca", vi: 'Brandy Mơ' },
     },
     {
       ingredient_id: 'ING_CALVADOS',
@@ -134,7 +134,14 @@ export const angelFace: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -147,14 +154,15 @@ export const angelFace: Cocktail = {
 
   variants: [],
 
-  notes_for_staff: 'Warn guests this is a strong cocktail (100% alcohol, no mixers). The equal parts ratio makes it easy to scale. Use quality Calvados for best results.',
+  notes_for_staff:
+    'Warn guests this is a strong cocktail (100% alcohol, no mixers). The equal parts ratio makes it easy to scale. Use quality Calvados for best results.',
 
   price_tier: 'mid',
   popularity: 45,
 
   source: {
     primary: 'https://iba-world.com/angel-face/',
-    note: 'IBA Official Recipe. First published in Savoy Cocktail Book 1930.',
+    notes: 'IBA Official Recipe. First published in Savoy Cocktail Book 1930.',
   },
 
   created_at: NOW,

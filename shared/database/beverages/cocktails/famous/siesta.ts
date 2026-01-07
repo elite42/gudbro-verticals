@@ -48,7 +48,7 @@ export const siesta: Cocktail = {
     },
     story: {
       en: 'Created by Katie Stipe at the Flatiron Lounge in New York City in 2006, the Siesta is a tequila-based variation of the classic Hemingway Daiquiri. Stipe substituted tequila for rum and added Campari for bitter complexity, creating a sophisticated cocktail that captures the essence of a relaxing afternoon break. The drink quickly became popular and is now considered a modern classic.',
-      it: 'Creato da Katie Stipe al Flatiron Lounge di New York City nel 2006, la Siesta è una variazione del classico Hemingway Daiquiri a base di tequila. Stipe ha sostituito la tequila al rum e aggiunto Campari per la complessità amara, creando un cocktail sofisticato che cattura l\'essenza di una pausa pomeridiana rilassante. La bevanda divenne rapidamente popolare ed è ora considerata un classico moderno.',
+      it: "Creato da Katie Stipe al Flatiron Lounge di New York City nel 2006, la Siesta è una variazione del classico Hemingway Daiquiri a base di tequila. Stipe ha sostituito la tequila al rum e aggiunto Campari per la complessità amara, creando un cocktail sofisticato che cattura l'essenza di una pausa pomeridiana rilassante. La bevanda divenne rapidamente popolare ed è ora considerata un classico moderno.",
       vi: 'Được tạo ra bởi Katie Stipe tại Flatiron Lounge ở New York City năm 2006, Siesta là biến thể tequila của Hemingway Daiquiri cổ điển. Stipe thay tequila cho rum và thêm Campari cho độ phức tạp đắng, tạo ra cocktail tinh tế nắm bắt bản chất của giờ nghỉ chiều thư giãn. Đồ uống nhanh chóng trở nên phổ biến và hiện được coi là cocktail cổ điển hiện đại.',
     },
     named_after: {
@@ -186,7 +186,14 @@ export const siesta: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -205,7 +212,8 @@ export const siesta: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['hemingway-daiquiri', 'paloma'],
 
-  notes_for_staff: 'Use fresh grapefruit juice for best results. The Campari adds complexity but can be reduced for guests who prefer less bitterness. Express grapefruit oils over drink before garnishing.',
+  notes_for_staff:
+    'Use fresh grapefruit juice for best results. The Campari adds complexity but can be reduced for guests who prefer less bitterness. Express grapefruit oils over drink before garnishing.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -218,7 +226,7 @@ export const siesta: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://flatironlounge.com',
-    note: 'Created by Katie Stipe at Flatiron Lounge, 2006. Modern classic cocktail.',
+    notes: 'Created by Katie Stipe at Flatiron Lounge, 2006. Modern classic cocktail.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -34,7 +34,7 @@ export const cardinale: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'An elegant Italian aperitivo combining gin, dry vermouth, and Campari. Bitter, complex, and sophisticated - a variation of the classic Negroni that showcases Italian aperitif culture.',
-    it: 'Un elegante aperitivo italiano che combina gin, vermouth dry e Campari. Amaro, complesso e sofisticato - una variazione del classico Negroni che mostra la cultura dell\'aperitivo italiano.',
+    it: "Un elegante aperitivo italiano che combina gin, vermouth dry e Campari. Amaro, complesso e sofisticato - una variazione del classico Negroni che mostra la cultura dell'aperitivo italiano.",
     vi: 'Một aperitivo Ý thanh lịch kết hợp gin, vermouth khô và Campari. Đắng, phức tạp và tinh tế - một biến thể của Negroni cổ điển thể hiện văn hóa aperitif Ý.',
   },
 
@@ -55,7 +55,7 @@ export const cardinale: Cocktail = {
       vi: 'Cardinale là một biến thể của Negroni xuất hiện ở Ý vào những năm 1950. Nó sử dụng vermouth khô thay vì vermouth ngọt, tạo ra hồ sơ khô hơn, tinh tế hơn. Tên "Cardinale" (Hồng y) ám chỉ màu đỏ đậm của thức uống, gợi nhớ đến áo choàng của hồng y Công giáo.',
     },
     named_after: {
-      en: 'Named after Catholic cardinals, whose red robes match the drink\'s deep red color.',
+      en: "Named after Catholic cardinals, whose red robes match the drink's deep red color.",
       it: 'Prende il nome dai cardinali cattolici, le cui vesti rosse corrispondono al colore rosso intenso della bevanda.',
       vi: 'Được đặt theo tên các hồng y Công giáo, có áo choàng đỏ khớp với màu đỏ đậm của thức uống.',
     },
@@ -80,7 +80,7 @@ export const cardinale: Cocktail = {
     },
     balance: {
       en: 'Well-balanced between Campari bitterness and dry vermouth complexity',
-      it: 'Ben bilanciato tra l\'amarezza del Campari e la complessità del vermouth dry',
+      it: "Ben bilanciato tra l'amarezza del Campari e la complessità del vermouth dry",
       vi: 'Cân bằng tốt giữa vị đắng Campari và độ phức tạp vermouth khô',
     },
   },
@@ -126,7 +126,7 @@ export const cardinale: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into a mixing glass filled with ice cubes. Stir well. Strain into a chilled cocktail glass. Garnish with an orange twist.',
-    it: 'Versare tutti gli ingredienti in un mixing glass pieno di cubetti di ghiaccio. Mescolare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con una scorza d\'arancia.',
+    it: "Versare tutti gli ingredienti in un mixing glass pieno di cubetti di ghiaccio. Mescolare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con una scorza d'arancia.",
     vi: 'Đổ tất cả nguyên liệu vào ly trộn đầy đá viên. Khuấy kỹ. Lọc vào ly cocktail đã làm lạnh. Trang trí bằng vỏ cam xoắn.',
   },
 
@@ -134,7 +134,7 @@ export const cardinale: Cocktail = {
 
   garnish: {
     en: 'Orange twist',
-    it: 'Scorza d\'arancia',
+    it: "Scorza d'arancia",
     vi: 'Vỏ cam xoắn',
   },
 
@@ -163,7 +163,14 @@ export const cardinale: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +189,8 @@ export const cardinale: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['negroni', 'boulevardier', 'old-pal'],
 
-  notes_for_staff: 'A drier variation of the Negroni using dry vermouth instead of sweet. Equal parts of all three ingredients. Stir, don\'t shake. Can also be served on the rocks in an old fashioned glass. Express orange oils over the drink before garnishing.',
+  notes_for_staff:
+    "A drier variation of the Negroni using dry vermouth instead of sweet. Equal parts of all three ingredients. Stir, don't shake. Can also be served on the rocks in an old fashioned glass. Express orange oils over the drink before garnishing.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +203,7 @@ export const cardinale: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/cardinale/',
-    note: 'IBA Official Recipe. A drier variation of the Negroni.',
+    notes: 'IBA Official Recipe. A drier variation of the Negroni.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

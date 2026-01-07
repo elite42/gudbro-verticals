@@ -42,7 +42,7 @@ export const sufferingBastard: Cocktail = {
     created_year: '1942',
     origin: {
       city: 'Cairo',
-      bar: 'Shepheard\'s Hotel',
+      bar: "Shepheard's Hotel",
       country: 'Egypt',
     },
     creator: {
@@ -173,7 +173,14 @@ export const sufferingBastard: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -192,7 +199,8 @@ export const sufferingBastard: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['original-suffering-bastard'],
 
-  notes_for_staff: 'Use quality ginger beer for best results. The combination of gin and brandy is traditional - don\'t substitute. Originally created as a hangover cure.',
+  notes_for_staff:
+    "Use quality ginger beer for best results. The combination of gin and brandy is traditional - don't substitute. Originally created as a hangover cure.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +213,7 @@ export const sufferingBastard: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/suffering-bastard/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

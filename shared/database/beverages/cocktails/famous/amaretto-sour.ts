@@ -31,7 +31,7 @@ export const amarettoSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A modern classic that transformed the maligned 1970s Amaretto Sour into a sophisticated cocktail. This version adds bourbon and egg white to the traditional amaretto and lemon combination, creating a perfectly balanced, frothy drink with complex almond and whiskey notes.',
-    it: 'Un classico moderno che ha trasformato il disprezzato Amaretto Sour degli anni \'70 in un cocktail sofisticato. Questa versione aggiunge bourbon e albume alla tradizionale combinazione di amaretto e limone, creando una bevanda perfettamente bilanciata e schiumosa con complesse note di mandorla e whiskey.',
+    it: "Un classico moderno che ha trasformato il disprezzato Amaretto Sour degli anni '70 in un cocktail sofisticato. Questa versione aggiunge bourbon e albume alla tradizionale combinazione di amaretto e limone, creando una bevanda perfettamente bilanciata e schiumosa con complesse note di mandorla e whiskey.",
     vi: 'Một cocktail cổ điển hiện đại đã biến đổi Amaretto Sour bị chê bai của thập niên 70 thành một cocktail tinh tế. Phiên bản này thêm bourbon và lòng trắng trứng vào sự kết hợp truyền thống của amaretto và chanh, tạo ra một thức uống cân bằng hoàn hảo, có bọt với hương vị hạnh nhân và whiskey phức tạp.',
   },
 
@@ -47,8 +47,8 @@ export const amarettoSour: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Jeffrey Morgenthaler revolutionized the Amaretto Sour in 2012 by adding bourbon and egg white to the original recipe. The classic Amaretto Sour was a popular 1970s drink that fell out of favor due to its overly sweet, one-dimensional profile. Morgenthaler\'s version brought balance with bourbon\'s depth and egg white\'s silky texture, turning it into a respected modern classic that sparked a revival of the sour category.',
-      it: 'Jeffrey Morgenthaler ha rivoluzionato l\'Amaretto Sour nel 2012 aggiungendo bourbon e albume alla ricetta originale. Il classico Amaretto Sour era una bevanda popolare degli anni \'70 che cadde in disgrazia a causa del suo profilo eccessivamente dolce e unidimensionale. La versione di Morgenthaler ha portato equilibrio con la profondità del bourbon e la texture setosa dell\'albume, trasformandola in un rispettato classico moderno che ha scatenato una rinascita della categoria sour.',
+      en: "Jeffrey Morgenthaler revolutionized the Amaretto Sour in 2012 by adding bourbon and egg white to the original recipe. The classic Amaretto Sour was a popular 1970s drink that fell out of favor due to its overly sweet, one-dimensional profile. Morgenthaler's version brought balance with bourbon's depth and egg white's silky texture, turning it into a respected modern classic that sparked a revival of the sour category.",
+      it: "Jeffrey Morgenthaler ha rivoluzionato l'Amaretto Sour nel 2012 aggiungendo bourbon e albume alla ricetta originale. Il classico Amaretto Sour era una bevanda popolare degli anni '70 che cadde in disgrazia a causa del suo profilo eccessivamente dolce e unidimensionale. La versione di Morgenthaler ha portato equilibrio con la profondità del bourbon e la texture setosa dell'albume, trasformandola in un rispettato classico moderno che ha scatenato una rinascita della categoria sour.",
       vi: 'Jeffrey Morgenthaler đã cách mạng hóa Amaretto Sour vào năm 2012 bằng cách thêm bourbon và lòng trắng trứng vào công thức gốc. Amaretto Sour cổ điển là thức uống phổ biến thập niên 70 nhưng mất đi sự ưa chuộng do hương vị quá ngọt, một chiều. Phiên bản của Morgenthaler mang lại sự cân bằng với độ sâu của bourbon và kết cấu mượt mà của lòng trắng trứng, biến nó thành một tác phẩm cổ điển hiện đại được tôn trọng, châm ngòi cho sự hồi sinh của nhóm sour.',
     },
     named_after: {
@@ -62,7 +62,7 @@ export const amarettoSour: Cocktail = {
     profile: ['sour', 'sweet', 'almond', 'boozy'],
     description: {
       en: 'Perfectly balanced between sweet amaretto, tart lemon, and robust bourbon. The egg white creates a luxurious, silky texture with a beautiful foam cap. Almond notes from amaretto harmonize with vanilla and oak from bourbon.',
-      it: 'Perfettamente bilanciato tra amaretto dolce, limone aspro e bourbon robusto. L\'albume crea una texture lussuosa e setosa con un bellissimo cappuccio di schiuma. Le note di mandorla dell\'amaretto si armonizzano con vaniglia e rovere del bourbon.',
+      it: "Perfettamente bilanciato tra amaretto dolce, limone aspro e bourbon robusto. L'albume crea una texture lussuosa e setosa con un bellissimo cappuccio di schiuma. Le note di mandorla dell'amaretto si armonizzano con vaniglia e rovere del bourbon.",
       vi: 'Cân bằng hoàn hảo giữa amaretto ngọt, chanh chua và bourbon mạnh mẽ. Lòng trắng trứng tạo kết cấu mượt mà sang trọng với lớp bọt đẹp mắt. Hương hạnh nhân từ amaretto hòa quyện với vani và gỗ sồi từ bourbon.',
     },
     first_impression: {
@@ -77,7 +77,7 @@ export const amarettoSour: Cocktail = {
     },
     balance: {
       en: 'Expertly balanced - bourbon prevents excessive sweetness, egg white adds body without heaviness',
-      it: 'Bilanciato in modo esperto - il bourbon previene l\'eccessiva dolcezza, l\'albume aggiunge corpo senza pesantezza',
+      it: "Bilanciato in modo esperto - il bourbon previene l'eccessiva dolcezza, l'albume aggiunge corpo senza pesantezza",
       vi: 'Cân bằng điêu luyện - bourbon ngăn ngừa vị ngọt quá mức, lòng trắng trứng thêm độ đậm đà mà không nặng nề',
     },
   },
@@ -93,7 +93,7 @@ export const amarettoSour: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for those who enjoy balanced sours with complexity. A great choice for amaretto lovers who want sophistication, or bourbon drinkers looking for something lighter. Ideal for anyone wanting a modern twist on a classic.',
-      it: 'Perfetto per chi ama i sour bilanciati con complessità. Un\'ottima scelta per gli amanti dell\'amaretto che vogliono sofisticazione, o per i bevitori di bourbon che cercano qualcosa di più leggero. Ideale per chi vuole una svolta moderna su un classico.',
+      it: "Perfetto per chi ama i sour bilanciati con complessità. Un'ottima scelta per gli amanti dell'amaretto che vogliono sofisticazione, o per i bevitori di bourbon che cercano qualcosa di più leggero. Ideale per chi vuole una svolta moderna su un classico.",
       vi: 'Hoàn hảo cho những ai thích sour cân bằng với sự phức tạp. Lựa chọn tuyệt vời cho người yêu amaretto muốn sự tinh tế, hoặc người uống bourbon tìm kiếm thứ gì đó nhẹ hơn. Lý tưởng cho bất kỳ ai muốn một phiên bản hiện đại của tác phẩm cổ điển.',
     },
   },
@@ -115,7 +115,11 @@ export const amarettoSour: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -133,7 +137,7 @@ export const amarettoSour: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a shaker without ice and dry shake vigorously for 15 seconds to emulsify the egg white. Add ice and shake again until well chilled. Strain into a rocks glass over fresh ice. Garnish with lemon peel and brandied cherries.',
-    it: 'Aggiungere tutti gli ingredienti in uno shaker senza ghiaccio e shakerare vigorosamente per 15 secondi per emulsionare l\'albume. Aggiungere ghiaccio e shakerare di nuovo fino a raffreddare bene. Filtrare in un bicchiere rocks con ghiaccio fresco. Guarnire con scorza di limone e ciliegie al brandy.',
+    it: "Aggiungere tutti gli ingredienti in uno shaker senza ghiaccio e shakerare vigorosamente per 15 secondi per emulsionare l'albume. Aggiungere ghiaccio e shakerare di nuovo fino a raffreddare bene. Filtrare in un bicchiere rocks con ghiaccio fresco. Guarnire con scorza di limone e ciliegie al brandy.",
     vi: 'Thêm tất cả nguyên liệu vào bình lắc không có đá và lắc mạnh trong 15 giây để nhũ hóa lòng trắng trứng. Thêm đá và lắc lại cho đến khi lạnh kỹ. Lọc vào ly rocks với đá mới. Trang trí với vỏ chanh và cherry ngâm brandy.',
   },
 
@@ -189,7 +193,8 @@ export const amarettoSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['traditional-amaretto-sour', 'amaretto-sour-with-cognac'],
 
-  notes_for_staff: 'Dry shake is essential for proper foam. Use fresh lemon juice only. Can substitute aquafaba for egg white for vegan version. Adjust simple syrup to taste based on amaretto brand sweetness.',
+  notes_for_staff:
+    'Dry shake is essential for proper foam. Use fresh lemon juice only. Can substitute aquafaba for egg white for vegan version. Adjust simple syrup to taste based on amaretto brand sweetness.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +207,7 @@ export const amarettoSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://jeffreymorgenthaler.com/amaretto-sour/',
-    note: 'Jeffrey Morgenthaler\'s modern classic recipe from 2012.',
+    notes: "Jeffrey Morgenthaler's modern classic recipe from 2012.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

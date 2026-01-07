@@ -52,8 +52,8 @@ export const penicillin: Cocktail = {
       vi: 'Sam Ross đã tạo ra Penicillin vào năm 2005 tại quán bar huyền thoại Milk & Honey ở New York City. Lấy cảm hứng từ công thức cổ điển Gold Rush và Whiskey Sour, Ross đã thêm gừng cho vị cay và lợi ích sức khỏe, và một lớp Scotch Islay khói nổi cho độ phức tạp thơm. Cái tên ám chỉ cả đặc tính dược liệu của thức uống (mật ong, gừng, chanh) và tính "chữa bệnh" của nó sau một đêm dài. Nó ngay lập tức trở thành tác phẩm cổ điển hiện đại và hiện nay có mặt trên menu cocktail trên toàn thế giới, giúp giới thiệu người uống Mỹ với whisky Scotch.',
     },
     named_after: {
-      en: 'Named after penicillin, the antibiotic, referencing the cocktail\'s medicinal ingredients (honey, ginger, lemon) traditionally used to treat colds.',
-      it: 'Prende il nome dalla penicillina, l\'antibiotico, facendo riferimento agli ingredienti medicinali del cocktail (miele, zenzero, limone) tradizionalmente usati per curare i raffreddori.',
+      en: "Named after penicillin, the antibiotic, referencing the cocktail's medicinal ingredients (honey, ginger, lemon) traditionally used to treat colds.",
+      it: "Prende il nome dalla penicillina, l'antibiotico, facendo riferimento agli ingredienti medicinali del cocktail (miele, zenzero, limone) tradizionalmente usati per curare i raffreddori.",
       vi: 'Được đặt tên theo penicillin, kháng sinh, ám chỉ các nguyên liệu dược liệu của cocktail (mật ong, gừng, chanh) truyền thống dùng để chữa cảm lạnh.',
     },
   },
@@ -61,7 +61,7 @@ export const penicillin: Cocktail = {
   taste: {
     profile: ['spicy', 'smoky', 'honey', 'citrus'],
     description: {
-      en: 'Complex, warming, and perfectly balanced. Blended Scotch provides a smooth whisky base, while honey-ginger syrup adds warming spice and floral sweetness. Fresh lemon contributes brightness, and the Islay Scotch float delivers an aromatic smoky finish that doesn\'t overpower. Medicinal yet indulgent, with layers of flavor that evolve with each sip.',
+      en: "Complex, warming, and perfectly balanced. Blended Scotch provides a smooth whisky base, while honey-ginger syrup adds warming spice and floral sweetness. Fresh lemon contributes brightness, and the Islay Scotch float delivers an aromatic smoky finish that doesn't overpower. Medicinal yet indulgent, with layers of flavor that evolve with each sip.",
       it: 'Complesso, riscaldante e perfettamente bilanciato. Lo Scotch blended fornisce una base di whisky liscia, mentre lo sciroppo di miele e zenzero aggiunge spezie riscaldanti e dolcezza floreale. Il limone fresco contribuisce con brillantezza, e il float di Scotch Islay offre un finale affumicato aromatico che non sopraffà. Medicinale ma indulgente, con strati di sapore che evolvono ad ogni sorso.',
       vi: 'Phức tạp, ấm áp và cân bằng hoàn hảo. Scotch pha trộn cung cấp cơ sở whisky mượt mà, trong khi siro mật ong-gừng thêm gia vị ấm áp và vị ngọt hoa. Chanh tươi đóng góp độ tươi sáng, và lớp Scotch Islay nổi mang đến kết thúc khói thơm không át vị. Có tính dược liệu nhưng nuông chiều, với nhiều tầng hương vị phát triển qua mỗi ngụm.',
     },
@@ -105,22 +105,38 @@ export const penicillin: Cocktail = {
     {
       ingredient_id: 'ING_BLENDED_SCOTCH',
       quantity: { amount: 60, unit: 'ml' },
-      display_name: { en: 'Blended Scotch whisky', it: 'Scotch whisky blended', vi: 'Whisky Scotch pha trộn' },
+      display_name: {
+        en: 'Blended Scotch whisky',
+        it: 'Scotch whisky blended',
+        vi: 'Whisky Scotch pha trộn',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_HONEY_GINGER_SYRUP',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Honey-ginger syrup', it: 'Sciroppo miele-zenzero', vi: 'Siro mật ong-gừng' },
+      display_name: {
+        en: 'Honey-ginger syrup',
+        it: 'Sciroppo miele-zenzero',
+        vi: 'Siro mật ong-gừng',
+      },
     },
     {
       ingredient_id: 'ING_ISLAY_SCOTCH',
       quantity: { amount: 7.5, unit: 'ml' },
-      display_name: { en: 'Islay Scotch (float)', it: 'Islay Scotch (float)', vi: 'Islay Scotch (nổi)' },
+      display_name: {
+        en: 'Islay Scotch (float)',
+        it: 'Islay Scotch (float)',
+        vi: 'Islay Scotch (nổi)',
+      },
     },
   ],
 
@@ -184,7 +200,8 @@ export const penicillin: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['mexican-penicillin', 'bourbon-penicillin', 'rye-penicillin'],
 
-  notes_for_staff: 'Honey-ginger syrup: simmer equal parts honey, water, and sliced ginger, then strain. Use smoky Islay like Laphroaig or Ardbeg for float. Float technique essential - pour gently over barspoon back. Fresh lemon juice only.',
+  notes_for_staff:
+    'Honey-ginger syrup: simmer equal parts honey, water, and sliced ginger, then strain. Use smoky Islay like Laphroaig or Ardbeg for float. Float technique essential - pour gently over barspoon back. Fresh lemon juice only.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +214,8 @@ export const penicillin: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/penicillin/',
-    note: 'Created by Sam Ross at Milk & Honey, New York City, 2005. One of the most influential modern cocktails.',
+    notes:
+      'Created by Sam Ross at Milk & Honey, New York City, 2005. One of the most influential modern cocktails.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

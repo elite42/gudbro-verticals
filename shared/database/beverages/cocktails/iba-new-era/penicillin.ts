@@ -108,22 +108,38 @@ export const penicillin: Cocktail = {
     {
       ingredient_id: 'ING_SCOTCH_BLENDED',
       quantity: { amount: 60, unit: 'ml' },
-      display_name: { en: 'Blended Scotch whisky', it: 'Scotch whisky blended', vi: 'Scotch whisky pha trộn' },
+      display_name: {
+        en: 'Blended Scotch whisky',
+        it: 'Scotch whisky blended',
+        vi: 'Scotch whisky pha trộn',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_HONEY_GINGER_SYRUP',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Honey-ginger syrup', it: 'Sciroppo di miele e zenzero', vi: 'Siro mật ong-gừng' },
+      display_name: {
+        en: 'Honey-ginger syrup',
+        it: 'Sciroppo di miele e zenzero',
+        vi: 'Siro mật ong-gừng',
+      },
     },
     {
       ingredient_id: 'ING_SCOTCH_ISLAY',
       quantity: { amount: 7.5, unit: 'ml' },
-      display_name: { en: 'Islay single malt Scotch (float)', it: 'Scotch single malt Islay (float)', vi: 'Scotch single malt Islay (float)' },
+      display_name: {
+        en: 'Islay single malt Scotch (float)',
+        it: 'Scotch single malt Islay (float)',
+        vi: 'Scotch single malt Islay (float)',
+      },
     },
   ],
 
@@ -168,7 +184,14 @@ export const penicillin: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -187,7 +210,8 @@ export const penicillin: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['bourbon-penicillin', 'japanese-penicillin'],
 
-  notes_for_staff: 'Honey-ginger syrup: simmer fresh ginger with honey and water. Islay float is essential (Laphroaig, Ardbeg). Pour float gently over bar spoon back to create layer. One large ice cube preferred for slower dilution.',
+  notes_for_staff:
+    'Honey-ginger syrup: simmer fresh ginger with honey and water. Islay float is essential (Laphroaig, Ardbeg). Pour float gently over bar spoon back to create layer. One large ice cube preferred for slower dilution.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +224,7 @@ export const penicillin: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/penicillin/',
-    note: 'IBA Official Recipe. Created by Sam Ross at Milk & Honey, NYC, 2005.',
+    notes: 'IBA Official Recipe. Created by Sam Ross at Milk & Honey, NYC, 2005.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

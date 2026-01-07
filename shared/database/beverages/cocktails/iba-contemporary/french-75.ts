@@ -42,7 +42,7 @@ export const french75: Cocktail = {
     created_year: '1915',
     origin: {
       city: 'Paris',
-      bar: 'Harry\'s New York Bar',
+      bar: "Harry's New York Bar",
       country: 'France',
     },
     creator: {
@@ -51,12 +51,12 @@ export const french75: Cocktail = {
     },
     story: {
       en: 'Created around 1915 at Harry\'s New York Bar in Paris, though some credit the Buck\'s Club in London. The drink was named after the French 75mm field gun used in WWI, suggesting its powerful alcoholic "kick." It gained popularity among WWI soldiers and became a symbol of Parisian café culture. The drink has remained a classic celebration cocktail for over a century.',
-      it: 'Creato intorno al 1915 all\'Harry\'s New York Bar di Parigi, anche se alcuni attribuiscono il merito al Buck\'s Club di Londra. Il drink fu chiamato così in onore del cannone da campo francese da 75mm usato nella Prima Guerra Mondiale, suggerendo il suo potente "calcio" alcolico. Ha guadagnato popolarità tra i soldati della Prima Guerra Mondiale ed è diventato un simbolo della cultura dei caffè parigini. Il drink è rimasto un classico cocktail di celebrazione per oltre un secolo.',
+      it: "Creato intorno al 1915 all'Harry's New York Bar di Parigi, anche se alcuni attribuiscono il merito al Buck's Club di Londra. Il drink fu chiamato così in onore del cannone da campo francese da 75mm usato nella Prima Guerra Mondiale, suggerendo il suo potente \"calcio\" alcolico. Ha guadagnato popolarità tra i soldati della Prima Guerra Mondiale ed è diventato un simbolo della cultura dei caffè parigini. Il drink è rimasto un classico cocktail di celebrazione per oltre un secolo.",
       vi: 'Được tạo ra vào khoảng năm 1915 tại Harry\'s New York Bar ở Paris, mặc dù một số người ghi công cho Buck\'s Club ở London. Thức uống được đặt tên theo khẩu pháo dã chiến 75mm của Pháp được sử dụng trong Thế chiến I, gợi ý "cú đá" rượu mạnh mẽ của nó. Nó trở nên phổ biến trong số binh lính Thế chiến I và trở thành biểu tượng của văn hóa quán cà phê Paris. Thức uống vẫn là một cocktail lễ kỷ niệm kinh điển trong hơn một thế kỷ.',
     },
     named_after: {
       en: 'Named after the French 75mm field gun, one of the most famous artillery pieces of WWI, for its powerful alcoholic kick.',
-      it: 'Prende il nome dal cannone da campo francese da 75mm, uno dei pezzi d\'artiglieria più famosi della Prima Guerra Mondiale, per il suo potente calcio alcolico.',
+      it: "Prende il nome dal cannone da campo francese da 75mm, uno dei pezzi d'artiglieria più famosi della Prima Guerra Mondiale, per il suo potente calcio alcolico.",
       vi: 'Được đặt tên theo khẩu pháo dã chiến 75mm của Pháp, một trong những khẩu pháo nổi tiếng nhất của Thế chiến I, vì cú đá rượu mạnh mẽ của nó.',
     },
   },
@@ -65,7 +65,7 @@ export const french75: Cocktail = {
     profile: ['citrus', 'bubbly', 'elegant', 'strong'],
     description: {
       en: 'Bright, effervescent, and deceptively strong. Fresh lemon provides tartness, sugar balances acidity, gin adds botanical complexity, and champagne brings elegant bubbles. A perfect marriage of sour and sparkle.',
-      it: 'Brillante, effervescente e ingannevolmente forte. Il limone fresco fornisce acidità, lo zucchero bilancia l\'acidità, il gin aggiunge complessità botanica e lo champagne porta eleganti bollicine. Un perfetto matrimonio di acido e scintillante.',
+      it: "Brillante, effervescente e ingannevolmente forte. Il limone fresco fornisce acidità, lo zucchero bilancia l'acidità, il gin aggiunge complessità botanica e lo champagne porta eleganti bollicine. Un perfetto matrimonio di acido e scintillante.",
       vi: 'Tươi sáng, sủi bọt và mạnh đánh lừa. Chanh tươi cung cấp vị chua, đường cân bằng độ chua, gin thêm độ phức tạp thực vật và champagne mang đến bong bóng thanh lịch. Một kết hợp hoàn hảo của chua và lấp lánh.',
     },
     first_impression: {
@@ -88,14 +88,14 @@ export const french75: Cocktail = {
   recommendations: {
     best_time: ['aperitivo', 'evening'],
     occasions: ['celebration', 'wedding', 'formal_event', 'brunch'],
-    seasons: ['spring', 'summer', 'all_seasons'],
+    seasons: ['spring', 'summer', 'all_year'],
     food_pairings: {
       en: 'Excellent with oysters, caviar, seafood, light appetizers, or French cuisine. Perfect for toasting celebrations.',
       it: 'Eccellente con ostriche, caviale, frutti di mare, antipasti leggeri o cucina francese. Perfetto per brindare alle celebrazioni.',
       vi: 'Tuyệt vời với hàu, trứng cá muối, hải sản, món khai vị nhẹ hoặc ẩm thực Pháp. Hoàn hảo để nâng ly trong lễ kỷ niệm.',
     },
     ideal_for: {
-      en: 'Perfect for celebrations, weddings, and formal events. Great for those who love champagne cocktails with a citrus twist. Beware - it\'s stronger than it tastes!',
+      en: "Perfect for celebrations, weddings, and formal events. Great for those who love champagne cocktails with a citrus twist. Beware - it's stronger than it tastes!",
       it: 'Perfetto per celebrazioni, matrimoni ed eventi formali. Ottimo per chi ama i cocktail di champagne con una svolta agli agrumi. Attenzione - è più forte di quanto sembri!',
       vi: 'Hoàn hảo cho lễ kỷ niệm, đám cưới và sự kiện chính thức. Tuyệt vời cho những ai yêu cocktail champagne với hương chanh. Cẩn thận - nó mạnh hơn hương vị!',
     },
@@ -113,7 +113,11 @@ export const french75: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -124,7 +128,7 @@ export const french75: Cocktail = {
       ingredient_id: 'ING_CHAMPAGNE',
       quantity: { amount: 60, unit: 'ml' },
       display_name: { en: 'Champagne', it: 'Champagne', vi: 'Champagne' },
-      note: { en: 'chilled', it: 'freddo', vi: 'đã làm lạnh' },
+      notes: { en: 'chilled', it: 'freddo', vi: 'đã làm lạnh' },
     },
   ],
 
@@ -169,7 +173,14 @@ export const french75: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance', 'histamine'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -177,7 +188,7 @@ export const french75: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['spring', 'summer', 'all_seasons'],
+  season_tags: ['spring', 'summer', 'all_year'],
   occasion_tags: ['celebration', 'wedding', 'formal_event', 'brunch'],
 
   is_mocktail: false,
@@ -188,7 +199,8 @@ export const french75: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['french-76', 'french-95'],
 
-  notes_for_staff: 'Shake gin/lemon/syrup first, then strain and top with champagne - don\'t shake champagne. Use quality champagne or good sparkling wine. Can use cognac instead of gin for a "French 125". Strong drink - warn customers.',
+  notes_for_staff:
+    'Shake gin/lemon/syrup first, then strain and top with champagne - don\'t shake champagne. Use quality champagne or good sparkling wine. Can use cognac instead of gin for a "French 125". Strong drink - warn customers.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -201,7 +213,7 @@ export const french75: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/french-75/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

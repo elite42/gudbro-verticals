@@ -16,7 +16,7 @@ import { Event } from '@/types/event';
 interface MoreMenuModalProps {
   isOpen: boolean;
   onClose: () => void;
-  events?: Event[];  // Pass events to show count and active promos
+  events?: Event[]; // Pass events to show count and active promos
 }
 
 type ResetConfirmType = 'table' | 'selections' | 'all' | null;
@@ -35,7 +35,7 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
     const today = now.toISOString().split('T')[0];
 
     // Events happening now
-    const activeEvents = events.filter(event => {
+    const activeEvents = events.filter((event) => {
       if (event.status !== 'published') return false;
       const start = new Date(`${event.startDate}T${event.startTime}`);
       const end = new Date(`${event.endDate}T${event.endTime}`);
@@ -43,7 +43,7 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
     });
 
     // Events coming up today
-    const upcomingToday = events.filter(event => {
+    const upcomingToday = events.filter((event) => {
       if (event.status !== 'published') return false;
       if (event.startDate !== today) return false;
       const start = new Date(`${event.startDate}T${event.startTime}`);
@@ -51,12 +51,12 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
     });
 
     // Active promotions from active events
-    const activePromos = activeEvents.flatMap(e => e.promotions || []);
+    const activePromos = activeEvents.flatMap((e) => e.promotions || []);
 
     // Upcoming events this week
     const weekFromNow = new Date(now);
     weekFromNow.setDate(weekFromNow.getDate() + 7);
-    const upcomingThisWeek = events.filter(event => {
+    const upcomingThisWeek = events.filter((event) => {
       if (event.status !== 'published') return false;
       const start = new Date(`${event.startDate}T${event.startTime}`);
       return start > now && start <= weekFromNow;
@@ -100,7 +100,7 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       description: wifi ? wifi.ssid : 'Not configured',
       color: 'bg-blue-500',
       disabled: !wifi,
-      action: () => setShowWiFiModal(true)
+      action: () => setShowWiFiModal(true),
     },
     {
       id: 'call-staff',
@@ -111,7 +111,7 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       action: () => {
         onClose();
         setTimeout(() => setShowCallStaffModal(true), 100);
-      }
+      },
     },
     {
       id: 'language',
@@ -122,7 +122,7 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       action: () => {
         onClose();
         router.push('/account');
-      }
+      },
     },
     {
       id: 'currency',
@@ -133,7 +133,7 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       action: () => {
         onClose();
         router.push('/account');
-      }
+      },
     },
     {
       id: 'events',
@@ -145,26 +145,31 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
           ? `${eventStats.upcomingThisWeek} questa settimana`
           : 'Scopri gli eventi',
       color: eventStats.hasLiveEvent ? 'bg-red-500 animate-pulse' : 'bg-pink-500',
-      badge: eventStats.hasLiveEvent ? 'LIVE' : eventStats.upcomingThisWeek > 0 ? String(eventStats.upcomingThisWeek) : undefined,
+      badge: eventStats.hasLiveEvent
+        ? 'LIVE'
+        : eventStats.upcomingThisWeek > 0
+          ? String(eventStats.upcomingThisWeek)
+          : undefined,
       action: () => {
         onClose();
         router.push('/events');
-      }
+      },
     },
     {
       id: 'promos',
       icon: '🏷️',
       label: 'Offerte',
-      description: eventStats.activePromos > 0
-        ? `${eventStats.activePromos} promozioni attive`
-        : 'Nessuna offerta attiva',
+      description:
+        eventStats.activePromos > 0
+          ? `${eventStats.activePromos} promozioni attive`
+          : 'Nessuna offerta attiva',
       color: eventStats.activePromos > 0 ? 'bg-orange-500' : 'bg-gray-400',
       badge: eventStats.activePromos > 0 ? String(eventStats.activePromos) : undefined,
       disabled: eventStats.activePromos === 0,
       action: () => {
         onClose();
         router.push('/events?filter=promos');
-      }
+      },
     },
     {
       id: 'orders',
@@ -175,7 +180,7 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       action: () => {
         onClose();
         router.push('/orders');
-      }
+      },
     },
     {
       id: 'favorites',
@@ -186,8 +191,19 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       action: () => {
         onClose();
         router.push('/menu?filter=favorites');
-      }
-    }
+      },
+    },
+    {
+      id: 'team',
+      icon: '👨‍🍳',
+      label: coffeeshopConfig.ui.labels.team,
+      description: 'Conosci il nostro staff',
+      color: 'bg-pink-500',
+      action: () => {
+        onClose();
+        router.push('/team');
+      },
+    },
   ];
 
   const resetItems = [
@@ -195,10 +211,12 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       id: 'reset-table',
       icon: '🪑',
       label: 'Reset Table',
-      description: tableContext.table_number ? `Clear "Tavolo ${tableContext.table_number}"` : 'No table set',
+      description: tableContext.table_number
+        ? `Clear "Tavolo ${tableContext.table_number}"`
+        : 'No table set',
       color: 'bg-gray-500',
       disabled: !tableContext.table_number,
-      action: () => setShowResetConfirm('table')
+      action: () => setShowResetConfirm('table'),
     },
     {
       id: 'reset-selections',
@@ -206,7 +224,7 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       label: 'Reset Selections',
       description: 'Clear your order list',
       color: 'bg-yellow-600',
-      action: () => setShowResetConfirm('selections')
+      action: () => setShowResetConfirm('selections'),
     },
     {
       id: 'reset-all',
@@ -214,8 +232,8 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       label: 'Reset Everything',
       description: 'Clear all data (for testing)',
       color: 'bg-red-600',
-      action: () => setShowResetConfirm('all')
-    }
+      action: () => setShowResetConfirm('all'),
+    },
   ];
 
   const handleReset = (type: ResetConfirmType) => {
@@ -257,73 +275,86 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
   return (
     <>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000]"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 z-[10000] bg-black/60 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal */}
-      <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-theme-bg-elevated rounded-2xl shadow-2xl z-[10001] max-w-md mx-auto max-h-[80vh] overflow-hidden">
+      <div className="bg-theme-bg-elevated fixed inset-x-4 top-1/2 z-[10001] mx-auto max-h-[80vh] max-w-md -translate-y-1/2 overflow-hidden rounded-2xl shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-theme-border-light">
-          <h2 className="text-xl font-bold text-theme-text-primary">More Options</h2>
+        <div className="border-theme-border-light flex items-center justify-between border-b p-4">
+          <h2 className="text-theme-text-primary text-xl font-bold">More Options</h2>
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-theme-bg-tertiary flex items-center justify-center hover:bg-theme-bg-secondary transition-colors"
+            className="bg-theme-bg-tertiary hover:bg-theme-bg-secondary flex h-10 w-10 items-center justify-center rounded-full transition-colors"
             aria-label="Close menu"
           >
-            <svg className="w-6 h-6 text-theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="text-theme-text-secondary h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
 
         {/* Success Message */}
         {resetSuccess && (
-          <div className="mx-4 mt-4 p-3 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-lg text-center font-medium">
+          <div className="mx-4 mt-4 rounded-lg bg-green-100 p-3 text-center font-medium text-green-800 dark:bg-green-900/30 dark:text-green-200">
             {resetSuccess}
           </div>
         )}
 
         {/* Content */}
-        <div className="p-4 overflow-y-auto max-h-[60vh]">
+        <div className="max-h-[60vh] overflow-y-auto p-4">
           {/* Quick Actions */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="mb-6 grid grid-cols-3 gap-3">
             {menuItems.map((item) => (
               <button
                 key={item.id}
                 onClick={item.action}
                 disabled={'disabled' in item && item.disabled}
-                className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-colors relative ${
+                className={`relative flex flex-col items-center gap-2 rounded-xl p-3 transition-colors ${
                   'disabled' in item && item.disabled
-                    ? 'opacity-50 cursor-not-allowed bg-theme-bg-secondary'
+                    ? 'bg-theme-bg-secondary cursor-not-allowed opacity-50'
                     : 'bg-theme-bg-secondary hover:bg-theme-bg-tertiary'
                 }`}
               >
                 {/* Badge */}
                 {'badge' in item && item.badge && (
-                  <span className={`absolute -top-1 -right-1 px-1.5 py-0.5 text-[10px] font-bold rounded-full ${
-                    item.badge === 'LIVE'
-                      ? 'bg-red-500 text-white animate-pulse'
-                      : 'bg-orange-500 text-white'
-                  }`}>
+                  <span
+                    className={`absolute -right-1 -top-1 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
+                      item.badge === 'LIVE'
+                        ? 'animate-pulse bg-red-500 text-white'
+                        : 'bg-orange-500 text-white'
+                    }`}
+                  >
                     {item.badge}
                   </span>
                 )}
-                <div className={`w-12 h-12 ${item.color} rounded-full flex items-center justify-center text-2xl`}>
+                <div
+                  className={`h-12 w-12 ${item.color} flex items-center justify-center rounded-full text-2xl`}
+                >
                   {item.icon}
                 </div>
-                <span className="text-xs font-medium text-theme-text-primary text-center">{item.label}</span>
+                <span className="text-theme-text-primary text-center text-xs font-medium">
+                  {item.label}
+                </span>
               </button>
             ))}
           </div>
 
           {/* Divider */}
-          <div className="border-t border-theme-border-light my-4" />
+          <div className="border-theme-border-light my-4 border-t" />
 
           {/* Reset Section (for testing) */}
           <div className="mb-2">
-            <h3 className="text-sm font-semibold text-theme-text-secondary uppercase tracking-wide mb-3">
+            <h3 className="text-theme-text-secondary mb-3 text-sm font-semibold uppercase tracking-wide">
               Developer Tools
             </h3>
             <div className="space-y-2">
@@ -332,21 +363,33 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
                   key={item.id}
                   onClick={item.action}
                   disabled={'disabled' in item && item.disabled}
-                  className={`w-full flex items-center gap-3 p-3 rounded-xl transition-colors ${
+                  className={`flex w-full items-center gap-3 rounded-xl p-3 transition-colors ${
                     'disabled' in item && item.disabled
-                      ? 'opacity-50 cursor-not-allowed bg-theme-bg-secondary'
+                      ? 'bg-theme-bg-secondary cursor-not-allowed opacity-50'
                       : 'bg-theme-bg-secondary hover:bg-theme-bg-tertiary'
                   }`}
                 >
-                  <div className={`w-10 h-10 ${item.color} rounded-full flex items-center justify-center text-xl`}>
+                  <div
+                    className={`h-10 w-10 ${item.color} flex items-center justify-center rounded-full text-xl`}
+                  >
                     {item.icon}
                   </div>
                   <div className="flex-1 text-left">
-                    <div className="font-medium text-theme-text-primary">{item.label}</div>
-                    <div className="text-xs text-theme-text-secondary">{item.description}</div>
+                    <div className="text-theme-text-primary font-medium">{item.label}</div>
+                    <div className="text-theme-text-secondary text-xs">{item.description}</div>
                   </div>
-                  <svg className="w-5 h-5 text-theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg
+                    className="text-theme-text-secondary h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 </button>
               ))}
@@ -359,43 +402,59 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       {showWiFiModal && wifi && (
         <>
           <div
-            className="fixed inset-0 bg-black/40 z-[10002]"
+            className="fixed inset-0 z-[10002] bg-black/40"
             onClick={() => setShowWiFiModal(false)}
           />
-          <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-theme-bg-elevated rounded-2xl shadow-2xl z-[10003] max-w-sm mx-auto p-6">
+          <div className="bg-theme-bg-elevated fixed inset-x-4 top-1/2 z-[10003] mx-auto max-w-sm -translate-y-1/2 rounded-2xl p-6 shadow-2xl">
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-blue-400 to-cyan-500">
                   <span className="text-2xl">📶</span>
                 </div>
-                <h3 className="text-xl font-bold text-theme-text-primary">WiFi</h3>
+                <h3 className="text-theme-text-primary text-xl font-bold">WiFi</h3>
               </div>
               <button
                 onClick={() => setShowWiFiModal(false)}
-                className="w-10 h-10 rounded-full bg-theme-bg-tertiary flex items-center justify-center"
+                className="bg-theme-bg-tertiary flex h-10 w-10 items-center justify-center rounded-full"
               >
-                <svg className="w-5 h-5 text-theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="text-theme-text-secondary h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
 
             {/* Network Info */}
-            <div className="space-y-3 mb-4">
+            <div className="mb-4 space-y-3">
               <div>
-                <label className="text-xs font-medium text-theme-text-tertiary mb-1 block">Network</label>
-                <div className="bg-theme-bg-secondary px-4 py-3 rounded-xl">
-                  <span className="font-mono font-bold text-theme-text-primary">{wifi.ssid}</span>
+                <label className="text-theme-text-tertiary mb-1 block text-xs font-medium">
+                  Network
+                </label>
+                <div className="bg-theme-bg-secondary rounded-xl px-4 py-3">
+                  <span className="text-theme-text-primary font-mono font-bold">{wifi.ssid}</span>
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-theme-text-tertiary mb-1 block">Password</label>
-                <div className="bg-theme-bg-secondary px-4 py-3 rounded-xl flex items-center justify-between">
-                  <span className="font-mono font-bold text-theme-text-primary">{wifi.password}</span>
+                <label className="text-theme-text-tertiary mb-1 block text-xs font-medium">
+                  Password
+                </label>
+                <div className="bg-theme-bg-secondary flex items-center justify-between rounded-xl px-4 py-3">
+                  <span className="text-theme-text-primary font-mono font-bold">
+                    {wifi.password}
+                  </span>
                   <button
                     onClick={copyWiFiPassword}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
                       wifiCopied
                         ? 'bg-green-500 text-white'
                         : 'bg-blue-500 text-white hover:bg-blue-600'
@@ -408,14 +467,10 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
             </div>
 
             {/* QR Code */}
-            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-4">
-              <p className="text-center text-sm text-theme-text-secondary mb-3">Scan to connect</p>
-              <div className="bg-white rounded-lg p-2 flex justify-center">
-                <img
-                  src={getWiFiQRUrl()}
-                  alt="WiFi QR Code"
-                  className="w-40 h-40"
-                />
+            <div className="rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 p-4 dark:from-blue-900/20 dark:to-cyan-900/20">
+              <p className="text-theme-text-secondary mb-3 text-center text-sm">Scan to connect</p>
+              <div className="flex justify-center rounded-lg bg-white p-2">
+                <img src={getWiFiQRUrl()} alt="WiFi QR Code" className="h-40 w-40" />
               </div>
             </div>
           </div>
@@ -426,11 +481,11 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
       {showResetConfirm && (
         <>
           <div
-            className="fixed inset-0 bg-black/40 z-[10002]"
+            className="fixed inset-0 z-[10002] bg-black/40"
             onClick={() => setShowResetConfirm(null)}
           />
-          <div className="fixed inset-x-8 top-1/2 -translate-y-1/2 bg-theme-bg-elevated rounded-2xl shadow-2xl z-[10003] max-w-sm mx-auto p-6">
-            <h3 className="text-lg font-bold text-theme-text-primary mb-2">
+          <div className="bg-theme-bg-elevated fixed inset-x-8 top-1/2 z-[10003] mx-auto max-w-sm -translate-y-1/2 rounded-2xl p-6 shadow-2xl">
+            <h3 className="text-theme-text-primary mb-2 text-lg font-bold">
               {showResetConfirm === 'table' && 'Reset Table?'}
               {showResetConfirm === 'selections' && 'Reset Selections?'}
               {showResetConfirm === 'all' && 'Reset Everything?'}
@@ -438,18 +493,19 @@ export function MoreMenuModal({ isOpen, onClose, events = [] }: MoreMenuModalPro
             <p className="text-theme-text-secondary mb-6">
               {showResetConfirm === 'table' && 'This will clear the current table context.'}
               {showResetConfirm === 'selections' && 'This will clear all items in your order list.'}
-              {showResetConfirm === 'all' && 'This will clear ALL stored data including table, orders, favorites, and preferences. The page will reload.'}
+              {showResetConfirm === 'all' &&
+                'This will clear ALL stored data including table, orders, favorites, and preferences. The page will reload.'}
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setShowResetConfirm(null)}
-                className="flex-1 py-3 px-4 rounded-xl bg-theme-bg-tertiary text-theme-text-primary font-medium hover:bg-theme-bg-secondary transition-colors"
+                className="bg-theme-bg-tertiary text-theme-text-primary hover:bg-theme-bg-secondary flex-1 rounded-xl px-4 py-3 font-medium transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleReset(showResetConfirm)}
-                className="flex-1 py-3 px-4 rounded-xl bg-red-500 text-white font-medium hover:bg-red-600 transition-colors"
+                className="flex-1 rounded-xl bg-red-500 px-4 py-3 font-medium text-white transition-colors hover:bg-red-600"
               >
                 Reset
               </button>

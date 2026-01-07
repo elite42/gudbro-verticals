@@ -31,7 +31,7 @@ export const goldenCadillac: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A luxurious, golden-hued dessert cocktail combining Galliano, white crème de cacao, and cream. This vintage classic from the 1950s delivers a unique blend of herbal vanilla notes from Galliano with sweet chocolate cream.',
-    it: 'Un lussuoso cocktail da dessert dal colore dorato che combina Galliano, crème de cacao bianca e panna. Questo classico vintage degli anni \'50 offre un\'unica miscela di note erbacee alla vaniglia dal Galliano con crema dolce al cioccolato.',
+    it: "Un lussuoso cocktail da dessert dal colore dorato che combina Galliano, crème de cacao bianca e panna. Questo classico vintage degli anni '50 offre un'unica miscela di note erbacee alla vaniglia dal Galliano con crema dolce al cioccolato.",
     vi: 'Một loại cocktail tráng miệng sang trọng, màu vàng kết hợp Galliano, crème de cacao trắng và kem. Tác phẩm cổ điển vintage từ những năm 1950 này mang đến sự pha trộn độc đáo của hương vị thảo mộc vani từ Galliano với kem chocolate ngọt.',
   },
 
@@ -39,7 +39,7 @@ export const goldenCadillac: Cocktail = {
     created_year: '1952',
     origin: {
       city: 'El Dorado',
-      bar: 'Poor Red\'s BBQ',
+      bar: "Poor Red's BBQ",
       country: 'USA',
     },
     creator: {
@@ -47,13 +47,13 @@ export const goldenCadillac: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Golden Cadillac was created in 1952 by bartender Frank Klein at Poor Red\'s BBQ in El Dorado, California. According to legend, a couple came into the bar after purchasing a new Cadillac and asked Klein to create a drink to celebrate. Klein mixed Galliano, white crème de cacao, and cream, creating a golden cocktail that matched the color of luxury Cadillacs of that era. The drink became a sensation in the 1950s-60s during the golden age of creamy cocktails.',
-      it: 'Il Golden Cadillac fu creato nel 1952 dal barman Frank Klein al Poor Red\'s BBQ a El Dorado, California. Secondo la leggenda, una coppia entrò nel bar dopo aver acquistato una nuova Cadillac e chiese a Klein di creare una bevanda per celebrare. Klein mescolò Galliano, crème de cacao bianca e panna, creando un cocktail dorato che corrispondeva al colore delle Cadillac di lusso di quell\'epoca. La bevanda divenne una sensazione negli anni \'50-\'60 durante l\'età d\'oro dei cocktail cremosi.',
-      vi: 'Golden Cadillac được tạo ra vào năm 1952 bởi bartender Frank Klein tại Poor Red\'s BBQ ở El Dorado, California. Theo truyền thuyết, một cặp đôi vào quầy bar sau khi mua một chiếc Cadillac mới và yêu cầu Klein tạo ra một thức uống để ăn mừng. Klein đã pha trộn Galliano, crème de cacao trắng và kem, tạo ra một cocktail vàng phù hợp với màu sắc của Cadillac sang trọng thời đó. Thức uống đã trở thành cơn sốt vào những năm 1950-60 trong thời kỳ hoàng kim của cocktail béo ngậy.',
+      en: "The Golden Cadillac was created in 1952 by bartender Frank Klein at Poor Red's BBQ in El Dorado, California. According to legend, a couple came into the bar after purchasing a new Cadillac and asked Klein to create a drink to celebrate. Klein mixed Galliano, white crème de cacao, and cream, creating a golden cocktail that matched the color of luxury Cadillacs of that era. The drink became a sensation in the 1950s-60s during the golden age of creamy cocktails.",
+      it: "Il Golden Cadillac fu creato nel 1952 dal barman Frank Klein al Poor Red's BBQ a El Dorado, California. Secondo la leggenda, una coppia entrò nel bar dopo aver acquistato una nuova Cadillac e chiese a Klein di creare una bevanda per celebrare. Klein mescolò Galliano, crème de cacao bianca e panna, creando un cocktail dorato che corrispondeva al colore delle Cadillac di lusso di quell'epoca. La bevanda divenne una sensazione negli anni '50-'60 durante l'età d'oro dei cocktail cremosi.",
+      vi: "Golden Cadillac được tạo ra vào năm 1952 bởi bartender Frank Klein tại Poor Red's BBQ ở El Dorado, California. Theo truyền thuyết, một cặp đôi vào quầy bar sau khi mua một chiếc Cadillac mới và yêu cầu Klein tạo ra một thức uống để ăn mừng. Klein đã pha trộn Galliano, crème de cacao trắng và kem, tạo ra một cocktail vàng phù hợp với màu sắc của Cadillac sang trọng thời đó. Thức uống đã trở thành cơn sốt vào những năm 1950-60 trong thời kỳ hoàng kim của cocktail béo ngậy.",
     },
     named_after: {
       en: 'Named after the luxury Cadillac automobile, referencing both the golden color and the luxurious, premium nature of the drink.',
-      it: 'Prende il nome dall\'automobile di lusso Cadillac, riferendosi sia al colore dorato che alla natura lussuosa e premium della bevanda.',
+      it: "Prende il nome dall'automobile di lusso Cadillac, riferendosi sia al colore dorato che alla natura lussuosa e premium della bevanda.",
       vi: 'Được đặt tên theo xe hơi Cadillac sang trọng, ám chỉ cả màu vàng và bản chất sang trọng, cao cấp của thức uống.',
     },
   },
@@ -85,14 +85,14 @@ export const goldenCadillac: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['digestivo', 'retro_party', 'celebration', 'nightcap'],
-    seasons: ['autumn', 'winter', 'all_seasons'],
+    seasons: ['autumn', 'winter', 'all_year'],
     food_pairings: {
       en: 'Pairs beautifully with vanilla desserts, panna cotta, white chocolate mousse, or tiramisu. Also complements almond biscotti and shortbread cookies.',
       it: 'Si abbina magnificamente con dessert alla vaniglia, panna cotta, mousse al cioccolato bianco o tiramisù. Completa anche biscotti alle mandorle e shortbread.',
       vi: 'Kết hợp đẹp với các món tráng miệng vani, panna cotta, mousse chocolate trắng hoặc tiramisu. Cũng bổ sung cho bánh biscotti hạnh nhân và bánh shortbread.',
     },
     ideal_for: {
-      en: 'Perfect for those who enjoy vintage cocktails and appreciate Galliano\'s unique flavor. Ideal for retro-themed events and anyone seeking a sophisticated dessert drink with historical charm. Great for Cadillac owners!',
+      en: "Perfect for those who enjoy vintage cocktails and appreciate Galliano's unique flavor. Ideal for retro-themed events and anyone seeking a sophisticated dessert drink with historical charm. Great for Cadillac owners!",
       it: 'Perfetto per chi ama i cocktail vintage e apprezza il sapore unico del Galliano. Ideale per eventi a tema retrò e chiunque cerchi una bevanda da dessert sofisticata con fascino storico. Ottimo per i proprietari di Cadillac!',
       vi: 'Hoàn hảo cho những ai thích cocktail vintage và đánh giá cao hương vị độc đáo của Galliano. Lý tưởng cho các sự kiện theo chủ đề retro và bất kỳ ai tìm kiếm thức uống tráng miệng tinh tế với nét quyến rũ lịch sử. Tuyệt vời cho chủ sở hữu Cadillac!',
     },
@@ -135,7 +135,7 @@ export const goldenCadillac: Cocktail = {
 
   garnish: {
     en: 'None (golden color is the visual appeal)',
-    it: 'Nessuna (il colore dorato è l\'appeal visivo)',
+    it: "Nessuna (il colore dorato è l'appeal visivo)",
     vi: 'Không (màu vàng là sức hấp dẫn thị giác)',
   },
 
@@ -172,7 +172,7 @@ export const goldenCadillac: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['autumn', 'winter', 'all-seasons'],
+  season_tags: ['autumn', 'winter', 'all_year'],
   occasion_tags: ['digestivo', 'celebration', 'nightcap'],
 
   is_mocktail: false,
@@ -183,7 +183,8 @@ export const goldenCadillac: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['golden-dream', 'yellow-cadillac', 'pink-cadillac'],
 
-  notes_for_staff: 'Classic 1950s cocktail. Galliano is essential for authentic flavor - do not substitute. Some modern recipes add orange juice, but original is just the three ingredients. Can be served frozen for a more dessert-like experience. The golden color should be prominent.',
+  notes_for_staff:
+    'Classic 1950s cocktail. Galliano is essential for authentic flavor - do not substitute. Some modern recipes add orange juice, but original is just the three ingredients. Can be served frozen for a more dessert-like experience. The golden color should be prominent.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -196,7 +197,7 @@ export const goldenCadillac: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1313/golden-cadillac',
-    note: 'Classic 1950s dessert cocktail from California.',
+    notes: 'Classic 1950s dessert cocktail from California.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

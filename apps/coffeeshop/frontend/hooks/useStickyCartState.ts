@@ -102,19 +102,44 @@ export function useStickyCartState() {
       // Get complete order data with table context
       const orderData = cartStore.getOrderData();
 
-      // Save order to history BEFORE clearing cart
+      // Send order to backend
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: cartItems.map((item) => ({
+            dish: {
+              id: item.dish.id,
+              slug: item.dish.id, // Use id as slug fallback
+              name: item.dish.name,
+              price: item.dish.price,
+              image: item.dish.image,
+            },
+            quantity: item.quantity,
+            extras: item.extras,
+          })),
+          tableNumber: orderData.table_context?.table_number,
+          customerName: orderData.table_context?.customer_name,
+          total: cartTotal,
+          currency: 'VND',
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Failed to submit order');
+      }
+
+      // Save order to local history with backend order code
       const savedOrder = orderHistoryStore.addOrder(orderData);
-      console.log('📦 Order saved to history:', savedOrder);
 
-      // TODO Phase 2.5: Send order to backend with table/seat info
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      console.log('📦 Order submitted:', {
-        orderId: savedOrder.id,
-        items: cartItems,
+      console.log('📦 Order submitted to backend:', {
+        orderId: result.orderId,
+        orderCode: result.orderCode,
+        orderNumber: result.orderNumber,
+        items: cartItems.length,
         total: cartTotal,
-        timestamp: new Date().toISOString()
       });
 
       // Clear cart MULTIPLE times to ensure it's cleared
@@ -149,7 +174,6 @@ export function useStickyCartState() {
       setTimeout(() => {
         setShowSuccessToast(false);
       }, 3000);
-
     } catch (error) {
       console.error('Failed to submit order:', error);
       // TODO: Show error message
@@ -185,6 +209,6 @@ export function useStickyCartState() {
     handlePlaceOrder,
     handleConfirmOrder,
     calculateItemTotal,
-    updateCartData
+    updateCartData,
   };
 }

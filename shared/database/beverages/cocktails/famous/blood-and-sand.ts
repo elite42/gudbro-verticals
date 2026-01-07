@@ -30,8 +30,8 @@ export const bloodAndSand: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'One of the few classic cocktails to feature Scotch whisky, the Blood and Sand combines unexpected ingredients - Scotch, sweet vermouth, cherry liqueur, and orange juice - into a surprisingly harmonious and complex drink. Named after a 1922 bullfighting film, it\'s as dramatic as its namesake.',
-    it: 'Uno dei pochi cocktail classici a presentare whisky scozzese, il Blood and Sand combina ingredienti inaspettati - Scotch, vermouth dolce, liquore di ciliegie e succo d\'arancia - in una bevanda sorprendentemente armoniosa e complessa. Prende il nome da un film sulla corrida del 1922, è drammatico quanto il suo omonimo.',
+    en: "One of the few classic cocktails to feature Scotch whisky, the Blood and Sand combines unexpected ingredients - Scotch, sweet vermouth, cherry liqueur, and orange juice - into a surprisingly harmonious and complex drink. Named after a 1922 bullfighting film, it's as dramatic as its namesake.",
+    it: "Uno dei pochi cocktail classici a presentare whisky scozzese, il Blood and Sand combina ingredienti inaspettati - Scotch, vermouth dolce, liquore di ciliegie e succo d'arancia - in una bevanda sorprendentemente armoniosa e complessa. Prende il nome da un film sulla corrida del 1922, è drammatico quanto il suo omonimo.",
     vi: 'Một trong số ít cocktail cổ điển có whisky Scotch, Blood and Sand kết hợp các nguyên liệu bất ngờ - Scotch, vermouth ngọt, rượu cherry và nước cam - thành thức uống hài hòa và phức tạp đến ngạc nhiên. Được đặt theo tên bộ phim đấu bò năm 1922, nó kịch tính như tên gọi của nó.',
   },
 
@@ -48,7 +48,7 @@ export const bloodAndSand: Cocktail = {
     },
     story: {
       en: 'The Blood and Sand first appeared in Harry Craddock\'s "The Savoy Cocktail Book" in 1930, though it was likely created around 1922 to coincide with the release of the Rudolph Valentino film of the same name. The film, about a matador torn between two women, was a major hit, and the cocktail\'s dramatic red-orange color evokes the blood and sand of the bullring. The drink fell into obscurity for decades but experienced a revival in the 2000s when bartenders rediscovered its surprisingly balanced flavor profile. The equal-parts recipe creates an unexpected harmony between smoky Scotch, sweet cherry, bitter vermouth, and bright orange.',
-      it: 'Il Blood and Sand apparve per la prima volta nel "The Savoy Cocktail Book" di Harry Craddock nel 1930, anche se fu probabilmente creato intorno al 1922 per coincidere con l\'uscita del film di Rudolph Valentino con lo stesso nome. Il film, su un matador diviso tra due donne, fu un grande successo, e il colore rosso-arancio drammatico del cocktail evoca il sangue e la sabbia dell\'arena. La bevanda cadde nell\'oscurità per decenni ma conobbe una rinascita negli anni 2000 quando i barman riscoprirono il suo profilo aromatico sorprendentemente bilanciato. La ricetta in parti uguali crea un\'armonia inaspettata tra Scotch affumicato, ciliegia dolce, vermouth amaro e arancia brillante.',
+      it: "Il Blood and Sand apparve per la prima volta nel \"The Savoy Cocktail Book\" di Harry Craddock nel 1930, anche se fu probabilmente creato intorno al 1922 per coincidere con l'uscita del film di Rudolph Valentino con lo stesso nome. Il film, su un matador diviso tra due donne, fu un grande successo, e il colore rosso-arancio drammatico del cocktail evoca il sangue e la sabbia dell'arena. La bevanda cadde nell'oscurità per decenni ma conobbe una rinascita negli anni 2000 quando i barman riscoprirono il suo profilo aromatico sorprendentemente bilanciato. La ricetta in parti uguali crea un'armonia inaspettata tra Scotch affumicato, ciliegia dolce, vermouth amaro e arancia brillante.",
       vi: 'Blood and Sand lần đầu xuất hiện trong "The Savoy Cocktail Book" của Harry Craddock năm 1930, mặc dù nó có thể được tạo ra vào khoảng năm 1922 để trùng với việc phát hành bộ phim Rudolph Valentino cùng tên. Bộ phim về một đấu sĩ bị chia rẽ giữa hai người phụ nữ là một thành công lớn, và màu đỏ cam kịch tính của cocktail gợi lên máu và cát của đấu trường bò tót. Thức uống rơi vào quên lãng trong nhiều thập kỷ nhưng trải qua sự hồi sinh vào những năm 2000 khi các bartender tái khám phá hương vị cân bằng đến ngạc nhiên của nó. Công thức phần bằng nhau tạo ra sự hài hòa bất ngờ giữa Scotch khói, cherry ngọt, vermouth đắng và cam tươi sáng.',
     },
     named_after: {
@@ -61,13 +61,13 @@ export const bloodAndSand: Cocktail = {
   taste: {
     profile: ['fruity', 'complex', 'smoky'],
     description: {
-      en: 'A fascinating balance of contrasting flavors. The Blood and Sand is simultaneously smoky, sweet, fruity, and herbal. The Scotch provides a smoky backbone, cherry liqueur adds sweetness and depth, vermouth contributes herbal complexity, and orange juice brings brightness and acidity. It\'s unexpectedly harmonious.',
-      it: 'Un affascinante equilibrio di sapori contrastanti. Il Blood and Sand è simultaneamente affumicato, dolce, fruttato ed erbaceo. Lo Scotch fornisce una spina dorsale affumicata, il liquore di ciliegie aggiunge dolcezza e profondità, il vermouth contribuisce complessità erbacee, e il succo d\'arancia porta luminosità e acidità. È inaspettatamente armonioso.',
+      en: "A fascinating balance of contrasting flavors. The Blood and Sand is simultaneously smoky, sweet, fruity, and herbal. The Scotch provides a smoky backbone, cherry liqueur adds sweetness and depth, vermouth contributes herbal complexity, and orange juice brings brightness and acidity. It's unexpectedly harmonious.",
+      it: "Un affascinante equilibrio di sapori contrastanti. Il Blood and Sand è simultaneamente affumicato, dolce, fruttato ed erbaceo. Lo Scotch fornisce una spina dorsale affumicata, il liquore di ciliegie aggiunge dolcezza e profondità, il vermouth contribuisce complessità erbacee, e il succo d'arancia porta luminosità e acidità. È inaspettatamente armonioso.",
       vi: 'Sự cân bằng hấp dẫn của các hương vị tương phản. Blood and Sand đồng thời khói, ngọt, trái cây và thảo mộc. Scotch cung cấp xương sống khói, rượu cherry thêm vị ngọt và chiều sâu, vermouth đóng góp sự phức tạp thảo mộc, và nước cam mang lại độ tươi sáng và chua. Nó hài hòa một cách bất ngờ.',
     },
     first_impression: {
       en: 'Sweet cherry and orange fruit forward, followed by smoky Scotch complexity',
-      it: 'Ciliegia dolce e frutta d\'arancia in primo piano, seguiti da complessità affumicata dello Scotch',
+      it: "Ciliegia dolce e frutta d'arancia in primo piano, seguiti da complessità affumicata dello Scotch",
       vi: 'Cherry ngọt và cam đi trước, theo sau là sự phức tạp khói của Scotch',
     },
     finish: {
@@ -120,7 +120,7 @@ export const bloodAndSand: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
   ],
 
@@ -128,7 +128,7 @@ export const bloodAndSand: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into a cocktail shaker filled with ice. Shake well until chilled. Strain into a chilled coupe or cocktail glass. No garnish needed, though an orange twist is optional.',
-    it: 'Versare tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare bene fino a raffreddare. Filtrare in una coppa o bicchiere da cocktail raffreddato. Nessuna guarnizione necessaria, anche se una scorza d\'arancia è opzionale.',
+    it: "Versare tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare bene fino a raffreddare. Filtrare in una coppa o bicchiere da cocktail raffreddato. Nessuna guarnizione necessaria, anche se una scorza d'arancia è opzionale.",
     vi: 'Đổ tất cả nguyên liệu vào bình lắc cocktail đầy đá. Lắc kỹ cho đến khi lạnh. Lọc vào ly coupe hoặc ly cocktail đã làm lạnh. Không cần trang trí, mặc dù vỏ cam xoắn là tùy chọn.',
   },
 
@@ -136,7 +136,7 @@ export const bloodAndSand: Cocktail = {
 
   garnish: {
     en: 'None (or optional orange twist)',
-    it: 'Nessuna (o scorza d\'arancia opzionale)',
+    it: "Nessuna (o scorza d'arancia opzionale)",
     vi: 'Không (hoặc vỏ cam xoắn tùy chọn)',
   },
 
@@ -165,7 +165,14 @@ export const bloodAndSand: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'nut_free', 'dairy_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'nut_free',
+      'dairy_free',
+    ],
     spice_level: 0,
   },
 
@@ -184,7 +191,8 @@ export const bloodAndSand: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['bobby-burns', 'modern-blood-and-sand'],
 
-  notes_for_staff: 'Use fresh orange juice - bottled won\'t work. Cherry Heering is traditional, but other cherry liqueurs can substitute. Use a blended Scotch, not single malt. The equal-parts formula is classic, but some prefer 1.5 parts Scotch for more whisky presence. Always shake vigorously to properly integrate.',
+  notes_for_staff:
+    "Use fresh orange juice - bottled won't work. Cherry Heering is traditional, but other cherry liqueurs can substitute. Use a blended Scotch, not single malt. The equal-parts formula is classic, but some prefer 1.5 parts Scotch for more whisky presence. Always shake vigorously to properly integrate.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +205,7 @@ export const bloodAndSand: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/312/blood-and-sand',
-    note: 'Classic recipe from Harry Craddock\'s The Savoy Cocktail Book (1930).',
+    notes: "Classic recipe from Harry Craddock's The Savoy Cocktail Book (1930).",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -44,7 +44,7 @@ export const vegasBomb: Cocktail = {
     },
     story: {
       en: 'The Vegas Bomb emerged in Las Vegas during the early 2000s as a sweeter, more approachable alternative to the Jäger Bomb. Created to appeal to a broader audience who wanted the energy drink bomb experience without the intense herbal flavors, it quickly became a staple in Vegas bars and spread to nightclubs nationwide.',
-      it: 'Il Vegas Bomb è emerso a Las Vegas nei primi anni 2000 come alternativa più dolce e accessibile al Jäger Bomb. Creato per attrarre un pubblico più ampio che voleva l\'esperienza del bomb energetico senza i sapori erbacei intensi, è diventato rapidamente un elemento fondamentale nei bar di Vegas e si è diffuso nei nightclub in tutta la nazione.',
+      it: "Il Vegas Bomb è emerso a Las Vegas nei primi anni 2000 come alternativa più dolce e accessibile al Jäger Bomb. Creato per attrarre un pubblico più ampio che voleva l'esperienza del bomb energetico senza i sapori erbacei intensi, è diventato rapidamente un elemento fondamentale nei bar di Vegas e si è diffuso nei nightclub in tutta la nazione.",
       vi: 'Vegas Bomb xuất hiện ở Las Vegas vào đầu những năm 2000 như một sự thay thế ngọt hơn, dễ tiếp cận hơn cho Jäger Bomb. Được tạo ra để thu hút đối tượng rộng hơn muốn trải nghiệm bomb nước tăng lực mà không có hương vị thảo mộc mãnh liệt, nó nhanh chóng trở thành món chủ lực tại các quầy bar Vegas và lan rộng ra các hộp đêm trên toàn quốc.',
     },
     named_after: {
@@ -81,7 +81,7 @@ export const vegasBomb: Cocktail = {
   recommendations: {
     best_time: ['late_night'],
     occasions: ['party', 'nightlife', 'celebration', 'vegas_trip', 'bachelor_bachelorette'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Not typically paired with food. Best as a standalone party shot or nightclub drink.',
       it: 'In genere non abbinato al cibo. Meglio come shot da festa standalone o bevanda da nightclub.',
@@ -89,7 +89,7 @@ export const vegasBomb: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for Vegas trips, bachelorette parties, and nightclub celebrations. Great for those who want a sweeter alternative to Jäger Bombs. WARNING: Contains high amounts of caffeine and alcohol.',
-      it: 'Perfetto per viaggi a Vegas, addii al nubilato e celebrazioni in nightclub. Ottimo per chi vuole un\'alternativa più dolce ai Jäger Bomb. ATTENZIONE: Contiene elevate quantità di caffeina e alcol.',
+      it: "Perfetto per viaggi a Vegas, addii al nubilato e celebrazioni in nightclub. Ottimo per chi vuole un'alternativa più dolce ai Jäger Bomb. ATTENZIONE: Contiene elevate quantità di caffeina e alcol.",
       vi: 'Hoàn hảo cho chuyến đi Vegas, tiệc độc thân và lễ kỷ niệm hộp đêm. Tuyệt vời cho những ai muốn một sự thay thế ngọt hơn cho Jäger Bomb. CẢNH BÁO: Chứa lượng caffeine và rượu cao.',
     },
   },
@@ -101,7 +101,11 @@ export const vegasBomb: Cocktail = {
     {
       ingredient_id: 'ING_CANADIAN_WHISKY',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Crown Royal Whisky', it: 'Whisky Crown Royal', vi: 'Whisky Crown Royal' },
+      display_name: {
+        en: 'Crown Royal Whisky',
+        it: 'Whisky Crown Royal',
+        vi: 'Whisky Crown Royal',
+      },
     },
     {
       ingredient_id: 'ING_PEACH_SCHNAPPS',
@@ -116,12 +120,20 @@ export const vegasBomb: Cocktail = {
     {
       ingredient_id: 'ING_CRANBERRY_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Cranberry Juice', it: 'Succo di Mirtillo Rosso', vi: 'Nước Ép Nam Việt Quất' },
+      display_name: {
+        en: 'Cranberry Juice',
+        it: 'Succo di Mirtillo Rosso',
+        vi: 'Nước Ép Nam Việt Quất',
+      },
     },
     {
       ingredient_id: 'ING_RED_BULL',
       quantity: { amount: 120, unit: 'ml' },
-      display_name: { en: 'Red Bull (or energy drink)', it: 'Red Bull (o bevanda energetica)', vi: 'Red Bull (hoặc nước tăng lực)' },
+      display_name: {
+        en: 'Red Bull (or energy drink)',
+        it: 'Red Bull (o bevanda energetica)',
+        vi: 'Red Bull (hoặc nước tăng lực)',
+      },
     },
   ],
 
@@ -166,7 +178,14 @@ export const vegasBomb: Cocktail = {
   computed: {
     allergens: ['sulphites', 'caffeine'],
     intolerances: ['alcohol', 'sulphites_intolerance', 'caffeine_sensitivity'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -174,7 +193,7 @@ export const vegasBomb: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'nightlife', 'celebration'],
 
   is_mocktail: false,
@@ -185,7 +204,8 @@ export const vegasBomb: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['irish-vegas-bomb', 'tropical-vegas-bomb', 'cherry-vegas-bomb'],
 
-  notes_for_staff: 'Mix shot ingredients in shot glass before dropping. Some variations use different ratios or substitute ingredients. WARNING: High caffeine and alcohol content - serve responsibly. Very popular for Vegas trips and bachelor/bachelorette parties.',
+  notes_for_staff:
+    'Mix shot ingredients in shot glass before dropping. Some variations use different ratios or substitute ingredients. WARNING: High caffeine and alcohol content - serve responsibly. Very popular for Vegas trips and bachelor/bachelorette parties.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -198,7 +218,7 @@ export const vegasBomb: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/vegas-bomb/',
-    note: 'Popular Las Vegas bomb shot from the early 2000s.',
+    notes: 'Popular Las Vegas bomb shot from the early 2000s.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

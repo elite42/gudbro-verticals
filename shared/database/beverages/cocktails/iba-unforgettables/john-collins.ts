@@ -42,7 +42,7 @@ export const johnCollins: Cocktail = {
     created_year: '1790',
     origin: {
       city: 'London',
-      bar: 'Limmer\'s Old House',
+      bar: "Limmer's Old House",
       country: 'United Kingdom',
     },
     creator: {
@@ -50,9 +50,9 @@ export const johnCollins: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The John Collins is believed to have originated with a headwaiter named John Collins who worked at Limmer\'s Old House in Conduit Street in Mayfair, a popular London hotel and coffee house around 1790-1817. Limmer\'s was described as a chaotic, lively sporting bar with cock fighting, duels, gambling and plenty of drinking. A rhyme by Frank and Charles Sheridan immortalized him: "My name is John Collins, head waiter at Limmer\'s, Corner of Conduit Street, Hanover Square." The drink originally used genever (Holland gin), a malty, sweet spirit that predates modern gin. The famous Tom Collins variant emerged when bartenders began using Old Tom gin instead of genever, eventually leading to the name change.',
-      it: 'Si ritiene che il John Collins abbia avuto origine con un capo cameriere di nome John Collins che lavorava al Limmer\'s Old House in Conduit Street a Mayfair, un popolare hotel e caffetteria londinese intorno al 1790-1817. Limmer\'s era descritto come un bar sportivo caotico e vivace con combattimenti di galli, duelli, gioco d\'azzardo e tanto da bere. Una rima di Frank e Charles Sheridan lo ha immortalato: "Il mio nome è John Collins, capo cameriere al Limmer\'s, angolo di Conduit Street, Hanover Square." La bevanda utilizzava originariamente genever (gin olandese), uno spirito maltato e dolce che precede il gin moderno. La famosa variante Tom Collins è emersa quando i barman hanno iniziato a usare Old Tom gin invece del genever.',
-      vi: 'John Collins được cho là có nguồn gốc từ một trưởng phục vụ tên John Collins làm việc tại Limmer\'s Old House trên phố Conduit ở Mayfair, một khách sạn và quán cà phê nổi tiếng ở London khoảng năm 1790-1817. Limmer\'s được mô tả là một quầy bar thể thao hỗn loạn, sôi động với chọi gà, quyết đấu, cờ bạc và nhiều rượu. Một bài thơ của Frank và Charles Sheridan đã ghi nhớ ông: "Tên tôi là John Collins, trưởng phục vụ tại Limmer\'s, góc phố Conduit, quảng trường Hanover." Đồ uống ban đầu sử dụng genever (gin Hà Lan), một loại rượu mạnh mạch nha, ngọt có trước gin hiện đại. Biến thể Tom Collins nổi tiếng xuất hiện khi bartender bắt đầu dùng Old Tom gin thay vì genever.',
+      en: "The John Collins is believed to have originated with a headwaiter named John Collins who worked at Limmer's Old House in Conduit Street in Mayfair, a popular London hotel and coffee house around 1790-1817. Limmer's was described as a chaotic, lively sporting bar with cock fighting, duels, gambling and plenty of drinking. A rhyme by Frank and Charles Sheridan immortalized him: \"My name is John Collins, head waiter at Limmer's, Corner of Conduit Street, Hanover Square.\" The drink originally used genever (Holland gin), a malty, sweet spirit that predates modern gin. The famous Tom Collins variant emerged when bartenders began using Old Tom gin instead of genever, eventually leading to the name change.",
+      it: "Si ritiene che il John Collins abbia avuto origine con un capo cameriere di nome John Collins che lavorava al Limmer's Old House in Conduit Street a Mayfair, un popolare hotel e caffetteria londinese intorno al 1790-1817. Limmer's era descritto come un bar sportivo caotico e vivace con combattimenti di galli, duelli, gioco d'azzardo e tanto da bere. Una rima di Frank e Charles Sheridan lo ha immortalato: \"Il mio nome è John Collins, capo cameriere al Limmer's, angolo di Conduit Street, Hanover Square.\" La bevanda utilizzava originariamente genever (gin olandese), uno spirito maltato e dolce che precede il gin moderno. La famosa variante Tom Collins è emersa quando i barman hanno iniziato a usare Old Tom gin invece del genever.",
+      vi: "John Collins được cho là có nguồn gốc từ một trưởng phục vụ tên John Collins làm việc tại Limmer's Old House trên phố Conduit ở Mayfair, một khách sạn và quán cà phê nổi tiếng ở London khoảng năm 1790-1817. Limmer's được mô tả là một quầy bar thể thao hỗn loạn, sôi động với chọi gà, quyết đấu, cờ bạc và nhiều rượu. Một bài thơ của Frank và Charles Sheridan đã ghi nhớ ông: \"Tên tôi là John Collins, trưởng phục vụ tại Limmer's, góc phố Conduit, quảng trường Hanover.\" Đồ uống ban đầu sử dụng genever (gin Hà Lan), một loại rượu mạnh mạch nha, ngọt có trước gin hiện đại. Biến thể Tom Collins nổi tiếng xuất hiện khi bartender bắt đầu dùng Old Tom gin thay vì genever.",
     },
     named_after: {
       en: 'Named after John Collins, the headwaiter at Limmer\'s Old House who created the original drink. The variant "Tom Collins" came later when Old Tom gin replaced genever.',
@@ -65,11 +65,11 @@ export const johnCollins: Cocktail = {
     profile: ['citrus', 'refreshing', 'effervescent'],
     description: {
       en: 'A bright, zesty cocktail that perfectly balances citrus tartness with gentle sweetness. The gin provides botanical depth while soda water adds refreshing effervescence. Light, crisp, and endlessly drinkable.',
-      it: 'Un cocktail brillante e vivace che bilancia perfettamente l\'asprezza degli agrumi con una dolcezza delicata. Il gin fornisce profondità botanica mentre l\'acqua frizzante aggiunge un\'effervescenza rinfrescante. Leggero, fresco e infinitamente bevibile.',
+      it: "Un cocktail brillante e vivace che bilancia perfettamente l'asprezza degli agrumi con una dolcezza delicata. Il gin fornisce profondità botanica mentre l'acqua frizzante aggiunge un'effervescenza rinfrescante. Leggero, fresco e infinitamente bevibile.",
       vi: 'Một cocktail tươi sáng, sống động cân bằng hoàn hảo vị chua của chanh với vị ngọt nhẹ nhàng. Gin mang lại chiều sâu thảo mộc trong khi nước soda thêm bọt khí sảng khoái. Nhẹ, giòn và dễ uống vô cùng.',
     },
     first_impression: {
-      en: 'Immediate bright lemon acidity with the refreshing sparkle of soda. The gin\'s botanicals provide complexity without overwhelming the citrus focus.',
+      en: "Immediate bright lemon acidity with the refreshing sparkle of soda. The gin's botanicals provide complexity without overwhelming the citrus focus.",
       it: 'Acidità di limone brillante immediata con il frizzante rinfrescante della soda. I botanici del gin forniscono complessità senza sopraffare il focus sugli agrumi.',
       vi: 'Độ chua chanh tươi sáng ngay lập tức với bọt khí sảng khoái của soda. Các thảo mộc của gin mang lại sự phức tạp mà không làm lu mờ trọng tâm cam quýt.',
     },
@@ -96,7 +96,7 @@ export const johnCollins: Cocktail = {
     },
     ideal_for: {
       en: 'Anyone seeking a refreshing, easy-drinking cocktail. Perfect for warm weather, outdoor gatherings, or as a revitalizing afternoon drink.',
-      it: 'Chiunque cerchi un cocktail rinfrescante e facile da bere. Perfetto per il clima caldo, riunioni all\'aperto o come bevanda rivitalizzante del pomeriggio.',
+      it: "Chiunque cerchi un cocktail rinfrescante e facile da bere. Perfetto per il clima caldo, riunioni all'aperto o come bevanda rivitalizzante del pomeriggio.",
       vi: 'Bất kỳ ai tìm kiếm cocktail sảng khoái, dễ uống. Hoàn hảo cho thời tiết ấm, tụ tập ngoài trời hoặc như đồ uống tiếp sức buổi chiều.',
     },
   },
@@ -113,7 +113,11 @@ export const johnCollins: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Fresh Lemon Juice', it: 'Succo di Limone Fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh Lemon Juice',
+        it: 'Succo di Limone Fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -162,7 +166,14 @@ export const johnCollins: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -194,7 +205,8 @@ export const johnCollins: Cocktail = {
     },
   ],
 
-  notes_for_staff: 'Always use fresh-squeezed lemon juice. Build directly in glass to maintain carbonation. Add soda last and stir gently. The IBA notes to use Old Tom gin for a Tom Collins variant. Keep garnishes fresh.',
+  notes_for_staff:
+    'Always use fresh-squeezed lemon juice. Build directly in glass to maintain carbonation. Add soda last and stir gently. The IBA notes to use Old Tom gin for a Tom Collins variant. Keep garnishes fresh.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -207,7 +219,7 @@ export const johnCollins: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/john-collins/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

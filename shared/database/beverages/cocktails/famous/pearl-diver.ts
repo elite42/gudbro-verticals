@@ -62,7 +62,7 @@ export const pearlDiver: Cocktail = {
     profile: ['rich', 'creamy', 'complex'],
     description: {
       en: 'Extraordinarily rich and velvety with unprecedented texture from the butter-honey emulsion. The Pearl Diver balances complex rum depth with bright citrus, warming spices, and the signature Gardenia Mix that creates a luxurious, almost dessert-like smoothness. Unique among tiki drinks.',
-      it: 'Straordinariamente ricco e vellutato con una consistenza senza precedenti dall\'emulsione burro-miele. Il Pearl Diver bilancia la profondità complessa del rum con agrumi brillanti, spezie calde e il caratteristico Gardenia Mix che crea una morbidezza lussuosa, quasi simile a un dessert. Unico tra le bevande tiki.',
+      it: "Straordinariamente ricco e vellutato con una consistenza senza precedenti dall'emulsione burro-miele. Il Pearl Diver bilancia la profondità complessa del rum con agrumi brillanti, spezie calde e il caratteristico Gardenia Mix che crea una morbidezza lussuosa, quasi simile a un dessert. Unico tra le bevande tiki.",
       vi: 'Giàu có và mượt mà như nhung phi thường với kết cấu chưa từng có từ nhũ tương bơ-mật ong. Pearl Diver cân bằng chiều sâu rum phức tạp với cam quýt sáng, gia vị ấm áp và Gardenia Mix đặc trưng tạo ra độ mịn màng sang trọng, gần như món tráng miệng. Độc đáo trong số các thức uống tiki.',
     },
     first_impression: {
@@ -93,7 +93,7 @@ export const pearlDiver: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for tiki collectors and adventurous drinkers seeking the most unique Don the Beachcomber experience. Ideal for those who appreciate innovative, boundary-pushing cocktails. A must-try for serious tiki enthusiasts.',
-      it: 'Perfetto per i collezionisti di tiki e bevitori avventurosi che cercano l\'esperienza Don the Beachcomber più unica. Ideale per chi apprezza cocktail innovativi che spingono i confini. Un must per i seri appassionati di tiki.',
+      it: "Perfetto per i collezionisti di tiki e bevitori avventurosi che cercano l'esperienza Don the Beachcomber più unica. Ideale per chi apprezza cocktail innovativi che spingono i confini. Un must per i seri appassionati di tiki.",
       vi: 'Hoàn hảo cho những người sưu tầm tiki và những người uống mạo hiểm tìm kiếm trải nghiệm Don the Beachcomber độc đáo nhất. Lý tưởng cho những ai đánh giá cao cocktail đổi mới, đẩy ranh giới. Phải thử cho những người đam mê tiki nghiêm túc.',
     },
   },
@@ -115,12 +115,16 @@ export const pearlDiver: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước chanh xanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước chanh xanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_GARDENIA_MIX',
@@ -128,7 +132,7 @@ export const pearlDiver: Cocktail = {
       display_name: {
         en: 'Gardenia Mix (butter-honey blend)',
         it: 'Gardenia Mix (miscela burro-miele)',
-        vi: 'Gardenia Mix (hỗn hợp bơ-mật ong)'
+        vi: 'Gardenia Mix (hỗn hợp bơ-mật ong)',
       },
     },
     {
@@ -142,7 +146,7 @@ export const pearlDiver: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a blender with 1 cup of crushed ice. Blend at high speed until smooth and frothy. Pour into a tiki mug or hurricane glass. Garnish with orchid and orange slice. Note: Gardenia Mix must be prepared in advance (butter, honey, vanilla, cinnamon).',
-    it: 'Aggiungere tutti gli ingredienti in un frullatore con 1 tazza di ghiaccio tritato. Frullare ad alta velocità fino a quando liscio e schiumoso. Versare in un tiki mug o bicchiere hurricane. Guarnire con orchidea e fetta d\'arancia. Nota: Gardenia Mix deve essere preparato in anticipo (burro, miele, vaniglia, cannella).',
+    it: "Aggiungere tutti gli ingredienti in un frullatore con 1 tazza di ghiaccio tritato. Frullare ad alta velocità fino a quando liscio e schiumoso. Versare in un tiki mug o bicchiere hurricane. Guarnire con orchidea e fetta d'arancia. Nota: Gardenia Mix deve essere preparato in anticipo (burro, miele, vaniglia, cannella).",
     vi: 'Thêm tất cả nguyên liệu vào máy xay sinh tố với 1 cốc đá nghiền. Xay ở tốc độ cao cho đến khi mịn và sủi bọt. Đổ vào cốc tiki hoặc ly hurricane. Trang trí với hoa lan và lát cam. Lưu ý: Gardenia Mix phải được chuẩn bị trước (bơ, mật ong, vani, quế).',
   },
 
@@ -150,7 +154,7 @@ export const pearlDiver: Cocktail = {
 
   garnish: {
     en: 'Orchid flower, orange slice, cinnamon stick',
-    it: 'Fiore di orchidea, fetta d\'arancia, stecca di cannella',
+    it: "Fiore di orchidea, fetta d'arancia, stecca di cannella",
     vi: 'Hoa lan, lát cam, que quế',
   },
 
@@ -198,7 +202,8 @@ export const pearlDiver: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['don-the-beachcomber-pearl-diver'],
 
-  notes_for_staff: 'ADVANCED RECIPE - requires pre-made Gardenia Mix (butter, honey, vanilla, cinnamon blend). Created by Don the Beachcomber 1937. Must be blended to properly emulsify butter. Contains dairy. Unique texture unlike any other cocktail. Spectacular presentation piece.',
+  notes_for_staff:
+    'ADVANCED RECIPE - requires pre-made Gardenia Mix (butter, honey, vanilla, cinnamon blend). Created by Don the Beachcomber 1937. Must be blended to properly emulsify butter. Contains dairy. Unique texture unlike any other cocktail. Spectacular presentation piece.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -211,7 +216,8 @@ export const pearlDiver: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://beachbumberry.com/pearl-diver.html',
-    note: 'Original Don the Beachcomber recipe from 1937, decoded by Jeff "Beachbum" Berry. Gardenia Mix formula revealed in Sippin\' Safari.',
+    notes:
+      'Original Don the Beachcomber recipe from 1937, decoded by Jeff "Beachbum" Berry. Gardenia Mix formula revealed in Sippin\' Safari.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

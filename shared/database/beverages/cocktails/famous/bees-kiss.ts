@@ -30,9 +30,9 @@ export const beesKiss: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A luscious Prohibition-era cocktail featuring rum, honey, and heavy cream. The Bee\'s Kiss is a forgotten classic that delivers smooth sweetness with a velvety texture and tropical warmth.',
-    it: 'Un cocktail lussuoso dell\'era del Proibizionismo con rum, miele e panna. Il Bee\'s Kiss è un classico dimenticato che offre dolcezza morbida con una consistenza vellutata e calore tropicale.',
-    vi: 'Một loại cocktail ngon lành thời kỳ Cấm rượu với rum, mật ong và kem đặc. Bee\'s Kiss là món cổ điển bị lãng quên mang đến vị ngọt mượt mà với kết cấu mượt như nhung và hơi ấm nhiệt đới.',
+    en: "A luscious Prohibition-era cocktail featuring rum, honey, and heavy cream. The Bee's Kiss is a forgotten classic that delivers smooth sweetness with a velvety texture and tropical warmth.",
+    it: "Un cocktail lussuoso dell'era del Proibizionismo con rum, miele e panna. Il Bee's Kiss è un classico dimenticato che offre dolcezza morbida con una consistenza vellutata e calore tropicale.",
+    vi: "Một loại cocktail ngon lành thời kỳ Cấm rượu với rum, mật ong và kem đặc. Bee's Kiss là món cổ điển bị lãng quên mang đến vị ngọt mượt mà với kết cấu mượt như nhung và hơi ấm nhiệt đới.",
   },
 
   history: {
@@ -52,8 +52,8 @@ export const beesKiss: Cocktail = {
       vi: 'Bee\'s Kiss xuất hiện vào đầu những năm 1930 khi thời kỳ Cấm rượu sắp kết thúc. Được giới thiệu trong "The Artistry of Mixing Drinks" (1936) của Frank Meier, cocktail này là một phần của họ đồ uống "Bee\'s Knees" sử dụng mật ong để làm ngọt và che giấu rượu chất lượng thấp hơn. Phiên bản kem trở nên phổ biến ở Cuba và cuối cùng đến các quán bar cocktail Mỹ.',
     },
     named_after: {
-      en: 'Named after the sweetness of a bee\'s kiss, referencing the honey used in the recipe and the smooth, sweet character of the drink.',
-      it: 'Prende il nome dalla dolcezza del bacio di un\'ape, riferendosi al miele usato nella ricetta e al carattere dolce e morbido del drink.',
+      en: "Named after the sweetness of a bee's kiss, referencing the honey used in the recipe and the smooth, sweet character of the drink.",
+      it: "Prende il nome dalla dolcezza del bacio di un'ape, riferendosi al miele usato nella ricetta e al carattere dolce e morbido del drink.",
       vi: 'Được đặt theo tên sự ngọt ngào của nụ hôn ong, ám chỉ mật ong được sử dụng trong công thức và tính chất ngọt ngào, mượt mà của thức uống.',
     },
   },
@@ -179,7 +179,8 @@ export const beesKiss: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['bees-knees', 'gold-rush'],
 
-  notes_for_staff: 'Shake hard to properly emulsify cream with honey. Use honey syrup (3:1 honey to water) for easier mixing. Can substitute aged rum for deeper flavor. Ensure all ingredients are well-chilled before shaking.',
+  notes_for_staff:
+    'Shake hard to properly emulsify cream with honey. Use honey syrup (3:1 honey to water) for easier mixing. Can substitute aged rum for deeper flavor. Ensure all ingredients are well-chilled before shaking.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +193,8 @@ export const beesKiss: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/384/bees-kiss',
-    note: 'Based on Frank Meier\'s 1936 recipe. Historical information from vintage cocktail books.',
+    notes:
+      "Based on Frank Meier's 1936 recipe. Historical information from vintage cocktail books.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

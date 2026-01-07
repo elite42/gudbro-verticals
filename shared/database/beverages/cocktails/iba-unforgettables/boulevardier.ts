@@ -24,7 +24,7 @@ export const boulevardier: Cocktail = {
   tags: ['iba', 'official', 'classic', 'bitter', 'whiskey', 'negroni-variation', 'prohibition-era'],
 
   description: {
-    en: 'The whiskey-lover\'s Negroni - a rich, bittersweet cocktail that swaps gin for bourbon or rye. Created by an American expatriate in Paris, the Boulevardier offers deeper, warmer flavors while maintaining the perfect bitter-sweet balance.',
+    en: "The whiskey-lover's Negroni - a rich, bittersweet cocktail that swaps gin for bourbon or rye. Created by an American expatriate in Paris, the Boulevardier offers deeper, warmer flavors while maintaining the perfect bitter-sweet balance.",
     it: 'Il Negroni per gli amanti del whiskey - un cocktail ricco e agrodolce che sostituisce il gin con bourbon o segale. Creato da un espatriato americano a Parigi, il Boulevardier offre sapori più profondi e caldi mantenendo il perfetto equilibrio amaro-dolce.',
     vi: 'Negroni dành cho người yêu whiskey - một cocktail đậm đà, đắng ngọt thay thế gin bằng bourbon hoặc rye. Được tạo ra bởi một người Mỹ tha hương ở Paris, Boulevardier mang đến hương vị sâu hơn, ấm hơn trong khi duy trì sự cân bằng đắng-ngọt hoàn hảo.',
   },
@@ -33,7 +33,7 @@ export const boulevardier: Cocktail = {
     created_year: 1927,
     origin: {
       city: 'Paris',
-      bar: 'Harry\'s New York Bar',
+      bar: "Harry's New York Bar",
       country: 'France',
     },
     creator: {
@@ -55,8 +55,8 @@ export const boulevardier: Cocktail = {
   taste: {
     profile: ['bitter', 'sweet', 'boozy', 'herbal'],
     description: {
-      en: 'Richer and more robust than a Negroni. The bourbon/rye provides caramel, vanilla, and oak notes that complement Campari\'s bitterness beautifully. The sweet vermouth adds herbal complexity. A warming, sophisticated sipper.',
-      it: 'Più ricco e robusto di un Negroni. Il bourbon/segale fornisce note di caramello, vaniglia e quercia che completano magnificamente l\'amarezza del Campari. Il vermouth rosso aggiunge complessità erbacea. Un sorso caldo e sofisticato.',
+      en: "Richer and more robust than a Negroni. The bourbon/rye provides caramel, vanilla, and oak notes that complement Campari's bitterness beautifully. The sweet vermouth adds herbal complexity. A warming, sophisticated sipper.",
+      it: "Più ricco e robusto di un Negroni. Il bourbon/segale fornisce note di caramello, vaniglia e quercia che completano magnificamente l'amarezza del Campari. Il vermouth rosso aggiunge complessità erbacea. Un sorso caldo e sofisticato.",
       vi: 'Đậm đà và mạnh mẽ hơn Negroni. Bourbon/rye cung cấp hương caramel, vanilla và gỗ sồi bổ sung hoàn hảo cho vị đắng của Campari. Vermouth ngọt thêm sự phức tạp thảo mộc. Một ngụm ấm áp, tinh tế.',
     },
     first_impression: {
@@ -70,8 +70,8 @@ export const boulevardier: Cocktail = {
       vi: 'Kết thúc dài, ấm áp với cam đắng và gỗ sồi kéo dài',
     },
     balance: {
-      en: 'The whiskey\'s sweetness counterbalances Campari\'s bitterness, with vermouth as the bridge',
-      it: 'La dolcezza del whiskey controbilancia l\'amarezza del Campari, con il vermouth come ponte',
+      en: "The whiskey's sweetness counterbalances Campari's bitterness, with vermouth as the bridge",
+      it: "La dolcezza del whiskey controbilancia l'amarezza del Campari, con il vermouth come ponte",
       vi: 'Vị ngọt của whiskey cân bằng vị đắng của Campari, với vermouth là cầu nối',
     },
   },
@@ -96,7 +96,11 @@ export const boulevardier: Cocktail = {
     {
       ingredient_id: 'ING_BOURBON',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Bourbon or Rye Whiskey', it: 'Bourbon o Whiskey di Segale', vi: 'Bourbon hoặc Rye Whiskey' },
+      display_name: {
+        en: 'Bourbon or Rye Whiskey',
+        it: 'Bourbon o Whiskey di Segale',
+        vi: 'Bourbon hoặc Rye Whiskey',
+      },
       substitutes: ['ING_RYE_WHISKEY'],
     },
     {
@@ -115,7 +119,7 @@ export const boulevardier: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into a mixing glass with ice cubes. Stir well until properly chilled and diluted. Strain into a chilled cocktail glass. Garnish with orange zest.',
-    it: 'Versare tutti gli ingredienti in un mixing glass con cubetti di ghiaccio. Mescolare bene fino a raffreddare e diluire. Filtrare in una coppa da cocktail raffreddata. Guarnire con scorza d\'arancia.',
+    it: "Versare tutti gli ingredienti in un mixing glass con cubetti di ghiaccio. Mescolare bene fino a raffreddare e diluire. Filtrare in una coppa da cocktail raffreddata. Guarnire con scorza d'arancia.",
     vi: 'Đổ tất cả nguyên liệu vào ly pha với đá viên. Khuấy kỹ cho đến khi lạnh và pha loãng đúng mức. Lọc vào ly cocktail đã làm lạnh. Trang trí với vỏ cam.',
   },
 
@@ -123,7 +127,7 @@ export const boulevardier: Cocktail = {
 
   garnish: {
     en: 'Orange zest, optionally with lemon zest',
-    it: 'Scorza d\'arancia, opzionalmente con scorza di limone',
+    it: "Scorza d'arancia, opzionalmente con scorza di limone",
     vi: 'Vỏ cam, tùy chọn với vỏ chanh',
   },
 
@@ -153,14 +157,15 @@ export const boulevardier: Cocktail = {
 
   variants: ['negroni', 'old-pal'],
 
-  notes_for_staff: 'Use good bourbon (Bulleit, Buffalo Trace) or rye (Rittenhouse). Some prefer equal parts (1:1:1) for a more bitter drink. Can serve on the rocks for a longer drink. The "whiskey Negroni" nickname helps explain it to guests.',
+  notes_for_staff:
+    'Use good bourbon (Bulleit, Buffalo Trace) or rye (Rittenhouse). Some prefer equal parts (1:1:1) for a more bitter drink. Can serve on the rocks for a longer drink. The "whiskey Negroni" nickname helps explain it to guests.',
 
   price_tier: 'mid',
   popularity: 78,
 
   source: {
     primary: 'https://iba-world.com/boulevardier/',
-    note: 'IBA Official Recipe. First published in "Barflies and Cocktails" 1927.',
+    notes: 'IBA Official Recipe. First published in "Barflies and Cocktails" 1927.',
   },
 
   created_at: NOW,

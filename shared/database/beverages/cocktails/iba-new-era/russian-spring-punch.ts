@@ -34,7 +34,7 @@ export const russianSpringPunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A sophisticated vodka-based punch combining fresh lemon, crème de cassis, and Champagne. This elegant sparkling cocktail features beautiful berry flavors and a refreshing effervescence.',
-    it: 'Un punch sofisticato a base di vodka che combina limone fresco, crème de cassis e Champagne. Questo elegante cocktail frizzante presenta bellissimi sapori di bacche e un\'effervescenza rinfrescante.',
+    it: "Un punch sofisticato a base di vodka che combina limone fresco, crème de cassis e Champagne. Questo elegante cocktail frizzante presenta bellissimi sapori di bacche e un'effervescenza rinfrescante.",
     vi: 'Một loại punch tinh tế dựa trên vodka kết hợp chanh tươi, crème de cassis và Champagne. Cocktail có ga thanh lịch này có hương vị quả mọng đẹp mắt và độ sủi bọt sảng khoái.',
   },
 
@@ -42,7 +42,7 @@ export const russianSpringPunch: Cocktail = {
     created_year: '1984',
     origin: {
       city: 'London',
-      bar: 'Trader Vic\'s',
+      bar: "Trader Vic's",
       country: 'UK',
     },
     creator: {
@@ -50,9 +50,9 @@ export const russianSpringPunch: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by legendary bartender Dick Bradsell in 1984 at Trader Vic\'s in London. Bradsell wanted to create a sophisticated vodka cocktail with Champagne that would appeal to elegant drinkers. The drink combines the strength of vodka with the elegance of Champagne and the fruity depth of cassis. It became one of Bradsell\'s signature creations and helped establish his reputation as one of the most influential bartenders of the modern cocktail era.',
-      it: 'Creato dal leggendario barman Dick Bradsell nel 1984 al Trader Vic\'s di Londra. Bradsell voleva creare un cocktail vodka sofisticato con Champagne che avrebbe attratto bevitori eleganti. La bevanda combina la forza della vodka con l\'eleganza dello Champagne e la profondità fruttata del cassis. Divenne una delle creazioni firma di Bradsell e contribuì a stabilire la sua reputazione come uno dei barman più influenti dell\'era dei cocktail moderni.',
-      vi: 'Được tạo ra bởi bartender huyền thoại Dick Bradsell năm 1984 tại Trader Vic\'s ở London. Bradsell muốn tạo ra một cocktail vodka tinh tế với Champagne sẽ thu hút những người uống thanh lịch. Thức uống kết hợp sức mạnh của vodka với sự thanh lịch của Champagne và độ sâu trái cây của cassis. Nó trở thành một trong những sáng tạo đặc trưng của Bradsell và giúp thiết lập danh tiếng của ông như một trong những bartender có ảnh hưởng nhất của thời đại cocktail hiện đại.',
+      en: "Created by legendary bartender Dick Bradsell in 1984 at Trader Vic's in London. Bradsell wanted to create a sophisticated vodka cocktail with Champagne that would appeal to elegant drinkers. The drink combines the strength of vodka with the elegance of Champagne and the fruity depth of cassis. It became one of Bradsell's signature creations and helped establish his reputation as one of the most influential bartenders of the modern cocktail era.",
+      it: "Creato dal leggendario barman Dick Bradsell nel 1984 al Trader Vic's di Londra. Bradsell voleva creare un cocktail vodka sofisticato con Champagne che avrebbe attratto bevitori eleganti. La bevanda combina la forza della vodka con l'eleganza dello Champagne e la profondità fruttata del cassis. Divenne una delle creazioni firma di Bradsell e contribuì a stabilire la sua reputazione come uno dei barman più influenti dell'era dei cocktail moderni.",
+      vi: "Được tạo ra bởi bartender huyền thoại Dick Bradsell năm 1984 tại Trader Vic's ở London. Bradsell muốn tạo ra một cocktail vodka tinh tế với Champagne sẽ thu hút những người uống thanh lịch. Thức uống kết hợp sức mạnh của vodka với sự thanh lịch của Champagne và độ sâu trái cây của cassis. Nó trở thành một trong những sáng tạo đặc trưng của Bradsell và giúp thiết lập danh tiếng của ông như một trong những bartender có ảnh hưởng nhất của thời đại cocktail hiện đại.",
     },
     named_after: {
       en: 'Named "Russian" for vodka, "Spring" for its fresh, seasonal character, and "Punch" for its complex, multi-ingredient nature.',
@@ -113,7 +113,11 @@ export const russianSpringPunch: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 25, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_CREME_DE_CASSIS',
@@ -173,7 +177,14 @@ export const russianSpringPunch: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -192,7 +203,8 @@ export const russianSpringPunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: [],
 
-  notes_for_staff: 'Add Champagne last to preserve carbonation. Fresh berries enhance presentation. Can substitute Prosecco for Champagne.',
+  notes_for_staff:
+    'Add Champagne last to preserve carbonation. Fresh berries enhance presentation. Can substitute Prosecco for Champagne.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +217,7 @@ export const russianSpringPunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/russian-spring-punch/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

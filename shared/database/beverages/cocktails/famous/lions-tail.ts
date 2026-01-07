@@ -16,8 +16,8 @@ export const lionsTail: Cocktail = {
 
   name: {
     en: "Lion's Tail",
-    it: "Coda di Leone",
-    vi: "Đuôi Sư Tử",
+    it: 'Coda di Leone',
+    vi: 'Đuôi Sư Tử',
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -30,9 +30,9 @@ export const lionsTail: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A bold cocktail combining bourbon, allspice dram, lime, and Angostura bitters. The Lion\'s Tail delivers complex spice notes with citrus brightness and whiskey warmth, creating a sophisticated and memorable drink.',
+    en: "A bold cocktail combining bourbon, allspice dram, lime, and Angostura bitters. The Lion's Tail delivers complex spice notes with citrus brightness and whiskey warmth, creating a sophisticated and memorable drink.",
     it: 'Un cocktail audace che combina bourbon, allspice dram, lime e bitter Angostura. La Coda di Leone offre note speziate complesse con brillantezza agrumata e calore del whisky, creando un drink sofisticato e memorabile.',
-    vi: 'Một loại cocktail đậm đà kết hợp bourbon, allspice dram, chanh và Angostura bitters. Lion\'s Tail mang đến các nốt gia vị phức tạp với độ tươi sáng cam quýt và hơi ấm whiskey, tạo ra thức uống tinh tế và đáng nhớ.',
+    vi: "Một loại cocktail đậm đà kết hợp bourbon, allspice dram, chanh và Angostura bitters. Lion's Tail mang đến các nốt gia vị phức tạp với độ tươi sáng cam quýt và hơi ấm whiskey, tạo ra thức uống tinh tế và đáng nhớ.",
   },
 
   history: {
@@ -62,7 +62,7 @@ export const lionsTail: Cocktail = {
     profile: ['spicy', 'citrus', 'complex'],
     description: {
       en: 'Bold and complex with warming bourbon, exotic allspice notes, bright lime acidity, and aromatic bitters. The allspice dram provides distinctive Caribbean spice that sets this cocktail apart from typical whiskey sours.',
-      it: 'Audace e complesso con bourbon caldo, note esotiche di allspice, acidità brillante di lime e bitter aromatici. L\'allspice dram fornisce una spezia caraibica distintiva che distingue questo cocktail dai tipici whisky sour.',
+      it: "Audace e complesso con bourbon caldo, note esotiche di allspice, acidità brillante di lime e bitter aromatici. L'allspice dram fornisce una spezia caraibica distintiva che distingue questo cocktail dai tipici whisky sour.",
       vi: 'Đậm đà và phức tạp với bourbon ấm, nốt allspice kỳ lạ, độ chua chanh tươi sáng và bitters thơm. Allspice dram cung cấp gia vị Caribbean đặc trưng làm nổi bật cocktail này so với whiskey sour thông thường.',
     },
     first_impression: {
@@ -88,7 +88,7 @@ export const lionsTail: Cocktail = {
     seasons: ['autumn', 'winter'],
     food_pairings: {
       en: 'Excellent with spicy foods, BBQ, jerk chicken, or aged cheeses. The allspice complements Caribbean and Latin American cuisines perfectly.',
-      it: 'Eccellente con cibi piccanti, BBQ, pollo jerk o formaggi stagionati. L\'allspice si abbina perfettamente alle cucine caraibiche e latinoamericane.',
+      it: "Eccellente con cibi piccanti, BBQ, pollo jerk o formaggi stagionati. L'allspice si abbina perfettamente alle cucine caraibiche e latinoamericane.",
       vi: 'Tuyệt vời với đồ ăn cay, BBQ, gà jerk hoặc phô mai già. Allspice kết hợp hoàn hảo với ẩm thực Caribbean và Mỹ Latin.',
     },
     ideal_for: {
@@ -110,7 +110,11 @@ export const lionsTail: Cocktail = {
     {
       ingredient_id: 'ING_ALLSPICE_DRAM',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Allspice dram (Pimento dram)', it: 'Allspice dram (Pimento dram)', vi: 'Allspice dram (Pimento dram)' },
+      display_name: {
+        en: 'Allspice dram (Pimento dram)',
+        it: 'Allspice dram (Pimento dram)',
+        vi: 'Allspice dram (Pimento dram)',
+      },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
@@ -170,7 +174,14 @@ export const lionsTail: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -189,7 +200,8 @@ export const lionsTail: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['lions-tail-moderne'],
 
-  notes_for_staff: 'Allspice dram (pimento dram) is essential - St. Elizabeth brand recommended. The spice can be intense; adjust for guest preference. Fresh lime juice only. Great for guests who like spiced rum cocktails but want bourbon.',
+  notes_for_staff:
+    'Allspice dram (pimento dram) is essential - St. Elizabeth brand recommended. The spice can be intense; adjust for guest preference. Fresh lime juice only. Great for guests who like spiced rum cocktails but want bourbon.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +214,7 @@ export const lionsTail: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1413/lions-tail',
-    note: 'Café Royal Cocktail Book (1937). Revived by Dale DeGroff in the 2000s.',
+    notes: 'Café Royal Cocktail Book (1937). Revived by Dale DeGroff in the 2000s.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

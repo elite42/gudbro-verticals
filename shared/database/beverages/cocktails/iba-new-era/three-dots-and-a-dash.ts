@@ -123,7 +123,7 @@ export const threeDotsAndADash: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_HONEY_SYRUP',
@@ -188,7 +188,14 @@ export const threeDotsAndADash: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -207,7 +214,8 @@ export const threeDotsAndADash: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['modern-tiki-variations'],
 
-  notes_for_staff: 'Multiple rum blend is essential for authenticity. Honey syrup is 1:1 honey to water. Falernum and allspice dram are specialty tiki ingredients - keep in stock. Garnish is important for visual storytelling.',
+  notes_for_staff:
+    'Multiple rum blend is essential for authenticity. Honey syrup is 1:1 honey to water. Falernum and allspice dram are specialty tiki ingredients - keep in stock. Garnish is important for visual storytelling.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -220,7 +228,8 @@ export const threeDotsAndADash: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/three-dots-and-a-dash/',
-    note: 'IBA Official Recipe. Historical information from Beachbum Berry\'s tiki cocktail research.',
+    notes:
+      "IBA Official Recipe. Historical information from Beachbum Berry's tiki cocktail research.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -25,7 +25,7 @@ export const aviation: Cocktail = {
 
   description: {
     en: 'A stunning pre-Prohibition classic with a distinctive pale sky-blue color from crème de violette. The Aviation captures the wonder and romance of early flight with its ethereal appearance and delicate floral-citrus balance.',
-    it: 'Un splendido classico pre-Proibizionismo con un distintivo colore celeste pallido dalla crème de violette. L\'Aviation cattura la meraviglia e il romanticismo dei primi voli con il suo aspetto etereo e il delicato equilibrio floreale-agrumato.',
+    it: "Un splendido classico pre-Proibizionismo con un distintivo colore celeste pallido dalla crème de violette. L'Aviation cattura la meraviglia e il romanticismo dei primi voli con il suo aspetto etereo e il delicato equilibrio floreale-agrumato.",
     vi: 'Một tác phẩm kinh điển tiền-Cấm rượu tuyệt đẹp với màu xanh nhạt đặc trưng từ crème de violette. Aviation gợi lên sự kỳ diệu và lãng mạn của những chuyến bay đầu tiên với vẻ ngoài thanh tao và sự cân bằng hoa-cam quýt tinh tế.',
   },
 
@@ -47,7 +47,7 @@ export const aviation: Cocktail = {
     },
     named_after: {
       en: 'Named to honor early aviation pioneers. The pale blue color from crème de violette represents the sky, making it a tribute to the romance of flight.',
-      it: 'Nominato per onorare i primi pionieri dell\'aviazione. Il colore celeste pallido dalla crème de violette rappresenta il cielo, rendendolo un tributo al romanticismo del volo.',
+      it: "Nominato per onorare i primi pionieri dell'aviazione. Il colore celeste pallido dalla crème de violette rappresenta il cielo, rendendolo un tributo al romanticismo del volo.",
       vi: 'Được đặt tên để tôn vinh những người tiên phong hàng không đầu tiên. Màu xanh nhạt từ crème de violette đại diện cho bầu trời, biến nó thành lời tri ân cho sự lãng mạn của bay.',
     },
   },
@@ -70,7 +70,7 @@ export const aviation: Cocktail = {
       vi: 'Kết thúc sạch, khô với sự thanh lịch hoa kéo dài',
     },
     balance: {
-      en: 'Perfectly balanced between citrus brightness, floral delicacy, and gin\'s botanical complexity',
+      en: "Perfectly balanced between citrus brightness, floral delicacy, and gin's botanical complexity",
       it: 'Perfettamente bilanciato tra luminosità agrumata, delicatezza floreale e complessità botanica del gin',
       vi: 'Cân bằng hoàn hảo giữa độ sáng cam quýt, sự tinh tế hoa và sự phức tạp thực vật của gin',
     },
@@ -101,12 +101,20 @@ export const aviation: Cocktail = {
     {
       ingredient_id: 'ING_MARASCHINO',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Maraschino Luxardo', it: 'Maraschino Luxardo', vi: 'Maraschino Luxardo' },
+      display_name: {
+        en: 'Maraschino Luxardo',
+        it: 'Maraschino Luxardo',
+        vi: 'Maraschino Luxardo',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh Lemon Juice', it: 'Succo di Limone Fresco', vi: 'Nước Chanh Tươi' },
+      display_name: {
+        en: 'Fresh Lemon Juice',
+        it: 'Succo di Limone Fresco',
+        vi: 'Nước Chanh Tươi',
+      },
     },
     {
       ingredient_id: 'ING_CREME_DE_VIOLETTE',
@@ -145,7 +153,14 @@ export const aviation: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -158,14 +173,15 @@ export const aviation: Cocktail = {
 
   variants: ['aviation-without-violette'],
 
-  notes_for_staff: 'The crème de violette is essential for the authentic sky-blue color - don\'t skip it. Use Luxardo maraschino, not cheap imitations. Use sparingly - too much violette makes it taste like perfume. A tiny amount goes a long way.',
+  notes_for_staff:
+    "The crème de violette is essential for the authentic sky-blue color - don't skip it. Use Luxardo maraschino, not cheap imitations. Use sparingly - too much violette makes it taste like perfume. A tiny amount goes a long way.",
 
   price_tier: 'mid',
   popularity: 72,
 
   source: {
     primary: 'https://iba-world.com/aviation/',
-    note: 'IBA Official Recipe. Originally from Hugo Ensslin\'s 1916 "Recipes for Mixed Drinks."',
+    notes: 'IBA Official Recipe. Originally from Hugo Ensslin\'s 1916 "Recipes for Mixed Drinks."',
   },
 
   created_at: NOW,

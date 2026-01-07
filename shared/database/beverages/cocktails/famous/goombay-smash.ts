@@ -31,7 +31,7 @@ export const goombaySmash: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The signature cocktail of the Bahamas, combining coconut rum with apricot brandy and tropical fruit juices. The Goombay Smash is a potent yet refreshing blend that captures the spirit of island celebration and Caribbean culture.',
-    it: 'Il cocktail signature delle Bahamas, che combina rum al cocco con brandy all\'albicocca e succhi di frutta tropicale. Il Goombay Smash è una miscela potente ma rinfrescante che cattura lo spirito della celebrazione insulare e della cultura caraibica.',
+    it: "Il cocktail signature delle Bahamas, che combina rum al cocco con brandy all'albicocca e succhi di frutta tropicale. Il Goombay Smash è una miscela potente ma rinfrescante che cattura lo spirito della celebrazione insulare e della cultura caraibica.",
     vi: 'Cocktail đặc trưng của Bahamas, kết hợp rum dừa với rượu mơ và nước ép trái cây nhiệt đới. Goombay Smash là hỗn hợp mạnh mẽ nhưng sảng khoái nắm bắt tinh thần lễ hội đảo và văn hóa Caribbean.',
   },
 
@@ -39,7 +39,7 @@ export const goombaySmash: Cocktail = {
     created_year: '1960s',
     origin: {
       city: 'Green Turtle Cay',
-      bar: 'Miss Emily\'s Blue Bee Bar',
+      bar: "Miss Emily's Blue Bee Bar",
       country: 'Bahamas',
     },
     creator: {
@@ -47,7 +47,7 @@ export const goombaySmash: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Goombay Smash was created by Miss Emily Cooper at her legendary Blue Bee Bar on Green Turtle Cay in the Abaco Islands, Bahamas, during the 1960s. The drink became so popular that it\'s now considered the national cocktail of the Bahamas. "Goombay" refers to a style of Bahamian music and dance with African roots, celebrating the islands\' cultural heritage. Miss Emily\'s original recipe was kept secret for years, and she famously made each drink herself, refusing to let anyone else prepare it. The cocktail gained international fame and is now served throughout the Caribbean, though purists insist the best version is still made at the original Blue Bee Bar.',
+      en: "The Goombay Smash was created by Miss Emily Cooper at her legendary Blue Bee Bar on Green Turtle Cay in the Abaco Islands, Bahamas, during the 1960s. The drink became so popular that it's now considered the national cocktail of the Bahamas. \"Goombay\" refers to a style of Bahamian music and dance with African roots, celebrating the islands' cultural heritage. Miss Emily's original recipe was kept secret for years, and she famously made each drink herself, refusing to let anyone else prepare it. The cocktail gained international fame and is now served throughout the Caribbean, though purists insist the best version is still made at the original Blue Bee Bar.",
       it: 'Il Goombay Smash fu creato da Miss Emily Cooper nel suo leggendario Blue Bee Bar a Green Turtle Cay nelle Isole Abaco, Bahamas, durante gli anni \'60. La bevanda divenne così popolare che ora è considerata il cocktail nazionale delle Bahamas. "Goombay" si riferisce a uno stile di musica e danza bahamense con radici africane, celebrando il patrimonio culturale delle isole. La ricetta originale di Miss Emily fu tenuta segreta per anni, e lei famosamente preparava ogni drink da sola, rifiutandosi di lasciare che chiunque altro lo preparasse. Il cocktail acquisì fama internazionale ed è ora servito in tutti i Caraibi, anche se i puristi insistono che la migliore versione è ancora quella fatta all\'originale Blue Bee Bar.',
       vi: 'Goombay Smash được tạo ra bởi Miss Emily Cooper tại Blue Bee Bar huyền thoại của bà trên Green Turtle Cay ở Quần đảo Abaco, Bahamas, trong những năm 1960. Thức uống trở nên phổ biến đến mức giờ đây được coi là cocktail quốc gia của Bahamas. "Goombay" đề cập đến một phong cách âm nhạc và khiêu vũ Bahamas có nguồn gốc châu Phi, tôn vinh di sản văn hóa của hòn đảo. Công thức gốc của Miss Emily được giữ bí mật trong nhiều năm, và bà nổi tiếng tự pha chế mỗi ly, từ chối để bất kỳ ai khác chuẩn bị. Cocktail trở nên nổi tiếng quốc tế và hiện được phục vụ khắp Caribbean, mặc dù những người theo chủ nghĩa thuần túy khẳng định phiên bản tốt nhất vẫn được pha tại Blue Bee Bar gốc.',
     },
@@ -62,7 +62,7 @@ export const goombaySmash: Cocktail = {
     profile: ['fruity', 'tropical', 'sweet'],
     description: {
       en: 'Complex and tropical with layers of coconut, apricot, pineapple, and citrus. The coconut rum provides a sweet, tropical base while apricot brandy adds depth and sophistication. Dangerously smooth and deceptively strong.',
-      it: 'Complesso e tropicale con strati di cocco, albicocca, ananas e agrumi. Il rum al cocco fornisce una base dolce e tropicale mentre il brandy all\'albicocca aggiunge profondità e raffinatezza. Pericolosamente morbido e ingannevolmente forte.',
+      it: "Complesso e tropicale con strati di cocco, albicocca, ananas e agrumi. Il rum al cocco fornisce una base dolce e tropicale mentre il brandy all'albicocca aggiunge profondità e raffinatezza. Pericolosamente morbido e ingannevolmente forte.",
       vi: 'Phức tạp và nhiệt đới với các lớp dừa, mơ, dứa và cam quýt. Rum dừa cung cấp nền ngọt ngào, nhiệt đới trong khi rượu mơ thêm chiều sâu và sự tinh tế. Mượt mà nguy hiểm và mạnh mẽ lừa dối.',
     },
     first_impression: {
@@ -77,7 +77,7 @@ export const goombaySmash: Cocktail = {
     },
     balance: {
       en: 'Well-balanced sweetness with tropical complexity - the apricot brandy prevents it from being one-dimensional',
-      it: 'Dolcezza ben bilanciata con complessità tropicale - il brandy all\'albicocca impedisce che sia monodimensionale',
+      it: "Dolcezza ben bilanciata con complessità tropicale - il brandy all'albicocca impedisce che sia monodimensionale",
       vi: 'Vị ngọt cân bằng tốt với độ phức tạp nhiệt đới - rượu mơ ngăn không cho nó đơn điệu',
     },
   },
@@ -110,7 +110,7 @@ export const goombaySmash: Cocktail = {
     {
       ingredient_id: 'ING_APRICOT_BRANDY',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Apricot brandy', it: 'Brandy all\'albicocca', vi: 'Rượu mơ' },
+      display_name: { en: 'Apricot brandy', it: "Brandy all'albicocca", vi: 'Rượu mơ' },
     },
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
@@ -120,7 +120,11 @@ export const goombaySmash: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -170,7 +174,14 @@ export const goombaySmash: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -189,7 +200,8 @@ export const goombaySmash: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['frozen-goombay-smash', 'virgin-goombay-smash'],
 
-  notes_for_staff: 'National cocktail of the Bahamas. Original recipe from Miss Emily\'s Blue Bee Bar. The apricot brandy is key to authentic flavor. Can be served frozen. Deceptively strong - warn guests. Some recipes include rum floater on top.',
+  notes_for_staff:
+    "National cocktail of the Bahamas. Original recipe from Miss Emily's Blue Bee Bar. The apricot brandy is key to authentic flavor. Can be served frozen. Deceptively strong - warn guests. Some recipes include rum floater on top.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +214,7 @@ export const goombaySmash: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/goombay-smash/',
-    note: 'National cocktail of Bahamas. Created by Miss Emily Cooper at Blue Bee Bar.',
+    notes: 'National cocktail of Bahamas. Created by Miss Emily Cooper at Blue Bee Bar.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

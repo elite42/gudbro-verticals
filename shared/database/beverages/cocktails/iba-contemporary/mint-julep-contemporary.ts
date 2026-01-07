@@ -34,7 +34,7 @@ export const mintJulepContemporary: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The iconic bourbon cocktail of the American South, traditionally served in a frosted silver cup. Fresh mint, bourbon, and crushed ice create a refreshing masterpiece - the official drink of the Kentucky Derby.',
-    it: 'L\'iconico cocktail a base di bourbon del Sud degli Stati Uniti, tradizionalmente servito in una tazza d\'argento ghiacciata. Menta fresca, bourbon e ghiaccio tritato creano un capolavoro rinfrescante - la bevanda ufficiale del Kentucky Derby.',
+    it: "L'iconico cocktail a base di bourbon del Sud degli Stati Uniti, tradizionalmente servito in una tazza d'argento ghiacciata. Menta fresca, bourbon e ghiaccio tritato creano un capolavoro rinfrescante - la bevanda ufficiale del Kentucky Derby.",
     vi: 'Cocktail bourbon biểu tượng của miền Nam nước Mỹ, truyền thống được phục vụ trong cốc bạc phủ sương. Bạc hà tươi, bourbon và đá nghiền tạo ra một kiệt tác sảng khoái - thức uống chính thức của Kentucky Derby.',
   },
 
@@ -51,7 +51,7 @@ export const mintJulepContemporary: Cocktail = {
     },
     story: {
       en: 'The Mint Julep dates back to the late 1700s in the American South. It became the signature drink of the Kentucky Derby in 1938. Traditionally served in a silver or pewter cup that frosts when filled with crushed ice. The drink is deeply rooted in Southern hospitality and Kentucky bourbon culture.',
-      it: 'Il Mint Julep risale alla fine del 1700 nel Sud degli Stati Uniti. Divenne la bevanda distintiva del Kentucky Derby nel 1938. Tradizionalmente servito in una tazza d\'argento o peltro che si congela quando riempita di ghiaccio tritato. La bevanda è profondamente radicata nell\'ospitalità del Sud e nella cultura del bourbon del Kentucky.',
+      it: "Il Mint Julep risale alla fine del 1700 nel Sud degli Stati Uniti. Divenne la bevanda distintiva del Kentucky Derby nel 1938. Tradizionalmente servito in una tazza d'argento o peltro che si congela quando riempita di ghiaccio tritato. La bevanda è profondamente radicata nell'ospitalità del Sud e nella cultura del bourbon del Kentucky.",
       vi: 'Mint Julep có từ cuối những năm 1700 ở miền Nam nước Mỹ. Nó trở thành thức uống đặc trưng của Kentucky Derby vào năm 1938. Truyền thống được phục vụ trong cốc bạc hoặc thiếc phủ sương khi đổ đầy đá nghiền. Thức uống gắn sâu với lòng hiếu khách miền Nam và văn hóa bourbon Kentucky.',
     },
     named_after: {
@@ -96,7 +96,7 @@ export const mintJulepContemporary: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for bourbon lovers and anyone experiencing Southern hospitality. A must-have for Kentucky Derby parties and summer gatherings.',
-      it: 'Perfetto per gli amanti del bourbon e chiunque sperimenti l\'ospitalità del Sud. Un must per le feste del Kentucky Derby e le riunioni estive.',
+      it: "Perfetto per gli amanti del bourbon e chiunque sperimenti l'ospitalità del Sud. Un must per le feste del Kentucky Derby e le riunioni estive.",
       vi: 'Hoàn hảo cho người yêu bourbon và bất kỳ ai trải nghiệm lòng hiếu khách miền Nam. Bắt buộc phải có cho bữa tiệc Kentucky Derby và tụ tập mùa hè.',
     },
   },
@@ -113,7 +113,11 @@ export const mintJulepContemporary: Cocktail = {
     {
       ingredient_id: 'ING_FRESH_MINT',
       quantity: { amount: 4, unit: 'sprigs' },
-      display_name: { en: 'Fresh mint sprigs', it: 'Rametti di menta fresca', vi: 'Cành bạc hà tươi' },
+      display_name: {
+        en: 'Fresh mint sprigs',
+        it: 'Rametti di menta fresca',
+        vi: 'Cành bạc hà tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -168,7 +172,14 @@ export const mintJulepContemporary: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +198,8 @@ export const mintJulepContemporary: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['georgia-mint-julep', 'mojito', 'whiskey-smash'],
 
-  notes_for_staff: 'Traditionally served in a silver or pewter Julep cup. Muddle mint gently - don\'t over-bruise. Use plenty of crushed ice and stir until cup frosts. The mint bouquet garnish should be large and aromatic. Serve with a short straw so the drinker\'s nose is near the mint. Official drink of Kentucky Derby since 1938.',
+  notes_for_staff:
+    "Traditionally served in a silver or pewter Julep cup. Muddle mint gently - don't over-bruise. Use plenty of crushed ice and stir until cup frosts. The mint bouquet garnish should be large and aromatic. Serve with a short straw so the drinker's nose is near the mint. Official drink of Kentucky Derby since 1938.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +212,7 @@ export const mintJulepContemporary: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/mint-julep/',
-    note: 'IBA Official Recipe. Official drink of the Kentucky Derby.',
+    notes: 'IBA Official Recipe. Official drink of the Kentucky Derby.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

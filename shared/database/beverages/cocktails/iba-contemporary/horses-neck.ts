@@ -15,9 +15,9 @@ export const horsesNeck: Cocktail = {
   stable_key: 'horses_neck_iba_contemporary_classic',
 
   name: {
-    en: 'Horse\'s Neck',
-    it: 'Horse\'s Neck',
-    vi: 'Horse\'s Neck',
+    en: "Horse's Neck",
+    it: "Horse's Neck",
+    vi: "Horse's Neck",
     ko: '호스 넥',
     ja: 'ホーセズネック',
   },
@@ -34,7 +34,7 @@ export const horsesNeck: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A classic highball combining brandy or bourbon with ginger ale, distinguished by its signature long spiral of lemon peel. Simple, refreshing, and elegant - a drink with old-world sophistication.',
-    it: 'Un classico highball che combina brandy o bourbon con ginger ale, distinto dalla sua caratteristica lunga spirale di scorza di limone. Semplice, rinfrescante ed elegante - una bevanda con sofisticazione d\'altri tempi.',
+    it: "Un classico highball che combina brandy o bourbon con ginger ale, distinto dalla sua caratteristica lunga spirale di scorza di limone. Semplice, rinfrescante ed elegante - una bevanda con sofisticazione d'altri tempi.",
     vi: 'Một highball cổ điển kết hợp brandy hoặc bourbon với ginger ale, được phân biệt bởi vỏ chanh xoắn dài đặc trưng. Đơn giản, sảng khoái và thanh lịch - một thức uống với sự tinh tế cổ điển.',
   },
 
@@ -50,12 +50,12 @@ export const horsesNeck: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Horse\'s Neck dates back to the 1890s and was originally a non-alcoholic drink of ginger ale with lemon peel. Brandy was added later, creating the "Horse\'s Neck with a Kick." The distinctive spiral lemon peel garnish gives the drink its name, resembling a horse\'s neck and mane.',
+      en: "The Horse's Neck dates back to the 1890s and was originally a non-alcoholic drink of ginger ale with lemon peel. Brandy was added later, creating the \"Horse's Neck with a Kick.\" The distinctive spiral lemon peel garnish gives the drink its name, resembling a horse's neck and mane.",
       it: 'Il Horse\'s Neck risale agli anni 1890 ed era originariamente una bevanda analcolica di ginger ale con scorza di limone. Il brandy fu aggiunto successivamente, creando il "Horse\'s Neck with a Kick." La caratteristica guarnizione a spirale di scorza di limone dà il nome alla bevanda, che ricorda il collo e la criniera di un cavallo.',
       vi: 'Horse\'s Neck có từ những năm 1890 và ban đầu là một thức uống không cồn gồm ginger ale với vỏ chanh. Brandy được thêm vào sau, tạo ra "Horse\'s Neck with a Kick." Vỏ chanh xoắn đặc biệt làm trang trí mang lại tên gọi cho thức uống, giống như cổ và bờm ngựa.',
     },
     named_after: {
-      en: 'Named after the long spiral lemon peel garnish that resembles a horse\'s neck and mane.',
+      en: "Named after the long spiral lemon peel garnish that resembles a horse's neck and mane.",
       it: 'Prende il nome dalla lunga spirale di scorza di limone che ricorda il collo e la criniera di un cavallo.',
       vi: 'Được đặt tên theo vỏ chanh xoắn dài giống như cổ và bờm ngựa.',
     },
@@ -80,7 +80,7 @@ export const horsesNeck: Cocktail = {
     },
     balance: {
       en: 'Well-balanced between spirit strength and ginger ale effervescence',
-      it: 'Ben bilanciato tra la forza dello spirito e l\'effervescenza del ginger ale',
+      it: "Ben bilanciato tra la forza dello spirito e l'effervescenza del ginger ale",
       vi: 'Cân bằng tốt giữa độ mạnh của rượu và sự sủi bọt của ginger ale',
     },
   },
@@ -108,7 +108,11 @@ export const horsesNeck: Cocktail = {
     {
       ingredient_id: 'ING_BRANDY',
       quantity: { amount: 40, unit: 'ml' },
-      display_name: { en: 'Brandy (or Bourbon)', it: 'Brandy (o Bourbon)', vi: 'Brandy (hoặc Bourbon)' },
+      display_name: {
+        en: 'Brandy (or Bourbon)',
+        it: 'Brandy (o Bourbon)',
+        vi: 'Brandy (hoặc Bourbon)',
+      },
     },
     {
       ingredient_id: 'ING_GINGER_ALE',
@@ -118,7 +122,11 @@ export const horsesNeck: Cocktail = {
     {
       ingredient_id: 'ING_ANGOSTURA_BITTERS',
       quantity: { amount: 1, unit: 'dash' },
-      display_name: { en: 'Angostura bitters (optional)', it: 'Angostura bitter (opzionale)', vi: 'Angostura bitters (tùy chọn)' },
+      display_name: {
+        en: 'Angostura bitters (optional)',
+        it: 'Angostura bitter (opzionale)',
+        vi: 'Angostura bitters (tùy chọn)',
+      },
     },
   ],
 
@@ -163,7 +171,14 @@ export const horsesNeck: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 1,
   },
 
@@ -182,7 +197,8 @@ export const horsesNeck: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['horses-neck-with-bourbon', 'virgin-horses-neck'],
 
-  notes_for_staff: 'The signature garnish is key - create a long spiral of lemon peel from top to bottom of the glass. Can be made with bourbon instead of brandy. The non-alcoholic version was the original.',
+  notes_for_staff:
+    'The signature garnish is key - create a long spiral of lemon peel from top to bottom of the glass. Can be made with bourbon instead of brandy. The non-alcoholic version was the original.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +211,7 @@ export const horsesNeck: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/horses-neck/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

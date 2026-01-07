@@ -33,8 +33,8 @@ export const tuxedo: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A sophisticated variation on the classic Martini that adds maraschino liqueur to dry vermouth and a hint of absinthe to the final mix. The Tuxedo is dry, elegant, and complex - as refined as the formal attire it\'s named after.',
-    it: 'Una sofisticata variazione del classico Martini che aggiunge liquore maraschino al vermouth secco e un tocco di assenzio al mix finale. Il Tuxedo è secco, elegante e complesso - raffinato come l\'abbigliamento formale da cui prende il nome.',
+    en: "A sophisticated variation on the classic Martini that adds maraschino liqueur to dry vermouth and a hint of absinthe to the final mix. The Tuxedo is dry, elegant, and complex - as refined as the formal attire it's named after.",
+    it: "Una sofisticata variazione del classico Martini che aggiunge liquore maraschino al vermouth secco e un tocco di assenzio al mix finale. Il Tuxedo è secco, elegante e complesso - raffinato come l'abbigliamento formale da cui prende il nome.",
     vi: 'Một biến thể tinh tế của Martini cổ điển thêm liqueur maraschino vào vermouth khô và một chút absinthe vào hỗn hợp cuối cùng. Tuxedo khô, thanh lịch và phức tạp - tinh tế như trang phục chính thức mà nó được đặt tên.',
   },
 
@@ -51,12 +51,12 @@ export const tuxedo: Cocktail = {
     },
     story: {
       en: 'The Tuxedo cocktail is believed to have originated at the Tuxedo Club in Tuxedo Park, New York, in the late 1880s - the same exclusive club where the tuxedo dinner jacket was popularized. The drink is a variation on the classic Martini, adding maraschino liqueur and absinthe for extra complexity. It represents the height of pre-Prohibition cocktail sophistication.',
-      it: 'Si ritiene che il cocktail Tuxedo abbia avuto origine al Tuxedo Club di Tuxedo Park, New York, alla fine degli anni 1880 - lo stesso club esclusivo dove fu reso popolare lo smoking. La bevanda è una variazione del classico Martini, aggiungendo liquore maraschino e assenzio per maggiore complessità. Rappresenta l\'apice della sofisticazione cocktail pre-Proibizionismo.',
+      it: "Si ritiene che il cocktail Tuxedo abbia avuto origine al Tuxedo Club di Tuxedo Park, New York, alla fine degli anni 1880 - lo stesso club esclusivo dove fu reso popolare lo smoking. La bevanda è una variazione del classico Martini, aggiungendo liquore maraschino e assenzio per maggiore complessità. Rappresenta l'apice della sofisticazione cocktail pre-Proibizionismo.",
       vi: 'Cocktail Tuxedo được cho là có nguồn gốc tại Tuxedo Club ở Tuxedo Park, New York, vào cuối những năm 1880 - cùng câu lạc bộ độc quyền nơi áo khoác tuxedo được phổ biến. Thức uống là một biến thể của Martini cổ điển, thêm liqueur maraschino và absinthe để tăng độ phức tạp. Nó đại diện cho đỉnh cao của sự tinh tế cocktail trước Cấm rượu.',
     },
     named_after: {
       en: 'Named after the Tuxedo Club in Tuxedo Park, New York, where both the cocktail and the tuxedo formal wear were popularized.',
-      it: 'Prende il nome dal Tuxedo Club di Tuxedo Park, New York, dove sia il cocktail che l\'abbigliamento formale tuxedo furono resi popolari.',
+      it: "Prende il nome dal Tuxedo Club di Tuxedo Park, New York, dove sia il cocktail che l'abbigliamento formale tuxedo furono resi popolari.",
       vi: 'Được đặt tên theo Tuxedo Club ở Tuxedo Park, New York, nơi cả cocktail và trang phục tuxedo đều được phổ biến.',
     },
   },
@@ -118,7 +118,11 @@ export const tuxedo: Cocktail = {
     {
       ingredient_id: 'ING_MARASCHINO',
       quantity: { amount: 5, unit: 'ml' },
-      display_name: { en: 'Maraschino liqueur', it: 'Liquore maraschino', vi: 'Liqueur maraschino' },
+      display_name: {
+        en: 'Maraschino liqueur',
+        it: 'Liquore maraschino',
+        vi: 'Liqueur maraschino',
+      },
     },
     {
       ingredient_id: 'ING_ABSINTHE',
@@ -173,7 +177,14 @@ export const tuxedo: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -192,7 +203,8 @@ export const tuxedo: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['dry-martini', 'martinez', 'aviation'],
 
-  notes_for_staff: 'Stir gently but thoroughly for proper dilution. The equal parts gin and vermouth make this wetter than a modern Martini. Maraschino and absinthe should be subtle - don\'t overdo. Express lemon oils over drink before garnishing.',
+  notes_for_staff:
+    "Stir gently but thoroughly for proper dilution. The equal parts gin and vermouth make this wetter than a modern Martini. Maraschino and absinthe should be subtle - don't overdo. Express lemon oils over drink before garnishing.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +217,8 @@ export const tuxedo: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/tuxedo/',
-    note: 'IBA Official Recipe. Historical information from Tuxedo Club history and pre-Prohibition cocktail documentation.',
+    notes:
+      'IBA Official Recipe. Historical information from Tuxedo Club history and pre-Prohibition cocktail documentation.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

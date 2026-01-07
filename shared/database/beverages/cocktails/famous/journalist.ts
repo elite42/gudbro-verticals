@@ -31,7 +31,7 @@ export const journalist: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A complex, aromatic cocktail featuring gin, sweet and dry vermouth, orange curaçao, lemon juice, and Angostura bitters. The Journalist is a sophisticated blend of botanical, citrus, and herbal notes with perfect balance.',
-    it: 'Un cocktail complesso e aromatico con gin, vermut dolce e secco, curaçao all\'arancia, succo di limone e bitter Angostura. Il Giornalista è una miscela sofisticata di note botaniche, agrumate ed erbacee con equilibrio perfetto.',
+    it: "Un cocktail complesso e aromatico con gin, vermut dolce e secco, curaçao all'arancia, succo di limone e bitter Angostura. Il Giornalista è una miscela sofisticata di note botaniche, agrumate ed erbacee con equilibrio perfetto.",
     vi: 'Một loại cocktail phức tạp, thơm với gin, vermouth ngọt và khô, curaçao cam, nước chanh và Angostura bitters. Journalist là sự pha trộn tinh tế của các nốt thực vật, cam quýt và thảo mộc với sự cân bằng hoàn hảo.',
   },
 
@@ -53,7 +53,7 @@ export const journalist: Cocktail = {
     },
     named_after: {
       en: 'Likely named after journalists of the 1920s-30s, who were known for their appreciation of sophisticated cocktails and late-night drinking culture.',
-      it: 'Probabilmente prende il nome dai giornalisti degli anni \'20-\'30, noti per il loro apprezzamento dei cocktail sofisticati e della cultura del bere notturno.',
+      it: "Probabilmente prende il nome dai giornalisti degli anni '20-'30, noti per il loro apprezzamento dei cocktail sofisticati e della cultura del bere notturno.",
       vi: 'Có thể được đặt theo tên các nhà báo những năm 1920-30, những người nổi tiếng với sự đánh giá cao các loại cocktail tinh tế và văn hóa uống rượu đêm khuya.',
     },
   },
@@ -61,7 +61,7 @@ export const journalist: Cocktail = {
   taste: {
     profile: ['complex', 'botanical', 'balanced'],
     description: {
-      en: 'Beautifully complex with gin\'s botanicals, dual vermouth balance, bright citrus from lemon and curaçao, and aromatic bitters tying everything together. Dry yet rounded with layered sophistication.',
+      en: "Beautifully complex with gin's botanicals, dual vermouth balance, bright citrus from lemon and curaçao, and aromatic bitters tying everything together. Dry yet rounded with layered sophistication.",
       it: 'Magnificamente complesso con i botanici del gin, equilibrio doppio del vermut, agrumi brillanti dal limone e curaçao, e bitter aromatici che legano tutto insieme. Secco ma rotondo con sofisticazione stratificata.',
       vi: 'Phức tạp tuyệt đẹp với thực vật của gin, cân bằng vermouth kép, cam quýt tươi sáng từ chanh và curaçao, và bitters thơm gắn kết mọi thứ lại với nhau. Khô nhưng tròn trịa với sự tinh tế nhiều lớp.',
     },
@@ -93,7 +93,7 @@ export const journalist: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for gin connoisseurs who appreciate complex, aromatic cocktails. Ideal for those seeking a sophisticated alternative to the Martini with more depth and character.',
-      it: 'Perfetto per intenditori di gin che apprezzano cocktail complessi e aromatici. Ideale per chi cerca un\'alternativa sofisticata al Martini con più profondità e carattere.',
+      it: "Perfetto per intenditori di gin che apprezzano cocktail complessi e aromatici. Ideale per chi cerca un'alternativa sofisticata al Martini con più profondità e carattere.",
       vi: 'Hoàn hảo cho người sành gin đánh giá cao các loại cocktail phức tạp, thơm. Lý tưởng cho những ai tìm kiếm giải pháp thay thế tinh tế cho Martini với nhiều chiều sâu và tính cách hơn.',
     },
   },
@@ -120,12 +120,16 @@ export const journalist: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_CURACAO',
       quantity: { amount: 7.5, unit: 'ml' },
-      display_name: { en: 'Orange curaçao', it: 'Curaçao all\'arancia', vi: 'Curaçao cam' },
+      display_name: { en: 'Orange curaçao', it: "Curaçao all'arancia", vi: 'Curaçao cam' },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 7.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ANGOSTURA_BITTERS',
@@ -175,7 +179,14 @@ export const journalist: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -194,7 +205,8 @@ export const journalist: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['improved-journalist'],
 
-  notes_for_staff: 'Use quality vermouths - they make or break this drink. Fresh lemon juice essential. The dual vermouth creates unique balance. Express lemon oils generously. This is a sophisticated aperitif, not a party drink.',
+  notes_for_staff:
+    'Use quality vermouths - they make or break this drink. Fresh lemon juice essential. The dual vermouth creates unique balance. Express lemon oils generously. This is a sophisticated aperitif, not a party drink.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -207,7 +219,8 @@ export const journalist: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1338/journalist',
-    note: 'Harry Craddock\'s "The Savoy Cocktail Book" (1930). Classic sophisticated gin cocktail.',
+    notes:
+      'Harry Craddock\'s "The Savoy Cocktail Book" (1930). Classic sophisticated gin cocktail.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

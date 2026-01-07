@@ -30,8 +30,8 @@ export const industrySour: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A bartender\'s favorite and modern classic, the Industry Sour combines bourbon or rye with Green Chartreuse and Fernet-Branca, creating a complex, herbal, bitter-sweet whiskey sour. Named for the hospitality industry, this drink is beloved by bar professionals for its sophisticated balance of sweet, sour, herbal, and bitter elements.',
-    it: 'Un favorito dei barman e classico moderno, l\'Industry Sour combina bourbon o rye con Green Chartreuse e Fernet-Branca, creando un whiskey sour complesso, erbaceo e agrodolce. Prende il nome dall\'industria dell\'ospitalità, questa bevanda è amata dai professionisti del bar per il suo sofisticato equilibrio di elementi dolci, aspri, erbacei e amari.',
+    en: "A bartender's favorite and modern classic, the Industry Sour combines bourbon or rye with Green Chartreuse and Fernet-Branca, creating a complex, herbal, bitter-sweet whiskey sour. Named for the hospitality industry, this drink is beloved by bar professionals for its sophisticated balance of sweet, sour, herbal, and bitter elements.",
+    it: "Un favorito dei barman e classico moderno, l'Industry Sour combina bourbon o rye con Green Chartreuse e Fernet-Branca, creando un whiskey sour complesso, erbaceo e agrodolce. Prende il nome dall'industria dell'ospitalità, questa bevanda è amata dai professionisti del bar per il suo sofisticato equilibrio di elementi dolci, aspri, erbacei e amari.",
     vi: 'Một tác phẩm yêu thích của bartender và cổ điển hiện đại, Industry Sour kết hợp bourbon hoặc rye với Green Chartreuse và Fernet-Branca, tạo ra whiskey sour phức tạp, thảo mộc, đắng-ngọt. Được đặt tên theo ngành khách sạn, thức uống này được các chuyên gia quầy bar yêu thích vì sự cân bằng tinh tế của các yếu tố ngọt, chua, thảo mộc và đắng.',
   },
 
@@ -48,12 +48,12 @@ export const industrySour: Cocktail = {
     },
     story: {
       en: 'The Industry Sour was created around 2011 by bartender Dave Arnold at Booker and Dax in New York City. Arnold wanted to create a drink specifically for industry professionals - bartenders, servers, and hospitality workers - who appreciate complex, bitter flavors. By combining whiskey with Green Chartreuse (a bartender favorite) and Fernet-Branca (the "bartender\'s handshake"), he created a sophisticated sour that became a cult favorite among industry insiders. The name directly references the hospitality industry, and the drink is often served as a shift drink or late-night favorite.',
-      it: 'L\'Industry Sour fu creato intorno al 2011 dal barman Dave Arnold al Booker and Dax di New York City. Arnold voleva creare una bevanda specificamente per i professionisti del settore - barman, camerieri e lavoratori dell\'ospitalità - che apprezzano sapori complessi e amari. Combinando whiskey con Green Chartreuse (un favorito dei barman) e Fernet-Branca (la "stretta di mano del barman"), creò un sour sofisticato che divenne un favorito di culto tra gli addetti ai lavori. Il nome fa riferimento direttamente all\'industria dell\'ospitalità, e la bevanda è spesso servita come bevanda di fine turno o favorita della notte fonda.',
+      it: "L'Industry Sour fu creato intorno al 2011 dal barman Dave Arnold al Booker and Dax di New York City. Arnold voleva creare una bevanda specificamente per i professionisti del settore - barman, camerieri e lavoratori dell'ospitalità - che apprezzano sapori complessi e amari. Combinando whiskey con Green Chartreuse (un favorito dei barman) e Fernet-Branca (la \"stretta di mano del barman\"), creò un sour sofisticato che divenne un favorito di culto tra gli addetti ai lavori. Il nome fa riferimento direttamente all'industria dell'ospitalità, e la bevanda è spesso servita come bevanda di fine turno o favorita della notte fonda.",
       vi: 'Industry Sour được tạo ra vào khoảng năm 2011 bởi bartender Dave Arnold tại Booker and Dax ở New York City. Arnold muốn tạo ra một thức uống đặc biệt cho các chuyên gia ngành - bartender, phục vụ và nhân viên khách sạn - những người đánh giá cao hương vị phức tạp, đắng. Bằng cách kết hợp whiskey với Green Chartreuse (yêu thích của bartender) và Fernet-Branca ("cái bắt tay của bartender"), ông đã tạo ra một sour tinh tế trở thành tác phẩm yêu thích trong giới nội bộ. Tên gọi trực tiếp ám chỉ ngành khách sạn, và thức uống thường được phục vụ như đồ uống sau ca hoặc yêu thích đêm khuya.',
     },
     named_after: {
       en: 'Named after "the industry" - a term for hospitality and bar professionals. It\'s made by the industry, for the industry.',
-      it: 'Prende il nome da "l\'industria" - un termine per i professionisti dell\'ospitalità e del bar. È fatto dall\'industria, per l\'industria.',
+      it: "Prende il nome da \"l'industria\" - un termine per i professionisti dell'ospitalità e del bar. È fatto dall'industria, per l'industria.",
       vi: 'Được đặt tên theo "ngành" - thuật ngữ cho các chuyên gia khách sạn và quầy bar. Nó được làm bởi ngành, cho ngành.',
     },
   },
@@ -66,7 +66,7 @@ export const industrySour: Cocktail = {
       vi: 'Cực kỳ phức tạp và tinh tế. Bourbon hoặc rye cung cấp cơ sở whiskey phong phú, trong khi Green Chartreuse thêm vị ngọt thảo mộc và độ phức tạp. Fernet-Branca đóng góp vị đắng bạc hà-khuynh diệp cắt qua vị ngọt. Chanh tươi thêm độ tươi sáng, và siro đường cân bằng các yếu tố đắng. Phức tạp và đáng suy ngẫm hơn whiskey sour tiêu chuẩn, với nhiều tầng hương thảo mộc, đắng, ngọt và chua.',
     },
     first_impression: {
-      en: 'Herbal Chartreuse and whiskey hit first, followed by Fernet\'s menthol bite',
+      en: "Herbal Chartreuse and whiskey hit first, followed by Fernet's menthol bite",
       it: 'Chartreuse erbaceo e whiskey colpiscono per primi, seguiti dal morso mentolato del Fernet',
       vi: 'Chartreuse thảo mộc và whiskey đập vào đầu tiên, tiếp theo là vị bạc hà gắt của Fernet',
     },
@@ -105,7 +105,11 @@ export const industrySour: Cocktail = {
     {
       ingredient_id: 'ING_BOURBON',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Bourbon or rye whiskey', it: 'Bourbon o rye whiskey', vi: 'Bourbon hoặc rye whiskey' },
+      display_name: {
+        en: 'Bourbon or rye whiskey',
+        it: 'Bourbon o rye whiskey',
+        vi: 'Bourbon hoặc rye whiskey',
+      },
     },
     {
       ingredient_id: 'ING_GREEN_CHARTREUSE',
@@ -120,7 +124,11 @@ export const industrySour: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -179,7 +187,12 @@ export const industrySour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'vegan', 'gluten-free', 'dairy-free'],
   season_tags: ['autumn', 'winter', 'spring', 'summer'],
-  occasion_tags: ['industry_gathering', 'digestivo', 'contemplative_drinking', 'bartender_favorite'],
+  occasion_tags: [
+    'industry_gathering',
+    'digestivo',
+    'contemplative_drinking',
+    'bartender_favorite',
+  ],
 
   is_mocktail: false,
   is_signature: false,
@@ -189,7 +202,8 @@ export const industrySour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['toronto', 'greenpoint', 'chartreuse-swizzle'],
 
-  notes_for_staff: 'Bartender favorite - often served as shift drink. Use fresh lemon juice only. Fernet amount is crucial - too much overwhelms. Can use bourbon or rye. Green Chartreuse essential. Popular late-night industry drink.',
+  notes_for_staff:
+    'Bartender favorite - often served as shift drink. Use fresh lemon juice only. Fernet amount is crucial - too much overwhelms. Can use bourbon or rye. Green Chartreuse essential. Popular late-night industry drink.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +216,8 @@ export const industrySour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://punchdrink.com/recipes/industry-sour/',
-    note: 'Created by Dave Arnold at Booker and Dax, New York City, circa 2011. A modern bartender favorite.',
+    notes:
+      'Created by Dave Arnold at Booker and Dax, New York City, circa 2011. A modern bartender favorite.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

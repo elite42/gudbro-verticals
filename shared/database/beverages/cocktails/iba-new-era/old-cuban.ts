@@ -34,7 +34,7 @@ export const oldCuban: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'An elegant marriage of Mojito and French 75, the Old Cuban combines aged rum with fresh mint, lime, and Champagne. This sophisticated cocktail showcases the evolution of classic Cuban cocktail culture.',
-    it: 'Un elegante matrimonio tra Mojito e French 75, l\'Old Cuban combina rum invecchiato con menta fresca, lime e Champagne. Questo cocktail sofisticato mostra l\'evoluzione della classica cultura dei cocktail cubani.',
+    it: "Un elegante matrimonio tra Mojito e French 75, l'Old Cuban combina rum invecchiato con menta fresca, lime e Champagne. Questo cocktail sofisticato mostra l'evoluzione della classica cultura dei cocktail cubani.",
     vi: 'Sự kết hợp thanh lịch giữa Mojito và French 75, Old Cuban kết hợp rum lâu năm với bạc hà tươi, chanh và Champagne. Cocktail tinh tế này thể hiện sự phát triển của văn hóa cocktail Cuba cổ điển.',
   },
 
@@ -178,7 +178,14 @@ export const oldCuban: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -197,7 +204,8 @@ export const oldCuban: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: [],
 
-  notes_for_staff: 'Muddle mint gently to avoid bitterness. Use aged rum for complexity. Add Champagne last to preserve bubbles. Double strain to remove mint particles.',
+  notes_for_staff:
+    'Muddle mint gently to avoid bitterness. Use aged rum for complexity. Add Champagne last to preserve bubbles. Double strain to remove mint particles.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -210,7 +218,7 @@ export const oldCuban: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/old-cuban/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -53,7 +53,7 @@ export const portLight: Cocktail = {
     },
     named_after: {
       en: 'Named after the red port light on the left side of ships, a maritime navigation reference fitting the wartime era.',
-      it: 'Prende il nome dalla luce rossa di babordo sul lato sinistro delle navi, un riferimento alla navigazione marittima appropriato all\'era bellica.',
+      it: "Prende il nome dalla luce rossa di babordo sul lato sinistro delle navi, un riferimento alla navigazione marittima appropriato all'era bellica.",
       vi: 'Được đặt theo tên đèn cảng đỏ ở phía bên trái của tàu, một tham chiếu điều hướng hàng hải phù hợp với thời kỳ chiến tranh.',
     },
   },
@@ -61,8 +61,8 @@ export const portLight: Cocktail = {
   taste: {
     profile: ['complex', 'honeyed', 'tropical'],
     description: {
-      en: 'Remarkably complex with bourbon\'s oak and vanilla notes playing against tropical passion fruit and honey. The Port Light creates an unexpected harmony between whiskey warmth and rum\'s tropical character, unified by honeyed sweetness and bright citrus. A sophisticated crossover between tiki and classic American cocktails.',
-      it: 'Notevolmente complesso con le note di quercia e vaniglia del bourbon che giocano contro il frutto della passione tropicale e il miele. Il Port Light crea un\'armonia inaspettata tra il calore del whiskey e il carattere tropicale del rum, unificati dalla dolcezza del miele e dagli agrumi brillanti. Un sofisticato incrocio tra tiki e cocktail americani classici.',
+      en: "Remarkably complex with bourbon's oak and vanilla notes playing against tropical passion fruit and honey. The Port Light creates an unexpected harmony between whiskey warmth and rum's tropical character, unified by honeyed sweetness and bright citrus. A sophisticated crossover between tiki and classic American cocktails.",
+      it: "Notevolmente complesso con le note di quercia e vaniglia del bourbon che giocano contro il frutto della passione tropicale e il miele. Il Port Light crea un'armonia inaspettata tra il calore del whiskey e il carattere tropicale del rum, unificati dalla dolcezza del miele e dagli agrumi brillanti. Un sofisticato incrocio tra tiki e cocktail americani classici.",
       vi: 'Phức tạp đáng chú ý với hương gỗ sồi và vani của bourbon chơi chống lại chanh dây nhiệt đới và mật ong. Port Light tạo ra sự hòa hợp bất ngờ giữa sự ấm áp của whiskey và đặc tính nhiệt đới của rum, được thống nhất bởi vị ngọt mật ong và cam quýt sáng. Một sự kết hợp tinh tế giữa cocktail tiki và cocktail Mỹ cổ điển.',
     },
     first_impression: {
@@ -77,7 +77,7 @@ export const portLight: Cocktail = {
     },
     balance: {
       en: 'Brilliantly balanced between American whiskey tradition and tropical tiki innovation',
-      it: 'Brillantemente bilanciato tra la tradizione americana del whiskey e l\'innovazione tiki tropicale',
+      it: "Brillantemente bilanciato tra la tradizione americana del whiskey e l'innovazione tiki tropicale",
       vi: 'Cân bằng xuất sắc giữa truyền thống whiskey Mỹ và đổi mới tiki nhiệt đới',
     },
   },
@@ -105,7 +105,11 @@ export const portLight: Cocktail = {
     {
       ingredient_id: 'ING_RUM_DARK',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Dark rum (Jamaican)', it: 'Rum scuro (giamaicano)', vi: 'Rum đen (Jamaica)' },
+      display_name: {
+        en: 'Dark rum (Jamaican)',
+        it: 'Rum scuro (giamaicano)',
+        vi: 'Rum đen (Jamaica)',
+      },
     },
     {
       ingredient_id: 'ING_BOURBON',
@@ -115,12 +119,20 @@ export const portLight: Cocktail = {
     {
       ingredient_id: 'ING_PASSION_FRUIT_SYRUP',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Passion fruit syrup', it: 'Sciroppo di frutto della passione', vi: 'Xi-rô chanh dây' },
+      display_name: {
+        en: 'Passion fruit syrup',
+        it: 'Sciroppo di frutto della passione',
+        vi: 'Xi-rô chanh dây',
+      },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước chanh xanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước chanh xanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_HONEY_SYRUP',
@@ -170,7 +182,14 @@ export const portLight: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 1,
   },
 
@@ -189,7 +208,8 @@ export const portLight: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['don-the-beachcomber-port-light'],
 
-  notes_for_staff: 'Created by Don the Beachcomber circa 1941. Unique rum-bourbon combination - explain this unusual pairing to guests. Use high-quality bourbon for best results. Can substitute passion fruit purée for syrup. Honey syrup is 1:1 honey to water. Great bridge drink for whiskey lovers exploring tiki.',
+  notes_for_staff:
+    'Created by Don the Beachcomber circa 1941. Unique rum-bourbon combination - explain this unusual pairing to guests. Use high-quality bourbon for best results. Can substitute passion fruit purée for syrup. Honey syrup is 1:1 honey to water. Great bridge drink for whiskey lovers exploring tiki.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +222,8 @@ export const portLight: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://beachbumberry.com/port-light.html',
-    note: 'Original Don the Beachcomber recipe circa 1941, decoded by Jeff "Beachbum" Berry in Sippin\' Safari.',
+    notes:
+      'Original Don the Beachcomber recipe circa 1941, decoded by Jeff "Beachbum" Berry in Sippin\' Safari.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

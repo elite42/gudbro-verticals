@@ -30,8 +30,8 @@ export const divisionBell: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A modern classic in the Last Word family, the Division Bell combines mezcal\'s smoke with Aperol\'s bitter orange and Chartreuse\'s herbal complexity. Created by Phil Ward, this equal-parts cocktail is beautifully balanced, smoky, and refreshingly bitter-sweet with a distinctive pink-orange hue.',
-    it: 'Un classico moderno nella famiglia del Last Word, il Division Bell combina il fumo del mezcal con l\'arancia amara dell\'Aperol e la complessità erbaccea del Chartreuse. Creato da Phil Ward, questo cocktail a parti uguali è magnificamente bilanciato, affumicato e rinfrescantemente amaro-dolce con una distintiva tonalità rosa-arancio.',
+    en: "A modern classic in the Last Word family, the Division Bell combines mezcal's smoke with Aperol's bitter orange and Chartreuse's herbal complexity. Created by Phil Ward, this equal-parts cocktail is beautifully balanced, smoky, and refreshingly bitter-sweet with a distinctive pink-orange hue.",
+    it: "Un classico moderno nella famiglia del Last Word, il Division Bell combina il fumo del mezcal con l'arancia amara dell'Aperol e la complessità erbaccea del Chartreuse. Creato da Phil Ward, questo cocktail a parti uguali è magnificamente bilanciato, affumicato e rinfrescantemente amaro-dolce con una distintiva tonalità rosa-arancio.",
     vi: 'Một tác phẩm cổ điển hiện đại trong gia đình Last Word, Division Bell kết hợp khói của mezcal với cam đắng của Aperol và độ phức tạp thảo mộc của Chartreuse. Được tạo ra bởi Phil Ward, cocktail phần bằng nhau này cân bằng tuyệt đẹp, khói và đắng-ngọt sảng khoái với màu hồng-cam đặc trưng.',
   },
 
@@ -47,7 +47,7 @@ export const divisionBell: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Phil Ward created the Division Bell in 2009 at Mayahuel, a mezcal-focused bar in New York City. Following his successful Final Ward (rye variation of Last Word), Ward wanted to create another member of the Last Word family using mezcal. He combined mezcal with Aperol and Chartreuse in equal parts with lime, creating a drink that\'s smoky, herbal, and bittersweet. The name references Pink Floyd\'s album "The Division Bell," inspired by the cocktail\'s distinctive pink-orange color. It quickly became a modern classic and essential template for equal-parts cocktails.',
+      en: "Phil Ward created the Division Bell in 2009 at Mayahuel, a mezcal-focused bar in New York City. Following his successful Final Ward (rye variation of Last Word), Ward wanted to create another member of the Last Word family using mezcal. He combined mezcal with Aperol and Chartreuse in equal parts with lime, creating a drink that's smoky, herbal, and bittersweet. The name references Pink Floyd's album \"The Division Bell,\" inspired by the cocktail's distinctive pink-orange color. It quickly became a modern classic and essential template for equal-parts cocktails.",
       it: 'Phil Ward creò il Division Bell nel 2009 al Mayahuel, un bar incentrato sul mezcal a New York City. Dopo il suo successo Final Ward (variante al rye del Last Word), Ward voleva creare un altro membro della famiglia Last Word usando il mezcal. Combinò il mezcal con Aperol e Chartreuse in parti uguali con lime, creando una bevanda affumicata, erbacea e agrodolce. Il nome fa riferimento all\'album dei Pink Floyd "The Division Bell," ispirato dal distintivo colore rosa-arancio del cocktail. Divenne rapidamente un classico moderno e modello essenziale per i cocktail a parti uguali.',
       vi: 'Phil Ward đã tạo ra Division Bell vào năm 2009 tại Mayahuel, một quán bar tập trung vào mezcal ở New York City. Sau thành công của Final Ward (biến thể rye của Last Word), Ward muốn tạo ra một thành viên khác của gia đình Last Word sử dụng mezcal. Ông kết hợp mezcal với Aperol và Chartreuse theo phần bằng nhau với chanh, tạo ra thức uống khói, thảo mộc và đắng ngọt. Tên gọi ám chỉ album "The Division Bell" của Pink Floyd, lấy cảm hứng từ màu hồng-cam đặc trưng của cocktail. Nó nhanh chóng trở thành tác phẩm cổ điển hiện đại và mẫu thiết yếu cho cocktail phần bằng nhau.',
     },
@@ -62,7 +62,7 @@ export const divisionBell: Cocktail = {
     profile: ['smoky', 'bitter', 'herbal', 'citrus'],
     description: {
       en: 'Complex and beautifully balanced. Mezcal provides earthy, smoky depth, while Aperol contributes bitter-sweet orange notes. Yellow Chartreuse adds herbal sweetness and complexity, and fresh lime brings brightness. The equal-parts formula creates a drink where smoke, bitter, herbal, and citrus elements harmonize perfectly. More approachable than the intense Final Ward, with a refreshing quality.',
-      it: 'Complesso e magnificamente bilanciato. Il mezcal fornisce profondità terrosa e affumicata, mentre l\'Aperol contribuisce con note amare-dolci di arancia. Il Yellow Chartreuse aggiunge dolcezza erbacea e complessità, e il lime fresco porta brillantezza. La formula a parti uguali crea una bevanda dove gli elementi affumicati, amari, erbacei e agrumati si armonizzano perfettamente. Più accessibile dell\'intenso Final Ward, con una qualità rinfrescante.',
+      it: "Complesso e magnificamente bilanciato. Il mezcal fornisce profondità terrosa e affumicata, mentre l'Aperol contribuisce con note amare-dolci di arancia. Il Yellow Chartreuse aggiunge dolcezza erbacea e complessità, e il lime fresco porta brillantezza. La formula a parti uguali crea una bevanda dove gli elementi affumicati, amari, erbacei e agrumati si armonizzano perfettamente. Più accessibile dell'intenso Final Ward, con una qualità rinfrescante.",
       vi: 'Phức tạp và cân bằng tuyệt đẹp. Mezcal cung cấp độ sâu đất, khói, trong khi Aperol đóng góp hương cam đắng-ngọt. Yellow Chartreuse thêm vị ngọt thảo mộc và độ phức tạp, và chanh tươi mang lại độ tươi sáng. Công thức phần bằng nhau tạo ra thức uống nơi các yếu tố khói, đắng, thảo mộc và cam quýt hòa quyện hoàn hảo. Dễ tiếp cận hơn Final Ward mạnh mẽ, với chất lượng sảng khoái.',
     },
     first_impression: {
@@ -93,7 +93,7 @@ export const divisionBell: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for mezcal lovers and fans of the Last Word family. Ideal for those who enjoy bitter cocktails with complexity. Great for aperitivo hour and summer evenings. A must-try for anyone exploring modern classics.',
-      it: 'Perfetto per gli amanti del mezcal e i fan della famiglia Last Word. Ideale per chi ama i cocktail amari con complessità. Ottimo per l\'ora dell\'aperitivo e le serate estive. Da provare assolutamente per chiunque esplori i classici moderni.',
+      it: "Perfetto per gli amanti del mezcal e i fan della famiglia Last Word. Ideale per chi ama i cocktail amari con complessità. Ottimo per l'ora dell'aperitivo e le serate estive. Da provare assolutamente per chiunque esplori i classici moderni.",
       vi: 'Hoàn hảo cho những người yêu mezcal và người hâm mộ gia đình Last Word. Lý tưởng cho những ai thích cocktail đắng với độ phức tạp. Tuyệt vời cho giờ aperitivo và buổi tối mùa hè. Bắt buộc phải thử cho bất kỳ ai khám phá tác phẩm cổ điển hiện đại.',
     },
   },
@@ -184,7 +184,8 @@ export const divisionBell: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['last-word', 'final-ward', 'naked-and-famous'],
 
-  notes_for_staff: 'Equal parts formula - precision essential. Use Yellow Chartreuse, not Green. Fresh lime juice only. Part of the Last Word family alongside Final Ward and Naked & Famous. Pink-orange color is signature - presentation matters.',
+  notes_for_staff:
+    'Equal parts formula - precision essential. Use Yellow Chartreuse, not Green. Fresh lime juice only. Part of the Last Word family alongside Final Ward and Naked & Famous. Pink-orange color is signature - presentation matters.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +198,7 @@ export const divisionBell: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://punchdrink.com/recipes/division-bell/',
-    note: 'Created by Phil Ward at Mayahuel, New York City, 2009.',
+    notes: 'Created by Phil Ward at Mayahuel, New York City, 2009.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

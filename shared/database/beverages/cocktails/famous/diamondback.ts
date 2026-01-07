@@ -47,13 +47,13 @@ export const diamondback: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Diamondback was created at Baltimore\'s Lord Baltimore Hotel in 1951. Named after the diamondback terrapin, Maryland\'s state reptile, this cocktail celebrates local ingredients - particularly applejack, which was popular in the Mid-Atlantic region. The drink gained renewed attention during the modern craft cocktail renaissance.',
-      it: 'Il Diamondback fu creato al Lord Baltimore Hotel di Baltimora nel 1951. Prende il nome dalla tartaruga diamondback, il rettile di stato del Maryland, questo cocktail celebra ingredienti locali - in particolare l\'applejack, che era popolare nella regione del Mid-Atlantic. Il drink ha guadagnato rinnovata attenzione durante il rinascimento moderno dei cocktail artigianali.',
+      en: "The Diamondback was created at Baltimore's Lord Baltimore Hotel in 1951. Named after the diamondback terrapin, Maryland's state reptile, this cocktail celebrates local ingredients - particularly applejack, which was popular in the Mid-Atlantic region. The drink gained renewed attention during the modern craft cocktail renaissance.",
+      it: "Il Diamondback fu creato al Lord Baltimore Hotel di Baltimora nel 1951. Prende il nome dalla tartaruga diamondback, il rettile di stato del Maryland, questo cocktail celebra ingredienti locali - in particolare l'applejack, che era popolare nella regione del Mid-Atlantic. Il drink ha guadagnato rinnovata attenzione durante il rinascimento moderno dei cocktail artigianali.",
       vi: 'Diamondback được tạo ra tại Lord Baltimore Hotel của Baltimore năm 1951. Được đặt theo tên rùa diamondback, loài bò sát của bang Maryland, cocktail này ca ngợi các nguyên liệu địa phương - đặc biệt là applejack, phổ biến ở khu vực Mid-Atlantic. Thức uống được quan tâm trở lại trong thời kỳ phục hưng cocktail thủ công hiện đại.',
     },
     named_after: {
-      en: 'Named after the diamondback terrapin, Maryland\'s state reptile, celebrating the cocktail\'s Baltimore heritage.',
-      it: 'Prende il nome dalla tartaruga diamondback, il rettile di stato del Maryland, celebrando l\'eredità di Baltimora del cocktail.',
+      en: "Named after the diamondback terrapin, Maryland's state reptile, celebrating the cocktail's Baltimore heritage.",
+      it: "Prende il nome dalla tartaruga diamondback, il rettile di stato del Maryland, celebrando l'eredità di Baltimora del cocktail.",
       vi: 'Được đặt theo tên rùa diamondback, loài bò sát của bang Maryland, ca ngợi di sản Baltimore của cocktail.',
     },
   },
@@ -61,8 +61,8 @@ export const diamondback: Cocktail = {
   taste: {
     profile: ['spirit-forward', 'complex', 'herbal'],
     description: {
-      en: 'Bold and complex with rye\'s spicy backbone, applejack\'s fruity depth, and Chartreuse\'s distinctive herbal notes. Spirit-forward yet balanced, with layers of flavor unfolding with each sip.',
-      it: 'Audace e complesso con la struttura speziata della segale, la profondità fruttata dell\'applejack e le distintive note erbacee del Chartreuse. A base di spiriti ma bilanciato, con strati di sapore che si svelano ad ogni sorso.',
+      en: "Bold and complex with rye's spicy backbone, applejack's fruity depth, and Chartreuse's distinctive herbal notes. Spirit-forward yet balanced, with layers of flavor unfolding with each sip.",
+      it: "Audace e complesso con la struttura speziata della segale, la profondità fruttata dell'applejack e le distintive note erbacee del Chartreuse. A base di spiriti ma bilanciato, con strati di sapore che si svelano ad ogni sorso.",
       vi: 'Đậm đà và phức tạp với xương sống cay của rye, chiều sâu trái cây của applejack và các nốt thảo mộc đặc trưng của Chartreuse. Hướng đến rượu mạnh nhưng cân bằng, với các lớp hương vị mở ra với mỗi ngụm.',
     },
     first_impression: {
@@ -93,7 +93,7 @@ export const diamondback: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for whiskey lovers who appreciate complex, spirit-forward cocktails. An excellent choice for those seeking sophisticated alternatives to the Manhattan.',
-      it: 'Perfetto per gli amanti del whisky che apprezzano cocktail complessi a base di spiriti. Un\'ottima scelta per chi cerca alternative sofisticate al Manhattan.',
+      it: "Perfetto per gli amanti del whisky che apprezzano cocktail complessi a base di spiriti. Un'ottima scelta per chi cerca alternative sofisticate al Manhattan.",
       vi: 'Hoàn hảo cho người yêu whiskey đánh giá cao các loại cocktail phức tạp, hướng đến rượu mạnh. Lựa chọn tuyệt vời cho những ai tìm kiếm giải pháp thay thế tinh tế cho Manhattan.',
     },
   },
@@ -160,7 +160,14 @@ export const diamondback: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -179,7 +186,8 @@ export const diamondback: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['improved-diamondback'],
 
-  notes_for_staff: 'Use bonded applejack (Laird\'s Bottled in Bond) for best results. Yellow Chartreuse is essential - do not substitute green. The 2:1:1 ratio creates perfect balance. Stir well to achieve proper dilution.',
+  notes_for_staff:
+    "Use bonded applejack (Laird's Bottled in Bond) for best results. Yellow Chartreuse is essential - do not substitute green. The 2:1:1 ratio creates perfect balance. Stir well to achieve proper dilution.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +200,8 @@ export const diamondback: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1276/diamondback',
-    note: 'Created at Lord Baltimore Hotel, 1951. Celebrates Maryland\'s diamondback terrapin and local applejack tradition.',
+    notes:
+      "Created at Lord Baltimore Hotel, 1951. Celebrates Maryland's diamondback terrapin and local applejack tradition.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

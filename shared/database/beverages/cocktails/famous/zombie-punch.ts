@@ -31,7 +31,7 @@ export const zombiePunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A large-format party version of the legendary Zombie cocktail, featuring multiple rums with tropical fruit juices and exotic spices. The Zombie Punch is notoriously potent yet deceptively smooth, designed to serve a crowd while maintaining the complex character of the original.',
-    it: 'Una versione da festa in formato grande del leggendario cocktail Zombie, con più rum, succhi di frutta tropicale e spezie esotiche. Il Punch Zombie è notoriamente potente ma ingannevolmente morbido, progettato per servire una folla mantenendo il carattere complesso dell\'originale.',
+    it: "Una versione da festa in formato grande del leggendario cocktail Zombie, con più rum, succhi di frutta tropicale e spezie esotiche. Il Punch Zombie è notoriamente potente ma ingannevolmente morbido, progettato per servire una folla mantenendo il carattere complesso dell'originale.",
     vi: 'Phiên bản tiệc định dạng lớn của cocktail Zombie huyền thoại, có nhiều loại rum với nước ép trái cây nhiệt đới và gia vị kỳ lạ. Zombie Punch nổi tiếng mạnh mẽ nhưng mượt mà lừa dối, được thiết kế để phục vụ đám đông trong khi duy trì tính cách phức tạp của bản gốc.',
   },
 
@@ -48,7 +48,7 @@ export const zombiePunch: Cocktail = {
     },
     story: {
       en: 'The Zombie Punch is derived from the legendary Zombie cocktail created by Donn Beach (Ernest Raymond Beaumont Gantt) at his Don the Beachcomber restaurant in Hollywood in the 1930s. The original Zombie was famously created to help a hungover customer get through a business meeting - supposedly with such success that the customer later claimed it turned him into a zombie. The drink became so notorious for its potency that Donn Beach limited customers to two per visit. The punch version was developed for tiki parties and large gatherings, scaling up the recipe while maintaining its complex, multi-rum character. The exact original recipe was kept secret for decades, with Donn Beach using coded recipe cards. Modern versions attempt to recreate the legendary flavor profile.',
-      it: 'Il Punch Zombie deriva dal leggendario cocktail Zombie creato da Donn Beach (Ernest Raymond Beaumont Gantt) nel suo ristorante Don the Beachcomber a Hollywood negli anni \'30. L\'originale Zombie fu famosamente creato per aiutare un cliente con i postumi di una sbornia ad affrontare una riunione di lavoro - presumibilmente con tale successo che il cliente affermò successivamente che lo aveva trasformato in uno zombie. La bevanda divenne così notoriamente potente che Donn Beach limitò i clienti a due per visita. La versione punch fu sviluppata per feste tiki e grandi raduni, aumentando la ricetta mantenendo il suo carattere complesso multi-rum. La ricetta originale esatta fu tenuta segreta per decenni, con Donn Beach che usava schede di ricette codificate. Le versioni moderne tentano di ricreare il leggendario profilo di sapore.',
+      it: "Il Punch Zombie deriva dal leggendario cocktail Zombie creato da Donn Beach (Ernest Raymond Beaumont Gantt) nel suo ristorante Don the Beachcomber a Hollywood negli anni '30. L'originale Zombie fu famosamente creato per aiutare un cliente con i postumi di una sbornia ad affrontare una riunione di lavoro - presumibilmente con tale successo che il cliente affermò successivamente che lo aveva trasformato in uno zombie. La bevanda divenne così notoriamente potente che Donn Beach limitò i clienti a due per visita. La versione punch fu sviluppata per feste tiki e grandi raduni, aumentando la ricetta mantenendo il suo carattere complesso multi-rum. La ricetta originale esatta fu tenuta segreta per decenni, con Donn Beach che usava schede di ricette codificate. Le versioni moderne tentano di ricreare il leggendario profilo di sapore.",
       vi: 'Zombie Punch bắt nguồn từ cocktail Zombie huyền thoại được tạo ra bởi Donn Beach (Ernest Raymond Beaumont Gantt) tại nhà hàng Don the Beachcomber của ông ở Hollywood vào những năm 1930. Zombie gốc được tạo ra nổi tiếng để giúp một khách hàng say rượu vượt qua cuộc họp kinh doanh - được cho là thành công đến mức khách hàng sau đó tuyên bố nó biến anh ta thành zombie. Thức uống trở nên khét tiếng về độ mạnh của nó đến mức Donn Beach giới hạn khách hàng hai ly mỗi lần đến. Phiên bản punch được phát triển cho các bữa tiệc tiki và các buổi họp mặt lớn, mở rộng công thức trong khi duy trì tính cách đa rum phức tạp. Công thức gốc chính xác được giữ bí mật trong nhiều thập kỷ, với Donn Beach sử dụng thẻ công thức được mã hóa. Các phiên bản hiện đại cố gắng tái tạo hồ sơ hương vị huyền thoại.',
     },
     named_after: {
@@ -77,7 +77,7 @@ export const zombiePunch: Cocktail = {
     },
     balance: {
       en: 'Remarkably well-balanced for its strength - tropical sweetness and citrus acidity mask the high alcohol content',
-      it: 'Notevolmente ben bilanciato per la sua forza - dolcezza tropicale e acidità agrumata mascherano l\'alto contenuto alcolico',
+      it: "Notevolmente ben bilanciato per la sua forza - dolcezza tropicale e acidità agrumata mascherano l'alto contenuto alcolico",
       vi: 'Cân bằng đáng kể cho độ mạnh của nó - vị ngọt nhiệt đới và độ axit cam quýt che giấu hàm lượng cồn cao',
     },
   },
@@ -115,22 +115,34 @@ export const zombiePunch: Cocktail = {
     {
       ingredient_id: 'ING_RUM_DARK',
       quantity: { amount: 120, unit: 'ml' },
-      display_name: { en: 'Dark rum (151 proof)', it: 'Rum scuro (151 proof)', vi: 'Rum đen (151 proof)' },
+      display_name: {
+        en: 'Dark rum (151 proof)',
+        it: 'Rum scuro (151 proof)',
+        vi: 'Rum đen (151 proof)',
+      },
     },
     {
       ingredient_id: 'ING_APRICOT_BRANDY',
       quantity: { amount: 120, unit: 'ml' },
-      display_name: { en: 'Apricot brandy', it: 'Brandy all\'albicocca', vi: 'Rượu mơ' },
+      display_name: { en: 'Apricot brandy', it: "Brandy all'albicocca", vi: 'Rượu mơ' },
     },
     {
       ingredient_id: 'ING_PINEAPPLE_JUICE',
       quantity: { amount: 360, unit: 'ml' },
-      display_name: { en: 'Fresh pineapple juice', it: 'Succo di ananas fresco', vi: 'Nước ép dứa tươi' },
+      display_name: {
+        en: 'Fresh pineapple juice',
+        it: 'Succo di ananas fresco',
+        vi: 'Nước ép dứa tươi',
+      },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 180, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_GRENADINE',
@@ -143,7 +155,7 @@ export const zombiePunch: Cocktail = {
 
   instructions: {
     en: 'In a large punch bowl, combine white rum, gold rum, apricot brandy, pineapple juice, lime juice, and grenadine. Add large ice block or ring. Stir gently. Float dark rum on top just before serving. Garnish punch bowl with tropical fruit slices, mint sprigs, and edible flowers. Serve in individual tiki mugs over crushed ice.',
-    it: 'In una grande ciotola da punch, combinare rum bianco, rum oro, brandy all\'albicocca, succo di ananas, succo di lime e granatina. Aggiungere un grande blocco di ghiaccio o anello. Mescolare delicatamente. Far galleggiare rum scuro sopra appena prima di servire. Guarnire la ciotola da punch con fette di frutta tropicale, rametti di menta e fiori commestibili. Servire in tazze tiki individuali su ghiaccio tritato.',
+    it: "In una grande ciotola da punch, combinare rum bianco, rum oro, brandy all'albicocca, succo di ananas, succo di lime e granatina. Aggiungere un grande blocco di ghiaccio o anello. Mescolare delicatamente. Far galleggiare rum scuro sopra appena prima di servire. Guarnire la ciotola da punch con fette di frutta tropicale, rametti di menta e fiori commestibili. Servire in tazze tiki individuali su ghiaccio tritato.",
     vi: 'Trong một bát punch lớn, kết hợp rum trắng, rum vàng, rượu mơ, nước ép dứa, nước cốt chanh và grenadine. Thêm khối đá lớn hoặc vòng đá. Khuấy nhẹ. Nổi rum đen lên trên ngay trước khi phục vụ. Trang trí bát punch với lát trái cây nhiệt đới, cành bạc hà và hoa ăn được. Phục vụ trong cốc tiki riêng lẻ trên đá nghiền.',
   },
 
@@ -180,7 +192,14 @@ export const zombiePunch: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -199,7 +218,8 @@ export const zombiePunch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['zombie-cocktail', 'virgin-zombie-punch'],
 
-  notes_for_staff: 'EXTREMELY POTENT - warn all guests and monitor consumption. Original Donn Beach recipe limited customers to 2 drinks. This batch serves 8-10 people. Use 151-proof dark rum floater for authentic presentation. Recipe scaled from original Zombie cocktail. Consider limiting refills. Fresh juices essential.',
+  notes_for_staff:
+    'EXTREMELY POTENT - warn all guests and monitor consumption. Original Donn Beach recipe limited customers to 2 drinks. This batch serves 8-10 people. Use 151-proof dark rum floater for authentic presentation. Recipe scaled from original Zombie cocktail. Consider limiting refills. Fresh juices essential.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -211,8 +231,10 @@ export const zombiePunch: Cocktail = {
   // SOURCES
   // ─────────────────────────────────────────────────────────────────────────
   source: {
-    primary: 'https://www.smugglerscovesf.com/store/smugglers-cove-exotic-cocktails-rum-and-the-cult-of-tiki',
-    note: 'Punch version of legendary Donn Beach Zombie. Original recipe was kept secret for decades.',
+    primary:
+      'https://www.smugglerscovesf.com/store/smugglers-cove-exotic-cocktails-rum-and-the-cult-of-tiki',
+    notes:
+      'Punch version of legendary Donn Beach Zombie. Original recipe was kept secret for decades.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

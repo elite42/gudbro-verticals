@@ -36,7 +36,7 @@ class FeedbackStore {
     const feedback: FeedbackData = {
       ...feedbackData,
       id: this.generateId(),
-      synced: false
+      synced: false,
     };
 
     // Get existing feedback
@@ -99,7 +99,7 @@ class FeedbackStore {
     return {
       allowed,
       lastFeedback: lastDate,
-      daysUntilNext: allowed ? 0 : cooldownPeriod - daysSinceLastFeedback
+      daysUntilNext: allowed ? 0 : cooldownPeriod - daysSinceLastFeedback,
     };
   }
 
@@ -107,7 +107,7 @@ class FeedbackStore {
    * Get unsynced feedback (to be sent to backend)
    */
   getUnsyncedFeedback(): FeedbackData[] {
-    return this.getHistory().filter(f => !f.synced);
+    return this.getHistory().filter((f) => !f.synced);
   }
 
   /**
@@ -117,9 +117,7 @@ class FeedbackStore {
     if (!this.isBrowser) return;
 
     const history = this.getHistory();
-    const updated = history.map(f =>
-      f.id === feedbackId ? { ...f, synced: true } : f
-    );
+    const updated = history.map((f) => (f.id === feedbackId ? { ...f, synced: true } : f));
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   }
@@ -142,24 +140,35 @@ class FeedbackStore {
   }
 
   /**
-   * Sync feedback to backend (placeholder for Phase 2)
+   * Sync feedback to backend
    */
   private async syncToBackend(feedback: FeedbackData): Promise<void> {
     try {
-      // TODO: Implement backend API call
-      // const response = await fetch('/api/feedback', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(feedback)
-      // });
+      const response = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ratings: feedback.ratings,
+          averageRating: feedback.averageRating,
+          feedbackType: feedback.feedbackType,
+          feedbackText: feedback.feedbackText,
+          discrepancyCategory: feedback.discrepancyCategory,
+          userId: feedback.userId,
+          sessionId: feedback.id, // Use local ID as session reference
+        }),
+      });
 
-      // if (response.ok) {
-      //   this.markAsSynced(feedback.id);
-      // }
+      const result = await response.json();
 
-      console.log('Feedback ready for backend sync:', feedback);
+      if (response.ok && result.success) {
+        this.markAsSynced(feedback.id);
+        console.log('Feedback synced to backend:', result.feedbackId);
+      } else {
+        console.warn('Feedback sync failed:', result.error);
+      }
     } catch (error) {
       console.error('Error syncing feedback:', error);
+      // Will retry on next app load via getUnsyncedFeedback()
     }
   }
 
@@ -175,7 +184,7 @@ class FeedbackStore {
         averageRating: 0,
         feedbackCount: 0,
         suggestionCount: 0,
-        requestCount: 0
+        requestCount: 0,
       };
     }
 
@@ -184,9 +193,9 @@ class FeedbackStore {
     return {
       totalFeedback: history.length,
       averageRating: totalRating / history.length,
-      feedbackCount: history.filter(f => f.feedbackType === 'feedback').length,
-      suggestionCount: history.filter(f => f.feedbackType === 'suggestion').length,
-      requestCount: history.filter(f => f.feedbackType === 'request').length
+      feedbackCount: history.filter((f) => f.feedbackType === 'feedback').length,
+      suggestionCount: history.filter((f) => f.feedbackType === 'suggestion').length,
+      requestCount: history.filter((f) => f.feedbackType === 'request').length,
     };
   }
 }

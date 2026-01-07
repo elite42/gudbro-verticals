@@ -3,7 +3,7 @@
 > Task da fare, ordinate per priorità.
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 
-**Last Updated:** 2026-01-05
+**Last Updated:** 2026-01-07
 
 ---
 
@@ -121,11 +121,12 @@ Cliente (chat) → AI Customer Agent → [Escalation] → Merchant (backoffice)
 
 ## P1 - Alta Priorità
 
-| ID                   | Feature                 | Descrizione                      | Area           | Effort     | Note                                                 |
-| -------------------- | ----------------------- | -------------------------------- | -------------- | ---------- | ---------------------------------------------------- |
-| ING-TRANSLATIONS     | Popolare traduzioni     | Traduzioni per it, vi, ko, ja    | Database       | Medium     |                                                      |
-| ~~MT-NOTIF-SOUNDS~~  | ~~Notification Sounds~~ | ~~Sound selection per notifica~~ | ~~Backoffice~~ | ~~Low~~    | **COMPLETATO** 2026-01-05                            |
-| ~~GB-SPORTS-EVENTS~~ | ~~Sports Bar Calendar~~ | ~~25+ sport, broadcast~~         | ~~Backoffice~~ | ~~Medium~~ | **Incluso in SCHEDULE-SYSTEM** (vedi docs/features/) |
+| ID                   | Feature                 | Descrizione                      | Area           | Effort     | Note                                                        |
+| -------------------- | ----------------------- | -------------------------------- | -------------- | ---------- | ----------------------------------------------------------- |
+| ING-TRANSLATIONS-ALL | Traduzioni Ingredienti  | 2551 ing × 14 lingue             | Database       | High       | **IN PROGRESS** → vedi `2-IN-PROGRESS.md` per dettagli      |
+| ~~SEC-CLEANUP~~      | ~~Security Cleanup~~    | ~~37 functions + 65 RLS~~        | ~~Database~~   | ~~Medium~~ | **COMPLETATO** 2026-01-07 → vedi `docs/SEC-CLEANUP-PLAN.md` |
+| ~~MT-NOTIF-SOUNDS~~  | ~~Notification Sounds~~ | ~~Sound selection per notifica~~ | ~~Backoffice~~ | ~~Low~~    | **COMPLETATO** 2026-01-05                                   |
+| ~~GB-SPORTS-EVENTS~~ | ~~Sports Bar Calendar~~ | ~~25+ sport, broadcast~~         | ~~Backoffice~~ | ~~Medium~~ | **Incluso in SCHEDULE-SYSTEM** (vedi docs/features/)        |
 
 ---
 
@@ -133,14 +134,14 @@ Cliente (chat) → AI Customer Agent → [Escalation] → Merchant (backoffice)
 
 ### Features da MenuTiger Audit
 
-| ID                  | Feature             | Descrizione                            | Effort |
-| ------------------- | ------------------- | -------------------------------------- | ------ |
-| MT-GEOFENCING       | Location Geofencing | Radius-based location + GPS validation | High   |
-| MT-SURVEY-BUILDER   | Survey Builder      | Question builder con live preview      | Medium |
-| MT-CRM-ADVANCED     | CRM Avanzato        | Customer profiles, LTV, segments       | Medium |
-| MT-THEMES-VARIETY   | 15+ Temi Website    | Layout diversi, non solo colori        | Medium |
-| MT-POS-INTEGRATIONS | POS Integrations    | Square, Toast, Lightspeed, Tilby       | High   |
-| MT-WIFI-QR          | WiFi QR Generator   | WPA/WPA2/WPA3 support                  | Low    |
+| ID                  | Feature               | Descrizione                            | Effort  |
+| ------------------- | --------------------- | -------------------------------------- | ------- | -------------------------------------- |
+| MT-GEOFENCING       | Location Geofencing   | Radius-based location + GPS validation | High    |
+| MT-SURVEY-BUILDER   | Survey Builder        | Question builder con live preview      | Medium  |
+| MT-CRM-ADVANCED     | CRM Avanzato          | Customer profiles, LTV, segments       | Medium  |
+| MT-THEMES-VARIETY   | 15+ Temi Website      | Layout diversi, non solo colori        | Medium  |
+| MT-POS-INTEGRATIONS | POS Integrations      | Square, Toast, Lightspeed, Tilby       | High    |
+| ~~MT-WIFI-QR~~      | ~~WiFi QR Generator~~ | ~~WPA/WPA2/WPA3 support~~              | ~~Low~~ | **GIA ESISTENTE** WiFiQuickConnect.tsx |
 
 ### UX Patterns da Adottare
 
@@ -161,6 +162,14 @@ Cliente (chat) → AI Customer Agent → [Escalation] → Merchant (backoffice)
 ---
 
 ## P3 - Bassa Priorità (Future)
+
+### Security
+
+| ID               | Feature                    | Descrizione                                        | Effort |
+| ---------------- | -------------------------- | -------------------------------------------------- | ------ |
+| AUTH-PWD-PROTECT | Leaked Password Protection | Abilita check HaveIBeenPwned in Supabase Dashboard | Low    |
+| DB-FK-INDEXES    | Foreign Key Indexes        | 46 FK senza indice (ottimizza JOIN)                | Low    |
+| DEPS-MAJOR       | Major Dependencies Update  | React 19, Next 16, Tailwind 4, Zod 4               | High   |
 
 ### P6 - Schedule System (Future)
 

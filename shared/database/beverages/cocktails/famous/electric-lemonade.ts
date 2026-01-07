@@ -32,8 +32,8 @@ export const electricLemonade: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A vibrant electric blue cocktail combining vodka, blue curaçao, and lemonade with lemon-lime soda. The Electric Lemonade is a visually stunning, refreshing drink that\'s become a pool party and summer favorite.',
-    it: 'Un vibrante cocktail blu elettrico che combina vodka, blue curaçao e limonata con soda limone-lime. L\'Electric Lemonade è un drink visivamente sbalorditivo e rinfrescante che è diventato un favorito delle feste in piscina e dell\'estate.',
+    en: "A vibrant electric blue cocktail combining vodka, blue curaçao, and lemonade with lemon-lime soda. The Electric Lemonade is a visually stunning, refreshing drink that's become a pool party and summer favorite.",
+    it: "Un vibrante cocktail blu elettrico che combina vodka, blue curaçao e limonata con soda limone-lime. L'Electric Lemonade è un drink visivamente sbalorditivo e rinfrescante che è diventato un favorito delle feste in piscina e dell'estate.",
     vi: 'Một cocktail xanh lam điện sống động kết hợp vodka, blue curaçao và nước chanh với soda chanh-lime. Electric Lemonade là thức uống tươi mát, ấn tượng về mặt hình ảnh đã trở thành món yêu thích của tiệc bể bơi và mùa hè.',
   },
 
@@ -45,7 +45,7 @@ export const electricLemonade: Cocktail = {
     },
     story: {
       en: 'The Electric Lemonade emerged in the 1990s as bars and clubs sought visually striking cocktails that would stand out. The electric blue color from blue curaçao combined with the familiar taste of lemonade created an instant hit. Unlike the dangerously strong "iced tea" family, the Electric Lemonade is more approachable with moderate alcohol content. It became particularly popular at beach bars, pool parties, and summer festivals where its bright blue color photographs well and evokes tropical vibes. The drink represents the 1990s trend of colorful, Instagram-worthy cocktails before Instagram existed.',
-      it: 'L\'Electric Lemonade emerse negli anni \'90 quando bar e club cercavano cocktail visivamente sorprendenti che si distinguessero. Il colore blu elettrico del blue curaçao combinato con il familiare sapore di limonata creò un successo immediato. A differenza della famiglia pericolosamente forte degli "iced tea", l\'Electric Lemonade è più accessibile con un contenuto alcolico moderato. Divenne particolarmente popolare nei bar sulla spiaggia, nelle feste in piscina e nei festival estivi dove il suo colore blu brillante fotografa bene ed evoca vibrazioni tropicali. Il drink rappresenta la tendenza degli anni \'90 di cocktail colorati e degni di Instagram prima che Instagram esistesse.',
+      it: "L'Electric Lemonade emerse negli anni '90 quando bar e club cercavano cocktail visivamente sorprendenti che si distinguessero. Il colore blu elettrico del blue curaçao combinato con il familiare sapore di limonata creò un successo immediato. A differenza della famiglia pericolosamente forte degli \"iced tea\", l'Electric Lemonade è più accessibile con un contenuto alcolico moderato. Divenne particolarmente popolare nei bar sulla spiaggia, nelle feste in piscina e nei festival estivi dove il suo colore blu brillante fotografa bene ed evoca vibrazioni tropicali. Il drink rappresenta la tendenza degli anni '90 di cocktail colorati e degni di Instagram prima che Instagram esistesse.",
       vi: 'Electric Lemonade xuất hiện vào những năm 1990 khi các quán bar và câu lạc bộ tìm kiếm cocktail nổi bật về mặt hình ảnh. Màu xanh lam điện từ blue curaçao kết hợp với hương vị quen thuộc của nước chanh đã tạo ra hit ngay lập tức. Không giống như họ "trà đá" nguy hiểm mạnh mẽ, Electric Lemonade dễ tiếp cận hơn với hàm lượng cồn vừa phải. Nó trở nên đặc biệt phổ biến tại các quán bar bãi biển, tiệc bể bơi và lễ hội mùa hè nơi màu xanh lam tươi sáng của nó chụp ảnh đẹp và gợi lên không khí nhiệt đới. Thức uống đại diện cho xu hướng những năm 1990 của các cocktail đầy màu sắc, đáng đăng Instagram trước khi Instagram tồn tại.',
     },
     named_after: {
@@ -58,8 +58,8 @@ export const electricLemonade: Cocktail = {
   taste: {
     profile: ['sweet', 'citrus', 'lemon', 'orange'],
     description: {
-      en: 'Sweet and citrusy with dominant lemon flavor from the lemonade, complemented by blue curaçao\'s orange notes. The vodka provides a clean alcoholic base while the lemon-lime soda adds refreshing effervescence. Tastes like electric blue lemonade with a gentle kick.',
-      it: 'Dolce e agrumato con sapore dominante di limone dalla limonata, completato dalle note d\'arancia del blue curaçao. La vodka fornisce una base alcolica pulita mentre la soda limone-lime aggiunge effervescenza rinfrescante. Sa di limonata blu elettrica con un calcio delicato.',
+      en: "Sweet and citrusy with dominant lemon flavor from the lemonade, complemented by blue curaçao's orange notes. The vodka provides a clean alcoholic base while the lemon-lime soda adds refreshing effervescence. Tastes like electric blue lemonade with a gentle kick.",
+      it: "Dolce e agrumato con sapore dominante di limone dalla limonata, completato dalle note d'arancia del blue curaçao. La vodka fornisce una base alcolica pulita mentre la soda limone-lime aggiunge effervescenza rinfrescante. Sa di limonata blu elettrica con un calcio delicato.",
       vi: 'Ngọt ngào và cam quýt với hương vị chanh chủ đạo từ nước chanh, được bổ sung bởi hương cam của blue curaçao. Vodka cung cấp cơ sở rượu trong sạch trong khi soda chanh-lime thêm bọt khí tươi mát. Có vị như nước chanh xanh lam điện với cảm giác nhẹ nhàng.',
     },
     first_impression: {
@@ -117,7 +117,11 @@ export const electricLemonade: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_LIME_SODA',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Lemon-lime soda (7-Up or Sprite)', it: 'Soda limone-lime (7-Up o Sprite)', vi: 'Soda chanh-lime (7-Up hoặc Sprite)' },
+      display_name: {
+        en: 'Lemon-lime soda (7-Up or Sprite)',
+        it: 'Soda limone-lime (7-Up o Sprite)',
+        vi: 'Soda chanh-lime (7-Up hoặc Sprite)',
+      },
     },
   ],
 
@@ -162,7 +166,14 @@ export const electricLemonade: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -181,7 +192,8 @@ export const electricLemonade: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['blue-lagoon', 'electric-iced-tea'],
 
-  notes_for_staff: 'The electric blue color is the signature feature - make sure it\'s vibrant. Can use homemade or store-bought lemonade. Very photogenic drink - popular on social media.',
+  notes_for_staff:
+    "The electric blue color is the signature feature - make sure it's vibrant. Can use homemade or store-bought lemonade. Very photogenic drink - popular on social media.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -194,7 +206,7 @@ export const electricLemonade: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1253/electric-lemonade',
-    note: '1990s creation, popular at pool parties and beach bars for its electric blue color.',
+    notes: '1990s creation, popular at pool parties and beach bars for its electric blue color.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -30,7 +30,7 @@ export const tomCollins: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A timeless gin fizz that\'s essentially lemonade for adults. The Tom Collins combines gin with fresh lemon juice, sugar, and soda water to create a tall, refreshing drink that\'s perfect for warm weather. Simple, elegant, and endlessly drinkable.',
+    en: "A timeless gin fizz that's essentially lemonade for adults. The Tom Collins combines gin with fresh lemon juice, sugar, and soda water to create a tall, refreshing drink that's perfect for warm weather. Simple, elegant, and endlessly drinkable.",
     it: 'Un gin fizz senza tempo che è essenzialmente una limonata per adulti. Il Tom Collins combina gin con succo di limone fresco, zucchero e acqua frizzante per creare una bevanda alta e rinfrescante perfetta per il clima caldo. Semplice, elegante e infinitamente beverina.',
     vi: 'Một loại gin fizz vượt thời gian về cơ bản là nước chanh cho người lớn. Tom Collins kết hợp gin với nước cốt chanh tươi, đường và nước soda để tạo ra thức uống cao, sảng khoái hoàn hảo cho thời tiết ấm. Đơn giản, thanh lịch và dễ uống vô tận.',
   },
@@ -39,7 +39,7 @@ export const tomCollins: Cocktail = {
     created_year: '1876',
     origin: {
       city: 'London',
-      bar: 'Unknown (possibly Limmer\'s Hotel)',
+      bar: "Unknown (possibly Limmer's Hotel)",
       country: 'United Kingdom',
     },
     creator: {
@@ -61,8 +61,8 @@ export const tomCollins: Cocktail = {
   taste: {
     profile: ['citrus', 'refreshing', 'effervescent'],
     description: {
-      en: 'Bright, refreshing, and perfectly balanced. The Tom Collins tastes like sophisticated lemonade with a juniper kick. The gin\'s botanicals shine through the lemon\'s tartness, while soda water adds effervescence and drinkability.',
-      it: 'Brillante, rinfrescante e perfettamente bilanciato. Il Tom Collins ha il sapore di una limonata sofisticata con un calcio di ginepro. I botanici del gin risplendono attraverso l\'acidità del limone, mentre l\'acqua frizzante aggiunge effervescenza e bevibilità.',
+      en: "Bright, refreshing, and perfectly balanced. The Tom Collins tastes like sophisticated lemonade with a juniper kick. The gin's botanicals shine through the lemon's tartness, while soda water adds effervescence and drinkability.",
+      it: "Brillante, rinfrescante e perfettamente bilanciato. Il Tom Collins ha il sapore di una limonata sofisticata con un calcio di ginepro. I botanici del gin risplendono attraverso l'acidità del limone, mentre l'acqua frizzante aggiunge effervescenza e bevibilità.",
       vi: 'Tươi sáng, sảng khoái và cân bằng hoàn hảo. Tom Collins có vị như nước chanh tinh tế với hương juniper. Thực vật của gin tỏa sáng qua vị chua của chanh, trong khi nước soda thêm sủi bọt và độ dễ uống.',
     },
     first_impression: {
@@ -92,8 +92,8 @@ export const tomCollins: Cocktail = {
       vi: 'Hoàn hảo với món ăn nhẹ: salad, sandwich, gà nướng, hải sản và món brunch. Cũng kết hợp tốt với ẩm thực Địa Trung Hải và Trung Đông.',
     },
     ideal_for: {
-      en: 'Perfect for those who enjoy refreshing, citrus-forward cocktails. Ideal for warm weather drinking, outdoor gatherings, and anyone who wants a classic gin drink that\'s easy to enjoy.',
-      it: 'Perfetto per chi ama cocktail rinfrescanti e incentrati sugli agrumi. Ideale per bere con clima caldo, riunioni all\'aperto e chiunque voglia una bevanda classica al gin facile da gustare.',
+      en: "Perfect for those who enjoy refreshing, citrus-forward cocktails. Ideal for warm weather drinking, outdoor gatherings, and anyone who wants a classic gin drink that's easy to enjoy.",
+      it: "Perfetto per chi ama cocktail rinfrescanti e incentrati sugli agrumi. Ideale per bere con clima caldo, riunioni all'aperto e chiunque voglia una bevanda classica al gin facile da gustare.",
       vi: 'Hoàn hảo cho những ai thích cocktail sảng khoái, hướng cam quýt. Lý tưởng cho uống trong thời tiết ấm, các buổi họp mặt ngoài trời và bất kỳ ai muốn một thức uống gin cổ điển dễ thưởng thức.',
     },
   },
@@ -110,7 +110,11 @@ export const tomCollins: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -165,7 +169,14 @@ export const tomCollins: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'nut_free', 'dairy_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'nut_free',
+      'dairy_free',
+    ],
     spice_level: 0,
   },
 
@@ -184,7 +195,8 @@ export const tomCollins: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['john-collins', 'vodka-collins', 'rum-collins'],
 
-  notes_for_staff: 'Always use fresh lemon juice. The key is proper dilution from shaking before adding soda. Use Old Tom Gin for a historically accurate version. Don\'t over-pour the soda - it should enhance, not dilute.',
+  notes_for_staff:
+    "Always use fresh lemon juice. The key is proper dilution from shaking before adding soda. Use Old Tom Gin for a historically accurate version. Don't over-pour the soda - it should enhance, not dilute.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +209,7 @@ export const tomCollins: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/2161/tom-collins',
-    note: 'Classic recipe from Jerry Thomas\'s Bartender\'s Guide (1876) with modern adaptations.',
+    notes: "Classic recipe from Jerry Thomas's Bartender's Guide (1876) with modern adaptations.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

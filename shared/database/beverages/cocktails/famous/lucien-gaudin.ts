@@ -48,12 +48,12 @@ export const lucienGaudin: Cocktail = {
     },
     story: {
       en: 'Created in Paris around 1929 and named after Lucien Gaudin, a legendary French Olympic fencer who won gold medals in 1924 and 1928. This cocktail represents the glamorous cocktail culture of 1920s Paris. The drink balances Italian bitterness (Campari) with French sophistication (Cointreau and vermouth) and British botanicals (gin), representing international cocktail culture.',
-      it: 'Creato a Parigi intorno al 1929 e intitolato a Lucien Gaudin, un leggendario schermidore olimpico francese che vinse medaglie d\'oro nel 1924 e 1928. Questo cocktail rappresenta la glamour cultura dei cocktail della Parigi degli anni \'20. Il drink bilancia l\'amarezza italiana (Campari) con la sofisticazione francese (Cointreau e vermut) e i botanici britannici (gin), rappresentando la cultura internazionale dei cocktail.',
+      it: "Creato a Parigi intorno al 1929 e intitolato a Lucien Gaudin, un leggendario schermidore olimpico francese che vinse medaglie d'oro nel 1924 e 1928. Questo cocktail rappresenta la glamour cultura dei cocktail della Parigi degli anni '20. Il drink bilancia l'amarezza italiana (Campari) con la sofisticazione francese (Cointreau e vermut) e i botanici britannici (gin), rappresentando la cultura internazionale dei cocktail.",
       vi: 'Được tạo ra ở Paris khoảng năm 1929 và được đặt theo tên Lucien Gaudin, một kiếm thủ Olympic huyền thoại của Pháp giành huy chương vàng năm 1924 và 1928. Cocktail này đại diện cho văn hóa cocktail quyến rũ của Paris những năm 1920. Thức uống cân bằng vị đắng Ý (Campari) với sự tinh tế của Pháp (Cointreau và vermouth) và thực vật Anh (gin), đại diện cho văn hóa cocktail quốc tế.',
     },
     named_after: {
       en: 'Named after Lucien Gaudin (1886-1934), French Olympic fencer and two-time gold medalist who was celebrated as a national hero in 1920s France.',
-      it: 'Prende il nome da Lucien Gaudin (1886-1934), schermidore olimpico francese e vincitore di due medaglie d\'oro celebrato come eroe nazionale nella Francia degli anni \'20.',
+      it: "Prende il nome da Lucien Gaudin (1886-1934), schermidore olimpico francese e vincitore di due medaglie d'oro celebrato come eroe nazionale nella Francia degli anni '20.",
       vi: 'Được đặt theo tên Lucien Gaudin (1886-1934), kiếm thủ Olympic Pháp và người đoạt hai huy chương vàng được tôn vinh như anh hùng dân tộc ở Pháp những năm 1920.',
     },
   },
@@ -61,13 +61,13 @@ export const lucienGaudin: Cocktail = {
   taste: {
     profile: ['bitter', 'complex', 'citrus'],
     description: {
-      en: 'Sophisticated and complex with Campari\'s distinctive bitterness balanced by Cointreau\'s orange sweetness, dry vermouth\'s botanicals, and gin\'s juniper notes. Elegant and aperitif-perfect with beautiful rose-orange color.',
-      it: 'Sofisticato e complesso con l\'amarezza distintiva del Campari bilanciata dalla dolcezza all\'arancia del Cointreau, i botanici del vermut secco e le note di ginepro del gin. Elegante e perfetto come aperitivo con un bellissimo colore rosa-arancio.',
+      en: "Sophisticated and complex with Campari's distinctive bitterness balanced by Cointreau's orange sweetness, dry vermouth's botanicals, and gin's juniper notes. Elegant and aperitif-perfect with beautiful rose-orange color.",
+      it: "Sofisticato e complesso con l'amarezza distintiva del Campari bilanciata dalla dolcezza all'arancia del Cointreau, i botanici del vermut secco e le note di ginepro del gin. Elegante e perfetto come aperitivo con un bellissimo colore rosa-arancio.",
       vi: 'Tinh tế và phức tạp với vị đắng đặc trưng của Campari được cân bằng bởi vị ngọt cam của Cointreau, thực vật của vermouth khô và nốt bách xù của gin. Thanh lịch và hoàn hảo cho khai vị với màu hồng-cam đẹp mắt.',
     },
     first_impression: {
       en: 'Campari bitterness and orange sweetness hit together with botanical gin notes',
-      it: 'Amarezza del Campari e dolcezza all\'arancia colpiscono insieme alle note botaniche del gin',
+      it: "Amarezza del Campari e dolcezza all'arancia colpiscono insieme alle note botaniche del gin",
       vi: 'Vị đắng Campari và vị ngọt cam đập vào cùng nhau với nốt gin thực vật',
     },
     finish: {
@@ -88,7 +88,7 @@ export const lucienGaudin: Cocktail = {
     seasons: ['spring', 'summer', 'autumn'],
     food_pairings: {
       en: 'Excellent with Italian antipasti, charcuterie, olives, or light Mediterranean dishes. Perfect as a pre-dinner aperitif to stimulate the appetite.',
-      it: 'Eccellente con antipasti italiani, salumi, olive o piatti mediterranei leggeri. Perfetto come aperitivo pre-cena per stimolare l\'appetito.',
+      it: "Eccellente con antipasti italiani, salumi, olive o piatti mediterranei leggeri. Perfetto come aperitivo pre-cena per stimolare l'appetito.",
       vi: 'Tuyệt vời với khai vị Ý, charcuterie, ô liu hoặc các món Địa Trung Hải nhẹ. Hoàn hảo như khai vị trước bữa tối để kích thích khẩu vị.',
     },
     ideal_for: {
@@ -128,7 +128,7 @@ export const lucienGaudin: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a mixing glass filled with ice. Stir gently for 20-30 seconds until well-chilled. Strain into a chilled coupe or cocktail glass. Garnish with an orange twist, expressing the oils over the drink.',
-    it: 'Aggiungere tutti gli ingredienti in un mixing glass pieno di ghiaccio. Mescolare delicatamente per 20-30 secondi fino a raffreddare bene. Filtrare in una coppa raffreddata o bicchiere da cocktail. Guarnire con una scorza d\'arancia, esprimendo gli oli sulla bevanda.',
+    it: "Aggiungere tutti gli ingredienti in un mixing glass pieno di ghiaccio. Mescolare delicatamente per 20-30 secondi fino a raffreddare bene. Filtrare in una coppa raffreddata o bicchiere da cocktail. Guarnire con una scorza d'arancia, esprimendo gli oli sulla bevanda.",
     vi: 'Thêm tất cả nguyên liệu vào ly trộn đầy đá. Khuấy nhẹ nhàng trong 20-30 giây cho đến khi lạnh kỹ. Lọc vào ly coupe hoặc ly cocktail đã làm lạnh. Trang trí với vỏ cam xoắn, ép tinh dầu lên thức uống.',
   },
 
@@ -136,7 +136,7 @@ export const lucienGaudin: Cocktail = {
 
   garnish: {
     en: 'Orange twist',
-    it: 'Scorza d\'arancia',
+    it: "Scorza d'arancia",
     vi: 'Vỏ cam xoắn',
   },
 
@@ -165,7 +165,14 @@ export const lucienGaudin: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -184,7 +191,8 @@ export const lucienGaudin: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['lucien-gaudin-moderne'],
 
-  notes_for_staff: 'Equal parts after the gin creates beautiful balance. Use quality dry vermouth. The drink should be rose-orange colored. Great alternative for Negroni lovers seeking something more delicate. Serve very cold.',
+  notes_for_staff:
+    'Equal parts after the gin creates beautiful balance. Use quality dry vermouth. The drink should be rose-orange colored. Great alternative for Negroni lovers seeking something more delicate. Serve very cold.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +205,7 @@ export const lucienGaudin: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1427/lucien-gaudin',
-    note: 'Created in 1920s Paris. Named after French Olympic fencing champion Lucien Gaudin.',
+    notes: 'Created in 1920s Paris. Named after French Olympic fencing champion Lucien Gaudin.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

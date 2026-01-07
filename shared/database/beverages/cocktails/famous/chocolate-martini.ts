@@ -56,7 +56,7 @@ export const chocolateMartini: Cocktail = {
     profile: ['creamy', 'sweet', 'chocolate', 'rich'],
     description: {
       en: 'Rich, velvety chocolate flavor with vodka smoothness and creamy texture. Very sweet and dessert-forward, tasting like liquid chocolate with a boozy kick. The cream softens the chocolate intensity into a silky, indulgent experience.',
-      it: 'Ricco sapore di cioccolato vellutato con morbidezza della vodka e consistenza cremosa. Molto dolce e orientato al dessert, con un sapore di cioccolato liquido con un calcio alcolico. La panna ammorbidisce l\'intensità del cioccolato in un\'esperienza setosa e indulgente.',
+      it: "Ricco sapore di cioccolato vellutato con morbidezza della vodka e consistenza cremosa. Molto dolce e orientato al dessert, con un sapore di cioccolato liquido con un calcio alcolico. La panna ammorbidisce l'intensità del cioccolato in un'esperienza setosa e indulgente.",
       vi: 'Hương vị chocolate đậm đà, mượt mà với độ mịn của vodka và kết cấu béo ngậy. Rất ngọt và hướng tráng miệng, có vị như chocolate lỏng với cú đá có cồn. Kem làm mềm cường độ chocolate thành trải nghiệm mượt mà, nuông chiều.',
     },
     first_impression: {
@@ -79,14 +79,14 @@ export const chocolateMartini: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['dessert', 'date_night', 'celebration', 'girls_night'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Best enjoyed as a dessert replacement. Can accompany chocolate desserts, brownies, or chocolate mousse. Also pairs with strawberries and vanilla ice cream.',
       it: 'Si gusta meglio come sostituto del dessert. Può accompagnare dessert al cioccolato, brownie o mousse al cioccolato. Si abbina anche con fragole e gelato alla vaniglia.',
       vi: 'Tốt nhất khi thưởng thức như một món tráng miệng thay thế. Có thể đi kèm với các món tráng miệng chocolate, brownie hoặc mousse chocolate. Cũng kết hợp với dâu tây và kem vani.',
     },
     ideal_for: {
-      en: 'Perfect for chocolate lovers who want a sophisticated dessert drink. Ideal for date nights, celebrations, and anyone seeking an indulgent after-dinner cocktail. Popular choice for those who don\'t typically enjoy strong spirits.',
+      en: "Perfect for chocolate lovers who want a sophisticated dessert drink. Ideal for date nights, celebrations, and anyone seeking an indulgent after-dinner cocktail. Popular choice for those who don't typically enjoy strong spirits.",
       it: 'Perfetto per gli amanti del cioccolato che vogliono una bevanda da dessert sofisticata. Ideale per serate romantiche, celebrazioni e chiunque cerchi un cocktail indulgente dopo cena. Scelta popolare per chi non ama tipicamente gli spiriti forti.',
       vi: 'Hoàn hảo cho người yêu chocolate muốn thức uống tráng miệng tinh tế. Lý tưởng cho đêm hẹn hò, ăn mừng và bất kỳ ai tìm kiếm cocktail nuông chiều sau bữa tối. Lựa chọn phổ biến cho những ai thường không thích rượu mạnh.',
     },
@@ -128,9 +128,9 @@ export const chocolateMartini: Cocktail = {
   glass: 'Martini glass',
 
   garnish: {
-    en: 'Chocolate shavings, chocolate syrup rim, or Hershey\'s Kiss',
-    it: 'Scaglie di cioccolato, bordo di sciroppo di cioccolato, o Hershey\'s Kiss',
-    vi: 'Phoi chocolate, viền siro chocolate, hoặc Hershey\'s Kiss',
+    en: "Chocolate shavings, chocolate syrup rim, or Hershey's Kiss",
+    it: "Scaglie di cioccolato, bordo di sciroppo di cioccolato, o Hershey's Kiss",
+    vi: "Phoi chocolate, viền siro chocolate, hoặc Hershey's Kiss",
   },
 
   ice: 'none',
@@ -166,7 +166,7 @@ export const chocolateMartini: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['dessert', 'date-night', 'celebration'],
 
   is_mocktail: false,
@@ -177,7 +177,8 @@ export const chocolateMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['espresso-chocolate-martini', 'white-chocolate-martini', 'dirty-chocolate-martini'],
 
-  notes_for_staff: 'Not a real martini - it\'s a dessert drink. Many variations exist: add Bailey\'s for extra cream, espresso for depth, or use chocolate vodka. The chocolate rim is popular but optional. Can use half-and-half instead of cream for lighter version. Very sweet - warn guests accordingly.',
+  notes_for_staff:
+    "Not a real martini - it's a dessert drink. Many variations exist: add Bailey's for extra cream, espresso for depth, or use chocolate vodka. The chocolate rim is popular but optional. Can use half-and-half instead of cream for lighter version. Very sweet - warn guests accordingly.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +191,7 @@ export const chocolateMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/chocolate-martini/',
-    note: 'Popular dessert martini from the 1990s cocktail renaissance.',
+    notes: 'Popular dessert martini from the 1990s cocktail renaissance.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

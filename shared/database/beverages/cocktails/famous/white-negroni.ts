@@ -31,7 +31,7 @@ export const whiteNegroni: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A pale, elegant variation on the classic Negroni featuring gin, Suze (or gentian liqueur), and Lillet Blanc. The White Negroni offers a more subtle, floral bitterness compared to its red predecessor.',
-    it: 'Una variazione pallida ed elegante del classico Negroni con gin, Suze (o liquore di genziana) e Lillet Blanc. Il Negroni Bianco offre un\'amarezza più sottile e floreale rispetto al suo predecessore rosso.',
+    it: "Una variazione pallida ed elegante del classico Negroni con gin, Suze (o liquore di genziana) e Lillet Blanc. Il Negroni Bianco offre un'amarezza più sottile e floreale rispetto al suo predecessore rosso.",
     vi: 'Biến thể nhạt, thanh lịch của Negroni cổ điển với gin, Suze (hoặc rượu mùi long đởm) và Lillet Blanc. White Negroni mang đến vị đắng tinh tế, hoa hơn so với phiên bản đỏ trước đó.',
   },
 
@@ -48,7 +48,7 @@ export const whiteNegroni: Cocktail = {
     },
     story: {
       en: 'Created by bartender Wayne Collins in 2001 while working at ECC Chiado in Paris, the White Negroni was born during a Negroni Week event. Collins substituted Suze (a French gentian liqueur) for Campari and Lillet Blanc for sweet vermouth, creating a lighter, more elegant interpretation. The drink gained international recognition and became one of the most popular Negroni variations of the modern era.',
-      it: 'Creato dal barman Wayne Collins nel 2001 mentre lavorava all\'ECC Chiado a Parigi, il Negroni Bianco nacque durante un evento della Settimana del Negroni. Collins sostituì Suze (un liquore francese di genziana) al Campari e Lillet Blanc al vermouth dolce, creando un\'interpretazione più leggera ed elegante. La bevanda ha guadagnato riconoscimento internazionale ed è diventata una delle variazioni più popolari del Negroni dell\'era moderna.',
+      it: "Creato dal barman Wayne Collins nel 2001 mentre lavorava all'ECC Chiado a Parigi, il Negroni Bianco nacque durante un evento della Settimana del Negroni. Collins sostituì Suze (un liquore francese di genziana) al Campari e Lillet Blanc al vermouth dolce, creando un'interpretazione più leggera ed elegante. La bevanda ha guadagnato riconoscimento internazionale ed è diventata una delle variazioni più popolari del Negroni dell'era moderna.",
       vi: 'Được tạo ra bởi bartender Wayne Collins năm 2001 khi làm việc tại ECC Chiado ở Paris, White Negroni ra đời trong sự kiện Tuần lễ Negroni. Collins thay Suze (rượu mùi long đởm Pháp) cho Campari và Lillet Blanc cho vermouth ngọt, tạo ra phiên bản nhẹ nhàng, thanh lịch hơn. Đồ uống đạt được sự công nhận quốc tế và trở thành một trong những biến thể Negroni phổ biến nhất của thời hiện đại.',
     },
     named_after: {
@@ -88,7 +88,7 @@ export const whiteNegroni: Cocktail = {
     seasons: ['spring', 'summer'],
     food_pairings: {
       en: 'Excellent with light appetizers, seafood, fresh cheeses, and vegetable-based dishes. The gentle bitterness makes it a perfect aperitivo.',
-      it: 'Eccellente con antipasti leggeri, frutti di mare, formaggi freschi e piatti a base di verdure. L\'amarezza delicata lo rende un perfetto aperitivo.',
+      it: "Eccellente con antipasti leggeri, frutti di mare, formaggi freschi e piatti a base di verdure. L'amarezza delicata lo rende un perfetto aperitivo.",
       vi: 'Tuyệt vời với món khai vị nhẹ, hải sản, phô mai tươi và món ăn từ rau củ. Vị đắng nhẹ nhàng làm nó trở thành aperitivo hoàn hảo.',
     },
     ideal_for: {
@@ -168,7 +168,14 @@ export const whiteNegroni: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +194,8 @@ export const whiteNegroni: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['negroni', 'negroni-sbagliato'],
 
-  notes_for_staff: 'Stir, don\'t shake. Can substitute other gentian liqueurs if Suze unavailable. Use a large ice cube to minimize dilution. Express lemon oils over drink before adding twist.',
+  notes_for_staff:
+    "Stir, don't shake. Can substitute other gentian liqueurs if Suze unavailable. Use a large ice cube to minimize dilution. Express lemon oils over drink before adding twist.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +208,7 @@ export const whiteNegroni: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'Created by Wayne Collins, 2001',
-    note: 'Modern variation on the classic Negroni. One of the most popular Negroni variations.',
+    notes: 'Modern variation on the classic Negroni. One of the most popular Negroni variations.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

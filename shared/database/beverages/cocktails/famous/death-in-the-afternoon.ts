@@ -30,8 +30,8 @@ export const deathInTheAfternoon: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'Created by Ernest Hemingway, this deceptively simple cocktail combines absinthe with champagne. Named after Hemingway\'s 1932 book about bullfighting, it\'s a dangerous, elegant drink that goes down easily but packs a powerful punch. The opalescent louche effect creates a mesmerizing visual.',
-    it: 'Creato da Ernest Hemingway, questo cocktail ingannevolmente semplice combina assenzio con champagne. Prende il nome dal libro di Hemingway del 1932 sulla corrida, è una bevanda pericolosa ed elegante che si beve facilmente ma ha un effetto potente. L\'effetto opalescente del louche crea un\'immagine ipnotica.',
+    en: "Created by Ernest Hemingway, this deceptively simple cocktail combines absinthe with champagne. Named after Hemingway's 1932 book about bullfighting, it's a dangerous, elegant drink that goes down easily but packs a powerful punch. The opalescent louche effect creates a mesmerizing visual.",
+    it: "Creato da Ernest Hemingway, questo cocktail ingannevolmente semplice combina assenzio con champagne. Prende il nome dal libro di Hemingway del 1932 sulla corrida, è una bevanda pericolosa ed elegante che si beve facilmente ma ha un effetto potente. L'effetto opalescente del louche crea un'immagine ipnotica.",
     vi: 'Được tạo ra bởi Ernest Hemingway, cocktail đơn giản đầy lừa dối này kết hợp absinthe với champagne. Được đặt tên theo cuốn sách năm 1932 của Hemingway về đấu bò, đó là một thức uống nguy hiểm, thanh lịch dễ uống nhưng mạnh mẽ. Hiệu ứng louche óng ánh tạo ra hình ảnh mê hoặc.',
   },
 
@@ -60,13 +60,13 @@ export const deathInTheAfternoon: Cocktail = {
   taste: {
     profile: ['herbal', 'anise', 'champagne', 'complex'],
     description: {
-      en: 'Complex and dangerous. The absinthe provides intense anise, wormwood, and herbal notes that are softened and lifted by champagne\'s effervescence. Sweet and dry simultaneously, with botanical complexity from the absinthe balanced by champagne\'s acidity. Deceptively smooth and easy to drink.',
-      it: 'Complesso e pericoloso. L\'assenzio fornisce intense note di anice, assenzio ed erbe che vengono ammorbidite e sollevate dall\'effervescenza dello champagne. Dolce e secco contemporaneamente, con complessità botanica dall\'assenzio bilanciata dall\'acidità dello champagne. Ingannevolmente liscio e facile da bere.',
+      en: "Complex and dangerous. The absinthe provides intense anise, wormwood, and herbal notes that are softened and lifted by champagne's effervescence. Sweet and dry simultaneously, with botanical complexity from the absinthe balanced by champagne's acidity. Deceptively smooth and easy to drink.",
+      it: "Complesso e pericoloso. L'assenzio fornisce intense note di anice, assenzio ed erbe che vengono ammorbidite e sollevate dall'effervescenza dello champagne. Dolce e secco contemporaneamente, con complessità botanica dall'assenzio bilanciata dall'acidità dello champagne. Ingannevolmente liscio e facile da bere.",
       vi: 'Phức tạp và nguy hiểm. Absinthe mang đến hương hồi, ngải cứu và thảo mộc mạnh mẽ được làm mềm và nâng lên bởi sự sủi bọt của champagne. Ngọt và khô đồng thời, với độ phức tạp thực vật từ absinthe được cân bằng bởi độ chua của champagne. Mượt mà và dễ uống đầy lừa dối.',
     },
     first_impression: {
       en: 'Champagne bubbles and anise hit first, elegant and bright',
-      it: 'Le bollicine dello champagne e l\'anice colpiscono per prime, eleganti e brillanti',
+      it: "Le bollicine dello champagne e l'anice colpiscono per prime, eleganti e brillanti",
       vi: 'Bọt champagne và hồi đập vào đầu tiên, thanh lịch và tươi sáng',
     },
     finish: {
@@ -75,8 +75,8 @@ export const deathInTheAfternoon: Cocktail = {
       vi: 'Kết thúc dài, thảo mộc với hương hồi và ngải cứu kéo dài',
     },
     balance: {
-      en: 'Champagne balances absinthe\'s intensity, creating dangerous drinkability',
-      it: 'Lo champagne bilancia l\'intensità dell\'assenzio, creando una pericolosa bevibilità',
+      en: "Champagne balances absinthe's intensity, creating dangerous drinkability",
+      it: "Lo champagne bilancia l'intensità dell'assenzio, creando una pericolosa bevibilità",
       vi: 'Champagne cân bằng cường độ của absinthe, tạo ra khả năng uống nguy hiểm',
     },
   },
@@ -117,7 +117,7 @@ export const deathInTheAfternoon: Cocktail = {
 
   instructions: {
     en: 'Pour absinthe into a chilled champagne flute. Top slowly with very cold champagne until the drink achieves a proper opalescent, milky appearance (the louche effect). No garnish needed. As Hemingway suggested: "Drink three to five of these slowly."',
-    it: 'Versare l\'assenzio in un flûte da champagne raffreddato. Completare lentamente con champagne molto freddo fino a quando la bevanda raggiunge un\'adeguata apparenza opalescente e lattiginosa (l\'effetto louche). Nessuna guarnizione necessaria. Come suggerito da Hemingway: "Bere da tre a cinque di questi lentamente."',
+    it: "Versare l'assenzio in un flûte da champagne raffreddato. Completare lentamente con champagne molto freddo fino a quando la bevanda raggiunge un'adeguata apparenza opalescente e lattiginosa (l'effetto louche). Nessuna guarnizione necessaria. Come suggerito da Hemingway: \"Bere da tre a cinque di questi lentamente.\"",
     vi: 'Đổ absinthe vào ly champagne flute đã được làm lạnh. Thêm từ từ champagne rất lạnh cho đến khi thức uống đạt được vẻ ngoài óng ánh, sữa phù hợp (hiệu ứng louche). Không cần trang trí. Như Hemingway đề xuất: "Uống từ ba đến năm ly này từ từ."',
   },
 
@@ -173,7 +173,8 @@ export const deathInTheAfternoon: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['death-in-the-gulf-stream', 'hemingway-champagne'],
 
-  notes_for_staff: 'CAUTION: Extremely high ABV. Champagne must be very cold. Pour slowly to achieve proper louche effect. Original Hemingway ratio was 1:5 absinthe to champagne. Monitor guest consumption carefully. Can substitute Pernod or Pastis if absinthe unavailable, but flavor will differ.',
+  notes_for_staff:
+    'CAUTION: Extremely high ABV. Champagne must be very cold. Pour slowly to achieve proper louche effect. Original Hemingway ratio was 1:5 absinthe to champagne. Monitor guest consumption carefully. Can substitute Pernod or Pastis if absinthe unavailable, but flavor will differ.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -185,8 +186,10 @@ export const deathInTheAfternoon: Cocktail = {
   // SOURCES
   // ─────────────────────────────────────────────────────────────────────────
   source: {
-    primary: 'https://euvs-vintage-cocktail-books.cld.bz/1935-So-Red-the-Nose-or-Breath-in-the-Afternoon/23',
-    note: 'Original recipe from "So Red the Nose, or Breath in the Afternoon" (1935) by Ernest Hemingway.',
+    primary:
+      'https://euvs-vintage-cocktail-books.cld.bz/1935-So-Red-the-Nose-or-Breath-in-the-Afternoon/23',
+    notes:
+      'Original recipe from "So Red the Nose, or Breath in the Afternoon" (1935) by Ernest Hemingway.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

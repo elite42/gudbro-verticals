@@ -48,7 +48,7 @@ export const maiTaiFamous: Cocktail = {
     },
     story: {
       en: 'While Victor "Trader Vic" Bergeron created the original Mai Tai in 1944, this famous variant emerged in the 1960s-1970s as beach resorts and commercial tiki bars adapted the recipe to be more approachable and cost-effective. The addition of pineapple juice and grenadine created a sweeter, more visually appealing drink that resonated with tourists and casual drinkers. Though purists debate its authenticity, this version became so widespread that many people consider it the "real" Mai Tai. It\'s the version most commonly served at beach resorts, cruise ships, and casual tiki establishments worldwide.',
-      it: 'Mentre Victor "Trader Vic" Bergeron creò l\'originale Mai Tai nel 1944, questa famosa variante emerse negli anni \'60-\'70 quando i resort sulla spiaggia e i bar tiki commerciali adattarono la ricetta per renderla più accessibile ed economica. L\'aggiunta di succo di ananas e granatina creò una bevanda più dolce e visivamente accattivante che risuonò con i turisti e i bevitori casuali. Sebbene i puristi ne discutano l\'autenticità, questa versione divenne così diffusa che molte persone la considerano il "vero" Mai Tai. È la versione più comunemente servita nei resort sulla spiaggia, nelle navi da crociera e nei locali tiki casual in tutto il mondo.',
+      it: "Mentre Victor \"Trader Vic\" Bergeron creò l'originale Mai Tai nel 1944, questa famosa variante emerse negli anni '60-'70 quando i resort sulla spiaggia e i bar tiki commerciali adattarono la ricetta per renderla più accessibile ed economica. L'aggiunta di succo di ananas e granatina creò una bevanda più dolce e visivamente accattivante che risuonò con i turisti e i bevitori casuali. Sebbene i puristi ne discutano l'autenticità, questa versione divenne così diffusa che molte persone la considerano il \"vero\" Mai Tai. È la versione più comunemente servita nei resort sulla spiaggia, nelle navi da crociera e nei locali tiki casual in tutto il mondo.",
       vi: 'Trong khi Victor "Trader Vic" Bergeron tạo ra Mai Tai gốc vào năm 1944, biến thể nổi tiếng này xuất hiện vào những năm 1960-1970 khi các khu nghỉ dưỡng bãi biển và quán bar tiki thương mại điều chỉnh công thức để dễ tiếp cận và hiệu quả về chi phí hơn. Việc thêm nước ép dứa và grenadine đã tạo ra một thức uống ngọt hơn, hấp dẫn hơn về mặt thị giác khiến du khách và người uống thông thường thích thú. Mặc dù những người theo chủ nghĩa thuần túy tranh luận về tính chân thực của nó, phiên bản này trở nên phổ biến đến mức nhiều người coi đó là Mai Tai "thật". Đây là phiên bản được phục vụ phổ biến nhất tại các khu nghỉ dưỡng bãi biển, tàu du lịch và các cơ sở tiki thông thường trên toàn thế giới.',
     },
     named_after: {
@@ -62,7 +62,7 @@ export const maiTaiFamous: Cocktail = {
     profile: ['fruity', 'tropical', 'sweet'],
     description: {
       en: 'Sweet and tropical with prominent pineapple and orange flavors. The grenadine adds berry sweetness and a beautiful gradient color. More approachable and fruit-forward than the original, with rum providing warmth in the background. Easy-drinking and crowd-pleasing.',
-      it: 'Dolce e tropicale con prominenti sapori di ananas e arancia. La granatina aggiunge dolcezza di bacche e un bellissimo colore sfumato. Più accessibile e orientata alla frutta rispetto all\'originale, con il rum che fornisce calore in sottofondo. Facile da bere e di grande appeal.',
+      it: "Dolce e tropicale con prominenti sapori di ananas e arancia. La granatina aggiunge dolcezza di bacche e un bellissimo colore sfumato. Più accessibile e orientata alla frutta rispetto all'originale, con il rum che fornisce calore in sottofondo. Facile da bere e di grande appeal.",
       vi: 'Ngọt và nhiệt đới với hương vị dứa và cam nổi bật. Grenadine thêm vị ngọt quả mọng và màu gradient đẹp. Dễ tiếp cận hơn và hướng trái cây hơn bản gốc, với rum mang lại sự ấm áp ở hậu cảnh. Dễ uống và được nhiều người yêu thích.',
     },
     first_impression: {
@@ -77,7 +77,7 @@ export const maiTaiFamous: Cocktail = {
     },
     balance: {
       en: 'Sweet and fruity with good tropical balance - designed for mass appeal rather than complexity',
-      it: 'Dolce e fruttato con buon equilibrio tropicale - progettato per l\'appeal di massa piuttosto che per la complessità',
+      it: "Dolce e fruttato con buon equilibrio tropicale - progettato per l'appeal di massa piuttosto che per la complessità",
       vi: 'Ngọt và trái cây với sự cân bằng nhiệt đới tốt - được thiết kế cho sức hấp dẫn đại chúng hơn là độ phức tạp',
     },
   },
@@ -120,12 +120,16 @@ export const maiTaiFamous: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Orange juice', it: 'Succo d\'arancia', vi: 'Nước cam' },
+      display_name: { en: 'Orange juice', it: "Succo d'arancia", vi: 'Nước cam' },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_GRENADINE',
@@ -138,7 +142,7 @@ export const maiTaiFamous: Cocktail = {
 
   instructions: {
     en: 'Add white rum, dark rum, pineapple juice, orange juice, and lime juice to a shaker with ice. Shake well. Fill a hurricane glass with crushed ice. Strain mixture into glass. Drizzle grenadine down the side to create a sunset gradient effect. Garnish with pineapple wedge, cherry, and mint.',
-    it: 'Aggiungere rum bianco, rum scuro, succo di ananas, succo d\'arancia e succo di lime in uno shaker con ghiaccio. Shakerare bene. Riempire un bicchiere hurricane con ghiaccio tritato. Filtrare la miscela nel bicchiere. Versare la granatina lungo il lato per creare un effetto sfumato tramonto. Guarnire con spicchio di ananas, ciliegina e menta.',
+    it: "Aggiungere rum bianco, rum scuro, succo di ananas, succo d'arancia e succo di lime in uno shaker con ghiaccio. Shakerare bene. Riempire un bicchiere hurricane con ghiaccio tritato. Filtrare la miscela nel bicchiere. Versare la granatina lungo il lato per creare un effetto sfumato tramonto. Guarnire con spicchio di ananas, ciliegina e menta.",
     vi: 'Thêm rum trắng, rum đen, nước ép dứa, nước cam và nước cốt chanh vào bình lắc với đá. Lắc kỹ. Đổ đầy ly hurricane với đá nghiền. Lọc hỗn hợp vào ly. Rưới grenadine xuống bên cạnh để tạo hiệu ứng gradient hoàng hôn. Trang trí với miếng dứa, cherry và bạc hà.',
   },
 
@@ -175,7 +179,14 @@ export const maiTaiFamous: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -194,7 +205,8 @@ export const maiTaiFamous: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['mai-tai-iba-official', 'frozen-mai-tai', 'virgin-mai-tai'],
 
-  notes_for_staff: 'This is the popular tourist/resort version, NOT the IBA official recipe. Most customers expect this version when ordering Mai Tai at beach bars. Grenadine sunset effect is visual signature. Sweeter and more approachable than authentic Trader Vic recipe. Very popular poolside drink.',
+  notes_for_staff:
+    'This is the popular tourist/resort version, NOT the IBA official recipe. Most customers expect this version when ordering Mai Tai at beach bars. Grenadine sunset effect is visual signature. Sweeter and more approachable than authentic Trader Vic recipe. Very popular poolside drink.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -207,7 +219,8 @@ export const maiTaiFamous: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/mai-tai/',
-    note: 'Popular beach resort variant. Differs from IBA official and original Trader Vic recipes.',
+    notes:
+      'Popular beach resort variant. Differs from IBA official and original Trader Vic recipes.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

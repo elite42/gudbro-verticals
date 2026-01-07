@@ -47,8 +47,8 @@ export const blueHawaiian: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Blue Hawaiian was created in 1957 by legendary bartender Harry Yee at the Hilton Hawaiian Village in Waikiki. Yee invented the drink as a showcase for Bols Blue Curaçao, which had just been introduced to Hawaii. The stunning blue color was meant to evoke the crystal-clear Hawaiian waters. Harry Yee is also credited with being the first bartender to garnish drinks with orchids and paper umbrellas, innovations that became synonymous with tiki culture. The Blue Hawaiian became an instant classic and remains one of Hawaii\'s signature cocktails.',
-      it: 'Il Blue Hawaiian fu creato nel 1957 dal leggendario barman Harry Yee all\'Hilton Hawaiian Village a Waikiki. Yee inventò la bevanda come vetrina per il Bols Blue Curaçao, appena introdotto alle Hawaii. Lo splendido colore blu doveva evocare le acque cristalline hawaiane. A Harry Yee si attribuisce anche di essere stato il primo barman a guarnire le bevande con orchidee e ombrellini di carta, innovazioni diventate sinonimo della cultura tiki. Il Blue Hawaiian divenne un classico istantaneo e rimane uno dei cocktail emblematici delle Hawaii.',
+      en: "The Blue Hawaiian was created in 1957 by legendary bartender Harry Yee at the Hilton Hawaiian Village in Waikiki. Yee invented the drink as a showcase for Bols Blue Curaçao, which had just been introduced to Hawaii. The stunning blue color was meant to evoke the crystal-clear Hawaiian waters. Harry Yee is also credited with being the first bartender to garnish drinks with orchids and paper umbrellas, innovations that became synonymous with tiki culture. The Blue Hawaiian became an instant classic and remains one of Hawaii's signature cocktails.",
+      it: "Il Blue Hawaiian fu creato nel 1957 dal leggendario barman Harry Yee all'Hilton Hawaiian Village a Waikiki. Yee inventò la bevanda come vetrina per il Bols Blue Curaçao, appena introdotto alle Hawaii. Lo splendido colore blu doveva evocare le acque cristalline hawaiane. A Harry Yee si attribuisce anche di essere stato il primo barman a guarnire le bevande con orchidee e ombrellini di carta, innovazioni diventate sinonimo della cultura tiki. Il Blue Hawaiian divenne un classico istantaneo e rimane uno dei cocktail emblematici delle Hawaii.",
       vi: 'Blue Hawaiian được tạo ra năm 1957 bởi bartender huyền thoại Harry Yee tại Hilton Hawaiian Village ở Waikiki. Yee đã phát minh ra thức uống như một showcase cho Bols Blue Curaçao, vừa mới được giới thiệu đến Hawaii. Màu xanh tuyệt đẹp được tạo ra để gợi lên vùng biển Hawaii trong vắt. Harry Yee cũng được ghi nhận là bartender đầu tiên trang trí đồ uống bằng hoa lan và dù giấy, những đổi mới trở thành đồng nghĩa với văn hóa tiki. Blue Hawaiian trở thành một tác phẩm kinh điển ngay lập tức và vẫn là một trong những cocktail đặc trưng của Hawaii.',
     },
     named_after: {
@@ -67,7 +67,7 @@ export const blueHawaiian: Cocktail = {
     },
     first_impression: {
       en: 'Sweet tropical fruits and orange citrus hit first, followed by creamy coconut waves',
-      it: 'Frutti tropicali dolci e agrumi d\'arancia colpiscono per primi, seguiti da onde cremose di cocco',
+      it: "Frutti tropicali dolci e agrumi d'arancia colpiscono per primi, seguiti da onde cremose di cocco",
       vi: 'Trái cây nhiệt đới ngọt và cam quýt cam xuất hiện đầu tiên, theo sau là sóng dừa béo ngậy',
     },
     finish: {
@@ -165,7 +165,14 @@ export const blueHawaiian: Cocktail = {
   computed: {
     allergens: ['coconut', 'sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -184,7 +191,8 @@ export const blueHawaiian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['blue-hawaii', 'swimming-pool'],
 
-  notes_for_staff: 'Created by Harry Yee, pioneer of tiki garnishes. Can be shaken instead of blended for a non-frozen version. The vibrant blue color is essential - use quality blue curaçao. Garnish with orchid if available for authentic Hawaiian presentation.',
+  notes_for_staff:
+    'Created by Harry Yee, pioneer of tiki garnishes. Can be shaken instead of blended for a non-frozen version. The vibrant blue color is essential - use quality blue curaçao. Garnish with orchid if available for authentic Hawaiian presentation.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +205,8 @@ export const blueHawaiian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/506/blue-hawaiian',
-    note: 'Created by Harry Yee at Hilton Hawaiian Village, 1957. Historical information from tiki cocktail archives.',
+    notes:
+      'Created by Harry Yee at Hilton Hawaiian Village, 1957. Historical information from tiki cocktail archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

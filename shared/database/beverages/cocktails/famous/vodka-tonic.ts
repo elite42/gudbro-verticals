@@ -32,8 +32,8 @@ export const vodkaTonic: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A crisp, refreshing highball combining vodka with tonic water and lime. The Vodka Tonic is the vodka lover\'s answer to the Gin & Tonic, offering a cleaner, more neutral base that lets the tonic\'s botanicals shine.',
-    it: 'Un highball frizzante e rinfrescante che combina vodka con acqua tonica e lime. Il Vodka Tonic è la risposta dell\'amante della vodka al Gin & Tonic, offrendo una base più pulita e neutra che lascia brillare le botaniche della tonica.',
+    en: "A crisp, refreshing highball combining vodka with tonic water and lime. The Vodka Tonic is the vodka lover's answer to the Gin & Tonic, offering a cleaner, more neutral base that lets the tonic's botanicals shine.",
+    it: "Un highball frizzante e rinfrescante che combina vodka con acqua tonica e lime. Il Vodka Tonic è la risposta dell'amante della vodka al Gin & Tonic, offrendo una base più pulita e neutra che lascia brillare le botaniche della tonica.",
     vi: 'Một highball sảng khoái, tươi mát kết hợp vodka với nước tonic và chanh. Vodka Tonic là câu trả lời của người yêu vodka cho Gin & Tonic, mang lại cơ sở sạch hơn, trung tính hơn để thảo mộc của tonic tỏa sáng.',
   },
 
@@ -44,8 +44,8 @@ export const vodkaTonic: Cocktail = {
       country: 'USA',
     },
     story: {
-      en: 'The Vodka Tonic emerged in the 1950s as vodka gained popularity in America. While the Gin & Tonic had been popular since the 19th century for its quinine content (used to prevent malaria), the vodka version offered a less botanical, more neutral alternative. The drink became extremely popular in the 1960s and 1970s during the vodka boom, appealing to those who wanted the refreshing qualities of tonic without gin\'s distinctive juniper flavor. Today, with the craft tonic water renaissance, the Vodka Tonic has gained new appreciation.',
-      it: 'Il Vodka Tonic emerse negli anni \'50 quando la vodka guadagnò popolarità in America. Mentre il Gin & Tonic era popolare dal XIX secolo per il suo contenuto di chinino (usato per prevenire la malaria), la versione con vodka offriva un\'alternativa meno botanica e più neutra. Il drink divenne estremamente popolare negli anni \'60 e \'70 durante il boom della vodka, attraendo coloro che volevano le qualità rinfrescanti della tonica senza il caratteristico sapore di ginepro del gin. Oggi, con la rinascita dell\'acqua tonica artigianale, il Vodka Tonic ha guadagnato nuovo apprezzamento.',
+      en: "The Vodka Tonic emerged in the 1950s as vodka gained popularity in America. While the Gin & Tonic had been popular since the 19th century for its quinine content (used to prevent malaria), the vodka version offered a less botanical, more neutral alternative. The drink became extremely popular in the 1960s and 1970s during the vodka boom, appealing to those who wanted the refreshing qualities of tonic without gin's distinctive juniper flavor. Today, with the craft tonic water renaissance, the Vodka Tonic has gained new appreciation.",
+      it: "Il Vodka Tonic emerse negli anni '50 quando la vodka guadagnò popolarità in America. Mentre il Gin & Tonic era popolare dal XIX secolo per il suo contenuto di chinino (usato per prevenire la malaria), la versione con vodka offriva un'alternativa meno botanica e più neutra. Il drink divenne estremamente popolare negli anni '60 e '70 durante il boom della vodka, attraendo coloro che volevano le qualità rinfrescanti della tonica senza il caratteristico sapore di ginepro del gin. Oggi, con la rinascita dell'acqua tonica artigianale, il Vodka Tonic ha guadagnato nuovo apprezzamento.",
       vi: 'Vodka Tonic xuất hiện vào những năm 1950 khi vodka trở nên phổ biến ở Mỹ. Trong khi Gin & Tonic đã phổ biến từ thế kỷ 19 vì hàm lượng quinine (được sử dụng để ngăn ngừa sốt rét), phiên bản vodka mang lại sự thay thế ít thảo mộc hơn, trung tính hơn. Thức uống trở nên cực kỳ phổ biến vào những năm 1960 và 1970 trong thời kỳ bùng nổ vodka, thu hút những ai muốn chất lượng tươi mát của tonic mà không có hương vị cây tùng đặc trưng của gin. Ngày nay, với sự phục hưng nước tonic thủ công, Vodka Tonic đã nhận được sự đánh giá cao mới.',
     },
     named_after: {
@@ -58,7 +58,7 @@ export const vodkaTonic: Cocktail = {
   taste: {
     profile: ['bitter', 'refreshing', 'crisp', 'citrus'],
     description: {
-      en: 'Clean and crisp with the tonic\'s characteristic bitterness from quinine. The vodka provides a neutral backbone that allows the tonic\'s botanicals to shine, while lime adds bright citrus notes. More straightforward and less complex than a Gin & Tonic.',
+      en: "Clean and crisp with the tonic's characteristic bitterness from quinine. The vodka provides a neutral backbone that allows the tonic's botanicals to shine, while lime adds bright citrus notes. More straightforward and less complex than a Gin & Tonic.",
       it: 'Pulito e frizzante con la caratteristica amarezza della tonica dal chinino. La vodka fornisce una base neutra che permette alle botaniche della tonica di brillare, mentre il lime aggiunge note di agrumi brillanti. Più diretto e meno complesso di un Gin & Tonic.',
       vi: 'Trong sạch và sắc nét với vị đắng đặc trưng của tonic từ quinine. Vodka cung cấp xương sống trung tính cho phép thảo mộc của tonic tỏa sáng, trong khi chanh thêm hương cam quýt tươi sáng. Thẳng thắn hơn và ít phức tạp hơn Gin & Tonic.',
     },
@@ -74,7 +74,7 @@ export const vodkaTonic: Cocktail = {
     },
     balance: {
       en: 'Well-balanced between vodka neutrality and tonic bitterness, with lime brightening the whole drink',
-      it: 'Ben bilanciato tra la neutralità della vodka e l\'amarezza della tonica, con il lime che illumina l\'intero drink',
+      it: "Ben bilanciato tra la neutralità della vodka e l'amarezza della tonica, con il lime che illumina l'intero drink",
       vi: 'Cân bằng tốt giữa tính trung tính của vodka và vị đắng tonic, với chanh làm sáng toàn bộ thức uống',
     },
   },
@@ -89,8 +89,8 @@ export const vodkaTonic: Cocktail = {
       vi: 'Kết hợp tốt với món khai vị nhẹ, hải sản, sushi, salad và món Địa Trung Hải. Tuyệt vời với hàu, ceviche và đĩa phô mai nhẹ.',
     },
     ideal_for: {
-      en: 'Perfect for those who enjoy the refreshing bitterness of tonic but prefer vodka\'s neutrality over gin\'s botanical character. Great for warm weather, aperitivo hour, or anyone seeking a clean, crisp drink.',
-      it: 'Perfetto per chi apprezza l\'amarezza rinfrescante della tonica ma preferisce la neutralità della vodka al carattere botanico del gin. Ottimo per il clima caldo, l\'ora dell\'aperitivo o per chiunque cerchi un drink pulito e frizzante.',
+      en: "Perfect for those who enjoy the refreshing bitterness of tonic but prefer vodka's neutrality over gin's botanical character. Great for warm weather, aperitivo hour, or anyone seeking a clean, crisp drink.",
+      it: "Perfetto per chi apprezza l'amarezza rinfrescante della tonica ma preferisce la neutralità della vodka al carattere botanico del gin. Ottimo per il clima caldo, l'ora dell'aperitivo o per chiunque cerchi un drink pulito e frizzante.",
       vi: 'Hoàn hảo cho những ai thích vị đắng tươi mát của tonic nhưng thích tính trung tính của vodka hơn đặc tính thảo mộc của gin. Tuyệt vời cho thời tiết ấm, giờ aperitivo hoặc bất kỳ ai tìm kiếm thức uống trong sạch, sảng khoái.',
     },
   },
@@ -157,7 +157,14 @@ export const vodkaTonic: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance', 'quinine_sensitivity'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -176,7 +183,8 @@ export const vodkaTonic: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['gin-and-tonic', 'vodka-soda'],
 
-  notes_for_staff: 'Quality of tonic water is crucial - premium tonics like Fever-Tree make a huge difference. Use fresh lime, not bottled juice. Ratio is flexible - typically 1:2 vodka to tonic.',
+  notes_for_staff:
+    'Quality of tonic water is crucial - premium tonics like Fever-Tree make a huge difference. Use fresh lime, not bottled juice. Ratio is flexible - typically 1:2 vodka to tonic.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -189,7 +197,7 @@ export const vodkaTonic: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1247/vodka-tonic',
-    note: 'Popular variation of Gin & Tonic, emerged during 1950s vodka boom.',
+    notes: 'Popular variation of Gin & Tonic, emerged during 1950s vodka boom.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

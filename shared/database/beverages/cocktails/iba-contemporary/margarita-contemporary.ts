@@ -33,8 +33,8 @@ export const margaritaContemporary: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'The world\'s most popular tequila cocktail, combining tequila, lime juice, and orange liqueur, typically served with a salt rim. Perfectly balanced between sweet, sour, and salty, making it an endlessly refreshing classic.',
-    it: 'Il cocktail a base di tequila più popolare al mondo, che combina tequila, succo di lime e liquore all\'arancia, tipicamente servito con un bordo di sale. Perfettamente bilanciato tra dolce, acido e salato, rendendolo un classico infinitamente rinfrescante.',
+    en: "The world's most popular tequila cocktail, combining tequila, lime juice, and orange liqueur, typically served with a salt rim. Perfectly balanced between sweet, sour, and salty, making it an endlessly refreshing classic.",
+    it: "Il cocktail a base di tequila più popolare al mondo, che combina tequila, succo di lime e liquore all'arancia, tipicamente servito con un bordo di sale. Perfettamente bilanciato tra dolce, acido e salato, rendendolo un classico infinitamente rinfrescante.",
     vi: 'Cocktail tequila phổ biến nhất thế giới, kết hợp tequila, nước chanh và rượu cam, thường được phục vụ với viền muối. Cân bằng hoàn hảo giữa ngọt, chua và mặn, khiến nó trở thành một tác phẩm kinh điển sảng khoái vô tận.',
   },
 
@@ -65,7 +65,7 @@ export const margaritaContemporary: Cocktail = {
     profile: ['citrus', 'sweet', 'salty', 'tart'],
     description: {
       en: 'Bright, tangy, and refreshing. The salt rim enhances the citrus flavors, tequila provides earthy agave notes, Cointreau adds orange sweetness, and fresh lime brings tartness. A perfect balance of all taste elements.',
-      it: 'Brillante, piccante e rinfrescante. Il bordo di sale esalta i sapori di agrumi, la tequila fornisce note terrose di agave, il Cointreau aggiunge dolcezza all\'arancia e il lime fresco porta acidità. Un perfetto equilibrio di tutti gli elementi di gusto.',
+      it: "Brillante, piccante e rinfrescante. Il bordo di sale esalta i sapori di agrumi, la tequila fornisce note terrose di agave, il Cointreau aggiunge dolcezza all'arancia e il lime fresco porta acidità. Un perfetto equilibrio di tutti gli elementi di gusto.",
       vi: 'Tươi sáng, chua và sảng khoái. Viền muối làm nổi bật hương vị chanh, tequila cung cấp hương agave đất, Cointreau thêm vị ngọt cam, và chanh tươi mang đến vị chua. Một sự cân bằng hoàn hảo của tất cả các yếu tố hương vị.',
     },
     first_impression: {
@@ -91,7 +91,7 @@ export const margaritaContemporary: Cocktail = {
     seasons: ['spring', 'summer', 'autumn'],
     food_pairings: {
       en: 'Excellent with Mexican cuisine, tacos, guacamole, ceviche, grilled fish, spicy foods, and chips with salsa. The acidity cuts through rich, fatty foods perfectly.',
-      it: 'Eccellente con cucina messicana, tacos, guacamole, ceviche, pesce alla griglia, cibi piccanti e patatine con salsa. L\'acidità taglia perfettamente i cibi ricchi e grassi.',
+      it: "Eccellente con cucina messicana, tacos, guacamole, ceviche, pesce alla griglia, cibi piccanti e patatine con salsa. L'acidità taglia perfettamente i cibi ricchi e grassi.",
       vi: 'Tuyệt vời với ẩm thực Mexico, tacos, guacamole, ceviche, cá nướng, đồ ăn cay và khoai tây chiên với salsa. Độ chua cắt qua các món ăn béo ngậy một cách hoàn hảo.',
     },
     ideal_for: {
@@ -108,7 +108,11 @@ export const margaritaContemporary: Cocktail = {
     {
       ingredient_id: 'ING_TEQUILA',
       quantity: { amount: 50, unit: 'ml' },
-      display_name: { en: 'Tequila 100% agave', it: 'Tequila 100% agave', vi: 'Tequila 100% agave' },
+      display_name: {
+        en: 'Tequila 100% agave',
+        it: 'Tequila 100% agave',
+        vi: 'Tequila 100% agave',
+      },
     },
     {
       ingredient_id: 'ING_COINTREAU',
@@ -124,7 +128,7 @@ export const margaritaContemporary: Cocktail = {
       ingredient_id: 'ING_SALT',
       quantity: { amount: 1, unit: 'pinch' },
       display_name: { en: 'Salt', it: 'Sale', vi: 'Muối' },
-      note: { en: 'for rim', it: 'per il bordo', vi: 'cho viền' },
+      notes: { en: 'for rim', it: 'per il bordo', vi: 'cho viền' },
     },
   ],
 
@@ -169,7 +173,14 @@ export const margaritaContemporary: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -188,7 +199,8 @@ export const margaritaContemporary: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['frozen-margarita', 'strawberry-margarita', 'spicy-margarita', 'cadillac-margarita'],
 
-  notes_for_staff: 'Use 100% agave tequila for best results. Cointreau is preferred over cheaper triple sec. Fresh lime juice is essential - never use bottled. Salt rim is optional - ask customer preference. Can serve on the rocks or frozen.',
+  notes_for_staff:
+    'Use 100% agave tequila for best results. Cointreau is preferred over cheaper triple sec. Fresh lime juice is essential - never use bottled. Salt rim is optional - ask customer preference. Can serve on the rocks or frozen.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -201,7 +213,7 @@ export const margaritaContemporary: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/margarita/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -50,9 +50,9 @@ export const whiteLady: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'First created by Harry MacElhone in 1919, the White Lady underwent a transformation in 1929 when gin replaced crème de menthe, defining the recipe we know today. Originally served at Ciro\'s Club in London, this cocktail has traveled through decades, becoming a symbol of sophistication in bars worldwide. Some variations add egg white for extra silkiness, though the IBA standard recipe does not include it.',
-      it: 'Creata per la prima volta da Harry MacElhone nel 1919, la White Lady subì una trasformazione nel 1929 quando il gin sostituì la crème de menthe, definendo la ricetta che conosciamo oggi. Originariamente servita al Ciro\'s Club di Londra, questo cocktail ha attraversato decenni, diventando un simbolo di sofisticatezza nei bar di tutto il mondo. Alcune varianti aggiungono albume per extra setosità, anche se la ricetta standard IBA non lo include.',
-      vi: 'Lần đầu tiên được tạo ra bởi Harry MacElhone vào năm 1919, White Lady trải qua một sự chuyển đổi vào năm 1929 khi gin thay thế crème de menthe, xác định công thức chúng ta biết ngày nay. Ban đầu được phục vụ tại Ciro\'s Club ở London, cocktail này đã đi qua nhiều thập kỷ, trở thành biểu tượng của sự tinh tế trong các quầy bar trên toàn thế giới. Một số biến thể thêm lòng trắng trứng để mịn màng hơn, mặc dù công thức IBA chuẩn không bao gồm nó.',
+      en: "First created by Harry MacElhone in 1919, the White Lady underwent a transformation in 1929 when gin replaced crème de menthe, defining the recipe we know today. Originally served at Ciro's Club in London, this cocktail has traveled through decades, becoming a symbol of sophistication in bars worldwide. Some variations add egg white for extra silkiness, though the IBA standard recipe does not include it.",
+      it: "Creata per la prima volta da Harry MacElhone nel 1919, la White Lady subì una trasformazione nel 1929 quando il gin sostituì la crème de menthe, definendo la ricetta che conosciamo oggi. Originariamente servita al Ciro's Club di Londra, questo cocktail ha attraversato decenni, diventando un simbolo di sofisticatezza nei bar di tutto il mondo. Alcune varianti aggiungono albume per extra setosità, anche se la ricetta standard IBA non lo include.",
+      vi: "Lần đầu tiên được tạo ra bởi Harry MacElhone vào năm 1919, White Lady trải qua một sự chuyển đổi vào năm 1929 khi gin thay thế crème de menthe, xác định công thức chúng ta biết ngày nay. Ban đầu được phục vụ tại Ciro's Club ở London, cocktail này đã đi qua nhiều thập kỷ, trở thành biểu tượng của sự tinh tế trong các quầy bar trên toàn thế giới. Một số biến thể thêm lòng trắng trứng để mịn màng hơn, mặc dù công thức IBA chuẩn không bao gồm nó.",
     },
     named_after: {
       en: 'Named for its pale, elegant appearance and refined character.',
@@ -65,12 +65,12 @@ export const whiteLady: Cocktail = {
     profile: ['citrus', 'sharp', 'refreshing'],
     description: {
       en: 'Crisp and bracingly tart with bright lemon leading the way, balanced by the orange sweetness of Cointreau and the botanical complexity of gin. Clean, refreshing, and perfectly balanced.',
-      it: 'Croccante e vivacemente aspro con limone brillante in testa, bilanciato dalla dolcezza d\'arancia del Cointreau e dalla complessità botanica del gin. Pulito, rinfrescante e perfettamente bilanciato.',
+      it: "Croccante e vivacemente aspro con limone brillante in testa, bilanciato dalla dolcezza d'arancia del Cointreau e dalla complessità botanica del gin. Pulito, rinfrescante e perfettamente bilanciato.",
       vi: 'Giòn và chua mạnh với chanh tươi sáng dẫn đầu, cân bằng bởi vị ngọt cam của Cointreau và độ phức tạp thực vật của gin. Sạch sẽ, sảng khoái và cân bằng hoàn hảo.',
     },
     first_impression: {
       en: 'Bright, sharp lemon with orange sweetness',
-      it: 'Limone brillante e aspro con dolcezza d\'arancia',
+      it: "Limone brillante e aspro con dolcezza d'arancia",
       vi: 'Chanh tươi sáng, chua với vị ngọt cam',
     },
     finish: {
@@ -113,12 +113,20 @@ export const whiteLady: Cocktail = {
     {
       ingredient_id: 'ING_TRIPLE_SEC',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Triple sec (Cointreau)', it: 'Triple sec (Cointreau)', vi: 'Triple sec (Cointreau)' },
+      display_name: {
+        en: 'Triple sec (Cointreau)',
+        it: 'Triple sec (Cointreau)',
+        vi: 'Triple sec (Cointreau)',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
   ],
 
@@ -163,7 +171,14 @@ export const whiteLady: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +197,8 @@ export const whiteLady: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['white-lady-with-egg-white', 'clover-club', 'aviation'],
 
-  notes_for_staff: 'Use Cointreau for best results - quality triple sec is essential. Fresh lemon juice only. Some guests may request egg white for silkiness - add 15ml if requested. Shake hard for proper dilution and chill.',
+  notes_for_staff:
+    'Use Cointreau for best results - quality triple sec is essential. Fresh lemon juice only. Some guests may request egg white for silkiness - add 15ml if requested. Shake hard for proper dilution and chill.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +211,8 @@ export const whiteLady: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/white-lady/',
-    note: 'IBA Official Recipe. Historical information from Harry MacElhone and cocktail history sources.',
+    notes:
+      'IBA Official Recipe. Historical information from Harry MacElhone and cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

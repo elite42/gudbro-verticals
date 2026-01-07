@@ -48,7 +48,7 @@ export const lastRites: Cocktail = {
     },
     story: {
       en: 'Created by Phil Ward at Death & Co in New York City in 2004, the Last Rites is a bold variation on the classic Last Word. Ward substituted mezcal for gin, creating a smoky, agave-driven interpretation that became one of the signature cocktails of the modern craft cocktail movement.',
-      it: 'Creato da Phil Ward al Death & Co di New York City nel 2004, il Last Rites è una variazione audace del classico Last Word. Ward ha sostituito il gin con mezcal, creando un\'interpretazione affumicata e basata sull\'agave che è diventata uno dei cocktail emblematici del movimento moderno dei cocktail artigianali.',
+      it: "Creato da Phil Ward al Death & Co di New York City nel 2004, il Last Rites è una variazione audace del classico Last Word. Ward ha sostituito il gin con mezcal, creando un'interpretazione affumicata e basata sull'agave che è diventata uno dei cocktail emblematici del movimento moderno dei cocktail artigianali.",
       vi: 'Được tạo ra bởi Phil Ward tại Death & Co ở New York City năm 2004, Last Rites là biến thể táo bạo của Last Word cổ điển. Ward thay gin bằng mezcal, tạo ra phiên bản khói, hướng agave trở thành một trong những cocktail đặc trưng của phong trào cocktail thủ công hiện đại.',
     },
     named_after: {
@@ -62,7 +62,7 @@ export const lastRites: Cocktail = {
     profile: ['smoky', 'herbal', 'complex'],
     description: {
       en: 'Smoky and herbal with layers of complexity. The mezcal provides an earthy, smoky backbone, while green Chartreuse adds herbal intensity. Maraschino brings subtle sweetness and cherry notes, balanced by bright lime acidity.',
-      it: 'Affumicato ed erbale con strati di complessità. Il mezcal fornisce una struttura terrosa e affumicata, mentre la Chartreuse verde aggiunge intensità erbale. Il maraschino porta dolcezza sottile e note di ciliegia, bilanciato dall\'acidità brillante del lime.',
+      it: "Affumicato ed erbale con strati di complessità. Il mezcal fornisce una struttura terrosa e affumicata, mentre la Chartreuse verde aggiunge intensità erbale. Il maraschino porta dolcezza sottile e note di ciliegia, bilanciato dall'acidità brillante del lime.",
       vi: 'Khói và thảo mộc với nhiều tầng phức tạp. Mezcal mang đến xương sống đất, khói, trong khi Chartreuse xanh thêm cường độ thảo mộc. Maraschino mang vị ngọt tinh tế và hương anh đào, cân bằng bởi độ chua sáng của chanh.',
     },
     first_impression: {
@@ -85,7 +85,7 @@ export const lastRites: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['cocktail_hour', 'date_night', 'special_occasion'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Pairs excellently with grilled meats, Mexican cuisine, barbecue, and strong cheeses. The smoky character complements charred and roasted flavors.',
       it: 'Si abbina eccellentemente con carni alla griglia, cucina messicana, barbecue e formaggi forti. Il carattere affumicato complementa i sapori carbonizzati e arrostiti.',
@@ -177,7 +177,14 @@ export const lastRites: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -185,7 +192,7 @@ export const lastRites: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['cocktail_hour', 'date_night', 'special_occasion'],
 
   is_mocktail: false,
@@ -196,7 +203,8 @@ export const lastRites: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['last-word', 'final-ward'],
 
-  notes_for_staff: 'Use quality mezcal with good smoke character. Shake hard to properly chill and dilute the strong spirits. This is a variation on the Last Word - offer comparison for curious guests.',
+  notes_for_staff:
+    'Use quality mezcal with good smoke character. Shake hard to properly chill and dilute the strong spirits. This is a variation on the Last Word - offer comparison for curious guests.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -209,7 +217,7 @@ export const lastRites: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://deathandcompany.com',
-    note: 'Created by Phil Ward at Death & Co, 2004. Modern classic cocktail.',
+    notes: 'Created by Phil Ward at Death & Co, 2004. Modern classic cocktail.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

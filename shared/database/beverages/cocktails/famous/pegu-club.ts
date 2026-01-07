@@ -30,8 +30,8 @@ export const peguClub: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'An exotic gin sour from British Colonial Burma. The Pegu Club combines gin with orange curaçao, lime juice, and aromatic bitters for a sophisticated, citrus-forward cocktail with a touch of tropical intrigue. Named after the legendary gentlemen\'s club in Rangoon, it\'s a taste of colonial elegance.',
-    it: 'Un esotico gin sour dalla Birmania coloniale britannica. Il Pegu Club combina gin con curaçao all\'arancia, succo di lime e bitter aromatici per un cocktail sofisticato e incentrato sugli agrumi con un tocco di intrigo tropicale. Prende il nome dal leggendario club dei gentiluomini a Rangoon, è un assaggio di eleganza coloniale.',
+    en: "An exotic gin sour from British Colonial Burma. The Pegu Club combines gin with orange curaçao, lime juice, and aromatic bitters for a sophisticated, citrus-forward cocktail with a touch of tropical intrigue. Named after the legendary gentlemen's club in Rangoon, it's a taste of colonial elegance.",
+    it: "Un esotico gin sour dalla Birmania coloniale britannica. Il Pegu Club combina gin con curaçao all'arancia, succo di lime e bitter aromatici per un cocktail sofisticato e incentrato sugli agrumi con un tocco di intrigo tropicale. Prende il nome dal leggendario club dei gentiluomini a Rangoon, è un assaggio di eleganza coloniale.",
     vi: 'Một loại gin sour kỳ lạ từ Burma thuộc địa Anh. Pegu Club kết hợp gin với orange curaçao, nước cốt chanh và bitter thơm cho một cocktail tinh tế, hướng cam quýt với chút bí ẩn nhiệt đới. Được đặt theo tên câu lạc bộ quý ông huyền thoại ở Rangoon, đây là hương vị của sự thanh lịch thuộc địa.',
   },
 
@@ -52,7 +52,7 @@ export const peguClub: Cocktail = {
       vi: 'Cocktail Pegu Club được tạo ra tại câu lạc bộ Pegu huyền thoại, một câu lạc bộ quý ông thời thuộc địa ở Rangoon (nay là Yangon), Burma (nay là Myanmar), được thành lập vào những năm 1880. Câu lạc bộ được đặt theo tên sông Pegu gần đó, là trung tâm xã hội cho các sĩ quan thuộc địa Anh và người nước ngoài ưu tú. Cocktail lần đầu xuất hiện trên ấn phẩm trong "Harry\'s ABC of Mixing Cocktails" của Harry MacElhone (1922) và sau đó trong "The Savoy Cocktail Book" của Harry Craddock (1930). Thức uống thể hiện sự tinh tế kỳ lạ của văn hóa quầy bar thuộc địa Anh - một gin sour được nâng cao với rượu cam và bitter. Sau Thế chiến II, Pegu Club suy thoái, và cocktail trở nên mờ nhạt. Nó được hồi sinh vào những năm 2000 khi Audrey Saunders mở một quán bar cocktail ở New York có tên "Pegu Club" để vinh danh nó, giới thiệu lại tác phẩm kinh điển bị lãng quên này cho người uống hiện đại.',
     },
     named_after: {
-      en: 'Named after the Pegu Club, a famous colonial-era gentlemen\'s club in Rangoon, Burma, which was named after the Pegu River.',
+      en: "Named after the Pegu Club, a famous colonial-era gentlemen's club in Rangoon, Burma, which was named after the Pegu River.",
       it: 'Prende il nome dal Pegu Club, un famoso club coloniale per gentiluomini a Rangoon, Birmania, che prendeva il nome dal fiume Pegu.',
       vi: 'Được đặt theo tên Pegu Club, một câu lạc bộ quý ông thời thuộc địa nổi tiếng ở Rangoon, Burma, được đặt theo tên sông Pegu.',
     },
@@ -61,13 +61,13 @@ export const peguClub: Cocktail = {
   taste: {
     profile: ['citrus', 'bitter', 'sophisticated'],
     description: {
-      en: 'Crisp, citrusy, and elegantly bitter. The Pegu Club balances gin\'s botanicals with bright lime acidity, orange curaçao\'s sweetness, and the aromatic complexity of bitters. It\'s a more sophisticated, exotic take on the classic gin sour.',
-      it: 'Croccante, agrumato ed elegantemente amaro. Il Pegu Club bilancia i botanici del gin con l\'acidità brillante del lime, la dolcezza del curaçao all\'arancia e la complessità aromatica dei bitter. È una versione più sofisticata ed esotica del classico gin sour.',
+      en: "Crisp, citrusy, and elegantly bitter. The Pegu Club balances gin's botanicals with bright lime acidity, orange curaçao's sweetness, and the aromatic complexity of bitters. It's a more sophisticated, exotic take on the classic gin sour.",
+      it: "Croccante, agrumato ed elegantemente amaro. Il Pegu Club bilancia i botanici del gin con l'acidità brillante del lime, la dolcezza del curaçao all'arancia e la complessità aromatica dei bitter. È una versione più sofisticata ed esotica del classico gin sour.",
       vi: 'Giòn, cam quýt và đắng thanh lịch. Pegu Club cân bằng thực vật của gin với độ chua chanh tươi sáng, vị ngọt của orange curaçao và sự phức tạp thơm của bitter. Đây là phiên bản tinh tế hơn, kỳ lạ hơn của gin sour cổ điển.',
     },
     first_impression: {
       en: 'Sharp lime acidity with orange sweetness, followed by gin botanicals and aromatic bitters',
-      it: 'Acidità tagliente del lime con dolcezza dell\'arancia, seguita da botanici del gin e bitter aromatici',
+      it: "Acidità tagliente del lime con dolcezza dell'arancia, seguita da botanici del gin e bitter aromatici",
       vi: 'Độ chua chanh sắc nét với vị ngọt cam, theo sau là thực vật gin và bitter thơm',
     },
     finish: {
@@ -93,7 +93,7 @@ export const peguClub: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for gin lovers who appreciate citrus-forward sours with complexity. Ideal for cocktail historians and those who enjoy exotic, colonial-era drinks. A sophisticated choice for tropical or Asian-themed gatherings.',
-      it: 'Perfetto per gli amanti del gin che apprezzano i sour incentrati sugli agrumi con complessità. Ideale per storici dei cocktail e chi ama bevande esotiche dell\'era coloniale. Una scelta sofisticata per riunioni a tema tropicale o asiatico.',
+      it: "Perfetto per gli amanti del gin che apprezzano i sour incentrati sugli agrumi con complessità. Ideale per storici dei cocktail e chi ama bevande esotiche dell'era coloniale. Una scelta sofisticata per riunioni a tema tropicale o asiatico.",
       vi: 'Hoàn hảo cho người yêu gin đánh giá cao sours hướng cam quýt với sự phức tạp. Lý tưởng cho nhà sử học cocktail và những ai thích đồ uống kỳ lạ thời thuộc địa. Lựa chọn tinh tế cho các buổi họp mặt chủ đề nhiệt đới hoặc châu Á.',
     },
   },
@@ -110,12 +110,16 @@ export const peguClub: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_CURACAO',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Orange curaçao', it: 'Curaçao all\'arancia', vi: 'Orange curaçao' },
+      display_name: { en: 'Orange curaçao', it: "Curaçao all'arancia", vi: 'Orange curaçao' },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ANGOSTURA_BITTERS',
@@ -170,7 +174,14 @@ export const peguClub: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'nut_free', 'dairy_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'nut_free',
+      'dairy_free',
+    ],
     spice_level: 0,
   },
 
@@ -189,7 +200,8 @@ export const peguClub: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['modern-pegu-club', 'rangoon-ruby'],
 
-  notes_for_staff: 'Always use fresh lime juice. Both Angostura and orange bitters are essential - don\'t skip either. Pierre Ferrand Dry Curaçao or Cointreau work best. Shake hard to properly chill and dilute. The classic ratio is roughly 8:3:3 (gin:curaçao:lime).',
+  notes_for_staff:
+    "Always use fresh lime juice. Both Angostura and orange bitters are essential - don't skip either. Pierre Ferrand Dry Curaçao or Cointreau work best. Shake hard to properly chill and dilute. The classic ratio is roughly 8:3:3 (gin:curaçao:lime).",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +214,8 @@ export const peguClub: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1617/pegu-club',
-    note: 'Classic recipe from The Savoy Cocktail Book (1930) and Harry\'s ABC of Mixing Cocktails (1922).',
+    notes:
+      "Classic recipe from The Savoy Cocktail Book (1930) and Harry's ABC of Mixing Cocktails (1922).",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

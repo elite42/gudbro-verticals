@@ -31,7 +31,7 @@ export const saturn: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The Saturn is a unique tiki cocktail that breaks convention by using gin instead of rum, combined with passion fruit, falernum, lemon juice, and orgeat. This space-age drink is tart, nutty, and refreshingly different from traditional tiki fare.',
-    it: 'Il Saturn è un cocktail tiki unico che infrange la convenzione usando gin invece di rum, combinato con frutto della passione, falernum, succo di limone e orzata. Questa bevanda dell\'era spaziale è aspra, di nocciola e rinfrescantemente diversa dalla tradizionale offerta tiki.',
+    it: "Il Saturn è un cocktail tiki unico che infrange la convenzione usando gin invece di rum, combinato con frutto della passione, falernum, succo di limone e orzata. Questa bevanda dell'era spaziale è aspra, di nocciola e rinfrescantemente diversa dalla tradizionale offerta tiki.",
     vi: 'Saturn là một loại cocktail tiki độc đáo phá vỡ quy ước bằng cách sử dụng gin thay vì rum, kết hợp với chanh dây, falernum, nước chanh và orgeat. Thức uống kỷ nguyên không gian này chua, hạt dẻ và khác biệt một cách sảng khoái so với món tiki truyền thống.',
   },
 
@@ -48,12 +48,12 @@ export const saturn: Cocktail = {
     },
     story: {
       en: 'The Saturn was created in 1967 by bartender J. "Popo" Galsini for a tiki drink competition. The drink won its category, standing out for its unusual use of gin in a tiki context - at a time when rum absolutely dominated the genre. The name "Saturn" reflects the space-age zeitgeist of the 1960s, when humanity was reaching for the stars. The cocktail\'s unique combination of gin, passion fruit, falernum, and orgeat created a flavor profile unlike any other tiki drink. Despite winning its competition, the Saturn fell into obscurity for decades until the modern tiki revival brought it back into the spotlight. Today, it\'s celebrated as a refreshing alternative to rum-heavy tiki drinks.',
-      it: 'Il Saturn fu creato nel 1967 dal barman J. "Popo" Galsini per una competizione di bevande tiki. La bevanda vinse la sua categoria, distinguendosi per l\'uso insolito del gin in un contesto tiki - in un momento in cui il rum dominava assolutamente il genere. Il nome "Saturn" riflette lo zeitgeist dell\'era spaziale degli anni \'60, quando l\'umanità stava raggiungendo le stelle. L\'unica combinazione del cocktail di gin, frutto della passione, falernum e orzata creò un profilo di sapore diverso da qualsiasi altra bevanda tiki. Nonostante abbia vinto la sua competizione, il Saturn cadde nell\'oscurità per decenni fino a quando il moderno revival tiki lo riportò sotto i riflettori. Oggi è celebrato come un\'alternativa rinfrescante alle bevande tiki pesanti di rum.',
+      it: "Il Saturn fu creato nel 1967 dal barman J. \"Popo\" Galsini per una competizione di bevande tiki. La bevanda vinse la sua categoria, distinguendosi per l'uso insolito del gin in un contesto tiki - in un momento in cui il rum dominava assolutamente il genere. Il nome \"Saturn\" riflette lo zeitgeist dell'era spaziale degli anni '60, quando l'umanità stava raggiungendo le stelle. L'unica combinazione del cocktail di gin, frutto della passione, falernum e orzata creò un profilo di sapore diverso da qualsiasi altra bevanda tiki. Nonostante abbia vinto la sua competizione, il Saturn cadde nell'oscurità per decenni fino a quando il moderno revival tiki lo riportò sotto i riflettori. Oggi è celebrato come un'alternativa rinfrescante alle bevande tiki pesanti di rum.",
       vi: 'Saturn được tạo ra năm 1967 bởi bartender J. "Popo" Galsini cho một cuộc thi cocktail tiki. Thức uống đã giành chiến thắng hạng mục của nó, nổi bật với việc sử dụng gin bất thường trong bối cảnh tiki - vào thời điểm rum hoàn toàn thống trị thể loại. Cái tên "Saturn" phản ánh tinh thần thời đại không gian của những năm 1960, khi nhân loại đang với tới các vì sao. Sự kết hợp độc đáo của cocktail gồm gin, chanh dây, falernum và orgeat đã tạo ra hồ sơ hương vị không giống bất kỳ thức uống tiki nào khác. Mặc dù giành chiến thắng trong cuộc thi, Saturn đã rơi vào quên lãng trong nhiều thập kỷ cho đến khi sự hồi sinh tiki hiện đại đưa nó trở lại ánh đèn sân khấu. Ngày nay, nó được ca ngợi như một lựa chọn thay thế sảng khoái cho các thức uống tiki nặng rum.',
     },
     named_after: {
       en: 'Named after the planet Saturn, reflecting the space-age enthusiasm of the 1960s Space Race era.',
-      it: 'Prende il nome dal pianeta Saturno, riflettendo l\'entusiasmo dell\'era spaziale degli anni \'60 della Corsa allo Spazio.',
+      it: "Prende il nome dal pianeta Saturno, riflettendo l'entusiasmo dell'era spaziale degli anni '60 della Corsa allo Spazio.",
       vi: 'Được đặt theo tên hành tinh Sao Thổ, phản ánh sự nhiệt tình kỷ nguyên không gian của thời đại Cuộc đua Không gian những năm 1960.',
     },
   },
@@ -62,7 +62,7 @@ export const saturn: Cocktail = {
     profile: ['citrus', 'tart', 'nutty'],
     description: {
       en: 'Bright, tart, and refreshingly complex with gin botanicals playing against tropical passion fruit. The Saturn balances sharp lemon acidity with nutty orgeat and spiced falernum, while gin provides an herbal backbone rarely found in tiki drinks. Unique and memorable.',
-      it: 'Brillante, aspro e rinfrescantemente complesso con botanici di gin che giocano contro il frutto della passione tropicale. Il Saturn bilancia l\'acidità aspra del limone con orzata di nocciole e falernum speziato, mentre il gin fornisce una struttura erbale raramente trovata nelle bevande tiki. Unico e memorabile.',
+      it: "Brillante, aspro e rinfrescantemente complesso con botanici di gin che giocano contro il frutto della passione tropicale. Il Saturn bilancia l'acidità aspra del limone con orzata di nocciole e falernum speziato, mentre il gin fornisce una struttura erbale raramente trovata nelle bevande tiki. Unico e memorabile.",
       vi: 'Sáng, chua và phức tạp sảng khoái với thực vật gin chơi chống lại chanh dây nhiệt đới. Saturn cân bằng độ chua chanh sắc nét với orgeat hạt dẻ và falernum gia vị, trong khi gin cung cấp xương sống thảo mộc hiếm khi tìm thấy trong đồ uống tiki. Độc đáo và đáng nhớ.',
     },
     first_impression: {
@@ -110,12 +110,20 @@ export const saturn: Cocktail = {
     {
       ingredient_id: 'ING_PASSION_FRUIT_SYRUP',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Passion fruit syrup', it: 'Sciroppo di frutto della passione', vi: 'Xi-rô chanh dây' },
+      display_name: {
+        en: 'Passion fruit syrup',
+        it: 'Sciroppo di frutto della passione',
+        vi: 'Xi-rô chanh dây',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_FALERNUM',
@@ -189,7 +197,8 @@ export const saturn: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['popo-galsini-saturn'],
 
-  notes_for_staff: 'Created by Popo Galsini in 1967, won tiki competition. Unusual gin-based tiki drink - refreshing alternative to rum cocktails. Orgeat contains almonds. Can substitute passion fruit purée for syrup. Serve up in coupe for elegance or tiki glass for theme.',
+  notes_for_staff:
+    'Created by Popo Galsini in 1967, won tiki competition. Unusual gin-based tiki drink - refreshing alternative to rum cocktails. Orgeat contains almonds. Can substitute passion fruit purée for syrup. Serve up in coupe for elegance or tiki glass for theme.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +211,8 @@ export const saturn: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://punchdrink.com/recipes/saturn/',
-    note: 'Created by J. "Popo" Galsini in 1967. Resurrected by modern tiki revival. Smuggler\'s Cove and tiki cocktail archives.',
+    notes:
+      'Created by J. "Popo" Galsini in 1967. Resurrected by modern tiki revival. Smuggler\'s Cove and tiki cocktail archives.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

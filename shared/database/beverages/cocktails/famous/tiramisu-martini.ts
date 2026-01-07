@@ -24,14 +24,23 @@ export const tiramisuMartini: Cocktail = {
   // CLASSIFICATION
   // ─────────────────────────────────────────────────────────────────────────
   status: 'famous',
-  tags: ['creamy', 'dessert', 'famous', 'coffee', 'chocolate', 'sweet', 'vodka-based', 'martini-style'],
+  tags: [
+    'creamy',
+    'dessert',
+    'famous',
+    'coffee',
+    'chocolate',
+    'sweet',
+    'vodka-based',
+    'martini-style',
+  ],
 
   // ─────────────────────────────────────────────────────────────────────────
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A liquid version of the beloved Italian dessert, combining vodka, coffee liqueur, Irish cream, and cream to recreate the flavors of tiramisu in cocktail form. This indulgent martini captures the essence of coffee-soaked ladyfingers and mascarpone cream.',
-    it: 'Una versione liquida dell\'amato dessert italiano, che combina vodka, liquore al caffè, crema irlandese e panna per ricreare i sapori del tiramisù in forma di cocktail. Questo martini indulgente cattura l\'essenza dei savoiardi imbevuti di caffè e crema di mascarpone.',
+    it: "Una versione liquida dell'amato dessert italiano, che combina vodka, liquore al caffè, crema irlandese e panna per ricreare i sapori del tiramisù in forma di cocktail. Questo martini indulgente cattura l'essenza dei savoiardi imbevuti di caffè e crema di mascarpone.",
     vi: 'Một phiên bản lỏng của món tráng miệng Ý được yêu thích, kết hợp vodka, rượu mùi cà phê, kem Ireland và kem để tái tạo hương vị của tiramisu dưới dạng cocktail. Martini nuông chiều này nắm bắt bản chất của bánh ngón tay ngâm cà phê và kem mascarpone.',
   },
 
@@ -56,7 +65,7 @@ export const tiramisuMartini: Cocktail = {
     profile: ['creamy', 'sweet', 'coffee', 'chocolate'],
     description: {
       en: 'A perfect recreation of tiramisu flavors: rich coffee notes balanced with sweet cream and hints of chocolate. The Irish cream adds a mascarpone-like richness while the coffee liqueur provides the espresso character. Sweet, indulgent, and remarkably similar to the dessert.',
-      it: 'Una perfetta ricreazione dei sapori del tiramisù: ricche note di caffè bilanciate con panna dolce e accenni di cioccolato. La crema irlandese aggiunge una ricchezza simile al mascarpone mentre il liquore al caffè fornisce il carattere dell\'espresso. Dolce, indulgente e straordinariamente simile al dessert.',
+      it: "Una perfetta ricreazione dei sapori del tiramisù: ricche note di caffè bilanciate con panna dolce e accenni di cioccolato. La crema irlandese aggiunge una ricchezza simile al mascarpone mentre il liquore al caffè fornisce il carattere dell'espresso. Dolce, indulgente e straordinariamente simile al dessert.",
       vi: 'Sự tái tạo hoàn hảo hương vị tiramisu: hương cà phê đậm đà cân bằng với kem ngọt và gợi ý chocolate. Kem Ireland thêm sự đậm đà giống mascarpone trong khi rượu mùi cà phê cung cấp đặc tính espresso. Ngọt, nuông chiều và đáng chú ý tương tự món tráng miệng.',
     },
     first_impression: {
@@ -79,7 +88,7 @@ export const tiramisuMartini: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['dessert', 'date_night', 'italian_dinner', 'celebration'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Perfect as a dessert replacement, especially after Italian meals. Can accompany biscotti, chocolate desserts, or coffee-flavored sweets. Also pairs with cannoli and panna cotta.',
       it: 'Perfetto come sostituto del dessert, specialmente dopo pasti italiani. Può accompagnare biscotti, dessert al cioccolato o dolci al caffè. Si abbina anche con cannoli e panna cotta.',
@@ -175,7 +184,7 @@ export const tiramisuMartini: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['dessert', 'date-night', 'celebration'],
 
   is_mocktail: false,
@@ -186,7 +195,8 @@ export const tiramisuMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['espresso-tiramisu-martini', 'frozen-tiramisu-martini', 'tiramisu-white-russian'],
 
-  notes_for_staff: 'The cocoa powder rim and dusting is essential for authentic tiramisu look. Some recipes use amaretto instead of vodka. Can add a shot of espresso for more coffee intensity. Popular in Italian restaurants as a liquid dessert option. High calorie content.',
+  notes_for_staff:
+    'The cocoa powder rim and dusting is essential for authentic tiramisu look. Some recipes use amaretto instead of vodka. Can add a shot of espresso for more coffee intensity. Popular in Italian restaurants as a liquid dessert option. High calorie content.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -199,7 +209,7 @@ export const tiramisuMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.allrecipes.com/recipe/228654/tiramisu-martini/',
-    note: 'Dessert-inspired cocktail popular in the 2000s.',
+    notes: 'Dessert-inspired cocktail popular in the 2000s.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

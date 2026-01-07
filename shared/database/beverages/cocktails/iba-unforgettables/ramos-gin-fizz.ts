@@ -65,12 +65,12 @@ export const ramosGinFizz: Cocktail = {
     profile: ['creamy', 'citrus', 'floral'],
     description: {
       en: 'Silky smooth and cloud-like with a perfect balance of tart citrus, floral orange blossom, and creamy richness. The gin provides botanical backbone while the egg white creates an ethereal, meringue-like texture. Vanilla adds subtle sweetness.',
-      it: 'Setoso e simile a una nuvola con un perfetto equilibrio di agrumi aspri, fiori d\'arancio floreali e ricchezza cremosa. Il gin fornisce una struttura botanica mentre l\'albume crea una consistenza eterea simile alla meringa. La vaniglia aggiunge dolcezza sottile.',
+      it: "Setoso e simile a una nuvola con un perfetto equilibrio di agrumi aspri, fiori d'arancio floreali e ricchezza cremosa. Il gin fornisce una struttura botanica mentre l'albume crea una consistenza eterea simile alla meringa. La vaniglia aggiunge dolcezza sottile.",
       vi: 'Mượt mà như lụa và giống như đám mây với sự cân bằng hoàn hảo giữa cam quýt chua, hoa cam và độ béo ngậy của kem. Gin cung cấp xương sống thực vật trong khi lòng trắng trứng tạo ra kết cấu thanh thoát giống meringue. Vani thêm vị ngọt tinh tế.',
     },
     first_impression: {
       en: 'Fluffy, cloud-like foam with bright citrus and delicate orange blossom aroma',
-      it: 'Schiuma soffice e simile a una nuvola con agrumi brillanti e delicato aroma di fiori d\'arancio',
+      it: "Schiuma soffice e simile a una nuvola con agrumi brillanti e delicato aroma di fiori d'arancio",
       vi: 'Bọt mềm mại giống đám mây với hương cam quýt tươi sáng và hoa cam tinh tế',
     },
     finish: {
@@ -95,7 +95,7 @@ export const ramosGinFizz: Cocktail = {
       vi: 'Hoàn hảo với các món brunch như trứng Benedict, bánh mì Pháp nướng hoặc trái cây tươi. Cũng kết hợp tốt với hải sản nhẹ, salad hoặc như một chất làm sạch vị giác giữa các món.',
     },
     ideal_for: {
-      en: 'Perfect for gin lovers who appreciate classic cocktails and don\'t mind waiting for their drink. Ideal for special occasions when you want to impress guests with both flavor and presentation.',
+      en: "Perfect for gin lovers who appreciate classic cocktails and don't mind waiting for their drink. Ideal for special occasions when you want to impress guests with both flavor and presentation.",
       it: 'Perfetto per gli amanti del gin che apprezzano i cocktail classici e non si preoccupano di aspettare la loro bevanda. Ideale per occasioni speciali quando si desidera impressionare gli ospiti con sapore e presentazione.',
       vi: 'Hoàn hảo cho người yêu gin đánh giá cao cocktail cổ điển và không ngại đợi đồ uống của họ. Lý tưởng cho những dịp đặc biệt khi bạn muốn gây ấn tượng với khách bằng cả hương vị và cách trình bày.',
     },
@@ -118,7 +118,11 @@ export const ramosGinFizz: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh vàng tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh vàng tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -138,7 +142,11 @@ export const ramosGinFizz: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_FLOWER_WATER',
       quantity: { amount: 3, unit: 'dash' },
-      display_name: { en: 'Orange flower water', it: 'Acqua di fiori d\'arancio', vi: 'Nước hoa cam' },
+      display_name: {
+        en: 'Orange flower water',
+        it: "Acqua di fiori d'arancio",
+        vi: 'Nước hoa cam',
+      },
     },
     {
       ingredient_id: 'ING_VANILLA_EXTRACT',
@@ -156,7 +164,7 @@ export const ramosGinFizz: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients except soda water in a cocktail shaker with ice. Shake for two minutes, double strain in a glass, pour the drink back in the shaker and hard shake without ice for one minute. Strain into a highball glass, top up with soda.',
-    it: 'Versare tutti gli ingredienti tranne l\'acqua di soda in uno shaker con ghiaccio. Shakerare per due minuti, filtrare due volte in un bicchiere, versare la bevanda di nuovo nello shaker e shakerare energicamente senza ghiaccio per un minuto. Filtrare in un bicchiere highball, completare con soda.',
+    it: "Versare tutti gli ingredienti tranne l'acqua di soda in uno shaker con ghiaccio. Shakerare per due minuti, filtrare due volte in un bicchiere, versare la bevanda di nuovo nello shaker e shakerare energicamente senza ghiaccio per un minuto. Filtrare in un bicchiere highball, completare con soda.",
     vi: 'Đổ tất cả nguyên liệu trừ nước soda vào bình lắc với đá. Lắc trong hai phút, lọc kép vào ly, đổ thức uống trở lại bình lắc và lắc mạnh không có đá trong một phút. Lọc vào ly highball, thêm soda lên trên.',
   },
 
@@ -212,7 +220,8 @@ export const ramosGinFizz: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['gin-fizz', 'silver-fizz', 'royal-fizz'],
 
-  notes_for_staff: 'This is the most labor-intensive cocktail on the menu. Requires 3 minutes of vigorous shaking total. Use fresh egg white for best foam. Orange flower water is essential - don\'t substitute. The double shake method (with ice, then without) is critical for proper texture. Soda should be added last and very gently to preserve the foam crown.',
+  notes_for_staff:
+    "This is the most labor-intensive cocktail on the menu. Requires 3 minutes of vigorous shaking total. Use fresh egg white for best foam. Orange flower water is essential - don't substitute. The double shake method (with ice, then without) is critical for proper texture. Soda should be added last and very gently to preserve the foam crown.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -225,7 +234,8 @@ export const ramosGinFizz: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/ramos-fizz/',
-    note: 'IBA Official Recipe. Historical information from New Orleans cocktail history and Henry Charles Ramos documentation.',
+    notes:
+      'IBA Official Recipe. Historical information from New Orleans cocktail history and Henry Charles Ramos documentation.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

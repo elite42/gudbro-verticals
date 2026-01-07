@@ -48,14 +48,14 @@ export const southside: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Southside\'s origins are debated, with two main origin stories. One claims it was created during Prohibition in Chicago, named after the South Side neighborhood and favored by gangsters like Al Capone - the mint was added to mask the harsh taste of bathtub gin. The other story attributes it to the Southside Sportsmen\'s Club on Long Island, New York, where it was served as a refined country club drink. Regardless of its true origin, the Southside became a staple of the Prohibition era and has enjoyed a major revival in modern cocktail bars.',
-      it: 'Le origini del Southside sono dibattute, con due storie principali. Una sostiene che sia stato creato durante il Proibizionismo a Chicago, prendendo il nome dal quartiere South Side e favorito da gangster come Al Capone - la menta fu aggiunta per mascherare il sapore aspro del gin fatto in casa. L\'altra storia lo attribuisce al Southside Sportsmen\'s Club a Long Island, New York, dove veniva servito come drink raffinato da country club. Indipendentemente dalla sua vera origine, il Southside divenne un pilastro dell\'era del Proibizionismo e ha goduto di un grande revival nei bar moderni.',
-      vi: 'Nguồn gốc của Southside được tranh luận, với hai câu chuyện chính. Một người cho rằng nó được tạo ra trong thời kỳ Cấm rượu ở Chicago, được đặt theo tên khu phố South Side và được ưa chuộng bởi các băng đảng như Al Capone - bạc hà được thêm vào để che giấu vị khắc nghiệt của gin tự chế. Câu chuyện khác quy nó cho Southside Sportsmen\'s Club ở Long Island, New York, nơi nó được phục vụ như một thức uống tinh tế ở câu lạc bộ đồng quê. Bất kể nguồn gốc thực sự, Southside trở thành nền tảng của thời kỳ Cấm rượu và đã có sự hồi sinh lớn trong các quán bar cocktail hiện đại.',
+      en: "The Southside's origins are debated, with two main origin stories. One claims it was created during Prohibition in Chicago, named after the South Side neighborhood and favored by gangsters like Al Capone - the mint was added to mask the harsh taste of bathtub gin. The other story attributes it to the Southside Sportsmen's Club on Long Island, New York, where it was served as a refined country club drink. Regardless of its true origin, the Southside became a staple of the Prohibition era and has enjoyed a major revival in modern cocktail bars.",
+      it: "Le origini del Southside sono dibattute, con due storie principali. Una sostiene che sia stato creato durante il Proibizionismo a Chicago, prendendo il nome dal quartiere South Side e favorito da gangster come Al Capone - la menta fu aggiunta per mascherare il sapore aspro del gin fatto in casa. L'altra storia lo attribuisce al Southside Sportsmen's Club a Long Island, New York, dove veniva servito come drink raffinato da country club. Indipendentemente dalla sua vera origine, il Southside divenne un pilastro dell'era del Proibizionismo e ha goduto di un grande revival nei bar moderni.",
+      vi: "Nguồn gốc của Southside được tranh luận, với hai câu chuyện chính. Một người cho rằng nó được tạo ra trong thời kỳ Cấm rượu ở Chicago, được đặt theo tên khu phố South Side và được ưa chuộng bởi các băng đảng như Al Capone - bạc hà được thêm vào để che giấu vị khắc nghiệt của gin tự chế. Câu chuyện khác quy nó cho Southside Sportsmen's Club ở Long Island, New York, nơi nó được phục vụ như một thức uống tinh tế ở câu lạc bộ đồng quê. Bất kể nguồn gốc thực sự, Southside trở thành nền tảng của thời kỳ Cấm rượu và đã có sự hồi sinh lớn trong các quán bar cocktail hiện đại.",
     },
     named_after: {
-      en: 'Named either after Chicago\'s South Side neighborhood or the Southside Sportsmen\'s Club on Long Island - both stories have their advocates.',
-      it: 'Prende il nome dal quartiere South Side di Chicago o dal Southside Sportsmen\'s Club a Long Island - entrambe le storie hanno i loro sostenitori.',
-      vi: 'Được đặt theo tên khu phố South Side của Chicago hoặc Southside Sportsmen\'s Club ở Long Island - cả hai câu chuyện đều có những người ủng hộ.',
+      en: "Named either after Chicago's South Side neighborhood or the Southside Sportsmen's Club on Long Island - both stories have their advocates.",
+      it: "Prende il nome dal quartiere South Side di Chicago o dal Southside Sportsmen's Club a Long Island - entrambe le storie hanno i loro sostenitori.",
+      vi: "Được đặt theo tên khu phố South Side của Chicago hoặc Southside Sportsmen's Club ở Long Island - cả hai câu chuyện đều có những người ủng hộ.",
     },
   },
 
@@ -178,7 +178,14 @@ export const southside: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -197,7 +204,8 @@ export const southside: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['southside-fizz', 'southside-royale', 'basil-southside'],
 
-  notes_for_staff: 'Use fresh mint - never dried or wilted. Gently muddle mint to release oils without making it bitter (bruising releases chlorophyll which makes it bitter). Fresh lemon juice is essential. Double strain to remove mint particles. Can be served as a Collins (Southside Fizz) by adding soda water and serving over ice. Some recipes call for lime instead of lemon - both are acceptable.',
+  notes_for_staff:
+    'Use fresh mint - never dried or wilted. Gently muddle mint to release oils without making it bitter (bruising releases chlorophyll which makes it bitter). Fresh lemon juice is essential. Double strain to remove mint particles. Can be served as a Collins (Southside Fizz) by adding soda water and serving over ice. Some recipes call for lime instead of lemon - both are acceptable.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -210,7 +218,8 @@ export const southside: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/southside/',
-    note: 'IBA Official Recipe. Prohibition-era cocktail with dual origin claims (Chicago South Side vs. Long Island country club).',
+    notes:
+      'IBA Official Recipe. Prohibition-era cocktail with dual origin claims (Chicago South Side vs. Long Island country club).',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -51,7 +51,7 @@ export const yellowBird: Cocktail = {
     },
     story: {
       en: 'The Yellow Bird was created in Jamaica in the 1960s and became popular in Caribbean resorts. Named after the Haitian folk song "Yellow Bird" (Choucoune), which was popularized by various artists in the 1950s-60s. The drink\'s golden color comes from Galliano and represents the titular yellow bird. It became a staple at tiki bars and tropical destinations worldwide.',
-      it: 'Il Yellow Bird fu creato in Giamaica negli anni \'60 e divenne popolare nei resort caraibici. Prende il nome dalla canzone popolare haitiana "Yellow Bird" (Choucoune), che fu resa popolare da vari artisti negli anni \'50-\'60. Il colore dorato della bevanda deriva dal Galliano e rappresenta l\'uccello giallo del titolo. È diventato un punto fermo nei tiki bar e nelle destinazioni tropicali di tutto il mondo.',
+      it: "Il Yellow Bird fu creato in Giamaica negli anni '60 e divenne popolare nei resort caraibici. Prende il nome dalla canzone popolare haitiana \"Yellow Bird\" (Choucoune), che fu resa popolare da vari artisti negli anni '50-'60. Il colore dorato della bevanda deriva dal Galliano e rappresenta l'uccello giallo del titolo. È diventato un punto fermo nei tiki bar e nelle destinazioni tropicali di tutto il mondo.",
       vi: 'Yellow Bird được tạo ra ở Jamaica vào những năm 1960 và trở nên phổ biến ở các khu nghỉ dưỡng Caribbean. Được đặt theo tên bài hát dân gian Haiti "Yellow Bird" (Choucoune), được nhiều nghệ sĩ phổ biến hóa vào những năm 1950-60. Màu vàng của thức uống đến từ Galliano và đại diện cho chú chim vàng trong tên. Nó trở thành món chủ lực tại các quán bar tiki và điểm đến nhiệt đới trên toàn thế giới.',
     },
     named_after: {
@@ -80,7 +80,7 @@ export const yellowBird: Cocktail = {
     },
     balance: {
       en: 'Well-balanced between rum richness, liqueur sweetness, and lime tartness',
-      it: 'Ben bilanciato tra la ricchezza del rum, la dolcezza del liquore e l\'acidità del lime',
+      it: "Ben bilanciato tra la ricchezza del rum, la dolcezza del liquore e l'acidità del lime",
       vi: 'Cân bằng tốt giữa độ đậm đà rum, vị ngọt rượu mùi và vị chua chanh',
     },
   },
@@ -168,7 +168,14 @@ export const yellowBird: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +194,8 @@ export const yellowBird: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['yellow-bird-frozen'],
 
-  notes_for_staff: 'The golden color should be vibrant. Can be served frozen for a different texture. Some variations add pineapple juice.',
+  notes_for_staff:
+    'The golden color should be vibrant. Can be served frozen for a different texture. Some variations add pineapple juice.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +208,7 @@ export const yellowBird: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/yellow-bird/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

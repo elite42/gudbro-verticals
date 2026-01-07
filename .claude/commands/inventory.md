@@ -1,10 +1,36 @@
-# Check Inventory
+---
+description: Controlla stato progetto e features esistenti
+---
 
-Before exploring the codebase or implementing any feature, read the inventory file:
+# Check Project Inventory
 
-1. Read `docs/inventory.md` to see all existing features
-2. Check if the requested feature already exists
-3. If it exists, report the file path and suggest modifications
-4. If it doesn't exist, proceed with implementation
+Prima di esplorare o implementare, leggi questi file:
 
-This prevents "rediscovery" of existing code.
+## 1. Database Inventory
+
+```
+@docs/DATABASE-INVENTORY.md
+```
+
+Contiene: stato database, conteggi tabelle, prodotti, ingredienti.
+
+## 2. Backlog
+
+```
+@docs/backlog/1-TODO.md        → Task da fare
+@docs/backlog/2-IN-PROGRESS.md → Task in corso
+```
+
+## 3. Features Documentation
+
+```
+@docs/features/                → Documentazione features
+```
+
+## 4. CLAUDE.md
+
+```
+@CLAUDE.md                     → Sezione 4 (Repository Structure)
+```
+
+Questo previene la "riscoperta" di codice esistente.

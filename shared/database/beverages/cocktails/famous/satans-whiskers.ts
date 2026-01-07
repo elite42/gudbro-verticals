@@ -16,8 +16,8 @@ export const satansWhiskers: Cocktail = {
 
   name: {
     en: "Satan's Whiskers",
-    it: "Baffi di Satana",
-    vi: "Râu Ác Quỷ",
+    it: 'Baffi di Satana',
+    vi: 'Râu Ác Quỷ',
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -30,9 +30,9 @@ export const satansWhiskers: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A complex cocktail featuring gin, sweet and dry vermouth, orange juice, Grand Marnier, and orange bitters. Satan\'s Whiskers is a sophisticated blend of citrus, botanicals, and dual vermouths creating a devilishly delicious drink.',
-    it: 'Un cocktail complesso con gin, vermut dolce e secco, succo d\'arancia, Grand Marnier e bitter all\'arancia. I Baffi di Satana sono una miscela sofisticata di agrumi, botanici e doppio vermut creando un drink diabolicamente delizioso.',
-    vi: 'Một loại cocktail phức tạp với gin, vermouth ngọt và khô, nước cam, Grand Marnier và orange bitters. Satan\'s Whiskers là sự pha trộn tinh tế của cam quýt, thực vật và vermouth kép tạo ra thức uống ngon tuyệt.',
+    en: "A complex cocktail featuring gin, sweet and dry vermouth, orange juice, Grand Marnier, and orange bitters. Satan's Whiskers is a sophisticated blend of citrus, botanicals, and dual vermouths creating a devilishly delicious drink.",
+    it: "Un cocktail complesso con gin, vermut dolce e secco, succo d'arancia, Grand Marnier e bitter all'arancia. I Baffi di Satana sono una miscela sofisticata di agrumi, botanici e doppio vermut creando un drink diabolicamente delizioso.",
+    vi: "Một loại cocktail phức tạp với gin, vermouth ngọt và khô, nước cam, Grand Marnier và orange bitters. Satan's Whiskers là sự pha trộn tinh tế của cam quýt, thực vật và vermouth kép tạo ra thức uống ngon tuyệt.",
   },
 
   history: {
@@ -61,8 +61,8 @@ export const satansWhiskers: Cocktail = {
   taste: {
     profile: ['complex', 'citrus', 'botanical'],
     description: {
-      en: 'Intensely complex with fresh orange juice balanced by dual vermouths, Grand Marnier\'s cognac-orange richness, botanical gin, and aromatic orange bitters. Sophisticated and layered with every sip revealing new nuances.',
-      it: 'Intensamente complesso con succo d\'arancia fresco bilanciato da doppio vermut, la ricchezza cognac-arancia del Grand Marnier, gin botanico e bitter all\'arancia aromatici. Sofisticato e stratificato con ogni sorso che rivela nuove sfumature.',
+      en: "Intensely complex with fresh orange juice balanced by dual vermouths, Grand Marnier's cognac-orange richness, botanical gin, and aromatic orange bitters. Sophisticated and layered with every sip revealing new nuances.",
+      it: "Intensamente complesso con succo d'arancia fresco bilanciato da doppio vermut, la ricchezza cognac-arancia del Grand Marnier, gin botanico e bitter all'arancia aromatici. Sofisticato e stratificato con ogni sorso che rivela nuove sfumature.",
       vi: 'Cực kỳ phức tạp với nước cam tươi được cân bằng bởi vermouth kép, sự phong phú cognac-cam của Grand Marnier, gin thực vật và orange bitters thơm. Tinh tế và nhiều lớp với mỗi ngụm tiết lộ sắc thái mới.',
     },
     first_impression: {
@@ -93,7 +93,7 @@ export const satansWhiskers: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for gin lovers who appreciate complex, citrus-forward cocktails. Ideal for those seeking sophisticated alternatives to the Bronx or similar orange juice cocktails.',
-      it: 'Perfetto per gli amanti del gin che apprezzano cocktail complessi e orientati agli agrumi. Ideale per chi cerca alternative sofisticate al Bronx o cocktail simili al succo d\'arancia.',
+      it: "Perfetto per gli amanti del gin che apprezzano cocktail complessi e orientati agli agrumi. Ideale per chi cerca alternative sofisticate al Bronx o cocktail simili al succo d'arancia.",
       vi: 'Hoàn hảo cho người yêu gin đánh giá cao các loại cocktail phức tạp, hướng cam quýt. Lý tưởng cho những ai tìm kiếm giải pháp thay thế tinh tế cho Bronx hoặc các loại cocktail nước cam tương tự.',
     },
   },
@@ -125,12 +125,12 @@ export const satansWhiskers: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_ORANGE_BITTERS',
       quantity: { amount: 1, unit: 'dash' },
-      display_name: { en: 'Orange bitters', it: 'Bitter all\'arancia', vi: 'Orange bitters' },
+      display_name: { en: 'Orange bitters', it: "Bitter all'arancia", vi: 'Orange bitters' },
     },
   ],
 
@@ -138,7 +138,7 @@ export const satansWhiskers: Cocktail = {
 
   instructions: {
     en: 'Add all ingredients to a cocktail shaker filled with ice. Shake vigorously until well-chilled. Strain into a chilled coupe or cocktail glass. Garnish with an orange twist, expressing the oils over the drink.',
-    it: 'Aggiungere tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare vigorosamente fino a raffreddare bene. Filtrare in una coppa raffreddata o bicchiere da cocktail. Guarnire con una scorza d\'arancia, esprimendo gli oli sulla bevanda.',
+    it: "Aggiungere tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare vigorosamente fino a raffreddare bene. Filtrare in una coppa raffreddata o bicchiere da cocktail. Guarnire con una scorza d'arancia, esprimendo gli oli sulla bevanda.",
     vi: 'Thêm tất cả nguyên liệu vào bình lắc cocktail đầy đá. Lắc mạnh cho đến khi lạnh kỹ. Lọc vào ly coupe hoặc ly cocktail đã làm lạnh. Trang trí với vỏ cam xoắn, ép tinh dầu lên thức uống.',
   },
 
@@ -146,7 +146,7 @@ export const satansWhiskers: Cocktail = {
 
   garnish: {
     en: 'Orange twist',
-    it: 'Scorza d\'arancia',
+    it: "Scorza d'arancia",
     vi: 'Vỏ cam xoắn',
   },
 
@@ -175,7 +175,14 @@ export const satansWhiskers: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -194,7 +201,8 @@ export const satansWhiskers: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['satans-whiskers-curled'],
 
-  notes_for_staff: 'This is the "Straight" version with Grand Marnier. "Curled" version uses orange curaçao instead. Use fresh orange juice only. Quality vermouths essential. Shake hard to properly integrate all ingredients. Complex but worth the effort.',
+  notes_for_staff:
+    'This is the "Straight" version with Grand Marnier. "Curled" version uses orange curaçao instead. Use fresh orange juice only. Quality vermouths essential. Shake hard to properly integrate all ingredients. Complex but worth the effort.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -207,7 +215,7 @@ export const satansWhiskers: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1508/satans-whiskers-straight',
-    note: 'Harry Craddock\'s "The Savoy Cocktail Book" (1930). Classic complex gin cocktail.',
+    notes: 'Harry Craddock\'s "The Savoy Cocktail Book" (1930). Classic complex gin cocktail.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

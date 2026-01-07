@@ -25,7 +25,7 @@ export const daiquiri: Cocktail = {
 
   description: {
     en: 'The quintessential rum sour - a perfect balance of white rum, fresh lime, and just enough sugar. Simple, elegant, and refreshing, the classic Daiquiri is a testament to the beauty of restraint. Forget the frozen strawberry versions - this is the real deal.',
-    it: 'Il sour di rum per eccellenza - un equilibrio perfetto di rum bianco, lime fresco e giusto un po\' di zucchero. Semplice, elegante e rinfrescante, il classico Daiquiri è una testimonianza della bellezza della moderazione. Dimentica le versioni frozen alla fragola - questo è l\'originale.',
+    it: "Il sour di rum per eccellenza - un equilibrio perfetto di rum bianco, lime fresco e giusto un po' di zucchero. Semplice, elegante e rinfrescante, il classico Daiquiri è una testimonianza della bellezza della moderazione. Dimentica le versioni frozen alla fragola - questo è l'originale.",
     vi: 'Rum sour tinh túy - sự cân bằng hoàn hảo của rum trắng, chanh tươi và đủ đường. Đơn giản, thanh lịch và sảng khoái, Daiquiri cổ điển là minh chứng cho vẻ đẹp của sự tiết chế. Quên các phiên bản frozen dâu đi - đây mới là thật.',
   },
 
@@ -86,7 +86,7 @@ export const daiquiri: Cocktail = {
       vi: 'Hoàn hảo với hải sản, đặc biệt là ceviche, hàu và cá nướng. Cũng tuyệt vời với ẩm thực Cuba và các món Caribe.',
     },
     ideal_for: {
-      en: 'Everyone. A true crowd-pleaser that showcases rum\'s versatility. Perfect for rum skeptics and enthusiasts alike. The benchmark for all rum sours.',
+      en: "Everyone. A true crowd-pleaser that showcases rum's versatility. Perfect for rum skeptics and enthusiasts alike. The benchmark for all rum sours.",
       it: 'Tutti. Un vero piacere per tutti che mette in mostra la versatilità del rum. Perfetto sia per scettici che entusiasti del rum. Il benchmark per tutti i rum sour.',
       vi: 'Tất cả mọi người. Một thức uống hài lòng mọi người thể hiện tính linh hoạt của rum. Hoàn hảo cho cả người hoài nghi và yêu thích rum. Tiêu chuẩn cho tất cả rum sour.',
     },
@@ -101,7 +101,11 @@ export const daiquiri: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh Lime Juice', it: 'Succo di Lime Fresco', vi: 'Nước Chanh Xanh Tươi' },
+      display_name: {
+        en: 'Fresh Lime Juice',
+        it: 'Succo di Lime Fresco',
+        vi: 'Nước Chanh Xanh Tươi',
+      },
     },
     {
       ingredient_id: 'ING_SUPERFINE_SUGAR',
@@ -140,7 +144,14 @@ export const daiquiri: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'fructose', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -153,14 +164,15 @@ export const daiquiri: Cocktail = {
 
   variants: ['frozen-daiquiri', 'hemingway-daiquiri', 'strawberry-daiquiri'],
 
-  notes_for_staff: 'Use quality white rum (Havana Club, Bacardi Superior). Fresh lime juice is non-negotiable. Dissolve sugar before adding ice. This is NOT a frozen drink - that\'s a different (and lesser) beast. Offer the Hemingway Daiquiri (Papa Doble) as a drier variation.',
+  notes_for_staff:
+    "Use quality white rum (Havana Club, Bacardi Superior). Fresh lime juice is non-negotiable. Dissolve sugar before adding ice. This is NOT a frozen drink - that's a different (and lesser) beast. Offer the Hemingway Daiquiri (Papa Doble) as a drier variation.",
 
   price_tier: 'low',
   popularity: 92,
 
   source: {
     primary: 'https://iba-world.com/daiquiri/',
-    note: 'IBA Official Recipe. Cuban classic from 1898.',
+    notes: 'IBA Official Recipe. Cuban classic from 1898.',
   },
 
   created_at: NOW,

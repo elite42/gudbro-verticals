@@ -33,8 +33,8 @@ export const piscoSour: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'Peru\'s national cocktail, combining pisco (grape brandy) with lime juice, simple syrup, egg white, and Angostura bitters. The egg white creates a luxurious foam cap, making this sour cocktail exceptionally smooth and elegant.',
-    it: 'Il cocktail nazionale del Perù, che combina pisco (brandy d\'uva) con succo di lime, sciroppo semplice, albume d\'uovo e Angostura bitters. L\'albume crea una schiuma lussuosa, rendendo questo cocktail sour eccezionalmente morbido ed elegante.',
+    en: "Peru's national cocktail, combining pisco (grape brandy) with lime juice, simple syrup, egg white, and Angostura bitters. The egg white creates a luxurious foam cap, making this sour cocktail exceptionally smooth and elegant.",
+    it: "Il cocktail nazionale del Perù, che combina pisco (brandy d'uva) con succo di lime, sciroppo semplice, albume d'uovo e Angostura bitters. L'albume crea una schiuma lussuosa, rendendo questo cocktail sour eccezionalmente morbido ed elegante.",
     vi: 'Cocktail quốc gia của Peru, kết hợp pisco (brandy nho) với nước chanh, siro đường, lòng trắng trứng và Angostura bitters. Lòng trắng trứng tạo ra lớp bọt sang trọng, làm cho cocktail chua này mượt mà và thanh lịch đặc biệt.',
   },
 
@@ -42,7 +42,7 @@ export const piscoSour: Cocktail = {
     created_year: '1920',
     origin: {
       city: 'Lima',
-      bar: 'Morris\' Bar',
+      bar: "Morris' Bar",
       country: 'Peru',
     },
     creator: {
@@ -56,7 +56,7 @@ export const piscoSour: Cocktail = {
     },
     named_after: {
       en: 'Named after pisco, the grape brandy spirit that forms its base.',
-      it: 'Prende il nome dal pisco, il brandy d\'uva che forma la sua base.',
+      it: "Prende il nome dal pisco, il brandy d'uva che forma la sua base.",
       vi: 'Được đặt theo tên pisco, rượu mạnh brandy nho tạo nên cơ sở của nó.',
     },
   },
@@ -65,7 +65,7 @@ export const piscoSour: Cocktail = {
     profile: ['sour', 'citrus', 'smooth', 'aromatic'],
     description: {
       en: 'Silky smooth with a perfect balance of tart and sweet. Fresh lime provides bright acidity, pisco brings floral, fruity grape notes, and egg white creates velvety texture. Angostura bitters add aromatic complexity to the foam.',
-      it: 'Setoso e morbido con un perfetto equilibrio di aspro e dolce. Il lime fresco fornisce acidità brillante, il pisco porta note floreali e fruttate d\'uva, e l\'albume crea una consistenza vellutata. Gli Angostura bitters aggiungono complessità aromatica alla schiuma.',
+      it: "Setoso e morbido con un perfetto equilibrio di aspro e dolce. Il lime fresco fornisce acidità brillante, il pisco porta note floreali e fruttate d'uva, e l'albume crea una consistenza vellutata. Gli Angostura bitters aggiungono complessità aromatica alla schiuma.",
       vi: 'Mượt mà như lụa với sự cân bằng hoàn hảo giữa chua và ngọt. Chanh tươi cung cấp độ chua sáng, pisco mang đến hương hoa, trái cây nho, và lòng trắng trứng tạo kết cấu mượt mà. Angostura bitters thêm độ phức tạp thơm ngát vào bọt.',
     },
     first_impression: {
@@ -91,7 +91,7 @@ export const piscoSour: Cocktail = {
     seasons: ['spring', 'summer', 'autumn'],
     food_pairings: {
       en: 'Excellent with Peruvian ceviche, seafood, grilled fish, empanadas, and light appetizers. The acidity complements seafood beautifully.',
-      it: 'Eccellente con ceviche peruviano, frutti di mare, pesce alla griglia, empanadas e antipasti leggeri. L\'acidità complementa magnificamente i frutti di mare.',
+      it: "Eccellente con ceviche peruviano, frutti di mare, pesce alla griglia, empanadas e antipasti leggeri. L'acidità complementa magnificamente i frutti di mare.",
       vi: 'Tuyệt vời với ceviche Peru, hải sản, cá nướng, empanadas và món khai vị nhẹ. Độ chua bổ sung hoàn hảo cho hải sản.',
     },
     ideal_for: {
@@ -123,13 +123,13 @@ export const piscoSour: Cocktail = {
     {
       ingredient_id: 'ING_EGG_WHITE',
       quantity: { amount: 1, unit: 'whole' },
-      display_name: { en: 'Egg white', it: 'Albume d\'uovo', vi: 'Lòng trắng trứng' },
+      display_name: { en: 'Egg white', it: "Albume d'uovo", vi: 'Lòng trắng trứng' },
     },
     {
       ingredient_id: 'ING_ANGOSTURA_BITTERS',
       quantity: { amount: 3, unit: 'dash' },
       display_name: { en: 'Angostura bitters', it: 'Angostura bitters', vi: 'Angostura bitters' },
-      note: { en: 'for garnish', it: 'per guarnizione', vi: 'để trang trí' },
+      notes: { en: 'for garnish', it: 'per guarnizione', vi: 'để trang trí' },
     },
   ],
 
@@ -193,7 +193,8 @@ export const piscoSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['chilean-pisco-sour', 'pisco-punch'],
 
-  notes_for_staff: 'Dry shake first (no ice) to emulsify egg white properly. Then add ice and shake again. Use fresh egg white - pasteurized works but creates less foam. Drop bitters precisely on foam for visual effect.',
+  notes_for_staff:
+    'Dry shake first (no ice) to emulsify egg white properly. Then add ice and shake again. Use fresh egg white - pasteurized works but creates less foam. Drop bitters precisely on foam for visual effect.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -206,7 +207,7 @@ export const piscoSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/pisco-sour/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

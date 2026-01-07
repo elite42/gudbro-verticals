@@ -34,7 +34,7 @@ export const goldenDream: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A luxurious creamy cocktail combining Galliano, Cointreau, orange juice, and cream. This golden-hued drink is like a liquid dessert, with vanilla, orange, and cream creating a sweet, indulgent experience.',
-    it: 'Un cocktail cremoso lussuoso che combina Galliano, Cointreau, succo d\'arancia e panna. Questo drink dorato è come un dessert liquido, con vaniglia, arancia e panna che creano un\'esperienza dolce e indulgente.',
+    it: "Un cocktail cremoso lussuoso che combina Galliano, Cointreau, succo d'arancia e panna. Questo drink dorato è come un dessert liquido, con vaniglia, arancia e panna che creano un'esperienza dolce e indulgente.",
     vi: 'Một loại cocktail béo ngậy sang trọng kết hợp Galliano, Cointreau, nước cam và kem. Thức uống màu vàng này giống như món tráng miệng lỏng, với vani, cam và kem tạo ra trải nghiệm ngọt ngào, nuông chiều.',
   },
 
@@ -48,8 +48,8 @@ export const goldenDream: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by bartender Raimonds Yansons in the 1960s, the Golden Dream was part of the era\'s trend toward creamy, dessert-style cocktails. It showcases Galliano, the tall Italian herbal liqueur with distinctive vanilla notes. The drink enjoyed popularity in the 1960s-70s and experienced a revival when added to the IBA Contemporary Classics list.',
-      it: 'Creato dal barman Raimonds Yansons negli anni \'60, il Golden Dream faceva parte della tendenza dell\'epoca verso cocktail cremosi in stile dessert. Mette in mostra il Galliano, il liquore alle erbe italiano alto con note distintive di vaniglia. Il drink ha goduto di popolarità negli anni \'60-\'70 e ha vissuto una rinascita quando è stato aggiunto alla lista IBA Contemporary Classics.',
+      en: "Created by bartender Raimonds Yansons in the 1960s, the Golden Dream was part of the era's trend toward creamy, dessert-style cocktails. It showcases Galliano, the tall Italian herbal liqueur with distinctive vanilla notes. The drink enjoyed popularity in the 1960s-70s and experienced a revival when added to the IBA Contemporary Classics list.",
+      it: "Creato dal barman Raimonds Yansons negli anni '60, il Golden Dream faceva parte della tendenza dell'epoca verso cocktail cremosi in stile dessert. Mette in mostra il Galliano, il liquore alle erbe italiano alto con note distintive di vaniglia. Il drink ha goduto di popolarità negli anni '60-'70 e ha vissuto una rinascita quando è stato aggiunto alla lista IBA Contemporary Classics.",
       vi: 'Được tạo ra bởi bartender Raimonds Yansons vào những năm 1960, Golden Dream là một phần của xu hướng thời đó hướng tới các cocktail béo ngậy kiểu tráng miệng. Nó thể hiện Galliano, rượu mùi thảo mộc Ý cao với hương vani đặc trưng. Thức uống được ưa chuộng vào những năm 1960-70 và trải qua sự hồi sinh khi được thêm vào danh sách IBA Contemporary Classics.',
     },
     named_after: {
@@ -63,12 +63,12 @@ export const goldenDream: Cocktail = {
     profile: ['sweet', 'creamy', 'vanilla', 'orange'],
     description: {
       en: 'Smooth, sweet, and creamy. Galliano provides herbal vanilla notes, Cointreau adds orange sweetness, fresh orange juice brings acidity, and cream creates silky texture. A dessert in a glass.',
-      it: 'Morbido, dolce e cremoso. Il Galliano fornisce note di vaniglia erbacee, il Cointreau aggiunge dolcezza all\'arancia, il succo d\'arancia fresco porta acidità e la panna crea una consistenza setosa. Un dessert in un bicchiere.',
+      it: "Morbido, dolce e cremoso. Il Galliano fornisce note di vaniglia erbacee, il Cointreau aggiunge dolcezza all'arancia, il succo d'arancia fresco porta acidità e la panna crea una consistenza setosa. Un dessert in un bicchiere.",
       vi: 'Mượt mà, ngọt và béo ngậy. Galliano cung cấp hương vani thảo mộc, Cointreau thêm vị ngọt cam, nước cam tươi mang lại độ chua và kem tạo kết cấu mượt như lụa. Một món tráng miệng trong ly.',
     },
     first_impression: {
       en: 'Creamy vanilla and orange sweetness',
-      it: 'Vaniglia cremosa e dolcezza d\'arancia',
+      it: "Vaniglia cremosa e dolcezza d'arancia",
       vi: 'Vani béo ngậy và vị ngọt cam',
     },
     finish: {
@@ -78,7 +78,7 @@ export const goldenDream: Cocktail = {
     },
     balance: {
       en: 'Sweet and creamy, balanced by orange acidity',
-      it: 'Dolce e cremoso, bilanciato dall\'acidità dell\'arancia',
+      it: "Dolce e cremoso, bilanciato dall'acidità dell'arancia",
       vi: 'Ngọt và béo ngậy, cân bằng bởi độ chua của cam',
     },
   },
@@ -111,12 +111,16 @@ export const goldenDream: Cocktail = {
     {
       ingredient_id: 'ING_TRIPLE_SEC',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Triple sec (Cointreau)', it: 'Triple sec (Cointreau)', vi: 'Triple sec (Cointreau)' },
+      display_name: {
+        en: 'Triple sec (Cointreau)',
+        it: 'Triple sec (Cointreau)',
+        vi: 'Triple sec (Cointreau)',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_HEAVY_CREAM',
@@ -185,7 +189,8 @@ export const goldenDream: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['golden-cadillac'],
 
-  notes_for_staff: 'Shake hard to properly emulsify the cream. Use fresh cream for best texture. Galliano is essential - its vanilla-anise flavor is what makes this drink special. Serve very cold.',
+  notes_for_staff:
+    'Shake hard to properly emulsify the cream. Use fresh cream for best texture. Galliano is essential - its vanilla-anise flavor is what makes this drink special. Serve very cold.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -198,7 +203,7 @@ export const goldenDream: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/golden-dream/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

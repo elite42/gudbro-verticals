@@ -42,7 +42,7 @@ export const grasshopper: Cocktail = {
     created_year: '1918',
     origin: {
       city: 'New Orleans',
-      bar: 'Tujague\'s',
+      bar: "Tujague's",
       country: 'USA',
     },
     creator: {
@@ -50,9 +50,9 @@ export const grasshopper: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created in 1918 by Philibert Guichet, owner of Tujague\'s bar in New Orleans\' French Quarter, for a cocktail competition. The drink won second place and gained popularity in the 1950s-60s as after-dinner drinks became fashionable. Its bright green color and sweet, minty flavor made it particularly popular among women in the mid-20th century.',
-      it: 'Creato nel 1918 da Philibert Guichet, proprietario del bar Tujague\'s nel French Quarter di New Orleans, per una competizione di cocktail. Il drink vinse il secondo posto e guadagnò popolarità negli anni \'50-\'60 quando i drink dopo cena divennero di moda. Il suo colore verde brillante e il sapore dolce e mentolato lo resero particolarmente popolare tra le donne a metà del XX secolo.',
-      vi: 'Được tạo ra vào năm 1918 bởi Philibert Guichet, chủ quán bar Tujague\'s trong French Quarter của New Orleans, cho một cuộc thi cocktail. Thức uống đã giành vị trí thứ hai và trở nên phổ biến vào những năm 1950-60 khi đồ uống sau bữa tối trở nên thời thượng. Màu xanh lá cây tươi sáng và hương vị ngọt, bạc hà khiến nó đặc biệt phổ biến trong số phụ nữ vào giữa thế kỷ 20.',
+      en: "Created in 1918 by Philibert Guichet, owner of Tujague's bar in New Orleans' French Quarter, for a cocktail competition. The drink won second place and gained popularity in the 1950s-60s as after-dinner drinks became fashionable. Its bright green color and sweet, minty flavor made it particularly popular among women in the mid-20th century.",
+      it: "Creato nel 1918 da Philibert Guichet, proprietario del bar Tujague's nel French Quarter di New Orleans, per una competizione di cocktail. Il drink vinse il secondo posto e guadagnò popolarità negli anni '50-'60 quando i drink dopo cena divennero di moda. Il suo colore verde brillante e il sapore dolce e mentolato lo resero particolarmente popolare tra le donne a metà del XX secolo.",
+      vi: "Được tạo ra vào năm 1918 bởi Philibert Guichet, chủ quán bar Tujague's trong French Quarter của New Orleans, cho một cuộc thi cocktail. Thức uống đã giành vị trí thứ hai và trở nên phổ biến vào những năm 1950-60 khi đồ uống sau bữa tối trở nên thời thượng. Màu xanh lá cây tươi sáng và hương vị ngọt, bạc hà khiến nó đặc biệt phổ biến trong số phụ nữ vào giữa thế kỷ 20.",
     },
     named_after: {
       en: 'Named for its bright green color, resembling a grasshopper.',
@@ -108,12 +108,20 @@ export const grasshopper: Cocktail = {
     {
       ingredient_id: 'ING_CREME_DE_MENTHE_GREEN',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Crème de menthe (green)', it: 'Crème de menthe (verde)', vi: 'Crème de menthe (xanh)' },
+      display_name: {
+        en: 'Crème de menthe (green)',
+        it: 'Crème de menthe (verde)',
+        vi: 'Crème de menthe (xanh)',
+      },
     },
     {
       ingredient_id: 'ING_CREME_DE_CACAO_WHITE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Crème de cacao (white)', it: 'Crème de cacao (bianca)', vi: 'Crème de cacao (trắng)' },
+      display_name: {
+        en: 'Crème de cacao (white)',
+        it: 'Crème de cacao (bianca)',
+        vi: 'Crème de cacao (trắng)',
+      },
     },
     {
       ingredient_id: 'ING_HEAVY_CREAM',
@@ -182,7 +190,8 @@ export const grasshopper: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['frozen-grasshopper', 'flying-grasshopper'],
 
-  notes_for_staff: 'Shake hard to properly emulsify the cream. Use green crème de menthe for authentic color. White crème de cacao keeps the drink bright green. Can be made frozen/blended for a different experience.',
+  notes_for_staff:
+    'Shake hard to properly emulsify the cream. Use green crème de menthe for authentic color. White crème de cacao keeps the drink bright green. Can be made frozen/blended for a different experience.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +204,7 @@ export const grasshopper: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/grasshopper/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

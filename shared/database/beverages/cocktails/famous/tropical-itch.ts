@@ -47,8 +47,8 @@ export const tropicalItch: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Tropical Itch was created in the 1950s by legendary Hawaiian bartender Harry Yee at the Hawaiian Village Hotel in Waikiki, Honolulu. Yee, who is also credited with creating the Blue Hawaii and being the first to garnish drinks with orchids and paper umbrellas, designed this drink to be both delicious and memorable. The signature element is the bamboo back scratcher that serves as the swizzle stick - a playful nod to the drink\'s name and a theatrical touch that made it instantly recognizable. The unusual combination of rum and bourbon was innovative for its time, creating a bridge between tiki culture and classic American cocktails.',
-      it: 'Il Prurito Tropicale fu creato negli anni \'50 dal leggendario barman hawaiano Harry Yee all\'Hawaiian Village Hotel a Waikiki, Honolulu. Yee, a cui è anche attribuita la creazione del Blue Hawaii e di essere il primo a guarnire i drink con orchidee e ombrellini di carta, progettò questa bevanda per essere sia deliziosa che memorabile. L\'elemento distintivo è il grattaschiena di bambù che funge da bastoncino mescolatore - un cenno giocoso al nome della bevanda e un tocco teatrale che la rese immediatamente riconoscibile. L\'insolita combinazione di rum e bourbon era innovativa per il suo tempo, creando un ponte tra la cultura tiki e i cocktail americani classici.',
+      en: "The Tropical Itch was created in the 1950s by legendary Hawaiian bartender Harry Yee at the Hawaiian Village Hotel in Waikiki, Honolulu. Yee, who is also credited with creating the Blue Hawaii and being the first to garnish drinks with orchids and paper umbrellas, designed this drink to be both delicious and memorable. The signature element is the bamboo back scratcher that serves as the swizzle stick - a playful nod to the drink's name and a theatrical touch that made it instantly recognizable. The unusual combination of rum and bourbon was innovative for its time, creating a bridge between tiki culture and classic American cocktails.",
+      it: "Il Prurito Tropicale fu creato negli anni '50 dal leggendario barman hawaiano Harry Yee all'Hawaiian Village Hotel a Waikiki, Honolulu. Yee, a cui è anche attribuita la creazione del Blue Hawaii e di essere il primo a guarnire i drink con orchidee e ombrellini di carta, progettò questa bevanda per essere sia deliziosa che memorabile. L'elemento distintivo è il grattaschiena di bambù che funge da bastoncino mescolatore - un cenno giocoso al nome della bevanda e un tocco teatrale che la rese immediatamente riconoscibile. L'insolita combinazione di rum e bourbon era innovativa per il suo tempo, creando un ponte tra la cultura tiki e i cocktail americani classici.",
       vi: 'Tropical Itch được tạo ra vào những năm 1950 bởi bartender Hawaii huyền thoại Harry Yee tại Hawaiian Village Hotel ở Waikiki, Honolulu. Yee, người cũng được ghi nhận là người tạo ra Blue Hawaii và là người đầu tiên trang trí đồ uống bằng hoa lan và ô giấy, đã thiết kế thức uống này vừa ngon vừa đáng nhớ. Yếu tố đặc trưng là cái gãi lưng tre đóng vai trò là que khuấy - một gật đầu vui tươi với tên của thức uống và một nét sân khấu khiến nó có thể nhận ra ngay lập tức. Sự kết hợp khác thường của rum và bourbon là đổi mới cho thời đại của nó, tạo ra cầu nối giữa văn hóa tiki và cocktail Mỹ cổ điển.',
     },
     named_after: {
@@ -61,7 +61,7 @@ export const tropicalItch: Cocktail = {
   taste: {
     profile: ['fruity', 'tropical', 'complex'],
     description: {
-      en: 'Complex and layered with tropical passion fruit, citrus brightness, rum sweetness, and bourbon depth. The combination of rum and bourbon creates an unusual but harmonious flavor profile that\'s both exotic and familiar. Rich, fruity, and surprisingly sophisticated.',
+      en: "Complex and layered with tropical passion fruit, citrus brightness, rum sweetness, and bourbon depth. The combination of rum and bourbon creates an unusual but harmonious flavor profile that's both exotic and familiar. Rich, fruity, and surprisingly sophisticated.",
       it: 'Complesso e stratificato con frutto della passione tropicale, luminosità agrumata, dolcezza del rum e profondità del bourbon. La combinazione di rum e bourbon crea un profilo di sapore insolito ma armonioso che è allo stesso tempo esotico e familiare. Ricco, fruttato e sorprendentemente sofisticato.',
       vi: 'Phức tạp và nhiều lớp với chanh dây nhiệt đới, độ tươi sáng của cam quýt, vị ngọt của rum và chiều sâu của bourbon. Sự kết hợp của rum và bourbon tạo ra một hồ sơ hương vị khác thường nhưng hài hòa vừa kỳ lạ vừa quen thuộc. Đậm đà, trái cây và tinh tế đáng ngạc nhiên.',
     },
@@ -115,17 +115,25 @@ export const tropicalItch: Cocktail = {
     {
       ingredient_id: 'ING_PASSION_FRUIT_SYRUP',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Passion fruit syrup', it: 'Sciroppo di frutto della passione', vi: 'Siro chanh dây' },
+      display_name: {
+        en: 'Passion fruit syrup',
+        it: 'Sciroppo di frutto della passione',
+        vi: 'Siro chanh dây',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 60, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
   ],
 
@@ -170,7 +178,14 @@ export const tropicalItch: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -189,7 +204,8 @@ export const tropicalItch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['virgin-tropical-itch'],
 
-  notes_for_staff: 'Created by Harry Yee, inventor of Blue Hawaii. Signature bamboo back scratcher is essential for authentic presentation. Unusual rum-bourbon combo - explain to curious guests. Use fresh juices for best results. Theatrical presentation makes great conversation starter.',
+  notes_for_staff:
+    'Created by Harry Yee, inventor of Blue Hawaii. Signature bamboo back scratcher is essential for authentic presentation. Unusual rum-bourbon combo - explain to curious guests. Use fresh juices for best results. Theatrical presentation makes great conversation starter.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -202,7 +218,7 @@ export const tropicalItch: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/4686/tropical-itch',
-    note: 'Classic Harry Yee creation from Hawaiian Village Hotel, Honolulu.',
+    notes: 'Classic Harry Yee creation from Hawaiian Village Hotel, Honolulu.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

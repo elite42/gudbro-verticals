@@ -39,7 +39,7 @@ export const scorpionBowl: Cocktail = {
     created_year: '1945',
     origin: {
       city: 'Oakland',
-      bar: 'Trader Vic\'s',
+      bar: "Trader Vic's",
       country: 'USA',
     },
     creator: {
@@ -62,7 +62,7 @@ export const scorpionBowl: Cocktail = {
     profile: ['fruity', 'citrus', 'strong'],
     description: {
       en: 'Deceptively smooth and fruity with a powerful alcoholic kick. The Scorpion Bowl combines multiple spirits with bright citrus and tropical fruit flavors, creating a dangerously drinkable punch that lives up to its stinging reputation.',
-      it: 'Ingannevolmente liscio e fruttato con un potente calcio alcolico. Lo Scorpion Bowl combina più distillati con agrumi brillanti e sapori di frutta tropicale, creando un punch pericolosamente bevibile che è all\'altezza della sua reputazione pungente.',
+      it: "Ingannevolmente liscio e fruttato con un potente calcio alcolico. Lo Scorpion Bowl combina più distillati con agrumi brillanti e sapori di frutta tropicale, creando un punch pericolosamente bevibile che è all'altezza della sua reputazione pungente.",
       vi: 'Mịn màng và trái cây một cách lừa dối với cú đá rượu mạnh mẽ. Scorpion Bowl kết hợp nhiều loại rượu mạnh với hương vị cam quýt sáng và trái cây nhiệt đới, tạo ra một loại punch dễ uống nguy hiểm sống đúng với danh tiếng chích của nó.',
     },
     first_impression: {
@@ -77,7 +77,7 @@ export const scorpionBowl: Cocktail = {
     },
     balance: {
       en: 'Dangerously balanced - fruit flavors mask substantial alcohol, making it easy to overindulge',
-      it: 'Pericolosamente bilanciato - i sapori di frutta mascherano l\'alcol sostanziale, rendendo facile esagerare',
+      it: "Pericolosamente bilanciato - i sapori di frutta mascherano l'alcol sostanziale, rendendo facile esagerare",
       vi: 'Cân bằng nguy hiểm - hương vị trái cây che giấu rượu đáng kể, làm cho dễ uống quá nhiều',
     },
   },
@@ -93,7 +93,7 @@ export const scorpionBowl: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for group celebrations and party atmospheres. Ideal for 2-4 people sharing a communal drinking experience. Great for birthdays, bachelor/bachelorette parties, or any festive occasion. Warning: deceptively strong - pace yourselves.',
-      it: 'Perfetto per celebrazioni di gruppo e atmosfere di festa. Ideale per 2-4 persone che condividono un\'esperienza di bevuta comunitaria. Ottimo per compleanni, addii al celibato/nubilato o qualsiasi occasione festiva. Avvertimento: ingannevolmente forte - fate le cose con calma.',
+      it: "Perfetto per celebrazioni di gruppo e atmosfere di festa. Ideale per 2-4 persone che condividono un'esperienza di bevuta comunitaria. Ottimo per compleanni, addii al celibato/nubilato o qualsiasi occasione festiva. Avvertimento: ingannevolmente forte - fate le cose con calma.",
       vi: 'Hoàn hảo cho các lễ kỷ niệm nhóm và không khí tiệc tụng. Lý tưởng cho 2-4 người chia sẻ trải nghiệm uống cộng đồng. Tuyệt vời cho sinh nhật, tiệc độc thân hoặc bất kỳ dịp lễ hội nào. Cảnh báo: mạnh một cách lừa dối - hãy uống từ từ.',
     },
   },
@@ -120,12 +120,16 @@ export const scorpionBowl: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 90, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 120, unit: 'ml' },
-      display_name: { en: 'Fresh orange juice', it: 'Succo d\'arancia fresco', vi: 'Nước cam tươi' },
+      display_name: { en: 'Fresh orange juice', it: "Succo d'arancia fresco", vi: 'Nước cam tươi' },
     },
     {
       ingredient_id: 'ING_ORGEAT',
@@ -199,7 +203,8 @@ export const scorpionBowl: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['trader-vics-scorpion', 'scorpion-single-serve'],
 
-  notes_for_staff: 'Created by Trader Vic in 1945. Serves 2-4 people. Orgeat contains almonds. Use scorpion bowl if available, otherwise large tiki bowl. If flaming, use extreme caution - extinguish before drinking. Provide long straws. Very potent - warn guests and monitor consumption.',
+  notes_for_staff:
+    'Created by Trader Vic in 1945. Serves 2-4 people. Orgeat contains almonds. Use scorpion bowl if available, otherwise large tiki bowl. If flaming, use extreme caution - extinguish before drinking. Provide long straws. Very potent - warn guests and monitor consumption.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -212,7 +217,8 @@ export const scorpionBowl: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://tradervics.com/cocktails/',
-    note: 'Original Trader Vic recipe from 1945. Trader Vic\'s Bartender\'s Guide. Tiki cocktail archives.',
+    notes:
+      "Original Trader Vic recipe from 1945. Trader Vic's Bartender's Guide. Tiki cocktail archives.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

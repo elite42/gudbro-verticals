@@ -384,7 +384,7 @@ export const winesFortifiedIngredients: IngredientMaster[] = [
     },
     description: {
       en: 'Portuguese fortified wine from Madeira island',
-      it: 'Vino fortificato portoghese dall\'isola di Madeira',
+      it: "Vino fortificato portoghese dall'isola di Madeira",
     },
     category: { main: 'wine', sub: 'fortified' },
     allergens: { sulphites: true },
@@ -546,7 +546,7 @@ export const winesFortifiedIngredients: IngredientMaster[] = [
     },
     category: { main: 'beer', sub: 'lager' },
     allergens: { gluten: true },
-    intolerances: { alcohol: true, gluten: true },
+    intolerances: { alcohol: true, gluten_celiac: true },
     dietary_restrictions: {
       ...baseWineFlags,
       gluten_free: false,
@@ -579,7 +579,7 @@ export const winesFortifiedIngredients: IngredientMaster[] = [
     },
     category: { main: 'beer', sub: 'stout' },
     allergens: { gluten: true },
-    intolerances: { alcohol: true, gluten: true },
+    intolerances: { alcohol: true, gluten_celiac: true },
     dietary_restrictions: {
       ...baseWineFlags,
       gluten_free: false,

@@ -108,12 +108,20 @@ export const bacardi: Cocktail = {
     {
       ingredient_id: 'ING_RUM_WHITE',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Bacardi Carta Blanca rum', it: 'Rum Bacardi Carta Blanca', vi: 'Rượu rum Bacardi Carta Blanca' },
+      display_name: {
+        en: 'Bacardi Carta Blanca rum',
+        it: 'Rum Bacardi Carta Blanca',
+        vi: 'Rượu rum Bacardi Carta Blanca',
+      },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 20, unit: 'ml' },
-      display_name: { en: 'Fresh lime juice', it: 'Succo di lime fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lime juice',
+        it: 'Succo di lime fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_GRENADINE',
@@ -163,7 +171,14 @@ export const bacardi: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +197,8 @@ export const bacardi: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['bacardi-special', 'pink-bacardi'],
 
-  notes_for_staff: 'Must use Bacardi rum according to the famous 1936 legal ruling. Fresh lime juice is essential - never use bottled. Shake vigorously to achieve proper dilution and chill.',
+  notes_for_staff:
+    'Must use Bacardi rum according to the famous 1936 legal ruling. Fresh lime juice is essential - never use bottled. Shake vigorously to achieve proper dilution and chill.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +211,8 @@ export const bacardi: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/bacardi/',
-    note: 'IBA Official Recipe. Historical information from the 1936 New York State Supreme Court case and cocktail history sources.',
+    notes:
+      'IBA Official Recipe. Historical information from the 1936 New York State Supreme Court case and cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

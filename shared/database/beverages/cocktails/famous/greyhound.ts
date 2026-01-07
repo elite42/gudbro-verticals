@@ -45,12 +45,12 @@ export const greyhound: Cocktail = {
     },
     story: {
       en: 'The Greyhound emerged in the 1930s and became particularly popular in the post-war era. Its simple combination of vodka and grapefruit juice made it accessible and refreshing. The drink gained further popularity when the salted rim version, known as the Salty Dog, was created. The name likely refers to the Greyhound bus line, which was expanding across America during this period.',
-      it: 'Il Greyhound emerse negli anni \'30 e divenne particolarmente popolare nell\'era post-bellica. La sua semplice combinazione di vodka e succo di pompelmo lo rendeva accessibile e rinfrescante. Il drink guadagnò ulteriore popolarità quando fu creata la versione con il bordo salato, nota come Salty Dog. Il nome probabilmente si riferisce alla linea di autobus Greyhound, che si stava espandendo in America durante questo periodo.',
+      it: "Il Greyhound emerse negli anni '30 e divenne particolarmente popolare nell'era post-bellica. La sua semplice combinazione di vodka e succo di pompelmo lo rendeva accessibile e rinfrescante. Il drink guadagnò ulteriore popolarità quando fu creata la versione con il bordo salato, nota come Salty Dog. Il nome probabilmente si riferisce alla linea di autobus Greyhound, che si stava espandendo in America durante questo periodo.",
       vi: 'Greyhound xuất hiện vào những năm 1930 và trở nên đặc biệt phổ biến trong thời kỳ hậu chiến. Sự kết hợp đơn giản của vodka và nước ép bưởi làm cho nó dễ tiếp cận và tươi mát. Thức uống trở nên phổ biến hơn khi phiên bản có viền muối, được biết đến như Salty Dog, được tạo ra. Cái tên có thể ám chỉ tuyến xe buýt Greyhound, đang mở rộng khắp nước Mỹ trong giai đoạn này.',
     },
     named_after: {
       en: 'Named after the Greyhound bus line, which was a popular mode of transportation in mid-20th century America.',
-      it: 'Prende il nome dalla linea di autobus Greyhound, che era un popolare mezzo di trasporto nell\'America di metà del XX secolo.',
+      it: "Prende il nome dalla linea di autobus Greyhound, che era un popolare mezzo di trasporto nell'America di metà del XX secolo.",
       vi: 'Được đặt theo tên tuyến xe buýt Greyhound, phương tiện di chuyển phổ biến ở Mỹ giữa thế kỷ 20.',
     },
   },
@@ -59,7 +59,7 @@ export const greyhound: Cocktail = {
     profile: ['citrus', 'bitter', 'refreshing'],
     description: {
       en: 'Clean and crisp with bright grapefruit tartness balanced by the neutral vodka base. The natural bitterness of grapefruit provides depth and complexity to this seemingly simple drink.',
-      it: 'Pulito e frizzante con la vivace acidità del pompelmo bilanciata dalla base neutra di vodka. L\'amaro naturale del pompelmo fornisce profondità e complessità a questo drink apparentemente semplice.',
+      it: "Pulito e frizzante con la vivace acidità del pompelmo bilanciata dalla base neutra di vodka. L'amaro naturale del pompelmo fornisce profondità e complessità a questo drink apparentemente semplice.",
       vi: 'Trong sạch và sắc nét với vị chua tươi mát của bưởi được cân bằng bởi vodka trung tính. Vị đắng tự nhiên của bưởi mang lại chiều sâu và sự phức tạp cho thức uống tưởng chừng đơn giản này.',
     },
     first_impression: {
@@ -107,7 +107,11 @@ export const greyhound: Cocktail = {
     {
       ingredient_id: 'ING_GRAPEFRUIT_JUICE',
       quantity: { amount: 120, unit: 'ml' },
-      display_name: { en: 'Fresh grapefruit juice', it: 'Succo di pompelmo fresco', vi: 'Nước ép bưởi tươi' },
+      display_name: {
+        en: 'Fresh grapefruit juice',
+        it: 'Succo di pompelmo fresco',
+        vi: 'Nước ép bưởi tươi',
+      },
     },
   ],
 
@@ -152,7 +156,14 @@ export const greyhound: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -171,7 +182,8 @@ export const greyhound: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['salty-dog', 'sea-breeze'],
 
-  notes_for_staff: 'Always use fresh grapefruit juice, not from concentrate. Pink or ruby red grapefruit provides a sweeter profile. If customer wants salt rim, this becomes a Salty Dog.',
+  notes_for_staff:
+    'Always use fresh grapefruit juice, not from concentrate. Pink or ruby red grapefruit provides a sweeter profile. If customer wants salt rim, this becomes a Salty Dog.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -184,7 +196,7 @@ export const greyhound: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1234/greyhound',
-    note: 'Classic recipe documented in multiple cocktail books and bartending guides.',
+    notes: 'Classic recipe documented in multiple cocktail books and bartending guides.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

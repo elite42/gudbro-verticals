@@ -48,12 +48,12 @@ export const bahamaMama: Cocktail = {
     },
     story: {
       en: 'The Bahama Mama emerged in the 1960s during the golden age of tiki culture, created in the beach bars of Nassau, Bahamas. Designed to appeal to tourists seeking tropical paradise in a glass, this cocktail became synonymous with Caribbean vacation culture. The drink combines multiple rums with tropical juices and coconut, creating a potent yet dangerously drinkable concoction that embodies the carefree island lifestyle.',
-      it: 'Il Bahama Mama emerse negli anni \'60 durante l\'età d\'oro della cultura tiki, creato nei bar sulla spiaggia di Nassau, Bahamas. Progettato per attrarre i turisti in cerca di un paradiso tropicale in un bicchiere, questo cocktail divenne sinonimo della cultura vacanziera caraibica. La bevanda combina più rum con succhi tropicali e cocco, creando una miscela potente ma pericolosamente bevibile che incarna lo stile di vita spensierato dell\'isola.',
+      it: "Il Bahama Mama emerse negli anni '60 durante l'età d'oro della cultura tiki, creato nei bar sulla spiaggia di Nassau, Bahamas. Progettato per attrarre i turisti in cerca di un paradiso tropicale in un bicchiere, questo cocktail divenne sinonimo della cultura vacanziera caraibica. La bevanda combina più rum con succhi tropicali e cocco, creando una miscela potente ma pericolosamente bevibile che incarna lo stile di vita spensierato dell'isola.",
       vi: 'Bahama Mama xuất hiện vào những năm 1960 trong thời kỳ hoàng kim của văn hóa tiki, được tạo ra tại các quán bar bãi biển Nassau, Bahamas. Được thiết kế để thu hút khách du lịch tìm kiếm thiên đường nhiệt đới trong ly, cocktail này trở thành biểu tượng của văn hóa nghỉ dưỡng Caribbean. Thức uống kết hợp nhiều loại rum với nước ép nhiệt đới và dừa, tạo ra hỗn hợp mạnh mẽ nhưng dễ uống nguy hiểm, thể hiện lối sống đảo vô tư.',
     },
     named_after: {
       en: 'Named after the Bahamas islands and the warm, welcoming nature of Caribbean mothers (mama), representing the nurturing, tropical hospitality of the region.',
-      it: 'Prende il nome dalle isole Bahamas e dalla natura calda e accogliente delle mamme caraibiche, rappresentando l\'ospitalità tropicale e nutriente della regione.',
+      it: "Prende il nome dalle isole Bahamas e dalla natura calda e accogliente delle mamme caraibiche, rappresentando l'ospitalità tropicale e nutriente della regione.",
       vi: 'Được đặt theo tên quần đảo Bahamas và bản chất ấm áp, hiếu khách của các bà mẹ Caribbean (mama), đại diện cho lòng hiếu khách nhiệt đới, nuôi dưỡng của khu vực.',
     },
   },
@@ -77,7 +77,7 @@ export const bahamaMama: Cocktail = {
     },
     balance: {
       en: 'Well-balanced sweetness with strong rum presence - tropical flavors dominate but the alcohol is clearly present',
-      it: 'Dolcezza ben bilanciata con forte presenza di rum - i sapori tropicali dominano ma l\'alcol è chiaramente presente',
+      it: "Dolcezza ben bilanciata con forte presenza di rum - i sapori tropicali dominano ma l'alcol è chiaramente presente",
       vi: 'Vị ngọt cân bằng tốt với sự hiện diện mạnh mẽ của rum - hương vị nhiệt đới chiếm ưu thế nhưng rượu vẫn rõ ràng',
     },
   },
@@ -125,12 +125,16 @@ export const bahamaMama: Cocktail = {
     {
       ingredient_id: 'ING_ORANGE_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Orange juice', it: 'Succo d\'arancia', vi: 'Nước cam' },
+      display_name: { en: 'Orange juice', it: "Succo d'arancia", vi: 'Nước cam' },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
   ],
 
@@ -175,7 +179,14 @@ export const bahamaMama: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -194,7 +205,8 @@ export const bahamaMama: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['virgin-bahama-mama', 'bahama-mama-frozen'],
 
-  notes_for_staff: 'Use fresh pineapple juice for best flavor. Can be blended with ice for frozen version. Some recipes include grenadine for color - add 15ml if desired. Very popular poolside drink.',
+  notes_for_staff:
+    'Use fresh pineapple juice for best flavor. Can be blended with ice for frozen version. Some recipes include grenadine for color - add 15ml if desired. Very popular poolside drink.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -207,7 +219,7 @@ export const bahamaMama: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/bahama-mama/',
-    note: 'Classic tiki cocktail recipe. Variations exist across Caribbean bars.',
+    notes: 'Classic tiki cocktail recipe. Variations exist across Caribbean bars.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

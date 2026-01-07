@@ -34,7 +34,7 @@ export const casino: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A classic gin cocktail from the original 1961 IBA list, featuring Old Tom Gin with maraschino liqueur, lemon juice, and orange bitters. The Casino is bright, slightly sweet, and aromatic - a forgotten gem from the golden age of cocktails.',
-    it: 'Un classico cocktail al gin dalla lista IBA originale del 1961, con Old Tom Gin, liquore maraschino, succo di limone e orange bitters. Il Casino è brillante, leggermente dolce e aromatico - una gemma dimenticata dall\'età d\'oro dei cocktail.',
+    it: "Un classico cocktail al gin dalla lista IBA originale del 1961, con Old Tom Gin, liquore maraschino, succo di limone e orange bitters. Il Casino è brillante, leggermente dolce e aromatico - una gemma dimenticata dall'età d'oro dei cocktail.",
     vi: 'Một cocktail gin cổ điển từ danh sách IBA gốc năm 1961, có Old Tom Gin với liqueur maraschino, nước chanh và orange bitters. Casino tươi sáng, hơi ngọt và thơm - một viên ngọc bị lãng quên từ thời hoàng kim của cocktail.',
   },
 
@@ -51,12 +51,12 @@ export const casino: Cocktail = {
     },
     story: {
       en: 'The Casino was one of the original 50 cocktails on the first official IBA Cocktail List created in 1961. This first list was created and approved in 1961 in Norway at the Gausdal Mountain Hotel in Oslo. While its exact origin is unclear, it likely dates from the early 1900s and represents the style of pre-Prohibition gin cocktails. The use of Old Tom Gin, a slightly sweeter style popular in the 19th and early 20th centuries, distinguishes it from modern gin cocktails.',
-      it: 'Il Casino fu uno dei 50 cocktail originali della prima lista ufficiale IBA creata nel 1961. Questa prima lista fu creata e approvata nel 1961 in Norvegia al Gausdal Mountain Hotel di Oslo. Anche se la sua origine esatta non è chiara, probabilmente risale ai primi anni del 1900 e rappresenta lo stile dei cocktail al gin pre-Proibizionismo. L\'uso dell\'Old Tom Gin, uno stile leggermente più dolce popolare nel 19° e inizio 20° secolo, lo distingue dai cocktail al gin moderni.',
+      it: "Il Casino fu uno dei 50 cocktail originali della prima lista ufficiale IBA creata nel 1961. Questa prima lista fu creata e approvata nel 1961 in Norvegia al Gausdal Mountain Hotel di Oslo. Anche se la sua origine esatta non è chiara, probabilmente risale ai primi anni del 1900 e rappresenta lo stile dei cocktail al gin pre-Proibizionismo. L'uso dell'Old Tom Gin, uno stile leggermente più dolce popolare nel 19° e inizio 20° secolo, lo distingue dai cocktail al gin moderni.",
       vi: 'Casino là một trong 50 cocktail gốc trong Danh sách Cocktail IBA chính thức đầu tiên được tạo ra vào năm 1961. Danh sách đầu tiên này được tạo ra và phê duyệt vào năm 1961 tại Na Uy tại Khách sạn Gausdal Mountain ở Oslo. Mặc dù nguồn gốc chính xác của nó không rõ ràng, nó có thể có từ đầu những năm 1900 và đại diện cho phong cách cocktail gin trước Cấm rượu. Việc sử dụng Old Tom Gin, một phong cách hơi ngọt hơn phổ biến trong thế kỷ 19 và đầu thế kỷ 20, phân biệt nó với cocktail gin hiện đại.',
     },
     named_after: {
       en: 'The name origin is unclear, possibly named after casinos or card games.',
-      it: 'L\'origine del nome non è chiara, possibilmente prende il nome da casinò o giochi di carte.',
+      it: "L'origine del nome non è chiara, possibilmente prende il nome da casinò o giochi di carte.",
       vi: 'Nguồn gốc tên không rõ ràng, có thể được đặt tên theo sòng bạc hoặc trò chơi bài.',
     },
   },
@@ -65,7 +65,7 @@ export const casino: Cocktail = {
     profile: ['citrus', 'herbal', 'slightly_sweet'],
     description: {
       en: 'Bright and citrusy with a touch of sweetness from the Old Tom Gin and maraschino. Orange bitters add aromatic complexity while lemon provides refreshing tartness. More approachable than a modern dry gin cocktail.',
-      it: 'Brillante e agrumato con un tocco di dolcezza dall\'Old Tom Gin e dal maraschino. Gli orange bitters aggiungono complessità aromatica mentre il limone fornisce acidità rinfrescante. Più accessibile di un cocktail al gin secco moderno.',
+      it: "Brillante e agrumato con un tocco di dolcezza dall'Old Tom Gin e dal maraschino. Gli orange bitters aggiungono complessità aromatica mentre il limone fornisce acidità rinfrescante. Più accessibile di un cocktail al gin secco moderno.",
       vi: 'Tươi sáng và cam quýt với một chút ngọt từ Old Tom Gin và maraschino. Orange bitters thêm độ phức tạp thơm trong khi chanh cung cấp vị chua sảng khoái. Dễ tiếp cận hơn cocktail gin khô hiện đại.',
     },
     first_impression: {
@@ -113,12 +113,20 @@ export const casino: Cocktail = {
     {
       ingredient_id: 'ING_MARASCHINO',
       quantity: { amount: 10, unit: 'ml' },
-      display_name: { en: 'Maraschino Luxardo', it: 'Maraschino Luxardo', vi: 'Maraschino Luxardo' },
+      display_name: {
+        en: 'Maraschino Luxardo',
+        it: 'Maraschino Luxardo',
+        vi: 'Maraschino Luxardo',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 10, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ORANGE_BITTERS',
@@ -168,7 +176,14 @@ export const casino: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -187,7 +202,8 @@ export const casino: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['aviation', 'last-word', 'martinez'],
 
-  notes_for_staff: 'Old Tom Gin is essential for authenticity - it\'s slightly sweeter than London Dry. Can substitute regular gin if Old Tom unavailable, but add a tiny dash of simple syrup. Use fresh lemon juice only.',
+  notes_for_staff:
+    "Old Tom Gin is essential for authenticity - it's slightly sweeter than London Dry. Can substitute regular gin if Old Tom unavailable, but add a tiny dash of simple syrup. Use fresh lemon juice only.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +216,7 @@ export const casino: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/casino/',
-    note: 'IBA Official Recipe. Part of the original 1961 IBA cocktail list.',
+    notes: 'IBA Official Recipe. Part of the original 1961 IBA cocktail list.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

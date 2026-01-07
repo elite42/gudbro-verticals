@@ -37,7 +37,7 @@ export const margarita: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'The Margarita is the world\'s most popular tequila cocktail. A perfect balance of tequila, triple sec, and fresh lime juice, often served with a signature salt rim. Refreshing, tangy, and unmistakably Mexican.',
+    en: "The Margarita is the world's most popular tequila cocktail. A perfect balance of tequila, triple sec, and fresh lime juice, often served with a signature salt rim. Refreshing, tangy, and unmistakably Mexican.",
     it: 'Il Margarita è il cocktail a base di tequila più popolare al mondo. Un perfetto equilibrio di tequila, triple sec e succo di lime fresco, spesso servito con il caratteristico bordo di sale. Rinfrescante, aspro e inconfondibilmente messicano.',
     vi: 'Margarita là cocktail tequila phổ biến nhất thế giới. Sự cân bằng hoàn hảo của tequila, triple sec và nước chanh tươi, thường phục vụ với viền muối đặc trưng. Sảng khoái, chua và đặc trưng Mexico.',
   },
@@ -69,7 +69,7 @@ export const margarita: Cocktail = {
     profile: ['sour', 'citrus', 'refreshing', 'balanced'],
     description: {
       en: 'The Margarita delivers a vibrant, refreshing taste with bright lime acidity balanced by the sweet orange notes of triple sec and the earthy agave character of tequila. The optional salt rim enhances the citrus flavors while adding a savory contrast.',
-      it: 'Il Margarita offre un gusto vibrante e rinfrescante con brillante acidità del lime bilanciata dalle dolci note d\'arancia del triple sec e il carattere terroso di agave della tequila. Il bordo di sale opzionale esalta i sapori agrumati aggiungendo un contrasto saporito.',
+      it: "Il Margarita offre un gusto vibrante e rinfrescante con brillante acidità del lime bilanciata dalle dolci note d'arancia del triple sec e il carattere terroso di agave della tequila. Il bordo di sale opzionale esalta i sapori agrumati aggiungendo un contrasto saporito.",
       vi: 'Margarita mang hương vị sống động, sảng khoái với vị chua chanh tươi sáng được cân bằng bởi hương cam ngọt của triple sec và đặc tính đất agave của tequila. Viền muối tùy chọn tăng cường hương vị cam quýt đồng thời thêm sự tương phản mặn.',
     },
     first_impression: {
@@ -112,7 +112,11 @@ export const margarita: Cocktail = {
     {
       ingredient_id: 'ING_TEQUILA_BLANCO',
       quantity: { amount: 50, unit: 'ml' },
-      display_name: { en: 'Tequila 100% Agave', it: 'Tequila 100% Agave', vi: 'Tequila 100% Agave' },
+      display_name: {
+        en: 'Tequila 100% Agave',
+        it: 'Tequila 100% Agave',
+        vi: 'Tequila 100% Agave',
+      },
     },
     {
       ingredient_id: 'ING_TRIPLE_SEC',
@@ -122,7 +126,11 @@ export const margarita: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Freshly Squeezed Lime Juice', it: 'Succo di Lime Fresco', vi: 'Nước Chanh Tươi Vắt' },
+      display_name: {
+        en: 'Freshly Squeezed Lime Juice',
+        it: 'Succo di Lime Fresco',
+        vi: 'Nước Chanh Tươi Vắt',
+      },
     },
   ],
 
@@ -161,7 +169,14 @@ export const margarita: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -180,7 +195,8 @@ export const margarita: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: [],
 
-  notes_for_staff: 'Always use fresh lime juice - never bottled. Use 100% agave tequila for best results. Salt rim is optional - ask customer preference. For a frozen margarita, blend ingredients with ice. Popular variations include strawberry, mango, and spicy jalapeño versions.',
+  notes_for_staff:
+    'Always use fresh lime juice - never bottled. Use 100% agave tequila for best results. Salt rim is optional - ask customer preference. For a frozen margarita, blend ingredients with ice. Popular variations include strawberry, mango, and spicy jalapeño versions.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -193,7 +209,8 @@ export const margarita: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/margarita/',
-    note: 'IBA Official Recipe. Historical information from Esquire (1953) and cocktail historians David Wondrich and Robert Simonson.',
+    notes:
+      'IBA Official Recipe. Historical information from Esquire (1953) and cocktail historians David Wondrich and Robert Simonson.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

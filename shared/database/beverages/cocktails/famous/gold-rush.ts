@@ -30,9 +30,9 @@ export const goldRush: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A modern whiskey sour that replaces simple syrup with honey syrup, creating a richer, more complex flavor profile. The Gold Rush is essentially a Whiskey Sour meets Bee\'s Knees, combining bourbon\'s warmth with honey\'s floral sweetness and lemon\'s bright acidity.',
-    it: 'Un whiskey sour moderno che sostituisce lo sciroppo semplice con lo sciroppo di miele, creando un profilo aromatico più ricco e complesso. Il Gold Rush è essenzialmente un Whiskey Sour che incontra il Bee\'s Knees, combinando il calore del bourbon con la dolcezza floreale del miele e l\'acidità brillante del limone.',
-    vi: 'Một whiskey sour hiện đại thay thế siro đường bằng siro mật ong, tạo ra hương vị phong phú, phức tạp hơn. Gold Rush về cơ bản là Whiskey Sour kết hợp Bee\'s Knees, kết hợp hơi ấm của bourbon với vị ngọt hoa của mật ong và độ chua tươi sáng của chanh.',
+    en: "A modern whiskey sour that replaces simple syrup with honey syrup, creating a richer, more complex flavor profile. The Gold Rush is essentially a Whiskey Sour meets Bee's Knees, combining bourbon's warmth with honey's floral sweetness and lemon's bright acidity.",
+    it: "Un whiskey sour moderno che sostituisce lo sciroppo semplice con lo sciroppo di miele, creando un profilo aromatico più ricco e complesso. Il Gold Rush è essenzialmente un Whiskey Sour che incontra il Bee's Knees, combinando il calore del bourbon con la dolcezza floreale del miele e l'acidità brillante del limone.",
+    vi: "Một whiskey sour hiện đại thay thế siro đường bằng siro mật ong, tạo ra hương vị phong phú, phức tạp hơn. Gold Rush về cơ bản là Whiskey Sour kết hợp Bee's Knees, kết hợp hơi ấm của bourbon với vị ngọt hoa của mật ong và độ chua tươi sáng của chanh.",
   },
 
   history: {
@@ -47,13 +47,13 @@ export const goldRush: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Gold Rush was created by T.J. Siegel at the legendary Milk & Honey bar in New York City around 2001. Siegel wanted to create a bourbon cocktail that showcased the spirit\'s natural sweetness without being too sweet. By using honey syrup instead of simple syrup, he created a drink with more depth and complexity. The name references the California Gold Rush, playing on the golden color of both bourbon and honey. The drink became an instant modern classic and remains one of the most popular contemporary cocktails.',
-      it: 'Il Gold Rush fu creato da T.J. Siegel al leggendario bar Milk & Honey di New York City intorno al 2001. Siegel voleva creare un cocktail al bourbon che mettesse in mostra la dolcezza naturale dello spirito senza essere troppo dolce. Usando lo sciroppo di miele invece dello sciroppo semplice, creò una bevanda con più profondità e complessità. Il nome fa riferimento alla Corsa all\'Oro della California, giocando sul colore dorato sia del bourbon che del miele. La bevanda divenne subito un classico moderno e rimane uno dei cocktail contemporanei più popolari.',
+      en: "The Gold Rush was created by T.J. Siegel at the legendary Milk & Honey bar in New York City around 2001. Siegel wanted to create a bourbon cocktail that showcased the spirit's natural sweetness without being too sweet. By using honey syrup instead of simple syrup, he created a drink with more depth and complexity. The name references the California Gold Rush, playing on the golden color of both bourbon and honey. The drink became an instant modern classic and remains one of the most popular contemporary cocktails.",
+      it: "Il Gold Rush fu creato da T.J. Siegel al leggendario bar Milk & Honey di New York City intorno al 2001. Siegel voleva creare un cocktail al bourbon che mettesse in mostra la dolcezza naturale dello spirito senza essere troppo dolce. Usando lo sciroppo di miele invece dello sciroppo semplice, creò una bevanda con più profondità e complessità. Il nome fa riferimento alla Corsa all'Oro della California, giocando sul colore dorato sia del bourbon che del miele. La bevanda divenne subito un classico moderno e rimane uno dei cocktail contemporanei più popolari.",
       vi: 'Gold Rush được tạo ra bởi T.J. Siegel tại quán bar huyền thoại Milk & Honey ở New York City vào khoảng năm 2001. Siegel muốn tạo ra một cocktail bourbon thể hiện vị ngọt tự nhiên của rượu mà không quá ngọt. Bằng cách sử dụng siro mật ong thay vì siro đường, ông đã tạo ra một thức uống có độ sâu và phức tạp hơn. Tên gọi ám chỉ Cơn sốt vàng California, chơi chữ với màu vàng của cả bourbon và mật ong. Thức uống ngay lập tức trở thành tác phẩm cổ điển hiện đại và vẫn là một trong những cocktail đương đại phổ biến nhất.',
     },
     named_after: {
       en: 'Named after the California Gold Rush of the mid-1800s, referencing the golden color of bourbon and honey.',
-      it: 'Prende il nome dalla Corsa all\'Oro della California della metà del 1800, facendo riferimento al colore dorato del bourbon e del miele.',
+      it: "Prende il nome dalla Corsa all'Oro della California della metà del 1800, facendo riferimento al colore dorato del bourbon e del miele.",
       vi: 'Được đặt tên theo Cơn sốt vàng California giữa thập niên 1800, ám chỉ màu vàng của bourbon và mật ong.',
     },
   },
@@ -61,7 +61,7 @@ export const goldRush: Cocktail = {
   taste: {
     profile: ['honey', 'citrus', 'bourbon', 'balanced'],
     description: {
-      en: 'Rich, smooth, and perfectly balanced. Bourbon provides vanilla, oak, and caramel notes that harmonize beautifully with honey\'s floral sweetness. Fresh lemon adds brightness and cuts through the richness. The honey syrup creates a silkier texture than simple syrup, making this more luxurious than a standard whiskey sour.',
+      en: "Rich, smooth, and perfectly balanced. Bourbon provides vanilla, oak, and caramel notes that harmonize beautifully with honey's floral sweetness. Fresh lemon adds brightness and cuts through the richness. The honey syrup creates a silkier texture than simple syrup, making this more luxurious than a standard whiskey sour.",
       it: 'Ricco, liscio e perfettamente bilanciato. Il bourbon fornisce note di vaniglia, rovere e caramello che si armonizzano magnificamente con la dolcezza floreale del miele. Il limone fresco aggiunge brillantezza e taglia la ricchezza. Lo sciroppo di miele crea una texture più setosa dello sciroppo semplice, rendendo questo più lussuoso di un whiskey sour standard.',
       vi: 'Đậm đà, mượt mà và cân bằng hoàn hảo. Bourbon mang đến hương vani, gỗ sồi và caramel hòa quyện tuyệt đẹp với vị ngọt hoa của mật ong. Chanh tươi thêm độ tươi sáng và cắt qua sự phong phú. Siro mật ong tạo kết cấu mượt hơn siro đường, làm cho thức uống này sang trọng hơn whiskey sour tiêu chuẩn.',
     },
@@ -77,7 +77,7 @@ export const goldRush: Cocktail = {
     },
     balance: {
       en: 'Expertly balanced - honey sweetness perfectly matches lemon tartness',
-      it: 'Bilanciato in modo esperto - la dolcezza del miele corrisponde perfettamente all\'acidità del limone',
+      it: "Bilanciato in modo esperto - la dolcezza del miele corrisponde perfettamente all'acidità del limone",
       vi: 'Cân bằng điêu luyện - vị ngọt mật ong kết hợp hoàn hảo với vị chua chanh',
     },
   },
@@ -110,12 +110,20 @@ export const goldRush: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_HONEY_SYRUP',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Honey syrup (3:1)', it: 'Sciroppo di miele (3:1)', vi: 'Siro mật ong (3:1)' },
+      display_name: {
+        en: 'Honey syrup (3:1)',
+        it: 'Sciroppo di miele (3:1)',
+        vi: 'Siro mật ong (3:1)',
+      },
     },
   ],
 
@@ -179,7 +187,8 @@ export const goldRush: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['rye-gold-rush', 'mezcal-gold-rush', 'smoky-gold-rush'],
 
-  notes_for_staff: 'Honey syrup is 3 parts honey to 1 part hot water, cooled. Use fresh lemon juice only. Can serve up in coupe or on rocks - both work well. Quality honey matters - use local, floral honey for best results.',
+  notes_for_staff:
+    'Honey syrup is 3 parts honey to 1 part hot water, cooled. Use fresh lemon juice only. Can serve up in coupe or on rocks - both work well. Quality honey matters - use local, floral honey for best results.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +201,7 @@ export const goldRush: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/gold-rush/',
-    note: 'Created by T.J. Siegel at Milk & Honey, New York City, circa 2001.',
+    notes: 'Created by T.J. Siegel at Milk & Honey, New York City, circa 2001.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

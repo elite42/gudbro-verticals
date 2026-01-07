@@ -34,7 +34,7 @@ export const derby: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A sophisticated gin cocktail enhanced with peach bitters and fresh mint. The Derby combines botanical gin with aromatic peach notes and herbaceous mint, creating a refined and elegant drinking experience perfect for special occasions.',
-    it: 'Un sofisticato cocktail al gin arricchito con bitter alla pesca e menta fresca. Il Derby combina gin botanico con note aromatiche di pesca e menta erbacea, creando un\'esperienza di bevuta raffinata ed elegante perfetta per le occasioni speciali.',
+    it: "Un sofisticato cocktail al gin arricchito con bitter alla pesca e menta fresca. Il Derby combina gin botanico con note aromatiche di pesca e menta erbacea, creando un'esperienza di bevuta raffinata ed elegante perfetta per le occasioni speciali.",
     vi: 'Một loại cocktail gin tinh tế được nâng cao bằng peach bitters và bạc hà tươi. Derby kết hợp gin thực vật với hương thơm đào và bạc hà thảo mộc, tạo ra trải nghiệm uống tinh tế và thanh lịch hoàn hảo cho những dịp đặc biệt.',
   },
 
@@ -51,7 +51,7 @@ export const derby: Cocktail = {
     },
     story: {
       en: 'The Derby cocktail is believed to have been created in Louisville, Kentucky, home of the famous Kentucky Derby horse race. The drink was traditionally served during Derby Day celebrations, where the mint garnish pays homage to the equally famous Mint Julep, the official drink of the Kentucky Derby. The addition of peach bitters gives it a Southern charm, as peaches are abundant in the region. Over time, the Derby became a sophisticated alternative to the Mint Julep for those preferring gin over bourbon.',
-      it: 'Si ritiene che il cocktail Derby sia stato creato a Louisville, Kentucky, sede della famosa corsa di cavalli Kentucky Derby. Il drink veniva tradizionalmente servito durante le celebrazioni del Derby Day, dove la guarnizione di menta rende omaggio all\'altrettanto famoso Mint Julep, la bevanda ufficiale del Kentucky Derby. L\'aggiunta di bitter alla pesca gli conferisce un fascino del Sud, poiché le pesche sono abbondanti nella regione. Nel tempo, il Derby è diventato un\'alternativa sofisticata al Mint Julep per coloro che preferiscono il gin al bourbon.',
+      it: "Si ritiene che il cocktail Derby sia stato creato a Louisville, Kentucky, sede della famosa corsa di cavalli Kentucky Derby. Il drink veniva tradizionalmente servito durante le celebrazioni del Derby Day, dove la guarnizione di menta rende omaggio all'altrettanto famoso Mint Julep, la bevanda ufficiale del Kentucky Derby. L'aggiunta di bitter alla pesca gli conferisce un fascino del Sud, poiché le pesche sono abbondanti nella regione. Nel tempo, il Derby è diventato un'alternativa sofisticata al Mint Julep per coloro che preferiscono il gin al bourbon.",
       vi: 'Cocktail Derby được cho là đã được tạo ra ở Louisville, Kentucky, quê hương của cuộc đua ngựa Kentucky Derby nổi tiếng. Đồ uống này theo truyền thống được phục vụ trong các lễ kỷ niệm Derby Day, nơi trang trí bạc hà tôn vinh Mint Julep nổi tiếng không kém, thức uống chính thức của Kentucky Derby. Việc thêm peach bitters mang lại nét quyến rũ miền Nam, vì đào rất phong phú ở vùng này. Theo thời gian, Derby trở thành sự thay thế tinh tế cho Mint Julep đối với những người thích gin hơn bourbon.',
     },
     named_after: {
@@ -96,7 +96,7 @@ export const derby: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for gin lovers who appreciate sophisticated, aromatic cocktails. An excellent choice for Kentucky Derby parties, spring celebrations, or anyone seeking a refined alternative to more common gin classics.',
-      it: 'Perfetto per gli amanti del gin che apprezzano cocktail sofisticati e aromatici. Una scelta eccellente per le feste del Kentucky Derby, le celebrazioni primaverili o per chiunque cerchi un\'alternativa raffinata ai classici del gin più comuni.',
+      it: "Perfetto per gli amanti del gin che apprezzano cocktail sofisticati e aromatici. Una scelta eccellente per le feste del Kentucky Derby, le celebrazioni primaverili o per chiunque cerchi un'alternativa raffinata ai classici del gin più comuni.",
       vi: 'Hoàn hảo cho những người yêu gin đánh giá cao cocktail tinh tế, thơm ngát. Lựa chọn tuyệt vời cho các bữa tiệc Kentucky Derby, lễ kỷ niệm mùa xuân hoặc bất kỳ ai tìm kiếm sự thay thế tinh tế cho các cocktail gin cổ điển phổ biến hơn.',
     },
   },
@@ -163,7 +163,14 @@ export const derby: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +189,8 @@ export const derby: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['derby-daisy', 'kentucky-derby'],
 
-  notes_for_staff: 'Use fresh mint leaves - gently press before adding to release oils. Peach bitters are essential for authentic flavor. Can substitute with Angostura bitters if peach bitters unavailable, though flavor will differ.',
+  notes_for_staff:
+    'Use fresh mint leaves - gently press before adding to release oils. Peach bitters are essential for authentic flavor. Can substitute with Angostura bitters if peach bitters unavailable, though flavor will differ.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +203,8 @@ export const derby: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/derby/',
-    note: 'IBA Official Recipe. Historical information from Kentucky Derby traditions and cocktail history sources.',
+    notes:
+      'IBA Official Recipe. Historical information from Kentucky Derby traditions and cocktail history sources.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

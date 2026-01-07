@@ -93,7 +93,7 @@ export const fitzgerald: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for gin lovers who appreciate classic sours. Ideal for those who enjoy Tom Collins but want something more refined and spirit-forward. Great for literary enthusiasts and fans of the Jazz Age.',
-      it: 'Perfetto per gli amanti del gin che apprezzano i sour classici. Ideale per chi ama il Tom Collins ma vuole qualcosa di più raffinato e incentrato sullo spirito. Ottimo per gli appassionati di letteratura e i fan dell\'Era del Jazz.',
+      it: "Perfetto per gli amanti del gin che apprezzano i sour classici. Ideale per chi ama il Tom Collins ma vuole qualcosa di più raffinato e incentrato sullo spirito. Ottimo per gli appassionati di letteratura e i fan dell'Era del Jazz.",
       vi: 'Hoàn hảo cho những người yêu gin đánh giá cao sour cổ điển. Lý tưởng cho những ai thích Tom Collins nhưng muốn thứ gì đó tinh tế hơn và tập trung vào rượu mạnh. Tuyệt vời cho những người đam mê văn học và người hâm mộ Thời đại Jazz.',
     },
   },
@@ -110,7 +110,11 @@ export const fitzgerald: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -184,7 +188,8 @@ export const fitzgerald: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['elderflower-fitzgerald', 'pink-fitzgerald'],
 
-  notes_for_staff: 'Use fresh lemon juice only. Some versions use 2:1:1 gin-lemon-syrup ratio for more spirit-forward profile. Bitters are essential - don\'t skip. Can serve in rocks glass over ice as alternative presentation.',
+  notes_for_staff:
+    "Use fresh lemon juice only. Some versions use 2:1:1 gin-lemon-syrup ratio for more spirit-forward profile. Bitters are essential - don't skip. Can serve in rocks glass over ice as alternative presentation.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -197,7 +202,7 @@ export const fitzgerald: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/fitzgerald/',
-    note: 'Created by Dale DeGroff in the early 2000s during the craft cocktail renaissance.',
+    notes: 'Created by Dale DeGroff in the early 2000s during the craft cocktail renaissance.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

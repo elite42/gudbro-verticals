@@ -34,7 +34,7 @@ export const irishCoffee: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'The perfect marriage of hot coffee, Irish whiskey, and cream. Warming, comforting, and sophisticated - this iconic Irish creation is the ultimate cold-weather indulgence.',
-    it: 'Il matrimonio perfetto tra caffè caldo, whiskey irlandese e panna. Riscaldante, confortante e sofisticato - questa iconica creazione irlandese è l\'indulgenza definitiva per il freddo.',
+    it: "Il matrimonio perfetto tra caffè caldo, whiskey irlandese e panna. Riscaldante, confortante e sofisticato - questa iconica creazione irlandese è l'indulgenza definitiva per il freddo.",
     vi: 'Sự kết hợp hoàn hảo của cà phê nóng, whiskey Ireland và kem. Ấm áp, thoải mái và tinh tế - tác phẩm biểu tượng của Ireland này là sự nuông chiều tối thượng cho thời tiết lạnh.',
   },
 
@@ -187,7 +187,8 @@ export const irishCoffee: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['baileys-coffee', 'spanish-coffee', 'italian-coffee'],
 
-  notes_for_staff: 'The cream must float on top - lightly whip it to proper consistency (not too thick) and pour over the back of a spoon. Pre-warm the glass. Use good quality Irish whiskey and fresh, hot coffee. The drink is meant to be sipped through the cream, not stirred.',
+  notes_for_staff:
+    'The cream must float on top - lightly whip it to proper consistency (not too thick) and pour over the back of a spoon. Pre-warm the glass. Use good quality Irish whiskey and fresh, hot coffee. The drink is meant to be sipped through the cream, not stirred.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +201,7 @@ export const irishCoffee: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/irish-coffee/',
-    note: 'IBA Official Recipe. Created by Joe Sheridan in 1943.',
+    notes: 'IBA Official Recipe. Created by Joe Sheridan in 1943.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

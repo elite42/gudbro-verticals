@@ -44,11 +44,11 @@ export const redHeadedSlut: Cocktail = {
     },
     story: {
       en: 'The Red Headed Slut emerged in American bars during the 1980s party scene. Its exact origin is disputed, but the shot gained widespread popularity in college towns and nightclubs. The name, while controversial, became part of its identity and contributed to its notoriety as a fun, party-oriented drink.',
-      it: 'Il Red Headed Slut è emerso nei bar americani durante la scena delle feste degli anni \'80. La sua origine esatta è controversa, ma lo shot ha guadagnato ampia popolarità nelle città universitarie e nei nightclub. Il nome, sebbene controverso, è diventato parte della sua identità e ha contribuito alla sua notorietà come bevanda divertente orientata alle feste.',
+      it: "Il Red Headed Slut è emerso nei bar americani durante la scena delle feste degli anni '80. La sua origine esatta è controversa, ma lo shot ha guadagnato ampia popolarità nelle città universitarie e nei nightclub. Il nome, sebbene controverso, è diventato parte della sua identità e ha contribuito alla sua notorietà come bevanda divertente orientata alle feste.",
       vi: 'Red Headed Slut xuất hiện tại các quầy bar Mỹ trong bối cảnh tiệc tung những năm 1980. Nguồn gốc chính xác của nó còn tranh cãi, nhưng shot này đã trở nên phổ biến rộng rãi ở các thị trấn đại học và hộp đêm. Cái tên, mặc dù gây tranh cãi, đã trở thành một phần của bản sắc và góp phần vào sự nổi tiếng như một thức uống vui vẻ, hướng đến tiệc tung.',
     },
     named_after: {
-      en: 'The name is a provocative reference to the drink\'s reddish color from cranberry juice.',
+      en: "The name is a provocative reference to the drink's reddish color from cranberry juice.",
       it: 'Il nome è un riferimento provocatorio al colore rossastro della bevanda dal succo di mirtillo rosso.',
       vi: 'Cái tên là một tham chiếu khiêu khích đến màu đỏ của thức uống từ nước ép nam việt quất.',
     },
@@ -73,7 +73,7 @@ export const redHeadedSlut: Cocktail = {
     },
     balance: {
       en: 'Sweet and fruity flavors balance the herbal intensity of Jägermeister',
-      it: 'I sapori dolci e fruttati bilanciano l\'intensità erbacea del Jägermeister',
+      it: "I sapori dolci e fruttati bilanciano l'intensità erbacea del Jägermeister",
       vi: 'Hương vị ngọt và trái cây cân bằng cường độ thảo mộc của Jägermeister',
     },
   },
@@ -81,7 +81,7 @@ export const redHeadedSlut: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['party', 'nightlife', 'celebration', 'bachelor_bachelorette'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Best enjoyed as a party shot without food pairings. Can be followed by light snacks or appetizers.',
       it: 'Meglio gustato come shot da festa senza abbinamenti alimentari. Può essere seguito da snack leggeri o antipasti.',
@@ -89,7 +89,7 @@ export const redHeadedSlut: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for party-goers who enjoy sweet, easy-drinking shots. A popular choice for those who want to mask the taste of strong alcohol.',
-      it: 'Perfetto per gli amanti delle feste che apprezzano gli shot dolci e facili da bere. Una scelta popolare per coloro che vogliono mascherare il gusto dell\'alcol forte.',
+      it: "Perfetto per gli amanti delle feste che apprezzano gli shot dolci e facili da bere. Una scelta popolare per coloro che vogliono mascherare il gusto dell'alcol forte.",
       vi: 'Hoàn hảo cho những người đi tiệc thích shot ngọt, dễ uống. Lựa chọn phổ biến cho những ai muốn che giấu vị của rượu mạnh.',
     },
   },
@@ -111,7 +111,11 @@ export const redHeadedSlut: Cocktail = {
     {
       ingredient_id: 'ING_CRANBERRY_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Cranberry Juice', it: 'Succo di Mirtillo Rosso', vi: 'Nước Ép Nam Việt Quất' },
+      display_name: {
+        en: 'Cranberry Juice',
+        it: 'Succo di Mirtillo Rosso',
+        vi: 'Nước Ép Nam Việt Quất',
+      },
     },
   ],
 
@@ -156,7 +160,14 @@ export const redHeadedSlut: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -164,7 +175,7 @@ export const redHeadedSlut: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'nightlife', 'celebration'],
 
   is_mocktail: false,
@@ -175,7 +186,8 @@ export const redHeadedSlut: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['ginger-headed-slut', 'blonde-headed-slut', 'brunette-slut'],
 
-  notes_for_staff: 'Despite the provocative name, this is a popular and requested shot. Some venues may use alternative names like "Ginger Shot" or "Peachy Keen" to avoid controversy. Shake well to ensure proper mixing.',
+  notes_for_staff:
+    'Despite the provocative name, this is a popular and requested shot. Some venues may use alternative names like "Ginger Shot" or "Peachy Keen" to avoid controversy. Shake well to ensure proper mixing.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -188,7 +200,7 @@ export const redHeadedSlut: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/red-headed-slut/',
-    note: 'Classic party shot from the 1980s bar scene.',
+    notes: 'Classic party shot from the 1980s bar scene.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

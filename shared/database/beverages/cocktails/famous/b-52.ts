@@ -47,8 +47,8 @@ export const b52: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by bartender Peter Fich at the Banff Springs Hotel in Alberta, Canada in 1977. The shot was named after the B-52 Stratofortress bomber aircraft. The layering technique creates a visual effect reminiscent of the aircraft\'s stratified flight levels.',
-      it: 'Creato dal barman Peter Fich al Banff Springs Hotel in Alberta, Canada nel 1977. Lo shot prende il nome dall\'aereo bombardiere B-52 Stratofortress. La tecnica di stratificazione crea un effetto visivo che ricorda i livelli di volo stratificati dell\'aereo.',
+      en: "Created by bartender Peter Fich at the Banff Springs Hotel in Alberta, Canada in 1977. The shot was named after the B-52 Stratofortress bomber aircraft. The layering technique creates a visual effect reminiscent of the aircraft's stratified flight levels.",
+      it: "Creato dal barman Peter Fich al Banff Springs Hotel in Alberta, Canada nel 1977. Lo shot prende il nome dall'aereo bombardiere B-52 Stratofortress. La tecnica di stratificazione crea un effetto visivo che ricorda i livelli di volo stratificati dell'aereo.",
       vi: 'Được tạo ra bởi bartender Peter Fich tại Khách sạn Banff Springs ở Alberta, Canada vào năm 1977. Shot được đặt tên theo máy bay ném bom B-52 Stratofortress. Kỹ thuật phân lớp tạo ra hiệu ứng thị giác gợi nhớ đến các tầng bay phân tầng của máy bay.',
     },
     named_after: {
@@ -72,7 +72,7 @@ export const b52: Cocktail = {
     },
     finish: {
       en: 'Smooth finish with lingering orange liqueur warmth',
-      it: 'Finale morbido con calore persistente di liquore all\'arancia',
+      it: "Finale morbido con calore persistente di liquore all'arancia",
       vi: 'Kết thúc mượt mà với hơi ấm rượu cam kéo dài',
     },
     balance: {
@@ -85,7 +85,7 @@ export const b52: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['party', 'celebration', 'nightlife'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Best enjoyed on its own as a party shot. Can be paired with chocolate desserts or coffee-based sweets.',
       it: 'Meglio gustato da solo come shot da festa. Può essere abbinato a dessert al cioccolato o dolci a base di caffè.',
@@ -110,7 +110,11 @@ export const b52: Cocktail = {
     {
       ingredient_id: 'ING_BAILEYS',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Baileys Irish Cream', it: 'Baileys Irish Cream', vi: 'Baileys Irish Cream' },
+      display_name: {
+        en: 'Baileys Irish Cream',
+        it: 'Baileys Irish Cream',
+        vi: 'Baileys Irish Cream',
+      },
     },
     {
       ingredient_id: 'ING_GRAND_MARNIER',
@@ -131,7 +135,7 @@ export const b52: Cocktail = {
 
   garnish: {
     en: 'None (the layered appearance is the visual appeal)',
-    it: 'Nessuna (l\'aspetto stratificato è l\'appeal visivo)',
+    it: "Nessuna (l'aspetto stratificato è l'appeal visivo)",
     vi: 'Không (vẻ ngoài phân lớp là điểm hấp dẫn thị giác)',
   },
 
@@ -168,7 +172,7 @@ export const b52: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'celebration', 'nightlife'],
 
   is_mocktail: false,
@@ -179,7 +183,8 @@ export const b52: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['b-53', 'b-54', 'flaming-b-52'],
 
-  notes_for_staff: 'Layer carefully using the back of a bar spoon. Pour slowly to maintain distinct layers. Can be served flaming (ignite Grand Marnier) if requested - ensure safety precautions.',
+  notes_for_staff:
+    'Layer carefully using the back of a bar spoon. Pour slowly to maintain distinct layers. Can be served flaming (ignite Grand Marnier) if requested - ensure safety precautions.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +197,7 @@ export const b52: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://en.wikipedia.org/wiki/B-52_(cocktail)',
-    note: 'Classic layered shot recipe. Created by Peter Fich in 1977.',
+    notes: 'Classic layered shot recipe. Created by Peter Fich in 1977.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

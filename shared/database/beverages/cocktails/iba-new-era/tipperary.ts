@@ -90,12 +90,12 @@ export const tipperary: Cocktail = {
     occasions: ['aperitivo', 'celebration', 'date_night', 'st_patricks_day'],
     seasons: ['autumn', 'winter', 'spring'],
     food_pairings: {
-      en: 'Excellent with Irish stew, shepherd\'s pie, aged cheddar, or as a pre-dinner aperitif.',
-      it: 'Eccellente con stufato irlandese, shepherd\'s pie, cheddar stagionato, o come aperitivo prima di cena.',
-      vi: 'Tuyệt vời với món hầm Ireland, bánh shepherd\'s pie, phô mai cheddar lâu năm, hoặc làm aperitif trước bữa tối.',
+      en: "Excellent with Irish stew, shepherd's pie, aged cheddar, or as a pre-dinner aperitif.",
+      it: "Eccellente con stufato irlandese, shepherd's pie, cheddar stagionato, o come aperitivo prima di cena.",
+      vi: "Tuyệt vời với món hầm Ireland, bánh shepherd's pie, phô mai cheddar lâu năm, hoặc làm aperitif trước bữa tối.",
     },
     ideal_for: {
-      en: 'Perfect for Irish whiskey enthusiasts and those who appreciate herbal, complex cocktails. Ideal for St. Patrick\'s Day or anyone exploring classic cocktails.',
+      en: "Perfect for Irish whiskey enthusiasts and those who appreciate herbal, complex cocktails. Ideal for St. Patrick's Day or anyone exploring classic cocktails.",
       it: 'Perfetto per gli appassionati di whiskey irlandese e per coloro che apprezzano i cocktail erbacei e complessi. Ideale per il giorno di San Patrizio o per chiunque esplori i cocktail classici.',
       vi: 'Hoàn hảo cho người đam mê whiskey Ireland và những ai đánh giá cao cocktail thảo mộc, phức tạp. Lý tưởng cho ngày St. Patrick hoặc bất kỳ ai khám phá cocktail cổ điển.',
     },
@@ -163,7 +163,14 @@ export const tipperary: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +189,8 @@ export const tipperary: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['tipperary-no-2'],
 
-  notes_for_staff: 'Stir, don\'t shake, to maintain clarity. The green Chartreuse provides a distinctive herbal character. Some variations use equal parts of all three ingredients.',
+  notes_for_staff:
+    "Stir, don't shake, to maintain clarity. The green Chartreuse provides a distinctive herbal character. Some variations use equal parts of all three ingredients.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +203,7 @@ export const tipperary: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/tipperary/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

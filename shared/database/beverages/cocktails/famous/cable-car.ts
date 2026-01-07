@@ -31,7 +31,7 @@ export const cableCar: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A San Francisco classic featuring spiced rum, orange curaçao, lemon juice, and a cinnamon-sugar rim. The Cable Car is a sophisticated variation on the Sidecar with warming spice notes.',
-    it: 'Un classico di San Francisco con rum speziato, curaçao all\'arancia, succo di limone e un bordo di zucchero e cannella. Il Cable Car è una variazione sofisticata del Sidecar con note speziate calde.',
+    it: "Un classico di San Francisco con rum speziato, curaçao all'arancia, succo di limone e un bordo di zucchero e cannella. Il Cable Car è una variazione sofisticata del Sidecar con note speziate calde.",
     vi: 'Một loại cocktail cổ điển San Francisco với rum gia vị, curaçao cam, nước chanh và viền đường quế. Cable Car là biến thể tinh tế của Sidecar với hương gia vị ấm áp.',
   },
 
@@ -47,12 +47,12 @@ export const cableCar: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by legendary bartender Tony Abou-Ganim in 1996 at The Starlight Room atop the Sir Francis Drake Hotel in San Francisco. Abou-Ganim designed the Cable Car as a tribute to San Francisco\'s iconic cable car system. He elevated the classic Sidecar by substituting spiced rum for cognac and adding a cinnamon-sugar rim, creating a cocktail that captures the spirit of the city. The drink became immensely popular and is now considered a modern classic, especially in San Francisco.',
-      it: 'Creato dal leggendario barman Tony Abou-Ganim nel 1996 allo Starlight Room in cima al Sir Francis Drake Hotel di San Francisco. Abou-Ganim ha progettato il Cable Car come tributo all\'iconico sistema di cable car di San Francisco. Ha elevato il classico Sidecar sostituendo il cognac con rum speziato e aggiungendo un bordo di zucchero e cannella, creando un cocktail che cattura lo spirito della città. La bevanda è diventata immensamente popolare ed è ora considerata un classico moderno, specialmente a San Francisco.',
+      en: "Created by legendary bartender Tony Abou-Ganim in 1996 at The Starlight Room atop the Sir Francis Drake Hotel in San Francisco. Abou-Ganim designed the Cable Car as a tribute to San Francisco's iconic cable car system. He elevated the classic Sidecar by substituting spiced rum for cognac and adding a cinnamon-sugar rim, creating a cocktail that captures the spirit of the city. The drink became immensely popular and is now considered a modern classic, especially in San Francisco.",
+      it: "Creato dal leggendario barman Tony Abou-Ganim nel 1996 allo Starlight Room in cima al Sir Francis Drake Hotel di San Francisco. Abou-Ganim ha progettato il Cable Car come tributo all'iconico sistema di cable car di San Francisco. Ha elevato il classico Sidecar sostituendo il cognac con rum speziato e aggiungendo un bordo di zucchero e cannella, creando un cocktail che cattura lo spirito della città. La bevanda è diventata immensamente popolare ed è ora considerata un classico moderno, specialmente a San Francisco.",
       vi: 'Được tạo ra bởi bartender huyền thoại Tony Abou-Ganim năm 1996 tại The Starlight Room trên đỉnh khách sạn Sir Francis Drake ở San Francisco. Abou-Ganim thiết kế Cable Car như một lời tri ân đến hệ thống xe cáp biểu tượng của San Francisco. Ông nâng tầm Sidecar cổ điển bằng cách thay cognac bằng rum gia vị và thêm viền đường quế, tạo ra cocktail nắm bắt tinh thần của thành phố. Đồ uống trở nên cực kỳ phổ biến và hiện được coi là cocktail cổ điển hiện đại, đặc biệt ở San Francisco.',
     },
     named_after: {
-      en: 'Named after San Francisco\'s iconic cable car system, a symbol of the city since 1873.',
+      en: "Named after San Francisco's iconic cable car system, a symbol of the city since 1873.",
       it: 'Chiamato così dal sistema iconico di cable car di San Francisco, simbolo della città dal 1873.',
       vi: 'Được đặt tên theo hệ thống xe cáp biểu tượng của San Francisco, biểu tượng của thành phố từ năm 1873.',
     },
@@ -62,7 +62,7 @@ export const cableCar: Cocktail = {
     profile: ['citrus', 'spicy', 'sweet'],
     description: {
       en: 'Bright and citrusy with warming spice notes. Spiced rum provides a rich backbone with vanilla and cinnamon, orange curaçao adds sweet orange flavor, lemon juice brings tartness, and the cinnamon-sugar rim enhances the spice character throughout.',
-      it: 'Luminoso e agrumato con note speziate calde. Il rum speziato fornisce una struttura ricca con vaniglia e cannella, il curaçao all\'arancia aggiunge sapore dolce d\'arancia, il succo di limone porta acidità e il bordo di zucchero e cannella esalta il carattere speziato per tutta la bevanda.',
+      it: "Luminoso e agrumato con note speziate calde. Il rum speziato fornisce una struttura ricca con vaniglia e cannella, il curaçao all'arancia aggiunge sapore dolce d'arancia, il succo di limone porta acidità e il bordo di zucchero e cannella esalta il carattere speziato per tutta la bevanda.",
       vi: 'Sáng và cam chanh với hương gia vị ấm áp. Rum gia vị mang đến xương sống phong phú với vani và quế, curaçao cam thêm hương cam ngọt, nước chanh mang vị chua, và viền đường quế tăng cường đặc tính gia vị xuyên suốt.',
     },
     first_impression: {
@@ -112,7 +112,7 @@ export const cableCar: Cocktail = {
       quantity: { amount: 22.5, unit: 'ml' },
       display_name: {
         en: 'Orange curaçao',
-        it: 'Curaçao all\'arancia',
+        it: "Curaçao all'arancia",
         vi: 'Curaçao cam',
       },
     },
@@ -140,7 +140,7 @@ export const cableCar: Cocktail = {
 
   instructions: {
     en: 'Rim a chilled coupe glass with cinnamon-sugar. Add all ingredients to a cocktail shaker filled with ice. Shake vigorously until well-chilled. Strain into the prepared glass. Garnish with an orange twist.',
-    it: 'Bordare una coppa raffreddata con zucchero e cannella. Aggiungere tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare vigorosamente fino a raffreddare bene. Filtrare nel bicchiere preparato. Guarnire con una twist d\'arancia.',
+    it: "Bordare una coppa raffreddata con zucchero e cannella. Aggiungere tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare vigorosamente fino a raffreddare bene. Filtrare nel bicchiere preparato. Guarnire con una twist d'arancia.",
     vi: 'Viền ly coupe đã làm lạnh với đường quế. Thêm tất cả nguyên liệu vào bình lắc đầy đá. Lắc mạnh cho đến khi lạnh kỹ. Lọc vào ly đã chuẩn bị. Trang trí với vỏ cam xoắn.',
   },
 
@@ -148,7 +148,7 @@ export const cableCar: Cocktail = {
 
   garnish: {
     en: 'Cinnamon-sugar rim and orange twist',
-    it: 'Bordo di zucchero e cannella e twist d\'arancia',
+    it: "Bordo di zucchero e cannella e twist d'arancia",
     vi: 'Viền đường quế và vỏ cam xoắn',
   },
 
@@ -177,7 +177,14 @@ export const cableCar: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 2,
   },
 
@@ -196,7 +203,8 @@ export const cableCar: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['sidecar', 'margarita'],
 
-  notes_for_staff: 'Rim glass with cinnamon-sugar (mix cinnamon and sugar 1:4 ratio). Use quality spiced rum for best results. The cinnamon-sugar rim is essential to the drink\'s character - don\'t skip it!',
+  notes_for_staff:
+    "Rim glass with cinnamon-sugar (mix cinnamon and sugar 1:4 ratio). Use quality spiced rum for best results. The cinnamon-sugar rim is essential to the drink's character - don't skip it!",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -209,7 +217,8 @@ export const cableCar: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'Created by Tony Abou-Ganim at The Starlight Room, 1996',
-    note: 'Modern classic and San Francisco signature cocktail. Featured in The Modern Mixologist.',
+    notes:
+      'Modern classic and San Francisco signature cocktail. Featured in The Modern Mixologist.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

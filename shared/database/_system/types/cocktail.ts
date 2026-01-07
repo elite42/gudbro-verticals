@@ -18,40 +18,52 @@ import type { MultiLangText, ProductIngredient, SpiceLevel } from './index';
  * Preparation method
  */
 export type CocktailMethod =
-  | 'build'    // Built directly in serving glass
-  | 'stir'     // Stirred in mixing glass with ice
-  | 'shake'    // Shaken in cocktail shaker
-  | 'blend'    // Blended with ice (frozen drinks)
-  | 'swizzle'  // Swizzled with bar spoon
-  | 'roll'     // Rolled between tins (Bloody Mary)
-  | 'layer'    // Layered (pousse-café style)
-  | 'muddle';  // Muddled ingredients
+  | 'build' // Built directly in serving glass
+  | 'stir' // Stirred in mixing glass with ice
+  | 'shake' // Shaken in cocktail shaker
+  | 'blend' // Blended with ice (frozen drinks)
+  | 'swizzle' // Swizzled with bar spoon
+  | 'roll' // Rolled between tins (Bloody Mary)
+  | 'layer' // Layered (pousse-café style)
+  | 'muddle' // Muddled ingredients
+  | 'muddle_shake' // Muddled then shaken
+  | 'pour'; // Simply poured (shots)
 
 /**
  * Ice type
  */
 export type CocktailIce =
-  | 'none'       // No ice (served up)
-  | 'cubed'      // Standard ice cubes
-  | 'cubes'      // Alias for cubed
+  | 'none' // No ice (served up)
+  | 'cubed' // Standard ice cubes
+  | 'cubes' // Alias for cubed
   | 'large_cube' // Large format ice (Old Fashioned)
-  | 'crushed'    // Crushed ice (Mint Julep, Mojito)
-  | 'pebble'     // Pebble ice (Tiki drinks)
-  | 'cracked';   // Cracked ice
+  | 'crushed' // Crushed ice (Mint Julep, Mojito)
+  | 'pebble' // Pebble ice (Tiki drinks)
+  | 'cracked' // Cracked ice
+  | 'blended' // Blended with ice (frozen drinks)
+  | 'block'; // Block ice (punch bowls)
 
 /**
  * Serving style
  */
 export type ServingStyle =
-  | 'up'           // Chilled, no ice in glass
+  | 'up' // Chilled, no ice in glass
   | 'on_the_rocks' // Over ice
-  | 'rocks'        // Same as on_the_rocks (alias)
-  | 'highball'     // Tall, lots of mixer
-  | 'collins'      // Collins style
-  | 'tiki'         // Tiki presentation
-  | 'shot'         // Shot glass
-  | 'straight'     // Neat, room temperature
-  | 'built';       // Built in glass (Mint Julep)
+  | 'on_rocks' // Alias for on_the_rocks
+  | 'rocks' // Same as on_the_rocks (alias)
+  | 'highball' // Tall, lots of mixer
+  | 'collins' // Collins style
+  | 'tiki' // Tiki presentation
+  | 'shot' // Shot glass
+  | 'straight' // Neat, room temperature
+  | 'straight_up' // Alias for straight
+  | 'built' // Built in glass (Mint Julep)
+  | 'frozen' // Blended with ice (frozen margarita, etc.)
+  | 'blended' // Blended drinks (Zombie, etc.)
+  | 'hot' // Hot drinks (Irish Coffee, Hot Toddy)
+  | 'swizzle' // Swizzled (Chartreuse Swizzle)
+  | 'punch' // Punch bowl service
+  | 'communal'; // Shared/communal (scorpion bowl)
 
 /**
  * Difficulty level
@@ -61,16 +73,16 @@ export type CocktailDifficulty = 'easy' | 'medium' | 'hard' | 'advanced' | 'inte
 /**
  * Price tier
  */
-export type PriceTier = 'low' | 'mid' | 'high' | 'premium';
+export type PriceTier = 'budget' | 'low' | 'mid' | 'high' | 'premium';
 
 /**
  * IBA Categories
  */
 export type IBACategory =
-  | 'Unforgettables'           // The Unforgettables (classic cocktails)
-  | 'Contemporary'             // Contemporary Classics
-  | 'Contemporary Classics'    // Alias with space
-  | 'NewEraDrinks';            // New Era Drinks
+  | 'Unforgettables' // The Unforgettables (classic cocktails)
+  | 'Contemporary' // Contemporary Classics
+  | 'Contemporary Classics' // Alias with space
+  | 'NewEraDrinks'; // New Era Drinks
 
 /**
  * Flavor profile descriptors
@@ -90,39 +102,47 @@ export type FlavorProfile =
   | 'floral'
   | 'citrus'
   | 'tropical'
-  | 'botanical'       // gin-forward, juniper notes
-  | 'crisp'           // clean, sharp finish
-  | 'complex'         // multi-layered flavors
-  | 'effervescent'    // bubbly, sparkling
-  | 'light'           // delicate, not heavy
-  | 'aromatic'        // fragrant, perfumed
-  | 'elegant'         // refined, sophisticated
-  | 'tart'            // pleasantly acidic
-  | 'minty'           // mint-forward
-  | 'balanced'        // well-harmonized flavors
-  | 'herbaceous'      // herb-forward
-  | 'spirit-forward'  // strong spirit presence
-  | 'smooth'          // silky, easy to drink
-  | 'rich'            // full-bodied
-  | 'slightly_sweet'  // mildly sweet
-  | 'warming'         // warm sensation
-  | 'nutty'           // nut flavors
-  | 'chocolatey'      // chocolate notes
-  | 'coffee'          // coffee flavors
-  | 'vanilla'         // vanilla notes
-  | 'caramel'         // caramel notes
-  | 'honey'           // honey sweetness
-  | 'ginger'          // ginger spice
-  | 'cinnamon'        // cinnamon spice
-  | 'anise'           // anise/licorice
-  | 'strong'          // high alcohol
-  | 'mild'            // gentle
-  | string;           // Allow additional values
+  | 'botanical' // gin-forward, juniper notes
+  | 'crisp' // clean, sharp finish
+  | 'complex' // multi-layered flavors
+  | 'effervescent' // bubbly, sparkling
+  | 'light' // delicate, not heavy
+  | 'aromatic' // fragrant, perfumed
+  | 'elegant' // refined, sophisticated
+  | 'tart' // pleasantly acidic
+  | 'minty' // mint-forward
+  | 'balanced' // well-harmonized flavors
+  | 'herbaceous' // herb-forward
+  | 'spirit-forward' // strong spirit presence
+  | 'smooth' // silky, easy to drink
+  | 'rich' // full-bodied
+  | 'slightly_sweet' // mildly sweet
+  | 'warming' // warm sensation
+  | 'nutty' // nut flavors
+  | 'chocolatey' // chocolate notes
+  | 'coffee' // coffee flavors
+  | 'vanilla' // vanilla notes
+  | 'caramel' // caramel notes
+  | 'honey' // honey sweetness
+  | 'ginger' // ginger spice
+  | 'cinnamon' // cinnamon spice
+  | 'anise' // anise/licorice
+  | 'strong' // high alcohol
+  | 'mild' // gentle
+  | string; // Allow additional values
 
 /**
  * Season tags
  */
-export type SeasonTag = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all_year' | 'year_round' | 'year-round';
+export type SeasonTag =
+  | 'spring'
+  | 'summer'
+  | 'autumn'
+  | 'fall'
+  | 'winter'
+  | 'all_year'
+  | 'year_round'
+  | 'year-round';
 
 /**
  * Occasion tags
@@ -169,7 +189,7 @@ export type OccasionTag =
   | 'happy_hour'
   | 'weekend'
   | 'holiday'
-  | string;  // Allow additional values
+  | string; // Allow additional values
 
 // ============================================================================
 // COCKTAIL INGREDIENT - Specific to cocktails
@@ -190,11 +210,12 @@ export interface CocktailIngredient extends ProductIngredient {
 
 export interface CocktailHistory {
   /** When the cocktail was created (year or circa) */
-  created_year?: number | string;  // Can be "1880s" or "circa 1920"
+  created_year?: number | string; // Can be "1880s" or "circa 1920"
 
   /** Where the cocktail was created (city, bar, country) */
   origin?: {
     city?: string;
+    state?: string;
     bar?: string;
     country?: string;
   };
@@ -202,7 +223,7 @@ export interface CocktailHistory {
   /** Who created it */
   creator?: {
     name?: string;
-    profession?: string;  // "bartender", "bar owner", etc.
+    profession?: string; // "bartender", "bar owner", etc.
   };
 
   /** Why/how it was created - the story */
@@ -239,7 +260,27 @@ export interface CocktailTaste {
 
 export interface CocktailRecommendations {
   /** Best time to enjoy */
-  best_time?: ('afternoon' | 'evening' | 'late_night' | 'night' | 'daytime' | 'happy_hour' | 'pre-dinner' | 'late_afternoon' | 'after_dinner' | 'summer_day' | 'winter_evening' | 'aperitivo' | 'any' | 'early_evening' | 'brunch' | 'poolside' | 'dessert' | 'morning' | string)[];
+  best_time?: (
+    | 'afternoon'
+    | 'evening'
+    | 'late_night'
+    | 'night'
+    | 'daytime'
+    | 'happy_hour'
+    | 'pre-dinner'
+    | 'late_afternoon'
+    | 'after_dinner'
+    | 'summer_day'
+    | 'winter_evening'
+    | 'aperitivo'
+    | 'any'
+    | 'early_evening'
+    | 'brunch'
+    | 'poolside'
+    | 'dessert'
+    | 'morning'
+    | string
+  )[];
 
   /** Best occasions */
   occasions?: OccasionTag[];
@@ -334,7 +375,7 @@ export interface Cocktail {
   // ─────────────────────────────────────────────────────────────────────────
 
   /** Base spirits used */
-  base_spirits: string[];  // Ingredient IDs
+  base_spirits: string[]; // Ingredient IDs
 
   /** Flavor profile tags */
   flavor_profile: FlavorProfile[];
@@ -416,7 +457,7 @@ export interface Cocktail {
     /** Primary source URL */
     primary: string;
     /** Additional notes about sources */
-    note?: string;
+    notes?: string;
   };
 
   // ─────────────────────────────────────────────────────────────────────────

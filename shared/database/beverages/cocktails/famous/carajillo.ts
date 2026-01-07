@@ -31,7 +31,7 @@ export const carajillo: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A beloved Spanish cocktail that combines espresso with Licor 43, a vanilla-citrus liqueur. Simple yet sophisticated, the Carajillo is traditionally served after meals as a digestif, offering the perfect balance of coffee bitterness and sweet, aromatic vanilla notes.',
-    it: 'Un amato cocktail spagnolo che combina espresso con Licor 43, un liquore alla vaniglia e agrumi. Semplice ma sofisticato, il Carajillo è tradizionalmente servito dopo i pasti come digestivo, offrendo il perfetto equilibrio tra l\'amarezza del caffè e le dolci note aromatiche di vaniglia.',
+    it: "Un amato cocktail spagnolo che combina espresso con Licor 43, un liquore alla vaniglia e agrumi. Semplice ma sofisticato, il Carajillo è tradizionalmente servito dopo i pasti come digestivo, offrendo il perfetto equilibrio tra l'amarezza del caffè e le dolci note aromatiche di vaniglia.",
     vi: 'Một cocktail Tây Ban Nha được yêu thích kết hợp espresso với Licor 43, một loại rượu mùi vani-cam quýt. Đơn giản nhưng tinh tế, Carajillo truyền thống được phục vụ sau bữa ăn như một thức uống giúp tiêu hóa, mang đến sự cân bằng hoàn hảo giữa vị đắng của cà phê và hương vani ngọt ngào, thơm lừng.',
   },
 
@@ -60,8 +60,8 @@ export const carajillo: Cocktail = {
   taste: {
     profile: ['coffee', 'sweet', 'vanilla', 'citrus'],
     description: {
-      en: 'Rich espresso bitterness harmonizes beautifully with Licor 43\'s sweet vanilla and subtle citrus notes. The result is smooth, aromatic, and perfectly balanced between bitter and sweet. The liqueur adds a silky texture and complex botanical undertones.',
-      it: 'L\'amarezza ricca dell\'espresso si armonizza magnificamente con le dolci note di vaniglia e gli agrumi sottili del Licor 43. Il risultato è liscio, aromatico e perfettamente bilanciato tra amaro e dolce. Il liquore aggiunge una texture setosa e complessi sottotoni botanici.',
+      en: "Rich espresso bitterness harmonizes beautifully with Licor 43's sweet vanilla and subtle citrus notes. The result is smooth, aromatic, and perfectly balanced between bitter and sweet. The liqueur adds a silky texture and complex botanical undertones.",
+      it: "L'amarezza ricca dell'espresso si armonizza magnificamente con le dolci note di vaniglia e gli agrumi sottili del Licor 43. Il risultato è liscio, aromatico e perfettamente bilanciato tra amaro e dolce. Il liquore aggiunge una texture setosa e complessi sottotoni botanici.",
       vi: 'Vị đắng đậm đà của espresso hòa quyện tuyệt đẹp với hương vani ngọt ngào và cam quýt tinh tế của Licor 43. Kết quả là mượt mà, thơm lừng và cân bằng hoàn hảo giữa đắng và ngọt. Rượu mùi thêm kết cấu mượt như lụa và các tầng hương thực vật phức tạp.',
     },
     first_impression: {
@@ -76,7 +76,7 @@ export const carajillo: Cocktail = {
     },
     balance: {
       en: 'Perfectly balanced - espresso bitterness prevents excessive sweetness from the liqueur',
-      it: 'Perfettamente bilanciato - l\'amarezza dell\'espresso previene l\'eccessiva dolcezza del liquore',
+      it: "Perfettamente bilanciato - l'amarezza dell'espresso previene l'eccessiva dolcezza del liquore",
       vi: 'Cân bằng hoàn hảo - vị đắng của espresso ngăn ngừa vị ngọt quá mức từ rượu mùi',
     },
   },
@@ -92,7 +92,7 @@ export const carajillo: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for coffee lovers who enjoy after-dinner drinks. Ideal for those who want the pick-me-up of espresso with a touch of sweetness. Great for anyone exploring Spanish drinking culture.',
-      it: 'Perfetto per gli amanti del caffè che apprezzano i drink dopo cena. Ideale per chi vuole la carica dell\'espresso con un tocco di dolcezza. Ottimo per chiunque voglia esplorare la cultura del bere spagnola.',
+      it: "Perfetto per gli amanti del caffè che apprezzano i drink dopo cena. Ideale per chi vuole la carica dell'espresso con un tocco di dolcezza. Ottimo per chiunque voglia esplorare la cultura del bere spagnola.",
       vi: 'Hoàn hảo cho những người yêu cà phê thích đồ uống sau bữa tối. Lý tưởng cho những ai muốn sự tỉnh táo của espresso với một chút ngọt ngào. Tuyệt vời cho bất kỳ ai khám phá văn hóa uống rượu Tây Ban Nha.',
     },
   },
@@ -173,7 +173,8 @@ export const carajillo: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['carajillo-with-brandy', 'carajillo-with-rum', 'iced-carajillo'],
 
-  notes_for_staff: 'Espresso must be fresh and hot. Can be served hot or over ice. Traditional Spanish serve includes 3 coffee beans as garnish. Some regions flame the liqueur before adding espresso for theatrical presentation.',
+  notes_for_staff:
+    'Espresso must be fresh and hot. Can be served hot or over ice. Traditional Spanish serve includes 3 coffee beans as garnish. Some regions flame the liqueur before adding espresso for theatrical presentation.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -186,7 +187,7 @@ export const carajillo: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.licor43.com/en/cocktails/carajillo',
-    note: 'Traditional Spanish recipe, popularized internationally in recent years.',
+    notes: 'Traditional Spanish recipe, popularized internationally in recent years.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

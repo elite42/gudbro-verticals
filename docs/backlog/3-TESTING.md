@@ -3,25 +3,26 @@
 > Task completate che richiedono test/validazione.
 > Dopo il test → spostala in `4-DONE.md`
 
-**Last Updated:** 2026-01-05
+**Last Updated:** 2026-01-06
 
 ---
 
-| ID        | Feature                 | Descrizione                                         | Priority | Notes                                                       |
-| --------- | ----------------------- | --------------------------------------------------- | -------- | ----------------------------------------------------------- |
-| GB-AI-P1  | AI Co-Manager MVP       | Chat UI + OpenAI integration                        | P0       | Migration 027, API key, test chat pending                   |
-| GB-AI-P2  | AI Knowledge Base       | Menu + Orders + Events + Feedback access            | P0       | knowledge-service.ts integrato                              |
-| GB-AI-P3  | AI Actions              | Create events, translate, update menu               | P0       | actions-service.ts + function calling                       |
-| GB-AI-P4  | AI Proactivity          | Daily briefing, alerts, suggestions                 | P0       | Migration 028, proactivity-service.ts, API routes           |
-| GB-AI-P5  | AI Feedback Loop        | Collect feedback → GudBro Team                      | P0       | Migration 029, feedback-loop-service.ts                     |
-| GB-AI-P6  | AI Bootstrap            | Setup automatico zona, competitor                   | P0       | Migration 030, bootstrap-service.ts                         |
-| GB-AI-P7  | Market Intelligence     | Price comparison, partnership finder                | P0       | Migration 031, market-intelligence-service.ts               |
-| GB-AI-P8  | Social Media Automation | Auto post, calendar, captions                       | P0       | Migration 032, social-media-service.ts                      |
-| GB-AI-P9  | Financial Management    | P&L, budgets, cash flow forecasts                   | P0       | Migration 033, financial-service.ts                         |
-| GB-AI-P10 | Task Delegation         | AI delegates physical tasks to staff                | P0       | Migration 034, task-delegation-service.ts                   |
-| GB-AI-P11 | Agentic Workflows       | Multi-step automated workflows                      | P0       | Migration 035, agentic-workflow-service.ts                  |
-| GB-AI-P12 | Inventory & Negotiation | Stock tracking, supplier management, AI negotiation | P0       | Migration 036, inventory-negotiation-service.ts             |
-| GB-AI-P13 | AI-Assisted Onboarding  | Conversational onboarding + logo upload             | P0       | onboarding-service.ts, /api/ai/onboarding, /api/upload/logo |
+| ID           | Feature                 | Descrizione                                         | Priority | Notes                                                       |
+| ------------ | ----------------------- | --------------------------------------------------- | -------- | ----------------------------------------------------------- |
+| GB-STAFF-MGT | Staff Management        | Team profiles, reviews, performance, PWA flow       | P0       | Migration 038, Backoffice Team page, PWA /team              |
+| GB-AI-P1     | AI Co-Manager MVP       | Chat UI + OpenAI integration                        | P0       | Migration 027, API key, test chat pending                   |
+| GB-AI-P2     | AI Knowledge Base       | Menu + Orders + Events + Feedback access            | P0       | knowledge-service.ts integrato                              |
+| GB-AI-P3     | AI Actions              | Create events, translate, update menu               | P0       | actions-service.ts + function calling                       |
+| GB-AI-P4     | AI Proactivity          | Daily briefing, alerts, suggestions                 | P0       | Migration 028, proactivity-service.ts, API routes           |
+| GB-AI-P5     | AI Feedback Loop        | Collect feedback → GudBro Team                      | P0       | Migration 029, feedback-loop-service.ts                     |
+| GB-AI-P6     | AI Bootstrap            | Setup automatico zona, competitor                   | P0       | Migration 030, bootstrap-service.ts                         |
+| GB-AI-P7     | Market Intelligence     | Price comparison, partnership finder                | P0       | Migration 031, market-intelligence-service.ts               |
+| GB-AI-P8     | Social Media Automation | Auto post, calendar, captions                       | P0       | Migration 032, social-media-service.ts                      |
+| GB-AI-P9     | Financial Management    | P&L, budgets, cash flow forecasts                   | P0       | Migration 033, financial-service.ts                         |
+| GB-AI-P10    | Task Delegation         | AI delegates physical tasks to staff                | P0       | Migration 034, task-delegation-service.ts                   |
+| GB-AI-P11    | Agentic Workflows       | Multi-step automated workflows                      | P0       | Migration 035, agentic-workflow-service.ts                  |
+| GB-AI-P12    | Inventory & Negotiation | Stock tracking, supplier management, AI negotiation | P0       | Migration 036, inventory-negotiation-service.ts             |
+| GB-AI-P13    | AI-Assisted Onboarding  | Conversational onboarding + logo upload             | P0       | onboarding-service.ts, /api/ai/onboarding, /api/upload/logo |
 
 ---
 
@@ -159,3 +160,81 @@
    - Verifica che completionPercentage aumenti dopo ogni update
    - Quando tutti i campi critical sono completati, verifica isComplete=true
    - Verifica che onboardingStatus sparisca dalla risposta quando completo
+
+### GB-STAFF-MGT - Staff Management
+
+#### 1. Database Tables (Migration 038)
+
+```sql
+-- Verifica che le 6 tabelle esistano:
+SELECT table_name FROM information_schema.tables
+WHERE table_schema = 'public'
+AND table_name IN ('staff_profiles', 'staff_reviews', 'staff_achievements',
+                   'staff_performance_metrics', 'location_team_settings', 'manager_evaluations');
+```
+
+#### 2. Backoffice Team Page (http://localhost:3001/team)
+
+1. **Tab Members:**
+   - Verifica che mostra i profili staff con foto, nome, ruolo
+   - Verifica rating e numero recensioni
+   - Test pulsante "Add Staff" (apre modal)
+
+2. **Tab Performance:**
+   - Verifica Weekly Report con statistiche
+   - Verifica Top Performers della settimana
+   - Verifica AI Suggestions (se OpenAI configurato)
+
+3. **Tab Settings:**
+   - Toggle "Mostra team sul menu" → verifica salvataggio
+   - Toggle "Consenti recensioni staff" → verifica salvataggio
+   - Toggle "Riconoscimenti settimanali" → verifica salvataggio
+   - Click "?" per vedere tooltip pro/contro
+
+#### 3. Backoffice API Tests
+
+```bash
+# Get staff profiles
+curl "http://localhost:3001/api/staff?locationId=10000000-0000-0000-0000-000000000001&type=profiles"
+
+# Get team settings
+curl "http://localhost:3001/api/staff?locationId=10000000-0000-0000-0000-000000000001&type=settings"
+
+# Get performance data
+curl "http://localhost:3001/api/staff?locationId=10000000-0000-0000-0000-000000000001&type=performance"
+
+# Get review categories
+curl "http://localhost:3001/api/staff?type=categories"
+```
+
+#### 4. PWA Team Page (http://localhost:3004/team)
+
+1. Verifica che mostra solo staff pubblico
+2. Verifica card con foto, nome, ruolo, rating
+3. Click "Lascia una recensione" → apre modal
+
+#### 5. PWA Review Flow
+
+1. **Step 1 - Rating:** Tocca 1-5 stelle
+2. **Step 2 - Categories:** Seleziona fino a 4 tag (friendly, fast, etc.)
+3. **Step 3 - Comment:** Scrivi commento opzionale, toggle anonimo
+4. **Step 4 - Thanks:** Verifica punti guadagnati (se non anonimo)
+
+#### 6. PWA API Tests
+
+```bash
+# Get public staff
+curl "http://localhost:3004/api/staff/reviews?type=publicStaff&locationId=10000000-0000-0000-0000-000000000001"
+
+# Submit review (POST)
+curl -X POST "http://localhost:3004/api/staff/reviews" \
+  -H "Content-Type: application/json" \
+  -d '{"staffId":"1ac70236-81fe-4201-ae28-264e2d9d6cb8","locationId":"10000000-0000-0000-0000-000000000001","rating":5,"categories":["friendly","fast"],"isAnonymous":true}'
+```
+
+#### 7. Integration Checks
+
+- [ ] Review submitted → staff average_rating updated automatically
+- [ ] Review submitted → total_reviews incremented
+- [ ] Non-anonymous review → points awarded to reviewer
+- [ ] Settings toggle → affects what's visible in PWA

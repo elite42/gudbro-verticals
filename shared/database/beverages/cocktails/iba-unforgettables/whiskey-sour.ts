@@ -65,7 +65,7 @@ export const whiskeySour: Cocktail = {
     profile: ['sour', 'sweet', 'smooth'],
     description: {
       en: 'A perfect harmony of sweet and sour, with the robust character of bourbon whiskey shining through bright lemon citrus and balanced sweetness. The optional egg white adds a luxurious, velvety texture and mellows the acidity. Each sip delivers warmth from the bourbon followed by refreshing citrus tang.',
-      it: 'Una perfetta armonia di dolce e aspro, con il carattere robusto del bourbon whiskey che risplende attraverso il brillante agrume di limone e la dolcezza bilanciata. L\'albume opzionale aggiunge una texture vellutata e lussuosa e attenua l\'acidità. Ogni sorso offre calore dal bourbon seguito da un rinfrescante sapore agrumato.',
+      it: "Una perfetta armonia di dolce e aspro, con il carattere robusto del bourbon whiskey che risplende attraverso il brillante agrume di limone e la dolcezza bilanciata. L'albume opzionale aggiunge una texture vellutata e lussuosa e attenua l'acidità. Ogni sorso offre calore dal bourbon seguito da un rinfrescante sapore agrumato.",
       vi: 'Sự hòa quyện hoàn hảo giữa ngọt và chua, với đặc tính mạnh mẽ của bourbon whiskey tỏa sáng qua vị chanh tươi mát và vị ngọt cân bằng. Lòng trắng trứng tùy chọn thêm kết cấu mượt mà, sang trọng và làm dịu độ chua. Mỗi ngụm mang lại hơi ấm từ bourbon theo sau là vị chanh sảng khoái.',
     },
     first_impression: {
@@ -96,7 +96,7 @@ export const whiskeySour: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for bourbon lovers seeking a refreshing citrus twist, and an ideal introduction to whiskey cocktails for those who find straight whiskey too strong. Great as a pre-dinner drink or evening sipper.',
-      it: 'Perfetto per gli amanti del bourbon che cercano una rinfrescante nota agrumata, e un\'introduzione ideale ai cocktail al whiskey per coloro che trovano il whiskey liscio troppo forte. Ottimo come aperitivo o drink serale.',
+      it: "Perfetto per gli amanti del bourbon che cercano una rinfrescante nota agrumata, e un'introduzione ideale ai cocktail al whiskey per coloro che trovano il whiskey liscio troppo forte. Ottimo come aperitivo o drink serale.",
       vi: 'Hoàn hảo cho những người yêu bourbon muốn có hương vị chanh sảng khoái, và là sự giới thiệu lý tưởng về cocktail whiskey cho những ai thấy whiskey nguyên chất quá mạnh. Tuyệt vời như đồ uống trước bữa tối hoặc đồ uống buổi tối.',
     },
   },
@@ -113,7 +113,11 @@ export const whiskeySour: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 25, unit: 'ml' },
-      display_name: { en: 'Fresh Lemon Juice', it: 'Succo di Limone Fresco', vi: 'Nước Cốt Chanh Tươi' },
+      display_name: {
+        en: 'Fresh Lemon Juice',
+        it: 'Succo di Limone Fresco',
+        vi: 'Nước Cốt Chanh Tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -123,7 +127,11 @@ export const whiskeySour: Cocktail = {
     {
       ingredient_id: 'ING_EGG_WHITE',
       quantity: { amount: 1, unit: 'dash' },
-      display_name: { en: 'Egg White (Optional)', it: 'Albume (Opzionale)', vi: 'Lòng Trắng Trứng (Tùy chọn)' },
+      display_name: {
+        en: 'Egg White (Optional)',
+        it: 'Albume (Opzionale)',
+        vi: 'Lòng Trắng Trứng (Tùy chọn)',
+      },
       optional: true,
     },
   ],
@@ -132,7 +140,7 @@ export const whiskeySour: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into a cocktail shaker filled with ice. Shake well (shake harder if using egg white to release and incorporate the foam). Strain into a chilled cobbler glass, or for an on-the-rocks version, strain into an old fashioned glass with ice.',
-    it: 'Versare tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare bene (shakerare più forte se si usa l\'albume per rilasciare e incorporare la schiuma). Filtrare in un bicchiere cobbler freddo, o per una versione on the rocks, filtrare in un bicchiere old fashioned con ghiaccio.',
+    it: "Versare tutti gli ingredienti in uno shaker pieno di ghiaccio. Shakerare bene (shakerare più forte se si usa l'albume per rilasciare e incorporare la schiuma). Filtrare in un bicchiere cobbler freddo, o per una versione on the rocks, filtrare in un bicchiere old fashioned con ghiaccio.",
     vi: 'Cho tất cả nguyên liệu vào shaker đầy đá. Lắc mạnh (lắc mạnh hơn nếu dùng lòng trắng trứng để tạo và hòa quyện bọt). Lọc vào ly cobbler lạnh, hoặc để phiên bản on the rocks, lọc vào ly old fashioned với đá.',
   },
 
@@ -140,7 +148,7 @@ export const whiskeySour: Cocktail = {
 
   garnish: {
     en: 'Half orange slice and maraschino cherry, with optional orange zest',
-    it: 'Mezza fetta d\'arancia e ciliegia maraschino, con scorza d\'arancia opzionale',
+    it: "Mezza fetta d'arancia e ciliegia maraschino, con scorza d'arancia opzionale",
     vi: 'Nửa lát cam và cherry maraschino, với vỏ cam tùy chọn',
   },
 
@@ -186,7 +194,8 @@ export const whiskeySour: Cocktail = {
     'Ward Eight (with grenadine and orange)',
   ],
 
-  notes_for_staff: 'When making with egg white, dry shake first (without ice) for 10 seconds to emulsify, then add ice and shake again vigorously for 15-20 seconds. The IBA recipe calls for "few drops" of egg white, but modern bartenders typically use one full egg white for better foam. Always use fresh lemon juice - never bottled. Can be served either up in a cobbler glass or on the rocks in an old fashioned glass per customer preference.',
+  notes_for_staff:
+    'When making with egg white, dry shake first (without ice) for 10 seconds to emulsify, then add ice and shake again vigorously for 15-20 seconds. The IBA recipe calls for "few drops" of egg white, but modern bartenders typically use one full egg white for better foam. Always use fresh lemon juice - never bottled. Can be served either up in a cobbler glass or on the rocks in an old fashioned glass per customer preference.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -199,7 +208,8 @@ export const whiskeySour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/whiskey-sour/',
-    note: 'IBA Official Recipe. Historical research from Jerry Thomas\'s 1862 Bartenders Guide, Waukesha Plain Dealer 1870, and modern cocktail historians.',
+    notes:
+      "IBA Official Recipe. Historical research from Jerry Thomas's 1862 Bartenders Guide, Waukesha Plain Dealer 1870, and modern cocktail historians.",
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -34,7 +34,7 @@ export const ginFizz: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A refreshing classic from the golden age of cocktails. The Gin Fizz combines gin, fresh lemon juice, and sugar, topped with sparkling soda water for an effervescent, citrusy delight.',
-    it: 'Un classico rinfrescante dell\'età d\'oro dei cocktail. Il Gin Fizz combina gin, succo di limone fresco e zucchero, coronato con acqua frizzante per una delizia effervescente e agrumata.',
+    it: "Un classico rinfrescante dell'età d'oro dei cocktail. Il Gin Fizz combina gin, succo di limone fresco e zucchero, coronato con acqua frizzante per una delizia effervescente e agrumata.",
     vi: 'Một cocktail cổ điển sảng khoái từ thời hoàng kim. Gin Fizz kết hợp gin, nước cốt chanh tươi và đường, phủ lên soda lấp lánh cho một niềm vui sủi bọt, vị chanh.',
   },
 
@@ -50,8 +50,8 @@ export const ginFizz: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Gin Fizz became widely popular in America between 1900 and the 1940s, known as a hometown specialty of New Orleans. The fizz is a variation on the older sours family of cocktails, distinguished by the addition of carbonated water. Bars would employ teams of bartenders that would take turns shaking the drinks to keep up with demand. The most famous variant, the Ramos Gin Fizz, was created in 1888 by Henry C. Ramos at the Imperial Cabinet Saloon on Gravier Street. Before Prohibition, the Ramos version\'s 12-minute mixing time required over 20 bartenders working simultaneously during busy periods.',
-      it: 'Il Gin Fizz divenne molto popolare in America tra il 1900 e il 1940, noto come specialità di New Orleans. Il fizz è una variazione dell\'antica famiglia di cocktail sours, distinto dall\'aggiunta di acqua gassata. I bar impiegavano squadre di barman che si alternavano a shakerare le bevande per soddisfare la domanda. La variante più famosa, il Ramos Gin Fizz, fu creata nel 1888 da Henry C. Ramos all\'Imperial Cabinet Saloon su Gravier Street. Prima del Proibizionismo, il tempo di miscelazione di 12 minuti della versione Ramos richiedeva oltre 20 barman che lavoravano contemporaneamente durante i periodi di punta.',
+      en: "The Gin Fizz became widely popular in America between 1900 and the 1940s, known as a hometown specialty of New Orleans. The fizz is a variation on the older sours family of cocktails, distinguished by the addition of carbonated water. Bars would employ teams of bartenders that would take turns shaking the drinks to keep up with demand. The most famous variant, the Ramos Gin Fizz, was created in 1888 by Henry C. Ramos at the Imperial Cabinet Saloon on Gravier Street. Before Prohibition, the Ramos version's 12-minute mixing time required over 20 bartenders working simultaneously during busy periods.",
+      it: "Il Gin Fizz divenne molto popolare in America tra il 1900 e il 1940, noto come specialità di New Orleans. Il fizz è una variazione dell'antica famiglia di cocktail sours, distinto dall'aggiunta di acqua gassata. I bar impiegavano squadre di barman che si alternavano a shakerare le bevande per soddisfare la domanda. La variante più famosa, il Ramos Gin Fizz, fu creata nel 1888 da Henry C. Ramos all'Imperial Cabinet Saloon su Gravier Street. Prima del Proibizionismo, il tempo di miscelazione di 12 minuti della versione Ramos richiedeva oltre 20 barman che lavoravano contemporaneamente durante i periodi di punta.",
       vi: 'Gin Fizz trở nên rất phổ biến ở Mỹ từ năm 1900 đến những năm 1940, được biết đến như một đặc sản của New Orleans. Fizz là một biến thể của họ cocktail sours cổ xưa, phân biệt bằng việc thêm nước có ga. Các quầy bar sẽ thuê nhóm bartender thay phiên nhau lắc đồ uống để đáp ứng nhu cầu. Biến thể nổi tiếng nhất, Ramos Gin Fizz, được tạo ra vào năm 1888 bởi Henry C. Ramos tại Imperial Cabinet Saloon trên phố Gravier. Trước thời kỳ Cấm rượu, thời gian pha chế 12 phút của phiên bản Ramos đòi hỏi hơn 20 bartender làm việc đồng thời trong giờ cao điểm.',
     },
     named_after: {
@@ -65,7 +65,7 @@ export const ginFizz: Cocktail = {
     profile: ['citrus', 'refreshing', 'effervescent'],
     description: {
       en: 'A bright, refreshing cocktail that balances the botanical complexity of gin with tart lemon and subtle sweetness. The soda water adds a light, effervescent quality that makes it exceptionally refreshing and easy to drink.',
-      it: 'Un cocktail brillante e rinfrescante che bilancia la complessità botanica del gin con il limone aspro e una dolcezza sottile. L\'acqua frizzante aggiunge una qualità leggera ed effervescente che lo rende eccezionalmente rinfrescante e facile da bere.',
+      it: "Un cocktail brillante e rinfrescante che bilancia la complessità botanica del gin con il limone aspro e una dolcezza sottile. L'acqua frizzante aggiunge una qualità leggera ed effervescente che lo rende eccezionalmente rinfrescante e facile da bere.",
       vi: 'Một cocktail tươi sáng, sảng khoái cân bằng độ phức tạp thảo mộc của gin với chanh chua và vị ngọt tinh tế. Nước soda thêm chất lượng nhẹ, sủi bọt làm cho nó đặc biệt sảng khoái và dễ uống.',
     },
     first_impression: {
@@ -79,8 +79,8 @@ export const ginFizz: Cocktail = {
       vi: 'Sạch và giòn với chanh kéo dài và hậu vị khô, thảo mộc. Bọt khí mang lại cảm giác sảng khoái làm sạch vị giác.',
     },
     balance: {
-      en: 'Well-balanced between tart lemon acidity, gentle sweetness, and gin\'s botanical character. The soda water lightens the drink without diluting its flavor.',
-      it: 'Ben bilanciato tra l\'acidità aspra del limone, la dolcezza delicata e il carattere botanico del gin. L\'acqua frizzante alleggerisce la bevanda senza diluirne il sapore.',
+      en: "Well-balanced between tart lemon acidity, gentle sweetness, and gin's botanical character. The soda water lightens the drink without diluting its flavor.",
+      it: "Ben bilanciato tra l'acidità aspra del limone, la dolcezza delicata e il carattere botanico del gin. L'acqua frizzante alleggerisce la bevanda senza diluirne il sapore.",
       vi: 'Cân bằng tốt giữa độ chua của chanh, vị ngọt nhẹ nhàng và tính chất thảo mộc của gin. Nước soda làm nhẹ đồ uống mà không làm loãng hương vị.',
     },
   },
@@ -113,7 +113,11 @@ export const ginFizz: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Fresh Lemon Juice', it: 'Succo di Limone Fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh Lemon Juice',
+        it: 'Succo di Limone Fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -131,7 +135,7 @@ export const ginFizz: Cocktail = {
 
   instructions: {
     en: 'Shake all ingredients with ice except soda water. Pour into thin tall tumbler glass, top with a splash of soda water. Serve without ice.',
-    it: 'Shakerare tutti gli ingredienti con ghiaccio tranne l\'acqua frizzante. Versare nel bicchiere tumbler alto e sottile, completare con un goccio di acqua frizzante. Servire senza ghiaccio.',
+    it: "Shakerare tutti gli ingredienti con ghiaccio tranne l'acqua frizzante. Versare nel bicchiere tumbler alto e sottile, completare con un goccio di acqua frizzante. Servire senza ghiaccio.",
     vi: 'Lắc tất cả nguyên liệu với đá trừ nước soda. Đổ vào ly tumbler cao mỏng, thêm một ít nước soda lên trên. Phục vụ không có đá.',
   },
 
@@ -162,7 +166,14 @@ export const ginFizz: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -182,7 +193,8 @@ export const ginFizz: Cocktail = {
   variants: [
     {
       name: 'Ramos Gin Fizz',
-      description: 'Add cream, egg white, orange flower water, and vanilla for a rich, frothy version',
+      description:
+        'Add cream, egg white, orange flower water, and vanilla for a rich, frothy version',
     },
     {
       name: 'Silver Fizz',
@@ -194,7 +206,8 @@ export const ginFizz: Cocktail = {
     },
   ],
 
-  notes_for_staff: 'Always use fresh-squeezed lemon juice. Shake vigorously to properly chill and dilute. Add soda water gently after pouring to maintain carbonation. The drink should be served immediately while still fizzy.',
+  notes_for_staff:
+    'Always use fresh-squeezed lemon juice. Shake vigorously to properly chill and dilute. Add soda water gently after pouring to maintain carbonation. The drink should be served immediately while still fizzy.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -207,7 +220,7 @@ export const ginFizz: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/gin-fizz/',
-    note: 'IBA Official Recipe.',
+    notes: 'IBA Official Recipe.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

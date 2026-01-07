@@ -30,8 +30,8 @@ export const jackRose: Cocktail = {
   // DESCRIPTION & HISTORY
   // ─────────────────────────────────────────────────────────────────────────
   description: {
-    en: 'A Prohibition-era classic showcasing American apple brandy. The Jack Rose combines applejack with citrus and grenadine for a tart, fruity cocktail with a beautiful pink hue. Simple yet sophisticated, it\'s a forgotten gem from the golden age of cocktails.',
-    it: 'Un classico dell\'era del proibizionismo che mette in mostra il brandy di mele americano. Il Jack Rose combina applejack con agrumi e granatina per un cocktail aspro e fruttato con una bella tonalità rosa. Semplice ma sofisticato, è un gioiello dimenticato dell\'età d\'oro dei cocktail.',
+    en: "A Prohibition-era classic showcasing American apple brandy. The Jack Rose combines applejack with citrus and grenadine for a tart, fruity cocktail with a beautiful pink hue. Simple yet sophisticated, it's a forgotten gem from the golden age of cocktails.",
+    it: "Un classico dell'era del proibizionismo che mette in mostra il brandy di mele americano. Il Jack Rose combina applejack con agrumi e granatina per un cocktail aspro e fruttato con una bella tonalità rosa. Semplice ma sofisticato, è un gioiello dimenticato dell'età d'oro dei cocktail.",
     vi: 'Một tác phẩm kinh điển thời cấm rượu thể hiện brandy táo Mỹ. Jack Rose kết hợp applejack với cam quýt và grenadine cho một cocktail chua, trái cây với sắc hồng tuyệt đẹp. Đơn giản nhưng tinh tế, đây là viên ngọc bị lãng quên từ thời kỳ hoàng kim của cocktail.',
   },
 
@@ -47,8 +47,8 @@ export const jackRose: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'The Jack Rose emerged around 1905 and became one of the most popular cocktails of the pre-Prohibition and Prohibition eras. Its origin is disputed - some attribute it to bartender Frank J. May in New Jersey, while others claim it was created in New York. The drink gained fame when it was mentioned in Ernest Hemingway\'s "The Sun Also Rises" and John Steinbeck\'s works. During Prohibition, its pink color and fruity flavor helped mask the harsh taste of bootleg spirits. The cocktail showcases applejack, America\'s oldest spirit, which was easier to produce during Prohibition than imported liquors. After Prohibition, the Jack Rose faded into obscurity but has been revived by modern craft bartenders.',
-      it: 'Il Jack Rose emerse intorno al 1905 e divenne uno dei cocktail più popolari dell\'era pre-proibizionismo e del proibizionismo. La sua origine è controversa - alcuni lo attribuiscono al barman Frank J. May nel New Jersey, mentre altri sostengono che fu creato a New York. La bevanda guadagnò fama quando fu menzionata in "Il sole sorge ancora" di Ernest Hemingway e nelle opere di John Steinbeck. Durante il proibizionismo, il suo colore rosa e il sapore fruttato aiutarono a mascherare il gusto aspro degli spiriti di contrabbando. Il cocktail mette in mostra l\'applejack, lo spirito più antico d\'America, che era più facile da produrre durante il proibizionismo rispetto ai liquori importati. Dopo il proibizionismo, il Jack Rose cadde nell\'oscurità ma è stato riportato in vita dai moderni barman artigianali.',
+      en: "The Jack Rose emerged around 1905 and became one of the most popular cocktails of the pre-Prohibition and Prohibition eras. Its origin is disputed - some attribute it to bartender Frank J. May in New Jersey, while others claim it was created in New York. The drink gained fame when it was mentioned in Ernest Hemingway's \"The Sun Also Rises\" and John Steinbeck's works. During Prohibition, its pink color and fruity flavor helped mask the harsh taste of bootleg spirits. The cocktail showcases applejack, America's oldest spirit, which was easier to produce during Prohibition than imported liquors. After Prohibition, the Jack Rose faded into obscurity but has been revived by modern craft bartenders.",
+      it: "Il Jack Rose emerse intorno al 1905 e divenne uno dei cocktail più popolari dell'era pre-proibizionismo e del proibizionismo. La sua origine è controversa - alcuni lo attribuiscono al barman Frank J. May nel New Jersey, mentre altri sostengono che fu creato a New York. La bevanda guadagnò fama quando fu menzionata in \"Il sole sorge ancora\" di Ernest Hemingway e nelle opere di John Steinbeck. Durante il proibizionismo, il suo colore rosa e il sapore fruttato aiutarono a mascherare il gusto aspro degli spiriti di contrabbando. Il cocktail mette in mostra l'applejack, lo spirito più antico d'America, che era più facile da produrre durante il proibizionismo rispetto ai liquori importati. Dopo il proibizionismo, il Jack Rose cadde nell'oscurità ma è stato riportato in vita dai moderni barman artigianali.",
       vi: 'Jack Rose xuất hiện vào khoảng năm 1905 và trở thành một trong những cocktail phổ biến nhất của thời kỳ trước cấm rượu và cấm rượu. Nguồn gốc của nó còn tranh cãi - một số cho rằng bartender Frank J. May ở New Jersey, trong khi những người khác tuyên bố nó được tạo ra ở New York. Thức uống nổi tiếng khi được đề cập trong "The Sun Also Rises" của Ernest Hemingway và các tác phẩm của John Steinbeck. Trong thời cấm rượu, màu hồng và hương vị trái cây của nó giúp che giấu vị khắc nghiệt của rượu lậu. Cocktail thể hiện applejack, rượu mạnh lâu đời nhất của Mỹ, dễ sản xuất hơn trong thời cấm rượu so với rượu nhập khẩu. Sau cấm rượu, Jack Rose rơi vào quên lãng nhưng đã được hồi sinh bởi các bartender thủ công hiện đại.',
     },
     named_after: {
@@ -62,7 +62,7 @@ export const jackRose: Cocktail = {
     profile: ['tart', 'fruity', 'apple'],
     description: {
       en: 'Tart, fruity, and refreshing. The Jack Rose balances the rich apple character of applejack with bright lemon acidity and the pomegranate sweetness of grenadine. The result is a sophisticated sour with depth from the aged apple brandy.',
-      it: 'Aspro, fruttato e rinfrescante. Il Jack Rose bilancia il ricco carattere di mela dell\'applejack con l\'acidità brillante del limone e la dolcezza del melograno della granatina. Il risultato è un sour sofisticato con profondità dal brandy di mele invecchiato.',
+      it: "Aspro, fruttato e rinfrescante. Il Jack Rose bilancia il ricco carattere di mela dell'applejack con l'acidità brillante del limone e la dolcezza del melograno della granatina. Il risultato è un sour sofisticato con profondità dal brandy di mele invecchiato.",
       vi: 'Chua, trái cây và sảng khoái. Jack Rose cân bằng đặc tính táo đậm đà của applejack với độ chua chanh tươi sáng và vị ngọt lựu của grenadine. Kết quả là một loại sour tinh tế với chiều sâu từ brandy táo ủ.',
     },
     first_impression: {
@@ -93,7 +93,7 @@ export const jackRose: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for those who appreciate classic sours and American spirits. Ideal for cocktail historians and anyone looking to explore Prohibition-era drinks. A great choice for autumn gatherings.',
-      it: 'Perfetto per chi apprezza i sour classici e gli spiriti americani. Ideale per storici dei cocktail e chiunque voglia esplorare le bevande dell\'era del proibizionismo. Un\'ottima scelta per riunioni autunnali.',
+      it: "Perfetto per chi apprezza i sour classici e gli spiriti americani. Ideale per storici dei cocktail e chiunque voglia esplorare le bevande dell'era del proibizionismo. Un'ottima scelta per riunioni autunnali.",
       vi: 'Hoàn hảo cho những ai đánh giá cao sours cổ điển và rượu mạnh Mỹ. Lý tưởng cho nhà sử học cocktail và bất kỳ ai muốn khám phá đồ uống thời cấm rượu. Lựa chọn tuyệt vời cho các buổi họp mặt mùa thu.',
     },
   },
@@ -105,12 +105,20 @@ export const jackRose: Cocktail = {
     {
       ingredient_id: 'ING_APPLEJACK',
       quantity: { amount: 45, unit: 'ml' },
-      display_name: { en: 'Applejack or Calvados', it: 'Applejack o Calvados', vi: 'Applejack hoặc Calvados' },
+      display_name: {
+        en: 'Applejack or Calvados',
+        it: 'Applejack o Calvados',
+        vi: 'Applejack hoặc Calvados',
+      },
     },
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước cốt chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước cốt chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_GRENADINE',
@@ -160,7 +168,14 @@ export const jackRose: Cocktail = {
   computed: {
     allergens: [],
     intolerances: ['alcohol'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'nut_free', 'dairy_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'nut_free',
+      'dairy_free',
+    ],
     spice_level: 0,
   },
 
@@ -179,7 +194,8 @@ export const jackRose: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['applejack-rabbit', 'pink-lady'],
 
-  notes_for_staff: 'Use real grenadine (pomegranate syrup), not artificial red syrup. Applejack is traditional, but Calvados makes an excellent substitute. Shake hard to properly chill and dilute. The ratio is typically 2:1:0.5 (applejack:lemon:grenadine).',
+  notes_for_staff:
+    'Use real grenadine (pomegranate syrup), not artificial red syrup. Applejack is traditional, but Calvados makes an excellent substitute. Shake hard to properly chill and dilute. The ratio is typically 2:1:0.5 (applejack:lemon:grenadine).',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -192,7 +208,7 @@ export const jackRose: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1169/jack-rose',
-    note: 'Classic recipe from the early 1900s, documented in various cocktail books.',
+    notes: 'Classic recipe from the early 1900s, documented in various cocktail books.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

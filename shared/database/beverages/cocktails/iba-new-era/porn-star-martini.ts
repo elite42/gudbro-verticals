@@ -50,7 +50,7 @@ export const pornStarMartini: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created in 2002 by Douglas Ankrah at the Maverick Bar in London. Ankrah invented the drink after visiting a gentlemen\'s club in Cape Town called the Maverick Bar, which inspired both the drink and his London venue. The provocative name was chosen to reflect the drink\'s bold, glamorous nature. Despite (or perhaps because of) its controversial name, the cocktail became enormously popular, particularly in the UK, and is now one of the best-selling cocktails worldwide.',
+      en: "Created in 2002 by Douglas Ankrah at the Maverick Bar in London. Ankrah invented the drink after visiting a gentlemen's club in Cape Town called the Maverick Bar, which inspired both the drink and his London venue. The provocative name was chosen to reflect the drink's bold, glamorous nature. Despite (or perhaps because of) its controversial name, the cocktail became enormously popular, particularly in the UK, and is now one of the best-selling cocktails worldwide.",
       it: 'Creato nel 2002 da Douglas Ankrah al Maverick Bar di Londra. Ankrah inventò la bevanda dopo aver visitato un club per gentiluomini a Città del Capo chiamato Maverick Bar, che ispirò sia la bevanda che il suo locale londinese. Il nome provocatorio fu scelto per riflettere la natura audace e glamour della bevanda. Nonostante (o forse a causa di) il suo nome controverso, il cocktail divenne enormemente popolare, particolarmente nel Regno Unito, ed è ora uno dei cocktail più venduti al mondo.',
       vi: 'Được tạo ra năm 2002 bởi Douglas Ankrah tại Maverick Bar ở London. Ankrah phát minh ra thức uống sau khi ghé thăm một câu lạc bộ dành cho quý ông ở Cape Town tên là Maverick Bar, nơi truyền cảm hứng cho cả thức uống và địa điểm London của ông. Cái tên khiêu khích được chọn để phản ánh bản chất táo bạo, quyến rũ của thức uống. Mặc dù (hoặc có lẽ vì) cái tên gây tranh cãi, cocktail đã trở nên cực kỳ phổ biến, đặc biệt ở Anh, và hiện là một trong những cocktail bán chạy nhất trên toàn thế giới.',
     },
@@ -88,7 +88,7 @@ export const pornStarMartini: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['party', 'celebration', 'girls_night', 'birthday'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Excellent with tropical fruit platters, white chocolate desserts, or as a celebratory aperitif.',
       it: 'Eccellente con piatti di frutta tropicale, dessert al cioccolato bianco, o come aperitivo celebrativo.',
@@ -113,12 +113,20 @@ export const pornStarMartini: Cocktail = {
     {
       ingredient_id: 'ING_PASSION_FRUIT_LIQUEUR',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Passion fruit liqueur', it: 'Liquore al frutto della passione', vi: 'Rượu mùi chanh dây' },
+      display_name: {
+        en: 'Passion fruit liqueur',
+        it: 'Liquore al frutto della passione',
+        vi: 'Rượu mùi chanh dây',
+      },
     },
     {
       ingredient_id: 'ING_PASSION_FRUIT_PUREE',
       quantity: { amount: 30, unit: 'ml' },
-      display_name: { en: 'Passion fruit purée', it: 'Purea di frutto della passione', vi: 'Sinh tố chanh dây' },
+      display_name: {
+        en: 'Passion fruit purée',
+        it: 'Purea di frutto della passione',
+        vi: 'Sinh tố chanh dây',
+      },
     },
     {
       ingredient_id: 'ING_LIME_JUICE',
@@ -133,7 +141,11 @@ export const pornStarMartini: Cocktail = {
     {
       ingredient_id: 'ING_CHAMPAGNE',
       quantity: { amount: 60, unit: 'ml' },
-      display_name: { en: 'Champagne (served on the side)', it: 'Champagne (servito a parte)', vi: 'Champagne (phục vụ riêng)' },
+      display_name: {
+        en: 'Champagne (served on the side)',
+        it: 'Champagne (servito a parte)',
+        vi: 'Champagne (phục vụ riêng)',
+      },
     },
   ],
 
@@ -178,7 +190,14 @@ export const pornStarMartini: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -186,7 +205,7 @@ export const pornStarMartini: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-season'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'celebration', 'birthday'],
 
   is_mocktail: false,
@@ -197,7 +216,8 @@ export const pornStarMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['passion-star-martini'],
 
-  notes_for_staff: 'Serve Champagne shot on the side - guest can sip alternately or pour into the cocktail. Use fresh passion fruit purée for best results. Garnish with half passion fruit floating on top.',
+  notes_for_staff:
+    'Serve Champagne shot on the side - guest can sip alternately or pour into the cocktail. Use fresh passion fruit purée for best results. Garnish with half passion fruit floating on top.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -210,7 +230,7 @@ export const pornStarMartini: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/porn-star-martini/',
-    note: 'IBA Official Recipe',
+    notes: 'IBA Official Recipe',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -59,7 +59,7 @@ export const champagneCocktail: Cocktail = {
     profile: ['bubbly', 'sweet', 'aromatic', 'elegant'],
     description: {
       en: 'Elegant and effervescent. The sugar cube slowly dissolves, creating a gradient of sweetness. Angostura bitters add aromatic spice, cognac provides depth, and champagne delivers crisp bubbles. A refined drinking experience.',
-      it: 'Elegante ed effervescente. La zolletta di zucchero si scioglie lentamente, creando un gradiente di dolcezza. Gli Angostura bitters aggiungono spezie aromatiche, il cognac fornisce profondità e lo champagne offre bollicine croccanti. Un\'esperienza di bevuta raffinata.',
+      it: "Elegante ed effervescente. La zolletta di zucchero si scioglie lentamente, creando un gradiente di dolcezza. Gli Angostura bitters aggiungono spezie aromatiche, il cognac fornisce profondità e lo champagne offre bollicine croccanti. Un'esperienza di bevuta raffinata.",
       vi: 'Thanh lịch và sủi bọt. Viên đường tan chậm, tạo ra độ dốc của vị ngọt. Angostura bitters thêm gia vị thơm, cognac cung cấp chiều sâu và champagne mang đến bong bóng sắc nét. Một trải nghiệm uống tinh tế.',
     },
     first_impression: {
@@ -82,14 +82,14 @@ export const champagneCocktail: Cocktail = {
   recommendations: {
     best_time: ['aperitivo', 'evening'],
     occasions: ['celebration', 'wedding', 'new_years', 'formal_event'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Perfect with oysters, caviar, canapés, smoked salmon, or light appetizers. Excellent for toasting special occasions.',
       it: 'Perfetto con ostriche, caviale, canapé, salmone affumicato o antipasti leggeri. Eccellente per brindare in occasioni speciali.',
       vi: 'Hoàn hảo với hàu, trứng cá muối, canapés, cá hồi hun khói hoặc món khai vị nhẹ. Tuyệt vời để nâng ly trong các dịp đặc biệt.',
     },
     ideal_for: {
-      en: 'Perfect for celebrations, weddings, New Year\'s Eve, and formal events. Ideal for those who appreciate elegant, classic cocktails.',
+      en: "Perfect for celebrations, weddings, New Year's Eve, and formal events. Ideal for those who appreciate elegant, classic cocktails.",
       it: 'Perfetto per celebrazioni, matrimoni, Capodanno ed eventi formali. Ideale per chi apprezza cocktail eleganti e classici.',
       vi: 'Hoàn hảo cho lễ kỷ niệm, đám cưới, đêm giao thừa và sự kiện chính thức. Lý tưởng cho những ai đánh giá cao cocktail thanh lịch, cổ điển.',
     },
@@ -103,7 +103,7 @@ export const champagneCocktail: Cocktail = {
       ingredient_id: 'ING_CHAMPAGNE',
       quantity: { amount: 90, unit: 'ml' },
       display_name: { en: 'Champagne', it: 'Champagne', vi: 'Champagne' },
-      note: { en: 'chilled', it: 'freddo', vi: 'đã làm lạnh' },
+      notes: { en: 'chilled', it: 'freddo', vi: 'đã làm lạnh' },
     },
     {
       ingredient_id: 'ING_COGNAC',
@@ -126,7 +126,7 @@ export const champagneCocktail: Cocktail = {
 
   instructions: {
     en: 'Place sugar cube in a chilled champagne flute. Saturate the sugar cube with Angostura bitters. Add cognac. Top with chilled champagne. Garnish with orange twist or lemon twist.',
-    it: 'Mettere la zolletta di zucchero in una flûte di champagne raffreddata. Saturare la zolletta con Angostura bitters. Aggiungere il cognac. Completare con champagne freddo. Guarnire con scorza d\'arancia o limone.',
+    it: "Mettere la zolletta di zucchero in una flûte di champagne raffreddata. Saturare la zolletta con Angostura bitters. Aggiungere il cognac. Completare con champagne freddo. Guarnire con scorza d'arancia o limone.",
     vi: 'Đặt viên đường vào ly champagne flute đã làm lạnh. Thấm viên đường với Angostura bitters. Thêm cognac. Đổ đầy champagne lạnh. Trang trí với vỏ cam hoặc chanh xoắn.',
   },
 
@@ -134,7 +134,7 @@ export const champagneCocktail: Cocktail = {
 
   garnish: {
     en: 'Orange twist or lemon twist',
-    it: 'Scorza d\'arancia o limone',
+    it: "Scorza d'arancia o limone",
     vi: 'Vỏ cam hoặc chanh xoắn',
   },
 
@@ -163,7 +163,14 @@ export const champagneCocktail: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance', 'histamine'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -171,7 +178,7 @@ export const champagneCocktail: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'gluten-free', 'dairy-free'],
-  season_tags: ['all_seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['celebration', 'wedding', 'new_years', 'formal_event'],
 
   is_mocktail: false,
@@ -182,7 +189,8 @@ export const champagneCocktail: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['seelbach-cocktail', 'champagne-royale'],
 
-  notes_for_staff: 'Use quality champagne or good sparkling wine. Saturate sugar cube fully with bitters for best flavor. Build directly in flute to preserve bubbles. Can substitute brandy for cognac if needed.',
+  notes_for_staff:
+    'Use quality champagne or good sparkling wine. Saturate sugar cube fully with bitters for best flavor. Build directly in flute to preserve bubbles. Can substitute brandy for cognac if needed.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -195,7 +203,7 @@ export const champagneCocktail: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/champagne-cocktail/',
-    note: 'IBA Official Recipe. First recorded in Jerry Thomas 1862.',
+    notes: 'IBA Official Recipe. First recorded in Jerry Thomas 1862.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

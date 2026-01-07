@@ -80,7 +80,7 @@ export const whiteRussian: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['digestivo', 'casual', 'movie_night', 'nightcap'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Perfect with chocolate desserts, coffee cake, tiramisu, or as a dessert replacement. Also pairs well with vanilla ice cream and brownie.',
       it: 'Perfetto con dessert al cioccolato, torta al caffè, tiramisù, o come sostituto del dessert. Si abbina bene anche con gelato alla vaniglia e brownie.',
@@ -167,7 +167,7 @@ export const whiteRussian: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegetarian', 'gluten-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['digestivo', 'casual', 'nightcap'],
 
   is_mocktail: false,
@@ -178,7 +178,8 @@ export const whiteRussian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['black-russian', 'white-cuban', 'dirty-russian'],
 
-  notes_for_staff: 'The Dude from "The Big Lebowski" made this drink iconic. Can be built directly in glass or shaken for a frothier texture. Some guests prefer it stirred, others layered. Use good quality coffee liqueur for best results.',
+  notes_for_staff:
+    'The Dude from "The Big Lebowski" made this drink iconic. Can be built directly in glass or shaken for a frothier texture. Some guests prefer it stirred, others layered. Use good quality coffee liqueur for best results.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -191,7 +192,7 @@ export const whiteRussian: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.liquor.com/recipes/white-russian/',
-    note: 'Classic recipe popularized by "The Big Lebowski" (1998).',
+    notes: 'Classic recipe popularized by "The Big Lebowski" (1998).',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

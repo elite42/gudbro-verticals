@@ -34,7 +34,7 @@ export const trinidadSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A revolutionary modern cocktail that flips the traditional formula by using Angostura bitters as the base spirit instead of an accent. This bold creation showcases how bitters can be the star, balanced with rye whiskey, orgeat, and lemon. The result is an intensely aromatic and complex drink.',
-    it: 'Un cocktail moderno rivoluzionario che ribalta la formula tradizionale usando l\'Angostura bitters come spirito di base invece che come accento. Questa creazione audace mostra come i bitter possano essere la stella, bilanciati con whiskey di segale, orzata e limone. Il risultato è una bevanda intensamente aromatica e complessa.',
+    it: "Un cocktail moderno rivoluzionario che ribalta la formula tradizionale usando l'Angostura bitters come spirito di base invece che come accento. Questa creazione audace mostra come i bitter possano essere la stella, bilanciati con whiskey di segale, orzata e limone. Il risultato è una bevanda intensamente aromatica e complessa.",
     vi: 'Một cocktail hiện đại cách mạng đảo ngược công thức truyền thống bằng cách sử dụng Angostura bitters làm rượu cơ sở thay vì điểm nhấn. Sáng tạo táo bạo này cho thấy bitters có thể là ngôi sao, cân bằng với rye whiskey, orgeat và chanh. Kết quả là đồ uống thơm mãnh liệt và phức tạp.',
   },
 
@@ -50,13 +50,13 @@ export const trinidadSour: Cocktail = {
       profession: 'bartender',
     },
     story: {
-      en: 'Created by Giuseppe Gonzalez at Clover Club in Brooklyn in 2009, the Trinidad Sour was a groundbreaking cocktail that challenged conventional thinking. Gonzalez wanted to showcase Angostura bitters - traditionally used by the dash - as the primary ingredient. The audacious proportions (1.5 oz of bitters!) shouldn\'t work on paper, but the careful balance with orgeat\'s sweetness, lemon\'s acidity, and rye\'s spice creates something remarkably drinkable and complex. It inspired bartenders worldwide to rethink ingredient hierarchies.',
-      it: 'Creato da Giuseppe Gonzalez al Clover Club a Brooklyn nel 2009, il Trinidad Sour fu un cocktail rivoluzionario che sfidò il pensiero convenzionale. Gonzalez voleva mostrare l\'Angostura bitters - tradizionalmente usato a gocce - come ingrediente principale. Le proporzioni audaci (45 ml di bitter!) non dovrebbero funzionare sulla carta, ma l\'equilibrio attento con la dolcezza dell\'orzata, l\'acidità del limone e la speziatura del segale crea qualcosa di straordinariamente bevibile e complesso. Ha ispirato i barman di tutto il mondo a ripensare le gerarchie degli ingredienti.',
+      en: "Created by Giuseppe Gonzalez at Clover Club in Brooklyn in 2009, the Trinidad Sour was a groundbreaking cocktail that challenged conventional thinking. Gonzalez wanted to showcase Angostura bitters - traditionally used by the dash - as the primary ingredient. The audacious proportions (1.5 oz of bitters!) shouldn't work on paper, but the careful balance with orgeat's sweetness, lemon's acidity, and rye's spice creates something remarkably drinkable and complex. It inspired bartenders worldwide to rethink ingredient hierarchies.",
+      it: "Creato da Giuseppe Gonzalez al Clover Club a Brooklyn nel 2009, il Trinidad Sour fu un cocktail rivoluzionario che sfidò il pensiero convenzionale. Gonzalez voleva mostrare l'Angostura bitters - tradizionalmente usato a gocce - come ingrediente principale. Le proporzioni audaci (45 ml di bitter!) non dovrebbero funzionare sulla carta, ma l'equilibrio attento con la dolcezza dell'orzata, l'acidità del limone e la speziatura del segale crea qualcosa di straordinariamente bevibile e complesso. Ha ispirato i barman di tutto il mondo a ripensare le gerarchie degli ingredienti.",
       vi: 'Được tạo ra bởi Giuseppe Gonzalez tại Clover Club ở Brooklyn năm 2009, Trinidad Sour là cocktail đột phá thách thức tư duy thông thường. Gonzalez muốn giới thiệu Angostura bitters - thường được dùng từng giọt - làm nguyên liệu chính. Tỷ lệ táo bạo (45 ml bitters!) không nên hoạt động trên giấy, nhưng sự cân bằng cẩn thận với vị ngọt của orgeat, độ chua chanh và gia vị rye tạo ra thứ gì đó đáng kinh ngạc dễ uống và phức tạp. Nó truyền cảm hứng cho bartender trên toàn thế giới suy nghĩ lại về thứ bậc nguyên liệu.',
     },
     named_after: {
       en: 'Named after Trinidad, the birthplace of Angostura bitters (House of Angostura was founded in Trinidad in 1824).',
-      it: 'Prende il nome da Trinidad, il luogo di nascita dell\'Angostura bitters (House of Angostura fu fondata a Trinidad nel 1824).',
+      it: "Prende il nome da Trinidad, il luogo di nascita dell'Angostura bitters (House of Angostura fu fondata a Trinidad nel 1824).",
       vi: 'Được đặt tên theo Trinidad, nơi sinh của Angostura bitters (House of Angostura được thành lập ở Trinidad năm 1824).',
     },
   },
@@ -65,7 +65,7 @@ export const trinidadSour: Cocktail = {
     profile: ['bitter', 'spicy', 'aromatic', 'complex'],
     description: {
       en: 'Intensely aromatic with powerful baking spices, clove, cinnamon, and gentian bitterness balanced by almond-sweet orgeat and bright lemon acidity. The rye adds a spicy backbone that ties everything together. Surprisingly smooth despite the bold bitters content.',
-      it: 'Intensamente aromatico con potenti spezie da forno, chiodi di garofano, cannella e amarezza di genziana bilanciata dall\'orzata dolce di mandorle e vivace acidità di limone. Il segale aggiunge una struttura speziata che lega tutto insieme. Sorprendentemente morbido nonostante il contenuto audace di bitter.',
+      it: "Intensamente aromatico con potenti spezie da forno, chiodi di garofano, cannella e amarezza di genziana bilanciata dall'orzata dolce di mandorle e vivace acidità di limone. Il segale aggiunge una struttura speziata che lega tutto insieme. Sorprendentemente morbido nonostante il contenuto audace di bitter.",
       vi: 'Thơm mãnh liệt với gia vị nướng mạnh mẽ, đinh hương, quế và vị đắng gentian cân bằng bởi orgeat ngọt hạnh nhân và độ chua chanh tươi sáng. Rye thêm xương sống cay liên kết mọi thứ lại. Mượt mà đáng ngạc nhiên bất chấp hàm lượng bitters táo bạo.',
     },
     first_impression: {
@@ -123,7 +123,11 @@ export const trinidadSour: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
   ],
 
@@ -187,7 +191,8 @@ export const trinidadSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['bourbon-trinidad-sour', 'trinidad-especial'],
 
-  notes_for_staff: 'Yes, 1.5 oz of Angostura is correct! Proper dilution through shaking is critical. Quality orgeat is essential. Express lemon oils generously. This drink converts bitter skeptics.',
+  notes_for_staff:
+    'Yes, 1.5 oz of Angostura is correct! Proper dilution through shaking is critical. Quality orgeat is essential. Express lemon oils generously. This drink converts bitter skeptics.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -200,7 +205,7 @@ export const trinidadSour: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/trinidad-sour/',
-    note: 'IBA Official Recipe. Created by Giuseppe Gonzalez at Clover Club, Brooklyn, 2009.',
+    notes: 'IBA Official Recipe. Created by Giuseppe Gonzalez at Clover Club, Brooklyn, 2009.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

@@ -64,7 +64,7 @@ export const rustyNail: Cocktail = {
   taste: {
     profile: ['sweet', 'herbal', 'warming'],
     description: {
-      en: 'Rich and warming with smoky Scotch balanced by sweet, honeyed Drambuie. The honey and herbal notes from Drambuie soften the whisky\'s edges while maintaining complexity. Smooth and satisfying with a long, warming finish.',
+      en: "Rich and warming with smoky Scotch balanced by sweet, honeyed Drambuie. The honey and herbal notes from Drambuie soften the whisky's edges while maintaining complexity. Smooth and satisfying with a long, warming finish.",
       it: 'Ricco e caldo con Scotch affumicato bilanciato dal Drambuie dolce e mielato. Le note di miele ed erbacee del Drambuie ammorbidiscono i bordi del whisky mantenendo la complessità. Morbido e soddisfacente con un finale lungo e caldo.',
       vi: 'Đậm đà và ấm áp với Scotch khói cân bằng bởi Drambuie ngọt, mật ong. Hương mật ong và thảo mộc từ Drambuie làm mềm các cạnh của whisky trong khi duy trì độ phức tạp. Mượt mà và thỏa mãn với kết thúc dài, ấm áp.',
     },
@@ -177,7 +177,8 @@ export const rustyNail: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['rob-roy', 'bobby-burns', 'godfather'],
 
-  notes_for_staff: 'The official IBA ratio is 9 parts Scotch to 5 parts Drambuie (45ml:25ml). Can be adjusted to taste - some prefer equal parts. Build directly in glass for simplicity. Drambuie is essential - no substitutes. Stir gently to avoid over-dilution.',
+  notes_for_staff:
+    'The official IBA ratio is 9 parts Scotch to 5 parts Drambuie (45ml:25ml). Can be adjusted to taste - some prefer equal parts. Build directly in glass for simplicity. Drambuie is essential - no substitutes. Stir gently to avoid over-dilution.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -190,7 +191,8 @@ export const rustyNail: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/iba-cocktail/rusty-nail/',
-    note: 'IBA Official Recipe. Historical information from Drambuie history and 1960s cocktail culture.',
+    notes:
+      'IBA Official Recipe. Historical information from Drambuie history and 1960s cocktail culture.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

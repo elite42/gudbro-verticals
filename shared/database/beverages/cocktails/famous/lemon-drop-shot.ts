@@ -39,13 +39,13 @@ export const lemonDropShot: Cocktail = {
     created_year: '1970s',
     origin: {
       city: 'San Francisco',
-      bar: 'Henry Africa\'s',
+      bar: "Henry Africa's",
       country: 'USA',
     },
     story: {
-      en: 'The Lemon Drop Shot was created in the 1970s at Henry Africa\'s bar in San Francisco. It was inspired by the classic lemon drop candy and quickly became a popular choice for those seeking a sweet-tart shooter. The drink perfectly captures the nostalgic flavor of the candy it\'s named after.',
-      it: 'Il Lemon Drop Shot è stato creato negli anni \'70 al bar Henry Africa\'s di San Francisco. È stato ispirato dalla classica caramella lemon drop ed è diventato rapidamente una scelta popolare per coloro che cercano uno shooter dolce-aspro. La bevanda cattura perfettamente il sapore nostalgico della caramella da cui prende il nome.',
-      vi: 'Lemon Drop Shot được tạo ra vào những năm 1970 tại quầy bar Henry Africa\'s ở San Francisco. Nó được lấy cảm hứng từ kẹo lemon drop cổ điển và nhanh chóng trở thành lựa chọn phổ biến cho những ai tìm kiếm shooter ngọt-chua. Thức uống hoàn hảo nắm bắt hương vị hoài niệm của loại kẹo mà nó được đặt tên theo.',
+      en: "The Lemon Drop Shot was created in the 1970s at Henry Africa's bar in San Francisco. It was inspired by the classic lemon drop candy and quickly became a popular choice for those seeking a sweet-tart shooter. The drink perfectly captures the nostalgic flavor of the candy it's named after.",
+      it: "Il Lemon Drop Shot è stato creato negli anni '70 al bar Henry Africa's di San Francisco. È stato ispirato dalla classica caramella lemon drop ed è diventato rapidamente una scelta popolare per coloro che cercano uno shooter dolce-aspro. La bevanda cattura perfettamente il sapore nostalgico della caramella da cui prende il nome.",
+      vi: "Lemon Drop Shot được tạo ra vào những năm 1970 tại quầy bar Henry Africa's ở San Francisco. Nó được lấy cảm hứng từ kẹo lemon drop cổ điển và nhanh chóng trở thành lựa chọn phổ biến cho những ai tìm kiếm shooter ngọt-chua. Thức uống hoàn hảo nắm bắt hương vị hoài niệm của loại kẹo mà nó được đặt tên theo.",
     },
     named_after: {
       en: 'Named after the lemon drop candy, known for its sweet-tart flavor profile.',
@@ -73,7 +73,7 @@ export const lemonDropShot: Cocktail = {
     },
     balance: {
       en: 'Perfectly balanced sweet and sour, true to the candy inspiration',
-      it: 'Perfettamente bilanciato dolce e aspro, fedele all\'ispirazione della caramella',
+      it: "Perfettamente bilanciato dolce e aspro, fedele all'ispirazione della caramella",
       vi: 'Cân bằng hoàn hảo ngọt và chua, trung thành với nguồn cảm hứng kẹo',
     },
   },
@@ -106,7 +106,11 @@ export const lemonDropShot: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh Lemon Juice', it: 'Succo di Limone Fresco', vi: 'Nước Cốt Chanh Tươi' },
+      display_name: {
+        en: 'Fresh Lemon Juice',
+        it: 'Succo di Limone Fresco',
+        vi: 'Nước Cốt Chanh Tươi',
+      },
     },
     {
       ingredient_id: 'ING_SIMPLE_SYRUP',
@@ -116,7 +120,11 @@ export const lemonDropShot: Cocktail = {
     {
       ingredient_id: 'ING_SUGAR',
       quantity: { amount: 1, unit: 'teaspoon' },
-      display_name: { en: 'Sugar (for rim)', it: 'Zucchero (per il bordo)', vi: 'Đường (cho viền)' },
+      display_name: {
+        en: 'Sugar (for rim)',
+        it: 'Zucchero (per il bordo)',
+        vi: 'Đường (cho viền)',
+      },
     },
   ],
 
@@ -161,7 +169,14 @@ export const lemonDropShot: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -180,7 +195,8 @@ export const lemonDropShot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['lemon-drop-martini', 'raspberry-lemon-drop', 'blueberry-lemon-drop'],
 
-  notes_for_staff: 'Use fresh lemon juice only. Ensure sugar rim is even and not too thick. Can substitute vodka with citrus vodka for extra lemon flavor. Often served with a lemon wedge on the side.',
+  notes_for_staff:
+    'Use fresh lemon juice only. Ensure sugar rim is even and not too thick. Can substitute vodka with citrus vodka for extra lemon flavor. Often served with a lemon wedge on the side.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -193,7 +209,7 @@ export const lemonDropShot: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://en.wikipedia.org/wiki/Lemon_drop_(cocktail)',
-    note: 'Classic sweet-sour shooter inspired by lemon drop candy.',
+    notes: 'Classic sweet-sour shooter inspired by lemon drop candy.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

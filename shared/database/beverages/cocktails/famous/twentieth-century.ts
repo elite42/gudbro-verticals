@@ -53,7 +53,7 @@ export const twentiethCentury: Cocktail = {
     },
     named_after: {
       en: 'Named after the legendary 20th Century Limited luxury train that symbolized elegance, speed, and sophistication in early 20th-century America.',
-      it: 'Prende il nome dal leggendario treno di lusso 20th Century Limited che simboleggiava eleganza, velocità e sofisticazione nell\'America dell\'inizio del XX secolo.',
+      it: "Prende il nome dal leggendario treno di lusso 20th Century Limited che simboleggiava eleganza, velocità e sofisticazione nell'America dell'inizio del XX secolo.",
       vi: 'Được đặt theo tên chuyến tàu xa xỉ huyền thoại 20th Century Limited tượng trưng cho sự thanh lịch, tốc độ và tinh tế ở Mỹ đầu thế kỷ 20.',
     },
   },
@@ -61,7 +61,7 @@ export const twentiethCentury: Cocktail = {
   taste: {
     profile: ['elegant', 'floral', 'citrus'],
     description: {
-      en: 'Sophisticated and elegant with gin botanicals, Lillet\'s floral-wine notes, subtle white chocolate from crème de cacao, and bright lemon acidity. Delicate yet complex with a beautiful white appearance.',
+      en: "Sophisticated and elegant with gin botanicals, Lillet's floral-wine notes, subtle white chocolate from crème de cacao, and bright lemon acidity. Delicate yet complex with a beautiful white appearance.",
       it: 'Sofisticato ed elegante con botanici del gin, note floreali-vinose del Lillet, cioccolato bianco sottile dalla crème de cacao e acidità brillante del limone. Delicato ma complesso con un bellissimo aspetto bianco.',
       vi: 'Tinh tế và thanh lịch với thực vật gin, nốt hoa-rượu của Lillet, chocolate trắng tinh tế từ crème de cacao và độ chua chanh tươi sáng. Tinh tế nhưng phức tạp với vẻ ngoài trắng đẹp mắt.',
     },
@@ -124,7 +124,11 @@ export const twentiethCentury: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
   ],
 
@@ -169,7 +173,14 @@ export const twentiethCentury: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegetarian', 'vegan', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegetarian',
+      'vegan',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -188,7 +199,8 @@ export const twentiethCentury: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['twentieth-century-moderne'],
 
-  notes_for_staff: 'Use WHITE crème de cacao to maintain the elegant white color. Lillet Blanc essential - do not substitute with vermouth. Double strain for perfect clarity. Fresh lemon juice only. The drink should be pristine white like the train\'s dining cars.',
+  notes_for_staff:
+    "Use WHITE crème de cacao to maintain the elegant white color. Lillet Blanc essential - do not substitute with vermouth. Double strain for perfect clarity. Fresh lemon juice only. The drink should be pristine white like the train's dining cars.",
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -201,7 +213,8 @@ export const twentiethCentury: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://www.diffordsguide.com/cocktails/recipe/1556/twentieth-century-cocktail',
-    note: 'Café Royal Cocktail Book (1937). Named after the legendary 20th Century Limited luxury train.',
+    notes:
+      'Café Royal Cocktail Book (1937). Named after the legendary 20th Century Limited luxury train.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

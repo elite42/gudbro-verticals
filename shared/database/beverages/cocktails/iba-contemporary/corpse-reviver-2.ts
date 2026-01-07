@@ -65,7 +65,7 @@ export const corpseReviver2: Cocktail = {
     profile: ['citrus', 'herbal', 'complex', 'refreshing'],
     description: {
       en: 'Bright, complex, and thoroughly refreshing. Lemon provides tartness, Cointreau adds orange sweetness, Lillet brings floral notes, gin provides botanical complexity, and absinthe adds an enigmatic anise touch. Perfectly balanced.',
-      it: 'Brillante, complesso e completamente rinfrescante. Il limone fornisce acidità, il Cointreau aggiunge dolcezza all\'arancia, il Lillet porta note floreali, il gin fornisce complessità botanica e l\'assenzio aggiunge un tocco enigmatico di anice. Perfettamente bilanciato.',
+      it: "Brillante, complesso e completamente rinfrescante. Il limone fornisce acidità, il Cointreau aggiunge dolcezza all'arancia, il Lillet porta note floreali, il gin fornisce complessità botanica e l'assenzio aggiunge un tocco enigmatico di anice. Perfettamente bilanciato.",
       vi: 'Tươi sáng, phức tạp và hoàn toàn sảng khoái. Chanh cung cấp vị chua, Cointreau thêm vị ngọt cam, Lillet mang đến hương hoa, gin cung cấp độ phức tạp thực vật và absinthe thêm một chút hồi bí ẩn. Cân bằng hoàn hảo.',
     },
     first_impression: {
@@ -75,7 +75,7 @@ export const corpseReviver2: Cocktail = {
     },
     finish: {
       en: 'Clean, crisp finish with lingering absinthe complexity',
-      it: 'Finale pulito e fresco con complessità persistente dell\'assenzio',
+      it: "Finale pulito e fresco con complessità persistente dell'assenzio",
       vi: 'Kết thúc sạch, sắc nét với độ phức tạp absinthe kéo dài',
     },
     balance: {
@@ -96,7 +96,7 @@ export const corpseReviver2: Cocktail = {
     },
     ideal_for: {
       en: 'Perfect for brunch, morning-after recovery, or anyone who appreciates complex, citrus-forward cocktails. Great introduction to absinthe.',
-      it: 'Perfetto per il brunch, il recupero del giorno dopo o chiunque apprezzi cocktail complessi e agrumati. Ottima introduzione all\'assenzio.',
+      it: "Perfetto per il brunch, il recupero del giorno dopo o chiunque apprezzi cocktail complessi e agrumati. Ottima introduzione all'assenzio.",
       vi: 'Hoàn hảo cho bữa brunch, phục hồi buổi sáng sau hoặc bất kỳ ai đánh giá cao cocktail phức tạp, hương chanh nổi bật. Giới thiệu tuyệt vời về absinthe.',
     },
   },
@@ -123,7 +123,11 @@ export const corpseReviver2: Cocktail = {
     {
       ingredient_id: 'ING_LEMON_JUICE',
       quantity: { amount: 22.5, unit: 'ml' },
-      display_name: { en: 'Fresh lemon juice', it: 'Succo di limone fresco', vi: 'Nước chanh tươi' },
+      display_name: {
+        en: 'Fresh lemon juice',
+        it: 'Succo di limone fresco',
+        vi: 'Nước chanh tươi',
+      },
     },
     {
       ingredient_id: 'ING_ABSINTHE',
@@ -136,7 +140,7 @@ export const corpseReviver2: Cocktail = {
 
   instructions: {
     en: 'Pour all ingredients into shaker with ice. Shake well. Strain into chilled cocktail glass. Garnish with orange twist or cherry.',
-    it: 'Versare tutti gli ingredienti nello shaker con ghiaccio. Shakerare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con scorza d\'arancia o ciliegia.',
+    it: "Versare tutti gli ingredienti nello shaker con ghiaccio. Shakerare bene. Filtrare in una coppa da cocktail raffreddata. Guarnire con scorza d'arancia o ciliegia.",
     vi: 'Đổ tất cả nguyên liệu vào shaker với đá. Lắc kỹ. Lọc vào ly cocktail đã làm lạnh. Trang trí với vỏ cam xoắn hoặc quả anh đào.',
   },
 
@@ -144,7 +148,7 @@ export const corpseReviver2: Cocktail = {
 
   garnish: {
     en: 'Orange twist or cherry',
-    it: 'Scorza d\'arancia o ciliegia',
+    it: "Scorza d'arancia o ciliegia",
     vi: 'Vỏ cam xoắn hoặc quả anh đào',
   },
 
@@ -173,7 +177,14 @@ export const corpseReviver2: Cocktail = {
   computed: {
     allergens: ['sulphites', 'wormwood'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -192,7 +203,8 @@ export const corpseReviver2: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['corpse-reviver-1', 'corpse-reviver-blue'],
 
-  notes_for_staff: 'Use absinthe VERY sparingly - a single dash only, or rinse glass and discard excess. Too much will overpower. Originally used Kina Lillet (no longer available) - Lillet Blanc is modern substitute. Historically a morning-after drink.',
+  notes_for_staff:
+    'Use absinthe VERY sparingly - a single dash only, or rinse glass and discard excess. Too much will overpower. Originally used Kina Lillet (no longer available) - Lillet Blanc is modern substitute. Historically a morning-after drink.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -205,7 +217,7 @@ export const corpseReviver2: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://iba-world.com/corpse-reviver-2/',
-    note: 'IBA Official Recipe. From The Savoy Cocktail Book 1930.',
+    notes: 'IBA Official Recipe. From The Savoy Cocktail Book 1930.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────

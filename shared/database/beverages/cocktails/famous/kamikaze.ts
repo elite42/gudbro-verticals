@@ -31,7 +31,7 @@ export const kamikaze: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   description: {
     en: 'A powerful and tart shooter made with vodka, triple sec, and lime juice. This classic shot delivers a strong citrus punch that lives up to its bold name.',
-    it: 'Uno shooter potente e aspro fatto con vodka, triple sec e succo di lime. Questo shot classico offre un forte pugno di agrumi che è all\'altezza del suo nome audace.',
+    it: "Uno shooter potente e aspro fatto con vodka, triple sec e succo di lime. Questo shot classico offre un forte pugno di agrumi che è all'altezza del suo nome audace.",
     vi: 'Một loại shooter mạnh mẽ và chua được làm từ vodka, triple sec và nước cốt chanh. Shot cổ điển này mang đến cú đấm cam chanh mạnh mẽ xứng đáng với cái tên táo bạo của nó.',
   },
 
@@ -44,11 +44,11 @@ export const kamikaze: Cocktail = {
     },
     story: {
       en: 'The Kamikaze shot emerged in the United States during the 1970s. Its exact origins are unclear, but it quickly became a popular shooter at bars and nightclubs. The drink is essentially a lime-forward variation of the classic Sidecar cocktail, adapted into shot form.',
-      it: 'Lo shot Kamikaze è emerso negli Stati Uniti durante gli anni \'70. Le sue origini esatte non sono chiare, ma è diventato rapidamente uno shooter popolare nei bar e nelle discoteche. La bevanda è essenzialmente una variazione con lime del classico cocktail Sidecar, adattata in forma di shot.',
+      it: "Lo shot Kamikaze è emerso negli Stati Uniti durante gli anni '70. Le sue origini esatte non sono chiare, ma è diventato rapidamente uno shooter popolare nei bar e nelle discoteche. La bevanda è essenzialmente una variazione con lime del classico cocktail Sidecar, adattata in forma di shot.",
       vi: 'Shot Kamikaze xuất hiện ở Hoa Kỳ trong những năm 1970. Nguồn gốc chính xác của nó không rõ ràng, nhưng nó nhanh chóng trở thành shooter phổ biến tại các quán bar và hộp đêm. Thức uống về cơ bản là một biến thể hướng chanh của cocktail Sidecar cổ điển, được điều chỉnh thành dạng shot.',
     },
     named_after: {
-      en: 'Named after the Japanese kamikaze pilots of World War II, reflecting the shot\'s bold and intense nature.',
+      en: "Named after the Japanese kamikaze pilots of World War II, reflecting the shot's bold and intense nature.",
       it: 'Prende il nome dai piloti kamikaze giapponesi della seconda guerra mondiale, riflettendo la natura audace e intensa dello shot.',
       vi: 'Được đặt theo tên của các phi công kamikaze Nhật Bản trong Thế chiến II, phản ánh bản chất táo bạo và mạnh mẽ của shot.',
     },
@@ -58,7 +58,7 @@ export const kamikaze: Cocktail = {
     profile: ['sour', 'citrus', 'strong'],
     description: {
       en: 'Sharp and citrus-forward with a clean vodka backbone. The lime juice provides tartness while triple sec adds subtle orange sweetness. Bold and refreshing.',
-      it: 'Deciso e orientato agli agrumi con una base pulita di vodka. Il succo di lime fornisce acidità mentre il triple sec aggiunge una sottile dolcezza all\'arancia. Audace e rinfrescante.',
+      it: "Deciso e orientato agli agrumi con una base pulita di vodka. Il succo di lime fornisce acidità mentre il triple sec aggiunge una sottile dolcezza all'arancia. Audace e rinfrescante.",
       vi: 'Sắc nét và hướng cam chanh với nền vodka trong sạch. Nước cốt chanh mang đến vị chua trong khi triple sec thêm vị ngọt cam tinh tế. Táo bạo và sảng khoái.',
     },
     first_impression: {
@@ -81,10 +81,10 @@ export const kamikaze: Cocktail = {
   recommendations: {
     best_time: ['evening', 'late_night'],
     occasions: ['party', 'nightlife', 'celebration'],
-    seasons: ['all_seasons'],
+    seasons: ['all_year'],
     food_pairings: {
       en: 'Best as a standalone shot. Can be paired with salty snacks, nachos, or Asian appetizers to balance the tartness.',
-      it: 'Meglio come shot standalone. Può essere abbinato a snack salati, nachos o antipasti asiatici per bilanciare l\'acidità.',
+      it: "Meglio come shot standalone. Può essere abbinato a snack salati, nachos o antipasti asiatici per bilanciare l'acidità.",
       vi: 'Tốt nhất như một shot độc lập. Có thể kết hợp với đồ ăn vặt mặn, nachos hoặc món khai vị châu Á để cân bằng vị chua.',
     },
     ideal_for: {
@@ -111,7 +111,11 @@ export const kamikaze: Cocktail = {
     {
       ingredient_id: 'ING_LIME_JUICE',
       quantity: { amount: 15, unit: 'ml' },
-      display_name: { en: 'Fresh Lime Juice', it: 'Succo di Lime Fresco', vi: 'Nước Cốt Chanh Tươi' },
+      display_name: {
+        en: 'Fresh Lime Juice',
+        it: 'Succo di Lime Fresco',
+        vi: 'Nước Cốt Chanh Tươi',
+      },
     },
   ],
 
@@ -156,7 +160,14 @@ export const kamikaze: Cocktail = {
   computed: {
     allergens: ['sulphites'],
     intolerances: ['alcohol', 'sulphites_intolerance'],
-    suitable_for_diets: ['vegan', 'vegetarian', 'pescatarian', 'gluten_free', 'dairy_free', 'nut_free'],
+    suitable_for_diets: [
+      'vegan',
+      'vegetarian',
+      'pescatarian',
+      'gluten_free',
+      'dairy_free',
+      'nut_free',
+    ],
     spice_level: 0,
   },
 
@@ -164,7 +175,7 @@ export const kamikaze: Cocktail = {
   // DIETARY & TAGS
   // ─────────────────────────────────────────────────────────────────────────
   diet_tags: ['vegan', 'vegetarian', 'gluten-free', 'dairy-free'],
-  season_tags: ['all-seasons'],
+  season_tags: ['all_year'],
   occasion_tags: ['party', 'nightlife', 'celebration'],
 
   is_mocktail: false,
@@ -175,7 +186,8 @@ export const kamikaze: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   variants: ['blue-kamikaze', 'frozen-kamikaze', 'kamikaze-cocktail'],
 
-  notes_for_staff: 'Always use fresh lime juice, never bottled. Shake hard to ensure proper dilution and temperature. Can also be served as a cocktail in a martini glass.',
+  notes_for_staff:
+    'Always use fresh lime juice, never bottled. Shake hard to ensure proper dilution and temperature. Can also be served as a cocktail in a martini glass.',
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUSINESS
@@ -188,7 +200,7 @@ export const kamikaze: Cocktail = {
   // ─────────────────────────────────────────────────────────────────────────
   source: {
     primary: 'https://en.wikipedia.org/wiki/Kamikaze_(cocktail)',
-    note: 'Classic shooter recipe from the 1970s bar scene.',
+    notes: 'Classic shooter recipe from the 1970s bar scene.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────
