@@ -97,6 +97,142 @@ Cliente (chat) → AI Customer Agent → [Escalation] → Merchant (backoffice)
 - [ ] Blocco date/orari
 - [ ] Report prenotazioni
 
+### QR-BUILDER-V2 - Sistema QR Code Avanzato
+
+**Vision:** QR Builder modulare riusabile in tutto il backoffice con contesti intelligenti
+
+**Componente Core:** `<QRBuilderModal />` - lightbox riusabile da qualsiasi pagina
+
+**Architettura:** Opzione B - Contextual + Hub centralizzato
+
+---
+
+#### QR Context Matrix (IMPORTANTE)
+
+| Contesto        | Location     | Azioni Disponibili                                          |
+| --------------- | ------------ | ----------------------------------------------------------- |
+| 🪑 **Table**    | In-venue     | ✅ Ordina & Paga, ✅ Chiama staff, ✅ Menu, ✅ Feedback     |
+| 📍 **External** | Fuori locale | ✅ Menu (view only), ✅ Prenota, ✅ Loyalty, ❌ Ordina      |
+| 🥡 **Takeaway** | Fuori locale | ✅ Ordina, ✅ Pickup time, ✅ Paga online                   |
+| 🛵 **Delivery** | Fuori locale | ✅ Ordina (se in zona), ✅ Tracking, ⚙️ Regole raggio/orari |
+
+---
+
+#### Traffic Sources (QR Dinamici)
+
+| Source         | Landing Dedicata            | Promo Possibili                 |
+| -------------- | --------------------------- | ------------------------------- |
+| 📍 Google Maps | Welcome GMaps + CTA prenota | "Prenota da GMaps = 10% sconto" |
+| 📸 Instagram   | Welcome IG + follow CTA     | "Follower = drink gratis"       |
+| 📘 Facebook    | Welcome FB                  | Promo FB-only                   |
+| 🎫 Evento      | Info evento + menu          | Sconto evento                   |
+| 📰 Flyer       | Tracking campagna           | Codice flyer                    |
+| 🪑 Tavolo X    | Menu + ordina               | Upsell dessert                  |
+
+**URL Sistema:** `go.gudbro.com/qr/{shortcode}` → Redirect engine con analytics
+
+---
+
+#### Logo Handling (per manager non tecnici)
+
+**Pipeline automatica:**
+
+- [ ] Auto-resize a dimensioni ottimali (max 30% area QR)
+- [ ] Detect aspect ratio → warning se troppo largo (>2:1)
+- [ ] Opzioni per logo largo: usa icona, ritaglia, iniziali generate, versione alternativa
+- [ ] Background removal automatico (AI)
+- [ ] Upscale se troppo piccolo
+- [ ] Genera varianti: originale, quadrato, bianco, nero
+
+**UX semplificata:**
+
+- [ ] "Usa logo del locale" come default
+- [ ] Suggerimenti per non-tecnici
+- [ ] "Crea logo con AI" per chi non ce l'ha
+
+---
+
+#### Customization Options
+
+- [ ] Logo (default merchant, custom upload, icone libreria)
+- [ ] Pattern (6+ stili)
+- [ ] Eye Style (quadrato, rotondo, etc.)
+- [ ] Colors (presets brand + custom picker)
+- [ ] Frame (con testo customizzabile)
+- [ ] Live Preview real-time
+
+---
+
+#### Multi-lingua Landing
+
+- [ ] Auto-detect lingua device
+- [ ] Fallback a English se lingua non disponibile
+- [ ] Auto-detect currency
+
+---
+
+#### Features Aggiuntive
+
+- [ ] QR Scadenza (per promo temporanee)
+- [ ] QR con Password (eventi privati)
+- [ ] Templates predefiniti (Brand Colors, Classic B&W, Seasonal)
+- [ ] Templates salvabili dal merchant
+
+---
+
+#### Analytics Dashboard
+
+- [ ] Scan count per QR/source
+- [ ] Heatmap orari scansioni
+- [ ] Device breakdown
+- [ ] Location (se consenso)
+- [ ] Conversion tracking (scan → ordine/prenotazione)
+- [ ] Revenue attribution per source
+- [ ] Insights automatici ("Google Maps ha ROI più alto")
+
+---
+
+#### Export
+
+- [ ] PNG, SVG, PDF
+- [ ] Batch export
+- [ ] Print sheet (A4 con multipli QR)
+
+---
+
+#### Delivery Config (Futuro)
+
+- [ ] Zona consegna diretta (raggio configurabile)
+- [ ] Orari delivery per giorno
+- [ ] Costi delivery per fascia distanza
+- [ ] Ordine minimo / gratis sopra X€
+- [ ] Redirect a partner (Glovo/Deliveroo) se fuori zona
+
+---
+
+#### Edge Cases da gestire
+
+- [ ] Takeaway: ordina da fuori, ritira in locale
+- [ ] Pre-order: ordina ora, consuma dopo (pranzi veloci)
+- [ ] Multi-location: QR deve chiedere "quale sede?"
+- [ ] Orari chiusura: cosa mostrare se locale chiuso?
+- [ ] Menu diversi: pranzo vs cena vs brunch per orario
+
+---
+
+**Differenziatori vs MenuTiger:**
+
+- Multi-QR illimitati (vs 1 solo)
+- Contextual creation da ogni pagina
+- Traffic source attribution
+- Landing pages dedicate per source
+- QR Templates salvabili
+- Analytics con ROI per canale
+
+**Status:** ✅ Spec completata - pronta per implementazione
+
+---
+
 ### SITE-CUSTOMIZATION - Sezioni Sito Customizzabili
 
 **Vision:** Merchant può personalizzare le sezioni del proprio sito
