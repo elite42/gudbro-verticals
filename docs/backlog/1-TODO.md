@@ -203,10 +203,30 @@ Cliente (chat) → AI Customer Agent → [Escalation] → Merchant (backoffice)
 #### Delivery Config (Futuro)
 
 - [ ] Zona consegna diretta (raggio configurabile)
-- [ ] Orari delivery per giorno
+- [ ] **Multi-slot orari per giorno** (vedi sotto)
 - [ ] Costi delivery per fascia distanza
 - [ ] Ordine minimo / gratis sopra X€
 - [ ] Redirect a partner (Glovo/Deliveroo) se fuori zona
+
+**Multi-slot Delivery (IMPORTANTE):**
+
+Un locale può avere più fasce orarie delivery nello stesso giorno:
+
+```
+Lunedì:
+├── Slot 1: 11:30-14:00 │ Raggio: 2km │ Rider: 2 │ Min: €15
+├── Slot 2: 15:00-16:30 │ Raggio: 1km │ Rider: 1 │ Min: €20
+├── Slot 3: 18:00-21:00 │ Raggio: 2km │ Rider: 2 │ Min: €15
+└── Slot 4: 21:00-23:00 │ Raggio: 1km │ Rider: 1 │ Min: €25
+```
+
+Ogni slot può avere configurazione diversa:
+
+- [ ] Raggio delivery (può ridursi in orari con meno staff)
+- [ ] Numero rider disponibili (per calcolo tempo stimato)
+- [ ] Ordine minimo (può aumentare in orari di punta)
+- [ ] Tempo stimato (basato su rider e ordini in coda)
+- [ ] Pausa slot (es. 14:00-15:00 niente delivery)
 
 ---
 
