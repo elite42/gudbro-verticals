@@ -252,6 +252,7 @@ VERIFICA SEMPRE:
 | 2026-01 | Build fail senza env vars  | Client creato a import time         | **Proxy pattern** per lazy initialization         | supabase-admin.ts  |
 | 2026-01 | Type union incompleta      | Manca valore combinato              | Includere `'both'` quando dominio lo richiede     | Temperature type   |
 | 2026-01 | Deploy fallito post-push   | Build error non catturato           | Pre-push hook con `turbo build` salva la giornata | Git hooks          |
+| 2026-01 | Warning ignorati           | Visti ma non agiti (es. husky)      | **Agire subito** su warning/error, non aspettare  | Tutto              |
 
 ## Pattern da Seguire
 
@@ -266,6 +267,7 @@ VERIFICA SEMPRE:
 | RLS Public Read | `FOR SELECT USING (true)` OK    | `FOR ALL USING (true)` NO |
 | Env-dependent   | `Proxy` lazy init               | `createClient()` a import |
 | Type unions     | Include tutti i valori validi   | Dimenticare `'both'` etc  |
+| Warnings/Errors | Agire subito, fix o segnala     | Ignorare e proseguire     |
 
 ## Come Aggiornare
 
