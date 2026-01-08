@@ -5,7 +5,73 @@
 > non solo tecnica ma anche operativa, umana, competitiva e di business.
 >
 > **Last Updated:** 2026-01-08
-> **Version:** 1.1
+> **Version:** 1.2
+
+---
+
+## 0. HOW TO USE (IMPORTANTE)
+
+> **⚠️ NON leggere tutto questo documento in una volta.**
+> Usalo come reference, applicando un layer alla volta.
+
+### Principio: Layered Application
+
+Documenti grandi processati insieme → qualità diluita, dettagli persi.
+Approccio corretto: **un layer alla volta**, sistematico e accurato.
+
+### Per Valutare una Feature/Decisione
+
+```
+LAYER 1: Operational Reality (Sez. 4)
+└── "Funziona durante rush hour?"
+└── Se NO → Stop, ripensa
+
+LAYER 2: Persona Target (Sez. 2)
+└── "Chi ne beneficia?"
+└── Identifica 1-2 personas specifiche
+
+LAYER 3: Product Phase (Sez. 1.5)
+└── "È P0/P1/P2/P3?"
+└── Se P3 → Parcheggia, non ora
+
+LAYER 4+: On-demand
+└── Pricing (Sez. 10) → solo se impatta costi
+└── Integration (Sez. 11) → solo se tocca sistemi esterni
+└── AI Limits (Sez. 13) → solo se coinvolge AI
+└── Privacy (Sez. 1.3) → solo se tocca dati sensibili
+```
+
+### Quick Reference per Sezione
+
+| Sezione                | Quando Consultare                 |
+| ---------------------- | --------------------------------- |
+| 1. Vision              | Allineamento strategico           |
+| 2. Personas            | Chi usa questa feature?           |
+| 3. Venue Types         | Contesto operativo specifico      |
+| 4. Operational Reality | **SEMPRE** - è il filtro primario |
+| 5. Account             | Permessi e accessi                |
+| 6. Features Map        | Cosa esiste già                   |
+| 7. User Stories        | Esempi concreti                   |
+| 8. Competitive         | Cosa fanno altri                  |
+| 9. Best Practices      | Consigli operativi                |
+| 10. Pricing            | Impatto economico                 |
+| 11. Integration        | Sistemi esterni                   |
+| 12. Offline            | Resilienza rete                   |
+| 13. AI Limits          | Aspettative AI                    |
+| 14. Observations       | Insights storici                  |
+
+### Anti-Pattern
+
+❌ "Leggo tutto PRODUCT.md prima di iniziare"
+❌ "Applico tutte le sezioni a questa feature"
+❌ "Devo considerare ogni aspetto"
+
+### Pattern Corretto
+
+✅ "Layer 1: funziona durante rush?" → Sì
+✅ "Layer 2: per quale persona?" → Manager Multitasking
+✅ "Layer 3: che priorità?" → P1
+✅ "Serve altro?" → No, procedo
 
 ---
 
@@ -1073,12 +1139,16 @@ L'AI può partecipare a QR workflow:
 ---
 
 **File:** `docs/PRODUCT.md`
-**Version:** 1.1
+**Version:** 1.2
 **Created:** 2026-01-08
 **Author:** Claude (con input da sessioni con Gianfranco)
 
 **Changelog:**
 
+- v1.2 (2026-01-08): Aggiunta Sezione 0 "How to Use" con approccio layered
+  - Principio: un layer alla volta, non tutto insieme
+  - Quick reference per sezione
+  - Anti-pattern e pattern corretti
 - v1.1 (2026-01-08): Integrato feedback Gemini/ChatGPT
   - Privacy by Design nei principi
   - Famiglia con Bambini nelle personas
