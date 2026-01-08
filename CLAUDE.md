@@ -3,7 +3,69 @@
 > **Contesto essenziale per Claude Code**
 >
 > **Last Updated:** 2026-01-08
-> **Version:** 6.2 (Added PRODUCT.md for multidimensional planning)
+> **Version:** 6.3 (Added How to Use layered approach)
+
+---
+
+# HOW TO USE (IMPORTANTE)
+
+> **⚠️ NON processare tutto questo documento in una volta.**
+> Usalo a layer, sezione per sezione, in base al contesto.
+
+## Principio: Layered Application
+
+Documenti grandi (~740 righe) processati insieme → qualità diluita, dettagli persi.
+Approccio corretto: **leggi solo le sezioni rilevanti al task corrente**.
+
+## Layer per Tipo di Attività
+
+```
+INIZIO SESSIONE:
+└── Sezione 0 (Current Focus) + Sezione 1 (Startup) → SEMPRE
+
+SVILUPPO CODICE:
+└── Sezione 2 (Workflow) + Sezione 3 (Validation Gates)
+└── Sezione 3.5 (Compounding) → Se fai errori
+
+DATABASE/SQL:
+└── Sezione 5 (Database Critical) + Sezione 3.1 (Prima di SQL)
+
+AI CO-MANAGER:
+└── Sezione 11 (AI System)
+
+DEPLOY/GIT:
+└── Sezione 9 (Commands) + Sezione 11.5 (Slash Commands)
+
+FINE SESSIONE:
+└── Sezione 15 (Fine Sessione)
+```
+
+## Quick Reference
+
+| Sezione           | Quando                |
+| ----------------- | --------------------- |
+| 0. Current Focus  | Sempre all'inizio     |
+| 1. Startup        | Sempre all'inizio     |
+| 2. Workflow       | Prima di sviluppare   |
+| 3. Validation     | Prima di SQL/codice   |
+| 3.5 Compounding   | Quando fai errori     |
+| 4. Repo Structure | Se cerchi file        |
+| 5. Database       | Prima di SQL          |
+| 6. Documentation  | Se cerchi docs        |
+| 9. Commands       | Per comandi specifici |
+| 11. AI System     | Se lavori su AI       |
+| 15. Fine Sessione | A fine lavoro         |
+
+## Anti-Pattern
+
+❌ "Leggo tutto CLAUDE.md prima di iniziare"
+❌ "Devo ricordare tutte le 16 sezioni"
+
+## Pattern Corretto
+
+✅ "Inizio sessione → Sez. 0 + 1"
+✅ "Devo scrivere SQL → Sez. 3.1 + 5"
+✅ "Ho fatto un errore → Lo aggiungo a Sez. 3.5"
 
 ---
 
