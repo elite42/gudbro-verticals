@@ -5,7 +5,7 @@
 > non solo tecnica ma anche operativa, umana, competitiva e di business.
 >
 > **Last Updated:** 2026-01-08
-> **Version:** 1.0
+> **Version:** 1.1
 
 ---
 
@@ -40,6 +40,28 @@ GUDBRO è una piattaforma per il settore Food & Beverage che combina:
 | **Progressive Complexity**        | Semplice per iniziare, potente per chi vuole   |
 | **Data-Driven**                   | Decisioni basate su analytics, non intuizioni  |
 | **Multi-tenant Ready**            | Scalabile da 1 locale a catene                 |
+| **Privacy by Design**             | GDPR-compliant, dati sensibili protetti        |
+
+#### Privacy by Design - Dettaglio
+
+Il settore F&B gestisce dati sensibili che richiedono attenzione particolare:
+
+| Tipo Dato             | Sensibilità | Protezione                             |
+| --------------------- | ----------- | -------------------------------------- |
+| Allergie/intolleranze | Alta        | Solo merchant, mai condiviso           |
+| Preferenze dietetiche | Media       | Opt-in esplicito per personalizzazione |
+| Storico ordini        | Media       | Retention policy, diritto all'oblio    |
+| Location (GPS)        | Alta        | Solo quando necessario, mai salvato    |
+| Dati pagamento        | Altissima   | Mai salvati, solo provider (Stripe)    |
+
+**Principi operativi:**
+
+- **Minimizzazione:** Raccogliere solo dati necessari
+- **Consenso esplicito:** Mai opt-in automatico
+- **Trasparenza:** Privacy policy chiara e leggibile
+- **Portabilità:** Export dati su richiesta
+- **Cancellazione:** Diritto all'oblio implementato
+- **Sicurezza:** Encryption at rest e in transit
 
 ### 1.4 Differenziatori vs Competitor
 
@@ -51,6 +73,65 @@ GUDBRO è una piattaforma per il settore Food & Beverage che combina:
 | 15+ lingue automatiche            | Traduzioni manuali         |
 | Sistema allergeni completo        | Basico                     |
 | Contextual QR (table vs external) | QR generici                |
+
+### 1.5 Product Phasing
+
+> **Principio:** Focus su ciò che genera valore oggi, non su ciò che potrebbe servire domani.
+
+#### P0 - Core MVP (Must Have)
+
+Senza queste features, il prodotto non ha senso:
+
+| Feature           | Perché Core                           |
+| ----------------- | ------------------------------------- |
+| Menu digitale     | Funzione base, senza menu non c'è PWA |
+| Multi-lingua      | Differenziatore chiave vs carta       |
+| Sistema allergeni | Compliance e safety                   |
+| QR codes          | Entry point principale per clienti    |
+| Dashboard base    | Manager deve vedere cosa succede      |
+
+#### P1 - Value Add (Should Have)
+
+Features che aumentano valore e retention:
+
+| Feature    | Valore Aggiunto               |
+| ---------- | ----------------------------- |
+| Analytics  | Dati per decisioni informate  |
+| AI Chat    | Differenziatore vs competitor |
+| Promozioni | Strumento di marketing        |
+| Feedback   | Loop di miglioramento         |
+| Events     | Engagement, ritorno clienti   |
+
+#### P2 - Growth (Nice to Have)
+
+Features per crescita e scale:
+
+| Feature         | Obiettivo            |
+| --------------- | -------------------- |
+| KDS             | Efficienza operativa |
+| Pre-order       | Nuovo canale revenue |
+| Loyalty         | Retention long-term  |
+| White-label     | Enterprise/Upsell    |
+| POS Integration | Ecosistema completo  |
+
+#### P3 - Future Bets (Could Have)
+
+Features sperimentali o long-term:
+
+| Feature           | Rischio/Opportunità             |
+| ----------------- | ------------------------------- |
+| Pagamenti         | Complesso, regolamentato        |
+| Delivery          | Richiede logistica              |
+| Multi-location    | Complessità architetturale      |
+| Account unificato | Cross-merchant richiede network |
+| AI Customer Chat  | Richiede AI molto matura        |
+
+**Regola decisionale:**
+
+- P0: Sviluppa subito, blocca tutto il resto
+- P1: Dopo P0 stabile, in parallelo se risorse
+- P2: Solo con traction validata
+- P3: Solo con funding/partnership
 
 ---
 
@@ -156,6 +237,36 @@ GUDBRO è una piattaforma per il settore Food & Beverage che combina:
 - **Aspettative:** Ordine rapido, pagamento veloce
 - **Frustrazione:** Attese, cameriere introvabile
 - **Opportunità:** Pre-order, pagamento da tavolo, "pronto in X minuti"
+
+#### La Famiglia con Bambini
+
+- **Composizione:** 1-2 adulti + 1-3 bambini (0-12 anni)
+- **Comportamento:** Decisioni veloci per placare bimbi, cerca menu kids
+- **Aspettative:**
+  - Menu bambini chiaro e visibile
+  - Info allergeni dettagliate (bambini più sensibili)
+  - Seggioloni/seggiolini disponibili
+  - Piatti veloci da preparare
+  - Porzioni kids
+- **Frustrazione:**
+  - Menu bambini nascosto o assente
+  - Attese lunghe (bimbi si annoiano)
+  - Nessuna info su seggioloni
+  - Porzioni adulte troppo grandi/care per bambini
+- **Opportunità:**
+  - Filtro "Family Friendly" prominente
+  - Badge "Kids Menu" su prodotti
+  - Info facilities (seggioloni, fasciatoio, area giochi)
+  - "Happy Meal" style combos
+  - Coloring placemats digitali
+  - Stima tempo preparazione visibile
+
+**Nota:** Segmento sottovalutato ma ad alto valore:
+
+- Ticket medio alto (famiglia = 3-5 coperti)
+- Fedeltà alta se esperienza positiva
+- Passaparola forte tra genitori
+- Review online molto dettagliate
 
 ---
 
@@ -377,15 +488,42 @@ Organization (Catena/Gruppo)
 | Billing         | ✅    | ❌      | ❌       | ❌        |
 | AI Co-Manager   | ✅    | ✅      | Limitato | ❌        |
 
-### 5.3 Account Unificato (P5)
+### 5.3 Account Unificato (⚠️ FUTURE BET - P3)
 
-Il cliente finale ha un account unico cross-merchant:
+> **⚠️ Future Bet:** Questa feature richiede network effect significativo per avere valore.
+> Valutare solo con base utenti consolidata e partnership merchant.
+
+**Visione:** Il cliente finale ha un account unico cross-merchant:
 
 - Loyalty points accumulati ovunque
 - Preferenze salvate
 - Storico ordini
 - Dietary preferences
 - Single sign-on
+
+**Perché è una Future Bet:**
+
+| Sfida               | Impatto                                       |
+| ------------------- | --------------------------------------------- |
+| Network effect      | Serve massa critica di merchant               |
+| Complessità loyalty | Punti cross-merchant = accounting complesso   |
+| Privacy concerns    | Dati condivisi tra merchant diversi           |
+| Business model      | Revenue share? Fee per transazione?           |
+| Competitor lock-in  | Merchant potrebbero preferire loyalty proprio |
+
+**Prerequisiti:**
+
+- [ ] 100+ merchant attivi su piattaforma
+- [ ] Sistema loyalty per singolo merchant stabile
+- [ ] Legal framework per data sharing
+- [ ] Business model validato
+
+**Milestone per attivazione:**
+
+1. Implementa loyalty singolo merchant (P2)
+2. Valida interesse merchant per cross-loyalty
+3. Pilot con 3-5 merchant partner
+4. Scale se metriche positive
 
 ---
 
@@ -579,9 +717,256 @@ Per ogni competitor, valutare:
 
 ---
 
-## 10. MY OBSERVATIONS
+## 10. PRICING PHILOSOPHY
 
-### 10.1 Session Insights
+> **Principio:** Il pricing deve essere comprensibile in 5 secondi e percepito come fair.
+
+### 10.1 Modelli Considerati
+
+| Modello           | Pro                            | Contro                        | Fit    |
+| ----------------- | ------------------------------ | ----------------------------- | ------ |
+| **Per-seat/mese** | Predicibile, scalabile         | Frizione per piccoli locali   | ⭐⭐   |
+| **Per-order %**   | Allineato al valore            | Complesso, richiede pagamenti | ⭐     |
+| **Flat mensile**  | Semplice, predicibile          | Non scala con uso             | ⭐⭐⭐ |
+| **Freemium**      | Bassa barriera, viralità       | Conversione difficile         | ⭐⭐   |
+| **Tiered**        | Upsell naturale, segmentazione | Complessità, "quale piano?"   | ⭐⭐⭐ |
+
+### 10.2 Direzione Raccomandata
+
+**Modello: Tiered Flat + Usage-based AI**
+
+```
+FREE TIER (Lead generation)
+├── 1 location
+├── Menu digitale base
+├── 3 lingue
+├── QR codes (3)
+├── Analytics base (7 giorni)
+└── Watermark "Powered by GUDBRO"
+
+STARTER (€29/mese)
+├── 1 location
+├── Tutte le lingue
+├── QR codes illimitati
+├── Analytics 90 giorni
+├── No watermark
+├── Support email
+└── AI: 50 query/mese
+
+PROFESSIONAL (€79/mese)
+├── Tutto Starter +
+├── AI Co-Manager illimitato
+├── Events & Promozioni
+├── Feedback system
+├── Analytics avanzati
+├── Priority support
+└── Customizzazione brand
+
+ENTERPRISE (Custom)
+├── Multi-location
+├── API access
+├── White-label
+├── Dedicated support
+├── SLA garantito
+└── Custom integrations
+```
+
+### 10.3 Principi di Pricing
+
+| Principio              | Implementazione                           |
+| ---------------------- | ----------------------------------------- |
+| **Trasparenza**        | Nessun costo nascosto, tutto visibile     |
+| **Valore percepito**   | Feature costose in tier alti              |
+| **Facilità downgrade** | Mai bloccare l'uscita                     |
+| **Grandfathering**     | Chi entra a un prezzo lo mantiene 12 mesi |
+| **Annual discount**    | -20% per pagamento annuale                |
+| **Trial period**       | 14 giorni full-featured, no CC richiesta  |
+
+### 10.4 Decisioni Aperte
+
+- [ ] Pricing in € o $ (mercato target)?
+- [ ] Discount per non-profit/charity?
+- [ ] Referral program?
+- [ ] Partner/reseller pricing?
+
+---
+
+## 11. INTEGRATION STRATEGY
+
+> **Principio:** Integrazioni devono moltiplicare valore, non aggiungere complessità.
+
+### 11.1 Priorità Integrazioni
+
+| Tier       | Integrazioni           | Razionale                       |
+| ---------- | ---------------------- | ------------------------------- |
+| **Must**   | Google Maps, Instagram | Discovery e social proof        |
+| **Should** | Stripe, Apple Pay      | Pagamenti (quando pronti)       |
+| **Could**  | POS (Square, Toast)    | Sincronizzazione inventario     |
+| **Won't**  | Sistemi legacy custom  | ROI negativo, supporto infinito |
+
+### 11.2 API Strategy
+
+```
+Fase 1: Consumer Only (Ora)
+└── Noi consumiamo API di terzi (Google, OpenAI, etc.)
+
+Fase 2: Read API (P2)
+└── Esponiamo dati in sola lettura per integrazioni
+
+Fase 3: Full API (P3)
+└── API bidirezionale per partner e enterprise
+```
+
+### 11.3 POS Integration Deep Dive
+
+**Perché è complesso:**
+
+- Ogni POS ha API diversa (o nessuna)
+- Sincronizzazione real-time vs batch
+- Mapping prodotti non 1:1
+- Gestione conflitti inventario
+- Certificazioni richieste (alcuni POS)
+
+**Approccio suggerito:**
+
+1. **Fase 1:** Export manuale (CSV)
+2. **Fase 2:** Integrazione con 2-3 POS principali (Square, Toast)
+3. **Fase 3:** Middleware/iPaaS per altri (Zapier, Make)
+4. **Fase 4:** API propria per integrazioni custom
+
+### 11.4 Third-Party Dependencies
+
+| Servizio    | Criticità | Fallback              |
+| ----------- | --------- | --------------------- |
+| OpenAI      | Alta      | Anthropic, Gemini     |
+| Supabase    | Critica   | Self-hosted Postgres  |
+| Vercel      | Alta      | Cloudflare, Netlify   |
+| Stripe      | Media     | PayPal, Mollie        |
+| Google Maps | Bassa     | OpenStreetMap, Mapbox |
+
+---
+
+## 12. OFFLINE RESILIENCE
+
+> **Principio:** Un ristorante non può fermarsi se internet cade.
+
+### 12.1 Scenari Offline
+
+| Scenario          | Frequenza  | Impatto    |
+| ----------------- | ---------- | ---------- |
+| WiFi locale down  | Comune     | Alto       |
+| Problemi ISP      | Raro       | Molto alto |
+| Supabase outage   | Molto raro | Critico    |
+| Device senza rete | Comune     | Medio      |
+
+### 12.2 Strategia PWA
+
+**Service Worker Capabilities:**
+
+```
+CACHE FIRST (Sempre disponibili):
+├── Menu completo
+├── Immagini prodotti
+├── Traduzioni
+├── UI assets
+└── Last-known prices
+
+NETWORK FIRST (Preferisce aggiornato):
+├── Ordini attivi
+├── Disponibilità real-time
+├── Promozioni
+└── Analytics
+
+OFFLINE FALLBACK:
+├── Banner "Modalità offline"
+├── Ordini salvati localmente
+├── Sync automatico al ritorno online
+└── Timestamp "Aggiornato X minuti fa"
+```
+
+### 12.3 Backoffice Offline
+
+**Criticità:** Il backoffice è web-based, più complesso da rendere offline.
+
+**Approccio pragmatico:**
+
+- Dashboard: Cache ultimi dati (lettura)
+- Ordini: Queue locale, sync al ritorno
+- Menu edit: Sconsigliato offline (conflitti)
+- AI Chat: Non disponibile offline
+
+### 12.4 Comunicazione Stato
+
+| Stato              | UI Feedback                          |
+| ------------------ | ------------------------------------ |
+| Online             | Nessun indicatore (default)          |
+| Offline temporaneo | Toast giallo "Riconnessione..."      |
+| Offline prolungato | Banner persistente + timestamp       |
+| Sincronizzazione   | Spinner con "Aggiornamento in corso" |
+| Errore sync        | Alert rosso + retry manuale          |
+
+---
+
+## 13. AI LIMITATIONS & EXPECTATIONS
+
+> **Principio:** Meglio underpromise e overdeliver che il contrario.
+
+### 13.1 Cosa l'AI Co-Manager PUÒ Fare
+
+| Capability        | Affidabilità | Note                              |
+| ----------------- | ------------ | --------------------------------- |
+| Traduzioni menu   | Alta (95%+)  | Verificare termini tecnici locali |
+| Daily briefing    | Alta         | Basato su dati storici reali      |
+| Suggerimenti post | Media-Alta   | Richiede review umana             |
+| Analisi trends    | Alta         | Dati oggettivi dal sistema        |
+| Risposta FAQ      | Alta         | Su domande standard               |
+| Alert proattivi   | Alta         | Soglie configurabili              |
+
+### 13.2 Cosa l'AI Co-Manager NON PUÒ Fare (Ancora)
+
+| Limitazione           | Perché                           | Workaround                     |
+| --------------------- | -------------------------------- | ------------------------------ |
+| Prenotazioni autonome | Richiede integrazione calendario | Suggerisce, umano conferma     |
+| Gestione pagamenti    | Compliance, sicurezza            | Redirect a sistemi certificati |
+| Risposte mediche      | Responsabilità legale (allergie) | "Verifica sempre con lo staff" |
+| Predizioni revenue    | Troppi fattori esterni           | Range, non numeri precisi      |
+| Ordini a fornitori    | Impatto economico diretto        | Bozza ordine, umano approva    |
+| Risoluzione conflitti | Richiede empatia umana           | Escalation immediata           |
+
+### 13.3 Gestione Aspettative Utente
+
+**Onboarding messaging:**
+
+- "AI Co-Manager è un assistente, non un sostituto"
+- "Verifica sempre suggerimenti prima di agire"
+- "L'AI impara dalle tue preferenze nel tempo"
+
+**Error handling:**
+
+- Quando AI non sa: "Non ho abbastanza dati per rispondere con sicurezza. Contatta [supporto/staff]"
+- Mai inventare: Se non sa, dice "non so"
+- Confidence score: Mostra livello di certezza quando appropriato
+
+### 13.4 Roadmap AI Capabilities
+
+```
+ORA (v1):
+└── Chat assistente, briefing, alert, traduzioni
+
+PROSSIMO (v2):
+└── Task delegation, workflow automation
+
+FUTURO (v3+):
+└── Customer-facing chat (con supervisione)
+└── Predizioni avanzate
+└── Integrazioni autonome (con approval)
+```
+
+---
+
+## 14. MY OBSERVATIONS
+
+### 14.1 Session Insights
 
 #### 2026-01-08 - QR System Design
 
@@ -611,7 +996,19 @@ L'AI può partecipare a QR workflow:
 - Alert su cali performance
 - Suggerisce ottimizzazioni
 
-### 10.2 Research Findings
+#### 2026-01-08 - PRODUCT.md Review (Gemini/ChatGPT)
+
+**Feedback integrato:**
+
+- Privacy by Design aggiunto ai principi
+- Product Phasing (P0-P3) per evitare scope creep
+- Pricing Philosophy con tier structure
+- Integration Strategy con POS roadmap
+- Offline Resilience per PWA
+- AI Limitations chiariti (underpromise/overdeliver)
+- Account unificato marcato come Future Bet
+
+### 14.2 Research Findings
 
 #### MenuTiger (2026-01-08)
 
@@ -619,7 +1016,7 @@ L'AI può partecipare a QR workflow:
 - QR customization è table stakes ormai
 - Il loro pricing è alto → opportunità di undercut
 
-### 10.3 Feature Ideas
+### 14.3 Feature Ideas
 
 | Idea               | Razionale                                | Priorità Stimata |
 | ------------------ | ---------------------------------------- | ---------------- |
@@ -628,12 +1025,12 @@ L'AI può partecipare a QR workflow:
 | Predictive Prep    | AI suggerisce prep basata su storico     | P2               |
 | Staff Gamification | Punti per performance, classifiche       | P3               |
 
-### 10.4 Open Questions
+### 14.4 Open Questions
 
+- [x] ~~Quale pricing model (per-seat, per-order, flat)?~~ → Tiered Flat (Sezione 10)
 - [ ] Come gestiamo chain con menu diversi per location?
 - [ ] Qual è il limite di complessità UI accettabile durante rush?
 - [ ] Come bilanciamo automazione AI vs controllo umano?
-- [ ] Quale pricing model (per-seat, per-order, flat)?
 
 ---
 
@@ -676,6 +1073,19 @@ L'AI può partecipare a QR workflow:
 ---
 
 **File:** `docs/PRODUCT.md`
-**Version:** 1.0
+**Version:** 1.1
 **Created:** 2026-01-08
 **Author:** Claude (con input da sessioni con Gianfranco)
+
+**Changelog:**
+
+- v1.1 (2026-01-08): Integrato feedback Gemini/ChatGPT
+  - Privacy by Design nei principi
+  - Famiglia con Bambini nelle personas
+  - Product Phasing (P0-P3)
+  - Pricing Philosophy (Sezione 10)
+  - Integration Strategy (Sezione 11)
+  - Offline Resilience (Sezione 12)
+  - AI Limitations & Expectations (Sezione 13)
+  - Account Unificato marcato come Future Bet
+- v1.0 (2026-01-08): Versione iniziale
