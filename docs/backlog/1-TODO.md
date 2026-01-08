@@ -3,7 +3,7 @@
 > Task da fare, ordinate per priorità.
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 
-**Last Updated:** 2026-01-07
+**Last Updated:** 2026-01-08
 
 ---
 
@@ -142,6 +142,16 @@ Cliente (chat) → AI Customer Agent → [Escalation] → Merchant (backoffice)
 | MT-THEMES-VARIETY   | 15+ Temi Website      | Layout diversi, non solo colori        | Medium  |
 | MT-POS-INTEGRATIONS | POS Integrations      | Square, Toast, Lightspeed, Tilby       | High    |
 | ~~MT-WIFI-QR~~      | ~~WiFi QR Generator~~ | ~~WPA/WPA2/WPA3 support~~              | ~~Low~~ | **GIA ESISTENTE** WiFiQuickConnect.tsx |
+
+### Features da MenuTiger Audit v2 (2026-01-08)
+
+| ID               | Feature                 | Descrizione                                      | Effort | Priorità |
+| ---------------- | ----------------------- | ------------------------------------------------ | ------ | -------- |
+| MT-KDS           | Kitchen Display System  | Display ordini real-time per cucina              | High   | P2       |
+| MT-WHITE-LABEL   | White-label Domain      | Custom domain per merchant (es. menu.miobar.com) | Medium | P2       |
+| MT-EMAIL-REPORTS | Automated Email Reports | Report vendite/feedback giornalieri/settimanali  | Low    | P2       |
+| MT-ZAPIER        | Zapier Integration      | Connessione con 5000+ app esterne                | Medium | P3       |
+| MT-QR-CUSTOM     | QR Code Customization   | Logo, colori, pattern, frame sul QR code         | Low    | P2       |
 
 ### UX Patterns da Adottare
 
