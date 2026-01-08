@@ -248,6 +248,50 @@ Ogni slot può avere configurazione diversa:
 - Landing pages dedicate per source
 - QR Templates salvabili
 - Analytics con ROI per canale
+- **AI Co-Manager integrato** (vedi sotto)
+
+---
+
+#### AI Co-Manager Integration
+
+L'AI Co-Manager partecipa attivamente ai workflow QR:
+
+**Analytics & Insights (Market Intelligence):**
+
+- Analizza pattern scansioni QR
+- Calcola ROI per traffic source
+- "Google Maps porta 3x più prenotazioni di Instagram"
+- Identifica trend stagionali/orari
+
+**Proactive Alerts (Proactivity Service):**
+
+- "Scansioni da Instagram calate 40% questa settimana"
+- "QR tavolo 5 non scansionato da 2 giorni - verificare"
+- "Picco scansioni 19-20 - considera promo happy hour"
+- "QR flyer campagna X ha ROI negativo"
+
+**Content Generation (Social Media Service):**
+
+- Genera testo per landing pages
+- Crea copy per frame QR ("Scansiona per 10% sconto!")
+- Traduce automaticamente in lingue target
+- Suggerisce CTA basate sul contesto
+
+**Workflow Automation (Agentic Workflow):**
+
+- Auto-crea QR per nuovi eventi
+- Schedula campagne QR temporanee
+- Aggiorna landing pages automaticamente
+- Batch operations con approval merchant
+
+**Customer-Facing (futuro AI-CUSTOMER-CHAT):**
+
+- Cliente scansiona QR esterno → AI assiste per prenotazioni
+- Domande menu/allergeni via chat
+- Info orari/location
+- Escalation a merchant se necessario
+
+---
 
 **Status:** ✅ Spec completata - pronta per implementazione
 
