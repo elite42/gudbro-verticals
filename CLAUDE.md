@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-07
-> **Version:** 6.1 (Added Plan Mode + verify-app subagent + auto-format hook)
+> **Last Updated:** 2026-01-08
+> **Version:** 6.2 (Added PRODUCT.md for multidimensional planning)
 
 ---
 
@@ -351,14 +351,15 @@ gudbro-verticals/
 
 # 6. DOCUMENTATION MAP
 
-| Area         | File                                              | Quando Usare        |
-| ------------ | ------------------------------------------------- | ------------------- |
-| Workflow     | `docs/DEVELOPMENT-WORKFLOW.md`                    | Prima di ogni task  |
-| Checklist    | `docs/PROCEDURE-CHECKLIST.md`                     | Gate di validazione |
-| DB Inventory | `docs/DATABASE-INVENTORY.md`                      | Stato database      |
-| DB Schema    | `docs/DATABASE-SCHEMA.md`                         | Prima di SQL        |
-| Lessons      | `shared/database/_system/docs/LESSONS-LEARNED.md` | Errori da evitare   |
-| Backlog      | `docs/backlog/`                                   | Task management     |
+| Area         | File                                              | Quando Usare                      |
+| ------------ | ------------------------------------------------- | --------------------------------- |
+| **Product**  | `docs/PRODUCT.md`                                 | **Valutazione multidimensionale** |
+| Workflow     | `docs/DEVELOPMENT-WORKFLOW.md`                    | Prima di ogni task                |
+| Checklist    | `docs/PROCEDURE-CHECKLIST.md`                     | Gate di validazione               |
+| DB Inventory | `docs/DATABASE-INVENTORY.md`                      | Stato database                    |
+| DB Schema    | `docs/DATABASE-SCHEMA.md`                         | Prima di SQL                      |
+| Lessons      | `shared/database/_system/docs/LESSONS-LEARNED.md` | Errori da evitare                 |
+| Backlog      | `docs/backlog/`                                   | Task management                   |
 
 ---
 
@@ -726,10 +727,11 @@ mcp__Pieces__ask_pieces_ltm(
 ---
 
 **File:** `CLAUDE.md`
-**Version:** 6.1
-**Updated:** 2026-01-07
+**Version:** 6.2
+**Updated:** 2026-01-08
 **Changes:**
 
+- v6.2 - Added PRODUCT.md (docs/PRODUCT.md) for multidimensional feature evaluation
 - v6.1 - Plan Mode (2.2), verify-app subagent, auto-format hook (Boris Cherny improvements)
 - v6.0 - Compounding Engineering (3.5), Slash Commands & Hooks (11.5), Current Focus (0)
 - v5.4 - Aggiunta sezione 16 GitHub Issues Sync per tracking pubblico.
