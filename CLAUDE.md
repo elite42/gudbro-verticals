@@ -702,16 +702,33 @@ Capabilities:
 
 ## 14.5 Pieces MCP
 
-> **Pieces salva automaticamente** tutto (terminal, browser, etc.) - non serve salvare manualmente.
+> **Pieces e' un sistema di memoria a lungo termine che cattura automaticamente tutto.**
+> Registra attivita' da terminal, browser, e altre app in background - senza intervento manuale.
 
-**Quando usare:** Recuperare contesto da sessioni precedenti
+**Come funziona:**
+
+- Pieces gira in background sul Mac dell'utente
+- Cattura automaticamente: comandi terminal, pagine browser, screenshot
+- Crea "summaries" automatici delle sessioni di lavoro
+- NON serve salvare manualmente - lo fa da solo
+
+**Quando usare:**
 
 ```
-mcp__Pieces__ask_pieces_ltm     → Query long-term memory (FUNZIONA)
-mcp__Pieces__create_pieces_memory → NON USARE (Pieces salva da solo)
+mcp__Pieces__ask_pieces_ltm     → Query per recuperare contesto passato (USA QUESTO)
+mcp__Pieces__create_pieces_memory → NON USARE (ridondante, Pieces salva automaticamente)
 ```
 
-**Complemento:** `docs/SESSION-LOG.md` per note strutturate esplicite
+**Esempio query inizio sessione:**
+
+```
+mcp__Pieces__ask_pieces_ltm(
+  question: "What did we work on yesterday on gudbro-verticals?",
+  topics: ["gudbro", "session"]
+)
+```
+
+**Complemento:** `docs/SESSION-LOG.md` per note strutturate che Pieces potrebbe non catturare
 
 ## 14.6 Configurazione
 
