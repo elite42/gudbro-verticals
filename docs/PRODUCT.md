@@ -4,8 +4,8 @@
 > Questo documento mi permette di valutare features e decisioni da più prospettive,
 > non solo tecnica ma anche operativa, umana, competitiva e di business.
 >
-> **Last Updated:** 2026-01-08
-> **Version:** 1.2
+> **Last Updated:** 2026-01-09
+> **Version:** 1.4
 
 ---
 
@@ -43,22 +43,23 @@ LAYER 4+: On-demand
 
 ### Quick Reference per Sezione
 
-| Sezione                | Quando Consultare                 |
-| ---------------------- | --------------------------------- |
-| 1. Vision              | Allineamento strategico           |
-| 2. Personas            | Chi usa questa feature?           |
-| 3. Venue Types         | Contesto operativo specifico      |
-| 4. Operational Reality | **SEMPRE** - è il filtro primario |
-| 5. Account             | Permessi e accessi                |
-| 6. Features Map        | Cosa esiste già                   |
-| 7. User Stories        | Esempi concreti                   |
-| 8. Competitive         | Cosa fanno altri                  |
-| 9. Best Practices      | Consigli operativi                |
-| 10. Pricing            | Impatto economico                 |
-| 11. Integration        | Sistemi esterni                   |
-| 12. Offline            | Resilienza rete                   |
-| 13. AI Limits          | Aspettative AI                    |
-| 14. Observations       | Insights storici                  |
+| Sezione                | Quando Consultare                  |
+| ---------------------- | ---------------------------------- |
+| 1. Vision              | Allineamento strategico            |
+| 2. Personas            | Chi usa questa feature?            |
+| 3. Venue Types         | Contesto operativo specifico       |
+| 4. Operational Reality | **SEMPRE** - è il filtro primario  |
+| 5. Account             | Permessi e accessi                 |
+| 6. Features Map        | Cosa esiste già                    |
+| 7. User Stories        | Esempi concreti                    |
+| 8. Competitive         | Cosa fanno altri                   |
+| 9. Best Practices      | Consigli operativi                 |
+| 10. Pricing            | Impatto economico                  |
+| 11. Integration        | Sistemi esterni                    |
+| 12. Offline            | Resilienza rete                    |
+| 13. AI Limits          | Aspettative AI                     |
+| 14. Observations       | Insights storici                   |
+| 15. Test Coverage      | Prima di modificare codice testato |
 
 ### Anti-Pattern
 
@@ -129,7 +130,83 @@ Il settore F&B gestisce dati sensibili che richiedono attenzione particolare:
 - **Cancellazione:** Diritto all'oblio implementato
 - **Sicurezza:** Encryption at rest e in transit
 
-### 1.4 Differenziatori vs Competitor
+### 1.4 Design Principles (UX/UI)
+
+> **Scopo:** Principi operativi per guidare decisioni di design.
+> Divisi in: Universali (best practice) → SaaS (specifici B2B) → GUDBRO (nostri custom)
+
+#### Principi Universali
+
+| Principio                  | Fonte           | Applicazione GUDBRO                                               |
+| -------------------------- | --------------- | ----------------------------------------------------------------- |
+| **3-Click Rule**           | Jeffrey Zeldman | Ogni funzione raggiungibile in max 3 tap                          |
+| **Don't Make Me Think**    | Steve Krug      | UI auto-esplicativa, zero friction cognitiva                      |
+| **Progressive Disclosure** | Jakob Nielsen   | Mostra solo ciò che serve ora, rivela complessità gradualmente    |
+| **Hick's Law**             | Psicologia      | Meno opzioni = decisioni più veloci → limita scelte per schermata |
+| **Fitts's Law**            | Ergonomia       | Target importanti = grandi e vicini al pollice                    |
+| **Recognition > Recall**   | Nielsen         | Mostra opzioni invece di chiedere di ricordare                    |
+| **Error Prevention**       | Nielsen         | Meglio prevenire che curare → conferme smart, undo facile         |
+| **Consistency**            | Nielsen         | Stessi pattern ovunque → impara una volta, usa ovunque            |
+
+#### Principi SaaS/B2B
+
+| Principio                   | Significato                              | Applicazione GUDBRO                                  |
+| --------------------------- | ---------------------------------------- | ---------------------------------------------------- |
+| **Time to Value (TTV)**     | Quanto veloce l'utente vede valore?      | Onboarding in <5 min, primo QR funzionante subito    |
+| **Aha Moment**              | Momento in cui l'utente "capisce"        | Primo scan QR → menu in lingua turista = WOW         |
+| **Empty States**            | Mai schermate vuote                      | Guida azione: "Crea il tuo primo prodotto"           |
+| **Role-Based UI**           | UI diversa per ruolo                     | Manager vede tutto, Staff vede solo ordini           |
+| **Onboarding Progressivo**  | 3 step >> 7 step (72% vs 16% completion) | Max 3 step per flusso, poi approfondimenti opzionali |
+| **Glanceable Dashboards**   | Info chiave visibile senza scroll        | KPI principali above-the-fold                        |
+| **Interruptible Workflows** | Salva progresso, riprendi dopo           | Manager interrotto può tornare dove era              |
+| **Emotional Design**        | Non solo funzionale, anche piacevole     | Micro-animazioni, feedback positivo                  |
+
+#### Principi GUDBRO (Custom)
+
+> Questi evolvono con esperienza e feedback. Aggiungi qui quando scopriamo pattern.
+
+| Principio                        | Razionale                           | Esempio                                                |
+| -------------------------------- | ----------------------------------- | ------------------------------------------------------ |
+| **3-Second Rule**                | Rush hour = zero tempo              | Ogni azione core completabile in <3 secondi            |
+| **Thumb-Friendly**               | 80% uso mobile                      | Bottoni grandi, zone tap ampie, bottom navigation      |
+| **Works During Rush**            | Se non funziona a pranzo, non serve | Test ogni feature in scenario "13:00, 25 comande"      |
+| **Graceful Degradation**         | Ristorante non può fermarsi         | Offline mode, fallback, cache aggressiva               |
+| **AI Suggests, Human Decides**   | Responsabilità rimane umana         | AI propone, manager approva con 1 tap                  |
+| **Error Pages = Opportunities**  | Errore ≠ dead end                   | Ogni errore offre CTA utile, non solo "torna indietro" |
+| _[Da aggiungere con esperienza]_ |                                     |                                                        |
+
+#### Metriche Design
+
+| Metrica              | Target     | Come Misuriamo               |
+| -------------------- | ---------- | ---------------------------- |
+| Time to First Value  | < 5 minuti | Onboarding → primo QR attivo |
+| Task Completion Rate | > 90%      | Analytics su flussi critici  |
+| Error Rate           | < 5%       | Form submission errors       |
+| Support Tickets/User | < 0.1/mese | Ticket count / MAU           |
+| NPS                  | > 50       | Survey periodiche            |
+
+#### Anti-Pattern da Evitare
+
+| Anti-Pattern                        | Problema                         | Alternativa                               |
+| ----------------------------------- | -------------------------------- | ----------------------------------------- |
+| "Sei sicuro?" per tutto             | Alert fatigue                    | Solo per azioni distruttive irreversibili |
+| Tutorial video obbligatori          | Nessuno li guarda                | Tooltips contestuali, learn-by-doing      |
+| Dashboard sovraccarica              | Paralisi da analisi              | Progressive disclosure, "vedi altro"      |
+| Messaggi di errore tecnici          | Utente non capisce               | Linguaggio umano + azione suggerita       |
+| Infinite scroll per liste operative | Difficile trovare item specifico | Pagination + search + filtri              |
+| Nascondere azioni comuni in menu    | Più click = frustrazione         | Actions visibili, secondarie in menu      |
+
+#### Sources
+
+- [Webstacks - SaaS UX Design 2025](https://www.webstacks.com/blog/saas-ux-design)
+- [Mouseflow - SaaS UX Best Practices](https://mouseflow.com/blog/saas-ux-design-best-practices/)
+- [Appcues - Aha Moment Guide](https://www.appcues.com/blog/aha-moment-guide)
+- [Dock - Time to Value Guide](https://www.dock.us/library/time-to-value)
+- Nielsen Norman Group - Usability Heuristics
+
+---
+
+### 1.5 Differenziatori vs Competitor
 
 | Noi                               | Competitor (es. MenuTiger) |
 | --------------------------------- | -------------------------- |
@@ -1074,6 +1151,28 @@ L'AI può partecipare a QR workflow:
 - AI Limitations chiariti (underpromise/overdeliver)
 - Account unificato marcato come Future Bet
 
+#### 2026-01-09 - QR Builder Test Suite
+
+**Insight chiave:** Test automatici come strumento di discovery
+
+Creando **313 test** per il QR system, abbiamo scoperto **3 bug nascosti** nel parser user-agent:
+
+| Bug              | Causa                          | Impact                  |
+| ---------------- | ------------------------------ | ----------------------- |
+| iOS → macOS      | Check macOS prima di iOS       | Analytics device errato |
+| Samsung → Chrome | Chrome matcha prima di Samsung | Browser stats sbagliate |
+| Opera → Chrome   | Chrome matcha prima di Opera   | Browser stats sbagliate |
+
+**Lezione:** I test non sono solo per validazione - sono strumenti di **discovery**.
+Scrivere test ti forza a pensare a edge cases che non avresti considerato.
+
+**Pattern applicabile:** User agent parsing richiede ordine specifico:
+
+1. Controlla browser specifici PRIMA di quelli generici (Samsung/Opera prima di Chrome)
+2. Controlla OS specifici PRIMA di quelli generici (iOS prima di macOS)
+
+**Copertura finale:** Vedi Sezione 15 (Test Coverage) per dettagli.
+
 ### 14.2 Research Findings
 
 #### MenuTiger (2026-01-08)
@@ -1097,6 +1196,53 @@ L'AI può partecipare a QR workflow:
 - [ ] Come gestiamo chain con menu diversi per location?
 - [ ] Qual è il limite di complessità UI accettabile durante rush?
 - [ ] Come bilanciamo automazione AI vs controllo umano?
+
+---
+
+## 15. TEST COVERAGE
+
+> **Quando consultare:** Prima di modificare codice testato, per capire cosa è coperto.
+> **Non leggere se:** Stai lavorando su feature nuove non ancora testate.
+
+### 15.1 QR Builder (313 test)
+
+| File                                              | Test | Copertura                                           |
+| ------------------------------------------------- | ---- | --------------------------------------------------- |
+| `lib/qr/__tests__/qr-generator.test.ts`           | 84   | Validazione WiFi/URL, URL building, sizing, colori  |
+| `lib/qr/__tests__/qr-types.test.ts`               | 78   | Types export, WiFi string format, presets, defaults |
+| `api/qr/__tests__/route-helpers.test.ts`          | 33   | User Agent parsing, IP extraction, edge cases       |
+| `components/qr/__tests__/QRPreview.test.tsx`      | 13   | Canvas rendering, error states, content display     |
+| `components/qr/__tests__/QRDesignPanel.test.tsx`  | 16   | Color presets, pattern selection, contrast warning  |
+| `components/qr/__tests__/QRExportPanel.test.tsx`  | 34   | Quick export, preset mode, download logic           |
+| `components/qr/__tests__/QRBuilderModal.test.tsx` | 55   | Multi-step wizard, validation, API calls            |
+
+**Path base:** `apps/backoffice/`
+
+**Bug scoperti dai test:** 3 (User Agent parsing order)
+
+**Tempo esecuzione:** ~700ms (CI-friendly)
+
+### 15.2 Come Aggiungere Test
+
+```bash
+# Esegui tutti i test
+pnpm vitest run
+
+# Esegui test specifici
+pnpm vitest run apps/backoffice/lib/qr
+
+# Watch mode durante sviluppo
+pnpm vitest
+```
+
+### 15.3 Coverage per Area (Overview)
+
+| Area             | Stato       | Note     |
+| ---------------- | ----------- | -------- |
+| QR Builder       | ✅ Completo | 313 test |
+| AI Services      | ⏳ TODO     | -        |
+| Menu Management  | ⏳ TODO     | -        |
+| Auth/Permissions | ⏳ TODO     | -        |
 
 ---
 
@@ -1139,12 +1285,17 @@ L'AI può partecipare a QR workflow:
 ---
 
 **File:** `docs/PRODUCT.md`
-**Version:** 1.2
+**Version:** 1.3
 **Created:** 2026-01-08
 **Author:** Claude (con input da sessioni con Gianfranco)
 
 **Changelog:**
 
+- v1.3 (2026-01-09): Aggiunta Sezione 1.4 "Design Principles (UX/UI)"
+  - Principi universali (3-Click Rule, Don't Make Me Think, Progressive Disclosure, etc.)
+  - Principi SaaS/B2B (Time to Value, Aha Moment, Empty States, etc.)
+  - Principi GUDBRO Custom (da evolvere con esperienza e feedback)
+  - Metriche Design e Anti-Pattern da evitare
 - v1.2 (2026-01-08): Aggiunta Sezione 0 "How to Use" con approccio layered
   - Principio: un layer alla volta, non tutto insieme
   - Quick reference per sezione

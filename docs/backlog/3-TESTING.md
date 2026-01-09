@@ -3,26 +3,27 @@
 > Task completate che richiedono test/validazione.
 > Dopo il test → spostala in `4-DONE.md`
 
-**Last Updated:** 2026-01-06
+**Last Updated:** 2026-01-09
 
 ---
 
-| ID           | Feature                 | Descrizione                                         | Priority | Notes                                                       |
-| ------------ | ----------------------- | --------------------------------------------------- | -------- | ----------------------------------------------------------- |
-| GB-STAFF-MGT | Staff Management        | Team profiles, reviews, performance, PWA flow       | P0       | Migration 038, Backoffice Team page, PWA /team              |
-| GB-AI-P1     | AI Co-Manager MVP       | Chat UI + OpenAI integration                        | P0       | Migration 027, API key, test chat pending                   |
-| GB-AI-P2     | AI Knowledge Base       | Menu + Orders + Events + Feedback access            | P0       | knowledge-service.ts integrato                              |
-| GB-AI-P3     | AI Actions              | Create events, translate, update menu               | P0       | actions-service.ts + function calling                       |
-| GB-AI-P4     | AI Proactivity          | Daily briefing, alerts, suggestions                 | P0       | Migration 028, proactivity-service.ts, API routes           |
-| GB-AI-P5     | AI Feedback Loop        | Collect feedback → GudBro Team                      | P0       | Migration 029, feedback-loop-service.ts                     |
-| GB-AI-P6     | AI Bootstrap            | Setup automatico zona, competitor                   | P0       | Migration 030, bootstrap-service.ts                         |
-| GB-AI-P7     | Market Intelligence     | Price comparison, partnership finder                | P0       | Migration 031, market-intelligence-service.ts               |
-| GB-AI-P8     | Social Media Automation | Auto post, calendar, captions                       | P0       | Migration 032, social-media-service.ts                      |
-| GB-AI-P9     | Financial Management    | P&L, budgets, cash flow forecasts                   | P0       | Migration 033, financial-service.ts                         |
-| GB-AI-P10    | Task Delegation         | AI delegates physical tasks to staff                | P0       | Migration 034, task-delegation-service.ts                   |
-| GB-AI-P11    | Agentic Workflows       | Multi-step automated workflows                      | P0       | Migration 035, agentic-workflow-service.ts                  |
-| GB-AI-P12    | Inventory & Negotiation | Stock tracking, supplier management, AI negotiation | P0       | Migration 036, inventory-negotiation-service.ts             |
-| GB-AI-P13    | AI-Assisted Onboarding  | Conversational onboarding + logo upload             | P0       | onboarding-service.ts, /api/ai/onboarding, /api/upload/logo |
+| ID            | Feature                 | Descrizione                                          | Priority | Notes                                                       |
+| ------------- | ----------------------- | ---------------------------------------------------- | -------- | ----------------------------------------------------------- |
+| QR-BUILDER-V2 | QR Code System          | Database, types, service, components, AI integration | P1       | Migration 042, QR Builder Modal, AI actions/alerts, PWA     |
+| GB-STAFF-MGT  | Staff Management        | Team profiles, reviews, performance, PWA flow        | P0       | Migration 038, Backoffice Team page, PWA /team              |
+| GB-AI-P1      | AI Co-Manager MVP       | Chat UI + OpenAI integration                         | P0       | Migration 027, API key, test chat pending                   |
+| GB-AI-P2      | AI Knowledge Base       | Menu + Orders + Events + Feedback access             | P0       | knowledge-service.ts integrato                              |
+| GB-AI-P3      | AI Actions              | Create events, translate, update menu                | P0       | actions-service.ts + function calling                       |
+| GB-AI-P4      | AI Proactivity          | Daily briefing, alerts, suggestions                  | P0       | Migration 028, proactivity-service.ts, API routes           |
+| GB-AI-P5      | AI Feedback Loop        | Collect feedback → GudBro Team                       | P0       | Migration 029, feedback-loop-service.ts                     |
+| GB-AI-P6      | AI Bootstrap            | Setup automatico zona, competitor                    | P0       | Migration 030, bootstrap-service.ts                         |
+| GB-AI-P7      | Market Intelligence     | Price comparison, partnership finder                 | P0       | Migration 031, market-intelligence-service.ts               |
+| GB-AI-P8      | Social Media Automation | Auto post, calendar, captions                        | P0       | Migration 032, social-media-service.ts                      |
+| GB-AI-P9      | Financial Management    | P&L, budgets, cash flow forecasts                    | P0       | Migration 033, financial-service.ts                         |
+| GB-AI-P10     | Task Delegation         | AI delegates physical tasks to staff                 | P0       | Migration 034, task-delegation-service.ts                   |
+| GB-AI-P11     | Agentic Workflows       | Multi-step automated workflows                       | P0       | Migration 035, agentic-workflow-service.ts                  |
+| GB-AI-P12     | Inventory & Negotiation | Stock tracking, supplier management, AI negotiation  | P0       | Migration 036, inventory-negotiation-service.ts             |
+| GB-AI-P13     | AI-Assisted Onboarding  | Conversational onboarding + logo upload              | P0       | onboarding-service.ts, /api/ai/onboarding, /api/upload/logo |
 
 ---
 
@@ -238,3 +239,85 @@ curl -X POST "http://localhost:3004/api/staff/reviews" \
 - [ ] Review submitted → total_reviews incremented
 - [ ] Non-anonymous review → points awarded to reviewer
 - [ ] Settings toggle → affects what's visible in PWA
+
+### QR-BUILDER-V2 - QR Code System
+
+#### 1. Database Tables (Migration 042)
+
+```sql
+-- Verifica che le 2 tabelle esistano:
+SELECT table_name FROM information_schema.tables
+WHERE table_schema = 'public'
+AND table_name IN ('qr_codes', 'qr_scans');
+```
+
+#### 2. Backoffice QR Codes Page (http://localhost:3001/qr-codes)
+
+1. **Create QR Code:**
+   - Click "Create QR" button → opens QRBuilderModal
+   - Select type: URL or WiFi
+   - For URL: enter destination, select context (table/external/takeaway)
+   - For WiFi: enter SSID, password, security type
+   - Customize colors and pattern in Design panel
+   - Preview updates in real-time
+   - Save and verify QR appears in list
+
+2. **Bulk Create:**
+   - Test "Bulk Create" for tables (enter number of tables)
+   - Verify multiple QR codes created
+
+3. **Export Options:**
+   - Download PNG (standard)
+   - Download PNG HD (for print)
+   - Download SVG (vector)
+   - Test material presets (paper, t-shirt, sticker, etc.)
+
+4. **QR Statistics:**
+   - Verify stats cards show: Total QRs, Active, Total Scans, Today's Scans
+
+#### 3. QR Redirect Flow
+
+1. **Create a URL QR with short code**
+2. **Visit:** `http://localhost:3001/api/qr/r/[shortCode]`
+3. **Verify:**
+   - Redirect to destination URL
+   - Scan logged in qr_scans table
+   - scan_count incremented on qr_codes
+
+4. **Error Pages:**
+   - Test `/qr-not-found` - shows "QR Code Not Found"
+   - Test `/qr-inactive` - shows "QR Code Inactive"
+   - Test `/qr-expired` - shows "QR Code Expired"
+   - Test `/wifi-info?ssid=Test` - shows WiFi connection instructions
+
+#### 4. AI Integration
+
+1. **Test AI Actions (via AI Chat):**
+   - "Create a QR code for table 5"
+   - "Create QR codes for 10 tables"
+   - "What format should I use for t-shirt printing?"
+   - "How are my QR codes performing?"
+
+2. **Test AI Alerts:**
+   - Check `/api/ai/alerts` for QR-related alerts:
+     - Underperforming QR codes
+     - High performer detection
+     - Source comparison insights
+
+#### 5. PWA Source Welcome Banner
+
+1. **Visit PWA with source parameter:**
+   - `http://localhost:3004?source=google_maps`
+   - `http://localhost:3004?source=instagram`
+   - `http://localhost:3004?source=flyer`
+
+2. **Verify:**
+   - Welcome banner appears with source-specific message
+   - Banner dismisses and doesn't reappear (localStorage)
+   - Promo code applied if source has one
+
+#### 6. WiFi QR Flow
+
+1. **Create WiFi QR in backoffice**
+2. **Scan with phone camera**
+3. **Verify phone offers to connect to WiFi network**

@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
-import { useAuth, DEV_ACCOUNTS, isDevModeEnabled } from '@/lib/auth';
-import AccountSwitcher from '@/components/AccountSwitcher';
+import { useAuth } from '@/lib/auth';
+import { useSidebar } from '@/lib/contexts/SidebarContext';
+import { Pin, PinOff } from 'lucide-react';
 
 // Platform admin navigation (GudBro Owner only)
 const platformNavigation = [
@@ -255,13 +256,9 @@ const navigation = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { brand, organization, location, isLoading } = useTenant();
-  const { user, isDevMode, hasPermission, switchDevAccount } = useAuth();
-
-  // Display info in the footer
-  const brandName = brand?.name || organization?.name || 'Loading...';
-  const planName = organization?.subscription_plan || 'Free';
-  const locationInfo = location?.city || location?.country_code || '';
+  const { brand, location } = useTenant();
+  const { hasPermission } = useAuth();
+  const { isPinned, isExpanded, togglePin, expand, collapse } = useSidebar();
 
   // Check if user has platform admin access
   const isPlatformAdmin = hasPermission('platform:read');
@@ -269,65 +266,35 @@ export function Sidebar() {
   // Combine navigation based on role
   const fullNavigation = isPlatformAdmin ? [...platformNavigation, ...navigation] : navigation;
 
-  // Role badge colors
-  const getRoleBadgeClass = (role: string) => {
-    switch (role) {
-      case 'gudbro_owner':
-        return 'bg-gradient-to-r from-red-500 to-orange-500';
-      case 'business_owner':
-        return 'bg-gradient-to-r from-blue-500 to-cyan-500';
-      case 'manager':
-        return 'bg-gradient-to-r from-purple-500 to-pink-500';
-      default:
-        return 'bg-gradient-to-r from-green-500 to-emerald-500';
-    }
-  };
-
   return (
-    <div className="flex h-full w-64 flex-col bg-gray-900">
-      {/* Logo */}
-      <div className="flex h-16 items-center gap-2 border-b border-gray-800 px-6">
-        <span className="text-2xl">📱</span>
-        <span className="text-xl font-bold text-white">GUDBRO</span>
-        {isPlatformAdmin && (
-          <span className="ml-auto rounded bg-red-500 px-1.5 py-0.5 text-[9px] font-bold text-white">
-            ADMIN
-          </span>
+    <div
+      className={`flex h-full flex-col bg-gray-900 transition-all duration-300 ease-out ${
+        isExpanded ? 'w-64' : 'w-16'
+      }`}
+      onMouseEnter={expand}
+      onMouseLeave={collapse}
+    >
+      {/* Logo + Pin Toggle */}
+      <div className="flex h-16 items-center justify-between border-b border-gray-800 px-4">
+        <div className="flex items-center gap-2 overflow-hidden">
+          <span className="flex-shrink-0 text-2xl">📱</span>
+          {isExpanded && (
+            <span className="whitespace-nowrap text-xl font-bold text-white">GUDBRO</span>
+          )}
+        </div>
+        {isExpanded && (
+          <button
+            onClick={togglePin}
+            className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
+            title={isPinned ? 'Unpin sidebar' : 'Pin sidebar'}
+          >
+            {isPinned ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />}
+          </button>
         )}
       </div>
 
-      {/* Dev Mode Role Switcher - Only in development */}
-      {isDevMode && isDevModeEnabled() && (
-        <div className="border-b border-gray-800 px-3 py-2">
-          <div className="mb-2 flex items-center gap-2">
-            <span className="rounded bg-yellow-500/20 px-1.5 py-0.5 text-[8px] font-bold text-yellow-400">
-              DEV
-            </span>
-            <p className="text-[10px] uppercase tracking-wide text-gray-500">Role Switcher</p>
-          </div>
-          <select
-            value={user?.id || ''}
-            onChange={(e) => switchDevAccount(e.target.value)}
-            className="w-full rounded border border-gray-700 bg-gray-800 px-2 py-1.5 text-xs text-white focus:ring-1 focus:ring-red-500"
-          >
-            {DEV_ACCOUNTS.map((account) => (
-              <option key={account.id} value={account.id}>
-                {account.role === 'gudbro_owner'
-                  ? '👑'
-                  : account.role === 'business_owner'
-                    ? '🏪'
-                    : account.role === 'manager'
-                      ? '👔'
-                      : '👤'}{' '}
-                {account.name} ({account.role.replace('_', ' ')})
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden px-2 py-4">
         <ul className="space-y-1">
           {fullNavigation.map((item) => {
             const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
@@ -336,39 +303,51 @@ export function Sidebar() {
               <li key={item.name}>
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                     isActive
                       ? 'bg-gray-800 text-white'
                       : 'text-gray-400 hover:bg-gray-800 hover:text-white'
                   }`}
+                  title={!isExpanded ? item.name : undefined}
                 >
                   <item.icon className="h-5 w-5 flex-shrink-0" />
-                  <span className="flex-1">{item.name}</span>
-                  {'badge' in item && item.badge === 'live' && (
-                    <span className="flex h-2 w-2">
-                      <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
-                    </span>
+                  {isExpanded && (
+                    <>
+                      <span className="flex-1 truncate">{item.name}</span>
+                      {'badge' in item && item.badge === 'live' && (
+                        <span className="flex h-2 w-2">
+                          <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-green-400 opacity-75"></span>
+                          <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
+                        </span>
+                      )}
+                      {'badge' in item && item.badge === 'new' && (
+                        <span className="rounded bg-purple-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
+                          NEW
+                        </span>
+                      )}
+                      {'badge' in item && item.badge === 'ai' && (
+                        <span className="rounded bg-gradient-to-r from-blue-500 to-indigo-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
+                          AI
+                        </span>
+                      )}
+                      {'badge' in item && item.badge === 'admin' && (
+                        <span className="rounded bg-red-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
+                          ADMIN
+                        </span>
+                      )}
+                    </>
                   )}
-                  {'badge' in item && item.badge === 'new' && (
-                    <span className="rounded bg-purple-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
-                      NEW
-                    </span>
-                  )}
-                  {'badge' in item && item.badge === 'ai' && (
-                    <span className="rounded bg-gradient-to-r from-blue-500 to-indigo-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
-                      AI
-                    </span>
-                  )}
-                  {'badge' in item && item.badge === 'admin' && (
-                    <span className="rounded bg-red-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
-                      ADMIN
-                    </span>
+
+                  {/* Tooltip for collapsed state */}
+                  {!isExpanded && (
+                    <div className="pointer-events-none absolute left-full z-50 ml-2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-sm text-white opacity-0 transition-opacity group-hover:opacity-100">
+                      {item.name}
+                    </div>
                   )}
                 </Link>
 
-                {/* Submenu */}
-                {item.children && isActive && (
+                {/* Submenu - only when expanded */}
+                {item.children && isActive && isExpanded && (
                   <ul className="ml-8 mt-1 space-y-1">
                     {item.children.map((child) => (
                       <li key={child.name}>
@@ -392,31 +371,43 @@ export function Sidebar() {
         </ul>
       </nav>
 
-      {/* Account Switcher */}
+      {/* Bottom section - Brand info (collapsed shows icon, expanded shows text) */}
       <div className="border-t border-gray-800 p-3">
-        <AccountSwitcher
-          currentOrganization={
-            organization
-              ? {
-                  roleId: user?.id || 'role-1',
-                  organizationId: organization.id,
-                  organizationName: brand?.name || organization.name,
-                  organizationLogo: brand?.logo_url,
-                  roleTitle: user?.role || 'owner',
-                  brandName: brand?.name,
-                  locationName: location?.name,
-                  isPrimary: true,
-                }
-              : undefined
-          }
-          organizations={[]}
-          userEmail={user?.email || 'user@example.com'}
-          userName={user?.name}
-          onSwitchOrganization={(roleId) => {
-            // In production, switch organization context
-            console.log('Switch to:', roleId);
-          }}
-        />
+        {isExpanded ? (
+          <div className="flex items-center gap-3">
+            {brand?.logo_url ? (
+              <img
+                src={brand.logo_url}
+                alt={brand.name}
+                className="h-8 w-8 rounded-lg object-cover"
+              />
+            ) : (
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-sm font-bold text-white">
+                {brand?.name?.charAt(0) || 'G'}
+              </div>
+            )}
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-white">
+                {brand?.name || 'Select brand'}
+              </p>
+              <p className="truncate text-xs text-gray-500">{location?.name || 'All locations'}</p>
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-center">
+            {brand?.logo_url ? (
+              <img
+                src={brand.logo_url}
+                alt={brand.name}
+                className="h-8 w-8 rounded-lg object-cover"
+              />
+            ) : (
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-sm font-bold text-white">
+                {brand?.name?.charAt(0) || 'G'}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -21,7 +21,7 @@
       "@gudbro/utils": ["../../shared/utils"],
       "@gudbro/ui": ["../../shared/ui"]
     },
-    "typeRoots": ["./node_modules/@types"]
+    "types": ["@testing-library/jest-dom"]
   },
   "include": [
     "next-env.d.ts",

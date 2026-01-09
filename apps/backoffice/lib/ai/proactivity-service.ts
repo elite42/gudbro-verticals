@@ -4,6 +4,7 @@
 import { supabase } from '@/lib/supabase';
 import { getOpenAIClient, DEFAULT_MODEL } from './openai';
 import { fetchMerchantKnowledge, formatKnowledgeForAI } from './knowledge-service';
+import { getMerchantQRStats, getMerchantSourcePerformance } from '@/lib/qr/qr-service';
 
 // Types
 export interface DailyBriefing {
@@ -28,7 +29,7 @@ export interface BriefingHighlight {
 export interface Alert {
   id: string;
   type: 'warning' | 'info' | 'success' | 'urgent';
-  category: 'inventory' | 'sales' | 'feedback' | 'events' | 'operations';
+  category: 'inventory' | 'sales' | 'feedback' | 'events' | 'operations' | 'qr';
   title: string;
   message: string;
   actionable: boolean;
@@ -295,6 +296,134 @@ export async function checkAlerts(merchantId: string, locationId?: string): Prom
       priority: 3,
       createdAt: new Date().toISOString(),
     });
+  }
+
+  // ============================================
+  // QR CODE ALERTS
+  // ============================================
+
+  // Check for underperforming QR codes (less than 5 scans in last 7 days)
+  const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const { data: underperformingQRs } = await supabase
+    .from('qr_codes')
+    .select('id, title, total_scans, last_scanned_at, context, table_number')
+    .eq('merchant_id', merchantId)
+    .eq('is_active', true)
+    .lt('total_scans', 5)
+    .or(`last_scanned_at.is.null,last_scanned_at.lt.${oneWeekAgo}`);
+
+  if (underperformingQRs && underperformingQRs.length > 0) {
+    // Group by type for smarter alerts
+    const tableQRs = underperformingQRs.filter((qr) => qr.context === 'table');
+    const marketingQRs = underperformingQRs.filter((qr) => qr.context === 'external');
+
+    if (tableQRs.length > 0) {
+      const tableNames = tableQRs
+        .slice(0, 3)
+        .map((qr) => (qr.table_number ? `Table ${qr.table_number}` : qr.title))
+        .join(', ');
+      const moreCount = tableQRs.length > 3 ? ` and ${tableQRs.length - 3} more` : '';
+
+      alerts.push({
+        id: crypto.randomUUID(),
+        type: 'warning',
+        category: 'qr',
+        title: 'Low Scan Activity on Table QRs',
+        message: `${tableNames}${moreCount} QR codes have less than 5 scans. Check their placement and visibility.`,
+        actionable: true,
+        suggestedAction: 'Ensure QR codes are visible, well-lit, and include a call-to-action',
+        priority: 3,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    if (marketingQRs.length > 0) {
+      const sources = marketingQRs
+        .slice(0, 3)
+        .map((qr) => qr.title || 'Marketing QR')
+        .join(', ');
+
+      alerts.push({
+        id: crypto.randomUUID(),
+        type: 'info',
+        category: 'qr',
+        title: 'Marketing QR Codes Need Attention',
+        message: `${sources} QR codes are not getting scans. Consider repositioning or promoting them.`,
+        actionable: true,
+        suggestedAction: 'Review marketing material placement or create new promotional materials',
+        priority: 4,
+        createdAt: new Date().toISOString(),
+      });
+    }
+  }
+
+  // Check for high-performing QR codes (success alert)
+  try {
+    const qrStats = await getMerchantQRStats(merchantId);
+    const sourcePerformance = await getMerchantSourcePerformance(merchantId);
+
+    if (sourcePerformance.length >= 2) {
+      // Compare top source with others
+      const sorted = [...sourcePerformance].sort((a, b) => b.total_scans - a.total_scans);
+      const topSource = sorted[0];
+      const avgOthers =
+        sorted.slice(1).reduce((sum, s) => sum + s.total_scans, 0) / (sorted.length - 1);
+
+      // If top source has 50%+ more scans than average of others
+      if (topSource.total_scans > avgOthers * 1.5 && topSource.total_scans > 10) {
+        alerts.push({
+          id: crypto.randomUUID(),
+          type: 'success',
+          category: 'qr',
+          title: 'Top Performing Traffic Source',
+          message: `${topSource.source?.replace('_', ' ') || 'Your top source'} is bringing ${topSource.total_scans} visitors, outperforming other channels by ${Math.round((topSource.total_scans / avgOthers - 1) * 100)}%.`,
+          actionable: true,
+          suggestedAction:
+            'Consider investing more in this channel or creating a dedicated promotion',
+          priority: 4,
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      // Check if one source significantly underperforms
+      const lowestSource = sorted[sorted.length - 1];
+      if (
+        lowestSource.total_scans < avgOthers * 0.3 &&
+        avgOthers > 5 &&
+        lowestSource.qr_count > 0
+      ) {
+        alerts.push({
+          id: crypto.randomUUID(),
+          type: 'info',
+          category: 'qr',
+          title: 'Traffic Source Comparison',
+          message: `${lowestSource.source?.replace('_', ' ') || 'One source'} is bringing ${lowestSource.total_scans} visitors while ${topSource.source?.replace('_', ' ')} brings ${topSource.total_scans}.`,
+          actionable: true,
+          suggestedAction: 'Consider repositioning or promoting the underperforming QR code',
+          priority: 4,
+          createdAt: new Date().toISOString(),
+        });
+      }
+    }
+
+    // Alert if no QR codes created yet
+    if (qrStats.total_qr_codes === 0) {
+      alerts.push({
+        id: crypto.randomUUID(),
+        type: 'info',
+        category: 'qr',
+        title: 'Get Started with QR Codes',
+        message:
+          "You haven't created any QR codes yet. QR codes help customers access your menu and track traffic sources.",
+        actionable: true,
+        suggestedAction: 'Create QR codes for your tables and marketing channels',
+        priority: 5,
+        createdAt: new Date().toISOString(),
+      });
+    }
+  } catch (qrError) {
+    // QR stats not critical, continue without failing
+    console.error('Failed to fetch QR stats for alerts:', qrError);
   }
 
   // Save alerts to database

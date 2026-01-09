@@ -30,11 +30,17 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './'),
+      // Backoffice app aliases
+      '@/lib': path.resolve(__dirname, './apps/backoffice/lib'),
+      '@/components': path.resolve(__dirname, './apps/backoffice/components'),
+      '@/app': path.resolve(__dirname, './apps/backoffice/app'),
+      // Shared packages
       '@gudbro/types': path.resolve(__dirname, './shared/types'),
       '@gudbro/utils': path.resolve(__dirname, './shared/utils'),
       '@gudbro/config': path.resolve(__dirname, './shared/config'),
       '@gudbro/ui': path.resolve(__dirname, './shared/ui'),
+      // Fallback for other @ imports
+      '@': path.resolve(__dirname, './apps/backoffice'),
     },
   },
 });

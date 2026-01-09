@@ -71,10 +71,10 @@ FINE SESSIONE:
 
 # 0. CURRENT FOCUS (Aggiorna quando cambi task)
 
-> **Task attiva:** ING-TRANSLATIONS-ALL
-> **Stato:** Fase 2 in corso (~10%)
-> **Azione:** Continua traduzioni ingredienti da OFFSET 150
-> **Dettagli:** Vedi `docs/backlog/2-IN-PROGRESS.md`
+> **Task attiva:** Nessuna
+> **Stato:** Pronto per nuove task
+> **Azione:** Vedi `docs/backlog/1-TODO.md` per priorità
+> **Ultima completata:** ING-TRANSLATIONS-ALL (35,714+ traduzioni, 14 lingue)
 
 ---
 
@@ -297,41 +297,56 @@ VERIFICA SEMPRE:
 
 ## Errori Passati (Aggiungi qui quando succedono!)
 
-| Data    | Errore                     | Causa                               | Soluzione                                          | File/Area             |
-| ------- | -------------------------- | ----------------------------------- | -------------------------------------------------- | --------------------- |
-| 2026-01 | UUID con lettere g-z       | Generazione manuale                 | Solo 0-9, a-f                                      | Database seeds        |
-| 2026-01 | Array `[]` invece `{}`     | Sintassi JS vs PG                   | PostgreSQL usa `'{a,b}'`                           | SQL inserts           |
-| 2026-01 | Import types sbagliati     | Path relativi errati                | Usa `@/types/`                                     | TypeScript            |
-| 2026-01 | Feature gia esistente      | Non cercato prima                   | Grep/Glob PRIMA di implementare                    | Tutto                 |
-| 2026-01 | Pieces MCP timeout         | Server non ancora sincronizzato     | Aspetta ~4 giorni (fino ~11 Jan)                   | End session           |
-| 2026-01 | RLS policy `true`          | Permette accesso a tutti            | Usare `auth.role() = 'service_role'` per backend   | AI tables             |
-| 2026-01 | Policies "dev\_\*" in prod | Lasciate da sviluppo                | Rimuovere o sostituire con policies proper         | events table          |
-| 2026-01 | function search_path       | Vulnerabilità injection             | `ALTER FUNCTION x SET search_path = public`        | Tutte le functions    |
-| 2026-01 | MultiLangText vi required  | Traduzioni incomplete               | Rendere `vi?` opzionale finché non completate      | Tipi database         |
-| 2026-01 | note vs notes              | Inconsistenza naming                | Usare sempre plurale `notes` per chiarezza         | Cocktail types        |
-| 2026-01 | Export duplicati           | `export interface` + default export | Mai duplicare - usare solo uno dei due             | menu-management.ts    |
-| 2026-01 | Tentare senza verificare   | Confidenza < 95% ma procedo         | **VERIFY online** prima di implementare            | Workflow generale     |
-| 2026-01 | Build fail senza env vars  | Client creato a import time         | **Proxy pattern** per lazy initialization          | supabase-admin.ts     |
-| 2026-01 | Type union incompleta      | Manca valore combinato              | Includere `'both'` quando dominio lo richiede      | Temperature type      |
-| 2026-01 | Deploy fallito post-push   | Build error non catturato           | Pre-push hook con `turbo build` salva la giornata  | Git hooks             |
-| 2026-01 | Warning ignorati           | Visti ma non agiti (es. husky)      | **Agire subito** su warning/error, non aspettare   | Tutto                 |
-| 2026-01 | Doc grandi → qualità persa | Processare tutto insieme            | **Layered approach**: leggi solo sezioni rilevanti | CLAUDE.md, PRODUCT.md |
+| Data    | Errore                      | Causa                               | Soluzione                                                     | File/Area             |
+| ------- | --------------------------- | ----------------------------------- | ------------------------------------------------------------- | --------------------- |
+| 2026-01 | UUID con lettere g-z        | Generazione manuale                 | Solo 0-9, a-f                                                 | Database seeds        |
+| 2026-01 | Array `[]` invece `{}`      | Sintassi JS vs PG                   | PostgreSQL usa `'{a,b}'`                                      | SQL inserts           |
+| 2026-01 | Import types sbagliati      | Path relativi errati                | Usa `@/types/`                                                | TypeScript            |
+| 2026-01 | Feature gia esistente       | Non cercato prima                   | Grep/Glob PRIMA di implementare                               | Tutto                 |
+| 2026-01 | Pieces MCP timeout          | Server non ancora sincronizzato     | Aspetta ~4 giorni (fino ~11 Jan)                              | End session           |
+| 2026-01 | RLS policy `true`           | Permette accesso a tutti            | Usare `auth.role() = 'service_role'` per backend              | AI tables             |
+| 2026-01 | Policies "dev\_\*" in prod  | Lasciate da sviluppo                | Rimuovere o sostituire con policies proper                    | events table          |
+| 2026-01 | function search_path        | Vulnerabilità injection             | `ALTER FUNCTION x SET search_path = public`                   | Tutte le functions    |
+| 2026-01 | MultiLangText vi required   | Traduzioni incomplete               | Rendere `vi?` opzionale finché non completate                 | Tipi database         |
+| 2026-01 | note vs notes               | Inconsistenza naming                | Usare sempre plurale `notes` per chiarezza                    | Cocktail types        |
+| 2026-01 | Export duplicati            | `export interface` + default export | Mai duplicare - usare solo uno dei due                        | menu-management.ts    |
+| 2026-01 | Tentare senza verificare    | Confidenza < 95% ma procedo         | **VERIFY online** prima di implementare                       | Workflow generale     |
+| 2026-01 | Build fail senza env vars   | Client creato a import time         | **Proxy pattern** per lazy initialization                     | supabase-admin.ts     |
+| 2026-01 | Type union incompleta       | Manca valore combinato              | Includere `'both'` quando dominio lo richiede                 | Temperature type      |
+| 2026-01 | Deploy fallito post-push    | Build error non catturato           | Pre-push hook con `turbo build` salva la giornata             | Git hooks             |
+| 2026-01 | Warning ignorati            | Visti ma non agiti (es. husky)      | **Agire subito** su warning/error, non aspettare              | Tutto                 |
+| 2026-01 | Doc grandi → qualità persa  | Processare tutto insieme            | **Layered approach**: leggi solo sezioni rilevanti            | CLAUDE.md, PRODUCT.md |
+| 2026-01 | MCP/API timeout misterioso  | Query complesse senza diagnostica   | **Debug incrementale**: query semplice → complessa            | Supabase MCP          |
+| 2026-01 | Traduzioni inline costose   | Generare testo con Claude           | **Usa OpenAI API** (gpt-4o-mini): $0.0015/200 trad            | translate-only.ts     |
+| 2026-01 | Contesto gonfiato = lento   | Output SQL ~450 righe × batch       | **Insert diretto** nel DB, output 1 riga                      | translate-only.ts     |
+| 2026-01 | anon_key bloccata da RLS    | Script usa anon_key per INSERT      | Serve **service_role_key** per bypass RLS                     | Script locali         |
+| 2026-01 | RLS bypass senza key        | No service_role_key in .env.local   | **MCP Supabase ha service_role**: script→SQL→MCP              | translate-only.ts     |
+| 2026-01 | Gap detection manuale       | Query ad-hoc ogni volta             | **Script automatico** con NOT EXISTS pattern                  | Traduzioni bulk       |
+| 2026-01 | No validazione traduzioni   | AI può sbagliare, nomi propri       | **Flag is_verified** + sampling QA post-batch                 | translations table    |
+| 2026-01 | Traduzioni identiche = bug? | Prosciutto=Prosciutto è corretto    | **Distinguere** proper nouns vs translation errors            | QA traduzioni         |
+| 2026-01 | User Agent parsing errato   | Ordine check regex sbagliato        | Check specifici PRIMA di generici (iOS→macOS, Samsung→Chrome) | parseUserAgent        |
+| 2026-01 | Test scoprono bug nascosti  | Test suite trova bug non previsti   | **Test prima** scopre problemi → fix immediato                | QR route helpers      |
 
 ## Pattern da Seguire
 
-| Area            | Pattern Corretto                | Anti-Pattern              |
-| --------------- | ------------------------------- | ------------------------- |
-| SQL Arrays      | `'{\"a\",\"b\"}'`               | `'["a","b"]'`             |
-| UUID            | `a1b2c3d4-...` (solo hex)       | `ghij-klmn-...`           |
-| Imports         | `import { X } from '@/lib/...'` | Path relativi profondi    |
-| Error handling  | `try/catch` con logging         | Silent failures           |
-| RLS Backend     | `auth.role() = 'service_role'`  | `WITH CHECK (true)`       |
-| RLS User        | `auth.uid() = user_id`          | `USING (true)`            |
-| RLS Public Read | `FOR SELECT USING (true)` OK    | `FOR ALL USING (true)` NO |
-| Env-dependent   | `Proxy` lazy init               | `createClient()` a import |
-| Type unions     | Include tutti i valori validi   | Dimenticare `'both'` etc  |
-| Warnings/Errors | Agire subito, fix o segnala     | Ignorare e proseguire     |
-| Doc grandi      | Layered: sezioni rilevanti solo | Leggere/processare tutto  |
+| Area            | Pattern Corretto                | Anti-Pattern               |
+| --------------- | ------------------------------- | -------------------------- |
+| SQL Arrays      | `'{\"a\",\"b\"}'`               | `'["a","b"]'`              |
+| UUID            | `a1b2c3d4-...` (solo hex)       | `ghij-klmn-...`            |
+| Imports         | `import { X } from '@/lib/...'` | Path relativi profondi     |
+| Error handling  | `try/catch` con logging         | Silent failures            |
+| RLS Backend     | `auth.role() = 'service_role'`  | `WITH CHECK (true)`        |
+| RLS User        | `auth.uid() = user_id`          | `USING (true)`             |
+| RLS Public Read | `FOR SELECT USING (true)` OK    | `FOR ALL USING (true)` NO  |
+| Env-dependent   | `Proxy` lazy init               | `createClient()` a import  |
+| Type unions     | Include tutti i valori validi   | Dimenticare `'both'` etc   |
+| Warnings/Errors | Agire subito, fix o segnala     | Ignorare e proseguire      |
+| Doc grandi      | Layered: sezioni rilevanti solo | Leggere/processare tutto   |
+| Debug API/MCP   | Query semplice → incrementale   | Query complessa subito     |
+| Traduzioni bulk | Script OpenAI (gpt-4o-mini)     | Generare inline con Claude |
+| RLS bypass      | Script→SQL output→MCP execute   | Cercare service_role_key   |
+| UA/Regex check  | Specifici prima, generici dopo  | Chrome prima di Samsung    |
+| Test automatici | Scrivere test scopre bug        | Solo test manuali          |
 
 ## Come Aggiornare
 
@@ -420,6 +435,7 @@ gudbro-verticals/
 | Area         | File                                              | Quando Usare                      |
 | ------------ | ------------------------------------------------- | --------------------------------- |
 | **Product**  | `docs/PRODUCT.md`                                 | **Valutazione multidimensionale** |
+| **Partner**  | `docs/GIANFRANCO.md`                              | **Capire preferenze e stile**     |
 | Workflow     | `docs/DEVELOPMENT-WORKFLOW.md`                    | Prima di ogni task                |
 | Checklist    | `docs/PROCEDURE-CHECKLIST.md`                     | Gate di validazione               |
 | DB Inventory | `docs/DATABASE-INVENTORY.md`                      | Stato database                    |
@@ -505,6 +521,15 @@ npx supabase gen types typescript
 | Schema       | TEXT + CHECK (no ENUM for new tables)          |
 | Accounts     | P5 unified accounts (not gudbro_user_profiles) |
 | RLS          | Via account_roles (not merchant_users)         |
+
+## 10.1 UX Principles
+
+| Principle                 | Rule                                                                 | Rationale                                                                                                        |
+| ------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Centralized Analytics** | Stats in pagina Analytics dedicata, link contestuali da altre pagine | Dopo setup iniziale, utente visita frequentemente stats ma raramente pagine di creazione. Evita zapping inutile. |
+| **Contextual Links**      | Ogni feature page ha link "📊 View Analytics" se ha statistiche      | Permette navigazione diretta senza cercare                                                                       |
+| **Creation Pages = Lean** | Pagine di creazione focalizzate su CRUD, no stats inline             | Mental model: "QR Codes" = gestione QR, "Analytics" = vedere performance                                         |
+| **No Redundant CTAs**     | Mai 3+ modi per fare la stessa azione nella stessa pagina            | Riduce confusione, rispetta spazio                                                                               |
 
 ---
 

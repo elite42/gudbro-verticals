@@ -3,6 +3,21 @@
 // Uses OpenAI Function Calling
 
 import { supabase } from '@/lib/supabase';
+import {
+  createQRCode,
+  bulkCreateQRCodes,
+  getQRAnalytics,
+  getMerchantSourcePerformance,
+  getMerchantQRStats,
+} from '@/lib/qr/qr-service';
+import {
+  QRContext,
+  QRSource,
+  MaterialPreset,
+  ExportFormat,
+  CreateQRCodeInput,
+} from '@/lib/qr/qr-types';
+import { exportQRCode, buildQRContent } from '@/lib/qr/qr-generator';
 
 // Define available AI actions as OpenAI tools
 export const AI_TOOLS = [
@@ -174,6 +189,147 @@ export const AI_TOOLS = [
           },
         },
         required: ['metric', 'period'],
+      },
+    },
+  },
+  // QR Code Actions
+  {
+    type: 'function' as const,
+    function: {
+      name: 'create_qr_code',
+      description:
+        'Create a QR code for the merchant (table ordering, WiFi access, marketing campaigns, etc.)',
+      parameters: {
+        type: 'object',
+        properties: {
+          type: {
+            type: 'string',
+            enum: ['url', 'wifi'],
+            description: 'Type of QR code: url for links, wifi for network access',
+          },
+          context: {
+            type: 'string',
+            enum: ['table', 'external', 'takeaway', 'delivery'],
+            description: 'Context for URL QR codes',
+          },
+          source: {
+            type: 'string',
+            enum: [
+              'google_maps',
+              'instagram',
+              'facebook',
+              'flyer',
+              'event',
+              'newspaper',
+              'poster',
+              'business_card',
+              'partnership',
+              'other',
+            ],
+            description: 'Traffic source for external/marketing QR codes',
+          },
+          table_number: {
+            type: 'number',
+            description: 'Table number (only for table context)',
+          },
+          title: {
+            type: 'string',
+            description: 'Title/name for the QR code',
+          },
+          wifi_ssid: {
+            type: 'string',
+            description: 'WiFi network name (only for wifi type)',
+          },
+          wifi_password: {
+            type: 'string',
+            description: 'WiFi password (only for wifi type)',
+          },
+          wifi_security: {
+            type: 'string',
+            enum: ['WPA', 'WEP', 'nopass'],
+            description: 'WiFi security type (only for wifi type)',
+          },
+        },
+        required: ['type'],
+      },
+    },
+  },
+  {
+    type: 'function' as const,
+    function: {
+      name: 'create_qr_batch',
+      description:
+        'Create multiple QR codes at once, typically for tables or multiple marketing channels',
+      parameters: {
+        type: 'object',
+        properties: {
+          context: {
+            type: 'string',
+            enum: ['table', 'external'],
+            description: 'Context for the QR codes',
+          },
+          count: {
+            type: 'number',
+            description: 'Number of QR codes to create (for tables: creates table 1 to N)',
+          },
+          start_number: {
+            type: 'number',
+            description: 'Starting table number (default: 1)',
+          },
+          sources: {
+            type: 'array',
+            items: { type: 'string' },
+            description: 'Array of sources for external QR codes (creates one per source)',
+          },
+        },
+        required: ['context'],
+      },
+    },
+  },
+  {
+    type: 'function' as const,
+    function: {
+      name: 'suggest_qr_format',
+      description:
+        'Suggest the best export format and settings for a QR code based on where it will be used',
+      parameters: {
+        type: 'object',
+        properties: {
+          use_case: {
+            type: 'string',
+            description:
+              'Where the QR code will be used (e.g., "tent cards", "t-shirts", "newspaper ad", "instagram")',
+          },
+        },
+        required: ['use_case'],
+      },
+    },
+  },
+  {
+    type: 'function' as const,
+    function: {
+      name: 'analyze_qr_performance',
+      description:
+        'Analyze QR code performance, compare traffic sources, or identify underperforming QR codes',
+      parameters: {
+        type: 'object',
+        properties: {
+          analysis_type: {
+            type: 'string',
+            enum: ['overview', 'source_comparison', 'underperforming', 'trending'],
+            description: 'Type of analysis to perform',
+          },
+          qr_id: {
+            type: 'string',
+            description: 'Specific QR code ID to analyze (optional)',
+          },
+          period: {
+            type: 'string',
+            enum: ['today', 'this_week', 'last_week', 'this_month', 'last_month'],
+            description: 'Time period for analysis',
+          },
+        },
+        required: ['analysis_type'],
       },
     },
   },
@@ -493,6 +649,469 @@ async function executeGetAnalyticsInsight(
   }
 }
 
+// ============================================
+// QR CODE ACTIONS
+// ============================================
+
+// Execute create_qr_code action
+async function executeCreateQRCode(
+  merchantId: string,
+  params: {
+    type: 'url' | 'wifi';
+    context?: QRContext;
+    source?: QRSource;
+    table_number?: number;
+    title?: string;
+    wifi_ssid?: string;
+    wifi_password?: string;
+    wifi_security?: 'WPA' | 'WEP' | 'nopass';
+  }
+): Promise<ActionResult> {
+  try {
+    // Build the input for QR creation
+    const input: CreateQRCodeInput = {
+      type: params.type,
+    };
+
+    if (params.type === 'wifi') {
+      // WiFi QR code
+      if (!params.wifi_ssid) {
+        return {
+          success: false,
+          action: 'create_qr_code',
+          message: 'WiFi SSID is required for WiFi QR codes.',
+        };
+      }
+      input.wifi_ssid = params.wifi_ssid;
+      input.wifi_password = params.wifi_password;
+      input.wifi_security = params.wifi_security || 'WPA';
+      input.title = params.title || `WiFi: ${params.wifi_ssid}`;
+    } else {
+      // URL QR code
+      input.context = params.context || 'external';
+      input.source = params.source;
+      input.table_number = params.table_number;
+      input.use_short_url = true;
+
+      // Set destination URL based on context
+      const merchantSlug = 'demo'; // TODO: Get actual merchant slug
+      if (params.context === 'table' && params.table_number) {
+        input.destination_url = `https://menu.gudbro.com/${merchantSlug}/menu?table=${params.table_number}`;
+        input.title = params.title || `Table ${params.table_number}`;
+      } else {
+        input.destination_url = `https://menu.gudbro.com/${merchantSlug}`;
+        input.title = params.title || `Marketing: ${params.source || 'General'}`;
+      }
+    }
+
+    const qrCode = await createQRCode(merchantId, input);
+
+    return {
+      success: true,
+      action: 'create_qr_code',
+      message: `QR code "${qrCode.title}" created successfully! ${
+        qrCode.short_code ? `Short URL: go.gudbro.com/${qrCode.short_code}` : ''
+      }`,
+      data: qrCode,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      action: 'create_qr_code',
+      message: `Failed to create QR code: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    };
+  }
+}
+
+// Execute create_qr_batch action
+async function executeCreateQRBatch(
+  merchantId: string,
+  params: {
+    context: 'table' | 'external';
+    count?: number;
+    start_number?: number;
+    sources?: string[];
+  }
+): Promise<ActionResult> {
+  try {
+    const merchantSlug = 'demo'; // TODO: Get actual merchant slug
+    const baseUrl = `https://menu.gudbro.com/${merchantSlug}`;
+
+    if (params.context === 'table') {
+      // Create table QR codes using BulkCreateQRInput
+      const count = params.count || 10;
+      const startNum = params.start_number || 1;
+
+      const input = {
+        type: 'tables' as const,
+        table_count: count,
+        table_start: startNum,
+        destination_base_url: `${baseUrl}/menu`,
+        use_short_url: true,
+      };
+
+      const qrCodes = await bulkCreateQRCodes(merchantId, input);
+
+      return {
+        success: true,
+        action: 'create_qr_batch',
+        message: `Created ${qrCodes.length} table QR codes (Tables ${startNum} to ${startNum + count - 1})! You can download them from the QR Codes page.`,
+        data: { count: qrCodes.length, qrCodes },
+      };
+    } else if (params.context === 'external' && params.sources) {
+      // Create marketing QR codes for each source
+      const items = params.sources.map((source) => ({
+        title: `Marketing: ${source.replace('_', ' ')}`,
+        source: source as QRSource,
+        context: 'external' as QRContext,
+      }));
+
+      const input = {
+        type: 'custom' as const,
+        items,
+        destination_base_url: baseUrl,
+        use_short_url: true,
+      };
+
+      const qrCodes = await bulkCreateQRCodes(merchantId, input);
+
+      return {
+        success: true,
+        action: 'create_qr_batch',
+        message: `Created ${qrCodes.length} marketing QR codes for: ${params.sources.join(', ')}! You can download them from the QR Codes page.`,
+        data: { count: qrCodes.length, qrCodes },
+      };
+    } else {
+      return {
+        success: false,
+        action: 'create_qr_batch',
+        message:
+          'Invalid parameters. For tables, provide count. For external, provide sources array.',
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      action: 'create_qr_batch',
+      message: `Failed to create QR codes: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    };
+  }
+}
+
+// Execute suggest_qr_format action
+async function executeSuggestQRFormat(params: { use_case: string }): Promise<ActionResult> {
+  // Map use cases to recommended formats
+  const formatSuggestions: Record<
+    string,
+    { format: ExportFormat; preset: MaterialPreset; tips: string[] }
+  > = {
+    'tent card': {
+      format: 'pdf',
+      preset: 'tent-card',
+      tips: [
+        'Use PDF with bleed for professional printing',
+        'Recommended size: 10x10 cm minimum',
+        'Include quiet zone (white border) for reliable scanning',
+      ],
+    },
+    'tent cards': {
+      format: 'pdf',
+      preset: 'tent-card',
+      tips: [
+        'Use PDF with bleed for professional printing',
+        'Recommended size: 10x10 cm minimum',
+        'Include quiet zone (white border) for reliable scanning',
+      ],
+    },
+    tshirt: {
+      format: 'svg',
+      preset: 'tshirt',
+      tips: [
+        'SVG format allows infinite scaling without quality loss',
+        'Use transparent background',
+        'Ensure high contrast colors for scanning through fabric texture',
+      ],
+    },
+    't-shirt': {
+      format: 'svg',
+      preset: 'tshirt',
+      tips: [
+        'SVG format allows infinite scaling without quality loss',
+        'Use transparent background',
+        'Ensure high contrast colors for scanning through fabric texture',
+      ],
+    },
+    sticker: {
+      format: 'svg',
+      preset: 'sticker',
+      tips: [
+        'SVG includes cut lines for die-cutting',
+        'Minimum 5x5 cm for reliable scanning',
+        'Consider rounded corners for better adhesion',
+      ],
+    },
+    newspaper: {
+      format: 'pdf',
+      preset: 'newspaper',
+      tips: [
+        'Use grayscale for newsprint',
+        '150 DPI is sufficient for newspaper printing',
+        'Minimum 4x4 cm size due to paper quality',
+      ],
+    },
+    banner: {
+      format: 'svg',
+      preset: 'banner',
+      tips: [
+        'Vector SVG scales to any size',
+        'Minimum 15x15 cm for large format',
+        'High contrast essential for outdoor visibility',
+      ],
+    },
+    poster: {
+      format: 'svg',
+      preset: 'banner',
+      tips: [
+        'SVG scales perfectly for large prints',
+        'Consider viewing distance when sizing',
+        '300 DPI PNG-HD also works for smaller posters',
+      ],
+    },
+    'business card': {
+      format: 'png-hd',
+      preset: 'business-card',
+      tips: [
+        'PNG-HD at 2048px provides crisp printing',
+        'Keep QR at least 2x2 cm',
+        'Test scanning before bulk printing',
+      ],
+    },
+    menu: {
+      format: 'pdf',
+      preset: 'menu',
+      tips: [
+        'PDF with high quality for laminated menus',
+        '5x5 cm recommended size',
+        'High contrast for various lighting conditions',
+      ],
+    },
+    instagram: {
+      format: 'png',
+      preset: 'paper',
+      tips: [
+        'Standard PNG at 512px for social media',
+        'Add brand colors to make it recognizable',
+        'Include call-to-action text around the QR',
+      ],
+    },
+    flyer: {
+      format: 'pdf',
+      preset: 'paper',
+      tips: [
+        'PDF at 300 DPI for professional printing',
+        '3x3 cm minimum size',
+        'CMYK color mode for offset printing',
+      ],
+    },
+  };
+
+  // Find best match
+  const useCase = params.use_case.toLowerCase();
+  let suggestion = formatSuggestions[useCase];
+
+  // Fuzzy match if exact match not found
+  if (!suggestion) {
+    for (const [key, value] of Object.entries(formatSuggestions)) {
+      if (useCase.includes(key) || key.includes(useCase)) {
+        suggestion = value;
+        break;
+      }
+    }
+  }
+
+  // Default suggestion
+  if (!suggestion) {
+    suggestion = {
+      format: 'png-hd',
+      preset: 'paper',
+      tips: [
+        'PNG-HD (2048px) works for most print applications',
+        'Ensure minimum 2x2 cm size for scanning',
+        'Test before mass production',
+      ],
+    };
+  }
+
+  return {
+    success: true,
+    action: 'suggest_qr_format',
+    message: `For ${params.use_case}, I recommend:\n\n**Format:** ${suggestion.format.toUpperCase()}\n**Preset:** ${suggestion.preset}\n\n**Tips:**\n${suggestion.tips.map((t) => `- ${t}`).join('\n')}`,
+    data: suggestion,
+  };
+}
+
+// Execute analyze_qr_performance action
+async function executeAnalyzeQRPerformance(
+  merchantId: string,
+  params: {
+    analysis_type: 'overview' | 'source_comparison' | 'underperforming' | 'trending';
+    qr_id?: string;
+    period?: string;
+  }
+): Promise<ActionResult> {
+  try {
+    // Calculate date range
+    const now = new Date();
+    let startDate: Date;
+
+    switch (params.period) {
+      case 'today':
+        startDate = new Date(now);
+        startDate.setHours(0, 0, 0, 0);
+        break;
+      case 'this_week':
+        startDate = new Date(now);
+        startDate.setDate(startDate.getDate() - startDate.getDay());
+        startDate.setHours(0, 0, 0, 0);
+        break;
+      case 'last_week':
+        startDate = new Date(now);
+        startDate.setDate(startDate.getDate() - startDate.getDay() - 7);
+        startDate.setHours(0, 0, 0, 0);
+        break;
+      case 'this_month':
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        break;
+      case 'last_month':
+        startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        break;
+      default:
+        // Default to last 7 days
+        startDate = new Date(now);
+        startDate.setDate(startDate.getDate() - 7);
+    }
+
+    let analysisResult: any = {};
+    let message = '';
+
+    switch (params.analysis_type) {
+      case 'overview': {
+        const stats = await getMerchantQRStats(merchantId);
+        analysisResult = stats;
+        message =
+          `**QR Code Overview**\n\n` +
+          `- Total QR Codes: ${stats.total_qr_codes}\n` +
+          `- Active: ${stats.active_qr_codes}\n` +
+          `- Total Scans: ${stats.total_scans.toLocaleString()}\n` +
+          `- Scans Today: ${stats.scans_today}`;
+        break;
+      }
+
+      case 'source_comparison': {
+        const sourcePerformance = await getMerchantSourcePerformance(merchantId);
+        analysisResult = sourcePerformance;
+
+        if (sourcePerformance.length === 0) {
+          message =
+            'No traffic source data available yet. Create some marketing QR codes to start tracking!';
+        } else {
+          const sorted = [...sourcePerformance].sort((a, b) => b.total_scans - a.total_scans);
+          message =
+            `**Traffic Source Comparison**\n\n` +
+            sorted
+              .map(
+                (s, i) =>
+                  `${i + 1}. **${s.source?.replace('_', ' ') || 'Unknown'}**: ${s.total_scans} scans (${s.qr_count} QR codes)`
+              )
+              .join('\n');
+
+          if (sorted.length >= 2) {
+            const top = sorted[0];
+            const second = sorted[1];
+            const diff = top.total_scans - second.total_scans;
+            message += `\n\n${top.source?.replace('_', ' ')} is leading by ${diff} scans!`;
+          }
+        }
+        break;
+      }
+
+      case 'underperforming': {
+        // Get QR codes with low scan counts
+        const { data: lowPerformers } = await supabase
+          .from('qr_codes')
+          .select('id, title, total_scans, last_scanned_at, context, source')
+          .eq('merchant_id', merchantId)
+          .eq('is_active', true)
+          .lt('total_scans', 5)
+          .order('total_scans', { ascending: true })
+          .limit(10);
+
+        analysisResult = lowPerformers || [];
+
+        if (!lowPerformers || lowPerformers.length === 0) {
+          message = 'All your QR codes are performing well! No underperformers detected.';
+        } else {
+          message =
+            `**Underperforming QR Codes** (< 5 scans)\n\n` +
+            lowPerformers
+              .map(
+                (qr) =>
+                  `- **${qr.title || qr.id.slice(0, 8)}**: ${qr.total_scans} scans${
+                    qr.last_scanned_at
+                      ? ` (last: ${new Date(qr.last_scanned_at).toLocaleDateString()})`
+                      : ' (never scanned)'
+                  }`
+              )
+              .join('\n');
+          message +=
+            '\n\n**Suggestions:**\n- Check QR code placement and visibility\n- Ensure adequate lighting for scanning\n- Add call-to-action text near the QR code';
+        }
+        break;
+      }
+
+      case 'trending': {
+        // Get QR codes with highest recent activity
+        const { data: trending } = await supabase
+          .from('qr_codes')
+          .select('id, title, total_scans, context, source')
+          .eq('merchant_id', merchantId)
+          .eq('is_active', true)
+          .order('total_scans', { ascending: false })
+          .limit(5);
+
+        analysisResult = trending || [];
+
+        if (!trending || trending.length === 0) {
+          message = 'No scan data yet. Start promoting your QR codes!';
+        } else {
+          message =
+            `**Top Performing QR Codes**\n\n` +
+            trending
+              .map(
+                (qr, i) =>
+                  `${i + 1}. **${qr.title || qr.id.slice(0, 8)}**: ${qr.total_scans.toLocaleString()} scans (${qr.context || qr.source || 'general'})`
+              )
+              .join('\n');
+        }
+        break;
+      }
+    }
+
+    return {
+      success: true,
+      action: 'analyze_qr_performance',
+      message,
+      data: analysisResult,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      action: 'analyze_qr_performance',
+      message: `Failed to analyze QR performance: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    };
+  }
+}
+
 // Main function to execute an action
 export async function executeAction(
   merchantId: string,
@@ -516,6 +1135,19 @@ export async function executeAction(
 
     case 'get_analytics_insight':
       return executeGetAnalyticsInsight(merchantId, locationId, params);
+
+    // QR Code Actions
+    case 'create_qr_code':
+      return executeCreateQRCode(merchantId, params);
+
+    case 'create_qr_batch':
+      return executeCreateQRBatch(merchantId, params);
+
+    case 'suggest_qr_format':
+      return executeSuggestQRFormat(params);
+
+    case 'analyze_qr_performance':
+      return executeAnalyzeQRPerformance(merchantId, params);
 
     default:
       return {

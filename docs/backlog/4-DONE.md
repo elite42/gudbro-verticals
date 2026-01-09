@@ -3,7 +3,27 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-07
+**Last Updated:** 2026-01-09
+
+---
+
+## 2026-01-09
+
+| ID               | Feature               | Descrizione                                                                                                   | Completato |
+| ---------------- | --------------------- | ------------------------------------------------------------------------------------------------------------- | ---------- |
+| QR-BUILDER-TESTS | QR Builder Test Suite | 313 test automatici per QR Builder. 7 file test, 3 bug trovati e fixati (UA parsing). Vedi PRODUCT.md Sez. 15 | 2026-01-09 |
+
+> **Files:** `apps/backoffice/lib/qr/__tests__/`, `apps/backoffice/components/qr/__tests__/`, `apps/backoffice/app/api/qr/__tests__/`
+
+---
+
+## 2026-01-08
+
+| ID                   | Feature                | Descrizione                                                                                  | Completato |
+| -------------------- | ---------------------- | -------------------------------------------------------------------------------------------- | ---------- |
+| ING-TRANSLATIONS-ALL | Traduzioni Ingredienti | 2575 ingredienti × 14 lingue = 35,680 traduzioni (it,es,fr,de,pt,vi,zh,ja,ko,th,ru,tr,hi,ar) | 2026-01-08 |
+
+> **Note:** Solo INGREDIENTI tradotti. Piatti e bevande (~4653 prodotti) ancora da fare come task separata.
 
 ---
 

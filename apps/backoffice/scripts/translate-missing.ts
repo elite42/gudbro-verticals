@@ -1,10 +1,10 @@
 /**
- * Translate & Insert Script
+ * Translate Missing Ingredients
  *
- * Traduce ingredienti e inserisce DIRETTAMENTE nel database.
- * Output minimo per ridurre token nel contesto Claude.
+ * Trova ingredienti SENZA traduzione per una lingua e li traduce.
+ * Riempie i buchi lasciati dai batch precedenti.
  *
- * Esegui con: npx tsx scripts/translate-only.ts
+ * Esegui con: npx tsx scripts/translate-missing.ts
  */
 
 import OpenAI from 'openai';
@@ -22,7 +22,7 @@ try {
     }
   }
 } catch (_e) {
-  // .env.local file may not exist, ignore
+  // .env.local file may not exist
 }
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -30,24 +30,19 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY =
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!OPENAI_API_KEY) {
-  console.error('❌ OPENAI_API_KEY mancante');
-  process.exit(1);
-}
-if (!SUPABASE_URL || !SUPABASE_KEY) {
-  console.error('❌ SUPABASE_URL o KEY mancante');
+if (!OPENAI_API_KEY || !SUPABASE_URL || !SUPABASE_KEY) {
+  console.error('❌ Chiavi mancanti');
   process.exit(1);
 }
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 // ========== CONFIGURA QUI ==========
-// Batch corrente - aggiorna OFFSET per prossimo batch
-const BATCH_OFFSET = 2527; // Batch: 2528-2551 (ultimo batch!)
 const BATCH_SIZE = 50;
+// Lingua di riferimento per trovare buchi (tutte le 9 hanno gli stessi buchi)
+const REFERENCE_LOCALE = 'vi';
 // ===================================
 
-// Tutte le 9 lingue Phase 2
 const TARGET_LOCALES = ['vi', 'zh', 'ja', 'ko', 'th', 'ru', 'tr', 'hi', 'ar'];
 
 const SYSTEM_PROMPT = `You are a food terminology translator. Translate ingredient names.
@@ -56,80 +51,90 @@ RULES:
 2. Use common culinary terms
 3. Return ONLY valid JSON`;
 
-async function fetchIngredients(): Promise<{ id: string; name: string }[]> {
-  const url = `${SUPABASE_URL}/rest/v1/ingredients?select=id,name&order=id&offset=${BATCH_OFFSET}&limit=${BATCH_SIZE}`;
-  const res = await fetch(url, {
-    headers: {
-      apikey: SUPABASE_KEY!,
-      Authorization: `Bearer ${SUPABASE_KEY}`,
-    },
-  });
-  if (!res.ok) throw new Error(`Fetch ingredients failed: ${res.status}`);
-  return res.json();
+async function fetchMissingIngredients(): Promise<{ id: string; name: string }[]> {
+  // Query per trovare ingredienti senza traduzione in REFERENCE_LOCALE
+  const _query = `
+    SELECT i.id, i.name
+    FROM ingredients i
+    LEFT JOIN translations t ON t.entity_id = i.id
+      AND t.entity_type = 'ingredient'
+      AND t.locale = '${REFERENCE_LOCALE}'
+    WHERE t.id IS NULL
+    ORDER BY i.name
+    LIMIT ${BATCH_SIZE}
+  `;
+
+  const _url = `${SUPABASE_URL}/rest/v1/rpc/exec_sql`;
+
+  // Proviamo con query diretta invece
+  const _directUrl = `${SUPABASE_URL}/rest/v1/ingredients?select=id,name&order=name&limit=${BATCH_SIZE}`;
+
+  // Prima otteniamo tutti gli ingredienti, poi filtriamo quelli senza traduzione
+  const allIngredientsRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/ingredients?select=id,name&order=name`,
+    {
+      headers: {
+        apikey: SUPABASE_KEY!,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+      },
+    }
+  );
+
+  const translationsRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/translations?select=entity_id&entity_type=eq.ingredient&locale=eq.${REFERENCE_LOCALE}`,
+    {
+      headers: {
+        apikey: SUPABASE_KEY!,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+      },
+    }
+  );
+
+  if (!allIngredientsRes.ok || !translationsRes.ok) {
+    throw new Error('Fetch failed');
+  }
+
+  const allIngredients: { id: string; name: string }[] = await allIngredientsRes.json();
+  const translations: { entity_id: string }[] = await translationsRes.json();
+
+  const translatedIds = new Set(translations.map((t) => t.entity_id));
+  const missing = allIngredients.filter((ing) => !translatedIds.has(ing.id));
+
+  return missing.slice(0, BATCH_SIZE);
 }
 
 async function insertTranslations(
   translations: { entity_id: string; locale: string; value: string }[]
 ): Promise<number> {
-  const rows = translations.map((t) => ({
-    entity_type: 'ingredient',
-    entity_id: t.entity_id,
-    field: 'name',
-    locale: t.locale,
-    value: t.value,
-    is_verified: false,
-    translated_by: 'openai-gpt4o-mini',
-  }));
-
-  // Se service_role_key, inserisci direttamente
-  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    const url = `${SUPABASE_URL}/rest/v1/translations?on_conflict=entity_type,entity_id,field,locale`;
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        apikey: SUPABASE_KEY!,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'resolution=ignore-duplicates',
-      },
-      body: JSON.stringify(rows),
-    });
-
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Insert failed: ${res.status} - ${text}`);
-    }
-    return rows.length;
-  }
-
-  // Altrimenti output SQL per MCP (compatto, una riga per INSERT)
-  console.log('-- MCP_INSERT_START');
-  const values = rows
+  // Output SQL per MCP (più affidabile del REST API)
+  const values = translations
     .map(
-      (r) =>
-        `('ingredient','${r.entity_id}','name','${r.locale}','${r.value.replace(/'/g, "''")}',false,'openai-gpt4o-mini')`
+      (t) =>
+        `('ingredient','${t.entity_id}','name','${t.locale}','${t.value.replace(/'/g, "''")}',false,'openai-gpt4o-mini')`
     )
-    .join(',');
+    .join(',\n');
+
+  console.log('-- SQL_START');
   console.log(
-    `INSERT INTO translations(entity_type,entity_id,field,locale,value,is_verified,translated_by)VALUES${values}ON CONFLICT DO NOTHING;`
+    `INSERT INTO translations(entity_type,entity_id,field,locale,value,is_verified,translated_by)VALUES\n${values}\nON CONFLICT (entity_type,entity_id,field,locale) DO NOTHING;`
   );
-  console.log('-- MCP_INSERT_END');
-  return rows.length;
+  console.log('-- SQL_END');
+
+  return translations.length;
 }
 
 async function translate() {
-  // 1. Fetch ingredienti dal DB
-  const ingredients = await fetchIngredients();
+  const ingredients = await fetchMissingIngredients();
+
   if (ingredients.length === 0) {
-    console.log('✅ Nessun ingrediente da tradurre (batch completo?)');
+    console.log('✅ Nessun ingrediente mancante!');
     return;
   }
 
   console.log(
-    `🌍 Batch ${BATCH_OFFSET + 1}-${BATCH_OFFSET + ingredients.length}: ${ingredients.length} ingredienti...`
+    `🔍 Trovati ${ingredients.length} ingredienti senza traduzione ${REFERENCE_LOCALE}...`
   );
 
-  // 2. Traduci con OpenAI
   const localeNames: Record<string, string> = {
     vi: 'Vietnamese',
     zh: 'Chinese Simplified',
@@ -176,7 +181,6 @@ Return JSON array:
     return;
   }
 
-  // 3. Prepara traduzioni
   const translations: { entity_id: string; locale: string; value: string }[] = [];
   for (const result of results) {
     const ing = ingredients[result.index - 1];
@@ -190,17 +194,15 @@ Return JSON array:
     }
   }
 
-  // 4. Inserisci nel DB
   const inserted = await insertTranslations(translations);
 
-  // 5. Stats minime
   const usage = response.usage;
   const cost =
     ((usage?.prompt_tokens || 0) / 1_000_000) * 0.15 +
     ((usage?.completion_tokens || 0) / 1_000_000) * 0.6;
 
   console.log(
-    `✅ ${inserted} traduzioni inserite | $${cost.toFixed(4)} | Prossimo OFFSET: ${BATCH_OFFSET + ingredients.length}`
+    `✅ ${inserted} traduzioni inserite | $${cost.toFixed(4)} | Rimanenti: esegui di nuovo per prossimo batch`
   );
 }
 

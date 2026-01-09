@@ -1,20 +1,105 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Sparkles, Settings, LogOut, User, ChevronDown } from 'lucide-react';
 import { TenantSwitcher } from '@/components/tenant';
-import { RoleSwitcher } from '@/components/account';
+import { RoleSwitcher, DevRoleSwitcher } from '@/components/account';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { useAuth } from '@/lib/contexts/AuthContext';
+import { useAI } from '@/lib/contexts/AIContext';
+import { useAccountRoles, type AccountRole } from '@/lib/hooks/useAccountRoles';
 import { createClient } from '@/lib/supabase-browser';
+
+// Role icons and labels
+const ROLE_CONFIG: Record<string, { icon: string; label: string; color: string }> = {
+  consumer: { icon: 'user', label: 'Personal Account', color: 'text-blue-600 bg-blue-50' },
+  merchant: { icon: 'store', label: 'Business', color: 'text-green-600 bg-green-50' },
+  admin: { icon: 'shield', label: 'Admin', color: 'text-purple-600 bg-purple-50' },
+  contributor: { icon: 'star', label: 'Contributor', color: 'text-yellow-600 bg-yellow-50' },
+};
+
+function RoleIcon({ role }: { role: string }) {
+  switch (role) {
+    case 'consumer':
+      return (
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
+      );
+    case 'merchant':
+      return (
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+          />
+        </svg>
+      );
+    case 'admin':
+      return (
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+          />
+        </svg>
+      );
+    case 'contributor':
+      return (
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+          />
+        </svg>
+      );
+    default:
+      return <User className="h-4 w-4" />;
+  }
+}
+
+function getRoleDisplayName(role: AccountRole): string {
+  if (role.role_type === 'merchant' && role.tenant_name) {
+    return role.tenant_name;
+  }
+  return ROLE_CONFIG[role.role_type]?.label || role.role_type;
+}
 
 export function Header() {
   const router = useRouter();
   const { user } = useAuth();
+  const { toggleAI, hasNotification } = useAI();
+  const { account, currentRole, roles, switchRole } = useAccountRoles();
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showRoleSection, setShowRoleSection] = useState(false);
   const { brand, location } = useTenant();
   const supabase = createClient();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowUserMenu(false);
+        setShowRoleSection(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -23,26 +108,32 @@ export function Header() {
   };
 
   // Generate preview URL based on current selection
-  const previewUrl = location?.slug && brand?.slug
-    ? `https://go.gudbro.com/${brand.slug}/${location.slug}`
-    : brand?.slug
-    ? `https://go.gudbro.com/${brand.slug}`
-    : 'https://go.gudbro.com/roots';
+  const previewUrl =
+    location?.slug && brand?.slug
+      ? `https://go.gudbro.com/${brand.slug}/${location.slug}`
+      : brand?.slug
+        ? `https://go.gudbro.com/${brand.slug}`
+        : 'https://go.gudbro.com/roots';
+
+  const hasMultipleRoles = roles.length > 1;
+  const currentRoleConfig = currentRole ? ROLE_CONFIG[currentRole.role_type] : null;
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between">
-      {/* Tenant Switcher + Role Switcher */}
+    <header className="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
+      {/* Tenant Switcher (workspace context) + Role Switcher */}
       <div className="flex items-center gap-3">
         <TenantSwitcher />
-        <div className="h-6 w-px bg-gray-200" />
+        {/* Role Switcher - shows if user has multiple roles in the system */}
         <RoleSwitcher />
+        {/* Dev Role Switcher - for testing, only in development mode */}
+        <DevRoleSwitcher />
       </div>
 
       {/* Search */}
-      <div className="flex-1 max-w-lg mx-6">
+      <div className="mx-6 max-w-lg flex-1">
         <div className="relative">
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -59,36 +150,42 @@ export function Header() {
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full rounded-lg border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>
 
       {/* Right side */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-1">
         {/* Help */}
-        <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+        <button
+          className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+          title="Help"
+        >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              strokeWidth={1.5}
+              d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
             />
           </svg>
         </button>
 
         {/* Notifications */}
-        <button className="relative p-2 text-gray-400 hover:text-gray-600 transition-colors">
+        <button
+          className="relative rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+          title="Notifications"
+        >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              strokeWidth={1.5}
+              d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
             />
           </svg>
-          <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-red-500"></span>
         </button>
 
         {/* Preview link */}
@@ -96,61 +193,216 @@ export function Header() {
           href={previewUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+          title="Preview menu"
         >
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
+              strokeWidth={1.5}
+              d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
             />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-            />
           </svg>
-          Preview
         </a>
 
-        {/* User avatar with dropdown */}
-        <div className="relative">
+        {/* AI Co-Manager Button */}
+        <button
+          onClick={toggleAI}
+          className="relative rounded-lg p-2 text-blue-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
+          title="AI Co-Manager"
+        >
+          <Sparkles className="h-5 w-5" />
+          {hasNotification && (
+            <span className="absolute right-1.5 top-1.5 h-2 w-2 animate-pulse rounded-full bg-red-500" />
+          )}
+        </button>
+
+        {/* Separator */}
+        <div className="mx-2 h-6 w-px bg-gray-200" />
+
+        {/* Unified Account Dropdown */}
+        <div className="relative" ref={dropdownRef}>
           <button
-            onClick={() => setShowUserMenu(!showUserMenu)}
-            className="h-8 w-8 rounded-full bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center text-sm font-medium text-white hover:opacity-90 transition-opacity"
+            onClick={() => {
+              setShowUserMenu(!showUserMenu);
+              setShowRoleSection(false);
+            }}
+            className="flex items-center gap-1.5 rounded-lg p-1.5 transition-colors hover:bg-gray-100"
+            title="Account"
           >
-            {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || 'U'}
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-red-500 text-xs font-medium text-white">
+              {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || 'U'}
+            </div>
+            <ChevronDown
+              className={`h-3.5 w-3.5 text-gray-400 transition-transform ${showUserMenu ? 'rotate-180' : ''}`}
+            />
           </button>
 
           {/* Dropdown menu */}
           {showUserMenu && (
-            <>
-              <div
-                className="fixed inset-0 z-10"
-                onClick={() => setShowUserMenu(false)}
-              />
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
-                <div className="px-4 py-2 border-b border-gray-100">
-                  <p className="text-sm font-medium text-gray-900">{user?.name || 'Account'}</p>
-                  <p className="text-xs text-gray-500 truncate">{user?.email || ''}</p>
+            <div className="absolute right-0 z-50 mt-2 w-72 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+              {/* User info header */}
+              <div className="border-b border-gray-200 bg-gray-50 px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-red-500 text-base font-medium text-white">
+                    {user?.name?.charAt(0).toUpperCase() ||
+                      user?.email?.charAt(0).toUpperCase() ||
+                      'U'}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-gray-900">
+                      {user?.name || 'Account'}
+                    </p>
+                    <p className="truncate text-xs text-gray-500">{user?.email || ''}</p>
+                  </div>
                 </div>
+              </div>
+
+              {/* Role Switcher Section (only if multiple roles) */}
+              {hasMultipleRoles && (
+                <div className="border-b border-gray-200">
+                  <button
+                    onClick={() => setShowRoleSection(!showRoleSection)}
+                    className="flex w-full items-center justify-between px-4 py-3 transition-colors hover:bg-gray-50"
+                  >
+                    <div className="flex items-center gap-3">
+                      {currentRole && (
+                        <span
+                          className={`rounded p-1.5 ${currentRoleConfig?.color || 'bg-gray-100'}`}
+                        >
+                          <RoleIcon role={currentRole.role_type} />
+                        </span>
+                      )}
+                      <div className="text-left">
+                        <p className="text-sm font-medium text-gray-900">
+                          {currentRole ? getRoleDisplayName(currentRole) : 'Select Role'}
+                        </p>
+                        <p className="text-xs text-gray-500">Switch account type</p>
+                      </div>
+                    </div>
+                    <ChevronDown
+                      className={`h-4 w-4 text-gray-400 transition-transform ${showRoleSection ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  {/* Role list (expandable) */}
+                  {showRoleSection && (
+                    <div className="px-2 pb-2">
+                      {roles.map((role) => {
+                        const roleConfig = ROLE_CONFIG[role.role_type];
+                        const isActive = currentRole?.id === role.id;
+
+                        return (
+                          <button
+                            key={role.id}
+                            onClick={() => {
+                              switchRole(role.id);
+                              setShowRoleSection(false);
+                            }}
+                            className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition-colors ${
+                              isActive ? 'bg-blue-50' : 'hover:bg-gray-50'
+                            }`}
+                          >
+                            <span className={`rounded p-1.5 ${roleConfig?.color || 'bg-gray-100'}`}>
+                              <RoleIcon role={role.role_type} />
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <p
+                                className={`truncate text-sm font-medium ${isActive ? 'text-blue-700' : 'text-gray-700'}`}
+                              >
+                                {getRoleDisplayName(role)}
+                              </p>
+                              <p className="text-xs text-gray-500">{roleConfig?.label}</p>
+                            </div>
+                            {isActive && (
+                              <svg
+                                className="h-4 w-4 text-blue-600"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M5 13l4 4L19 7"
+                                />
+                              </svg>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Loyalty Points (if any) */}
+              {account && account.total_points > 0 && (
+                <div className="border-b border-gray-200 px-4 py-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-500">Loyalty Points</span>
+                    <span className="font-medium text-gray-900">
+                      {account.total_points.toLocaleString()} pts
+                    </span>
+                  </div>
+                  <div className="mt-1 flex items-center justify-between text-xs">
+                    <span className="text-gray-500">Tier</span>
+                    <span
+                      className={`font-medium capitalize ${
+                        account.loyalty_tier === 'platinum'
+                          ? 'text-purple-600'
+                          : account.loyalty_tier === 'gold'
+                            ? 'text-yellow-600'
+                            : account.loyalty_tier === 'silver'
+                              ? 'text-gray-600'
+                              : 'text-orange-600'
+                      }`}
+                    >
+                      {account.loyalty_tier}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Menu items */}
+              <div className="py-1">
                 <a
-                  href="/settings"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                  href="/account"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
                   onClick={() => setShowUserMenu(false)}
                 >
+                  <User className="h-4 w-4 text-gray-400" />
+                  My Account
+                </a>
+                <a
+                  href="/settings"
+                  className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                  onClick={() => setShowUserMenu(false)}
+                >
+                  <Settings className="h-4 w-4 text-gray-400" />
                   Settings
                 </a>
+              </div>
+
+              {/* Sign out */}
+              <div className="border-t border-gray-200 py-1">
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  className="flex w-full items-center gap-3 px-4 py-2 text-sm text-red-600 transition-colors hover:bg-red-50"
                 >
+                  <LogOut className="h-4 w-4" />
                   Sign out
                 </button>
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

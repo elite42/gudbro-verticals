@@ -1,506 +1,500 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import QRCode from 'qrcode';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { QRBuilderModal, QRPreview } from '@/components/qr';
+import { QRCode as QRCodeEntity, QRContext, QRType } from '@/lib/qr/qr-types';
+import { listQRCodes, toggleQRCodeActive, deleteQRCode } from '@/lib/qr/qr-service';
+import { buildQRContent, generateQRDataUrl } from '@/lib/qr/qr-generator';
+import {
+  PlusIcon,
+  DownloadIcon,
+  LinkIcon,
+  WifiIcon,
+  TableIcon,
+  ShareIcon,
+  EyeIcon,
+  EyeOffIcon,
+  TrashIcon,
+  CopyIcon,
+  QrCodeIcon,
+  BarChart3Icon,
+  FilterIcon,
+  PencilIcon,
+  ChevronDownIcon,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useTenant } from '@/lib/contexts/TenantContext';
 
-interface QRCodeItem {
-  id: string;
-  name: string;
-  type: 'table' | 'room' | 'property' | 'general';
-  slug: string;
-  scans: number;
-  lastScanned: string | null;
-  isActive: boolean;
-  createdAt: string;
+// Fallback for development when no tenant is selected
+const DEMO_MERCHANT_ID = '00000000-0000-0000-0000-000000000001';
+const DEMO_MERCHANT_SLUG = 'demo-merchant';
+
+function formatTimeAgo(dateString: string | null | undefined): string {
+  if (!dateString) return 'Never';
+
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays === 1) return 'Yesterday';
+  return `${diffDays}d ago`;
 }
 
-const defaultQRCodes: QRCodeItem[] = [
-  {
-    id: '1',
-    name: 'Table 1',
-    type: 'table',
-    slug: 'demo-cafe/table-1',
-    scans: 234,
-    lastScanned: '2 hours ago',
-    isActive: true,
-    createdAt: '2024-01-15',
-  },
-  {
-    id: '2',
-    name: 'Table 2',
-    type: 'table',
-    slug: 'demo-cafe/table-2',
-    scans: 189,
-    lastScanned: '5 hours ago',
-    isActive: true,
-    createdAt: '2024-01-15',
-  },
-  {
-    id: '3',
-    name: 'Counter',
-    type: 'general',
-    slug: 'demo-cafe/counter',
-    scans: 456,
-    lastScanned: '30 minutes ago',
-    isActive: true,
-    createdAt: '2024-01-15',
-  },
-  {
-    id: '4',
-    name: 'Outdoor Area',
-    type: 'general',
-    slug: 'demo-cafe/outdoor',
-    scans: 78,
-    lastScanned: '1 day ago',
-    isActive: false,
-    createdAt: '2024-01-20',
-  },
-];
+function getTypeIcon(type: 'url' | 'wifi') {
+  return type === 'wifi' ? <WifiIcon className="h-4 w-4" /> : <LinkIcon className="h-4 w-4" />;
+}
 
-function QRCodeCanvas({ url, size = 128 }: { url: string; size?: number }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      QRCode.toCanvas(canvasRef.current, url, {
-        width: size,
-        margin: 2,
-        color: {
-          dark: '#000000',
-          light: '#ffffff',
-        },
-      });
-    }
-  }, [url, size]);
-
-  return <canvas ref={canvasRef} />;
+// Quick Create Tab Button
+function QuickCreateTab({
+  icon: Icon,
+  label,
+  description,
+  color,
+  onClick,
+}: {
+  icon: React.ElementType;
+  label: string;
+  description: string;
+  color: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center gap-3 rounded-lg border-2 border-transparent px-4 py-3 hover:border-${color}-300 hover:bg-${color}-50 group min-w-0 flex-1 transition-all`}
+    >
+      <div
+        className={`rounded-lg p-2 bg-${color}-100 group-hover:bg-${color}-200 transition-colors`}
+      >
+        <Icon className={`h-5 w-5 text-${color}-600`} />
+      </div>
+      <div className="min-w-0 text-left">
+        <p className="text-sm font-medium text-gray-900">{label}</p>
+        <p className="truncate text-xs text-gray-500">{description}</p>
+      </div>
+    </button>
+  );
 }
 
 export default function QRCodesPage() {
-  const [qrCodes, setQRCodes] = useState<QRCodeItem[]>(defaultQRCodes);
+  // Tenant context
+  const { brand } = useTenant();
+  const merchantId = brand?.id || DEMO_MERCHANT_ID;
+  const merchantSlug = brand?.slug || DEMO_MERCHANT_SLUG;
+
+  // State
+  const [qrCodes, setQrCodes] = useState<QRCodeEntity[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Modal state
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showBulkModal, setShowBulkModal] = useState(false);
-  const [bulkType, setBulkType] = useState<'table' | 'room' | 'custom'>('table');
+  const [editingQR, setEditingQR] = useState<QRCodeEntity | null>(null);
+  const [presetContext, setPresetContext] = useState<QRContext | undefined>();
+  const [presetType, setPresetType] = useState<QRType | undefined>();
 
-  // Form state
-  const [newQR, setNewQR] = useState({
-    name: '',
-    type: 'table' as 'table' | 'room' | 'property' | 'general',
-    slug: '',
-  });
+  // Filter state
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterType, setFilterType] = useState<'all' | 'url' | 'wifi'>('all');
+  const [filterContext, setFilterContext] = useState<'all' | QRContext>('all');
+  const [filterActive, setFilterActive] = useState<'all' | 'active' | 'inactive'>('all');
 
-  // Bulk form state
-  const [bulkForm, setBulkForm] = useState({
-    prefix: '',
-    start: 1,
-    end: 10,
-  });
+  // Load data
+  const loadData = async () => {
+    setIsLoading(true);
+    setError(null);
 
-  const totalScans = qrCodes.reduce((acc, qr) => acc + qr.scans, 0);
-  const activeQRs = qrCodes.filter((qr) => qr.isActive).length;
+    try {
+      const filters: Parameters<typeof listQRCodes>[1] = {
+        filters: {},
+      };
 
-  const getQRUrl = (slug: string) => `https://go.gudbro.com/${slug}`;
+      if (filterType !== 'all') {
+        filters.filters!.type = filterType;
+      }
+      if (filterContext !== 'all') {
+        filters.filters!.context = filterContext;
+      }
+      if (filterActive !== 'all') {
+        filters.filters!.is_active = filterActive === 'active';
+      }
 
-  const handleCreateQR = () => {
-    if (!newQR.name) return;
-
-    const qr: QRCodeItem = {
-      id: Date.now().toString(),
-      name: newQR.name,
-      type: newQR.type,
-      slug: newQR.slug || `demo-cafe/${newQR.name.toLowerCase().replace(/\s+/g, '-')}`,
-      scans: 0,
-      lastScanned: null,
-      isActive: true,
-      createdAt: new Date().toISOString().split('T')[0],
-    };
-
-    setQRCodes([...qrCodes, qr]);
-    setShowCreateModal(false);
-    setNewQR({ name: '', type: 'table', slug: '' });
+      const result = await listQRCodes(merchantId, filters);
+      setQrCodes(result.data);
+    } catch (err) {
+      console.error('Failed to load QR codes:', err);
+      setError('Failed to load QR codes. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleBulkCreate = () => {
-    const newQRs: QRCodeItem[] = [];
-    const prefix = bulkForm.prefix || (bulkType === 'table' ? 'Table' : bulkType === 'room' ? 'Room' : 'Item');
+  useEffect(() => {
+    loadData();
+  }, [filterType, filterContext, filterActive, merchantId]);
 
-    for (let i = bulkForm.start; i <= bulkForm.end; i++) {
-      newQRs.push({
-        id: `bulk-${Date.now()}-${i}`,
-        name: `${prefix} ${i}`,
-        type: bulkType === 'custom' ? 'general' : bulkType,
-        slug: `demo-cafe/${prefix.toLowerCase()}-${i}`,
-        scans: 0,
-        lastScanned: null,
-        isActive: true,
-        createdAt: new Date().toISOString().split('T')[0],
+  // Handlers
+  const handleCreateComplete = (qr: QRCodeEntity) => {
+    setQrCodes([qr, ...qrCodes]);
+  };
+
+  const handleToggleActive = async (qr: QRCodeEntity) => {
+    try {
+      const updated = await toggleQRCodeActive(qr.id, !qr.is_active);
+      setQrCodes(qrCodes.map((q) => (q.id === qr.id ? updated : q)));
+    } catch (err) {
+      console.error('Failed to toggle QR code:', err);
+    }
+  };
+
+  const handleDelete = async (qr: QRCodeEntity) => {
+    if (!confirm('Are you sure you want to delete this QR code?')) return;
+
+    try {
+      await deleteQRCode(qr.id);
+      setQrCodes(qrCodes.filter((q) => q.id !== qr.id));
+    } catch (err) {
+      console.error('Failed to delete QR code:', err);
+    }
+  };
+
+  const handleDownload = async (qr: QRCodeEntity) => {
+    try {
+      const content = buildQRContent(qr, { baseUrl: 'https://go.gudbro.com' });
+      const dataUrl = await generateQRDataUrl(content, {
+        width: 512,
+        design: qr.design,
       });
-    }
 
-    setQRCodes([...qrCodes, ...newQRs]);
-    setShowBulkModal(false);
-    setBulkForm({ prefix: '', start: 1, end: 10 });
-  };
-
-  const handleDownload = async (qr: QRCodeItem) => {
-    const url = getQRUrl(qr.slug);
-    const dataUrl = await QRCode.toDataURL(url, { width: 512, margin: 2 });
-
-    const link = document.createElement('a');
-    link.download = `qr-${qr.slug.replace(/\//g, '-')}.png`;
-    link.href = dataUrl;
-    link.click();
-  };
-
-  const handleCopyUrl = (slug: string) => {
-    navigator.clipboard.writeText(getQRUrl(slug));
-  };
-
-  const toggleActive = (id: string) => {
-    setQRCodes(qrCodes.map(qr =>
-      qr.id === id ? { ...qr, isActive: !qr.isActive } : qr
-    ));
-  };
-
-  const handleDelete = (id: string) => {
-    if (confirm('Delete this QR code?')) {
-      setQRCodes(qrCodes.filter(qr => qr.id !== id));
+      const link = document.createElement('a');
+      link.download = `qr-${qr.title || qr.id}.png`;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error('Failed to download QR code:', err);
     }
   };
 
-  const downloadAllAsPNG = async () => {
-    for (const qr of qrCodes.filter(q => q.isActive)) {
-      await handleDownload(qr);
-      await new Promise(r => setTimeout(r, 100));
+  const handleCopyUrl = async (qr: QRCodeEntity) => {
+    const content = buildQRContent(qr, { baseUrl: 'https://go.gudbro.com' });
+    try {
+      await navigator.clipboard.writeText(content);
+    } catch (err) {
+      console.error('Failed to copy URL:', err);
     }
   };
+
+  const handleQuickCreate = (type: 'table' | 'marketing' | 'wifi') => {
+    if (type === 'wifi') {
+      setPresetType('wifi');
+      setPresetContext(undefined);
+    } else if (type === 'table') {
+      setPresetType('url');
+      setPresetContext('table');
+    } else {
+      setPresetType('url');
+      setPresetContext('external');
+    }
+    setShowCreateModal(true);
+  };
+
+  const handleEdit = (qr: QRCodeEntity) => {
+    setEditingQR(qr);
+    setShowCreateModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowCreateModal(false);
+    setEditingQR(null);
+    setPresetContext(undefined);
+    setPresetType(undefined);
+  };
+
+  const hasFiltersActive =
+    filterType !== 'all' || filterContext !== 'all' || filterActive !== 'all';
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
+    <div className="space-y-4">
+      {/* Header - Compact */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">QR Codes</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Create and manage QR codes for tables, rooms, and locations
-          </p>
+          <h1 className="text-xl font-bold text-gray-900">QR Codes</h1>
+          <p className="text-sm text-gray-500">Create and manage QR codes for your business</p>
         </div>
-        <button
-          onClick={() => setShowCreateModal(true)}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
-        >
-          + Create QR Code
-        </button>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
-          <p className="text-sm text-gray-500">Total QR Codes</p>
-          <p className="text-2xl font-bold text-gray-900">{qrCodes.length}</p>
-        </div>
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
-          <p className="text-sm text-gray-500">Active</p>
-          <p className="text-2xl font-bold text-green-600">{activeQRs}</p>
-        </div>
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
-          <p className="text-sm text-gray-500">Total Scans</p>
-          <p className="text-2xl font-bold text-blue-600">{totalScans.toLocaleString()}</p>
-        </div>
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
-          <p className="text-sm text-gray-500">Scans Today</p>
-          <p className="text-2xl font-bold text-purple-600">47</p>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/analytics?tab=qr"
+            className="flex items-center gap-1.5 text-sm text-gray-600 transition-colors hover:text-blue-600"
+          >
+            <BarChart3Icon className="h-4 w-4" />
+            <span>View Analytics</span>
+          </Link>
         </div>
       </div>
 
-      {/* QR Codes Grid */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {qrCodes.map((qr) => (
-          <div
-            key={qr.id}
-            className={`p-6 bg-white rounded-xl border ${
-              qr.isActive ? 'border-gray-200' : 'border-gray-200 opacity-60'
+      {/* Quick Create Section */}
+      <div className="rounded-xl border border-gray-200 bg-white p-4">
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-sm font-medium text-gray-700">Quick Create</h2>
+          <Button size="sm" onClick={() => setShowCreateModal(true)}>
+            <PlusIcon className="mr-1 h-4 w-4" />
+            Custom QR
+          </Button>
+        </div>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <QuickCreateTab
+            icon={TableIcon}
+            label="Table QR"
+            description="Link to table number"
+            color="blue"
+            onClick={() => handleQuickCreate('table')}
+          />
+          <QuickCreateTab
+            icon={ShareIcon}
+            label="Marketing QR"
+            description="Track social, flyers, events"
+            color="purple"
+            onClick={() => handleQuickCreate('marketing')}
+          />
+          <QuickCreateTab
+            icon={WifiIcon}
+            label="WiFi QR"
+            description="Easy WiFi connection"
+            color="green"
+            onClick={() => handleQuickCreate('wifi')}
+          />
+        </div>
+      </div>
+
+      {/* QR Codes List Section */}
+      <div className="rounded-xl border border-gray-200 bg-white">
+        {/* List Header */}
+        <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
+          <h2 className="text-sm font-medium text-gray-700">
+            My QR Codes {!isLoading && `(${qrCodes.length})`}
+          </h2>
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={`flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs transition-colors ${
+              hasFiltersActive ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            {/* QR Code Preview */}
-            <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg">
-              <QRCodeCanvas url={getQRUrl(qr.slug)} size={128} />
+            <FilterIcon className="h-3.5 w-3.5" />
+            <span>Filter</span>
+            {hasFiltersActive && (
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 text-[10px] text-white">
+                {
+                  [filterType !== 'all', filterContext !== 'all', filterActive !== 'all'].filter(
+                    Boolean
+                  ).length
+                }
+              </span>
+            )}
+            <ChevronDownIcon
+              className={`h-3.5 w-3.5 transition-transform ${showFilters ? 'rotate-180' : ''}`}
+            />
+          </button>
+        </div>
+
+        {/* Filters (collapsible) */}
+        {showFilters && (
+          <div className="flex flex-wrap gap-3 border-b border-gray-100 bg-gray-50 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500">Type:</span>
+              <select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value as typeof filterType)}
+                className="rounded-md border border-gray-300 px-2 py-1 text-xs"
+              >
+                <option value="all">All</option>
+                <option value="url">URL</option>
+                <option value="wifi">WiFi</option>
+              </select>
             </div>
 
-            {/* QR Info */}
-            <div className="mt-4">
-              <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-gray-900">{qr.name}</h3>
-                <span
-                  className={`px-2 py-1 rounded text-xs font-medium ${
-                    qr.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
-                  }`}
-                >
-                  {qr.isActive ? 'Active' : 'Inactive'}
-                </span>
-              </div>
-
-              <p className="mt-1 text-sm text-gray-500 font-mono truncate">
-                go.gudbro.com/{qr.slug}
-              </p>
-
-              <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-gray-500">Total Scans</p>
-                  <p className="font-semibold text-gray-900">{qr.scans}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500">Last Scanned</p>
-                  <p className="font-semibold text-gray-900">{qr.lastScanned || 'Never'}</p>
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="mt-4 flex items-center gap-2">
-                <button
-                  onClick={() => handleDownload(qr)}
-                  className="flex-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200"
-                >
-                  Download
-                </button>
-                <button
-                  onClick={() => toggleActive(qr.id)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium ${
-                    qr.isActive
-                      ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
-                      : 'bg-green-100 text-green-700 hover:bg-green-200'
-                  }`}
-                >
-                  {qr.isActive ? 'Hide' : 'Show'}
-                </button>
-                <button
-                  onClick={() => handleCopyUrl(qr.slug)}
-                  className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200"
-                  title="Copy URL"
-                >
-                  Copy
-                </button>
-                <button
-                  onClick={() => handleDelete(qr.id)}
-                  className="px-3 py-2 bg-red-100 text-red-700 rounded-lg text-sm font-medium hover:bg-red-200"
-                  title="Delete"
-                >
-                  X
-                </button>
-              </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500">Context:</span>
+              <select
+                value={filterContext}
+                onChange={(e) => setFilterContext(e.target.value as typeof filterContext)}
+                className="rounded-md border border-gray-300 px-2 py-1 text-xs"
+              >
+                <option value="all">All</option>
+                <option value="table">Table</option>
+                <option value="external">Marketing</option>
+                <option value="takeaway">Takeaway</option>
+                <option value="delivery">Delivery</option>
+              </select>
             </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500">Status:</span>
+              <select
+                value={filterActive}
+                onChange={(e) => setFilterActive(e.target.value as typeof filterActive)}
+                className="rounded-md border border-gray-300 px-2 py-1 text-xs"
+              >
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+
+            {hasFiltersActive && (
+              <button
+                onClick={() => {
+                  setFilterType('all');
+                  setFilterContext('all');
+                  setFilterActive('all');
+                }}
+                className="text-xs text-blue-600 hover:text-blue-700"
+              >
+                Clear filters
+              </button>
+            )}
           </div>
-        ))}
+        )}
 
-        {/* Create New QR Card */}
-        <button
-          onClick={() => setShowCreateModal(true)}
-          className="p-6 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-colors flex flex-col items-center justify-center min-h-[320px]"
-        >
-          <span className="text-4xl text-gray-400">+</span>
-          <span className="mt-2 text-sm font-medium text-gray-600">Create New QR Code</span>
-          <span className="mt-1 text-xs text-gray-400">Table, room, or custom location</span>
-        </button>
-      </div>
+        {/* Error State */}
+        {error && (
+          <div className="bg-red-50 p-4 text-sm text-red-700">
+            {error}
+            <button onClick={() => loadData()} className="ml-2 underline">
+              Retry
+            </button>
+          </div>
+        )}
 
-      {/* Quick Create Options */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="font-semibold text-gray-900">Quick Create</h3>
-        <p className="mt-1 text-sm text-gray-500">Generate multiple QR codes at once</p>
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex items-center justify-center py-8">
+            <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          </div>
+        )}
 
-        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <button
-            onClick={() => { setBulkType('table'); setShowBulkModal(true); }}
-            className="p-4 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
-          >
-            <span className="text-2xl">Table</span>
-            <h4 className="mt-2 font-medium text-gray-900">Bulk Tables</h4>
-            <p className="mt-1 text-sm text-gray-500">Create QR codes for multiple tables</p>
-          </button>
+        {/* Empty State - Minimal */}
+        {!isLoading && !error && qrCodes.length === 0 && (
+          <div className="px-4 py-8 text-center">
+            <QrCodeIcon className="mx-auto h-10 w-10 text-gray-300" />
+            <p className="mt-2 text-sm text-gray-500">
+              {hasFiltersActive
+                ? 'No QR codes match your filters'
+                : 'Your QR codes will appear here'}
+            </p>
+          </div>
+        )}
 
-          <button
-            onClick={() => { setBulkType('room'); setShowBulkModal(true); }}
-            className="p-4 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
-          >
-            <span className="text-2xl">Room</span>
-            <h4 className="mt-2 font-medium text-gray-900">Bulk Rooms</h4>
-            <p className="mt-1 text-sm text-gray-500">Create QR codes for hotel rooms</p>
-          </button>
+        {/* QR Codes Grid - Compact */}
+        {!isLoading && !error && qrCodes.length > 0 && (
+          <div className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {qrCodes.map((qr) => (
+              <div
+                key={qr.id}
+                className={`rounded-lg border bg-white transition-all hover:shadow-md ${
+                  qr.is_active ? 'border-gray-200' : 'border-gray-200 opacity-60'
+                }`}
+              >
+                {/* QR Preview - Smaller */}
+                <div className="flex items-center justify-center rounded-t-lg bg-gray-50 p-3">
+                  <QRPreview
+                    content={buildQRContent(qr, { baseUrl: 'https://go.gudbro.com' })}
+                    design={qr.design}
+                    size={100}
+                  />
+                </div>
 
-          <button
-            onClick={() => { setBulkType('custom'); setShowBulkModal(true); }}
-            className="p-4 text-left border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors"
-          >
-            <span className="text-2xl">Custom</span>
-            <h4 className="mt-2 font-medium text-gray-900">Custom Range</h4>
-            <p className="mt-1 text-sm text-gray-500">Define your own naming pattern</p>
-          </button>
-        </div>
-      </div>
-
-      {/* Download Options */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <h3 className="font-semibold text-gray-900">Download All QR Codes</h3>
-        <p className="mt-1 text-sm text-gray-500">Export all your QR codes</p>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          <button
-            onClick={downloadAllAsPNG}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >
-            Download All (PNG)
-          </button>
-        </div>
-      </div>
-
-      {/* Create Modal */}
-      {showCreateModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Create QR Code</h2>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                <input
-                  type="text"
-                  value={newQR.name}
-                  onChange={(e) => setNewQR({ ...newQR, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder="e.g., Table 5"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
-                <select
-                  value={newQR.type}
-                  onChange={(e) => setNewQR({ ...newQR, type: e.target.value as typeof newQR.type })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                >
-                  <option value="table">Table</option>
-                  <option value="room">Room</option>
-                  <option value="property">Property</option>
-                  <option value="general">General</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Custom Slug (optional)</label>
-                <input
-                  type="text"
-                  value={newQR.slug}
-                  onChange={(e) => setNewQR({ ...newQR, slug: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm"
-                  placeholder="demo-cafe/custom-name"
-                />
-              </div>
-
-              {newQR.name && (
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-500 mb-2">Preview:</p>
-                  <div className="flex justify-center">
-                    <QRCodeCanvas
-                      url={getQRUrl(newQR.slug || `demo-cafe/${newQR.name.toLowerCase().replace(/\s+/g, '-')}`)}
-                      size={150}
+                {/* QR Info - Compact */}
+                <div className="p-3">
+                  <div className="mb-1 flex items-center justify-between">
+                    <div className="flex min-w-0 items-center gap-1.5">
+                      {getTypeIcon(qr.type)}
+                      <h3 className="truncate text-sm font-medium text-gray-900">
+                        {qr.title || `QR ${qr.id.slice(0, 6)}`}
+                      </h3>
+                    </div>
+                    <span
+                      className={`h-2 w-2 shrink-0 rounded-full ${
+                        qr.is_active ? 'bg-green-500' : 'bg-gray-300'
+                      }`}
+                      title={qr.is_active ? 'Active' : 'Inactive'}
                     />
                   </div>
-                </div>
-              )}
-            </div>
 
-            <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
-              <button
-                onClick={() => setShowCreateModal(false)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleCreateQR}
-                disabled={!newQR.name}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-              >
-                Create QR Code
-              </button>
-            </div>
+                  <div className="mb-2 flex items-center gap-2 text-xs text-gray-500">
+                    <span>{qr.total_scans} scans</span>
+                    <span>·</span>
+                    <span>{formatTimeAgo(qr.last_scanned_at)}</span>
+                  </div>
+
+                  {/* Actions - Icon only */}
+                  <div className="flex items-center gap-1 border-t border-gray-100 pt-2">
+                    <button
+                      onClick={() => handleDownload(qr)}
+                      className="flex flex-1 items-center justify-center gap-1 rounded py-1.5 text-xs text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-600"
+                      title="Download"
+                    >
+                      <DownloadIcon className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      onClick={() => handleEdit(qr)}
+                      className="flex flex-1 items-center justify-center gap-1 rounded py-1.5 text-xs text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-600"
+                      title="Edit"
+                    >
+                      <PencilIcon className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      onClick={() => handleCopyUrl(qr)}
+                      className="flex flex-1 items-center justify-center gap-1 rounded py-1.5 text-xs text-gray-600 transition-colors hover:bg-blue-50 hover:text-blue-600"
+                      title="Copy URL"
+                    >
+                      <CopyIcon className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      onClick={() => handleToggleActive(qr)}
+                      className="flex flex-1 items-center justify-center gap-1 rounded py-1.5 text-xs text-gray-600 transition-colors hover:bg-yellow-50 hover:text-yellow-600"
+                      title={qr.is_active ? 'Deactivate' : 'Activate'}
+                    >
+                      {qr.is_active ? (
+                        <EyeOffIcon className="h-3.5 w-3.5" />
+                      ) : (
+                        <EyeIcon className="h-3.5 w-3.5" />
+                      )}
+                    </button>
+                    <button
+                      onClick={() => handleDelete(qr)}
+                      className="flex flex-1 items-center justify-center gap-1 rounded py-1.5 text-xs text-gray-600 transition-colors hover:bg-red-50 hover:text-red-600"
+                      title="Delete"
+                    >
+                      <TrashIcon className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Bulk Create Modal */}
-      {showBulkModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">
-              Bulk Create {bulkType === 'table' ? 'Tables' : bulkType === 'room' ? 'Rooms' : 'Items'}
-            </h2>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Prefix (optional)
-                </label>
-                <input
-                  type="text"
-                  value={bulkForm.prefix}
-                  onChange={(e) => setBulkForm({ ...bulkForm, prefix: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder={bulkType === 'table' ? 'Table' : bulkType === 'room' ? 'Room' : 'Item'}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Start Number</label>
-                  <input
-                    type="number"
-                    value={bulkForm.start}
-                    onChange={(e) => setBulkForm({ ...bulkForm, start: parseInt(e.target.value) || 1 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                    min="1"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">End Number</label>
-                  <input
-                    type="number"
-                    value={bulkForm.end}
-                    onChange={(e) => setBulkForm({ ...bulkForm, end: parseInt(e.target.value) || 10 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                    min="1"
-                  />
-                </div>
-              </div>
-
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <p className="text-sm text-blue-700">
-                  This will create <strong>{Math.max(0, bulkForm.end - bulkForm.start + 1)}</strong> QR codes:
-                  {bulkForm.prefix || (bulkType === 'table' ? 'Table' : bulkType === 'room' ? 'Room' : 'Item')} {bulkForm.start}
-                  {' '}to{' '}
-                  {bulkForm.prefix || (bulkType === 'table' ? 'Table' : bulkType === 'room' ? 'Room' : 'Item')} {bulkForm.end}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
-              <button
-                onClick={() => setShowBulkModal(false)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleBulkCreate}
-                disabled={bulkForm.end < bulkForm.start}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-              >
-                Create {Math.max(0, bulkForm.end - bulkForm.start + 1)} QR Codes
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* QR Builder Modal */}
+      <QRBuilderModal
+        open={showCreateModal}
+        onClose={handleCloseModal}
+        merchantId={merchantId}
+        merchantSlug={merchantSlug}
+        editQRCode={editingQR || undefined}
+        defaultType={presetType}
+        defaultContext={presetContext}
+        onComplete={handleCreateComplete}
+      />
     </div>
   );
 }
