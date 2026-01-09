@@ -18,10 +18,11 @@ const DEV_SESSION_COOKIE = 'gudbro_dev_session';
 
 /**
  * Check if dev mode is enabled
- * Only allows dev bypass in development environment
+ * Allows dev bypass in development OR when ENABLE_DEV_AUTH env var is set
+ * Use ENABLE_DEV_AUTH=true on Vercel for staging/demo environments
  */
 function isDevModeEnabled(): boolean {
-  return process.env.NODE_ENV === 'development';
+  return process.env.NODE_ENV === 'development' || process.env.ENABLE_DEV_AUTH === 'true';
 }
 
 export async function middleware(request: NextRequest) {
@@ -43,14 +44,11 @@ export async function middleware(request: NextRequest) {
   ];
 
   // API routes that are public
-  const publicApiRoutes = [
-    '/api/auth',
-    '/api/public',
-  ];
+  const publicApiRoutes = ['/api/auth', '/api/public'];
 
   // Check if current path is public
-  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
-  const isPublicApi = publicApiRoutes.some(route => pathname.startsWith(route));
+  const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
+  const isPublicApi = publicApiRoutes.some((route) => pathname.startsWith(route));
 
   // Check for dev session cookie (ONLY in development)
   if (isDevModeEnabled()) {
@@ -123,7 +121,9 @@ export async function middleware(request: NextRequest) {
   );
 
   // Refresh session if expired
-  const { data: { session } } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   // If not authenticated and trying to access protected route
   if (!session && !isPublicRoute && !isPublicApi) {
