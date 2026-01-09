@@ -5,13 +5,17 @@
  *
  * This component is independent of the actual account system and allows
  * developers to quickly switch between different role contexts for testing.
+ *
+ * Shows when:
+ * - NODE_ENV === 'development' (local dev)
+ * - OR dev session cookie exists (ENABLE_DEV_AUTH=true on Vercel)
  */
 
 import { useState, useEffect } from 'react';
 import { Users } from 'lucide-react';
 
-// Only show in development
-const isDev = process.env.NODE_ENV === 'development';
+// Cookie name must match middleware
+const DEV_SESSION_COOKIE = 'gudbro_dev_session';
 
 type DevRole = 'consumer' | 'merchant' | 'admin' | 'contributor';
 
@@ -24,22 +28,35 @@ const DEV_ROLES: { id: DevRole; label: string; icon: string; color: string }[] =
 
 const STORAGE_KEY = 'gudbro_dev_role';
 
+/**
+ * Check if dev mode is active by looking for the dev session cookie
+ */
+function hasDevSession(): boolean {
+  if (typeof document === 'undefined') return false;
+  return document.cookie.includes(DEV_SESSION_COOKIE);
+}
+
 export function DevRoleSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentRole, setCurrentRole] = useState<DevRole>('merchant');
   const [mounted, setMounted] = useState(false);
+  const [isDevMode, setIsDevMode] = useState(false);
 
   // Wait for client-side hydration before rendering
   useEffect(() => {
     setMounted(true);
+    // Check if dev mode: either NODE_ENV=development or dev session cookie exists
+    const isDev = process.env.NODE_ENV === 'development' || hasDevSession();
+    setIsDevMode(isDev);
+
     const saved = localStorage.getItem(STORAGE_KEY) as DevRole;
     if (saved && DEV_ROLES.some((r) => r.id === saved)) {
       setCurrentRole(saved);
     }
   }, []);
 
-  // Don't render in production or before hydration
-  if (!isDev || !mounted) {
+  // Don't render if not in dev mode or before hydration
+  if (!isDevMode || !mounted) {
     return null;
   }
 
@@ -110,9 +127,7 @@ export function DevRoleSwitcher() {
             ))}
 
             <div className="border-t border-gray-100 px-3 py-2">
-              <p className="text-[10px] text-gray-400">
-                This selector is only visible in development mode
-              </p>
+              <p className="text-[10px] text-gray-400">Dev mode active - for testing only</p>
             </div>
           </div>
         </>
