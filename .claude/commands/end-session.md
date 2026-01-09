@@ -6,14 +6,41 @@ description: Chiudi sessione e salva contesto
 
 Prima di terminare la sessione:
 
-## 1. Aggiorna Backlog
+## 1. Aggiorna Session Log
+
+Aggiungi entry a `docs/SESSION-LOG.md` (nuove in cima):
+
+```markdown
+## YYYY-MM-DD
+
+**Focus:** [Cosa si e' lavorato]
+**Durata:** ~Xh
+
+### Completato
+
+- [Task 1]
+
+### Commits
+
+- `hash` - message
+
+### Decisioni
+
+- [Decisione]: [Motivazione]
+
+### Prossima sessione
+
+- [Cosa fare dopo]
+```
+
+## 2. Aggiorna Backlog
 
 Sposta task completate:
 
 - Da `2-IN-PROGRESS.md` a `4-DONE.md`
 - Aggiungi data completamento
 
-## 2. Aggiorna CLAUDE.md Sezione 0
+## 3. Aggiorna CLAUDE.md Sezione 0
 
 Se la task principale e' cambiata, aggiorna:
 
@@ -25,16 +52,6 @@ Se la task principale e' cambiata, aggiorna:
 > **Azione:** [prossimo step]
 ```
 
-## 3. Salva su Pieces (se disponibile)
-
-```
-mcp__Pieces__create_pieces_memory(
-  summary_description: "[Breve titolo]",
-  summary: "## Sessione [DATA]\n### Cosa fatto\n- ...\n### Prossimi step\n- ...",
-  project: "/Users/gianfrancodagostino/Desktop/gudbro-verticals"
-)
-```
-
 ## 4. Commit documentazione
 
 ```bash
@@ -44,6 +61,7 @@ git commit -m "docs: aggiornamento sessione $(date +%Y-%m-%d)"
 
 ## Verifica finale
 
+- [ ] Session Log aggiornato
 - [ ] Backlog aggiornato
 - [ ] CLAUDE.md sezione 0 aggiornata
 - [ ] Nessun lavoro non salvato

@@ -11,9 +11,16 @@
 
 | ID               | Feature               | Descrizione                                                                                                   | Completato |
 | ---------------- | --------------------- | ------------------------------------------------------------------------------------------------------------- | ---------- |
+| UI-SIDEBAR       | Sidebar Improvements  | Sidebar collapsible con pin/unpin, hover expand, unified account dropdown in header, DevRoleSwitcher          | 2026-01-09 |
+| UI-ACCOUNT       | Account Page          | Pagina /account per gestione profilo utente, info, email, ruoli, loyalty points                               | 2026-01-09 |
+| QR-BUILDER-V2    | QR Builder System     | Sistema completo QR: modal 4-step, URL/WiFi types, design panel, export PNG/SVG/PDF, 313 test, redirect API   | 2026-01-09 |
 | QR-BUILDER-TESTS | QR Builder Test Suite | 313 test automatici per QR Builder. 7 file test, 3 bug trovati e fixati (UA parsing). Vedi PRODUCT.md Sez. 15 | 2026-01-09 |
 
-> **Files:** `apps/backoffice/lib/qr/__tests__/`, `apps/backoffice/components/qr/__tests__/`, `apps/backoffice/app/api/qr/__tests__/`
+> **Files:**
+>
+> - QR: `apps/backoffice/lib/qr/`, `apps/backoffice/components/qr/`, `apps/backoffice/app/api/qr/`
+> - Sidebar: `apps/backoffice/lib/contexts/SidebarContext.tsx`, `apps/backoffice/components/layout/Sidebar.tsx`
+> - Account: `apps/backoffice/app/(dashboard)/account/page.tsx`, `apps/backoffice/components/account/DevRoleSwitcher.tsx`
 
 ---
 
