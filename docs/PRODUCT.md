@@ -4,8 +4,8 @@
 > Questo documento mi permette di valutare features e decisioni da più prospettive,
 > non solo tecnica ma anche operativa, umana, competitiva e di business.
 >
-> **Last Updated:** 2026-01-09
-> **Version:** 1.4
+> **Last Updated:** 2026-01-10
+> **Version:** 1.5
 
 ---
 
@@ -206,7 +206,32 @@ Il settore F&B gestisce dati sensibili che richiedono attenzione particolare:
 
 ---
 
-### 1.5 Differenziatori vs Competitor
+### 1.5 Go-to-Market Strategy
+
+**Approccio:** Asia First, Global Second
+
+| Aspetto                     | Decisione                     | Razionale                        |
+| --------------------------- | ----------------------------- | -------------------------------- |
+| **Mercato iniziale**        | Vietnam, poi SEA              | Meno competitor, founder on-site |
+| **Piattaforme prioritarie** | Zalo, LINE, KakaoTalk, WeChat | Dominano in Asia, non Occidente  |
+| **Espansione**              | Europa dopo traction Asia     | Mercato più competitivo          |
+
+**Perché Asia First:**
+
+- Meno competitor diretti nel segmento QR menu + AI
+- Founder vive a Da Nang, Vietnam → conosce mercato direttamente
+- Test e iterate con costi minori
+- Cultura mobile-first più sviluppata
+
+**Implicazioni:**
+
+- Prioritizzare integrazioni con piattaforme asiatiche (Zalo, LINE, GrabFood, etc.)
+- UI/UX pensata per utenti asiatici prima
+- Pricing adeguato a potere d'acquisto locale
+
+---
+
+### 1.6 Differenziatori vs Competitor
 
 | Noi                               | Competitor (es. MenuTiger) |
 | --------------------------------- | -------------------------- |
@@ -217,7 +242,7 @@ Il settore F&B gestisce dati sensibili che richiedono attenzione particolare:
 | Sistema allergeni completo        | Basico                     |
 | Contextual QR (table vs external) | QR generici                |
 
-### 1.5 Product Phasing
+### 1.7 Product Phasing
 
 > **Principio:** Focus su ciò che genera valore oggi, non su ciò che potrebbe servire domani.
 
@@ -491,6 +516,80 @@ Features sperimentali o long-term:
 | **Menu**        | Limitato, specializzato                   |
 | **Sfide**       | Spazio, connettività, pagamenti           |
 | **Opportunità** | Menu veloce, pre-order, location tracking |
+
+---
+
+## 3.8 SERVICE MODELS (Cross-Venue)
+
+> **Insight:** Il modello di servizio determina quali feature servono, indipendentemente dal tipo di venue.
+> Un bar può avere table service, un ristorante può essere counter-only.
+
+### Modelli Identificati
+
+| Modello                       | Ordine                  | Pagamento    | QR Serve Per                 |
+| ----------------------------- | ----------------------- | ------------ | ---------------------------- |
+| **Table Service**             | Cameriere al tavolo     | Fine pasto   | Consultazione menu           |
+| **Counter + Delivery**        | Al banco, numero tavolo | Prima o dopo | Pre-decisione, accessibilità |
+| **Counter + Pickup**          | Al banco                | Subito       | Pre-decisione                |
+| **Counter + Menu Illuminato** | Al banco                | Subito       | Accessibilità, discovery     |
+| **QR Ordering**               | Dal telefono            | Dal telefono | Tutto il flusso              |
+
+### QR Value per Modello
+
+**Insight chiave:** Il QR menu ha valore INDIPENDENTE dall'ordering digitale.
+
+Anche in locali con ordini solo alla cassa (stile Starbucks):
+
+- **Accessibilità:** Chi non vede bene legge dal telefono, non da menu lontano
+- **Discovery:** Cliente scopre promozioni e novità che non vedrebbe dal menu illuminato
+- **Pre-decisione:** Cliente arriva alla cassa già deciso → code più veloci
+- **Secondi ordini:** Meno resistenza psicologica a rialzarsi (può sfogliare dal tavolo)
+
+### Psychological Friction
+
+> **Insight:** La frizione psicologica è un costo nascosto che i merchant non vedono.
+
+| Situazione         | Senza QR                                    | Con QR                                   |
+| ------------------ | ------------------------------------------- | ---------------------------------------- |
+| **Primo ordine**   | Cliente fa coda, decide sotto pressione     | Cliente sfoglia al tavolo, arriva deciso |
+| **Secondo ordine** | Deve rialzarsi, rifare coda, rileggere menu | Sfoglia dal tavolo, decisione facile     |
+| **Risultato**      | Meno secondi ordini, stress                 | Più ordini, esperienza rilassata         |
+
+### Implicazioni Onboarding
+
+Prima domanda onboarding dovrebbe essere: **"Come funziona il servizio nel tuo locale?"**
+
+Risposta determina:
+
+- Quali feature mostrare/nascondere
+- Quali pain point evidenziare
+- Come configurare flusso pagamento/ordine
+
+### Tier "Menu Only"
+
+Per merchant che **non vogliono cambiare flusso operativo**:
+
+**Include:**
+
+- Menu consultabile via QR
+- Promozioni visibili
+- Traduzioni multilingua
+- Analytics scansioni
+
+**NON include:**
+
+- Ordering digitale
+- Pagamenti online
+- Notifiche ordine pronto
+
+**Strategia:** Entry point per upsell futuro. Cliente prova valore base → upgrade a ordering quando pronto.
+
+**Argomenti vendita:**
+
+- "Non cambi nulla. Solo un QR sul tavolo."
+- "Code più veloci: cliente arriva deciso"
+- "Più secondi ordini: meno resistenza psicologica"
+- "Accessibilità: chi non vede bene legge dal telefono"
 
 ---
 
@@ -1173,6 +1272,54 @@ Scrivere test ti forza a pensare a edge cases che non avresti considerato.
 
 **Copertura finale:** Vedi Sezione 15 (Test Coverage) per dettagli.
 
+#### 2026-01-10 - Service Models & Strategic Session
+
+**Insight chiave:** Modelli di Servizio
+
+Non tutti i locali funzionano allo stesso modo. Il modello di servizio (Table Service, Counter+Delivery, etc.) determina quali feature servono. Vedi Sezione 3.8 per dettagli completi.
+
+**Insight:** QR Value Independence
+
+Il QR menu ha valore anche senza ordering digitale:
+
+- Accessibilità per chi non vede bene
+- Discovery di promozioni
+- Pre-decisione → code veloci
+- Meno resistenza psicologica per secondi ordini
+
+**Insight:** Psychological Friction
+
+La resistenza a rialzarsi per ordinare di nuovo è un costo nascosto. Con QR sul tavolo, il cliente sfoglia comodamente e decide senza stress.
+
+**Insight:** Tier "Menu Only"
+
+Entry tier per merchant che non vogliono cambiare flusso. Piede nella porta → upsell futuro.
+
+**Insight:** Notification System (Buzzer Replacement)
+
+I buzzer hardware che molti locali usano possono essere sostituiti da notifiche su telefono:
+
+- Web Push (no registrazione)
+- SMS
+- **WhatsApp/Zalo/LINE** (preferito per Asia - tutti li hanno aperti)
+
+Argomento vendita: "Elimina batterie, dispositivi persi, manutenzione."
+
+**Insight:** AI Conversational Onboarding
+
+Concept: sito minimal con chat centrale dove l'AI:
+
+1. Fa domande per capire il business
+2. Configura il prodotto durante la conversazione
+3. Diventa il co-manager post-signup
+
+Benefici:
+
+- Demo live del prodotto prima del pagamento
+- Zero form (conversazione naturale)
+- Qualificazione lead automatica
+- Continuità relazionale
+
 ### 14.2 Research Findings
 
 #### MenuTiger (2026-01-08)
@@ -1285,12 +1432,22 @@ pnpm vitest
 ---
 
 **File:** `docs/PRODUCT.md`
-**Version:** 1.3
+**Version:** 1.5
 **Created:** 2026-01-08
 **Author:** Claude (con input da sessioni con Gianfranco)
 
 **Changelog:**
 
+- v1.5 (2026-01-10): Service Models & Strategic Insights
+  - Sezione 1.5 "Go-to-Market Strategy" (Asia First)
+  - Sezione 3.8 "Service Models" (5 modelli di servizio)
+  - QR Value Independence (valore anche senza ordering)
+  - Psychological Friction (costo nascosto secondi ordini)
+  - Tier "Menu Only" (entry point per upsell)
+  - Notification System (buzzer replacement)
+  - AI Conversational Onboarding concept
+  - Session Insights 2026-01-10
+- v1.4 (2026-01-09): QR Builder Test Suite insights
 - v1.3 (2026-01-09): Aggiunta Sezione 1.4 "Design Principles (UX/UI)"
   - Principi universali (3-Click Rule, Don't Make Me Think, Progressive Disclosure, etc.)
   - Principi SaaS/B2B (Time to Value, Aha Moment, Empty States, etc.)

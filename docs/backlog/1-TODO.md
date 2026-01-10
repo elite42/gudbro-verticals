@@ -3,7 +3,7 @@
 > Task da fare, ordinate per priorità.
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 
-**Last Updated:** 2026-01-08
+**Last Updated:** 2026-01-10
 
 ---
 
@@ -12,6 +12,127 @@
 | ID  | Feature | Descrizione     | Area | Effort |
 | --- | ------- | --------------- | ---- | ------ |
 | -   | -       | Nessuna task P0 | -    | -      |
+
+---
+
+## P0.5 - Strategia Prodotto & Onboarding (2026-01-10)
+
+> **Nuova sezione** emersa dalla sessione strategica sui modelli di servizio.
+> Queste decisioni impattano onboarding B2B, pricing tiers, e conversione.
+
+### SERVICE-MODELS - Modelli di Servizio Locale
+
+**Vision:** Il modello di servizio del locale determina le feature necessarie.
+
+**Modelli identificati:**
+
+| Modello                   | Ordine                | Pagamento  | QR Serve Per             |
+| ------------------------- | --------------------- | ---------- | ------------------------ |
+| Table Service             | Cameriere             | Fine pasto | Consultazione menu       |
+| Counter + Delivery        | Banco + numero tavolo | Prima/dopo | Pre-decisione            |
+| Counter + Pickup          | Banco                 | Subito     | Pre-decisione            |
+| Counter + Menu Illuminato | Banco                 | Subito     | Accessibilità, discovery |
+| QR Ordering               | Telefono              | Telefono   | Tutto il flusso          |
+
+**Implicazioni:**
+
+- [ ] Prima domanda onboarding: "Come funziona il servizio nel tuo locale?"
+- [ ] Feature e pain point mostrati in base al modello
+- [ ] Configurazione automatica flusso pagamento/ordine
+
+---
+
+### AI-ONBOARDING - Onboarding Conversazionale con AI
+
+**Vision:** Sito minimal con chat centrale. L'AI fa domande, capisce il business, configura il prodotto.
+
+**Perché funziona:**
+
+- **Continuità:** L'AI che fa onboarding diventa il co-manager
+- **Demo live:** Il prospect sperimenta il valore AI prima di pagare
+- **Zero form:** Conversazione naturale invece di 15 campi
+- **Configurazione automatica:** Mentre chatta, AI costruisce il profilo
+- **Qualificazione naturale:** Capisce subito se lead serio
+
+**UI:**
+
+```
+┌─────────────────────────────────────────┐
+│                 GUDBRO                  │
+│                                         │
+│  ┌─────────────────────────────────┐   │
+│  │ Ciao! Sono il tuo futuro        │   │
+│  │ co-manager. Raccontami del tuo  │   │
+│  │ locale - che tipo di attività è?│   │
+│  └─────────────────────────────────┘   │
+│                                         │
+│  [___________________________] [Invia]  │
+│                                         │
+└─────────────────────────────────────────┘
+```
+
+**Dipendenze:** Infrastruttura AI Co-Manager esistente
+
+---
+
+### TIER-MENU-ONLY - Pricing Tier "Menu Only"
+
+**Vision:** Per merchant che non vogliono cambiare flusso operativo.
+
+**Include:**
+
+- Menu consultabile via QR
+- Promozioni visibili
+- Traduzioni multilingua
+- Analytics scansioni
+
+**NON include:**
+
+- Ordering digitale
+- Pagamenti online
+- Notifiche ordine pronto
+
+**Argomenti di vendita:**
+
+- "Non cambi nulla del tuo flusso. Solo un QR sul tavolo."
+- "Code più veloci: cliente arriva deciso alla cassa"
+- "Più secondi ordini: meno resistenza psicologica"
+- "Accessibilità: chi non vede bene legge dal telefono"
+- "Discovery: cliente scopre promozioni e novità"
+
+**Strategia:** Entry point per upsell futuro verso ordering digitale.
+
+---
+
+### ORDER-READY-NOTIFICATIONS - Notifiche "Ordine Pronto"
+
+**Vision:** Sostituire buzzer hardware con notifiche su telefono cliente.
+
+**Opzioni implementative:**
+
+| Metodo                 | Come funziona              | Pro                          | Contro                    |
+| ---------------------- | -------------------------- | ---------------------------- | ------------------------- |
+| Pagina stato ordine    | Cliente resta sulla pagina | Zero frizione                | Deve tenere pagina aperta |
+| Web Push               | Solo permesso notifiche    | Funziona a browser chiuso    | Alcuni rifiutano          |
+| SMS                    | Numero al checkout         | Affidabile sempre            | Costo per SMS             |
+| **WhatsApp/Zalo/LINE** | Chat app                   | Affidabilità max, zero costo | Richiede integrazione     |
+
+**Raccomandazione per Asia:** WhatsApp/Zalo/LINE - tutti li hanno aperti.
+
+**Argomento vendita:**
+
+> "Elimina i buzzer hardware. Niente batterie, niente dispositivi persi, niente manutenzione. Il telefono del cliente è già il suo buzzer."
+
+---
+
+### Percorso Upgrade Cliente
+
+```
+Menu Only → Table Ordering → Table Ordering + Notifiche
+    ↓              ↓                    ↓
+ Consulta      Ordina dal           Ordina + riceve
+  e basta       tavolo              notifica pickup/delivery
+```
 
 ---
 

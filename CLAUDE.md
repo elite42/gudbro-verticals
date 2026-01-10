@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-08
-> **Version:** 6.3 (Added How to Use layered approach)
+> **Last Updated:** 2026-01-10
+> **Version:** 6.4 (Added product/UX patterns from service models session)
 
 ---
 
@@ -333,28 +333,33 @@ VERIFICA SEMPRE:
 
 ## Pattern da Seguire
 
-| Area            | Pattern Corretto                | Anti-Pattern                |
-| --------------- | ------------------------------- | --------------------------- |
-| SQL Arrays      | `'{\"a\",\"b\"}'`               | `'["a","b"]'`               |
-| UUID            | `a1b2c3d4-...` (solo hex)       | `ghij-klmn-...`             |
-| Imports         | `import { X } from '@/lib/...'` | Path relativi profondi      |
-| Error handling  | `try/catch` con logging         | Silent failures             |
-| RLS Backend     | `auth.role() = 'service_role'`  | `WITH CHECK (true)`         |
-| RLS User        | `auth.uid() = user_id`          | `USING (true)`              |
-| RLS Public Read | `FOR SELECT USING (true)` OK    | `FOR ALL USING (true)` NO   |
-| Env-dependent   | `Proxy` lazy init               | `createClient()` a import   |
-| Type unions     | Include tutti i valori validi   | Dimenticare `'both'` etc    |
-| Warnings/Errors | Agire subito, fix o segnala     | Ignorare e proseguire       |
-| Doc grandi      | Layered: sezioni rilevanti solo | Leggere/processare tutto    |
-| Debug API/MCP   | Query semplice → incrementale   | Query complessa subito      |
-| Traduzioni bulk | Script OpenAI (gpt-4o-mini)     | Generare inline con Claude  |
-| RLS bypass      | Script→SQL output→MCP execute   | Cercare service_role_key    |
-| UA/Regex check  | Specifici prima, generici dopo  | Chrome prima di Samsung     |
-| Test automatici | Scrivere test scopre bug        | Solo test manuali           |
-| Hydration SSR   | `mounted` state + useEffect     | localStorage a render       |
-| Feature 404     | Creare la pagina mancante       | Rimuovere il link           |
-| Dev-only logic  | Componente separato `DevX`      | if(isDev) dentro comp prod  |
-| Pieces MCP      | Query only (`ask_pieces_ltm`)   | `create_memory` (auto-save) |
+| Area            | Pattern Corretto                 | Anti-Pattern                 |
+| --------------- | -------------------------------- | ---------------------------- |
+| SQL Arrays      | `'{\"a\",\"b\"}'`                | `'["a","b"]'`                |
+| UUID            | `a1b2c3d4-...` (solo hex)        | `ghij-klmn-...`              |
+| Imports         | `import { X } from '@/lib/...'`  | Path relativi profondi       |
+| Error handling  | `try/catch` con logging          | Silent failures              |
+| RLS Backend     | `auth.role() = 'service_role'`   | `WITH CHECK (true)`          |
+| RLS User        | `auth.uid() = user_id`           | `USING (true)`               |
+| RLS Public Read | `FOR SELECT USING (true)` OK     | `FOR ALL USING (true)` NO    |
+| Env-dependent   | `Proxy` lazy init                | `createClient()` a import    |
+| Type unions     | Include tutti i valori validi    | Dimenticare `'both'` etc     |
+| Warnings/Errors | Agire subito, fix o segnala      | Ignorare e proseguire        |
+| Doc grandi      | Layered: sezioni rilevanti solo  | Leggere/processare tutto     |
+| Debug API/MCP   | Query semplice → incrementale    | Query complessa subito       |
+| Traduzioni bulk | Script OpenAI (gpt-4o-mini)      | Generare inline con Claude   |
+| RLS bypass      | Script→SQL output→MCP execute    | Cercare service_role_key     |
+| UA/Regex check  | Specifici prima, generici dopo   | Chrome prima di Samsung      |
+| Test automatici | Scrivere test scopre bug         | Solo test manuali            |
+| Hydration SSR   | `mounted` state + useEffect      | localStorage a render        |
+| Feature 404     | Creare la pagina mancante        | Rimuovere il link            |
+| Dev-only logic  | Componente separato `DevX`       | if(isDev) dentro comp prod   |
+| Pieces MCP      | Query only (`ask_pieces_ltm`)    | `create_memory` (auto-save)  |
+| Regional market | Considera piattaforme Asia       | Assumere default occidentali |
+| Settings UX     | Tabs orizzontali per settings    | Submenu sidebar              |
+| Service models  | Capire modello servizio locale   | One-size-fits-all            |
+| Entry tier      | Tier base come piede nella porta | Forzare full package         |
+| QR value        | QR utile anche senza ordering    | QR = solo ordering           |
 
 ## Come Aggiornare
 

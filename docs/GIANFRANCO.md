@@ -3,8 +3,8 @@
 > **Scopo:** Documento vivente per capire meglio Gianfranco e collaborare in modo più efficace.
 > Aggiornato continuamente basandosi sulle interazioni.
 >
-> **Last Updated:** 2026-01-09
-> **Version:** 1.1
+> **Last Updated:** 2026-01-10
+> **Version:** 1.2
 
 ---
 
@@ -189,12 +189,26 @@
 
 ## 8. Note Personali
 
+### Location
+
+- **Attualmente:** Da Nang, Vietnam
+- **Timezone:** UTC+7
+- **Impatto:** Conosce il mercato asiatico direttamente, non da teoria
+
+### Come Pensa Meglio
+
+- **Pensa camminando** - Le idee migliori vengono durante passeggiate, lontano dallo schermo
+- **Osserva il mondo reale** - I pattern (es. modelli di servizio) vengono dall'osservazione diretta
+- **Discussioni emergenti** - Preferisce brainstorming fluido a planning rigido
+- **Psicologia utente** - Considera aspetti emotivi/psicologici (es. "resistenza a rialzarsi")
+
 ### Interessi Osservati
 
 - Hospitality/F&B (dominio del prodotto)
 - UX e design thinking
 - Automazione e efficienza
 - Continuous improvement
+- Mercato asiatico (Zalo, LINE, KakaoTalk, WeChat - li conosce per esperienza diretta)
 
 ### Stile di Apprendimento
 
@@ -219,11 +233,14 @@ Questo pattern è molto utile per feature review e debugging.
 
 ## 9. Changelog
 
-| Data       | Aggiornamento                                                          |
-| ---------- | ---------------------------------------------------------------------- |
-| 2026-01-09 | Aggiunto: Problem Solving Pattern (Systems Thinking) in Note Personali |
-| 2026-01-09 | Aggiunto: "Non fargli ripetere le stesse cose" nei Red Flags           |
-| 2026-01-09 | Creazione documento v1.0 - basato su sessioni precedenti               |
+| Data       | Aggiornamento                                                           |
+| ---------- | ----------------------------------------------------------------------- |
+| 2026-01-10 | Aggiunto: Location (Da Nang, Vietnam)                                   |
+| 2026-01-10 | Aggiunto: "Come Pensa Meglio" (cammina, osserva, emergente, psicologia) |
+| 2026-01-10 | Aggiunto: Mercato asiatico negli interessi                              |
+| 2026-01-09 | Aggiunto: Problem Solving Pattern (Systems Thinking) in Note Personali  |
+| 2026-01-09 | Aggiunto: "Non fargli ripetere le stesse cose" nei Red Flags            |
+| 2026-01-09 | Creazione documento v1.0 - basato su sessioni precedenti                |
 
 ---
 

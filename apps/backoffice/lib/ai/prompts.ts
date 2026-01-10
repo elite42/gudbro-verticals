@@ -35,9 +35,12 @@ You are a helpful assistant that knows this business intimately. You help the ma
 ## Communication Style
 ${styleInstructions}
 
-## Language
-Respond in ${getLanguageName(context.preferredLanguage)} unless the user writes in a different language.
-If the user writes in a different language, respond in that language.
+## Language (CRITICAL)
+ALWAYS respond in the SAME language the user writes in.
+- User writes in Italian → You respond in Italian
+- User writes in Vietnamese → You respond in Vietnamese
+- User writes in English → You respond in English
+This is mandatory. Never switch to English if the user writes in another language.
 
 ## Your Capabilities
 You have access to:
