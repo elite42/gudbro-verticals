@@ -220,6 +220,7 @@ export async function checkOnboardingStatus(
   let organization: OrganizationData | null = null;
 
   if (locationId) {
+    // Direct location lookup
     const { data: loc } = await supabase
       .from('locations')
       .select(
@@ -266,6 +267,68 @@ export async function checkOnboardingStatus(
           organization = brandData.organization;
         }
       }
+    }
+  } else {
+    // Fallback: Use merchantId to find organization via converted_organization_id
+    // Then find associated brand and location
+    const { data: merchant } = await supabase
+      .from('merchants')
+      .select(
+        `
+        id, name,
+        converted_organization_id
+      `
+      )
+      .eq('id', merchantId)
+      .single();
+
+    if (merchant?.converted_organization_id) {
+      // Get organization
+      const { data: org } = await supabase
+        .from('organizations')
+        .select('id, name, type, subscription_plan')
+        .eq('id', merchant.converted_organization_id)
+        .single();
+
+      if (org) {
+        organization = org;
+
+        // Get first brand for this organization
+        const { data: brandData } = await supabase
+          .from('brands')
+          .select('id, name, business_type, description, logo_url, primary_color')
+          .eq('organization_id', org.id)
+          .limit(1)
+          .single();
+
+        if (brandData) {
+          brand = brandData;
+
+          // Get first location for this brand
+          const { data: loc } = await supabase
+            .from('locations')
+            .select(
+              `id, name, address, city, country_code, phone, email,
+               primary_language, timezone, operating_hours`
+            )
+            .eq('brand_id', brandData.id)
+            .limit(1)
+            .single();
+
+          if (loc) {
+            location = loc;
+          }
+        }
+      }
+    } else if (merchant?.name) {
+      // Legacy merchant without multi-tenant conversion
+      // Create minimal organization data from merchant name
+      organization = {
+        id: merchantId,
+        name: merchant.name,
+        type: null,
+        subscription_plan: null,
+      };
     }
   }
 
