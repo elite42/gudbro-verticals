@@ -165,7 +165,7 @@ export function QRBuilderModal({
   defaultContext,
   defaultSource,
   tableNumber: presetTableNumber,
-  _eventId,
+  eventId: _eventId,
   editQRCode,
   onComplete,
 }: QRBuilderModalProps) {

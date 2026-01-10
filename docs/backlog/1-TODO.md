@@ -390,7 +390,42 @@ L'AI Co-Manager partecipa attivamente ai workflow QR:
 
 ### P7 - Web3 (Post-Validazione)
 
-| ID             | Feature           | Descrizione                |
-| -------------- | ----------------- | -------------------------- |
-| W3-NFT-LOYALTY | NFT Loyalty Cards | Collezione NFT per loyalty |
-| W3-CRYPTO-PAY  | Crypto Payments   | Bitcoin, ETH, stablecoins  |
+| ID                | Feature             | Descrizione                                    |
+| ----------------- | ------------------- | ---------------------------------------------- |
+| W3-NFT-LOYALTY    | NFT Loyalty Cards   | Collezione NFT per loyalty                     |
+| ~~W3-CRYPTO-PAY~~ | ~~Crypto Payments~~ | **COMPLETATO Phase 1** 2026-01-10 - vedi sotto |
+
+---
+
+### CRYPTO-PAYMENTS-P2 - Evoluzione Pagamenti Crypto (Phase 2)
+
+**Status:** Phase 1 completata. Queste sono le evoluzioni future.
+
+**Phase 1 (COMPLETATO 2026-01-10):**
+
+- [x] Database schema (merchant_payment_settings, crypto_order_payments, supported_cryptocurrencies)
+- [x] Backoffice Settings > Payments page (Fiat + Crypto tabs)
+- [x] CryptoWalletInput component con validazione
+- [x] PWA crypto-price-service (CoinGecko API)
+- [x] PWA CryptoPaymentModal (QR code + tx hash)
+- [x] 7 crypto supportate: BTC, ETH, USDC, USDT, SOL, TON, BNB
+- [x] Block explorer links per verifica
+
+**Phase 2 Features:**
+
+| ID                    | Feature                     | Descrizione                                               | Effort |
+| --------------------- | --------------------------- | --------------------------------------------------------- | ------ |
+| CRYPTO-ACCOUNTING     | Export Contabilita          | CSV/PDF export pagamenti crypto per commercialista        | Low    |
+| CRYPTO-CUSTOMER-PREF  | Customer Payment Preference | Tracciare se cliente preferisce crypto/fiat nel profilo   | Low    |
+| CRYPTO-PROMOS         | Promozioni Crypto-Only      | Sconti/cashback per chi paga in crypto                    | Medium |
+| CRYPTO-WALLET-CONNECT | Wallet Connect              | Phantom, MetaMask one-click payment                       | Medium |
+| CRYPTO-AUTO-VERIFY    | Verifica Automatica         | Check blockchain API per conferma automatica tx           | High   |
+| CRYPTO-PRICE-MENU     | Prezzi Crypto su Menu       | Mostra prezzi in mBTC/ETH accanto a EUR                   | Low    |
+| CRYPTO-GATEWAY        | Payment Gateway             | Integrazione NOWPayments/BitPay per auto-conversione fiat | High   |
+| CRYPTO-LIGHTNING      | Lightning Network           | BTC Lightning per pagamenti istantanei low-fee            | High   |
+
+**Marketing/Website:**
+
+- [x] Feature aggiunta a FeaturesSection homepage (badge NEW)
+- [x] Landing page dedicata `/solutions/crypto-payments` per SEO
+- [ ] Case study: "Come [locale] ha aumentato revenue con crypto"

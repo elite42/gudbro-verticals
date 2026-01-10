@@ -5,34 +5,41 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
 // Solution data
-const solutions: Record<string, {
-  title: string;
-  description: string;
-  hero: string;
-  icon: string;
-  features: { title: string; description: string; icon: string }[];
-  benefits: string[];
-  cta: string;
-}> = {
+const solutions: Record<
+  string,
+  {
+    title: string;
+    description: string;
+    hero: string;
+    icon: string;
+    features: { title: string; description: string; icon: string }[];
+    benefits: string[];
+    cta: string;
+  }
+> = {
   restaurants: {
     title: 'Digital Menus for Restaurants',
-    description: 'Transform your restaurant with QR-powered digital menus. Multi-language support, real-time updates, and seamless ordering.',
+    description:
+      'Transform your restaurant with QR-powered digital menus. Multi-language support, real-time updates, and seamless ordering.',
     hero: 'Elevate your restaurant experience with smart digital menus',
     icon: '🍽️',
     features: [
       {
         title: 'Instant Menu Updates',
-        description: 'Change prices, add dishes, or mark items as sold out in real-time. No reprinting needed.',
+        description:
+          'Change prices, add dishes, or mark items as sold out in real-time. No reprinting needed.',
         icon: '⚡',
       },
       {
         title: 'Multi-Language Support',
-        description: 'Serve international guests with menus in 100+ languages. AI-powered translations included.',
+        description:
+          'Serve international guests with menus in 100+ languages. AI-powered translations included.',
         icon: '🌍',
       },
       {
         title: 'Rich Media',
-        description: 'Showcase your dishes with beautiful photos, videos, and detailed descriptions.',
+        description:
+          'Showcase your dishes with beautiful photos, videos, and detailed descriptions.',
         icon: '📸',
       },
       {
@@ -42,12 +49,14 @@ const solutions: Record<string, {
       },
       {
         title: 'Order Management',
-        description: 'Receive orders directly to your kitchen display. Reduce wait times and errors.',
+        description:
+          'Receive orders directly to your kitchen display. Reduce wait times and errors.',
         icon: '📋',
       },
       {
         title: 'Analytics Dashboard',
-        description: 'Track popular items, peak hours, and customer preferences to optimize your menu.',
+        description:
+          'Track popular items, peak hours, and customer preferences to optimize your menu.',
         icon: '📊',
       },
     ],
@@ -62,18 +71,21 @@ const solutions: Record<string, {
   },
   hotels: {
     title: 'Digital Guest Services for Hotels',
-    description: 'Enhance your hotel guest experience with QR-powered room service, amenities info, and concierge services.',
+    description:
+      'Enhance your hotel guest experience with QR-powered room service, amenities info, and concierge services.',
     hero: 'Deliver exceptional guest experiences with digital room services',
     icon: '🏨',
     features: [
       {
         title: 'Digital Room Directory',
-        description: 'Replace paper directories with interactive digital guides. Always up-to-date.',
+        description:
+          'Replace paper directories with interactive digital guides. Always up-to-date.',
         icon: '📖',
       },
       {
         title: 'Room Service Ordering',
-        description: 'Guests order directly from their phone. No phone calls, no language barriers.',
+        description:
+          'Guests order directly from their phone. No phone calls, no language barriers.',
         icon: '🛎️',
       },
       {
@@ -108,7 +120,8 @@ const solutions: Record<string, {
   },
   airbnb: {
     title: 'Digital Guides for Vacation Rentals',
-    description: 'Create beautiful digital guidebooks for your Airbnb, VRBO, or vacation rental properties.',
+    description:
+      'Create beautiful digital guidebooks for your Airbnb, VRBO, or vacation rental properties.',
     hero: 'Impress guests with professional digital property guides',
     icon: '🏡',
     features: [
@@ -154,7 +167,8 @@ const solutions: Record<string, {
   },
   'food-trucks': {
     title: 'Mobile Menus for Food Trucks',
-    description: 'Perfect for food trucks, pop-ups, and mobile vendors. Fast setup, easy updates, instant payments.',
+    description:
+      'Perfect for food trucks, pop-ups, and mobile vendors. Fast setup, easy updates, instant payments.',
     hero: 'Run your food truck smarter with digital menus',
     icon: '🚚',
     features: [
@@ -198,6 +212,70 @@ const solutions: Record<string, {
     ],
     cta: 'Get Started Free',
   },
+  'crypto-payments': {
+    title: 'Accept Cryptocurrency Payments',
+    description:
+      'Tired of losing 2-3% on every card transaction? Accept crypto like digital cash - zero fees, instant settlement, no chargebacks.',
+    hero: 'Digital cash for the modern merchant. Zero fees. Instant settlement.',
+    icon: '₿',
+    features: [
+      {
+        title: 'Zero Transaction Fees',
+        description:
+          'Cards take 2-3% of every sale. Crypto goes directly to your wallet. On a €10,000/month business, save €200-300 monthly.',
+        icon: '💰',
+      },
+      {
+        title: 'Like Cash, But Better',
+        description:
+          'Same benefits as cash (no fees, instant, no chargebacks) but digital, traceable, and works with tourists worldwide.',
+        icon: '💵',
+      },
+      {
+        title: '7 Cryptocurrencies',
+        description:
+          'Accept Bitcoin, Ethereum, USDC, USDT, Solana, TON, and BNB. Stablecoins for no volatility risk.',
+        icon: '🪙',
+      },
+      {
+        title: 'QR Code Payments',
+        description:
+          'Customers scan a QR code and pay from any wallet app. Works with Binance, Coinbase, MetaMask, Phantom.',
+        icon: '📱',
+      },
+      {
+        title: 'Instant Settlement',
+        description:
+          'No waiting 2-3 days for card settlements. Crypto hits your wallet in minutes. Your money, immediately.',
+        icon: '⚡',
+      },
+      {
+        title: 'No Chargebacks Ever',
+        description:
+          'Crypto transactions are irreversible. No fraudulent disputes, no payment reversals, no lost revenue.',
+        icon: '🛡️',
+      },
+      {
+        title: 'Become The Local Crypto Spot',
+        description:
+          'Crypto holders actively seek places to spend without converting. Be the go-to spot in your area and win loyal customers your competitors miss.',
+        icon: '🧲',
+      },
+    ],
+    benefits: [
+      'Save €2,000-3,000/year on a €100k revenue business',
+      'Same benefits as cash: no fees, instant, final',
+      'Attract crypto tourists and digital nomads',
+      'No chargebacks or payment disputes - ever',
+      'Instant settlement vs 2-3 days for cards',
+      'Use stablecoins (USDC/USDT) to avoid volatility',
+      'Works globally without currency conversion fees',
+      'Stand out in Vietnam, Thailand, Bali, Dubai markets',
+      'Be THE crypto-friendly spot in your area - win loyal customers',
+      'Crypto holders prefer you over competitors (no conversion needed)',
+    ],
+    cta: 'Start Accepting Crypto',
+  },
 };
 
 type Props = {
@@ -231,30 +309,26 @@ export default async function SolutionPage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex min-h-screen flex-col">
       <Header />
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-20 px-4">
-          <div className="max-w-7xl mx-auto text-center">
-            <span className="text-6xl mb-6 block">{solution.icon}</span>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              {solution.title}
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-              {solution.hero}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <section className="bg-gradient-to-br from-gray-900 to-gray-800 px-4 py-20 text-white">
+          <div className="mx-auto max-w-7xl text-center">
+            <span className="mb-6 block text-6xl">{solution.icon}</span>
+            <h1 className="mb-6 text-4xl font-bold md:text-5xl">{solution.title}</h1>
+            <p className="mx-auto mb-8 max-w-3xl text-xl text-gray-300">{solution.hero}</p>
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Link
                 href="/sign-up"
-                className="px-8 py-4 bg-white text-gray-900 font-semibold rounded-full hover:bg-gray-100 transition-colors"
+                className="rounded-full bg-white px-8 py-4 font-semibold text-gray-900 transition-colors hover:bg-gray-100"
               >
                 {solution.cta}
               </Link>
               <Link
                 href="/demo"
-                className="px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white/10 transition-colors"
+                className="rounded-full border-2 border-white px-8 py-4 font-semibold text-white transition-colors hover:bg-white/10"
               >
                 See Demo
               </Link>
@@ -263,21 +337,19 @@ export default async function SolutionPage({ params }: Props) {
         </section>
 
         {/* Features Grid */}
-        <section className="py-20 px-4">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+        <section className="px-4 py-20">
+          <div className="mx-auto max-w-7xl">
+            <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">
               Features Built for You
             </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {solution.features.map((feature, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow border border-gray-100"
+                  className="rounded-2xl border border-gray-100 bg-white p-6 shadow-lg transition-shadow hover:shadow-xl"
                 >
-                  <span className="text-4xl mb-4 block">{feature.icon}</span>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {feature.title}
-                  </h3>
+                  <span className="mb-4 block text-4xl">{feature.icon}</span>
+                  <h3 className="mb-2 text-xl font-semibold text-gray-900">{feature.title}</h3>
                   <p className="text-gray-600">{feature.description}</p>
                 </div>
               ))}
@@ -286,23 +358,33 @@ export default async function SolutionPage({ params }: Props) {
         </section>
 
         {/* Benefits Section */}
-        <section className="py-20 px-4 bg-gray-50">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+        <section className="bg-gray-50 px-4 py-20">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="mb-12 text-center text-3xl font-bold text-gray-900">
               Why Choose GUDBRO?
             </h2>
             <div className="space-y-4">
               {solution.benefits.map((benefit, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-4 bg-white rounded-xl p-4 shadow-sm"
+                  className="flex items-center gap-4 rounded-xl bg-white p-4 shadow-sm"
                 >
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
+                    <svg
+                      className="h-5 w-5 text-green-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   </div>
-                  <span className="text-gray-700 font-medium">{benefit}</span>
+                  <span className="font-medium text-gray-700">{benefit}</span>
                 </div>
               ))}
             </div>
@@ -310,24 +392,22 @@ export default async function SolutionPage({ params }: Props) {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Ready to Get Started?
-            </h2>
-            <p className="text-xl text-gray-600 mb-8">
+        <section className="px-4 py-20">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="mb-4 text-3xl font-bold text-gray-900">Ready to Get Started?</h2>
+            <p className="mb-8 text-xl text-gray-600">
               Join thousands of businesses already using GUDBRO to serve their customers better.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Link
                 href="/sign-up"
-                className="px-8 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-colors"
+                className="rounded-full bg-gray-900 px-8 py-4 font-semibold text-white transition-colors hover:bg-gray-800"
               >
                 Start Free Trial
               </Link>
               <Link
                 href="/contact"
-                className="px-8 py-4 border-2 border-gray-900 text-gray-900 font-semibold rounded-full hover:bg-gray-50 transition-colors"
+                className="rounded-full border-2 border-gray-900 px-8 py-4 font-semibold text-gray-900 transition-colors hover:bg-gray-50"
               >
                 Contact Sales
               </Link>
