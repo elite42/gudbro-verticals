@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { useToast, ToastType } from '@/lib/contexts/ToastContext';
 
 export default function SettingsPage() {
@@ -16,8 +15,10 @@ export default function SettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-        <p className="mt-1 text-sm text-gray-500">Manage your account and business preferences</p>
+        <h1 className="text-2xl font-bold text-gray-900">General Settings</h1>
+        <p className="mt-1 text-sm text-gray-500">
+          Manage your business profile, branding, and notifications
+        </p>
       </div>
 
       {/* Business Profile */}
@@ -120,61 +121,6 @@ export default function SettingsPage() {
               <option value="ja">Japanese</option>
             </select>
           </div>
-        </div>
-
-        {/* Language Settings Link */}
-        <div className="mt-6 space-y-3 border-t border-gray-200 pt-4">
-          <Link
-            href="/settings/languages"
-            className="flex items-center justify-between rounded-lg bg-blue-50 p-4 transition-colors hover:bg-blue-100"
-          >
-            <div>
-              <p className="font-medium text-gray-900">Manage Languages</p>
-              <p className="text-sm text-gray-600">
-                Enable/disable languages for your digital menu
-              </p>
-            </div>
-            <span className="text-xl text-blue-600">→</span>
-          </Link>
-
-          <Link
-            href="/settings/currency"
-            className="flex items-center justify-between rounded-lg bg-green-50 p-4 transition-colors hover:bg-green-100"
-          >
-            <div>
-              <p className="font-medium text-gray-900">Currency & Exchange Rates</p>
-              <p className="text-sm text-gray-600">
-                View exchange rates for tourist price conversion
-              </p>
-            </div>
-            <span className="text-xl text-green-600">→</span>
-          </Link>
-
-          <Link
-            href="/settings/auth"
-            className="flex items-center justify-between rounded-lg bg-purple-50 p-4 transition-colors hover:bg-purple-100"
-          >
-            <div>
-              <p className="font-medium text-gray-900">Authentication Providers</p>
-              <p className="text-sm text-gray-600">
-                Configure Google, Apple, Facebook and other OAuth providers
-              </p>
-            </div>
-            <span className="text-xl text-purple-600">→</span>
-          </Link>
-
-          <Link
-            href="/settings/hours"
-            className="flex items-center justify-between rounded-lg bg-orange-50 p-4 transition-colors hover:bg-orange-100"
-          >
-            <div>
-              <p className="font-medium text-gray-900">Operating Hours</p>
-              <p className="text-sm text-gray-600">
-                Set your weekly opening hours and temporary closures
-              </p>
-            </div>
-            <span className="text-xl text-orange-600">→</span>
-          </Link>
         </div>
       </div>
 

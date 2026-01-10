@@ -582,6 +582,41 @@ export default function PaymentsSettingsPage() {
                   </div>
                 )}
               </div>
+
+              {/* Request New Crypto */}
+              <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 p-5">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-orange-100">
+                    <span className="text-lg">💡</span>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-gray-900">Missing a cryptocurrency?</h4>
+                    <p className="mt-1 text-sm text-gray-600">
+                      Don&apos;t see the crypto you want to accept? Let us know and we&apos;ll add
+                      support for it!
+                    </p>
+                    <a
+                      href="mailto:support@gudbro.com?subject=Cryptocurrency Request&body=Hi GUDBRO team,%0A%0AI would like to request support for the following cryptocurrency:%0A%0ACryptocurrency name: %0ASymbol: %0ANetwork/Chain: %0A%0AThank you!"
+                      className="mt-3 inline-flex items-center gap-2 rounded-lg bg-orange-100 px-4 py-2 text-sm font-medium text-orange-700 transition-colors hover:bg-orange-200"
+                    >
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
+                      </svg>
+                      Request a Crypto
+                    </a>
+                  </div>
+                </div>
+              </div>
             </>
           )}
         </div>

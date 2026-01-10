@@ -246,11 +246,6 @@ const navigation = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
-    children: [
-      { name: 'General', href: '/settings' },
-      { name: 'Hours', href: '/settings/hours' },
-      { name: 'Calendar', href: '/settings/calendar' },
-    ],
   },
 ];
 
