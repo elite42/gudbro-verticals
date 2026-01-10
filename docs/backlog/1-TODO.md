@@ -442,12 +442,265 @@ L'AI Co-Manager partecipa attivamente ai workflow QR:
 
 ## P1 - Alta Priorità
 
-| ID                   | Feature                 | Descrizione                      | Area           | Effort     | Note                                                        |
-| -------------------- | ----------------------- | -------------------------------- | -------------- | ---------- | ----------------------------------------------------------- |
-| ING-TRANSLATIONS-ALL | Traduzioni Ingredienti  | 2551 ing × 14 lingue             | Database       | High       | **IN PROGRESS** → vedi `2-IN-PROGRESS.md` per dettagli      |
-| ~~SEC-CLEANUP~~      | ~~Security Cleanup~~    | ~~37 functions + 65 RLS~~        | ~~Database~~   | ~~Medium~~ | **COMPLETATO** 2026-01-07 → vedi `docs/SEC-CLEANUP-PLAN.md` |
-| ~~MT-NOTIF-SOUNDS~~  | ~~Notification Sounds~~ | ~~Sound selection per notifica~~ | ~~Backoffice~~ | ~~Low~~    | **COMPLETATO** 2026-01-05                                   |
-| ~~GB-SPORTS-EVENTS~~ | ~~Sports Bar Calendar~~ | ~~25+ sport, broadcast~~         | ~~Backoffice~~ | ~~Medium~~ | **Incluso in SCHEDULE-SYSTEM** (vedi docs/features/)        |
+| ID                   | Feature                 | Descrizione                       | Area           | Effort     | Note                                                        |
+| -------------------- | ----------------------- | --------------------------------- | -------------- | ---------- | ----------------------------------------------------------- |
+| AI-ZONE-INTEL        | Zone & Customer Intel   | AI conosce zona + pattern clienti | AI/Analytics   | High       | **KILLER FEATURE** - vedi spec sotto                        |
+| ING-TRANSLATIONS-ALL | Traduzioni Ingredienti  | 2551 ing × 14 lingue              | Database       | High       | **IN PROGRESS** → vedi `2-IN-PROGRESS.md` per dettagli      |
+| ~~SEC-CLEANUP~~      | ~~Security Cleanup~~    | ~~37 functions + 65 RLS~~         | ~~Database~~   | ~~Medium~~ | **COMPLETATO** 2026-01-07 → vedi `docs/SEC-CLEANUP-PLAN.md` |
+| ~~MT-NOTIF-SOUNDS~~  | ~~Notification Sounds~~ | ~~Sound selection per notifica~~  | ~~Backoffice~~ | ~~Low~~    | **COMPLETATO** 2026-01-05                                   |
+| ~~GB-SPORTS-EVENTS~~ | ~~Sports Bar Calendar~~ | ~~25+ sport, broadcast~~          | ~~Backoffice~~ | ~~Medium~~ | **Incluso in SCHEDULE-SYSTEM** (vedi docs/features/)        |
+
+---
+
+### AI-ZONE-INTEL - Zone Intelligence & Customer Intelligence
+
+**Vision:** Il Co-Manager conosce la zona meglio del manager. Analizza clienti, territorio, e crea strategie di fidelizzazione impossibili per un umano.
+
+**Perché è una killer feature:**
+
+| Manager Umano Vede   | Co-Manager Vede                                                                          |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| "Marco viene spesso" | Marco vive a 300m, lavora a 500m, viene 3x/sett, spesa media €8.50, potenziale +€40/mese |
+| "Zona tranquilla"    | 3 uffici (850 dipendenti), 2 scuole (1200 studenti), 1 palestra, flusso 8-9 e 17-19      |
+| "Pochi delivery"     | 73% clienti entro 500m → potenziale dine-in, non delivery                                |
+
+**Un umano non può fare questi calcoli su 500+ clienti. L'AI sì.**
+
+---
+
+#### Database Schema Proposto
+
+**Zone Knowledge (statico, raccolto una tantum):**
+
+```sql
+CREATE TABLE zone_profiles (
+  id UUID PRIMARY KEY,
+  merchant_id UUID REFERENCES merchants(id),
+
+  -- Tipo zona
+  zone_type TEXT CHECK (zone_type IN ('residential', 'office', 'tourist', 'mixed', 'industrial')),
+  population_density TEXT CHECK (population_density IN ('low', 'medium', 'high', 'very_high')),
+
+  -- POI nel raggio (JSONB flessibile)
+  points_of_interest JSONB DEFAULT '[]',
+  /*
+  [
+    {"type": "office", "name": "TechCorp HQ", "distance_m": 200, "estimated_people": 500},
+    {"type": "school", "name": "Liceo Scientifico", "distance_m": 400, "estimated_people": 800},
+    {"type": "gym", "name": "FitLife", "distance_m": 150, "estimated_people": 300},
+    {"type": "hotel", "name": "Hotel Marina", "distance_m": 300, "rooms": 45}
+  ]
+  */
+
+  -- Competitor
+  competitors JSONB DEFAULT '[]',
+  /*
+  [
+    {"name": "Bar Roma", "type": "cafe", "distance_m": 100, "price_level": "€€"},
+    {"name": "Pizzeria Napoli", "type": "restaurant", "distance_m": 250, "price_level": "€€€"}
+  ]
+  */
+
+  -- Flussi pedonali per fascia oraria (AI-populated)
+  pedestrian_flows JSONB DEFAULT '{}',
+  /*
+  {
+    "07-09": "high",
+    "09-12": "medium",
+    "12-14": "very_high",
+    "14-17": "low",
+    "17-19": "high",
+    "19-22": "medium"
+  }
+  */
+
+  -- Eventi ricorrenti zona
+  recurring_events JSONB DEFAULT '[]',
+  /*
+  [
+    {"name": "Mercato settimanale", "day": "saturday", "impact": "high"},
+    {"name": "Partite stadio", "frequency": "biweekly", "impact": "very_high"}
+  ]
+  */
+
+  -- Metadata
+  data_source TEXT, -- 'manual', 'google_places', 'ai_enriched'
+  last_updated TIMESTAMPTZ DEFAULT NOW(),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+**Customer Intelligence (dinamico, cresce automaticamente):**
+
+```sql
+CREATE TABLE customer_intelligence (
+  id UUID PRIMARY KEY,
+  account_id UUID REFERENCES accounts(id),
+  merchant_id UUID REFERENCES merchants(id),
+
+  -- Geolocalizzazione
+  home_location GEOGRAPHY(POINT, 4326), -- PostGIS
+  work_location GEOGRAPHY(POINT, 4326),
+  distance_to_merchant_m INTEGER,
+
+  -- Pattern visite
+  visit_pattern JSONB DEFAULT '{}',
+  /*
+  {
+    "total_visits": 47,
+    "avg_per_week": 2.3,
+    "preferred_days": ["monday", "wednesday", "friday"],
+    "preferred_times": ["08:00-09:00", "12:30-13:30"],
+    "avg_duration_min": 25,
+    "last_visit": "2026-01-08"
+  }
+  */
+
+  -- Pattern ordini
+  order_pattern JSONB DEFAULT '{}',
+  /*
+  {
+    "avg_ticket": 8.50,
+    "total_spent": 399.50,
+    "favorite_items": ["cappuccino", "cornetto integrale"],
+    "dietary_preferences": ["vegetarian"],
+    "payment_preference": "card",
+    "delivery_vs_dinein": "dinein" -- 95% dine-in
+  }
+  */
+
+  -- Scores AI-calculated
+  customer_lifetime_value DECIMAL(10,2),
+  churn_risk_score DECIMAL(3,2), -- 0.00 - 1.00
+  upsell_potential_score DECIMAL(3,2),
+  loyalty_score DECIMAL(3,2),
+
+  -- Segmento AI-assigned
+  segment TEXT, -- 'daily_regular', 'weekend_visitor', 'occasional', 'churning', 'vip'
+
+  -- Raccomandazioni AI
+  recommended_actions JSONB DEFAULT '[]',
+  /*
+  [
+    {"action": "lunch_pass_promo", "reason": "Viene solo colazione, potenziale pranzo", "expected_uplift": 40},
+    {"action": "loyalty_program", "reason": "Alta frequenza, non iscritto", "expected_uplift": 15}
+  ]
+  */
+
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indici per query geospaziali
+CREATE INDEX idx_customer_intel_location ON customer_intelligence USING GIST (home_location);
+CREATE INDEX idx_customer_intel_merchant ON customer_intelligence(merchant_id);
+CREATE INDEX idx_customer_intel_segment ON customer_intelligence(merchant_id, segment);
+```
+
+---
+
+#### Integrazione con Loyalty System
+
+| Customer Intel                 | Loyalty Action                                     |
+| ------------------------------ | -------------------------------------------------- |
+| Vive vicino ma ordina delivery | Promo "Vieni a trovarci, -10%"                     |
+| Viene solo weekend             | "Ti manca il caffè? Weekday lunch deal"            |
+| CLV alto, non viene da 2 sett  | "Ci manchi! Ecco un'offerta speciale"              |
+| Nuovo nella zona               | "Benvenuto nel quartiere! Prima consumazione -20%" |
+| Porta spesso amici             | "Porta un amico, entrambi guadagnate punti"        |
+| Churn risk alto                | Alert al manager + promo personalizzata automatica |
+
+---
+
+#### AI Co-Manager Capabilities
+
+**Analisi Automatiche:**
+
+- Cluster clienti per comportamento
+- Predizione domanda per fascia oraria/giorno
+- Correlazione meteo → affluenza
+- Efficacia promozioni per segmento
+- Trend stagionali
+
+**Alerts Proattivi:**
+
+- "Lunedì prossimo previsto +30% affluenza (ponte festivo)"
+- "5 clienti VIP non vengono da >2 settimane"
+- "Nuovo competitor aperto a 200m - monitora"
+- "Zona uffici: calo pranzi venerdì (-40%)"
+
+**Azioni Suggerite:**
+
+- "Crea promo Friday Lunch per recuperare calo venerdì"
+- "Invia notifica ai 12 clienti churning questa settimana"
+- "Hotel Marina ha 45 camere - proponi convenzione colazione"
+
+---
+
+#### Raccolta Dati
+
+**Fase 1 - Dati già disponibili:**
+
+- Pattern ordini dal sistema ordini esistente
+- Customer registration (email, eventuale indirizzo)
+- Loyalty program interactions
+
+**Fase 2 - Onboarding Zone (AI-guided):**
+
+- AI chiede al manager info sulla zona durante chat
+- "Che tipo di zona è? Residenziale, uffici, turistica?"
+- "Ci sono scuole o uffici importanti vicino?"
+- "Quali sono i tuoi competitor principali?"
+
+**Fase 3 - Enrichment automatico:**
+
+- Google Places API per POI
+- Geocoding indirizzi clienti
+- Analisi pattern dalle transazioni
+
+**Fase 4 - Self-learning:**
+
+- Misura efficacia promozioni → adatta strategia
+- A/B test automatici
+- Feedback loop continuo
+
+---
+
+#### Privacy & Consent
+
+- Geolocalizzazione solo con consenso esplicito
+- Dati aggregati per analytics, mai venduti
+- Cliente può vedere/cancellare i propri dati
+- GDPR compliant
+
+---
+
+#### Effort Breakdown
+
+| Fase | Descrizione                       | Effort |
+| ---- | --------------------------------- | ------ |
+| 1    | Database schema + migrations      | Medium |
+| 2    | Zone profile UI nel backoffice    | Medium |
+| 3    | Customer intelligence aggregation | High   |
+| 4    | AI analysis service               | High   |
+| 5    | Loyalty integration               | Medium |
+| 6    | Dashboard visualizzazione         | Medium |
+
+**Totale stimato:** High (ma valore altissimo)
+
+---
+
+#### Differenziatori vs Competitor
+
+Nessun competitor F&B ha:
+
+- Zone intelligence integrata
+- Customer pattern analysis a questo livello
+- AI che suggerisce azioni basate su geolocalizzazione
+- Loyalty personalizzato su distanza/pattern
+
+**Questo trasforma GUDBRO da "menu digitale" a "cervello del locale".**
+
+---
 
 ---
 
