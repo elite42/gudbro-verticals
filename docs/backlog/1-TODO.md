@@ -665,6 +665,142 @@ CREATE INDEX idx_customer_intel_segment ON customer_intelligence(merchant_id, se
 
 ---
 
+#### Merchant Knowledge Base (Memoria Persistente)
+
+> **Pattern:** Stesso approccio di CLAUDE.md/PRODUCT.md/GIANFRANCO.md per il progetto GUDBRO.
+> Il Co-Manager ha file di conoscenza persistenti che consulta all'inizio di ogni conversazione.
+
+**Struttura per ogni merchant:**
+
+```
+merchants/{merchant_id}/knowledge/
+├── zone.md              # Zona, POI, competitor, flussi
+├── customers.md         # Insights clienti VIP, segmenti, pattern
+├── manager.md           # Preferenze comunicazione, obiettivi, stile decisionale
+├── history.md           # Decisioni passate, cosa ha funzionato/fallito
+├── menu.md              # Note su piatti, stagionalità, margini, best seller
+├── operations.md        # Orari picco, staff notes, problemi ricorrenti
+└── strategies.md        # Strategie attive, promozioni in corso, obiettivi
+```
+
+**Database Schema:**
+
+```sql
+CREATE TABLE merchant_knowledge (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  merchant_id UUID NOT NULL REFERENCES merchants(id) ON DELETE CASCADE,
+
+  -- Tipo documento
+  document_type TEXT NOT NULL CHECK (document_type IN (
+    'zone', 'customers', 'manager', 'history', 'menu', 'operations', 'strategies'
+  )),
+
+  -- Contenuto markdown
+  content TEXT NOT NULL DEFAULT '',
+
+  -- Metadata
+  last_updated_by TEXT, -- 'ai', 'manager', 'system'
+  version INTEGER DEFAULT 1,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+  UNIQUE(merchant_id, document_type)
+);
+
+-- RLS: solo il merchant può vedere i propri documenti
+ALTER TABLE merchant_knowledge ENABLE ROW LEVEL SECURITY;
+```
+
+**Come funziona:**
+
+```
+Manager apre chat con Co-Manager
+           ↓
+Co-Manager legge merchant_knowledge (tutti i documenti)
+           ↓
+Context arricchito: "So che preferisci comunicazione concisa,
+                    che la zona è uffici, che Marco è VIP..."
+           ↓
+Conversazione contestualizzata
+           ↓
+AI aggiorna documenti se scopre nuove info
+```
+
+**Esempi contenuto:**
+
+**`manager.md`:**
+
+```markdown
+# Manager Profile
+
+## Comunicazione
+
+- Preferisce risposte concise, no fluff
+- Lingua: Italiano
+- Orari disponibili: 9-12, 15-18
+
+## Obiettivi Q1 2026
+
+- Aumentare pranzi weekday +20%
+- Ridurre food waste sotto 5%
+- Lanciare programma loyalty
+
+## Decisioni passate
+
+- 2026-01-05: Approvata promo Friday Lunch (-15%)
+- 2026-01-03: Rifiutata partnership con Glovo (margini troppo bassi)
+```
+
+**`zone.md`:**
+
+```markdown
+# Zone Profile - ROOTS Cafe
+
+## Tipo: Mixed (uffici + residenziale)
+
+## POI nel raggio 500m
+
+- TechCorp HQ (200m) - ~500 dipendenti, potenziale pranzi
+- Liceo Scientifico (400m) - ~800 studenti, potenziale merende
+- FitLife Gym (150m) - ~300 iscritti, potenziale colazioni healthy
+
+## Competitor
+
+- Bar Roma (100m) - Prezzi bassi, qualità media, sempre pieno 7-9
+- Pizzeria Napoli (250m) - Solo pranzo/cena, no colazione
+
+## Flussi
+
+- 07-09: Alto (pendolari)
+- 12-14: Molto alto (pranzi uffici)
+- 17-19: Alto (uscita lavoro)
+
+## Note
+
+- Venerdì pranzo cala 40% (smart working)
+- Sabato mattina mercato rionale porta traffico
+```
+
+**Aggiornamento automatico:**
+
+| Trigger                      | Azione AI               |
+| ---------------------------- | ----------------------- |
+| Manager dice "preferisco..." | Aggiorna `manager.md`   |
+| Nuovo competitor menzionato  | Aggiorna `zone.md`      |
+| Decisione importante presa   | Aggiorna `history.md`   |
+| Pattern cliente scoperto     | Aggiorna `customers.md` |
+
+**Vantaggi:**
+
+1. **Memoria infinita** - Il Co-Manager non dimentica mai
+2. **Contesto immediato** - Non serve rispiegare ogni volta
+3. **Personalizzazione** - Risposte su misura per quel manager
+4. **Continuità** - Cambio dispositivo/sessione, stesso contesto
+5. **Compounding** - Più si usa, più diventa intelligente
+
+---
+
 #### Privacy & Consent
 
 - Geolocalizzazione solo con consenso esplicito
