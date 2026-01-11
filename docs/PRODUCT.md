@@ -4,8 +4,8 @@
 > Questo documento mi permette di valutare features e decisioni da più prospettive,
 > non solo tecnica ma anche operativa, umana, competitiva e di business.
 >
-> **Last Updated:** 2026-01-10
-> **Version:** 1.5
+> **Last Updated:** 2026-01-11
+> **Version:** 1.6
 
 ---
 
@@ -771,22 +771,60 @@ Organization (Catena/Gruppo)
 
 ## 6. FEATURES MAP
 
-### 6.1 Backoffice
+> **Reference tecnico:** Per dettagli implementativi (LOC, path, patterns), vedi `docs/BACKOFFICE-PAGES-AUDIT.md`
 
-| Sezione       | Scopo                        | Utente Primario |
-| ------------- | ---------------------------- | --------------- |
-| Dashboard     | Overview at-a-glance         | Manager         |
-| Menu          | Gestione prodotti, categorie | Manager         |
-| Orders        | Ordini real-time             | Staff/Manager   |
-| Analytics     | Report e insights            | Owner/Manager   |
-| AI Co-Manager | Assistente operativo         | Manager         |
-| Team          | Gestione staff               | Owner/Manager   |
-| Customers     | CRM, feedback                | Manager         |
-| Marketing     | Promo, eventi, challenges    | Manager         |
-| Settings      | Configurazione locale        | Owner           |
-| QR Codes      | Generazione e tracking       | Manager         |
+### 6.1 Backoffice Overview
 
-### 6.2 PWA (Cliente)
+**52 pagine | ~17,700 LOC | 12 aree funzionali**
+
+| Area                   | Pagine | Capabilities Chiave                                                                                           |
+| ---------------------- | ------ | ------------------------------------------------------------------------------------------------------------- |
+| **Dashboard Core**     | 6      | Overview KPI, Analytics centralizzata, AI Co-Manager chat, Account management, Billing                        |
+| **Content Management** | 12     | Menu editor completo (6 tabs), Recipe library, Ingredients (2548), Categories, Modifiers, Wines, Menu Builder |
+| **Marketing**          | 4      | Promozioni con QR 2-step strategy, Loyalty program (4 tier), Events, Gamification challenges                  |
+| **Orders**             | 2      | Order management realtime, Kitchen Display System (KDS)                                                       |
+| **QR Codes**           | 1      | Quick create, 5 types (Table/Takeaway/Delivery/Promo/Event), Batch ops, Analytics                             |
+| **Food Costs**         | 2      | Profit margin tracking (thresholds), Ingredient cost management (multi-currency)                              |
+| **Settings**           | 9      | General, Payments (Fiat+Crypto), Social/Delivery platforms, Hours, Languages, Calendar, Auth, Currency        |
+| **Customers**          | 3      | Customer list, Followers analytics, Feedback management                                                       |
+| **Team**               | 3      | Staff management, Performance tracking, Translations (CSV import/export)                                      |
+| **Standalone**         | 6      | Login (Email/Google/Dev), Products, Catalog, Menu Import (AI), Platform settings                              |
+| **Onboarding**         | 1      | Wizard 5-step (Account→Org→Brand→Location→Review)                                                             |
+| **Public (QR/WiFi)**   | 5      | QR error states (expired/inactive/limit/not-found), WiFi connection helper                                    |
+
+### 6.2 Capabilities Dettagliate
+
+#### Content & Menu
+
+- **Product Editor** (1,700 LOC): 6 tabs - Basic Info, Ingredients, Safety & Dietary, Customizations, Availability, SEO
+- **Safety Data**: 30 allergens (EU 14 + Korea 7 + Japan 7 + GUDBRO 2), 10 intollerances, 12 dietary flags
+- **Multi-language**: 6 lingue (en/vi/it/ko/ja/zh), RTL support
+- **Recipe Library**: Browse + add to menu, nutrition data, food cost calculation
+- **Menu Builder**: Recipe library browser con filtri dietary, bulk add
+
+#### Payments & Integrations
+
+- **Fiat**: Stripe, PayPal, Apple Pay, Google Pay, Samsung Pay
+- **Crypto**: BTC, ETH, USDC, USDT con wallet validation e network selector
+- **Social/Delivery Platforms** (Asia-focused):
+  - Social: Zalo OA, LINE, KakaoTalk, WeChat, Xiaohongshu
+  - Delivery: GrabFood, ShopeeFood, Baemin, Foodpanda, GoFood
+  - Review: Google Business, TripAdvisor, Dianping
+
+#### Operations
+
+- **Orders**: Realtime Supabase subscriptions, status workflow (pending→confirmed→preparing→ready→delivered)
+- **KDS**: Kanban board, timers, touch-optimized, full-screen mode
+- **Food Costs**: Margin tracking (Excellent >70%, Good 60-70%, Warning 50-60%, Critical <50%)
+- **Team Performance**: Weekly reports, AI suggestions, staff reviews
+
+#### Onboarding & Public
+
+- **Onboarding Wizard**: 5-step, Enterprise redirect, country auto-config
+- **QR Error Pages**: Graceful degradation con CTA utili (View Menu, WhatsApp, Google Maps)
+- **WiFi Helper**: SSID copy, troubleshooting section
+
+### 6.3 PWA (Cliente)
 
 | Sezione | Scopo               | Momento d'uso     |
 | ------- | ------------------- | ----------------- |
@@ -798,7 +836,7 @@ Organization (Catena/Gruppo)
 | Events  | Eventi del locale   | Scoperta          |
 | Team    | Staff del locale    | Curiosità/tip     |
 
-### 6.3 AI Co-Manager Capabilities
+### 6.4 AI Co-Manager Capabilities
 
 | Capability          | Esempio                                        |
 | ------------------- | ---------------------------------------------- |
@@ -1432,12 +1470,17 @@ pnpm vitest
 ---
 
 **File:** `docs/PRODUCT.md`
-**Version:** 1.5
+**Version:** 1.6
 **Created:** 2026-01-08
 **Author:** Claude (con input da sessioni con Gianfranco)
 
 **Changelog:**
 
+- v1.6 (2026-01-11): Features Map Expanded from Audit
+  - Sezione 6.1 completamente riscritta con 52 pagine, ~17,700 LOC
+  - Sezione 6.2 nuova "Capabilities Dettagliate" (Content, Payments, Operations, Onboarding)
+  - Link a `BACKOFFICE-PAGES-AUDIT.md` per reference tecnico
+  - Aggiunta manutenzione trigger in CLAUDE.md
 - v1.5 (2026-01-10): Service Models & Strategic Insights
   - Sezione 1.5 "Go-to-Market Strategy" (Asia First)
   - Sezione 3.8 "Service Models" (5 modelli di servizio)
