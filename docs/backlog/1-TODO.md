@@ -803,3 +803,126 @@ Nessun competitor F&B ha:
 - [x] Feature aggiunta a FeaturesSection homepage (badge NEW)
 - [x] Landing page dedicata `/solutions/crypto-payments` per SEO
 - [ ] Case study: "Come [locale] ha aumentato revenue con crypto"
+
+---
+
+## P8 - Future Tech to Watch
+
+> **Tecnologie da monitorare per implementazione futura.**
+> Studiare ora, implementare quando i dati/scale lo giustificano.
+
+---
+
+### RLM - Recursive Language Models
+
+**Repo:** https://github.com/alexzhang13/rlm
+**Minimal:** https://github.com/alexzhang13/rlm-minimal
+**Paper:** arXiv 2512.24601 (Dec 2025)
+**Autori:** Alex L. Zhang, Tim Kraska, Omar Khattab (MIT)
+
+#### Cos'è
+
+Framework che permette agli LLM di gestire contesti **illimitati** (10M+ tokens) tramite chiamate ricorsive a se stessi in un ambiente REPL Python.
+
+#### Come funziona
+
+```
+Query → Root LLM (NON vede il contesto!)
+              ↓
+        Contesto caricato come variabile Python in REPL
+              ↓
+        Root LLM esegue codice per esplorare:
+        - peek(context[:2000])  → capisce struttura
+        - grep("keyword")       → trova parti rilevanti
+        - chunk + map           → divide e distribuisce
+              ↓
+        Sub-LLM calls (depth=1) → processano chunk specifici
+              ↓
+        Root LLM aggrega risultati → FINAL(answer)
+```
+
+**Insight chiave:** Il context window del root LLM non si riempie mai perché non vede mai il contesto completo.
+
+#### Benchmark (impressionanti)
+
+| Test                 | Risultato                            |
+| -------------------- | ------------------------------------ |
+| OOLONG 132K tokens   | RLM(GPT-mini) batte GPT-5: **+114%** |
+| OOLONG 263K tokens   | RLM(GPT-mini) batte GPT-5: **+49%**  |
+| BrowseComp 1000 docs | RLM: **100%** vs GPT-5: **20%**      |
+| Context 10M+ tokens  | Funziona senza degradazione          |
+
+**Costo:** RLM(GPT-mini) costa come GPT-5 ma performa meglio.
+
+#### Strategie emergenti (l'LLM le scopre autonomamente)
+
+1. **Peeking** - Guarda i primi 2000 char per capire struttura dati
+2. **Grepping** - Cerca keyword con regex per trovare info rilevanti
+3. **Partition + Map** - Divide contesto in chunk, distribuisce a sub-LLM
+4. **Summarization** - Estrae riassunti per decision-making del root
+5. **Long-Output Generation** - Processa task complessi one-shot
+
+#### Limitazioni
+
+| Limite          | Impatto                                     |
+| --------------- | ------------------------------------------- |
+| **Latenza**     | Secondi → minuti per query complesse        |
+| **Costi**       | Nessuna garanzia sul totale (può esplodere) |
+| **Blocking**    | Chiamate sincrone, no async                 |
+| **Complessità** | Serve ambiente REPL sicuro                  |
+
+#### Quando ha senso per GUDBRO
+
+| Scenario                                     | Utile? | Motivazione                        |
+| -------------------------------------------- | ------ | ---------------------------------- |
+| AI-ZONE-INTEL con 1000+ clienti per merchant | ✅     | Pattern recognition su dati enormi |
+| Analisi aggregata 500+ merchant              | ✅     | Multi-hop reasoning cross-database |
+| Co-Manager conversazioni 100+ messaggi       | ✅     | Context illimitato senza perdita   |
+| Query real-time checkout                     | ❌     | Troppo lento, serve <1s            |
+| MVP con 50 merchant                          | ❌     | SQL normale è sufficiente          |
+
+#### Implementazione suggerita
+
+**Ora (P8 - Watch):**
+
+- [x] Studiato e documentato
+- [ ] Bookmark repo per aggiornamenti
+
+**Quando 500+ merchant (rivalutare):**
+
+- [ ] Testare su subset dati reali GUDBRO
+- [ ] Benchmark latenza/costi con nostri use case
+- [ ] Valutare implementazione custom vs framework
+
+**Pattern utili anche senza framework:**
+Il concetto di "context offloading + recursive decomposition" può essere implementato manualmente:
+
+```python
+# Pseudo-codice pattern RLM-like semplificato
+def analyze_large_dataset(query, data):
+    # 1. Chunking
+    chunks = split_into_chunks(data, size=1000)
+
+    # 2. Map: ogni chunk processato da sub-LLM
+    partial_results = [llm.analyze(query, chunk) for chunk in chunks]
+
+    # 3. Reduce: root LLM aggrega
+    return llm.synthesize(query, partial_results)
+```
+
+#### Riferimenti
+
+- **Full repo:** https://github.com/alexzhang13/rlm (868 stars)
+- **Minimal (~100 righe):** https://github.com/alexzhang13/rlm-minimal
+- **Paper:** https://arxiv.org/abs/2512.24601v1
+- **Blog:** https://alexzhang13.github.io/blog/2025/rlm/
+
+#### Note Claude (2026-01-11)
+
+> RLM risolve un problema reale: context rot su contesti enormi. I benchmark sono impressionanti.
+> Per GUDBRO oggi non serve - SQL fa il lavoro pesante e l'LLM riceve solo risultati filtrati.
+> Diventa interessante quando: (1) AI-ZONE-INTEL scala a migliaia di clienti, (2) serve reasoning
+> cross-merchant aggregato, (3) conversazioni Co-Manager diventano molto lunghe.
+> Il pattern "chunk + map + reduce con sub-LLM" è utile anche senza il framework completo.
+
+---
