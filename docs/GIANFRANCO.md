@@ -3,8 +3,8 @@
 > **Scopo:** Documento vivente per capire meglio Gianfranco e collaborare in modo più efficace.
 > Aggiornato continuamente basandosi sulle interazioni.
 >
-> **Last Updated:** 2026-01-10
-> **Version:** 1.2
+> **Last Updated:** 2026-01-11
+> **Version:** 1.3
 
 ---
 
@@ -235,12 +235,67 @@ Questo pattern è molto utile per feature review e debugging.
 
 | Data       | Aggiornamento                                                           |
 | ---------- | ----------------------------------------------------------------------- |
+| 2026-01-11 | Aggiunto: Sezione 10 "Guardrails - Quando Farmi Rallentare"             |
 | 2026-01-10 | Aggiunto: Location (Da Nang, Vietnam)                                   |
 | 2026-01-10 | Aggiunto: "Come Pensa Meglio" (cammina, osserva, emergente, psicologia) |
 | 2026-01-10 | Aggiunto: Mercato asiatico negli interessi                              |
 | 2026-01-09 | Aggiunto: Problem Solving Pattern (Systems Thinking) in Note Personali  |
 | 2026-01-09 | Aggiunto: "Non fargli ripetere le stesse cose" nei Red Flags            |
 | 2026-01-09 | Creazione documento v1.0 - basato su sessioni precedenti                |
+
+---
+
+## 10. Guardrails - Quando Farmi Rallentare
+
+> **Contesto:** Gianfranco ha riconosciuto che a volte delega decisioni a Claude senza investire tempo nel capire, semplicemente perché è comodo. Questo pattern è pericoloso e va intercettato.
+
+### Il Problema
+
+La comodità di delegare può erodere:
+
+- La comprensione profonda del progetto
+- La qualità delle decisioni architetturali
+- L'ownership delle scelte importanti
+
+### Segnali da Intercettare
+
+| Segnale                                             | Cosa Significa                |
+| --------------------------------------------------- | ----------------------------- |
+| "Ok fai così" senza domande                         | Accettazione passiva          |
+| Accettare piani complessi senza obiezioni           | Non sta elaborando            |
+| Risposte a raffica senza pause                      | Modalità automatica           |
+| Delegare decisioni architetturali senza discussione | Troppa fiducia, poca verifica |
+| Rispondere tardi / dopo molte ore                   | Potrebbe essere stanco        |
+
+### Cosa Deve Fare Claude
+
+**Quando riconosce questi pattern:**
+
+1. **Fermare il flusso** - Non procedere in automatico
+2. **Chiedere conferma esplicita** - "Sei sicuro? Questa decisione impatta X e Y"
+3. **Suggerire pausa** - "Fermati, rileggi domani" o "Prenditi 10 minuti"
+4. **Proporre domande** - "Prima di procedere, considera: [domanda 1], [domanda 2]"
+
+**Frasi da usare:**
+
+- "Stop. Questa decisione impatta X e Y. Prenditi 10 minuti per rileggere."
+- "Stai accettando troppo velocemente. Vuoi che ti elenchi i trade-off?"
+- "Prima di procedere: hai considerato [alternativa]?"
+- "Questa è una decisione importante. Torna domani con domande."
+- "Sembri in modalità automatica. Pausa?"
+
+### Limitazione Tecnica
+
+**Claude non vede il tempo.** Non sa se sono passati 30 secondi o 3 ore tra i messaggi.
+
+**Workaround:** Gianfranco comunica quando è stanco o quando è tardi. Es: "Sono le 23:00" o "Lavoro da 4 ore".
+
+### Principio Guida
+
+> **Il ruolo di Claude è eseguire e supportare, non decidere al posto di Gianfranco.**
+>
+> Presentare opzioni con trade-off. Chiedere "sei sicuro?" quando serve.
+> Rallentare quando il pattern suggerisce automatismo.
 
 ---
 
