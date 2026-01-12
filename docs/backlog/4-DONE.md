@@ -3,7 +3,27 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-09
+**Last Updated:** 2026-01-12
+
+---
+
+## 2026-01-12
+
+| ID                | Feature                   | Descrizione                                                                                                                                                                                  | Completato |
+| ----------------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| AI-ZONE-INTEL-DB  | Zone Intelligence Phase 1 | Migration 045: 5 tabelle (ai_customer_intelligence, ai_zone_profiles, ai_merchant_knowledge, ai_customer_triggers, ai_customer_trigger_executions), 8 funzioni, 2 views, RLS completo        | 2026-01-12 |
+| AI-ZONE-INTEL-SVC | Zone Intelligence Phase 2 | 2 services (customer-intelligence-service.ts, trigger-engine-service.ts), 2 API routes (/api/ai/customer-intelligence, /api/ai/triggers), CLV calc, churn risk, segmentation, CRM automation | 2026-01-12 |
+| AI-ZONE-INTEL-UI  | Zone Intelligence Phase 3 | 2 UI pages (/customers/intelligence, /ai/triggers), AI widgets on main AI page, currency formatting from location settings, links from customers page                                        | 2026-01-12 |
+
+> **Files:**
+>
+> - Migration: `shared/database/migrations/schema/045-ai-zone-intel.sql`
+> - Services: `apps/backoffice/lib/ai/customer-intelligence-service.ts`, `apps/backoffice/lib/ai/trigger-engine-service.ts`
+> - API: `apps/backoffice/app/api/ai/customer-intelligence/route.ts`, `apps/backoffice/app/api/ai/triggers/route.ts`
+> - UI Pages: `apps/backoffice/app/(dashboard)/customers/intelligence/page.tsx`, `apps/backoffice/app/(dashboard)/ai/triggers/page.tsx`
+> - AI Page Widgets: Customer Intelligence + Automated Triggers widgets
+> - Tabelle: customer_intelligence (CLV, churn risk, segmentation), zone_profiles (POIs, flows), merchant_knowledge (AI memory), customer_triggers (CRM automation), trigger_executions (tracking)
+> - Funzioni: get_customers_at_risk, is_customer_trigger_eligible, sync_customer_intelligence_from_analytics, get_merchant_knowledge_context
 
 ---
 

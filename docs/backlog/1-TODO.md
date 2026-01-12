@@ -442,13 +442,54 @@ L'AI Co-Manager partecipa attivamente ai workflow QR:
 
 ## P1 - Alta Priorità
 
-| ID                   | Feature                 | Descrizione                       | Area           | Effort     | Note                                                        |
-| -------------------- | ----------------------- | --------------------------------- | -------------- | ---------- | ----------------------------------------------------------- |
-| AI-ZONE-INTEL        | Zone & Customer Intel   | AI conosce zona + pattern clienti | AI/Analytics   | High       | **KILLER FEATURE** - vedi spec sotto                        |
-| ING-TRANSLATIONS-ALL | Traduzioni Ingredienti  | 2551 ing × 14 lingue              | Database       | High       | **IN PROGRESS** → vedi `2-IN-PROGRESS.md` per dettagli      |
-| ~~SEC-CLEANUP~~      | ~~Security Cleanup~~    | ~~37 functions + 65 RLS~~         | ~~Database~~   | ~~Medium~~ | **COMPLETATO** 2026-01-07 → vedi `docs/SEC-CLEANUP-PLAN.md` |
-| ~~MT-NOTIF-SOUNDS~~  | ~~Notification Sounds~~ | ~~Sound selection per notifica~~  | ~~Backoffice~~ | ~~Low~~    | **COMPLETATO** 2026-01-05                                   |
-| ~~GB-SPORTS-EVENTS~~ | ~~Sports Bar Calendar~~ | ~~25+ sport, broadcast~~          | ~~Backoffice~~ | ~~Medium~~ | **Incluso in SCHEDULE-SYSTEM** (vedi docs/features/)        |
+| ID                   | Feature                   | Descrizione                       | Area           | Effort     | Note                                                        |
+| -------------------- | ------------------------- | --------------------------------- | -------------- | ---------- | ----------------------------------------------------------- |
+| KB-BACKOFFICE        | Knowledge Base Backoffice | Guida utente 52 pagine            | Documentation  | Medium     | Sample pronto, formato da validare → vedi spec sotto        |
+| AI-ZONE-INTEL        | Zone & Customer Intel     | AI conosce zona + pattern clienti | AI/Analytics   | High       | **KILLER FEATURE** - vedi spec sotto                        |
+| ING-TRANSLATIONS-ALL | Traduzioni Ingredienti    | 2551 ing × 14 lingue              | Database       | High       | **IN PROGRESS** → vedi `2-IN-PROGRESS.md` per dettagli      |
+| ~~SEC-CLEANUP~~      | ~~Security Cleanup~~      | ~~37 functions + 65 RLS~~         | ~~Database~~   | ~~Medium~~ | **COMPLETATO** 2026-01-07 → vedi `docs/SEC-CLEANUP-PLAN.md` |
+| ~~MT-NOTIF-SOUNDS~~  | ~~Notification Sounds~~   | ~~Sound selection per notifica~~  | ~~Backoffice~~ | ~~Low~~    | **COMPLETATO** 2026-01-05                                   |
+| ~~GB-SPORTS-EVENTS~~ | ~~Sports Bar Calendar~~   | ~~25+ sport, broadcast~~          | ~~Backoffice~~ | ~~Medium~~ | **Incluso in SCHEDULE-SYSTEM** (vedi docs/features/)        |
+
+---
+
+### KB-BACKOFFICE - Knowledge Base Backoffice
+
+**Vision:** Documentazione user-friendly per merchant su tutte le 52 pagine del backoffice.
+
+**Sample creato:** `docs/BACKOFFICE-KNOWLEDGE-BASE-SAMPLE.md` (3 pagine di esempio)
+
+**Formato per pagina:**
+
+- Scopo
+- Come arrivarci
+- Azioni disponibili
+- Workflow tipici (step-by-step)
+- FAQ
+- Tips
+
+**Pagine da documentare (52 totali):**
+
+| Area                 | Pagine | Status        |
+| -------------------- | ------ | ------------- |
+| Dashboard & Overview | 6      | 1/6 (sample)  |
+| Content Management   | 12     | 1/12 (sample) |
+| Food Costs           | 2      | 0/2           |
+| Marketing            | 4      | 0/4           |
+| Customers            | 3      | 0/3           |
+| Orders               | 2      | 0/2           |
+| Settings             | 8      | 0/8           |
+| QR Codes             | 1      | 1/1 (sample)  |
+| Other                | 14     | 0/14          |
+
+**Prossimi passi:**
+
+1. [ ] Validare formato sample con Gianfranco
+2. [ ] Decidere lingua (IT o EN)
+3. [ ] Completare tutte 52 pagine (~2-3h)
+4. [ ] Opzionale: versione JSON per AI consumption
+
+**Effort stimato:** Medium (2-3 ore per completamento)
 
 ---
 

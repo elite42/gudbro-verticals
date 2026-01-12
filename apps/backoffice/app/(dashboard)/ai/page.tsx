@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import Link from 'next/link';
 import {
   Sparkles,
   Sun,
@@ -17,6 +18,8 @@ import {
   ChevronRight,
   Clock,
   Lightbulb,
+  Zap,
+  UserMinus,
 } from 'lucide-react';
 
 // Types
@@ -55,6 +58,21 @@ interface FinancialSummary {
   profit_margin: number;
 }
 
+interface CustomerIntelSummary {
+  totalCustomers: number;
+  highRiskCount: number;
+  totalClv: number;
+  avgClv: number;
+}
+
+interface TriggersSummary {
+  activeTriggers: number;
+  totalTriggered: number;
+  totalConverted: number;
+  conversionRate: number;
+  estimatedRevenue: number;
+}
+
 export default function AIPage() {
   const { brand, location } = useTenant();
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +80,12 @@ export default function AIPage() {
   const [tasks, setTasks] = useState<DelegatedTask[]>([]);
   const [inventoryAlerts, setInventoryAlerts] = useState<InventoryAlert[]>([]);
   const [financialSummary, setFinancialSummary] = useState<FinancialSummary | null>(null);
+  const [customerIntel, setCustomerIntel] = useState<CustomerIntelSummary | null>(null);
+  const [triggersSummary, setTriggersSummary] = useState<TriggersSummary | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+
+  // Get currency from location settings
+  const currencyCode = location?.currency_code || 'EUR';
 
   // Use brand.id as merchantId (brand represents the merchant/business)
   const merchantId = brand?.id || 'demo-merchant';
@@ -72,17 +95,45 @@ export default function AIPage() {
     setRefreshing(true);
     try {
       // Fetch in parallel
-      const [briefingRes, tasksRes, inventoryRes, financeRes] = await Promise.all([
-        fetch(`/api/ai/proactivity?merchantId=${merchantId}&type=briefing`).then((r) => r.json()),
-        fetch(`/api/ai/tasks?merchantId=${merchantId}`).then((r) => r.json()),
-        fetch(`/api/ai/inventory?merchantId=${merchantId}&type=alerts`).then((r) => r.json()),
-        fetch(`/api/ai/finance?merchantId=${merchantId}&type=summary`).then((r) => r.json()),
-      ]);
+      const [briefingRes, tasksRes, inventoryRes, financeRes, customerIntelRes, triggersRes] =
+        await Promise.all([
+          fetch(`/api/ai/proactivity?merchantId=${merchantId}&type=briefing`).then((r) => r.json()),
+          fetch(`/api/ai/tasks?merchantId=${merchantId}`).then((r) => r.json()),
+          fetch(`/api/ai/inventory?merchantId=${merchantId}&type=alerts`).then((r) => r.json()),
+          fetch(`/api/ai/finance?merchantId=${merchantId}&type=summary`).then((r) => r.json()),
+          fetch(`/api/ai/customer-intelligence?merchantId=${merchantId}&action=summary`).then((r) =>
+            r.json()
+          ),
+          fetch(`/api/ai/triggers?merchantId=${merchantId}&action=performance`).then((r) =>
+            r.json()
+          ),
+        ]);
 
       if (briefingRes.briefing) setBriefing(briefingRes.briefing);
       if (tasksRes.tasks) setTasks(tasksRes.tasks);
       if (inventoryRes.lowStockItems) setInventoryAlerts(inventoryRes.lowStockItems);
       if (financeRes.summary) setFinancialSummary(financeRes.summary);
+      if (customerIntelRes.success && customerIntelRes.summary) {
+        setCustomerIntel(customerIntelRes.summary);
+      }
+      if (triggersRes.success && triggersRes.performance) {
+        // Calculate summary from performance array
+        const perf = triggersRes.performance as Array<{
+          totalTriggered: number;
+          totalConverted: number;
+          estimatedRevenue: number;
+        }>;
+        const totalTriggered = perf.reduce((sum, p) => sum + p.totalTriggered, 0);
+        const totalConverted = perf.reduce((sum, p) => sum + p.totalConverted, 0);
+        const estimatedRevenue = perf.reduce((sum, p) => sum + p.estimatedRevenue, 0);
+        setTriggersSummary({
+          activeTriggers: perf.length,
+          totalTriggered,
+          totalConverted,
+          conversionRate: totalTriggered > 0 ? (totalConverted / totalTriggered) * 100 : 0,
+          estimatedRevenue,
+        });
+      }
     } catch (error) {
       console.error('Error fetching AI data:', error);
     } finally {
@@ -427,6 +478,161 @@ export default function AIPage() {
             <div className="flex flex-col items-center justify-center py-8 text-center">
               <DollarSign className="h-12 w-12 text-gray-300 dark:text-gray-600" />
               <p className="mt-3 text-gray-500">Dati finanziari non disponibili</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Customer Intelligence & Triggers Row */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Customer Intelligence Widget */}
+        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <UserMinus className="h-5 w-5 text-red-500" />
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Customer Intelligence
+              </h2>
+            </div>
+            <Link
+              href="/customers/intelligence"
+              className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400"
+            >
+              View All <ChevronRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          {customerIntel ? (
+            <div className="space-y-4">
+              {customerIntel.highRiskCount > 0 && (
+                <div className="rounded-lg bg-red-50 p-3 dark:bg-red-900/20">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                    <span className="font-medium text-red-700 dark:text-red-300">
+                      {customerIntel.highRiskCount} customers at risk
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    Potential revenue loss - take action now
+                  </p>
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-lg bg-gray-50 p-3 dark:bg-gray-800">
+                  <p className="text-sm text-gray-500">Total CLV</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">
+                    {new Intl.NumberFormat(undefined, {
+                      style: 'currency',
+                      currency: currencyCode,
+                      minimumFractionDigits: 0,
+                    }).format(customerIntel.totalClv)}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-gray-50 p-3 dark:bg-gray-800">
+                  <p className="text-sm text-gray-500">Customers</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">
+                    {customerIntel.totalCustomers}
+                  </p>
+                </div>
+              </div>
+
+              <Link
+                href="/customers/intelligence"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-100 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400"
+              >
+                View At-Risk Customers
+              </Link>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <UserMinus className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+              <p className="mt-3 text-gray-500">No intelligence data yet</p>
+              <Link
+                href="/customers/intelligence"
+                className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                Set up Customer Intelligence
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* Automated Triggers Widget */}
+        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Zap className="h-5 w-5 text-purple-500" />
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Automated Triggers
+              </h2>
+            </div>
+            <Link
+              href="/ai/triggers"
+              className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400"
+            >
+              Manage <ChevronRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          {triggersSummary ? (
+            <div className="space-y-4">
+              <div className="grid grid-cols-3 gap-3">
+                <div className="rounded-lg bg-purple-50 p-3 text-center dark:bg-purple-900/20">
+                  <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">
+                    {triggersSummary.activeTriggers}
+                  </p>
+                  <p className="text-xs text-purple-600 dark:text-purple-400">Active</p>
+                </div>
+                <div className="rounded-lg bg-green-50 p-3 text-center dark:bg-green-900/20">
+                  <p className="text-2xl font-bold text-green-700 dark:text-green-300">
+                    {triggersSummary.conversionRate.toFixed(1)}%
+                  </p>
+                  <p className="text-xs text-green-600 dark:text-green-400">Conversion</p>
+                </div>
+                <div className="rounded-lg bg-amber-50 p-3 text-center dark:bg-amber-900/20">
+                  <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">
+                    {new Intl.NumberFormat(undefined, {
+                      style: 'currency',
+                      currency: currencyCode,
+                      minimumFractionDigits: 0,
+                      notation: 'compact',
+                    }).format(triggersSummary.estimatedRevenue)}
+                  </p>
+                  <p className="text-xs text-amber-600 dark:text-amber-400">Revenue</p>
+                </div>
+              </div>
+
+              <div className="rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 p-3 dark:from-purple-900/10 dark:to-blue-900/10">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                  <span className="text-sm font-medium text-purple-700 dark:text-purple-300">
+                    AI Suggestion
+                  </span>
+                </div>
+                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                  Create a &quot;Win-back&quot; trigger for inactive customers
+                </p>
+              </div>
+
+              <Link
+                href="/ai/triggers"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
+              >
+                <Zap className="h-4 w-4" />
+                Create New Trigger
+              </Link>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <Zap className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+              <p className="mt-3 text-gray-500">No triggers configured</p>
+              <Link
+                href="/ai/triggers"
+                className="mt-3 text-sm font-medium text-purple-600 hover:text-purple-700"
+              >
+                Set up Automated Triggers
+              </Link>
             </div>
           )}
         </div>

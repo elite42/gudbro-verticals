@@ -17,3 +17,5 @@ export * from './agentic-workflow-service';
 export * from './inventory-negotiation-service';
 export * from './onboarding-service';
 export * from './translation-service';
+export * from './customer-intelligence-service';
+export * from './trigger-engine-service';
