@@ -72,9 +72,9 @@ FINE SESSIONE:
 # 0. CURRENT FOCUS (Aggiorna quando cambi task)
 
 > **Task attiva:** Nessuna
-> **Stato:** Pronto per nuove task
-> **Azione:** Vedi `docs/backlog/1-TODO.md` per priorità
-> **Ultima completata:** ING-TRANSLATIONS-ALL (35,714+ traduzioni, 14 lingue)
+> **Stato:** AI-ZONE-INTEL completata (Phase 1-4)
+> **Azione:** Nessuna
+> **Ultima completata:** AI-ZONE-INTEL Phase 4 - Customer Detail, TriggerModal, Budget/ROI (2026-01-12)
 
 ---
 
@@ -420,8 +420,8 @@ gudbro-verticals/
 | Database Food     | 75                           |
 | Prodotti          | ~4653                        |
 | Ingredienti       | 2548 (100% nutrition)        |
-| Migrations Schema | 41 (27 core + 10 AI + 4 sec) |
-| AI Services       | 13                           |
+| Migrations Schema | 42 (27 core + 11 AI + 4 sec) |
+| AI Services       | 15                           |
 
 ## 5.2 Schema Source of Truth
 
