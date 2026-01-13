@@ -10,6 +10,12 @@ import {
   AlertTriangle,
   ChevronDown,
   RefreshCw,
+  Coffee,
+  IceCream,
+  Users,
+  Utensils,
+  Megaphone,
+  ThermometerSun,
 } from 'lucide-react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 
@@ -48,12 +54,45 @@ interface WeatherAlert {
   description: string;
 }
 
+interface StaffAdjustment {
+  sala: number;
+  kitchen: number;
+  delivery: number;
+  bar: number;
+}
+
+interface MenuSuggestion {
+  category: 'comfort' | 'light' | 'hot_drinks' | 'cold_drinks' | 'soups' | 'salads';
+  reason: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
+type WeatherCategory =
+  | 'cold_extreme'
+  | 'cold'
+  | 'cool'
+  | 'optimal'
+  | 'warm'
+  | 'hot'
+  | 'hot_extreme'
+  | 'rainy'
+  | 'stormy'
+  | 'snowy'
+  | 'humid';
+
 interface BusinessImpact {
   deliveryImpact: string;
   dineInImpact: string;
   outdoorSeating: boolean;
   recommendedActions: string[];
   peakHoursShift?: string;
+  // Enhanced fields from knowledge base
+  weatherCategory?: WeatherCategory;
+  staffAdjustment?: StaffAdjustment;
+  menuSuggestions?: MenuSuggestion[];
+  beverageFocus?: 'hot' | 'cold' | 'mixed';
+  comfortFoodCategories?: string[];
+  marketingHook?: string;
 }
 
 interface WeatherData {
@@ -121,6 +160,65 @@ function formatDate(dateString: string): string {
     return date.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric' });
   } catch {
     return dateString;
+  }
+}
+
+// Format staff multiplier to percentage change
+function formatStaffChange(multiplier: number): string {
+  const change = Math.round((multiplier - 1) * 100);
+  if (change === 0) return '0%';
+  return change > 0 ? `+${change}%` : `${change}%`;
+}
+
+// Get color class for staff change
+function getStaffChangeColor(multiplier: number): string {
+  if (multiplier > 1.05) return 'text-green-600';
+  if (multiplier < 0.95) return 'text-amber-600';
+  return 'text-gray-600';
+}
+
+// Weather category display labels
+const WEATHER_CATEGORY_LABELS: Record<WeatherCategory, string> = {
+  cold_extreme: 'Extreme Cold',
+  cold: 'Cold',
+  cool: 'Cool',
+  optimal: 'Perfect',
+  warm: 'Warm',
+  hot: 'Hot',
+  hot_extreme: 'Extreme Heat',
+  rainy: 'Rainy',
+  stormy: 'Stormy',
+  snowy: 'Snowy',
+  humid: 'Humid',
+};
+
+// Weather category badge colors
+const WEATHER_CATEGORY_COLORS: Record<WeatherCategory, string> = {
+  cold_extreme: 'bg-blue-100 text-blue-700',
+  cold: 'bg-blue-50 text-blue-600',
+  cool: 'bg-cyan-50 text-cyan-600',
+  optimal: 'bg-green-50 text-green-600',
+  warm: 'bg-orange-50 text-orange-600',
+  hot: 'bg-red-50 text-red-600',
+  hot_extreme: 'bg-red-100 text-red-700',
+  rainy: 'bg-indigo-50 text-indigo-600',
+  stormy: 'bg-purple-100 text-purple-700',
+  snowy: 'bg-slate-100 text-slate-600',
+  humid: 'bg-teal-50 text-teal-600',
+};
+
+// Menu suggestion icons
+function getMenuCategoryIcon(category: MenuSuggestion['category']) {
+  switch (category) {
+    case 'hot_drinks':
+      return <Coffee className="h-3 w-3" />;
+    case 'cold_drinks':
+      return <IceCream className="h-3 w-3" />;
+    case 'soups':
+    case 'comfort':
+      return <Utensils className="h-3 w-3" />;
+    default:
+      return <Utensils className="h-3 w-3" />;
   }
 }
 
@@ -290,9 +388,30 @@ export function WeatherWidget() {
 
           {/* Business Impact */}
           <div className="border-b border-gray-100 px-4 py-3">
-            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">
-              Business Impact
-            </p>
+            <div className="mb-2 flex items-center justify-between">
+              <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                Business Impact
+              </p>
+              {weather.businessImpact.weatherCategory && (
+                <span
+                  className={`rounded-full px-2 py-0.5 text-xs font-medium ${WEATHER_CATEGORY_COLORS[weather.businessImpact.weatherCategory]}`}
+                >
+                  {WEATHER_CATEGORY_LABELS[weather.businessImpact.weatherCategory]}
+                </span>
+              )}
+            </div>
+
+            {/* Marketing Hook */}
+            {weather.businessImpact.marketingHook && (
+              <div className="mb-2 flex items-center gap-2 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 p-2">
+                <Megaphone className="h-4 w-4 flex-shrink-0 text-purple-500" />
+                <p className="text-sm font-medium text-purple-700">
+                  &quot;{weather.businessImpact.marketingHook}&quot;
+                </p>
+              </div>
+            )}
+
+            {/* Impact Grid */}
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div className="rounded-lg bg-gray-50 p-2">
                 <p className="text-xs text-gray-500">Delivery</p>
@@ -323,15 +442,123 @@ export function WeatherWidget() {
                 </p>
               </div>
             </div>
+
+            {/* Beverage Focus */}
+            {weather.businessImpact.beverageFocus && (
+              <div className="mt-2 flex items-center gap-2">
+                {weather.businessImpact.beverageFocus === 'hot' ? (
+                  <Coffee className="h-4 w-4 text-amber-500" />
+                ) : weather.businessImpact.beverageFocus === 'cold' ? (
+                  <IceCream className="h-4 w-4 text-cyan-500" />
+                ) : (
+                  <ThermometerSun className="h-4 w-4 text-gray-500" />
+                )}
+                <p className="text-xs text-gray-600">
+                  Push{' '}
+                  <span className="font-medium">
+                    {weather.businessImpact.beverageFocus === 'hot'
+                      ? 'hot beverages'
+                      : weather.businessImpact.beverageFocus === 'cold'
+                        ? 'cold beverages'
+                        : 'varied beverages'}
+                  </span>
+                </p>
+              </div>
+            )}
+
+            {/* Top Suggestion */}
             {weather.businessImpact.recommendedActions.length > 0 && (
               <div className="mt-2">
-                <p className="text-xs text-gray-500">Suggestion</p>
+                <p className="text-xs text-gray-500">Top Action</p>
                 <p className="text-sm text-gray-700">
                   {weather.businessImpact.recommendedActions[0]}
                 </p>
               </div>
             )}
           </div>
+
+          {/* Staff & Menu Suggestions */}
+          {(weather.businessImpact.staffAdjustment ||
+            (weather.businessImpact.menuSuggestions &&
+              weather.businessImpact.menuSuggestions.length > 0)) && (
+            <div className="border-b border-gray-100 px-4 py-3">
+              {/* Staff Adjustments */}
+              {weather.businessImpact.staffAdjustment && (
+                <div className="mb-3">
+                  <div className="mb-1.5 flex items-center gap-1.5">
+                    <Users className="h-3.5 w-3.5 text-gray-400" />
+                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                      Staff Adjustment
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-4 gap-1.5 text-center">
+                    <div className="rounded bg-gray-50 px-1.5 py-1">
+                      <p className="text-[10px] text-gray-400">Sala</p>
+                      <p
+                        className={`text-xs font-medium ${getStaffChangeColor(weather.businessImpact.staffAdjustment.sala)}`}
+                      >
+                        {formatStaffChange(weather.businessImpact.staffAdjustment.sala)}
+                      </p>
+                    </div>
+                    <div className="rounded bg-gray-50 px-1.5 py-1">
+                      <p className="text-[10px] text-gray-400">Kitchen</p>
+                      <p
+                        className={`text-xs font-medium ${getStaffChangeColor(weather.businessImpact.staffAdjustment.kitchen)}`}
+                      >
+                        {formatStaffChange(weather.businessImpact.staffAdjustment.kitchen)}
+                      </p>
+                    </div>
+                    <div className="rounded bg-gray-50 px-1.5 py-1">
+                      <p className="text-[10px] text-gray-400">Delivery</p>
+                      <p
+                        className={`text-xs font-medium ${getStaffChangeColor(weather.businessImpact.staffAdjustment.delivery)}`}
+                      >
+                        {formatStaffChange(weather.businessImpact.staffAdjustment.delivery)}
+                      </p>
+                    </div>
+                    <div className="rounded bg-gray-50 px-1.5 py-1">
+                      <p className="text-[10px] text-gray-400">Bar</p>
+                      <p
+                        className={`text-xs font-medium ${getStaffChangeColor(weather.businessImpact.staffAdjustment.bar)}`}
+                      >
+                        {formatStaffChange(weather.businessImpact.staffAdjustment.bar)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Menu Suggestions */}
+              {weather.businessImpact.menuSuggestions &&
+                weather.businessImpact.menuSuggestions.length > 0 && (
+                  <div>
+                    <div className="mb-1.5 flex items-center gap-1.5">
+                      <Utensils className="h-3.5 w-3.5 text-gray-400" />
+                      <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                        Menu Focus
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {weather.businessImpact.menuSuggestions
+                        .filter((s) => s.priority === 'high')
+                        .slice(0, 3)
+                        .map((suggestion, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs text-amber-700"
+                            title={suggestion.reason}
+                          >
+                            {getMenuCategoryIcon(suggestion.category)}
+                            <span className="capitalize">
+                              {suggestion.category.replace('_', ' ')}
+                            </span>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+            </div>
+          )}
 
           {/* Hourly Today */}
           {weather.hourlyToday.length > 0 && (

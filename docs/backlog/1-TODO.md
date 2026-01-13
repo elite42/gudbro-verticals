@@ -2656,6 +2656,29 @@ STEP 4: Merchant approva → AI genera email
 | CUISINE-FILTER | Filtro cucina      | Campo cuisine_tags, filtro visibilità | Medium |
 | WINE-MGMT-UI   | Wine Management UI | Vini custom per ristoranti            | Medium |
 
+### AI Intelligence Features
+
+| ID               | Feature           | Descrizione                                     | Effort |
+| ---------------- | ----------------- | ----------------------------------------------- | ------ |
+| HOLIDAYS-DB      | Holidays Database | DB centralizzato festività per paese/città      | Medium |
+| AI-HOLIDAY-AWARE | Holiday Awareness | AI ricerca festività locali e popola calendario | Medium |
+
+**HOLIDAYS-DB Spec:**
+
+- Tabella `holidays`: country_code, city (opzionale), date, name, type, impact_level, f&b_notes
+- Type: national, religious, local, regional, sporting, cultural
+- Impact: high (chiusure), medium (variazione traffico), low (tema marketing)
+- Popolamento: API esterne + crowdsourcing merchant
+- Onboarding: AI chiede location → ricerca festività → popola calendario merchant
+
+**Workflow:**
+
+1. Merchant setup location → AI cerca festività paese/città
+2. AI propone calendario con lead time appropriati (30/21/14/7 giorni)
+3. Merchant può aggiungere eventi locali (feste patronali, fiere, eventi)
+4. Sistema impara da merchant simili nella stessa zona
+5. Alert proattivi: "Tra 3 settimane c'è [evento] - prepara [azione]"
+
 ---
 
 ## P3 - Bassa Priorità (Future)
