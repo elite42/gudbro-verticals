@@ -8,6 +8,7 @@ import {
   OnboardingChecklist,
   useOnboardingSteps,
 } from '@/components/onboarding/OnboardingChecklist';
+import { AIPrioritiesHero } from '@/components/ai/AIPrioritiesHero';
 
 export const dynamic = 'force-dynamic';
 
@@ -183,6 +184,9 @@ export default function DashboardPage() {
           </p>
         )}
       </div>
+
+      {/* AI Priorities Hero - Main decision center */}
+      <AIPrioritiesHero />
 
       {/* Onboarding Checklist */}
       <OnboardingChecklist steps={onboardingSteps} onStepComplete={completeStep} />

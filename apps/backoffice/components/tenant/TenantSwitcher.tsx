@@ -2,24 +2,49 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { MapPin, Building2, ChevronDown } from 'lucide-react';
+
+interface LocationWithContext {
+  id: string;
+  name: string;
+  slug: string;
+  city: string | null;
+  brand_name: string;
+  brand_id: string;
+  org_name: string;
+  org_id: string;
+}
 
 export function TenantSwitcher() {
-  const {
-    organization,
-    brand,
-    location,
-    organizations,
-    brands,
-    locations,
-    isLoading,
-    setOrganization,
-    setBrand,
-    setLocation,
-  } = useTenant();
+  const { organization, brand, location, setOrganization, setBrand, setLocation } = useTenant();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [activeLevel, setActiveLevel] = useState<'organization' | 'brand' | 'location'>('location');
+  const [allLocations, setAllLocations] = useState<LocationWithContext[]>([]);
+  const [loading, setLoading] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Fetch all locations directly
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const res = await fetch('/api/locations/all');
+        const data = await res.json();
+        if (data.locations) {
+          setAllLocations(data.locations);
+
+          // Auto-select first location if none selected
+          if (!location && data.locations.length > 0) {
+            handleSelectLocation(data.locations[0]);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch locations:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLocations();
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -28,229 +53,168 @@ export function TenantSwitcher() {
         setIsOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (isLoading) {
+  const handleSelectLocation = async (loc: LocationWithContext) => {
+    // Fetch full organization data
+    const orgRes = await fetch(`/api/organizations?id=${loc.org_id}`);
+    const orgData = await orgRes.json();
+    if (orgData.organization) {
+      setOrganization(orgData.organization);
+    }
+
+    // Fetch full brand data
+    const brandRes = await fetch(`/api/brands?id=${loc.brand_id}`);
+    const brandData = await brandRes.json();
+    if (brandData.brand) {
+      setBrand(brandData.brand);
+    }
+
+    // Fetch full location data
+    const locRes = await fetch(`/api/locations?id=${loc.id}`);
+    const locData = await locRes.json();
+    if (locData.location) {
+      setLocation(locData.location);
+    }
+
+    setIsOpen(false);
+  };
+
+  if (loading) {
     return (
-      <div className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg animate-pulse">
-        <div className="h-4 w-24 bg-gray-300 rounded" />
-        <div className="h-4 w-4 bg-gray-300 rounded" />
+      <div className="flex animate-pulse items-center gap-2 rounded-lg bg-gray-100 px-3 py-2">
+        <div className="h-4 w-24 rounded bg-gray-300" />
+        <div className="h-4 w-4 rounded bg-gray-300" />
       </div>
     );
   }
 
-  // No organizations yet
-  if (organizations.length === 0) {
+  // No locations yet
+  if (allLocations.length === 0) {
     return (
       <a
         href="/onboarding"
-        className="flex items-center gap-2 px-3 py-2 text-sm text-blue-600 hover:text-blue-700 bg-blue-50 rounded-lg border border-blue-200"
+        className="flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-600 hover:text-blue-700"
       >
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
         </svg>
-        Create Organization
+        Setup First Location
       </a>
     );
   }
 
-  const displayName = location?.name || brand?.name || organization?.name || 'Select...';
-  const displayType = location ? 'Location' : brand ? 'Brand' : organization ? 'Organization' : '';
+  const displayName = location?.name || 'Select Location';
+  const displaySubtext = location
+    ? `${brand?.name || ''} · ${location.city || ''}`
+    : 'Choose a location';
+
+  // Group locations by organization
+  const groupedLocations = allLocations.reduce(
+    (acc, loc) => {
+      if (!acc[loc.org_name]) {
+        acc[loc.org_name] = [];
+      }
+      acc[loc.org_name].push(loc);
+      return acc;
+    },
+    {} as Record<string, LocationWithContext[]>
+  );
 
   return (
     <div className="relative" ref={dropdownRef}>
       {/* Trigger button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors min-w-[200px]"
+        className="flex min-w-[200px] items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-sm transition-colors hover:bg-gray-200"
       >
+        <MapPin className="h-4 w-4 text-gray-500" />
         <div className="flex-1 text-left">
-          <p className="font-medium text-gray-900 truncate">{displayName}</p>
-          <p className="text-xs text-gray-500">{displayType}</p>
+          <p className="truncate font-medium text-gray-900">{displayName}</p>
+          <p className="truncate text-xs text-gray-500">{displaySubtext}</p>
         </div>
-        <svg
+        <ChevronDown
           className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        />
       </button>
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-80 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden">
-          {/* Level tabs */}
-          <div className="flex border-b border-gray-200">
-            <button
-              onClick={() => setActiveLevel('organization')}
-              className={`flex-1 px-4 py-2 text-xs font-medium transition-colors ${
-                activeLevel === 'organization'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              Organization
-            </button>
-            <button
-              onClick={() => setActiveLevel('brand')}
-              disabled={!organization}
-              className={`flex-1 px-4 py-2 text-xs font-medium transition-colors ${
-                activeLevel === 'brand'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed'
-              }`}
-            >
-              Brand
-            </button>
-            <button
-              onClick={() => setActiveLevel('location')}
-              disabled={!brand}
-              className={`flex-1 px-4 py-2 text-xs font-medium transition-colors ${
-                activeLevel === 'location'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed'
-              }`}
-            >
-              Location
-            </button>
+        <div className="absolute left-0 top-full z-50 mt-1 w-72 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+          {/* Header */}
+          <div className="border-b border-gray-100 bg-gray-50 px-3 py-2">
+            <p className="text-xs font-medium uppercase tracking-wider text-gray-500">
+              Select Location
+            </p>
           </div>
 
-          {/* List */}
-          <div className="max-h-64 overflow-y-auto">
-            {activeLevel === 'organization' && (
-              <div className="p-2">
-                {organizations.map((org) => (
-                  <button
-                    key={org.id}
-                    onClick={() => {
-                      setOrganization(org);
-                      setActiveLevel('brand');
-                    }}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                      organization?.id === org.id
-                        ? 'bg-blue-50 text-blue-700'
-                        : 'hover:bg-gray-50'
-                    }`}
-                  >
-                    <div className="h-8 w-8 rounded-lg bg-gray-200 flex items-center justify-center text-sm font-medium">
-                      {org.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate">{org.name}</p>
-                      <p className="text-xs text-gray-500 capitalize">{org.type} - {org.subscription_plan || 'Free'}</p>
-                    </div>
-                    {organization?.id === org.id && (
-                      <svg className="h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    )}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {activeLevel === 'brand' && (
-              <div className="p-2">
-                {brands.length === 0 ? (
-                  <div className="px-3 py-6 text-center text-gray-500">
-                    <p className="text-sm">No brands yet</p>
-                    <a href="/settings/brands/new" className="text-blue-600 text-sm hover:underline">
-                      Create first brand
-                    </a>
+          {/* Locations grouped by org */}
+          <div className="max-h-80 overflow-y-auto">
+            {Object.entries(groupedLocations).map(([orgName, locs]) => (
+              <div key={orgName}>
+                {/* Org header */}
+                <div className="border-b border-gray-100 bg-gray-50 px-3 py-2">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-3 w-3 text-gray-400" />
+                    <span className="text-xs font-medium text-gray-600">{orgName}</span>
                   </div>
-                ) : (
-                  brands.map((b) => (
-                    <button
-                      key={b.id}
-                      onClick={() => {
-                        setBrand(b);
-                        setActiveLevel('location');
-                      }}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                        brand?.id === b.id
-                          ? 'bg-blue-50 text-blue-700'
-                          : 'hover:bg-gray-50'
-                      }`}
-                    >
-                      <div
-                        className="h-8 w-8 rounded-lg flex items-center justify-center text-white text-sm font-medium"
-                        style={{ backgroundColor: b.primary_color || '#6B7280' }}
-                      >
-                        {b.name.charAt(0).toUpperCase()}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm truncate">{b.name}</p>
-                        <p className="text-xs text-gray-500 capitalize">{b.business_type}</p>
-                      </div>
-                      {brand?.id === b.id && (
-                        <svg className="h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                    </button>
-                  ))
-                )}
-              </div>
-            )}
-
-            {activeLevel === 'location' && (
-              <div className="p-2">
-                {locations.length === 0 ? (
-                  <div className="px-3 py-6 text-center text-gray-500">
-                    <p className="text-sm">No locations yet</p>
-                    <a href="/settings/locations/new" className="text-blue-600 text-sm hover:underline">
-                      Add first location
-                    </a>
-                  </div>
-                ) : (
-                  locations.map((loc) => (
+                </div>
+                {/* Locations */}
+                <div className="p-1">
+                  {locs.map((loc) => (
                     <button
                       key={loc.id}
-                      onClick={() => {
-                        setLocation(loc);
-                        setIsOpen(false);
-                      }}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                        location?.id === loc.id
-                          ? 'bg-blue-50 text-blue-700'
-                          : 'hover:bg-gray-50'
+                      onClick={() => handleSelectLocation(loc)}
+                      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition-colors ${
+                        location?.id === loc.id ? 'bg-blue-50 text-blue-700' : 'hover:bg-gray-50'
                       }`}
                     >
-                      <div className="h-8 w-8 rounded-lg bg-gray-200 flex items-center justify-center text-lg">
-                        📍
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 text-sm font-medium text-white">
+                        {loc.name.charAt(0)}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm truncate">{loc.name}</p>
-                        <p className="text-xs text-gray-500">{loc.city || loc.country_code}</p>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium">{loc.name}</p>
+                        <p className="text-xs text-gray-500">
+                          {loc.brand_name} · {loc.city || loc.slug}
+                        </p>
                       </div>
                       {location?.id === loc.id && (
-                        <svg className="h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        <svg
+                          className="h-5 w-5 flex-shrink-0 text-blue-600"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       )}
                     </button>
-                  ))
-                )}
+                  ))}
+                </div>
               </div>
-            )}
+            ))}
           </div>
 
-          {/* Footer with quick actions */}
+          {/* Footer */}
           <div className="border-t border-gray-200 p-2">
             <a
-              href="/settings/organization"
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+              href="/onboarding"
+              className="flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm text-blue-600 transition-colors hover:bg-blue-50"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
               </svg>
-              Manage organization
+              Add New Location
             </a>
           </div>
         </div>
