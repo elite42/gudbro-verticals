@@ -773,22 +773,26 @@ export async function getWeatherForLocation(
   locationId: string,
   forceRefresh = false
 ): Promise<WeatherData> {
-  // Get Visual Crossing API key from environment
-  const apiKey = process.env.VISUAL_CROSSING_API_KEY;
-
-  if (!apiKey) {
-    throw new Error('VISUAL_CROSSING_API_KEY not configured');
-  }
-
-  // Check cache freshness
+  // Check cache freshness first
   const freshness = await checkCacheFreshness(locationId);
 
-  // If cache is fresh and not forcing refresh, return cached data
+  // If cache is fresh and not forcing refresh, return cached data (no API key needed)
   if (!forceRefresh && !freshness.needsCurrentRefresh && !freshness.needsForecastRefresh) {
     const cached = await getCachedWeather(locationId);
     if (cached) {
       return cached;
     }
+  }
+
+  // Try to return stale cache if API key is not configured
+  const apiKey = process.env.VISUAL_CROSSING_API_KEY;
+  if (!apiKey) {
+    // Return cached data even if stale, better than nothing
+    const cached = await getCachedWeather(locationId);
+    if (cached) {
+      return cached;
+    }
+    throw new Error('VISUAL_CROSSING_API_KEY not configured and no cached data available');
   }
 
   // Get location coordinates
