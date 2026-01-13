@@ -21,6 +21,7 @@ import {
   Zap,
   UserMinus,
 } from 'lucide-react';
+import { LearningProgressWidget } from '@/components/ai/LearningProgressWidget';
 
 // Types
 interface DailyBriefing {
@@ -231,6 +232,9 @@ export default function AIPage() {
           color="purple"
         />
       </div>
+
+      {/* AI Learning Progress */}
+      <LearningProgressWidget />
 
       {/* Main Grid */}
       <div className="grid gap-6 lg:grid-cols-2">
