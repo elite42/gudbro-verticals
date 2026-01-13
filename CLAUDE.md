@@ -725,12 +725,16 @@ Capabilities:
 - Crea "summaries" automatici delle sessioni di lavoro
 - NON serve salvare manualmente - lo fa da solo
 
-**Quando usare:**
+**⚠️ ATTENZIONE - BLOCCO:**
 
 ```
-mcp__Pieces__ask_pieces_ltm     → Query per recuperare contesto passato (USA QUESTO)
-mcp__Pieces__create_pieces_memory → NON USARE (ridondante, Pieces salva automaticamente)
+❌ mcp__Pieces__create_pieces_memory → BLOCCA CLAUDE! Non usare MAI.
+   Pieces salva automaticamente in background.
+
+✅ mcp__Pieces__ask_pieces_ltm → Query per recuperare contesto (USA SOLO QUESTO)
 ```
+
+**Per salvare contesto:** Usa file markdown nel progetto (es. `BACKLOG-*.md`), NON Pieces.
 
 **Esempio query inizio sessione:**
 
