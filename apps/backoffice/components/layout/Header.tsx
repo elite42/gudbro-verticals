@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Sparkles, Settings, LogOut, User, ChevronDown } from 'lucide-react';
 import { TenantSwitcher } from '@/components/tenant';
 import { RoleSwitcher, DevRoleSwitcher } from '@/components/account';
+import { WeatherWidget } from '@/components/ai/WeatherWidget';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { useAI } from '@/lib/contexts/AIContext';
@@ -211,6 +212,9 @@ export function Header() {
             />
           </svg>
         </a>
+
+        {/* Weather Widget */}
+        <WeatherWidget />
 
         {/* AI Co-Manager Button */}
         <button
