@@ -332,6 +332,8 @@ VERIFICA SEMPRE:
 | 2026-01 | Tentato save manuale Pieces  | Pieces cattura tutto automaticamente   | **Non serve** `create_memory`, solo `ask_pieces_ltm` per query          | Fine sessione         |
 | 2026-01 | Audit incompleto 75%         | Route groups non considerati           | **Glob fresh** su `**/page.tsx`, non liste pre-esistenti                | Backoffice audit      |
 | 2026-01 | Docs prodotto obsolete       | Backoffice cambia, docs no             | **PRODUCT.md Sez.6** solo per nuove capability areas, non ogni modifica | PRODUCT.md            |
+| 2026-01 | Blocco senza commit          | Task troppo lunga senza checkpoint     | **Commit incrementali** ogni ~30 min o feature completa                 | Sessioni lunghe       |
+| 2026-01 | Type generation fallita      | MCP timeout durante generazione types  | **Operazioni heavy separatamente**: prima commit, poi rigenera types    | database.types.ts     |
 
 ## Pattern da Seguire
 
@@ -364,6 +366,8 @@ VERIFICA SEMPRE:
 | QR value        | QR utile anche senza ordering          | QR = solo ordering           |
 | Backoffice mod  | PRODUCT.md Sez.6 solo nuove areas      | Aggiornare per ogni modifica |
 | Audit tecnico   | Snapshot datato, rigenera su richiesta | Mantenere aggiornato sempre  |
+| Task lunghe     | Commit ogni ~30 min o feature done     | Task 2h+ senza checkpoint    |
+| MCP heavy ops   | Prima commit, poi type gen/migrations  | Type gen durante sviluppo    |
 
 ## Come Aggiornare
 

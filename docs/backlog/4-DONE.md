@@ -3,7 +3,24 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-12
+**Last Updated:** 2026-01-13
+
+---
+
+## 2026-01-13
+
+| ID                   | Feature              | Descrizione                                                                                                                                                                  | Completato |
+| -------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| AI-WEATHER-INTEL     | Weather Intelligence | Migration 047: location_weather_cache, Visual Crossing API, weather-service.ts, WeatherWidget, /api/ai/weather, business impact analysis, caching con TTL                    | 2026-01-13 |
+| AI-LEARNING-PROGRESS | Learning Progress    | Migration 048: ai_learning_progress, autonomy levels 1-4, learning-progress-service.ts, LearningProgressWidget + Badge, /api/ai/learning-progress, skill domains, milestones | 2026-01-13 |
+
+> **Files:**
+>
+> - Migrations: `047-weather-intelligence.sql`, `048-ai-learning-progress.sql`
+> - Services: `weather-service.ts`, `learning-progress-service.ts`
+> - API: `/api/ai/weather`, `/api/ai/learning-progress`
+> - UI: `WeatherWidget.tsx`, `LearningProgressWidget.tsx`
+> - Features: Weather caching, business impact (delivery/dine-in), autonomy progression, skill tracking
 
 ---
 
