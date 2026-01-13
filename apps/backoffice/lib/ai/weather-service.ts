@@ -53,12 +53,45 @@ export interface WeatherAlert {
   endsAt: string;
 }
 
+export interface StaffAdjustment {
+  sala: number; // multiplier (0.7 = -30%, 1.2 = +20%)
+  kitchen: number;
+  delivery: number;
+  bar: number;
+}
+
+export interface MenuSuggestion {
+  category: 'comfort' | 'light' | 'hot_drinks' | 'cold_drinks' | 'soups' | 'salads';
+  reason: string;
+  priority: 'high' | 'medium' | 'low';
+}
+
+export type WeatherCategory =
+  | 'cold_extreme' // < 0°C
+  | 'cold' // 0-10°C
+  | 'cool' // 10-18°C
+  | 'optimal' // 18-25°C
+  | 'warm' // 25-30°C
+  | 'hot' // 30-35°C
+  | 'hot_extreme' // > 35°C
+  | 'rainy'
+  | 'stormy'
+  | 'snowy'
+  | 'humid'; // > 80% humidity
+
 export interface BusinessImpact {
   deliveryImpact: string;
   dineInImpact: string;
   outdoorSeating: boolean;
   recommendedActions: string[];
   peakHoursShift?: string;
+  // New fields from knowledge base
+  weatherCategory: WeatherCategory;
+  staffAdjustment: StaffAdjustment;
+  menuSuggestions: MenuSuggestion[];
+  beverageFocus: 'hot' | 'cold' | 'mixed';
+  comfortFoodCategories: string[];
+  marketingHook?: string;
 }
 
 export interface WeatherData {
@@ -218,69 +251,331 @@ export function getWeatherEmoji(conditions: string): string {
 }
 
 /**
+ * Determine weather category based on conditions and temperature
+ * Based on AI Weather & Seasonal Knowledge Base
+ */
+function determineWeatherCategory(current: CurrentWeather): WeatherCategory {
+  const conditions = current.conditions.toLowerCase();
+
+  // Weather conditions take priority over temperature
+  if (conditions.includes('storm') || conditions.includes('thunder')) {
+    return 'stormy';
+  }
+  if (conditions.includes('snow') || conditions.includes('blizzard')) {
+    return 'snowy';
+  }
+  if (
+    conditions.includes('rain') ||
+    conditions.includes('shower') ||
+    conditions.includes('drizzle')
+  ) {
+    return 'rainy';
+  }
+  if (current.humidity > 80) {
+    return 'humid';
+  }
+
+  // Temperature-based categories
+  if (current.temp < 0) return 'cold_extreme';
+  if (current.temp < 10) return 'cold';
+  if (current.temp < 18) return 'cool';
+  if (current.temp <= 25) return 'optimal';
+  if (current.temp <= 30) return 'warm';
+  if (current.temp <= 35) return 'hot';
+  return 'hot_extreme';
+}
+
+/**
+ * Get staff adjustment multipliers based on weather
+ * Based on AI Weather & Seasonal Knowledge Base Section 4
+ */
+function getStaffAdjustment(category: WeatherCategory): StaffAdjustment {
+  const adjustments: Record<WeatherCategory, StaffAdjustment> = {
+    cold_extreme: { sala: 0.6, kitchen: 1.2, delivery: 1.3, bar: 0.7 },
+    cold: { sala: 0.9, kitchen: 1.0, delivery: 1.1, bar: 0.9 },
+    cool: { sala: 1.0, kitchen: 1.0, delivery: 1.0, bar: 1.0 },
+    optimal: { sala: 1.1, kitchen: 1.05, delivery: 0.9, bar: 1.2 },
+    warm: { sala: 1.0, kitchen: 1.0, delivery: 1.0, bar: 1.15 },
+    hot: { sala: 0.85, kitchen: 1.0, delivery: 1.1, bar: 1.1 },
+    hot_extreme: { sala: 0.7, kitchen: 0.9, delivery: 1.2, bar: 1.0 },
+    rainy: { sala: 0.75, kitchen: 1.15, delivery: 1.2, bar: 0.9 },
+    stormy: { sala: 0.6, kitchen: 1.2, delivery: 1.35, bar: 0.8 },
+    snowy: { sala: 0.55, kitchen: 1.2, delivery: 1.3, bar: 0.8 },
+    humid: { sala: 0.9, kitchen: 1.0, delivery: 1.15, bar: 1.0 },
+  };
+  return adjustments[category];
+}
+
+/**
+ * Get menu suggestions based on weather category
+ * Based on AI Weather & Seasonal Knowledge Base Section 3
+ */
+function getMenuSuggestions(category: WeatherCategory): MenuSuggestion[] {
+  const suggestions: Record<WeatherCategory, MenuSuggestion[]> = {
+    cold_extreme: [
+      { category: 'soups', reason: 'Comfort and warmth', priority: 'high' },
+      { category: 'hot_drinks', reason: 'Hot chocolate, mulled wine', priority: 'high' },
+      { category: 'comfort', reason: 'Stews, gratins, fondue', priority: 'high' },
+    ],
+    cold: [
+      { category: 'soups', reason: 'Warming dishes', priority: 'high' },
+      { category: 'hot_drinks', reason: 'Coffee, tea, hot beverages', priority: 'medium' },
+      { category: 'comfort', reason: 'Pasta, risotto, hearty dishes', priority: 'medium' },
+    ],
+    cool: [
+      { category: 'comfort', reason: 'Balanced comfort food', priority: 'medium' },
+      { category: 'hot_drinks', reason: 'Warm beverages option', priority: 'low' },
+    ],
+    optimal: [
+      { category: 'light', reason: 'Perfect for varied menu', priority: 'medium' },
+      { category: 'cold_drinks', reason: 'Aperitivo, cocktails', priority: 'medium' },
+    ],
+    warm: [
+      { category: 'light', reason: 'Fresh, light dishes', priority: 'high' },
+      { category: 'cold_drinks', reason: 'Refreshing beverages', priority: 'high' },
+      { category: 'salads', reason: 'Cool, crisp options', priority: 'medium' },
+    ],
+    hot: [
+      { category: 'cold_drinks', reason: 'Hydration focus', priority: 'high' },
+      { category: 'salads', reason: 'Light, refreshing', priority: 'high' },
+      { category: 'light', reason: 'Avoid heavy dishes', priority: 'medium' },
+    ],
+    hot_extreme: [
+      { category: 'cold_drinks', reason: 'Maximum hydration', priority: 'high' },
+      { category: 'light', reason: 'Ceviche, poke, cold dishes', priority: 'high' },
+      { category: 'salads', reason: 'Fresh and cooling', priority: 'high' },
+    ],
+    rainy: [
+      { category: 'comfort', reason: 'Cozy, nostalgic food', priority: 'high' },
+      { category: 'hot_drinks', reason: 'Warm beverages', priority: 'high' },
+      { category: 'soups', reason: 'Classic rainy day choice', priority: 'medium' },
+    ],
+    stormy: [
+      { category: 'comfort', reason: 'Ultra-comfort food', priority: 'high' },
+      { category: 'hot_drinks', reason: 'Warm and soothing', priority: 'high' },
+      { category: 'soups', reason: 'Hearty soups', priority: 'high' },
+    ],
+    snowy: [
+      { category: 'comfort', reason: 'Maximum indulgence', priority: 'high' },
+      { category: 'hot_drinks', reason: 'Hot chocolate, Irish coffee', priority: 'high' },
+      { category: 'soups', reason: 'Warming soups', priority: 'high' },
+    ],
+    humid: [
+      { category: 'light', reason: 'Avoid heavy, fried foods', priority: 'high' },
+      { category: 'cold_drinks', reason: 'Refreshing, hydrating', priority: 'medium' },
+    ],
+  };
+  return suggestions[category];
+}
+
+/**
+ * Get comfort food categories for weather
+ * Based on AI Weather & Seasonal Knowledge Base Section 3.1
+ */
+function getComfortFoodCategories(category: WeatherCategory): string[] {
+  const mapping: Record<WeatherCategory, string[]> = {
+    cold_extreme: ['stews', 'gratins', 'fondue', 'hot chocolate', 'mulled wine'],
+    cold: ['soups', 'pasta', 'risotto', 'roasts', 'hot beverages'],
+    cool: ['pasta', 'risotto', 'warm salads'],
+    optimal: ['varied menu', 'aperitivo', 'fresh dishes'],
+    warm: ['salads', 'grilled items', 'cold beverages'],
+    hot: ['ceviche', 'poke', 'cold soups', 'frozen drinks'],
+    hot_extreme: ['ice cream', 'cold drinks', 'raw dishes', 'gazpacho'],
+    rainy: ['ramen', 'curry', 'lasagne', 'comfort desserts'],
+    stormy: ['stews', 'mac & cheese', 'hot chocolate', 'comfort classics'],
+    snowy: ['fondue', 'gratin', 'hot chocolate', 'Irish coffee'],
+    humid: ['pho', 'light spicy', 'citrus dishes', 'mint-based'],
+  };
+  return mapping[category];
+}
+
+/**
+ * Get marketing hook for weather condition
+ * Based on AI Weather & Seasonal Knowledge Base Section 2
+ */
+function getMarketingHook(category: WeatherCategory): string | undefined {
+  const hooks: Partial<Record<WeatherCategory, string>> = {
+    rainy: 'Fuori piove, dentro si mangia meglio',
+    stormy: 'Storm outside? Comfort inside',
+    snowy: 'Let it snow - warm up with us',
+    cold_extreme: 'Escape the cold - warm dishes await',
+    cold: 'Warm up with our comfort menu',
+    hot: 'Beat the heat with refreshing bites',
+    hot_extreme: "Too hot to cook? We've got you covered",
+    humid: 'Stay fresh and light today',
+  };
+  return hooks[category];
+}
+
+/**
  * Calculate business impact based on weather conditions
+ * Enhanced version based on AI Weather & Seasonal Knowledge Base
  */
 function calculateBusinessImpact(current: CurrentWeather, forecast: DayForecast[]): BusinessImpact {
   const todayForecast = forecast[0];
-  const conditions = current.conditions.toLowerCase();
-  const isRainy =
-    conditions.includes('rain') || conditions.includes('storm') || conditions.includes('shower');
-  const isSnowy = conditions.includes('snow');
-  const isHot = current.temp > 30;
-  const isCold = current.temp < 5;
-  const isNice = !isRainy && !isSnowy && current.temp >= 18 && current.temp <= 28;
+  const category = determineWeatherCategory(current);
 
+  // Impact percentages based on knowledge base Section 1.1
+  const impactMap: Record<
+    WeatherCategory,
+    { delivery: string; dineIn: string; outdoor: boolean; peak?: string }
+  > = {
+    cold_extreme: {
+      delivery: '+25-35%',
+      dineIn: '+5-10%',
+      outdoor: false,
+      peak: 'Lunch rush earlier, dinner rush slightly later',
+    },
+    cold: {
+      delivery: '+15-25%',
+      dineIn: '+5%',
+      outdoor: false,
+    },
+    cool: {
+      delivery: '+5-10%',
+      dineIn: '0%',
+      outdoor: false,
+    },
+    optimal: {
+      delivery: '-10%',
+      dineIn: '+15-20%',
+      outdoor: true,
+      peak: 'Extended aperitivo hours (17:00-20:00)',
+    },
+    warm: {
+      delivery: '+5%',
+      dineIn: '+5-10%',
+      outdoor: true,
+      peak: 'Peak shifts to evening (19:00-22:00)',
+    },
+    hot: {
+      delivery: '+15-25%',
+      dineIn: '-10-15%',
+      outdoor: false,
+      peak: 'Peak moves to cooler evening hours',
+    },
+    hot_extreme: {
+      delivery: '+25-35%',
+      dineIn: '-25-35%',
+      outdoor: false,
+      peak: 'Avoid 12:00-16:00, focus on evening service',
+    },
+    rainy: {
+      delivery: '+30-40%',
+      dineIn: '-15-25%',
+      outdoor: false,
+      peak: 'Earlier lunch rush as people avoid going out',
+    },
+    stormy: {
+      delivery: '+40-60%',
+      dineIn: '-30-40%',
+      outdoor: false,
+      peak: 'Significant traffic reduction, focus on delivery',
+    },
+    snowy: {
+      delivery: '+50-135%',
+      dineIn: '-40-50%',
+      outdoor: false,
+      peak: 'Prepare for potential delivery delays',
+    },
+    humid: {
+      delivery: '+15-25%',
+      dineIn: '-10%',
+      outdoor: false,
+      peak: 'Avoid fried items in menu highlights (lose crispness)',
+    },
+  };
+
+  const impact = impactMap[category];
   const recommendedActions: string[] = [];
-  let deliveryImpact = '0%';
-  let dineInImpact = '0%';
-  let outdoorSeating = true;
-  let peakHoursShift: string | undefined;
 
-  if (isRainy || isSnowy) {
-    deliveryImpact = '+30-45%';
-    dineInImpact = '-15-25%';
-    outdoorSeating = false;
-    recommendedActions.push('Push delivery promotions');
-    recommendedActions.push('Prepare for increased delivery orders');
-    recommendedActions.push('Close outdoor seating');
-    peakHoursShift = 'Earlier lunch rush expected as people avoid going out';
-  } else if (isHot) {
-    deliveryImpact = '+15-25%';
-    dineInImpact = '-10%';
-    outdoorSeating = false; // Too hot
-    recommendedActions.push('Promote cold beverages and desserts');
-    recommendedActions.push('Consider shaded outdoor seating only');
-    recommendedActions.push('Stock up on ice and cold drinks');
-    peakHoursShift = 'Peak moves to cooler evening hours';
-  } else if (isCold) {
-    deliveryImpact = '+20-30%';
-    dineInImpact = '+5%'; // People want warm places
-    outdoorSeating = false;
-    recommendedActions.push('Promote hot beverages and comfort food');
-    recommendedActions.push('Ensure heating is adequate');
-    recommendedActions.push('Feature soups and warm dishes');
-  } else if (isNice) {
-    deliveryImpact = '-10%';
-    dineInImpact = '+15-20%';
-    outdoorSeating = true;
-    recommendedActions.push('Open outdoor/terrace seating');
-    recommendedActions.push('Great day for aperitivo promotions');
-    recommendedActions.push('Consider outdoor events');
+  // Weather-specific actions
+  switch (category) {
+    case 'cold_extreme':
+    case 'cold':
+      recommendedActions.push('Promote hot beverages and comfort food');
+      recommendedActions.push('Ensure heating is adequate');
+      recommendedActions.push('Feature soups and warm dishes prominently');
+      break;
+    case 'optimal':
+      recommendedActions.push('Open outdoor/terrace seating');
+      recommendedActions.push('Great day for aperitivo promotions');
+      recommendedActions.push('Consider outdoor events or live music');
+      break;
+    case 'hot':
+    case 'hot_extreme':
+      recommendedActions.push('Push cold beverages to top of menu');
+      recommendedActions.push('Stock up on ice and frozen drinks');
+      recommendedActions.push('Consider extended evening hours');
+      if (category === 'hot_extreme') {
+        recommendedActions.push('Close outdoor seating - too hot');
+      }
+      break;
+    case 'rainy':
+    case 'stormy':
+      recommendedActions.push('Push delivery promotions');
+      recommendedActions.push('Prepare for increased delivery orders');
+      recommendedActions.push('Staff up kitchen, reduce floor staff');
+      recommendedActions.push('Consider "Rainy Day Deals" promotion');
+      break;
+    case 'snowy':
+      recommendedActions.push('Maximum delivery focus');
+      recommendedActions.push('Prepare for potential delivery delays');
+      recommendedActions.push('Ultra-comfort menu features');
+      break;
+    case 'humid':
+      recommendedActions.push('Avoid featuring fried items (lose crispness)');
+      recommendedActions.push('Push light, refreshing options');
+      recommendedActions.push('Ensure AC is working optimally');
+      break;
   }
 
-  // Check for incoming rain in forecast
-  if (todayForecast && todayForecast.precipitationProbability > 60 && !isRainy) {
+  // Forecast alerts
+  if (
+    todayForecast &&
+    todayForecast.precipitationProbability > 60 &&
+    category !== 'rainy' &&
+    category !== 'stormy'
+  ) {
     recommendedActions.push(
       `Rain expected later (${todayForecast.precipitationProbability}% chance) - prepare delivery staff`
     );
   }
 
+  // Temperature change alerts
+  if (forecast.length > 1) {
+    const tempDiff = forecast[1].tempMax - current.temp;
+    if (tempDiff > 8) {
+      recommendedActions.push(
+        `Temperature rising ${Math.round(tempDiff)}°C tomorrow - prepare for menu shift`
+      );
+    } else if (tempDiff < -8) {
+      recommendedActions.push(
+        `Temperature dropping ${Math.round(Math.abs(tempDiff))}°C tomorrow - stock comfort items`
+      );
+    }
+  }
+
+  // Determine beverage focus
+  let beverageFocus: 'hot' | 'cold' | 'mixed' = 'mixed';
+  if (current.temp < 15 || category === 'rainy' || category === 'stormy' || category === 'snowy') {
+    beverageFocus = 'hot';
+  } else if (current.temp > 25 || category === 'hot' || category === 'hot_extreme') {
+    beverageFocus = 'cold';
+  }
+
   return {
-    deliveryImpact,
-    dineInImpact,
-    outdoorSeating,
+    deliveryImpact: impact.delivery,
+    dineInImpact: impact.dineIn,
+    outdoorSeating: impact.outdoor,
     recommendedActions,
-    peakHoursShift,
+    peakHoursShift: impact.peak,
+    weatherCategory: category,
+    staffAdjustment: getStaffAdjustment(category),
+    menuSuggestions: getMenuSuggestions(category),
+    beverageFocus,
+    comfortFoodCategories: getComfortFoodCategories(category),
+    marketingHook: getMarketingHook(category),
   };
 }
 
