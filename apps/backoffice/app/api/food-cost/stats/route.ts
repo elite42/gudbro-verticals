@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get total dishes count
-    const { count: totalDishes, error: dishCountError } = await supabase
+    const { count: totalDishes, error: dishCountError } = await supabaseAdmin
       .from('food_cost_dishes')
       .select('*', { count: 'exact', head: true })
       .eq('location_id', locationId)
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get dishes with calculated food costs (those with at least one ingredient)
-    const { data: dishesWithCosts, error: costError } = await supabase
+    const { data: dishesWithCosts, error: costError } = await supabaseAdmin
       .from('food_cost_dishes')
       .select('id, food_cost, food_cost_percent')
       .eq('location_id', locationId)
@@ -43,13 +43,13 @@ export async function GET(request: NextRequest) {
     }
 
     // Get total ingredients count for this location's dishes
-    const { data: ingredientsData, error: ingError } = await supabase
+    const { data: ingredientsData, error: ingError } = await supabaseAdmin
       .from('food_cost_dish_ingredients')
       .select('id, cost_per_kg, dish_id')
       .in(
         'dish_id',
         (
-          await supabase
+          await supabaseAdmin
             .from('food_cost_dishes')
             .select('id')
             .eq('location_id', locationId)
@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get last updated timestamp
-    const { data: lastUpdatedDish, error: lastUpdateError } = await supabase
+    const { data: lastUpdatedDish, error: lastUpdateError } = await supabaseAdmin
       .from('food_cost_dishes')
       .select('updated_at')
       .eq('location_id', locationId)

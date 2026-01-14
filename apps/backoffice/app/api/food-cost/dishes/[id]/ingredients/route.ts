@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     }
 
     // Create ingredient
-    const { data: ingredient, error } = await supabase
+    const { data: ingredient, error } = await supabaseAdmin
       .from('food_cost_dish_ingredients')
       .insert({
         dish_id: dishId,
@@ -57,7 +57,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   try {
     const dishId = params.id;
 
-    const { data: ingredients, error } = await supabase
+    const { data: ingredients, error } = await supabaseAdmin
       .from('food_cost_dish_ingredients')
       .select('*')
       .eq('dish_id', dishId)

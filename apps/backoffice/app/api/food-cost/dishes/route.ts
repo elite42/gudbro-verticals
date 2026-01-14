@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get dishes with their ingredients
-    const { data: dishes, error } = await supabase
+    const { data: dishes, error } = await supabaseAdmin
       .from('food_cost_dishes')
       .select(
         `
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create dish
-    const { data: dish, error } = await supabase
+    const { data: dish, error } = await supabaseAdmin
       .from('food_cost_dishes')
       .insert({
         location_id: locationId,

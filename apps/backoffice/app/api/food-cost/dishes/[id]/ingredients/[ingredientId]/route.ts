@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,7 +14,7 @@ export async function GET(
   try {
     const { ingredientId } = params;
 
-    const { data: ingredient, error } = await supabase
+    const { data: ingredient, error } = await supabaseAdmin
       .from('food_cost_dish_ingredients')
       .select('*')
       .eq('id', ingredientId)
@@ -58,7 +58,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'No fields to update' }, { status: 400 });
     }
 
-    const { data: ingredient, error } = await supabase
+    const { data: ingredient, error } = await supabaseAdmin
       .from('food_cost_dish_ingredients')
       .update(updates)
       .eq('id', ingredientId)
@@ -88,7 +88,7 @@ export async function DELETE(
   try {
     const { ingredientId } = params;
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('food_cost_dish_ingredients')
       .delete()
       .eq('id', ingredientId);
