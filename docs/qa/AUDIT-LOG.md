@@ -8,9 +8,47 @@
 
 ### Gennaio 2026
 
-| Data       | Tipo     | Risultato  | Report     |
-| ---------- | -------- | ---------- | ---------- |
-| 2026-01-14 | Baseline | Completato | Vedi sotto |
+| Data       | Tipo          | Risultato  | Report                                              |
+| ---------- | ------------- | ---------- | --------------------------------------------------- |
+| 2026-01-14 | Initial Audit | Completato | [Full Report](./audits/2026-01-14-initial-audit.md) |
+| 2026-01-14 | Baseline      | Completato | Vedi sotto                                          |
+
+#### 2026-01-14 - Initial Audit (FASE 1)
+
+**Trigger:** FASE 1 del piano QA
+**Eseguito da:** Claude Opus 4.5
+
+**Findings:**
+
+| Area          | Status  | Dettaglio                          |
+| ------------- | ------- | ---------------------------------- |
+| Test Coverage | CRITICO | ~2% (14/15 aree a 0%)              |
+| Security      | ALTO    | 7 API senza auth, 5 RLS permissive |
+| Dead Code     | MEDIO   | 5 componenti orfani                |
+| Documentation | CRITICO | 1/15 feature documentate           |
+
+**Issues Critiche (P0):**
+
+1. `/api/organizations` - POST/PATCH senza auth
+2. `/api/merchants` - POST senza auth
+3. `/api/translations` - ALL senza auth
+4. `/api/food-cost/dishes` - ALL senza auth
+5. `/api/upload/logo` - POST/DELETE senza auth
+6. RLS `accounts`, `order_items` con `WITH CHECK(true)`
+
+**Actions:**
+
+- [x] Audit test coverage completo
+- [x] Audit dead code
+- [x] Audit security (RLS, Auth)
+- [x] Audit documentation
+- [x] Report completo generato
+- [ ] Fix security issues (P0)
+- [ ] Aumentare test coverage (FASE 2)
+
+**Report:** [2026-01-14-initial-audit.md](./audits/2026-01-14-initial-audit.md)
+
+---
 
 #### 2026-01-14 - Baseline Audit
 
@@ -29,7 +67,7 @@
 
 - [x] Creato piano QA 6 fasi
 - [x] Setup infrastruttura QA
-- [ ] Audit dettagliato (Fase 1)
+- [x] Audit dettagliato (Fase 1)
 
 ---
 
