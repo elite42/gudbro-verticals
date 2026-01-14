@@ -3,7 +3,7 @@
 > Stato attuale della copertura test del progetto GUDBRO.
 
 **Ultimo aggiornamento:** 2026-01-14
-**Coverage complessivo:** ~8%
+**Coverage complessivo:** ~12%
 
 ---
 
@@ -11,10 +11,10 @@
 
 | Metrica          | Valore | Target | Gap  |
 | ---------------- | ------ | ------ | ---- |
-| Test Files       | 13     | 50+    | -37  |
-| Total Tests      | 570    | 1000+  | -430 |
-| Test Coverage    | ~8%    | 30%    | -22% |
-| Features Testate | 3/15   | 15/15  | -12  |
+| Test Files       | 17     | 50+    | -33  |
+| Total Tests      | 764    | 1000+  | -236 |
+| Test Coverage    | ~12%   | 30%    | -18% |
+| Features Testate | 4/15   | 15/15  | -11  |
 
 ---
 
@@ -26,8 +26,8 @@
 | ---------------- | ----- | ----- | -------- | -------- |
 | **QR Codes**     | 7     | 260   | ~80%     | Complete |
 | **Auth**         | 2     | 77    | ~80%     | Complete |
-| **AI Services**  | 2     | 95    | ~30%     | Partial  |
-| **Shared Utils** | 2     | 85    | ~85%     | Complete |
+| **AI Services**  | 4     | 171   | ~40%     | Complete |
+| **Shared Utils** | 4     | 203   | ~90%     | Complete |
 
 ### Aree Non Testate (Priority Order)
 
@@ -58,7 +58,9 @@ lib/auth/__tests__/
 
 lib/ai/__tests__/
 ├── prompts.test.ts            (55 tests) - buildSystemPrompt, QUICK_ACTIONS
-└── knowledge-service.test.ts  (40 tests) - formatKnowledgeForAI
+├── knowledge-service.test.ts  (40 tests) - formatKnowledgeForAI
+├── openai.test.ts             (36 tests) - calculateCost, MODEL_PRICING, MODEL_LIMITS
+└── onboarding-service.test.ts (40 tests) - buildOnboardingPrompt, ONBOARDING_TOOLS
 
 components/qr/__tests__/
 ├── QRBuilderModal.test.tsx    (55 tests)
@@ -80,6 +82,12 @@ app/api/qr/__tests__/
 utils/__tests__/
 ├── errors.test.ts             (24 tests) - AppError, ValidationError, etc.
 └── result.test.ts             (61 tests) - Result type, ok, err, map, andThen
+
+lib/shared/__tests__/
+└── safety-filters.test.ts     (61 tests) - Allergens, intolerances, diets
+
+lib/shared/utils/__tests__/
+└── auto-compute.test.ts       (57 tests) - SAFETY-CRITICAL allergen computation
 ```
 
 ---
@@ -150,19 +158,26 @@ describe('MyComponent', () => {
 1. [x] Creare test per `lib/auth/` - **Complete (77 tests)**
 2. [x] Creare test per `lib/ai/prompts.ts` - **Complete (55 tests)**
 3. [x] Creare test per `lib/ai/knowledge-service.ts` - **Complete (40 tests)**
-4. [ ] Creare test per `api/food-cost/` (validation logic)
-5. [ ] Creare test per `lib/ai/chat-service.ts`
+4. [x] Creare test per `lib/shared/safety-filters.ts` - **Complete (61 tests)**
+5. [x] Creare test per `lib/shared/utils/auto-compute.ts` - **Complete (57 tests) SAFETY-CRITICAL**
+6. [x] Creare test per `lib/ai/openai.ts` - **Complete (36 tests)**
+7. [x] Creare test per `lib/ai/onboarding-service.ts` - **Complete (40 tests)**
+8. [ ] Creare test per `api/food-cost/` (validation logic)
+9. [ ] Creare test per `lib/ai/chat-service.ts`
 
 ---
 
 ## Storico
 
-| Data       | Coverage | Tests | Note                                       |
-| ---------- | -------- | ----- | ------------------------------------------ |
-| 2026-01-14 | ~8%      | 570   | Result utility tests (+61), AI services    |
-| 2026-01-14 | ~7%      | 509   | AI services tests (prompts, knowledge-svc) |
-| 2026-01-14 | ~5%      | 414   | Auth tests complete, security fix          |
-| 2026-01-14 | ~2%      | 320   | Baseline iniziale (FASE 1 audit)           |
+| Data       | Coverage | Tests | Note                                                 |
+| ---------- | -------- | ----- | ---------------------------------------------------- |
+| 2026-01-14 | ~12%     | 764   | Onboarding service (+40): buildOnboardingPrompt      |
+| 2026-01-14 | ~11%     | 724   | OpenAI utilities (+36): calculateCost, pricing       |
+| 2026-01-14 | ~10%     | 688   | Safety-filters (+61), auto-compute SAFETY-CRIT (+57) |
+| 2026-01-14 | ~8%      | 570   | Result utility tests (+61), AI services              |
+| 2026-01-14 | ~7%      | 509   | AI services tests (prompts, knowledge-svc)           |
+| 2026-01-14 | ~5%      | 414   | Auth tests complete, security fix                    |
+| 2026-01-14 | ~2%      | 320   | Baseline iniziale (FASE 1 audit)                     |
 
 ---
 
