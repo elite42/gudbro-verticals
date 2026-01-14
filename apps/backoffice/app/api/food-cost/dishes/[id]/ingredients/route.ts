@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { getSession } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,6 +10,12 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const dishId = params.id;
     const body = await request.json();
     const { ingredientId, ingredientName, costPerKg, quantityGrams } = body;
@@ -55,6 +62,12 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
  */
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const dishId = params.id;
 
     const { data: ingredients, error } = await supabaseAdmin

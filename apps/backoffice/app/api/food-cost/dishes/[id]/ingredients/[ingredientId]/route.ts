@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { getSession } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,6 +13,12 @@ export async function GET(
   { params }: { params: { id: string; ingredientId: string } }
 ) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { ingredientId } = params;
 
     const { data: ingredient, error } = await supabaseAdmin
@@ -44,6 +51,12 @@ export async function PATCH(
   { params }: { params: { id: string; ingredientId: string } }
 ) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { ingredientId } = params;
     const body = await request.json();
     const { ingredientName, costPerKg, quantityGrams } = body;
@@ -86,6 +99,12 @@ export async function DELETE(
   { params }: { params: { id: string; ingredientId: string } }
 ) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { ingredientId } = params;
 
     const { error } = await supabaseAdmin
