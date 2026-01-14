@@ -20,12 +20,12 @@
 
 > Decisioni che impattano onboarding B2B, pricing tiers, e conversione.
 
-| ID                        | Feature             | Descrizione                          | Effort | Spec                                                     |
-| ------------------------- | ------------------- | ------------------------------------ | ------ | -------------------------------------------------------- |
-| SERVICE-MODELS            | Modelli di Servizio | Come funziona il servizio nel locale | Medium | [spec](specs/P0.5-strategy/SERVICE-MODELS.md)            |
-| AI-ONBOARDING             | Onboarding AI       | Chat-based onboarding                | High   | [spec](specs/P0.5-strategy/AI-ONBOARDING.md)             |
-| TIER-MENU-ONLY            | Menu Only Tier      | Entry-level pricing tier             | Low    | [spec](specs/P0.5-strategy/TIER-MENU-ONLY.md)            |
-| ORDER-READY-NOTIFICATIONS | Notifiche Ordine    | Sostituisce buzzer hardware          | Medium | [spec](specs/P0.5-strategy/ORDER-READY-NOTIFICATIONS.md) |
+| ID                        | Feature             | Descrizione                          | Effort | Status     | Spec                                                     |
+| ------------------------- | ------------------- | ------------------------------------ | ------ | ---------- | -------------------------------------------------------- |
+| SERVICE-MODELS            | Modelli di Servizio | Come funziona il servizio nel locale | Medium | ✅ DONE    | [spec](specs/P0.5-strategy/SERVICE-MODELS.md)            |
+| TIER-MENU-ONLY            | Menu Only Tier      | Entry-level pricing tier             | Low    | ✅ DONE    | [spec](specs/P0.5-strategy/TIER-MENU-ONLY.md)            |
+| AI-ONBOARDING             | Onboarding AI       | Chat-based onboarding                | High   | ✅ DONE    | [spec](specs/P0.5-strategy/AI-ONBOARDING.md)             |
+| ORDER-READY-NOTIFICATIONS | Notifiche Ordine    | Sostituisce buzzer hardware          | Medium | 🟡 PARTIAL | [spec](specs/P0.5-strategy/ORDER-READY-NOTIFICATIONS.md) |
 
 ---
 
@@ -47,12 +47,12 @@
 
 | ID                | Feature               | Descrizione                          | Effort | Status  | Spec                                  |
 | ----------------- | --------------------- | ------------------------------------ | ------ | ------- | ------------------------------------- |
-| AI-FIRST-REDESIGN | Backoffice AI-First   | Dashboard operativa, non informativa | High   | TODO    | [spec](specs/P1/AI-FIRST-REDESIGN.md) |
-| KB-BACKOFFICE     | Knowledge Base        | Guida utente 52 pagine               | Medium | TODO    | [spec](specs/P1/KB-BACKOFFICE.md)     |
+| AI-FIRST-REDESIGN | Backoffice AI-First   | Dashboard operativa, non informativa | High   | ✅ DONE | [spec](specs/P1/AI-FIRST-REDESIGN.md) |
+| KB-BACKOFFICE     | Knowledge Base        | Guida utente 52 pagine               | Medium | ✅ DONE | [spec](specs/P1/KB-BACKOFFICE.md)     |
 | AI-ZONE-INTEL     | Zone & Customer Intel | AI conosce zona + pattern clienti    | High   | ✅ DONE | [spec](specs/P1/AI-ZONE-INTEL.md)     |
 | WEATHER-INTEL     | Weather Intelligence  | Meteo in backoffice + AI             | Medium | ✅ DONE | -                                     |
-| TOURISM-B2B       | Partnership Hub       | AI trova tour op + hotel/Airbnb      | High   | TODO    | [spec](specs/P1/TOURISM-B2B.md)       |
-| B2B-CONVENTIONS   | Corporate Conventions | Convenzioni uffici/aziende           | Medium | TODO    | [spec](specs/P1/B2B-CONVENTIONS.md)   |
+| TOURISM-B2B       | Partnership Hub       | AI trova tour op + hotel/Airbnb      | High   | ✅ DONE | [spec](specs/P1/TOURISM-B2B.md)       |
+| B2B-CONVENTIONS   | Corporate Conventions | Convenzioni uffici/aziende           | Medium | ✅ DONE | [spec](specs/P1/B2B-CONVENTIONS.md)   |
 
 ---
 

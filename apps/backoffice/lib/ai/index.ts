@@ -22,3 +22,4 @@ export * from './trigger-engine-service';
 export * from './tourism-partnerships-service';
 export * from './tourism-booking-service';
 export * from './tourism-products-service';
+export * from './conventions-service';
