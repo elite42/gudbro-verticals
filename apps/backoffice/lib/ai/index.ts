@@ -19,3 +19,6 @@ export * from './onboarding-service';
 export * from './translation-service';
 export * from './customer-intelligence-service';
 export * from './trigger-engine-service';
+export * from './tourism-partnerships-service';
+export * from './tourism-booking-service';
+export * from './tourism-products-service';

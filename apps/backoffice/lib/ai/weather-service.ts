@@ -94,6 +94,14 @@ export interface BusinessImpact {
   marketingHook?: string;
 }
 
+// Venue context for smart, contextual recommendations
+export interface VenueContext {
+  hasAc: boolean;
+  hasOutdoorSeating: boolean;
+  venueType: 'restaurant' | 'bar' | 'cafe' | 'fast_food' | 'food_truck' | 'catering';
+  serviceStyle: 'dine_in' | 'counter' | 'delivery_only' | 'takeaway' | 'mixed';
+}
+
 export interface WeatherData {
   locationId: string;
   current: CurrentWeather;
@@ -410,8 +418,20 @@ function getMarketingHook(category: WeatherCategory): string | undefined {
 /**
  * Calculate business impact based on weather conditions
  * Enhanced version based on AI Weather & Seasonal Knowledge Base
+ * Now with venue context for smarter, contextual recommendations
  */
-function calculateBusinessImpact(current: CurrentWeather, forecast: DayForecast[]): BusinessImpact {
+function calculateBusinessImpact(
+  current: CurrentWeather,
+  forecast: DayForecast[],
+  venueContext?: VenueContext
+): BusinessImpact {
+  // Default venue context if not provided
+  const venue = venueContext ?? {
+    hasAc: true,
+    hasOutdoorSeating: false,
+    venueType: 'restaurant' as const,
+    serviceStyle: 'dine_in' as const,
+  };
   const todayForecast = forecast[0];
   const category = determineWeatherCategory(current);
 
@@ -489,57 +509,86 @@ function calculateBusinessImpact(current: CurrentWeather, forecast: DayForecast[
   const impact = impactMap[category];
   const recommendedActions: string[] = [];
 
-  // Weather-specific actions
+  // Venue-aware weather-specific actions
+  const isBar = venue.venueType === 'bar' || venue.venueType === 'cafe';
+  const hasDelivery = venue.serviceStyle === 'delivery_only' || venue.serviceStyle === 'mixed';
+  const isDineIn = venue.serviceStyle === 'dine_in' || venue.serviceStyle === 'mixed';
+
   switch (category) {
     case 'cold_extreme':
     case 'cold':
       recommendedActions.push('Promote hot beverages and comfort food');
       recommendedActions.push('Ensure heating is adequate');
-      recommendedActions.push('Feature soups and warm dishes prominently');
+      if (!isBar) {
+        recommendedActions.push('Feature soups and warm dishes prominently');
+      }
       break;
     case 'optimal':
-      recommendedActions.push('Open outdoor/terrace seating');
-      recommendedActions.push('Great day for aperitivo promotions');
-      recommendedActions.push('Consider outdoor events or live music');
+      if (venue.hasOutdoorSeating) {
+        recommendedActions.push('Open outdoor/terrace seating');
+        recommendedActions.push('Consider outdoor events or live music');
+      }
+      recommendedActions.push(
+        isBar ? 'Perfect day for aperitivo specials' : 'Great day for aperitivo promotions'
+      );
       break;
     case 'hot':
     case 'hot_extreme':
-      recommendedActions.push('Push cold beverages to top of menu');
-      recommendedActions.push('Stock up on ice and frozen drinks');
+      // Only push cold beverages prominently if no AC (customers will be hot)
+      if (!venue.hasAc) {
+        recommendedActions.push('Push cold beverages to top of menu');
+        recommendedActions.push('Stock up on ice and frozen drinks');
+      } else {
+        recommendedActions.push('Feature refreshing options alongside regular menu');
+      }
       recommendedActions.push('Consider extended evening hours');
-      if (category === 'hot_extreme') {
+      if (category === 'hot_extreme' && venue.hasOutdoorSeating) {
         recommendedActions.push('Close outdoor seating - too hot');
       }
       break;
     case 'rainy':
     case 'stormy':
-      recommendedActions.push('Push delivery promotions');
-      recommendedActions.push('Prepare for increased delivery orders');
-      recommendedActions.push('Staff up kitchen, reduce floor staff');
-      recommendedActions.push('Consider "Rainy Day Deals" promotion');
+      if (hasDelivery) {
+        recommendedActions.push('Push delivery promotions');
+        recommendedActions.push('Prepare for increased delivery orders');
+      }
+      if (isDineIn) {
+        recommendedActions.push('Staff up kitchen, reduce floor staff');
+        recommendedActions.push('Consider "Rainy Day Deals" promotion');
+      }
       break;
     case 'snowy':
-      recommendedActions.push('Maximum delivery focus');
-      recommendedActions.push('Prepare for potential delivery delays');
+      if (hasDelivery) {
+        recommendedActions.push('Maximum delivery focus');
+        recommendedActions.push('Prepare for potential delivery delays');
+      }
       recommendedActions.push('Ultra-comfort menu features');
       break;
     case 'humid':
       recommendedActions.push('Avoid featuring fried items (lose crispness)');
       recommendedActions.push('Push light, refreshing options');
-      recommendedActions.push('Ensure AC is working optimally');
+      if (venue.hasAc) {
+        recommendedActions.push('Ensure AC is working optimally');
+      }
       break;
   }
 
-  // Forecast alerts
+  // Forecast alerts - venue aware
   if (
     todayForecast &&
     todayForecast.precipitationProbability > 60 &&
     category !== 'rainy' &&
     category !== 'stormy'
   ) {
-    recommendedActions.push(
-      `Rain expected later (${todayForecast.precipitationProbability}% chance) - prepare delivery staff`
-    );
+    if (hasDelivery) {
+      recommendedActions.push(
+        `Rain expected later (${todayForecast.precipitationProbability}% chance) - prepare delivery staff`
+      );
+    } else if (venue.hasOutdoorSeating) {
+      recommendedActions.push(
+        `Rain expected later (${todayForecast.precipitationProbability}% chance) - prepare to move outdoor guests inside`
+      );
+    }
   }
 
   // Temperature change alerts
@@ -666,7 +715,8 @@ async function updateWeatherCache(
   latitude: number,
   longitude: number,
   timezone: string,
-  apiResponse: VisualCrossingResponse
+  apiResponse: VisualCrossingResponse,
+  venueContext?: VenueContext
 ): Promise<void> {
   const current = apiResponse.currentConditions;
   const days = apiResponse.days;
@@ -721,8 +771,8 @@ async function updateWeatherCache(
     updatedAt: new Date().toISOString(),
   };
 
-  // Calculate business impact
-  const businessImpact = calculateBusinessImpact(currentWeather, forecast);
+  // Calculate business impact with venue context
+  const businessImpact = calculateBusinessImpact(currentWeather, forecast, venueContext);
 
   // Upsert to cache
   const { error } = await supabase.from('location_weather_cache').upsert(
@@ -795,10 +845,10 @@ export async function getWeatherForLocation(
     throw new Error('VISUAL_CROSSING_API_KEY not configured and no cached data available');
   }
 
-  // Get location coordinates
+  // Get location coordinates and venue attributes
   const { data: location, error: locationError } = await supabase
     .from('locations')
-    .select('latitude, longitude, timezone')
+    .select('latitude, longitude, timezone, has_ac, has_outdoor_seating, venue_type, service_style')
     .eq('id', locationId)
     .single();
 
@@ -813,13 +863,22 @@ export async function getWeatherForLocation(
   // Fetch fresh data from Visual Crossing
   const apiResponse = await fetchFromVisualCrossing(location.latitude, location.longitude, apiKey);
 
-  // Update cache
+  // Build venue context from location attributes
+  const venueContext: VenueContext = {
+    hasAc: location.has_ac ?? true,
+    hasOutdoorSeating: location.has_outdoor_seating ?? false,
+    venueType: (location.venue_type as VenueContext['venueType']) ?? 'restaurant',
+    serviceStyle: (location.service_style as VenueContext['serviceStyle']) ?? 'dine_in',
+  };
+
+  // Update cache with venue context for smart recommendations
   await updateWeatherCache(
     locationId,
     location.latitude,
     location.longitude,
     location.timezone || apiResponse.timezone,
-    apiResponse
+    apiResponse,
+    venueContext
   );
 
   // Return fresh cached data

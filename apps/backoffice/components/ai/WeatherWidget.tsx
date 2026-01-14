@@ -222,31 +222,90 @@ function getMenuCategoryIcon(category: MenuSuggestion['category']) {
   }
 }
 
+// Configuration
+const FETCH_TIMEOUT_MS = 10000; // 10 seconds timeout
+const MAX_RETRIES = 2;
+const RETRY_DELAY_MS = 2000; // 2 seconds between retries
+
 export function WeatherWidget() {
   const { location } = useTenant();
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errorDetails, setErrorDetails] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Fetch weather data
-  const fetchWeather = async () => {
-    if (!location?.id) return;
+  // Fetch weather data with timeout and retry
+  const fetchWeather = async (retry = 0): Promise<boolean> => {
+    if (!location?.id) return false;
+
+    // Cancel any pending request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
     setLoading(true);
-    setError(null);
+    if (retry === 0) {
+      setError(null);
+      setErrorDetails(null);
+    }
 
     try {
-      const response = await fetch(`/api/ai/weather?locationId=${location.id}`);
+      // Create timeout
+      const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+      const response = await fetch(`/api/ai/weather?locationId=${location.id}`, {
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        throw new Error('Failed to fetch weather');
+        const errorBody = await response.json().catch(() => ({}));
+        throw new Error(errorBody.error || `HTTP ${response.status}`);
       }
+
       const data = await response.json();
+
+      // Validate data structure
+      if (!data.current || typeof data.current.temp !== 'number') {
+        throw new Error('Invalid weather data structure');
+      }
+
       setWeather(data);
+      setError(null);
+      setErrorDetails(null);
+      setRetryCount(0);
+      return true;
     } catch (err) {
-      setError('Weather unavailable');
-      console.error('Weather fetch error:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      const isAborted = err instanceof Error && err.name === 'AbortError';
+
+      // Log error for debugging (could be sent to a monitoring service)
+      console.error(`[WeatherWidget] Fetch failed (attempt ${retry + 1}/${MAX_RETRIES + 1}):`, {
+        locationId: location.id,
+        error: errorMessage,
+        isTimeout: isAborted,
+        timestamp: new Date().toISOString(),
+      });
+
+      // Retry logic
+      if (retry < MAX_RETRIES && !isAborted) {
+        setRetryCount(retry + 1);
+        await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS * (retry + 1)));
+        return fetchWeather(retry + 1);
+      }
+
+      // Final failure
+      setError(isAborted ? 'Timeout' : 'Unavailable');
+      setErrorDetails(errorMessage);
+      return false;
     } finally {
       setLoading(false);
     }
@@ -256,8 +315,13 @@ export function WeatherWidget() {
   useEffect(() => {
     fetchWeather();
     // Refresh every 30 minutes
-    const interval = setInterval(fetchWeather, 30 * 60 * 1000);
-    return () => clearInterval(interval);
+    const interval = setInterval(() => fetchWeather(), 30 * 60 * 1000);
+    return () => {
+      clearInterval(interval);
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
   }, [location?.id]);
 
   // Close dropdown when clicking outside
@@ -276,23 +340,45 @@ export function WeatherWidget() {
     return null;
   }
 
-  // Loading state
-  if (loading && !weather) {
+  // Loading state (initial load)
+  if (loading && !weather && !error) {
     return (
-      <div className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-gray-400">
+      <div
+        className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-gray-400"
+        title={retryCount > 0 ? `Retry ${retryCount}/${MAX_RETRIES}...` : 'Loading weather...'}
+      >
         <RefreshCw className="h-4 w-4 animate-spin" />
+        {retryCount > 0 && <span className="text-xs">{retryCount}</span>}
       </div>
     );
   }
 
-  // Error state
+  // Error state - show clickable error indicator instead of hiding
   if (error && !weather) {
-    return null; // Silent fail
+    return (
+      <button
+        onClick={() => fetchWeather()}
+        className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-amber-600 transition-colors hover:bg-amber-50"
+        title={`Weather ${error}${errorDetails ? `: ${errorDetails}` : ''}. Click to retry.`}
+      >
+        <AlertTriangle className="h-4 w-4" />
+        <span className="text-xs font-medium">!</span>
+      </button>
+    );
   }
 
-  // No data
+  // No data (shouldn't happen but safety net)
   if (!weather) {
-    return null;
+    return (
+      <button
+        onClick={() => fetchWeather()}
+        className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-gray-400 transition-colors hover:bg-gray-100"
+        title="Weather data not available. Click to retry."
+      >
+        <Cloud className="h-4 w-4" />
+        <span className="text-xs">?</span>
+      </button>
+    );
   }
 
   const hasAlert = weather.alerts.length > 0;
