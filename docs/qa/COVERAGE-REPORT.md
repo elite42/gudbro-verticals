@@ -3,7 +3,7 @@
 > Stato attuale della copertura test del progetto GUDBRO.
 
 **Ultimo aggiornamento:** 2026-01-14
-**Coverage complessivo:** ~12%
+**Coverage complessivo:** ~13%
 
 ---
 
@@ -11,9 +11,9 @@
 
 | Metrica          | Valore | Target | Gap  |
 | ---------------- | ------ | ------ | ---- |
-| Test Files       | 17     | 50+    | -33  |
-| Total Tests      | 764    | 1000+  | -236 |
-| Test Coverage    | ~12%   | 30%    | -18% |
+| Test Files       | 18     | 50+    | -32  |
+| Total Tests      | 810    | 1000+  | -190 |
+| Test Coverage    | ~13%   | 30%    | -17% |
 | Features Testate | 4/15   | 15/15  | -11  |
 
 ---
@@ -26,7 +26,7 @@
 | ---------------- | ----- | ----- | -------- | -------- |
 | **QR Codes**     | 7     | 260   | ~80%     | Complete |
 | **Auth**         | 2     | 77    | ~80%     | Complete |
-| **AI Services**  | 4     | 171   | ~40%     | Complete |
+| **AI Services**  | 5     | 217   | ~45%     | Complete |
 | **Shared Utils** | 4     | 203   | ~90%     | Complete |
 
 ### Aree Non Testate (Priority Order)
@@ -60,7 +60,8 @@ lib/ai/__tests__/
 ├── prompts.test.ts            (55 tests) - buildSystemPrompt, QUICK_ACTIONS
 ├── knowledge-service.test.ts  (40 tests) - formatKnowledgeForAI
 ├── openai.test.ts             (36 tests) - calculateCost, MODEL_PRICING, MODEL_LIMITS
-└── onboarding-service.test.ts (40 tests) - buildOnboardingPrompt, ONBOARDING_TOOLS
+├── onboarding-service.test.ts (40 tests) - buildOnboardingPrompt, ONBOARDING_TOOLS
+└── actions-service.test.ts    (46 tests) - AI_TOOLS definitions, naming conventions
 
 components/qr/__tests__/
 ├── QRBuilderModal.test.tsx    (55 tests)
@@ -171,6 +172,7 @@ describe('MyComponent', () => {
 
 | Data       | Coverage | Tests | Note                                                 |
 | ---------- | -------- | ----- | ---------------------------------------------------- |
+| 2026-01-14 | ~13%     | 810   | Actions service (+46): AI_TOOLS validation           |
 | 2026-01-14 | ~12%     | 764   | Onboarding service (+40): buildOnboardingPrompt      |
 | 2026-01-14 | ~11%     | 724   | OpenAI utilities (+36): calculateCost, pricing       |
 | 2026-01-14 | ~10%     | 688   | Safety-filters (+61), auto-compute SAFETY-CRIT (+57) |
