@@ -3,7 +3,7 @@
 > Stato attuale della copertura test del progetto GUDBRO.
 
 **Ultimo aggiornamento:** 2026-01-14
-**Coverage complessivo:** ~14%
+**Coverage complessivo:** ~15%
 
 ---
 
@@ -11,9 +11,9 @@
 
 | Metrica          | Valore | Target | Gap  |
 | ---------------- | ------ | ------ | ---- |
-| Test Files       | 19     | 50+    | -31  |
-| Total Tests      | 847    | 1000+  | -153 |
-| Test Coverage    | ~14%   | 30%    | -16% |
+| Test Files       | 20     | 50+    | -30  |
+| Total Tests      | 891    | 1000+  | -109 |
+| Test Coverage    | ~15%   | 30%    | -15% |
 | Features Testate | 5/15   | 15/15  | -10  |
 
 ---
@@ -26,7 +26,7 @@
 | ---------------- | ----- | ----- | -------- | -------- |
 | **QR Codes**     | 7     | 260   | ~80%     | Complete |
 | **Auth**         | 2     | 77    | ~80%     | Complete |
-| **AI Services**  | 5     | 217   | ~45%     | Complete |
+| **AI Services**  | 6     | 261   | ~50%     | Complete |
 | **Shared Utils** | 4     | 203   | ~90%     | Complete |
 | **Analytics**    | 1     | 37    | ~30%     | Partial  |
 
@@ -62,7 +62,8 @@ lib/ai/__tests__/
 ├── knowledge-service.test.ts  (40 tests) - formatKnowledgeForAI
 ├── openai.test.ts             (36 tests) - calculateCost, MODEL_PRICING, MODEL_LIMITS
 ├── onboarding-service.test.ts (40 tests) - buildOnboardingPrompt, ONBOARDING_TOOLS
-└── actions-service.test.ts    (46 tests) - AI_TOOLS definitions, naming conventions
+├── actions-service.test.ts    (46 tests) - AI_TOOLS definitions, naming conventions
+└── translation-service.test.ts (44 tests) - SUPPORTED_LOCALES, buildBatchPrompt
 
 components/qr/__tests__/
 ├── QRBuilderModal.test.tsx    (55 tests)
@@ -168,24 +169,26 @@ describe('MyComponent', () => {
 6. [x] Creare test per `lib/ai/openai.ts` - **Complete (36 tests)**
 7. [x] Creare test per `lib/ai/onboarding-service.ts` - **Complete (40 tests)**
 8. [x] Creare test per `lib/analytics-service.ts` - **Complete (37 tests)**
-9. [ ] Creare test per `api/food-cost/` (validation logic)
-10. [ ] Creare test per `lib/ai/chat-service.ts`
+9. [x] Creare test per `lib/ai/translation-service.ts` - **Complete (44 tests)**
+10. [ ] Creare test per `api/food-cost/` (validation logic)
+11. [ ] Creare test per `lib/ai/chat-service.ts`
 
 ---
 
 ## Storico
 
-| Data       | Coverage | Tests | Note                                                    |
-| ---------- | -------- | ----- | ------------------------------------------------------- |
-| 2026-01-14 | ~14%     | 847   | Analytics service (+37): getDateRange, calculateMetrics |
-| 2026-01-14 | ~13%     | 810   | Actions service (+46): AI_TOOLS validation              |
-| 2026-01-14 | ~12%     | 764   | Onboarding service (+40): buildOnboardingPrompt         |
-| 2026-01-14 | ~11%     | 724   | OpenAI utilities (+36): calculateCost, pricing          |
-| 2026-01-14 | ~10%     | 688   | Safety-filters (+61), auto-compute SAFETY-CRIT (+57)    |
-| 2026-01-14 | ~8%      | 570   | Result utility tests (+61), AI services                 |
-| 2026-01-14 | ~7%      | 509   | AI services tests (prompts, knowledge-svc)              |
-| 2026-01-14 | ~5%      | 414   | Auth tests complete, security fix                       |
-| 2026-01-14 | ~2%      | 320   | Baseline iniziale (FASE 1 audit)                        |
+| Data       | Coverage | Tests | Note                                                      |
+| ---------- | -------- | ----- | --------------------------------------------------------- |
+| 2026-01-14 | ~15%     | 891   | Translation service (+44): SUPPORTED_LOCALES, batch logic |
+| 2026-01-14 | ~14%     | 847   | Analytics service (+37): getDateRange, calculateMetrics   |
+| 2026-01-14 | ~13%     | 810   | Actions service (+46): AI_TOOLS validation                |
+| 2026-01-14 | ~12%     | 764   | Onboarding service (+40): buildOnboardingPrompt           |
+| 2026-01-14 | ~11%     | 724   | OpenAI utilities (+36): calculateCost, pricing            |
+| 2026-01-14 | ~10%     | 688   | Safety-filters (+61), auto-compute SAFETY-CRIT (+57)      |
+| 2026-01-14 | ~8%      | 570   | Result utility tests (+61), AI services                   |
+| 2026-01-14 | ~7%      | 509   | AI services tests (prompts, knowledge-svc)                |
+| 2026-01-14 | ~5%      | 414   | Auth tests complete, security fix                         |
+| 2026-01-14 | ~2%      | 320   | Baseline iniziale (FASE 1 audit)                          |
 
 ---
 
