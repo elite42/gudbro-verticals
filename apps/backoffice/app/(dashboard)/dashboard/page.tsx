@@ -9,6 +9,7 @@ import {
   useOnboardingSteps,
 } from '@/components/onboarding/OnboardingChecklist';
 import { AIPrioritiesHero } from '@/components/ai/AIPrioritiesHero';
+import { FoodCostProgress } from '@/components/food-cost';
 
 export const dynamic = 'force-dynamic';
 
@@ -374,6 +375,9 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Food Cost Tracker Widget */}
+      <FoodCostProgress />
 
       {/* Location Info (if available) */}
       {location && (
