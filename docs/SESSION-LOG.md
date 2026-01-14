@@ -5,6 +5,112 @@
 
 ---
 
+## 2026-01-15 - B2B-CONVENTIONS Complete
+
+**Focus:** B2B Corporate Conventions System (6 sprints)
+**Durata:** ~2h
+**Tipo:** Feature Implementation
+
+### Completato
+
+**B2B-CONVENTIONS (tutti 6 sprint):**
+
+- Sprint 1: Database Migration (5 tabelle + RLS + triggers)
+- Sprint 2: Service Layer (conventions-service.ts ~700 righe)
+- Sprint 3: API Routes (/api/ai/conventions - GET/POST/PATCH)
+- Sprint 4: UI Hub + Offices pages
+- Sprint 5: UI Conventions + Vouchers pages
+- Sprint 6: Staff Verification tool
+
+**KB-BACKOFFICE Update:**
+
+- Aggiunte 5 pagine Conventions alla Knowledge Base
+- Totale pagine KB: 57 (52 + 5 nuove)
+
+### File Creati
+
+| File                                          | Descrizione                    |
+| --------------------------------------------- | ------------------------------ |
+| `migrations/050-b2b-conventions.sql`          | 5 tabelle, triggers, RLS       |
+| `lib/ai/conventions-service.ts`               | Service layer completo         |
+| `app/api/ai/conventions/route.ts`             | API endpoints                  |
+| `/partnerships/conventions/page.tsx`          | Hub dashboard                  |
+| `/partnerships/conventions/offices/page.tsx`  | Office partners + AI Discovery |
+| `/partnerships/conventions/active/page.tsx`   | Active conventions             |
+| `/partnerships/conventions/vouchers/page.tsx` | Voucher management             |
+| `/partnerships/conventions/verify/page.tsx`   | Staff verification tool        |
+| `lib/kb/kb-content.ts`                        | +5 pagine conventions          |
+| `/help/page.tsx`                              | Help page UI (già esisteva)    |
+
+### Tabelle Database Create
+
+- `office_partners` - Registro uffici/aziende partner
+- `merchant_office_outreach` - Pipeline CRM per outreach
+- `partner_conventions` - Convenzioni attive con benefici
+- `convention_vouchers` - Voucher individuali con QR
+- `convention_redemptions` - Tracking utilizzo voucher
+
+### Commit
+
+- `6d77eca` - feat(conventions): add B2B corporate conventions system
+
+### Decisioni
+
+- **RLS pattern**: Usa `account_roles.tenant_id WHERE role_type = 'merchant'` (come TOURISM-B2B)
+- **Daily codes**: Formato `COMPANY-MMDD` (es. TECHCORP-0115)
+- **Verification methods**: link, qr_scan, daily_code, badge_id
+
+### Prossima Sessione
+
+- ORDER-READY-NOTIFICATIONS (P0.5 PARTIAL) - Completare notifiche ordine pronto
+
+---
+
+## 2026-01-14/15 - AI-First Redesign Sprint 1
+
+**Focus:** Completamento P0.5 Strategy + AI-FIRST-REDESIGN Sprint 1
+**Durata:** ~3h (sessione lunga con continuation)
+**Tipo:** Implementation
+
+### Completato
+
+**P0.5 Strategy:**
+
+- ORDER-READY-NOTIFICATIONS Phase 1 (audio beep, Web Audio API) → 🟡 PARTIAL
+- AI-ONBOARDING completo (chat conversazionale con GPT-4o-mini) → ✅ DONE
+
+**AI-FIRST-REDESIGN Sprint 1:**
+
+- Verificato componenti esistenti (AIPriorityCard, AIPrioritiesHero, OpportunityBanner)
+- Aggiunto Food Cost triggers a AIPrioritiesHero (alert >35%, critical >45%)
+- Aggiunto OpportunityBannerWrapper a dashboard
+- AIStatusHeader già presente in Header.tsx (pulsante AI con notifiche)
+
+### File Creati/Modificati
+
+| File                                                 | Azione                          |
+| ---------------------------------------------------- | ------------------------------- |
+| `apps/website/lib/ai/openai.ts`                      | Creato - OpenAI client          |
+| `apps/website/lib/ai/onboarding-chat-service.ts`     | Creato - Chat service           |
+| `apps/website/app/api/ai/onboarding-chat/route.ts`   | Creato - API endpoint           |
+| `apps/website/components/onboarding/ChatWidget.tsx`  | Creato - Chat UI                |
+| `apps/website/app/onboarding/page.tsx`               | Creato - Pagina onboarding AI   |
+| `apps/backoffice/components/ai/AIPrioritiesHero.tsx` | Modificato - Food Cost triggers |
+| `apps/backoffice/app/(dashboard)/dashboard/page.tsx` | Modificato - OpportunityBanner  |
+
+### Decisioni
+
+- **Food Cost threshold 35%**: Alert warning, >45% diventa critical
+- **Fetch parallelo**: Weather + Food Cost in Promise.all per performance
+- **AIStatusHeader**: Il pulsante AI esistente con notifiche è sufficiente per Sprint 1
+
+### Prossima Sessione
+
+- Sprint 2: AI Triggers v2 inline (template 5 domande obbligatorie)
+- Oppure altro task da backlog
+
+---
+
 ## 2026-01-10 - Sessione Strategica: Modelli di Servizio
 
 **Focus:** Discussione strategica su modelli di servizio locali e impatto su prodotto
