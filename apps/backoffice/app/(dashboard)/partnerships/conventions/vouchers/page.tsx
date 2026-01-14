@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
@@ -31,7 +31,7 @@ interface Convention {
   benefitValue: number | null;
 }
 
-export default function VouchersPage() {
+function VouchersPageContent() {
   const { location, isLoading: tenantLoading } = useTenant();
   const searchParams = useSearchParams();
   const conventionIdParam = searchParams.get('convention');
@@ -547,5 +547,27 @@ export default function VouchersPage() {
         </div>
       )}
     </div>
+  );
+}
+
+function VouchersLoading() {
+  return (
+    <div className="space-y-6">
+      <div className="h-8 w-48 animate-pulse rounded bg-gray-200" />
+      <div className="h-20 animate-pulse rounded-xl bg-gray-100" />
+      <div className="grid gap-4 sm:grid-cols-3">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-24 animate-pulse rounded-xl bg-gray-100" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function VouchersPage() {
+  return (
+    <Suspense fallback={<VouchersLoading />}>
+      <VouchersPageContent />
+    </Suspense>
   );
 }
