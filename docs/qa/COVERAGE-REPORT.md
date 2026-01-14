@@ -3,7 +3,7 @@
 > Stato attuale della copertura test del progetto GUDBRO.
 
 **Ultimo aggiornamento:** 2026-01-14
-**Coverage complessivo:** ~5%
+**Coverage complessivo:** ~8%
 
 ---
 
@@ -11,10 +11,10 @@
 
 | Metrica          | Valore | Target | Gap  |
 | ---------------- | ------ | ------ | ---- |
-| Test Files       | 10     | 50+    | -40  |
-| Total Tests      | 414    | 1000+  | -586 |
-| Test Coverage    | ~5%    | 30%    | -25% |
-| Features Testate | 2/15   | 15/15  | -13  |
+| Test Files       | 13     | 50+    | -37  |
+| Total Tests      | 570    | 1000+  | -430 |
+| Test Coverage    | ~8%    | 30%    | -22% |
+| Features Testate | 3/15   | 15/15  | -12  |
 
 ---
 
@@ -22,26 +22,28 @@
 
 ### Aree Testate
 
-| Area            | Files | Tests | Coverage | Status   |
-| --------------- | ----- | ----- | -------- | -------- |
-| **QR Codes**    | 7     | 260   | ~80%     | Complete |
-| **Auth**        | 2     | 77    | ~80%     | Complete |
-| **Error Utils** | 1     | 24    | ~90%     | Complete |
+| Area             | Files | Tests | Coverage | Status   |
+| ---------------- | ----- | ----- | -------- | -------- |
+| **QR Codes**     | 7     | 260   | ~80%     | Complete |
+| **Auth**         | 2     | 77    | ~80%     | Complete |
+| **AI Services**  | 2     | 95    | ~30%     | Partial  |
+| **Shared Utils** | 2     | 85    | ~85%     | Complete |
 
 ### Aree Non Testate (Priority Order)
 
-| #   | Area                 | Files | Priority | Reason           |
-| --- | -------------------- | ----- | -------- | ---------------- |
-| 1   | ~~Auth~~             | ~~0~~ | ~~P0~~   | ~~Security~~     |
-| 2   | Middleware           | 0     | P0       | Route protection |
-| 3   | AI Chat Service      | 0     | P1       | Core business    |
-| 4   | AI Knowledge Service | 0     | P1       | Data access      |
-| 5   | Food Cost API        | 0     | P1       | Revenue critical |
-| 6   | Translations API     | 0     | P2       | Data integrity   |
-| 7   | Staff Service        | 0     | P2       | Operations       |
-| 8   | Events Service       | 0     | P2       | Operations       |
-| 9   | Components (43)      | 0     | P3       | UI               |
-| 10  | Other APIs (40+)     | 0     | P3       | Various          |
+| #   | Area                 | Files | Priority | Reason            |
+| --- | -------------------- | ----- | -------- | ----------------- |
+| 1   | ~~Auth~~             | ~~0~~ | ~~P0~~   | ~~Security~~      |
+| 2   | ~~Middleware~~       | ~~0~~ | ~~P0~~   | ~~Route protect~~ |
+| 3   | ~~AI Prompts~~       | ~~0~~ | ~~P1~~   | ~~Core business~~ |
+| 4   | ~~AI Knowledge Svc~~ | ~~0~~ | ~~P1~~   | ~~Data access~~   |
+| 5   | Food Cost API        | 0     | P1       | Revenue critical  |
+| 6   | AI Chat Service      | 0     | P1       | Core business     |
+| 7   | Translations API     | 0     | P2       | Data integrity    |
+| 8   | Staff Service        | 0     | P2       | Operations        |
+| 9   | Events Service       | 0     | P2       | Operations        |
+| 10  | Components (43)      | 0     | P3       | UI                |
+| 11  | Other APIs (40+)     | 0     | P3       | Various           |
 
 ---
 
@@ -53,6 +55,10 @@
 lib/auth/__tests__/
 ├── permissions.test.ts        (39 tests) - ROLE_PERMISSIONS, isRoleAtLeast
 └── dev-accounts.test.ts       (38 tests) - validateDevPin, isDevModeEnabled
+
+lib/ai/__tests__/
+├── prompts.test.ts            (55 tests) - buildSystemPrompt, QUICK_ACTIONS
+└── knowledge-service.test.ts  (40 tests) - formatKnowledgeForAI
 
 components/qr/__tests__/
 ├── QRBuilderModal.test.tsx    (55 tests)
@@ -72,7 +78,8 @@ app/api/qr/__tests__/
 
 ```
 utils/__tests__/
-└── errors.test.ts             (24 tests)
+├── errors.test.ts             (24 tests) - AppError, ValidationError, etc.
+└── result.test.ts             (61 tests) - Result type, ok, err, map, andThen
 ```
 
 ---
@@ -84,7 +91,7 @@ utils/__tests__/
 | Area        | Attuale | Target | Status             |
 | ----------- | ------- | ------ | ------------------ |
 | Auth        | ~80%    | 80%    | **Complete**       |
-| AI Services | 0%      | 40%    | 5-6 files needed   |
+| AI Services | ~30%    | 40%    | In Progress (+95)  |
 | API Routes  | ~5%     | 30%    | 10-15 files needed |
 | Components  | ~15%    | 20%    | 4-5 files needed   |
 
@@ -141,19 +148,21 @@ describe('MyComponent', () => {
 ## Prossimi Passi
 
 1. [x] Creare test per `lib/auth/` - **Complete (77 tests)**
-2. [ ] Creare test per `middleware.ts`
-3. [ ] Creare test per `lib/ai/chat-service.ts`
+2. [x] Creare test per `lib/ai/prompts.ts` - **Complete (55 tests)**
+3. [x] Creare test per `lib/ai/knowledge-service.ts` - **Complete (40 tests)**
 4. [ ] Creare test per `api/food-cost/` (validation logic)
-5. [ ] Creare test per `lib/ai/knowledge-service.ts`
+5. [ ] Creare test per `lib/ai/chat-service.ts`
 
 ---
 
 ## Storico
 
-| Data       | Coverage | Tests | Note                              |
-| ---------- | -------- | ----- | --------------------------------- |
-| 2026-01-14 | ~5%      | 414   | Auth tests complete, security fix |
-| 2026-01-14 | ~2%      | 320   | Baseline iniziale (FASE 1 audit)  |
+| Data       | Coverage | Tests | Note                                       |
+| ---------- | -------- | ----- | ------------------------------------------ |
+| 2026-01-14 | ~8%      | 570   | Result utility tests (+61), AI services    |
+| 2026-01-14 | ~7%      | 509   | AI services tests (prompts, knowledge-svc) |
+| 2026-01-14 | ~5%      | 414   | Auth tests complete, security fix          |
+| 2026-01-14 | ~2%      | 320   | Baseline iniziale (FASE 1 audit)           |
 
 ---
 
