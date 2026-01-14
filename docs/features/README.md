@@ -1,57 +1,130 @@
 # GUDBRO Features Documentation
 
-> Index di tutte le feature documentate
+> Index di tutte le 15 aree funzionali del backoffice GUDBRO
 
-**Last Updated:** 2026-01-05
+**Last Updated:** 2026-01-14
 
 ---
 
-## Features
+## Features Status Matrix
 
-| Feature                           | Status | DEV                           | USER                            | API                           |
-| --------------------------------- | ------ | ----------------------------- | ------------------------------- | ----------------------------- |
-| [AI Co-Manager](./ai-co-manager/) | Active | [DEV](./ai-co-manager/DEV.md) | [USER](./ai-co-manager/USER.md) | [API](./ai-co-manager/API.md) |
-| Digital Menu                      | Active | TODO                          | TODO                            | -                             |
-| Analytics Dashboard               | Active | TODO                          | TODO                            | -                             |
-| Hot Actions                       | Active | TODO                          | TODO                            | -                             |
-| Tourist Lifecycle                 | Active | TODO                          | TODO                            | -                             |
-| Food Challenges                   | Active | TODO                          | TODO                            | -                             |
+| #   | Feature                             | Funzionalita | Test  | EXEC | USER                          | DEV                          |
+| --- | ----------------------------------- | ------------ | ----- | ---- | ----------------------------- | ---------------------------- |
+| 1   | [QR Codes](./qr-codes/)             | ✅           | ✅ 9% | ❌   | ❌                            | ❌                           |
+| 2   | [Food Cost](./food-cost/)           | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 3   | [AI Co-Manager](./ai-co-manager/)   | ✅           | ❌    | ❌   | [✅](./ai-co-manager/USER.md) | [✅](./ai-co-manager/DEV.md) |
+| 4   | [Orders/KDS](./orders/)             | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 5   | [Marketing](./marketing/)           | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 6   | [Customers](./customers/)           | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 7   | [Team](./team/)                     | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 8   | [Content](./content/)               | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 9   | [Translations](./translations/)     | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 10  | [Settings](./settings/)             | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 11  | [Analytics](./analytics/)           | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 12  | [Partnerships B2B](./partnerships/) | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 13  | [Onboarding](./onboarding/)         | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 14  | [Hot Actions](./hot-actions/)       | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+| 15  | [Platform](./platform/)             | ✅           | ❌    | ❌   | ❌                            | ❌                           |
+
+**Legenda:**
+
+- ✅ = Completo
+- 🟡 = Parziale
+- ❌ = Mancante
+- % = Test coverage
+
+---
+
+## Summary
+
+| Metrica             | Valore   |
+| ------------------- | -------- |
+| Features totali     | 15       |
+| Con test            | 1 (6.7%) |
+| Con EXECUTIVE.md    | 0 (0%)   |
+| Con USER.md         | 1 (6.7%) |
+| Con DEV.md          | 1 (6.7%) |
+| **Completezza doc** | **~2%**  |
+
+---
+
+## Priority per Documentazione
+
+Ordine consigliato per documentare (business impact):
+
+| Priorita | Feature          | Perche                        |
+| -------- | ---------------- | ----------------------------- |
+| P1       | QR Codes         | Revenue-critical, gia testato |
+| P1       | Food Cost        | Core differentiator           |
+| P1       | AI Co-Manager    | Gia documentato parzialmente  |
+| P2       | Orders/KDS       | Operationally critical        |
+| P2       | Marketing        | Revenue generation            |
+| P2       | Customers        | CRM, retention                |
+| P3       | Team             | Staff management              |
+| P3       | Content          | Menu management               |
+| P3       | Translations     | Internazionalizzazione        |
+| P3       | Settings         | Configurazione                |
+| P4       | Analytics        | Reporting                     |
+| P4       | Partnerships B2B | Nuovo, meno urgente           |
+| P4       | Onboarding       | First-time experience         |
+| P4       | Hot Actions      | Quick actions                 |
+| P4       | Platform         | Internal only                 |
 
 ---
 
 ## Quick Navigation
 
+### Per Imprenditore
+
+- [Template EXECUTIVE.md](./_template/EXECUTIVE.md) - Come leggere i riepiloghi
+- [QA Overview](../qa/README.md) - Sistema qualita
+
 ### Per Sviluppatori
 
-1. [AI Co-Manager - Dev Docs](./ai-co-manager/DEV.md)
-2. [Development Workflow](../DEVELOPMENT-WORKFLOW.md)
-3. [Database Schema](../DATABASE-SCHEMA.md)
+- [AI Co-Manager - Dev Docs](./ai-co-manager/DEV.md)
+- [Template DEV.md](./_template/DEV.md)
+- [Development Workflow](../DEVELOPMENT-WORKFLOW.md)
+- [Database Schema](../DATABASE-SCHEMA.md)
 
-### Per Clienti
+### Per Utenti
 
-1. [AI Co-Manager - User Guide](./ai-co-manager/USER.md)
-
----
-
-## Come Aggiungere Nuova Feature
-
-1. Crea cartella: `docs/features/[feature-name]/`
-2. Aggiungi `DEV.md` seguendo template in DOCUMENTATION-STANDARDS.md
-3. Aggiungi `USER.md` se feature è user-facing
-4. Aggiungi `API.md` se ha API endpoints
-5. Aggiorna questa tabella
+- [AI Co-Manager - User Guide](./ai-co-manager/USER.md)
+- [Template USER.md](./_template/USER.md)
 
 ---
 
-## Documentation Status
+## Come Documentare una Feature
 
-| Status     | Meaning                                      |
-| ---------- | -------------------------------------------- |
-| Active     | Feature in produzione, docs aggiornati       |
-| Beta       | Feature in testing, docs potrebbero cambiare |
-| Deprecated | Feature obsoleta, docs per reference         |
-| TODO       | Documentazione da creare                     |
+1. **Crea cartella:** `docs/features/[feature-name]/`
+2. **Copia template:**
+   ```bash
+   cp docs/features/_template/* docs/features/[feature-name]/
+   ```
+3. **Compila in ordine:**
+   - `EXECUTIVE.md` - Prima (overview per imprenditore)
+   - `USER.md` - Poi (guida utente)
+   - `DEV.md` - Infine (dettagli tecnici)
+4. **Aggiorna questa tabella** con i link
 
 ---
 
-**File:** `docs/features/README.md`
+## Documentation Status Legend
+
+| Status | Meaning                  |
+| ------ | ------------------------ |
+| ✅     | Completo e aggiornato    |
+| 🟡     | Parziale o da aggiornare |
+| ❌     | Mancante                 |
+| TODO   | Da creare                |
+
+---
+
+## Related
+
+- [QA System](../qa/README.md) - Overview sistema qualita
+- [Coverage Report](../qa/COVERAGE-REPORT.md) - Stato test
+- [Feature Audit Template](../qa/templates/feature-audit.md) - Per audit singola feature
+
+---
+
+_Ultimo aggiornamento: 2026-01-14_

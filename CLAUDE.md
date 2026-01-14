@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-12
-> **Version:** 6.5 (B2B Partnership Ecosystem specs added to backlog)
+> **Last Updated:** 2026-01-14
+> **Version:** 6.6 (QA System - FASE 0 fondamenta)
 
 ---
 
@@ -36,25 +36,29 @@ AI CO-MANAGER:
 DEPLOY/GIT:
 └── Sezione 9 (Commands) + Sezione 11.5 (Slash Commands)
 
+QUALITY ASSURANCE:
+└── Sezione 11.6 (QA System) + /qa-quick
+
 FINE SESSIONE:
 └── Sezione 15 (Fine Sessione)
 ```
 
 ## Quick Reference
 
-| Sezione           | Quando                |
-| ----------------- | --------------------- |
-| 0. Current Focus  | Sempre all'inizio     |
-| 1. Startup        | Sempre all'inizio     |
-| 2. Workflow       | Prima di sviluppare   |
-| 3. Validation     | Prima di SQL/codice   |
-| 3.5 Compounding   | Quando fai errori     |
-| 4. Repo Structure | Se cerchi file        |
-| 5. Database       | Prima di SQL          |
-| 6. Documentation  | Se cerchi docs        |
-| 9. Commands       | Per comandi specifici |
-| 11. AI System     | Se lavori su AI       |
-| 15. Fine Sessione | A fine lavoro         |
+| Sezione           | Quando                 |
+| ----------------- | ---------------------- |
+| 0. Current Focus  | Sempre all'inizio      |
+| 1. Startup        | Sempre all'inizio      |
+| 2. Workflow       | Prima di sviluppare    |
+| 3. Validation     | Prima di SQL/codice    |
+| 3.5 Compounding   | Quando fai errori      |
+| 4. Repo Structure | Se cerchi file         |
+| 5. Database       | Prima di SQL           |
+| 6. Documentation  | Se cerchi docs         |
+| 9. Commands       | Per comandi specifici  |
+| 11. AI System     | Se lavori su AI        |
+| 11.6 QA System    | Check qualita progetto |
+| 15. Fine Sessione | A fine lavoro          |
 
 ## Anti-Pattern
 
@@ -593,6 +597,7 @@ All routes follow pattern: `/api/ai/[feature]`
 | `/deploy`          | Build + push + verifica Vercel                   |
 | `/typecheck`       | Esegui typecheck TypeScript                      |
 | `/verify`          | Verifica completa (typecheck + build + advisors) |
+| `/qa-quick`        | Quick QA check (5 min) - stato progetto          |
 | `/db-status`       | Stato database e traduzioni                      |
 | `/translate-batch` | Continua traduzioni da dove interrotto           |
 
@@ -615,6 +620,69 @@ allowed-tools: Bash(*), mcp__supabase__*
 ---
 # Contenuto del comando
 ```
+
+---
+
+# 11.6 QA SYSTEM
+
+> **Filosofia:** "E' piu importante avere un prodotto che funziona ed e' ben fatto che avere un prodotto pieno di problemi"
+
+## Overview
+
+Sistema di Quality Assurance strutturato per mantenere la qualita del prodotto.
+
+| Risorsa           | Path                              | Scopo                   |
+| ----------------- | --------------------------------- | ----------------------- |
+| QA Overview       | `docs/qa/README.md`               | Panoramica sistema      |
+| Coverage Report   | `docs/qa/COVERAGE-REPORT.md`      | Stato test              |
+| Feature Index     | `docs/features/README.md`         | Status tutte le feature |
+| Session Checklist | `docs/qa/templates/session-qa.md` | Checklist per sessione  |
+
+## Comandi QA
+
+| Comando     | Descrizione                                      |
+| ----------- | ------------------------------------------------ |
+| `/qa-quick` | Check veloce (5 min): typecheck, build, advisors |
+| `/verify`   | Verifica completa pre-deploy                     |
+
+## Quality Gates
+
+### Automatici (via Husky)
+
+- **Pre-commit:** Prettier, ESLint
+- **Pre-push:** `turbo build`
+
+### Manuali
+
+- **Inizio sessione:** `/qa-quick`
+- **Pre-deploy:** `/verify`
+- **Fine sessione:** Checklist in `docs/qa/templates/session-qa.md`
+
+## Coverage Targets
+
+| Area          | Attuale | Target |
+| ------------- | ------- | ------ |
+| Auth/Security | 0%      | 80%    |
+| AI Services   | 0%      | 40%    |
+| API Routes    | ~2%     | 30%    |
+| Components    | ~9%     | 20%    |
+
+## Red Flags (fermarsi e risolvere)
+
+- TypeScript errors > 0
+- Build fail
+- Security advisors critical
+- IN-PROGRESS > 3 tasks
+
+## Documentazione Features
+
+Ogni feature dovrebbe avere:
+
+1. `EXECUTIVE.md` - Per imprenditore (cosa fa, perche importa)
+2. `USER.md` - Per utenti (come usare)
+3. `DEV.md` - Per sviluppatori (architettura, API, test)
+
+Template in: `docs/features/_template/`
 
 ---
 
@@ -867,11 +935,12 @@ Oppure chiedi a Claude: "Cosa abbiamo fatto l'ultima sessione?"
 ---
 
 **File:** `CLAUDE.md`
-**Version:** 6.2
-**Updated:** 2026-01-08
+**Version:** 6.6
+**Updated:** 2026-01-14
 **Changes:**
 
+- v6.6 - QA System (11.6): docs/qa/, feature templates, /qa-quick command, coverage targets
+- v6.5 - B2B Partnership Ecosystem specs (TOURISM-B2B, Weather Intel, Conventions)
 - v6.2 - Added PRODUCT.md (docs/PRODUCT.md) for multidimensional feature evaluation
 - v6.1 - Plan Mode (2.2), verify-app subagent, auto-format hook (Boris Cherny improvements)
 - v6.0 - Compounding Engineering (3.5), Slash Commands & Hooks (11.5), Current Focus (0)
-- v5.4 - Aggiunta sezione 16 GitHub Issues Sync per tracking pubblico.
