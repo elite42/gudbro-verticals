@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useTenant } from '@/lib/contexts/TenantContext';
 import {
   Calculator,
   ChefHat,
@@ -34,25 +35,59 @@ interface UnlockableFeature {
   color: string;
 }
 
-// Mock stats - in production these would come from API
-const getMockStats = (): FoodCostStats => ({
-  totalDishes: 45,
-  dishesWithCosts: 12,
-  totalIngredients: 156,
-  ingredientsWithPrices: 43,
-  avgFoodCostPercent: 28.5,
-  lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2),
-});
-
 export function FoodCostProgress() {
+  const { location, brand } = useTenant();
+  const locationId = location?.id || brand?.id;
+
   const [stats, setStats] = useState<FoodCostStats | null>(null);
   const [mounted, setMounted] = useState(false);
 
+  const fetchStats = useCallback(async () => {
+    if (!locationId) {
+      // If no location, show empty state
+      setStats({
+        totalDishes: 0,
+        dishesWithCosts: 0,
+        totalIngredients: 0,
+        ingredientsWithPrices: 0,
+        avgFoodCostPercent: null,
+        lastUpdated: null,
+      });
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/food-cost/stats?locationId=${locationId}`);
+      const data = await res.json();
+
+      if (data.stats) {
+        setStats({
+          totalDishes: data.stats.totalDishes,
+          dishesWithCosts: data.stats.dishesWithCosts,
+          totalIngredients: data.stats.totalIngredients,
+          ingredientsWithPrices: data.stats.ingredientsWithPrices,
+          avgFoodCostPercent: data.stats.avgFoodCostPercent,
+          lastUpdated: data.stats.lastUpdated ? new Date(data.stats.lastUpdated) : null,
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching food cost stats:', err);
+      // Fallback to empty state on error
+      setStats({
+        totalDishes: 0,
+        dishesWithCosts: 0,
+        totalIngredients: 0,
+        ingredientsWithPrices: 0,
+        avgFoodCostPercent: null,
+        lastUpdated: null,
+      });
+    }
+  }, [locationId]);
+
   useEffect(() => {
     setMounted(true);
-    // TODO: Replace with actual API call
-    setStats(getMockStats());
-  }, []);
+    fetchStats();
+  }, [fetchStats]);
 
   if (!mounted || !stats) {
     return (

@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTenant } from '@/lib/contexts/TenantContext';
 import {
   Calculator,
   ChefHat,
@@ -20,6 +21,7 @@ import {
   Trophy,
   Lightbulb,
   BookOpen,
+  Loader2,
 } from 'lucide-react';
 
 type OnboardingStep = 'intro' | 'education' | 'dishes' | 'ingredients' | 'results';
@@ -86,10 +88,15 @@ const knowledgeNuggets = [
 
 export default function FoodCostOnboardingPage() {
   const router = useRouter();
+  const { location, brand } = useTenant();
+  const locationId = location?.id || brand?.id;
+
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('intro');
   const [dishes, setDishes] = useState<DishEntry[]>([]);
   const [ingredients, setIngredients] = useState<IngredientEntry[]>([]);
   const [selectedDishForIngredients, setSelectedDishForIngredients] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // New dish form state
   const [newDish, setNewDish] = useState({ name: '', sellingPrice: '', category: 'primi' });
@@ -103,44 +110,155 @@ export default function FoodCostOnboardingPage() {
 
   const currentStepIndex = steps.findIndex((s) => s.id === currentStep);
 
-  const addDish = () => {
-    if (!newDish.name || !newDish.sellingPrice) return;
+  // Load existing dishes when entering dishes step
+  const loadExistingDishes = useCallback(async () => {
+    if (!locationId) return;
 
-    setDishes([
-      ...dishes,
-      {
-        id: Date.now().toString(),
-        name: newDish.name,
-        sellingPrice: parseFloat(newDish.sellingPrice),
-        category: newDish.category,
-      },
-    ]);
-    setNewDish({ name: '', sellingPrice: '', category: 'primi' });
+    setIsLoading(true);
+    try {
+      const res = await fetch(`/api/food-cost/dishes?locationId=${locationId}`);
+      const data = await res.json();
+
+      if (data.dishes && data.dishes.length > 0) {
+        const mappedDishes: DishEntry[] = data.dishes.map((d: Record<string, unknown>) => ({
+          id: d.id as string,
+          name: d.name as string,
+          sellingPrice: d.selling_price as number,
+          category: d.category as string,
+        }));
+        setDishes(mappedDishes);
+
+        // Also load ingredients for each dish
+        const allIngredients: IngredientEntry[] = [];
+        for (const dish of data.dishes) {
+          if (dish.ingredients && Array.isArray(dish.ingredients)) {
+            for (const ing of dish.ingredients) {
+              allIngredients.push({
+                id: ing.id,
+                name: ing.ingredient_name,
+                costPerKg: ing.cost_per_kg,
+                dishId: dish.id,
+                quantityGrams: ing.quantity_grams,
+              });
+            }
+          }
+        }
+        setIngredients(allIngredients);
+      }
+    } catch (err) {
+      console.error('Error loading dishes:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [locationId]);
+
+  // Load existing data on mount
+  useEffect(() => {
+    if (locationId) {
+      loadExistingDishes();
+    }
+  }, [locationId, loadExistingDishes]);
+
+  const addDish = async () => {
+    if (!newDish.name || !newDish.sellingPrice || !locationId) return;
+
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/food-cost/dishes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          locationId,
+          name: newDish.name,
+          category: newDish.category,
+          sellingPrice: parseFloat(newDish.sellingPrice),
+        }),
+      });
+
+      const data = await res.json();
+      if (data.dish) {
+        setDishes([
+          ...dishes,
+          {
+            id: data.dish.id,
+            name: data.dish.name,
+            sellingPrice: data.dish.selling_price,
+            category: data.dish.category,
+          },
+        ]);
+        setNewDish({ name: '', sellingPrice: '', category: 'primi' });
+      }
+    } catch (err) {
+      console.error('Error adding dish:', err);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const removeDish = (id: string) => {
-    setDishes(dishes.filter((d) => d.id !== id));
-    setIngredients(ingredients.filter((i) => i.dishId !== id));
+  const removeDish = async (id: string) => {
+    setIsSaving(true);
+    try {
+      await fetch(`/api/food-cost/dishes/${id}`, { method: 'DELETE' });
+      setDishes(dishes.filter((d) => d.id !== id));
+      setIngredients(ingredients.filter((i) => i.dishId !== id));
+    } catch (err) {
+      console.error('Error removing dish:', err);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const addIngredient = () => {
+  const addIngredient = async () => {
     if (!newIngredient.name || !newIngredient.costPerKg || !selectedDishForIngredients) return;
 
-    setIngredients([
-      ...ingredients,
-      {
-        id: Date.now().toString(),
-        name: newIngredient.name,
-        costPerKg: parseFloat(newIngredient.costPerKg),
-        dishId: selectedDishForIngredients,
-        quantityGrams: parseFloat(newIngredient.quantityGrams) || 100,
-      },
-    ]);
-    setNewIngredient({ name: '', costPerKg: '', quantityGrams: '' });
+    setIsSaving(true);
+    try {
+      const res = await fetch(`/api/food-cost/dishes/${selectedDishForIngredients}/ingredients`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ingredientName: newIngredient.name,
+          costPerKg: parseFloat(newIngredient.costPerKg),
+          quantityGrams: parseFloat(newIngredient.quantityGrams) || 100,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.ingredient) {
+        setIngredients([
+          ...ingredients,
+          {
+            id: data.ingredient.id,
+            name: data.ingredient.ingredient_name,
+            costPerKg: data.ingredient.cost_per_kg,
+            dishId: selectedDishForIngredients,
+            quantityGrams: data.ingredient.quantity_grams,
+          },
+        ]);
+        setNewIngredient({ name: '', costPerKg: '', quantityGrams: '' });
+      }
+    } catch (err) {
+      console.error('Error adding ingredient:', err);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const removeIngredient = (id: string) => {
-    setIngredients(ingredients.filter((i) => i.id !== id));
+  const removeIngredient = async (id: string) => {
+    const ingredient = ingredients.find((i) => i.id === id);
+    if (!ingredient) return;
+
+    setIsSaving(true);
+    try {
+      await fetch(`/api/food-cost/dishes/${ingredient.dishId}/ingredients/${id}`, {
+        method: 'DELETE',
+      });
+      setIngredients(ingredients.filter((i) => i.id !== id));
+    } catch (err) {
+      console.error('Error removing ingredient:', err);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Calculate food cost for a dish
@@ -206,7 +324,7 @@ export default function FoodCostOnboardingPage() {
   };
 
   const handleComplete = () => {
-    // TODO: Save data to API
+    // Data is already saved to API via real-time calls
     router.push('/food-cost');
   };
 
@@ -392,114 +510,127 @@ export default function FoodCostOnboardingPage() {
               </p>
             </div>
 
-            {/* Add Dish Form */}
-            <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-4 font-medium text-gray-900">Aggiungi un piatto</h3>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-                <div className="sm:col-span-2">
-                  <label className="mb-1 block text-sm text-gray-600">Nome piatto</label>
-                  <input
-                    type="text"
-                    value={newDish.name}
-                    onChange={(e) => setNewDish({ ...newDish, name: e.target.value })}
-                    placeholder="es. Spaghetti alla Carbonara"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm text-gray-600">Prezzo vendita (€)</label>
-                  <input
-                    type="number"
-                    step="0.50"
-                    value={newDish.sellingPrice}
-                    onChange={(e) => setNewDish({ ...newDish, sellingPrice: e.target.value })}
-                    placeholder="es. 14.00"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm text-gray-600">Categoria</label>
-                  <select
-                    value={newDish.category}
-                    onChange={(e) => setNewDish({ ...newDish, category: e.target.value })}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-orange-500"
-                  >
-                    {categories.map((cat) => (
-                      <option key={cat.id} value={cat.id}>
-                        {cat.icon} {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+            {isLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-orange-600" />
+                <span className="ml-2 text-gray-600">Caricamento piatti esistenti...</span>
               </div>
-              <button
-                onClick={addDish}
-                disabled={!newDish.name || !newDish.sellingPrice}
-                className="mt-4 flex items-center gap-2 rounded-lg bg-orange-600 px-4 py-2 font-medium text-white hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <Plus className="h-4 w-4" />
-                Aggiungi Piatto
-              </button>
-            </div>
-
-            {/* Dishes List */}
-            {dishes.length > 0 && (
-              <div className="space-y-3">
-                <h3 className="font-medium text-gray-900">I tuoi piatti ({dishes.length})</h3>
-                {dishes.map((dish) => {
-                  const category = categories.find((c) => c.id === dish.category);
-                  return (
-                    <div
-                      key={dish.id}
-                      className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">{category?.icon || '🍽️'}</span>
-                        <div>
-                          <p className="font-medium text-gray-900">{dish.name}</p>
-                          <p className="text-sm text-gray-500">{category?.name}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <span className="text-lg font-semibold text-green-600">
-                          €{dish.sellingPrice.toFixed(2)}
-                        </span>
-                        <button
-                          onClick={() => removeDish(dish.id)}
-                          className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-500"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
+            ) : (
+              <>
+                {/* Add Dish Form */}
+                <div className="mb-6 rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 font-medium text-gray-900">Aggiungi un piatto</h3>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+                    <div className="sm:col-span-2">
+                      <label className="mb-1 block text-sm text-gray-600">Nome piatto</label>
+                      <input
+                        type="text"
+                        value={newDish.name}
+                        onChange={(e) => setNewDish({ ...newDish, name: e.target.value })}
+                        placeholder="es. Spaghetti alla Carbonara"
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                      />
                     </div>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Quick wins */}
-            {dishes.length > 0 && dishes.length < 5 && (
-              <div className="mt-6 rounded-xl border border-amber-100 bg-gradient-to-r from-amber-50 to-orange-50 p-4">
-                <div className="flex items-center gap-3">
-                  <Trophy className="h-5 w-5 text-amber-600" />
-                  <p className="text-sm text-amber-800">
-                    <strong>Quick win:</strong> Inserisci ancora {5 - dishes.length} piatti per
-                    sbloccare l'analisi base!
-                  </p>
+                    <div>
+                      <label className="mb-1 block text-sm text-gray-600">Prezzo vendita (€)</label>
+                      <input
+                        type="number"
+                        step="0.50"
+                        value={newDish.sellingPrice}
+                        onChange={(e) => setNewDish({ ...newDish, sellingPrice: e.target.value })}
+                        placeholder="es. 14.00"
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-sm text-gray-600">Categoria</label>
+                      <select
+                        value={newDish.category}
+                        onChange={(e) => setNewDish({ ...newDish, category: e.target.value })}
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                      >
+                        {categories.map((cat) => (
+                          <option key={cat.id} value={cat.id}>
+                            {cat.icon} {cat.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <button
+                    onClick={addDish}
+                    disabled={!newDish.name || !newDish.sellingPrice || isSaving}
+                    className="mt-4 flex items-center gap-2 rounded-lg bg-orange-600 px-4 py-2 font-medium text-white hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {isSaving ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Plus className="h-4 w-4" />
+                    )}
+                    Aggiungi Piatto
+                  </button>
                 </div>
-              </div>
-            )}
 
-            {dishes.length >= 5 && (
-              <div className="mt-6 rounded-xl border border-green-100 bg-gradient-to-r from-green-50 to-emerald-50 p-4">
-                <div className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <p className="text-sm text-green-800">
-                    <strong>Ottimo!</strong> Hai inserito abbastanza piatti per un'analisi
-                    significativa.
-                  </p>
-                </div>
-              </div>
+                {/* Dishes List */}
+                {dishes.length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="font-medium text-gray-900">I tuoi piatti ({dishes.length})</h3>
+                    {dishes.map((dish) => {
+                      const category = categories.find((c) => c.id === dish.category);
+                      return (
+                        <div
+                          key={dish.id}
+                          className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl">{category?.icon || '🍽️'}</span>
+                            <div>
+                              <p className="font-medium text-gray-900">{dish.name}</p>
+                              <p className="text-sm text-gray-500">{category?.name}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <span className="text-lg font-semibold text-green-600">
+                              €{dish.sellingPrice.toFixed(2)}
+                            </span>
+                            <button
+                              onClick={() => removeDish(dish.id)}
+                              className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-500"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Quick wins */}
+                {dishes.length > 0 && dishes.length < 5 && (
+                  <div className="mt-6 rounded-xl border border-amber-100 bg-gradient-to-r from-amber-50 to-orange-50 p-4">
+                    <div className="flex items-center gap-3">
+                      <Trophy className="h-5 w-5 text-amber-600" />
+                      <p className="text-sm text-amber-800">
+                        <strong>Quick win:</strong> Inserisci ancora {5 - dishes.length} piatti per
+                        sbloccare l'analisi base!
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {dishes.length >= 5 && (
+                  <div className="mt-6 rounded-xl border border-green-100 bg-gradient-to-r from-green-50 to-emerald-50 p-4">
+                    <div className="flex items-center gap-3">
+                      <CheckCircle className="h-5 w-5 text-green-600" />
+                      <p className="text-sm text-green-800">
+                        <strong>Ottimo!</strong> Hai inserito abbastanza piatti per un'analisi
+                        significativa.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
@@ -625,10 +756,14 @@ export default function FoodCostOnboardingPage() {
                         </div>
                         <button
                           onClick={addIngredient}
-                          disabled={!newIngredient.name || !newIngredient.costPerKg}
+                          disabled={!newIngredient.name || !newIngredient.costPerKg || isSaving}
                           className="mt-3 flex items-center gap-2 rounded-lg bg-orange-600 px-4 py-2 font-medium text-white hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                          <Plus className="h-4 w-4" />
+                          {isSaving ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Plus className="h-4 w-4" />
+                          )}
                           Aggiungi
                         </button>
                       </div>
