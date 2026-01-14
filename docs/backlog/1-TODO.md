@@ -20,12 +20,12 @@
 
 > Decisioni che impattano onboarding B2B, pricing tiers, e conversione.
 
-| ID                        | Feature             | Descrizione                          | Effort | Status     | Spec                                                     |
-| ------------------------- | ------------------- | ------------------------------------ | ------ | ---------- | -------------------------------------------------------- |
-| SERVICE-MODELS            | Modelli di Servizio | Come funziona il servizio nel locale | Medium | ✅ DONE    | [spec](specs/P0.5-strategy/SERVICE-MODELS.md)            |
-| TIER-MENU-ONLY            | Menu Only Tier      | Entry-level pricing tier             | Low    | ✅ DONE    | [spec](specs/P0.5-strategy/TIER-MENU-ONLY.md)            |
-| AI-ONBOARDING             | Onboarding AI       | Chat-based onboarding                | High   | ✅ DONE    | [spec](specs/P0.5-strategy/AI-ONBOARDING.md)             |
-| ORDER-READY-NOTIFICATIONS | Notifiche Ordine    | Sostituisce buzzer hardware          | Medium | 🟡 PARTIAL | [spec](specs/P0.5-strategy/ORDER-READY-NOTIFICATIONS.md) |
+| ID                        | Feature             | Descrizione                          | Effort | Status  | Spec                                                     |
+| ------------------------- | ------------------- | ------------------------------------ | ------ | ------- | -------------------------------------------------------- |
+| SERVICE-MODELS            | Modelli di Servizio | Come funziona il servizio nel locale | Medium | ✅ DONE | [spec](specs/P0.5-strategy/SERVICE-MODELS.md)            |
+| TIER-MENU-ONLY            | Menu Only Tier      | Entry-level pricing tier             | Low    | ✅ DONE | [spec](specs/P0.5-strategy/TIER-MENU-ONLY.md)            |
+| AI-ONBOARDING             | Onboarding AI       | Chat-based onboarding                | High   | ✅ DONE | [spec](specs/P0.5-strategy/AI-ONBOARDING.md)             |
+| ORDER-READY-NOTIFICATIONS | Notifiche Ordine    | Sostituisce buzzer hardware          | Medium | ✅ DONE | [spec](specs/P0.5-strategy/ORDER-READY-NOTIFICATIONS.md) |
 
 ---
 
@@ -61,7 +61,7 @@
 | ID             | Feature             | Descrizione            | Effort | Spec                                |
 | -------------- | ------------------- | ---------------------- | ------ | ----------------------------------- |
 | MT-GEOFENCING  | Location Geofencing | Radius-based location  | High   | [spec](specs/P2/MENUTIGER-AUDIT.md) |
-| MT-KDS         | Kitchen Display     | Display ordini cucina  | High   | [spec](specs/P2/MENUTIGER-AUDIT.md) |
+| MT-KDS         | Kitchen Display     | Display ordini cucina  | High   | ✅ DONE                             |
 | MT-WHITE-LABEL | White-label Domain  | Custom domain merchant | Medium | [spec](specs/P2/MENUTIGER-AUDIT.md) |
 | HOLIDAYS-DB    | Holidays Database   | DB festività per paese | Medium | [spec](specs/P2/MENUTIGER-AUDIT.md) |
 

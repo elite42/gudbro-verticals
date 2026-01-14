@@ -5,6 +5,56 @@
 
 ---
 
+## 2026-01-15 (Session 2) - MT-KDS Kitchen Display Enhancement
+
+**Focus:** Kitchen Display System enhancements (from MenuTiger Audit)
+**Durata:** ~30min
+**Tipo:** Feature Enhancement
+
+### Completato
+
+**Kitchen Display System (MT-KDS):**
+
+- Audio alerts per nuovi ordini (Web Audio API)
+  - Chime sound con due toni (A5 + C#6)
+  - Triggered automaticamente su realtime subscription
+- Keyboard shortcuts "bump bar" style:
+  - `1-9` per Queue → Preparing
+  - `Q,W,E,R,T` per Preparing → Ready
+  - `A,S,D,F,G` per Ready → Picked Up
+  - `M` toggle suono on/off
+  - `L` toggle layout grid/columns
+  - `F` fullscreen
+- Flash animation per nuovi ordini (ring-4 ring-yellow-400 animate-pulse)
+- Sound toggle button in header (🔊/🔇)
+- 2 layout modes:
+  - Grid: layout originale responsive
+  - Columns: 3 colonne fisse (Queue | Preparing | Ready)
+- Keyboard shortcut hints su ogni order card (kbd tags)
+- Settings panel espandibile con legenda shortcuts
+
+### File Modificati
+
+| File                                      | Modifiche                             |
+| ----------------------------------------- | ------------------------------------- |
+| `app/(dashboard)/orders/kitchen/page.tsx` | +200 righe, audio, shortcuts, layouts |
+
+### Note Tecniche
+
+- Web Audio API per suoni (no file mp3 necessari)
+- AudioContext inizializzato al primo click/keydown (policy browser)
+- Keyboard shortcut effect senza dependency array (re-runs ogni render per latest state)
+- Column layout mostra keyboard hints integrati nelle card
+- Flash animation usa Tailwind animate-pulse + ring
+
+### Prossimi Passi
+
+- Test con ordini reali
+- Eventualmente: multi-station support (cucina/bar separati)
+- Eventualmente: print ticket integration
+
+---
+
 ## 2026-01-15 - B2B-CONVENTIONS + ORDER-READY-NOTIFICATIONS
 
 **Focus:** B2B Corporate Conventions System + Web Push Notifications

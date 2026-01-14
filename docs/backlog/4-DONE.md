@@ -11,6 +11,7 @@
 
 | ID                        | Feature               | Descrizione                                                                                                       | Completato |
 | ------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------- |
+| MT-KDS                    | Kitchen Display       | Audio alerts, keyboard shortcuts (bump bar), flash animation, sound toggle, 2 layout modes (grid/columns)         | 2026-01-15 |
 | B2B-CONVENTIONS           | Corporate Conventions | Sistema convenzioni B2B: offices, gyms, schools. 5 tabelle DB, service layer, API, 5 UI pages, staff verification | 2026-01-15 |
 | ORDER-READY-NOTIFICATIONS | Web Push Phase 2      | Service Worker push, subscription API, backend sender, kitchen trigger, UI toggle ordini                          | 2026-01-15 |
 
