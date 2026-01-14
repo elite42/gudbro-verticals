@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { getSession } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,6 +22,12 @@ const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml']
 
 export async function POST(request: Request) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const supabaseAdmin = getSupabaseAdmin();
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
@@ -119,6 +126,12 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const supabaseAdmin = getSupabaseAdmin();
     const { searchParams } = new URL(request.url);
     const path = searchParams.get('path');

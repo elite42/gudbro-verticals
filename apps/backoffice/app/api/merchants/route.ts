@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { getSession } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,28 +22,25 @@ interface CreateMerchantRequest {
 
 export async function POST(request: Request) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body: CreateMerchantRequest = await request.json();
 
     // Validate required fields
     if (!body.businessName) {
-      return NextResponse.json(
-        { error: 'Business name is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Business name is required' }, { status: 400 });
     }
 
     if (!body.countryCode) {
-      return NextResponse.json(
-        { error: 'Country is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Country is required' }, { status: 400 });
     }
 
     if (!body.primaryLanguage) {
-      return NextResponse.json(
-        { error: 'Primary language is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Primary language is required' }, { status: 400 });
     }
 
     // Create slug from business name
@@ -76,34 +74,33 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Error creating merchant:', error);
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({
-      merchant: data,
-      message: 'Merchant created successfully'
-    }, { status: 201 });
-
+    return NextResponse.json(
+      {
+        merchant: data,
+        message: 'Merchant created successfully',
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error in POST /api/merchants:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function GET(request: Request) {
+  // Auth check
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get('slug');
 
-  let query = supabase
-    .from('merchants')
-    .select('*')
-    .eq('is_active', true);
+  let query = supabase.from('merchants').select('*').eq('is_active', true);
 
   if (slug) {
     query = query.eq('slug', slug);
@@ -117,6 +114,6 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     merchants: data,
-    total: data?.length || 0
+    total: data?.length || 0,
   });
 }

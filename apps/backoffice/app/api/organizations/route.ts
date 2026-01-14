@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { getSession } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,14 +16,17 @@ interface CreateOrganizationRequest {
 
 export async function POST(request: Request) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body: CreateOrganizationRequest = await request.json();
 
     // Validate required fields
     if (!body.name) {
-      return NextResponse.json(
-        { error: 'Organization name is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Organization name is required' }, { status: 400 });
     }
 
     // Create slug from name
@@ -62,27 +66,29 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Error creating organization:', error);
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({
-      organization: data,
-      message: 'Organization created successfully'
-    }, { status: 201 });
-
+    return NextResponse.json(
+      {
+        organization: data,
+        message: 'Organization created successfully',
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error in POST /api/organizations:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function GET(request: Request) {
+  // Auth check
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   const slug = searchParams.get('slug');
@@ -91,9 +97,7 @@ export async function GET(request: Request) {
   const status = searchParams.get('status');
   const withBrands = searchParams.get('with_brands') === 'true';
 
-  let query = supabase
-    .from('organizations')
-    .select(withBrands ? '*, brands(*)' : '*');
+  let query = supabase.from('organizations').select(withBrands ? '*, brands(*)' : '*');
 
   if (id) {
     query = query.eq('id', id);
@@ -129,26 +133,29 @@ export async function GET(request: Request) {
   // Single item request
   if (id || slug) {
     return NextResponse.json({
-      organization: data?.[0] || null
+      organization: data?.[0] || null,
     });
   }
 
   return NextResponse.json({
     organizations: data,
-    total: data?.length || 0
+    total: data?.length || 0,
   });
 }
 
 export async function PATCH(request: Request) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { id, ...updates } = body;
 
     if (!id) {
-      return NextResponse.json(
-        { error: 'Organization ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Organization ID is required' }, { status: 400 });
     }
 
     // Map camelCase to snake_case
@@ -156,12 +163,15 @@ export async function PATCH(request: Request) {
     if (updates.name !== undefined) dbUpdates.name = updates.name;
     if (updates.type !== undefined) dbUpdates.type = updates.type;
     if (updates.partnerId !== undefined) dbUpdates.partner_id = updates.partnerId;
-    if (updates.subscriptionPlan !== undefined) dbUpdates.subscription_plan = updates.subscriptionPlan;
-    if (updates.subscriptionStatus !== undefined) dbUpdates.subscription_status = updates.subscriptionStatus;
+    if (updates.subscriptionPlan !== undefined)
+      dbUpdates.subscription_plan = updates.subscriptionPlan;
+    if (updates.subscriptionStatus !== undefined)
+      dbUpdates.subscription_status = updates.subscriptionStatus;
     if (updates.billingEmail !== undefined) dbUpdates.billing_email = updates.billingEmail;
     if (updates.billingAddress !== undefined) dbUpdates.billing_address = updates.billingAddress;
     if (updates.taxId !== undefined) dbUpdates.tax_id = updates.taxId;
-    if (updates.stripeCustomerId !== undefined) dbUpdates.stripe_customer_id = updates.stripeCustomerId;
+    if (updates.stripeCustomerId !== undefined)
+      dbUpdates.stripe_customer_id = updates.stripeCustomerId;
     if (updates.status !== undefined) dbUpdates.status = updates.status;
 
     const { data, error } = await supabase
@@ -173,22 +183,15 @@ export async function PATCH(request: Request) {
 
     if (error) {
       console.error('Error updating organization:', error);
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({
       organization: data,
-      message: 'Organization updated successfully'
+      message: 'Organization updated successfully',
     });
-
   } catch (error) {
     console.error('Error in PATCH /api/organizations:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

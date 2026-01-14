@@ -9,6 +9,7 @@ import {
   TranslationItem,
 } from '@/lib/ai';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { getSession } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5 minutes for batch operations
@@ -18,6 +19,12 @@ export const maxDuration = 300; // 5 minutes for batch operations
 // =============================================================================
 export async function POST(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { action, items, targetLocales, entityType, productType, options } = body;
 
@@ -155,6 +162,12 @@ export async function POST(request: NextRequest) {
 // =============================================================================
 export async function GET(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action') || 'list';
     const entityType = searchParams.get('entityType');
@@ -261,6 +274,12 @@ export async function GET(request: NextRequest) {
 // =============================================================================
 export async function DELETE(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const entityType = searchParams.get('entityType');
     const entityId = searchParams.get('entityId');
