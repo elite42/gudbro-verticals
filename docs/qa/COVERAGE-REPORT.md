@@ -3,7 +3,7 @@
 > Stato attuale della copertura test del progetto GUDBRO.
 
 **Ultimo aggiornamento:** 2026-01-14
-**Coverage complessivo:** ~2%
+**Coverage complessivo:** ~5%
 
 ---
 
@@ -11,9 +11,10 @@
 
 | Metrica          | Valore | Target | Gap  |
 | ---------------- | ------ | ------ | ---- |
-| Test Files       | 8      | 50+    | -42  |
-| Test Coverage    | ~2%    | 30%    | -28% |
-| Features Testate | 1/15   | 15/15  | -14  |
+| Test Files       | 10     | 50+    | -40  |
+| Total Tests      | 414    | 1000+  | -586 |
+| Test Coverage    | ~5%    | 30%    | -25% |
+| Features Testate | 2/15   | 15/15  | -13  |
 
 ---
 
@@ -21,25 +22,26 @@
 
 ### Aree Testate
 
-| Area            | Files | Coverage | Status   |
-| --------------- | ----- | -------- | -------- |
-| **QR Codes**    | 6     | ~80%     | Complete |
-| **Error Utils** | 1     | ~90%     | Complete |
+| Area            | Files | Tests | Coverage | Status   |
+| --------------- | ----- | ----- | -------- | -------- |
+| **QR Codes**    | 7     | 260   | ~80%     | Complete |
+| **Auth**        | 2     | 77    | ~80%     | Complete |
+| **Error Utils** | 1     | 24    | ~90%     | Complete |
 
 ### Aree Non Testate (Priority Order)
 
-| #   | Area                 | Files | Priority | Reason            |
-| --- | -------------------- | ----- | -------- | ----------------- |
-| 1   | Auth                 | 0     | P0       | Security critical |
-| 2   | Middleware           | 0     | P0       | Route protection  |
-| 3   | AI Chat Service      | 0     | P1       | Core business     |
-| 4   | AI Knowledge Service | 0     | P1       | Data access       |
-| 5   | Food Cost API        | 0     | P1       | Revenue critical  |
-| 6   | Translations API     | 0     | P2       | Data integrity    |
-| 7   | Staff Service        | 0     | P2       | Operations        |
-| 8   | Events Service       | 0     | P2       | Operations        |
-| 9   | Components (43)      | 0     | P3       | UI                |
-| 10  | Other APIs (40+)     | 0     | P3       | Various           |
+| #   | Area                 | Files | Priority | Reason           |
+| --- | -------------------- | ----- | -------- | ---------------- |
+| 1   | ~~Auth~~             | ~~0~~ | ~~P0~~   | ~~Security~~     |
+| 2   | Middleware           | 0     | P0       | Route protection |
+| 3   | AI Chat Service      | 0     | P1       | Core business    |
+| 4   | AI Knowledge Service | 0     | P1       | Data access      |
+| 5   | Food Cost API        | 0     | P1       | Revenue critical |
+| 6   | Translations API     | 0     | P2       | Data integrity   |
+| 7   | Staff Service        | 0     | P2       | Operations       |
+| 8   | Events Service       | 0     | P2       | Operations       |
+| 9   | Components (43)      | 0     | P3       | UI               |
+| 10  | Other APIs (40+)     | 0     | P3       | Various          |
 
 ---
 
@@ -48,25 +50,29 @@
 ### apps/backoffice/
 
 ```
+lib/auth/__tests__/
+├── permissions.test.ts        (39 tests) - ROLE_PERMISSIONS, isRoleAtLeast
+└── dev-accounts.test.ts       (38 tests) - validateDevPin, isDevModeEnabled
+
 components/qr/__tests__/
-├── QRBuilderModal.test.tsx    (~295 LOC)
-├── QRDesignPanel.test.tsx     (~210 LOC)
-├── QRExportPanel.test.tsx     (~415 LOC)
-└── QRPreview.test.tsx         (~175 LOC)
+├── QRBuilderModal.test.tsx    (55 tests)
+├── QRDesignPanel.test.tsx     (16 tests)
+├── QRExportPanel.test.tsx     (34 tests)
+└── QRPreview.test.tsx         (13 tests)
 
 lib/qr/__tests__/
-├── qr-generator.test.ts       (~315 LOC)
-└── qr-types.test.ts           (~345 LOC)
+├── qr-generator.test.ts       (84 tests)
+└── qr-types.test.ts           (78 tests)
 
 app/api/qr/__tests__/
-└── route-helpers.test.ts      (~473 LOC)
+└── route-helpers.test.ts      (33 tests)
 ```
 
 ### shared/
 
 ```
 utils/__tests__/
-└── errors.test.ts             (~210 LOC)
+└── errors.test.ts             (24 tests)
 ```
 
 ---
@@ -75,12 +81,12 @@ utils/__tests__/
 
 ### Fase 2 Target (30% su aree critiche)
 
-| Area        | Attuale | Target | Files da Creare |
-| ----------- | ------- | ------ | --------------- |
-| Auth        | 0%      | 80%    | 3-4 files       |
-| AI Services | 0%      | 40%    | 5-6 files       |
-| API Routes  | 2%      | 30%    | 10-15 files     |
-| Components  | 9%      | 20%    | 8-10 files      |
+| Area        | Attuale | Target | Status             |
+| ----------- | ------- | ------ | ------------------ |
+| Auth        | ~80%    | 80%    | **Complete**       |
+| AI Services | 0%      | 40%    | 5-6 files needed   |
+| API Routes  | ~5%     | 30%    | 10-15 files needed |
+| Components  | ~15%    | 20%    | 4-5 files needed   |
 
 ---
 
@@ -134,19 +140,20 @@ describe('MyComponent', () => {
 
 ## Prossimi Passi
 
-1. [ ] Creare test per `lib/auth/`
+1. [x] Creare test per `lib/auth/` - **Complete (77 tests)**
 2. [ ] Creare test per `middleware.ts`
 3. [ ] Creare test per `lib/ai/chat-service.ts`
-4. [ ] Creare test per `api/food-cost/`
-5. [ ] Aggiornare coverage report
+4. [ ] Creare test per `api/food-cost/` (validation logic)
+5. [ ] Creare test per `lib/ai/knowledge-service.ts`
 
 ---
 
 ## Storico
 
-| Data       | Coverage | Note              |
-| ---------- | -------- | ----------------- |
-| 2026-01-14 | ~2%      | Baseline iniziale |
+| Data       | Coverage | Tests | Note                              |
+| ---------- | -------- | ----- | --------------------------------- |
+| 2026-01-14 | ~5%      | 414   | Auth tests complete, security fix |
+| 2026-01-14 | ~2%      | 320   | Baseline iniziale (FASE 1 audit)  |
 
 ---
 
