@@ -5,10 +5,10 @@
 
 ---
 
-## 2026-01-15 - B2B-CONVENTIONS Complete
+## 2026-01-15 - B2B-CONVENTIONS + ORDER-READY-NOTIFICATIONS
 
-**Focus:** B2B Corporate Conventions System (6 sprints)
-**Durata:** ~2h
+**Focus:** B2B Corporate Conventions System + Web Push Notifications
+**Durata:** ~3h
 **Tipo:** Feature Implementation
 
 ### Completato
@@ -27,6 +27,16 @@
 - Aggiunte 5 pagine Conventions alla Knowledge Base
 - Totale pagine KB: 57 (52 + 5 nuove)
 
+**ORDER-READY-NOTIFICATIONS Phase 2 (Web Push):**
+
+- Service Worker push event handler
+- Push subscription hook (usePushNotifications)
+- API endpoint per salvare subscriptions
+- Backend push sender con web-push library
+- Kitchen display trigger automatico
+- UI toggle per Push ON/OFF nella pagina ordini
+- VAPID keys setup
+
 ### File Creati
 
 | File                                          | Descrizione                    |
@@ -40,7 +50,11 @@
 | `/partnerships/conventions/vouchers/page.tsx` | Voucher management             |
 | `/partnerships/conventions/verify/page.tsx`   | Staff verification tool        |
 | `lib/kb/kb-content.ts`                        | +5 pagine conventions          |
-| `/help/page.tsx`                              | Help page UI (già esisteva)    |
+| `hooks/usePushNotifications.ts`               | Push subscription hook         |
+| `app/api/push-subscription/route.ts`          | Save/delete subscriptions      |
+| `app/api/send-push/route.ts` (coffeeshop)     | Send push (client-side)        |
+| `app/api/send-push/route.ts` (backoffice)     | Send push from kitchen         |
+| `public/service-worker.js`                    | Push event handler             |
 
 ### Tabelle Database Create
 
@@ -53,16 +67,20 @@
 ### Commit
 
 - `6d77eca` - feat(conventions): add B2B corporate conventions system
+- (pending) - feat(notifications): add web push notifications Phase 2
 
 ### Decisioni
 
 - **RLS pattern**: Usa `account_roles.tenant_id WHERE role_type = 'merchant'` (come TOURISM-B2B)
 - **Daily codes**: Formato `COMPANY-MMDD` (es. TECHCORP-0115)
 - **Verification methods**: link, qr_scan, daily_code, badge_id
+- **VAPID**: Keys generate con web-push CLI, salvate in .env.local
+- **Push trigger**: Kitchen display chiama API quando status → 'ready'
 
 ### Prossima Sessione
 
-- ORDER-READY-NOTIFICATIONS (P0.5 PARTIAL) - Completare notifiche ordine pronto
+- Commit e push ORDER-READY-NOTIFICATIONS
+- Eventuale altro task da backlog P1/P2
 
 ---
 

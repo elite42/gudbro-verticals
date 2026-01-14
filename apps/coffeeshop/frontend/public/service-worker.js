@@ -1,3 +1,5 @@
+/* eslint-env serviceworker */
+/* eslint-disable no-undef */
 /**
  * ROOTS Coffee & Kitchen - Service Worker
  *
@@ -6,6 +8,7 @@
  * - Cache-first strategy for images
  * - Network-first for API calls
  * - Background sync for orders (future)
+ * - Push notifications for order ready
  */
 
 const CACHE_NAME = 'roots-pwa-v2';
@@ -13,25 +16,18 @@ const STATIC_CACHE = 'roots-static-v2';
 const IMAGE_CACHE = 'roots-images-v2';
 
 // Static assets to cache on install
-const STATIC_ASSETS = [
-  '/',
-  '/menu',
-  '/cart',
-  '/orders',
-  '/account',
-  '/offers',
-  '/offline.html'
-];
+const STATIC_ASSETS = ['/', '/menu', '/cart', '/orders', '/account', '/offers', '/offline.html'];
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
   console.log('[SW] Installing service worker...');
 
   event.waitUntil(
-    caches.open(STATIC_CACHE)
+    caches
+      .open(STATIC_CACHE)
       .then((cache) => {
         console.log('[SW] Caching static assets');
-        return cache.addAll(STATIC_ASSETS.filter(url => url !== '/offline.html'));
+        return cache.addAll(STATIC_ASSETS.filter((url) => url !== '/offline.html'));
       })
       .then(() => {
         console.log('[SW] Static assets cached');
@@ -48,15 +44,18 @@ self.addEventListener('activate', (event) => {
   console.log('[SW] Activating service worker...');
 
   event.waitUntil(
-    caches.keys()
+    caches
+      .keys()
       .then((cacheNames) => {
         return Promise.all(
           cacheNames
             .filter((name) => {
-              return name.startsWith('roots-') &&
-                     name !== CACHE_NAME &&
-                     name !== STATIC_CACHE &&
-                     name !== IMAGE_CACHE;
+              return (
+                name.startsWith('roots-') &&
+                name !== CACHE_NAME &&
+                name !== STATIC_CACHE &&
+                name !== IMAGE_CACHE
+              );
             })
             .map((name) => {
               console.log('[SW] Deleting old cache:', name);
@@ -93,7 +92,10 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Images - Cache first
-  if (request.destination === 'image' || url.pathname.match(/\.(png|jpg|jpeg|gif|webp|svg|ico)$/i)) {
+  if (
+    request.destination === 'image' ||
+    url.pathname.match(/\.(png|jpg|jpeg|gif|webp|svg|ico)$/i)
+  ) {
     event.respondWith(cacheFirst(request, IMAGE_CACHE));
     return;
   }
@@ -160,7 +162,7 @@ async function networkFirstWithOffline(request) {
     }
 
     return response;
-  } catch (error) {
+  } catch (_error) {
     // Try to return cached version
     const cached = await caches.match(request);
     if (cached) {
@@ -215,7 +217,7 @@ async function networkFirstWithOffline(request) {
       </body>
       </html>`,
       {
-        headers: { 'Content-Type': 'text/html' }
+        headers: { 'Content-Type': 'text/html' },
       }
     );
   }
@@ -250,6 +252,85 @@ self.addEventListener('sync', (event) => {
     console.log('[SW] Syncing orders...');
     // Future: Sync queued orders when back online
   }
+});
+
+// Push notification event - handle incoming push messages
+self.addEventListener('push', (event) => {
+  console.log('[SW] Push notification received');
+
+  let data = {
+    title: 'ROOTS Coffee & Kitchen',
+    body: 'Your order is ready!',
+    icon: '/icons/icon-192x192.png',
+    badge: '/icons/icon-96x96.png',
+    tag: 'order-ready',
+    data: {},
+  };
+
+  // Parse push data if available
+  if (event.data) {
+    try {
+      const payload = event.data.json();
+      data = {
+        ...data,
+        ...payload,
+      };
+    } catch (_e) {
+      // If not JSON, use text as body
+      data.body = event.data.text() || data.body;
+    }
+  }
+
+  const options = {
+    body: data.body,
+    icon: data.icon,
+    badge: data.badge,
+    tag: data.tag,
+    vibrate: [200, 100, 200], // Vibration pattern
+    requireInteraction: true, // Keep notification until user interacts
+    actions: [
+      { action: 'view', title: 'View Order' },
+      { action: 'dismiss', title: 'Dismiss' },
+    ],
+    data: data.data,
+  };
+
+  event.waitUntil(self.registration.showNotification(data.title, options));
+});
+
+// Notification click event - handle user interaction
+self.addEventListener('notificationclick', (event) => {
+  console.log('[SW] Notification clicked:', event.action);
+
+  event.notification.close();
+
+  if (event.action === 'dismiss') {
+    return;
+  }
+
+  // Default action or 'view' action - open orders page
+  const orderId = event.notification.data?.orderId;
+  const urlToOpen = orderId ? `/orders?id=${orderId}` : '/orders';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // Try to focus existing window
+      for (const client of clientList) {
+        if (client.url.includes('/orders') && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      // Open new window if none found
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen);
+      }
+    })
+  );
+});
+
+// Notification close event - track dismissed notifications
+self.addEventListener('notificationclose', (_event) => {
+  console.log('[SW] Notification closed without interaction');
 });
 
 console.log('[SW] Service worker loaded');

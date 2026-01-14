@@ -92,6 +92,9 @@ export default function KitchenDisplayPage() {
 
   const updateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
     try {
+      // Get order info for push notification
+      const order = orders.find((o) => o.id === orderId);
+
       const { error } = await supabase
         .from('orders')
         .update({ status: newStatus })
@@ -99,12 +102,38 @@ export default function KitchenDisplayPage() {
 
       if (error) throw error;
 
+      // Send push notification when order is ready
+      if (newStatus === 'ready' && order) {
+        try {
+          // Get session_id from the order for targeting the notification
+          const { data: orderData } = await supabase
+            .from('orders')
+            .select('session_id')
+            .eq('id', orderId)
+            .single();
+
+          if (orderData?.session_id) {
+            // Call push notification API
+            await fetch('/api/send-push', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                orderId,
+                sessionId: orderData.session_id,
+                orderCode: order.order_code,
+              }),
+            }).catch((err) => console.log('[Push] Notification skipped:', err.message));
+          }
+        } catch (pushErr) {
+          // Don't fail the status update if push fails
+          console.log('[Push] Notification error (non-blocking):', pushErr);
+        }
+      }
+
       if (newStatus === 'delivered') {
-        setOrders(prev => prev.filter(o => o.id !== orderId));
+        setOrders((prev) => prev.filter((o) => o.id !== orderId));
       } else {
-        setOrders(prev => prev.map(o =>
-          o.id === orderId ? { ...o, status: newStatus } : o
-        ));
+        setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
       }
     } catch (err) {
       console.error('Error updating order status:', err);
@@ -125,13 +154,9 @@ export default function KitchenDisplayPage() {
     // Realtime subscription
     const channel = supabase
       .channel('kitchen-orders')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'orders' },
-        () => {
-          fetchOrders();
-        }
-      )
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+        fetchOrders();
+      })
       .subscribe();
 
     return () => {
@@ -152,14 +177,14 @@ export default function KitchenDisplayPage() {
   };
 
   // Group orders by status
-  const confirmedOrders = orders.filter(o => o.status === 'confirmed');
-  const preparingOrders = orders.filter(o => o.status === 'preparing');
-  const readyOrders = orders.filter(o => o.status === 'ready');
+  const confirmedOrders = orders.filter((o) => o.status === 'confirmed');
+  const preparingOrders = orders.filter((o) => o.status === 'preparing');
+  const readyOrders = orders.filter((o) => o.status === 'ready');
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-900">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-500"></div>
+      <div className="flex min-h-screen items-center justify-center bg-gray-900">
+        <div className="h-16 w-16 animate-spin rounded-full border-b-4 border-orange-500"></div>
       </div>
     );
   }
@@ -167,26 +192,26 @@ export default function KitchenDisplayPage() {
   return (
     <div className="min-h-screen bg-gray-900 p-4">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <h1 className="text-3xl font-bold text-white">Kitchen Display</h1>
-          <span className="px-3 py-1 bg-green-600 text-white rounded-full text-sm font-medium">
+          <span className="rounded-full bg-green-600 px-3 py-1 text-sm font-medium text-white">
             Live
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-gray-400 text-lg">
+          <span className="text-lg text-gray-400">
             {now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
           </span>
           <button
             onClick={toggleFullscreen}
-            className="p-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
+            className="rounded-lg bg-gray-800 p-2 text-white hover:bg-gray-700"
           >
             {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
           </button>
           <a
             href="/orders"
-            className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
+            className="rounded-lg bg-gray-800 px-4 py-2 text-white hover:bg-gray-700"
           >
             Back to Orders
           </a>
@@ -194,69 +219,66 @@ export default function KitchenDisplayPage() {
       </div>
 
       {/* Stats Bar */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-blue-900/50 border border-blue-700 rounded-xl p-4 text-center">
-          <p className="text-blue-400 text-sm font-medium">Queue</p>
+      <div className="mb-6 grid grid-cols-3 gap-4">
+        <div className="rounded-xl border border-blue-700 bg-blue-900/50 p-4 text-center">
+          <p className="text-sm font-medium text-blue-400">Queue</p>
           <p className="text-4xl font-bold text-blue-300">{confirmedOrders.length}</p>
         </div>
-        <div className="bg-orange-900/50 border border-orange-700 rounded-xl p-4 text-center">
-          <p className="text-orange-400 text-sm font-medium">Preparing</p>
+        <div className="rounded-xl border border-orange-700 bg-orange-900/50 p-4 text-center">
+          <p className="text-sm font-medium text-orange-400">Preparing</p>
           <p className="text-4xl font-bold text-orange-300">{preparingOrders.length}</p>
         </div>
-        <div className="bg-green-900/50 border border-green-700 rounded-xl p-4 text-center">
-          <p className="text-green-400 text-sm font-medium">Ready</p>
+        <div className="rounded-xl border border-green-700 bg-green-900/50 p-4 text-center">
+          <p className="text-sm font-medium text-green-400">Ready</p>
           <p className="text-4xl font-bold text-green-300">{readyOrders.length}</p>
         </div>
       </div>
 
       {/* Orders Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {/* Confirmed Orders - Queue */}
         {confirmedOrders.map((order) => {
           const elapsed = getElapsedMinutes(order.submitted_at);
           return (
-            <div
-              key={order.id}
-              className="bg-blue-900/30 border-2 border-blue-600 rounded-xl p-4"
-            >
+            <div key={order.id} className="rounded-xl border-2 border-blue-600 bg-blue-900/30 p-4">
               {/* Order Header */}
-              <div className="flex items-center justify-between mb-3">
+              <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl font-bold text-white">{order.order_code}</span>
                   {order.table_number && (
-                    <span className="px-2 py-0.5 bg-blue-800 text-blue-200 rounded text-sm">
+                    <span className="rounded bg-blue-800 px-2 py-0.5 text-sm text-blue-200">
                       T{order.table_number}
                     </span>
                   )}
                 </div>
-                <span className={`text-lg font-mono font-bold ${getTimerColor(elapsed, order.status)}`}>
+                <span
+                  className={`font-mono text-lg font-bold ${getTimerColor(elapsed, order.status)}`}
+                >
                   {formatTimer(elapsed)}
                 </span>
               </div>
 
               {/* Customer */}
-              <p className="text-blue-300 text-sm mb-3">
+              <p className="mb-3 text-sm text-blue-300">
                 {order.customer_name || 'Guest'} •{' '}
                 {order.consumption_type === 'takeaway' ? 'TAKEAWAY' : 'Dine-in'}
               </p>
 
               {/* Items */}
-              <div className="space-y-2 mb-4">
+              <div className="mb-4 space-y-2">
                 {order.order_items?.map((item) => (
-                  <div key={item.id} className="bg-blue-900/50 rounded-lg p-2">
-                    <p className="text-white font-medium">
+                  <div key={item.id} className="rounded-lg bg-blue-900/50 p-2">
+                    <p className="font-medium text-white">
                       <span className="text-blue-400">{item.quantity}x</span>{' '}
                       {item.item_name.en || item.item_name.vi}
                     </p>
                     {item.extras && item.extras.length > 0 && (
-                      <p className="text-blue-300 text-sm">
-                        + {item.extras.map(e => e.name).join(', ')}
+                      <p className="text-sm text-blue-300">
+                        + {item.extras.map((e) => e.name).join(', ')}
                       </p>
                     )}
                     {item.special_instructions && (
-                      <p className="text-yellow-400 text-sm mt-1">
-                        ⚠️ {item.special_instructions}
-                      </p>
+                      <p className="mt-1 text-sm text-yellow-400">⚠️ {item.special_instructions}</p>
                     )}
                   </div>
                 ))}
@@ -264,15 +286,15 @@ export default function KitchenDisplayPage() {
 
               {/* Customer Notes */}
               {order.customer_notes && (
-                <div className="bg-yellow-900/50 border border-yellow-600 rounded-lg p-2 mb-4">
-                  <p className="text-yellow-300 text-sm">{order.customer_notes}</p>
+                <div className="mb-4 rounded-lg border border-yellow-600 bg-yellow-900/50 p-2">
+                  <p className="text-sm text-yellow-300">{order.customer_notes}</p>
                 </div>
               )}
 
               {/* Action Button */}
               <button
                 onClick={() => updateOrderStatus(order.id, 'preparing')}
-                className="w-full py-3 bg-orange-600 text-white rounded-lg font-bold text-lg hover:bg-orange-700 transition-colors"
+                className="w-full rounded-lg bg-orange-600 py-3 text-lg font-bold text-white transition-colors hover:bg-orange-700"
               >
                 START
               </button>
@@ -286,46 +308,46 @@ export default function KitchenDisplayPage() {
           return (
             <div
               key={order.id}
-              className="bg-orange-900/30 border-2 border-orange-500 rounded-xl p-4"
+              className="rounded-xl border-2 border-orange-500 bg-orange-900/30 p-4"
             >
               {/* Order Header */}
-              <div className="flex items-center justify-between mb-3">
+              <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-2xl font-bold text-white">{order.order_code}</span>
                   {order.table_number && (
-                    <span className="px-2 py-0.5 bg-orange-800 text-orange-200 rounded text-sm">
+                    <span className="rounded bg-orange-800 px-2 py-0.5 text-sm text-orange-200">
                       T{order.table_number}
                     </span>
                   )}
                 </div>
-                <span className={`text-lg font-mono font-bold ${getTimerColor(elapsed, order.status)}`}>
+                <span
+                  className={`font-mono text-lg font-bold ${getTimerColor(elapsed, order.status)}`}
+                >
                   {formatTimer(elapsed)}
                 </span>
               </div>
 
               {/* Customer */}
-              <p className="text-orange-300 text-sm mb-3">
+              <p className="mb-3 text-sm text-orange-300">
                 {order.customer_name || 'Guest'} •{' '}
                 {order.consumption_type === 'takeaway' ? 'TAKEAWAY' : 'Dine-in'}
               </p>
 
               {/* Items */}
-              <div className="space-y-2 mb-4">
+              <div className="mb-4 space-y-2">
                 {order.order_items?.map((item) => (
-                  <div key={item.id} className="bg-orange-900/50 rounded-lg p-2">
-                    <p className="text-white font-medium">
+                  <div key={item.id} className="rounded-lg bg-orange-900/50 p-2">
+                    <p className="font-medium text-white">
                       <span className="text-orange-400">{item.quantity}x</span>{' '}
                       {item.item_name.en || item.item_name.vi}
                     </p>
                     {item.extras && item.extras.length > 0 && (
-                      <p className="text-orange-300 text-sm">
-                        + {item.extras.map(e => e.name).join(', ')}
+                      <p className="text-sm text-orange-300">
+                        + {item.extras.map((e) => e.name).join(', ')}
                       </p>
                     )}
                     {item.special_instructions && (
-                      <p className="text-yellow-400 text-sm mt-1">
-                        ⚠️ {item.special_instructions}
-                      </p>
+                      <p className="mt-1 text-sm text-yellow-400">⚠️ {item.special_instructions}</p>
                     )}
                   </div>
                 ))}
@@ -334,7 +356,7 @@ export default function KitchenDisplayPage() {
               {/* Action Button */}
               <button
                 onClick={() => updateOrderStatus(order.id, 'ready')}
-                className="w-full py-3 bg-green-600 text-white rounded-lg font-bold text-lg hover:bg-green-700 transition-colors"
+                className="w-full rounded-lg bg-green-600 py-3 text-lg font-bold text-white transition-colors hover:bg-green-700"
               >
                 DONE
               </button>
@@ -344,40 +366,37 @@ export default function KitchenDisplayPage() {
 
         {/* Ready Orders */}
         {readyOrders.map((order) => (
-          <div
-            key={order.id}
-            className="bg-green-900/30 border-2 border-green-500 rounded-xl p-4"
-          >
+          <div key={order.id} className="rounded-xl border-2 border-green-500 bg-green-900/30 p-4">
             {/* Order Header */}
-            <div className="flex items-center justify-between mb-3">
+            <div className="mb-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-2xl font-bold text-white">{order.order_code}</span>
                 {order.table_number && (
-                  <span className="px-2 py-0.5 bg-green-800 text-green-200 rounded text-sm">
+                  <span className="rounded bg-green-800 px-2 py-0.5 text-sm text-green-200">
                     T{order.table_number}
                   </span>
                 )}
               </div>
-              <span className="px-3 py-1 bg-green-600 text-white rounded-full text-sm font-bold animate-pulse">
+              <span className="animate-pulse rounded-full bg-green-600 px-3 py-1 text-sm font-bold text-white">
                 READY
               </span>
             </div>
 
             {/* Customer */}
-            <p className="text-green-300 text-sm mb-3">
+            <p className="mb-3 text-sm text-green-300">
               {order.customer_name || 'Guest'} •{' '}
               {order.consumption_type === 'takeaway' ? 'TAKEAWAY' : 'Dine-in'}
             </p>
 
             {/* Items Summary */}
-            <p className="text-green-200 mb-4">
+            <p className="mb-4 text-green-200">
               {order.order_items?.reduce((sum, item) => sum + item.quantity, 0)} items
             </p>
 
             {/* Action Button */}
             <button
               onClick={() => updateOrderStatus(order.id, 'delivered')}
-              className="w-full py-3 bg-gray-600 text-white rounded-lg font-bold text-lg hover:bg-gray-700 transition-colors"
+              className="w-full rounded-lg bg-gray-600 py-3 text-lg font-bold text-white transition-colors hover:bg-gray-700"
             >
               PICKED UP
             </button>
@@ -388,9 +407,9 @@ export default function KitchenDisplayPage() {
       {/* Empty State */}
       {orders.length === 0 && (
         <div className="flex flex-col items-center justify-center py-20">
-          <span className="text-6xl mb-4">👨‍🍳</span>
+          <span className="mb-4 text-6xl">👨‍🍳</span>
           <p className="text-2xl text-gray-400">No active orders</p>
-          <p className="text-gray-500 mt-2">New orders will appear here automatically</p>
+          <p className="mt-2 text-gray-500">New orders will appear here automatically</p>
         </div>
       )}
     </div>

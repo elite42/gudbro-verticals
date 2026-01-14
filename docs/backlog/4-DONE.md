@@ -3,7 +3,32 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-13
+**Last Updated:** 2026-01-15
+
+---
+
+## 2026-01-15
+
+| ID                        | Feature               | Descrizione                                                                                                       | Completato |
+| ------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------- |
+| B2B-CONVENTIONS           | Corporate Conventions | Sistema convenzioni B2B: offices, gyms, schools. 5 tabelle DB, service layer, API, 5 UI pages, staff verification | 2026-01-15 |
+| ORDER-READY-NOTIFICATIONS | Web Push Phase 2      | Service Worker push, subscription API, backend sender, kitchen trigger, UI toggle ordini                          | 2026-01-15 |
+
+> **B2B-CONVENTIONS Files:**
+>
+> - Migration: `050-b2b-conventions.sql` (5 tabelle + RLS)
+> - Service: `lib/ai/conventions-service.ts`
+> - API: `/api/ai/conventions`
+> - UI Pages: `/partnerships/conventions/*` (hub, offices, active, vouchers, verify)
+> - KB: 5 nuove pagine in `lib/kb/kb-content.ts`
+
+> **ORDER-READY-NOTIFICATIONS Files:**
+>
+> - Service Worker: `public/service-worker.js` (push handler)
+> - Hook: `hooks/usePushNotifications.ts`
+> - API: `/api/push-subscription`, `/api/send-push`
+> - Backoffice: `/api/send-push`, kitchen display trigger
+> - UI: Push toggle in orders page
 
 ---
 
