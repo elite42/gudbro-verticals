@@ -372,6 +372,8 @@ VERIFICA SEMPRE:
 | Audit tecnico   | Snapshot datato, rigenera su richiesta                  | Mantenere aggiornato sempre  |
 | Task lunghe     | Commit ogni ~30 min o feature done                      | Task 2h+ senza checkpoint    |
 | MCP heavy ops   | Prima commit, poi type gen/migrations                   | Type gen durante sviluppo    |
+| Dev server port | Verifica `lsof -i :3023` prima di avviare               | Assumere porta libera        |
+| Port docs       | Leggi package.json per porta reale                      | Fidarsi di docs outdated     |
 | KB Backoffice   | Aggiorna `lib/kb/kb-content.ts` quando modifichi pagine | Dimenticare docs utente      |
 
 ## Come Aggiornare
@@ -511,12 +513,18 @@ docs/backlog/
 
 ```bash
 # From repo root with turbo
-pnpm dev:backoffice    # :3001
-pnpm dev:coffeeshop    # :3004
+pnpm dev:backoffice    # :3023 → http://localhost:3023
+pnpm dev:coffeeshop    # :3004 → http://localhost:3004
 
 # Or directly
 cd apps/backoffice && pnpm dev
 cd apps/coffeeshop/frontend && pnpm dev
+```
+
+**IMPORTANTE:** Prima di avviare, verifica se già attivo:
+
+```bash
+lsof -i :3023,:3004 | grep LISTEN
 ```
 
 ## 9.2 Build & Deploy
