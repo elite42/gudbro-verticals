@@ -5,6 +5,64 @@
 
 ---
 
+## 2026-01-15 (Session 5) - Reservation System Security & Data Fixes
+
+**Focus:** P0 Security + P1 Data Integrity fixes for reservation system
+**Durata:** ~1.5h
+**Tipo:** Bug Fixes / Security
+
+### Completato
+
+**P0 Security Fixes (Critical):**
+
+- Auth checks added to `/api/reservations` (GET/POST/PATCH)
+- Auth checks added to `/api/tables` (GET/POST/PATCH/DELETE)
+- Auth checks added to `/api/sections` (GET/POST/PATCH/DELETE)
+- Error handling try-catch in FloorPlanEditor
+- Fixed section_id data loss in TableDialog (nullish coalescing)
+- Added EmptyState UI when no tables/sections exist
+- Past date validation in ReservationDialog
+
+**P1 Data Integrity Fixes:**
+
+- Fixed tableId param in floor-plan DELETE (was using 'id')
+- Fixed data transform to include section_id, is_reservable, notes
+- Added locationId to floor-plan API calls via useTenant hook
+- Added dependency array for locationId in fetchData
+
+### Audit Results
+
+5 parallel agents audited the reservation system finding 58 issues total:
+
+| Category       | Issues Found | Critical |
+| -------------- | ------------ | -------- |
+| UX/Flow        | 12           | 3        |
+| Security       | 8            | 4        |
+| Integration    | 15           | 5        |
+| Business Logic | 11           | 3        |
+| Technical Debt | 12           | 2        |
+
+P0 critical issues fixed this session. Remaining issues documented for future sprints.
+
+### Commits
+
+- `88be2e6` - fix(reservations): P0 security + P1 data integrity fixes
+
+### Note tecniche
+
+- useTenant hook pattern for locationId: `const { location, brand } = useTenant(); const locationId = location?.id || brand?.id;`
+- API routes require getSession() check at start of each handler
+- Pre-existing TS errors in test files (onboarding-service.test.ts, auto-compute.test.ts) - not related to this work
+
+### Prossima sessione
+
+- P1-3: Add loading skeleton to calendar views (nice-to-have)
+- P1-4: Add keyboard shortcuts to FloorPlanEditor (nice-to-have)
+- Notification pipeline integration (from audit findings)
+- Business logic gaps (overbooking prevention)
+
+---
+
 ## 2026-01-15 (Session 4) - WHITE-LABEL-FULL Feature
 
 **Focus:** White-Label Multi-Tier Implementation (Merchant, Catena, Agency)
