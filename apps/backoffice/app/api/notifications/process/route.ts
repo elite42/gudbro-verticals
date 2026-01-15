@@ -84,10 +84,7 @@ export async function POST(request: NextRequest) {
     (isVercelCron && cronSecretValid) ||
     authHeader === `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`;
 
-  // In development, allow without auth for testing
-  const isDev = process.env.NODE_ENV === 'development';
-
-  if (!isAuthorized && !isDev) {
+  if (!isAuthorized) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
