@@ -315,31 +315,33 @@ export async function getReservation(
  * Create a new reservation
  */
 export async function createReservation(input: CreateReservationInput): Promise<Reservation> {
-  const { data, error } = await supabase
-    .from('reservations')
-    .insert({
-      location_id: input.location_id,
-      account_id: input.account_id,
-      guest_name: input.guest_name,
-      guest_email: input.guest_email,
-      guest_phone: input.guest_phone,
-      guest_locale: input.guest_locale || 'en',
-      party_size: input.party_size,
-      reservation_date: input.reservation_date,
-      reservation_time: input.reservation_time,
-      duration_minutes: input.duration_minutes || 90,
-      section_id: input.section_id,
-      source: input.source || 'website',
-      occasion: input.occasion,
-      special_requests: input.special_requests,
-      dietary_requirements: input.dietary_requirements || [],
-      notes: input.notes,
-    })
-    .select()
-    .single();
+  // Use atomic function to prevent overbooking via row-level locking
+  // This ensures no race condition between availability check and insert
+  const { data, error } = await supabase.rpc('create_reservation_atomic', {
+    p_location_id: input.location_id,
+    p_date: input.reservation_date,
+    p_time: input.reservation_time,
+    p_party_size: input.party_size,
+    p_guest_name: input.guest_name,
+    p_guest_email: input.guest_email || null,
+    p_guest_phone: input.guest_phone || null,
+    p_guest_locale: input.guest_locale || 'en',
+    p_account_id: input.account_id || null,
+    p_section_id: input.section_id || null,
+    p_duration_minutes: input.duration_minutes || 90,
+    p_source: input.source || 'website',
+    p_occasion: input.occasion || null,
+    p_special_requests: input.special_requests || null,
+    p_dietary_requirements: input.dietary_requirements || null,
+    p_notes: input.notes || null,
+  });
 
   if (error) {
     console.error('Error creating reservation:', error);
+    // Handle specific error codes
+    if (error.code === 'P0001') {
+      throw new Error('SLOT_FULL: This time slot is no longer available');
+    }
     throw new Error(`Failed to create reservation: ${error.message}`);
   }
 

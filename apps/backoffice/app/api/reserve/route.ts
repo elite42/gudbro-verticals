@@ -8,6 +8,12 @@ import {
   checkSlotAvailability,
 } from '@/lib/reservations/reservations-service';
 import { getSections, getTablesForPartySize } from '@/lib/reservations/table-management-service';
+import {
+  sendReservationNotification,
+  scheduleReminders,
+  cancelScheduledNotifications,
+} from '@/lib/notifications/notification-dispatcher';
+import { getOperatingHours, isTimeWithinHours } from '@/lib/reservations/hours-utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -268,6 +274,23 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Validate operating hours
+    const hours = await getOperatingHours(locationId, reservationDate);
+
+    if (hours.isClosed) {
+      return NextResponse.json(
+        { error: 'We are closed on this date. Please select another date.' },
+        { status: 400 }
+      );
+    }
+
+    if (!isTimeWithinHours(reservationTime, hours)) {
+      return NextResponse.json(
+        { error: `Reservations are available between ${hours.open} and ${hours.close}` },
+        { status: 400 }
+      );
+    }
+
     // Check slot availability
     const isAvailable = await checkSlotAvailability(
       locationId,
@@ -305,6 +328,25 @@ export async function POST(request: NextRequest) {
       autoConfirmed = true;
     }
 
+    // Wire notification flow - send confirmation and schedule reminders
+    try {
+      await sendReservationNotification({
+        reservationId: reservation.id,
+        type: 'reservation_confirmed',
+        priority: 5,
+        locale: guestLocale || 'en',
+      });
+
+      await scheduleReminders(
+        reservation.id,
+        reservation.reservation_date,
+        reservation.reservation_time
+      );
+    } catch (notifError) {
+      // Don't fail the reservation if notification fails - log and continue
+      console.error('Notification error (non-blocking):', notifError);
+    }
+
     return NextResponse.json({
       success: true,
       reservation: {
@@ -324,6 +366,15 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Reserve POST error:', error);
     const message = error instanceof Error ? error.message : 'Unknown error';
+
+    // Handle specific error cases
+    if (message.includes('SLOT_FULL')) {
+      return NextResponse.json(
+        { error: 'This time slot is no longer available. Please choose another time.' },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
@@ -353,6 +404,18 @@ export async function DELETE(request: NextRequest) {
 
     // Cancel the reservation
     await cancelReservation(reservation.id, reason || 'Cancelled by guest');
+
+    // Cancel scheduled notifications and send cancellation notice
+    try {
+      await cancelScheduledNotifications(reservation.id);
+      await sendReservationNotification({
+        reservationId: reservation.id,
+        type: 'reservation_cancelled',
+        priority: 5,
+      });
+    } catch (notifError) {
+      console.error('Cancellation notification error (non-blocking):', notifError);
+    }
 
     return NextResponse.json({
       success: true,

@@ -1576,6 +1576,409 @@ export const KB_SECTIONS: KBSection[] = [
   },
 
   // ============================================================
+  // RESERVATIONS
+  // ============================================================
+  {
+    id: 'reservations',
+    title: 'Reservations',
+    icon: '📅',
+    pages: [
+      {
+        id: 'reservations-calendar',
+        path: '/reservations',
+        title: 'Reservations Calendar',
+        purpose:
+          'Manage all restaurant reservations. View bookings in calendar format, filter by status, and handle walk-ins and phone reservations.',
+        navigation: ['Sidebar > Reservations', 'URL: /reservations'],
+        whatYouSee: [
+          {
+            title: 'Calendar Views',
+            items: [
+              {
+                label: 'Day View',
+                description: 'Hourly timeline for single day, best for busy days',
+              },
+              {
+                label: 'Week View',
+                description: 'Overview of the week, good for planning and seeing patterns',
+              },
+              {
+                label: 'Month View',
+                description: 'Monthly overview with daily booking counts and highlights',
+              },
+            ],
+          },
+          {
+            title: 'Reservation Cards',
+            items: [
+              { label: 'Guest Name', description: 'Name and party size' },
+              { label: 'Time Slot', description: 'Reservation time and duration' },
+              { label: 'Table', description: 'Assigned table number' },
+              {
+                label: 'Status Badge',
+                description: 'Pending, Confirmed, Seated, Completed, No-Show, Cancelled',
+              },
+              { label: 'Notes', description: 'Special requests or dietary requirements' },
+            ],
+          },
+          {
+            title: 'Filters',
+            items: [
+              { label: 'Status Filter', description: 'Show only specific statuses' },
+              { label: 'Table Filter', description: 'Filter by assigned table' },
+              { label: 'Search', description: 'Search by guest name, phone, or email' },
+            ],
+          },
+          {
+            title: 'Quick Stats',
+            items: [
+              { label: "Today's Reservations", description: 'Total bookings for today' },
+              { label: 'Covers', description: 'Total guests expected' },
+              { label: 'Availability', description: 'Remaining capacity' },
+            ],
+          },
+        ],
+        actions: [
+          {
+            name: 'New Reservation',
+            icon: '➕',
+            description: 'Create reservation for walk-in or phone booking',
+          },
+          { name: 'View Details', icon: '👁️', description: 'Open full reservation details' },
+          {
+            name: 'Edit',
+            icon: '✏️',
+            description: 'Modify reservation time, party size, or table',
+          },
+          { name: 'Confirm', icon: '✅', description: 'Mark as confirmed' },
+          { name: 'Seat', icon: '🪑', description: 'Mark guest as seated' },
+          { name: 'Complete', icon: '🏁', description: 'Mark as completed when guest leaves' },
+          { name: 'No-Show', icon: '❌', description: 'Mark as no-show after grace period' },
+          { name: 'Cancel', icon: '🚫', description: 'Cancel reservation' },
+          { name: 'Floor Plan', icon: '🗺️', description: 'Open floor plan view' },
+        ],
+        workflows: [
+          {
+            title: 'Create reservation from phone call',
+            steps: [
+              'Click "New Reservation" button',
+              'Enter guest name and phone number',
+              'Select date and time',
+              'Enter party size',
+              'System suggests available tables',
+              'Select table or let system auto-assign',
+              'Add any notes (dietary, occasion, preferences)',
+              'Save reservation',
+              'Optionally send confirmation SMS/email',
+            ],
+          },
+          {
+            title: 'Seat a reservation',
+            steps: [
+              'Guest arrives and gives name',
+              'Find reservation in calendar or search',
+              'Verify party size and any special requests',
+              'Click "Seat" to mark as seated',
+              'Timer starts for table turnover tracking',
+            ],
+          },
+          {
+            title: 'Complete reservation',
+            steps: [
+              'Guest finishes dining and pays',
+              'Find reservation (filter by "Seated")',
+              'Click "Complete"',
+              'Reservation moves to completed status',
+              'Table becomes available for next reservation',
+            ],
+          },
+          {
+            title: 'Handle no-show',
+            steps: [
+              'Grace period expires (usually 15 min)',
+              'Find reservation still showing as "Confirmed"',
+              'Click "No-Show"',
+              'System records no-show for guest history',
+              'Table becomes available for walk-ins',
+            ],
+          },
+          {
+            title: 'Modify existing reservation',
+            steps: [
+              'Find reservation in calendar',
+              'Click "Edit"',
+              'Change time, party size, or table as needed',
+              'Check table availability for new time',
+              'Save changes',
+              'Optionally notify guest of change',
+            ],
+          },
+          {
+            title: 'Check daily capacity',
+            steps: [
+              'Switch to Day view',
+              'Review quick stats for total reservations',
+              'Identify peak times in timeline',
+              'Plan staffing accordingly',
+              'Block times if needed for private events',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'How do I see all reservations for today?',
+            a: 'Switch to Day view (click "Day" button) and select today\'s date. All reservations appear on the timeline.',
+          },
+          {
+            q: 'How do I find a specific guest?',
+            a: 'Use the search bar at the top. Search by name, phone number, or email.',
+          },
+          {
+            q: 'What do the status colors mean?',
+            a: 'Yellow = Pending (not confirmed), Green = Confirmed, Blue = Seated, Gray = Completed, Red = No-Show, Strikethrough = Cancelled.',
+          },
+          {
+            q: 'How do I reassign a table?',
+            a: 'Click on the reservation, then Edit. Select a different table from the dropdown. System shows only available tables for that time.',
+          },
+          {
+            q: 'Can I block times for private events?',
+            a: 'Yes, create a special reservation marked as "Private Event" with the entire venue or specific tables.',
+          },
+          {
+            q: 'How does overbooking protection work?',
+            a: 'System prevents double-booking same table. When adding new reservation, only available tables are shown.',
+          },
+          {
+            q: 'Where do online reservations appear?',
+            a: 'Online bookings from your website automatically appear in the calendar with "Online" source tag.',
+          },
+          {
+            q: 'How do I track repeat guests?',
+            a: 'Click on guest name to see their history: visit count, preferences, and any notes from previous visits.',
+          },
+        ],
+        tips: [
+          'Use Week view on Mondays to plan staffing for the week',
+          'Filter by "Pending" status each morning to follow up on unconfirmed reservations',
+          'Add notes about dietary restrictions to help kitchen prepare',
+          'Mark VIP guests so staff can provide special attention',
+          'Check no-show history before accepting large party reservations',
+          "Use Day view with Table filter to see a specific table's bookings",
+          'Set up SMS confirmations to reduce no-show rate',
+        ],
+      },
+      {
+        id: 'reservations-floor-plan',
+        path: '/reservations/floor-plan',
+        title: 'Floor Plan Editor',
+        purpose:
+          'Design and manage your restaurant floor plan. Add, position, and configure tables for accurate reservation management and visual seating.',
+        navigation: [
+          'Sidebar > Reservations > Floor Plan',
+          'From /reservations click "Floor Plan" button',
+          'URL: /reservations/floor-plan',
+        ],
+        whatYouSee: [
+          {
+            title: 'Canvas Area',
+            items: [
+              {
+                label: 'Floor Plan Grid',
+                description: 'Visual representation of your restaurant layout',
+              },
+              { label: 'Tables', description: 'Draggable table shapes with numbers and capacity' },
+              { label: 'Walls/Dividers', description: 'Structural elements and room dividers' },
+              {
+                label: 'Zones',
+                description: 'Named areas like "Patio", "Main Room", "Private Dining"',
+              },
+            ],
+          },
+          {
+            title: 'Toolbar',
+            items: [
+              { label: 'Edit Mode Toggle', description: 'Switch between view mode and edit mode' },
+              { label: 'Add Table', description: 'Add new tables of various shapes' },
+              { label: 'Add Zone', description: 'Create named areas' },
+              { label: 'Zoom', description: 'Zoom in/out of floor plan' },
+              { label: 'Undo/Redo', description: 'Revert or repeat changes' },
+            ],
+          },
+          {
+            title: 'Table Shapes',
+            items: [
+              { label: 'Round', description: 'Circle tables, typically 2-4 seats' },
+              { label: 'Square', description: 'Square tables, typically 4 seats' },
+              { label: 'Rectangle', description: 'Rectangular tables, 4-8 seats' },
+              { label: 'Booth', description: 'U-shaped booths, 4-6 seats' },
+              { label: 'Bar', description: 'Bar seating positions' },
+            ],
+          },
+          {
+            title: 'Table Properties Panel',
+            items: [
+              { label: 'Table Number', description: 'Unique identifier displayed on table' },
+              { label: 'Capacity', description: 'Minimum and maximum seats' },
+              { label: 'Zone Assignment', description: 'Which area this table belongs to' },
+              { label: 'Combinable', description: 'Can be combined with adjacent tables' },
+              { label: 'Reservable', description: 'Available for reservations or service-only' },
+            ],
+          },
+          {
+            title: 'Live Status Overlay',
+            items: [
+              { label: 'Available', description: 'Green - Table is free' },
+              { label: 'Reserved', description: 'Yellow - Has upcoming reservation' },
+              { label: 'Occupied', description: 'Red - Currently seated' },
+              { label: 'Blocked', description: 'Gray - Not available' },
+            ],
+          },
+        ],
+        actions: [
+          { name: 'Toggle Edit Mode', icon: '✏️', description: 'Enter/exit floor plan editing' },
+          { name: 'Add Round Table', icon: '⭕', description: 'Add circular table' },
+          { name: 'Add Square Table', icon: '⬜', description: 'Add square table' },
+          { name: 'Add Rectangle Table', icon: '📏', description: 'Add rectangular table' },
+          { name: 'Add Booth', icon: '🛋️', description: 'Add booth seating' },
+          { name: 'Add Zone', icon: '🏷️', description: 'Create named area' },
+          { name: 'Resize Table', icon: '↔️', description: 'Change table size' },
+          { name: 'Rotate Table', icon: '🔄', description: 'Rotate table orientation' },
+          { name: 'Delete', icon: '🗑️', description: 'Remove selected element' },
+          { name: 'Duplicate', icon: '📋', description: 'Copy selected table' },
+          { name: 'Save Layout', icon: '💾', description: 'Save floor plan changes' },
+          { name: 'Reset', icon: '↩️', description: 'Discard unsaved changes' },
+        ],
+        workflows: [
+          {
+            title: 'Initial floor plan setup',
+            steps: [
+              'Click "Edit Mode" to enable editing',
+              'Add zones first (Main Room, Patio, Bar, etc.)',
+              'Add tables to each zone',
+              'Position tables by dragging',
+              'Set capacity for each table',
+              'Assign table numbers',
+              'Mark combinable tables',
+              'Save layout',
+            ],
+          },
+          {
+            title: 'Add a new table',
+            steps: [
+              'Enter Edit Mode',
+              'Click "Add Table" and select shape',
+              'Click on canvas to place table',
+              'Drag to position precisely',
+              'Set table number in properties panel',
+              'Set min/max capacity',
+              'Assign to zone',
+              'Save changes',
+            ],
+          },
+          {
+            title: 'Resize a table',
+            steps: [
+              'Enter Edit Mode',
+              'Click on table to select',
+              'Drag corner handles to resize',
+              'Or use properties panel for exact dimensions',
+              'Update capacity if size changed significantly',
+              'Save changes',
+            ],
+          },
+          {
+            title: 'Rotate a table',
+            steps: [
+              'Enter Edit Mode',
+              'Click on table to select',
+              'Use rotation handle (circle at top)',
+              'Or click Rotate button for 90° increments',
+              'Useful for rectangular tables along walls',
+              'Save changes',
+            ],
+          },
+          {
+            title: 'Create combinable table group',
+            steps: [
+              'Position tables adjacent to each other',
+              'Select first table, enable "Combinable" in properties',
+              'Select adjacent table, also enable "Combinable"',
+              'When reserving, system can combine for larger parties',
+              'Combined capacity = sum of individual capacities',
+            ],
+          },
+          {
+            title: 'Use floor plan for seating (view mode)',
+            steps: [
+              'Exit Edit Mode (view mode is default)',
+              'See real-time table status (green/yellow/red)',
+              'Click available table to create reservation',
+              'Click occupied table to see current guest details',
+              'Use for walk-in seating decisions',
+            ],
+          },
+          {
+            title: 'Modify existing layout for event',
+            steps: [
+              'Enter Edit Mode',
+              'Rearrange tables for special configuration',
+              'Add temporary tables if needed',
+              'Mark some tables as "Blocked" if reserved for event',
+              'Save as temporary layout',
+              'Revert to standard layout after event',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'How do I enter edit mode?',
+            a: 'Click the "Edit Mode" toggle in the toolbar. The background changes to show edit grid, and drag handles appear on elements.',
+          },
+          {
+            q: "Why can't I move a table?",
+            a: 'Make sure Edit Mode is enabled. In view mode, clicking tables shows their status/reservations instead of allowing movement.',
+          },
+          {
+            q: "What's the difference between zones and tables?",
+            a: 'Zones are named areas (Patio, VIP Room). Tables are individual seating units within zones. Zones help organize and filter reservations.',
+          },
+          {
+            q: 'How does table combining work?',
+            a: 'Mark adjacent tables as "Combinable". For large parties, system automatically suggests combining. Combined tables appear as one unit during reservation.',
+          },
+          {
+            q: 'Can I have multiple floor plans?',
+            a: 'Yes, create different layouts for different occasions (normal, weekend, private event). Switch between saved layouts.',
+          },
+          {
+            q: 'How do I remove a table temporarily?',
+            a: 'Instead of deleting, mark it as "Not Reservable" or "Blocked". It stays on the floor plan but won\'t be assigned to reservations.',
+          },
+          {
+            q: 'What do the colors mean in view mode?',
+            a: 'Green = Available, Yellow = Reserved (upcoming), Red = Occupied (seated), Gray = Blocked/Unavailable.',
+          },
+          {
+            q: 'Can I undo changes?',
+            a: 'Yes, use Undo button (Ctrl+Z) while in Edit Mode. Undo works for moves, additions, deletions. Save to keep changes permanently.',
+          },
+        ],
+        tips: [
+          'Set up your floor plan before creating reservations for accurate table management',
+          'Use zones to separate indoor/outdoor or different sections for easier filtering',
+          'Table numbers should match physical table markers for staff ease',
+          'Mark bar seats as lower capacity (1-2) for accurate counting',
+          'Enable "Combinable" for all tables that can physically be pushed together',
+          'Use view mode during service for quick visual of restaurant status',
+          'Create a "Private Event" layout and save it for easy reuse',
+          'Position tables to reflect actual spacing for realistic walk-through',
+        ],
+      },
+    ],
+  },
+
+  // ============================================================
   // PARTNERSHIPS
   // ============================================================
   {

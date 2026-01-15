@@ -13,6 +13,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import { encryptCredentials, isEncryptionConfigured } from '@/lib/security/credentials-encryption';
 
 interface ChannelStatus {
   isEnabled: boolean;
@@ -94,9 +95,15 @@ export async function PUT(request: NextRequest) {
       .eq('channel_type', channel)
       .single();
 
-    // Encrypt credentials (in production, use proper encryption)
-    // For now, we'll store as JSON - in production use Supabase Vault or similar
-    const encryptedCredentials = JSON.stringify(credentials);
+    // Encrypt credentials with AES encryption
+    // Falls back to JSON if CREDENTIALS_ENCRYPTION_KEY is not set (dev only)
+    let encryptedCredentials: string;
+    if (isEncryptionConfigured()) {
+      encryptedCredentials = encryptCredentials(credentials);
+    } else {
+      console.warn('CREDENTIALS_ENCRYPTION_KEY not set - storing as plain JSON (dev only)');
+      encryptedCredentials = JSON.stringify(credentials);
+    }
 
     if (existing) {
       // Update existing

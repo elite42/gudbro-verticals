@@ -5,9 +5,15 @@
  * GET /api/wallet?action=transactions&walletId - Get transactions
  * GET /api/wallet?action=tiers&merchantId - Get bonus tiers
  * POST /api/wallet - Create top-up or use wallet
+ *
+ * Security: All endpoints require authentication.
+ * - Users can access their own wallet data
+ * - Merchant staff can access customer wallets within their merchant
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getSession } from '@/lib/supabase-server';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import {
   getWalletBalance,
   getWalletTransactions,
@@ -22,8 +28,32 @@ import {
   type WalletTransactionType,
 } from '@/lib/wallet-service';
 
+/**
+ * Check if user has merchant access (staff or admin role)
+ */
+async function hasMerchantAccess(userId: string, merchantId: string): Promise<boolean> {
+  const supabase = getSupabaseAdmin();
+
+  const { data } = await supabase
+    .from('account_roles')
+    .select('role')
+    .eq('account_id', userId)
+    .eq('merchant_id', merchantId)
+    .in('role', ['admin', 'manager', 'staff'])
+    .maybeSingle();
+
+  return !!data;
+}
+
 export async function GET(request: NextRequest) {
   try {
+    // Auth check - require session for all wallet operations
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const userId = session.user.id;
+
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
     const accountId = searchParams.get('accountId');
@@ -97,6 +127,14 @@ export async function GET(request: NextRequest) {
 
     // Get wallet balance (default action)
     if (accountId && merchantId) {
+      // Access check: must be wallet owner OR have merchant access
+      if (accountId !== userId) {
+        const hasAccess = await hasMerchantAccess(userId, merchantId);
+        if (!hasAccess) {
+          return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        }
+      }
+
       const balance = await getWalletBalance(accountId, merchantId);
 
       if (!balance) {
@@ -124,8 +162,24 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Auth check - require session for all wallet operations
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const userId = session.user.id;
+
     const body = await request.json();
-    const { action } = body;
+    const { action, merchantId } = body;
+
+    // For write operations, verify user has merchant access
+    // (customers can't self-topup via this API - they use Stripe checkout)
+    if (merchantId) {
+      const hasAccess = await hasMerchantAccess(userId, merchantId);
+      if (!hasAccess) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      }
+    }
 
     // Create top-up session (for Stripe checkout)
     if (action === 'create-session') {

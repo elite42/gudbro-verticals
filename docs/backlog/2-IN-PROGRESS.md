@@ -28,7 +28,9 @@
 - Notifiche multi-canale (Email, Push, WhatsApp, Telegram, LINE, Zalo)
 - Stripe + Cash payments
 
-**Sprint corrente:** Sprint 13 - Backoffice UI
+**Sprint corrente:** Sprint 13 - ReservationCalendar UI
+
+**Sprint 12.5 completato** - Critical fixes implementati (notifications, security, business logic).
 
 **Migrations completate:**
 
@@ -94,8 +96,64 @@
 - ✅ API routes for messaging channel management
 - ⏸️ WeChat in standby (richiede business verification cinese)
 
-**Prossimi sprint:**
+**Sprint 12.5 - Critical Fixes (from Audit):**
 
-- Sprint 13-14: Backoffice UI (ReservationCalendar, FloorPlanEditor)
-- TODO: Webhook handlers for customer linking (Telegram, LINE, Zalo, Kakao)
-- TODO: Integrate messaging channels setup into onboarding flow
+_Priority 1: Notification Flow (~4h)_ ✅ **COMPLETATO**
+
+- [x] Call sendReservationNotification() in createReservation()
+- [x] Call scheduleReminders() after reservation confirmed
+- [x] Setup Vercel CRON for /api/notifications/process
+
+_Priority 2: Security Fixes (~6h)_ ✅ **COMPLETATO**
+
+- [x] Encrypt credentials with crypto-js (AES encryption)
+- [x] Add auth check on wallet API endpoints
+- [x] Fix RLS policy on reservations (atomic function + restrictive policy)
+
+_Priority 3: Business Logic (~8h)_ ✅ **COMPLETATO**
+
+- [x] Atomic reservation creation with FOR UPDATE lock (prevent overbooking)
+- [x] Timezone handling utilities + migration
+- [x] Operating hours validation before booking
+
+_Priority 4: Customer Channel Linking (~8h)_ ⏸️ **DEFERRED**
+
+- [ ] Webhook endpoints for Telegram/WhatsApp bot linking
+- [ ] Customer preferences UI
+- [ ] Working QR code generation
+
+**Sprint 12.5 - New Files/Migrations:**
+
+- ✅ `vercel.json` - CRON job per notification processor (ogni 5 min)
+- ✅ `lib/security/credentials-encryption.ts` - AES encryption per API credentials
+- ✅ `lib/reservations/timezone-utils.ts` - Timezone conversion utilities
+- ✅ `lib/reservations/hours-utils.ts` - Operating hours validation
+- ✅ Migration: `fix_reservation_rls_policy` - Policy piu restrittiva
+- ✅ Migration: `overbooking_prevention_atomic_create` - Funzione atomica con row locking
+- ✅ Migration: `reservation_timezone_support` - Colonne timezone
+
+**Sprint 13 - ReservationCalendar UI:** ✅ COMPLETATO
+
+- ✅ `components/reservations/ReservationCard.tsx` - Reservation display card with status badges
+- ✅ `components/reservations/CalendarHeader.tsx` - Date navigation, view mode toggle
+- ✅ `components/reservations/DayView.tsx` - Hourly grid with time slots
+- ✅ `components/reservations/WeekView.tsx` - 7-day week view
+- ✅ `components/reservations/MonthView.tsx` - Calendar month grid
+- ✅ `components/reservations/ReservationFilters.tsx` - Status, section, party size filters
+- ✅ `components/reservations/ReservationDialog.tsx` - Create/edit modal form
+- ✅ `components/reservations/ReservationCalendar.tsx` - Main calendar component
+- ✅ `app/(dashboard)/reservations/page.tsx` - Reservations backoffice page
+
+**Sprint 14 - FloorPlanEditor UI:** ✅ COMPLETATO
+
+- ✅ `components/reservations/TableShape.tsx` - Draggable table with resize/rotate
+- ✅ `components/reservations/FloorPlanToolbar.tsx` - Add table, zoom, edit toggle
+- ✅ `components/reservations/TableDialog.tsx` - Table properties editor
+- ✅ `components/reservations/FloorPlanEditor.tsx` - Main floor plan canvas
+- ✅ `app/(dashboard)/reservations/floor-plan/page.tsx` - Floor plan backoffice page
+
+**Next Steps:**
+
+- Sprint 15: Testing & Polish
+- Integrate messaging channels setup into onboarding flow
+- Priority 4 customer channel linking (quando serve)

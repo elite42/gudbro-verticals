@@ -18,6 +18,11 @@ import {
   addHistoryEntry,
   type ReservationStatus,
 } from '@/lib/reservations/reservations-service';
+import {
+  sendReservationNotification,
+  scheduleReminders,
+  cancelScheduledNotifications,
+} from '@/lib/notifications/notification-dispatcher';
 
 export const dynamic = 'force-dynamic';
 
@@ -250,6 +255,24 @@ export async function POST(request: NextRequest) {
           notes: notes,
         });
 
+        // Wire notification flow - send confirmation and schedule reminders
+        try {
+          await sendReservationNotification({
+            reservationId: reservation.id,
+            type: 'reservation_confirmed',
+            priority: 5,
+            locale: guestLocale || 'en',
+          });
+
+          await scheduleReminders(
+            reservation.id,
+            reservation.reservation_date,
+            reservation.reservation_time
+          );
+        } catch (notifError) {
+          console.error('Notification error (non-blocking):', notifError);
+        }
+
         return NextResponse.json({
           success: true,
           reservation,
@@ -272,6 +295,31 @@ export async function POST(request: NextRequest) {
           cancellationReason,
         });
 
+        // Send notification based on status change
+        try {
+          if (status === 'confirmed') {
+            await sendReservationNotification({
+              reservationId,
+              type: 'reservation_confirmed',
+              priority: 5,
+            });
+            await scheduleReminders(
+              reservationId,
+              reservation.reservation_date,
+              reservation.reservation_time
+            );
+          } else if (status === 'cancelled') {
+            await cancelScheduledNotifications(reservationId);
+            await sendReservationNotification({
+              reservationId,
+              type: 'reservation_cancelled',
+              priority: 5,
+            });
+          }
+        } catch (notifError) {
+          console.error('Status change notification error (non-blocking):', notifError);
+        }
+
         return NextResponse.json({
           success: true,
           reservation,
@@ -290,6 +338,18 @@ export async function POST(request: NextRequest) {
         }
 
         const reservation = await cancelReservation(reservationId, reason, cancelledBy);
+
+        // Cancel scheduled notifications and send cancellation notice
+        try {
+          await cancelScheduledNotifications(reservationId);
+          await sendReservationNotification({
+            reservationId,
+            type: 'reservation_cancelled',
+            priority: 5,
+          });
+        } catch (notifError) {
+          console.error('Cancellation notification error (non-blocking):', notifError);
+        }
 
         return NextResponse.json({
           success: true,

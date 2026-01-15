@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import { decryptCredentials } from '@/lib/security/credentials-encryption';
 import { verifyTelegramBot } from '@/lib/notifications/providers/telegram-provider';
 import { verifyWhatsAppBusiness } from '@/lib/notifications/providers/whatsapp-provider';
 import { verifyLineBot } from '@/lib/notifications/providers/line-provider';
@@ -50,12 +51,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Decrypt credentials (in production, use proper decryption)
+    // Decrypt credentials using AES decryption (handles legacy JSON too)
     let credentials: Record<string, string>;
     try {
-      credentials = JSON.parse(channelConfig.credentials_encrypted);
-    } catch {
-      return NextResponse.json({ error: 'Invalid credentials format' }, { status: 500 });
+      credentials = decryptCredentials(channelConfig.credentials_encrypted);
+    } catch (decryptError) {
+      console.error('Decryption error:', decryptError);
+      return NextResponse.json(
+        { error: 'Invalid credentials format or decryption failed' },
+        { status: 500 }
+      );
     }
 
     // Test connection based on channel type
