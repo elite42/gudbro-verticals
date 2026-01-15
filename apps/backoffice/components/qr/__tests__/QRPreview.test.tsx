@@ -81,7 +81,7 @@ describe('QRPreview', () => {
         foreground: '#FF0000',
         background: '#00FF00',
       },
-      pattern: 'square' as const,
+      pattern: 'squares' as const,
     };
 
     render(<QRPreview content="https://example.com" design={customDesign} />);

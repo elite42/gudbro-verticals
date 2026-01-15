@@ -171,7 +171,7 @@ export default function QRCodesPage() {
       const content = buildQRContent(qr, { baseUrl: 'https://go.gudbro.com' });
       const dataUrl = await generateQRDataUrl(content, {
         width: 512,
-        design: qr.design,
+        design: qr.design ?? undefined,
       });
 
       const link = document.createElement('a');
@@ -408,7 +408,7 @@ export default function QRCodesPage() {
                 <div className="flex items-center justify-center rounded-t-lg bg-gray-50 p-3">
                   <QRPreview
                     content={buildQRContent(qr, { baseUrl: 'https://go.gudbro.com' })}
-                    design={qr.design}
+                    design={qr.design ?? undefined}
                     size={100}
                   />
                 </div>

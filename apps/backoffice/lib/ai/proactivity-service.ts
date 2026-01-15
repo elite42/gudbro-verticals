@@ -360,23 +360,30 @@ export async function checkAlerts(merchantId: string, locationId?: string): Prom
   // Check for high-performing QR codes (success alert)
   try {
     const qrStats = await getMerchantQRStats(merchantId);
-    const sourcePerformance = await getMerchantSourcePerformance(merchantId);
+    const { bySource } = await getMerchantSourcePerformance(merchantId);
 
-    if (sourcePerformance.length >= 2) {
+    // Convert bySource record to array for analysis
+    const sourceArray = Object.entries(bySource).map(([source, data]) => ({
+      source,
+      totalScans: data.totalScans,
+      qrCount: data.qrCount,
+    }));
+
+    if (sourceArray.length >= 2) {
       // Compare top source with others
-      const sorted = [...sourcePerformance].sort((a, b) => b.total_scans - a.total_scans);
+      const sorted = sourceArray.sort((a, b) => b.totalScans - a.totalScans);
       const topSource = sorted[0];
       const avgOthers =
-        sorted.slice(1).reduce((sum, s) => sum + s.total_scans, 0) / (sorted.length - 1);
+        sorted.slice(1).reduce((sum, s) => sum + s.totalScans, 0) / (sorted.length - 1);
 
       // If top source has 50%+ more scans than average of others
-      if (topSource.total_scans > avgOthers * 1.5 && topSource.total_scans > 10) {
+      if (topSource.totalScans > avgOthers * 1.5 && topSource.totalScans > 10) {
         alerts.push({
           id: crypto.randomUUID(),
           type: 'success',
           category: 'qr',
           title: 'Top Performing Traffic Source',
-          message: `${topSource.source?.replace('_', ' ') || 'Your top source'} is bringing ${topSource.total_scans} visitors, outperforming other channels by ${Math.round((topSource.total_scans / avgOthers - 1) * 100)}%.`,
+          message: `${topSource.source.replace('_', ' ')} is bringing ${topSource.totalScans} visitors, outperforming other channels by ${Math.round((topSource.totalScans / avgOthers - 1) * 100)}%.`,
           actionable: true,
           suggestedAction:
             'Consider investing more in this channel or creating a dedicated promotion',
@@ -387,17 +394,13 @@ export async function checkAlerts(merchantId: string, locationId?: string): Prom
 
       // Check if one source significantly underperforms
       const lowestSource = sorted[sorted.length - 1];
-      if (
-        lowestSource.total_scans < avgOthers * 0.3 &&
-        avgOthers > 5 &&
-        lowestSource.qr_count > 0
-      ) {
+      if (lowestSource.totalScans < avgOthers * 0.3 && avgOthers > 5 && lowestSource.qrCount > 0) {
         alerts.push({
           id: crypto.randomUUID(),
           type: 'info',
           category: 'qr',
           title: 'Traffic Source Comparison',
-          message: `${lowestSource.source?.replace('_', ' ') || 'One source'} is bringing ${lowestSource.total_scans} visitors while ${topSource.source?.replace('_', ' ')} brings ${topSource.total_scans}.`,
+          message: `${lowestSource.source.replace('_', ' ')} is bringing ${lowestSource.totalScans} visitors while ${topSource.source.replace('_', ' ')} brings ${topSource.totalScans}.`,
           actionable: true,
           suggestedAction: 'Consider repositioning or promoting the underperforming QR code',
           priority: 4,
@@ -407,7 +410,7 @@ export async function checkAlerts(merchantId: string, locationId?: string): Prom
     }
 
     // Alert if no QR codes created yet
-    if (qrStats.total_qr_codes === 0) {
+    if (qrStats.totalQRCodes === 0) {
       alerts.push({
         id: crypto.randomUUID(),
         type: 'info',

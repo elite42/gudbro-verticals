@@ -24,7 +24,7 @@ const COLOR_PRESETS = [
 ];
 
 const PATTERN_OPTIONS: { value: QRPattern; label: string }[] = [
-  { value: 'square', label: 'Square' },
+  { value: 'squares', label: 'Square' },
   { value: 'dots', label: 'Dots' },
   { value: 'rounded', label: 'Rounded' },
 ];

@@ -738,19 +738,24 @@ async function executeCreateQRBatch(
     const baseUrl = `https://menu.gudbro.com/${merchantSlug}`;
 
     if (params.context === 'table') {
-      // Create table QR codes using BulkCreateQRInput
+      // Create table QR codes - build array of inputs
       const count = params.count || 10;
       const startNum = params.start_number || 1;
 
-      const input = {
-        type: 'tables' as const,
-        table_count: count,
-        table_start: startNum,
-        destination_base_url: `${baseUrl}/menu`,
-        use_short_url: true,
-      };
+      const inputs = [];
+      for (let i = 0; i < count; i++) {
+        const tableNum = startNum + i;
+        inputs.push({
+          type: 'url' as const,
+          context: 'table' as const,
+          table_number: tableNum,
+          destination_url: `${baseUrl}/menu?table=${tableNum}`,
+          use_short_url: true,
+          title: `Table ${tableNum}`,
+        });
+      }
 
-      const qrCodes = await bulkCreateQRCodes(merchantId, input);
+      const qrCodes = await bulkCreateQRCodes(merchantId, inputs);
 
       return {
         success: true,
@@ -759,21 +764,17 @@ async function executeCreateQRBatch(
         data: { count: qrCodes.length, qrCodes },
       };
     } else if (params.context === 'external' && params.sources) {
-      // Create marketing QR codes for each source
-      const items = params.sources.map((source) => ({
-        title: `Marketing: ${source.replace('_', ' ')}`,
+      // Create marketing QR codes for each source - build array of inputs
+      const inputs = params.sources.map((source) => ({
+        type: 'url' as const,
+        context: 'external' as const,
         source: source as QRSource,
-        context: 'external' as QRContext,
+        destination_url: baseUrl,
+        use_short_url: true,
+        title: `Marketing: ${source.replace('_', ' ')}`,
       }));
 
-      const input = {
-        type: 'custom' as const,
-        items,
-        destination_base_url: baseUrl,
-        use_short_url: true,
-      };
-
-      const qrCodes = await bulkCreateQRCodes(merchantId, input);
+      const qrCodes = await bulkCreateQRCodes(merchantId, inputs);
 
       return {
         success: true,
@@ -1000,36 +1001,42 @@ async function executeAnalyzeQRPerformance(
         analysisResult = stats;
         message =
           `**QR Code Overview**\n\n` +
-          `- Total QR Codes: ${stats.total_qr_codes}\n` +
-          `- Active: ${stats.active_qr_codes}\n` +
-          `- Total Scans: ${stats.total_scans.toLocaleString()}\n` +
-          `- Scans Today: ${stats.scans_today}`;
+          `- Total QR Codes: ${stats.totalQRCodes}\n` +
+          `- Active: ${stats.activeQRCodes}\n` +
+          `- Total Scans: ${stats.totalScans.toLocaleString()}`;
         break;
       }
 
       case 'source_comparison': {
-        const sourcePerformance = await getMerchantSourcePerformance(merchantId);
-        analysisResult = sourcePerformance;
+        const { bySource } = await getMerchantSourcePerformance(merchantId);
+        analysisResult = bySource;
 
-        if (sourcePerformance.length === 0) {
+        // Convert bySource record to array for sorting
+        const sourceArray = Object.entries(bySource).map(([source, data]) => ({
+          source,
+          totalScans: data.totalScans,
+          qrCount: data.qrCount,
+        }));
+
+        if (sourceArray.length === 0) {
           message =
             'No traffic source data available yet. Create some marketing QR codes to start tracking!';
         } else {
-          const sorted = [...sourcePerformance].sort((a, b) => b.total_scans - a.total_scans);
+          const sorted = sourceArray.sort((a, b) => b.totalScans - a.totalScans);
           message =
             `**Traffic Source Comparison**\n\n` +
             sorted
               .map(
                 (s, i) =>
-                  `${i + 1}. **${s.source?.replace('_', ' ') || 'Unknown'}**: ${s.total_scans} scans (${s.qr_count} QR codes)`
+                  `${i + 1}. **${s.source.replace('_', ' ')}**: ${s.totalScans} scans (${s.qrCount} QR codes)`
               )
               .join('\n');
 
           if (sorted.length >= 2) {
             const top = sorted[0];
             const second = sorted[1];
-            const diff = top.total_scans - second.total_scans;
-            message += `\n\n${top.source?.replace('_', ' ')} is leading by ${diff} scans!`;
+            const diff = top.totalScans - second.totalScans;
+            message += `\n\n${top.source.replace('_', ' ')} is leading by ${diff} scans!`;
           }
         }
         break;

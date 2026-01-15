@@ -1,229 +1,55 @@
-// QR Codes Service
-// CRUD operations for QR codes using Supabase
+/**
+ * QR Code Service
+ * CRUD operations for QR codes
+ */
 
-import { supabase } from '@/lib/supabase';
-import {
-  QRCode,
-  QRScan,
-  CreateQRCodeInput,
-  UpdateQRCodeInput,
-  CreateQRScanInput,
-  BulkCreateQRInput,
-  QRCodeListOptions,
-  QRAnalyticsSummary,
-  QRSourcePerformance,
-  QRTimelineData,
-  QRDeviceBreakdown,
-  DEFAULT_QR_DESIGN,
-} from './qr-types';
+import { createClient } from '@supabase/supabase-js';
+import { QRCode, CreateQRCodeInput, UpdateQRCodeInput, ListQRCodesOptions } from './qr-types';
 
-// ============================================
-// SHORT CODE GENERATION
-// ============================================
+// Lazy init Supabase client
+let supabaseInstance: ReturnType<typeof createClient> | null = null;
 
-const SHORT_CODE_CHARS = 'abcdefghjkmnpqrstuvwxyz23456789'; // No confusing chars
+function getSupabase() {
+  if (supabaseInstance) return supabaseInstance;
 
-export function generateShortCode(length: number = 8): string {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Missing Supabase configuration');
+  }
+
+  supabaseInstance = createClient(supabaseUrl, supabaseKey);
+  return supabaseInstance;
+}
+
+/**
+ * Generate a unique short code for QR URLs
+ */
+function generateShortCode(): string {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';
-  for (let i = 0; i < length; i++) {
-    result += SHORT_CODE_CHARS.charAt(Math.floor(Math.random() * SHORT_CODE_CHARS.length));
+  for (let i = 0; i < 8; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return result;
 }
 
-async function generateUniqueShortCode(length: number = 8): Promise<string> {
-  const maxAttempts = 10;
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const code = generateShortCode(length);
-    const { data } = await supabase.from('qr_codes').select('id').eq('short_code', code).single();
-
-    if (!data) {
-      return code;
-    }
-  }
-  throw new Error('Could not generate unique short code');
-}
-
-// ============================================
-// CRUD OPERATIONS
-// ============================================
-
-export async function createQRCode(merchantId: string, input: CreateQRCodeInput): Promise<QRCode> {
-  // Validate based on type
-  if (input.type === 'url' && !input.destination_url) {
-    throw new Error('URL QR codes require a destination URL');
-  }
-  if (input.type === 'wifi' && (!input.wifi_ssid || !input.wifi_security)) {
-    throw new Error('WiFi QR codes require SSID and security type');
-  }
-
-  // Generate short code if using short URL
-  let shortCode: string | null = null;
-  if (input.type === 'url' && input.use_short_url) {
-    shortCode = await generateUniqueShortCode();
-  }
-
-  const qrData = {
-    merchant_id: merchantId,
-    type: input.type,
-
-    // URL fields
-    short_code: shortCode,
-    destination_url: input.destination_url,
-    use_short_url: input.use_short_url ?? false,
-    context: input.context,
-    source: input.source,
-    table_number: input.table_number,
-    event_id: input.event_id,
-
-    // WiFi fields
-    wifi_ssid: input.wifi_ssid,
-    wifi_password: input.wifi_password,
-    wifi_security: input.wifi_security,
-    wifi_hidden: input.wifi_hidden ?? false,
-
-    // Metadata
-    title: input.title,
-    description: input.description,
-
-    // Design (merge with defaults)
-    design: {
-      ...DEFAULT_QR_DESIGN,
-      ...input.design,
-      colors: {
-        ...DEFAULT_QR_DESIGN.colors,
-        ...(input.design?.colors || {}),
-      },
-    },
-
-    // Status
-    is_active: true,
-    expires_at: input.expires_at,
-    max_scans: input.max_scans,
-    total_scans: 0,
-  };
-
-  const { data, error } = await supabase.from('qr_codes').insert(qrData).select().single();
-
-  if (error) {
-    console.error('Error creating QR code:', error);
-    throw new Error(`Failed to create QR code: ${error.message}`);
-  }
-
-  return data as QRCode;
-}
-
-export async function getQRCode(id: string): Promise<QRCode | null> {
-  const { data, error } = await supabase.from('qr_codes').select('*').eq('id', id).single();
-
-  if (error) {
-    if (error.code === 'PGRST116') {
-      return null; // Not found
-    }
-    throw new Error(`Failed to get QR code: ${error.message}`);
-  }
-
-  return data as QRCode;
-}
-
-export async function getQRCodeByShortCode(shortCode: string): Promise<QRCode | null> {
-  const { data, error } = await supabase
-    .from('qr_codes')
-    .select('*')
-    .eq('short_code', shortCode)
-    .single();
-
-  if (error) {
-    if (error.code === 'PGRST116') {
-      return null;
-    }
-    throw new Error(`Failed to get QR code: ${error.message}`);
-  }
-
-  return data as QRCode;
-}
-
-export async function updateQRCode(id: string, input: UpdateQRCodeInput): Promise<QRCode> {
-  const updateData: Record<string, unknown> = {};
-
-  // Only include fields that are explicitly provided
-  if (input.title !== undefined) updateData.title = input.title;
-  if (input.description !== undefined) updateData.description = input.description;
-  if (input.is_active !== undefined) updateData.is_active = input.is_active;
-  if (input.expires_at !== undefined) updateData.expires_at = input.expires_at;
-  if (input.max_scans !== undefined) updateData.max_scans = input.max_scans;
-  if (input.destination_url !== undefined) updateData.destination_url = input.destination_url;
-  if (input.source !== undefined) updateData.source = input.source;
-
-  // WiFi updates
-  if (input.wifi_ssid !== undefined) updateData.wifi_ssid = input.wifi_ssid;
-  if (input.wifi_password !== undefined) updateData.wifi_password = input.wifi_password;
-  if (input.wifi_security !== undefined) updateData.wifi_security = input.wifi_security;
-  if (input.wifi_hidden !== undefined) updateData.wifi_hidden = input.wifi_hidden;
-
-  // Design update (merge with existing)
-  if (input.design) {
-    const existing = await getQRCode(id);
-    if (existing) {
-      updateData.design = {
-        ...existing.design,
-        ...input.design,
-        colors: {
-          ...(existing.design?.colors || DEFAULT_QR_DESIGN.colors),
-          ...(input.design.colors || {}),
-        },
-      };
-    }
-  }
-
-  const { data, error } = await supabase
-    .from('qr_codes')
-    .update(updateData)
-    .eq('id', id)
-    .select()
-    .single();
-
-  if (error) {
-    throw new Error(`Failed to update QR code: ${error.message}`);
-  }
-
-  return data as QRCode;
-}
-
-export async function deleteQRCode(id: string): Promise<void> {
-  const { error } = await supabase.from('qr_codes').delete().eq('id', id);
-
-  if (error) {
-    throw new Error(`Failed to delete QR code: ${error.message}`);
-  }
-}
-
-export async function toggleQRCodeActive(id: string, isActive: boolean): Promise<QRCode> {
-  return updateQRCode(id, { is_active: isActive });
-}
-
-// ============================================
-// LIST & FILTER
-// ============================================
-
-export interface QRCodeListResult {
-  data: QRCode[];
-  total: number;
-  page: number;
-  limit: number;
-  hasMore: boolean;
-}
-
+/**
+ * List QR codes for a merchant
+ */
 export async function listQRCodes(
   merchantId: string,
-  options: QRCodeListOptions = {}
-): Promise<QRCodeListResult> {
+  options: ListQRCodesOptions = {}
+): Promise<{ data: QRCode[]; count: number }> {
+  const supabase = getSupabase();
   const {
     filters = {},
-    page = 1,
-    limit = 20,
-    sort_by = 'created_at',
-    sort_order = 'desc',
+    limit = 50,
+    offset = 0,
+    orderBy = 'created_at',
+    orderDir = 'desc',
   } = options;
 
   let query = supabase
@@ -244,323 +70,312 @@ export async function listQRCodes(
   if (filters.is_active !== undefined) {
     query = query.eq('is_active', filters.is_active);
   }
-  if (filters.search) {
-    query = query.or(
-      `title.ilike.%${filters.search}%,description.ilike.%${filters.search}%,short_code.ilike.%${filters.search}%`
-    );
-  }
-  if (filters.created_after) {
-    query = query.gte('created_at', filters.created_after);
-  }
-  if (filters.created_before) {
-    query = query.lte('created_at', filters.created_before);
-  }
 
-  // Apply sorting
-  query = query.order(sort_by, { ascending: sort_order === 'asc' });
+  // Apply ordering
+  query = query.order(orderBy, { ascending: orderDir === 'asc' });
 
   // Apply pagination
-  const from = (page - 1) * limit;
-  const to = from + limit - 1;
-  query = query.range(from, to);
+  query = query.range(offset, offset + limit - 1);
 
   const { data, error, count } = await query;
 
   if (error) {
+    console.error('[QRService] List error:', error);
     throw new Error(`Failed to list QR codes: ${error.message}`);
   }
 
   return {
-    data: (data || []) as QRCode[],
-    total: count || 0,
-    page,
-    limit,
-    hasMore: (count || 0) > page * limit,
+    data: (data as QRCode[]) || [],
+    count: count || 0,
   };
 }
 
-// ============================================
-// BULK OPERATIONS
-// ============================================
+/**
+ * Get a single QR code by ID
+ */
+export async function getQRCode(id: string): Promise<QRCode | null> {
+  const supabase = getSupabase();
 
-export async function bulkCreateQRCodes(
+  const { data, error } = await supabase.from('qr_codes').select('*').eq('id', id).single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null; // Not found
+    console.error('[QRService] Get error:', error);
+    throw new Error(`Failed to get QR code: ${error.message}`);
+  }
+
+  return data as QRCode;
+}
+
+/**
+ * Create a new QR code
+ */
+export async function createQRCode(
   merchantId: string,
-  input: BulkCreateQRInput
-): Promise<QRCode[]> {
-  const qrCodes: CreateQRCodeInput[] = [];
+  input: Omit<CreateQRCodeInput, 'merchant_id'>
+): Promise<QRCode> {
+  const supabase = getSupabase();
 
-  if (input.type === 'tables' && input.table_count) {
-    const startNumber = input.table_start || 1;
-    for (let i = 0; i < input.table_count; i++) {
-      const tableNum = startNumber + i;
-      qrCodes.push({
-        type: 'url',
-        destination_url: `${input.destination_base_url}?table=${tableNum}`,
-        use_short_url: input.use_short_url,
-        context: 'table',
-        source: 'table',
-        table_number: tableNum,
-        title: `Table ${tableNum}`,
-        design: input.design,
-      });
-    }
-  } else if (input.type === 'custom' && input.items) {
-    for (const item of input.items) {
-      qrCodes.push({
-        type: 'url',
-        destination_url: input.destination_base_url,
-        use_short_url: input.use_short_url,
-        context: item.context,
-        source: item.source,
-        title: item.title,
-        design: input.design,
-      });
-    }
-  }
+  // Generate short code if using short URLs
+  const short_code = input.use_short_url !== false ? generateShortCode() : null;
 
-  // Create all QR codes
-  const results: QRCode[] = [];
-  for (const qrInput of qrCodes) {
-    const qr = await createQRCode(merchantId, qrInput);
-    results.push(qr);
-  }
-
-  return results;
-}
-
-export async function bulkDeleteQRCodes(ids: string[]): Promise<void> {
-  const { error } = await supabase.from('qr_codes').delete().in('id', ids);
-
-  if (error) {
-    throw new Error(`Failed to bulk delete QR codes: ${error.message}`);
-  }
-}
-
-export async function bulkToggleActive(ids: string[], isActive: boolean): Promise<void> {
-  const { error } = await supabase.from('qr_codes').update({ is_active: isActive }).in('id', ids);
-
-  if (error) {
-    throw new Error(`Failed to bulk update QR codes: ${error.message}`);
-  }
-}
-
-// ============================================
-// SCAN TRACKING
-// ============================================
-
-export async function recordQRScan(input: CreateQRScanInput): Promise<QRScan> {
-  const { data, error } = await supabase
-    .from('qr_scans')
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (supabase as any)
+    .from('qr_codes')
     .insert({
-      qr_code_id: input.qr_code_id,
-      ip_address: input.ip_address,
-      user_agent: input.user_agent,
-      device_type: input.device_type,
-      os: input.os,
-      browser: input.browser,
-      country: input.country,
-      city: input.city,
-      utm_source: input.utm_source,
-      utm_medium: input.utm_medium,
-      utm_campaign: input.utm_campaign,
-      utm_term: input.utm_term,
-      utm_content: input.utm_content,
-      referer: input.referer,
+      ...input,
+      merchant_id: merchantId,
+      short_code,
+      is_active: true,
+      total_scans: 0,
     })
     .select()
     .single();
 
   if (error) {
-    throw new Error(`Failed to record scan: ${error.message}`);
+    console.error('[QRService] Create error:', error);
+    throw new Error(`Failed to create QR code: ${error.message}`);
   }
 
-  return data as QRScan;
+  return data as QRCode;
 }
 
-// ============================================
-// ANALYTICS
-// ============================================
+/**
+ * Update a QR code
+ */
+export async function updateQRCode(id: string, input: UpdateQRCodeInput): Promise<QRCode> {
+  const supabase = getSupabase();
 
-export async function getQRAnalytics(qrCodeId: string): Promise<QRAnalyticsSummary> {
-  const { data, error } = await supabase.rpc('get_qr_analytics', {
-    p_qr_code_id: qrCodeId,
-  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (supabase as any)
+    .from('qr_codes')
+    .update({
+      ...input,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', id)
+    .select()
+    .single();
 
   if (error) {
+    console.error('[QRService] Update error:', error);
+    throw new Error(`Failed to update QR code: ${error.message}`);
+  }
+
+  return data as QRCode;
+}
+
+/**
+ * Toggle QR code active status
+ */
+export async function toggleQRCodeActive(id: string, is_active: boolean): Promise<QRCode> {
+  return updateQRCode(id, { is_active });
+}
+
+/**
+ * Delete a QR code
+ */
+export async function deleteQRCode(id: string): Promise<void> {
+  const supabase = getSupabase();
+
+  const { error } = await supabase.from('qr_codes').delete().eq('id', id);
+
+  if (error) {
+    console.error('[QRService] Delete error:', error);
+    throw new Error(`Failed to delete QR code: ${error.message}`);
+  }
+}
+
+/**
+ * Get QR code analytics
+ */
+export async function getQRCodeAnalytics(
+  qrCodeId: string,
+  options: { startDate?: string; endDate?: string } = {}
+): Promise<{
+  totalScans: number;
+  uniqueDevices: number;
+  byDevice: Record<string, number>;
+  byOS: Record<string, number>;
+  byBrowser: Record<string, number>;
+  byCountry: Record<string, number>;
+  timeline: { date: string; count: number }[];
+}> {
+  const supabase = getSupabase();
+
+  // Type for QR scan row (table not in generated types)
+  type QRScanRow = {
+    ip_address?: string;
+    device_type?: string;
+    os?: string;
+    browser?: string;
+    country?: string;
+    scanned_at?: string;
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let query = (supabase as any).from('qr_scans').select('*').eq('qr_code_id', qrCodeId);
+
+  if (options.startDate) {
+    query = query.gte('scanned_at', options.startDate);
+  }
+  if (options.endDate) {
+    query = query.lte('scanned_at', options.endDate);
+  }
+
+  const { data: scans, error } = (await query) as { data: QRScanRow[] | null; error: Error | null };
+
+  if (error) {
+    console.error('[QRService] Analytics error:', error);
     throw new Error(`Failed to get analytics: ${error.message}`);
   }
 
-  // Handle single row result
-  const result = Array.isArray(data) ? data[0] : data;
-  return result as QRAnalyticsSummary;
-}
+  const allScans = scans || [];
 
-export async function getMerchantSourcePerformance(
-  merchantId: string
-): Promise<QRSourcePerformance[]> {
-  const { data, error } = await supabase.rpc('get_merchant_qr_source_performance', {
-    p_merchant_id: merchantId,
+  // Calculate metrics
+  const byDevice: Record<string, number> = {};
+  const byOS: Record<string, number> = {};
+  const byBrowser: Record<string, number> = {};
+  const byCountry: Record<string, number> = {};
+  const byDate: Record<string, number> = {};
+  const uniqueIPs = new Set<string>();
+
+  allScans.forEach((scan) => {
+    if (scan.ip_address) uniqueIPs.add(scan.ip_address);
+
+    const device = scan.device_type || 'unknown';
+    byDevice[device] = (byDevice[device] || 0) + 1;
+
+    const os = scan.os || 'unknown';
+    byOS[os] = (byOS[os] || 0) + 1;
+
+    const browser = scan.browser || 'unknown';
+    byBrowser[browser] = (byBrowser[browser] || 0) + 1;
+
+    const country = scan.country || 'unknown';
+    byCountry[country] = (byCountry[country] || 0) + 1;
+
+    const date = scan.scanned_at?.split('T')[0] || 'unknown';
+    byDate[date] = (byDate[date] || 0) + 1;
   });
 
-  if (error) {
-    throw new Error(`Failed to get source performance: ${error.message}`);
-  }
-
-  return (data || []) as QRSourcePerformance[];
-}
-
-export async function getQRTimeline(
-  qrCodeId: string,
-  days: number = 30
-): Promise<QRTimelineData[]> {
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - days);
-
-  const { data, error } = await supabase
-    .from('qr_scans')
-    .select('scanned_at')
-    .eq('qr_code_id', qrCodeId)
-    .gte('scanned_at', startDate.toISOString())
-    .order('scanned_at', { ascending: true });
-
-  if (error) {
-    throw new Error(`Failed to get timeline: ${error.message}`);
-  }
-
-  // Group by date
-  const dateMap = new Map<string, number>();
-  for (const scan of data || []) {
-    const date = new Date(scan.scanned_at).toISOString().split('T')[0];
-    dateMap.set(date, (dateMap.get(date) || 0) + 1);
-  }
-
-  // Fill in missing dates
-  const result: QRTimelineData[] = [];
-  const current = new Date(startDate);
-  const today = new Date();
-
-  while (current <= today) {
-    const dateStr = current.toISOString().split('T')[0];
-    result.push({
-      date: dateStr,
-      scans: dateMap.get(dateStr) || 0,
-    });
-    current.setDate(current.getDate() + 1);
-  }
-
-  return result;
-}
-
-export async function getQRDeviceBreakdown(qrCodeId: string): Promise<QRDeviceBreakdown[]> {
-  const { data, error } = await supabase
-    .from('qr_scans')
-    .select('device_type')
-    .eq('qr_code_id', qrCodeId);
-
-  if (error) {
-    throw new Error(`Failed to get device breakdown: ${error.message}`);
-  }
-
-  // Count by device type
-  const counts = new Map<string, number>();
-  let total = 0;
-
-  for (const scan of data || []) {
-    const type = scan.device_type || 'unknown';
-    counts.set(type, (counts.get(type) || 0) + 1);
-    total++;
-  }
-
-  // Convert to breakdown array
-  const result: QRDeviceBreakdown[] = [];
-  for (const [device_type, count] of counts) {
-    result.push({
-      device_type: device_type as 'mobile' | 'tablet' | 'desktop',
-      count,
-      percentage: total > 0 ? Math.round((count / total) * 100) : 0,
-    });
-  }
-
-  // Sort by count descending
-  result.sort((a, b) => b.count - a.count);
-
-  return result;
-}
-
-// ============================================
-// MERCHANT STATS
-// ============================================
-
-export interface MerchantQRStats {
-  total_qr_codes: number;
-  active_qr_codes: number;
-  total_scans: number;
-  scans_today: number;
-  scans_this_week: number;
-  top_performing_qr?: QRCode;
-}
-
-export async function getMerchantQRStats(merchantId: string): Promise<MerchantQRStats> {
-  // Get QR codes with stats
-  const { data: qrCodes, error } = await supabase
-    .from('qr_codes')
-    .select('*')
-    .eq('merchant_id', merchantId);
-
-  if (error) {
-    throw new Error(`Failed to get merchant stats: ${error.message}`);
-  }
-
-  const codes = (qrCodes || []) as QRCode[];
-
-  // Calculate stats
-  const total = codes.length;
-  const active = codes.filter((qr) => qr.is_active).length;
-  const totalScans = codes.reduce((sum, qr) => sum + (qr.total_scans || 0), 0);
-
-  // Find top performer
-  const topPerformer = codes.reduce(
-    (top, qr) => (!top || qr.total_scans > top.total_scans ? qr : top),
-    null as QRCode | null
-  );
-
-  // Get today's and this week's scans
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const weekAgo = new Date();
-  weekAgo.setDate(weekAgo.getDate() - 7);
-
-  const qrIds = codes.map((qr) => qr.id);
-
-  let scansToday = 0;
-  let scansThisWeek = 0;
-
-  if (qrIds.length > 0) {
-    const { data: recentScans } = await supabase
-      .from('qr_scans')
-      .select('scanned_at')
-      .in('qr_code_id', qrIds)
-      .gte('scanned_at', weekAgo.toISOString());
-
-    for (const scan of recentScans || []) {
-      const scanDate = new Date(scan.scanned_at);
-      scansThisWeek++;
-      if (scanDate >= today) {
-        scansToday++;
-      }
-    }
-  }
+  // Create timeline
+  const timeline = Object.entries(byDate)
+    .map(([date, count]) => ({ date, count }))
+    .sort((a, b) => a.date.localeCompare(b.date));
 
   return {
-    total_qr_codes: total,
-    active_qr_codes: active,
-    total_scans: totalScans,
-    scans_today: scansToday,
-    scans_this_week: scansThisWeek,
-    top_performing_qr: topPerformer || undefined,
+    totalScans: allScans.length,
+    uniqueDevices: uniqueIPs.size,
+    byDevice,
+    byOS,
+    byBrowser,
+    byCountry,
+    timeline,
   };
 }
 
-// Note: URL generation helpers moved to qr-generator.ts
-// Use buildQRContent, buildTableQRUrl, buildExternalQRUrl from there
+// Alias for backwards compatibility
+export const getQRAnalytics = getQRCodeAnalytics;
+
+/**
+ * Bulk create QR codes
+ */
+export async function bulkCreateQRCodes(
+  merchantId: string,
+  inputs: Omit<CreateQRCodeInput, 'merchant_id'>[]
+): Promise<QRCode[]> {
+  const results: QRCode[] = [];
+  for (const input of inputs) {
+    const qr = await createQRCode(merchantId, input);
+    results.push(qr);
+  }
+  return results;
+}
+
+/**
+ * Get merchant QR stats summary
+ */
+export async function getMerchantQRStats(merchantId: string): Promise<{
+  totalQRCodes: number;
+  activeQRCodes: number;
+  totalScans: number;
+  topPerformers: { id: string; title: string | null; scans: number }[];
+}> {
+  const supabase = getSupabase();
+
+  // Type for QR code stats row (table not in generated types)
+  type QRStatsRow = {
+    id: string;
+    title: string | null;
+    is_active: boolean;
+    total_scans: number;
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: qrCodes, error } = (await (supabase as any)
+    .from('qr_codes')
+    .select('id, title, is_active, total_scans')
+    .eq('merchant_id', merchantId)
+    .order('total_scans', { ascending: false })) as {
+    data: QRStatsRow[] | null;
+    error: Error | null;
+  };
+
+  if (error) {
+    console.error('[QRService] Stats error:', error);
+    throw new Error(`Failed to get QR stats: ${error.message}`);
+  }
+
+  const all = qrCodes || [];
+
+  return {
+    totalQRCodes: all.length,
+    activeQRCodes: all.filter((q) => q.is_active).length,
+    totalScans: all.reduce((sum, q) => sum + (q.total_scans || 0), 0),
+    topPerformers: all.slice(0, 5).map((q) => ({
+      id: q.id,
+      title: q.title,
+      scans: q.total_scans || 0,
+    })),
+  };
+}
+
+/**
+ * Get source performance for a merchant
+ */
+export async function getMerchantSourcePerformance(merchantId: string): Promise<{
+  bySource: Record<string, { qrCount: number; totalScans: number }>;
+}> {
+  const supabase = getSupabase();
+
+  // Type for source performance row (table not in generated types)
+  type QRSourceRow = {
+    source: string | null;
+    total_scans: number;
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: qrCodes, error } = (await (supabase as any)
+    .from('qr_codes')
+    .select('source, total_scans')
+    .eq('merchant_id', merchantId)) as { data: QRSourceRow[] | null; error: Error | null };
+
+  if (error) {
+    console.error('[QRService] Source performance error:', error);
+    throw new Error(`Failed to get source performance: ${error.message}`);
+  }
+
+  const bySource: Record<string, { qrCount: number; totalScans: number }> = {};
+
+  (qrCodes || []).forEach((qr) => {
+    const source = qr.source || 'unknown';
+    if (!bySource[source]) {
+      bySource[source] = { qrCount: 0, totalScans: 0 };
+    }
+    bySource[source].qrCount++;
+    bySource[source].totalScans += qr.total_scans || 0;
+  });
+
+  return { bySource };
+}

@@ -20,7 +20,7 @@ describe('QRDesignPanel', () => {
       foreground: '#000000',
       background: '#FFFFFF',
     },
-    pattern: 'square',
+    pattern: 'squares',
   };
 
   beforeEach(() => {
