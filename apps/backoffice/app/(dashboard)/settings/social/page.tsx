@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Loader2, Check, AlertCircle, ExternalLink, Plus, Trash2 } from 'lucide-react';
 import { MessagingChannelsSection } from '@/components/settings/MessagingChannelsSection';
+import { useTenant } from '@/lib/contexts/TenantContext';
 
 // ============================================================================
 // Types
@@ -234,22 +235,20 @@ const DELIVERY_PLATFORMS = [
 ];
 
 // ============================================================================
-// Demo merchant ID
-// ============================================================================
-const DEMO_MERCHANT_ID = '00000000-0000-0000-0000-000000000001';
-
-// ============================================================================
 // Component
 // ============================================================================
 
 export default function SocialSettingsPage() {
+  const { brand, location } = useTenant();
+  const merchantId = location?.id || brand?.id;
+
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const [links, setLinks] = useState<SocialLinks>({
-    merchantId: DEMO_MERCHANT_ID,
+    merchantId: '',
     facebookUrl: '',
     instagramHandle: '',
     tiktokHandle: '',
@@ -277,9 +276,11 @@ export default function SocialSettingsPage() {
 
   // Load links on mount
   useEffect(() => {
+    if (!merchantId) return;
+
     const loadLinks = async () => {
       try {
-        const response = await fetch(`/api/settings/social?merchantId=${DEMO_MERCHANT_ID}`);
+        const response = await fetch(`/api/settings/social?merchantId=${merchantId}`);
         const data = await response.json();
 
         if (data.links) {
@@ -294,10 +295,15 @@ export default function SocialSettingsPage() {
     };
 
     loadLinks();
-  }, []);
+  }, [merchantId]);
 
   // Save links
   const handleSave = async () => {
+    if (!merchantId) {
+      setError('No merchant selected');
+      return;
+    }
+
     setIsSaving(true);
     setSaveSuccess(false);
     setError(null);
@@ -306,7 +312,7 @@ export default function SocialSettingsPage() {
       const response = await fetch('/api/settings/social', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(links),
+        body: JSON.stringify({ ...links, merchantId }),
       });
 
       const data = await response.json();
@@ -419,7 +425,7 @@ export default function SocialSettingsPage() {
       />
 
       {/* Messaging Channels Section - For notification APIs */}
-      <MessagingChannelsSection merchantId={DEMO_MERCHANT_ID} />
+      {merchantId && <MessagingChannelsSection merchantId={merchantId} />}
 
       {/* Review Platforms Section */}
       <PlatformSection

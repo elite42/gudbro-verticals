@@ -26,10 +26,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { useTenant } from '@/lib/contexts/TenantContext';
 
-// Fallback for development when no tenant is selected
-const DEMO_MERCHANT_ID = '00000000-0000-0000-0000-000000000001';
-const DEMO_MERCHANT_SLUG = 'demo-merchant';
-
 function formatTimeAgo(dateString: string | null | undefined): string {
   if (!dateString) return 'Never';
 
@@ -86,8 +82,8 @@ function QuickCreateTab({
 export default function QRCodesPage() {
   // Tenant context
   const { brand } = useTenant();
-  const merchantId = brand?.id || DEMO_MERCHANT_ID;
-  const merchantSlug = brand?.slug || DEMO_MERCHANT_SLUG;
+  const merchantId = brand?.id;
+  const merchantSlug = brand?.slug;
 
   // State
   const [qrCodes, setQrCodes] = useState<QRCodeEntity[]>([]);
@@ -108,6 +104,11 @@ export default function QRCodesPage() {
 
   // Load data
   const loadData = async () => {
+    if (!merchantId) {
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 

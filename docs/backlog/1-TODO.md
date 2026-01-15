@@ -16,6 +16,17 @@
 
 ---
 
+## Pre-Launch - Prima dei Primi Clienti
+
+> Task da completare prima di andare live con clienti paganti.
+
+| ID                    | Feature                    | Descrizione                                      | Effort | Requires | Status  |
+| --------------------- | -------------------------- | ------------------------------------------------ | ------ | -------- | ------- |
+| LEAKED-PWD-PROTECTION | Leaked Password Protection | Blocca password compromesse (HaveIBeenPwned)     | Low    | Pro Plan | Pending |
+| BACKOFFICE-UI-RESERV  | UI Prenotazioni Backoffice | Calendar view + Floor plan editor (Sprint 13-14) | High   | -        | Pending |
+
+---
+
 ## P0.5 - Strategia Prodotto & Onboarding
 
 > Decisioni che impattano onboarding B2B, pricing tiers, e conversione.
@@ -36,7 +47,7 @@
 | ID                  | Feature             | Descrizione                     | Effort | Status  | Spec                                                   |
 | ------------------- | ------------------- | ------------------------------- | ------ | ------- | ------------------------------------------------------ |
 | PWA-FULL-SITE       | PWA → Sito Web      | Responsive desktop/tablet       | High   | Pending | [spec](specs/P0.5-architecture/PWA-FULL-SITE.md)       |
-| AI-CUSTOMER-CHAT    | AI Customer Chat    | Chat per clienti (multi-canale) | High   | Pending | [spec](specs/P0.5-architecture/AI-CUSTOMER-CHAT.md)    |
+| AI-CUSTOMER-CHAT    | AI Customer Chat    | Chat per clienti (multi-canale) | High   | ✅ DONE | [spec](specs/P0.5-architecture/AI-CUSTOMER-CHAT.md)    |
 | RESERVATIONS-SYSTEM | Prenotazioni        | Sistema prenotazioni tavoli     | High   | ✅ DONE | [spec](specs/P0.5-architecture/RESERVATIONS-SYSTEM.md) |
 | QR-BUILDER-V2       | QR Builder Avanzato | Contextual QR con analytics     | High   | Pending | [spec](specs/P0.5-architecture/QR-BUILDER-V2.md)       |
 | SITE-CUSTOMIZATION  | Sezioni Custom      | Merchant personalizza sito      | Medium | Pending | [spec](specs/P0.5-architecture/SITE-CUSTOMIZATION.md)  |

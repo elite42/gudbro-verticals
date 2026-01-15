@@ -3,6 +3,11 @@
 // Sprint 2 of RESERVATIONS-SYSTEM
 
 import { supabase } from '@/lib/supabase';
+import {
+  sendReservationNotification,
+  scheduleReminders,
+  cancelScheduledNotifications,
+} from '@/lib/notifications/notification-dispatcher';
 
 // =============================================================================
 // TYPES
@@ -342,10 +347,36 @@ export async function createReservation(input: CreateReservationInput): Promise<
     if (error.code === 'P0001') {
       throw new Error('SLOT_FULL: This time slot is no longer available');
     }
+    if (error.code === 'P0002') {
+      throw new Error('CLOSED_DAY: The location is closed on this day');
+    }
+    if (error.code === 'P0003') {
+      throw new Error('BEFORE_OPENING: The requested time is before opening hours');
+    }
+    if (error.code === 'P0004') {
+      throw new Error('PAST_CLOSING: The reservation would extend past closing time');
+    }
     throw new Error(`Failed to create reservation: ${error.message}`);
   }
 
-  return data as unknown as Reservation;
+  const reservation = data as unknown as Reservation;
+
+  // Send confirmation notification (non-blocking)
+  sendReservationNotification({
+    reservationId: reservation.id,
+    type: 'reservation_confirmed',
+    locale: input.guest_locale || 'en',
+    priority: 1, // High priority for confirmations
+  }).catch((err) => {
+    console.error('Failed to send confirmation notification:', err);
+  });
+
+  // Schedule reminder notifications (non-blocking)
+  scheduleReminders(reservation.id, input.reservation_date, input.reservation_time).catch((err) => {
+    console.error('Failed to schedule reminders:', err);
+  });
+
+  return reservation;
 }
 
 /**
@@ -402,7 +433,41 @@ export async function updateReservationStatus(
     throw new Error(`Failed to update status: ${error.message}`);
   }
 
-  return data as unknown as Reservation;
+  const reservation = data as unknown as Reservation;
+
+  // Send status-specific notifications (non-blocking)
+  if (status === 'confirmed') {
+    sendReservationNotification({
+      reservationId,
+      type: 'reservation_confirmed',
+      priority: 2,
+    }).catch((err) => {
+      console.error('Failed to send confirmation notification:', err);
+    });
+  } else if (status === 'cancelled') {
+    // Cancel any scheduled reminders
+    cancelScheduledNotifications(reservationId).catch((err) => {
+      console.error('Failed to cancel scheduled notifications:', err);
+    });
+
+    sendReservationNotification({
+      reservationId,
+      type: 'reservation_cancelled',
+      priority: 2,
+    }).catch((err) => {
+      console.error('Failed to send cancellation notification:', err);
+    });
+  } else if (status === 'no_show') {
+    sendReservationNotification({
+      reservationId,
+      type: 'no_show',
+      priority: 4,
+    }).catch((err) => {
+      console.error('Failed to send no-show notification:', err);
+    });
+  }
+
+  return reservation;
 }
 
 /**

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { CreditCard, Wallet, Loader2, Check, AlertCircle } from 'lucide-react';
+import { useTenant } from '@/lib/contexts/TenantContext';
 import { CryptoWalletInput } from '@/components/settings/CryptoWalletInput';
 
 // ============================================================================
@@ -48,15 +49,13 @@ interface SupportedCrypto {
 }
 
 // ============================================================================
-// Demo merchant ID (will be replaced with real auth)
-// ============================================================================
-const DEMO_MERCHANT_ID = '00000000-0000-0000-0000-000000000001';
-
-// ============================================================================
 // Component
 // ============================================================================
 
 export default function PaymentsSettingsPage() {
+  const { brand, location } = useTenant();
+  const merchantId = location?.id || brand?.id;
+
   const [activeTab, setActiveTab] = useState<'fiat' | 'crypto'>('crypto');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -65,7 +64,7 @@ export default function PaymentsSettingsPage() {
 
   const [supportedCryptos, setSupportedCryptos] = useState<SupportedCrypto[]>([]);
   const [settings, setSettings] = useState<PaymentSettings>({
-    merchantId: DEMO_MERCHANT_ID,
+    merchantId: '',
     stripeEnabled: false,
     stripeAccountId: '',
     paypalEnabled: false,
@@ -82,9 +81,11 @@ export default function PaymentsSettingsPage() {
 
   // Load settings on mount
   useEffect(() => {
+    if (!merchantId) return;
+
     const loadSettings = async () => {
       try {
-        const response = await fetch(`/api/settings/payments?merchantId=${DEMO_MERCHANT_ID}`);
+        const response = await fetch(`/api/settings/payments?merchantId=${merchantId}`);
         const data = await response.json();
 
         if (data.settings) {
@@ -102,10 +103,15 @@ export default function PaymentsSettingsPage() {
     };
 
     loadSettings();
-  }, []);
+  }, [merchantId]);
 
   // Save settings
   const handleSave = async () => {
+    if (!merchantId) {
+      setError('No merchant selected');
+      return;
+    }
+
     setIsSaving(true);
     setSaveSuccess(false);
     setError(null);
@@ -114,7 +120,7 @@ export default function PaymentsSettingsPage() {
       const response = await fetch('/api/settings/payments', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings),
+        body: JSON.stringify({ ...settings, merchantId }),
       });
 
       const data = await response.json();

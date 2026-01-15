@@ -453,17 +453,55 @@ export async function sendReservationNotification(
 
 /**
  * Schedule reminder notifications for a reservation
+ * Handles timezone-aware scheduling based on location's timezone
  */
 export async function scheduleReminders(
   reservationId: string,
   reservationDate: string,
-  reservationTime: string
+  reservationTime: string,
+  locationTimezone?: string
 ): Promise<void> {
-  const reservationDateTime = new Date(`${reservationDate}T${reservationTime}`);
+  const supabase = getSupabaseAdmin();
+
+  // Get location timezone if not provided
+  let timezone = locationTimezone;
+  if (!timezone) {
+    const { data: reservation } = await supabase
+      .from('reservations')
+      .select('location_id, location:locations(timezone)')
+      .eq('id', reservationId)
+      .single();
+
+    // Location comes back as single object from join
+    const reservationData = reservation as { location: { timezone: string } | null } | null;
+    timezone = reservationData?.location?.timezone || 'UTC';
+  }
+
+  // Parse date/time in location's timezone
+  // The reservation time is stored as local time at the location
+  // We need to convert it to UTC for proper scheduling
+  const dateTimeStr = `${reservationDate}T${reservationTime}`;
+
+  // Use Intl.DateTimeFormat to get the timezone offset
+  // Then create a proper UTC timestamp for scheduling
+  const reservationLocalTime = new Date(dateTimeStr);
+
+  // Get UTC offset for the location's timezone
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: timezone,
+    timeZoneName: 'shortOffset',
+  });
+  const parts = formatter.formatToParts(reservationLocalTime);
+  const tzPart = parts.find((p) => p.type === 'timeZoneName');
+  const tzOffset = tzPart?.value || '+00:00';
+
+  // Create UTC timestamp by parsing with timezone offset
+  // Format: "2024-01-15T19:00:00+07:00" for Asia/Bangkok
+  const isoWithTz = `${dateTimeStr}:00${tzOffset.replace('GMT', '')}`;
+  const reservationDateTime = new Date(isoWithTz);
 
   // Schedule 24h reminder
-  const reminder24h = new Date(reservationDateTime);
-  reminder24h.setHours(reminder24h.getHours() - 24);
+  const reminder24h = new Date(reservationDateTime.getTime() - 24 * 60 * 60 * 1000);
 
   if (reminder24h > new Date()) {
     await sendReservationNotification({
@@ -475,8 +513,7 @@ export async function scheduleReminders(
   }
 
   // Schedule 2h reminder
-  const reminder2h = new Date(reservationDateTime);
-  reminder2h.setHours(reminder2h.getHours() - 2);
+  const reminder2h = new Date(reservationDateTime.getTime() - 2 * 60 * 60 * 1000);
 
   if (reminder2h > new Date()) {
     await sendReservationNotification({
