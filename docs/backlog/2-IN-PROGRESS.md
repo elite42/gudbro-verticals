@@ -10,25 +10,30 @@
 
 | ID  | Feature | Descrizione | Priority | Started | Assignee |
 | --- | ------- | ----------- | -------- | ------- | -------- |
-| -   | -       | Nessuna     | -        | -       | -        |
 
 ---
 
 ## Note Lavori in Corso
 
-_Nessun lavoro in corso. Backlog vuoto per P0-P1._
+_Nessuna task in corso. Pronto per nuova task._
 
-**Prossimi candidati (P0.5 Architecture):**
+### Prossimi candidati (da 1-TODO.md)
 
-| ID                 | Feature         | Effort |
-| ------------------ | --------------- | ------ |
-| PWA-FULL-SITE      | PWA → Sito Web  | High   |
-| AI-CUSTOMER-CHAT   | AI Chat Clienti | High   |
-| QR-BUILDER-V2      | QR Contextual   | High   |
-| SITE-CUSTOMIZATION | Sezioni Custom  | Medium |
+**P0.5 - Architecture:**
 
-**Recentemente completati:**
+- PWA-FULL-SITE: PWA per sito marketing + partner portal
 
+**P0.5 - Critical Fixes (Audit 2026-01-15):**
+
+- Sprint 12.5: Notification trigger + cron job + template seeding
+- Security fixes: Credential encryption, RLS hardening, rate limiting
+- Business logic: Overbooking prevention, timezone handling
+
+---
+
+## Recentemente completati
+
+- ✅ AI-CUSTOMER-CHAT (6 sprint) - Chat clienti multi-canale
 - ✅ RESERVATIONS-SYSTEM (14 sprint) - Sistema prenotazioni completo
 - ✅ WHITE-LABEL-FULL (8 sprint) - Custom domains e partner portal
 - ✅ AI-FIRST-REDESIGN (5 sprint) - Dashboard AI-first

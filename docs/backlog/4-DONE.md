@@ -11,6 +11,7 @@
 
 | ID                        | Feature                | Descrizione                                                                                                       | Completato |
 | ------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------- |
+| AI-CUSTOMER-CHAT          | AI Customer Chat       | 6 sprint: DB schema, chat service, actions (reservations/menu), channel webhooks, escalation, chat widget PWA     | 2026-01-15 |
 | RESERVATIONS-SYSTEM       | Sistema Prenotazioni   | 14 sprint: tavoli, floor plan, prenotazioni, wallet, notifiche multi-canale, calendar UI, floor plan editor       | 2026-01-15 |
 | WHITE-LABEL-FULL          | White-Label Multi-Tier | 8 sprint: custom domains, domain resolution, middleware, branding, domain UI, multi-location, partner portal      | 2026-01-15 |
 | AI-FIRST-REDESIGN         | Backoffice AI-First    | 5 sprint: AI priorities, inline triggers, confidence scores, mobile command center, scenario detection            | 2026-01-15 |
@@ -18,6 +19,15 @@
 | MT-KDS                    | Kitchen Display        | Audio alerts, keyboard shortcuts (bump bar), flash animation, sound toggle, 2 layout modes (grid/columns)         | 2026-01-15 |
 | B2B-CONVENTIONS           | Corporate Conventions  | Sistema convenzioni B2B: offices, gyms, schools. 5 tabelle DB, service layer, API, 5 UI pages, staff verification | 2026-01-15 |
 | ORDER-READY-NOTIFICATIONS | Web Push Phase 2       | Service Worker push, subscription API, backend sender, kitchen trigger, UI toggle ordini                          | 2026-01-15 |
+
+> **AI-CUSTOMER-CHAT Files:**
+>
+> - Migration: `056-customer-chat.sql` (customer_conversations, customer_messages, conversation_escalations)
+> - Services: `customer-chat-service.ts`, `customer-context-service.ts`, `customer-actions-service.ts`, `customer-prompts.ts`, `channel-router.ts`
+> - API Routes: `/api/chat/customer`, `/api/chat/conversations/*`, `/api/chat/escalations`, `/api/chat/webhook/*` (whatsapp, telegram, line, zalo)
+> - Backoffice UI: `/chat/escalations/page.tsx`
+> - Widget: `ChatWidget.tsx`, `ChatWindow.tsx` (coffeeshop PWA)
+> - Features: Multi-language (EN/VI/IT), OpenAI gpt-4o-mini, function calling for reservations/menu, escalation detection, quick replies
 
 > **WHITE-LABEL-FULL Files:**
 >
