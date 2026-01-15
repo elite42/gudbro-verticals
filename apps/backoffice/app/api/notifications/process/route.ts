@@ -71,9 +71,17 @@ export async function POST(request: NextRequest) {
   const cronSecret = request.headers.get('x-cron-secret');
   const authHeader = request.headers.get('authorization');
 
-  // Allow either cron secret or service role key
+  // Vercel Cron sets this header automatically
+  const isVercelCron = request.headers.get('x-vercel-cron') === '1';
+
+  // Optionally validate with CRON_SECRET if configured
+  const cronSecretValid = !process.env.CRON_SECRET || cronSecret === process.env.CRON_SECRET;
+
+  // Allow:
+  // 1. Vercel Cron (with optional CRON_SECRET validation)
+  // 2. Service role key (for manual testing)
   const isAuthorized =
-    cronSecret === process.env.CRON_SECRET ||
+    (isVercelCron && cronSecretValid) ||
     authHeader === `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`;
 
   // In development, allow without auth for testing
