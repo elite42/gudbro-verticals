@@ -5,6 +5,45 @@
 
 ---
 
+## 2026-01-16 (Session 6) - QR Builder V2 Fixes & Sprint 13-14 Verification
+
+**Focus:** QR types fixes + Reservation system verification
+**Durata:** ~45min
+**Tipo:** Bug Fixes / Verification
+
+### Completato
+
+**QR Builder V2 Fixes:**
+
+- Fixed `generateWiFiString` to properly escape special characters (`;:,\`)
+- Fixed `generateWiFiString` to always output `H:true` or `H:false`
+- Aligned test expectations with actual types:
+  - Pattern: `'square'` → `'squares'`
+  - MaterialPreset count: 8 → 11 (added metal, glass, fabric)
+- All 87 QR type tests now pass
+
+**Sprint 13-14 Verification:**
+
+- Discovered Sprint 13-14 (Reservations UI) was already fully implemented
+- Verified all components exist and work:
+  - ReservationCalendar with Day/Week/Month views
+  - FloorPlanEditor with drag-drop tables
+  - All supporting components (filters, dialogs, cards)
+- Updated plan file status to COMPLETE
+- No TypeScript errors in reservation components
+
+### Commits
+
+- `c215e3b` - fix(qr): fix generateWiFiString and align tests with types
+
+### Prossima Sessione
+
+- QR Batch Export feature (requires JSZip installation)
+- QR Templates (saveable presets)
+- Custom landing pages per traffic source
+
+---
+
 ## 2026-01-15 (Session 5) - Reservation System Security & Data Fixes
 
 **Focus:** P0 Security + P1 Data Integrity fixes for reservation system
