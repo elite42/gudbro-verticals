@@ -33,13 +33,13 @@
 
 > **BLOCCO:** Richiedono revisione architetturale prima dell'implementazione.
 
-| ID                  | Feature             | Descrizione                     | Effort | Spec                                                   |
-| ------------------- | ------------------- | ------------------------------- | ------ | ------------------------------------------------------ |
-| PWA-FULL-SITE       | PWA → Sito Web      | Responsive desktop/tablet       | High   | [spec](specs/P0.5-architecture/PWA-FULL-SITE.md)       |
-| AI-CUSTOMER-CHAT    | AI Customer Chat    | Chat per clienti (multi-canale) | High   | [spec](specs/P0.5-architecture/AI-CUSTOMER-CHAT.md)    |
-| RESERVATIONS-SYSTEM | Prenotazioni        | Sistema prenotazioni tavoli     | High   | [spec](specs/P0.5-architecture/RESERVATIONS-SYSTEM.md) |
-| QR-BUILDER-V2       | QR Builder Avanzato | Contextual QR con analytics     | High   | [spec](specs/P0.5-architecture/QR-BUILDER-V2.md)       |
-| SITE-CUSTOMIZATION  | Sezioni Custom      | Merchant personalizza sito      | Medium | [spec](specs/P0.5-architecture/SITE-CUSTOMIZATION.md)  |
+| ID                  | Feature             | Descrizione                     | Effort | Status  | Spec                                                   |
+| ------------------- | ------------------- | ------------------------------- | ------ | ------- | ------------------------------------------------------ |
+| PWA-FULL-SITE       | PWA → Sito Web      | Responsive desktop/tablet       | High   | Pending | [spec](specs/P0.5-architecture/PWA-FULL-SITE.md)       |
+| AI-CUSTOMER-CHAT    | AI Customer Chat    | Chat per clienti (multi-canale) | High   | Pending | [spec](specs/P0.5-architecture/AI-CUSTOMER-CHAT.md)    |
+| RESERVATIONS-SYSTEM | Prenotazioni        | Sistema prenotazioni tavoli     | High   | ✅ DONE | [spec](specs/P0.5-architecture/RESERVATIONS-SYSTEM.md) |
+| QR-BUILDER-V2       | QR Builder Avanzato | Contextual QR con analytics     | High   | Pending | [spec](specs/P0.5-architecture/QR-BUILDER-V2.md)       |
+| SITE-CUSTOMIZATION  | Sezioni Custom      | Merchant personalizza sito      | Medium | Pending | [spec](specs/P0.5-architecture/SITE-CUSTOMIZATION.md)  |
 
 ---
 

@@ -11,6 +11,7 @@
 
 | ID                        | Feature                | Descrizione                                                                                                       | Completato |
 | ------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------- |
+| RESERVATIONS-SYSTEM       | Sistema Prenotazioni   | 14 sprint: tavoli, floor plan, prenotazioni, wallet, notifiche multi-canale, calendar UI, floor plan editor       | 2026-01-15 |
 | WHITE-LABEL-FULL          | White-Label Multi-Tier | 8 sprint: custom domains, domain resolution, middleware, branding, domain UI, multi-location, partner portal      | 2026-01-15 |
 | AI-FIRST-REDESIGN         | Backoffice AI-First    | 5 sprint: AI priorities, inline triggers, confidence scores, mobile command center, scenario detection            | 2026-01-15 |
 | HOLIDAYS-DB               | Holidays Database      | DB festività centralizzato, 3 tabelle (holidays, overrides, custom), service layer, API, AI context integration   | 2026-01-15 |
