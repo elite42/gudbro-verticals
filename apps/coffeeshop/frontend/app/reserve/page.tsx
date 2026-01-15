@@ -1,17 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { coffeeshopConfig } from '../../config/coffeeshop.config';
 import { ReservationWidget } from '../../components/reservations';
 import { useTranslation } from '../../lib/use-translation';
-import { Calendar, ArrowLeft } from 'lucide-react';
+import { Calendar, ArrowLeft, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
-export default function ReservePage() {
+// Inner component that uses useSearchParams
+function ReservePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   const [isClient, setIsClient] = useState(false);
   const [showWidget, setShowWidget] = useState(true);
 
@@ -132,5 +133,26 @@ export default function ReservePage() {
         )}
       </div>
     </div>
+  );
+}
+
+// Loading fallback
+function ReservePageLoading() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="flex flex-col items-center gap-4">
+        <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    </div>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function ReservePage() {
+  return (
+    <Suspense fallback={<ReservePageLoading />}>
+      <ReservePageContent />
+    </Suspense>
   );
 }
