@@ -47,6 +47,25 @@ P0 critical issues fixed this session. Remaining issues documented for future sp
 ### Commits
 
 - `88be2e6` - fix(reservations): P0 security + P1 data integrity fixes
+- `2c68157` - docs: update session log with P0/P1 fixes summary
+- `5902df3` - fix(notifications): support Vercel Cron header for auth
+- `77581d1` - fix(security): remove dev mode auth bypass in notification processor
+
+### Sprint 12.5 Verification
+
+Investigated notification pipeline - found it was already fully implemented:
+
+- `sendReservationNotification()` wired in `createReservation()`
+- `scheduleReminders()` wired
+- Templates seeded in DB
+- Vercel Cron configured (`*/5 * * * *` in vercel.json)
+- Only fix needed: Vercel Cron auth header support (`x-vercel-cron: 1`)
+
+### Security Hardening
+
+- Removed dev mode auth bypass from `/api/notifications/process`
+- Wallet API already had proper auth (audit was outdated)
+- Remaining: credential encryption, rate limiting
 
 ### Note tecniche
 

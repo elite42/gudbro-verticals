@@ -25,9 +25,10 @@ _Nessuna task in corso. Pronto per nuova task._
 
 **P0.5 - Critical Fixes (Audit 2026-01-15):**
 
-- Sprint 12.5: Notification trigger + cron job + template seeding
-- Security fixes: Credential encryption, RLS hardening, rate limiting
-- Business logic: Overbooking prevention, timezone handling
+- ~~Sprint 12.5: Notification trigger + cron job + template seeding~~ ✅ DONE
+- ~~Security: Dev mode auth bypass removed~~ ✅ DONE
+- Security: Credential encryption, rate limiting (remaining)
+- ~~Business logic: Overbooking prevention, timezone handling~~ ✅ DONE (atomic functions)
 
 ---
 

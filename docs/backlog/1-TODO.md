@@ -23,7 +23,7 @@
 | ID                    | Feature                    | Descrizione                                      | Effort | Requires | Status  |
 | --------------------- | -------------------------- | ------------------------------------------------ | ------ | -------- | ------- |
 | LEAKED-PWD-PROTECTION | Leaked Password Protection | Blocca password compromesse (HaveIBeenPwned)     | Low    | Pro Plan | Pending |
-| BACKOFFICE-UI-RESERV  | UI Prenotazioni Backoffice | Calendar view + Floor plan editor (Sprint 13-14) | High   | -        | Pending |
+| BACKOFFICE-UI-RESERV  | UI Prenotazioni Backoffice | Calendar view + Floor plan editor (Sprint 13-14) | High   | -        | ✅ DONE |
 
 ---
 
