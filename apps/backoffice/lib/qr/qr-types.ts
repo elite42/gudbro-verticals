@@ -111,16 +111,26 @@ export interface WiFiConfig {
   hidden?: boolean;
 }
 
+/**
+ * Escape special characters for WiFi QR code string
+ * Characters that need escaping: \ ; : ,
+ */
+function escapeWiFiValue(value: string): string {
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/:/g, '\\:')
+    .replace(/,/g, '\\,');
+}
+
 // WiFi string generator
 export function generateWiFiString(config: WiFiConfig): string {
-  const { ssid, password, security, hidden } = config;
-  const hiddenStr = hidden ? 'H:true;' : '';
+  const { ssid, password, security, hidden = false } = config;
+  const escapedSsid = escapeWiFiValue(ssid);
+  const escapedPassword = escapeWiFiValue(password);
+  const hiddenStr = hidden ? 'true' : 'false';
 
-  if (security === 'nopass') {
-    return `WIFI:T:nopass;S:${ssid};${hiddenStr};`;
-  }
-
-  return `WIFI:T:${security};S:${ssid};P:${password};${hiddenStr};`;
+  return `WIFI:T:${security};S:${escapedSsid};P:${escapedPassword};H:${hiddenStr};;`;
 }
 
 export interface QRCode {

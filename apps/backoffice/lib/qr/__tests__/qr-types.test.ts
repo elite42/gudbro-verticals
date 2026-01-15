@@ -242,13 +242,16 @@ describe('EXPORT_PRESETS', () => {
   const validColorModes: ColorMode[] = ['rgb', 'cmyk', 'grayscale'];
   const presetNames: MaterialPreset[] = [
     'paper',
-    'tshirt',
     'sticker',
-    'banner',
-    'newspaper',
-    'business-card',
-    'menu',
+    'metal',
+    'glass',
+    'fabric',
     'tent-card',
+    'menu',
+    'tshirt',
+    'banner',
+    'business-card',
+    'newspaper',
   ];
 
   describe('preset structure validation', () => {
@@ -355,7 +358,7 @@ describe('EXPORT_PRESETS', () => {
 
   describe('completeness', () => {
     it('should have all expected presets defined', () => {
-      expect(Object.keys(EXPORT_PRESETS)).toHaveLength(8);
+      expect(Object.keys(EXPORT_PRESETS)).toHaveLength(11);
       presetNames.forEach((preset) => {
         expect(EXPORT_PRESETS).toHaveProperty(preset);
       });
@@ -391,12 +394,12 @@ describe('DEFAULT_QR_DESIGN', () => {
   });
 
   describe('pattern', () => {
-    it('should have square as default pattern', () => {
-      expect(DEFAULT_QR_DESIGN.pattern).toBe('square');
+    it('should have squares as default pattern', () => {
+      expect(DEFAULT_QR_DESIGN.pattern).toBe('squares');
     });
 
     it('pattern should be a valid QRPattern type', () => {
-      const validPatterns = ['square', 'dots', 'rounded'];
+      const validPatterns = ['squares', 'dots', 'rounded'];
       expect(validPatterns).toContain(DEFAULT_QR_DESIGN.pattern);
     });
   });
@@ -448,15 +451,18 @@ describe('type exports', () => {
   it('MaterialPreset type should accept valid values', () => {
     const presets: MaterialPreset[] = [
       'paper',
-      'tshirt',
       'sticker',
-      'banner',
-      'newspaper',
-      'business-card',
-      'menu',
+      'metal',
+      'glass',
+      'fabric',
       'tent-card',
+      'menu',
+      'tshirt',
+      'banner',
+      'business-card',
+      'newspaper',
     ];
-    expect(presets).toHaveLength(8);
+    expect(presets).toHaveLength(11);
   });
 
   it('ExportFormat type should accept valid values', () => {
