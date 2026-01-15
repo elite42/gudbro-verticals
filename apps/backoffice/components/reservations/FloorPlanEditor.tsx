@@ -40,6 +40,7 @@ export function FloorPlanEditor({
   const [hasChanges, setHasChanges] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [pendingChanges, setPendingChanges] = useState<Map<string, Partial<TableData>>>(new Map());
+  const [error, setError] = useState<string | null>(null);
 
   // Track table positions locally for smooth dragging
   const [localTables, setLocalTables] = useState<TableData[]>(tables);
@@ -71,28 +72,34 @@ export function FloorPlanEditor({
   // Add new table
   const handleAddTable = useCallback(
     async (shape: TableShapeType) => {
-      const size = DEFAULT_TABLE_SIZE[shape];
-      const nextNumber = localTables.length + 1;
+      setError(null);
+      try {
+        const size = DEFAULT_TABLE_SIZE[shape];
+        const nextNumber = localTables.length + 1;
 
-      const newTable: TableFormData & { floor_plan_config: FloorPlanConfig } = {
-        table_number: `T${nextNumber}`,
-        min_capacity: 2,
-        max_capacity: shape === 'round' ? 4 : shape === 'square' ? 4 : 6,
-        shape,
-        section_id: sections[0]?.id || null,
-        is_reservable: true,
-        notes: '',
-        floor_plan_config: {
-          x: 50 + (nextNumber % 5) * 100,
-          y: 50 + Math.floor(nextNumber / 5) * 100,
-          width: size.width,
-          height: size.height,
-          rotation: 0,
-        },
-      };
+        const newTable: TableFormData & { floor_plan_config: FloorPlanConfig } = {
+          table_number: `T${nextNumber}`,
+          min_capacity: 2,
+          max_capacity: shape === 'round' ? 4 : shape === 'square' ? 4 : 6,
+          shape,
+          section_id: sections[0]?.id || null,
+          is_reservable: true,
+          notes: '',
+          floor_plan_config: {
+            x: 50 + (nextNumber % 5) * 100,
+            y: 50 + Math.floor(nextNumber / 5) * 100,
+            width: size.width,
+            height: size.height,
+            rotation: 0,
+          },
+        };
 
-      await onTableCreate(newTable);
-      setHasChanges(false);
+        await onTableCreate(newTable);
+        setHasChanges(false);
+      } catch (err) {
+        console.error('Failed to create table:', err);
+        setError(err instanceof Error ? err.message : 'Failed to create table');
+      }
     },
     [localTables.length, sections, onTableCreate]
   );
@@ -185,21 +192,41 @@ export function FloorPlanEditor({
     if (!selectedTableId) return;
 
     if (confirm('Are you sure you want to delete this table?')) {
-      await onTableDelete(selectedTableId);
-      setSelectedTableId(null);
-      setHasChanges(false);
+      setError(null);
+      try {
+        await onTableDelete(selectedTableId);
+        setSelectedTableId(null);
+        setHasChanges(false);
+      } catch (err) {
+        console.error('Failed to delete table:', err);
+        setError(err instanceof Error ? err.message : 'Failed to delete table');
+      }
     }
   }, [selectedTableId, onTableDelete]);
 
   // Save all pending changes
   const handleSave = useCallback(async () => {
-    const promises = Array.from(pendingChanges.entries()).map(([id, changes]) =>
-      onTableUpdate(id, changes)
-    );
+    setError(null);
+    try {
+      const promises = Array.from(pendingChanges.entries()).map(([id, changes]) =>
+        onTableUpdate(id, changes)
+      );
 
-    await Promise.all(promises);
-    setPendingChanges(new Map());
-    setHasChanges(false);
+      const results = await Promise.allSettled(promises);
+      const failures = results.filter((r) => r.status === 'rejected');
+
+      if (failures.length > 0) {
+        console.error('Some updates failed:', failures);
+        setError(`Failed to save ${failures.length} of ${results.length} changes`);
+      }
+
+      // Only clear successfully saved changes
+      setPendingChanges(new Map());
+      setHasChanges(false);
+    } catch (err) {
+      console.error('Failed to save changes:', err);
+      setError(err instanceof Error ? err.message : 'Failed to save changes');
+    }
   }, [pendingChanges, onTableUpdate]);
 
   // Handle canvas click to deselect
@@ -218,13 +245,20 @@ export function FloorPlanEditor({
   // Save table from dialog
   const handleDialogSave = useCallback(
     async (data: TableFormData) => {
-      if (data.id) {
-        await onTableUpdate(data.id, {
-          table_number: data.table_number,
-          min_capacity: data.min_capacity,
-          max_capacity: data.max_capacity,
-          shape: data.shape,
-        });
+      setError(null);
+      try {
+        if (data.id) {
+          await onTableUpdate(data.id, {
+            table_number: data.table_number,
+            min_capacity: data.min_capacity,
+            max_capacity: data.max_capacity,
+            shape: data.shape,
+          });
+        }
+      } catch (err) {
+        console.error('Failed to update table:', err);
+        setError(err instanceof Error ? err.message : 'Failed to update table');
+        throw err; // Re-throw so dialog can show error too
       }
     },
     [onTableUpdate]
@@ -232,6 +266,16 @@ export function FloorPlanEditor({
 
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white">
+      {/* Error Banner */}
+      {error && (
+        <div className="flex items-center justify-between bg-red-50 px-4 py-2 text-sm text-red-700">
+          <span>{error}</span>
+          <button onClick={() => setError(null)} className="ml-2 text-red-500 hover:text-red-700">
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Toolbar */}
       <FloorPlanToolbar
         isEditing={isEditing}

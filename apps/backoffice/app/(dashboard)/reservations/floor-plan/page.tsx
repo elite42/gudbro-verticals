@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, RefreshCw } from 'lucide-react';
+import { ArrowLeft, RefreshCw, LayoutGrid, Plus } from 'lucide-react';
 import {
   FloorPlanEditor,
   TableData,
   TableFormData,
   FloorPlanConfig,
 } from '@/components/reservations';
+import { useTenant } from '@/lib/contexts/TenantContext';
 
 interface Section {
   id: string;
@@ -16,6 +17,9 @@ interface Section {
 }
 
 export default function FloorPlanPage() {
+  const { location, brand } = useTenant();
+  const locationId = location?.id || brand?.id;
+
   const [tables, setTables] = useState<TableData[]>([]);
   const [sections, setSections] = useState<Section[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,13 +28,15 @@ export default function FloorPlanPage() {
 
   // Fetch data
   const fetchData = useCallback(async () => {
+    if (!locationId) return;
+
     setIsLoading(true);
     setError(null);
 
     try {
       const [tablesRes, sectionsRes] = await Promise.all([
-        fetch('/api/tables'),
-        fetch('/api/sections'),
+        fetch(`/api/tables?locationId=${locationId}`),
+        fetch(`/api/sections?locationId=${locationId}`),
       ]);
 
       if (!tablesRes.ok) {
@@ -48,6 +54,9 @@ export default function FloorPlanPage() {
           min_capacity: number;
           max_capacity: number;
           shape?: string;
+          section_id?: string | null;
+          is_reservable?: boolean;
+          notes?: string;
           floor_plan_config?: FloorPlanConfig;
         }) => ({
           id: t.id,
@@ -55,6 +64,9 @@ export default function FloorPlanPage() {
           min_capacity: t.min_capacity,
           max_capacity: t.max_capacity,
           shape: t.shape || 'square',
+          section_id: t.section_id ?? null,
+          is_reservable: t.is_reservable ?? true,
+          notes: t.notes || '',
           floor_plan_config: t.floor_plan_config || {
             x: 50 + Math.random() * 400,
             y: 50 + Math.random() * 300,
@@ -72,7 +84,7 @@ export default function FloorPlanPage() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [locationId]);
 
   useEffect(() => {
     fetchData();
@@ -142,7 +154,7 @@ export default function FloorPlanPage() {
   const handleTableDelete = async (id: string) => {
     setIsSaving(true);
     try {
-      const res = await fetch(`/api/tables?id=${id}`, {
+      const res = await fetch(`/api/tables?tableId=${id}`, {
         method: 'DELETE',
       });
 
@@ -214,6 +226,53 @@ export default function FloorPlanPage() {
             <div className="text-center">
               <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-gray-900" />
               <p className="mt-2 text-sm text-gray-500">Loading floor plan...</p>
+            </div>
+          </div>
+        ) : tables.length === 0 && sections.length === 0 ? (
+          <div className="flex h-full items-center justify-center">
+            <div className="max-w-md text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+                <LayoutGrid className="h-8 w-8 text-gray-400" />
+              </div>
+              <h3 className="mt-4 text-lg font-semibold text-gray-900">No floor plan yet</h3>
+              <p className="mt-2 text-sm text-gray-500">
+                Get started by creating sections and adding tables to your floor plan. You can drag
+                and drop tables to arrange your restaurant layout.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                <Link
+                  href="/reservations/settings"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  <Plus className="h-4 w-4" />
+                  Create Sections
+                </Link>
+                <button
+                  onClick={() => {
+                    handleTableCreate({
+                      table_number: 'T1',
+                      min_capacity: 2,
+                      max_capacity: 4,
+                      shape: 'square',
+                      section_id: null,
+                      is_reservable: true,
+                      notes: '',
+                      floor_plan_config: {
+                        x: 100,
+                        y: 100,
+                        width: 80,
+                        height: 80,
+                        rotation: 0,
+                      },
+                    });
+                  }}
+                  disabled={isSaving}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+                >
+                  <Plus className="h-4 w-4" />
+                  {isSaving ? 'Adding...' : 'Add First Table'}
+                </button>
+              </div>
             </div>
           </div>
         ) : (

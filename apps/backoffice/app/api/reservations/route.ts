@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getSession } from '@/lib/supabase-server';
 import {
   getReservations,
   getReservation,
@@ -29,6 +30,12 @@ export const dynamic = 'force-dynamic';
 // GET /api/reservations - Get reservations, settings, stats, or history
 export async function GET(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const locationId = searchParams.get('locationId');
     const type = searchParams.get('type') || 'list'; // list, single, settings, stats, blocked, history
@@ -202,6 +209,12 @@ export async function GET(request: NextRequest) {
 // POST /api/reservations - Create reservations or perform actions
 export async function POST(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { action, ...params } = body;
 
@@ -491,6 +504,12 @@ export async function POST(request: NextRequest) {
 // PATCH /api/reservations - Update reservation details
 export async function PATCH(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { reservationId, ...updates } = body;
 

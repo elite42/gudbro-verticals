@@ -167,6 +167,15 @@ export function ReservationDialog({
       return;
     }
 
+    // Validate date is not in the past (only for new reservations)
+    if (!reservation) {
+      const today = format(new Date(), 'yyyy-MM-dd');
+      if (formData.reservation_date < today) {
+        setError('Cannot create reservation for a past date');
+        return;
+      }
+    }
+
     try {
       await onSave(formData);
       onClose();
@@ -287,6 +296,7 @@ export function ReservationDialog({
                 <input
                   type="date"
                   value={formData.reservation_date}
+                  min={!reservation ? format(new Date(), 'yyyy-MM-dd') : undefined}
                   onChange={(e) => setFormData({ ...formData, reservation_date: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />

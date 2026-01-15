@@ -20,6 +20,9 @@ export interface TableData {
   min_capacity: number;
   max_capacity: number;
   shape: TableShapeType;
+  section_id?: string | null;
+  is_reservable?: boolean;
+  notes?: string;
   floor_plan_config: FloorPlanConfig;
   status?: TableStatus;
   current_reservation?: {

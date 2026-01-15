@@ -63,9 +63,9 @@ export function TableDialog({
         min_capacity: table.min_capacity,
         max_capacity: table.max_capacity,
         shape: table.shape,
-        section_id: null, // Would need to be fetched from table data
-        is_reservable: true,
-        notes: '',
+        section_id: table.section_id ?? null,
+        is_reservable: table.is_reservable ?? true,
+        notes: table.notes || '',
       });
     } else {
       setFormData({

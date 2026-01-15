@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getSession } from '@/lib/supabase-server';
 import {
   getTables,
   getTable,
@@ -19,6 +20,12 @@ export const dynamic = 'force-dynamic';
 // GET /api/tables - Get tables for a location
 export async function GET(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const locationId = searchParams.get('locationId');
     const type = searchParams.get('type') || 'list'; // list, single, forPartySize, capacity, floorPlan
@@ -140,6 +147,12 @@ export async function GET(request: NextRequest) {
 // POST /api/tables - Create tables
 export async function POST(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { action, ...params } = body;
 
@@ -283,6 +296,12 @@ export async function POST(request: NextRequest) {
 // PATCH /api/tables - Update a table
 export async function PATCH(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { tableId, ...updates } = body;
 
@@ -329,6 +348,12 @@ export async function PATCH(request: NextRequest) {
 // DELETE /api/tables - Delete a table
 export async function DELETE(request: NextRequest) {
   try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const tableId = searchParams.get('tableId');
     const hardDelete = searchParams.get('hardDelete') === 'true';
