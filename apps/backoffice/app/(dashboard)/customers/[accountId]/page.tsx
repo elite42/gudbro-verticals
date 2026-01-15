@@ -27,7 +27,9 @@ import {
   AlertCircle,
   Moon,
   Star,
+  Wallet,
 } from 'lucide-react';
+import { WalletDashboard } from '@/components/wallet';
 
 // Types
 interface CustomerDetailData {
@@ -663,6 +665,17 @@ export default function CustomerDetailPage() {
           </div>
         )}
       </div>
+
+      {/* Customer Wallet */}
+      {merchantId && (
+        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+          <div className="mb-4 flex items-center gap-2">
+            <Wallet className="h-5 w-5 text-emerald-500" />
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Customer Wallet</h2>
+          </div>
+          <WalletDashboard accountId={accountId} merchantId={merchantId} />
+        </div>
+      )}
     </div>
   );
 }

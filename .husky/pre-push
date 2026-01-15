@@ -1,6 +1,8 @@
-echo "Running build check before push..."
+echo "Running pre-push checks..."
 
-# Run turbo build to catch errors before they reach Vercel
+# 1. Run turbo build to catch errors before they reach Vercel
+echo ""
+echo "=== BUILD CHECK ==="
 pnpm turbo build
 
 if [ $? -ne 0 ]; then
@@ -9,5 +11,22 @@ if [ $? -ne 0 ]; then
   echo "Use 'git push --no-verify' to skip this check (not recommended)."
   exit 1
 fi
+echo "Build passed!"
 
-echo "Build passed! Pushing..."
+# 2. Optional: Run tests if GUDBRO_TEST_ON_PUSH=1
+# Enable with: GUDBRO_TEST_ON_PUSH=1 git push
+if [ "$GUDBRO_TEST_ON_PUSH" = "1" ]; then
+  echo ""
+  echo "=== TEST CHECK (enabled via GUDBRO_TEST_ON_PUSH) ==="
+  pnpm test:run 2>&1 | tail -30
+
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "Tests failed! Fix them before pushing."
+    exit 1
+  fi
+  echo "Tests passed!"
+fi
+
+echo ""
+echo "All checks passed! Pushing..."

@@ -24,11 +24,24 @@ export interface MerchantLanguage {
   direction: 'ltr' | 'rtl';
 }
 
+export interface MerchantBranding {
+  brandName: string;
+  logoUrl: string | null;
+  primaryColor: string;
+  secondaryColor: string | null;
+  accentColor: string | null;
+}
+
 export interface MerchantLocaleConfig {
   primaryLanguage: string;
   enabledLanguages: MerchantLanguage[];
   currencyCode: string;
   countryCode: string;
+  // Branding (from brands table)
+  branding: MerchantBranding;
+  // Domain context (from middleware headers)
+  customDomain: string | null;
+  tenantType: 'brand' | 'location' | null;
   isLoading: boolean;
   error: string | null;
 }
@@ -39,7 +52,10 @@ let cacheTimestamp: number = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 // Language metadata (native names and flags)
-const LANGUAGE_METADATA: Record<string, { name: string; nativeName: string; flag: string; countryCode: string }> = {
+const LANGUAGE_METADATA: Record<
+  string,
+  { name: string; nativeName: string; flag: string; countryCode: string }
+> = {
   // Common languages
   en: { name: 'English', nativeName: 'English', flag: '🇬🇧', countryCode: 'gb' },
   vi: { name: 'Vietnamese', nativeName: 'Tiếng Việt', flag: '🇻🇳', countryCode: 'vn' },
@@ -83,6 +99,15 @@ function getLanguageMetadata(code: string): MerchantLanguage {
   };
 }
 
+// Default branding when no custom branding
+const DEFAULT_BRANDING: MerchantBranding = {
+  brandName: 'GUDBRO',
+  logoUrl: null,
+  primaryColor: '#000000',
+  secondaryColor: null,
+  accentColor: null,
+};
+
 /**
  * Convert static config to MerchantLocaleConfig format
  */
@@ -91,7 +116,7 @@ function getStaticFallback(): MerchantLocaleConfig {
 
   return {
     primaryLanguage: i18n.defaultLanguage,
-    enabledLanguages: i18n.supportedLanguages.map(lang => ({
+    enabledLanguages: i18n.supportedLanguages.map((lang) => ({
       code: lang.code,
       name: lang.name,
       nativeName: lang.name,
@@ -101,6 +126,9 @@ function getStaticFallback(): MerchantLocaleConfig {
     })),
     currencyCode: i18n.baseCurrency,
     countryCode: 'VN', // Default for ROOTS
+    branding: DEFAULT_BRANDING,
+    customDomain: null,
+    tenantType: null,
     isLoading: false,
     error: null,
   };
@@ -108,13 +136,18 @@ function getStaticFallback(): MerchantLocaleConfig {
 
 /**
  * Fetch merchant locale config from Supabase
+ * Includes brand data for branding (logo, colors)
  *
  * @param merchantId - Optional merchant ID (uses first merchant if not provided)
+ * @param headers - Optional headers from middleware (for domain context)
  * @returns MerchantLocaleConfig
  */
-export async function fetchMerchantConfig(merchantId?: string): Promise<MerchantLocaleConfig> {
+export async function fetchMerchantConfig(
+  merchantId?: string,
+  headers?: { customDomain?: string; tenantType?: string; brandId?: string }
+): Promise<MerchantLocaleConfig> {
   // Check cache
-  if (cachedConfig && (Date.now() - cacheTimestamp) < CACHE_TTL) {
+  if (cachedConfig && Date.now() - cacheTimestamp < CACHE_TTL) {
     return cachedConfig;
   }
 
@@ -130,10 +163,27 @@ export async function fetchMerchantConfig(merchantId?: string): Promise<Merchant
   }
 
   try {
-    // Build query
+    // Build query - now includes brand data via location -> brand join
     let query = supabase
-      .from('merchants')
-      .select('id, primary_language, enabled_languages, currency_code, country_code')
+      .from('locations')
+      .select(
+        `
+        id,
+        primary_language,
+        enabled_languages,
+        currency_code,
+        country_code,
+        brand:brands(
+          id,
+          name,
+          logo_url,
+          primary_color,
+          secondary_color,
+          accent_color
+        )
+      `
+      )
+      .eq('is_active', true)
       .limit(1);
 
     if (merchantId) {
@@ -157,11 +207,34 @@ export async function fetchMerchantConfig(merchantId?: string): Promise<Merchant
     // Parse enabled_languages (stored as array in DB)
     const enabledLangCodes: string[] = data.enabled_languages || [data.primary_language || 'en'];
 
+    // Extract brand data
+    const brand = data.brand as {
+      id: string;
+      name: string;
+      logo_url: string | null;
+      primary_color: string | null;
+      secondary_color: string | null;
+      accent_color: string | null;
+    } | null;
+
+    const branding: MerchantBranding = brand
+      ? {
+          brandName: brand.name,
+          logoUrl: brand.logo_url,
+          primaryColor: brand.primary_color || '#000000',
+          secondaryColor: brand.secondary_color,
+          accentColor: brand.accent_color,
+        }
+      : DEFAULT_BRANDING;
+
     const config: MerchantLocaleConfig = {
       primaryLanguage: data.primary_language || 'en',
-      enabledLanguages: enabledLangCodes.map(code => getLanguageMetadata(code)),
+      enabledLanguages: enabledLangCodes.map((code) => getLanguageMetadata(code)),
       currencyCode: data.currency_code || 'USD',
       countryCode: data.country_code || 'US',
+      branding,
+      customDomain: headers?.customDomain || null,
+      tenantType: (headers?.tenantType as 'brand' | 'location') || null,
       isLoading: false,
       error: null,
     };
@@ -175,6 +248,7 @@ export async function fetchMerchantConfig(merchantId?: string): Promise<Merchant
         languages: enabledLangCodes,
         currency: config.currencyCode,
         country: config.countryCode,
+        brand: branding.brandName,
       });
     }
 

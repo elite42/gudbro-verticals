@@ -290,6 +290,55 @@ export interface Translations {
     tryDifferentMenuType: string;
     noProductsInCategory: string;
   };
+
+  // Reservation Widget
+  reservation?: {
+    title: string;
+    makeReservation: string;
+    partySizeTitle: string;
+    partySizeSubtitle: string;
+    guest: string;
+    guests: string;
+    selectDate: string;
+    selectTime: string;
+    today: string;
+    loading: string;
+    noSlots: string;
+    sectionPreference: string;
+    noPreference: string;
+    optional: string;
+    yourDetails: string;
+    name: string;
+    namePlaceholder: string;
+    phone: string;
+    phonePlaceholder: string;
+    email: string;
+    emailPlaceholder: string;
+    occasion: string;
+    selectOccasion: string;
+    occasions: {
+      birthday: string;
+      anniversary: string;
+      business: string;
+      date: string;
+      celebration: string;
+    };
+    specialRequests: string;
+    specialRequestsPlaceholder: string;
+    confirmTitle: string;
+    person: string;
+    people: string;
+    date: string;
+    time: string;
+    section: string;
+    confirmNote: string;
+    processing: string;
+    confirmReservation: string;
+    successTitle: string;
+    successMessage: string;
+    confirmationCode: string;
+    successNote: string;
+  };
 }
 
 export const translations: Record<Language, Translations> = {
@@ -548,6 +597,54 @@ export const translations: Record<Language, Translations> = {
       tryDifferentMenuType: 'Try changing the menu type',
       noProductsInCategory: 'There are no products in this category',
     },
+
+    reservation: {
+      title: 'Make a Reservation',
+      makeReservation: 'Make a Reservation',
+      partySizeTitle: 'How many guests?',
+      partySizeSubtitle: 'Select the number of people',
+      guest: 'guest',
+      guests: 'guests',
+      selectDate: 'Select Date',
+      selectTime: 'Select Time',
+      today: 'Today',
+      loading: 'Loading...',
+      noSlots: 'No available times for this date',
+      sectionPreference: 'Seating Preference',
+      noPreference: 'No preference',
+      optional: 'optional',
+      yourDetails: 'Your Details',
+      name: 'Name',
+      namePlaceholder: 'Enter your name',
+      phone: 'Phone',
+      phonePlaceholder: 'Enter your phone number',
+      email: 'Email',
+      emailPlaceholder: 'Enter your email',
+      occasion: 'Occasion',
+      selectOccasion: 'Select occasion...',
+      occasions: {
+        birthday: 'Birthday',
+        anniversary: 'Anniversary',
+        business: 'Business Meal',
+        date: 'Date Night',
+        celebration: 'Celebration',
+      },
+      specialRequests: 'Special Requests',
+      specialRequestsPlaceholder: 'Allergies, accessibility needs, etc.',
+      confirmTitle: 'Confirm Your Reservation',
+      person: 'person',
+      people: 'people',
+      date: 'Date',
+      time: 'Time',
+      section: 'Section',
+      confirmNote: 'By confirming, you agree to our reservation policy.',
+      processing: 'Processing...',
+      confirmReservation: 'Confirm Reservation',
+      successTitle: 'Reservation Confirmed!',
+      successMessage: 'We look forward to seeing you!',
+      confirmationCode: 'Confirmation Code',
+      successNote: 'A confirmation has been sent to your phone/email.',
+    },
   },
 
   // VIETNAMESE
@@ -805,6 +902,54 @@ export const translations: Record<Language, Translations> = {
       tryDifferentMenuType: 'Thử thay đổi loại thực đơn',
       noProductsInCategory: 'Không có sản phẩm trong danh mục này',
     },
+
+    reservation: {
+      title: 'Đặt Bàn',
+      makeReservation: 'Đặt Bàn',
+      partySizeTitle: 'Bao nhiêu khách?',
+      partySizeSubtitle: 'Chọn số người',
+      guest: 'khách',
+      guests: 'khách',
+      selectDate: 'Chọn Ngày',
+      selectTime: 'Chọn Giờ',
+      today: 'Hôm nay',
+      loading: 'Đang tải...',
+      noSlots: 'Không có giờ trống cho ngày này',
+      sectionPreference: 'Khu Vực Ngồi',
+      noPreference: 'Không có yêu cầu',
+      optional: 'tùy chọn',
+      yourDetails: 'Thông Tin Của Bạn',
+      name: 'Tên',
+      namePlaceholder: 'Nhập tên của bạn',
+      phone: 'Điện thoại',
+      phonePlaceholder: 'Nhập số điện thoại',
+      email: 'Email',
+      emailPlaceholder: 'Nhập email của bạn',
+      occasion: 'Dịp đặc biệt',
+      selectOccasion: 'Chọn dịp...',
+      occasions: {
+        birthday: 'Sinh nhật',
+        anniversary: 'Kỷ niệm',
+        business: 'Bữa ăn công việc',
+        date: 'Hẹn hò',
+        celebration: 'Tiệc mừng',
+      },
+      specialRequests: 'Yêu Cầu Đặc Biệt',
+      specialRequestsPlaceholder: 'Dị ứng, nhu cầu tiếp cận, v.v.',
+      confirmTitle: 'Xác Nhận Đặt Bàn',
+      person: 'người',
+      people: 'người',
+      date: 'Ngày',
+      time: 'Giờ',
+      section: 'Khu vực',
+      confirmNote: 'Bằng việc xác nhận, bạn đồng ý với chính sách đặt bàn của chúng tôi.',
+      processing: 'Đang xử lý...',
+      confirmReservation: 'Xác Nhận Đặt Bàn',
+      successTitle: 'Đặt Bàn Thành Công!',
+      successMessage: 'Chúng tôi mong được đón tiếp bạn!',
+      confirmationCode: 'Mã Xác Nhận',
+      successNote: 'Xác nhận đã được gửi đến điện thoại/email của bạn.',
+    },
   },
 
   // ITALIAN
@@ -1061,6 +1206,54 @@ export const translations: Record<Language, Translations> = {
       noProducts: 'Nessun prodotto trovato',
       tryDifferentMenuType: 'Prova a cambiare il tipo di menu',
       noProductsInCategory: 'Non ci sono prodotti in questa categoria',
+    },
+
+    reservation: {
+      title: 'Prenota un Tavolo',
+      makeReservation: 'Prenota un Tavolo',
+      partySizeTitle: 'Quanti ospiti?',
+      partySizeSubtitle: 'Seleziona il numero di persone',
+      guest: 'ospite',
+      guests: 'ospiti',
+      selectDate: 'Seleziona Data',
+      selectTime: 'Seleziona Orario',
+      today: 'Oggi',
+      loading: 'Caricamento...',
+      noSlots: 'Nessun orario disponibile per questa data',
+      sectionPreference: 'Preferenza Zona',
+      noPreference: 'Nessuna preferenza',
+      optional: 'opzionale',
+      yourDetails: 'I Tuoi Dati',
+      name: 'Nome',
+      namePlaceholder: 'Inserisci il tuo nome',
+      phone: 'Telefono',
+      phonePlaceholder: 'Inserisci il tuo numero di telefono',
+      email: 'Email',
+      emailPlaceholder: 'Inserisci la tua email',
+      occasion: 'Occasione',
+      selectOccasion: 'Seleziona occasione...',
+      occasions: {
+        birthday: 'Compleanno',
+        anniversary: 'Anniversario',
+        business: 'Pranzo di Lavoro',
+        date: 'Cena Romantica',
+        celebration: 'Festeggiamento',
+      },
+      specialRequests: 'Richieste Speciali',
+      specialRequestsPlaceholder: 'Allergie, esigenze di accessibilità, ecc.',
+      confirmTitle: 'Conferma la Prenotazione',
+      person: 'persona',
+      people: 'persone',
+      date: 'Data',
+      time: 'Orario',
+      section: 'Zona',
+      confirmNote: 'Confermando, accetti la nostra politica di prenotazione.',
+      processing: 'Elaborazione...',
+      confirmReservation: 'Conferma Prenotazione',
+      successTitle: 'Prenotazione Confermata!',
+      successMessage: "Non vediamo l'ora di accoglierti!",
+      confirmationCode: 'Codice di Conferma',
+      successNote: 'Una conferma è stata inviata al tuo telefono/email.',
     },
   },
 };

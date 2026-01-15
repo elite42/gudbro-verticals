@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { useIsMobile } from '@/lib/hooks/useIsMobile';
 import {
   OnboardingChecklist,
   useOnboardingSteps,
 } from '@/components/onboarding/OnboardingChecklist';
-import { AIPrioritiesHero } from '@/components/ai/AIPrioritiesHero';
+import { AIPrioritiesHero, MobileCommandCenter } from '@/components/ai';
+import { OpportunityBannerWrapper } from '@/components/ai/OpportunityBanner';
 import { FoodCostProgress } from '@/components/food-cost';
 
 export const dynamic = 'force-dynamic';
@@ -81,6 +83,7 @@ export default function DashboardPage() {
     isLoading: tenantLoading,
   } = useTenant();
   const { steps: onboardingSteps, completeStep } = useOnboardingSteps(defaultOnboardingSteps);
+  const isMobile = useIsMobile();
 
   const [stats, setStats] = useState<DashboardStats>({
     menuItems: 0,
@@ -157,6 +160,11 @@ export default function DashboardPage() {
     { name: 'Ingredients', value: stats.ingredients.toString(), icon: '🥕', color: 'orange' },
   ];
 
+  // Mobile Command Mode - Show simplified decision interface on mobile
+  if (isMobile) {
+    return <MobileCommandCenter />;
+  }
+
   return (
     <div className="space-y-8">
       {/* Page header with tenant info */}
@@ -188,6 +196,9 @@ export default function DashboardPage() {
 
       {/* AI Priorities Hero - Main decision center */}
       <AIPrioritiesHero />
+
+      {/* Opportunity Banner - Top opportunity highlight */}
+      <OpportunityBannerWrapper />
 
       {/* Onboarding Checklist */}
       <OnboardingChecklist steps={onboardingSteps} onStepComplete={completeStep} />

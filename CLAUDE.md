@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-14
-> **Version:** 6.6 (QA System - FASE 0 fondamenta)
+> **Last Updated:** 2026-01-15
+> **Version:** 6.7 (WHITE-LABEL-FULL + AI-FIRST-REDESIGN complete)
 
 ---
 
@@ -75,10 +75,10 @@ FINE SESSIONE:
 
 # 0. CURRENT FOCUS (Aggiorna quando cambi task)
 
-> **Task attiva:** Nessuna
-> **Stato:** Session specs complete, ready for implementation
-> **Azione:** Nessuna
-> **Ultima completata:** B2B Partnership Ecosystem specs (TOURISM-B2B, Weather Intel, Conventions) - 2026-01-12
+> **Task attiva:** Nessuna (backlog vuoto per P1)
+> **Stato:** Pronto per nuova task
+> **Azione:** Scegliere da 1-TODO.md (P0.5-architecture o P2)
+> **Ultima completata:** WHITE-LABEL-FULL + AI-FIRST-REDESIGN - 2026-01-15
 
 ---
 
@@ -341,37 +341,38 @@ VERIFICA SEMPRE:
 
 ## Pattern da Seguire
 
-| Area            | Pattern Corretto                       | Anti-Pattern                 |
-| --------------- | -------------------------------------- | ---------------------------- |
-| SQL Arrays      | `'{\"a\",\"b\"}'`                      | `'["a","b"]'`                |
-| UUID            | `a1b2c3d4-...` (solo hex)              | `ghij-klmn-...`              |
-| Imports         | `import { X } from '@/lib/...'`        | Path relativi profondi       |
-| Error handling  | `try/catch` con logging                | Silent failures              |
-| RLS Backend     | `auth.role() = 'service_role'`         | `WITH CHECK (true)`          |
-| RLS User        | `auth.uid() = user_id`                 | `USING (true)`               |
-| RLS Public Read | `FOR SELECT USING (true)` OK           | `FOR ALL USING (true)` NO    |
-| Env-dependent   | `Proxy` lazy init                      | `createClient()` a import    |
-| Type unions     | Include tutti i valori validi          | Dimenticare `'both'` etc     |
-| Warnings/Errors | Agire subito, fix o segnala            | Ignorare e proseguire        |
-| Doc grandi      | Layered: sezioni rilevanti solo        | Leggere/processare tutto     |
-| Debug API/MCP   | Query semplice → incrementale          | Query complessa subito       |
-| Traduzioni bulk | Script OpenAI (gpt-4o-mini)            | Generare inline con Claude   |
-| RLS bypass      | Script→SQL output→MCP execute          | Cercare service_role_key     |
-| UA/Regex check  | Specifici prima, generici dopo         | Chrome prima di Samsung      |
-| Test automatici | Scrivere test scopre bug               | Solo test manuali            |
-| Hydration SSR   | `mounted` state + useEffect            | localStorage a render        |
-| Feature 404     | Creare la pagina mancante              | Rimuovere il link            |
-| Dev-only logic  | Componente separato `DevX`             | if(isDev) dentro comp prod   |
-| Pieces MCP      | Query only (`ask_pieces_ltm`)          | `create_memory` (auto-save)  |
-| Regional market | Considera piattaforme Asia             | Assumere default occidentali |
-| Settings UX     | Tabs orizzontali per settings          | Submenu sidebar              |
-| Service models  | Capire modello servizio locale         | One-size-fits-all            |
-| Entry tier      | Tier base come piede nella porta       | Forzare full package         |
-| QR value        | QR utile anche senza ordering          | QR = solo ordering           |
-| Backoffice mod  | PRODUCT.md Sez.6 solo nuove areas      | Aggiornare per ogni modifica |
-| Audit tecnico   | Snapshot datato, rigenera su richiesta | Mantenere aggiornato sempre  |
-| Task lunghe     | Commit ogni ~30 min o feature done     | Task 2h+ senza checkpoint    |
-| MCP heavy ops   | Prima commit, poi type gen/migrations  | Type gen durante sviluppo    |
+| Area            | Pattern Corretto                                        | Anti-Pattern                 |
+| --------------- | ------------------------------------------------------- | ---------------------------- |
+| SQL Arrays      | `'{\"a\",\"b\"}'`                                       | `'["a","b"]'`                |
+| UUID            | `a1b2c3d4-...` (solo hex)                               | `ghij-klmn-...`              |
+| Imports         | `import { X } from '@/lib/...'`                         | Path relativi profondi       |
+| Error handling  | `try/catch` con logging                                 | Silent failures              |
+| RLS Backend     | `auth.role() = 'service_role'`                          | `WITH CHECK (true)`          |
+| RLS User        | `auth.uid() = user_id`                                  | `USING (true)`               |
+| RLS Public Read | `FOR SELECT USING (true)` OK                            | `FOR ALL USING (true)` NO    |
+| Env-dependent   | `Proxy` lazy init                                       | `createClient()` a import    |
+| Type unions     | Include tutti i valori validi                           | Dimenticare `'both'` etc     |
+| Warnings/Errors | Agire subito, fix o segnala                             | Ignorare e proseguire        |
+| Doc grandi      | Layered: sezioni rilevanti solo                         | Leggere/processare tutto     |
+| Debug API/MCP   | Query semplice → incrementale                           | Query complessa subito       |
+| Traduzioni bulk | Script OpenAI (gpt-4o-mini)                             | Generare inline con Claude   |
+| RLS bypass      | Script→SQL output→MCP execute                           | Cercare service_role_key     |
+| UA/Regex check  | Specifici prima, generici dopo                          | Chrome prima di Samsung      |
+| Test automatici | Scrivere test scopre bug                                | Solo test manuali            |
+| Hydration SSR   | `mounted` state + useEffect                             | localStorage a render        |
+| Feature 404     | Creare la pagina mancante                               | Rimuovere il link            |
+| Dev-only logic  | Componente separato `DevX`                              | if(isDev) dentro comp prod   |
+| Pieces MCP      | Query only (`ask_pieces_ltm`)                           | `create_memory` (auto-save)  |
+| Regional market | Considera piattaforme Asia                              | Assumere default occidentali |
+| Settings UX     | Tabs orizzontali per settings                           | Submenu sidebar              |
+| Service models  | Capire modello servizio locale                          | One-size-fits-all            |
+| Entry tier      | Tier base come piede nella porta                        | Forzare full package         |
+| QR value        | QR utile anche senza ordering                           | QR = solo ordering           |
+| Backoffice mod  | PRODUCT.md Sez.6 solo nuove areas                       | Aggiornare per ogni modifica |
+| Audit tecnico   | Snapshot datato, rigenera su richiesta                  | Mantenere aggiornato sempre  |
+| Task lunghe     | Commit ogni ~30 min o feature done                      | Task 2h+ senza checkpoint    |
+| MCP heavy ops   | Prima commit, poi type gen/migrations                   | Type gen durante sviluppo    |
+| KB Backoffice   | Aggiorna `lib/kb/kb-content.ts` quando modifichi pagine | Dimenticare docs utente      |
 
 ## Come Aggiornare
 

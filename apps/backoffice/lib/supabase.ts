@@ -47,10 +47,17 @@ export type PartnerTerritoryType = 'country' | 'region' | 'city';
 export type PartnerStatus = 'active' | 'suspended' | 'terminated';
 export type OrganizationType = 'standard' | 'enterprise';
 export type OrganizationStatus = 'active' | 'suspended' | 'closed';
-export type SubscriptionPlan = 'free' | 'starter' | 'pro';
+export type SubscriptionPlan = 'free' | 'menu_only' | 'starter' | 'pro';
 export type SubscriptionStatus = 'active' | 'past_due' | 'cancelled' | 'trialing';
 export type BusinessType = 'fnb' | 'hotel' | 'rental' | 'wellness' | 'other';
-export type LeadStatus = 'new' | 'contacted' | 'qualified' | 'proposal' | 'negotiating' | 'won' | 'lost';
+export type LeadStatus =
+  | 'new'
+  | 'contacted'
+  | 'qualified'
+  | 'proposal'
+  | 'negotiating'
+  | 'won'
+  | 'lost';
 
 export interface Partner {
   id: string;

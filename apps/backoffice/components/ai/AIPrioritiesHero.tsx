@@ -4,6 +4,13 @@ import { useState, useEffect } from 'react';
 import { Brain, Sparkles, CheckCircle2, RefreshCw } from 'lucide-react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { AIPriorityCard, AIPriority, PriorityLevel } from './AIPriorityCard';
+import { ScenarioBanner } from './ScenarioBanner';
+import {
+  detectScenario,
+  estimateTraffic,
+  type OperationalScenario,
+  type ScenarioInput,
+} from '@/lib/ai/scenario-detection';
 
 interface WeatherBusinessImpact {
   deliveryImpact: string;
@@ -35,9 +42,19 @@ interface WeatherData {
   businessImpact?: WeatherBusinessImpact;
 }
 
+// Food Cost dish data
+interface FoodCostDish {
+  id: string;
+  name: string;
+  food_cost_percent: number | null;
+  selling_price: number | null;
+  ingredient_cost: number | null;
+}
+
 export function AIPrioritiesHero() {
   const { location } = useTenant();
   const [priorities, setPriorities] = useState<AIPriority[]>([]);
+  const [scenario, setScenario] = useState<OperationalScenario | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -52,22 +69,105 @@ export function AIPrioritiesHero() {
     setError(null);
 
     try {
-      // Fetch weather data
-      const weatherRes = await fetch(`/api/ai/weather?locationId=${location.id}`);
+      // Fetch weather data and food cost data in parallel
+      const [weatherRes, foodCostRes] = await Promise.all([
+        fetch(`/api/ai/weather?locationId=${location.id}`),
+        fetch(`/api/food-cost/dishes?locationId=${location.id}`),
+      ]);
+
       let weatherData: WeatherData | null = null;
+      let foodCostDishes: FoodCostDish[] = [];
 
       if (weatherRes.ok) {
         weatherData = await weatherRes.json();
       }
 
+      if (foodCostRes.ok) {
+        const foodCostData = await foodCostRes.json();
+        foodCostDishes = foodCostData.dishes || [];
+      }
+
       // Generate priorities based on available data
       const generatedPriorities: AIPriority[] = [];
+
+      // Food Cost Priority - High cost dishes (>35%)
+      const highCostDishes = foodCostDishes.filter(
+        (d) => d.food_cost_percent !== null && d.food_cost_percent > 35
+      );
+
+      if (highCostDishes.length > 0) {
+        // Sort by food cost descending
+        const sortedHighCost = [...highCostDishes].sort(
+          (a, b) => (b.food_cost_percent || 0) - (a.food_cost_percent || 0)
+        );
+        const worstDish = sortedHighCost[0];
+        const isCritical = highCostDishes.some((d) => (d.food_cost_percent || 0) > 45);
+        const avgFoodCost =
+          highCostDishes.reduce((sum, d) => sum + (d.food_cost_percent || 0), 0) /
+          highCostDishes.length;
+
+        generatedPriorities.push({
+          id: 'food-cost-high',
+          level: isCritical ? 'critical' : 'warning',
+          category: 'food_cost',
+          // Legacy title/description for backward compat
+          title:
+            highCostDishes.length === 1
+              ? `Food cost alto: ${worstDish.name}`
+              : `${highCostDishes.length} piatti con food cost alto`,
+          description: `Food cost medio ${avgFoodCost.toFixed(0)}% sui piatti problematici`,
+
+          // === 5 DOMANDE TEMPLATE ===
+          // 1. ❓ Cosa sta succedendo
+          situation:
+            highCostDishes.length === 1
+              ? `"${worstDish.name}" ha un food cost del ${worstDish.food_cost_percent?.toFixed(0)}%`
+              : `${highCostDishes.length} piatti hanno food cost superiore al 35%. Il peggiore è "${worstDish.name}" al ${worstDish.food_cost_percent?.toFixed(0)}%`,
+
+          // 2. 📉 Perché è un problema
+          reason: isCritical
+            ? 'Con food cost >45%, stai vendendo quasi a costo. Ogni vendita erode i margini.'
+            : 'Il target food cost è 28-32%. Sopra il 35% i margini si riducono significativamente.',
+
+          // 3. 💰 Impatto stimato
+          impact: isCritical ? 'Margini a rischio (-8-12%)' : 'Margini sotto target (-3-5%)',
+
+          // 4. 🧠 Cosa consiglia l'AI
+          aiSuggestion:
+            highCostDishes.length === 1
+              ? `Rivedi il prezzo di "${worstDish.name}" o ottimizza le porzioni degli ingredienti più costosi`
+              : `Analizza i ${highCostDishes.length} piatti e considera: aumento prezzi, porzioni ridotte, o ingredienti alternativi`,
+
+          // Metadata
+          timeframe: 'Richiede attenzione',
+          confidence: 95,
+          dataPoints: [
+            `${highCostDishes.length} piatti sopra soglia 35%`,
+            `Food cost medio: ${avgFoodCost.toFixed(1)}%`,
+            `Piatto peggiore: ${worstDish.name} (${worstDish.food_cost_percent?.toFixed(0)}%)`,
+          ],
+
+          // 5. 👉 Cosa fai ORA
+          actions: {
+            primary: {
+              label: 'Analizza costi',
+              action: () => {
+                window.location.href = '/food-cost';
+              },
+            },
+            secondary: {
+              label: 'Dopo',
+              action: () => {},
+            },
+          },
+        });
+      }
 
       if (weatherData?.businessImpact) {
         const impact = weatherData.businessImpact;
         const temp = weatherData.current?.temp || 0;
 
-        // Staffing Priority
+        // Staffing Priority - 5 DOMANDE TEMPLATE
         if (impact.staffAdjustment) {
           const { sala, kitchen, delivery, bar } = impact.staffAdjustment;
           const totalAdjustment = sala + kitchen + delivery + bar;
@@ -87,20 +187,43 @@ export function AIPrioritiesHero() {
               id: 'staffing-weather',
               level: isOverstaffed ? 'warning' : 'opportunity',
               category: 'staffing',
-              title: isOverstaffed ? 'Possibile overstaffing' : 'Staff adjustment suggerito',
-              description: `Basato su meteo (${temp}°C, ${weatherData.current?.conditions}). ${
-                isOverstaffed
-                  ? 'Considera di ridurre staff nelle ore di punta.'
-                  : 'Considera di aumentare staff per gestire domanda.'
+              // Legacy
+              title: isOverstaffed ? 'Possibile overstaffing' : 'Opportunità staff',
+              description: `Basato su meteo (${temp}°C, ${weatherData.current?.conditions})`,
+
+              // === 5 DOMANDE TEMPLATE ===
+              // 1. ❓ Cosa sta succedendo
+              situation: `Oggi ${temp}°C con ${weatherData.current?.conditions?.toLowerCase()}. ${
+                isOverstaffed ? 'Affluenza stimata in calo.' : 'Affluenza stimata in aumento.'
               }`,
+
+              // 2. 📉📈 Perché è problema/opportunità
+              reason: isOverstaffed
+                ? "Con queste condizioni meteo, storicamente l'affluenza cala. Rischio costi personale eccessivi."
+                : "Con queste condizioni meteo, storicamente l'affluenza aumenta. Opportunità di servire più clienti.",
+
+              // 3. 💰 Impatto stimato
               impact: adjustmentDetails.join(', '),
+
+              // 4. 🧠 Cosa consiglia l'AI
+              aiSuggestion: isOverstaffed
+                ? 'Considera di ridurre o spostare personale nelle ore 16-18. Meno costi, stessa qualità servizio.'
+                : 'Considera di aumentare personale o chiamare rinforzi per gestire il picco previsto.',
+
+              // Metadata
               timeframe: 'Oggi',
               confidence: 75,
+              dataPoints: [
+                `Temperatura: ${temp}°C`,
+                `Condizioni: ${weatherData?.current?.conditions}`,
+                `Umidità: ${weatherData?.current?.humidity}%`,
+              ],
+
+              // 5. 👉 Cosa fai ORA
               actions: {
                 primary: {
-                  label: 'Vedi dettagli',
+                  label: isOverstaffed ? 'Gestisci turni' : 'Vedi staff',
                   action: () => {
-                    // Could open a modal or navigate to team page
                     window.location.href = '/team';
                   },
                 },
@@ -109,37 +232,52 @@ export function AIPrioritiesHero() {
                   action: () => {},
                 },
               },
-              onExplain: () => {
-                alert(
-                  `Suggerimento basato su:\n\n` +
-                    `• Temperatura: ${temp}°C\n` +
-                    `• Condizioni: ${weatherData?.current?.conditions}\n` +
-                    `• Umidità: ${weatherData?.current?.humidity}%\n\n` +
-                    `Storicamente, queste condizioni impattano affluenza e delivery.`
-                );
-              },
             });
           }
         }
 
-        // Weather-based Promo Priority
+        // Weather-based Promo Priority - 5 DOMANDE TEMPLATE
         if (impact.beverageFocus && impact.marketingHook) {
           const isHotWeather = impact.beverageFocus === 'cold';
           const isColdWeather = impact.beverageFocus === 'hot';
+          const beverageType = isHotWeather ? 'fredde' : isColdWeather ? 'calde' : 'stagionali';
 
           generatedPriorities.push({
             id: 'promo-weather',
             level: 'opportunity',
             category: 'promo',
-            title: isHotWeather
-              ? 'Opportunità bevande fredde'
-              : isColdWeather
-                ? 'Opportunità bevande calde'
-                : 'Opportunità menu',
+            // Legacy
+            title: `Opportunità bevande ${beverageType}`,
             description: impact.marketingHook,
-            impact: impact.deliveryImpact || '+10-15%',
+
+            // === 5 DOMANDE TEMPLATE ===
+            // 1. ❓ Cosa sta succedendo
+            situation: `Oggi ${temp}°C - condizioni ideali per bevande ${beverageType}. ${impact.marketingHook}`,
+
+            // 2. 📈 Perché è un'opportunità
+            reason: `Le promozioni basate sul meteo hanno un conversion rate +23% superiore. Il timing è perfetto per massimizzare le vendite.`,
+
+            // 3. 💰 Impatto stimato
+            impact: impact.deliveryImpact || '+10-15% vendite bevande',
+
+            // 4. 🧠 Cosa consiglia l'AI
+            aiSuggestion: isHotWeather
+              ? 'Lancia una promo "Beat the Heat" su smoothies, frappè e bevande ghiacciate. Push sui social e in-app.'
+              : isColdWeather
+                ? 'Spingi combo "Warm Up" con caffè speciali, cioccolate e tè. Evidenzia sul menu digitale.'
+                : 'Crea una promo stagionale sulle bevande del momento.',
+
+            // Metadata
             timeframe: 'Oggi',
             confidence: 82,
+            dataPoints: [
+              `Temperatura: ${temp}°C`,
+              `Focus consigliato: bevande ${beverageType}`,
+              `Impatto delivery: ${impact.deliveryImpact}`,
+              `Impatto dine-in: ${impact.dineInImpact}`,
+            ],
+
+            // 5. 👉 Cosa fai ORA
             actions: {
               primary: {
                 label: 'Crea promo',
@@ -152,20 +290,10 @@ export function AIPrioritiesHero() {
                 action: () => {},
               },
             },
-            onExplain: () => {
-              alert(
-                `Suggerimento basato su:\n\n` +
-                  `• Temperatura: ${temp}°C\n` +
-                  `• Focus bevande: ${impact.beverageFocus}\n` +
-                  `• Impatto delivery: ${impact.deliveryImpact}\n` +
-                  `• Impatto dine-in: ${impact.dineInImpact}\n\n` +
-                  `Promozioni basate sul meteo hanno conversion rate +23% superiore.`
-              );
-            },
           });
         }
 
-        // Menu Focus Priority
+        // Menu Focus Priority - 5 DOMANDE TEMPLATE
         if (impact.menuSuggestions && impact.menuSuggestions.length > 0) {
           const highPrioritySuggestions = impact.menuSuggestions.filter(
             (s) => s.priority === 'high'
@@ -177,16 +305,43 @@ export function AIPrioritiesHero() {
               id: 'menu-focus',
               level: 'opportunity',
               category: 'weather',
+              // Legacy
               title: `Spingi categoria: ${suggestion.category}`,
               description: suggestion.reason,
+
+              // === 5 DOMANDE TEMPLATE ===
+              // 1. ❓ Cosa sta succedendo
+              situation: `Condizioni meteo favorevoli per la categoria "${suggestion.category}"`,
+
+              // 2. 📈 Perché è un'opportunità
+              reason: suggestion.reason,
+
+              // 3. 💰 Impatto stimato
+              impact: '+8-12% vendite categoria',
+
+              // 4. 🧠 Cosa consiglia l'AI
+              aiSuggestion: `Metti in evidenza la categoria "${suggestion.category}" nel menu digitale. Considera di spostarla in alto o aggiungerla ai "Consigliati".`,
+
+              // Metadata
               timeframe: 'Oggi',
               confidence: 70,
+              dataPoints: [
+                `Categoria consigliata: ${suggestion.category}`,
+                `Priorità: ${suggestion.priority}`,
+                `Temperatura: ${temp}°C`,
+              ],
+
+              // 5. 👉 Cosa fai ORA
               actions: {
                 primary: {
                   label: 'Aggiorna menu',
                   action: () => {
                     window.location.href = '/menu';
                   },
+                },
+                secondary: {
+                  label: 'Dopo',
+                  action: () => {},
                 },
               },
             });
@@ -210,6 +365,44 @@ export function AIPrioritiesHero() {
 
       // Limit to max 3 priorities
       setPriorities(generatedPriorities.slice(0, 3));
+
+      // === SCENARIO DETECTION ===
+      const now = new Date();
+      const currentHour = now.getHours();
+      const dayOfWeek = now.getDay();
+
+      const scenarioInput: ScenarioInput = {
+        currentHour,
+        dayOfWeek,
+        estimatedTraffic: estimateTraffic(currentHour, dayOfWeek),
+        weather: weatherData?.current
+          ? {
+              temp: weatherData.current.temp,
+              conditions: weatherData.current.conditions,
+              isRaining:
+                weatherData.current.conditions.toLowerCase().includes('rain') ||
+                weatherData.current.conditions.toLowerCase().includes('storm'),
+            }
+          : undefined,
+        foodCost:
+          foodCostDishes.length > 0
+            ? {
+                highCostDishCount: highCostDishes.length,
+                avgFoodCostPercent:
+                  highCostDishes.length > 0
+                    ? highCostDishes.reduce((sum, d) => sum + (d.food_cost_percent || 0), 0) /
+                      highCostDishes.length
+                    : 0,
+                criticalDishCount: foodCostDishes.filter(
+                  (d) => d.food_cost_percent !== null && d.food_cost_percent > 45
+                ).length,
+              }
+            : undefined,
+      };
+
+      const detectedScenario = detectScenario(scenarioInput);
+      setScenario(detectedScenario);
+
       setLastUpdated(new Date());
     } catch (err) {
       console.error('Error fetching priorities:', err);
@@ -365,6 +558,9 @@ export function AIPrioritiesHero() {
           <RefreshCw className="h-5 w-5" />
         </button>
       </div>
+
+      {/* Operational Scenario Banner */}
+      {scenario && <ScenarioBanner scenario={scenario} />}
 
       {/* Priority Cards Grid */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

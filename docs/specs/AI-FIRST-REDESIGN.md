@@ -74,16 +74,16 @@ Dashboard = "Cosa devi fare oggi", non overview.
 
 ### Componenti da creare
 
-- [ ] `AIPriorityCard` - Card singola priorità con CTA
-- [ ] `AIPrioritiesHero` - Container 3 priorità max
-- [ ] `OpportunityBanner` - Banner opportunità con CTA
-- [ ] `AIStatusHeader` - Status AI nel header
+- [x] `AIPriorityCard` - Card singola priorità con CTA
+- [x] `AIPrioritiesHero` - Container 3 priorità max (Weather + Food Cost triggers)
+- [x] `OpportunityBanner` - Banner opportunità con CTA
+- [x] `AIStatusHeader` - Status AI nel header (pulsante AI con notifiche)
 
-### Dati necessari
+### Dati integrati
 
-- Usare WeatherWidget data per suggerimenti meteo
-- Usare AI Triggers per priorità
-- Usare Food Cost data per margini
+- [x] WeatherWidget data per suggerimenti meteo
+- [x] AI Triggers per priorità (staffing, promo, menu)
+- [x] Food Cost data per margini (alert >35%, critical >45%)
 
 ---
 

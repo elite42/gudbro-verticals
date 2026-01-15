@@ -2,6 +2,7 @@
 // Fetches merchant data for AI context (Phase 2)
 
 import { supabase } from '@/lib/supabase';
+import { getUpcomingHolidaysContext, UpcomingHolidaysContext } from './holidays-service';
 
 export interface MerchantKnowledge {
   menu: MenuKnowledge | null;
@@ -9,6 +10,7 @@ export interface MerchantKnowledge {
   events: EventsKnowledge | null;
   feedback: FeedbackKnowledge | null;
   inventory: InventoryKnowledge | null;
+  holidays: UpcomingHolidaysContext | null;
   lastUpdated: string;
 }
 
@@ -469,7 +471,11 @@ export async function fetchMerchantKnowledge(
     includeEvents?: boolean;
     includeFeedback?: boolean;
     includeInventory?: boolean;
+    includeHolidays?: boolean;
     analyticsPeriodDays?: number;
+    countryCode?: string;
+    regionCode?: string;
+    city?: string;
   } = {}
 ): Promise<MerchantKnowledge> {
   const {
@@ -478,15 +484,22 @@ export async function fetchMerchantKnowledge(
     includeEvents = true,
     includeFeedback = true,
     includeInventory = true,
+    includeHolidays = true,
     analyticsPeriodDays = 30,
+    countryCode = 'VN',
+    regionCode,
+    city,
   } = options;
 
-  const [menu, analytics, events, feedback, inventory] = await Promise.all([
+  const [menu, analytics, events, feedback, inventory, holidays] = await Promise.all([
     includeMenu ? fetchMenuKnowledge(merchantId, locationId) : null,
     includeAnalytics ? fetchAnalyticsKnowledge(merchantId, locationId, analyticsPeriodDays) : null,
     includeEvents ? fetchEventsKnowledge(merchantId, locationId) : null,
     includeFeedback ? fetchFeedbackKnowledge(merchantId, locationId) : null,
     includeInventory ? fetchInventoryKnowledge(merchantId) : null,
+    includeHolidays
+      ? getUpcomingHolidaysContext(countryCode, { regionCode, city, merchantId }).catch(() => null)
+      : null,
   ]);
 
   return {
@@ -495,6 +508,7 @@ export async function fetchMerchantKnowledge(
     events,
     feedback,
     inventory,
+    holidays,
     lastUpdated: new Date().toISOString(),
   };
 }
@@ -566,6 +580,26 @@ ${
     ? `- ⚠️ LOW STOCK ALERTS:
 ${inv.lowStockItems.map((item) => `  - ${item.name}: ${item.currentStock} ${item.unit} (min: ${item.minStock})${item.daysUntilEmpty ? ` - ~${item.daysUntilEmpty} days left` : ''}`).join('\n')}`
     : '- All items well stocked'
+}
+`);
+  }
+
+  if (knowledge.holidays) {
+    const h = knowledge.holidays;
+    sections.push(`
+## Upcoming Holidays & Events
+${h.aiContext}
+${
+  h.criticalAlerts.length > 0
+    ? `- ⚠️ CRITICAL DATES:
+${h.criticalAlerts.map((alert) => `  - ${alert.nameEn || alert.name} on ${alert.date} (${alert.impactLevel} impact)`).join('\n')}`
+    : ''
+}
+${
+  h.upcomingWeek.length > 0
+    ? `- This Week:
+${h.upcomingWeek.map((holiday) => `  - ${holiday.nameEn || holiday.name} (${new Date(holiday.date).toLocaleDateString()}) - ${holiday.impactLevel} impact`).join('\n')}`
+    : ''
 }
 `);
   }

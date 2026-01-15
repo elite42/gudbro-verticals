@@ -3,6 +3,8 @@ import { supabase } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
+type ServiceStyle = 'dine_in' | 'counter' | 'delivery_only' | 'takeaway' | 'mixed' | 'qr_ordering';
+
 interface CreateLocationRequest {
   brandId: string;
   name: string;
@@ -21,6 +23,7 @@ interface CreateLocationRequest {
   email?: string;
   menuId?: string;
   operatingHours?: Record<string, { open: string; close: string }>;
+  serviceStyle?: ServiceStyle;
 }
 
 export async function POST(request: Request) {
@@ -29,31 +32,19 @@ export async function POST(request: Request) {
 
     // Validate required fields
     if (!body.brandId) {
-      return NextResponse.json(
-        { error: 'Brand ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Brand ID is required' }, { status: 400 });
     }
 
     if (!body.name) {
-      return NextResponse.json(
-        { error: 'Location name is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Location name is required' }, { status: 400 });
     }
 
     if (!body.countryCode) {
-      return NextResponse.json(
-        { error: 'Country code is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Country code is required' }, { status: 400 });
     }
 
     if (!body.primaryLanguage) {
-      return NextResponse.json(
-        { error: 'Primary language is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Primary language is required' }, { status: 400 });
     }
 
     // Create slug from name (unique within brand)
@@ -96,6 +87,7 @@ export async function POST(request: Request) {
         email: body.email || null,
         menu_id: body.menuId || null,
         operating_hours: body.operatingHours || null,
+        service_style: body.serviceStyle || 'dine_in',
         is_active: true,
       })
       .select()
@@ -103,23 +95,19 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Error creating location:', error);
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({
-      location: data,
-      message: 'Location created successfully'
-    }, { status: 201 });
-
+    return NextResponse.json(
+      {
+        location: data,
+        message: 'Location created successfully',
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error in POST /api/locations:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -138,9 +126,7 @@ export async function GET(request: Request) {
     selectQuery = '*, brand:brands(*, organization:organizations(*))';
   }
 
-  let query = supabase
-    .from('locations')
-    .select(selectQuery);
+  let query = supabase.from('locations').select(selectQuery);
 
   if (id) {
     query = query.eq('id', id);
@@ -181,13 +167,13 @@ export async function GET(request: Request) {
   // Single item request
   if (id) {
     return NextResponse.json({
-      location: data?.[0] || null
+      location: data?.[0] || null,
     });
   }
 
   return NextResponse.json({
     locations: data,
-    total: data?.length || 0
+    total: data?.length || 0,
   });
 }
 
@@ -197,10 +183,7 @@ export async function PATCH(request: Request) {
     const { id, ...updates } = body;
 
     if (!id) {
-      return NextResponse.json(
-        { error: 'Location ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Location ID is required' }, { status: 400 });
     }
 
     // Map camelCase to snake_case
@@ -215,12 +198,14 @@ export async function PATCH(request: Request) {
     if (updates.longitude !== undefined) dbUpdates.longitude = updates.longitude;
     if (updates.currencyCode !== undefined) dbUpdates.currency_code = updates.currencyCode;
     if (updates.primaryLanguage !== undefined) dbUpdates.primary_language = updates.primaryLanguage;
-    if (updates.enabledLanguages !== undefined) dbUpdates.enabled_languages = updates.enabledLanguages;
+    if (updates.enabledLanguages !== undefined)
+      dbUpdates.enabled_languages = updates.enabledLanguages;
     if (updates.timezone !== undefined) dbUpdates.timezone = updates.timezone;
     if (updates.phone !== undefined) dbUpdates.phone = updates.phone;
     if (updates.email !== undefined) dbUpdates.email = updates.email;
     if (updates.menuId !== undefined) dbUpdates.menu_id = updates.menuId;
     if (updates.operatingHours !== undefined) dbUpdates.operating_hours = updates.operatingHours;
+    if (updates.serviceStyle !== undefined) dbUpdates.service_style = updates.serviceStyle;
     if (updates.isActive !== undefined) dbUpdates.is_active = updates.isActive;
 
     const { data, error } = await supabase
@@ -232,23 +217,16 @@ export async function PATCH(request: Request) {
 
     if (error) {
       console.error('Error updating location:', error);
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({
       location: data,
-      message: 'Location updated successfully'
+      message: 'Location updated successfully',
     });
-
   } catch (error) {
     console.error('Error in PATCH /api/locations:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -258,10 +236,7 @@ export async function DELETE(request: Request) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json(
-        { error: 'Location ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Location ID is required' }, { status: 400 });
     }
 
     // Soft delete - set is_active to false
@@ -274,22 +249,15 @@ export async function DELETE(request: Request) {
 
     if (error) {
       console.error('Error deleting location:', error);
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({
       location: data,
-      message: 'Location deactivated successfully'
+      message: 'Location deactivated successfully',
     });
-
   } catch (error) {
     console.error('Error in DELETE /api/locations:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

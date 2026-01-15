@@ -9,11 +9,42 @@
 
 ## 2026-01-15
 
-| ID                        | Feature               | Descrizione                                                                                                       | Completato |
-| ------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------- |
-| MT-KDS                    | Kitchen Display       | Audio alerts, keyboard shortcuts (bump bar), flash animation, sound toggle, 2 layout modes (grid/columns)         | 2026-01-15 |
-| B2B-CONVENTIONS           | Corporate Conventions | Sistema convenzioni B2B: offices, gyms, schools. 5 tabelle DB, service layer, API, 5 UI pages, staff verification | 2026-01-15 |
-| ORDER-READY-NOTIFICATIONS | Web Push Phase 2      | Service Worker push, subscription API, backend sender, kitchen trigger, UI toggle ordini                          | 2026-01-15 |
+| ID                        | Feature                | Descrizione                                                                                                       | Completato |
+| ------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------- |
+| WHITE-LABEL-FULL          | White-Label Multi-Tier | 8 sprint: custom domains, domain resolution, middleware, branding, domain UI, multi-location, partner portal      | 2026-01-15 |
+| AI-FIRST-REDESIGN         | Backoffice AI-First    | 5 sprint: AI priorities, inline triggers, confidence scores, mobile command center, scenario detection            | 2026-01-15 |
+| HOLIDAYS-DB               | Holidays Database      | DB festività centralizzato, 3 tabelle (holidays, overrides, custom), service layer, API, AI context integration   | 2026-01-15 |
+| MT-KDS                    | Kitchen Display        | Audio alerts, keyboard shortcuts (bump bar), flash animation, sound toggle, 2 layout modes (grid/columns)         | 2026-01-15 |
+| B2B-CONVENTIONS           | Corporate Conventions  | Sistema convenzioni B2B: offices, gyms, schools. 5 tabelle DB, service layer, API, 5 UI pages, staff verification | 2026-01-15 |
+| ORDER-READY-NOTIFICATIONS | Web Push Phase 2       | Service Worker push, subscription API, backend sender, kitchen trigger, UI toggle ordini                          | 2026-01-15 |
+
+> **WHITE-LABEL-FULL Files:**
+>
+> - Migration: `052-custom-domains.sql` (custom_domain su brands/locations, domain_verifications, subscription_plan_limits)
+> - Services: `domain-resolution-service.ts`, `vercel-api.ts`, `partner-service.ts`
+> - Middleware: Updated coffeeshop + backoffice middleware for domain resolution
+> - Contexts: `PartnerBrandingContext.tsx`, `useTenantContext.ts`, `useBrandTheme.ts`
+> - UI Pages: `/settings/domain`, `/partner/*` (dashboard, organizations)
+> - Components: `LocationPicker.tsx`, `BrandingLogo.tsx`
+> - APIs: `/api/partner-branding`, `/api/settings/domain`, `/api/tenant-context`
+>
+> **AI-FIRST-REDESIGN Files:**
+>
+> - Components: `AIPriorityCard.tsx`, `AIInlineTrigger.tsx`, `MobileCommandCenter.tsx`, `ScenarioBanner.tsx`
+> - Services: `scenario-detection.ts`
+> - Hooks: `useIsMobile.ts`
+> - Sprint 1: Food Cost triggers, Weather integration
+> - Sprint 2: 5-question template, inline triggers
+> - Sprint 3: Confidence scores, feedback buttons, humanized language
+> - Sprint 4: Mobile-first command center
+> - Sprint 5: Scenario detection (5 mother scenarios)
+
+> **HOLIDAYS-DB Files:**
+>
+> - Migration: `051-holidays-database.sql` (3 tabelle + RLS + seed 11 Vietnamese holidays)
+> - Service: `lib/ai/holidays-service.ts` (CRUD, impact analysis, AI context)
+> - API: `/api/ai/holidays` (GET: upcoming, date, custom, impact, context, search, year)
+> - Integration: `knowledge-service.ts` esteso con holidays context
 
 > **B2B-CONVENTIONS Files:**
 >

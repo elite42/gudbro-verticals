@@ -8,7 +8,7 @@ interface CreateOrganizationRequest {
   name: string;
   type: 'standard' | 'enterprise';
   partnerId?: string;
-  subscriptionPlan?: 'free' | 'starter' | 'pro';
+  subscriptionPlan?: 'free' | 'menu_only' | 'starter' | 'pro';
   billingEmail?: string;
   billingAddress?: string;
   taxId?: string;

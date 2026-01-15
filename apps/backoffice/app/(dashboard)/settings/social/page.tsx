@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Loader2, Check, AlertCircle, ExternalLink, Plus, Trash2 } from 'lucide-react';
+import { MessagingChannelsSection } from '@/components/settings/MessagingChannelsSection';
 
 // ============================================================================
 // Types
@@ -416,6 +417,9 @@ export default function SocialSettingsPage() {
         links={links}
         onUpdate={updateLink}
       />
+
+      {/* Messaging Channels Section - For notification APIs */}
+      <MessagingChannelsSection merchantId={DEMO_MERCHANT_ID} />
 
       {/* Review Platforms Section */}
       <PlatformSection

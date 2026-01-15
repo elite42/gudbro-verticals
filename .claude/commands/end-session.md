@@ -59,9 +59,35 @@ git add docs/ CLAUDE.md
 git commit -m "docs: aggiornamento sessione $(date +%Y-%m-%d)"
 ```
 
+## 5. QA Check (se scritto codice)
+
+Se hai scritto codice durante questa sessione:
+
+```bash
+# Typecheck
+pnpm turbo typecheck
+
+# Build
+pnpm turbo build
+```
+
+Oppure esegui `/qa-quick` per check completo.
+
+**Checklist QA:**
+
+- [ ] TypeScript errors: 0
+- [ ] Build: passa
+- [ ] Test aggiunti per nuovo codice (se appropriato)
+- [ ] Documentazione aggiornata (se feature cambiata)
+
+Riferimento completo: `docs/qa/templates/session-qa.md`
+
+---
+
 ## Verifica finale
 
 - [ ] Session Log aggiornato
 - [ ] Backlog aggiornato
 - [ ] CLAUDE.md sezione 0 aggiornata
+- [ ] QA check passato (se codice scritto)
 - [ ] Nessun lavoro non salvato

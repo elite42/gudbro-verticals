@@ -6,6 +6,7 @@ import { NextResponse, type NextRequest } from 'next/server';
  *
  * Protects routes by verifying authentication status.
  * Supports both Supabase sessions and development mode bypass.
+ * Handles partner domain resolution for white-label backoffice.
  *
  * Protected routes: All routes except those in publicRoutes
  * Public routes: /login, /auth/callback, /api/public/*
@@ -15,6 +16,83 @@ import { NextResponse, type NextRequest } from 'next/server';
 
 // Dev session cookie name (must match client-side config)
 const DEV_SESSION_COOKIE = 'gudbro_dev_session';
+
+// Platform domains that should skip partner resolution
+const PLATFORM_DOMAINS = [
+  'localhost',
+  'gudbro.com',
+  'gudbro.app',
+  'gudbro-backoffice.vercel.app',
+  'vercel.app',
+];
+
+// Supabase config
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+interface PartnerBranding {
+  partner_id: string;
+  name: string;
+  logo_url: string | null;
+  primary_color: string;
+  hide_gudbro_branding: boolean;
+}
+
+/**
+ * Check if hostname is a platform domain
+ */
+function isPlatformDomain(hostname: string): boolean {
+  const cleanHost = hostname.split(':')[0].toLowerCase();
+  return PLATFORM_DOMAINS.some(
+    (domain) => cleanHost === domain || cleanHost.endsWith(`.${domain}`)
+  );
+}
+
+/**
+ * Resolve partner domain to branding info
+ * Uses Edge-compatible fetch to Supabase REST API
+ */
+async function resolvePartnerDomain(hostname: string): Promise<PartnerBranding | null> {
+  const cleanHost = hostname.split(':')[0].toLowerCase();
+
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    return null;
+  }
+
+  try {
+    // Query partners table for matching backoffice_domain
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/partners?backoffice_domain=eq.${encodeURIComponent(cleanHost)}&select=id,name,logo_url,primary_color,hide_gudbro_branding&status=eq.active`,
+      {
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+
+    if (!data || data.length === 0) {
+      return null;
+    }
+
+    const partner = data[0];
+    return {
+      partner_id: partner.id,
+      name: partner.name,
+      logo_url: partner.logo_url,
+      primary_color: partner.primary_color || '#000000',
+      hide_gudbro_branding: partner.hide_gudbro_branding || false,
+    };
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Check if dev mode is enabled
@@ -26,13 +104,32 @@ function isDevModeEnabled(): boolean {
 }
 
 export async function middleware(request: NextRequest) {
+  const hostname = request.headers.get('host') || '';
+  const pathname = request.nextUrl.pathname;
+
+  // Resolve partner domain for white-label backoffice
+  let partnerBranding: PartnerBranding | null = null;
+  if (!isPlatformDomain(hostname)) {
+    partnerBranding = await resolvePartnerDomain(hostname);
+  }
+
   let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
   });
 
-  const pathname = request.nextUrl.pathname;
+  // Inject partner branding headers if resolved
+  if (partnerBranding) {
+    response.headers.set('x-partner-id', partnerBranding.partner_id);
+    response.headers.set('x-partner-name', encodeURIComponent(partnerBranding.name));
+    if (partnerBranding.logo_url) {
+      response.headers.set('x-partner-logo', partnerBranding.logo_url);
+    }
+    response.headers.set('x-partner-color', partnerBranding.primary_color);
+    response.headers.set('x-hide-gudbro-branding', String(partnerBranding.hide_gudbro_branding));
+    response.headers.set('x-white-label', 'true');
+  }
 
   // Public routes that don't require authentication
   const publicRoutes = [

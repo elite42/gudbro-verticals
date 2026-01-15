@@ -35,6 +35,7 @@ const createEmptyKnowledge = (): MerchantKnowledge => ({
   events: null,
   feedback: null,
   inventory: null,
+  holidays: null,
   lastUpdated: new Date().toISOString(),
 });
 
@@ -505,6 +506,7 @@ describe('formatKnowledgeForAI', () => {
         events: createMockEventsKnowledge(),
         feedback: createMockFeedbackKnowledge(),
         inventory: createMockInventoryKnowledge(),
+        holidays: null,
         lastUpdated: new Date().toISOString(),
       };
       const result = formatKnowledgeForAI(knowledge);
@@ -547,6 +549,7 @@ describe('MerchantKnowledge type structure', () => {
       events: null,
       feedback: null,
       inventory: null,
+      holidays: null,
       lastUpdated: '2026-01-14T12:00:00Z',
     };
     expect(knowledge.lastUpdated).toBeDefined();
@@ -586,6 +589,7 @@ describe('MerchantKnowledge type structure', () => {
         suppliers: [],
         pendingOrders: 0,
       },
+      holidays: null,
       lastUpdated: '2026-01-14T12:00:00Z',
     };
     expect(knowledge.menu?.totalItems).toBe(10);

@@ -5,6 +5,184 @@
 
 ---
 
+## 2026-01-15 (Session 4) - WHITE-LABEL-FULL Feature
+
+**Focus:** White-Label Multi-Tier Implementation (Merchant, Catena, Agency)
+**Durata:** ~3h
+**Tipo:** Major Feature
+
+### Completato
+
+**WHITE-LABEL-FULL (8 Sprint):**
+
+- Sprint 1: Database Migration `052-custom-domains.sql`
+  - brands/locations: custom_domain, domain_verified fields
+  - partners: logo_url, primary_color, backoffice_domain
+  - domain_verifications table (status, SSL, Vercel integration)
+  - domain_blacklist table (reserved domains)
+  - subscription_plan_limits table (domain quotas per tier)
+  - Helper functions: resolve_custom_domain(), is_domain_blacklisted(), can_add_custom_domain()
+
+- Sprint 2: Domain Resolution Service
+  - `domain-resolution-service.ts` (~600 lines)
+  - `vercel-api.ts` (Vercel domain management)
+  - DNS verification (CNAME, TXT via Cloudflare DoH)
+
+- Sprint 3: Middleware Domain Resolution
+  - Coffeeshop: Custom domain → brand/location resolution
+  - Backoffice: Partner domain → white-label branding
+  - Headers: x-tenant-type, x-brand-id, x-location-id, etc.
+
+- Sprint 4: Frontend Branding Integration
+  - Extended MerchantLocaleConfig with branding
+  - useBrandTheme hook (CSS variables injection)
+  - useMerchantBranding hook
+
+- Sprint 5: Domain Management UI
+  - `/settings/domain/page.tsx`
+  - API routes: POST/DELETE domain, POST verify
+  - DNS instructions with copy-to-clipboard
+  - Plan upgrade notice
+
+- Sprint 6: Multi-Location Landing Page
+  - LocationPicker component (geolocation, nearest)
+  - useTenantContext hook
+  - `/api/tenant-context` endpoint
+
+- Sprint 7: Partner Portal Foundation
+  - `partner-service.ts` (organizations, metrics, billing)
+  - `/partner` dashboard page
+  - `/partner/organizations` list page
+
+- Sprint 8: Partner White-Label Backoffice
+  - PartnerBrandingContext
+  - `/api/partner-branding` endpoint
+  - BrandingLogo component (conditional)
+
+### File Creati
+
+| File                                      | Descrizione                      |
+| ----------------------------------------- | -------------------------------- |
+| `052-custom-domains.sql`                  | Migration completa (~400 righe)  |
+| `lib/domain-resolution-service.ts`        | Domain resolution + registration |
+| `lib/vercel-api.ts`                       | Vercel API wrapper               |
+| `lib/partner-service.ts`                  | Partner portal operations        |
+| `lib/contexts/PartnerBrandingContext.tsx` | White-label context              |
+| `lib/hooks/useBrandTheme.ts`              | CSS variables injection          |
+| `lib/hooks/useTenantContext.ts`           | Tenant from middleware           |
+| `components/LocationPicker.tsx`           | Multi-location landing           |
+| `components/layout/BrandingLogo.tsx`      | Conditional logo                 |
+| `settings/domain/page.tsx`                | Domain management UI             |
+| `partner/page.tsx`                        | Partner dashboard                |
+| `partner/organizations/page.tsx`          | Org list                         |
+| `api/settings/domain/*`                   | Domain API routes                |
+| `api/partner-branding/route.ts`           | Partner branding API             |
+| `api/tenant-context/route.ts`             | Tenant context API               |
+| Middleware updates                        | coffeeshop + backoffice          |
+| merchant-config.ts                        | Extended with branding           |
+| MerchantConfigContext.tsx                 | + branding hook                  |
+
+### Pricing Structure Implementata
+
+| Plan       | Domains   | Monthly |
+| ---------- | --------- | ------- |
+| Free       | 0         | $0      |
+| Starter    | 0         | $29     |
+| Pro        | 1         | $79     |
+| Business   | 3         | $149    |
+| Enterprise | unlimited | custom  |
+
+### Architettura
+
+```
+Custom Domain Request
+        ↓
+    Middleware
+        ↓
+resolve_custom_domain() RPC
+        ↓
+Headers: x-tenant-type, x-brand-id...
+        ↓
+   Frontend (MerchantConfig / PartnerBranding)
+        ↓
+  CSS Variables + Conditional Logo
+```
+
+### Note Tecniche
+
+- Edge Runtime: Middleware usa fetch() diretto a Supabase REST API
+- DNS over HTTPS: Cloudflare per CNAME/TXT verification
+- Vercel API: v9/v10 per domain management
+- Cache: TODO Redis/Upstash per domain resolution
+
+### Prossima Sessione
+
+- Test end-to-end con dominio reale
+- Applicare migration a Supabase prod
+- Aggiornare 1-TODO.md per marcare WHITE-LABEL come DONE
+
+---
+
+## 2026-01-15 (Session 3) - HOLIDAYS-DB Feature
+
+**Focus:** Centralized Holidays Database for AI Intelligence
+**Durata:** ~45min
+**Tipo:** New Feature
+
+### Completato
+
+**Holidays Database (HOLIDAYS-DB):**
+
+- Database Migration `051-holidays-database.sql`:
+  - `holidays` table (country/region/city, type, impact_level)
+  - `merchant_holiday_overrides` (custom impact per merchant)
+  - `merchant_custom_holidays` (anniversaries, local events)
+  - 11 Vietnamese holidays seeded (Tet, Reunification Day, etc.)
+  - RLS policies via account_roles pattern
+- Service Layer `holidays-service.ts`:
+  - `getUpcomingHolidays()` - by country/region with days ahead
+  - `getHolidaysForDate()` - specific date lookup
+  - `getMerchantCustomHolidays()` - merchant-specific holidays
+  - `createCustomHoliday()` / `deleteCustomHoliday()`
+  - `getDateImpact()` - combined impact analysis
+  - `getUpcomingHolidaysContext()` - AI context with alerts
+  - `searchHolidays()` / `getHolidaysForYear()`
+- API Route `/api/ai/holidays`:
+  - GET actions: upcoming, date, custom, impact, context, ai-context, search, year
+  - POST: create-custom
+  - DELETE: by holidayId
+- Knowledge Service Integration:
+  - `MerchantKnowledge` type extended with `holidays`
+  - `fetchMerchantKnowledge()` includes holidays context
+  - `formatKnowledgeForAI()` includes holidays section
+
+### File Creati/Modificati
+
+| File                                   | Azione   | Descrizione                         |
+| -------------------------------------- | -------- | ----------------------------------- |
+| `migrations/051-holidays-database.sql` | Created  | 3 tables + indexes + RLS + seeds    |
+| `lib/ai/holidays-service.ts`           | Created  | ~500 righe, full service layer      |
+| `app/api/ai/holidays/route.ts`         | Created  | GET/POST/DELETE endpoints           |
+| `lib/ai/knowledge-service.ts`          | Modified | +holidays integration               |
+| `lib/ai/index.ts`                      | Modified | +holidays-service export            |
+| `__tests__/knowledge-service.test.ts`  | Modified | +holidays property in test fixtures |
+
+### Note Tecniche
+
+- Supabase query can't do computed columns like `(date - CURRENT_DATE) as days_until`
+- daysUntil calculated in TypeScript after query
+- RLS uses `account_roles.tenant_id` pattern (not merchant_id)
+- Impact levels: critical, high, medium, low, none
+- Holiday types: national, religious, local, regional, sporting, cultural, observance, school, bank
+
+### Prossimi Passi
+
+- UI per gestire custom holidays (merchant_custom_holidays)
+- API per bulk import holidays da external sources (Calendarific, etc.)
+- Calendar view in backoffice
+
+---
+
 ## 2026-01-15 (Session 2) - MT-KDS Kitchen Display Enhancement
 
 **Focus:** Kitchen Display System enhancements (from MenuTiger Audit)

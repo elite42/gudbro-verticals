@@ -6,6 +6,7 @@ import { CountrySelector, LanguageMultiSelect } from '@/components/locale';
 import { Country, BusinessType } from '@/lib/supabase';
 
 type AccountType = 'standard' | 'enterprise';
+type ServiceStyle = 'dine_in' | 'counter' | 'delivery_only' | 'takeaway' | 'mixed' | 'qr_ordering';
 
 interface OnboardingData {
   // Account type
@@ -23,6 +24,9 @@ interface OnboardingData {
   logoUrl: string | null;
   primaryColor: string;
   secondaryColor: string;
+
+  // Service Model
+  serviceStyle: ServiceStyle;
 
   // Location
   locationName: string;
@@ -88,6 +92,51 @@ const businessTypes = [
   },
 ];
 
+const serviceStyles = [
+  {
+    id: 'dine_in' as ServiceStyle,
+    icon: '🍽️',
+    title: 'Table Service',
+    description: 'Waiter takes orders, payment at end',
+    qrUse: 'Menu consultation',
+  },
+  {
+    id: 'counter' as ServiceStyle,
+    icon: '🔔',
+    title: 'Counter + Delivery',
+    description: 'Order at counter, delivered to table',
+    qrUse: 'Pre-decision, faster ordering',
+  },
+  {
+    id: 'takeaway' as ServiceStyle,
+    icon: '📦',
+    title: 'Counter + Pickup',
+    description: 'Order at counter, pickup when ready',
+    qrUse: 'Pre-decision, faster ordering',
+  },
+  {
+    id: 'qr_ordering' as ServiceStyle,
+    icon: '📱',
+    title: 'QR Ordering',
+    description: 'Full ordering flow from phone',
+    qrUse: 'Complete order & payment',
+  },
+  {
+    id: 'delivery_only' as ServiceStyle,
+    icon: '🚗',
+    title: 'Delivery Only',
+    description: 'Online orders, home delivery',
+    qrUse: 'Discovery & ordering',
+  },
+  {
+    id: 'mixed' as ServiceStyle,
+    icon: '⚙️',
+    title: 'Mixed',
+    description: 'Multiple service types',
+    qrUse: 'Flexible usage',
+  },
+];
+
 const steps = [
   { id: 1, name: 'Account Type' },
   { id: 2, name: 'Organization' },
@@ -110,6 +159,7 @@ export default function OnboardingPage() {
     logoUrl: null,
     primaryColor: '#000000',
     secondaryColor: '',
+    serviceStyle: 'dine_in',
     locationName: '',
     address: '',
     city: '',
@@ -128,7 +178,7 @@ export default function OnboardingPage() {
 
   const handleCountryChange = (country: Country | null) => {
     if (country) {
-      setData(prev => ({
+      setData((prev) => ({
         ...prev,
         countryCode: country.code,
         countryName: country.name_en,
@@ -136,14 +186,15 @@ export default function OnboardingPage() {
         currencySymbol: country.currency_symbol,
         primaryLanguage: country.primary_language,
         timezone: country.timezone || '',
-        enabledLanguages: prev.enabledLanguages.length === 0
-          ? [country.primary_language]
-          : prev.enabledLanguages.includes(country.primary_language)
-            ? prev.enabledLanguages
-            : [country.primary_language, ...prev.enabledLanguages],
+        enabledLanguages:
+          prev.enabledLanguages.length === 0
+            ? [country.primary_language]
+            : prev.enabledLanguages.includes(country.primary_language)
+              ? prev.enabledLanguages
+              : [country.primary_language, ...prev.enabledLanguages],
       }));
     } else {
-      setData(prev => ({
+      setData((prev) => ({
         ...prev,
         countryCode: '',
         countryName: '',
@@ -218,6 +269,7 @@ export default function OnboardingPage() {
           timezone: data.timezone,
           phone: data.phone,
           email: data.email,
+          serviceStyle: data.serviceStyle,
         }),
       });
 
@@ -251,9 +303,9 @@ export default function OnboardingPage() {
   // For enterprise, redirect to contact form
   if (data.accountType === 'enterprise' && currentStep === 2) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <header className="bg-white border-b border-gray-200 px-6 py-4">
-          <div className="max-w-3xl mx-auto flex items-center justify-between">
+      <div className="flex min-h-screen flex-col bg-gray-50">
+        <header className="border-b border-gray-200 bg-white px-6 py-4">
+          <div className="mx-auto flex max-w-3xl items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-2xl">📱</span>
               <span className="text-xl font-bold text-gray-900">GUDBRO</span>
@@ -261,19 +313,19 @@ export default function OnboardingPage() {
           </div>
         </header>
 
-        <div className="flex-1 flex items-center justify-center px-6 py-12">
+        <div className="flex flex-1 items-center justify-center px-6 py-12">
           <div className="max-w-lg text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mb-6">
+            <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-blue-100">
               <span className="text-4xl">🏢</span>
             </div>
             <h1 className="text-2xl font-bold text-gray-900">Enterprise Inquiry</h1>
             <p className="mt-4 text-gray-600">
-              For enterprise clients with multi-country operations, our team will work with you
-              to create a custom solution that fits your needs.
+              For enterprise clients with multi-country operations, our team will work with you to
+              create a custom solution that fits your needs.
             </p>
 
-            <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6 text-left">
-              <h3 className="font-semibold text-gray-900 mb-4">Contact our sales team:</h3>
+            <div className="mt-8 rounded-xl border border-gray-200 bg-white p-6 text-left">
+              <h3 className="mb-4 font-semibold text-gray-900">Contact our sales team:</h3>
               <div className="space-y-3 text-gray-600">
                 <p>📧 enterprise@gudbro.com</p>
                 <p>📞 +1 (555) 123-4567</p>
@@ -283,10 +335,10 @@ export default function OnboardingPage() {
               </p>
             </div>
 
-            <div className="mt-6 flex gap-4 justify-center">
+            <div className="mt-6 flex justify-center gap-4">
               <button
                 onClick={() => {
-                  setData(prev => ({ ...prev, accountType: null }));
+                  setData((prev) => ({ ...prev, accountType: null }));
                   setCurrentStep(1);
                 }}
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
@@ -295,7 +347,7 @@ export default function OnboardingPage() {
               </button>
               <button
                 onClick={() => router.push('/enterprise-contact')}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700"
+                className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700"
               >
                 Contact Sales
               </button>
@@ -324,10 +376,10 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="flex min-h-screen flex-col bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
+      <header className="border-b border-gray-200 bg-white px-6 py-4">
+        <div className="mx-auto flex max-w-3xl items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">📱</span>
             <span className="text-xl font-bold text-gray-900">GUDBRO</span>
@@ -342,24 +394,24 @@ export default function OnboardingPage() {
       </header>
 
       {/* Progress */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-3xl mx-auto">
+      <div className="border-b border-gray-200 bg-white px-6 py-4">
+        <div className="mx-auto max-w-3xl">
           <div className="flex items-center justify-between">
             {steps.map((step, index) => (
               <div key={step.id} className="flex items-center">
                 <div
-                  className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
+                  className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
                     step.id < currentStep
                       ? 'bg-green-500 text-white'
                       : step.id === currentStep
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-500'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-200 text-gray-500'
                   }`}
                 >
                   {step.id < currentStep ? '✓' : step.id}
                 </div>
                 <span
-                  className={`ml-2 text-sm font-medium hidden sm:block ${
+                  className={`ml-2 hidden text-sm font-medium sm:block ${
                     step.id === currentStep ? 'text-gray-900' : 'text-gray-500'
                   }`}
                 >
@@ -367,7 +419,7 @@ export default function OnboardingPage() {
                 </span>
                 {index < steps.length - 1 && (
                   <div
-                    className={`w-8 sm:w-12 h-0.5 mx-2 sm:mx-4 ${
+                    className={`mx-2 h-0.5 w-8 sm:mx-4 sm:w-12 ${
                       step.id < currentStep ? 'bg-green-500' : 'bg-gray-200'
                     }`}
                   />
@@ -380,7 +432,7 @@ export default function OnboardingPage() {
 
       {/* Content */}
       <div className="flex-1 px-6 py-12">
-        <div className="max-w-3xl mx-auto">
+        <div className="mx-auto max-w-3xl">
           {/* Step 1: Account Type */}
           {currentStep === 1 && (
             <div>
@@ -394,10 +446,10 @@ export default function OnboardingPage() {
                   <button
                     key={type.id}
                     onClick={() => setData({ ...data, accountType: type.id })}
-                    className={`p-6 text-left rounded-xl border-2 transition-all ${
+                    className={`rounded-xl border-2 p-6 text-left transition-all ${
                       data.accountType === type.id
                         ? 'border-blue-600 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300 bg-white'
+                        : 'border-gray-200 bg-white hover:border-gray-300'
                     }`}
                   >
                     <span className="text-4xl">{type.icon}</span>
@@ -405,7 +457,7 @@ export default function OnboardingPage() {
                     <p className="mt-1 text-sm text-gray-500">{type.description}</p>
                     <ul className="mt-4 space-y-1">
                       {type.features.map((feature, i) => (
-                        <li key={i} className="text-sm text-gray-600 flex items-center gap-2">
+                        <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
                           <span className="text-green-500">✓</span>
                           {feature}
                         </li>
@@ -427,13 +479,15 @@ export default function OnboardingPage() {
 
               <div className="mt-8 space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Organization Name *</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Organization Name *
+                  </label>
                   <input
                     type="text"
                     value={data.organizationName}
                     onChange={(e) => setData({ ...data, organizationName: e.target.value })}
                     placeholder="e.g., ROOTS Hospitality Group"
-                    className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <p className="mt-1 text-sm text-gray-500">
                     This is your company or holding name. Customers won't see this.
@@ -441,7 +495,9 @@ export default function OnboardingPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Primary Country *</label>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Primary Country *
+                  </label>
                   <div className="mt-1">
                     <CountrySelector
                       value={data.countryCode}
@@ -451,8 +507,15 @@ export default function OnboardingPage() {
                   </div>
                   {data.countryCode && (
                     <div className="mt-2 flex items-center gap-4 text-sm text-gray-500">
-                      <span>Currency: <strong>{data.currencySymbol} {data.currencyCode}</strong></span>
-                      <span>Language: <strong>{data.primaryLanguage.toUpperCase()}</strong></span>
+                      <span>
+                        Currency:{' '}
+                        <strong>
+                          {data.currencySymbol} {data.currencyCode}
+                        </strong>
+                      </span>
+                      <span>
+                        Language: <strong>{data.primaryLanguage.toUpperCase()}</strong>
+                      </span>
                     </div>
                   )}
                 </div>
@@ -470,16 +533,18 @@ export default function OnboardingPage() {
 
               <div className="mt-8 space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">Business Type *</label>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <label className="mb-3 block text-sm font-medium text-gray-700">
+                    Business Type *
+                  </label>
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                     {businessTypes.map((type) => (
                       <button
                         key={type.id}
                         onClick={() => setData({ ...data, businessType: type.id })}
-                        className={`p-4 text-left rounded-lg border transition-all ${
+                        className={`rounded-lg border p-4 text-left transition-all ${
                           data.businessType === type.id
                             ? 'border-blue-600 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300 bg-white'
+                            : 'border-gray-200 bg-white hover:border-gray-300'
                         }`}
                       >
                         <span className="text-2xl">{type.icon}</span>
@@ -489,6 +554,43 @@ export default function OnboardingPage() {
                   </div>
                 </div>
 
+                {/* Service Style - Only show for F&B businesses */}
+                {data.businessType === 'fnb' && (
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                      How does service work in your venue? *
+                    </label>
+                    <p className="mb-3 text-sm text-gray-500">
+                      This helps us configure the right features for your business.
+                    </p>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                      {serviceStyles.map((style) => (
+                        <button
+                          key={style.id}
+                          onClick={() => setData({ ...data, serviceStyle: style.id })}
+                          className={`rounded-lg border p-4 text-left transition-all ${
+                            data.serviceStyle === style.id
+                              ? 'border-blue-600 bg-blue-50'
+                              : 'border-gray-200 bg-white hover:border-gray-300'
+                          }`}
+                        >
+                          <span className="text-2xl">{style.icon}</span>
+                          <p className="mt-2 text-sm font-medium text-gray-900">{style.title}</p>
+                          <p className="text-xs text-gray-500">{style.description}</p>
+                        </button>
+                      ))}
+                    </div>
+                    {data.serviceStyle && (
+                      <div className="mt-3 rounded-lg border border-blue-100 bg-blue-50 p-3">
+                        <p className="text-sm text-blue-800">
+                          <strong>QR Code will be used for:</strong>{' '}
+                          {serviceStyles.find((s) => s.id === data.serviceStyle)?.qrUse}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Brand Name *</label>
                   <input
@@ -496,11 +598,9 @@ export default function OnboardingPage() {
                     value={data.brandName}
                     onChange={(e) => setData({ ...data, brandName: e.target.value })}
                     placeholder="e.g., ROOTS Cafe"
-                    className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                  <p className="mt-1 text-sm text-gray-500">
-                    This is what customers will see.
-                  </p>
+                  <p className="mt-1 text-sm text-gray-500">This is what customers will see.</p>
                 </div>
 
                 <div>
@@ -510,7 +610,7 @@ export default function OnboardingPage() {
                     onChange={(e) => setData({ ...data, brandDescription: e.target.value })}
                     placeholder="A short description of your brand..."
                     rows={3}
-                    className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -522,31 +622,33 @@ export default function OnboardingPage() {
                         type="color"
                         value={data.primaryColor}
                         onChange={(e) => setData({ ...data, primaryColor: e.target.value })}
-                        className="h-10 w-10 rounded cursor-pointer"
+                        className="h-10 w-10 cursor-pointer rounded"
                       />
                       <input
                         type="text"
                         value={data.primaryColor}
                         onChange={(e) => setData({ ...data, primaryColor: e.target.value })}
-                        className="w-28 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        className="w-28 rounded-lg border border-gray-300 px-3 py-2 text-sm"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Secondary Color</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Secondary Color
+                    </label>
                     <div className="mt-2 flex items-center gap-4">
                       <input
                         type="color"
                         value={data.secondaryColor || '#ffffff'}
                         onChange={(e) => setData({ ...data, secondaryColor: e.target.value })}
-                        className="h-10 w-10 rounded cursor-pointer"
+                        className="h-10 w-10 cursor-pointer rounded"
                       />
                       <input
                         type="text"
                         value={data.secondaryColor}
                         onChange={(e) => setData({ ...data, secondaryColor: e.target.value })}
                         placeholder="Optional"
-                        className="w-28 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        className="w-28 rounded-lg border border-gray-300 px-3 py-2 text-sm"
                       />
                     </div>
                   </div>
@@ -571,11 +673,9 @@ export default function OnboardingPage() {
                     value={data.locationName}
                     onChange={(e) => setData({ ...data, locationName: e.target.value })}
                     placeholder={data.brandName || 'e.g., Downtown Branch'}
-                    className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                  <p className="mt-1 text-sm text-gray-500">
-                    Leave empty to use your brand name.
-                  </p>
+                  <p className="mt-1 text-sm text-gray-500">Leave empty to use your brand name.</p>
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -586,7 +686,7 @@ export default function OnboardingPage() {
                       value={data.city}
                       onChange={(e) => setData({ ...data, city: e.target.value })}
                       placeholder="e.g., Da Nang"
-                      className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                   <div>
@@ -596,7 +696,7 @@ export default function OnboardingPage() {
                       value={data.postalCode}
                       onChange={(e) => setData({ ...data, postalCode: e.target.value })}
                       placeholder="e.g., 550000"
-                      className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -608,7 +708,7 @@ export default function OnboardingPage() {
                     value={data.address}
                     onChange={(e) => setData({ ...data, address: e.target.value })}
                     placeholder="Street address"
-                    className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -620,7 +720,7 @@ export default function OnboardingPage() {
                       value={data.phone}
                       onChange={(e) => setData({ ...data, phone: e.target.value })}
                       placeholder="+84..."
-                      className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                   <div>
@@ -630,15 +730,18 @@ export default function OnboardingPage() {
                       value={data.email}
                       onChange={(e) => setData({ ...data, email: e.target.value })}
                       placeholder="contact@yourbusiness.com"
-                      className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Customer Languages</label>
-                  <p className="text-sm text-gray-500 mb-2">
-                    Languages your customers speak. Primary language ({data.primaryLanguage.toUpperCase() || 'not set'}) cannot be removed.
+                  <label className="block text-sm font-medium text-gray-700">
+                    Customer Languages
+                  </label>
+                  <p className="mb-2 text-sm text-gray-500">
+                    Languages your customers speak. Primary language (
+                    {data.primaryLanguage.toUpperCase() || 'not set'}) cannot be removed.
                   </p>
                   <LanguageMultiSelect
                     value={data.enabledLanguages}
@@ -656,8 +759,8 @@ export default function OnboardingPage() {
           {/* Step 5: Review */}
           {currentStep === 5 && (
             <div>
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+              <div className="mb-8 text-center">
+                <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
                   <span className="text-3xl">✓</span>
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900">Review your setup</h1>
@@ -668,8 +771,10 @@ export default function OnboardingPage() {
 
               <div className="space-y-6">
                 {/* Organization */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">Organization</h3>
+                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 text-sm font-medium uppercase tracking-wide text-gray-500">
+                    Organization
+                  </h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-gray-500">Name</p>
@@ -681,7 +786,7 @@ export default function OnboardingPage() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Account Type</p>
-                      <p className="font-medium text-gray-900 capitalize">{data.accountType}</p>
+                      <p className="font-medium capitalize text-gray-900">{data.accountType}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Plan</p>
@@ -691,8 +796,10 @@ export default function OnboardingPage() {
                 </div>
 
                 {/* Brand */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">Brand</h3>
+                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 text-sm font-medium uppercase tracking-wide text-gray-500">
+                    Brand
+                  </h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-gray-500">Brand Name</p>
@@ -700,20 +807,29 @@ export default function OnboardingPage() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Business Type</p>
-                      <p className="font-medium text-gray-900 capitalize">{data.businessType}</p>
+                      <p className="font-medium capitalize text-gray-900">{data.businessType}</p>
                     </div>
-                    <div className="col-span-2">
+                    {data.businessType === 'fnb' && (
+                      <div>
+                        <p className="text-sm text-gray-500">Service Model</p>
+                        <p className="font-medium text-gray-900">
+                          {serviceStyles.find((s) => s.id === data.serviceStyle)?.title ||
+                            data.serviceStyle}
+                        </p>
+                      </div>
+                    )}
+                    <div className={data.businessType === 'fnb' ? '' : 'col-span-2'}>
                       <p className="text-sm text-gray-500">Colors</p>
-                      <div className="flex items-center gap-2 mt-1">
+                      <div className="mt-1 flex items-center gap-2">
                         <div
-                          className="w-6 h-6 rounded border border-gray-300"
+                          className="h-6 w-6 rounded border border-gray-300"
                           style={{ backgroundColor: data.primaryColor }}
                         />
                         <span className="text-sm text-gray-600">{data.primaryColor}</span>
                         {data.secondaryColor && (
                           <>
                             <div
-                              className="w-6 h-6 rounded border border-gray-300 ml-2"
+                              className="ml-2 h-6 w-6 rounded border border-gray-300"
                               style={{ backgroundColor: data.secondaryColor }}
                             />
                             <span className="text-sm text-gray-600">{data.secondaryColor}</span>
@@ -725,12 +841,16 @@ export default function OnboardingPage() {
                 </div>
 
                 {/* Location */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                  <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-4">Location</h3>
+                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 text-sm font-medium uppercase tracking-wide text-gray-500">
+                    Location
+                  </h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-gray-500">Location Name</p>
-                      <p className="font-medium text-gray-900">{data.locationName || data.brandName}</p>
+                      <p className="font-medium text-gray-900">
+                        {data.locationName || data.brandName}
+                      </p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">City</p>
@@ -738,12 +858,14 @@ export default function OnboardingPage() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Currency</p>
-                      <p className="font-medium text-gray-900">{data.currencySymbol} {data.currencyCode}</p>
+                      <p className="font-medium text-gray-900">
+                        {data.currencySymbol} {data.currencyCode}
+                      </p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Languages</p>
                       <p className="font-medium text-gray-900">
-                        {data.enabledLanguages.map(l => l.toUpperCase()).join(', ')}
+                        {data.enabledLanguages.map((l) => l.toUpperCase()).join(', ')}
                       </p>
                     </div>
                   </div>
@@ -755,10 +877,10 @@ export default function OnboardingPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 px-6 py-4">
-        <div className="max-w-3xl mx-auto">
+      <footer className="border-t border-gray-200 bg-white px-6 py-4">
+        <div className="mx-auto max-w-3xl">
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
               {error}
             </div>
           )}
@@ -777,12 +899,24 @@ export default function OnboardingPage() {
             <button
               onClick={handleNext}
               disabled={!canProceed() || isSubmitting}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting && (
-                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
               )}
               {currentStep === 5 ? (isSubmitting ? 'Creating...' : 'Create Account') : 'Continue'}

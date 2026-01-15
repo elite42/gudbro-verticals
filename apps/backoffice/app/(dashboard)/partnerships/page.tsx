@@ -1,8 +1,92 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useTenant } from '@/lib/contexts/TenantContext';
+
+export const dynamic = 'force-dynamic';
+
+interface PartnershipMetrics {
+  tourOperators: {
+    total: number;
+    byStatus: Record<string, number>;
+    totalBookings: number;
+    totalRevenue: number;
+  };
+  accommodations: {
+    total: number;
+    byStatus: Record<string, number>;
+    totalGuestsReferred: number;
+    totalRevenue: number;
+  };
+  activePartnerships: number;
+  monthlyRevenueEstimate: number;
+}
+
+interface BookingStats {
+  pendingCount: number;
+}
 
 export default function PartnershipsPage() {
+  const { location, isLoading: tenantLoading } = useTenant();
+  const [metrics, setMetrics] = useState<PartnershipMetrics | null>(null);
+  const [bookingStats, setBookingStats] = useState<BookingStats>({ pendingCount: 0 });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!location?.id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Fetch partnership metrics
+        const metricsRes = await fetch(
+          `/api/ai/tourism-partnerships?action=metrics&merchantId=${location.id}`
+        );
+        if (metricsRes.ok) {
+          const metricsData = await metricsRes.json();
+          if (metricsData.success) {
+            setMetrics(metricsData.metrics);
+          }
+        }
+
+        // Fetch pending bookings count
+        const bookingsRes = await fetch(
+          `/api/ai/tourism-bookings?action=requests&merchantId=${location.id}&status=pending`
+        );
+        if (bookingsRes.ok) {
+          const bookingsData = await bookingsRes.json();
+          if (bookingsData.success) {
+            setBookingStats({ pendingCount: bookingsData.count || 0 });
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching partnership data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (!tenantLoading) {
+      fetchData();
+    }
+  }, [location?.id, tenantLoading]);
+
+  const isLoading = loading || tenantLoading;
+
+  // Format numbers for display
+  const formatNumber = (num: number | undefined) => {
+    if (num === undefined) return '0';
+    return num.toLocaleString();
+  };
+
+  const formatCurrency = (num: number | undefined) => {
+    if (num === undefined) return '€0';
+    return `€${num.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -33,7 +117,13 @@ export default function PartnershipsPage() {
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">--</p>
+              {isLoading ? (
+                <div className="h-8 w-12 animate-pulse rounded bg-gray-200" />
+              ) : (
+                <p className="text-2xl font-bold text-gray-900">
+                  {formatNumber(metrics?.tourOperators?.total)}
+                </p>
+              )}
               <p className="text-sm text-gray-500">Tour Operators</p>
             </div>
           </div>
@@ -57,7 +147,13 @@ export default function PartnershipsPage() {
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">--</p>
+              {isLoading ? (
+                <div className="h-8 w-12 animate-pulse rounded bg-gray-200" />
+              ) : (
+                <p className="text-2xl font-bold text-gray-900">
+                  {formatNumber(metrics?.accommodations?.total)}
+                </p>
+              )}
               <p className="text-sm text-gray-500">Accommodations</p>
             </div>
           </div>
@@ -81,7 +177,13 @@ export default function PartnershipsPage() {
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">--</p>
+              {isLoading ? (
+                <div className="h-8 w-12 animate-pulse rounded bg-gray-200" />
+              ) : (
+                <p className="text-2xl font-bold text-gray-900">
+                  {formatNumber(metrics?.activePartnerships)}
+                </p>
+              )}
               <p className="text-sm text-gray-500">Active Partnerships</p>
             </div>
           </div>
@@ -105,12 +207,55 @@ export default function PartnershipsPage() {
               </svg>
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">--</p>
+              {isLoading ? (
+                <div className="h-8 w-12 animate-pulse rounded bg-gray-200" />
+              ) : (
+                <p className="text-2xl font-bold text-gray-900">
+                  {formatNumber(bookingStats.pendingCount)}
+                </p>
+              )}
               <p className="text-sm text-gray-500">Pending Bookings</p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Revenue Estimate Banner - Show only if there's revenue */}
+      {metrics && metrics.monthlyRevenueEstimate > 0 && (
+        <div className="rounded-xl border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
+                <svg
+                  className="h-5 w-5 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-green-800">Estimated Monthly Revenue</p>
+                <p className="text-2xl font-bold text-green-900">
+                  {formatCurrency(metrics.monthlyRevenueEstimate)}/mo
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/analytics"
+              className="text-sm font-medium text-green-600 hover:text-green-700"
+            >
+              View Analytics →
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Section Cards */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -277,6 +422,11 @@ export default function PartnershipsPage() {
                   <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
                     AI
                   </span>
+                  {bookingStats.pendingCount > 0 && (
+                    <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800">
+                      {bookingStats.pendingCount} pending
+                    </span>
+                  )}
                 </div>
                 <p className="mt-1 text-sm text-gray-500">
                   AI Booking Coordinator manages group reservations. Accept, decline, or

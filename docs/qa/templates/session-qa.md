@@ -46,7 +46,7 @@ Automatico via Husky:
 
 - [x] Prettier formatting
 - [x] ESLint check
-- [ ] TypeScript check (file modificati)
+- [x] TypeScript check (se .ts/.tsx modificati)
 
 ---
 
@@ -55,6 +55,7 @@ Automatico via Husky:
 Automatico via hook:
 
 - [x] Full build (`turbo build`)
+- [ ] Tests (opzionale: `GUDBRO_TEST_ON_PUSH=1 git push`)
 
 ---
 

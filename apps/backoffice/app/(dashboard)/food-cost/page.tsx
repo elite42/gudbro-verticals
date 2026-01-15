@@ -17,6 +17,7 @@ import {
   DollarSign,
 } from 'lucide-react';
 import { FoodCostProgress } from '@/components/food-cost';
+import { AIInlineTrigger } from '@/components/ai';
 
 // Mock data types
 interface DishAnalysis {
@@ -172,6 +173,9 @@ export default function FoodCostPage() {
           Aggiungi Piatti
         </Link>
       </div>
+
+      {/* AI Inline Trigger - Contextual suggestions */}
+      <AIInlineTrigger category="food_cost" maxTriggers={1} />
 
       {/* Stats Overview */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
