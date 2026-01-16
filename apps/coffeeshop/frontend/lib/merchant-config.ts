@@ -207,15 +207,18 @@ export async function fetchMerchantConfig(
     // Parse enabled_languages (stored as array in DB)
     const enabledLangCodes: string[] = data.enabled_languages || [data.primary_language || 'en'];
 
-    // Extract brand data
-    const brand = data.brand as {
-      id: string;
-      name: string;
-      logo_url: string | null;
-      primary_color: string | null;
-      secondary_color: string | null;
-      accent_color: string | null;
-    } | null;
+    // Extract brand data (Supabase returns joined relations as arrays)
+    const brandData = data.brand as
+      | {
+          id: string;
+          name: string;
+          logo_url: string | null;
+          primary_color: string | null;
+          secondary_color: string | null;
+          accent_color: string | null;
+        }[]
+      | null;
+    const brand = Array.isArray(brandData) ? brandData[0] : brandData;
 
     const branding: MerchantBranding = brand
       ? {
