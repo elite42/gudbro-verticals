@@ -155,7 +155,8 @@ async function fetchCustomers(
     .select(
       `
       id,
-      full_name,
+      first_name,
+      last_name,
       email,
       phone,
       delivery_latitude,
@@ -232,7 +233,7 @@ async function fetchCustomers(
       type: 'customer',
       lat,
       lng,
-      name: account.full_name || 'Anonymous',
+      name: [account.first_name, account.last_name].filter(Boolean).join(' ') || 'Anonymous',
       email: account.email,
       phone: account.phone,
       distance_m: distance,
@@ -320,11 +321,11 @@ async function fetchPartners(
   const partners: PartnerEntity[] = [];
   const leads: PartnerEntity[] = [];
 
-  // Fetch accommodations
+  // Fetch accommodations (no merchant_id filter - uses geographic proximity)
   const { data: accommodations } = await supabase
     .from('accommodation_partners')
     .select('*')
-    .eq('merchant_id', merchantId)
+    .eq('is_active', true)
     .not('latitude', 'is', null);
 
   if (accommodations) {
@@ -359,11 +360,11 @@ async function fetchPartners(
     }
   }
 
-  // Fetch offices
+  // Fetch offices (no merchant_id filter - uses geographic proximity)
   const { data: offices } = await supabase
     .from('office_partners')
     .select('*')
-    .eq('merchant_id', merchantId)
+    .eq('is_active', true)
     .not('latitude', 'is', null);
 
   if (offices) {
