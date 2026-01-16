@@ -2,7 +2,7 @@
 // Provides weather data for AI Co-Manager context and business insights
 // Uses Visual Crossing API with smart caching
 
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 // =============================================================================
 // TYPES
@@ -636,7 +636,7 @@ function calculateBusinessImpact(
  * Check if weather cache needs refresh
  */
 export async function checkCacheFreshness(locationId: string): Promise<WeatherCacheFreshness> {
-  const { data, error } = await supabase.rpc('check_weather_cache_freshness', {
+  const { data, error } = await supabaseAdmin.rpc('check_weather_cache_freshness', {
     p_location_id: locationId,
     p_current_ttl_minutes: CURRENT_TTL_MINUTES,
     p_forecast_ttl_minutes: FORECAST_TTL_MINUTES,
@@ -664,7 +664,7 @@ export async function checkCacheFreshness(locationId: string): Promise<WeatherCa
  * Get cached weather data
  */
 export async function getCachedWeather(locationId: string): Promise<WeatherData | null> {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('location_weather_cache')
     .select('*')
     .eq('location_id', locationId)
@@ -775,12 +775,12 @@ async function updateWeatherCache(
   const businessImpact = calculateBusinessImpact(currentWeather, forecast, venueContext);
 
   // Upsert to cache
-  const { error } = await supabase.from('location_weather_cache').upsert(
+  const { error } = await supabaseAdmin.from('location_weather_cache').upsert(
     {
       location_id: locationId,
       current_temp: current.temp,
       current_feels_like: current.feelslike,
-      current_humidity: current.humidity,
+      current_humidity: Math.round(current.humidity),
       current_conditions: current.conditions,
       current_conditions_icon: current.icon,
       current_wind_speed: current.windspeed,
@@ -846,7 +846,7 @@ export async function getWeatherForLocation(
   }
 
   // Get location coordinates and venue attributes
-  const { data: location, error: locationError } = await supabase
+  const { data: location, error: locationError } = await supabaseAdmin
     .from('locations')
     .select('latitude, longitude, timezone, has_ac, has_outdoor_seating, venue_type, service_style')
     .eq('id', locationId)
