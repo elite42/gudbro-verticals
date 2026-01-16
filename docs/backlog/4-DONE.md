@@ -3,7 +3,23 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-15
+**Last Updated:** 2026-01-16
+
+---
+
+## 2026-01-16
+
+| ID        | Feature                   | Descrizione                                                                                                                  | Completato |
+| --------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| SMART-MAP | Business Intelligence Map | Interactive Leaflet map: customers, competitors, partners, leads. Filters, clustering, quick actions, geocoding, loyalty svc | 2026-01-16 |
+
+> **SMART-MAP Files:**
+>
+> - Components: `components/map/` (13 files - SmartMap, MapContainer, MapFilters, MapStatsPanel, MapLegend, markers/_, panels/_, hooks/\*, types)
+> - APIs: `/api/intelligence/map`, `/api/quick-actions`
+> - Services: `lib/geocoding-service.ts`, `lib/loyalty-service.ts`
+> - Infrastructure: Leaflet + react-leaflet-cluster, Sidebar with Intelligence link
+> - Features: Radius filter (1-25km), date filters, customer status, entity toggles, wallet/loyalty quick actions
 
 ---
 

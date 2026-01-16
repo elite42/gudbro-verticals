@@ -5,6 +5,66 @@
 
 ---
 
+## 2026-01-16 (Session 8) - SmartMap Business Intelligence
+
+**Focus:** Complete SmartMap feature implementation
+**Durata:** ~2h
+**Tipo:** Major Feature
+
+### Completato
+
+**SmartMap Feature (13 components):**
+
+- `components/map/SmartMap.tsx` - Main wrapper with filters, stats panel
+- `components/map/MapContainer.tsx` - Leaflet map with clustering
+- `components/map/MapFilters.tsx` - Entity/date/status/radius filters
+- `components/map/MapStatsPanel.tsx` - Aggregated statistics
+- `components/map/MapLegend.tsx` - Color-coded legend
+- `components/map/hooks/useMapData.ts` - Data fetching hook
+- `components/map/types.ts` - Shared types (server-safe)
+- `components/map/markers/*` - Customer, Competitor, Partner markers
+- `components/map/panels/QuickActionPanel.tsx` - Wallet/loyalty quick actions
+
+**API Routes:**
+
+- `/api/intelligence/map` - Map data endpoint (~420 lines)
+- `/api/quick-actions` - Wallet top-up, loyalty points (~190 lines)
+
+**Services:**
+
+- `lib/geocoding-service.ts` - Nominatim (OpenStreetMap) geocoding (~360 lines)
+- `lib/loyalty-service.ts` - Full loyalty points management (~700 lines)
+
+**Infrastructure:**
+
+- Leaflet + react-leaflet-cluster installed
+- Sidebar updated with "Intelligence" link + "new" badge
+
+### Commits
+
+- `74ccf16` - feat(intelligence): add SmartMap business intelligence feature
+
+### Decisioni
+
+- **Server/client separation**: Types in `types.ts` (server-safe), hooks in `hooks/` (client-only)
+- **Geocoding**: Nominatim (free, no API key) with 1req/sec rate limiting
+- **Markers**: DivIcon colored circles (no external SVG files needed)
+- **Clustering**: react-leaflet-cluster for performance with many markers
+
+### Note tecniche
+
+- Fix: API route can't import React hooks - separated types from useMapData hook
+- Leaflet icon fix: Delete `_getIconUrl` and merge CDN options
+- MapBoundsHandler component for auto-fitting radius circle
+
+### Prossima sessione
+
+- Test SmartMap with real location data
+- Add marker SVG icons (optional visual upgrade)
+- Export map as image feature
+
+---
+
 ## 2026-01-16 (Session 7) - Weather Fix & Cleanup
 
 **Focus:** Fix weather widget + remove demo data
