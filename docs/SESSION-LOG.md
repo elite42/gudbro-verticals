@@ -5,6 +5,51 @@
 
 ---
 
+## 2026-01-16 (Session 7) - Weather Fix & Cleanup
+
+**Focus:** Fix weather widget + remove demo data
+**Durata:** ~1h
+**Tipo:** Bug Fixes / Cleanup
+
+### Completato
+
+**Weather Widget Fix:**
+
+- Root cause: weather-service.ts used regular `supabase` client blocked by RLS
+- Fix 1: Changed to `supabaseAdmin` for cache table write operations
+- Fix 2: Added `Math.round()` for humidity (DB expects INTEGER, API returns float)
+- Weather now shows live data from Visual Crossing API for Da Nang
+
+**Demo Data Removal:**
+
+- Removed Demo Enterprise Corp, Demo Brand, Demo Location from database
+- Removed from seed file (001-test-data.sql) to prevent recreation
+- Location selector now shows only real locations (ROOTS, Scallywags)
+
+**Previous Session Fixes (carried over):**
+
+- Dev accounts auth (getSession + middleware)
+- ThemeProvider for marketing pages
+- useSearchParams Suspense boundaries (4 pages)
+
+### Commits
+
+- `8c39190` - fix(weather): use admin client for cache operations and round humidity
+- `c38f521` - docs(claude): add weather cache RLS lesson
+- `0b58800` - chore: remove demo data from database and seeds
+
+### Decisioni
+
+- Server-side services that write to cache tables must use `supabaseAdmin`
+- Demo data not needed - real locations sufficient for testing
+
+### Prossima Sessione
+
+- QR Batch Export feature (requires JSZip installation)
+- Sprint 13-14 ReservationCalendar UI polish (if needed)
+
+---
+
 ## 2026-01-16 (Session 6) - QR Builder V2 Fixes & Sprint 13-14 Verification
 
 **Focus:** QR types fixes + Reservation system verification
