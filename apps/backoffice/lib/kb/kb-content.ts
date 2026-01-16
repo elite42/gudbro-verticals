@@ -407,6 +407,53 @@ export const KB_SECTIONS: KBSection[] = [
         ],
         tips: ['Enable 2FA for better security', 'Review active sessions periodically'],
       },
+      {
+        id: 'help',
+        path: '/help',
+        title: 'Help & Knowledge Base',
+        purpose:
+          'In-app documentation and help center. Search for answers, browse guides, and learn how to use all features.',
+        navigation: ['Sidebar > Help', 'Click ? icon', 'URL: /help'],
+        whatYouSee: [
+          {
+            title: 'Section Navigation',
+            description:
+              'Browse by topic: Dashboard, Content, Food Cost, Marketing, AI, Orders, etc.',
+          },
+          {
+            title: 'Search',
+            description: 'Search across all documentation by keyword.',
+          },
+          {
+            title: 'Page Content',
+            items: [
+              { label: 'Purpose', description: 'What this page does' },
+              { label: 'What You See', description: 'UI elements explained' },
+              { label: 'Actions', description: 'Available buttons and functions' },
+              { label: 'Workflows', description: 'Step-by-step guides' },
+              { label: 'FAQ', description: 'Common questions' },
+              { label: 'Tips', description: 'Pro tips for efficiency' },
+            ],
+          },
+        ],
+        workflows: [
+          {
+            title: 'Find help for a feature',
+            steps: [
+              'Open Help from sidebar',
+              'Use search or browse sections',
+              'Click on relevant page',
+              'Read purpose and workflows',
+            ],
+          },
+        ],
+        tips: [
+          'Use search for fastest results',
+          'Each page has step-by-step workflows',
+          'FAQ answers common questions',
+          'Help is always available from sidebar',
+        ],
+      },
     ],
   },
 
@@ -958,6 +1005,86 @@ export const KB_SECTIONS: KBSection[] = [
         ],
       },
       {
+        id: 'food-costs-list',
+        path: '/food-costs',
+        title: 'Menu Item Costs',
+        purpose:
+          'View all menu items with their food costs and profit margins. Identify items needing attention and track profitability.',
+        navigation: ['Sidebar > Food Cost > Item List', 'URL: /food-costs'],
+        whatYouSee: [
+          {
+            title: 'Summary Stats',
+            items: [
+              { label: 'Total Items', description: 'Menu items with cost data' },
+              { label: 'Needs Recipe', description: 'Items without ingredients/cost' },
+              { label: 'Avg Margin', description: 'Average profit margin across menu' },
+            ],
+          },
+          {
+            title: 'Item Table',
+            items: [
+              { label: 'Name', description: 'Menu item name' },
+              { label: 'Price', description: 'Selling price' },
+              { label: 'Food Cost', description: 'Cost to make' },
+              { label: 'Margin', description: 'Profit margin percentage' },
+              {
+                label: 'Status',
+                description: 'Color-coded: green (>70%), yellow (50-70%), red (<50%)',
+              },
+            ],
+          },
+          {
+            title: 'Filters',
+            items: [
+              { label: 'Search', description: 'Search by item name' },
+              { label: 'Category', description: 'Filter by menu category' },
+              { label: 'Sort', description: 'By margin or cost (asc/desc)' },
+              { label: 'Needs Recipe', description: 'Show only items without cost data' },
+            ],
+          },
+        ],
+        actions: [
+          { name: 'View Item', description: 'Open item details' },
+          { name: 'Add Recipe', description: 'Add ingredients to calculate cost' },
+        ],
+        workflows: [
+          {
+            title: 'Find low-margin items',
+            steps: [
+              'Sort by margin ascending',
+              'Red items (<50% margin) need attention',
+              'Click item to see ingredient breakdown',
+              'Adjust recipe or price',
+            ],
+          },
+          {
+            title: 'Complete missing costs',
+            steps: [
+              'Enable "Needs Recipe" filter',
+              'Click item to add ingredients',
+              'Add recipe with quantities',
+              'Cost calculates automatically',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'Why are some items red?',
+            a: 'Red means profit margin below 50% - these items may be losing money or priced too low.',
+          },
+          {
+            q: 'Why is cost showing as "—"?',
+            a: 'Item has no recipe/ingredients added. Add a recipe to calculate food cost.',
+          },
+        ],
+        tips: [
+          'Focus on red items first - they impact profit most',
+          'Yellow items (50-70% margin) may need minor adjustments',
+          'Green items (>70% margin) are performing well',
+          'Update ingredient costs regularly for accurate margins',
+        ],
+      },
+      {
         id: 'food-cost-onboarding',
         path: '/food-cost/onboarding',
         title: 'Food Cost Setup',
@@ -1481,6 +1608,184 @@ export const KB_SECTIONS: KBSection[] = [
           'Use budget to control spending',
           'Monitor ROI and disable low-performing triggers',
           '"AI Suggestion" button suggests triggers based on your data',
+        ],
+      },
+    ],
+  },
+
+  // ============================================================
+  // CUSTOMER CHAT
+  // ============================================================
+  {
+    id: 'chat',
+    title: 'Customer Chat',
+    icon: '💬',
+    pages: [
+      {
+        id: 'chat-conversation',
+        path: '/chat/conversations/[id]',
+        title: 'Chat Conversation',
+        purpose:
+          'View and respond to customer conversations. AI handles initial responses, staff can take over when needed.',
+        navigation: [
+          'Click on conversation from escalations',
+          'URL: /chat/conversations/[conversation-id]',
+        ],
+        whatYouSee: [
+          {
+            title: 'Conversation Header',
+            items: [
+              { label: 'Customer Name', description: 'Name if provided' },
+              { label: 'Channel', description: 'WhatsApp, Telegram, LINE, Zalo, or Web Widget' },
+              { label: 'Status', description: 'Active, resolved, or escalated' },
+              { label: 'Topic', description: 'AI-detected conversation topic' },
+            ],
+          },
+          {
+            title: 'Message Thread',
+            items: [
+              { label: 'Customer messages', description: 'Gray background' },
+              { label: 'AI responses', description: 'Blue background' },
+              { label: 'Staff responses', description: 'Green background' },
+              { label: 'System notes', description: 'Yellow background, smaller text' },
+            ],
+          },
+          {
+            title: 'Customer Info Sidebar',
+            items: [
+              { label: 'Contact', description: 'Phone, email if available' },
+              { label: 'Linked Reservation', description: 'If conversation relates to a booking' },
+              { label: 'Message Count', description: 'Total messages in conversation' },
+            ],
+          },
+        ],
+        actions: [
+          { name: 'Send Message', description: 'Reply as staff (green bubble)' },
+          { name: 'Back to Escalations', description: 'Return to escalations list' },
+        ],
+        workflows: [
+          {
+            title: 'Take over from AI',
+            steps: [
+              'Read the conversation history',
+              'Understand customer question/issue',
+              'Type your response in the message box',
+              'Click Send',
+              'Your message appears as green (staff)',
+            ],
+          },
+          {
+            title: 'Handle reservation inquiry',
+            steps: [
+              'Check "Linked Reservation" in sidebar',
+              'Click to view reservation details',
+              'Respond with booking confirmation or changes',
+              'Customer receives response on their channel',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'Which channels are supported?',
+            a: 'WhatsApp, Telegram, LINE, Zalo, and web chat widget. More coming soon.',
+          },
+          {
+            q: 'Can AI handle everything automatically?',
+            a: 'AI handles common questions (hours, menu, reservations). Complex issues escalate to staff.',
+          },
+          {
+            q: 'How do I know when to intervene?',
+            a: 'Check Escalations page for conversations that need human attention.',
+          },
+        ],
+        tips: [
+          'AI learns from your responses - good answers improve future AI behavior',
+          'Conversations auto-refresh every 5 seconds',
+          'Use quick templates for common responses (coming soon)',
+        ],
+      },
+      {
+        id: 'chat-escalations',
+        path: '/chat/escalations',
+        title: 'Escalations',
+        purpose:
+          'Manage conversations that need human attention. AI escalates when uncertain, customer requests human, or detects negative sentiment.',
+        navigation: ['Sidebar > Chat > Escalations', 'URL: /chat/escalations'],
+        whatYouSee: [
+          {
+            title: 'Escalation Stats',
+            items: [
+              { label: 'Pending', description: 'Waiting for staff attention' },
+              { label: 'In Progress', description: 'Being handled by staff' },
+              { label: 'Resolved', description: 'Completed escalations' },
+            ],
+          },
+          {
+            title: 'Escalation Cards',
+            items: [
+              { label: 'Customer Info', description: 'Name, phone, email if available' },
+              { label: 'Channel', description: 'WhatsApp, Telegram, LINE, Zalo, Widget' },
+              {
+                label: 'Reason',
+                description: 'Why AI escalated (customer request, uncertainty, complaint)',
+              },
+              { label: 'AI Summary', description: 'AI-generated summary of the issue' },
+              { label: 'Priority', description: 'Low, Normal, High, Urgent' },
+              { label: 'Time Waiting', description: 'How long customer has been waiting' },
+            ],
+          },
+          {
+            title: 'Filters',
+            description: 'Filter by status (pending, assigned, in_progress, resolved, closed).',
+          },
+        ],
+        actions: [
+          { name: 'View Conversation', description: 'Open full chat thread' },
+          { name: 'Assign', description: 'Assign to staff member' },
+          { name: 'Resolve', description: 'Mark as resolved' },
+          { name: 'Refresh', description: 'Reload escalation list' },
+        ],
+        workflows: [
+          {
+            title: 'Handle escalation',
+            steps: [
+              'Check pending escalations',
+              'Review AI summary for context',
+              'Click escalation card to view conversation',
+              'Read full thread',
+              'Respond to customer',
+              'Return and mark as resolved',
+            ],
+          },
+          {
+            title: 'Prioritize urgent issues',
+            steps: [
+              'Sort by priority (urgent first)',
+              'Check time waiting (older = more urgent)',
+              'Handle complaints and payment issues first',
+              'Then customer requests and AI uncertainty',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'What triggers an escalation?',
+            a: 'Customer requests human, AI is uncertain, negative sentiment detected, complex issue, complaint, payment problem, or urgent matter.',
+          },
+          {
+            q: 'What do the priorities mean?',
+            a: 'Low = minor questions. Normal = standard requests. High = important issues. Urgent = immediate attention needed (complaints, payment).',
+          },
+          {
+            q: 'Can I auto-assign escalations?',
+            a: 'Coming soon. Currently manual assignment.',
+          },
+        ],
+        tips: [
+          'Check escalations at least every 30 minutes during service',
+          'Urgent + Pending = immediate attention needed',
+          'AI summaries help you understand the issue quickly',
+          'Resolution time affects customer satisfaction',
         ],
       },
     ],
@@ -2670,6 +2975,190 @@ export const KB_SECTIONS: KBSection[] = [
         purpose: 'Configure login options, SSO, and security settings.',
         navigation: ['Sidebar > Settings > Auth', 'URL: /settings/auth'],
         tips: ['Enable 2FA for better security', 'Review login history regularly'],
+      },
+      {
+        id: 'settings-domain',
+        path: '/settings/domain',
+        title: 'Custom Domain',
+        purpose:
+          'Configure your own domain for white-label experience. Customers see your domain instead of gudbro.com.',
+        navigation: ['Sidebar > Settings > Domain', 'URL: /settings/domain'],
+        whatYouSee: [
+          {
+            title: 'Domain Input',
+            description: 'Enter your custom domain (e.g., menu.yourrestaurant.com).',
+          },
+          {
+            title: 'DNS Instructions',
+            items: [
+              { label: 'CNAME Record', description: 'Point to cname.vercel-dns.com' },
+              { label: 'Verification Token', description: 'TXT record for ownership proof' },
+            ],
+          },
+          {
+            title: 'Status Indicators',
+            items: [
+              { label: 'Domain Status', description: 'Pending, Verifying, Verified, or Failed' },
+              { label: 'SSL Status', description: 'Certificate provisioning status' },
+            ],
+          },
+        ],
+        actions: [
+          { name: 'Save Domain', description: 'Register your custom domain' },
+          { name: 'Verify', description: 'Check DNS configuration' },
+          { name: 'Remove', description: 'Delete custom domain' },
+          { name: 'Copy', description: 'Copy DNS records to clipboard' },
+        ],
+        workflows: [
+          {
+            title: 'Set up custom domain',
+            steps: [
+              'Enter your domain (e.g., menu.yourbrand.com)',
+              'Click Save Domain',
+              'Copy CNAME and TXT records shown',
+              'Add records in your DNS provider',
+              'Wait 5-10 minutes for propagation',
+              'Click Verify to confirm setup',
+              'SSL certificate provisions automatically',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'How long does verification take?',
+            a: 'DNS propagation takes 5-30 minutes. SSL provisioning takes 5-10 minutes after verification.',
+          },
+          {
+            q: 'Can I use my main domain?',
+            a: 'We recommend a subdomain (menu.yourdomain.com) to avoid conflicts with your main website.',
+          },
+          {
+            q: 'What if verification fails?',
+            a: 'Check DNS records are correct. Use a DNS checker tool. Wait longer for propagation.',
+          },
+        ],
+        tips: [
+          'Use a subdomain like menu.yourdomain.com or order.yourdomain.com',
+          'DNS changes can take up to 48 hours in rare cases',
+          'Once verified, SSL is automatic and free',
+          'Your QR codes will automatically use the new domain',
+        ],
+      },
+    ],
+  },
+
+  // ============================================================
+  // PARTNER PORTAL
+  // ============================================================
+  {
+    id: 'partner',
+    title: 'Partner Portal',
+    icon: '🤝',
+    pages: [
+      {
+        id: 'partner-dashboard',
+        path: '/partner',
+        title: 'Partner Dashboard',
+        purpose:
+          'Central hub for white-label partners. Manage client organizations, track revenue, and monitor performance.',
+        navigation: ['Sidebar > Partner Portal', 'URL: /partner'],
+        whatYouSee: [
+          {
+            title: 'Partner Info',
+            description: 'Your partner name and welcome message.',
+          },
+          {
+            title: 'Metrics Grid',
+            items: [
+              {
+                label: 'Total Organizations',
+                description: 'All client restaurants under your account',
+              },
+              { label: 'Active', description: 'Currently active organizations' },
+              { label: 'Locations', description: 'Total locations across all clients' },
+              { label: 'This Month Revenue', description: 'Revenue generated this month' },
+            ],
+          },
+          {
+            title: 'Quick Actions',
+            items: [
+              { label: 'Organizations', description: 'View and manage client list' },
+              { label: 'Billing', description: 'View royalties and payouts' },
+              { label: 'Settings', description: 'Update branding and domain' },
+            ],
+          },
+          {
+            title: 'Recent Organizations',
+            description: 'Latest client organizations added.',
+          },
+        ],
+        actions: [{ name: 'Add Organization', description: 'Onboard a new client restaurant' }],
+        workflows: [
+          {
+            title: 'Onboard new client',
+            steps: [
+              'Click "Add Organization"',
+              'Fill client details (name, email, etc.)',
+              'Select subscription plan',
+              'Client receives invite email',
+              'Track in Organizations list',
+            ],
+          },
+        ],
+        tips: [
+          'Check metrics weekly to track growth',
+          'Revenue shows your commission from client subscriptions',
+          'Quick Actions give fast access to common tasks',
+        ],
+      },
+      {
+        id: 'partner-organizations',
+        path: '/partner/organizations',
+        title: 'Partner Organizations',
+        purpose:
+          'View and manage all client organizations under your partner account. Search, filter, and access client details.',
+        navigation: ['Partner Portal > Organizations', 'URL: /partner/organizations'],
+        whatYouSee: [
+          {
+            title: 'Organization List',
+            items: [
+              { label: 'Name', description: 'Client organization name' },
+              { label: 'Status', description: 'Active or Inactive' },
+              { label: 'Locations', description: 'Number of locations' },
+              { label: 'Created', description: 'When they joined' },
+            ],
+          },
+          {
+            title: 'Filters',
+            items: [
+              { label: 'Search', description: 'Search by organization name' },
+              { label: 'Status', description: 'All, Active, or Inactive' },
+            ],
+          },
+          {
+            title: 'Pagination',
+            description: 'Navigate through client list.',
+          },
+        ],
+        actions: [
+          { name: 'Add Organization', description: 'Onboard new client' },
+          { name: 'View Details', description: 'Open client organization' },
+        ],
+        workflows: [
+          {
+            title: 'Find specific client',
+            steps: [
+              'Use search box to type client name',
+              'Or filter by status (Active/Inactive)',
+              'Click on organization to view details',
+            ],
+          },
+        ],
+        tips: [
+          'Use search for quick access to specific clients',
+          'Inactive clients may need follow-up',
+          'Total count shows in page header',
+        ],
       },
     ],
   },
