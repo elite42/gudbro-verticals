@@ -20,6 +20,13 @@
 > - Services: `lib/geocoding-service.ts`, `lib/loyalty-service.ts`
 > - Infrastructure: Leaflet + react-leaflet-cluster, Sidebar with Intelligence link
 > - Features: Radius filter (1-25km), date filters, customer status, entity toggles, wallet/loyalty quick actions
+>
+> **Test Data (ROOTS My Khe):**
+>
+> - 35 fake customers (21 tourists, 14 residents) with varied tiers and statuses
+> - 6 competitors within 1km radius
+> - 4 hotel partners with different partnership statuses
+> - Zone analysis and AI bootstrap results populated
 
 ---
 
