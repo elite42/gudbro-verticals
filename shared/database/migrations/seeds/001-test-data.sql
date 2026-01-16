@@ -41,18 +41,6 @@ VALUES (
   'active'
 ) ON CONFLICT (id) DO NOTHING;
 
--- Test Organization 3: Demo Enterprise (for testing)
-INSERT INTO organizations (id, name, slug, type, subscription_plan, subscription_status, status)
-VALUES (
-  '33333333-3333-3333-3333-333333333333',
-  'Demo Enterprise Corp',
-  'demo-enterprise',
-  'enterprise',
-  NULL,
-  'active',
-  'active'
-) ON CONFLICT (id) DO NOTHING;
-
 -- =====================================================
 -- PART 2: BRANDS
 -- =====================================================
@@ -96,20 +84,6 @@ VALUES (
   'fnb',
   NULL,
   '#1E88E5',
-  true
-) ON CONFLICT (id) DO NOTHING;
-
--- Brand 4: Demo Brand (for testing)
-INSERT INTO brands (id, organization_id, name, slug, description, business_type, logo_url, primary_color, is_active)
-VALUES (
-  'dddddddd-dddd-dddd-dddd-dddddddddddd',
-  '33333333-3333-3333-3333-333333333333',
-  'Demo Brand',
-  'demo-brand',
-  'Test brand for development',
-  'fnb',
-  NULL,
-  '#FF5722',
   true
 ) ON CONFLICT (id) DO NOTHING;
 
@@ -180,20 +154,6 @@ VALUES (
   '+84 235 391 8888',
   'anbang@scallywags.vn',
   '{"mon": {"open": "10:00", "close": "23:00"}, "tue": {"open": "10:00", "close": "23:00"}, "wed": {"open": "10:00", "close": "23:00"}, "thu": {"open": "10:00", "close": "23:00"}, "fri": {"open": "10:00", "close": "24:00"}, "sat": {"open": "09:00", "close": "24:00"}, "sun": {"open": "09:00", "close": "23:00"}}',
-  true
-) ON CONFLICT (id) DO NOTHING;
-
--- Location 4: Demo Location (for testing - minimal data)
-INSERT INTO locations (id, brand_id, name, slug, country_code, currency_code, primary_language, enabled_languages, is_active)
-VALUES (
-  '10000000-0000-0000-0000-000000000004',
-  'dddddddd-dddd-dddd-dddd-dddddddddddd',
-  'Demo Location',
-  'demo-main',
-  'US',
-  'USD',
-  'en',
-  ARRAY['en'],
   true
 ) ON CONFLICT (id) DO NOTHING;
 
