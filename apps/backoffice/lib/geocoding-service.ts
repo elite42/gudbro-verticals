@@ -294,6 +294,7 @@ function toRad(deg: number): number {
 
 /**
  * Get location center from merchant's primary location
+ * Uses merchant -> brand -> location relationship
  */
 export async function getMerchantCenter(merchantId: string): Promise<{
   lat: number;
@@ -302,37 +303,49 @@ export async function getMerchantCenter(merchantId: string): Promise<{
 } | null> {
   const supabase = getSupabaseAdmin();
 
-  const { data, error } = await supabase
-    .from('locations')
-    .select('id, name, latitude, longitude')
-    .eq('merchant_id', merchantId)
-    .eq('is_primary', true)
+  // First get the merchant to find associated brand
+  const { data: merchant, error: merchantError } = await supabase
+    .from('merchants')
+    .select('id, name, slug')
+    .eq('id', merchantId)
     .single();
 
-  if (error || !data || !data.latitude || !data.longitude) {
-    // Fallback to any location
-    const { data: anyLocation } = await supabase
-      .from('locations')
-      .select('id, name, latitude, longitude')
-      .eq('merchant_id', merchantId)
-      .not('latitude', 'is', null)
-      .limit(1)
-      .single();
+  if (merchantError || !merchant) {
+    console.error('[Geocoding] Merchant not found:', merchantId);
+    return null;
+  }
 
-    if (!anyLocation || !anyLocation.latitude) {
-      return null;
-    }
+  // Find brand by matching name or slug
+  const { data: brand } = await supabase
+    .from('brands')
+    .select('id')
+    .or(`name.eq.${merchant.name},slug.eq.${merchant.slug}`)
+    .limit(1)
+    .single();
 
-    return {
-      lat: parseFloat(anyLocation.latitude),
-      lng: parseFloat(anyLocation.longitude),
-      name: anyLocation.name,
-    };
+  if (!brand) {
+    console.error('[Geocoding] Brand not found for merchant:', merchant.name);
+    return null;
+  }
+
+  // Get first location for this brand with coordinates
+  const { data: location } = await supabase
+    .from('locations')
+    .select('id, name, latitude, longitude')
+    .eq('brand_id', brand.id)
+    .not('latitude', 'is', null)
+    .not('longitude', 'is', null)
+    .limit(1)
+    .single();
+
+  if (!location || !location.latitude || !location.longitude) {
+    console.error('[Geocoding] No location with coordinates for brand:', brand.id);
+    return null;
   }
 
   return {
-    lat: parseFloat(data.latitude),
-    lng: parseFloat(data.longitude),
-    name: data.name,
+    lat: parseFloat(location.latitude),
+    lng: parseFloat(location.longitude),
+    name: location.name,
   };
 }

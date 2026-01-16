@@ -321,6 +321,7 @@ VERIFICA SEMPRE:
 | 2026-01 | Warning ignorati             | Visti ma non agiti (es. husky)         | **Agire subito** su warning/error, non aspettare                        | Tutto                 |
 | 2026-01 | Doc grandi → qualità persa   | Processare tutto insieme               | **Layered approach**: leggi solo sezioni rilevanti                      | CLAUDE.md, PRODUCT.md |
 | 2026-01 | MCP/API timeout misterioso   | Query complesse senza diagnostica      | **Debug incrementale**: query semplice → complessa                      | Supabase MCP          |
+| 2026-01 | list_tables blocca Claude    | Schema public troppo grande (~100 tab) | **Query mirata** su information_schema.columns per tabelle specifiche   | Supabase MCP          |
 | 2026-01 | Traduzioni inline costose    | Generare testo con Claude              | **Usa OpenAI API** (gpt-4o-mini): $0.0015/200 trad                      | translate-only.ts     |
 | 2026-01 | Contesto gonfiato = lento    | Output SQL ~450 righe × batch          | **Insert diretto** nel DB, output 1 riga                                | translate-only.ts     |
 | 2026-01 | anon_key bloccata da RLS     | Script usa anon_key per INSERT         | Serve **service_role_key** per bypass RLS                               | Script locali         |
@@ -357,6 +358,7 @@ VERIFICA SEMPRE:
 | Warnings/Errors | Agire subito, fix o segnala                             | Ignorare e proseguire         |
 | Doc grandi      | Layered: sezioni rilevanti solo                         | Leggere/processare tutto      |
 | Debug API/MCP   | Query semplice → incrementale                           | Query complessa subito        |
+| Schema inspect  | `information_schema.columns` per tabelle specifiche     | `list_tables` su schema large |
 | Traduzioni bulk | Script OpenAI (gpt-4o-mini)                             | Generare inline con Claude    |
 | RLS bypass      | Script→SQL output→MCP execute                           | Cercare service_role_key      |
 | UA/Regex check  | Specifici prima, generici dopo                          | Chrome prima di Samsung       |

@@ -14,7 +14,8 @@ import type { MapEntity } from '@/components/map/hooks/useMapData';
 import { QuickActionPanel } from '@/components/map/panels/QuickActionPanel';
 
 // Demo merchant ID - in production this comes from auth context
-const DEMO_MERCHANT_ID = '550e8400-e29b-41d4-a716-446655440001';
+// ROOTS Cafe merchant ID for testing
+const DEMO_MERCHANT_ID = '11111111-1111-1111-1111-111111111111';
 
 export default function IntelligenceMapPage() {
   const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
