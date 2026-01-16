@@ -338,6 +338,7 @@ VERIFICA SEMPRE:
 | 2026-01 | Docs prodotto obsolete       | Backoffice cambia, docs no             | **PRODUCT.md Sez.6** solo per nuove capability areas, non ogni modifica | PRODUCT.md            |
 | 2026-01 | Blocco senza commit          | Task troppo lunga senza checkpoint     | **Commit incrementali** ogni ~30 min o feature completa                 | Sessioni lunghe       |
 | 2026-01 | Type generation fallita      | MCP timeout durante generazione types  | **Operazioni heavy separatamente**: prima commit, poi rigenera types    | database.types.ts     |
+| 2026-01 | Dev accounts non funzionano  | `getSession()` solo Supabase auth      | **Check dev cookie** in supabase-server.ts prima di Supabase auth       | API routes            |
 
 ## Pattern da Seguire
 
@@ -375,6 +376,7 @@ VERIFICA SEMPRE:
 | Dev server port | Verifica `lsof -i :3023` prima di avviare               | Assumere porta libera        |
 | Port docs       | Leggi package.json per porta reale                      | Fidarsi di docs outdated     |
 | KB Backoffice   | Aggiorna `lib/kb/kb-content.ts` quando modifichi pagine | Dimenticare docs utente      |
+| Dev auth APIs   | `getSession()` deve supportare dev cookies              | Solo Supabase auth check     |
 
 ## Come Aggiornare
 

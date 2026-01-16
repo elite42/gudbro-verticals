@@ -42,16 +42,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  // Prevent flash of wrong theme
-  if (!mounted) {
-    return null;
-  }
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  // Always render children - theme will be applied after mount
+  // Using suppressHydrationWarning in layout.tsx handles any mismatch
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {
