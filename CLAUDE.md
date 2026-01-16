@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-15
-> **Version:** 6.7 (WHITE-LABEL-FULL + AI-FIRST-REDESIGN complete)
+> **Last Updated:** 2026-01-16
+> **Version:** 6.8 (Weather fix + Demo cleanup)
 
 ---
 

@@ -4,7 +4,7 @@
 > **Max 3 task** alla volta per focus.
 > Quando completata → spostala in `3-TESTING.md` o `4-DONE.md`
 
-**Last Updated:** 2026-01-15
+**Last Updated:** 2026-01-16
 
 ---
 
@@ -27,8 +27,13 @@ _Nessuna task in corso. Pronto per nuova task._
 
 - ~~Sprint 12.5: Notification trigger + cron job + template seeding~~ ✅ DONE
 - ~~Security: Dev mode auth bypass removed~~ ✅ DONE
-- Security: Credential encryption, rate limiting (remaining)
+- ~~Security: Credential encryption, rate limiting~~ 🔒 Pre-Launch (non durante dev/test)
 - ~~Business logic: Overbooking prevention, timezone handling~~ ✅ DONE (atomic functions)
+
+**Session 7 Fixes (2026-01-16):**
+
+- ~~Weather widget RLS error~~ ✅ DONE (supabaseAdmin)
+- ~~Demo data cleanup~~ ✅ DONE (rimosso da DB + seeds)
 
 ---
 
