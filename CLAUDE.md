@@ -339,6 +339,7 @@ VERIFICA SEMPRE:
 | 2026-01 | Blocco senza commit          | Task troppo lunga senza checkpoint     | **Commit incrementali** ogni ~30 min o feature completa                 | Sessioni lunghe       |
 | 2026-01 | Type generation fallita      | MCP timeout durante generazione types  | **Operazioni heavy separatamente**: prima commit, poi rigenera types    | database.types.ts     |
 | 2026-01 | Dev accounts non funzionano  | `getSession()` solo Supabase auth      | **Check dev cookie** in supabase-server.ts prima di Supabase auth       | API routes            |
+| 2026-01 | Weather cache RLS violation  | Service usa client anon key            | Usare **supabaseAdmin** per services che scrivono in cache tables       | weather-service.ts    |
 
 ## Pattern da Seguire
 
@@ -378,6 +379,7 @@ VERIFICA SEMPRE:
 | KB Backoffice   | Aggiorna `lib/kb/kb-content.ts` quando modifichi pagine | Dimenticare docs utente       |
 | Dev auth APIs   | `getSession()` deve supportare dev cookies              | Solo Supabase auth check      |
 | Env vars sync   | Quando aggiungi su Vercel, aggiungi anche `.env.local`  | Solo Vercel, dev non funziona |
+| Server cache    | Services che scrivono cache usano `supabaseAdmin`       | `supabase` bloccato da RLS    |
 
 ## Come Aggiornare
 
