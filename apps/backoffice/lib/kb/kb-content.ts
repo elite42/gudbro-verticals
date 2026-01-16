@@ -1614,6 +1614,127 @@ export const KB_SECTIONS: KBSection[] = [
   },
 
   // ============================================================
+  // BUSINESS INTELLIGENCE
+  // ============================================================
+  {
+    id: 'intelligence',
+    title: 'Business Intelligence',
+    icon: '🗺️',
+    pages: [
+      {
+        id: 'intelligence-map',
+        path: '/intelligence/map',
+        title: 'Smart Map',
+        purpose:
+          'Visualize your business on a map. See customers, competitors, and partners geographically. Identify opportunities and risks by location.',
+        navigation: ['Sidebar > Intelligence > Map', 'URL: /intelligence/map'],
+        whatYouSee: [
+          {
+            title: 'Interactive Map',
+            description:
+              'Leaflet map centered on your location showing markers for different entity types.',
+            items: [
+              { label: 'Green markers', description: 'Active customers (ordered in last 30 days)' },
+              {
+                label: 'Yellow markers',
+                description: 'At-risk customers (31-90 days since order)',
+              },
+              { label: 'Red markers', description: 'Churned customers (90+ days since order)' },
+              { label: 'Orange markers', description: 'Competitors in your area' },
+              { label: 'Purple markers', description: 'Partner businesses (hotels, offices)' },
+              { label: 'Blue markers', description: 'Leads (potential partners)' },
+            ],
+          },
+          {
+            title: 'Filter Panel',
+            items: [
+              { label: 'Radius slider', description: 'Adjust search radius (1-20 km)' },
+              {
+                label: 'Entity toggles',
+                description: 'Show/hide customers, competitors, partners',
+              },
+              { label: 'Status filters', description: 'Filter by active, at-risk, churned' },
+              { label: 'Date range', description: 'Filter by order date' },
+            ],
+          },
+          {
+            title: 'Stats Panel',
+            items: [
+              { label: 'Total customers', description: 'Count within radius' },
+              { label: 'Revenue in radius', description: 'Total revenue from visible customers' },
+              { label: 'Avg order value', description: 'Average across visible customers' },
+              { label: 'Competitor count', description: 'Number of competitors nearby' },
+            ],
+          },
+        ],
+        actions: [
+          { name: 'Click marker', description: 'View entity details in popup' },
+          { name: 'Click customer', description: 'Open quick actions (wallet, loyalty)' },
+          { name: 'Adjust radius', description: 'Expand or shrink search area' },
+          { name: 'Toggle layers', description: 'Show/hide entity types' },
+        ],
+        workflows: [
+          {
+            title: 'Find at-risk customers in your area',
+            steps: [
+              'Set radius to 3km',
+              'Toggle to show only customers',
+              'Filter by "At Risk" status',
+              'Click yellow markers to see details',
+              'Use quick actions to send retention offers',
+            ],
+          },
+          {
+            title: 'Analyze competitor landscape',
+            steps: [
+              'Enable competitors layer',
+              'Expand radius to see wider area',
+              'Click orange markers to see competitor details',
+              'Note price ranges and strengths',
+              'Identify differentiation opportunities',
+            ],
+          },
+          {
+            title: 'Identify partnership opportunities',
+            steps: [
+              'Enable partners and leads layers',
+              'Look for hotels/offices near your location',
+              'Click markers to see contact info',
+              'Note which have "suggested" status (not contacted)',
+              'Reach out for partnership discussions',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'Why are some customers not showing?',
+            a: "Customers need delivery coordinates. Those without location data won't appear on the map.",
+          },
+          {
+            q: 'How is customer status calculated?',
+            a: 'Based on last order: Active (≤30 days), At Risk (31-90 days), Churned (>90 days).',
+          },
+          {
+            q: 'Where do competitor profiles come from?',
+            a: 'AI discovery during bootstrap or manual entry. Some may be AI-generated estimates.',
+          },
+          {
+            q: 'Can I export the map?',
+            a: 'Export feature coming soon. For now, use browser screenshot.',
+          },
+        ],
+        tips: [
+          'Start with 3-5km radius to focus on your core area',
+          'Yellow markers are your best retention opportunity',
+          'Hotels within 500m are prime partnership targets',
+          'Compare competitor prices to position your menu',
+          'Use clustering to see high-density areas',
+        ],
+      },
+    ],
+  },
+
+  // ============================================================
   // CUSTOMER CHAT
   // ============================================================
   {

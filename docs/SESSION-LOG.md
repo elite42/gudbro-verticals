@@ -5,6 +5,52 @@
 
 ---
 
+## 2026-01-16 (Session 9) - SmartMap Test Data & AI Bootstrap
+
+**Focus:** Create test data for SmartMap + fix merchant-location relationship
+**Durata:** ~1.5h
+**Tipo:** Testing / Bug Fix
+
+### Completato
+
+**Test Data Created (via Supabase MCP):**
+
+- 35 fake customers around ROOTS My Khe (21 tourists, 14 residents)
+- Distribution: 14 active, 11 at-risk, 10 churned
+- Tiers: 12 bronze, 11 silver, 9 gold, 3 platinum
+- 6 competitors within 1km radius
+- 4 hotel partners (Fusion Suites, Melia, Hostel, Boutique)
+- Partnership records with different statuses
+- Zone analysis for My Khe beach/tourist area
+- AI bootstrap results with menu/marketing suggestions
+
+**Bug Fixes:**
+
+- `getMerchantCenter()`: Fixed to use merchant→brand→location relationship
+- Map page: Updated demo merchant ID to ROOTS Cafe
+
+**Lesson Learned:**
+
+- `mcp__supabase__list_tables` on large schemas causes context overflow
+- Solution: Use `information_schema.columns` queries for specific tables
+
+### Commits
+
+- `f7def50` - fix(map): correct merchant-location relationship and add test data
+
+### Note tecniche
+
+- Temporarily disabled account triggers during bulk insert (welcome_bonus, referral_code)
+- Customer status calculated from last order date (30d=active, 90d=at_risk, >90d=churned)
+- Vietnamese names for residents, international names for tourists
+
+### Testing URLs
+
+- SmartMap: http://localhost:3023/intelligence/map
+- AI Bootstrap: http://localhost:3023/api/ai/bootstrap?merchantId=11111111-1111-1111-1111-111111111111
+
+---
+
 ## 2026-01-16 (Session 8) - SmartMap Business Intelligence
 
 **Focus:** Complete SmartMap feature implementation
