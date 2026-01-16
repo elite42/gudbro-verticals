@@ -19,11 +19,13 @@
 ## Pre-Launch - Prima dei Primi Clienti
 
 > Task da completare prima di andare live con clienti paganti.
+> ⚠️ **Security tasks (password protection, rate limiting) → implementare SOLO prima del go-live, non durante dev/test**
 
-| ID                    | Feature                    | Descrizione                                      | Effort | Requires | Status  |
-| --------------------- | -------------------------- | ------------------------------------------------ | ------ | -------- | ------- |
-| LEAKED-PWD-PROTECTION | Leaked Password Protection | Blocca password compromesse (HaveIBeenPwned)     | Low    | Pro Plan | Pending |
-| BACKOFFICE-UI-RESERV  | UI Prenotazioni Backoffice | Calendar view + Floor plan editor (Sprint 13-14) | High   | -        | ✅ DONE |
+| ID                    | Feature                    | Descrizione                                      | Effort | Requires | Status        |
+| --------------------- | -------------------------- | ------------------------------------------------ | ------ | -------- | ------------- |
+| LEAKED-PWD-PROTECTION | Leaked Password Protection | Blocca password compromesse (HaveIBeenPwned)     | Low    | Pro Plan | 🔒 Pre-Launch |
+| RATE-LIMITING         | Rate Limiting              | Protezione brute force login                     | Low    | -        | 🔒 Pre-Launch |
+| BACKOFFICE-UI-RESERV  | UI Prenotazioni Backoffice | Calendar view + Floor plan editor (Sprint 13-14) | High   | -        | ✅ DONE       |
 
 ---
 
