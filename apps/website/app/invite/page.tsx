@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -38,7 +38,7 @@ const ROLE_ICONS: Record<string, string> = {
   staff: '👤',
 };
 
-export default function InvitePage() {
+function InviteContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
@@ -437,5 +437,24 @@ export default function InvitePage() {
         </p>
       </main>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="text-center">
+        <div className="mx-auto mb-4 h-16 w-16 animate-spin rounded-full border-4 border-purple-500 border-t-transparent" />
+        <p className="text-gray-600 dark:text-gray-400">Caricamento invito...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function InvitePage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <InviteContent />
+    </Suspense>
   );
 }

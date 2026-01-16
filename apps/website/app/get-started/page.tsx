@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   startOnboarding,
@@ -14,7 +14,7 @@ import {
 
 type Step = 1 | 2 | 3 | 4 | 5;
 
-export default function GetStartedPage() {
+function GetStartedContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState<Step>(1);
@@ -638,5 +638,21 @@ export default function GetStartedPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
+    </div>
+  );
+}
+
+export default function GetStartedPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <GetStartedContent />
+    </Suspense>
   );
 }

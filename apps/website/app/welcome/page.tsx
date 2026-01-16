@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
@@ -34,7 +34,7 @@ interface SetupTask {
   completed: boolean;
 }
 
-export default function WelcomePage() {
+function WelcomeContent() {
   const searchParams = useSearchParams();
   const isOnboardingComplete = searchParams.get('onboarding') === 'complete';
   const accountType = isOnboardingComplete
@@ -397,5 +397,21 @@ export default function WelcomePage() {
         }
       `}</style>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-900 border-t-transparent dark:border-white" />
+    </div>
+  );
+}
+
+export default function WelcomePage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <WelcomeContent />
+    </Suspense>
   );
 }
