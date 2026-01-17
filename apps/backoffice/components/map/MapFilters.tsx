@@ -1,13 +1,28 @@
 'use client';
 
 /**
- * MapFilters Component
+ * MapFilters Component - Modern Compact Design
  *
- * Filter controls for the map: entity types, date range, customer status, radius.
+ * Single-row filter bar with:
+ * - Entity type chips (compact toggle pills)
+ * - Date preset dropdown
+ * - Customer status chips (when customers enabled)
+ * - Radius dropdown
+ *
+ * Based on modern UI patterns: https://mapuipatterns.com/
  */
 
-import { useState } from 'react';
-import { Users, Building2, Handshake, Target, Calendar, MapPin } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import {
+  Users,
+  Building2,
+  Handshake,
+  Target,
+  Calendar,
+  MapPin,
+  ChevronDown,
+  X,
+} from 'lucide-react';
 
 export interface FilterState {
   entities: {
@@ -39,223 +54,225 @@ const ENTITY_CONFIG = [
     key: 'customers' as const,
     label: 'Customers',
     icon: Users,
-    color: 'bg-green-500',
+    activeColor: 'bg-emerald-500 text-white border-emerald-500',
+    dotColor: 'bg-emerald-500',
   },
   {
     key: 'competitors' as const,
     label: 'Competitors',
     icon: Building2,
-    color: 'bg-red-500',
+    activeColor: 'bg-rose-500 text-white border-rose-500',
+    dotColor: 'bg-rose-500',
   },
   {
     key: 'partners' as const,
     label: 'Partners',
     icon: Handshake,
-    color: 'bg-blue-500',
+    activeColor: 'bg-blue-500 text-white border-blue-500',
+    dotColor: 'bg-blue-500',
   },
   {
     key: 'leads' as const,
     label: 'Leads',
     icon: Target,
-    color: 'bg-gray-400',
+    activeColor: 'bg-slate-500 text-white border-slate-500',
+    dotColor: 'bg-slate-400',
   },
 ];
 
 const STATUS_CONFIG = [
-  { key: 'active' as const, label: 'Active', color: 'bg-green-500' },
-  { key: 'atRisk' as const, label: 'At Risk', color: 'bg-yellow-500' },
-  { key: 'churned' as const, label: 'Churned', color: 'bg-red-500' },
+  { key: 'active' as const, label: 'Active', dotColor: 'bg-emerald-500' },
+  { key: 'atRisk' as const, label: 'At Risk', dotColor: 'bg-amber-500' },
+  { key: 'churned' as const, label: 'Churned', dotColor: 'bg-rose-500' },
 ];
 
 const DATE_PRESETS = [
-  { key: '7d' as const, label: '7 days' },
-  { key: '30d' as const, label: '30 days' },
-  { key: '90d' as const, label: '90 days' },
-  { key: '365d' as const, label: '1 year' },
+  { key: '7d' as const, label: '7d', fullLabel: 'Last 7 days' },
+  { key: '30d' as const, label: '30d', fullLabel: 'Last 30 days' },
+  { key: '90d' as const, label: '90d', fullLabel: 'Last 90 days' },
+  { key: '365d' as const, label: '1y', fullLabel: 'Last year' },
 ];
 
 const RADIUS_OPTIONS = [1, 2, 3, 5, 10, 15, 20, 25];
 
 export function MapFilters({ filters, onChange }: MapFiltersProps) {
-  const [showCustomDate, setShowCustomDate] = useState(filters.dateRange.preset === 'custom');
+  const [showDateDropdown, setShowDateDropdown] = useState(false);
+  const [showRadiusDropdown, setShowRadiusDropdown] = useState(false);
+  const dateRef = useRef<HTMLDivElement>(null);
+  const radiusRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dateRef.current && !dateRef.current.contains(e.target as Node)) {
+        setShowDateDropdown(false);
+      }
+      if (radiusRef.current && !radiusRef.current.contains(e.target as Node)) {
+        setShowRadiusDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const toggleEntity = (key: keyof FilterState['entities']) => {
     onChange({
       ...filters,
-      entities: {
-        ...filters.entities,
-        [key]: !filters.entities[key],
-      },
+      entities: { ...filters.entities, [key]: !filters.entities[key] },
     });
   };
 
   const toggleStatus = (key: keyof FilterState['customerStatus']) => {
     onChange({
       ...filters,
-      customerStatus: {
-        ...filters.customerStatus,
-        [key]: !filters.customerStatus[key],
-      },
+      customerStatus: { ...filters.customerStatus, [key]: !filters.customerStatus[key] },
     });
   };
 
   const setDatePreset = (preset: '7d' | '30d' | '90d' | '365d') => {
-    setShowCustomDate(false);
     onChange({
       ...filters,
-      dateRange: {
-        from: null,
-        to: null,
-        preset,
-      },
+      dateRange: { from: null, to: null, preset },
     });
-  };
-
-  const setCustomDate = (from: string, to: string) => {
-    onChange({
-      ...filters,
-      dateRange: {
-        from,
-        to,
-        preset: 'custom',
-      },
-    });
+    setShowDateDropdown(false);
   };
 
   const setRadius = (km: number) => {
-    onChange({
-      ...filters,
-      radiusKm: km,
-    });
+    onChange({ ...filters, radiusKm: km });
+    setShowRadiusDropdown(false);
   };
 
+  // Count active filters
+  const activeEntityCount = Object.values(filters.entities).filter(Boolean).length;
+  const activeStatusCount = Object.values(filters.customerStatus).filter(Boolean).length;
+
   return (
-    <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4">
-      {/* Entity toggles */}
-      <div>
-        <label className="mb-2 block text-xs font-medium uppercase tracking-wide text-gray-500">
-          Show on Map
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {ENTITY_CONFIG.map(({ key, label, icon: Icon, color }) => (
+    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200/80 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-sm">
+      {/* Entity type chips */}
+      <div className="flex items-center gap-1.5">
+        {ENTITY_CONFIG.map(({ key, label, icon: Icon, activeColor, dotColor }) => {
+          const isActive = filters.entities[key];
+          return (
             <button
               key={key}
               onClick={() => toggleEntity(key)}
-              className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                filters.entities[key]
-                  ? `${color} text-white`
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-all duration-200 ${
+                isActive
+                  ? activeColor
+                  : 'border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50'
               }`}
+              title={label}
             >
-              <Icon className="h-4 w-4" />
-              {label}
+              {!isActive && <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />}
+              <Icon className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">{label}</span>
             </button>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
-      {/* Date range */}
-      <div>
-        <label className="mb-2 block text-xs font-medium uppercase tracking-wide text-gray-500">
-          <Calendar className="mr-1 inline h-3 w-3" />
-          Customer Activity Period
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {DATE_PRESETS.map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => setDatePreset(key)}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                filters.dateRange.preset === key
-                  ? 'bg-gray-900 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-          <button
-            onClick={() => setShowCustomDate(!showCustomDate)}
-            className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-              filters.dateRange.preset === 'custom'
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            Custom
-          </button>
-        </div>
+      {/* Divider */}
+      <div className="h-5 w-px bg-gray-200" />
 
-        {/* Custom date inputs */}
-        {showCustomDate && (
-          <div className="mt-2 flex items-center gap-2">
-            <input
-              type="date"
-              value={filters.dateRange.from || ''}
-              onChange={(e) => setCustomDate(e.target.value, filters.dateRange.to || '')}
-              className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm"
-            />
-            <span className="text-gray-500">to</span>
-            <input
-              type="date"
-              value={filters.dateRange.to || ''}
-              onChange={(e) => setCustomDate(filters.dateRange.from || '', e.target.value)}
-              className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm"
-            />
+      {/* Customer status chips (only when customers enabled) */}
+      {filters.entities.customers && (
+        <>
+          <div className="flex items-center gap-1">
+            {STATUS_CONFIG.map(({ key, label, dotColor }) => {
+              const isActive = filters.customerStatus[key];
+              return (
+                <button
+                  key={key}
+                  onClick={() => toggleStatus(key)}
+                  className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium transition-all duration-200 ${
+                    isActive
+                      ? 'bg-gray-900 text-white'
+                      : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  }`}
+                  title={`${label} customers`}
+                >
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full ${isActive ? 'bg-white' : dotColor}`}
+                  />
+                  <span className="hidden sm:inline">{label}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="h-5 w-px bg-gray-200" />
+        </>
+      )}
+
+      {/* Date preset dropdown */}
+      <div className="relative" ref={dateRef}>
+        <button
+          onClick={() => setShowDateDropdown(!showDateDropdown)}
+          className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
+        >
+          <Calendar className="h-3.5 w-3.5 text-gray-400" />
+          <span>
+            {DATE_PRESETS.find((p) => p.key === filters.dateRange.preset)?.label || '30d'}
+          </span>
+          <ChevronDown className="h-3 w-3 text-gray-400" />
+        </button>
+
+        {showDateDropdown && (
+          <div className="absolute left-0 top-full z-50 mt-1 min-w-[140px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+            {DATE_PRESETS.map(({ key, fullLabel }) => (
+              <button
+                key={key}
+                onClick={() => setDatePreset(key)}
+                className={`block w-full px-3 py-1.5 text-left text-xs transition-colors ${
+                  filters.dateRange.preset === key
+                    ? 'bg-gray-100 font-medium text-gray-900'
+                    : 'text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                {fullLabel}
+              </button>
+            ))}
           </div>
         )}
       </div>
 
-      {/* Customer status (only show if customers filter is on) */}
-      {filters.entities.customers && (
-        <div>
-          <label className="mb-2 block text-xs font-medium uppercase tracking-wide text-gray-500">
-            Customer Status
-          </label>
-          <div className="flex flex-wrap gap-2">
-            {STATUS_CONFIG.map(({ key, label, color }) => (
+      {/* Radius dropdown */}
+      <div className="relative" ref={radiusRef}>
+        <button
+          onClick={() => setShowRadiusDropdown(!showRadiusDropdown)}
+          className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
+        >
+          <MapPin className="h-3.5 w-3.5 text-gray-400" />
+          <span>{filters.radiusKm} km</span>
+          <ChevronDown className="h-3 w-3 text-gray-400" />
+        </button>
+
+        {showRadiusDropdown && (
+          <div className="absolute left-0 top-full z-50 mt-1 grid min-w-[120px] grid-cols-2 gap-0.5 rounded-lg border border-gray-200 bg-white p-1 shadow-lg">
+            {RADIUS_OPTIONS.map((km) => (
               <button
-                key={key}
-                onClick={() => toggleStatus(key)}
-                className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                  filters.customerStatus[key]
-                    ? `${color} text-white`
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                key={km}
+                onClick={() => setRadius(km)}
+                className={`rounded-md px-3 py-1.5 text-center text-xs transition-colors ${
+                  filters.radiusKm === km
+                    ? 'bg-gray-900 font-medium text-white'
+                    : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
-                <span
-                  className={`h-2 w-2 rounded-full ${filters.customerStatus[key] ? 'bg-white' : color}`}
-                />
-                {label}
+                {km} km
               </button>
             ))}
           </div>
+        )}
+      </div>
+
+      {/* Active filter count badge */}
+      {(activeEntityCount < 4 || activeStatusCount < 3) && (
+        <div className="ml-auto flex items-center gap-1 text-xs text-gray-400">
+          <span className="rounded-full bg-gray-100 px-2 py-0.5">
+            {activeEntityCount + (filters.entities.customers ? activeStatusCount : 0)} filters
+          </span>
         </div>
       )}
-
-      {/* Radius slider */}
-      <div>
-        <label className="mb-2 flex items-center justify-between text-xs font-medium uppercase tracking-wide text-gray-500">
-          <span>
-            <MapPin className="mr-1 inline h-3 w-3" />
-            Radius
-          </span>
-          <span className="text-sm font-bold text-gray-900">{filters.radiusKm} km</span>
-        </label>
-        <input
-          type="range"
-          min={1}
-          max={25}
-          step={1}
-          value={filters.radiusKm}
-          onChange={(e) => setRadius(parseInt(e.target.value))}
-          className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-gray-900"
-        />
-        <div className="mt-1 flex justify-between text-xs text-gray-400">
-          <span>1 km</span>
-          <span>25 km</span>
-        </div>
-      </div>
     </div>
   );
 }
