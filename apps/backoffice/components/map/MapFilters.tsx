@@ -147,7 +147,7 @@ export function MapFilters({ filters, onChange }: MapFiltersProps) {
   const activeStatusCount = Object.values(filters.customerStatus).filter(Boolean).length;
 
   return (
-    <div className="flex flex-wrap items-center gap-2 rounded-xl border border-gray-200/80 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-sm">
+    <div className="relative z-[1000] flex flex-wrap items-center gap-2 rounded-xl border border-gray-200/80 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-sm">
       {/* Entity type chips */}
       <div className="flex items-center gap-1.5">
         {ENTITY_CONFIG.map(({ key, label, icon: Icon, activeColor, dotColor }) => {
@@ -217,7 +217,7 @@ export function MapFilters({ filters, onChange }: MapFiltersProps) {
         </button>
 
         {showDateDropdown && (
-          <div className="absolute left-0 top-full z-50 mt-1 min-w-[140px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+          <div className="absolute left-0 top-full z-[1001] mt-1 min-w-[140px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
             {DATE_PRESETS.map(({ key, fullLabel }) => (
               <button
                 key={key}
@@ -247,7 +247,7 @@ export function MapFilters({ filters, onChange }: MapFiltersProps) {
         </button>
 
         {showRadiusDropdown && (
-          <div className="absolute left-0 top-full z-50 mt-1 grid min-w-[120px] grid-cols-2 gap-0.5 rounded-lg border border-gray-200 bg-white p-1 shadow-lg">
+          <div className="absolute left-0 top-full z-[1001] mt-1 grid min-w-[120px] grid-cols-2 gap-0.5 rounded-lg border border-gray-200 bg-white p-1 shadow-lg">
             {RADIUS_OPTIONS.map((km) => (
               <button
                 key={km}
