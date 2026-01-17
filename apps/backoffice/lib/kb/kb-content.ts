@@ -1451,19 +1451,78 @@ export const KB_SECTIONS: KBSection[] = [
         id: 'followers',
         path: '/customers/followers',
         title: 'Followers',
-        purpose: 'Manage customers who follow your brand for updates and notifications.',
+        purpose:
+          'Manage customers who follow your brand. Track tourists vs residents, see their accommodation details, and manage their notification preferences.',
         navigation: ['Sidebar > Customers > Followers', 'URL: /customers/followers'],
         whatYouSee: [
           {
-            title: 'Follower Count',
-            description: 'Total followers across channels.',
+            title: 'Stats Cards',
+            description:
+              'Overview of Total, Active, Residents, Active Tourists, Paused, Archived, and Returning customers.',
           },
           {
-            title: 'Follower List',
-            description: 'All followers with join date and engagement.',
+            title: 'Filter Bar',
+            items: [
+              { label: 'Search', description: 'Find customers by name or email' },
+              { label: 'Visitor Type', description: 'Filter by Resident, Tourist, or Unknown' },
+              { label: 'Status', description: 'Filter by Active, Paused, Stopped, Archived' },
+              { label: 'Sort', description: 'Sort by follow date, spent, orders, visits' },
+            ],
+          },
+          {
+            title: 'Follower Table',
+            items: [
+              { label: 'Customer', description: 'Name, email, avatar' },
+              { label: 'Type', description: 'Tourist/Resident badge with country flag' },
+              { label: 'Status', description: 'Notification status (active/paused/stopped)' },
+              { label: 'Visits', description: 'Visit count with "returning" badge' },
+              { label: 'Last Visit', description: 'Time since last visit' },
+              { label: 'Orders', description: 'Total order count' },
+              { label: 'Total Spent', description: 'Lifetime spending' },
+              { label: 'Tier', description: 'Loyalty tier (Bronze/Silver/Gold/Platinum)' },
+              { label: 'Actions', description: 'Edit button to update accommodation' },
+            ],
           },
         ],
-        tips: ['Followers are opted-in for marketing', 'Grow followers with incentives'],
+        actions: [
+          { name: 'Export CSV', description: 'Download follower list as spreadsheet' },
+          {
+            name: 'Edit Accommodation',
+            description: 'Update tourist type, hotel, dates, and home location',
+          },
+        ],
+        workflows: [
+          {
+            title: 'Update Tourist Accommodation',
+            steps: [
+              'Click Edit button on customer row',
+              'Select customer type: Tourist, Resident, or Unknown',
+              'For tourists: Search hotel using autocomplete, add room number, arrival/departure dates',
+              'For residents: Optionally add home address',
+              'Save changes',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'What is the difference between Tourist and Resident?',
+            a: 'Tourists are visiting temporarily (with arrival/departure dates), while Residents live locally. This affects notification timing and marketing strategies.',
+          },
+          {
+            q: 'What does Paused status mean?',
+            a: 'Notifications are temporarily paused, typically when a tourist has departed but may return.',
+          },
+          {
+            q: 'How do I find which hotel a customer is staying at?',
+            a: 'The hotel name appears in the Type column for tourists. Click Edit to see full details.',
+          },
+        ],
+        tips: [
+          'Use hotel autocomplete to accurately capture where tourists are staying',
+          'Set departure dates to automatically pause notifications when tourists leave',
+          'Track returning tourists to build long-term relationships',
+          'Filter by "Paused" to re-engage past tourists when they return',
+        ],
       },
       {
         id: 'feedback',

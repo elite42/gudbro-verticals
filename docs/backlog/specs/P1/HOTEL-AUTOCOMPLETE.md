@@ -2,10 +2,37 @@
 
 > Google Places API per ricerca hotel durante onboarding turisti
 
-**Status:** Pending
+**Status:** ✅ DONE
 **Priority:** P1
 **Effort:** Medium
 **Created:** 2026-01-17
+**Completed:** 2026-01-17
+
+---
+
+## Implementation Summary
+
+**Implemented 2026-01-17:**
+
+| Component                                              | Status |
+| ------------------------------------------------------ | ------ |
+| `lib/google-places.ts` - API client                    | ✅     |
+| `app/api/places/autocomplete/route.ts` - Proxy         | ✅     |
+| `app/api/places/details/route.ts` - Details proxy      | ✅     |
+| `components/onboarding/PlaceSearch.tsx` - UI component | ✅     |
+| `components/customers/AccommodationEditModal.tsx`      | ✅     |
+| `app/api/customers/[accountId]/accommodation/route.ts` | ✅     |
+| Integration in Followers page                          | ✅     |
+| KB updated (`kb-content.ts`)                           | ✅     |
+
+**Features implemented:**
+
+- HotelSearch component (lodging type filter)
+- AddressSearch component (general address search)
+- Edit modal in Customers > Followers page
+- GET/PATCH API for accommodation data
+- Debounced search with loading states
+- Location bias support
 
 ---
 
