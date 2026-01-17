@@ -5,6 +5,71 @@
 
 ---
 
+## 2026-01-17 (Session 10) - SmartMap UI Redesign & Tourist Tracking
+
+**Focus:** SmartMap UI improvements + Tourist accommodation tracking system
+**Durata:** ~2h
+**Tipo:** Feature / UX / Database
+
+### Completato
+
+**SmartMap UI Redesign:**
+
+- Compact filter bar with chip-style toggles (replaced large blocks)
+- Modern cluster markers with count badges and gradient styling
+- Pulse animations for clusters
+- CartoDB Positron tiles for cleaner map appearance
+- Fixed z-index issue (dropdowns appearing behind map)
+- Consistent distance formatting: <1km shows meters, >=1km shows km
+
+**Database - Tourist Tracking Fields:**
+
+- `home_country` / `nationality` - where tourists come from
+- `accommodation_type` - hotel, rental, hostel, friend, resident, other
+- `hotel_name`, `hotel_place_id`, `hotel_address`, `hotel_lat/lng` - for delivery
+- `room_number` - hotel room for delivery
+- `arrival_date` / `departure_date` - tourist dates
+- `lifecycle_status` - active, departed, returning
+- `accommodation_partner_id` - link to partner hotels
+
+**Data Updates:**
+
+- Fixed ROOTS location to correct coordinates (16.048672, 108.247856)
+- Moved customers out of sea (lng > 108.252)
+- Updated 21 tourists with realistic nationalities (JP, KR, CN, US, AU, DE, FR, GB)
+- 12 tourists in hotels with room numbers
+- 6 tourists in rentals, 3 in hostels
+
+**Backlog:**
+
+- Added HOTEL-AUTOCOMPLETE task (P1) for Google Places API integration
+- Full spec created: `docs/backlog/specs/P1/HOTEL-AUTOCOMPLETE.md`
+
+### Commits
+
+- `a519435` - fix(map): increase z-index for filter dropdowns above Leaflet map
+- `bd64283` - feat(map): add tourist origin tracking and consistent distance formatting
+- `dab6e8c` - feat(accounts): add tourist accommodation tracking for delivery
+
+### Decisioni
+
+- **Tourist delivery**: Hotel guests need hotel_name + room_number, rentals use regular address
+- **Lifecycle tracking**: After departure_date, tourists become "departed" but records kept for analytics
+- **Partner linking**: accommodation_partner_id links to partner hotels for special offers
+
+### Note tecniche
+
+- Leaflet z-index is 400-1000, so dropdowns need z-[1000+]
+- `formatDistance()` helper: <1000m shows meters, >=1000m shows km
+- Google Places API estimated cost: ~$2/month for 100 onboardings
+
+### Prossima sessione
+
+- Implement HOTEL-AUTOCOMPLETE feature (Google Places API)
+- Or choose another task from backlog
+
+---
+
 ## 2026-01-16 (Session 9) - SmartMap Test Data & AI Bootstrap
 
 **Focus:** Create test data for SmartMap + fix merchant-location relationship
