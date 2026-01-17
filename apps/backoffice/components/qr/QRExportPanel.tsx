@@ -159,7 +159,7 @@ export function QRExportPanel({
       case 'svg':
         return 'svg';
       case 'pdf':
-        return 'svg'; // We export SVG for PDF until jsPDF is added
+        return 'pdf';
       default:
         return 'png';
     }

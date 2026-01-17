@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
+import { AccommodationEditModal, type AccommodationData } from '@/components/customers';
+import { Pencil } from 'lucide-react';
 
 type VisitorType = 'resident' | 'tourist' | 'unknown' | 'all';
 type NotificationStatus = 'active' | 'paused' | 'stopped' | 'archived' | 'all';
@@ -20,6 +22,17 @@ interface FollowerWithAnalytics {
   notification_status: 'active' | 'paused' | 'stopped' | 'archived';
   visit_count: number;
   home_country: string | null;
+  home_city: string | null;
+  // Accommodation
+  hotel_name: string | null;
+  hotel_place_id: string | null;
+  hotel_address: string | null;
+  hotel_latitude: number | null;
+  hotel_longitude: number | null;
+  room_number: string | null;
+  arrival_date: string | null;
+  departure_date: string | null;
+  lifecycle_status: 'active' | 'departed' | 'returning' | null;
   // Analytics
   first_visit_at: string | null;
   last_visit_at: string | null;
@@ -101,6 +114,12 @@ export default function FollowersPage() {
   >('followed_at');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
+  // Accommodation edit modal state
+  const [editingFollower, setEditingFollower] = useState<FollowerWithAnalytics | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const merchantId = process.env.NEXT_PUBLIC_MERCHANT_ID;
+
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -135,9 +154,6 @@ export default function FollowersPage() {
       setError(null);
 
       try {
-        // Get the current merchant ID from context (simplified for demo)
-        const merchantId = process.env.NEXT_PUBLIC_MERCHANT_ID;
-
         if (!merchantId) {
           setFollowers([]);
           setIsLoading(false);
@@ -160,6 +176,16 @@ export default function FollowersPage() {
             notification_status,
             visit_count,
             home_country,
+            home_city,
+            hotel_name,
+            hotel_place_id,
+            hotel_address,
+            hotel_latitude,
+            hotel_longitude,
+            room_number,
+            arrival_date,
+            departure_date,
+            lifecycle_status,
             accounts!inner (
               email,
               display_name,
@@ -217,6 +243,18 @@ export default function FollowersPage() {
             notification_status: row.notification_status || 'active',
             visit_count: row.visit_count || 1,
             home_country: row.home_country,
+            home_city: row.home_city,
+            // Accommodation fields
+            hotel_name: row.hotel_name,
+            hotel_place_id: row.hotel_place_id,
+            hotel_address: row.hotel_address,
+            hotel_latitude: row.hotel_latitude,
+            hotel_longitude: row.hotel_longitude,
+            room_number: row.room_number,
+            arrival_date: row.arrival_date,
+            departure_date: row.departure_date,
+            lifecycle_status: row.lifecycle_status,
+            // Analytics
             first_visit_at: analytics.first_visit_at || null,
             last_visit_at: analytics.last_visit_at || null,
             total_visits: analytics.total_visits || 0,
@@ -318,6 +356,53 @@ export default function FollowersPage() {
 
   const getName = (f: FollowerWithAnalytics) => {
     return f.display_name || f.first_name || 'Anonymous';
+  };
+
+  // Handle opening edit modal
+  const handleEditAccommodation = (follower: FollowerWithAnalytics) => {
+    setEditingFollower(follower);
+    setIsModalOpen(true);
+  };
+
+  // Handle saving accommodation data
+  const handleSaveAccommodation = async (data: AccommodationData) => {
+    if (!editingFollower || !merchantId) return;
+
+    const response = await fetch(`/api/customers/${editingFollower.account_id}/accommodation`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        merchantId,
+        ...data,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update accommodation');
+    }
+
+    // Update local state
+    setFollowers((prev) =>
+      prev.map((f) =>
+        f.account_id === editingFollower.account_id
+          ? {
+              ...f,
+              visitor_type: data.visitorType,
+              hotel_name: data.hotelName || null,
+              hotel_place_id: data.hotelPlaceId || null,
+              hotel_address: data.hotelAddress || null,
+              hotel_latitude: data.hotelLatitude || null,
+              hotel_longitude: data.hotelLongitude || null,
+              room_number: data.roomNumber || null,
+              arrival_date: data.arrivalDate || null,
+              departure_date: data.departureDate || null,
+              lifecycle_status: data.lifecycleStatus || null,
+              home_city: data.homeCity || null,
+              home_country: data.homeCountry || null,
+            }
+          : f
+      )
+    );
   };
 
   return (
@@ -556,6 +641,9 @@ export default function FollowersPage() {
                   <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
                     Tier
                   </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -633,6 +721,16 @@ export default function FollowersPage() {
                         {follower.loyalty_tier}
                       </span>
                     </td>
+                    <td className="px-6 py-4 text-center">
+                      <button
+                        onClick={() => handleEditAccommodation(follower)}
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900"
+                        title="Edit accommodation details"
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                        Edit
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -640,6 +738,35 @@ export default function FollowersPage() {
           </div>
         )}
       </div>
+
+      {/* Accommodation Edit Modal */}
+      <AccommodationEditModal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingFollower(null);
+        }}
+        onSave={handleSaveAccommodation}
+        customerName={editingFollower ? getName(editingFollower) : ''}
+        initialData={
+          editingFollower
+            ? {
+                visitorType: editingFollower.visitor_type,
+                hotelName: editingFollower.hotel_name,
+                hotelPlaceId: editingFollower.hotel_place_id,
+                hotelAddress: editingFollower.hotel_address,
+                hotelLatitude: editingFollower.hotel_latitude,
+                hotelLongitude: editingFollower.hotel_longitude,
+                roomNumber: editingFollower.room_number,
+                arrivalDate: editingFollower.arrival_date,
+                departureDate: editingFollower.departure_date || editingFollower.trip_end_date,
+                lifecycleStatus: editingFollower.lifecycle_status || 'active',
+                homeCity: editingFollower.home_city,
+                homeCountry: editingFollower.home_country,
+              }
+            : undefined
+        }
+      />
     </div>
   );
 }

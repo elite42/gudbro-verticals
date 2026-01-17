@@ -233,7 +233,7 @@ export default function QRCodesPage() {
         </div>
         <div className="flex items-center gap-3">
           <Link
-            href="/analytics?tab=qr"
+            href="/qr-codes/analytics"
             className="flex items-center gap-1.5 text-sm text-gray-600 transition-colors hover:text-blue-600"
           >
             <BarChart3Icon className="h-4 w-4" />

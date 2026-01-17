@@ -167,11 +167,29 @@ function createClusterIcon(cluster: L.MarkerCluster): L.DivIcon {
 // Modern marker icons
 const MODERN_ICONS = {
   merchant: createModernIcon('#1f2937', 32, true), // Dark with pulse
-  customer: createModernIcon('#10b981', 22), // Emerald
+  customer: createModernIcon('#10b981', 22), // Emerald (default)
   competitor: createModernIcon('#ef4444', 22), // Red
   partner: createModernIcon('#3b82f6', 22), // Blue
   lead: createModernIcon('#6b7280', 20), // Gray
+  // Customer status-specific icons
+  customerActive: createModernIcon('#10b981', 22), // Green - active
+  customerAtRisk: createModernIcon('#f59e0b', 22), // Amber - at risk
+  customerChurned: createModernIcon('#ef4444', 20), // Red - churned (slightly smaller)
 };
+
+// Get customer icon based on status
+function getCustomerIcon(status: 'active' | 'at_risk' | 'churned'): L.DivIcon {
+  switch (status) {
+    case 'active':
+      return MODERN_ICONS.customerActive;
+    case 'at_risk':
+      return MODERN_ICONS.customerAtRisk;
+    case 'churned':
+      return MODERN_ICONS.customerChurned;
+    default:
+      return MODERN_ICONS.customer;
+  }
+}
 
 interface MapContainerProps {
   merchantId: string;
@@ -336,13 +354,13 @@ export default function MapContainer({
         animate={true}
         animateAddingMarkers={true}
       >
-        {/* Customer markers */}
+        {/* Customer markers - colored by status */}
         {filters.entities.customers &&
           data?.entities.customers.map((customer) => (
             <CustomerMarker
               key={customer.id}
               customer={customer}
-              icon={MODERN_ICONS.customer}
+              icon={getCustomerIcon(customer.status)}
               isSelected={selectedEntity?.id === customer.id}
               onClick={() => onEntityClick(customer)}
             />

@@ -2,6 +2,8 @@
 // Uses 'qrcode' library for generation
 
 import QRCode from 'qrcode';
+import { jsPDF } from 'jspdf';
+import 'svg2pdf.js';
 import {
   QRCode as QRCodeEntity,
   QRDesign,
@@ -294,19 +296,52 @@ export async function exportQRCode(
     }
 
     case 'pdf': {
-      // For PDF, we generate SVG and include instructions
-      // Actual PDF generation would require jsPDF on client or server-side lib
+      // Generate PDF using jsPDF and svg2pdf.js
       const svg = await generateQRSVG(content, {
         width,
         margin,
         design,
         errorCorrectionLevel: 'H',
       });
-      // Return SVG with metadata for PDF conversion
+
+      // Create PDF document
+      const pdfWidth = options.customSize?.width || 100; // mm
+      const pdfHeight = options.customSize?.height || 100; // mm
+      const pdf = new jsPDF({
+        orientation: pdfWidth > pdfHeight ? 'landscape' : 'portrait',
+        unit: 'mm',
+        format: [pdfWidth, pdfHeight],
+      });
+
+      // Parse SVG string to element
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(svg, 'image/svg+xml');
+      const svgElement = svgDoc.documentElement;
+
+      // Add bleed margin if requested
+      const bleed = options.includeBleed ? 3 : 0; // 3mm bleed
+      const qrSize = Math.min(pdfWidth, pdfHeight) - bleed * 2;
+      const offsetX = (pdfWidth - qrSize) / 2;
+      const offsetY = (pdfHeight - qrSize) / 2;
+
+      // Convert SVG to PDF
+      await (pdf as unknown as { svg: (el: Element, opts: object) => Promise<void> }).svg(
+        svgElement,
+        {
+          x: offsetX,
+          y: offsetY,
+          width: qrSize,
+          height: qrSize,
+        }
+      );
+
+      // Get PDF as base64
+      const pdfData = pdf.output('datauristring');
+
       return {
-        data: svg,
-        mimeType: 'image/svg+xml',
-        filename: 'qr-code-for-pdf.svg',
+        data: pdfData,
+        mimeType: 'application/pdf',
+        filename: 'qr-code.pdf',
       };
     }
 

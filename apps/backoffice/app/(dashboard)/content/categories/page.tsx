@@ -49,7 +49,23 @@ interface CategoryModifierGroup {
   modifier_group?: ModifierGroup;
 }
 
-const EMOJI_PICKER = ['☕', '🍵', '🧊', '🥤', '🍽️', '🍰', '🥗', '🍕', '🍔', '🌮', '🍜', '🍣', '🥐', '🍩', '🍪'];
+const EMOJI_PICKER = [
+  '☕',
+  '🍵',
+  '🧊',
+  '🥤',
+  '🍽️',
+  '🍰',
+  '🥗',
+  '🍕',
+  '🍔',
+  '🌮',
+  '🍜',
+  '🍣',
+  '🥐',
+  '🍩',
+  '🍪',
+];
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -91,9 +107,7 @@ export default function CategoriesPage() {
       if (catError) throw catError;
 
       // Fetch item counts
-      const { data: items } = await supabase
-        .from('menu_items')
-        .select('category_id');
+      const { data: items } = await supabase.from('menu_items').select('category_id');
 
       const itemCounts: Record<string, number> = {};
       (items || []).forEach((item) => {
@@ -105,10 +119,12 @@ export default function CategoriesPage() {
       // Fetch category-modifier relationships
       const { data: categoryModifiers } = await supabase
         .from('category_modifier_groups')
-        .select(`
+        .select(
+          `
           *,
           modifier_group:modifier_groups(id, slug, name_multilang, selection_type, is_required, is_active)
-        `)
+        `
+        )
         .order('display_order');
 
       const categoryModifiersMap: Record<string, CategoryModifierGroup[]> = {};
@@ -198,7 +214,8 @@ export default function CategoriesPage() {
       } else {
         // Get merchant_id from first category or use demo
         const merchantId = categories[0]?.id
-          ? (await supabase.from('menu_categories').select('merchant_id').limit(1).single()).data?.merchant_id
+          ? (await supabase.from('menu_categories').select('merchant_id').limit(1).single()).data
+              ?.merchant_id
           : null;
 
         if (!merchantId) {
@@ -265,8 +282,7 @@ export default function CategoriesPage() {
 
   const openModifiersModal = (category: Category) => {
     setEditingCategory(category);
-    const currentModifierIds = (category.modifier_groups || [])
-      .map((cm) => cm.modifier_group_id);
+    const currentModifierIds = (category.modifier_groups || []).map((cm) => cm.modifier_group_id);
     setSelectedModifierGroups(currentModifierIds);
     setShowModifiersModal(true);
   };
@@ -315,9 +331,7 @@ export default function CategoriesPage() {
 
   const toggleModifierGroup = (groupId: string) => {
     setSelectedModifierGroups((prev) =>
-      prev.includes(groupId)
-        ? prev.filter((id) => id !== groupId)
-        : [...prev, groupId]
+      prev.includes(groupId) ? prev.filter((id) => id !== groupId) : [...prev, groupId]
     );
   };
 
@@ -349,20 +363,23 @@ export default function CategoriesPage() {
       display_order: index,
     }));
 
-    for (const update of updates) {
-      await supabase
-        .from('menu_categories')
-        .update({ display_order: update.display_order })
-        .eq('id', update.id);
-    }
+    // N+1 fix: Use Promise.all for parallel updates instead of sequential loop
+    await Promise.all(
+      updates.map((update) =>
+        supabase
+          .from('menu_categories')
+          .update({ display_order: update.display_order })
+          .eq('id', update.id)
+      )
+    );
 
     setDraggedId(null);
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex min-h-[400px] items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -373,25 +390,30 @@ export default function CategoriesPage() {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Link href="/content" className="hover:text-gray-700">Content</Link>
+            <Link href="/content" className="hover:text-gray-700">
+              Content
+            </Link>
             <span>/</span>
             <span className="text-gray-900">Categories</span>
           </div>
           <h1 className="mt-1 text-2xl font-bold text-gray-900">Menu Categories</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="mt-1 text-sm text-gray-500">
             {categories.length} categories • Drag to reorder
           </p>
         </div>
         <button
-          onClick={() => { resetForm(); setShowModal(true); }}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+          onClick={() => {
+            resetForm();
+            setShowModal(true);
+          }}
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
           + Add Category
         </button>
       </div>
 
       {/* Categories List */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
         <div className="divide-y divide-gray-200">
           {categories.map((category) => (
             <div
@@ -400,46 +422,44 @@ export default function CategoriesPage() {
               onDragStart={() => handleDragStart(category.id)}
               onDragOver={(e) => handleDragOver(e, category.id)}
               onDragEnd={handleDragEnd}
-              className={`flex items-center gap-4 p-4 hover:bg-gray-50 cursor-move ${
-                draggedId === category.id ? 'opacity-50 bg-blue-50' : ''
+              className={`flex cursor-move items-center gap-4 p-4 hover:bg-gray-50 ${
+                draggedId === category.id ? 'bg-blue-50 opacity-50' : ''
               } ${!category.is_active ? 'opacity-60' : ''}`}
             >
               {/* Drag Handle */}
-              <div className="text-gray-400 cursor-grab active:cursor-grabbing">
-                ⠿
-              </div>
+              <div className="cursor-grab text-gray-400 active:cursor-grabbing">⠿</div>
 
               {/* Icon */}
-              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 text-2xl">
                 {category.icon || '📦'}
               </div>
 
               {/* Info */}
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <h3 className="font-medium text-gray-900">
-                    {getName(category.name_multilang)}
-                  </h3>
+                  <h3 className="font-medium text-gray-900">{getName(category.name_multilang)}</h3>
                   {!category.is_active && (
-                    <span className="px-2 py-0.5 bg-gray-200 text-gray-600 rounded text-xs">
+                    <span className="rounded bg-gray-200 px-2 py-0.5 text-xs text-gray-600">
                       Hidden
                     </span>
                   )}
                 </div>
-                <div className="flex items-center gap-3 mt-1 text-sm text-gray-500">
+                <div className="mt-1 flex items-center gap-3 text-sm text-gray-500">
                   <span>{category.item_count} items</span>
                   <span>•</span>
                   <span className="font-mono text-xs">{category.slug}</span>
                 </div>
                 {/* Linked Modifiers */}
                 {category.modifier_groups && category.modifier_groups.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-2">
+                  <div className="mt-2 flex flex-wrap gap-1">
                     {category.modifier_groups.map((cmg) => (
                       <span
                         key={cmg.id}
-                        className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs"
+                        className="rounded bg-purple-100 px-2 py-0.5 text-xs text-purple-700"
                       >
-                        {cmg.modifier_group?.name_multilang?.en || cmg.modifier_group?.slug || 'Unknown'}
+                        {cmg.modifier_group?.name_multilang?.en ||
+                          cmg.modifier_group?.slug ||
+                          'Unknown'}
                       </span>
                     ))}
                   </div>
@@ -449,11 +469,21 @@ export default function CategoriesPage() {
               {/* Modifiers Button */}
               <button
                 onClick={() => openModifiersModal(category)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-purple-50 text-purple-700 hover:bg-purple-100 rounded-lg transition-colors"
+                className="flex items-center gap-1.5 rounded-lg bg-purple-50 px-3 py-1.5 text-sm text-purple-700 transition-colors hover:bg-purple-100"
                 title="Manage Modifiers"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+                  />
                 </svg>
                 <span>{category.modifier_groups?.length || 0}</span>
               </button>
@@ -461,13 +491,19 @@ export default function CategoriesPage() {
               {/* Translations */}
               <div className="flex gap-1">
                 {category.name_multilang?.en && (
-                  <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-xs">EN</span>
+                  <span className="rounded bg-green-100 px-1.5 py-0.5 text-xs text-green-700">
+                    EN
+                  </span>
                 )}
                 {category.name_multilang?.vi && (
-                  <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-xs">VI</span>
+                  <span className="rounded bg-green-100 px-1.5 py-0.5 text-xs text-green-700">
+                    VI
+                  </span>
                 )}
                 {category.name_multilang?.ko && (
-                  <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-xs">KO</span>
+                  <span className="rounded bg-green-100 px-1.5 py-0.5 text-xs text-green-700">
+                    KO
+                  </span>
                 )}
               </div>
 
@@ -475,13 +511,13 @@ export default function CategoriesPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => openEditModal(category)}
-                  className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"
+                  className="rounded p-2 text-gray-400 hover:bg-blue-50 hover:text-blue-600"
                 >
                   ✏️
                 </button>
                 <button
                   onClick={() => toggleActive(category.id, category.is_active)}
-                  className={`p-2 rounded ${
+                  className={`rounded p-2 ${
                     category.is_active
                       ? 'text-green-600 hover:bg-green-50'
                       : 'text-gray-400 hover:bg-gray-100'
@@ -492,7 +528,7 @@ export default function CategoriesPage() {
                 </button>
                 <button
                   onClick={() => handleDelete(category.id, category.item_count || 0)}
-                  className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
+                  className="rounded p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
                 >
                   🗑️
                 </button>
@@ -502,12 +538,15 @@ export default function CategoriesPage() {
         </div>
 
         {categories.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-4xl mb-4">📂</div>
+          <div className="py-12 text-center">
+            <div className="mb-4 text-4xl">📂</div>
             <p className="text-gray-500">No categories yet</p>
             <button
-              onClick={() => { resetForm(); setShowModal(true); }}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm"
+              onClick={() => {
+                resetForm();
+                setShowModal(true);
+              }}
+              className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white"
             >
               Create your first category
             </button>
@@ -517,23 +556,23 @@ export default function CategoriesPage() {
 
       {/* Add/Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-md rounded-xl bg-white p-6">
+            <h2 className="mb-4 text-xl font-bold">
               {editingCategory ? 'Edit Category' : 'Add Category'}
             </h2>
 
             <div className="space-y-4">
               {/* Icon Picker */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                <label className="mb-2 block text-sm font-medium text-gray-700">Icon</label>
                 <div className="flex flex-wrap gap-2">
                   {EMOJI_PICKER.map((emoji) => (
                     <button
                       key={emoji}
                       type="button"
                       onClick={() => setFormData({ ...formData, icon: emoji })}
-                      className={`w-10 h-10 text-xl rounded-lg border-2 transition-colors ${
+                      className={`h-10 w-10 rounded-lg border-2 text-xl transition-colors ${
                         formData.icon === emoji
                           ? 'border-blue-500 bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'
@@ -547,70 +586,71 @@ export default function CategoriesPage() {
 
               {/* Names */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Name (English) *
                 </label>
                 <input
                   type="text"
                   value={formData.name_en}
                   onChange={(e) => setFormData({ ...formData, name_en: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
                   placeholder="e.g., Hot Coffee"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
                   Name (Vietnamese)
                 </label>
                 <input
                   type="text"
                   value={formData.name_vi}
                   onChange={(e) => setFormData({ ...formData, name_vi: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
                   placeholder="e.g., Cà phê nóng"
                 />
               </div>
 
               {/* Slug */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Slug (URL)
-                </label>
+                <label className="mb-1 block text-sm font-medium text-gray-700">Slug (URL)</label>
                 <input
                   type="text"
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 font-mono text-sm"
                   placeholder="hot-coffee"
                 />
-                <p className="text-xs text-gray-500 mt-1">Auto-generated from name if empty</p>
+                <p className="mt-1 text-xs text-gray-500">Auto-generated from name if empty</p>
               </div>
 
               {/* Active Toggle */}
-              <label className="flex items-center gap-3 cursor-pointer">
+              <label className="flex cursor-pointer items-center gap-3">
                 <input
                   type="checkbox"
                   checked={formData.is_active}
                   onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                  className="w-4 h-4 rounded border-gray-300"
+                  className="h-4 w-4 rounded border-gray-300"
                 />
                 <span className="text-sm text-gray-700">Visible on menu</span>
               </label>
             </div>
 
             {/* Actions */}
-            <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
+            <div className="mt-6 flex justify-end gap-3 border-t pt-4">
               <button
-                onClick={() => { setShowModal(false); resetForm(); }}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                onClick={() => {
+                  setShowModal(false);
+                  resetForm();
+                }}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={!formData.name_en}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
               >
                 {editingCategory ? 'Save Changes' : 'Add Category'}
               </button>
@@ -621,28 +661,24 @@ export default function CategoriesPage() {
 
       {/* Modifiers Modal */}
       {showModifiersModal && editingCategory && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl w-full max-w-lg max-h-[80vh] overflow-hidden flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="flex max-h-[80vh] w-full max-w-lg flex-col overflow-hidden rounded-xl bg-white">
             {/* Header */}
-            <div className="p-6 border-b">
-              <h2 className="text-xl font-bold text-gray-900">
-                Manage Modifiers
-              </h2>
-              <p className="text-sm text-gray-500 mt-1">
+            <div className="border-b p-6">
+              <h2 className="text-xl font-bold text-gray-900">Manage Modifiers</h2>
+              <p className="mt-1 text-sm text-gray-500">
                 Select modifier groups for{' '}
-                <span className="font-medium">
-                  {getName(editingCategory.name_multilang)}
-                </span>
+                <span className="font-medium">{getName(editingCategory.name_multilang)}</span>
               </p>
             </div>
 
             {/* Modifier Groups List */}
             <div className="flex-1 overflow-y-auto p-6">
               {modifierGroups.length === 0 ? (
-                <div className="text-center py-8">
-                  <div className="text-4xl mb-4">🎛️</div>
+                <div className="py-8 text-center">
+                  <div className="mb-4 text-4xl">🎛️</div>
                   <p className="text-gray-500">No modifier groups available</p>
-                  <p className="text-sm text-gray-400 mt-1">
+                  <p className="mt-1 text-sm text-gray-400">
                     Create modifier groups in Content &gt; Modifiers
                   </p>
                 </div>
@@ -653,7 +689,7 @@ export default function CategoriesPage() {
                     return (
                       <label
                         key={group.id}
-                        className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                        className={`flex cursor-pointer items-center gap-4 rounded-lg border-2 p-4 transition-all ${
                           isSelected
                             ? 'border-purple-500 bg-purple-50'
                             : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
@@ -665,14 +701,24 @@ export default function CategoriesPage() {
                           onChange={() => toggleModifierGroup(group.id)}
                           className="sr-only"
                         />
-                        <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                          isSelected
-                            ? 'border-purple-500 bg-purple-500'
-                            : 'border-gray-300'
-                        }`}>
+                        <div
+                          className={`flex h-5 w-5 items-center justify-center rounded border-2 ${
+                            isSelected ? 'border-purple-500 bg-purple-500' : 'border-gray-300'
+                          }`}
+                        >
                           {isSelected && (
-                            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            <svg
+                              className="h-3 w-3 text-white"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={3}
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4.5 12.75l6 6 9-13.5"
+                              />
                             </svg>
                           )}
                         </div>
@@ -681,22 +727,22 @@ export default function CategoriesPage() {
                             <span className="font-medium text-gray-900">
                               {group.name_multilang?.en || group.slug}
                             </span>
-                            <span className={`px-2 py-0.5 rounded text-xs ${
-                              group.selection_type === 'single'
-                                ? 'bg-blue-100 text-blue-700'
-                                : 'bg-orange-100 text-orange-700'
-                            }`}>
+                            <span
+                              className={`rounded px-2 py-0.5 text-xs ${
+                                group.selection_type === 'single'
+                                  ? 'bg-blue-100 text-blue-700'
+                                  : 'bg-orange-100 text-orange-700'
+                              }`}
+                            >
                               {group.selection_type === 'single' ? 'Single' : 'Multiple'}
                             </span>
                             {group.is_required && (
-                              <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs">
+                              <span className="rounded bg-red-100 px-2 py-0.5 text-xs text-red-700">
                                 Required
                               </span>
                             )}
                           </div>
-                          <p className="text-sm text-gray-500 mt-0.5">
-                            {group.slug}
-                          </p>
+                          <p className="mt-0.5 text-sm text-gray-500">{group.slug}</p>
                         </div>
                       </label>
                     );
@@ -706,7 +752,7 @@ export default function CategoriesPage() {
             </div>
 
             {/* Footer */}
-            <div className="p-6 border-t bg-gray-50">
+            <div className="border-t bg-gray-50 p-6">
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-500">
                   {selectedModifierGroups.length} of {modifierGroups.length} selected
@@ -718,20 +764,32 @@ export default function CategoriesPage() {
                       setEditingCategory(null);
                       setSelectedModifierGroups([]);
                     }}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
+                    className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSaveModifiers}
                     disabled={savingModifiers}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center gap-2"
+                    className="flex items-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
                   >
                     {savingModifiers ? (
                       <>
-                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                            fill="none"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          />
                         </svg>
                         Saving...
                       </>
