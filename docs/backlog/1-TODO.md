@@ -4,15 +4,101 @@
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 > **Specs dettagliate:** `specs/` folder
 
-**Last Updated:** 2026-01-14
+**Last Updated:** 2026-01-17
 
 ---
 
-## P0 - Critico (Questa Settimana)
+## SCALING INITIATIVE - Phase 1 ✅ COMPLETE
 
-| ID  | Feature | Descrizione     | Effort | Spec |
-| --- | ------- | --------------- | ------ | ---- |
-| -   | -       | Nessuna task P0 | -      | -    |
+> **🚀 Phase 1 (100→1K users) COMPLETATA** - 2026-01-17
+> Roadmap completa: `docs/SCALE-ROADMAP.md`
+
+| ID                | Feature               | Status  |
+| ----------------- | --------------------- | ------- |
+| SCALE-REDIS       | Upstash Redis caching | ✅ DONE |
+| SCALE-RATE-LIMIT  | Rate limiting         | ✅ DONE |
+| SCALE-DB-INDEX    | Database indexes      | ✅ DONE |
+| SCALE-CDN         | CDN headers           | ✅ DONE |
+| SCALE-SENTRY      | Error tracking        | ✅ DONE |
+| SCALE-LOGGING     | Pino logging          | ✅ DONE |
+| SCALE-NOTIF-QUEUE | Notification queue    | ✅ DONE |
+| SCALE-ZOD         | API validation        | ✅ DONE |
+| SCALE-N1-FIX      | N+1 query fixes       | ✅ DONE |
+
+### ⚠️ USER ACTION - Variabili da aggiungere su Vercel
+
+```bash
+# Upstash Redis (https://console.upstash.com/)
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
+
+# Sentry (https://sentry.io/)
+SENTRY_DSN=
+SENTRY_AUTH_TOKEN=
+SENTRY_ORG=
+SENTRY_PROJECT=
+```
+
+---
+
+## SCALING INITIATIVE - Phase 2 (1K→10K users)
+
+> **🔄 Background Jobs + Real-time + DB Optimization**
+> Target: Mese 2-3 | Roadmap: `docs/SCALE-ROADMAP.md#phase-2`
+
+| ID                 | Feature                | Descrizione                                                      | Effort   | Status  |
+| ------------------ | ---------------------- | ---------------------------------------------------------------- | -------- | ------- |
+| SCALE-TRIGGER      | Trigger.dev Jobs       | Background job system for notifications, analytics, AI briefings | 2 days   | Pending |
+| SCALE-REALTIME     | Supabase Realtime      | WebSocket per chat, orders, KDS in tempo reale                   | 1.5 days | Pending |
+| SCALE-PARTITIONING | Analytics Partitioning | Partitioning mensile tabella analytics_events                    | 1 day    | Pending |
+| SCALE-MAT-VIEWS    | Materialized Views     | Dashboard aggregates pre-computati                               | 1 day    | Pending |
+| SCALE-READ-REPLICA | Read Replicas          | Separazione read/write per analytics (Supabase Pro)              | 4h       | Pending |
+| SCALE-OPTIMISTIC   | Optimistic Updates     | React Query optimistic mutations pattern                         | 1 day    | Pending |
+
+---
+
+## SCALING INITIATIVE - Phase 3 (10K→100K users)
+
+> **🏗️ Infrastructure Scale + Sharding Prep**
+> Target: Mese 4-6 | Roadmap: `docs/SCALE-ROADMAP.md#phase-3`
+
+| ID                     | Feature          | Descrizione                                       | Effort | Status  |
+| ---------------------- | ---------------- | ------------------------------------------------- | ------ | ------- |
+| SCALE-EDGE             | Edge Functions   | Migrare AI routes a Supabase Edge Functions       | 3 days | Pending |
+| SCALE-QUEUE            | Message Queue    | Dedicated queue (BullMQ/SQS) per heavy processing | 2 days | Pending |
+| SCALE-TENANT-ISOLATION | Tenant Isolation | Schema-per-tenant o row-level tenant separation   | 3 days | Pending |
+| SCALE-MONITORING       | APM Dashboard    | Grafana/DataDog per metrics avanzate              | 2 days | Pending |
+
+---
+
+## P0 - Security Hardening
+
+> **🔒 SECURITY HARDENING** - Fix critici pre-launch
+> Roadmap completa: `docs/SECURITY-ROADMAP.md`
+
+| ID                 | Feature            | Descrizione                                            | Effort | Status  |
+| ------------------ | ------------------ | ------------------------------------------------------ | ------ | ------- |
+| SEC-ZOD            | Input Validation   | Zod su tutti gli API routes                            | 3 days | ✅ DONE |
+| SEC-WEBHOOKS       | Webhook Signatures | Fix Telegram + WhatsApp verification                   | 1 day  | ✅ DONE |
+| SEC-HEADERS        | Security Headers   | CSP, HSTS, X-Frame-Options                             | 4h     | Pending |
+| SEC-ERROR-HANDLING | API Error Handling | Try-catch su tutti i routes                            | 4h     | Pending |
+| SEC-AUDIT-LOG      | Audit Logging      | Log azioni sensibili (login, payments, config changes) | 2 days | Pending |
+| SEC-2FA            | Two-Factor Auth    | TOTP per account admin/owner                           | 2 days | Pending |
+
+---
+
+## P0 - Testing Initiative
+
+> **🧪 TESTING INITIATIVE** - Da 1.5% a production-grade
+> Roadmap completa: `docs/TESTING-STRATEGY.md`
+
+| ID                | Feature               | Descrizione                            | Effort   | Status  |
+| ----------------- | --------------------- | -------------------------------------- | -------- | ------- |
+| TEST-WALLET       | Wallet Service Tests  | 150 test cases per financial logic     | 2 days   | Pending |
+| TEST-LOYALTY      | Loyalty Service Tests | 120 test cases per points/redemption   | 1.5 days | Pending |
+| TEST-CI           | GitHub Actions CI     | Pipeline con coverage gates            | 4h       | Pending |
+| TEST-AUTH         | Auth Flow Tests       | Login, signup, password reset, session | 1 day    | Pending |
+| TEST-E2E-CRITICAL | E2E Critical Paths    | Playwright per order flow, menu view   | 2 days   | Pending |
 
 ---
 
@@ -24,7 +110,7 @@
 | ID                    | Feature                    | Descrizione                                      | Effort | Requires | Status        |
 | --------------------- | -------------------------- | ------------------------------------------------ | ------ | -------- | ------------- |
 | LEAKED-PWD-PROTECTION | Leaked Password Protection | Blocca password compromesse (HaveIBeenPwned)     | Low    | Pro Plan | 🔒 Pre-Launch |
-| RATE-LIMITING         | Rate Limiting              | Protezione brute force login                     | Low    | -        | 🔒 Pre-Launch |
+| RATE-LIMITING         | Rate Limiting              | Protezione brute force login                     | Low    | -        | ✅ DONE       |
 | BACKOFFICE-UI-RESERV  | UI Prenotazioni Backoffice | Calendar view + Floor plan editor (Sprint 13-14) | High   | -        | ✅ DONE       |
 
 ---
@@ -51,7 +137,7 @@
 | PWA-FULL-SITE       | PWA → Sito Web      | Responsive desktop/tablet       | High   | Pending | [spec](specs/P0.5-architecture/PWA-FULL-SITE.md)       |
 | AI-CUSTOMER-CHAT    | AI Customer Chat    | Chat per clienti (multi-canale) | High   | ✅ DONE | [spec](specs/P0.5-architecture/AI-CUSTOMER-CHAT.md)    |
 | RESERVATIONS-SYSTEM | Prenotazioni        | Sistema prenotazioni tavoli     | High   | ✅ DONE | [spec](specs/P0.5-architecture/RESERVATIONS-SYSTEM.md) |
-| QR-BUILDER-V2       | QR Builder Avanzato | Contextual QR con analytics     | High   | Pending | [spec](specs/P0.5-architecture/QR-BUILDER-V2.md)       |
+| QR-BUILDER-V2       | QR Builder Avanzato | Contextual QR con analytics     | High   | ✅ DONE | [spec](specs/P0.5-architecture/QR-BUILDER-V2.md)       |
 | SITE-CUSTOMIZATION  | Sezioni Custom      | Merchant personalizza sito      | Medium | Pending | [spec](specs/P0.5-architecture/SITE-CUSTOMIZATION.md)  |
 
 ---
@@ -66,7 +152,7 @@
 | WEATHER-INTEL      | Weather Intelligence    | Meteo in backoffice + AI                        | Medium | ✅ DONE | -                                      |
 | TOURISM-B2B        | Partnership Hub         | AI trova tour op + hotel/Airbnb                 | High   | ✅ DONE | [spec](specs/P1/TOURISM-B2B.md)        |
 | B2B-CONVENTIONS    | Corporate Conventions   | Convenzioni uffici/aziende                      | Medium | ✅ DONE | [spec](specs/P1/B2B-CONVENTIONS.md)    |
-| HOTEL-AUTOCOMPLETE | Hotel Search Onboarding | Google Places per ricerca hotel in onboarding   | Medium | Pending | [spec](specs/P1/HOTEL-AUTOCOMPLETE.md) |
+| HOTEL-AUTOCOMPLETE | Hotel Search Onboarding | Google Places per ricerca hotel in onboarding   | Medium | ✅ DONE | [spec](specs/P1/HOTEL-AUTOCOMPLETE.md) |
 
 ---
 

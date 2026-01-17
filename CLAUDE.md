@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-16
-> **Version:** 6.8 (Weather fix + Demo cleanup)
+> **Last Updated:** 2026-01-17
+> **Version:** 6.9 (Scaling Roadmap + Audit)
 
 ---
 
@@ -75,10 +75,16 @@ FINE SESSIONE:
 
 # 0. CURRENT FOCUS (Aggiorna quando cambi task)
 
-> **Task attiva:** Nessuna (backlog vuoto per P1)
-> **Stato:** Pronto per nuova task
-> **Azione:** Scegliere da 1-TODO.md (P0.5-architecture o P2)
-> **Ultima completata:** WHITE-LABEL-FULL + AI-FIRST-REDESIGN - 2026-01-15
+> **Task attiva:** SCALING INITIATIVE - Phase 1 Foundation
+> **Stato:** In corso - Database indexes + Redis + Security
+> **Azione:** Seguire docs/SCALE-ROADMAP.md Phase 1
+> **Ultima completata:** QR-BUILDER-V2 + Codebase Audit - 2026-01-17
+>
+> **📊 Roadmap Documents:**
+>
+> - `docs/SCALE-ROADMAP.md` - Infrastructure scaling 100 → 10M users
+> - `docs/TESTING-STRATEGY.md` - Testing from 1.5% to production-grade
+> - `docs/SECURITY-ROADMAP.md` - Security hardening 4 phases
 
 ---
 
@@ -341,6 +347,8 @@ VERIFICA SEMPRE:
 | 2026-01 | Type generation fallita      | MCP timeout durante generazione types  | **Operazioni heavy separatamente**: prima commit, poi rigenera types    | database.types.ts     |
 | 2026-01 | Dev accounts non funzionano  | `getSession()` solo Supabase auth      | **Check dev cookie** in supabase-server.ts prima di Supabase auth       | API routes            |
 | 2026-01 | Weather cache RLS violation  | Service usa client anon key            | Usare **supabaseAdmin** per services che scrivono in cache tables       | weather-service.ts    |
+| 2026-01 | Roadmap/docs non committati  | Sessione lunga crea file senza commit  | **Commit docs subito** dopo creazione, non aspettare fine sessione      | Scaling audit         |
+| 2026-01 | Backlog non sync con roadmap | Task create ma non aggiunte al backlog | **Sync backlog** dopo ogni planning session                             | 1-TODO.md, 4-DONE.md  |
 
 ## Pattern da Seguire
 
@@ -382,6 +390,8 @@ VERIFICA SEMPRE:
 | Dev auth APIs   | `getSession()` deve supportare dev cookies              | Solo Supabase auth check      |
 | Env vars sync   | Quando aggiungi su Vercel, aggiungi anche `.env.local`  | Solo Vercel, dev non funziona |
 | Server cache    | Services che scrivono cache usano `supabaseAdmin`       | `supabase` bloccato da RLS    |
+| Planning docs   | Commit roadmaps/specs subito dopo creazione             | Creare file senza commit      |
+| Backlog sync    | Aggiorna 1-TODO + 4-DONE dopo ogni planning session     | Roadmap senza backlog sync    |
 
 ## Come Aggiornare
 
@@ -471,6 +481,9 @@ gudbro-verticals/
 | ------------ | ------------------------------------------------- | --------------------------------- |
 | **Product**  | `docs/PRODUCT.md`                                 | **Valutazione multidimensionale** |
 | **Partner**  | `docs/GIANFRANCO.md`                              | **Capire preferenze e stile**     |
+| **Scale**    | `docs/SCALE-ROADMAP.md`                           | **Infra 100→10M utenti**          |
+| **Testing**  | `docs/TESTING-STRATEGY.md`                        | **Test coverage strategy**        |
+| **Security** | `docs/SECURITY-ROADMAP.md`                        | **Hardening 4 fasi**              |
 | Workflow     | `docs/DEVELOPMENT-WORKFLOW.md`                    | Prima di ogni task                |
 | Checklist    | `docs/PROCEDURE-CHECKLIST.md`                     | Gate di validazione               |
 | DB Inventory | `docs/DATABASE-INVENTORY.md`                      | Stato database                    |

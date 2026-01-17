@@ -3,7 +3,37 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-16
+**Last Updated:** 2026-01-17
+
+---
+
+## 2026-01-17
+
+| ID                | Feature                      | Descrizione                                                                                 | Completato |
+| ----------------- | ---------------------------- | ------------------------------------------------------------------------------------------- | ---------- |
+| SCALE-ROADMAP     | Scaling Roadmap Document     | 5-phase roadmap 100→10M users, 10 critical problems identified, Phase 1-5 planning          | 2026-01-17 |
+| SECURITY-ROADMAP  | Security Roadmap Document    | 4-phase security hardening plan, authentication, authorization, audit logging               | 2026-01-17 |
+| TESTING-STRATEGY  | Testing Strategy Document    | Test coverage strategy from 1.5% to 80%, unit/integration/e2e planning                      | 2026-01-17 |
+| SCALE-REDIS       | Upstash Redis Caching        | Redis caching layer with @upstash/redis, cache keys pattern, TTLs, menu caching             | 2026-01-17 |
+| SCALE-RATE-LIMIT  | Rate Limiting                | @upstash/ratelimit for API/auth/AI endpoints, sliding window algorithm                      | 2026-01-17 |
+| SCALE-INDEXES     | Database Performance Indexes | Migration 057: indexes for menu, analytics, orders, accounts, JSONB                         | 2026-01-17 |
+| SCALE-CDN         | CDN Headers                  | next.config.js headers for static assets and API caching (s-maxage, stale-while-revalidate) | 2026-01-17 |
+| SCALE-SENTRY      | Sentry Error Tracking        | Sentry integration for error tracking, performance monitoring, AI error capture             | 2026-01-17 |
+| SCALE-LOGGING     | Structured Logging           | Pino logger with request context, redaction, log levels, pino-pretty for dev                | 2026-01-17 |
+| SCALE-NOTIF-QUEUE | Notification Queue           | Async notification system, notification_queue table, non-blocking order creation            | 2026-01-17 |
+| SCALE-ZOD         | Zod API Validation           | Zod schema validation for API routes, type inference, error responses                       | 2026-01-17 |
+| SCALE-N1-FIX      | N+1 Query Fixes              | Optimized queries with JOINs instead of N+1 loops, cache integration                        | 2026-01-17 |
+
+> **SCALING INITIATIVE Phase 1 Files:**
+>
+> - Roadmaps: `docs/SCALE-ROADMAP.md`, `docs/SECURITY-ROADMAP.md`, `docs/TESTING-STRATEGY.md`
+> - Caching: `lib/cache/redis.ts`, `lib/cache/keys.ts`
+> - Security: `lib/security/rate-limiter.ts`, `middleware.ts` (rate limit integration)
+> - Database: `migrations/schema/057-performance-indexes.sql`, `migrations/schema/058-notification-queue.sql`
+> - Observability: `lib/observability/logger.ts`, `lib/observability/sentry.ts`, `sentry.*.config.ts`
+> - Validation: `lib/validation/schemas.ts`, API route updates
+>
+> **Phase 1 Summary:** Foundation layer for scaling - caching, rate limiting, indexes, observability, async patterns
 
 ---
 

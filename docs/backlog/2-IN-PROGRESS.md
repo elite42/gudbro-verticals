@@ -4,42 +4,64 @@
 > **Max 3 task** alla volta per focus.
 > Quando completata → spostala in `3-TESTING.md` o `4-DONE.md`
 
-**Last Updated:** 2026-01-16
+**Last Updated:** 2026-01-18
 
 ---
 
-| ID  | Feature | Descrizione | Priority | Started | Assignee |
-| --- | ------- | ----------- | -------- | ------- | -------- |
+| ID     | Feature | Descrizione           | Priority | Started | Assignee |
+| ------ | ------- | --------------------- | -------- | ------- | -------- |
+| (none) | -       | Nessuna task in corso | -        | -       | -        |
 
 ---
 
-## Note Lavori in Corso
+## Stato Iniziative
 
-_Nessuna task in corso. Pronto per nuova task._
+### ✅ SCALING INITIATIVE - Phase 1 COMPLETATO (2026-01-17)
 
-### Prossimi candidati (da 1-TODO.md)
+**Summary:** Caching, rate limiting, indexes, observability, async patterns
 
-**P0.5 - Architecture:**
+Tutti i deliverable Phase 1 completati:
 
-- PWA-FULL-SITE: PWA per sito marketing + partner portal
+- Upstash Redis + caching layer
+- Rate limiting (API, auth, AI endpoints)
+- Database performance indexes (migration 057)
+- CDN cache headers
+- Sentry error tracking
+- Pino structured logging
+- Async notification queue
+- Zod API validation
+- N+1 query fixes
 
-**P0.5 - Critical Fixes (Audit 2026-01-15):**
+**⚠️ USER ACTION REQUIRED:**
 
-- ~~Sprint 12.5: Notification trigger + cron job + template seeding~~ ✅ DONE
-- ~~Security: Dev mode auth bypass removed~~ ✅ DONE
-- ~~Security: Credential encryption, rate limiting~~ 🔒 Pre-Launch (non durante dev/test)
-- ~~Business logic: Overbooking prevention, timezone handling~~ ✅ DONE (atomic functions)
+```bash
+# Add to Vercel Environment Variables:
 
-**Session 7 Fixes (2026-01-16):**
+# Redis (Upstash - https://console.upstash.com/)
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
 
-- ~~Weather widget RLS error~~ ✅ DONE (supabaseAdmin)
-- ~~Demo data cleanup~~ ✅ DONE (rimosso da DB + seeds)
+# Sentry (https://sentry.io/)
+SENTRY_DSN=
+SENTRY_AUTH_TOKEN=
+SENTRY_ORG=
+SENTRY_PROJECT=
+```
+
+### 📋 Next Up: Phase 2 (1K→10K users)
+
+Quando pronto per Phase 2, vedere `1-TODO.md` sezione "SCALING INITIATIVE - Phase 2":
+
+- SCALE-TRIGGER - Background jobs con Trigger.dev
+- SCALE-REALTIME - WebSocket per real-time updates
+- SCALE-PARTITIONING - Table partitioning per analytics
+- SCALE-MAT-VIEWS - Materialized views per dashboard
 
 ---
 
-## Recentemente completati
+## Recentemente completati (vedi 4-DONE.md)
 
-- ✅ AI-CUSTOMER-CHAT (6 sprint) - Chat clienti multi-canale
-- ✅ RESERVATIONS-SYSTEM (14 sprint) - Sistema prenotazioni completo
-- ✅ WHITE-LABEL-FULL (8 sprint) - Custom domains e partner portal
-- ✅ AI-FIRST-REDESIGN (5 sprint) - Dashboard AI-first
+- ✅ SCALING Phase 1 (12 task) - 2026-01-17
+- ✅ SMART-MAP - Business Intelligence Map - 2026-01-16
+- ✅ AI-CUSTOMER-CHAT (6 sprint) - 2026-01-15
+- ✅ RESERVATIONS-SYSTEM (14 sprint) - 2026-01-15

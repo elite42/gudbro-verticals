@@ -5,9 +5,116 @@
 
 ---
 
-## 2026-01-17 (Session 10) - SmartMap UI Redesign & Tourist Tracking
+## 2026-01-18 (Session 12) - Backlog Remediation
 
-**Focus:** SmartMap UI improvements + Tourist accommodation tracking system
+**Focus:** Fix backlog inconsistency from scaling audit session
+**Durata:** ~30min
+**Tipo:** Documentation / Process Fix
+
+### Completato
+
+**Problem Identified:**
+
+- Session 11 (scaling audit) created 3 major roadmap docs but NEVER committed them
+- Files were untracked in git (5310 lines of documentation missing from repo)
+- Backlog not synchronized with roadmaps
+- Session log entry missing
+- Root cause: Task too large without checkpoints (anti-pattern from CLAUDE.md 3.5)
+
+**Remediation:**
+
+- Committed 3 roadmap files: SCALE-ROADMAP.md, SECURITY-ROADMAP.md, TESTING-STRATEGY.md
+- Updated 4-DONE.md with 12 Phase 1 completed tasks
+- Updated 1-TODO.md with Phase 2 and Phase 3 tasks
+- Updated 2-IN-PROGRESS.md to reflect current state
+- Added missing session log entry for scaling audit (Session 11)
+- Added lesson learned to CLAUDE.md compounding section
+
+### Commits
+
+- `b94e613` - docs: add scaling, security, and testing roadmaps
+- (current session) - docs: backlog sync after scaling audit
+
+### Lesson Learned
+
+**Anti-pattern:** Task too large (scaling audit ~3h) without incremental commits
+**Fix:** Commit every ~30min or after completing a major deliverable
+**Added to:** CLAUDE.md Section 3.5 "Compounding Engineering"
+
+### Prossima sessione
+
+- Continue with SmartMap + AI Co-Manager testing (Step 5-6)
+- Or start Phase 2 scaling tasks
+
+---
+
+## 2026-01-17 (Session 11) - Scaling Audit + Infrastructure Roadmaps
+
+**Focus:** Comprehensive audit for scaling from 100 to 10M users
+**Durata:** ~3h
+**Tipo:** Architecture / Planning / Implementation
+
+### Completato
+
+**Audit Findings - 10 Critical Problems:**
+
+1. Zero caching (no Redis) - CRITICAL
+2. N+1 queries everywhere - HIGH
+3. Synchronous notifications - HIGH
+4. No rate limiting - CRITICAL
+5. ~32% test coverage - MEDIUM
+6. No background job system - HIGH
+7. Polling instead of WebSocket - MEDIUM
+8. Missing database indexes - HIGH
+9. No CDN - MEDIUM
+10. No observability (console.log) - HIGH
+
+**Documents Created:**
+
+- `docs/SCALE-ROADMAP.md` (~1800 lines) - 5-phase plan from 100 to 10M users
+- `docs/SECURITY-ROADMAP.md` (~1100 lines) - 4-phase security hardening
+- `docs/TESTING-STRATEGY.md` (~1400 lines) - Test coverage from 1.5% to 80%
+
+**Phase 1 Implementation (COMPLETED):**
+
+- Upstash Redis caching layer (`lib/cache/redis.ts`, `lib/cache/keys.ts`)
+- Rate limiting with @upstash/ratelimit (`lib/security/rate-limiter.ts`)
+- Database indexes (migration 057)
+- CDN headers in next.config.js
+- Sentry integration for error tracking
+- Pino structured logging (`lib/observability/logger.ts`)
+- Notification queue table (migration 058)
+- Zod validation schemas (`lib/validation/`)
+- N+1 query fixes (5 services optimized)
+
+### Commits
+
+- `b94e613` - docs: add scaling, security, and testing roadmaps (committed Session 12)
+
+### Decisioni
+
+- **Caching:** Upstash Redis (serverless, Vercel-native, pay-per-request)
+- **Background Jobs:** Trigger.dev for Phase 2 (better Supabase integration)
+- **Observability:** Sentry + Pino (cost-effective for early stage)
+- **Rate Limiting:** Sliding window algorithm, different limits per endpoint type
+
+### Note tecniche
+
+- Menu data highest priority for caching (5 min TTL)
+- Rate limits: API 100/min, Auth 10/min, AI 20/min
+- Partitioning for analytics_events in Phase 2 (by month)
+- Read replicas require Supabase Pro plan
+
+### Issue
+
+- ⚠️ Session ended without committing docs or updating backlog
+- ⚠️ Fixed in Session 12
+
+---
+
+## 2026-01-17 (Session 10) - SmartMap UI + Tourist Tracking + Places API
+
+**Focus:** SmartMap UI, Tourist accommodation tracking, Google Places API integration
 **Durata:** ~2h
 **Tipo:** Feature / UX / Database
 
@@ -40,28 +147,41 @@
 - 12 tourists in hotels with room numbers
 - 6 tourists in rentals, 3 in hostels
 
-**Backlog:**
+**Google Places API (HOTEL-AUTOCOMPLETE):**
 
-- Added HOTEL-AUTOCOMPLETE task (P1) for Google Places API integration
-- Full spec created: `docs/backlog/specs/P1/HOTEL-AUTOCOMPLETE.md`
+- `lib/google-places.ts` - Client API for autocomplete + details
+- `app/api/places/autocomplete/route.ts` - Proxy endpoint (hides API key)
+- `app/api/places/details/route.ts` - Proxy for place details
+- `components/onboarding/PlaceSearch.tsx` - React component with:
+  - `<HotelSearch />` for hotels/hostels (type=lodging)
+  - `<AddressSearch />` for any address
+  - Debounced search, loading states, location bias
+
+**Spec updated:**
+
+- `docs/backlog/specs/P1/HOTEL-AUTOCOMPLETE.md` - Due modalità (lodging + address)
 
 ### Commits
 
-- `a519435` - fix(map): increase z-index for filter dropdowns above Leaflet map
-- `bd64283` - feat(map): add tourist origin tracking and consistent distance formatting
-- `dab6e8c` - feat(accounts): add tourist accommodation tracking for delivery
+- `a519435` - fix(map): z-index for filter dropdowns
+- `bd64283` - feat(map): tourist origin tracking + distance formatting
+- `dab6e8c` - feat(accounts): tourist accommodation tracking
+- `c4a0444` - docs: HOTEL-AUTOCOMPLETE spec update
+- `76777eb` - feat(places): Google Places API integration
 
 ### Decisioni
 
 - **Tourist delivery**: Hotel guests need hotel_name + room_number, rentals use regular address
 - **Lifecycle tracking**: After departure_date, tourists become "departed" but records kept for analytics
 - **Partner linking**: accommodation_partner_id links to partner hotels for special offers
+- **Places search modes**: Lodging filter for hotels, address autocomplete for rentals/friends
 
 ### Note tecniche
 
 - Leaflet z-index is 400-1000, so dropdowns need z-[1000+]
 - `formatDistance()` helper: <1000m shows meters, >=1000m shows km
-- Google Places API estimated cost: ~$2/month for 100 onboardings
+- Google Places API: `includedPrimaryTypes: ['lodging']` for hotels only
+- Requires `GOOGLE_PLACES_API_KEY` in .env.local
 
 ### Prossima sessione
 
