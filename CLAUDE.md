@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-17
-> **Version:** 6.9 (Scaling Roadmap + Audit)
+> **Last Updated:** 2026-01-18
+> **Version:** 7.0 (Scaling Phase 1 Complete)
 
 ---
 
@@ -75,15 +75,24 @@ FINE SESSIONE:
 
 # 0. CURRENT FOCUS (Aggiorna quando cambi task)
 
-> **Task attiva:** SCALING INITIATIVE - Phase 1 Foundation
-> **Stato:** In corso - Database indexes + Redis + Security
-> **Azione:** Seguire docs/SCALE-ROADMAP.md Phase 1
-> **Ultima completata:** QR-BUILDER-V2 + Codebase Audit - 2026-01-17
+> **Task attiva:** Nessuna (scegli da backlog)
+> **Stato:** Phase 1 COMPLETATA - Pronto per nuove task
+> **Ultima completata:** SCALING INITIATIVE Phase 1 (12 task) - 2026-01-17
+>
+> **⚠️ USER ACTION PENDING:**
+> Aggiungere env vars su Vercel (Redis + Sentry) - vedi `2-IN-PROGRESS.md`
+>
+> **📋 Prossime opzioni (da 1-TODO.md):**
+>
+> - Phase 2 Scaling (Trigger.dev, WebSocket, Partitioning)
+> - Security Hardening (SEC-HEADERS, SEC-AUDIT-LOG)
+> - Testing Initiative (TEST-WALLET, TEST-LOYALTY)
+> - PWA-FULL-SITE (architettura)
 >
 > **📊 Roadmap Documents:**
 >
 > - `docs/SCALE-ROADMAP.md` - Infrastructure scaling 100 → 10M users
-> - `docs/TESTING-STRATEGY.md` - Testing from 1.5% to production-grade
+> - `docs/TESTING-STRATEGY.md` - Testing from 1.5% to 80%
 > - `docs/SECURITY-ROADMAP.md` - Security hardening 4 phases
 
 ---
