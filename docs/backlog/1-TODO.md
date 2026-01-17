@@ -58,14 +58,15 @@
 
 ## P1 - Alta Priorità
 
-| ID                | Feature               | Descrizione                                     | Effort | Status  | Spec                                  |
-| ----------------- | --------------------- | ----------------------------------------------- | ------ | ------- | ------------------------------------- |
-| AI-FIRST-REDESIGN | Backoffice AI-First   | Dashboard operativa, non informativa (5 sprint) | High   | ✅ DONE | [spec](specs/P1/AI-FIRST-REDESIGN.md) |
-| KB-BACKOFFICE     | Knowledge Base        | Guida utente 52 pagine                          | Medium | ✅ DONE | [spec](specs/P1/KB-BACKOFFICE.md)     |
-| AI-ZONE-INTEL     | Zone & Customer Intel | AI conosce zona + pattern clienti               | High   | ✅ DONE | [spec](specs/P1/AI-ZONE-INTEL.md)     |
-| WEATHER-INTEL     | Weather Intelligence  | Meteo in backoffice + AI                        | Medium | ✅ DONE | -                                     |
-| TOURISM-B2B       | Partnership Hub       | AI trova tour op + hotel/Airbnb                 | High   | ✅ DONE | [spec](specs/P1/TOURISM-B2B.md)       |
-| B2B-CONVENTIONS   | Corporate Conventions | Convenzioni uffici/aziende                      | Medium | ✅ DONE | [spec](specs/P1/B2B-CONVENTIONS.md)   |
+| ID                 | Feature                 | Descrizione                                     | Effort | Status  | Spec                                   |
+| ------------------ | ----------------------- | ----------------------------------------------- | ------ | ------- | -------------------------------------- |
+| AI-FIRST-REDESIGN  | Backoffice AI-First     | Dashboard operativa, non informativa (5 sprint) | High   | ✅ DONE | [spec](specs/P1/AI-FIRST-REDESIGN.md)  |
+| KB-BACKOFFICE      | Knowledge Base          | Guida utente 52 pagine                          | Medium | ✅ DONE | [spec](specs/P1/KB-BACKOFFICE.md)      |
+| AI-ZONE-INTEL      | Zone & Customer Intel   | AI conosce zona + pattern clienti               | High   | ✅ DONE | [spec](specs/P1/AI-ZONE-INTEL.md)      |
+| WEATHER-INTEL      | Weather Intelligence    | Meteo in backoffice + AI                        | Medium | ✅ DONE | -                                      |
+| TOURISM-B2B        | Partnership Hub         | AI trova tour op + hotel/Airbnb                 | High   | ✅ DONE | [spec](specs/P1/TOURISM-B2B.md)        |
+| B2B-CONVENTIONS    | Corporate Conventions   | Convenzioni uffici/aziende                      | Medium | ✅ DONE | [spec](specs/P1/B2B-CONVENTIONS.md)    |
+| HOTEL-AUTOCOMPLETE | Hotel Search Onboarding | Google Places per ricerca hotel in onboarding   | Medium | Pending | [spec](specs/P1/HOTEL-AUTOCOMPLETE.md) |
 
 ---
 
