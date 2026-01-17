@@ -31,17 +31,30 @@ Usare Google Places Autocomplete per:
 ```
 1. Utente seleziona "Sono un turista"
 2. Sistema chiede "Dove alloggi?"
-3. Opzioni: Hotel / Rental / Hostel / Altro
-4. Se "Hotel":
-   a. Campo di ricerca con autocomplete
+3. Opzioni: Hotel / Hostel / Rental / Friend / Altro
+4. Se "Hotel" o "Hostel":
+   a. Campo di ricerca LODGING (solo strutture ricettive)
    b. Utente digita "Fus..."
    c. Appare lista: "Fusion Suites Da Nang Beach", "Fusion Maia Da Nang"...
    d. Seleziona hotel
    e. Sistema salva: nome, place_id, lat/lng, address
    f. Sistema chiede "Numero stanza?"
-5. Se "Rental/Hostel/Altro":
-   a. Campo indirizzo normale (o Places per indirizzo)
+5. Se "Rental" / "Friend" / "Altro":
+   a. Campo di ricerca ADDRESS (indirizzi generici)
+   b. Utente digita indirizzo o cerca luogo
+   c. Sistema salva: address, lat/lng
+   d. NO room_number richiesto
 ```
+
+## Due Modalità di Ricerca
+
+| Accommodation Type | Tipo Ricerca | Google Places Type                  | Room Number  |
+| ------------------ | ------------ | ----------------------------------- | ------------ |
+| `hotel`            | Lodging      | `includedPrimaryTypes: ['lodging']` | ✅ Richiesto |
+| `hostel`           | Lodging      | `includedPrimaryTypes: ['lodging']` | ✅ Opzionale |
+| `rental`           | Address      | Geocoding/Address autocomplete      | ❌ No        |
+| `friend`           | Address      | Geocoding/Address autocomplete      | ❌ No        |
+| `other`            | Address      | Geocoding/Address autocomplete      | ❌ No        |
 
 ## Database Fields (già aggiunti)
 
