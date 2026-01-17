@@ -361,6 +361,16 @@ export async function sendReservationNotification(
     }
   }
 
+  // N+1 fix: Pre-fetch preferences once before the loop (instead of per-channel)
+  let cachedPrefs: NotificationPreferences | null = null;
+  const needsPrefs = effectiveChannels.some((c) => ['telegram', 'line', 'zalo'].includes(c));
+  if (needsPrefs && reservation.account_id) {
+    cachedPrefs = await getNotificationPreferences(
+      reservation.account_id,
+      reservation.location?.merchant_id ?? undefined
+    );
+  }
+
   // Send to each channel
   for (const channel of effectiveChannels) {
     try {
@@ -381,20 +391,14 @@ export async function sendReservationNotification(
         case 'telegram':
         case 'line':
         case 'zalo':
-          // These require user preferences with channel IDs
-          if (reservation.account_id) {
-            const prefs = await getNotificationPreferences(
-              reservation.account_id,
-              reservation.location?.merchant_id ?? undefined
-            );
-            if (prefs) {
-              recipient =
-                channel === 'telegram'
-                  ? prefs.telegram_chat_id
-                  : channel === 'line'
-                    ? prefs.line_user_id
-                    : prefs.zalo_user_id;
-            }
+          // Use cached preferences instead of fetching per-channel
+          if (cachedPrefs) {
+            recipient =
+              channel === 'telegram'
+                ? cachedPrefs.telegram_chat_id
+                : channel === 'line'
+                  ? cachedPrefs.line_user_id
+                  : cachedPrefs.zalo_user_id;
           }
           break;
       }

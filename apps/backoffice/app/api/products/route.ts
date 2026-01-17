@@ -90,19 +90,25 @@ export async function GET(request: NextRequest) {
       ? PRODUCT_TABLES.filter((t) => t.category === category)
       : PRODUCT_TABLES;
 
+    // N+1 fix: Use Promise.all to fetch from all tables in parallel
+    const perTableLimit = subcategory ? limit : Math.ceil(limit / tablesToQuery.length);
+    const results = await Promise.all(
+      tablesToQuery.map((tableInfo) =>
+        fetchFromTable(
+          tableInfo.table,
+          tableInfo.category,
+          tableInfo.subcategory,
+          search,
+          perTableLimit,
+          0
+        ).then((products) => ({ tableInfo, products }))
+      )
+    );
+
     const allProducts: Product[] = [];
     const stats: Record<string, number> = {};
 
-    for (const tableInfo of tablesToQuery) {
-      const products = await fetchFromTable(
-        tableInfo.table,
-        tableInfo.category,
-        tableInfo.subcategory,
-        search,
-        // If fetching all, use a reasonable limit per table
-        subcategory ? limit : Math.ceil(limit / tablesToQuery.length),
-        0
-      );
+    for (const { tableInfo, products } of results) {
       allProducts.push(...products);
       stats[tableInfo.subcategory] = products.length;
     }
@@ -189,18 +195,22 @@ async function fetchFromTable(
 // GET /api/products/stats - Get counts by category
 export async function HEAD() {
   try {
+    // N+1 fix: Use Promise.all for parallel count queries
+    const countResults = await Promise.all(
+      PRODUCT_TABLES.map(async (tableInfo) => {
+        const { count, error } = await supabase
+          .from(tableInfo.table)
+          .select('*', { count: 'exact', head: true });
+        return { subcategory: tableInfo.subcategory, count: error ? 0 : (count ?? 0) };
+      })
+    );
+
     const stats: Record<string, number> = {};
     let total = 0;
 
-    for (const tableInfo of PRODUCT_TABLES) {
-      const { count, error } = await supabase
-        .from(tableInfo.table)
-        .select('*', { count: 'exact', head: true });
-
-      if (!error && count !== null) {
-        stats[tableInfo.subcategory] = count;
-        total += count;
-      }
+    for (const { subcategory, count } of countResults) {
+      stats[subcategory] = count;
+      total += count;
     }
 
     return NextResponse.json({

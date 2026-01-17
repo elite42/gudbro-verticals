@@ -61,7 +61,7 @@ export async function fetchCustomerContext(
   locationId: string,
   language: string = 'en'
 ): Promise<CustomerContext> {
-  // Fetch location with brand
+  // Fetch location with brand (required, must succeed first)
   const { data: location } = await supabaseAdmin
     .from('locations')
     .select(
@@ -85,13 +85,59 @@ export async function fetchCustomerContext(
     throw new Error(`Location not found: ${locationId}`);
   }
 
-  // Fetch operating hours
-  const { data: hours } = await supabaseAdmin
-    .from('location_operating_hours')
-    .select('day_of_week, open_time, close_time')
-    .eq('location_id', locationId)
-    .eq('is_closed', false)
-    .order('day_of_week');
+  // Fetch all other data in parallel (N+1 fix: 6 queries → 1 parallel batch)
+  const [
+    { data: hours },
+    { data: categories },
+    { data: popularItems },
+    { data: menuMeta },
+    { data: resvSettings },
+    { data: features },
+  ] = await Promise.all([
+    // Operating hours
+    supabaseAdmin
+      .from('location_operating_hours')
+      .select('day_of_week, open_time, close_time')
+      .eq('location_id', locationId)
+      .eq('is_closed', false)
+      .order('day_of_week'),
+
+    // Menu categories with item counts
+    supabaseAdmin
+      .from('menu_categories')
+      .select('name, menu_items(count)')
+      .eq('location_id', locationId)
+      .eq('is_active', true),
+
+    // Popular/featured items
+    supabaseAdmin
+      .from('menu_items')
+      .select('name, price, description')
+      .eq('location_id', locationId)
+      .eq('is_available', true)
+      .eq('is_featured', true)
+      .limit(5),
+
+    // Dietary tags and allergens
+    supabaseAdmin
+      .from('menu_items')
+      .select('dietary_tags, allergens')
+      .eq('location_id', locationId)
+      .eq('is_available', true),
+
+    // Reservation settings
+    supabaseAdmin
+      .from('reservation_settings')
+      .select('min_party_size, max_party_size, advance_booking_days, slot_duration_minutes')
+      .eq('location_id', locationId)
+      .single(),
+
+    // Location features
+    supabaseAdmin
+      .from('location_features')
+      .select('feature_key, is_enabled')
+      .eq('location_id', locationId),
+  ]);
 
   // Check if currently open
   const now = new Date();
@@ -105,33 +151,10 @@ export async function fetchCustomerContext(
     ? currentTime >= todayHours.open_time && currentTime <= todayHours.close_time
     : false;
 
-  // Fetch menu categories with item counts
-  const { data: categories } = await supabaseAdmin
-    .from('menu_categories')
-    .select('name, menu_items(count)')
-    .eq('location_id', locationId)
-    .eq('is_active', true);
-
   const menuCategories = (categories || []).map((c: { name: string; menu_items: unknown[] }) => ({
     name: c.name,
     itemCount: Array.isArray(c.menu_items) ? c.menu_items.length : 0,
   }));
-
-  // Fetch popular items
-  const { data: popularItems } = await supabaseAdmin
-    .from('menu_items')
-    .select('name, price, description')
-    .eq('location_id', locationId)
-    .eq('is_available', true)
-    .eq('is_featured', true)
-    .limit(5);
-
-  // Get dietary options and allergens from menu
-  const { data: menuMeta } = await supabaseAdmin
-    .from('menu_items')
-    .select('dietary_tags, allergens')
-    .eq('location_id', locationId)
-    .eq('is_available', true);
 
   const dietaryOptions: string[] = [
     ...new Set(
@@ -141,19 +164,6 @@ export async function fetchCustomerContext(
   const allergenInfo: string[] = [
     ...new Set((menuMeta || []).flatMap((m: { allergens: string[] | null }) => m.allergens || [])),
   ];
-
-  // Fetch reservation settings
-  const { data: resvSettings } = await supabaseAdmin
-    .from('reservation_settings')
-    .select('min_party_size, max_party_size, advance_booking_days, slot_duration_minutes')
-    .eq('location_id', locationId)
-    .single();
-
-  // Fetch location features
-  const { data: features } = await supabaseAdmin
-    .from('location_features')
-    .select('feature_key, is_enabled')
-    .eq('location_id', locationId);
 
   const featureMap = new Map<string, boolean>(
     (features || []).map((f: { feature_key: string; is_enabled: boolean }) => [

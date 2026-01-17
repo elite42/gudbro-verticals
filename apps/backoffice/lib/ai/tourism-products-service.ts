@@ -434,17 +434,44 @@ export async function bulkCreateProducts(
 ): Promise<{ created: number; errors: string[] }> {
   const results = { created: 0, errors: [] as string[] };
 
-  for (const templateId of templateIds) {
-    const product = await createMerchantProduct(merchantId, templateId, {
-      availableDays: defaults?.availableDays,
-      availableSlots: defaults?.availableSlots,
-      maxPerDay: defaults?.maxPerDay,
-    });
+  if (templateIds.length === 0) {
+    return results;
+  }
 
-    if (!product) {
+  // N+1 fix: Use batch insert instead of individual creates
+  const productsToInsert = templateIds.map((templateId) => ({
+    merchant_id: merchantId,
+    template_id: templateId,
+    custom_includes: [],
+    available_days: defaults?.availableDays || [0, 1, 2, 3, 4, 5, 6],
+    available_slots: defaults?.availableSlots || ['morning', 'afternoon', 'evening'],
+    max_per_day: defaults?.maxPerDay || null,
+    is_active: true,
+  }));
+
+  const { data, error } = await supabase
+    .from('merchant_tourism_products')
+    .insert(productsToInsert)
+    .select('id, template_id');
+
+  if (error) {
+    console.error('Error bulk creating products:', error);
+    // If batch fails, return all as errors
+    for (const templateId of templateIds) {
+      results.errors.push(`Template ${templateId}: ${error.message}`);
+    }
+    return results;
+  }
+
+  results.created = data?.length || 0;
+
+  // Check if any templates weren't created (e.g., constraint violations)
+  const createdTemplateIds = new Set(
+    (data || []).map((p: { template_id: string }) => p.template_id)
+  );
+  for (const templateId of templateIds) {
+    if (!createdTemplateIds.has(templateId)) {
       results.errors.push(`Template ${templateId}: Failed to create`);
-    } else {
-      results.created++;
     }
   }
 
