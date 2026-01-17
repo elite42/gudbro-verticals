@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { chat, createSession, getSessions, archiveSession } from '@/lib/ai';
+import { withRateLimit, rateLimitHeaders, checkRateLimit } from '@/lib/security/rate-limiter';
 
 export const dynamic = 'force-dynamic';
 
 // POST /api/ai/chat - Send a message
 export async function POST(request: NextRequest) {
+  // Rate limit AI endpoints - 20 requests per minute per user
+  const rateLimitResponse = await withRateLimit(request, 'ai');
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
     const body = await request.json();
     const { merchantId, accountId, sessionId, message, newSession } = body;

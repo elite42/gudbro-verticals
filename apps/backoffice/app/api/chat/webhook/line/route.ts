@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { parseLINEWebhook, routeIncomingMessage } from '@/lib/ai/customer-chat/channel-router';
+import { withRateLimit } from '@/lib/security/rate-limiter';
 import crypto from 'crypto';
 
 // Verify LINE signature
@@ -13,6 +14,10 @@ function verifySignature(body: string, signature: string, channelSecret: string)
 }
 
 export async function POST(request: NextRequest) {
+  // Rate limit webhooks - 50 requests per minute per source
+  const rateLimitResponse = await withRateLimit(request, 'webhook');
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
     // Get raw body for signature verification
     const rawBody = await request.text();
