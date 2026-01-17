@@ -10,6 +10,7 @@ import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { Handshake, Building, MapPin, Phone, Mail, Ticket, Target } from 'lucide-react';
 import type { PartnerEntity } from '../hooks/useMapData';
+import { formatDistance } from '../MapStatsPanel';
 
 interface PartnerMarkerProps {
   partner: PartnerEntity;
@@ -109,7 +110,7 @@ export function PartnerMarker({ partner, icon, isSelected, onClick }: PartnerMar
           {partner.distance_m && (
             <div className="mt-2 flex items-center gap-1 text-xs text-gray-500">
               <MapPin className="h-3 w-3" />
-              <span>{(partner.distance_m / 1000).toFixed(1)} km away</span>
+              <span>{formatDistance(partner.distance_m)} away</span>
             </div>
           )}
 

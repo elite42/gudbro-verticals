@@ -26,6 +26,18 @@ interface MapStatsPanelProps {
   onEntityClick: (entity: MapEntity) => void;
 }
 
+/**
+ * Format distance consistently:
+ * - < 1000m → "400 m"
+ * - >= 1000m → "1.5 km"
+ */
+export function formatDistance(meters: number): string {
+  if (meters < 1000) {
+    return `${Math.round(meters)} m`;
+  }
+  return `${(meters / 1000).toFixed(1)} km`;
+}
+
 export function MapStatsPanel({
   data,
   filters,
@@ -184,9 +196,7 @@ export function MapStatsPanel({
                 <div>
                   <p className="text-sm font-medium text-gray-900">{competitor.name}</p>
                   <p className="text-xs text-red-600">
-                    {competitor.distance_m
-                      ? `${(competitor.distance_m / 1000).toFixed(1)} km`
-                      : 'Competitor'}
+                    {competitor.distance_m ? formatDistance(competitor.distance_m) : 'Competitor'}
                   </p>
                 </div>
                 <ArrowRight className="h-4 w-4 text-gray-400" />
@@ -246,7 +256,7 @@ function SelectedEntityCard({ entity }: { entity: MapEntity }) {
     <div className="rounded-lg bg-gray-50 p-3">
       <h4 className="font-medium text-gray-900">{entity.name}</h4>
       <p className="text-xs text-gray-500">
-        {entity.distance_m ? `${(entity.distance_m / 1000).toFixed(1)} km away` : entity.type}
+        {entity.distance_m ? `${formatDistance(entity.distance_m)} away` : entity.type}
       </p>
     </div>
   );

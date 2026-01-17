@@ -10,6 +10,7 @@ import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { Building2, MapPin, Star, DollarSign } from 'lucide-react';
 import type { CompetitorEntity } from '../hooks/useMapData';
+import { formatDistance } from '../MapStatsPanel';
 
 interface CompetitorMarkerProps {
   competitor: CompetitorEntity;
@@ -74,7 +75,7 @@ export function CompetitorMarker({ competitor, icon, isSelected, onClick }: Comp
 
             {competitor.distance_m && (
               <div className="text-gray-500">
-                {(competitor.distance_m / 1000).toFixed(1)} km from your location
+                {formatDistance(competitor.distance_m)} from your location
               </div>
             )}
           </div>
