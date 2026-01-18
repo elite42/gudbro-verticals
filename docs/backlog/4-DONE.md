@@ -11,6 +11,7 @@
 
 | ID                   | Feature                     | Descrizione                                                                                                   | Completato |
 | -------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------- | ---------- |
+| SEC-ERROR-HANDLING   | API Error Handling          | Try-catch su tutti i routes API (3 file fixati: escalations, conversations, partner-branding)                 | 2026-01-18 |
 | SEC-HEADERS          | Security HTTP Headers       | Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, HSTS, Permissions-Policy via next.config.js | 2026-01-18 |
 | SEC-AUDIT-LOG        | Audit Log System            | Migration 064, audit_logs table, AuditService, /settings/audit-log page with filters                          | 2026-01-18 |
 | ALERTS-DASHBOARD     | System Alerts Dashboard     | /settings/system-alerts, /api/health/alerts, performance/error/capacity alerts with thresholds                | 2026-01-18 |

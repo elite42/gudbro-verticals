@@ -5,9 +5,10 @@
  * - Order submission
  * - Order status tracking (realtime)
  * - Menu fetching (future)
+ * - Authentication (OAuth, email/password)
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -15,9 +16,9 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 // Check if Supabase is configured
 export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey);
 
-// Create client only if configured
+// Create browser client for proper cookie handling (required for OAuth PKCE flow)
 export const supabase = isSupabaseConfigured
-  ? createClient(supabaseUrl!, supabaseAnonKey!)
+  ? createBrowserClient(supabaseUrl!, supabaseAnonKey!)
   : null;
 
 /**
@@ -58,7 +59,7 @@ export function getDeviceFingerprint(): string {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash;
   }
 

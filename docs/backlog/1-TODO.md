@@ -149,7 +149,7 @@ CRON_SECRET=
 | SEC-ZOD            | Input Validation   | Zod su tutti gli API routes                            | 3 days | ✅ DONE |
 | SEC-WEBHOOKS       | Webhook Signatures | Fix Telegram + WhatsApp verification                   | 1 day  | ✅ DONE |
 | SEC-HEADERS        | Security Headers   | CSP, HSTS, X-Frame-Options                             | 4h     | ✅ DONE |
-| SEC-ERROR-HANDLING | API Error Handling | Try-catch su tutti i routes                            | 4h     | Pending |
+| SEC-ERROR-HANDLING | API Error Handling | Try-catch su tutti i routes                            | 4h     | ✅ DONE |
 | SEC-AUDIT-LOG      | Audit Logging      | Log azioni sensibili (login, payments, config changes) | 2 days | ✅ DONE |
 | SEC-2FA            | Two-Factor Auth    | TOTP per account admin/owner                           | 2 days | Pending |
 

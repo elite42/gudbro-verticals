@@ -112,69 +112,80 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
-  const slug = searchParams.get('slug');
-  const brandId = searchParams.get('brand_id');
-  const countryCode = searchParams.get('country_code');
-  const city = searchParams.get('city');
-  const isActive = searchParams.get('is_active');
-  const withBrand = searchParams.get('with_brand') === 'true';
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    const slug = searchParams.get('slug');
+    const brandId = searchParams.get('brand_id');
+    const countryCode = searchParams.get('country_code');
+    const city = searchParams.get('city');
+    const isActive = searchParams.get('is_active');
+    const withBrand = searchParams.get('with_brand') === 'true';
 
-  let selectQuery = '*';
-  if (withBrand) {
-    selectQuery = '*, brand:brands(*, organization:organizations(*))';
-  }
+    let selectQuery = '*';
+    if (withBrand) {
+      selectQuery = '*, brand:brands(*, organization:organizations(*))';
+    }
 
-  let query = supabase.from('locations').select(selectQuery);
+    let query = supabase.from('locations').select(selectQuery);
 
-  if (id) {
-    query = query.eq('id', id);
-  }
+    if (id) {
+      query = query.eq('id', id);
+    }
 
-  if (slug && brandId) {
-    // Slug is unique within brand, so need both
-    query = query.eq('slug', slug).eq('brand_id', brandId);
-  }
+    if (slug && brandId) {
+      // Slug is unique within brand, so need both
+      query = query.eq('slug', slug).eq('brand_id', brandId);
+    }
 
-  if (brandId) {
-    query = query.eq('brand_id', brandId);
-  }
+    if (brandId) {
+      query = query.eq('brand_id', brandId);
+    }
 
-  if (countryCode) {
-    query = query.eq('country_code', countryCode);
-  }
+    if (countryCode) {
+      query = query.eq('country_code', countryCode);
+    }
 
-  if (city) {
-    query = query.ilike('city', `%${city}%`);
-  }
+    if (city) {
+      query = query.ilike('city', `%${city}%`);
+    }
 
-  if (isActive !== null) {
-    query = query.eq('is_active', isActive === 'true');
-  } else {
-    // Default to active locations
-    query = query.eq('is_active', true);
-  }
+    if (isActive !== null) {
+      query = query.eq('is_active', isActive === 'true');
+    } else {
+      // Default to active locations
+      query = query.eq('is_active', true);
+    }
 
-  query = query.order('created_at', { ascending: false });
+    query = query.order('created_at', { ascending: false });
 
-  const { data, error } = await query;
+    const { data, error } = await query;
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+    if (error) {
+      return NextResponse.json(
+        { success: false, error: { code: 'DATABASE_ERROR', message: error.message } },
+        { status: 500 }
+      );
+    }
 
-  // Single item request
-  if (id) {
+    // Single item request
+    if (id) {
+      return NextResponse.json({
+        location: data?.[0] || null,
+      });
+    }
+
     return NextResponse.json({
-      location: data?.[0] || null,
+      locations: data,
+      total: data?.length || 0,
     });
+  } catch (error) {
+    console.error('Error in GET /api/locations:', error);
+    return NextResponse.json(
+      { success: false, error: { code: 'INTERNAL_ERROR', message: 'Internal server error' } },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({
-    locations: data,
-    total: data?.length || 0,
-  });
 }
 
 export async function PATCH(request: Request) {

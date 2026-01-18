@@ -24,6 +24,7 @@ import { currencyPreferencesStore } from '@/lib/currency-preferences';
 import { useTheme } from '@/lib/theme/theme-context';
 import { LoyaltyCard, EarnPointsModal } from '@/components/loyalty';
 import { UserLoyaltyState } from '@/types/loyalty';
+import { PasskeyRegister, PasskeyList } from '@/components/passkey';
 
 // Wrapper component to handle Suspense for useSearchParams
 export default function AccountPage() {
@@ -452,6 +453,32 @@ function AccountPageContent() {
             </div>
           </div>
         </div>
+
+        {/* Security / Passkeys - Only for logged in users */}
+        {!isGuest && (
+          <div className="bg-theme-bg-elevated rounded-2xl p-5 shadow-lg">
+            <h3 className="text-theme-text-primary mb-4 text-lg font-bold">Sicurezza</h3>
+
+            <div className="space-y-4">
+              {/* Add Passkey */}
+              <PasskeyRegister
+                onSuccess={() => {
+                  // Force refresh of passkey list
+                }}
+                onError={(error) => {
+                  console.error('Passkey registration error:', error);
+                }}
+              />
+
+              {/* Passkey List */}
+              <PasskeyList
+                onError={(error) => {
+                  console.error('Passkey error:', error);
+                }}
+              />
+            </div>
+          </div>
+        )}
 
         {/* About & Follow Locale */}
         <div className="bg-theme-bg-elevated rounded-2xl p-5 shadow-lg">

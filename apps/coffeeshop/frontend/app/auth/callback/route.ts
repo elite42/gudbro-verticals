@@ -39,9 +39,11 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
-    if (!error) {
+    if (!error && data.session) {
+      console.log('Auth callback success for user:', data.user?.email);
+
       // Handle password reset redirect
       if (type === 'recovery') {
         return NextResponse.redirect(`${origin}/auth/reset-password`);
@@ -51,7 +53,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(`${origin}${next}`);
     }
 
-    console.error('Auth callback error:', error);
+    console.error('Auth callback error:', error?.message, error?.status, error);
+  } else {
+    console.error('Auth callback: No code provided in URL');
   }
 
   // Return to account page with error

@@ -91,29 +91,43 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-  // Auth check
-  const session = await getSession();
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  try {
+    // Auth check
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: { code: 'UNAUTHORIZED', message: 'Unauthorized' } },
+        { status: 401 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug');
+
+    let query = supabase.from('merchants').select('*').eq('is_active', true);
+
+    if (slug) {
+      query = query.eq('slug', slug);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      return NextResponse.json(
+        { success: false, error: { code: 'DATABASE_ERROR', message: error.message } },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      merchants: data,
+      total: data?.length || 0,
+    });
+  } catch (error) {
+    console.error('Error in GET /api/merchants:', error);
+    return NextResponse.json(
+      { success: false, error: { code: 'INTERNAL_ERROR', message: 'Internal server error' } },
+      { status: 500 }
+    );
   }
-
-  const { searchParams } = new URL(request.url);
-  const slug = searchParams.get('slug');
-
-  let query = supabase.from('merchants').select('*').eq('is_active', true);
-
-  if (slug) {
-    query = query.eq('slug', slug);
-  }
-
-  const { data, error } = await query;
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json({
-    merchants: data,
-    total: data?.length || 0,
-  });
 }

@@ -3,7 +3,7 @@
 > **Contesto essenziale per Claude Code**
 >
 > **Last Updated:** 2026-01-18
-> **Version:** 7.0 (Scaling Phase 1 Complete)
+> **Version:** 7.1 (Scaling Phase 1-3 Complete)
 
 ---
 
@@ -76,17 +76,22 @@ FINE SESSIONE:
 # 0. CURRENT FOCUS (Aggiorna quando cambi task)
 
 > **Task attiva:** Nessuna (scegli da backlog)
-> **Stato:** Phase 1 COMPLETATA - Pronto per nuove task
-> **Ultima completata:** SCALING INITIATIVE Phase 1 (12 task) - 2026-01-17
+> **Stato:** Phase 1-3 COMPLETATE + Security Phase 1 - Pronto per nuove task
+> **Ultima completata:** SCALING Phase 3 + SECURITY Phase 1 - 2026-01-18
 >
 > **⚠️ USER ACTION PENDING:**
-> Aggiungere env vars su Vercel (Redis + Sentry) - vedi `2-IN-PROGRESS.md`
+> Aggiungere env vars su Vercel - vedi `2-IN-PROGRESS.md`:
+>
+> - Phase 1: Redis (Upstash) + Sentry
+> - Phase 2: Trigger.dev
+> - Phase 3: Vercel KV (optional) + CRON_SECRET
 >
 > **📋 Prossime opzioni (da 1-TODO.md):**
 >
-> - Phase 2 Scaling (Trigger.dev, WebSocket, Partitioning)
-> - Security Hardening (SEC-HEADERS, SEC-AUDIT-LOG)
-> - Testing Initiative (TEST-WALLET, TEST-LOYALTY)
+> - SEC-ERROR-HANDLING (4h) - Try-catch su tutti i routes
+> - SEC-2FA (2 days) - Two-Factor Auth per admin/owner
+> - Testing Initiative (TEST-WALLET, TEST-LOYALTY, TEST-CI)
+> - Phase 4 Scaling (SCALE-CITUS, SCALE-EVENT-BUS) - 100K→1M users
 > - PWA-FULL-SITE (architettura)
 >
 > **📊 Roadmap Documents:**

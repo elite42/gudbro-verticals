@@ -116,8 +116,18 @@ const mockMenuData: MerchantMenuView = {
               name: { en: 'Shot Type', it: 'Tipo Shot', vi: 'Loại Shot' },
               required: true,
               options: [
-                { id: 'single', name: { en: 'Single', it: 'Singolo', vi: 'Đơn' }, price_modifier: 0, is_default: true },
-                { id: 'double', name: { en: 'Double', it: 'Doppio', vi: 'Đôi' }, price_modifier: 15000, is_default: false },
+                {
+                  id: 'single',
+                  name: { en: 'Single', it: 'Singolo', vi: 'Đơn' },
+                  price_modifier: 0,
+                  is_default: true,
+                },
+                {
+                  id: 'double',
+                  name: { en: 'Double', it: 'Doppio', vi: 'Đôi' },
+                  price_modifier: 15000,
+                  is_default: false,
+                },
               ],
               display_order: 1,
             },
@@ -148,9 +158,24 @@ const mockMenuData: MerchantMenuView = {
               name: { en: 'Size', it: 'Dimensione', vi: 'Kích cỡ' },
               required: true,
               options: [
-                { id: 'small', name: { en: 'Small (8oz)', it: 'Piccolo', vi: 'Nhỏ' }, price_modifier: 0, is_default: true },
-                { id: 'medium', name: { en: 'Medium (12oz)', it: 'Medio', vi: 'Vừa' }, price_modifier: 10000, is_default: false },
-                { id: 'large', name: { en: 'Large (16oz)', it: 'Grande', vi: 'Lớn' }, price_modifier: 20000, is_default: false },
+                {
+                  id: 'small',
+                  name: { en: 'Small (8oz)', it: 'Piccolo', vi: 'Nhỏ' },
+                  price_modifier: 0,
+                  is_default: true,
+                },
+                {
+                  id: 'medium',
+                  name: { en: 'Medium (12oz)', it: 'Medio', vi: 'Vừa' },
+                  price_modifier: 10000,
+                  is_default: false,
+                },
+                {
+                  id: 'large',
+                  name: { en: 'Large (16oz)', it: 'Grande', vi: 'Lớn' },
+                  price_modifier: 20000,
+                  is_default: false,
+                },
               ],
               display_order: 1,
             },
@@ -160,10 +185,30 @@ const mockMenuData: MerchantMenuView = {
               name: { en: 'Milk Type', it: 'Tipo di Latte', vi: 'Loại Sữa' },
               required: true,
               options: [
-                { id: 'regular', name: { en: 'Regular Milk', it: 'Latte Normale', vi: 'Sữa thường' }, price_modifier: 0, is_default: true },
-                { id: 'oat', name: { en: 'Oat Milk', it: 'Latte di Avena', vi: 'Sữa yến mạch' }, price_modifier: 15000, is_default: false },
-                { id: 'almond', name: { en: 'Almond Milk', it: 'Latte di Mandorla', vi: 'Sữa hạnh nhân' }, price_modifier: 15000, is_default: false },
-                { id: 'soy', name: { en: 'Soy Milk', it: 'Latte di Soia', vi: 'Sữa đậu nành' }, price_modifier: 10000, is_default: false },
+                {
+                  id: 'regular',
+                  name: { en: 'Regular Milk', it: 'Latte Normale', vi: 'Sữa thường' },
+                  price_modifier: 0,
+                  is_default: true,
+                },
+                {
+                  id: 'oat',
+                  name: { en: 'Oat Milk', it: 'Latte di Avena', vi: 'Sữa yến mạch' },
+                  price_modifier: 15000,
+                  is_default: false,
+                },
+                {
+                  id: 'almond',
+                  name: { en: 'Almond Milk', it: 'Latte di Mandorla', vi: 'Sữa hạnh nhân' },
+                  price_modifier: 15000,
+                  is_default: false,
+                },
+                {
+                  id: 'soy',
+                  name: { en: 'Soy Milk', it: 'Latte di Soia', vi: 'Sữa đậu nành' },
+                  price_modifier: 10000,
+                  is_default: false,
+                },
               ],
               display_order: 2,
             },
@@ -207,9 +252,24 @@ const mockMenuData: MerchantMenuView = {
               name: { en: 'Sweetness', it: 'Dolcezza', vi: 'Độ ngọt' },
               required: true,
               options: [
-                { id: 'normal', name: { en: 'Normal', it: 'Normale', vi: 'Bình thường' }, price_modifier: 0, is_default: true },
-                { id: 'less', name: { en: 'Less Sweet', it: 'Meno Dolce', vi: 'Ít ngọt' }, price_modifier: 0, is_default: false },
-                { id: 'extra', name: { en: 'Extra Sweet', it: 'Extra Dolce', vi: 'Ngọt hơn' }, price_modifier: 0, is_default: false },
+                {
+                  id: 'normal',
+                  name: { en: 'Normal', it: 'Normale', vi: 'Bình thường' },
+                  price_modifier: 0,
+                  is_default: true,
+                },
+                {
+                  id: 'less',
+                  name: { en: 'Less Sweet', it: 'Meno Dolce', vi: 'Ít ngọt' },
+                  price_modifier: 0,
+                  is_default: false,
+                },
+                {
+                  id: 'extra',
+                  name: { en: 'Extra Sweet', it: 'Extra Dolce', vi: 'Ngọt hơn' },
+                  price_modifier: 0,
+                  is_default: false,
+                },
               ],
               display_order: 1,
             },
@@ -278,9 +338,24 @@ const mockMenuData: MerchantMenuView = {
               required: false,
               max_selections: 3,
               options: [
-                { id: 'bacon', name: { en: 'Bacon', it: 'Pancetta', vi: 'Thịt xông khói' }, price_modifier: 30000, is_default: false },
-                { id: 'smoked-salmon', name: { en: 'Smoked Salmon', it: 'Salmone Affumicato', vi: 'Cá hồi xông khói' }, price_modifier: 45000, is_default: false },
-                { id: 'feta', name: { en: 'Feta Cheese', it: 'Formaggio Feta', vi: 'Phô mai Feta' }, price_modifier: 20000, is_default: false },
+                {
+                  id: 'bacon',
+                  name: { en: 'Bacon', it: 'Pancetta', vi: 'Thịt xông khói' },
+                  price_modifier: 30000,
+                  is_default: false,
+                },
+                {
+                  id: 'smoked-salmon',
+                  name: { en: 'Smoked Salmon', it: 'Salmone Affumicato', vi: 'Cá hồi xông khói' },
+                  price_modifier: 45000,
+                  is_default: false,
+                },
+                {
+                  id: 'feta',
+                  name: { en: 'Feta Cheese', it: 'Formaggio Feta', vi: 'Phô mai Feta' },
+                  price_modifier: 20000,
+                  is_default: false,
+                },
               ],
               display_order: 1,
             },
@@ -315,10 +390,30 @@ const mockMenuData: MerchantMenuView = {
               name: { en: 'Spice Level', it: 'Livello Piccantezza', vi: 'Độ cay' },
               required: true,
               options: [
-                { id: 'mild', name: { en: 'Mild 🌶️', it: 'Leggero 🌶️', vi: 'Ít cay 🌶️' }, price_modifier: 0, is_default: false },
-                { id: 'medium', name: { en: 'Medium 🌶️🌶️', it: 'Medio 🌶️🌶️', vi: 'Cay vừa 🌶️🌶️' }, price_modifier: 0, is_default: true },
-                { id: 'hot', name: { en: 'Hot 🌶️🌶️🌶️', it: 'Piccante 🌶️🌶️🌶️', vi: 'Cay 🌶️🌶️🌶️' }, price_modifier: 0, is_default: false },
-                { id: 'extra-hot', name: { en: 'Extra Hot 🔥', it: 'Extra Piccante 🔥', vi: 'Siêu cay 🔥' }, price_modifier: 0, is_default: false },
+                {
+                  id: 'mild',
+                  name: { en: 'Mild 🌶️', it: 'Leggero 🌶️', vi: 'Ít cay 🌶️' },
+                  price_modifier: 0,
+                  is_default: false,
+                },
+                {
+                  id: 'medium',
+                  name: { en: 'Medium 🌶️🌶️', it: 'Medio 🌶️🌶️', vi: 'Cay vừa 🌶️🌶️' },
+                  price_modifier: 0,
+                  is_default: true,
+                },
+                {
+                  id: 'hot',
+                  name: { en: 'Hot 🌶️🌶️🌶️', it: 'Piccante 🌶️🌶️🌶️', vi: 'Cay 🌶️🌶️🌶️' },
+                  price_modifier: 0,
+                  is_default: false,
+                },
+                {
+                  id: 'extra-hot',
+                  name: { en: 'Extra Hot 🔥', it: 'Extra Piccante 🔥', vi: 'Siêu cay 🔥' },
+                  price_modifier: 0,
+                  is_default: false,
+                },
               ],
               display_order: 1,
             },
@@ -363,9 +458,24 @@ const mockMenuData: MerchantMenuView = {
               required: false,
               max_selections: 3,
               options: [
-                { id: 'protein', name: { en: 'Protein (+20g)', it: 'Proteine (+20g)', vi: 'Protein (+20g)' }, price_modifier: 20000, is_default: false },
-                { id: 'spirulina', name: { en: 'Spirulina', it: 'Spirulina', vi: 'Tảo xoắn' }, price_modifier: 15000, is_default: false },
-                { id: 'collagen', name: { en: 'Collagen', it: 'Collagene', vi: 'Collagen' }, price_modifier: 25000, is_default: false },
+                {
+                  id: 'protein',
+                  name: { en: 'Protein (+20g)', it: 'Proteine (+20g)', vi: 'Protein (+20g)' },
+                  price_modifier: 20000,
+                  is_default: false,
+                },
+                {
+                  id: 'spirulina',
+                  name: { en: 'Spirulina', it: 'Spirulina', vi: 'Tảo xoắn' },
+                  price_modifier: 15000,
+                  is_default: false,
+                },
+                {
+                  id: 'collagen',
+                  name: { en: 'Collagen', it: 'Collagene', vi: 'Collagen' },
+                  price_modifier: 25000,
+                  is_default: false,
+                },
               ],
               display_order: 1,
             },
@@ -383,43 +493,49 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ merchantSlug: string }> }
 ) {
-  const resolvedParams = await params;
-  const merchantSlug = resolvedParams.merchantSlug;
+  try {
+    const resolvedParams = await params;
+    const merchantSlug = resolvedParams.merchantSlug;
 
-  // In production, fetch from repository:
-  // const menu = await menuRepository.getFullMenu(merchantSlug);
+    // In production, fetch from repository:
+    // const menu = await menuRepository.getFullMenu(merchantSlug);
 
-  // For now, return mock data if slug matches
-  if (merchantSlug !== 'demo-cafe') {
+    // For now, return mock data if slug matches
+    if (merchantSlug !== 'demo-cafe') {
+      return NextResponse.json(
+        { success: false, error: { code: 'NOT_FOUND', message: 'Merchant not found' } },
+        { status: 404 }
+      );
+    }
+
+    // Support query params for filtering
+    const { searchParams } = new URL(request.url);
+    const categorySlug = searchParams.get('category');
+    const language = searchParams.get('lang') || 'en';
+
+    const response = { ...mockMenuData };
+
+    // Filter by category if specified
+    if (categorySlug) {
+      response.categories = response.categories.filter((cat) => cat.slug === categorySlug);
+    }
+
+    // Add CORS headers for PWA access
+    return NextResponse.json(response, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Cache-Control': 'public, max-age=60', // Cache for 1 minute
+      },
+    });
+  } catch (error) {
+    console.error('Error in GET /api/menu/[merchantSlug]:', error);
     return NextResponse.json(
-      { error: 'Merchant not found' },
-      { status: 404 }
+      { success: false, error: { code: 'INTERNAL_ERROR', message: 'Internal server error' } },
+      { status: 500 }
     );
   }
-
-  // Support query params for filtering
-  const { searchParams } = new URL(request.url);
-  const categorySlug = searchParams.get('category');
-  const language = searchParams.get('lang') || 'en';
-
-  let response = { ...mockMenuData };
-
-  // Filter by category if specified
-  if (categorySlug) {
-    response.categories = response.categories.filter(
-      (cat) => cat.slug === categorySlug
-    );
-  }
-
-  // Add CORS headers for PWA access
-  return NextResponse.json(response, {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      'Cache-Control': 'public, max-age=60', // Cache for 1 minute
-    },
-  });
 }
 
 export async function OPTIONS() {

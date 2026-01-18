@@ -23,17 +23,11 @@ export async function POST(request: Request) {
 
     // Validate required fields
     if (!body.name) {
-      return NextResponse.json(
-        { error: 'Partner name is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Partner name is required' }, { status: 400 });
     }
 
     if (!body.territoryType) {
-      return NextResponse.json(
-        { error: 'Territory type is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Territory type is required' }, { status: 400 });
     }
 
     if (!body.territoryCodes || body.territoryCodes.length === 0) {
@@ -69,7 +63,7 @@ export async function POST(request: Request) {
         territory_type: body.territoryType,
         territory_codes: body.territoryCodes,
         is_exclusive: body.isExclusive ?? true,
-        royalty_pct: body.royaltyPct ?? 20.00,
+        royalty_pct: body.royaltyPct ?? 20.0,
         contact_name: body.contactName || null,
         contact_email: body.contactEmail || null,
         contact_phone: body.contactPhone || null,
@@ -83,87 +77,92 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Error creating partner:', error);
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({
-      partner: data,
-      message: 'Partner created successfully'
-    }, { status: 201 });
-
+    return NextResponse.json(
+      {
+        partner: data,
+        message: 'Partner created successfully',
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error in POST /api/partners:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
-  const slug = searchParams.get('slug');
-  const countryCode = searchParams.get('country_code');
-  const territoryType = searchParams.get('territory_type');
-  const status = searchParams.get('status');
-  const withOrganizations = searchParams.get('with_organizations') === 'true';
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    const slug = searchParams.get('slug');
+    const countryCode = searchParams.get('country_code');
+    const territoryType = searchParams.get('territory_type');
+    const status = searchParams.get('status');
+    const withOrganizations = searchParams.get('with_organizations') === 'true';
 
-  let selectQuery = '*';
-  if (withOrganizations) {
-    selectQuery = '*, organizations(*)';
-  }
+    let selectQuery = '*';
+    if (withOrganizations) {
+      selectQuery = '*, organizations(*)';
+    }
 
-  let query = supabase
-    .from('partners')
-    .select(selectQuery);
+    let query = supabase.from('partners').select(selectQuery);
 
-  if (id) {
-    query = query.eq('id', id);
-  }
+    if (id) {
+      query = query.eq('id', id);
+    }
 
-  if (slug) {
-    query = query.eq('slug', slug);
-  }
+    if (slug) {
+      query = query.eq('slug', slug);
+    }
 
-  // Find partner for a specific country
-  if (countryCode) {
-    query = query.contains('territory_codes', [countryCode]);
-  }
+    // Find partner for a specific country
+    if (countryCode) {
+      query = query.contains('territory_codes', [countryCode]);
+    }
 
-  if (territoryType) {
-    query = query.eq('territory_type', territoryType);
-  }
+    if (territoryType) {
+      query = query.eq('territory_type', territoryType);
+    }
 
-  if (status) {
-    query = query.eq('status', status);
-  } else {
-    // Default to active partners
-    query = query.eq('status', 'active');
-  }
+    if (status) {
+      query = query.eq('status', status);
+    } else {
+      // Default to active partners
+      query = query.eq('status', 'active');
+    }
 
-  query = query.order('created_at', { ascending: false });
+    query = query.order('created_at', { ascending: false });
 
-  const { data, error } = await query;
+    const { data, error } = await query;
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+    if (error) {
+      return NextResponse.json(
+        { success: false, error: { code: 'DATABASE_ERROR', message: error.message } },
+        { status: 500 }
+      );
+    }
 
-  // Single item request
-  if (id || slug) {
+    // Single item request
+    if (id || slug) {
+      return NextResponse.json({
+        partner: data?.[0] || null,
+      });
+    }
+
     return NextResponse.json({
-      partner: data?.[0] || null
+      partners: data,
+      total: data?.length || 0,
     });
+  } catch (error) {
+    console.error('Error in GET /api/partners:', error);
+    return NextResponse.json(
+      { success: false, error: { code: 'INTERNAL_ERROR', message: 'Internal server error' } },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({
-    partners: data,
-    total: data?.length || 0
-  });
 }
 
 export async function PATCH(request: Request) {
@@ -172,10 +171,7 @@ export async function PATCH(request: Request) {
     const { id, ...updates } = body;
 
     if (!id) {
-      return NextResponse.json(
-        { error: 'Partner ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Partner ID is required' }, { status: 400 });
     }
 
     // Map camelCase to snake_case
@@ -202,22 +198,15 @@ export async function PATCH(request: Request) {
 
     if (error) {
       console.error('Error updating partner:', error);
-      return NextResponse.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({
       partner: data,
-      message: 'Partner updated successfully'
+      message: 'Partner updated successfully',
     });
-
   } catch (error) {
     console.error('Error in PATCH /api/partners:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
