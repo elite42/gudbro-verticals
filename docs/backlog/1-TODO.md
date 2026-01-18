@@ -4,7 +4,45 @@
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 > **Specs dettagliate:** `specs/` folder
 
-**Last Updated:** 2026-01-17
+**Last Updated:** 2026-01-18
+
+---
+
+## ⚠️ USER ACTIONS - Environment Variables da Configurare
+
+> **Tutte le variabili da aggiungere su Vercel per attivare le features deployate**
+
+### Phase 1 - Redis + Sentry
+
+```bash
+# Upstash Redis (https://console.upstash.com/)
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
+
+# Sentry (https://sentry.io/)
+SENTRY_DSN=
+SENTRY_AUTH_TOKEN=
+SENTRY_ORG=
+SENTRY_PROJECT=
+```
+
+### Phase 2 - Trigger.dev
+
+```bash
+# Trigger.dev (https://trigger.dev/)
+TRIGGER_API_KEY=
+```
+
+### Phase 3 - Edge Cache + Cron
+
+```bash
+# Vercel KV (optional - usa LRU fallback se non configurato)
+KV_REST_API_URL=
+KV_REST_API_TOKEN=
+
+# Cron Secret (per sicurezza maintenance jobs)
+CRON_SECRET=<genera-stringa-random>
+```
 
 ---
 
@@ -110,9 +148,9 @@ CRON_SECRET=
 | ------------------ | ------------------ | ------------------------------------------------------ | ------ | ------- |
 | SEC-ZOD            | Input Validation   | Zod su tutti gli API routes                            | 3 days | ✅ DONE |
 | SEC-WEBHOOKS       | Webhook Signatures | Fix Telegram + WhatsApp verification                   | 1 day  | ✅ DONE |
-| SEC-HEADERS        | Security Headers   | CSP, HSTS, X-Frame-Options                             | 4h     | Pending |
+| SEC-HEADERS        | Security Headers   | CSP, HSTS, X-Frame-Options                             | 4h     | ✅ DONE |
 | SEC-ERROR-HANDLING | API Error Handling | Try-catch su tutti i routes                            | 4h     | Pending |
-| SEC-AUDIT-LOG      | Audit Logging      | Log azioni sensibili (login, payments, config changes) | 2 days | Pending |
+| SEC-AUDIT-LOG      | Audit Logging      | Log azioni sensibili (login, payments, config changes) | 2 days | ✅ DONE |
 | SEC-2FA            | Two-Factor Auth    | TOTP per account admin/owner                           | 2 days | Pending |
 
 ---
