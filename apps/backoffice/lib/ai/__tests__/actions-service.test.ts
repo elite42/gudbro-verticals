@@ -225,11 +225,11 @@ describe('AI_TOOLS', () => {
 
     it('should support wifi parameters', () => {
       const props = tool?.function.parameters.properties;
-      expect(props.wifi_ssid).toBeDefined();
-      expect(props.wifi_password).toBeDefined();
-      expect(props.wifi_security?.enum).toContain('WPA');
-      expect(props.wifi_security?.enum).toContain('WEP');
-      expect(props.wifi_security?.enum).toContain('nopass');
+      expect(props!.wifi_ssid).toBeDefined();
+      expect(props!.wifi_password).toBeDefined();
+      expect(props!.wifi_security?.enum).toContain('WPA');
+      expect(props!.wifi_security?.enum).toContain('WEP');
+      expect(props!.wifi_security?.enum).toContain('nopass');
     });
   });
 
@@ -252,8 +252,8 @@ describe('AI_TOOLS', () => {
 
     it('should support count and start_number for tables', () => {
       const props = tool?.function.parameters.properties;
-      expect(props.count).toBeDefined();
-      expect(props.start_number).toBeDefined();
+      expect(props!.count).toBeDefined();
+      expect(props!.start_number).toBeDefined();
     });
 
     it('should support sources array for external', () => {

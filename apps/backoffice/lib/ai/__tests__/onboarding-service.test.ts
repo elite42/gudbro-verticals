@@ -386,8 +386,8 @@ describe('ONBOARDING_TOOLS', () => {
     it('should have type property with enum values', () => {
       const typeParam = tool?.function.parameters.properties.type;
       expect(typeParam).toBeDefined();
-      expect(typeParam.enum).toContain('standard');
-      expect(typeParam.enum).toContain('enterprise');
+      expect(typeParam!.enum).toContain('standard');
+      expect(typeParam!.enum).toContain('enterprise');
     });
   });
 
@@ -401,17 +401,17 @@ describe('ONBOARDING_TOOLS', () => {
     it('should have business_type property with valid values', () => {
       const businessType = tool?.function.parameters.properties.business_type;
       expect(businessType).toBeDefined();
-      expect(businessType.enum).toContain('fnb');
-      expect(businessType.enum).toContain('hotel');
-      expect(businessType.enum).toContain('rental');
-      expect(businessType.enum).toContain('wellness');
-      expect(businessType.enum).toContain('other');
+      expect(businessType!.enum).toContain('fnb');
+      expect(businessType!.enum).toContain('hotel');
+      expect(businessType!.enum).toContain('rental');
+      expect(businessType!.enum).toContain('wellness');
+      expect(businessType!.enum).toContain('other');
     });
 
     it('should have primary_color property for hex codes', () => {
       const color = tool?.function.parameters.properties.primary_color;
       expect(color).toBeDefined();
-      expect(color.description).toContain('hex code');
+      expect(color!.description).toContain('hex code');
     });
   });
 
@@ -425,19 +425,19 @@ describe('ONBOARDING_TOOLS', () => {
     it('should have country_code property', () => {
       const countryCode = tool?.function.parameters.properties.country_code;
       expect(countryCode).toBeDefined();
-      expect(countryCode.description).toContain('ISO country code');
+      expect(countryCode!.description).toContain('ISO country code');
     });
 
     it('should have timezone property', () => {
       const timezone = tool?.function.parameters.properties.timezone;
       expect(timezone).toBeDefined();
-      expect(timezone.description).toContain('Timezone');
+      expect(timezone!.description).toContain('Timezone');
     });
 
     it('should have primary_language property', () => {
       const lang = tool?.function.parameters.properties.primary_language;
       expect(lang).toBeDefined();
-      expect(lang.description).toContain('language code');
+      expect(lang!.description).toContain('language code');
     });
   });
 

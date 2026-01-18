@@ -20,10 +20,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
    * Staff role - Basic read access
    * Intended for: waiters, cashiers, kitchen staff
    */
-  staff: [
-    'content:read',
-    'orders:read',
-  ],
+  staff: ['content:read', 'orders:read'],
 
   /**
    * Manager role - Content and order management
@@ -58,6 +55,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'billing:manage',
     'settings:read',
     'settings:manage',
+    'system:alerts',
   ],
 
   /**
@@ -80,6 +78,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'billing:manage',
     'settings:read',
     'settings:manage',
+    'system:alerts',
     // Platform-specific permissions
     'platform:read',
     'platform:manage',
@@ -93,12 +92,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
  * Role hierarchy from lowest to highest privilege
  * Used for "at least role" checks
  */
-export const ROLE_HIERARCHY: UserRole[] = [
-  'staff',
-  'manager',
-  'business_owner',
-  'gudbro_owner',
-];
+export const ROLE_HIERARCHY: UserRole[] = ['staff', 'manager', 'business_owner', 'gudbro_owner'];
 
 /**
  * Get permissions for a specific role

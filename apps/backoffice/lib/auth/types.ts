@@ -55,7 +55,9 @@ export type Permission =
   | 'platform:manage'
   | 'platform:merchants'
   | 'platform:revenue'
-  | 'platform:support';
+  | 'platform:support'
+  // System alerts (visible only to authorized users)
+  | 'system:alerts';
 
 /**
  * Authenticated user data structure

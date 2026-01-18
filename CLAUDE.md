@@ -316,48 +316,49 @@ VERIFICA SEMPRE:
 
 ## Errori Passati (Aggiungi qui quando succedono!)
 
-| Data    | Errore                       | Causa                                  | Soluzione                                                               | File/Area             |
-| ------- | ---------------------------- | -------------------------------------- | ----------------------------------------------------------------------- | --------------------- |
-| 2026-01 | UUID con lettere g-z         | Generazione manuale                    | Solo 0-9, a-f                                                           | Database seeds        |
-| 2026-01 | Array `[]` invece `{}`       | Sintassi JS vs PG                      | PostgreSQL usa `'{a,b}'`                                                | SQL inserts           |
-| 2026-01 | Import types sbagliati       | Path relativi errati                   | Usa `@/types/`                                                          | TypeScript            |
-| 2026-01 | Feature gia esistente        | Non cercato prima                      | Grep/Glob PRIMA di implementare                                         | Tutto                 |
-| 2026-01 | Pieces MCP timeout           | Server non ancora sincronizzato        | Aspetta ~4 giorni (fino ~11 Jan)                                        | End session           |
-| 2026-01 | RLS policy `true`            | Permette accesso a tutti               | Usare `auth.role() = 'service_role'` per backend                        | AI tables             |
-| 2026-01 | Policies "dev\_\*" in prod   | Lasciate da sviluppo                   | Rimuovere o sostituire con policies proper                              | events table          |
-| 2026-01 | function search_path         | Vulnerabilità injection                | `ALTER FUNCTION x SET search_path = public`                             | Tutte le functions    |
-| 2026-01 | MultiLangText vi required    | Traduzioni incomplete                  | Rendere `vi?` opzionale finché non completate                           | Tipi database         |
-| 2026-01 | note vs notes                | Inconsistenza naming                   | Usare sempre plurale `notes` per chiarezza                              | Cocktail types        |
-| 2026-01 | Export duplicati             | `export interface` + default export    | Mai duplicare - usare solo uno dei due                                  | menu-management.ts    |
-| 2026-01 | Tentare senza verificare     | Confidenza < 95% ma procedo            | **VERIFY online** prima di implementare                                 | Workflow generale     |
-| 2026-01 | Build fail senza env vars    | Client creato a import time            | **Proxy pattern** per lazy initialization                               | supabase-admin.ts     |
-| 2026-01 | Type union incompleta        | Manca valore combinato                 | Includere `'both'` quando dominio lo richiede                           | Temperature type      |
-| 2026-01 | Deploy fallito post-push     | Build error non catturato              | Pre-push hook con `turbo build` salva la giornata                       | Git hooks             |
-| 2026-01 | Warning ignorati             | Visti ma non agiti (es. husky)         | **Agire subito** su warning/error, non aspettare                        | Tutto                 |
-| 2026-01 | Doc grandi → qualità persa   | Processare tutto insieme               | **Layered approach**: leggi solo sezioni rilevanti                      | CLAUDE.md, PRODUCT.md |
-| 2026-01 | MCP/API timeout misterioso   | Query complesse senza diagnostica      | **Debug incrementale**: query semplice → complessa                      | Supabase MCP          |
-| 2026-01 | list_tables blocca Claude    | Schema public troppo grande (~100 tab) | **Query mirata** su information_schema.columns per tabelle specifiche   | Supabase MCP          |
-| 2026-01 | Traduzioni inline costose    | Generare testo con Claude              | **Usa OpenAI API** (gpt-4o-mini): $0.0015/200 trad                      | translate-only.ts     |
-| 2026-01 | Contesto gonfiato = lento    | Output SQL ~450 righe × batch          | **Insert diretto** nel DB, output 1 riga                                | translate-only.ts     |
-| 2026-01 | anon_key bloccata da RLS     | Script usa anon_key per INSERT         | Serve **service_role_key** per bypass RLS                               | Script locali         |
-| 2026-01 | RLS bypass senza key         | No service_role_key in .env.local      | **MCP Supabase ha service_role**: script→SQL→MCP                        | translate-only.ts     |
-| 2026-01 | Gap detection manuale        | Query ad-hoc ogni volta                | **Script automatico** con NOT EXISTS pattern                            | Traduzioni bulk       |
-| 2026-01 | No validazione traduzioni    | AI può sbagliare, nomi propri          | **Flag is_verified** + sampling QA post-batch                           | translations table    |
-| 2026-01 | Traduzioni identiche = bug?  | Prosciutto=Prosciutto è corretto       | **Distinguere** proper nouns vs translation errors                      | QA traduzioni         |
-| 2026-01 | User Agent parsing errato    | Ordine check regex sbagliato           | Check specifici PRIMA di generici (iOS→macOS, Samsung→Chrome)           | parseUserAgent        |
-| 2026-01 | Test scoprono bug nascosti   | Test suite trova bug non previsti      | **Test prima** scopre problemi → fix immediato                          | QR route helpers      |
-| 2026-01 | Hydration error localStorage | Componente legge localStorage a render | **Pattern `mounted`**: stato false→true in useEffect                    | DevRoleSwitcher       |
-| 2026-01 | Rimuovere link per fix 404   | Link "Manage accounts" → 404           | **Creare la pagina**, non rimuovere il link                             | Account management    |
-| 2026-01 | Logica dev in comp prod      | RoleSwitcher con check isDevMode       | **Componente separato** DevRoleSwitcher per dev-only                    | Header components     |
-| 2026-01 | Tentato save manuale Pieces  | Pieces cattura tutto automaticamente   | **Non serve** `create_memory`, solo `ask_pieces_ltm` per query          | Fine sessione         |
-| 2026-01 | Audit incompleto 75%         | Route groups non considerati           | **Glob fresh** su `**/page.tsx`, non liste pre-esistenti                | Backoffice audit      |
-| 2026-01 | Docs prodotto obsolete       | Backoffice cambia, docs no             | **PRODUCT.md Sez.6** solo per nuove capability areas, non ogni modifica | PRODUCT.md            |
-| 2026-01 | Blocco senza commit          | Task troppo lunga senza checkpoint     | **Commit incrementali** ogni ~30 min o feature completa                 | Sessioni lunghe       |
-| 2026-01 | Type generation fallita      | MCP timeout durante generazione types  | **Operazioni heavy separatamente**: prima commit, poi rigenera types    | database.types.ts     |
-| 2026-01 | Dev accounts non funzionano  | `getSession()` solo Supabase auth      | **Check dev cookie** in supabase-server.ts prima di Supabase auth       | API routes            |
-| 2026-01 | Weather cache RLS violation  | Service usa client anon key            | Usare **supabaseAdmin** per services che scrivono in cache tables       | weather-service.ts    |
-| 2026-01 | Roadmap/docs non committati  | Sessione lunga crea file senza commit  | **Commit docs subito** dopo creazione, non aspettare fine sessione      | Scaling audit         |
-| 2026-01 | Backlog non sync con roadmap | Task create ma non aggiunte al backlog | **Sync backlog** dopo ogni planning session                             | 1-TODO.md, 4-DONE.md  |
+| Data    | Errore                       | Causa                                    | Soluzione                                                                                                  | File/Area             |
+| ------- | ---------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------- |
+| 2026-01 | UUID con lettere g-z         | Generazione manuale                      | Solo 0-9, a-f                                                                                              | Database seeds        |
+| 2026-01 | Array `[]` invece `{}`       | Sintassi JS vs PG                        | PostgreSQL usa `'{a,b}'`                                                                                   | SQL inserts           |
+| 2026-01 | Import types sbagliati       | Path relativi errati                     | Usa `@/types/`                                                                                             | TypeScript            |
+| 2026-01 | Feature gia esistente        | Non cercato prima                        | Grep/Glob PRIMA di implementare                                                                            | Tutto                 |
+| 2026-01 | Pieces MCP timeout           | Server non ancora sincronizzato          | Aspetta ~4 giorni (fino ~11 Jan)                                                                           | End session           |
+| 2026-01 | RLS policy `true`            | Permette accesso a tutti                 | Usare `auth.role() = 'service_role'` per backend                                                           | AI tables             |
+| 2026-01 | Policies "dev\_\*" in prod   | Lasciate da sviluppo                     | Rimuovere o sostituire con policies proper                                                                 | events table          |
+| 2026-01 | function search_path         | Vulnerabilità injection                  | `ALTER FUNCTION x SET search_path = public`                                                                | Tutte le functions    |
+| 2026-01 | MultiLangText vi required    | Traduzioni incomplete                    | Rendere `vi?` opzionale finché non completate                                                              | Tipi database         |
+| 2026-01 | note vs notes                | Inconsistenza naming                     | Usare sempre plurale `notes` per chiarezza                                                                 | Cocktail types        |
+| 2026-01 | Export duplicati             | `export interface` + default export      | Mai duplicare - usare solo uno dei due                                                                     | menu-management.ts    |
+| 2026-01 | Tentare senza verificare     | Confidenza < 95% ma procedo              | **VERIFY online** prima di implementare                                                                    | Workflow generale     |
+| 2026-01 | Build fail senza env vars    | Client creato a import time              | **Proxy pattern** per lazy initialization                                                                  | supabase-admin.ts     |
+| 2026-01 | Type union incompleta        | Manca valore combinato                   | Includere `'both'` quando dominio lo richiede                                                              | Temperature type      |
+| 2026-01 | Deploy fallito post-push     | Build error non catturato                | Pre-push hook con `turbo build` salva la giornata                                                          | Git hooks             |
+| 2026-01 | Warning ignorati             | Visti ma non agiti (es. husky)           | **Agire subito** su warning/error, non aspettare                                                           | Tutto                 |
+| 2026-01 | Doc grandi → qualità persa   | Processare tutto insieme                 | **Layered approach**: leggi solo sezioni rilevanti                                                         | CLAUDE.md, PRODUCT.md |
+| 2026-01 | MCP/API timeout misterioso   | Query complesse senza diagnostica        | **Debug incrementale**: query semplice → complessa                                                         | Supabase MCP          |
+| 2026-01 | list_tables blocca Claude    | Schema public troppo grande (~100 tab)   | **Query mirata** su information_schema.columns per tabelle specifiche                                      | Supabase MCP          |
+| 2026-01 | Traduzioni inline costose    | Generare testo con Claude                | **Usa OpenAI API** (gpt-4o-mini): $0.0015/200 trad                                                         | translate-only.ts     |
+| 2026-01 | Contesto gonfiato = lento    | Output SQL ~450 righe × batch            | **Insert diretto** nel DB, output 1 riga                                                                   | translate-only.ts     |
+| 2026-01 | anon_key bloccata da RLS     | Script usa anon_key per INSERT           | Serve **service_role_key** per bypass RLS                                                                  | Script locali         |
+| 2026-01 | RLS bypass senza key         | No service_role_key in .env.local        | **MCP Supabase ha service_role**: script→SQL→MCP                                                           | translate-only.ts     |
+| 2026-01 | Gap detection manuale        | Query ad-hoc ogni volta                  | **Script automatico** con NOT EXISTS pattern                                                               | Traduzioni bulk       |
+| 2026-01 | No validazione traduzioni    | AI può sbagliare, nomi propri            | **Flag is_verified** + sampling QA post-batch                                                              | translations table    |
+| 2026-01 | Traduzioni identiche = bug?  | Prosciutto=Prosciutto è corretto         | **Distinguere** proper nouns vs translation errors                                                         | QA traduzioni         |
+| 2026-01 | User Agent parsing errato    | Ordine check regex sbagliato             | Check specifici PRIMA di generici (iOS→macOS, Samsung→Chrome)                                              | parseUserAgent        |
+| 2026-01 | Test scoprono bug nascosti   | Test suite trova bug non previsti        | **Test prima** scopre problemi → fix immediato                                                             | QR route helpers      |
+| 2026-01 | Hydration error localStorage | Componente legge localStorage a render   | **Pattern `mounted`**: stato false→true in useEffect                                                       | DevRoleSwitcher       |
+| 2026-01 | Rimuovere link per fix 404   | Link "Manage accounts" → 404             | **Creare la pagina**, non rimuovere il link                                                                | Account management    |
+| 2026-01 | Logica dev in comp prod      | RoleSwitcher con check isDevMode         | **Componente separato** DevRoleSwitcher per dev-only                                                       | Header components     |
+| 2026-01 | Tentato save manuale Pieces  | Pieces cattura tutto automaticamente     | **Non serve** `create_memory`, solo `ask_pieces_ltm` per query                                             | Fine sessione         |
+| 2026-01 | Audit incompleto 75%         | Route groups non considerati             | **Glob fresh** su `**/page.tsx`, non liste pre-esistenti                                                   | Backoffice audit      |
+| 2026-01 | Docs prodotto obsolete       | Backoffice cambia, docs no               | **PRODUCT.md Sez.6** solo per nuove capability areas, non ogni modifica                                    | PRODUCT.md            |
+| 2026-01 | Blocco senza commit          | Task troppo lunga senza checkpoint       | **Commit incrementali** ogni ~30 min o feature completa                                                    | Sessioni lunghe       |
+| 2026-01 | Type generation fallita      | MCP timeout durante generazione types    | **Operazioni heavy separatamente**: prima commit, poi rigenera types                                       | database.types.ts     |
+| 2026-01 | Dev accounts non funzionano  | `getSession()` solo Supabase auth        | **Check dev cookie** in supabase-server.ts prima di Supabase auth                                          | API routes            |
+| 2026-01 | Weather cache RLS violation  | Service usa client anon key              | Usare **supabaseAdmin** per services che scrivono in cache tables                                          | weather-service.ts    |
+| 2026-01 | Roadmap/docs non committati  | Sessione lunga crea file senza commit    | **Commit docs subito** dopo creazione, non aspettare fine sessione                                         | Scaling audit         |
+| 2026-01 | Backlog non sync con roadmap | Task create ma non aggiunte al backlog   | **Sync backlog** dopo ogni planning session                                                                | 1-TODO.md, 4-DONE.md  |
+| 2026-01 | CLAUDE.md non trovato        | Sessione avviata da ~ invece di progetto | **Avvia Claude dalla dir progetto** o usa alias (`alias gudbro="cd ~/Desktop/gudbro-verticals && claude"`) | Startup sessione      |
 
 ## Pattern da Seguire
 
@@ -401,6 +402,7 @@ VERIFICA SEMPRE:
 | Server cache    | Services che scrivono cache usano `supabaseAdmin`       | `supabase` bloccato da RLS    |
 | Planning docs   | Commit roadmaps/specs subito dopo creazione             | Creare file senza commit      |
 | Backlog sync    | Aggiorna 1-TODO + 4-DONE dopo ogni planning session     | Roadmap senza backlog sync    |
+| Session start   | `cd progetto && claude` o alias shell                   | Avviare Claude da ~           |
 
 ## Come Aggiornare
 

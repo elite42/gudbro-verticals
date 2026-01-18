@@ -180,10 +180,21 @@ export default function KitchenDisplayPage() {
   );
 
   const updateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
-    try {
-      // Get order info for push notification
-      const order = orders.find((o) => o.id === orderId);
+    // Get order info for push notification and rollback
+    const order = orders.find((o) => o.id === orderId);
+    if (!order) return;
 
+    const previousStatus = order.status;
+
+    // OPTIMISTIC UPDATE: Update UI immediately for instant feedback
+    if (newStatus === 'delivered') {
+      setOrders((prev) => prev.filter((o) => o.id !== orderId));
+    } else {
+      setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
+    }
+
+    try {
+      // Make the actual API call
       const { error } = await supabase
         .from('orders')
         .update({ status: newStatus })
@@ -192,7 +203,7 @@ export default function KitchenDisplayPage() {
       if (error) throw error;
 
       // Send push notification when order is ready
-      if (newStatus === 'ready' && order) {
+      if (newStatus === 'ready') {
         try {
           // Get session_id from the order for targeting the notification
           const { data: orderData } = await supabase
@@ -218,14 +229,22 @@ export default function KitchenDisplayPage() {
           console.log('[Push] Notification error (non-blocking):', pushErr);
         }
       }
-
-      if (newStatus === 'delivered') {
-        setOrders((prev) => prev.filter((o) => o.id !== orderId));
-      } else {
-        setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
-      }
     } catch (err) {
+      // ROLLBACK: Restore previous state on error
       console.error('Error updating order status:', err);
+      if (newStatus === 'delivered') {
+        // Re-add the order that was optimistically removed
+        setOrders((prev) =>
+          [...prev, order].sort(
+            (a, b) => new Date(a.submitted_at).getTime() - new Date(b.submitted_at).getTime()
+          )
+        );
+      } else {
+        // Restore the previous status
+        setOrders((prev) =>
+          prev.map((o) => (o.id === orderId ? { ...o, status: previousStatus } : o))
+        );
+      }
     }
   };
 

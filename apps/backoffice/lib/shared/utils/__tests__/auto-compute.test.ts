@@ -89,7 +89,7 @@ const createGarlicIngredient = (): IngredientMaster =>
     id: 'garlic',
     slug: 'garlic',
     name: { en: 'Garlic', it: 'Aglio', vi: 'Tỏi' },
-    allergens: { garlic: true },
+    allergens: {}, // Garlic is not a standard allergen
     dietary_restrictions: { buddhist_restricted: true },
   });
 

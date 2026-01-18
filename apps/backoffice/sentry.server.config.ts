@@ -29,9 +29,10 @@ Sentry.init({
       if (event.request.data) {
         // Redact potential sensitive fields in request body
         const sensitiveFields = ['password', 'token', 'apiKey', 'secret', 'creditCard'];
+        const data = event.request.data as Record<string, unknown>;
         for (const field of sensitiveFields) {
-          if (typeof event.request.data === 'object' && field in event.request.data) {
-            event.request.data[field] = '[REDACTED]';
+          if (typeof data === 'object' && field in data) {
+            data[field] = '[REDACTED]';
           }
         }
       }

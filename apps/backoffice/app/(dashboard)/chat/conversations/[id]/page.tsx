@@ -1,8 +1,20 @@
 'use client';
 
-import { useState, useEffect, useRef, use } from 'react';
+import { useState, useEffect, useRef, use, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Send, Phone, Mail, Calendar, Users, Clock, MessageSquare } from 'lucide-react';
+import {
+  ArrowLeft,
+  Send,
+  Phone,
+  Mail,
+  Calendar,
+  Users,
+  Clock,
+  MessageSquare,
+  Wifi,
+  WifiOff,
+} from 'lucide-react';
+import { useChatRealtime } from '@/lib/realtime/chat-channel';
 
 interface Message {
   id: string;
@@ -53,12 +65,26 @@ const CHANNEL_LABELS: Record<string, string> = {
 export default function ConversationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const [conversation, setConversation] = useState<Conversation | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [initialMessages, setInitialMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Use Realtime for live message updates
+  const { messages, isConnected, addOptimisticMessage } = useChatRealtime(id, initialMessages, {
+    onNewMessage: useCallback(() => {
+      // Scroll to bottom on new message
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, []),
+    onConversationUpdate: useCallback((update: { status: string; total_messages: number }) => {
+      // Update conversation status if it changes
+      setConversation((prev) =>
+        prev ? { ...prev, status: update.status, total_messages: update.total_messages } : prev
+      );
+    }, []),
+  });
 
   const fetchConversation = async () => {
     setIsLoading(true);
@@ -73,7 +99,7 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
       }
 
       setConversation(data.conversation);
-      setMessages(data.messages || []);
+      setInitialMessages(data.messages || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -81,11 +107,9 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
     }
   };
 
+  // Fetch initial data once (no polling - Realtime handles updates)
   useEffect(() => {
     fetchConversation();
-    // Poll for new messages every 5 seconds
-    const interval = setInterval(fetchConversation, 5000);
-    return () => clearInterval(interval);
   }, [id]);
 
   useEffect(() => {
@@ -97,22 +121,32 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
     e.preventDefault();
     if (!newMessage.trim() || isSending) return;
 
+    const messageText = newMessage.trim();
+    setNewMessage('');
     setIsSending(true);
+
+    // Add optimistic message for instant feedback
+    addOptimisticMessage({
+      role: 'agent',
+      content: messageText,
+      agent_id: null,
+      function_name: null,
+    });
+
     try {
       const res = await fetch(`/api/chat/conversations/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: newMessage }),
+        body: JSON.stringify({ message: messageText }),
       });
 
       if (!res.ok) {
         throw new Error('Failed to send message');
       }
-
-      setNewMessage('');
-      fetchConversation();
+      // Message will be added via Realtime subscription
     } catch (err) {
       console.error('Failed to send:', err);
+      // Could show error toast here
     } finally {
       setIsSending(false);
     }
@@ -185,6 +219,15 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
                   }`}
                 >
                   {conversation?.status}
+                </span>
+                <span
+                  className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-xs ${
+                    isConnected ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                  }`}
+                  title={isConnected ? 'Real-time connected' : 'Connecting...'}
+                >
+                  {isConnected ? <Wifi className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}
+                  {isConnected ? 'Live' : 'Connecting'}
                 </span>
               </div>
             </div>

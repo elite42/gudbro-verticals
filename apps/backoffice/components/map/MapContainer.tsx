@@ -86,7 +86,7 @@ function adjustColor(color: string, amount: number): string {
 }
 
 // Modern cluster icon creator
-function createClusterIcon(cluster: L.MarkerCluster): L.DivIcon {
+function createClusterIcon(cluster: { getChildCount: () => number }): L.DivIcon {
   const count = cluster.getChildCount();
 
   // Size based on count

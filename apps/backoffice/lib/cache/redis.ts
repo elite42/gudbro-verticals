@@ -253,8 +253,15 @@ export async function invalidateMerchantConfig(merchantId: string): Promise<void
 }
 
 // ============================================================================
-// Health Check
+// Status Check
 // ============================================================================
+
+/**
+ * Check if Redis is enabled (credentials are configured)
+ */
+export function isRedisEnabled(): boolean {
+  return Boolean(UPSTASH_URL && UPSTASH_TOKEN);
+}
 
 /**
  * Check if Redis is connected and responding.

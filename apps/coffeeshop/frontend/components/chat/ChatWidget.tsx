@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { MessageCircle, X, Send, ChevronDown } from 'lucide-react';
+import { MessageCircle, X, Send, ChevronDown, Wifi } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 
 interface Message {
   id: string;
@@ -9,6 +11,11 @@ interface Message {
   content: string;
   timestamp: Date;
 }
+
+// Create Supabase client for realtime (customer-facing)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
 interface ChatWidgetProps {
   locationId: string;
@@ -30,8 +37,10 @@ export function ChatWidget({
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [suggestedReplies, setSuggestedReplies] = useState<string[]>([]);
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [isRealtimeConnected, setIsRealtimeConnected] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const realtimeChannelRef = useRef<RealtimeChannel | null>(null);
 
   // Scroll to bottom
   const scrollToBottom = useCallback(() => {
@@ -50,6 +59,64 @@ export function ChatWidget({
     const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
     setShowScrollButton(scrollHeight - scrollTop - clientHeight > 100);
   };
+
+  // Subscribe to realtime updates for incoming messages
+  useEffect(() => {
+    if (!conversationId || !supabase) return;
+
+    const channel = supabase
+      .channel(`widget:${conversationId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'customer_messages',
+          filter: `conversation_id=eq.${conversationId}`,
+        },
+        (payload) => {
+          const newMsg = payload.new as {
+            id: string;
+            role: string;
+            content: string;
+            created_at: string;
+          };
+
+          // Only add non-customer messages (AI/agent responses)
+          // Customer messages are already added optimistically
+          if (newMsg.role !== 'customer') {
+            setMessages((prev) => {
+              // Avoid duplicates
+              if (prev.some((m) => m.id === newMsg.id)) return prev;
+              return [
+                ...prev,
+                {
+                  id: newMsg.id,
+                  role: newMsg.role as 'assistant',
+                  content: newMsg.content,
+                  timestamp: new Date(newMsg.created_at),
+                },
+              ];
+            });
+            setIsLoading(false);
+            scrollToBottom();
+          }
+        }
+      )
+      .subscribe((status) => {
+        setIsRealtimeConnected(status === 'SUBSCRIBED');
+      });
+
+    realtimeChannelRef.current = channel;
+
+    return () => {
+      if (realtimeChannelRef.current && supabase) {
+        supabase.removeChannel(realtimeChannelRef.current);
+        realtimeChannelRef.current = null;
+      }
+      setIsRealtimeConnected(false);
+    };
+  }, [conversationId, scrollToBottom]);
 
   // Welcome message
   useEffect(() => {
@@ -203,7 +270,16 @@ export function ChatWidget({
               </div>
               <div>
                 <h3 className="font-semibold text-white">Chat Support</h3>
-                <p className="text-xs text-white/80">{isLoading ? 'Typing...' : 'Online'}</p>
+                <p className="flex items-center gap-1 text-xs text-white/80">
+                  {isLoading ? (
+                    'Typing...'
+                  ) : (
+                    <>
+                      {isRealtimeConnected && <Wifi className="h-3 w-3" />}
+                      {isRealtimeConnected ? 'Live' : 'Online'}
+                    </>
+                  )}
+                </p>
               </div>
             </div>
             <button

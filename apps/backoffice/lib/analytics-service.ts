@@ -1,10 +1,30 @@
 /**
  * Analytics Service for Backoffice
  *
- * Fetches analytics data from Supabase for dashboard visualization
+ * Fetches analytics data from Supabase for dashboard visualization.
+ * Uses materialized views when USE_MAT_VIEWS feature flag is enabled for faster queries.
+ * Uses read replica when available for heavy analytics queries (reduces primary DB load).
  */
 
 import { createClient } from './supabase-browser';
+import { supabaseReadReplica, isReadReplicaEnabled } from './supabase-read-replica';
+
+// Feature flag for using materialized views
+const USE_MAT_VIEWS = process.env.NEXT_PUBLIC_USE_MAT_VIEWS === 'true';
+
+// Feature flag for using read replica (auto-enabled if configured)
+const USE_READ_REPLICA = isReadReplicaEnabled();
+
+/**
+ * Get the appropriate Supabase client for analytics queries
+ * Uses read replica if available, otherwise falls back to primary
+ */
+function getAnalyticsClient() {
+  if (USE_READ_REPLICA) {
+    return supabaseReadReplica;
+  }
+  return createClient();
+}
 
 // Types
 export interface EventCount {
@@ -75,7 +95,7 @@ export async function getEventCounts(
   eventCategory?: string,
   merchantId?: string
 ): Promise<EventCount[]> {
-  const supabase = createClient();
+  const supabase = getAnalyticsClient();
 
   const { data, error } = await supabase.rpc('get_event_counts', {
     p_start_date: startDate,
@@ -100,15 +120,38 @@ export async function getEventCounts(
 
 /**
  * Get daily metrics for a date range
+ * Uses materialized view mv_analytics_daily when feature flag is enabled
  */
 export async function getDailyMetrics(
   startDate: string,
   endDate: string,
   merchantId?: string
 ): Promise<DailyMetrics[]> {
-  const supabase = createClient();
+  const supabase = getAnalyticsClient();
 
-  // Query analytics_events directly for daily aggregation
+  // Try materialized view first if enabled
+  if (USE_MAT_VIEWS && merchantId) {
+    const { data: matData, error: matError } = await supabase
+      .from('mv_analytics_daily')
+      .select('event_date, page_views, unique_visitors, sessions')
+      .eq('merchant_id', merchantId)
+      .gte('event_date', startDate)
+      .lte('event_date', endDate)
+      .order('event_date', { ascending: true });
+
+    if (!matError && matData && matData.length > 0) {
+      return matData.map((row) => ({
+        date: row.event_date,
+        pageViews: row.page_views || 0,
+        uniqueVisitors: row.unique_visitors || 0,
+        sessions: row.sessions || 0,
+        avgSessionDuration: 0,
+      }));
+    }
+    // Fall through to direct query if mat view fails or is empty
+  }
+
+  // Fallback: Query analytics_events directly for daily aggregation
   const { data, error } = await supabase
     .from('analytics_events')
     .select('event_date, event_name, anonymous_id, session_id')
@@ -164,6 +207,7 @@ export async function getDailyMetrics(
 
 /**
  * Get top items by views
+ * Uses materialized view mv_top_items_30d when feature flag is enabled
  */
 export async function getTopItems(
   startDate: string,
@@ -171,9 +215,30 @@ export async function getTopItems(
   limit: number = 10,
   merchantId?: string
 ): Promise<TopItem[]> {
-  const supabase = createClient();
+  const supabase = getAnalyticsClient();
 
-  // Get item_view and add_to_cart events
+  // Try materialized view first if enabled (note: mat view covers last 30 days)
+  if (USE_MAT_VIEWS && merchantId) {
+    const { data: matData, error: matError } = await supabase
+      .from('mv_top_items_30d')
+      .select('item_id, item_name, view_count, add_to_cart_count, conversion_rate')
+      .eq('merchant_id', merchantId)
+      .order('view_count', { ascending: false })
+      .limit(limit);
+
+    if (!matError && matData && matData.length > 0) {
+      return matData.map((row) => ({
+        itemId: row.item_id || '',
+        itemName: row.item_name || row.item_id || '',
+        viewCount: row.view_count || 0,
+        addToCartCount: row.add_to_cart_count || 0,
+        conversionRate: row.conversion_rate || 0,
+      }));
+    }
+    // Fall through to direct query if mat view fails
+  }
+
+  // Fallback: Get item_view and add_to_cart events
   const { data, error } = await supabase
     .from('analytics_events')
     .select('event_name, properties')
@@ -239,7 +304,7 @@ export async function getPopularPages(
   limit: number = 10,
   merchantId?: string
 ): Promise<PopularPage[]> {
-  const supabase = createClient();
+  const supabase = getAnalyticsClient();
 
   const { data, error } = await supabase
     .from('analytics_events')
@@ -288,14 +353,34 @@ export async function getPopularPages(
 
 /**
  * Get device breakdown
+ * Uses materialized view mv_device_breakdown when feature flag is enabled
  */
 export async function getDeviceBreakdown(
   startDate: string,
   endDate: string,
   merchantId?: string
 ): Promise<DeviceBreakdown[]> {
-  const supabase = createClient();
+  const supabase = getAnalyticsClient();
 
+  // Try materialized view first if enabled (note: mat view covers last 30 days)
+  if (USE_MAT_VIEWS && merchantId) {
+    const { data: matData, error: matError } = await supabase
+      .from('mv_device_breakdown')
+      .select('device_type, event_count, percentage')
+      .eq('merchant_id', merchantId)
+      .order('event_count', { ascending: false });
+
+    if (!matError && matData && matData.length > 0) {
+      return matData.map((row) => ({
+        deviceType: row.device_type || 'unknown',
+        eventCount: row.event_count || 0,
+        percentage: row.percentage || 0,
+      }));
+    }
+    // Fall through to direct query if mat view fails
+  }
+
+  // Fallback: Query analytics_events directly
   const { data, error } = await supabase
     .from('analytics_events')
     .select('device_type')
@@ -328,14 +413,46 @@ export async function getDeviceBreakdown(
 
 /**
  * Get hourly breakdown
+ * Uses materialized view mv_hourly_traffic when feature flag is enabled
  */
 export async function getHourlyBreakdown(
   startDate: string,
   endDate: string,
   merchantId?: string
 ): Promise<HourlyBreakdown[]> {
-  const supabase = createClient();
+  const supabase = getAnalyticsClient();
 
+  // Try materialized view first if enabled (note: mat view covers last 30 days)
+  if (USE_MAT_VIEWS && merchantId) {
+    const { data: matData, error: matError } = await supabase
+      .from('mv_hourly_traffic')
+      .select('hour_of_day, event_count')
+      .eq('merchant_id', merchantId)
+      .order('hour_of_day', { ascending: true });
+
+    if (!matError && matData && matData.length > 0) {
+      // Aggregate across all days of week, initialize all hours
+      const hourlyMap = new Map<number, number>();
+      for (let i = 0; i < 24; i++) {
+        hourlyMap.set(i, 0);
+      }
+
+      for (const row of matData) {
+        const hour = row.hour_of_day;
+        hourlyMap.set(hour, (hourlyMap.get(hour) || 0) + (row.event_count || 0));
+      }
+
+      return Array.from(hourlyMap.entries())
+        .map(([hour, count]) => ({
+          hour,
+          eventCount: count,
+        }))
+        .sort((a, b) => a.hour - b.hour);
+    }
+    // Fall through to direct query if mat view fails
+  }
+
+  // Fallback: Query analytics_events directly
   const { data, error } = await supabase
     .from('analytics_events')
     .select('created_at')
@@ -376,7 +493,7 @@ export async function getAnalyticsSummary(
   endDate: string,
   merchantId?: string
 ): Promise<AnalyticsSummary> {
-  const supabase = createClient();
+  const supabase = getAnalyticsClient();
 
   // Calculate previous period
   const start = new Date(startDate);

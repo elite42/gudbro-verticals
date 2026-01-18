@@ -3,7 +3,43 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-17
+**Last Updated:** 2026-01-18
+
+---
+
+## 2026-01-18
+
+| ID                   | Feature                     | Descrizione                                                                                          | Completato |
+| -------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------- | ---------- |
+| SCALE-TRIGGER        | Trigger.dev Background Jobs | Background job system via Trigger.dev for notifications, analytics aggregation, AI briefings         | 2026-01-18 |
+| SCALE-REALTIME       | Supabase Realtime Chat      | WebSocket real-time for chat conversations, replaced 5s polling                                      | 2026-01-18 |
+| SCALE-PARTITIONING   | Analytics Partitioning      | Migration 060: Monthly partitions for analytics_events, auto-partition function                      | 2026-01-18 |
+| SCALE-MAT-VIEWS      | Materialized Views          | Migration 061: Pre-computed dashboard aggregates (daily, top items, device, hourly)                  | 2026-01-18 |
+| SCALE-OPTIMISTIC     | Optimistic Updates          | React Query with optimistic mutations, rollback on error, KDS integration                            | 2026-01-18 |
+| SCALE-READ-REPLICA   | Read Replica Config         | lib/supabase-read-replica.ts with lazy proxy, analytics-service integration                          | 2026-01-18 |
+| SCALE-SHARDING       | Sharding Preparation        | Migration 062: shard_id columns, assign_shard function, triggers, indexes, v_shard_distribution view | 2026-01-18 |
+| SCALE-ARCHIVE        | Archive Strategy            | Migration 063: cold_storage schema, archive tables, archive functions, RLS                           | 2026-01-18 |
+| SCALE-MULTI-REGION   | Multi-Region Deploy         | vercel.json with iad1/sfo1/cdg1 regions, function config, maintenance crons                          | 2026-01-18 |
+| SCALE-EDGE-CACHE     | Edge Caching                | lib/cache/edge-cache.ts with Vercel KV support, LRU fallback                                         | 2026-01-18 |
+| SCALE-COALESCING     | Request Coalescing          | lib/cache/request-coalescing.ts to prevent thundering herd                                           | 2026-01-18 |
+| SCALE-TENANT-CONTEXT | Tenant Context              | lib/tenancy/tenant-context.ts with AsyncLocalStorage, tier/feature checks                            | 2026-01-18 |
+| SCALE-PERF-BUDGETS   | Performance Budgets         | lib/observability/performance-budgets.ts with P50/P95/P99 targets per operation                      | 2026-01-18 |
+
+> **SCALING INITIATIVE Phase 2 & 3 Files:**
+>
+> - Phase 2 Migrations: `060-analytics-partitioning.sql`, `061-analytics-materialized-views.sql`
+> - Phase 3 Migrations: `062-sharding-preparation.sql`, `063-archive-strategy.sql`
+> - Background Jobs: `trigger.config.ts`, `lib/triggers/` (notifications, ai, analytics)
+> - Realtime: `lib/realtime/chat-channel.ts`
+> - Query: `lib/query/` (QueryProvider, use-order-mutations, use-menu-mutations)
+> - Caching: `lib/cache/edge-cache.ts`, `lib/cache/request-coalescing.ts`
+> - Tenancy: `lib/tenancy/tenant-context.ts`
+> - Observability: `lib/observability/performance-budgets.ts`
+> - Read Replica: `lib/supabase-read-replica.ts`
+> - Maintenance: `/api/maintenance/archive`, `/api/maintenance/refresh-views`
+>
+> **Phase 2 Summary:** Background jobs (Trigger.dev), real-time chat, analytics partitioning, materialized views, optimistic updates
+> **Phase 3 Summary:** Multi-region deployment, edge caching, request coalescing, tenant isolation, sharding prep, archive strategy
 
 ---
 
