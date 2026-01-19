@@ -169,3 +169,91 @@ export interface LocationWithBrand extends Location {
   brand?: Brand;
   country?: Country;
 }
+
+// ===========================================
+// Site Sections Types (068)
+// ===========================================
+
+export type SiteSectionType =
+  | 'hero'
+  | 'about'
+  | 'gallery'
+  | 'hours'
+  | 'contact'
+  | 'social'
+  | 'reviews';
+
+// Content type definitions per section
+export interface HeroContent {
+  title: string;
+  subtitle: string;
+  image_url: string;
+  cta_text: string;
+  cta_link: string;
+  overlay_opacity: number;
+}
+
+export interface AboutContent {
+  title: string;
+  description: string;
+  team: Array<{ name: string; role: string; image_url?: string }>;
+  values: Array<{ title: string; description: string; icon?: string }>;
+}
+
+export interface GalleryContent {
+  title: string;
+  images: Array<{ url: string; alt?: string; caption?: string }>;
+}
+
+export interface HoursContent {
+  title: string;
+  show_status_badge: boolean;
+}
+
+export interface ContactContent {
+  title: string;
+  show_phone: boolean;
+  show_email: boolean;
+  show_map: boolean;
+  map_embed_url: string;
+}
+
+export interface SocialContent {
+  title: string;
+  display_style: 'buttons' | 'icons' | 'list';
+}
+
+export interface ReviewsContent {
+  title: string;
+  google_place_id: string;
+  tripadvisor_url: string;
+  testimonials: Array<{
+    name: string;
+    rating: number;
+    text: string;
+    date?: string;
+    avatar_url?: string;
+  }>;
+}
+
+export type SiteSectionContent =
+  | HeroContent
+  | AboutContent
+  | GalleryContent
+  | HoursContent
+  | ContactContent
+  | SocialContent
+  | ReviewsContent;
+
+export interface SiteSection {
+  id: string;
+  location_id: string;
+  section_type: SiteSectionType;
+  is_enabled: boolean;
+  display_order: number;
+  content: SiteSectionContent;
+  style_overrides: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+  published_at: string | null;
+}

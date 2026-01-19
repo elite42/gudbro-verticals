@@ -11,10 +11,12 @@ import {
   Shield,
   CreditCard,
   Share2,
+  Layout,
 } from 'lucide-react';
 
 const settingsTabs = [
   { name: 'General', href: '/settings', icon: Settings },
+  { name: 'Site Builder', href: '/settings/site-builder', icon: Layout },
   { name: 'Hours', href: '/settings/hours', icon: Clock },
   { name: 'Calendar', href: '/settings/calendar', icon: Calendar },
   { name: 'Languages', href: '/settings/languages', icon: Globe },
