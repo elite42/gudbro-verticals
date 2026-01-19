@@ -1252,6 +1252,229 @@ export const KB_SECTIONS: KBSection[] = [
         ],
         tips: ['Challenges drive repeat visits', 'Keep goals achievable but meaningful'],
       },
+      {
+        id: 'gift-cards',
+        path: '/marketing/gift-cards',
+        title: 'Gift Cards',
+        purpose:
+          'Sell and manage digital gift cards. Customers buy gift cards that get credited to recipient wallet.',
+        navigation: ['Sidebar > Marketing > Gift Cards', 'URL: /marketing/gift-cards'],
+        whatYouSee: [
+          {
+            title: 'Gift Cards List',
+            description: 'All gift cards with status, amount, purchaser, and recipient.',
+          },
+          {
+            title: 'Presets Tab',
+            description: 'Configure preset amounts (€10, €25, €50, €100).',
+          },
+          {
+            title: 'Settings Tab',
+            description: 'Enable/disable gift cards, min/max amounts, default expiry.',
+          },
+          {
+            title: 'Redemptions Tab',
+            description: 'History of redeemed gift cards.',
+          },
+        ],
+        actions: [
+          { name: 'Create Gift Card', description: 'Manually create a gift card' },
+          { name: 'Add Preset', description: 'Add a new preset amount' },
+          { name: 'Cancel', description: 'Cancel an unredeemed gift card' },
+        ],
+        workflows: [
+          {
+            title: 'Set up gift card presets',
+            steps: [
+              'Go to Presets tab',
+              'Click "Add Preset"',
+              'Enter amount (e.g., €25)',
+              'Add optional label (e.g., "Perfect Gift")',
+              'Save - preset appears in PWA purchase flow',
+            ],
+          },
+          {
+            title: 'Gift card redemption flow',
+            steps: [
+              'Recipient receives email with QR code',
+              'Scans QR or enters code on /redeem page',
+              'System validates code and status',
+              'Amount credited to recipient wallet',
+              'Gift card marked as redeemed',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'How do customers buy gift cards?',
+            a: 'Through the PWA gift card purchase page. They select amount, enter recipient details, and pay via Stripe.',
+          },
+          {
+            q: 'What happens when a gift card is redeemed?',
+            a: 'The amount is added to the recipient wallet balance, which can be used at checkout.',
+          },
+          {
+            q: 'Can I set expiration dates?',
+            a: 'Yes, in Settings you can set default expiry months. Gift cards expire after this period.',
+          },
+        ],
+        tips: [
+          'Gift cards bring new customers (the recipients)',
+          'Use presets for common amounts - simplifies the purchase flow',
+          'Gift cards integrate with wallet - redeemed balance works like any other wallet credit',
+        ],
+      },
+      {
+        id: 'promo-codes',
+        path: '/marketing/promo-codes',
+        title: 'Promo Codes',
+        purpose:
+          'Create marketing promotion codes for campaigns. Customers enter code at checkout for discounts.',
+        navigation: ['Sidebar > Marketing > Promo Codes', 'URL: /marketing/promo-codes'],
+        whatYouSee: [
+          {
+            title: 'Promo Codes List',
+            description: 'All promo codes with status, type, usage count, and validity dates.',
+          },
+          {
+            title: 'Create Tab',
+            description: 'Form to create new promo codes.',
+          },
+          {
+            title: 'Stats Tab',
+            description: 'Analytics on promo code usage and revenue impact.',
+          },
+          {
+            title: 'Active Tab',
+            description: 'Currently active promo codes only.',
+          },
+        ],
+        actions: [
+          { name: 'Create Promo Code', description: 'New promotional code' },
+          { name: 'Deactivate', description: 'Stop a promo code before end date' },
+          { name: 'View Stats', description: 'See usage analytics' },
+        ],
+        workflows: [
+          {
+            title: 'Create a welcome discount',
+            steps: [
+              'Go to Create tab',
+              'Enter code (e.g., WELCOME10)',
+              'Select type: Percentage',
+              'Set value: 10',
+              'Check "First Order Only"',
+              'Set max uses per customer: 1',
+              'Set validity dates',
+              'Save and distribute code',
+            ],
+          },
+          {
+            title: 'Track campaign performance',
+            steps: [
+              'Go to Stats tab',
+              'Select date range',
+              'Review total redemptions',
+              'Check revenue generated',
+              'Compare to campaign cost',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'What discount types are available?',
+            a: 'Percentage (e.g., 10% off), Fixed Amount (e.g., €5 off), and Free Item.',
+          },
+          {
+            q: 'Can I limit how many times a code is used?',
+            a: 'Yes, set max_uses_total for total uses, and max_uses_per_customer for per-customer limit.',
+          },
+          {
+            q: 'Can I restrict to specific products?',
+            a: 'Yes, use applies_to setting: all products, specific categories, or specific products.',
+          },
+        ],
+        tips: [
+          'Use descriptive codes customers can remember (SUMMER24, WELCOME10)',
+          'First order discounts are great for acquisition',
+          'Set reasonable limits to prevent abuse',
+          'Track ROI in Stats tab to optimize future campaigns',
+        ],
+      },
+      {
+        id: 'coupons',
+        path: '/marketing/coupons',
+        title: 'Coupons',
+        purpose:
+          'Create personalized coupons for individual customers. Unlike promo codes, each coupon is unique per customer.',
+        navigation: ['Sidebar > Marketing > Coupons', 'URL: /marketing/coupons'],
+        whatYouSee: [
+          {
+            title: 'Templates Tab',
+            description: 'Coupon templates for creating coupons in bulk.',
+          },
+          {
+            title: 'Coupons Tab',
+            description: 'All issued coupons with status and assigned customer.',
+          },
+          {
+            title: 'Issue Tab',
+            description: 'Issue coupons to customers from a template.',
+          },
+          {
+            title: 'Create Template Tab',
+            description: 'Form to create new coupon templates.',
+          },
+        ],
+        actions: [
+          { name: 'Create Template', description: 'New coupon template' },
+          { name: 'Issue Coupons', description: 'Issue coupons from template' },
+          { name: 'Revoke', description: 'Revoke an unused coupon' },
+        ],
+        workflows: [
+          {
+            title: 'Create birthday coupon template',
+            steps: [
+              'Go to Create Template tab',
+              'Name: "Birthday 20% Off"',
+              'Prefix: BDAY',
+              'Type: Percentage, Value: 20',
+              'Distribution: auto_birthday',
+              'Validity: 7 days',
+              'Save - system auto-issues on customer birthdays',
+            ],
+          },
+          {
+            title: 'Manually issue coupons',
+            steps: [
+              'Go to Issue tab',
+              'Select template',
+              'Select customers (or segment)',
+              'Click Issue',
+              'Coupons created with unique codes per customer',
+            ],
+          },
+        ],
+        faq: [
+          {
+            q: 'What is the difference between promo codes and coupons?',
+            a: 'Promo codes are public (same code for everyone). Coupons are personal (unique code per customer).',
+          },
+          {
+            q: 'What auto-distribution triggers are available?',
+            a: 'auto_birthday (on customer birthday) and auto_inactivity (after X days of no orders).',
+          },
+          {
+            q: 'How do customers see their coupons?',
+            a: 'In the PWA, customers can see available coupons in their account and select at checkout.',
+          },
+        ],
+        tips: [
+          'Use templates for consistent campaigns',
+          'auto_birthday coupons build customer loyalty',
+          'auto_inactivity coupons help win back dormant customers',
+          'Coupons track per-customer, great for measuring individual engagement',
+        ],
+      },
     ],
   },
 

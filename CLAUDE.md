@@ -457,15 +457,16 @@ gudbro-verticals/
 
 # 5. DATABASE CRITICAL INFO
 
-## 5.1 Stato Attuale (2026-01-05)
+## 5.1 Stato Attuale (2026-01-19)
 
-| Metrica           | Valore                       |
-| ----------------- | ---------------------------- |
-| Database Food     | 75                           |
-| Prodotti          | ~4653                        |
-| Ingredienti       | 2548 (100% nutrition)        |
-| Migrations Schema | 42 (27 core + 11 AI + 4 sec) |
-| AI Services       | 15                           |
+| Metrica           | Valore                                 |
+| ----------------- | -------------------------------------- |
+| Database Food     | 75                                     |
+| Prodotti          | ~4653                                  |
+| Ingredienti       | 2548 (100% nutrition)                  |
+| Migrations Schema | 69 (27 core + 11 AI + 4 sec + 27 feat) |
+| AI Services       | 15                                     |
+| Marketing         | Gift Cards, Promo Codes, Coupons       |
 
 ## 5.2 Schema Source of Truth
 

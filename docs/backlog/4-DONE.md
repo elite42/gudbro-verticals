@@ -9,10 +9,25 @@
 
 ## 2026-01-19
 
-| ID                | Feature                 | Descrizione                                                                                                                                 | Completato |
-| ----------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| PWA-FULL-SITE     | PWA → Sito Web          | Responsive website transformation: DesktopNav, Footer, responsive grids, MenuSidebar, About/Contact pages, color customization system       | 2026-01-19 |
-| WEATHER-GEO-CACHE | Geo-Based Weather Cache | Ottimizzazione cache meteo per area geografica (~10km). 500 locali stessa citta = 1 API call invece di 500. Migration 066, weather-service. | 2026-01-19 |
+| ID                       | Feature                 | Descrizione                                                                                                                                 | Completato |
+| ------------------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| GIFT-CARDS-PROMO-COUPONS | Sistema Sconti Completo | Gift Cards (acquisto/riscatto wallet), Promo Codes (marketing), Coupons (personali). Migration 069, 4 services, 9 API routes, 3 UI pages.   | 2026-01-19 |
+| PWA-FULL-SITE            | PWA → Sito Web          | Responsive website transformation: DesktopNav, Footer, responsive grids, MenuSidebar, About/Contact pages, color customization system       | 2026-01-19 |
+| WEATHER-GEO-CACHE        | Geo-Based Weather Cache | Ottimizzazione cache meteo per area geografica (~10km). 500 locali stessa citta = 1 API call invece di 500. Migration 066, weather-service. | 2026-01-19 |
+
+> **GIFT-CARDS-PROMO-COUPONS Files:**
+>
+> - Migration: `shared/database/migrations/schema/069-gift-cards-promo-coupons.sql` (8 tabelle + RLS + funzioni)
+> - Services: `gift-card-service.ts`, `promo-code-service.ts`, `coupon-service.ts`, `checkout-discount-service.ts`
+> - API Routes: `/api/gift-cards/*` (6), `/api/promo-codes/*` (4), `/api/coupons/*` (4)
+> - UI Pages: `/marketing/gift-cards`, `/marketing/promo-codes`, `/marketing/coupons`
+>
+> **Features:**
+>
+> - Gift Cards: Acquisto → Email delivery → Riscatto → Credito wallet
+> - Promo Codes: Marketing codes con limiti uso, validità, condizioni
+> - Coupons: Template + emissione personale, auto-distribution (birthday)
+> - Checkout Integration: Stacking rules, calcolo sconti, order_discounts tracking
 
 > **PWA-FULL-SITE Files:**
 >
