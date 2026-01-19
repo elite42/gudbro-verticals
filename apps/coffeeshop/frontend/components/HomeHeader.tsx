@@ -34,23 +34,29 @@ export function HomeHeader() {
   useKeyboardNavigation({
     isOpen: showLanguageMenu,
     onClose: () => setShowLanguageMenu(false),
-    onEscape: () => setShowLanguageMenu(false)
+    onEscape: () => setShowLanguageMenu(false),
   });
 
   // Keyboard navigation for currency dropdown
   useKeyboardNavigation({
     isOpen: showCurrencyMenu,
     onClose: () => setShowCurrencyMenu(false),
-    onEscape: () => setShowCurrencyMenu(false)
+    onEscape: () => setShowCurrencyMenu(false),
   });
 
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target as Node)) {
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target as Node)
+      ) {
         setShowLanguageMenu(false);
       }
-      if (currencyDropdownRef.current && !currencyDropdownRef.current.contains(event.target as Node)) {
+      if (
+        currencyDropdownRef.current &&
+        !currencyDropdownRef.current.contains(event.target as Node)
+      ) {
         setShowCurrencyMenu(false);
       }
     };
@@ -90,19 +96,20 @@ export function HomeHeader() {
     setSelectedCurrency(currency);
     currencyPreferencesStore.set({
       selectedCurrency: currency,
-      enabled: currency !== 'EUR' // Enable conversion if not EUR (base currency)
+      enabled: currency !== 'EUR', // Enable conversion if not EUR (base currency)
     });
     setShowCurrencyMenu(false);
   };
 
   // Find current language and currency - use dynamic languages from merchant config
-  const currentLanguage = enabledLanguages.find(lang => lang.code === selectedLanguage) || enabledLanguages[0];
+  const currentLanguage =
+    enabledLanguages.find((lang) => lang.code === selectedLanguage) || enabledLanguages[0];
   const currentCurrency = selectedCurrency;
 
   return (
     <div className="relative">
-      {/* Hero Image Background */}
-      <div className="relative h-56">
+      {/* Hero Image Background - Responsive height */}
+      <div className="relative h-56 md:h-72 lg:h-96">
         {/* Background Image with Overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -128,7 +135,7 @@ export function HomeHeader() {
                   setShowLanguageMenu(!showLanguageMenu);
                   setShowCurrencyMenu(false);
                 }}
-                className="flex items-center justify-center bg-white/20 backdrop-blur-sm w-12 h-12 rounded-full text-white hover:bg-white/30 transition-colors text-base font-bold shadow-lg uppercase"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-base font-bold uppercase text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-white/30"
                 aria-label={`Select language. Current: ${currentLanguage?.name}`}
                 aria-haspopup="true"
                 aria-expanded={showLanguageMenu}
@@ -139,7 +146,7 @@ export function HomeHeader() {
               {/* Language Dropdown - Uses dynamic languages from merchant config */}
               {showLanguageMenu && (
                 <div
-                  className="absolute top-12 left-0 bg-theme-bg-elevated rounded-xl shadow-2xl overflow-hidden min-w-[160px] z-[9999] pointer-events-auto"
+                  className="bg-theme-bg-elevated pointer-events-auto absolute left-0 top-12 z-[9999] min-w-[160px] overflow-hidden rounded-xl shadow-2xl"
                   role="menu"
                   aria-label="Language options"
                 >
@@ -150,8 +157,9 @@ export function HomeHeader() {
                         e.stopPropagation();
                         handleLanguageSelect(lang.code);
                       }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-theme-bg-tertiary transition-colors ${lang.code === selectedLanguage ? 'bg-theme-bg-secondary' : ''
-                        }`}
+                      className={`hover:bg-theme-bg-tertiary flex w-full items-center gap-3 px-4 py-3 transition-colors ${
+                        lang.code === selectedLanguage ? 'bg-theme-bg-secondary' : ''
+                      }`}
                       role="menuitem"
                       aria-label={`Select ${lang.name}`}
                       aria-current={lang.code === selectedLanguage ? 'true' : undefined}
@@ -159,12 +167,14 @@ export function HomeHeader() {
                       <img
                         src={`https://flagcdn.com/w80/${lang.countryCode}.png`}
                         alt=""
-                        className="w-7 h-7 rounded-full object-cover"
+                        className="h-7 w-7 rounded-full object-cover"
                         aria-hidden="true"
                       />
-                      <span className="text-sm font-medium text-theme-text-primary">
+                      <span className="text-theme-text-primary text-sm font-medium">
                         {lang.nativeName || lang.name}
-                        {lang.direction === 'rtl' && <span className="ml-1 text-xs opacity-60">RTL</span>}
+                        {lang.direction === 'rtl' && (
+                          <span className="ml-1 text-xs opacity-60">RTL</span>
+                        )}
                       </span>
                     </button>
                   ))}
@@ -180,7 +190,7 @@ export function HomeHeader() {
                   setShowCurrencyMenu(!showCurrencyMenu);
                   setShowLanguageMenu(false);
                 }}
-                className="flex items-center justify-center bg-white/20 backdrop-blur-sm w-12 h-12 rounded-full text-white hover:bg-white/30 transition-colors text-base font-bold shadow-lg"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-base font-bold text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-white/30"
                 aria-label={`Select currency. Current: ${currentCurrency}`}
                 aria-haspopup="true"
                 aria-expanded={showCurrencyMenu}
@@ -191,16 +201,16 @@ export function HomeHeader() {
               {/* Currency Dropdown */}
               {showCurrencyMenu && (
                 <div
-                  className="absolute top-12 left-0 bg-theme-bg-elevated rounded-xl shadow-2xl overflow-hidden min-w-[140px] z-[9999] pointer-events-auto"
+                  className="bg-theme-bg-elevated pointer-events-auto absolute left-0 top-12 z-[9999] min-w-[140px] overflow-hidden rounded-xl shadow-2xl"
                   role="menu"
                   aria-label="Currency options"
                 >
                   {i18n.supportedCurrencies.map((currency) => {
                     const currencyCountryCodes: Record<string, string> = {
-                      'VND': 'vn',
-                      'USD': 'us',
-                      'EUR': 'eu',
-                      'GBP': 'gb'
+                      VND: 'vn',
+                      USD: 'us',
+                      EUR: 'eu',
+                      GBP: 'gb',
                     };
                     return (
                       <button
@@ -209,8 +219,9 @@ export function HomeHeader() {
                           e.stopPropagation();
                           handleCurrencySelect(currency);
                         }}
-                        className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-theme-bg-tertiary transition-colors ${currency === selectedCurrency ? 'bg-theme-bg-secondary' : ''
-                          }`}
+                        className={`hover:bg-theme-bg-tertiary flex w-full items-center gap-3 px-4 py-3 transition-colors ${
+                          currency === selectedCurrency ? 'bg-theme-bg-secondary' : ''
+                        }`}
                         role="menuitem"
                         aria-label={`Select ${currency}`}
                         aria-current={currency === selectedCurrency ? 'true' : undefined}
@@ -218,10 +229,12 @@ export function HomeHeader() {
                         <img
                           src={`https://flagcdn.com/w80/${currencyCountryCodes[currency]}.png`}
                           alt=""
-                          className="w-7 h-7 rounded-full object-cover"
+                          className="h-7 w-7 rounded-full object-cover"
                           aria-hidden="true"
                         />
-                        <span className="text-sm font-bold text-theme-text-primary">{currency}</span>
+                        <span className="text-theme-text-primary text-sm font-bold">
+                          {currency}
+                        </span>
                       </button>
                     );
                   })}
@@ -235,16 +248,38 @@ export function HomeHeader() {
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="relative bg-white/20 backdrop-blur-sm p-3 rounded-full hover:bg-white/30 transition-colors"
+              className="relative rounded-full bg-white/20 p-3 backdrop-blur-sm transition-colors hover:bg-white/30"
               aria-label={`Switch to ${themeMode === 'light' ? 'dark' : 'light'} mode`}
             >
               {themeMode === 'light' ? (
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                <svg
+                  className="h-6 w-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
                 </svg>
               ) : (
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                <svg
+                  className="h-6 w-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  />
                 </svg>
               )}
             </button>
@@ -252,22 +287,16 @@ export function HomeHeader() {
         </div>
 
         {/* Logo positioned at bottom of banner, overlapping */}
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-10 pointer-events-none">
-          <div className="w-32 h-32 rounded-full overflow-hidden bg-theme-bg-elevated shadow-2xl border-4 border-theme-bg-elevated">
-            <img
-              src={business.logo}
-              alt={business.name}
-              className="w-full h-full object-cover"
-            />
+        <div className="pointer-events-none absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-1/2 transform">
+          <div className="bg-theme-bg-elevated border-theme-bg-elevated h-32 w-32 overflow-hidden rounded-full border-4 shadow-2xl">
+            <img src={business.logo} alt={business.name} className="h-full w-full object-cover" />
           </div>
         </div>
       </div>
 
       {/* Restaurant Name - below banner */}
-      <div className="bg-theme-bg-secondary pt-20 pb-2">
-        <h1 className="text-2xl font-bold text-theme-text-primary text-center">
-          {business.name}
-        </h1>
+      <div className="bg-theme-bg-secondary pb-2 pt-20">
+        <h1 className="text-theme-text-primary text-center text-2xl font-bold">{business.name}</h1>
       </div>
     </div>
   );

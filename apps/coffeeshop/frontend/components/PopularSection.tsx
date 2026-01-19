@@ -13,7 +13,12 @@ interface PopularSectionProps {
   onSeeAllClick?: () => void; // Callback when "See All" is clicked
 }
 
-export function PopularSection({ items, onItemClick, totalCount, onSeeAllClick }: PopularSectionProps) {
+export function PopularSection({
+  items,
+  onItemClick,
+  totalCount,
+  onSeeAllClick,
+}: PopularSectionProps) {
   const { t } = useTranslation();
   const { formatPrice } = usePriceFormat();
   const [favorites, setFavorites] = useState<Set<string>>(() => new Set());
@@ -46,49 +51,46 @@ export function PopularSection({ items, onItemClick, totalCount, onSeeAllClick }
   return (
     <div className="mb-6">
       {/* Section Header */}
-      <div className="px-4 mb-4 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between px-4">
         {/* Title with count */}
-        <h2 className="text-2xl font-bold text-theme-text-primary flex items-center gap-2">
+        <h2 className="text-theme-text-primary flex items-center gap-2 text-2xl font-bold">
           <span>🔥</span>
           <span>{t.menu.sections.popular}</span>
-          {totalCount !== undefined && <span className="text-xl text-theme-text-secondary font-normal">({totalCount})</span>}
+          {totalCount !== undefined && (
+            <span className="text-theme-text-secondary text-xl font-normal">({totalCount})</span>
+          )}
         </h2>
 
         {/* See All CTA - Icon only */}
         {onSeeAllClick && (
           <button
             onClick={onSeeAllClick}
-            className="text-theme-interactive-primary hover:text-theme-interactive-primary-hover transition-colors p-1"
+            className="text-theme-interactive-primary hover:text-theme-interactive-primary-hover p-1 transition-colors"
             aria-label={t.menu.sections.seeAll}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         )}
       </div>
 
-      {/* Horizontal Scroll Cards - Beast Burger Style */}
-      <div className="flex gap-4 overflow-x-auto px-4 pb-2 scrollbar-hide">
+      {/* Responsive Cards: Horizontal scroll on mobile, grid on tablet+ */}
+      <div className="scrollbar-hide flex gap-4 overflow-x-auto px-4 pb-2 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-3 xl:grid-cols-4">
         {items.map((item) => {
           const isFavorite = favorites.has(item.id);
 
           return (
-            <div
-              key={item.id}
-              className="flex-shrink-0 w-44 flex flex-col"
-            >
-              {/* Image with dark background - Beast Burger style */}
-              <div className="relative w-44 h-36 bg-gray-900 rounded-2xl overflow-hidden mb-2">
-                <button
-                  onClick={() => onItemClick(item)}
-                  className="w-full h-full"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                  />
+            <div key={item.id} className="flex w-44 flex-shrink-0 flex-col md:w-auto">
+              {/* Image with dark background - responsive sizing */}
+              <div className="relative mb-2 h-36 w-44 overflow-hidden rounded-2xl bg-gray-900 md:h-44 md:w-full lg:h-48">
+                <button onClick={() => onItemClick(item)} className="h-full w-full">
+                  <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                 </button>
 
                 {/* Favorite button - top right - show only when favorited */}
@@ -98,10 +100,14 @@ export function PopularSection({ items, onItemClick, totalCount, onSeeAllClick }
                       e.stopPropagation();
                       favoritesStore.toggle(item.id);
                     }}
-                    className="absolute top-[-3px] right-[-10px] hover:scale-110 transition-transform z-10"
+                    className="absolute right-2 top-2 z-10 transition-transform hover:scale-110 md:right-[-10px] md:top-[-3px]"
                     aria-label="Remove from favorites"
                   >
-                    <svg className="w-6 h-6 text-red-500 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="h-6 w-6 text-red-500 drop-shadow-lg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
                   </button>
@@ -111,12 +117,12 @@ export function PopularSection({ items, onItemClick, totalCount, onSeeAllClick }
               {/* Product Name and Price on same line */}
               <button
                 onClick={() => onItemClick(item)}
-                className="flex items-start gap-2 text-left w-full"
+                className="flex w-full items-start gap-2 text-left"
               >
-                <h3 className="font-bold text-sm text-theme-text-primary flex-1 min-w-0">
+                <h3 className="text-theme-text-primary min-w-0 flex-1 text-sm font-bold md:text-base">
                   {item.name}
                 </h3>
-                <p className="text-xl font-bold text-theme-text-primary flex-shrink-0">
+                <p className="text-theme-text-primary flex-shrink-0 text-xl font-bold">
                   {formatPrice(item.price)}
                 </p>
               </button>

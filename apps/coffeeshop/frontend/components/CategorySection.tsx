@@ -103,15 +103,15 @@ export function CategorySection({
         )}
       </div>
 
-      {/* Horizontal Scroll Cards */}
-      <div className="scrollbar-hide flex gap-4 overflow-x-auto px-4 pb-2">
+      {/* Responsive Cards: Horizontal scroll on mobile, grid on tablet+ */}
+      <div className="scrollbar-hide flex gap-4 overflow-x-auto px-4 pb-2 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-3 xl:grid-cols-4">
         {items.map((item) => {
           const isFavorite = favorites.has(item.id);
 
           return (
-            <div key={item.id} className="flex w-44 flex-shrink-0 flex-col">
-              {/* Image with dark background */}
-              <div className="relative mb-2 h-36 w-44 overflow-hidden rounded-2xl bg-gray-900">
+            <div key={item.id} className="flex w-44 flex-shrink-0 flex-col md:w-auto">
+              {/* Image with dark background - responsive sizing */}
+              <div className="relative mb-2 h-36 w-44 overflow-hidden rounded-2xl bg-gray-900 md:h-44 md:w-full lg:h-48">
                 <button onClick={() => handleItemClick(item)} className="h-full w-full">
                   <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
                 </button>
@@ -123,7 +123,7 @@ export function CategorySection({
                       e.stopPropagation();
                       favoritesStore.toggle(item.id);
                     }}
-                    className="absolute right-[-10px] top-[-3px] z-10 transition-transform hover:scale-110"
+                    className="absolute right-2 top-2 z-10 transition-transform hover:scale-110 md:right-[-10px] md:top-[-3px]"
                     aria-label="Remove from favorites"
                   >
                     <svg
@@ -142,7 +142,7 @@ export function CategorySection({
                 onClick={() => handleItemClick(item)}
                 className="flex w-full items-start gap-2 text-left"
               >
-                <h3 className="text-theme-text-primary min-w-0 flex-1 text-sm font-bold">
+                <h3 className="text-theme-text-primary min-w-0 flex-1 text-sm font-bold md:text-base">
                   {item.name}
                 </h3>
                 <p className="text-theme-text-primary flex-shrink-0 text-xl font-bold">

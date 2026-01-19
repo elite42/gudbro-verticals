@@ -6,6 +6,8 @@ import { DirectionProvider } from '@/components/DirectionProvider';
 import { MerchantConfigProvider } from '@/lib/contexts/MerchantConfigContext';
 import { PWAProvider } from '@/components/PWAProvider';
 import { AnalyticsProvider } from '@/components/AnalyticsProvider';
+import { DesktopNav } from '@/components/layout/DesktopNav';
+import { Footer } from '@/components/layout/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -45,7 +47,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeProvider>
             <MerchantConfigProvider>
               <DirectionProvider>
-                <AnalyticsProvider>{children}</AnalyticsProvider>
+                <AnalyticsProvider>
+                  <DesktopNav />
+                  {children}
+                  <Footer />
+                </AnalyticsProvider>
               </DirectionProvider>
             </MerchantConfigProvider>
           </ThemeProvider>
