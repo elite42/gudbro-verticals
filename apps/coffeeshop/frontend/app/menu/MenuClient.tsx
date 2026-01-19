@@ -22,6 +22,7 @@ import { SearchOverlay } from '../../components/SearchOverlay';
 import { useTranslation } from '@/lib/use-translation';
 import { MultilingualText } from '@/types/dish';
 import { validateProducts } from '@/lib/category-system';
+import { MenuDesktopLayout } from '@/components/menu';
 
 // Custom hooks for state management
 import { useMenuFilters, useMenuStores, useMenuUI } from '@/lib/hooks';
@@ -445,17 +446,7 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
         onSearchClick={openSearchOverlay}
       />
 
-      {/* Popular Section */}
-      {isClient && (
-        <PopularSection
-          items={menuItems.slice(0, 12)}
-          totalCount={12}
-          onItemClick={selectProduct}
-          onSeeAllClick={() => router.push('/menu/popular')}
-        />
-      )}
-
-      {/* Category Sections - Horizontal scrollable cards for each category */}
+      {/* Desktop Layout with Sidebar (lg+) wrapping Popular + Categories */}
       {isClient &&
         (() => {
           // Category mapping with translated names and icons
@@ -498,44 +489,85 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
             {} as Record<string, DishItem[]>
           );
 
-          // Render category sections
-          return (
-            <div className="pb-8">
-              {Object.entries(grouped).map(([categoryId, items]) => {
-                // Skip "bevande" category - it's only a macro filter, not a display category
-                if (categoryId.toLowerCase() === 'bevande') {
-                  return null;
-                }
-
+          // Build sidebar categories from grouped data
+          const sidebarCategories = [
+            { id: 'all', name: 'All', icon: '⭐', count: itemsToDisplay.length },
+            ...Object.entries(grouped)
+              .filter(([categoryId]) => categoryId.toLowerCase() !== 'bevande')
+              .map(([categoryId, items]) => {
                 const metadata = categoryMetadata[categoryId.toLowerCase()] || {
                   name: categoryId,
                   icon: '📦',
                 };
+                return {
+                  id: categoryId,
+                  name: metadata.name,
+                  icon: metadata.icon,
+                  count: items.length,
+                };
+              }),
+          ];
 
-                return (
-                  <CategorySection
-                    key={categoryId}
-                    categoryId={categoryId}
-                    categoryName={metadata.name}
-                    categoryIcon={metadata.icon}
-                    items={items}
-                    onItemClick={selectProduct}
-                    onSeeAllClick={() => router.push(`/menu/category/${categoryId.toLowerCase()}`)}
-                  />
-                );
-              })}
+          // Render with desktop layout wrapper
+          return (
+            <MenuDesktopLayout
+              categories={sidebarCategories}
+              selectedCategory={selectedCategory}
+              onCategorySelect={setSelectedCategory}
+            >
+              {/* Popular Section */}
+              <PopularSection
+                items={menuItems.slice(0, 12)}
+                totalCount={12}
+                onItemClick={selectProduct}
+                onSeeAllClick={() => router.push('/menu/popular')}
+              />
 
-              {/* Empty state */}
-              {Object.keys(grouped).length === 0 && (
-                <div className="py-16 text-center">
-                  <div className="mb-4 text-6xl">🔍</div>
-                  <h2 className="text-theme-text-primary mb-2 text-2xl font-bold">
-                    {t.emptyState.noProducts}
-                  </h2>
-                  <p className="text-theme-text-secondary">{t.emptyState.tryDifferentMenuType}</p>
-                </div>
-              )}
-            </div>
+              {/* Category Sections */}
+              <div className="pb-8">
+                {Object.entries(grouped).map(([categoryId, items]) => {
+                  // Skip "bevande" category - it's only a macro filter, not a display category
+                  if (categoryId.toLowerCase() === 'bevande') {
+                    return null;
+                  }
+
+                  // Filter by selected category if not "all"
+                  if (selectedCategory !== 'all' && categoryId !== selectedCategory) {
+                    return null;
+                  }
+
+                  const metadata = categoryMetadata[categoryId.toLowerCase()] || {
+                    name: categoryId,
+                    icon: '📦',
+                  };
+
+                  return (
+                    <CategorySection
+                      key={categoryId}
+                      categoryId={categoryId}
+                      categoryName={metadata.name}
+                      categoryIcon={metadata.icon}
+                      items={items}
+                      onItemClick={selectProduct}
+                      onSeeAllClick={() =>
+                        router.push(`/menu/category/${categoryId.toLowerCase()}`)
+                      }
+                    />
+                  );
+                })}
+
+                {/* Empty state */}
+                {Object.keys(grouped).length === 0 && (
+                  <div className="py-16 text-center">
+                    <div className="mb-4 text-6xl">🔍</div>
+                    <h2 className="text-theme-text-primary mb-2 text-2xl font-bold">
+                      {t.emptyState.noProducts}
+                    </h2>
+                    <p className="text-theme-text-secondary">{t.emptyState.tryDifferentMenuType}</p>
+                  </div>
+                )}
+              </div>
+            </MenuDesktopLayout>
           );
         })()}
 
