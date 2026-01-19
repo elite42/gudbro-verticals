@@ -3,32 +3,64 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-01-19
+
+---
+
+## 2026-01-19
+
+| ID                | Feature                 | Descrizione                                                                                                                                 | Completato |
+| ----------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| PWA-FULL-SITE     | PWA → Sito Web          | Responsive website transformation: DesktopNav, Footer, responsive grids, MenuSidebar, About/Contact pages, color customization system       | 2026-01-19 |
+| WEATHER-GEO-CACHE | Geo-Based Weather Cache | Ottimizzazione cache meteo per area geografica (~10km). 500 locali stessa citta = 1 API call invece di 500. Migration 066, weather-service. | 2026-01-19 |
+
+> **PWA-FULL-SITE Files:**
+>
+> - Hook: `hooks/useBreakpoint.ts` - SSR-safe breakpoint detection
+> - Layout: `components/layout/Container.tsx`, `DesktopNav.tsx`, `ResponsiveNav.tsx`, `Footer.tsx`
+> - Menu: `components/menu/MenuSidebar.tsx`, `MenuDesktopLayout.tsx`
+> - Pages: `app/about/page.tsx`, `app/contact/page.tsx`
+> - Color: `lib/theme/color-generator.ts` - HSL palette generation
+> - Modified: `CategorySection.tsx`, `PopularSection.tsx` (responsive grids), `BottomNavLocal.tsx` (lg:hidden)
+>
+> **Impact:** Mobile-only PWA → Full responsive website for desktop/tablet with brand color customization
+
+> **WEATHER-GEO-CACHE Files:**
+>
+> - Migration: `shared/database/migrations/schema/066-weather-geo-cache.sql`
+> - Service: `apps/backoffice/lib/ai/weather-service.ts`
+>
+> **Impact:** ~99% reduction in Visual Crossing API calls for clustered locations
 
 ---
 
 ## 2026-01-18
 
-| ID                   | Feature                     | Descrizione                                                                                                   | Completato |
-| -------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------- | ---------- |
-| SEC-ERROR-HANDLING   | API Error Handling          | Try-catch su tutti i routes API (3 file fixati: escalations, conversations, partner-branding)                 | 2026-01-18 |
-| SEC-HEADERS          | Security HTTP Headers       | Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, HSTS, Permissions-Policy via next.config.js | 2026-01-18 |
-| SEC-AUDIT-LOG        | Audit Log System            | Migration 064, audit_logs table, AuditService, /settings/audit-log page with filters                          | 2026-01-18 |
-| ALERTS-DASHBOARD     | System Alerts Dashboard     | /settings/system-alerts, /api/health/alerts, performance/error/capacity alerts with thresholds                | 2026-01-18 |
-| SCALE-METRICS        | Metrics Collection          | lib/observability/metrics.ts with Redis time-series, P50/P95/P99 calculations                                 | 2026-01-18 |
-| SCALE-TRIGGER        | Trigger.dev Background Jobs | Background job system via Trigger.dev for notifications, analytics aggregation, AI briefings                  | 2026-01-18 |
-| SCALE-REALTIME       | Supabase Realtime Chat      | WebSocket real-time for chat conversations, replaced 5s polling                                               | 2026-01-18 |
-| SCALE-PARTITIONING   | Analytics Partitioning      | Migration 060: Monthly partitions for analytics_events, auto-partition function                               | 2026-01-18 |
-| SCALE-MAT-VIEWS      | Materialized Views          | Migration 061: Pre-computed dashboard aggregates (daily, top items, device, hourly)                           | 2026-01-18 |
-| SCALE-OPTIMISTIC     | Optimistic Updates          | React Query with optimistic mutations, rollback on error, KDS integration                                     | 2026-01-18 |
-| SCALE-READ-REPLICA   | Read Replica Config         | lib/supabase-read-replica.ts with lazy proxy, analytics-service integration                                   | 2026-01-18 |
-| SCALE-SHARDING       | Sharding Preparation        | Migration 062: shard_id columns, assign_shard function, triggers, indexes, v_shard_distribution view          | 2026-01-18 |
-| SCALE-ARCHIVE        | Archive Strategy            | Migration 063: cold_storage schema, archive tables, archive functions, RLS                                    | 2026-01-18 |
-| SCALE-MULTI-REGION   | Multi-Region Deploy         | vercel.json with iad1/sfo1/cdg1 regions, function config, maintenance crons                                   | 2026-01-18 |
-| SCALE-EDGE-CACHE     | Edge Caching                | lib/cache/edge-cache.ts with Vercel KV support, LRU fallback                                                  | 2026-01-18 |
-| SCALE-COALESCING     | Request Coalescing          | lib/cache/request-coalescing.ts to prevent thundering herd                                                    | 2026-01-18 |
-| SCALE-TENANT-CONTEXT | Tenant Context              | lib/tenancy/tenant-context.ts with AsyncLocalStorage, tier/feature checks                                     | 2026-01-18 |
-| SCALE-PERF-BUDGETS   | Performance Budgets         | lib/observability/performance-budgets.ts with P50/P95/P99 targets per operation                               | 2026-01-18 |
+| ID                   | Feature                     | Descrizione                                                                                                     | Completato |
+| -------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------- | ---------- |
+| TEST-CI              | GitHub Actions CI           | Pipeline CI con lint, typecheck, unit tests. Fixed 14 failing tests (canvas mock, QR panel). 2003 tests passing | 2026-01-18 |
+| TEST-WALLET          | Wallet Service Tests        | 117 test cases for financial logic: currency formatting, cents conversion, bonus calculations, balance logic    | 2026-01-18 |
+| TEST-LOYALTY         | Loyalty Service Tests       | 187 test cases: tier calculation, points earning, social sharing URLs, referrals, stats. Types + service tests  | 2026-01-18 |
+| TEST-AUTH            | Auth Flow Tests             | 76 test cases: user conversion, error messages, email/password validation, session state, token handling        | 2026-01-18 |
+| TEST-E2E-CRITICAL    | Playwright E2E Tests        | 35 E2E tests: menu view (23 tests), order flow (12 tests). Config, mobile/tablet responsive, performance        | 2026-01-18 |
+| SEC-ERROR-HANDLING   | API Error Handling          | Try-catch su tutti i routes API (3 file fixati: escalations, conversations, partner-branding)                   | 2026-01-18 |
+| SEC-HEADERS          | Security HTTP Headers       | Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, HSTS, Permissions-Policy via next.config.js   | 2026-01-18 |
+| SEC-AUDIT-LOG        | Audit Log System            | Migration 064, audit_logs table, AuditService, /settings/audit-log page with filters                            | 2026-01-18 |
+| ALERTS-DASHBOARD     | System Alerts Dashboard     | /settings/system-alerts, /api/health/alerts, performance/error/capacity alerts with thresholds                  | 2026-01-18 |
+| SCALE-METRICS        | Metrics Collection          | lib/observability/metrics.ts with Redis time-series, P50/P95/P99 calculations                                   | 2026-01-18 |
+| SCALE-TRIGGER        | Trigger.dev Background Jobs | Background job system via Trigger.dev for notifications, analytics aggregation, AI briefings                    | 2026-01-18 |
+| SCALE-REALTIME       | Supabase Realtime Chat      | WebSocket real-time for chat conversations, replaced 5s polling                                                 | 2026-01-18 |
+| SCALE-PARTITIONING   | Analytics Partitioning      | Migration 060: Monthly partitions for analytics_events, auto-partition function                                 | 2026-01-18 |
+| SCALE-MAT-VIEWS      | Materialized Views          | Migration 061: Pre-computed dashboard aggregates (daily, top items, device, hourly)                             | 2026-01-18 |
+| SCALE-OPTIMISTIC     | Optimistic Updates          | React Query with optimistic mutations, rollback on error, KDS integration                                       | 2026-01-18 |
+| SCALE-READ-REPLICA   | Read Replica Config         | lib/supabase-read-replica.ts with lazy proxy, analytics-service integration                                     | 2026-01-18 |
+| SCALE-SHARDING       | Sharding Preparation        | Migration 062: shard_id columns, assign_shard function, triggers, indexes, v_shard_distribution view            | 2026-01-18 |
+| SCALE-ARCHIVE        | Archive Strategy            | Migration 063: cold_storage schema, archive tables, archive functions, RLS                                      | 2026-01-18 |
+| SCALE-MULTI-REGION   | Multi-Region Deploy         | vercel.json with iad1/sfo1/cdg1 regions, function config, maintenance crons                                     | 2026-01-18 |
+| SCALE-EDGE-CACHE     | Edge Caching                | lib/cache/edge-cache.ts with Vercel KV support, LRU fallback                                                    | 2026-01-18 |
+| SCALE-COALESCING     | Request Coalescing          | lib/cache/request-coalescing.ts to prevent thundering herd                                                      | 2026-01-18 |
+| SCALE-TENANT-CONTEXT | Tenant Context              | lib/tenancy/tenant-context.ts with AsyncLocalStorage, tier/feature checks                                       | 2026-01-18 |
+| SCALE-PERF-BUDGETS   | Performance Budgets         | lib/observability/performance-budgets.ts with P50/P95/P99 targets per operation                                 | 2026-01-18 |
 
 > **SCALING INITIATIVE Phase 2 & 3 Files:**
 >
@@ -45,6 +77,18 @@
 >
 > **Phase 2 Summary:** Background jobs (Trigger.dev), real-time chat, analytics partitioning, materialized views, optimistic updates
 > **Phase 3 Summary:** Multi-region deployment, edge caching, request coalescing, tenant isolation, sharding prep, archive strategy
+
+> **TESTING INITIATIVE Files:**
+>
+> - CI Pipeline: `.github/workflows/test.yml`
+> - Wallet Tests: `apps/backoffice/lib/__tests__/wallet-service.test.ts` (117 tests)
+> - Loyalty Tests: `apps/coffeeshop/frontend/types/__tests__/loyalty.test.ts` (92 tests), `apps/backoffice/lib/__tests__/loyalty-service.test.ts` (95 tests)
+> - Auth Tests: `apps/coffeeshop/frontend/lib/__tests__/auth-service.test.ts` (76 tests)
+> - E2E Config: `playwright.config.ts`
+> - E2E Menu Tests: `e2e/menu.spec.ts` (23 tests)
+> - E2E Order Tests: `e2e/order-flow.spec.ts` (12 tests)
+>
+> **Testing Summary:** Total 2418 tests passing (2383 unit + 35 E2E). Focus on pure function testing, business logic, and critical user flows.
 
 ---
 

@@ -4,7 +4,7 @@
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 > **Specs dettagliate:** `specs/` folder
 
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-01-19
 
 ---
 
@@ -42,6 +42,13 @@ KV_REST_API_TOKEN=
 
 # Cron Secret (per sicurezza maintenance jobs)
 CRON_SECRET=<genera-stringa-random>
+```
+
+### Security - Two-Factor Auth
+
+```bash
+# TOTP Encryption Key per 2FA (già generato in .env.local)
+TOTP_ENCRYPTION_KEY=b28833a0024a56c899aa968ed60611868bb92c5350a824bd09d12e097b339380
 ```
 
 ---
@@ -151,22 +158,26 @@ CRON_SECRET=
 | SEC-HEADERS        | Security Headers   | CSP, HSTS, X-Frame-Options                             | 4h     | ✅ DONE |
 | SEC-ERROR-HANDLING | API Error Handling | Try-catch su tutti i routes                            | 4h     | ✅ DONE |
 | SEC-AUDIT-LOG      | Audit Logging      | Log azioni sensibili (login, payments, config changes) | 2 days | ✅ DONE |
-| SEC-2FA            | Two-Factor Auth    | TOTP per account admin/owner                           | 2 days | Pending |
+| SEC-2FA            | Two-Factor Auth    | TOTP per account admin/owner                           | 2 days | Testing |
 
 ---
 
-## P0 - Testing Initiative
+## P0 - Testing Initiative ✅ COMPLETE
 
 > **🧪 TESTING INITIATIVE** - Da 1.5% a production-grade
 > Roadmap completa: `docs/TESTING-STRATEGY.md`
+> **Total Tests: 2418 passing** (2026-01-18)
+>
+> - Unit Tests (Vitest): 2383 tests
+> - E2E Tests (Playwright): 35 tests
 
 | ID                | Feature               | Descrizione                            | Effort   | Status  |
 | ----------------- | --------------------- | -------------------------------------- | -------- | ------- |
-| TEST-WALLET       | Wallet Service Tests  | 150 test cases per financial logic     | 2 days   | Pending |
-| TEST-LOYALTY      | Loyalty Service Tests | 120 test cases per points/redemption   | 1.5 days | Pending |
-| TEST-CI           | GitHub Actions CI     | Pipeline con coverage gates            | 4h       | Pending |
-| TEST-AUTH         | Auth Flow Tests       | Login, signup, password reset, session | 1 day    | Pending |
-| TEST-E2E-CRITICAL | E2E Critical Paths    | Playwright per order flow, menu view   | 2 days   | Pending |
+| TEST-CI           | GitHub Actions CI     | Pipeline con coverage gates            | 4h       | ✅ DONE |
+| TEST-WALLET       | Wallet Service Tests  | 117 test cases per financial logic     | 2 days   | ✅ DONE |
+| TEST-LOYALTY      | Loyalty Service Tests | 187 test cases per points/redemption   | 1.5 days | ✅ DONE |
+| TEST-AUTH         | Auth Flow Tests       | 76 test cases for auth business logic  | 1 day    | ✅ DONE |
+| TEST-E2E-CRITICAL | E2E Critical Paths    | Playwright: 35 tests menu + order flow | 2 days   | ✅ DONE |
 
 ---
 
@@ -202,7 +213,7 @@ CRON_SECRET=
 
 | ID                  | Feature             | Descrizione                     | Effort | Status  | Spec                                                   |
 | ------------------- | ------------------- | ------------------------------- | ------ | ------- | ------------------------------------------------------ |
-| PWA-FULL-SITE       | PWA → Sito Web      | Responsive desktop/tablet       | High   | Pending | [spec](specs/P0.5-architecture/PWA-FULL-SITE.md)       |
+| PWA-FULL-SITE       | PWA → Sito Web      | Responsive desktop/tablet       | High   | ✅ DONE | [spec](specs/P0.5-architecture/PWA-FULL-SITE.md)       |
 | AI-CUSTOMER-CHAT    | AI Customer Chat    | Chat per clienti (multi-canale) | High   | ✅ DONE | [spec](specs/P0.5-architecture/AI-CUSTOMER-CHAT.md)    |
 | RESERVATIONS-SYSTEM | Prenotazioni        | Sistema prenotazioni tavoli     | High   | ✅ DONE | [spec](specs/P0.5-architecture/RESERVATIONS-SYSTEM.md) |
 | QR-BUILDER-V2       | QR Builder Avanzato | Contextual QR con analytics     | High   | ✅ DONE | [spec](specs/P0.5-architecture/QR-BUILDER-V2.md)       |
@@ -226,12 +237,13 @@ CRON_SECRET=
 
 ## P2 - Media Priorità
 
-| ID             | Feature             | Descrizione            | Effort | Spec                                |
-| -------------- | ------------------- | ---------------------- | ------ | ----------------------------------- |
-| MT-GEOFENCING  | Location Geofencing | Radius-based location  | High   | [spec](specs/P2/MENUTIGER-AUDIT.md) |
-| MT-KDS         | Kitchen Display     | Display ordini cucina  | High   | ✅ DONE                             |
-| MT-WHITE-LABEL | White-label Domain  | Custom domain merchant | Medium | ✅ DONE                             |
-| HOLIDAYS-DB    | Holidays Database   | DB festività per paese | Medium | ✅ DONE                             |
+| ID                  | Feature             | Descrizione                                  | Effort | Spec                                       |
+| ------------------- | ------------------- | -------------------------------------------- | ------ | ------------------------------------------ |
+| AI-ASSISTANT-MODULE | AI Prompt Generator | Perfect prompts per Midjourney/DALL-E/Vision | Medium | [spec](../features/AI-ASSISTANT-MODULE.md) |
+| MT-GEOFENCING       | Location Geofencing | Radius-based location                        | High   | [spec](specs/P2/MENUTIGER-AUDIT.md)        |
+| MT-KDS              | Kitchen Display     | Display ordini cucina                        | High   | ✅ DONE                                    |
+| MT-WHITE-LABEL      | White-label Domain  | Custom domain merchant                       | Medium | ✅ DONE                                    |
+| HOLIDAYS-DB         | Holidays Database   | DB festività per paese                       | Medium | ✅ DONE                                    |
 
 ---
 
