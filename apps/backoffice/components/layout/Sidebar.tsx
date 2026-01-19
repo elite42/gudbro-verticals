@@ -60,6 +60,11 @@ const navigation = [
       </svg>
     ),
     badge: 'ai',
+    children: [
+      { name: 'Chat', href: '/ai' },
+      { name: 'Triggers', href: '/ai/triggers' },
+      { name: 'Escalations', href: '/chat/escalations' },
+    ],
   },
   {
     name: 'Orders',
@@ -74,6 +79,10 @@ const navigation = [
       </svg>
     ),
     badge: 'live',
+    children: [
+      { name: 'All Orders', href: '/orders' },
+      { name: 'Kitchen Display', href: '/orders/kitchen' },
+    ],
   },
   {
     name: 'Hot Actions',
@@ -103,6 +112,7 @@ const navigation = [
     ),
     children: [
       { name: 'Menu', href: '/content/menu' },
+      { name: 'Menu Builder', href: '/content/menu-builder' },
       { name: 'Wines', href: '/content/wines' },
       { name: 'Recipes', href: '/content/recipes' },
       { name: 'Ingredients', href: '/content/ingredients' },
@@ -128,6 +138,10 @@ const navigation = [
         />
       </svg>
     ),
+    children: [
+      { name: 'Manage QR', href: '/qr-codes' },
+      { name: 'Analytics', href: '/qr-codes/analytics' },
+    ],
   },
   {
     name: 'Translations',
@@ -174,6 +188,7 @@ const navigation = [
     children: [
       { name: 'Followers', href: '/customers/followers' },
       { name: 'Feedback', href: '/customers/feedback' },
+      { name: 'Intelligence', href: '/customers/intelligence' },
     ],
   },
   {
@@ -196,6 +211,7 @@ const navigation = [
       { name: 'Gift Cards', href: '/marketing/gift-cards' },
       { name: 'Promo Codes', href: '/marketing/promo-codes' },
       { name: 'Coupons', href: '/marketing/coupons' },
+      { name: 'Loyalty', href: '/marketing/loyalty' },
     ],
   },
   {
@@ -215,9 +231,27 @@ const navigation = [
       { name: 'Overview', href: '/partnerships' },
       { name: 'Tour Operators', href: '/partnerships/tour-operators' },
       { name: 'Accommodations', href: '/partnerships/accommodations' },
+      { name: 'Conventions', href: '/partnerships/conventions' },
       { name: 'Outreach', href: '/partnerships/outreach' },
       { name: 'Bookings', href: '/partnerships/bookings' },
       { name: 'Products', href: '/partnerships/products' },
+    ],
+  },
+  {
+    name: 'Reservations',
+    href: '/reservations',
+    icon: (props: React.SVGProps<SVGSVGElement>) => (
+      <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+        />
+      </svg>
+    ),
+    children: [
+      { name: 'Overview', href: '/reservations' },
+      { name: 'Floor Plan', href: '/reservations/floor-plan' },
     ],
   },
   {
