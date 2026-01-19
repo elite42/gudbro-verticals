@@ -182,3 +182,4 @@ public/uploads/
 
 # pnpm store (not the lockfile!)
 .pnpm-store/
+test-results/
