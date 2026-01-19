@@ -1,11 +1,12 @@
 'use client';
 
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { useAuth } from '@/lib/auth';
 import { useSidebar } from '@/lib/contexts/SidebarContext';
-import { Pin, PinOff } from 'lucide-react';
+import { Pin, PinOff, ChevronDown } from 'lucide-react';
 
 // Platform admin navigation (GudBro Owner only)
 const platformNavigation = [
@@ -313,6 +314,44 @@ export function Sidebar() {
   // Combine navigation based on role
   const fullNavigation = isPlatformAdmin ? [...platformNavigation, ...navigation] : navigation;
 
+  // Find which menu is active based on current pathname
+  const getActiveMenuName = useCallback(() => {
+    for (const item of fullNavigation) {
+      if (item.children && (pathname === item.href || pathname?.startsWith(item.href + '/'))) {
+        return item.name;
+      }
+    }
+    return null;
+  }, [pathname, fullNavigation]);
+
+  // Track which menus are open (fully controlled state)
+  const [openMenus, setOpenMenus] = useState<Set<string>>(() => {
+    // Initialize with active menu
+    const activeMenu = getActiveMenuName();
+    return activeMenu ? new Set([activeMenu]) : new Set();
+  });
+
+  // Sync open menus when pathname changes (auto-open active menu)
+  useEffect(() => {
+    const activeMenu = getActiveMenuName();
+    if (activeMenu && !openMenus.has(activeMenu)) {
+      setOpenMenus((prev) => new Set([...prev, activeMenu]));
+    }
+  }, [pathname, getActiveMenuName, openMenus]);
+
+  // Toggle menu expansion
+  const toggleMenu = (menuName: string) => {
+    setOpenMenus((prev) => {
+      const next = new Set(prev);
+      if (next.has(menuName)) {
+        next.delete(menuName);
+      } else {
+        next.add(menuName);
+      }
+      return next;
+    });
+  };
+
   return (
     <div
       className={`flex h-full flex-col bg-gray-900 transition-all duration-300 ease-out ${
@@ -345,58 +384,93 @@ export function Sidebar() {
         <ul className="space-y-1">
           {fullNavigation.map((item) => {
             const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+            const hasChildren = item.children && item.children.length > 0;
+            const isMenuExpanded = openMenus.has(item.name);
+
+            // Common content for both Link and button
+            const itemContent = (
+              <>
+                <item.icon className="h-5 w-5 flex-shrink-0" />
+                {isExpanded && (
+                  <>
+                    <span className="flex-1 truncate">{item.name}</span>
+                    {'badge' in item && item.badge === 'live' && (
+                      <span className="flex h-2 w-2">
+                        <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-green-400 opacity-75"></span>
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
+                      </span>
+                    )}
+                    {'badge' in item && item.badge === 'new' && (
+                      <span className="rounded bg-purple-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
+                        NEW
+                      </span>
+                    )}
+                    {'badge' in item && item.badge === 'ai' && (
+                      <span className="rounded bg-gradient-to-r from-blue-500 to-indigo-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
+                        AI
+                      </span>
+                    )}
+                    {'badge' in item && item.badge === 'admin' && (
+                      <span className="rounded bg-red-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
+                        ADMIN
+                      </span>
+                    )}
+                    {hasChildren && (
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform ${isMenuExpanded ? 'rotate-180' : ''}`}
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            );
 
             return (
               <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className={`group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-gray-800 text-white'
-                      : 'text-gray-400 hover:bg-gray-800 hover:text-white'
-                  }`}
-                  title={!isExpanded ? item.name : undefined}
-                >
-                  <item.icon className="h-5 w-5 flex-shrink-0" />
-                  {isExpanded && (
-                    <>
-                      <span className="flex-1 truncate">{item.name}</span>
-                      {'badge' in item && item.badge === 'live' && (
-                        <span className="flex h-2 w-2">
-                          <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-green-400 opacity-75"></span>
-                          <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
-                        </span>
-                      )}
-                      {'badge' in item && item.badge === 'new' && (
-                        <span className="rounded bg-purple-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
-                          NEW
-                        </span>
-                      )}
-                      {'badge' in item && item.badge === 'ai' && (
-                        <span className="rounded bg-gradient-to-r from-blue-500 to-indigo-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
-                          AI
-                        </span>
-                      )}
-                      {'badge' in item && item.badge === 'admin' && (
-                        <span className="rounded bg-red-500 px-1.5 py-0.5 text-[10px] font-medium text-white">
-                          ADMIN
-                        </span>
-                      )}
-                    </>
-                  )}
+                {hasChildren ? (
+                  // Items with children: button to toggle submenu
+                  <button
+                    onClick={() => toggleMenu(item.name)}
+                    className={`group relative flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-gray-800 text-white'
+                        : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    }`}
+                    title={!isExpanded ? item.name : undefined}
+                  >
+                    {itemContent}
+                    {/* Tooltip for collapsed state */}
+                    {!isExpanded && (
+                      <div className="pointer-events-none absolute left-full z-50 ml-2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-sm text-white opacity-0 transition-opacity group-hover:opacity-100">
+                        {item.name}
+                      </div>
+                    )}
+                  </button>
+                ) : (
+                  // Items without children: link to navigate
+                  <Link
+                    href={item.href}
+                    className={`group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-gray-800 text-white'
+                        : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                    }`}
+                    title={!isExpanded ? item.name : undefined}
+                  >
+                    {itemContent}
+                    {/* Tooltip for collapsed state */}
+                    {!isExpanded && (
+                      <div className="pointer-events-none absolute left-full z-50 ml-2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-sm text-white opacity-0 transition-opacity group-hover:opacity-100">
+                        {item.name}
+                      </div>
+                    )}
+                  </Link>
+                )}
 
-                  {/* Tooltip for collapsed state */}
-                  {!isExpanded && (
-                    <div className="pointer-events-none absolute left-full z-50 ml-2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-sm text-white opacity-0 transition-opacity group-hover:opacity-100">
-                      {item.name}
-                    </div>
-                  )}
-                </Link>
-
-                {/* Submenu - only when expanded */}
-                {item.children && isActive && isExpanded && (
+                {/* Submenu - show when expanded and menu is open */}
+                {hasChildren && isMenuExpanded && isExpanded && (
                   <ul className="ml-8 mt-1 space-y-1">
-                    {item.children.map((child) => (
+                    {item.children!.map((child) => (
                       <li key={child.name}>
                         <Link
                           href={child.href}
