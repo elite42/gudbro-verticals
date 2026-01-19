@@ -8,9 +8,9 @@
 
 ---
 
-| ID            | Feature       | Descrizione                              | Priority | Started    | Assignee |
-| ------------- | ------------- | ---------------------------------------- | -------- | ---------- | -------- |
-| PWA-FULL-SITE | PWA → Website | Responsive desktop/tablet, nav, sections | P0.5     | 2026-01-19 | Claude   |
+| ID  | Feature | Descrizione | Priority | Started | Assignee |
+| --- | ------- | ----------- | -------- | ------- | -------- |
+|     |         |             |          |         |          |
 
 ---
 
