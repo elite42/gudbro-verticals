@@ -132,6 +132,19 @@ const VISUAL_CROSSING_BASE_URL =
 const CURRENT_TTL_MINUTES = 60; // 1 hour
 const FORECAST_TTL_MINUTES = 360; // 6 hours
 
+// =============================================================================
+// GEO CACHE HELPERS
+// =============================================================================
+
+/**
+ * Generate a geographic cache key for coordinate-based weather sharing
+ * Rounds to 1 decimal place (~10km precision)
+ * 500 locations in Da Nang = 1 cache key = 1 API call
+ */
+function getGeoCacheKey(lat: number, lng: number): string {
+  return `geo:${lat.toFixed(1)}:${lng.toFixed(1)}`;
+}
+
 // Weather condition to emoji mapping
 export const WEATHER_EMOJIS: Record<string, string> = {
   clear: '☀️',
@@ -708,6 +721,117 @@ export async function getCachedWeather(locationId: string): Promise<WeatherData 
 }
 
 /**
+ * Interface for geo cache result
+ */
+interface GeoCacheResult {
+  current_temp: number;
+  current_feels_like: number;
+  current_humidity: number;
+  current_conditions: string;
+  current_conditions_icon: string;
+  current_wind_speed: number;
+  current_wind_direction: string;
+  current_uv_index: number;
+  current_visibility: number;
+  current_updated_at: string;
+  forecast_data: DayForecast[];
+  hourly_today: HourlyForecast[];
+  alerts: WeatherAlert[];
+  business_impact: BusinessImpact;
+  forecast_updated_at: string;
+  timezone: string;
+  source_location_id: string;
+}
+
+/**
+ * Check for fresh weather cache from any location in the same geographic area
+ * This enables cache sharing: 500 locations in Da Nang = 1 API call
+ */
+async function getFreshGeoCacheWeather(geoCacheKey: string): Promise<GeoCacheResult | null> {
+  const { data, error } = await supabaseAdmin.rpc('get_fresh_geo_weather_cache', {
+    p_geo_cache_key: geoCacheKey,
+    p_current_ttl_minutes: CURRENT_TTL_MINUTES,
+  });
+
+  if (error || !data || data.length === 0) {
+    return null;
+  }
+
+  const row = data[0];
+  return {
+    current_temp: row.current_temp,
+    current_feels_like: row.current_feels_like,
+    current_humidity: row.current_humidity,
+    current_conditions: row.current_conditions,
+    current_conditions_icon: row.current_conditions_icon,
+    current_wind_speed: row.current_wind_speed,
+    current_wind_direction: row.current_wind_direction,
+    current_uv_index: row.current_uv_index,
+    current_visibility: row.current_visibility,
+    current_updated_at: row.current_updated_at,
+    forecast_data: row.forecast_data || [],
+    hourly_today: row.hourly_today || [],
+    alerts: row.alerts || [],
+    business_impact: row.business_impact || {},
+    forecast_updated_at: row.forecast_updated_at,
+    timezone: row.timezone,
+    source_location_id: row.source_location_id,
+  };
+}
+
+/**
+ * Copy geo cache to a new location's cache entry
+ * This populates a location's cache from another location in the same area
+ */
+async function copyGeoCacheToLocation(
+  locationId: string,
+  geoCache: GeoCacheResult,
+  geoCacheKey: string,
+  latitude: number,
+  longitude: number
+): Promise<void> {
+  console.log(
+    `[Weather] Using geo cache from location ${geoCache.source_location_id} for location ${locationId}`
+  );
+
+  const { error } = await supabaseAdmin.from('location_weather_cache').upsert(
+    {
+      location_id: locationId,
+      current_temp: geoCache.current_temp,
+      current_feels_like: geoCache.current_feels_like,
+      current_humidity: geoCache.current_humidity,
+      current_conditions: geoCache.current_conditions,
+      current_conditions_icon: geoCache.current_conditions_icon,
+      current_wind_speed: geoCache.current_wind_speed,
+      current_wind_direction: geoCache.current_wind_direction,
+      current_uv_index: geoCache.current_uv_index,
+      current_visibility: geoCache.current_visibility,
+      current_updated_at: geoCache.current_updated_at,
+      forecast: geoCache.forecast_data,
+      forecast_updated_at: geoCache.forecast_updated_at,
+      hourly_today: geoCache.hourly_today,
+      alerts: geoCache.alerts,
+      business_impact: geoCache.business_impact,
+      latitude: latitude,
+      longitude: longitude,
+      timezone: geoCache.timezone,
+      geo_cache_key: geoCacheKey,
+      api_provider: 'visual_crossing',
+      // Note: we don't update last_api_call_at since we didn't make an API call
+      updated_at: new Date().toISOString(),
+    },
+    {
+      onConflict: 'location_id',
+    }
+  );
+
+  if (error) {
+    console.error('[Weather] Error copying geo cache:', error);
+    throw error;
+  }
+}
+
+/**
  * Update weather cache with fresh data
  */
 async function updateWeatherCache(
@@ -716,7 +840,8 @@ async function updateWeatherCache(
   longitude: number,
   timezone: string,
   apiResponse: VisualCrossingResponse,
-  venueContext?: VenueContext
+  venueContext?: VenueContext,
+  geoCacheKey?: string
 ): Promise<void> {
   const current = apiResponse.currentConditions;
   const days = apiResponse.days;
@@ -774,7 +899,7 @@ async function updateWeatherCache(
   // Calculate business impact with venue context
   const businessImpact = calculateBusinessImpact(currentWeather, forecast, venueContext);
 
-  // Upsert to cache
+  // Upsert to cache with geo_cache_key for area-based sharing
   const { error } = await supabaseAdmin.from('location_weather_cache').upsert(
     {
       location_id: locationId,
@@ -796,6 +921,7 @@ async function updateWeatherCache(
       latitude: latitude,
       longitude: longitude,
       timezone: timezone,
+      geo_cache_key: geoCacheKey || getGeoCacheKey(latitude, longitude),
       api_provider: 'visual_crossing',
       last_api_call_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -816,14 +942,19 @@ async function updateWeatherCache(
 // =============================================================================
 
 /**
- * Get weather data for a location with smart caching
+ * Get weather data for a location with smart geo-based caching
  * This is the main function to call from UI/API
+ *
+ * GEO CACHE OPTIMIZATION:
+ * - 500 locations in Da Nang = 1 API call (not 500!)
+ * - Coordinates rounded to 1 decimal (~10km precision)
+ * - First location in area makes API call, others share cache
  */
 export async function getWeatherForLocation(
   locationId: string,
   forceRefresh = false
 ): Promise<WeatherData> {
-  // Check cache freshness first
+  // Step 1: Check if this location's cache is fresh
   const freshness = await checkCacheFreshness(locationId);
 
   // If cache is fresh and not forcing refresh, return cached data (no API key needed)
@@ -834,18 +965,7 @@ export async function getWeatherForLocation(
     }
   }
 
-  // Try to return stale cache if API key is not configured
-  const apiKey = process.env.VISUAL_CROSSING_API_KEY;
-  if (!apiKey) {
-    // Return cached data even if stale, better than nothing
-    const cached = await getCachedWeather(locationId);
-    if (cached) {
-      return cached;
-    }
-    throw new Error('VISUAL_CROSSING_API_KEY not configured and no cached data available');
-  }
-
-  // Get location coordinates and venue attributes
+  // Step 2: Get location coordinates (needed for geo cache key)
   const { data: location, error: locationError } = await supabaseAdmin
     .from('locations')
     .select('latitude, longitude, timezone, has_ac, has_outdoor_seating, venue_type, service_style')
@@ -860,7 +980,44 @@ export async function getWeatherForLocation(
     throw new Error(`Location ${locationId} has no coordinates`);
   }
 
-  // Fetch fresh data from Visual Crossing
+  // Step 3: Calculate geo cache key for area-based sharing
+  const geoCacheKey = getGeoCacheKey(location.latitude, location.longitude);
+
+  // Step 4: Check for fresh geo cache from any location in the same area
+  // This is the key optimization: 500 locations in Da Nang = 1 API call
+  if (!forceRefresh) {
+    const geoCache = await getFreshGeoCacheWeather(geoCacheKey);
+    if (geoCache) {
+      // Copy geo cache to this location for future direct access
+      await copyGeoCacheToLocation(
+        locationId,
+        geoCache,
+        geoCacheKey,
+        location.latitude,
+        location.longitude
+      );
+
+      // Return the cached data
+      const cached = await getCachedWeather(locationId);
+      if (cached) {
+        return cached;
+      }
+    }
+  }
+
+  // Step 5: No fresh cache - need to make API call
+  const apiKey = process.env.VISUAL_CROSSING_API_KEY;
+  if (!apiKey) {
+    // Try to return stale cache if API key is not configured
+    const cached = await getCachedWeather(locationId);
+    if (cached) {
+      return cached;
+    }
+    throw new Error('VISUAL_CROSSING_API_KEY not configured and no cached data available');
+  }
+
+  // Step 6: Fetch fresh data from Visual Crossing API
+  console.log(`[Weather] API call for geo key ${geoCacheKey} (location ${locationId})`);
   const apiResponse = await fetchFromVisualCrossing(location.latitude, location.longitude, apiKey);
 
   // Build venue context from location attributes
@@ -871,14 +1028,15 @@ export async function getWeatherForLocation(
     serviceStyle: (location.service_style as VenueContext['serviceStyle']) ?? 'dine_in',
   };
 
-  // Update cache with venue context for smart recommendations
+  // Step 7: Update cache with geo_cache_key for area-based sharing
   await updateWeatherCache(
     locationId,
     location.latitude,
     location.longitude,
     location.timezone || apiResponse.timezone,
     apiResponse,
-    venueContext
+    venueContext,
+    geoCacheKey
   );
 
   // Return fresh cached data
