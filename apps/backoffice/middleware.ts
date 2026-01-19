@@ -17,6 +17,12 @@ import { NextResponse, type NextRequest } from 'next/server';
 // Dev session cookie name (must match client-side config)
 const DEV_SESSION_COOKIE = 'gudbro_dev_session';
 
+// 2FA verified cookie name (must match API routes)
+const TWO_FA_VERIFIED_COOKIE = '2fa_verified';
+
+// 2FA required cookie name (set during login when 2FA is needed)
+const TWO_FA_REQUIRED_COOKIE = '2fa_required';
+
 // Platform domains that should skip partner resolution
 const PLATFORM_DOMAINS = [
   'localhost',
@@ -138,6 +144,7 @@ export async function middleware(request: NextRequest) {
     '/auth/confirm',
     '/forgot-password',
     '/reset-password',
+    '/verify-2fa', // 2FA verification page (user is logged in but needs 2FA)
   ];
 
   // API routes that are public
@@ -232,6 +239,28 @@ export async function middleware(request: NextRequest) {
   // If authenticated and trying to access login page
   if (session && pathname === '/login') {
     return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
+  // Check 2FA requirement for authenticated users accessing protected routes
+  if (session && !isPublicRoute && !isPublicApi) {
+    const twoFaRequired = request.cookies.get(TWO_FA_REQUIRED_COOKIE)?.value === 'true';
+    const twoFaVerified = request.cookies.get(TWO_FA_VERIFIED_COOKIE)?.value === 'true';
+
+    // If 2FA is required but not verified for this session, redirect to verify-2fa
+    if (twoFaRequired && !twoFaVerified) {
+      const verifyUrl = new URL('/verify-2fa', request.url);
+      return NextResponse.redirect(verifyUrl);
+    }
+  }
+
+  // If on verify-2fa page but 2FA is already verified or not required, redirect to dashboard
+  if (session && pathname === '/verify-2fa') {
+    const twoFaRequired = request.cookies.get(TWO_FA_REQUIRED_COOKIE)?.value === 'true';
+    const twoFaVerified = request.cookies.get(TWO_FA_VERIFIED_COOKIE)?.value === 'true';
+
+    if (!twoFaRequired || twoFaVerified) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
   }
 
   return response;

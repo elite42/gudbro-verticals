@@ -77,6 +77,22 @@ function LoginForm() {
       if (error) {
         setError(error.message);
       } else {
+        // Check if 2FA is required
+        try {
+          const twoFaResponse = await fetch('/api/auth/2fa/check');
+          const twoFaData = await twoFaResponse.json();
+
+          if (twoFaData.twoFactorRequired && !twoFaData.twoFactorVerified) {
+            // Redirect to 2FA verification page
+            router.push('/verify-2fa');
+            router.refresh();
+            return;
+          }
+        } catch {
+          // If 2FA check fails, continue with normal login
+          console.warn('2FA check failed, continuing with normal login');
+        }
+
         router.push(redirectTo);
         router.refresh();
       }
