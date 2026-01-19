@@ -192,6 +192,9 @@ const navigation = [
       { name: 'Eventi', href: '/marketing/events' },
       { name: 'Promozioni', href: '/marketing/promotions' },
       { name: 'Food Challenges', href: '/marketing/challenges' },
+      { name: 'Gift Cards', href: '/marketing/gift-cards' },
+      { name: 'Promo Codes', href: '/marketing/promo-codes' },
+      { name: 'Coupons', href: '/marketing/coupons' },
     ],
   },
   {

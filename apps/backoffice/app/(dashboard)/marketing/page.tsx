@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Calendar, Tag, Trophy } from 'lucide-react';
+import { Calendar, Tag, Trophy, Gift, Percent, Ticket } from 'lucide-react';
 
 const marketingFeatures = [
   {
@@ -29,6 +29,31 @@ const marketingFeatures = [
     icon: Trophy,
     color: 'from-orange-500 to-amber-500',
     bgColor: 'bg-orange-50',
+  },
+  {
+    name: 'Gift Cards',
+    description: 'Sell gift cards that customers can purchase and send to friends and family.',
+    href: '/marketing/gift-cards',
+    icon: Gift,
+    color: 'from-pink-500 to-rose-500',
+    bgColor: 'bg-pink-50',
+  },
+  {
+    name: 'Promo Codes',
+    description:
+      'Create promotional codes for marketing campaigns with usage limits and conditions.',
+    href: '/marketing/promo-codes',
+    icon: Percent,
+    color: 'from-purple-500 to-violet-500',
+    bgColor: 'bg-purple-50',
+  },
+  {
+    name: 'Coupons',
+    description: 'Issue personalized coupons to specific customers for targeted marketing.',
+    href: '/marketing/coupons',
+    icon: Ticket,
+    color: 'from-cyan-500 to-teal-500',
+    bgColor: 'bg-cyan-50',
   },
 ];
 
