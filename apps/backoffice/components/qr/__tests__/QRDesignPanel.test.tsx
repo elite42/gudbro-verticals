@@ -39,10 +39,10 @@ describe('QRDesignPanel', () => {
     // Check that the quick colors label is present
     expect(screen.getByText('Quick Colors')).toBeInTheDocument();
 
-    // Check that pattern options are present
-    expect(screen.getByText('Square')).toBeInTheDocument();
+    // Check that pattern options are present (may have duplicates for eye style)
+    expect(screen.getAllByText('Square').length).toBeGreaterThan(0);
     expect(screen.getByText('Dots')).toBeInTheDocument();
-    expect(screen.getByText('Rounded')).toBeInTheDocument();
+    expect(screen.getAllByText('Rounded').length).toBeGreaterThan(0);
 
     // Check that reset button is present
     expect(screen.getByText('Reset to default')).toBeInTheDocument();
@@ -133,8 +133,9 @@ describe('QRDesignPanel', () => {
   it('should call onChange when selecting Rounded pattern', () => {
     render(<QRDesignPanel design={defaultDesign} onChange={mockOnChange} />);
 
-    const roundedButton = screen.getByText('Rounded');
-    fireEvent.click(roundedButton);
+    // Get the first "Rounded" button (pattern selector, not eye style)
+    const roundedButtons = screen.getAllByText('Rounded');
+    fireEvent.click(roundedButtons[0]);
 
     expect(mockOnChange).toHaveBeenCalledWith(
       expect.objectContaining({

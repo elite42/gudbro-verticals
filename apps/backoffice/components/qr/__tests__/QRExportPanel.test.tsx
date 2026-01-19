@@ -437,8 +437,8 @@ describe('QRExportPanel', () => {
 
       await waitFor(() => {
         const downloadInfo = getLastDownloadInfo();
-        // getExtension returns 'svg' for PDF format
-        expect(downloadInfo?.download).toBe('qr-code.svg');
+        // PDF format uses .pdf extension
+        expect(downloadInfo?.download).toBe('qr-code.pdf');
       });
     });
 

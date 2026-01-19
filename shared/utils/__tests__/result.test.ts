@@ -215,7 +215,7 @@ describe('map', () => {
   it('should preserve the error for failure results', () => {
     const error = new Error('test');
     const result: Result<number, Error> = err(error);
-    const mapped = map(result, (x) => x * 2);
+    const mapped = map(result, (x: number) => x * 2);
     expect(isErr(mapped)).toBe(true);
     if (isErr(mapped)) {
       expect(mapped.error).toBe(error);
@@ -251,7 +251,7 @@ describe('mapErr', () => {
 
   it('should preserve the value for success results', () => {
     const result: Result<number, string> = ok(42);
-    const mapped = mapErr(result, (e) => new Error(e));
+    const mapped = mapErr(result, (e: string) => new Error(e));
     expect(isOk(mapped)).toBe(true);
     expect(unwrap(mapped)).toBe(42);
   });
@@ -277,7 +277,7 @@ describe('andThen', () => {
   it('should propagate the first error', () => {
     const error = new Error('first error');
     const result: Result<number, Error> = err(error);
-    const chained = andThen(result, (x) => ok(x * 2));
+    const chained = andThen(result, (x: number) => ok(x * 2));
     expect(isErr(chained)).toBe(true);
     if (isErr(chained)) {
       expect(chained.error).toBe(error);
