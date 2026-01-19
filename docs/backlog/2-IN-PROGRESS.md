@@ -4,13 +4,13 @@
 > **Max 3 task** alla volta per focus.
 > Quando completata → spostala in `3-TESTING.md` o `4-DONE.md`
 
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-01-19
 
 ---
 
-| ID     | Feature | Descrizione           | Priority | Started | Assignee |
-| ------ | ------- | --------------------- | -------- | ------- | -------- |
-| (none) | -       | Nessuna task in corso | -        | -       | -        |
+| ID            | Feature       | Descrizione                              | Priority | Started    | Assignee |
+| ------------- | ------------- | ---------------------------------------- | -------- | ---------- | -------- |
+| PWA-FULL-SITE | PWA → Website | Responsive desktop/tablet, nav, sections | P0.5     | 2026-01-19 | Claude   |
 
 ---
 
@@ -52,6 +52,9 @@ KV_REST_API_TOKEN=
 
 # Phase 3 - Cron Security
 CRON_SECRET=
+
+# Security - Two-Factor Auth (SEC-2FA)
+TOTP_ENCRYPTION_KEY=b28833a0024a56c899aa968ed60611868bb92c5350a824bd09d12e097b339380
 ```
 
 ### 📋 Next Up: Phase 4 (100K→1M users)

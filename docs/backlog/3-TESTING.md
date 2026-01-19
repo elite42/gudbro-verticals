@@ -3,27 +3,28 @@
 > Task completate che richiedono test/validazione.
 > Dopo il test → spostala in `4-DONE.md`
 
-**Last Updated:** 2026-01-09
+**Last Updated:** 2026-01-19
 
 ---
 
-| ID            | Feature                 | Descrizione                                          | Priority | Notes                                                       |
-| ------------- | ----------------------- | ---------------------------------------------------- | -------- | ----------------------------------------------------------- |
-| QR-BUILDER-V2 | QR Code System          | Database, types, service, components, AI integration | P1       | Migration 042, QR Builder Modal, AI actions/alerts, PWA     |
-| GB-STAFF-MGT  | Staff Management        | Team profiles, reviews, performance, PWA flow        | P0       | Migration 038, Backoffice Team page, PWA /team              |
-| GB-AI-P1      | AI Co-Manager MVP       | Chat UI + OpenAI integration                         | P0       | Migration 027, API key, test chat pending                   |
-| GB-AI-P2      | AI Knowledge Base       | Menu + Orders + Events + Feedback access             | P0       | knowledge-service.ts integrato                              |
-| GB-AI-P3      | AI Actions              | Create events, translate, update menu                | P0       | actions-service.ts + function calling                       |
-| GB-AI-P4      | AI Proactivity          | Daily briefing, alerts, suggestions                  | P0       | Migration 028, proactivity-service.ts, API routes           |
-| GB-AI-P5      | AI Feedback Loop        | Collect feedback → GudBro Team                       | P0       | Migration 029, feedback-loop-service.ts                     |
-| GB-AI-P6      | AI Bootstrap            | Setup automatico zona, competitor                    | P0       | Migration 030, bootstrap-service.ts                         |
-| GB-AI-P7      | Market Intelligence     | Price comparison, partnership finder                 | P0       | Migration 031, market-intelligence-service.ts               |
-| GB-AI-P8      | Social Media Automation | Auto post, calendar, captions                        | P0       | Migration 032, social-media-service.ts                      |
-| GB-AI-P9      | Financial Management    | P&L, budgets, cash flow forecasts                    | P0       | Migration 033, financial-service.ts                         |
-| GB-AI-P10     | Task Delegation         | AI delegates physical tasks to staff                 | P0       | Migration 034, task-delegation-service.ts                   |
-| GB-AI-P11     | Agentic Workflows       | Multi-step automated workflows                       | P0       | Migration 035, agentic-workflow-service.ts                  |
-| GB-AI-P12     | Inventory & Negotiation | Stock tracking, supplier management, AI negotiation  | P0       | Migration 036, inventory-negotiation-service.ts             |
-| GB-AI-P13     | AI-Assisted Onboarding  | Conversational onboarding + logo upload              | P0       | onboarding-service.ts, /api/ai/onboarding, /api/upload/logo |
+| ID            | Feature                 | Descrizione                                           | Priority | Notes                                                                         |
+| ------------- | ----------------------- | ----------------------------------------------------- | -------- | ----------------------------------------------------------------------------- |
+| SEC-2FA       | Two-Factor Auth (TOTP)  | 2FA per account admin/owner, 8 recovery codes, 7d TTL | P0       | Migration 067, Settings/Auth page, /verify-2fa, TOTP_ENCRYPTION_KEY su Vercel |
+| QR-BUILDER-V2 | QR Code System          | Database, types, service, components, AI integration  | P1       | Migration 042, QR Builder Modal, AI actions/alerts, PWA                       |
+| GB-STAFF-MGT  | Staff Management        | Team profiles, reviews, performance, PWA flow         | P0       | Migration 038, Backoffice Team page, PWA /team                                |
+| GB-AI-P1      | AI Co-Manager MVP       | Chat UI + OpenAI integration                          | P0       | Migration 027, API key, test chat pending                                     |
+| GB-AI-P2      | AI Knowledge Base       | Menu + Orders + Events + Feedback access              | P0       | knowledge-service.ts integrato                                                |
+| GB-AI-P3      | AI Actions              | Create events, translate, update menu                 | P0       | actions-service.ts + function calling                                         |
+| GB-AI-P4      | AI Proactivity          | Daily briefing, alerts, suggestions                   | P0       | Migration 028, proactivity-service.ts, API routes                             |
+| GB-AI-P5      | AI Feedback Loop        | Collect feedback → GudBro Team                        | P0       | Migration 029, feedback-loop-service.ts                                       |
+| GB-AI-P6      | AI Bootstrap            | Setup automatico zona, competitor                     | P0       | Migration 030, bootstrap-service.ts                                           |
+| GB-AI-P7      | Market Intelligence     | Price comparison, partnership finder                  | P0       | Migration 031, market-intelligence-service.ts                                 |
+| GB-AI-P8      | Social Media Automation | Auto post, calendar, captions                         | P0       | Migration 032, social-media-service.ts                                        |
+| GB-AI-P9      | Financial Management    | P&L, budgets, cash flow forecasts                     | P0       | Migration 033, financial-service.ts                                           |
+| GB-AI-P10     | Task Delegation         | AI delegates physical tasks to staff                  | P0       | Migration 034, task-delegation-service.ts                                     |
+| GB-AI-P11     | Agentic Workflows       | Multi-step automated workflows                        | P0       | Migration 035, agentic-workflow-service.ts                                    |
+| GB-AI-P12     | Inventory & Negotiation | Stock tracking, supplier management, AI negotiation   | P0       | Migration 036, inventory-negotiation-service.ts                               |
+| GB-AI-P13     | AI-Assisted Onboarding  | Conversational onboarding + logo upload               | P0       | onboarding-service.ts, /api/ai/onboarding, /api/upload/logo                   |
 
 ---
 
