@@ -3,6 +3,7 @@
 
 import { supabase } from '@/lib/supabase';
 import { getUpcomingHolidaysContext, UpcomingHolidaysContext } from './holidays-service';
+import { generatePlatformKnowledgeForAI } from './platform-knowledge';
 
 export interface MerchantKnowledge {
   menu: MenuKnowledge | null;
@@ -604,9 +605,15 @@ ${h.upcomingWeek.map((holiday) => `  - ${holiday.nameEn || holiday.name} (${new 
 `);
   }
 
+  // Always include platform navigation knowledge
+  const platformKnowledge = generatePlatformKnowledgeForAI();
+
   if (sections.length === 0) {
-    return '\n## Business Data\nNo data available yet. The merchant is just getting started!\n';
+    return (
+      platformKnowledge +
+      '\n## Business Data\nNo data available yet. The merchant is just getting started!\n'
+    );
   }
 
-  return '\n# Current Business Data\n' + sections.join('\n');
+  return platformKnowledge + '\n# Current Business Data\n' + sections.join('\n');
 }

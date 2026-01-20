@@ -149,7 +149,46 @@ async function fetchCustomers(
   dateFilter: Date | null,
   statuses: string[]
 ): Promise<CustomerEntity[]> {
-  // Get customers with delivery location
+  // First, get account IDs that have a relationship with this merchant
+  // This includes followers, loyalty accounts, wallets, or orders
+  const { data: merchantFollowers } = await supabase
+    .from('merchant_followers')
+    .select('account_id')
+    .eq('merchant_id', merchantId)
+    .eq('is_active', true);
+
+  const { data: merchantLoyaltyAccounts } = await supabase
+    .from('customer_loyalty_accounts')
+    .select('account_id')
+    .eq('merchant_id', merchantId);
+
+  const { data: merchantWallets } = await supabase
+    .from('customer_wallets')
+    .select('account_id')
+    .eq('merchant_id', merchantId);
+
+  const { data: merchantOrdersAccounts } = await supabase
+    .from('orders')
+    .select('account_id')
+    .eq('merchant_id', merchantId)
+    .not('account_id', 'is', null);
+
+  // Combine all account IDs and deduplicate
+  const allAccountIds = new Set<string>([
+    ...(merchantFollowers || []).map((f) => f.account_id),
+    ...(merchantLoyaltyAccounts || []).map((l) => l.account_id),
+    ...(merchantWallets || []).map((w) => w.account_id),
+    ...(merchantOrdersAccounts || [])
+      .map((o) => o.account_id)
+      .filter((id): id is string => id !== null),
+  ]);
+
+  // If no accounts related to this merchant, return empty
+  if (allAccountIds.size === 0) {
+    return [];
+  }
+
+  // Get customers with delivery location - only those related to this merchant
   const { data: accounts, error } = await supabase
     .from('accounts')
     .select(
@@ -166,6 +205,7 @@ async function fetchCustomers(
       profile_completion_pct
     `
     )
+    .in('id', Array.from(allAccountIds))
     .not('delivery_latitude', 'is', null)
     .not('delivery_longitude', 'is', null);
 
