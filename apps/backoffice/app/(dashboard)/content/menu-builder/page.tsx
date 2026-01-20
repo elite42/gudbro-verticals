@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 // Types based on our food-database
 type DietaryTag = 'vegan' | 'vegetarian' | 'gluten_free' | 'dairy_free' | 'keto' | 'halal';
@@ -37,7 +38,7 @@ const sampleRecipes: MasterRecipe[] = [
     name: { en: 'Vietnamese Egg Coffee', vi: 'Cà Phê Trứng' },
     description: {
       en: 'Traditional Hanoi-style egg coffee with rich, creamy foam',
-      vi: 'Cà phê trứng truyền thống Hà Nội với bọt kem béo ngậy'
+      vi: 'Cà phê trứng truyền thống Hà Nội với bọt kem béo ngậy',
     },
     category: 'hot_coffee',
     tags: ['signature', 'vietnamese', 'traditional', 'bestseller'],
@@ -53,7 +54,7 @@ const sampleRecipes: MasterRecipe[] = [
       { name: 'Egg yolk', quantity: '1' },
       { name: 'Condensed milk', quantity: '2 tbsp' },
     ],
-    nutrition: { calories: 150, protein: 4, carbs: 18, fat: 7 }
+    nutrition: { calories: 150, protein: 4, carbs: 18, fat: 7 },
   },
   {
     id: '2',
@@ -61,7 +62,7 @@ const sampleRecipes: MasterRecipe[] = [
     name: { en: 'Coconut Cold Brew', vi: 'Cold Brew Dừa' },
     description: {
       en: 'Smooth cold brew with creamy coconut milk',
-      vi: 'Cold brew mượt mà với sữa dừa béo ngậy'
+      vi: 'Cold brew mượt mà với sữa dừa béo ngậy',
     },
     category: 'iced_coffee',
     tags: ['refreshing', 'tropical', 'vegan-option'],
@@ -77,7 +78,7 @@ const sampleRecipes: MasterRecipe[] = [
       { name: 'Coconut milk', quantity: '100ml' },
       { name: 'Ice', quantity: 'as needed' },
     ],
-    nutrition: { calories: 120, protein: 1, carbs: 8, fat: 10 }
+    nutrition: { calories: 120, protein: 1, carbs: 8, fat: 10 },
   },
   {
     id: '3',
@@ -85,7 +86,7 @@ const sampleRecipes: MasterRecipe[] = [
     name: { en: 'Matcha Latte', vi: 'Matcha Latte', ko: '말차 라떼' },
     description: {
       en: 'Premium ceremonial-grade Japanese matcha',
-      vi: 'Matcha Nhật Bản cao cấp'
+      vi: 'Matcha Nhật Bản cao cấp',
     },
     category: 'hot_tea',
     tags: ['healthy', 'japanese', 'antioxidants'],
@@ -101,7 +102,7 @@ const sampleRecipes: MasterRecipe[] = [
       { name: 'Hot water', quantity: '30ml' },
       { name: 'Steamed milk', quantity: '250ml' },
     ],
-    nutrition: { calories: 180, protein: 8, carbs: 20, fat: 7 }
+    nutrition: { calories: 180, protein: 8, carbs: 20, fat: 7 },
   },
   {
     id: '4',
@@ -109,7 +110,7 @@ const sampleRecipes: MasterRecipe[] = [
     name: { en: 'Tropical Smoothie Bowl', vi: 'Bowl Sinh Tố Nhiệt Đới' },
     description: {
       en: 'Thick frozen blend of mango, pineapple, and banana',
-      vi: 'Hỗn hợp đông lạnh đặc từ xoài, dứa và chuối'
+      vi: 'Hỗn hợp đông lạnh đặc từ xoài, dứa và chuối',
     },
     category: 'smoothies',
     tags: ['healthy', 'breakfast', 'instagram'],
@@ -127,7 +128,7 @@ const sampleRecipes: MasterRecipe[] = [
       { name: 'Coconut milk', quantity: '100ml' },
       { name: 'Granola', quantity: '30g', isOptional: true },
     ],
-    nutrition: { calories: 320, protein: 5, carbs: 65, fat: 8 }
+    nutrition: { calories: 320, protein: 5, carbs: 65, fat: 8 },
   },
   {
     id: '5',
@@ -135,7 +136,7 @@ const sampleRecipes: MasterRecipe[] = [
     name: { en: 'Avocado Toast', vi: 'Bánh Mì Nướng Bơ' },
     description: {
       en: 'Sourdough with smashed avocado and poached egg',
-      vi: 'Bánh mì chua với bơ nghiền và trứng chần'
+      vi: 'Bánh mì chua với bơ nghiền và trứng chần',
     },
     category: 'breakfast',
     tags: ['healthy', 'brunch', 'protein'],
@@ -152,7 +153,7 @@ const sampleRecipes: MasterRecipe[] = [
       { name: 'Egg', quantity: '1' },
       { name: 'Cherry tomatoes', quantity: '5' },
     ],
-    nutrition: { calories: 420, protein: 14, carbs: 35, fat: 28 }
+    nutrition: { calories: 420, protein: 14, carbs: 35, fat: 28 },
   },
   {
     id: '6',
@@ -160,7 +161,7 @@ const sampleRecipes: MasterRecipe[] = [
     name: { en: 'Bánh Mì Sandwich', vi: 'Bánh Mì Thịt' },
     description: {
       en: 'Crispy Vietnamese baguette with grilled pork',
-      vi: 'Bánh mì giòn nhân thịt nướng'
+      vi: 'Bánh mì giòn nhân thịt nướng',
     },
     category: 'sandwiches',
     tags: ['vietnamese', 'classic', 'street-food', 'bestseller'],
@@ -178,8 +179,8 @@ const sampleRecipes: MasterRecipe[] = [
       { name: 'Pickled vegetables', quantity: '30g' },
       { name: 'Fresh herbs', quantity: 'as needed' },
     ],
-    nutrition: { calories: 380, protein: 22, carbs: 42, fat: 14 }
-  }
+    nutrition: { calories: 380, protein: 22, carbs: 42, fat: 14 },
+  },
 ];
 
 const categories = [
@@ -216,9 +217,7 @@ export default function MenuBuilderPage() {
 
     // Dietary filter
     if (selectedDietary.length > 0) {
-      const hasAllTags = selectedDietary.every((tag) =>
-        recipe.dietaryTags.includes(tag)
-      );
+      const hasAllTags = selectedDietary.every((tag) => recipe.dietaryTags.includes(tag));
       if (!hasAllTags) return false;
     }
 
@@ -262,18 +261,19 @@ export default function MenuBuilderPage() {
       {/* Main Content */}
       <div className="flex-1 overflow-auto p-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Menu Builder</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-gray-900">Menu Builder</h1>
+              <InfoTooltip contentKey="pages.menuBuilder" kbPageId="content-menu-builder" />
+            </div>
             <p className="mt-1 text-sm text-gray-500">
               Browse our recipe library and add items to your menu
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-500">
-              {addedToMenu.length} items in menu
-            </span>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">
+            <span className="text-sm text-gray-500">{addedToMenu.length} items in menu</span>
+            <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
               Save Menu
             </button>
           </div>
@@ -289,7 +289,7 @@ export default function MenuBuilderPage() {
               placeholder="Search recipes by name, ingredient, or tag..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -299,10 +299,10 @@ export default function MenuBuilderPage() {
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                   selectedCategory === cat.id
                     ? 'bg-blue-600 text-white'
-                    : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+                    : 'border border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 <span>{cat.icon}</span>
@@ -317,10 +317,10 @@ export default function MenuBuilderPage() {
               <button
                 key={filter.id}
                 onClick={() => toggleDietary(filter.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                   selectedDietary.includes(filter.id)
-                    ? 'bg-green-100 text-green-700 border border-green-300'
-                    : 'bg-gray-100 text-gray-600 border border-transparent hover:bg-gray-200'
+                    ? 'border border-green-300 bg-green-100 text-green-700'
+                    : 'border border-transparent bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
                 <span>{filter.icon}</span>
@@ -343,7 +343,7 @@ export default function MenuBuilderPage() {
           {filteredRecipes.map((recipe) => (
             <div
               key={recipe.id}
-              className={`bg-white rounded-xl border overflow-hidden transition-all cursor-pointer hover:shadow-md ${
+              className={`cursor-pointer overflow-hidden rounded-xl border bg-white transition-all hover:shadow-md ${
                 addedToMenu.includes(recipe.id)
                   ? 'border-green-400 ring-2 ring-green-100'
                   : 'border-gray-200'
@@ -351,7 +351,7 @@ export default function MenuBuilderPage() {
               onClick={() => setSelectedRecipe(recipe)}
             >
               {/* Image */}
-              <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-6xl relative">
+              <div className="relative flex h-40 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 text-6xl">
                 {recipe.category.includes('coffee') && '☕'}
                 {recipe.category.includes('tea') && '🍵'}
                 {recipe.category === 'smoothies' && '🥤'}
@@ -359,15 +359,20 @@ export default function MenuBuilderPage() {
                 {recipe.category === 'sandwiches' && '🥪'}
 
                 {addedToMenu.includes(recipe.id) && (
-                  <div className="absolute top-2 right-2 bg-green-500 text-white p-1 rounded-full">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <div className="absolute right-2 top-2 rounded-full bg-green-500 p-1 text-white">
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   </div>
                 )}
 
                 {recipe.tags.includes('bestseller') && (
-                  <div className="absolute top-2 left-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">
+                  <div className="absolute left-2 top-2 rounded-full bg-yellow-500 px-2 py-1 text-xs text-white">
                     Bestseller
                   </div>
                 )}
@@ -385,22 +390,20 @@ export default function MenuBuilderPage() {
                   </span>
                 </div>
 
-                <p className="mt-2 text-sm text-gray-600 line-clamp-2">
-                  {recipe.description.en}
-                </p>
+                <p className="mt-2 line-clamp-2 text-sm text-gray-600">{recipe.description.en}</p>
 
                 {/* Tags */}
                 <div className="mt-3 flex flex-wrap gap-1">
                   {recipe.dietaryTags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs"
+                      className="rounded bg-green-100 px-2 py-0.5 text-xs text-green-700"
                     >
                       {tag.replace('_', '-')}
                     </span>
                   ))}
                   {recipe.allergens.length > 0 && (
-                    <span className="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs">
+                    <span className="rounded bg-red-100 px-2 py-0.5 text-xs text-red-700">
                       Contains: {recipe.allergens.slice(0, 2).join(', ')}
                     </span>
                   )}
@@ -423,7 +426,7 @@ export default function MenuBuilderPage() {
                       addToMenu(recipe.id);
                     }
                   }}
-                  className={`mt-4 w-full py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`mt-4 w-full rounded-lg py-2 text-sm font-medium transition-colors ${
                     addedToMenu.includes(recipe.id)
                       ? 'bg-green-100 text-green-700 hover:bg-green-200'
                       : 'bg-blue-600 text-white hover:bg-blue-700'
@@ -437,20 +440,18 @@ export default function MenuBuilderPage() {
         </div>
 
         {filteredRecipes.length === 0 && (
-          <div className="text-center py-12">
+          <div className="py-12 text-center">
             <span className="text-6xl">🔍</span>
             <h3 className="mt-4 text-lg font-medium text-gray-900">No recipes found</h3>
-            <p className="mt-2 text-gray-500">
-              Try adjusting your filters or search terms
-            </p>
+            <p className="mt-2 text-gray-500">Try adjusting your filters or search terms</p>
           </div>
         )}
       </div>
 
       {/* Recipe Detail Sidebar */}
       {selectedRecipe && (
-        <div className="w-96 border-l border-gray-200 bg-white overflow-auto">
-          <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
+        <div className="w-96 overflow-auto border-l border-gray-200 bg-white">
+          <div className="sticky top-0 flex items-center justify-between border-b border-gray-200 bg-white p-4">
             <h2 className="font-semibold text-gray-900">Recipe Details</h2>
             <button
               onClick={() => setSelectedRecipe(null)}
@@ -460,32 +461,30 @@ export default function MenuBuilderPage() {
             </button>
           </div>
 
-          <div className="p-4 space-y-6">
+          <div className="space-y-6 p-4">
             {/* Header */}
             <div>
-              <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center text-7xl">
+              <div className="flex h-48 items-center justify-center rounded-lg bg-gradient-to-br from-gray-100 to-gray-200 text-7xl">
                 {selectedRecipe.category.includes('coffee') && '☕'}
                 {selectedRecipe.category.includes('tea') && '🍵'}
                 {selectedRecipe.category === 'smoothies' && '🥤'}
                 {selectedRecipe.category === 'breakfast' && '🍳'}
                 {selectedRecipe.category === 'sandwiches' && '🥪'}
               </div>
-              <h3 className="mt-4 text-xl font-bold text-gray-900">
-                {selectedRecipe.name.en}
-              </h3>
+              <h3 className="mt-4 text-xl font-bold text-gray-900">{selectedRecipe.name.en}</h3>
               <p className="text-gray-500">{selectedRecipe.name.vi}</p>
               <p className="mt-2 text-gray-600">{selectedRecipe.description.en}</p>
             </div>
 
             {/* Price & Cost */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-3 bg-blue-50 rounded-lg">
+              <div className="rounded-lg bg-blue-50 p-3">
                 <p className="text-sm text-blue-600">Suggested Price</p>
                 <p className="text-xl font-bold text-blue-900">
                   {formatPrice(selectedRecipe.suggestedPrice)}
                 </p>
               </div>
-              <div className="p-3 bg-green-50 rounded-lg">
+              <div className="rounded-lg bg-green-50 p-3">
                 <p className="text-sm text-green-600">Food Cost</p>
                 <p className="text-xl font-bold text-green-900">
                   {selectedRecipe.foodCostPercentage}%
@@ -495,13 +494,10 @@ export default function MenuBuilderPage() {
 
             {/* Ingredients */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">Ingredients</h4>
+              <h4 className="mb-2 font-semibold text-gray-900">Ingredients</h4>
               <ul className="space-y-2">
                 {selectedRecipe.ingredients.map((ing, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-center justify-between text-sm"
-                  >
+                  <li key={idx} className="flex items-center justify-between text-sm">
                     <span className={ing.isOptional ? 'text-gray-400' : 'text-gray-700'}>
                       {ing.name} {ing.isOptional && '(optional)'}
                     </span>
@@ -513,30 +509,28 @@ export default function MenuBuilderPage() {
 
             {/* Nutrition */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">Nutrition per serving</h4>
+              <h4 className="mb-2 font-semibold text-gray-900">Nutrition per serving</h4>
               <div className="grid grid-cols-4 gap-2">
-                <div className="text-center p-2 bg-gray-50 rounded">
+                <div className="rounded bg-gray-50 p-2 text-center">
                   <p className="text-lg font-bold text-gray-900">
                     {selectedRecipe.nutrition.calories}
                   </p>
                   <p className="text-xs text-gray-500">Calories</p>
                 </div>
-                <div className="text-center p-2 bg-gray-50 rounded">
+                <div className="rounded bg-gray-50 p-2 text-center">
                   <p className="text-lg font-bold text-gray-900">
                     {selectedRecipe.nutrition.protein}g
                   </p>
                   <p className="text-xs text-gray-500">Protein</p>
                 </div>
-                <div className="text-center p-2 bg-gray-50 rounded">
+                <div className="rounded bg-gray-50 p-2 text-center">
                   <p className="text-lg font-bold text-gray-900">
                     {selectedRecipe.nutrition.carbs}g
                   </p>
                   <p className="text-xs text-gray-500">Carbs</p>
                 </div>
-                <div className="text-center p-2 bg-gray-50 rounded">
-                  <p className="text-lg font-bold text-gray-900">
-                    {selectedRecipe.nutrition.fat}g
-                  </p>
+                <div className="rounded bg-gray-50 p-2 text-center">
+                  <p className="text-lg font-bold text-gray-900">{selectedRecipe.nutrition.fat}g</p>
                   <p className="text-xs text-gray-500">Fat</p>
                 </div>
               </div>
@@ -544,13 +538,10 @@ export default function MenuBuilderPage() {
 
             {/* Dietary & Allergens */}
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">Dietary Info</h4>
+              <h4 className="mb-2 font-semibold text-gray-900">Dietary Info</h4>
               <div className="flex flex-wrap gap-2">
                 {selectedRecipe.dietaryTags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-1 bg-green-100 text-green-700 rounded text-sm"
-                  >
+                  <span key={tag} className="rounded bg-green-100 px-2 py-1 text-sm text-green-700">
                     {tag.replace('_', '-')}
                   </span>
                 ))}
@@ -574,17 +565,15 @@ export default function MenuBuilderPage() {
                     addToMenu(selectedRecipe.id);
                   }
                 }}
-                className={`w-full py-3 rounded-lg font-medium ${
+                className={`w-full rounded-lg py-3 font-medium ${
                   addedToMenu.includes(selectedRecipe.id)
                     ? 'bg-green-100 text-green-700'
                     : 'bg-blue-600 text-white hover:bg-blue-700'
                 }`}
               >
-                {addedToMenu.includes(selectedRecipe.id)
-                  ? '✓ Added to Menu'
-                  : '+ Add to My Menu'}
+                {addedToMenu.includes(selectedRecipe.id) ? '✓ Added to Menu' : '+ Add to My Menu'}
               </button>
-              <button className="w-full py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50">
+              <button className="w-full rounded-lg border border-gray-300 py-3 font-medium text-gray-700 hover:bg-gray-50">
                 Customize Recipe
               </button>
             </div>

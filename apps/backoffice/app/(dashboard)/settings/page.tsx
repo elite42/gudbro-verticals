@@ -6,6 +6,7 @@ import { useToast, ToastType } from '@/lib/contexts/ToastContext';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import Link from 'next/link';
 import { LanguageSwitcher } from '@/components/settings/LanguageSwitcher';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export default function SettingsPage() {
   const { hasPermission } = useAuth();
@@ -23,7 +24,10 @@ export default function SettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{t('general')}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900">{t('general')}</h1>
+          <InfoTooltip contentKey="nav.settings" kbPageId="settings-general" />
+        </div>
         <p className="mt-1 text-sm text-gray-500">
           Manage your business profile, branding, and notifications
         </p>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 interface AuditLogEntry {
   id: string;
@@ -188,7 +189,10 @@ export default function AuditLogPage() {
               <span className="text-xl">📋</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+                <InfoTooltip contentKey="pages.auditLog" kbPageId="settings-audit-log" />
+              </div>
               <p className="text-gray-500">{t('subtitle')}</p>
             </div>
           </div>

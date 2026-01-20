@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export default function CustomersPage() {
   const t = useTranslations('customers');
@@ -10,7 +11,10 @@ export default function CustomersPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <InfoTooltip contentKey="nav.customers" kbPageId="customers-overview" />
+        </div>
         <p className="mt-1 text-gray-600">{t('description')}</p>
       </div>
 

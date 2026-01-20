@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 interface Plan {
   id: string;
@@ -125,7 +126,10 @@ export default function BillingPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.billing" kbPageId="billing" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
       </div>

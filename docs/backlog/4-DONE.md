@@ -9,9 +9,27 @@
 
 ## 2026-01-20
 
-| ID              | Feature                | Descrizione                                                                                                                | Completato |
-| --------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| BACKOFFICE-I18N | Internazionalizzazione | Sistema i18n completo con next-intl. EN/IT supportate. ~45 pagine tradotte, LanguageSwitcher, middleware locale detection. | 2026-01-20 |
+| ID                  | Feature                | Descrizione                                                                                                                | Completato |
+| ------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| BACKOFFICE-TOOLTIPS | Contextual Help System | Sistema tooltips contestuali con InfoTooltip component. ~65 pagine con help icons + KB links. Radix UI Tooltip base.       | 2026-01-20 |
+| BACKOFFICE-I18N     | Internazionalizzazione | Sistema i18n completo con next-intl. EN/IT supportate. ~45 pagine tradotte, LanguageSwitcher, middleware locale detection. | 2026-01-20 |
+
+> **BACKOFFICE-TOOLTIPS Files:**
+>
+> - Dependency: `@radix-ui/react-tooltip`
+> - Components: `components/ui/tooltip.tsx`, `components/ui/info-tooltip.tsx`
+> - Provider: `app/providers.tsx` (TooltipProvider wrapper)
+> - Sidebar: `components/layout/Sidebar.tsx` (nav item tooltips)
+> - i18n: `messages/en.json`, `messages/it.json` (tooltips section)
+> - Pages: ~65 dashboard pages updated with InfoTooltip
+>
+> **Features:**
+>
+> - Help icon (ℹ️) next to page titles and nav items
+> - Hover tooltip with brief explanation
+> - "Learn more" link to Knowledge Base page
+> - Fully i18n integrated (EN/IT)
+> - Excluded: Dynamic routes ([id], [slug]) and help page itself
 
 > **BACKOFFICE-I18N Files:**
 >

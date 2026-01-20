@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { supabase } from '@/lib/supabase';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 type DomainStatus = 'pending' | 'verifying' | 'verified' | 'failed' | 'expired';
 type SSLStatus = 'pending' | 'provisioning' | 'active' | 'failed';
@@ -262,7 +263,10 @@ export default function DomainSettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <InfoTooltip contentKey="pages.domain" kbPageId="settings-domain" />
+        </div>
         <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
       </div>
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import Link from 'next/link';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   Sparkles,
   Sun,
@@ -189,7 +190,10 @@ export default function AIPage() {
             <Sparkles className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">AI Co-Manager</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">AI Co-Manager</h1>
+              <InfoTooltip contentKey="pages.aiChat" kbPageId="ai-co-manager" />
+            </div>
             <p className="text-sm text-gray-500">Il tuo assistente intelligente per la gestione</p>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { listPartnerOrganizations, PartnerOrganization } from '@/lib/partner-service';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export default function PartnerOrganizationsPage() {
   const [organizations, setOrganizations] = useState<PartnerOrganization[]>([]);
@@ -44,7 +45,10 @@ export default function PartnerOrganizationsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Organizations</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Organizations</h1>
+            <InfoTooltip contentKey="pages.partnerOrganizations" kbPageId="partner-organizations" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             Manage your client organizations ({total} total)
           </p>

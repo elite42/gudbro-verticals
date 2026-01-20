@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 interface FeedbackItem {
   id: string;
@@ -192,7 +193,10 @@ export default function FeedbackPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.feedback" kbPageId="customers-feedback" />
+          </div>
           <p className="mt-1 text-gray-600">
             {t('subtitle', { count: feedback.length })}
             {newCount > 0 && (

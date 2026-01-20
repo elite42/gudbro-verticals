@@ -5,6 +5,7 @@ import { createBrowserClient } from '@supabase/ssr';
 import { Shield, AlertTriangle, Check, RefreshCw, Key, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import TwoFactorSetup from '@/components/auth/TwoFactorSetup';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 interface OAuthProvider {
   id: string;
@@ -396,7 +397,10 @@ export default function AuthSettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <InfoTooltip contentKey="pages.authSettings" kbPageId="settings-auth" />
+        </div>
         <p className="mt-1 text-sm text-gray-500">
           {t('subtitle', { count: enabledCount, plural: enabledCount !== 1 ? 's' : '' })}
         </p>

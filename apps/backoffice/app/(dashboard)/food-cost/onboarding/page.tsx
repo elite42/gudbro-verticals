@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   Calculator,
   ChefHat,
@@ -339,7 +340,10 @@ export default function FoodCostOnboardingPage() {
                 <Calculator className="h-6 w-6 text-orange-600" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-gray-900">Food Cost Setup</h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-lg font-bold text-gray-900">Food Cost Setup</h1>
+                  <InfoTooltip contentKey="pages.foodCostSetup" kbPageId="food-cost-setup" />
+                </div>
                 <p className="text-sm text-gray-500">Scopri i tuoi margini reali</p>
               </div>
             </div>

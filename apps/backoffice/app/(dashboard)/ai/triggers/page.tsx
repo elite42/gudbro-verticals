@@ -5,6 +5,7 @@ import { useTenant } from '@/lib/contexts/TenantContext';
 import { EmptyState } from '@/components/ui/empty-state';
 import { TriggerModal } from '@/components/ai/TriggerModal';
 import Link from 'next/link';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   Zap,
   Plus,
@@ -327,7 +328,10 @@ export default function TriggersPage() {
             <span>/</span>
             <span className="text-gray-900 dark:text-white">Automated Triggers</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Automated Triggers</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Automated Triggers</h1>
+            <InfoTooltip contentKey="pages.aiTriggers" kbPageId="ai-triggers" />
+          </div>
           <p className="mt-1 text-gray-600 dark:text-gray-400">
             Set it and forget it - AI handles customer retention
           </p>

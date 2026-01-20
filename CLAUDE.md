@@ -657,12 +657,24 @@ All routes follow pattern: `/api/ai/[feature]`
 | `/qa-quick`        | Quick QA check (5 min) - stato progetto          |
 | `/db-status`       | Stato database e traduzioni                      |
 | `/translate-batch` | Continua traduzioni da dove interrotto           |
+| `/ralph-loop`      | Loop iterativo Ralph Wiggum (task autonome)      |
+| `/cancel-ralph`    | Cancella loop Ralph attivo                       |
 
 ## Hooks Attivi
 
-| Hook         | Trigger         | Azione                          |
-| ------------ | --------------- | ------------------------------- |
-| post-edit.sh | Edit/Write file | Reminder typecheck per .ts/.tsx |
+| Hook                      | Trigger          | Azione                                       |
+| ------------------------- | ---------------- | -------------------------------------------- |
+| post-edit.sh              | PostToolUse Edit | Reminder typecheck per .ts/.tsx              |
+| security_reminder_hook.py | PreToolUse Edit  | Warning security (XSS, injection, eval, etc) |
+| stop-hook.sh              | Stop             | Ralph loop: blocca exit e reitera prompt     |
+
+## Skills Attive
+
+| Skill           | Attivazione | Descrizione                                     |
+| --------------- | ----------- | ----------------------------------------------- |
+| frontend-design | Automatica  | Design distintivo, evita estetica "AI generica" |
+
+> **Nota:** Le skill si attivano automaticamente quando Claude rileva il contesto appropriato.
 
 ## Come Aggiungere Comandi
 
@@ -992,10 +1004,11 @@ Oppure chiedi a Claude: "Cosa abbiamo fatto l'ultima sessione?"
 ---
 
 **File:** `CLAUDE.md`
-**Version:** 6.6
-**Updated:** 2026-01-14
+**Version:** 6.7
+**Updated:** 2026-01-20
 **Changes:**
 
+- v6.7 - Official Plugins: frontend-design skill, security-guidance hook, ralph-wiggum (/ralph-loop, /cancel-ralph)
 - v6.6 - QA System (11.6): docs/qa/, feature templates, /qa-quick command, coverage targets
 - v6.5 - B2B Partnership Ecosystem specs (TOURISM-B2B, Weather Intel, Conventions)
 - v6.2 - Added PRODUCT.md (docs/PRODUCT.md) for multidimensional feature evaluation

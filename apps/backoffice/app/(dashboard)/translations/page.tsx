@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,7 +47,7 @@ function parseCSV(csvText: string): string[][] {
         currentField = '';
       } else if (char === '\n' || (char === '\r' && nextChar === '\n')) {
         currentRow.push(currentField.trim());
-        if (currentRow.some(f => f !== '')) {
+        if (currentRow.some((f) => f !== '')) {
           rows.push(currentRow);
         }
         currentRow = [];
@@ -61,7 +62,7 @@ function parseCSV(csvText: string): string[][] {
   // Don't forget last field/row
   if (currentField || currentRow.length > 0) {
     currentRow.push(currentField.trim());
-    if (currentRow.some(f => f !== '')) {
+    if (currentRow.some((f) => f !== '')) {
       rows.push(currentRow);
     }
   }
@@ -120,14 +121,29 @@ interface TranslationRow {
   name: string;
   description: string | null;
   slug: string;
-  translations: Record<string, { name: string; description: string | null; translationId?: string }>;
+  translations: Record<
+    string,
+    { name: string; description: string | null; translationId?: string }
+  >;
 }
 
 // Flag mapping for common languages
 const FLAG_MAP: Record<string, string> = {
-  en: '🇬🇧', vi: '🇻🇳', it: '🇮🇹', ko: '🇰🇷', ja: '🇯🇵',
-  zh: '🇨🇳', fr: '🇫🇷', de: '🇩🇪', es: '🇪🇸', pt: '🇵🇹',
-  ru: '🇷🇺', ar: '🇸🇦', he: '🇮🇱', th: '🇹🇭', fa: '🇮🇷',
+  en: '🇬🇧',
+  vi: '🇻🇳',
+  it: '🇮🇹',
+  ko: '🇰🇷',
+  ja: '🇯🇵',
+  zh: '🇨🇳',
+  fr: '🇫🇷',
+  de: '🇩🇪',
+  es: '🇪🇸',
+  pt: '🇵🇹',
+  ru: '🇷🇺',
+  ar: '🇸🇦',
+  he: '🇮🇱',
+  th: '🇹🇭',
+  fa: '🇮🇷',
 };
 
 export default function TranslationsPage() {
@@ -138,7 +154,11 @@ export default function TranslationsPage() {
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>(['vi', 'it']);
   const [filterType, setFilterType] = useState<'all' | 'menu_item' | 'category'>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [editingCell, setEditingCell] = useState<{ rowId: string; lang: string; field: 'name' | 'description' } | null>(null);
+  const [editingCell, setEditingCell] = useState<{
+    rowId: string;
+    lang: string;
+    field: 'name' | 'description';
+  } | null>(null);
   const [editValue, setEditValue] = useState('');
 
   // Import/Export state
@@ -175,19 +195,16 @@ export default function TranslationsPage() {
         .order('display_order');
 
       // Fetch menu item translations
-      const { data: menuTranslations } = await supabase
-        .from('menu_item_translations')
-        .select('*');
+      const { data: menuTranslations } = await supabase.from('menu_item_translations').select('*');
 
       // Fetch category translations
-      const { data: catTranslations } = await supabase
-        .from('category_translations')
-        .select('*');
+      const { data: catTranslations } = await supabase.from('category_translations').select('*');
 
       // Set languages (filter to common ones if too many)
-      const commonLanguages = langData?.filter(l =>
-        ['en', 'vi', 'it', 'ko', 'ja', 'zh', 'fr', 'de', 'es', 'ar', 'he', 'th'].includes(l.code)
-      ) || [];
+      const commonLanguages =
+        langData?.filter((l) =>
+          ['en', 'vi', 'it', 'ko', 'ja', 'zh', 'fr', 'de', 'es', 'ar', 'he', 'th'].includes(l.code)
+        ) || [];
       setLanguages(commonLanguages);
 
       // Build translation rows
@@ -195,7 +212,10 @@ export default function TranslationsPage() {
 
       // Process menu items
       (menuItems || []).forEach((item) => {
-        const itemTranslations: Record<string, { name: string; description: string | null; translationId?: string }> = {};
+        const itemTranslations: Record<
+          string,
+          { name: string; description: string | null; translationId?: string }
+        > = {};
 
         (menuTranslations || [])
           .filter((t) => t.menu_item_id === item.id)
@@ -220,7 +240,10 @@ export default function TranslationsPage() {
 
       // Process categories
       (categories || []).forEach((cat) => {
-        const catTranslationsMap: Record<string, { name: string; description: string | null; translationId?: string }> = {};
+        const catTranslationsMap: Record<
+          string,
+          { name: string; description: string | null; translationId?: string }
+        > = {};
 
         (catTranslations || [])
           .filter((t) => t.category_id === cat.id)
@@ -252,7 +275,12 @@ export default function TranslationsPage() {
   }
 
   // Save translation
-  async function saveTranslation(row: TranslationRow, langCode: string, name: string, description: string | null) {
+  async function saveTranslation(
+    row: TranslationRow,
+    langCode: string,
+    name: string,
+    description: string | null
+  ) {
     setSaving(true);
     try {
       const existing = row.translations[langCode];
@@ -261,20 +289,15 @@ export default function TranslationsPage() {
 
       if (existing?.translationId) {
         // Update existing translation
-        await supabase
-          .from(table)
-          .update({ name, description })
-          .eq('id', existing.translationId);
+        await supabase.from(table).update({ name, description }).eq('id', existing.translationId);
       } else {
         // Insert new translation
-        await supabase
-          .from(table)
-          .insert({
-            [foreignKey]: row.itemId,
-            language_code: langCode,
-            name,
-            description,
-          });
+        await supabase.from(table).insert({
+          [foreignKey]: row.itemId,
+          language_code: langCode,
+          name,
+          description,
+        });
       }
 
       // Refresh data
@@ -287,7 +310,12 @@ export default function TranslationsPage() {
   }
 
   // Handle edit start
-  const handleStartEdit = (rowId: string, lang: string, field: 'name' | 'description', currentValue: string) => {
+  const handleStartEdit = (
+    rowId: string,
+    lang: string,
+    field: 'name' | 'description',
+    currentValue: string
+  ) => {
     setEditingCell({ rowId, lang, field });
     setEditValue(currentValue || '');
   };
@@ -296,12 +324,16 @@ export default function TranslationsPage() {
   const handleSaveEdit = async () => {
     if (!editingCell) return;
 
-    const row = rows.find(r => r.id === editingCell.rowId);
+    const row = rows.find((r) => r.id === editingCell.rowId);
     if (!row) return;
 
-    const currentTranslation = row.translations[editingCell.lang] || { name: '', description: null };
+    const currentTranslation = row.translations[editingCell.lang] || {
+      name: '',
+      description: null,
+    };
     const newName = editingCell.field === 'name' ? editValue : currentTranslation.name;
-    const newDesc = editingCell.field === 'description' ? editValue : currentTranslation.description;
+    const newDesc =
+      editingCell.field === 'description' ? editValue : currentTranslation.description;
 
     await saveTranslation(row, editingCell.lang, newName, newDesc);
     setEditingCell(null);
@@ -312,23 +344,25 @@ export default function TranslationsPage() {
   const handleExportCSV = () => {
     // CSV Header: type,item_id,slug,original_name,original_description,lang_code,translated_name,translated_description
     const csvRows: string[] = [
-      'type,item_id,slug,original_name,original_description,language_code,translated_name,translated_description'
+      'type,item_id,slug,original_name,original_description,language_code,translated_name,translated_description',
     ];
 
     // Export all rows with all selected languages
     rows.forEach((row) => {
       selectedLanguages.forEach((langCode) => {
         const translation = row.translations[langCode] || { name: '', description: null };
-        csvRows.push([
-          row.type,
-          row.itemId,
-          escapeCSV(row.slug),
-          escapeCSV(row.name),
-          escapeCSV(row.description),
-          langCode,
-          escapeCSV(translation.name),
-          escapeCSV(translation.description),
-        ].join(','));
+        csvRows.push(
+          [
+            row.type,
+            row.itemId,
+            escapeCSV(row.slug),
+            escapeCSV(row.name),
+            escapeCSV(row.description),
+            langCode,
+            escapeCSV(translation.name),
+            escapeCSV(translation.description),
+          ].join(',')
+        );
       });
     });
 
@@ -360,14 +394,14 @@ export default function TranslationsPage() {
       }
 
       // Validate header
-      const header = csvRows[0].map(h => h.toLowerCase().replace(/\s+/g, '_'));
+      const header = csvRows[0].map((h) => h.toLowerCase().replace(/\s+/g, '_'));
       const requiredColumns = ['type', 'item_id', 'language_code', 'translated_name'];
-      const missingColumns = requiredColumns.filter(col => !header.includes(col));
+      const missingColumns = requiredColumns.filter((col) => !header.includes(col));
 
       if (missingColumns.length > 0) {
         setImportResult({
           success: 0,
-          errors: [`Missing required columns: ${missingColumns.join(', ')}`]
+          errors: [`Missing required columns: ${missingColumns.join(', ')}`],
         });
         return;
       }
@@ -435,14 +469,12 @@ export default function TranslationsPage() {
             }
           } else {
             // Insert new
-            const { error } = await supabase
-              .from(table)
-              .insert({
-                [foreignKey]: itemId,
-                language_code: langCode,
-                name,
-                description,
-              });
+            const { error } = await supabase.from(table).insert({
+              [foreignKey]: itemId,
+              language_code: langCode,
+              name,
+              description,
+            });
 
             if (error) {
               errors.push(`Row ${rowNum}: ${error.message}`);
@@ -464,7 +496,7 @@ export default function TranslationsPage() {
     } catch (err) {
       setImportResult({
         success: 0,
-        errors: [`Failed to parse CSV: ${err instanceof Error ? err.message : 'Unknown error'}`]
+        errors: [`Failed to parse CSV: ${err instanceof Error ? err.message : 'Unknown error'}`],
       });
     } finally {
       setImporting(false);
@@ -493,13 +525,13 @@ export default function TranslationsPage() {
   // Calculate stats
   const stats = {
     total: rows.length,
-    menuItems: rows.filter(r => r.type === 'menu_item').length,
-    categories: rows.filter(r => r.type === 'category').length,
+    menuItems: rows.filter((r) => r.type === 'menu_item').length,
+    categories: rows.filter((r) => r.type === 'category').length,
     translated: rows.reduce((acc, row) => {
-      return acc + selectedLanguages.filter(lang => row.translations[lang]?.name).length;
+      return acc + selectedLanguages.filter((lang) => row.translations[lang]?.name).length;
     }, 0),
     pending: rows.reduce((acc, row) => {
-      return acc + selectedLanguages.filter(lang => !row.translations[lang]?.name).length;
+      return acc + selectedLanguages.filter((lang) => !row.translations[lang]?.name).length;
     }, 0),
   };
 
@@ -507,9 +539,9 @@ export default function TranslationsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
           <p className="mt-4 text-gray-600">Loading translations...</p>
         </div>
       </div>
@@ -521,7 +553,10 @@ export default function TranslationsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Translations</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Translations</h1>
+            <InfoTooltip contentKey="pages.translations" kbPageId="translations" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             Manage menu translations using the new translation tables
           </p>
@@ -529,19 +564,19 @@ export default function TranslationsPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={fetchData}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             Refresh
           </button>
           <button
             onClick={handleExportCSV}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             Export CSV
           </button>
           <button
             onClick={() => setShowImportModal(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
             Import CSV
           </button>
@@ -550,31 +585,31 @@ export default function TranslationsPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-sm text-gray-500">Total Items</p>
           <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
         </div>
-        <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
           <p className="text-sm text-blue-600">Menu Items</p>
           <p className="text-2xl font-bold text-blue-700">{stats.menuItems}</p>
         </div>
-        <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+        <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
           <p className="text-sm text-purple-600">Categories</p>
           <p className="text-2xl font-bold text-purple-700">{stats.categories}</p>
         </div>
-        <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+        <div className="rounded-lg border border-green-200 bg-green-50 p-4">
           <p className="text-sm text-green-600">Translated</p>
           <p className="text-2xl font-bold text-green-700">{stats.translated}</p>
         </div>
-        <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+        <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4">
           <p className="text-sm text-yellow-600">Pending</p>
           <p className="text-2xl font-bold text-yellow-700">{stats.pending}</p>
         </div>
       </div>
 
       {/* Language Selector */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4">
-        <div className="flex items-center justify-between mb-4">
+      <div className="rounded-xl border border-gray-200 bg-white p-4">
+        <div className="mb-4 flex items-center justify-between">
           <div>
             <h3 className="font-medium text-gray-900">Target Languages</h3>
             <p className="text-sm text-gray-500">Select languages to translate into</p>
@@ -592,7 +627,7 @@ export default function TranslationsPage() {
                   setSelectedLanguages([...selectedLanguages, lang.code]);
                 }
               }}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm transition-colors ${
+              className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm transition-colors ${
                 selectedLanguages.includes(lang.code)
                   ? 'border-blue-600 bg-blue-50 text-blue-700'
                   : 'border-gray-200 text-gray-700 hover:bg-gray-50'
@@ -601,7 +636,7 @@ export default function TranslationsPage() {
               <span>{getFlag(lang.code)}</span>
               <span>{lang.native_name || lang.name}</span>
               {lang.direction === 'rtl' && (
-                <span className="text-xs bg-gray-100 px-1 rounded">RTL</span>
+                <span className="rounded bg-gray-100 px-1 text-xs">RTL</span>
               )}
             </button>
           ))}
@@ -610,20 +645,20 @@ export default function TranslationsPage() {
 
       {/* Filters */}
       <div className="flex items-center gap-4">
-        <div className="flex-1 relative">
+        <div className="relative flex-1">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
           <input
             type="text"
             placeholder="Search items..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value as typeof filterType)}
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm"
+          className="rounded-lg border border-gray-300 px-4 py-2 text-sm"
         >
           <option value="all">All Types</option>
           <option value="menu_item">Menu Items</option>
@@ -632,17 +667,22 @@ export default function TranslationsPage() {
       </div>
 
       {/* Translation Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="border-b border-gray-200 bg-gray-50">
               <tr>
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-500 w-16">Type</th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-500 min-w-[200px]">Original (EN)</th>
+                <th className="w-16 px-4 py-3 text-left text-sm font-medium text-gray-500">Type</th>
+                <th className="min-w-[200px] px-4 py-3 text-left text-sm font-medium text-gray-500">
+                  Original (EN)
+                </th>
                 {selectedLanguages.map((langCode) => {
                   const lang = languages.find((l) => l.code === langCode);
                   return (
-                    <th key={langCode} className="text-left px-4 py-3 text-sm font-medium text-gray-500 min-w-[250px]">
+                    <th
+                      key={langCode}
+                      className="min-w-[250px] px-4 py-3 text-left text-sm font-medium text-gray-500"
+                    >
                       <span className="flex items-center gap-2">
                         {getFlag(langCode)}
                         {lang?.native_name || lang?.name || langCode.toUpperCase()}
@@ -658,11 +698,13 @@ export default function TranslationsPage() {
                 <tr key={row.id} className="hover:bg-gray-50">
                   {/* Type Badge */}
                   <td className="px-4 py-3">
-                    <span className={`inline-block px-2 py-0.5 text-xs rounded ${
-                      row.type === 'menu_item'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-purple-100 text-purple-700'
-                    }`}>
+                    <span
+                      className={`inline-block rounded px-2 py-0.5 text-xs ${
+                        row.type === 'menu_item'
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-purple-100 text-purple-700'
+                      }`}
+                    >
                       {row.type === 'menu_item' ? 'Menu' : 'Cat'}
                     </span>
                   </td>
@@ -671,16 +713,22 @@ export default function TranslationsPage() {
                   <td className="px-4 py-3">
                     <p className="text-sm font-medium text-gray-900">{row.name}</p>
                     {row.description && (
-                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">{row.description}</p>
+                      <p className="mt-1 line-clamp-2 text-xs text-gray-500">{row.description}</p>
                     )}
-                    <p className="text-xs text-gray-400 font-mono mt-1">{row.slug}</p>
+                    <p className="mt-1 font-mono text-xs text-gray-400">{row.slug}</p>
                   </td>
 
                   {/* Translation Columns */}
                   {selectedLanguages.map((langCode) => {
                     const translation = row.translations[langCode];
-                    const isEditingName = editingCell?.rowId === row.id && editingCell?.lang === langCode && editingCell?.field === 'name';
-                    const isEditingDesc = editingCell?.rowId === row.id && editingCell?.lang === langCode && editingCell?.field === 'description';
+                    const isEditingName =
+                      editingCell?.rowId === row.id &&
+                      editingCell?.lang === langCode &&
+                      editingCell?.field === 'name';
+                    const isEditingDesc =
+                      editingCell?.rowId === row.id &&
+                      editingCell?.lang === langCode &&
+                      editingCell?.field === 'description';
 
                     return (
                       <td key={langCode} className="px-4 py-3">
@@ -692,35 +740,43 @@ export default function TranslationsPage() {
                                 type="text"
                                 value={editValue}
                                 onChange={(e) => setEditValue(e.target.value)}
-                                className="flex-1 px-2 py-1 border border-blue-300 rounded text-sm"
+                                className="flex-1 rounded border border-blue-300 px-2 py-1 text-sm"
                                 autoFocus
                                 disabled={saving}
                               />
                               <button
                                 onClick={handleSaveEdit}
                                 disabled={saving}
-                                className="px-2 py-1 bg-blue-600 text-white rounded text-xs disabled:opacity-50"
+                                className="rounded bg-blue-600 px-2 py-1 text-xs text-white disabled:opacity-50"
                               >
                                 {saving ? '...' : 'Save'}
                               </button>
                               <button
                                 onClick={() => setEditingCell(null)}
-                                className="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs"
+                                className="rounded bg-gray-200 px-2 py-1 text-xs text-gray-700"
                               >
                                 X
                               </button>
                             </div>
                           ) : (
                             <div
-                              onClick={() => handleStartEdit(row.id, langCode, 'name', translation?.name || '')}
-                              className="cursor-pointer hover:bg-gray-100 p-1 rounded flex items-center gap-2"
+                              onClick={() =>
+                                handleStartEdit(row.id, langCode, 'name', translation?.name || '')
+                              }
+                              className="flex cursor-pointer items-center gap-2 rounded p-1 hover:bg-gray-100"
                             >
-                              <span className={`text-sm ${translation?.name ? 'text-gray-900' : 'text-gray-400 italic'}`}>
+                              <span
+                                className={`text-sm ${translation?.name ? 'text-gray-900' : 'italic text-gray-400'}`}
+                              >
                                 {translation?.name || 'Click to add name...'}
                               </span>
-                              <span className={`text-xs px-1.5 py-0.5 rounded ${
-                                translation?.name ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-                              }`}>
+                              <span
+                                className={`rounded px-1.5 py-0.5 text-xs ${
+                                  translation?.name
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'bg-yellow-100 text-yellow-700'
+                                }`}
+                              >
                                 {translation?.name ? '✓' : '!'}
                               </span>
                             </div>
@@ -736,30 +792,39 @@ export default function TranslationsPage() {
                                   type="text"
                                   value={editValue}
                                   onChange={(e) => setEditValue(e.target.value)}
-                                  className="flex-1 px-2 py-1 border border-blue-300 rounded text-xs"
+                                  className="flex-1 rounded border border-blue-300 px-2 py-1 text-xs"
                                   autoFocus
                                   disabled={saving}
                                 />
                                 <button
                                   onClick={handleSaveEdit}
                                   disabled={saving}
-                                  className="px-2 py-1 bg-blue-600 text-white rounded text-xs disabled:opacity-50"
+                                  className="rounded bg-blue-600 px-2 py-1 text-xs text-white disabled:opacity-50"
                                 >
                                   {saving ? '...' : 'Save'}
                                 </button>
                                 <button
                                   onClick={() => setEditingCell(null)}
-                                  className="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs"
+                                  className="rounded bg-gray-200 px-2 py-1 text-xs text-gray-700"
                                 >
                                   X
                                 </button>
                               </div>
                             ) : (
                               <div
-                                onClick={() => handleStartEdit(row.id, langCode, 'description', translation?.description || '')}
-                                className="cursor-pointer hover:bg-gray-100 p-1 rounded"
+                                onClick={() =>
+                                  handleStartEdit(
+                                    row.id,
+                                    langCode,
+                                    'description',
+                                    translation?.description || ''
+                                  )
+                                }
+                                className="cursor-pointer rounded p-1 hover:bg-gray-100"
                               >
-                                <span className={`text-xs ${translation?.description ? 'text-gray-600' : 'text-gray-400 italic'}`}>
+                                <span
+                                  className={`text-xs ${translation?.description ? 'text-gray-600' : 'italic text-gray-400'}`}
+                                >
                                   {translation?.description || 'Add description...'}
                                 </span>
                               </div>
@@ -776,29 +841,32 @@ export default function TranslationsPage() {
         </div>
 
         {filteredRows.length === 0 && (
-          <div className="text-center py-12">
+          <div className="py-12 text-center">
             <p className="text-gray-500">No items found</p>
           </div>
         )}
       </div>
 
       {/* Database Info */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-green-200 p-4">
+      <div className="rounded-xl border border-green-200 bg-gradient-to-r from-green-50 to-blue-50 p-4">
         <div className="flex items-center gap-3">
           <span className="text-2xl">🗄️</span>
           <div>
             <h3 className="font-medium text-gray-900">Using New Translation Tables</h3>
             <p className="text-sm text-gray-600">
-              Translations are stored in <code className="bg-white px-1 rounded">menu_item_translations</code> and <code className="bg-white px-1 rounded">category_translations</code> tables with proper language codes.
+              Translations are stored in{' '}
+              <code className="rounded bg-white px-1">menu_item_translations</code> and{' '}
+              <code className="rounded bg-white px-1">category_translations</code> tables with
+              proper language codes.
             </p>
           </div>
         </div>
       </div>
 
       {/* Tips */}
-      <div className="bg-blue-50 rounded-xl border border-blue-200 p-4">
+      <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
         <h3 className="font-medium text-blue-900">Tips</h3>
-        <ul className="mt-2 text-sm text-blue-800 space-y-1">
+        <ul className="mt-2 space-y-1 text-sm text-blue-800">
           <li>Click on any cell to edit translations</li>
           <li>Translations are saved to the new translation tables</li>
           <li>RTL languages (Arabic, Hebrew) are marked for proper text display</li>
@@ -817,40 +885,54 @@ export default function TranslationsPage() {
 
       {/* Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="mx-4 w-full max-w-lg rounded-xl bg-white shadow-2xl">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <div className="flex items-center justify-between border-b border-gray-200 p-4">
               <h2 className="text-lg font-semibold text-gray-900">Import Translations</h2>
               <button
                 onClick={() => {
                   setShowImportModal(false);
                   setImportResult(null);
                 }}
-                className="p-1 hover:bg-gray-100 rounded"
+                className="rounded p-1 hover:bg-gray-100"
               >
                 <span className="text-xl text-gray-500">×</span>
               </button>
             </div>
 
             {/* Modal Body */}
-            <div className="p-4 space-y-4">
+            <div className="space-y-4 p-4">
               {!importResult ? (
                 <>
                   {/* Instructions */}
-                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                  <div className="space-y-2 rounded-lg bg-gray-50 p-4">
                     <h3 className="font-medium text-gray-900">CSV Format Requirements</h3>
                     <p className="text-sm text-gray-600">
                       Your CSV must include these columns (header row required):
                     </p>
-                    <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
-                      <li><code className="bg-gray-200 px-1 rounded">type</code> - &quot;menu_item&quot; or &quot;category&quot;</li>
-                      <li><code className="bg-gray-200 px-1 rounded">item_id</code> - UUID of the item</li>
-                      <li><code className="bg-gray-200 px-1 rounded">language_code</code> - e.g., &quot;vi&quot;, &quot;it&quot;, &quot;ar&quot;</li>
-                      <li><code className="bg-gray-200 px-1 rounded">translated_name</code> - Translation of name</li>
-                      <li><code className="bg-gray-200 px-1 rounded">translated_description</code> - (optional) Translation of description</li>
+                    <ul className="list-inside list-disc space-y-1 text-sm text-gray-600">
+                      <li>
+                        <code className="rounded bg-gray-200 px-1">type</code> -
+                        &quot;menu_item&quot; or &quot;category&quot;
+                      </li>
+                      <li>
+                        <code className="rounded bg-gray-200 px-1">item_id</code> - UUID of the item
+                      </li>
+                      <li>
+                        <code className="rounded bg-gray-200 px-1">language_code</code> - e.g.,
+                        &quot;vi&quot;, &quot;it&quot;, &quot;ar&quot;
+                      </li>
+                      <li>
+                        <code className="rounded bg-gray-200 px-1">translated_name</code> -
+                        Translation of name
+                      </li>
+                      <li>
+                        <code className="rounded bg-gray-200 px-1">translated_description</code> -
+                        (optional) Translation of description
+                      </li>
                     </ul>
-                    <p className="text-sm text-gray-500 mt-2">
+                    <p className="mt-2 text-sm text-gray-500">
                       Tip: Export existing translations first to get the correct format.
                     </p>
                   </div>
@@ -858,15 +940,15 @@ export default function TranslationsPage() {
                   {/* Upload Area */}
                   <div
                     onClick={() => fileInputRef.current?.click()}
-                    className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                    className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
                       importing
-                        ? 'border-gray-200 bg-gray-50 cursor-wait'
+                        ? 'cursor-wait border-gray-200 bg-gray-50'
                         : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50'
                     }`}
                   >
                     {importing ? (
                       <>
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                        <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
                         <p className="mt-4 text-gray-600">Processing translations...</p>
                       </>
                     ) : (
@@ -882,13 +964,15 @@ export default function TranslationsPage() {
                 /* Import Results */
                 <div className="space-y-4">
                   {/* Summary */}
-                  <div className={`rounded-lg p-4 ${
-                    importResult.success > 0 && importResult.errors.length === 0
-                      ? 'bg-green-50 border border-green-200'
-                      : importResult.success > 0
-                        ? 'bg-yellow-50 border border-yellow-200'
-                        : 'bg-red-50 border border-red-200'
-                  }`}>
+                  <div
+                    className={`rounded-lg p-4 ${
+                      importResult.success > 0 && importResult.errors.length === 0
+                        ? 'border border-green-200 bg-green-50'
+                        : importResult.success > 0
+                          ? 'border border-yellow-200 bg-yellow-50'
+                          : 'border border-red-200 bg-red-50'
+                    }`}
+                  >
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">
                         {importResult.success > 0 && importResult.errors.length === 0
@@ -906,8 +990,10 @@ export default function TranslationsPage() {
                               : 'Import Failed'}
                         </h3>
                         <p className="text-sm text-gray-600">
-                          {importResult.success} translation{importResult.success !== 1 ? 's' : ''} imported
-                          {importResult.errors.length > 0 && `, ${importResult.errors.length} error${importResult.errors.length !== 1 ? 's' : ''}`}
+                          {importResult.success} translation{importResult.success !== 1 ? 's' : ''}{' '}
+                          imported
+                          {importResult.errors.length > 0 &&
+                            `, ${importResult.errors.length} error${importResult.errors.length !== 1 ? 's' : ''}`}
                         </p>
                       </div>
                     </div>
@@ -915,14 +1001,16 @@ export default function TranslationsPage() {
 
                   {/* Errors */}
                   {importResult.errors.length > 0 && (
-                    <div className="bg-red-50 rounded-lg p-4 max-h-48 overflow-y-auto">
-                      <h4 className="font-medium text-red-900 mb-2">Errors:</h4>
-                      <ul className="text-sm text-red-700 space-y-1">
+                    <div className="max-h-48 overflow-y-auto rounded-lg bg-red-50 p-4">
+                      <h4 className="mb-2 font-medium text-red-900">Errors:</h4>
+                      <ul className="space-y-1 text-sm text-red-700">
                         {importResult.errors.slice(0, 10).map((error, i) => (
                           <li key={i}>{error}</li>
                         ))}
                         {importResult.errors.length > 10 && (
-                          <li className="font-medium">...and {importResult.errors.length - 10} more errors</li>
+                          <li className="font-medium">
+                            ...and {importResult.errors.length - 10} more errors
+                          </li>
                         )}
                       </ul>
                     </div>
@@ -932,12 +1020,12 @@ export default function TranslationsPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="flex items-center justify-end gap-3 p-4 border-t border-gray-200">
+            <div className="flex items-center justify-end gap-3 border-t border-gray-200 p-4">
               {importResult ? (
                 <>
                   <button
                     onClick={() => setImportResult(null)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                   >
                     Import Another
                   </button>
@@ -946,7 +1034,7 @@ export default function TranslationsPage() {
                       setShowImportModal(false);
                       setImportResult(null);
                     }}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+                    className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
                   >
                     Done
                   </button>
@@ -955,7 +1043,7 @@ export default function TranslationsPage() {
                 <button
                   onClick={() => setShowImportModal(false)}
                   disabled={importing}
-                  className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                  className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
                 >
                   Cancel
                 </button>

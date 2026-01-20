@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 type TabId = 'overview' | 'merchants' | 'revenue' | 'countries' | 'support';
 
@@ -47,9 +48,30 @@ const RECENT_MERCHANTS = [
 ];
 
 const SUPPORT_TICKETS = [
-  { id: 1, merchant: 'Caffè Milano', subject: 'QR code not scanning', priority: 'high', status: 'open', created: '2h ago' },
-  { id: 2, merchant: 'Tapas Barcelona', subject: 'Translation issue', priority: 'medium', status: 'in_progress', created: '5h ago' },
-  { id: 3, merchant: 'Le Petit Bistro', subject: 'Billing question', priority: 'low', status: 'open', created: '1d ago' },
+  {
+    id: 1,
+    merchant: 'Caffè Milano',
+    subject: 'QR code not scanning',
+    priority: 'high',
+    status: 'open',
+    created: '2h ago',
+  },
+  {
+    id: 2,
+    merchant: 'Tapas Barcelona',
+    subject: 'Translation issue',
+    priority: 'medium',
+    status: 'in_progress',
+    created: '5h ago',
+  },
+  {
+    id: 3,
+    merchant: 'Le Petit Bistro',
+    subject: 'Billing question',
+    priority: 'low',
+    status: 'open',
+    created: '1d ago',
+  },
 ];
 
 export default function PlatformPage() {
@@ -60,19 +82,29 @@ export default function PlatformPage() {
   // Check if user has platform access
   if (!hasPermission('platform:read')) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center">
-        <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-4">
-          <svg className="w-10 h-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m0 0v2m0-2h2m-2 0H9m3-4V8a3 3 0 00-3-3H6a3 3 0 00-3 3v12a3 3 0 003 3h12a3 3 0 003-3v-3" />
+      <div className="flex min-h-[60vh] flex-col items-center justify-center">
+        <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
+          <svg
+            className="h-10 w-10 text-red-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 15v2m0 0v2m0-2h2m-2 0H9m3-4V8a3 3 0 00-3-3H6a3 3 0 00-3 3v12a3 3 0 003 3h12a3 3 0 003-3v-3"
+            />
           </svg>
         </div>
-        <h2 className="text-xl font-bold text-gray-900 mb-2">Access Denied</h2>
-        <p className="text-gray-500 text-center max-w-md">
+        <h2 className="mb-2 text-xl font-bold text-gray-900">Access Denied</h2>
+        <p className="max-w-md text-center text-gray-500">
           This section is only available to GudBro platform administrators.
         </p>
         <button
           onClick={() => router.push('/dashboard')}
-          className="mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+          className="mt-4 rounded-lg bg-gray-100 px-4 py-2 text-gray-700 hover:bg-gray-200"
         >
           Go to Dashboard
         </button>
@@ -94,17 +126,20 @@ export default function PlatformPage() {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r from-red-500 to-orange-500">
               <span className="text-xl">👑</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Platform Admin</h1>
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-bold text-gray-900">Platform Admin</h1>
+                <InfoTooltip contentKey="pages.platform" kbPageId="platform" />
+              </div>
               <p className="text-gray-500">GudBro ecosystem management</p>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">
+          <span className="rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700">
             Admin Access
           </span>
         </div>
@@ -117,10 +152,10 @@ export default function PlatformPage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`border-b-2 px-1 py-4 text-sm font-medium transition-colors ${
                 activeTab === tab.id
                   ? 'border-red-500 text-red-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -135,46 +170,54 @@ export default function PlatformPage() {
         <div className="space-y-6">
           {/* Key Metrics */}
           <div className="grid grid-cols-4 gap-4">
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Total Merchants</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">Total Merchants</p>
               <p className="text-3xl font-bold text-gray-900">{PLATFORM_STATS.totalMerchants}</p>
-              <p className="text-sm text-green-600 mt-1">+{PLATFORM_STATS.newMerchantsThisMonth} this month</p>
+              <p className="mt-1 text-sm text-green-600">
+                +{PLATFORM_STATS.newMerchantsThisMonth} this month
+              </p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Monthly Recurring Revenue</p>
-              <p className="text-3xl font-bold text-gray-900">€{PLATFORM_STATS.mrr.toLocaleString()}</p>
-              <p className="text-sm text-green-600 mt-1">+12% vs last month</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">Monthly Recurring Revenue</p>
+              <p className="text-3xl font-bold text-gray-900">
+                €{PLATFORM_STATS.mrr.toLocaleString()}
+              </p>
+              <p className="mt-1 text-sm text-green-600">+12% vs last month</p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Annual Recurring Revenue</p>
-              <p className="text-3xl font-bold text-gray-900">€{PLATFORM_STATS.arr.toLocaleString()}</p>
-              <p className="text-sm text-gray-500 mt-1">Projected</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">Annual Recurring Revenue</p>
+              <p className="text-3xl font-bold text-gray-900">
+                €{PLATFORM_STATS.arr.toLocaleString()}
+              </p>
+              <p className="mt-1 text-sm text-gray-500">Projected</p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Countries</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">Countries</p>
               <p className="text-3xl font-bold text-gray-900">{PLATFORM_STATS.countries}</p>
-              <p className="text-sm text-blue-600 mt-1">Active markets</p>
+              <p className="mt-1 text-sm text-blue-600">Active markets</p>
             </div>
           </div>
 
           {/* Revenue Streams + Recent Merchants */}
           <div className="grid grid-cols-2 gap-6">
             {/* Revenue Streams */}
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Revenue Streams</h3>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Revenue Streams</h3>
               <div className="space-y-4">
                 {REVENUE_STREAMS.map((stream) => (
                   <div key={stream.id} className="space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-900">{stream.name}</span>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-gray-900">€{stream.amount.toLocaleString()}</span>
+                        <span className="text-sm font-bold text-gray-900">
+                          €{stream.amount.toLocaleString()}
+                        </span>
                         <span className="text-xs text-green-600">{stream.trend}</span>
                       </div>
                     </div>
-                    <div className="w-full bg-gray-100 rounded-full h-2">
+                    <div className="h-2 w-full rounded-full bg-gray-100">
                       <div
-                        className="bg-gradient-to-r from-red-500 to-orange-500 h-2 rounded-full"
+                        className="h-2 rounded-full bg-gradient-to-r from-red-500 to-orange-500"
                         style={{ width: `${stream.percentage}%` }}
                       />
                     </div>
@@ -184,26 +227,33 @@ export default function PlatformPage() {
             </div>
 
             {/* Recent Merchants */}
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Merchants</h3>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Recent Merchants</h3>
               <div className="space-y-3">
                 {RECENT_MERCHANTS.map((merchant) => (
-                  <div key={merchant.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div
+                    key={merchant.id}
+                    className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                  >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-sm font-bold">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-sm font-bold">
                         {merchant.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900 text-sm">{merchant.name}</p>
+                        <p className="text-sm font-medium text-gray-900">{merchant.name}</p>
                         <p className="text-xs text-gray-500">{merchant.country}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                        merchant.plan === 'pro' ? 'bg-purple-100 text-purple-700' :
-                        merchant.plan === 'starter' ? 'bg-blue-100 text-blue-700' :
-                        'bg-gray-100 text-gray-700'
-                      }`}>
+                      <span
+                        className={`rounded px-2 py-0.5 text-xs font-medium ${
+                          merchant.plan === 'pro'
+                            ? 'bg-purple-100 text-purple-700'
+                            : merchant.plan === 'starter'
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'bg-gray-100 text-gray-700'
+                        }`}
+                      >
                         {merchant.plan}
                       </span>
                       <span className="text-sm font-medium text-gray-900">
@@ -218,36 +268,42 @@ export default function PlatformPage() {
 
           {/* Quick Stats Row */}
           <div className="grid grid-cols-3 gap-4">
-            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-100">
+            <div className="rounded-xl border border-blue-100 bg-gradient-to-br from-blue-50 to-cyan-50 p-6">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100">
                   <span className="text-2xl">📱</span>
                 </div>
                 <div>
                   <p className="text-sm text-blue-600">Total Menu Views</p>
-                  <p className="text-2xl font-bold text-blue-900">{PLATFORM_STATS.totalMenuViews.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-blue-900">
+                    {PLATFORM_STATS.totalMenuViews.toLocaleString()}
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100">
+            <div className="rounded-xl border border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 p-6">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100">
                   <span className="text-2xl">🛒</span>
                 </div>
                 <div>
                   <p className="text-sm text-green-600">Total Orders</p>
-                  <p className="text-2xl font-bold text-green-900">{PLATFORM_STATS.totalOrders.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-green-900">
+                    {PLATFORM_STATS.totalOrders.toLocaleString()}
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-6 border border-orange-100">
+            <div className="rounded-xl border border-orange-100 bg-gradient-to-br from-orange-50 to-amber-50 p-6">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100">
                   <span className="text-2xl">💳</span>
                 </div>
                 <div>
                   <p className="text-sm text-orange-600">Avg Revenue / Merchant</p>
-                  <p className="text-2xl font-bold text-orange-900">€{PLATFORM_STATS.avgRevenuePerMerchant}</p>
+                  <p className="text-2xl font-bold text-orange-900">
+                    €{PLATFORM_STATS.avgRevenuePerMerchant}
+                  </p>
                 </div>
               </div>
             </div>
@@ -262,21 +318,23 @@ export default function PlatformPage() {
             <input
               type="search"
               placeholder="Search merchants..."
-              className="flex-1 max-w-md px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              className="max-w-md flex-1 rounded-lg border border-gray-200 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-red-500"
             />
-            <select className="px-4 py-2 border border-gray-200 rounded-lg">
+            <select className="rounded-lg border border-gray-200 px-4 py-2">
               <option>All Plans</option>
               <option>Pro</option>
               <option>Starter</option>
               <option>Free</option>
             </select>
-            <select className="px-4 py-2 border border-gray-200 rounded-lg">
+            <select className="rounded-lg border border-gray-200 px-4 py-2">
               <option>All Countries</option>
               {COUNTRIES_DATA.map((c) => (
-                <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                <option key={c.code} value={c.code}>
+                  {c.flag} {c.name}
+                </option>
               ))}
             </select>
-            <select className="px-4 py-2 border border-gray-200 rounded-lg">
+            <select className="rounded-lg border border-gray-200 px-4 py-2">
               <option>All Status</option>
               <option>Active</option>
               <option>Trialing</option>
@@ -285,16 +343,28 @@ export default function PlatformPage() {
           </div>
 
           {/* Merchants Table */}
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="border-b border-gray-200 bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Merchant</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Plan</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Country</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">MRR</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Merchant
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Plan
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Country
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    MRR
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -302,27 +372,34 @@ export default function PlatformPage() {
                   <tr key={merchant.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-600">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 font-bold text-gray-600">
                           {merchant.name.charAt(0)}
                         </div>
                         <span className="font-medium text-gray-900">{merchant.name}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        merchant.plan === 'pro' ? 'bg-purple-100 text-purple-700' :
-                        merchant.plan === 'starter' ? 'bg-blue-100 text-blue-700' :
-                        'bg-gray-100 text-gray-700'
-                      }`}>
+                      <span
+                        className={`rounded px-2 py-1 text-xs font-medium ${
+                          merchant.plan === 'pro'
+                            ? 'bg-purple-100 text-purple-700'
+                            : merchant.plan === 'starter'
+                              ? 'bg-blue-100 text-blue-700'
+                              : 'bg-gray-100 text-gray-700'
+                        }`}
+                      >
                         {merchant.plan}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-gray-500">{merchant.country}</td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        merchant.status === 'active' ? 'bg-green-100 text-green-700' :
-                        'bg-yellow-100 text-yellow-700'
-                      }`}>
+                      <span
+                        className={`rounded px-2 py-1 text-xs font-medium ${
+                          merchant.status === 'active'
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-yellow-100 text-yellow-700'
+                        }`}
+                      >
                         {merchant.status}
                       </span>
                     </td>
@@ -330,7 +407,7 @@ export default function PlatformPage() {
                       {merchant.mrr > 0 ? `€${merchant.mrr}` : '-'}
                     </td>
                     <td className="px-6 py-4">
-                      <button className="text-red-600 hover:text-red-800 text-sm font-medium">
+                      <button className="text-sm font-medium text-red-600 hover:text-red-800">
                         View
                       </button>
                     </td>
@@ -346,31 +423,39 @@ export default function PlatformPage() {
         <div className="space-y-6">
           {/* Revenue Summary */}
           <div className="grid grid-cols-4 gap-4">
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Total Revenue (All Time)</p>
-              <p className="text-3xl font-bold text-gray-900">€{PLATFORM_STATS.totalRevenue.toLocaleString()}</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">Total Revenue (All Time)</p>
+              <p className="text-3xl font-bold text-gray-900">
+                €{PLATFORM_STATS.totalRevenue.toLocaleString()}
+              </p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">MRR</p>
-              <p className="text-3xl font-bold text-green-600">€{PLATFORM_STATS.mrr.toLocaleString()}</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">MRR</p>
+              <p className="text-3xl font-bold text-green-600">
+                €{PLATFORM_STATS.mrr.toLocaleString()}
+              </p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">ARR</p>
-              <p className="text-3xl font-bold text-blue-600">€{PLATFORM_STATS.arr.toLocaleString()}</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">ARR</p>
+              <p className="text-3xl font-bold text-blue-600">
+                €{PLATFORM_STATS.arr.toLocaleString()}
+              </p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Churn Rate</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">Churn Rate</p>
               <p className="text-3xl font-bold text-orange-600">{PLATFORM_STATS.churnRate}%</p>
             </div>
           </div>
 
           {/* Revenue by Stream */}
-          <div className="bg-white rounded-xl p-6 border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Revenue by Stream (This Month)</h3>
+          <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <h3 className="mb-6 text-lg font-semibold text-gray-900">
+              Revenue by Stream (This Month)
+            </h3>
             <div className="grid grid-cols-4 gap-6">
               {REVENUE_STREAMS.map((stream) => (
                 <div key={stream.id} className="text-center">
-                  <div className="w-24 h-24 mx-auto bg-gradient-to-br from-red-50 to-orange-50 rounded-full flex items-center justify-center mb-3">
+                  <div className="mx-auto mb-3 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-red-50 to-orange-50">
                     <span className="text-2xl font-bold text-red-600">{stream.percentage}%</span>
                   </div>
                   <p className="font-medium text-gray-900">{stream.name}</p>
@@ -385,15 +470,25 @@ export default function PlatformPage() {
 
       {activeTab === 'countries' && (
         <div className="space-y-6">
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="border-b border-gray-200 bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Country</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Merchants</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Revenue</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Market Share</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Country
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Merchants
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Revenue
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Market Share
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -406,13 +501,17 @@ export default function PlatformPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-gray-900">{country.merchants}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900">€{country.revenue.toLocaleString()}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900">
+                      €{country.revenue.toLocaleString()}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-24 bg-gray-100 rounded-full h-2">
+                        <div className="h-2 w-24 rounded-full bg-gray-100">
                           <div
-                            className="bg-red-500 h-2 rounded-full"
-                            style={{ width: `${(country.merchants / PLATFORM_STATS.totalMerchants) * 100}%` }}
+                            className="h-2 rounded-full bg-red-500"
+                            style={{
+                              width: `${(country.merchants / PLATFORM_STATS.totalMerchants) * 100}%`,
+                            }}
                           />
                         </div>
                         <span className="text-sm text-gray-500">
@@ -421,7 +520,7 @@ export default function PlatformPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <button className="text-red-600 hover:text-red-800 text-sm font-medium">
+                      <button className="text-sm font-medium text-red-600 hover:text-red-800">
                         View Details
                       </button>
                     </td>
@@ -437,51 +536,63 @@ export default function PlatformPage() {
         <div className="space-y-6">
           {/* Support Stats */}
           <div className="grid grid-cols-4 gap-4">
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Open Tickets</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">Open Tickets</p>
               <p className="text-3xl font-bold text-red-600">12</p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">In Progress</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">In Progress</p>
               <p className="text-3xl font-bold text-yellow-600">5</p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Resolved Today</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">Resolved Today</p>
               <p className="text-3xl font-bold text-green-600">8</p>
             </div>
-            <div className="bg-white rounded-xl p-6 border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Avg Response Time</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <p className="mb-1 text-sm text-gray-500">Avg Response Time</p>
               <p className="text-3xl font-bold text-blue-600">2.4h</p>
             </div>
           </div>
 
           {/* Recent Tickets */}
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200">
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div className="border-b border-gray-200 px-6 py-4">
               <h3 className="font-semibold text-gray-900">Recent Tickets</h3>
             </div>
             <div className="divide-y divide-gray-200">
               {SUPPORT_TICKETS.map((ticket) => (
-                <div key={ticket.id} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50">
+                <div
+                  key={ticket.id}
+                  className="flex items-center justify-between px-6 py-4 hover:bg-gray-50"
+                >
                   <div className="flex items-center gap-4">
-                    <span className={`w-3 h-3 rounded-full ${
-                      ticket.priority === 'high' ? 'bg-red-500' :
-                      ticket.priority === 'medium' ? 'bg-yellow-500' :
-                      'bg-green-500'
-                    }`} />
+                    <span
+                      className={`h-3 w-3 rounded-full ${
+                        ticket.priority === 'high'
+                          ? 'bg-red-500'
+                          : ticket.priority === 'medium'
+                            ? 'bg-yellow-500'
+                            : 'bg-green-500'
+                      }`}
+                    />
                     <div>
                       <p className="font-medium text-gray-900">{ticket.subject}</p>
-                      <p className="text-sm text-gray-500">{ticket.merchant} • {ticket.created}</p>
+                      <p className="text-sm text-gray-500">
+                        {ticket.merchant} • {ticket.created}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${
-                      ticket.status === 'open' ? 'bg-blue-100 text-blue-700' :
-                      'bg-yellow-100 text-yellow-700'
-                    }`}>
+                    <span
+                      className={`rounded px-2 py-1 text-xs font-medium ${
+                        ticket.status === 'open'
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-yellow-100 text-yellow-700'
+                      }`}
+                    >
                       {ticket.status.replace('_', ' ')}
                     </span>
-                    <button className="text-red-600 hover:text-red-800 text-sm font-medium">
+                    <button className="text-sm font-medium text-red-600 hover:text-red-800">
                       View
                     </button>
                   </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -193,7 +194,10 @@ export default function ConventionsHubPage() {
           <span>/</span>
           <span>Conventions</span>
         </div>
-        <h1 className="mt-1 text-2xl font-bold text-gray-900">Corporate Conventions</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="mt-1 text-2xl font-bold text-gray-900">Corporate Conventions</h1>
+          <InfoTooltip contentKey="pages.conventions" kbPageId="conventions-overview" />
+        </div>
         <p className="mt-1 text-gray-600">
           Manage partnerships with offices, gyms, schools and other organizations.
         </p>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 // Types for Loyalty Configuration
 type LoyaltyTierId = 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
@@ -368,7 +369,10 @@ export default function LoyaltyPage() {
                 </svg>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('title')}</h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('title')}</h1>
+                  <InfoTooltip contentKey="pages.loyalty" kbPageId="loyalty" />
+                </div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">{t('description')}</p>
               </div>
             </div>

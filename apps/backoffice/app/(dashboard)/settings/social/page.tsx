@@ -5,6 +5,7 @@ import { Loader2, Check, AlertCircle, ExternalLink, Plus, Trash2 } from 'lucide-
 import { useTranslations } from 'next-intl';
 import { MessagingChannelsSection } from '@/components/settings/MessagingChannelsSection';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 // ============================================================================
 // Types
@@ -382,7 +383,10 @@ export default function SocialSettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <InfoTooltip contentKey="pages.social" kbPageId="settings-social" />
+        </div>
         <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
       </div>
 

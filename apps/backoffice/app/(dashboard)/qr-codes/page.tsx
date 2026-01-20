@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 function formatTimeAgo(dateString: string | null | undefined): string {
   if (!dateString) return 'Never';
@@ -230,7 +231,10 @@ export default function QRCodesPage() {
       {/* Header - Compact */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.qrCodes" kbPageId="qr-codes" />
+          </div>
           <p className="text-sm text-gray-500">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">

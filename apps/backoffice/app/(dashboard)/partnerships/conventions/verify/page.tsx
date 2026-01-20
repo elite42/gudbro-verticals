@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -230,7 +231,10 @@ export default function VerifyPage() {
           <span>/</span>
           <span>Verify</span>
         </div>
-        <h1 className="mt-1 text-2xl font-bold text-gray-900">Staff Verification</h1>
+        <div className="mt-1 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900">Staff Verification</h1>
+          <InfoTooltip contentKey="pages.staffVerification" kbPageId="conventions-verify" />
+        </div>
         <p className="mt-1 text-gray-600">
           Verify voucher codes and daily codes to apply convention discounts.
         </p>

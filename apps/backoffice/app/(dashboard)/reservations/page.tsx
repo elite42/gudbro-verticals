@@ -9,6 +9,7 @@ import {
 } from '@/components/reservations';
 import { Calendar, List, Settings } from 'lucide-react';
 import Link from 'next/link';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 interface Section {
   id: string;
@@ -165,7 +166,10 @@ export default function ReservationsPage() {
       {/* Page Header */}
       <div className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Reservations</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Reservations</h1>
+            <InfoTooltip contentKey="pages.reservations" kbPageId="reservations" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             Manage table reservations and view your booking calendar
           </p>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -215,7 +216,10 @@ export default function CurrencySettingsPage() {
             <span>/</span>
             <span className="text-gray-900">Currency & Exchange Rates</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.currency" kbPageId="settings-currency" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             View exchange rates used for tourist price conversion
           </p>

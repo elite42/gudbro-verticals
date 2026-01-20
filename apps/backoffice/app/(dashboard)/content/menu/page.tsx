@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { useToast } from '@/lib/contexts/ToastContext';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -452,7 +453,10 @@ export default function MenuPage() {
             <span>/</span>
             <span className="text-gray-900">Menu</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="mt-1 flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.menu" kbPageId="content-menu" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             {t('itemsCount', { count: totalItems })} • {t('dataSource')}
           </p>

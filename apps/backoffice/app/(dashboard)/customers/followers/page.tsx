@@ -5,6 +5,7 @@ import { createBrowserClient } from '@supabase/ssr';
 import { AccommodationEditModal, type AccommodationData } from '@/components/customers';
 import { Pencil } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 type VisitorType = 'resident' | 'tourist' | 'unknown' | 'all';
 type NotificationStatus = 'active' | 'paused' | 'stopped' | 'archived' | 'all';
@@ -412,7 +413,10 @@ export default function FollowersPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.followers" kbPageId="customers-followers" />
+          </div>
           <p className="mt-1 text-gray-600">{t('subtitle', { count: followers.length })}</p>
         </div>
         <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700">

@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -230,7 +231,10 @@ function VouchersPageContent() {
             <span>/</span>
             <span>Vouchers</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Vouchers</h1>
+          <div className="mt-1 flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Vouchers</h1>
+            <InfoTooltip contentKey="pages.vouchers" kbPageId="conventions-vouchers" />
+          </div>
           <p className="mt-1 text-gray-600">
             Generate and manage voucher codes for convention partners.
           </p>

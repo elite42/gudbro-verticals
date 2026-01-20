@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { EmptyState } from '@/components/ui/empty-state';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   Dialog,
   DialogContent,
@@ -266,7 +267,10 @@ export default function TeamPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="nav.team" kbPageId="team" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
       </div>

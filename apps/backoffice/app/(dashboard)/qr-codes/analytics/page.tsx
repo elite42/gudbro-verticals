@@ -11,6 +11,7 @@ import {
 import { QRCode as QRCodeEntity } from '@/lib/qr/qr-types';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { EmptyState } from '@/components/ui/empty-state';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   ArrowLeftIcon,
   QrCodeIcon,
@@ -180,7 +181,10 @@ export default function QRAnalyticsPage() {
             Back to QR Codes
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">QR Analytics</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-gray-900">QR Analytics</h1>
+              <InfoTooltip contentKey="pages.analytics" kbPageId="qr-analytics" />
+            </div>
             <p className="text-sm text-gray-500">Track QR code performance and engagement</p>
           </div>
         </div>

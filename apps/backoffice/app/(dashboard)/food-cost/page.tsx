@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { FoodCostProgress } from '@/components/food-cost';
 import { AIInlineTrigger } from '@/components/ai';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 // Mock data types
 interface DishAnalysis {
@@ -160,7 +161,10 @@ export default function FoodCostPage() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Food Cost Analysis</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Food Cost Analysis</h1>
+            <InfoTooltip contentKey="pages.foodCost" kbPageId="food-cost" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             Analizza i margini dei tuoi piatti e ottimizza il menu
           </p>

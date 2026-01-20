@@ -2574,5 +2574,45 @@
       "title": "Nessun QR code",
       "description": "Crea il tuo primo QR code per iniziare"
     }
+  },
+  "tooltips": {
+    "learnMore": "Scopri di più",
+    "nav": {
+      "dashboard": "Panoramica delle performance del ristorante e azioni rapide",
+      "orders": "Visualizza e gestisci gli ordini in arrivo dai clienti",
+      "content": "Gestisci menu, ricette, ingredienti e categorie",
+      "marketing": "Promozioni, eventi, programmi fedeltà e gift card",
+      "customers": "Database clienti, feedback e analisi engagement",
+      "partnerships": "Partnership B2B con hotel, tour operator e convention",
+      "analytics": "Monitora visualizzazioni menu, scan QR e engagement",
+      "team": "Gestisci account staff e permessi",
+      "settings": "Configura impostazioni e preferenze del ristorante",
+      "qrCodes": "Crea e gestisci QR code per tavoli e asporto",
+      "aiCoManager": "Il tuo assistente AI per ottimizzazione menu e insights",
+      "hotActions": "Azioni urgenti che richiedono attenzione immediata",
+      "translations": "Gestisci traduzioni menu per diverse lingue",
+      "foodCosts": "Monitora costi ingredienti e redditività ricette",
+      "reservations": "Gestisci prenotazioni tavoli e planimetria",
+      "intelligence": "Market intelligence e analisi competitor",
+      "billing": "Gestisci abbonamento e metodi di pagamento",
+      "help": "Accedi alla knowledge base e risorse di supporto"
+    },
+    "pages": {
+      "qrCodes": "Crea QR code per tavoli, asporto o campagne marketing",
+      "promotions": "Crea offerte a tempo per aumentare vendite nei periodi lenti",
+      "loyalty": "Premia clienti abituali con punti e vantaggi esclusivi",
+      "giftCards": "Vendi gift card digitali riscattabili in negozio",
+      "events": "Promuovi eventi speciali, musica live o serate a tema",
+      "challenges": "Gamifica l'esperienza con sfide gastronomiche e classifiche",
+      "reservations": "Gestisci prenotazioni tavoli e planimetria",
+      "aiChat": "Il tuo assistente AI per ottimizzazione menu e insights",
+      "analytics": "Analytics completi per performance menu e engagement",
+      "menu": "Costruisci e organizza il tuo menu digitale",
+      "recipes": "Crea e gestisci ricette con costi ingredienti",
+      "ingredients": "Gestisci il database ingredienti",
+      "categories": "Organizza le voci menu in categorie",
+      "followers": "Vedi i clienti che seguono il tuo ristorante",
+      "feedback": "Visualizza e rispondi ai feedback dei clienti"
+    }
   }
 }

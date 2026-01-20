@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { useAccountRoles } from '@/lib/hooks/useAccountRoles';
 import { User, Mail, Shield, Star, Camera, Save } from 'lucide-react';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export default function AccountPage() {
   const { user } = useAuth();
@@ -43,7 +44,10 @@ export default function AccountPage() {
     <div className="mx-auto max-w-4xl">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">My Account</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900">My Account</h1>
+          <InfoTooltip contentKey="pages.account" kbPageId="account" />
+        </div>
         <p className="mt-1 text-sm text-gray-500">
           Manage your personal information and account settings
         </p>

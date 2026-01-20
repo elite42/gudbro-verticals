@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { EmptyState } from '@/components/ui/empty-state';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   getAnalyticsSummary,
   getDailyMetrics,
@@ -73,7 +74,10 @@ export default function AnalyticsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.analytics" kbPageId="analytics" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-1">

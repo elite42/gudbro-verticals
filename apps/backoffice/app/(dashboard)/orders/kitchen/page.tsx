@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -354,7 +355,10 @@ export default function KitchenDisplayPage() {
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-white">Kitchen Display</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-3xl font-bold text-white">Kitchen Display</h1>
+            <InfoTooltip contentKey="pages.kitchenDisplay" kbPageId="kitchen-display" />
+          </div>
           <span className="rounded-full bg-green-600 px-3 py-1 text-sm font-medium text-white">
             Live
           </span>

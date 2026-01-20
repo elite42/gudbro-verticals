@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -647,7 +648,10 @@ export default function ModifiersPage() {
             <span>/</span>
             <span className="text-gray-900">{t('title')}</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="mt-1 flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.modifiers" kbPageId="content-modifiers" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             {t('subtitle', { groups: groups.length, options: modifiers.length })}
           </p>

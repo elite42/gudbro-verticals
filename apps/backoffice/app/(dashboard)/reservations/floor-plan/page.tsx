@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, RefreshCw, LayoutGrid, Plus } from 'lucide-react';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   FloorPlanEditor,
   TableData,
@@ -181,7 +182,10 @@ export default function FloorPlanPage() {
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Floor Plan</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-gray-900">Floor Plan</h1>
+              <InfoTooltip contentKey="pages.floorPlan" kbPageId="reservations-floor-plan" />
+            </div>
             <p className="mt-1 text-sm text-gray-500">
               Arrange tables and manage your restaurant layout
             </p>

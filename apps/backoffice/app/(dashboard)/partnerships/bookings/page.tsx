@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -234,7 +235,10 @@ export default function BookingsPage() {
             <span>/</span>
             <span>Group Bookings</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Group Bookings</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="mt-1 text-2xl font-bold text-gray-900">Group Bookings</h1>
+            <InfoTooltip contentKey="pages.groupBookings" kbPageId="partnerships-bookings" />
+          </div>
           <p className="mt-1 text-gray-600">
             Manage group booking requests from tour operators and accommodations.
           </p>

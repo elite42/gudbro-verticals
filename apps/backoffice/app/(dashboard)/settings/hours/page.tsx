@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   OperatingHoursEditor,
   EMPTY_OPERATING_HOURS,
@@ -468,6 +469,7 @@ export default function HoursSettingsPage() {
               </svg>
             </Link>
             <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.hours" kbPageId="settings-hours" />
           </div>
           <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>

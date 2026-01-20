@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Calendar, Tag, Trophy, Gift, Percent, Ticket } from 'lucide-react';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export default function MarketingPage() {
   const t = useTranslations('marketing');
@@ -61,7 +62,10 @@ export default function MarketingPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <InfoTooltip contentKey="nav.marketing" kbPageId="promotions" />
+        </div>
         <p className="mt-1 text-gray-500">{t('description')}</p>
       </div>
 

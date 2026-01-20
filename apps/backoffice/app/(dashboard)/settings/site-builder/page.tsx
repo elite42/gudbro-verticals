@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Globe, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { SectionList } from './components/SectionList';
 import { SectionEditor } from './components/SectionEditor';
 import { SiteSectionType } from '@/lib/supabase';
@@ -284,7 +285,10 @@ export default function SiteBuilderPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.siteBuilder" kbPageId="settings-site-builder" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
 

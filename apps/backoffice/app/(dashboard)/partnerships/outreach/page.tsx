@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -259,7 +260,10 @@ function OutreachPageContent() {
           <span>/</span>
           <span>Outreach Pipeline</span>
         </div>
-        <h1 className="mt-1 text-2xl font-bold text-gray-900">Outreach Pipeline</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="mt-1 text-2xl font-bold text-gray-900">Outreach Pipeline</h1>
+          <InfoTooltip contentKey="pages.outreach" kbPageId="partnerships-outreach" />
+        </div>
         <p className="mt-1 text-gray-600">
           Track your partnership outreach from first contact to active partnership.
         </p>

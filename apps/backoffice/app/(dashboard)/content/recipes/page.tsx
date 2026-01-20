@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 interface Product {
   id: string;
@@ -142,7 +143,10 @@ export default function RecipesPage() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.recipes" kbPageId="content-recipes" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             {t('description', { count: totalProducts.toLocaleString() })}
           </p>

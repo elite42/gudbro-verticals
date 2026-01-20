@@ -12,6 +12,7 @@ import { Map, List, RefreshCw, Download, Mail } from 'lucide-react';
 import { SmartMap } from '@/components/map';
 import type { MapEntity } from '@/components/map/hooks/useMapData';
 import { QuickActionPanel } from '@/components/map/panels/QuickActionPanel';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 // Demo merchant ID - in production this comes from auth context
 // ROOTS Cafe merchant ID for testing
@@ -40,7 +41,10 @@ export default function IntelligenceMapPage() {
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Business Intelligence Map</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Business Intelligence Map</h1>
+            <InfoTooltip contentKey="pages.intelligenceMap" kbPageId="intelligence-map" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             Visualize customers, competitors, and partners in your area
           </p>

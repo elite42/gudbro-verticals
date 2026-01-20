@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { createClient } from '@supabase/supabase-js';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useIsMobile } from '@/lib/hooks/useIsMobile';
 import {
   OnboardingChecklist,
@@ -172,7 +173,10 @@ export default function DashboardPage() {
     <div className="space-y-8">
       {/* Page header with tenant info */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <InfoTooltip contentKey="nav.dashboard" kbPageId="dashboard" />
+        </div>
         {tenantLoading ? (
           <div className="mt-1 h-5 w-64 animate-pulse rounded bg-gray-200" />
         ) : organization ? (

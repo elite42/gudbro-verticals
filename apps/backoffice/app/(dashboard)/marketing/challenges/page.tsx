@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   FoodChallenge,
   ChallengeAttempt,
@@ -1105,7 +1106,10 @@ export default function ChallengesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="pages.challenges" kbPageId="food-challenges" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">{t('description')}</p>
         </div>
         <button

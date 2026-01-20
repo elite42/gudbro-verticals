@@ -2574,5 +2574,45 @@
       "title": "No QR codes yet",
       "description": "Create your first QR code to get started"
     }
+  },
+  "tooltips": {
+    "learnMore": "Learn more",
+    "nav": {
+      "dashboard": "Overview of your restaurant's performance and quick actions",
+      "orders": "View and manage incoming orders from customers",
+      "content": "Manage your menu, recipes, ingredients and categories",
+      "marketing": "Promotions, events, loyalty programs and gift cards",
+      "customers": "Customer database, feedback and engagement insights",
+      "partnerships": "B2B partnerships with hotels, tour operators and conventions",
+      "analytics": "Track menu views, QR scans and customer engagement",
+      "team": "Manage staff accounts and permissions",
+      "settings": "Configure your restaurant settings and preferences",
+      "qrCodes": "Create and manage QR codes for tables and takeaway",
+      "aiCoManager": "Your AI assistant for menu optimization and insights",
+      "hotActions": "Time-sensitive actions requiring immediate attention",
+      "translations": "Manage menu translations for different languages",
+      "foodCosts": "Track ingredient costs and recipe profitability",
+      "reservations": "Manage table bookings and floor plan",
+      "intelligence": "Market intelligence and competitor analysis",
+      "billing": "Manage your subscription and payment methods",
+      "help": "Access knowledge base and support resources"
+    },
+    "pages": {
+      "qrCodes": "Create QR codes for tables, takeaway, or marketing campaigns",
+      "promotions": "Create time-limited offers to boost sales during slow periods",
+      "loyalty": "Reward repeat customers with points and exclusive perks",
+      "giftCards": "Sell digital gift cards that customers can redeem in-store",
+      "events": "Promote special events, live music, or themed nights",
+      "challenges": "Gamify dining with food challenges and leaderboards",
+      "reservations": "Manage table bookings and floor plan",
+      "aiChat": "Your AI assistant for menu optimization and insights",
+      "analytics": "Comprehensive analytics for menu performance and engagement",
+      "menu": "Build and organize your digital menu",
+      "recipes": "Create and manage recipes with ingredient costs",
+      "ingredients": "Manage your ingredient database",
+      "categories": "Organize menu items into categories",
+      "followers": "See customers who follow your restaurant",
+      "feedback": "View and respond to customer feedback"
+    }
   }
 }

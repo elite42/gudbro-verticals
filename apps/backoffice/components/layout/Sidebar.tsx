@@ -7,6 +7,7 @@ import { useTenant } from '@/lib/contexts/TenantContext';
 import { useAuth } from '@/lib/auth';
 import { useSidebar } from '@/lib/contexts/SidebarContext';
 import { Pin, PinOff, ChevronDown } from 'lucide-react';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 // Platform admin navigation (GudBro Owner only)
 const platformNavigation = [
@@ -37,6 +38,8 @@ const navigation = [
   {
     name: 'Dashboard',
     href: '/dashboard',
+    tooltipKey: 'dashboard',
+    kbPageId: 'dashboard',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -50,6 +53,8 @@ const navigation = [
   {
     name: 'AI Co-Manager',
     href: '/ai',
+    tooltipKey: 'aiCoManager',
+    kbPageId: 'ai-co-manager',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -69,6 +74,8 @@ const navigation = [
   {
     name: 'Orders',
     href: '/orders',
+    tooltipKey: 'orders',
+    kbPageId: 'orders-list',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -87,6 +94,8 @@ const navigation = [
   {
     name: 'Hot Actions',
     href: '/hot-actions',
+    tooltipKey: 'hotActions',
+    kbPageId: 'hot-actions',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -101,6 +110,8 @@ const navigation = [
   {
     name: 'Content',
     href: '/content',
+    tooltipKey: 'content',
+    kbPageId: 'content-overview',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -124,6 +135,8 @@ const navigation = [
   {
     name: 'QR Codes',
     href: '/qr-codes',
+    tooltipKey: 'qrCodes',
+    kbPageId: 'qr-codes',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -146,6 +159,8 @@ const navigation = [
   {
     name: 'Translations',
     href: '/translations',
+    tooltipKey: 'translations',
+    kbPageId: 'translations',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -159,6 +174,8 @@ const navigation = [
   {
     name: 'Food Costs',
     href: '/food-costs',
+    tooltipKey: 'foodCosts',
+    kbPageId: 'food-costs',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -176,6 +193,8 @@ const navigation = [
   {
     name: 'Customers',
     href: '/customers',
+    tooltipKey: 'customers',
+    kbPageId: 'customers-overview',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -194,6 +213,8 @@ const navigation = [
   {
     name: 'Marketing',
     href: '/marketing',
+    tooltipKey: 'marketing',
+    kbPageId: 'promotions',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -217,6 +238,8 @@ const navigation = [
   {
     name: 'Partnerships',
     href: '/partnerships',
+    tooltipKey: 'partnerships',
+    kbPageId: 'partnerships-overview',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -240,6 +263,8 @@ const navigation = [
   {
     name: 'Reservations',
     href: '/reservations',
+    tooltipKey: 'reservations',
+    kbPageId: 'reservations',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -257,6 +282,8 @@ const navigation = [
   {
     name: 'Analytics',
     href: '/analytics',
+    tooltipKey: 'analytics',
+    kbPageId: 'analytics',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -270,6 +297,8 @@ const navigation = [
   {
     name: 'Intelligence',
     href: '/intelligence/map',
+    tooltipKey: 'intelligence',
+    kbPageId: 'market-intelligence',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -284,6 +313,8 @@ const navigation = [
   {
     name: 'Team',
     href: '/team',
+    tooltipKey: 'team',
+    kbPageId: 'team',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -297,6 +328,8 @@ const navigation = [
   {
     name: 'Billing',
     href: '/billing',
+    tooltipKey: 'billing',
+    kbPageId: 'billing',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -310,6 +343,8 @@ const navigation = [
   {
     name: 'Settings',
     href: '/settings',
+    tooltipKey: 'settings',
+    kbPageId: 'settings-general',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -324,6 +359,8 @@ const navigation = [
   {
     name: 'Help',
     href: '/help',
+    tooltipKey: 'help',
+    kbPageId: 'getting-started',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -428,6 +465,15 @@ export function Sidebar() {
                 {isExpanded && (
                   <>
                     <span className="flex-1 truncate">{item.name}</span>
+                    {'tooltipKey' in item && item.tooltipKey && (
+                      <InfoTooltip
+                        contentKey={`nav.${item.tooltipKey}`}
+                        kbPageId={'kbPageId' in item ? item.kbPageId : undefined}
+                        side="right"
+                        iconSize={14}
+                        className="text-gray-500 hover:text-gray-300"
+                      />
+                    )}
                     {'badge' in item && item.badge === 'live' && (
                       <span className="flex h-2 w-2">
                         <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-green-400 opacity-75"></span>

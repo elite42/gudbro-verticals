@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -302,7 +303,10 @@ export default function ProductsPage() {
             <span>/</span>
             <span>Tourism Products</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Tourism Products</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="mt-1 text-2xl font-bold text-gray-900">Tourism Products</h1>
+            <InfoTooltip contentKey="pages.tourismProducts" kbPageId="partnerships-products" />
+          </div>
           <p className="mt-1 text-gray-600">
             Create special products and experiences for tour groups.
           </p>

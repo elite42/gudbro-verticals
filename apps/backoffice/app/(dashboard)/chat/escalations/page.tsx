@@ -13,6 +13,7 @@ import {
   ArrowRight,
   RefreshCw,
 } from 'lucide-react';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 interface Escalation {
   id: string;
@@ -152,7 +153,10 @@ export default function EscalationsPage() {
     <div className="p-6">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Chat Escalations</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Chat Escalations</h1>
+            <InfoTooltip contentKey="pages.chatEscalations" kbPageId="chat-escalations" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             Customer conversations requiring human attention
           </p>

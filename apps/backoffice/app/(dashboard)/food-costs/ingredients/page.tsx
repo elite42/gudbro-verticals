@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,7 +79,9 @@ export default function IngredientCostsPage() {
       setLoading(true);
       const { data, error } = await supabase
         .from('ingredients')
-        .select('id, slug, name_multilang, cost_per_unit, cost_unit, cost_currency, supplier_name, supplier_sku, cost_updated_at, is_global')
+        .select(
+          'id, slug, name_multilang, cost_per_unit, cost_unit, cost_currency, supplier_name, supplier_sku, cost_updated_at, is_global'
+        )
         .order('name_multilang->en');
 
       if (error) throw error;
@@ -199,9 +202,9 @@ export default function IngredientCostsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
           <p className="mt-4 text-gray-600">Loading ingredients...</p>
         </div>
       </div>
@@ -213,12 +216,17 @@ export default function IngredientCostsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-            <Link href="/food-costs" className="hover:text-blue-600">Food Costs</Link>
+          <div className="mb-1 flex items-center gap-2 text-sm text-gray-500">
+            <Link href="/food-costs" className="hover:text-blue-600">
+              Food Costs
+            </Link>
             <span>/</span>
             <span className="text-gray-900">Ingredient Costs</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Ingredient Costs</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Ingredient Costs</h1>
+            <InfoTooltip contentKey="pages.ingredientCosts" kbPageId="food-cost-ingredients" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             Set purchase costs for each ingredient to calculate food costs
           </p>
@@ -227,22 +235,22 @@ export default function IngredientCostsPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="p-4 bg-white rounded-xl border border-gray-200">
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
           <p className="text-sm text-gray-500">Total Ingredients</p>
           <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
         </div>
-        <div className="p-4 bg-green-50 rounded-xl border border-green-200">
+        <div className="rounded-xl border border-green-200 bg-green-50 p-4">
           <p className="text-sm text-green-600">With Cost Data</p>
           <p className="text-2xl font-bold text-green-700">{stats.withCost}</p>
         </div>
-        <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
           <p className="text-sm text-amber-600">Missing Cost</p>
           <p className="text-2xl font-bold text-amber-700">{stats.noCost}</p>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <div className="relative flex-1">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
           <input
@@ -250,15 +258,13 @@ export default function IngredientCostsPage() {
             placeholder="Search ingredients..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <button
           onClick={() => setFilterNoCost(!filterNoCost)}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            filterNoCost
-              ? 'bg-amber-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+            filterNoCost ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
           Show Missing Only
@@ -266,15 +272,25 @@ export default function IngredientCostsPage() {
       </div>
 
       {/* Ingredients Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="border-b border-gray-200 bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ingredient</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cost</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Supplier</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Updated</th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                Ingredient
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                Cost
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                Supplier
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                Updated
+              </th>
+              <th className="px-4 py-3 text-right text-xs font-medium uppercase text-gray-500">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -282,7 +298,10 @@ export default function IngredientCostsPage() {
               const isEditing = editingId === ingredient.id;
 
               return (
-                <tr key={ingredient.id} className={`${isEditing ? 'bg-blue-50' : 'hover:bg-gray-50'}`}>
+                <tr
+                  key={ingredient.id}
+                  className={`${isEditing ? 'bg-blue-50' : 'hover:bg-gray-50'}`}
+                >
                   <td className="px-4 py-3">
                     <div className="font-medium text-gray-900">
                       {getName(ingredient.name_multilang)}
@@ -294,28 +313,36 @@ export default function IngredientCostsPage() {
                       <div className="flex items-center gap-2">
                         <select
                           value={editForm.cost_currency}
-                          onChange={(e) => setEditForm({ ...editForm, cost_currency: e.target.value })}
-                          className="w-20 px-2 py-1.5 border border-gray-300 rounded text-sm"
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, cost_currency: e.target.value })
+                          }
+                          className="w-20 rounded border border-gray-300 px-2 py-1.5 text-sm"
                         >
                           {CURRENCIES.map((c) => (
-                            <option key={c.code} value={c.code}>{c.code}</option>
+                            <option key={c.code} value={c.code}>
+                              {c.code}
+                            </option>
                           ))}
                         </select>
                         <input
                           type="number"
                           value={editForm.cost_per_unit}
-                          onChange={(e) => setEditForm({ ...editForm, cost_per_unit: e.target.value })}
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, cost_per_unit: e.target.value })
+                          }
                           placeholder="0.00"
                           step="0.01"
-                          className="w-24 px-2 py-1.5 border border-gray-300 rounded text-sm"
+                          className="w-24 rounded border border-gray-300 px-2 py-1.5 text-sm"
                         />
                         <select
                           value={editForm.cost_unit}
                           onChange={(e) => setEditForm({ ...editForm, cost_unit: e.target.value })}
-                          className="w-28 px-2 py-1.5 border border-gray-300 rounded text-sm"
+                          className="w-28 rounded border border-gray-300 px-2 py-1.5 text-sm"
                         >
                           {COST_UNITS.map((u) => (
-                            <option key={u.value} value={u.value}>{u.label}</option>
+                            <option key={u.value} value={u.value}>
+                              {u.label}
+                            </option>
                           ))}
                         </select>
                       </div>
@@ -326,12 +353,12 @@ export default function IngredientCostsPage() {
                             <span className="font-medium text-gray-900">
                               {formatCurrency(ingredient.cost_per_unit, ingredient.cost_currency)}
                             </span>
-                            <span className="text-gray-500 text-sm ml-1">
+                            <span className="ml-1 text-sm text-gray-500">
                               / {ingredient.cost_unit}
                             </span>
                           </div>
                         ) : (
-                          <span className="text-amber-600 text-sm font-medium">Not set</span>
+                          <span className="text-sm font-medium text-amber-600">Not set</span>
                         )}
                       </div>
                     )}
@@ -342,16 +369,20 @@ export default function IngredientCostsPage() {
                         <input
                           type="text"
                           value={editForm.supplier_name}
-                          onChange={(e) => setEditForm({ ...editForm, supplier_name: e.target.value })}
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, supplier_name: e.target.value })
+                          }
                           placeholder="Supplier name"
-                          className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm"
+                          className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
                         />
                         <input
                           type="text"
                           value={editForm.supplier_sku}
-                          onChange={(e) => setEditForm({ ...editForm, supplier_sku: e.target.value })}
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, supplier_sku: e.target.value })
+                          }
                           placeholder="SKU / Code"
-                          className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm"
+                          className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
                         />
                       </div>
                     ) : (
@@ -360,11 +391,13 @@ export default function IngredientCostsPage() {
                           <div>
                             <div className="text-sm text-gray-900">{ingredient.supplier_name}</div>
                             {ingredient.supplier_sku && (
-                              <div className="text-xs text-gray-500">SKU: {ingredient.supplier_sku}</div>
+                              <div className="text-xs text-gray-500">
+                                SKU: {ingredient.supplier_sku}
+                              </div>
                             )}
                           </div>
                         ) : (
-                          <span className="text-gray-400 text-sm">-</span>
+                          <span className="text-sm text-gray-400">-</span>
                         )}
                       </div>
                     )}
@@ -379,14 +412,14 @@ export default function IngredientCostsPage() {
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={cancelEdit}
-                          className="px-3 py-1.5 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50"
+                          className="rounded border border-gray-300 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
                         >
                           Cancel
                         </button>
                         <button
                           onClick={saveEdit}
                           disabled={saving}
-                          className="px-3 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50"
+                          className="rounded bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700 disabled:opacity-50"
                         >
                           {saving ? 'Saving...' : 'Save'}
                         </button>
@@ -394,7 +427,7 @@ export default function IngredientCostsPage() {
                     ) : (
                       <button
                         onClick={() => startEdit(ingredient)}
-                        className="px-3 py-1.5 text-blue-600 hover:bg-blue-50 rounded text-sm font-medium"
+                        className="rounded px-3 py-1.5 text-sm font-medium text-blue-600 hover:bg-blue-50"
                       >
                         Edit Cost
                       </button>
@@ -407,19 +440,21 @@ export default function IngredientCostsPage() {
         </table>
 
         {filteredIngredients.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-4xl mb-4">💰</div>
+          <div className="py-12 text-center">
+            <div className="mb-4 text-4xl">💰</div>
             <p className="text-gray-500">No ingredients found</p>
           </div>
         )}
       </div>
 
       {/* Help Section */}
-      <div className="bg-blue-50 rounded-xl border border-blue-200 p-4">
+      <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
         <h3 className="font-medium text-blue-900">How Ingredient Costs Work</h3>
-        <ul className="mt-2 text-sm text-blue-800 space-y-1">
+        <ul className="mt-2 space-y-1 text-sm text-blue-800">
           <li>Set the purchase cost per unit (e.g., cost per kg of coffee beans)</li>
-          <li>When you add ingredients to product recipes, the system calculates total food cost</li>
+          <li>
+            When you add ingredients to product recipes, the system calculates total food cost
+          </li>
           <li>Food cost is automatically updated when you change ingredient costs</li>
           <li>Track suppliers and SKUs for easy reordering</li>
         </ul>

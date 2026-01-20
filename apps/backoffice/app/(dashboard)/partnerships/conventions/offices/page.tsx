@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -293,7 +294,10 @@ export default function OfficesPage() {
             <span>/</span>
             <span>Offices</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Offices & Companies</h1>
+          <div className="mt-1 flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Offices & Companies</h1>
+            <InfoTooltip contentKey="pages.conventionOffices" kbPageId="conventions-offices" />
+          </div>
           <p className="mt-1 text-gray-600">
             Discover and partner with nearby offices, gyms, schools and organizations.
           </p>

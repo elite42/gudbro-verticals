@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 type ContentType = 'menu' | 'services' | 'wifi' | 'attractions' | 'contacts';
 
@@ -96,7 +97,10 @@ export default function ContentPage() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+            <InfoTooltip contentKey="nav.content" kbPageId="content-overview" />
+          </div>
           <p className="mt-1 text-sm text-gray-500">{t('description')}</p>
         </div>
         <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">

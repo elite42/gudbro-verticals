@@ -4,7 +4,7 @@
 > **Max 3 task** alla volta per focus.
 > Quando completata → spostala in `3-TESTING.md` o `4-DONE.md`
 
-**Last Updated:** 2026-01-20
+**Last Updated:** 2026-01-20 (no active tasks)
 
 ---
 
@@ -72,6 +72,8 @@ Quando pronto per Phase 4, vedere `1-TODO.md` sezione "SCALING INITIATIVE - Phas
 
 ## Recentemente completati (vedi 4-DONE.md)
 
+- ✅ BACKOFFICE-TOOLTIPS - Contextual Help System (~65 pages) - 2026-01-20
+- ✅ BACKOFFICE-I18N - Internazionalizzazione EN/IT - 2026-01-20
 - ✅ SECURITY Phase 1 (3 task: headers, audit-log, alerts) - 2026-01-18
 - ✅ SCALING Phase 2 & 3 (13 task) - 2026-01-18
 - ✅ SCALING Phase 1 (12 task) - 2026-01-17

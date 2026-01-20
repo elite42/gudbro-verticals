@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useTenant } from '@/lib/contexts/TenantContext';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export const dynamic = 'force-dynamic';
 
@@ -187,7 +188,10 @@ export default function ActiveConventionsPage() {
             <span>/</span>
             <span>Active</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Active Conventions</h1>
+          <div className="mt-1 flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900">Active Conventions</h1>
+            <InfoTooltip contentKey="pages.activeConventions" kbPageId="conventions-active" />
+          </div>
           <p className="mt-1 text-gray-600">
             Manage your corporate discount conventions and special offers.
           </p>
