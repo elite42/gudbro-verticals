@@ -70,18 +70,65 @@ interface Promotion {
   createdAt: string;
 }
 
-const PROMOTION_TYPE_CONFIG: Record<PromotionType, { label: string; icon: string; color: string }> =
-  {
-    discount_percent: { label: 'Sconto %', icon: '🏷️', color: 'bg-green-100 text-green-700' },
-    discount_fixed: { label: 'Sconto Fisso', icon: '💵', color: 'bg-emerald-100 text-emerald-700' },
-    free_item: { label: 'Omaggio', icon: '🎁', color: 'bg-pink-100 text-pink-700' },
-    buy_x_get_y: { label: 'Prendi X Paghi Y', icon: '🛒', color: 'bg-blue-100 text-blue-700' },
-    bundle: { label: 'Bundle', icon: '📦', color: 'bg-purple-100 text-purple-700' },
-    loyalty_bonus: { label: 'Bonus Punti', icon: '⭐', color: 'bg-amber-100 text-amber-700' },
-    scratch_card: { label: 'Gratta e Vinci', icon: '🎰', color: 'bg-red-100 text-red-700' },
-    spin_wheel: { label: 'Ruota Fortuna', icon: '🎡', color: 'bg-indigo-100 text-indigo-700' },
-    first_visit: { label: 'Prima Visita', icon: '👋', color: 'bg-teal-100 text-teal-700' },
-  };
+const PROMOTION_TYPE_CONFIG: Record<
+  PromotionType,
+  { label: string; icon: string; color: string; description: string }
+> = {
+  discount_percent: {
+    label: 'Sconto %',
+    icon: '🏷️',
+    color: 'bg-green-100 text-green-700',
+    description: 'Sconto percentuale sul totale ordine',
+  },
+  discount_fixed: {
+    label: 'Sconto Fisso',
+    icon: '💵',
+    color: 'bg-emerald-100 text-emerald-700',
+    description: 'Sconto in euro fisso (es. -5€)',
+  },
+  free_item: {
+    label: 'Omaggio',
+    icon: '🎁',
+    color: 'bg-pink-100 text-pink-700',
+    description: 'Prodotto gratis con acquisto',
+  },
+  buy_x_get_y: {
+    label: 'Prendi X Paghi Y',
+    icon: '🛒',
+    color: 'bg-blue-100 text-blue-700',
+    description: 'Es: Prendi 3 paghi 2',
+  },
+  bundle: {
+    label: 'Bundle',
+    icon: '📦',
+    color: 'bg-purple-100 text-purple-700',
+    description: 'Combo di prodotti a prezzo speciale',
+  },
+  loyalty_bonus: {
+    label: 'Bonus Punti',
+    icon: '⭐',
+    color: 'bg-amber-100 text-amber-700',
+    description: 'Punti fedeltà extra su acquisto',
+  },
+  scratch_card: {
+    label: 'Gratta e Vinci',
+    icon: '🎰',
+    color: 'bg-red-100 text-red-700',
+    description: 'Cliente scopre premio nascosto',
+  },
+  spin_wheel: {
+    label: 'Ruota Fortuna',
+    icon: '🎡',
+    color: 'bg-indigo-100 text-indigo-700',
+    description: 'Gira la ruota e vinci premi',
+  },
+  first_visit: {
+    label: 'Prima Visita',
+    icon: '👋',
+    color: 'bg-teal-100 text-teal-700',
+    description: 'Sconto esclusivo nuovi clienti',
+  },
+};
 
 const STATUS_CONFIG: Record<PromotionStatus, { label: string; color: string }> = {
   draft: { label: 'Bozza', color: 'bg-gray-100 text-gray-700' },
@@ -191,7 +238,7 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
                         key={type}
                         type="button"
                         onClick={() => setFormData({ ...formData, type: type as PromotionType })}
-                        className={`rounded-lg border-2 p-3 text-left transition-colors ${
+                        className={`group rounded-lg border-2 p-3 text-left transition-colors ${
                           formData.type === type
                             ? 'border-purple-500 bg-purple-50'
                             : 'border-gray-200 hover:border-purple-300'
@@ -199,6 +246,9 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
                       >
                         <span className="mb-1 block text-2xl">{config.icon}</span>
                         <span className="text-sm font-medium text-gray-900">{config.label}</span>
+                        <span className="mt-1 block text-[11px] leading-tight text-gray-500 group-hover:text-gray-600">
+                          {config.description}
+                        </span>
                       </button>
                     ))}
                   </div>

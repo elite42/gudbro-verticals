@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { ImageUpload } from '@/components/ui/image-upload';
 import {
   FoodChallenge,
   ChallengeAttempt,
@@ -213,6 +214,21 @@ function ChallengeFormModal({ challenge, merchantId, onClose, onSave }: Challeng
                       rows={2}
                       className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
                       placeholder="Descrivi la sfida..."
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                      Immagine Sfida
+                    </label>
+                    <ImageUpload
+                      value={formData.image_url || ''}
+                      onChange={(url) => setFormData({ ...formData, image_url: url })}
+                      folder="challenges"
+                      entityId={challenge?.id || 'new'}
+                      maxSizeMB={5}
+                      aspectRatio="landscape"
+                      previewSize="md"
+                      helpText="Immagine che rappresenta la sfida (es: il piatto da completare)"
                     />
                   </div>
                 </div>

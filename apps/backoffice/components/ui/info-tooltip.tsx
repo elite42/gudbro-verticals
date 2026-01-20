@@ -25,13 +25,14 @@ export function InfoTooltip({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <button
-          type="button"
-          className={`ml-1.5 rounded-sm text-gray-400 hover:text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 ${className || ''}`}
+        <span
+          role="button"
+          tabIndex={0}
+          className={`ml-1.5 inline-flex cursor-pointer rounded-sm text-gray-400 hover:text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 ${className || ''}`}
           aria-label="More information"
         >
           <HelpCircle size={iconSize} />
-        </button>
+        </span>
       </TooltipTrigger>
       <TooltipContent side={side} className="max-w-xs">
         <p className="text-sm">{t(contentKey)}</p>

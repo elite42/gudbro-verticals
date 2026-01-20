@@ -1,13 +1,15 @@
 'use client';
 
 import { HeroContent } from '@/lib/supabase';
+import { ImageUpload } from '@/components/ui/image-upload';
 
 interface HeroEditorProps {
   content: Record<string, unknown>;
   onChange: (content: Record<string, unknown>) => void;
+  locationId?: string;
 }
 
-export function HeroEditor({ content, onChange }: HeroEditorProps) {
+export function HeroEditor({ content, onChange, locationId }: HeroEditorProps) {
   const heroContent = content as unknown as HeroContent;
 
   const updateField = (field: keyof HeroContent, value: unknown) => {
@@ -40,28 +42,20 @@ export function HeroEditor({ content, onChange }: HeroEditorProps) {
         />
       </div>
 
-      {/* Image URL */}
+      {/* Background Image */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700">Background Image URL</label>
-        <input
-          type="url"
+        <label className="mb-2 block text-sm font-medium text-gray-700">Background Image</label>
+        <ImageUpload
           value={heroContent.image_url || ''}
-          onChange={(e) => updateField('image_url', e.target.value)}
-          placeholder="https://example.com/hero-image.jpg"
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          onChange={(url) => updateField('image_url', url)}
+          folder="site-assets"
+          locationId={locationId}
+          entityId="hero-bg"
+          maxSizeMB={10}
+          aspectRatio="landscape"
+          previewSize="lg"
+          helpText="Recommended: 1920x1080px or larger for best quality"
         />
-        {heroContent.image_url && (
-          <div className="mt-2 overflow-hidden rounded-lg">
-            <img
-              src={heroContent.image_url}
-              alt="Hero preview"
-              className="h-40 w-full object-cover"
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = 'none';
-              }}
-            />
-          </div>
-        )}
       </div>
 
       {/* CTA */}

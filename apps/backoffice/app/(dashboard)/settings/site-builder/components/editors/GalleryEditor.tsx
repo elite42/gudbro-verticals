@@ -2,13 +2,15 @@
 
 import { Plus, Trash2, GripVertical } from 'lucide-react';
 import { GalleryContent } from '@/lib/supabase';
+import { ImageUpload } from '@/components/ui/image-upload';
 
 interface GalleryEditorProps {
   content: Record<string, unknown>;
   onChange: (content: Record<string, unknown>) => void;
+  locationId?: string;
 }
 
-export function GalleryEditor({ content, onChange }: GalleryEditorProps) {
+export function GalleryEditor({ content, onChange, locationId }: GalleryEditorProps) {
   const galleryContent = content as unknown as GalleryContent;
 
   const updateField = (field: keyof GalleryContent, value: unknown) => {
@@ -104,25 +106,16 @@ export function GalleryEditor({ content, onChange }: GalleryEditorProps) {
               </div>
 
               <div className="grid gap-3">
-                <input
-                  type="url"
+                <ImageUpload
                   value={image.url}
-                  onChange={(e) => updateImage(index, 'url', e.target.value)}
-                  placeholder="Image URL"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  onChange={(url) => updateImage(index, 'url', url)}
+                  folder="locations"
+                  locationId={locationId}
+                  entityId={`gallery-${index}`}
+                  maxSizeMB={5}
+                  aspectRatio="landscape"
+                  previewSize="lg"
                 />
-                {image.url && (
-                  <div className="overflow-hidden rounded-lg">
-                    <img
-                      src={image.url}
-                      alt={image.alt || ''}
-                      className="h-32 w-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
-                  </div>
-                )}
                 <input
                   type="text"
                   value={image.alt || ''}

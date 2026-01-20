@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
+import { ImageUpload } from '@/components/ui/image-upload';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -236,9 +237,24 @@ const mockMenuItem: MenuItem = {
       name: { en: 'Size', it: 'Dimensione', vi: 'Kích cỡ' },
       required: true,
       options: [
-        { id: 'small', name: { en: 'Small (8oz)', it: 'Piccolo', vi: 'Nhỏ' }, price_modifier: 0, is_default: true },
-        { id: 'medium', name: { en: 'Medium (12oz)', it: 'Medio', vi: 'Vừa' }, price_modifier: 10000, is_default: false },
-        { id: 'large', name: { en: 'Large (16oz)', it: 'Grande', vi: 'Lớn' }, price_modifier: 20000, is_default: false },
+        {
+          id: 'small',
+          name: { en: 'Small (8oz)', it: 'Piccolo', vi: 'Nhỏ' },
+          price_modifier: 0,
+          is_default: true,
+        },
+        {
+          id: 'medium',
+          name: { en: 'Medium (12oz)', it: 'Medio', vi: 'Vừa' },
+          price_modifier: 10000,
+          is_default: false,
+        },
+        {
+          id: 'large',
+          name: { en: 'Large (16oz)', it: 'Grande', vi: 'Lớn' },
+          price_modifier: 20000,
+          is_default: false,
+        },
       ],
       display_order: 1,
     },
@@ -248,10 +264,30 @@ const mockMenuItem: MenuItem = {
       name: { en: 'Milk Type', it: 'Tipo di Latte', vi: 'Loại Sữa' },
       required: true,
       options: [
-        { id: 'regular', name: { en: 'Regular Milk', it: 'Latte Normale', vi: 'Sữa thường' }, price_modifier: 0, is_default: true },
-        { id: 'oat', name: { en: 'Oat Milk', it: 'Latte di Avena', vi: 'Sữa yến mạch' }, price_modifier: 15000, is_default: false },
-        { id: 'almond', name: { en: 'Almond Milk', it: 'Latte di Mandorla', vi: 'Sữa hạnh nhân' }, price_modifier: 15000, is_default: false },
-        { id: 'soy', name: { en: 'Soy Milk', it: 'Latte di Soia', vi: 'Sữa đậu nành' }, price_modifier: 10000, is_default: false },
+        {
+          id: 'regular',
+          name: { en: 'Regular Milk', it: 'Latte Normale', vi: 'Sữa thường' },
+          price_modifier: 0,
+          is_default: true,
+        },
+        {
+          id: 'oat',
+          name: { en: 'Oat Milk', it: 'Latte di Avena', vi: 'Sữa yến mạch' },
+          price_modifier: 15000,
+          is_default: false,
+        },
+        {
+          id: 'almond',
+          name: { en: 'Almond Milk', it: 'Latte di Mandorla', vi: 'Sữa hạnh nhân' },
+          price_modifier: 15000,
+          is_default: false,
+        },
+        {
+          id: 'soy',
+          name: { en: 'Soy Milk', it: 'Latte di Soia', vi: 'Sữa đậu nành' },
+          price_modifier: 10000,
+          is_default: false,
+        },
       ],
       display_order: 2,
     },
@@ -332,7 +368,9 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         // Fetch all ingredients
         const { data: ingredientsData } = await supabase
           .from('ingredients')
-          .select('id, slug, name_multilang, allergens, intolerances, dietary_flags, calories_per_100g, protein_per_100g, carbs_per_100g, fat_per_100g')
+          .select(
+            'id, slug, name_multilang, allergens, intolerances, dietary_flags, calories_per_100g, protein_per_100g, carbs_per_100g, fat_per_100g'
+          )
           .order('slug');
         setAllIngredients(ingredientsData || []);
 
@@ -341,7 +379,8 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
           setIsNewItem(true);
           // Get merchant_id from first category
           const merchantId = catsData?.[0]?.id
-            ? (await supabase.from('menu_categories').select('merchant_id').limit(1).single()).data?.merchant_id
+            ? (await supabase.from('menu_categories').select('merchant_id').limit(1).single()).data
+                ?.merchant_id
             : null;
 
           // Create empty item for new entry
@@ -393,9 +432,9 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             .order('display_order');
 
           // Enrich with ingredient details
-          const enrichedIngredients = (itemIngredientsData || []).map(ii => ({
+          const enrichedIngredients = (itemIngredientsData || []).map((ii) => ({
             ...ii,
-            ingredient: ingredientsData?.find(i => i.id === ii.ingredient_id),
+            ingredient: ingredientsData?.find((i) => i.id === ii.ingredient_id),
           }));
           setItemIngredients(enrichedIngredients);
 
@@ -442,47 +481,67 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
   }, [resolvedParams.slug, router]);
 
   const updateItem = <K extends keyof MenuItem>(key: K, value: MenuItem[K]) => {
-    setItem(prev => prev ? { ...prev, [key]: value } : prev);
+    setItem((prev) => (prev ? { ...prev, [key]: value } : prev));
     setHasChanges(true);
   };
 
   const updateName = (lang: keyof MultiLangText, value: string) => {
-    setItem(prev => prev ? ({
-      ...prev,
-      name: { ...prev.name, [lang]: value },
-    }) : prev);
+    setItem((prev) =>
+      prev
+        ? {
+            ...prev,
+            name: { ...prev.name, [lang]: value },
+          }
+        : prev
+    );
     setHasChanges(true);
   };
 
   const updateDescription = (lang: keyof MultiLangText, value: string) => {
-    setItem(prev => prev ? ({
-      ...prev,
-      description: { ...(prev.description || { en: '', it: '', vi: '' }), [lang]: value },
-    }) : prev);
+    setItem((prev) =>
+      prev
+        ? {
+            ...prev,
+            description: { ...(prev.description || { en: '', it: '', vi: '' }), [lang]: value },
+          }
+        : prev
+    );
     setHasChanges(true);
   };
 
   const toggleAllergen = (key: keyof AllergenFlags) => {
-    setItem(prev => prev ? ({
-      ...prev,
-      allergens: { ...prev.allergens, [key]: !prev.allergens[key] },
-    }) : prev);
+    setItem((prev) =>
+      prev
+        ? {
+            ...prev,
+            allergens: { ...prev.allergens, [key]: !prev.allergens[key] },
+          }
+        : prev
+    );
     setHasChanges(true);
   };
 
   const toggleIntolerance = (key: keyof IntoleranceFlags) => {
-    setItem(prev => prev ? ({
-      ...prev,
-      intolerances: { ...prev.intolerances, [key]: !prev.intolerances[key] },
-    }) : prev);
+    setItem((prev) =>
+      prev
+        ? {
+            ...prev,
+            intolerances: { ...prev.intolerances, [key]: !prev.intolerances[key] },
+          }
+        : prev
+    );
     setHasChanges(true);
   };
 
   const toggleDietary = (key: keyof DietaryFlags) => {
-    setItem(prev => prev ? ({
-      ...prev,
-      dietaryFlags: { ...prev.dietaryFlags, [key]: !prev.dietaryFlags[key] },
-    }) : prev);
+    setItem((prev) =>
+      prev
+        ? {
+            ...prev,
+            dietaryFlags: { ...prev.dietaryFlags, [key]: !prev.dietaryFlags[key] },
+          }
+        : prev
+    );
     setHasChanges(true);
   };
 
@@ -490,7 +549,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
   const addIngredient = async (ingredientId: string) => {
     if (!item?.id || isNewItem) {
       // For new items, just add to local state
-      const ingredient = allIngredients.find(i => i.id === ingredientId);
+      const ingredient = allIngredients.find((i) => i.id === ingredientId);
       if (!ingredient) return;
 
       const newItemIngredient: MenuItemIngredient = {
@@ -501,7 +560,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         display_order: itemIngredients.length,
         ingredient,
       };
-      setItemIngredients(prev => [...prev, newItemIngredient]);
+      setItemIngredients((prev) => [...prev, newItemIngredient]);
       setHasChanges(true);
       setShowIngredientPicker(false);
       return;
@@ -523,8 +582,8 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
 
       if (error) throw error;
 
-      const ingredient = allIngredients.find(i => i.id === ingredientId);
-      setItemIngredients(prev => [...prev, { ...data, ingredient }]);
+      const ingredient = allIngredients.find((i) => i.id === ingredientId);
+      setItemIngredients((prev) => [...prev, { ...data, ingredient }]);
       setShowIngredientPicker(false);
       computeFromIngredients([...itemIngredients, { ...data, ingredient }]);
     } catch (err) {
@@ -535,7 +594,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
   const removeIngredient = async (itemIngredientId: string) => {
     if (itemIngredientId.startsWith('temp-')) {
       // Temp item, just remove from state
-      setItemIngredients(prev => prev.filter(i => i.id !== itemIngredientId));
+      setItemIngredients((prev) => prev.filter((i) => i.id !== itemIngredientId));
       setHasChanges(true);
       return;
     }
@@ -548,7 +607,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
 
       if (error) throw error;
 
-      const remaining = itemIngredients.filter(i => i.id !== itemIngredientId);
+      const remaining = itemIngredients.filter((i) => i.id !== itemIngredientId);
       setItemIngredients(remaining);
       computeFromIngredients(remaining);
     } catch (err) {
@@ -558,9 +617,9 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
 
   const updateIngredientQuantity = async (itemIngredientId: string, quantity: number) => {
     if (itemIngredientId.startsWith('temp-')) {
-      setItemIngredients(prev => prev.map(i =>
-        i.id === itemIngredientId ? { ...i, quantity_grams: quantity } : i
-      ));
+      setItemIngredients((prev) =>
+        prev.map((i) => (i.id === itemIngredientId ? { ...i, quantity_grams: quantity } : i))
+      );
       setHasChanges(true);
       return;
     }
@@ -571,25 +630,27 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         .update({ quantity_grams: quantity })
         .eq('id', itemIngredientId);
 
-      setItemIngredients(prev => prev.map(i =>
-        i.id === itemIngredientId ? { ...i, quantity_grams: quantity } : i
-      ));
-      computeFromIngredients(itemIngredients.map(i =>
-        i.id === itemIngredientId ? { ...i, quantity_grams: quantity } : i
-      ));
+      setItemIngredients((prev) =>
+        prev.map((i) => (i.id === itemIngredientId ? { ...i, quantity_grams: quantity } : i))
+      );
+      computeFromIngredients(
+        itemIngredients.map((i) =>
+          i.id === itemIngredientId ? { ...i, quantity_grams: quantity } : i
+        )
+      );
     } catch (err) {
       console.error('Error updating ingredient:', err);
     }
   };
 
   const toggleIngredientOptional = async (itemIngredientId: string) => {
-    const ing = itemIngredients.find(i => i.id === itemIngredientId);
+    const ing = itemIngredients.find((i) => i.id === itemIngredientId);
     if (!ing) return;
 
     if (itemIngredientId.startsWith('temp-')) {
-      setItemIngredients(prev => prev.map(i =>
-        i.id === itemIngredientId ? { ...i, is_optional: !i.is_optional } : i
-      ));
+      setItemIngredients((prev) =>
+        prev.map((i) => (i.id === itemIngredientId ? { ...i, is_optional: !i.is_optional } : i))
+      );
       setHasChanges(true);
       return;
     }
@@ -600,9 +661,9 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         .update({ is_optional: !ing.is_optional })
         .eq('id', itemIngredientId);
 
-      setItemIngredients(prev => prev.map(i =>
-        i.id === itemIngredientId ? { ...i, is_optional: !i.is_optional } : i
-      ));
+      setItemIngredients((prev) =>
+        prev.map((i) => (i.id === itemIngredientId ? { ...i, is_optional: !i.is_optional } : i))
+      );
     } catch (err) {
       console.error('Error toggling optional:', err);
     }
@@ -618,7 +679,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
     const computedDietary: DietaryFlags = {};
     let totalCalories = 0;
 
-    ingredients.forEach(ii => {
+    ingredients.forEach((ii) => {
       if (!ii.ingredient || ii.is_optional) return;
 
       const ing = ii.ingredient;
@@ -647,26 +708,31 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
     });
 
     // Update item with computed values
-    setItem(prev => prev ? ({
-      ...prev,
-      allergens: computedAllergens,
-      intolerances: computedIntolerances,
-      dietaryFlags: computedDietary,
-      calories: Math.round(totalCalories),
-      safetyDataSource: 'computed' as const,
-    }) : prev);
+    setItem((prev) =>
+      prev
+        ? {
+            ...prev,
+            allergens: computedAllergens,
+            intolerances: computedIntolerances,
+            dietaryFlags: computedDietary,
+            calories: Math.round(totalCalories),
+            safetyDataSource: 'computed' as const,
+          }
+        : prev
+    );
     setHasChanges(true);
   };
 
   // Get ingredients not yet added
   const availableIngredients = allIngredients.filter(
-    ing => !itemIngredients.some(ii => ii.ingredient_id === ing.id)
+    (ing) => !itemIngredients.some((ii) => ii.ingredient_id === ing.id)
   );
 
   const filteredAvailableIngredients = ingredientSearch
-    ? availableIngredients.filter(ing =>
-        ing.name_multilang?.en?.toLowerCase().includes(ingredientSearch.toLowerCase()) ||
-        ing.slug.toLowerCase().includes(ingredientSearch.toLowerCase())
+    ? availableIngredients.filter(
+        (ing) =>
+          ing.name_multilang?.en?.toLowerCase().includes(ingredientSearch.toLowerCase()) ||
+          ing.slug.toLowerCase().includes(ingredientSearch.toLowerCase())
       )
     : availableIngredients;
 
@@ -714,10 +780,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         router.push(`/content/menu/${data.slug}`);
       } else {
         // Update existing item
-        const { error } = await supabase
-          .from('menu_items')
-          .update(dbData)
-          .eq('id', item.id);
+        const { error } = await supabase.from('menu_items').update(dbData).eq('id', item.id);
 
         if (error) throw error;
       }
@@ -735,9 +798,10 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
     return new Intl.NumberFormat('vi-VN').format(price) + ' ₫';
   };
 
-  const filteredAllergens = allergenRegionFilter === 'all'
-    ? allergensList
-    : allergensList.filter(a => a.region === allergenRegionFilter);
+  const filteredAllergens =
+    allergenRegionFilter === 'all'
+      ? allergensList
+      : allergensList.filter((a) => a.region === allergenRegionFilter);
 
   const tabs: { id: TabId; label: string; icon: string }[] = [
     { id: 'basic', label: 'Basic Info', icon: '📝' },
@@ -751,9 +815,9 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
           <p className="mt-4 text-gray-500">Loading product...</p>
         </div>
       </div>
@@ -763,14 +827,16 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
   // Error state - item not found
   if (!item) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="text-6xl mb-4">404</div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Product not found</h2>
-          <p className="text-gray-500 mb-4">The product you&apos;re looking for doesn&apos;t exist.</p>
+          <div className="mb-4 text-6xl">404</div>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900">Product not found</h2>
+          <p className="mb-4 text-gray-500">
+            The product you&apos;re looking for doesn&apos;t exist.
+          </p>
           <button
             onClick={() => router.push('/content/menu')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
           >
             Back to Menu
           </button>
@@ -782,49 +848,55 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div className="sticky top-0 z-10 border-b border-gray-200 bg-white">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => router.back()}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+                className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
               >
                 ← Back
               </button>
               <div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <a href="/content/menu" className="hover:text-gray-700">Menu</a>
+                  <a href="/content/menu" className="hover:text-gray-700">
+                    Menu
+                  </a>
                   <span>/</span>
                   <span className="text-gray-900">{item.name.en}</span>
                 </div>
-                <h1 className="mt-1 text-xl font-bold text-gray-900 flex items-center gap-2">
+                <h1 className="mt-1 flex items-center gap-2 text-xl font-bold text-gray-900">
                   {item.name.en}
                   {item.isFeatured && <span className="text-yellow-500">⭐</span>}
-                  {item.isNew && <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">NEW</span>}
+                  {item.isNew && (
+                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
+                      NEW
+                    </span>
+                  )}
                 </h1>
               </div>
             </div>
             <div className="flex items-center gap-3">
               {hasChanges && (
-                <span className="text-sm text-amber-600 flex items-center gap-1">
-                  <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
+                <span className="flex items-center gap-1 text-sm text-amber-600">
+                  <span className="h-2 w-2 rounded-full bg-amber-500"></span>
                   Unsaved changes
                 </span>
               )}
               <button
                 onClick={() => router.push(`/preview/${item.slug}`)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 Preview
               </button>
               <button
                 onClick={handleSave}
                 disabled={!hasChanges || isSaving}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                className={`rounded-lg px-4 py-2 text-sm font-medium ${
                   hasChanges
                     ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                    : 'cursor-not-allowed bg-gray-200 text-gray-500'
                 }`}
               >
                 {isSaving ? 'Saving...' : 'Save Changes'}
@@ -833,12 +905,12 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
           </div>
 
           {/* Tabs */}
-          <div className="mt-4 flex gap-1 border-b border-gray-200 -mb-px">
-            {tabs.map(tab => (
+          <div className="-mb-px mt-4 flex gap-1 border-b border-gray-200">
+            {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
                   activeTab === tab.id
                     ? 'border-blue-600 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -853,7 +925,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
       </div>
 
       {/* Content */}
-      <div className="p-6 max-w-5xl mx-auto">
+      <div className="mx-auto max-w-5xl p-6">
         {/* Basic Info Tab */}
         {activeTab === 'basic' && (
           <div className="space-y-6">
@@ -862,20 +934,24 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
               {/* Left Column - Main Info */}
               <div className="col-span-2 space-y-6">
                 {/* Names */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Product Name</h3>
+                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Product Name</h3>
                   <div className="space-y-4">
-                    {(['en', 'vi', 'it'] as const).map(lang => (
+                    {(['en', 'vi', 'it'] as const).map((lang) => (
                       <div key={lang}>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          {lang === 'en' ? '🇬🇧 English' : lang === 'vi' ? '🇻🇳 Vietnamese' : '🇮🇹 Italian'}
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                          {lang === 'en'
+                            ? '🇬🇧 English'
+                            : lang === 'vi'
+                              ? '🇻🇳 Vietnamese'
+                              : '🇮🇹 Italian'}
                           {lang === 'en' && <span className="text-red-500">*</span>}
                         </label>
                         <input
                           type="text"
                           value={item.name[lang] || ''}
                           onChange={(e) => updateName(lang, e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                           placeholder={`Name in ${lang.toUpperCase()}`}
                         />
                       </div>
@@ -884,19 +960,23 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                 </div>
 
                 {/* Descriptions */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Description</h3>
+                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Description</h3>
                   <div className="space-y-4">
-                    {(['en', 'vi', 'it'] as const).map(lang => (
+                    {(['en', 'vi', 'it'] as const).map((lang) => (
                       <div key={lang}>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          {lang === 'en' ? '🇬🇧 English' : lang === 'vi' ? '🇻🇳 Vietnamese' : '🇮🇹 Italian'}
+                        <label className="mb-1 block text-sm font-medium text-gray-700">
+                          {lang === 'en'
+                            ? '🇬🇧 English'
+                            : lang === 'vi'
+                              ? '🇻🇳 Vietnamese'
+                              : '🇮🇹 Italian'}
                         </label>
                         <textarea
                           value={item.description?.[lang] || ''}
                           onChange={(e) => updateDescription(lang, e.target.value)}
                           rows={3}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                           placeholder={`Description in ${lang.toUpperCase()}`}
                         />
                       </div>
@@ -905,21 +985,23 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                 </div>
 
                 {/* Category */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Category</h3>
+                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Category</h3>
                   <div className="grid grid-cols-3 gap-3">
-                    {categories.map(cat => (
+                    {categories.map((cat) => (
                       <button
                         key={cat.id}
                         onClick={() => updateItem('categoryId', cat.id)}
-                        className={`p-3 rounded-lg border text-left transition-colors ${
+                        className={`rounded-lg border p-3 text-left transition-colors ${
                           item.categoryId === cat.id
                             ? 'border-blue-500 bg-blue-50 text-blue-700'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
                         <span className="text-2xl">{cat.icon}</span>
-                        <p className="mt-1 font-medium text-sm">{cat.name_multilang?.en || cat.slug}</p>
+                        <p className="mt-1 text-sm font-medium">
+                          {cat.name_multilang?.en || cat.slug}
+                        </p>
                         <p className="text-xs text-gray-500">{cat.name_multilang?.vi}</p>
                       </button>
                     ))}
@@ -930,26 +1012,26 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
               {/* Right Column - Image & Pricing */}
               <div className="space-y-6">
                 {/* Image */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Image</h3>
-                  <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center text-6xl border-2 border-dashed border-gray-300 cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-colors">
-                    {item.imageUrl ? (
-                      <span>☕</span>
-                    ) : (
-                      <div className="text-center">
-                        <span className="text-4xl text-gray-400">📷</span>
-                        <p className="mt-2 text-sm text-gray-500">Click to upload</p>
-                      </div>
-                    )}
-                  </div>
+                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Image</h3>
+                  <ImageUpload
+                    value={item.imageUrl || ''}
+                    onChange={(url) => updateItem('imageUrl', url || undefined)}
+                    folder="menu-items"
+                    entityId={item.id || 'new'}
+                    maxSizeMB={5}
+                    aspectRatio="square"
+                    previewSize="lg"
+                    helpText="Recommended: 800x800px square image"
+                  />
                 </div>
 
                 {/* Pricing */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Pricing</h3>
+                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Pricing</h3>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         Price <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
@@ -957,7 +1039,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                           type="number"
                           value={item.price}
                           onChange={(e) => updateItem('price', Number(e.target.value))}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pr-16"
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-16 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
                           {item.currency}
@@ -966,35 +1048,44 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                       <p className="mt-1 text-sm text-gray-500">{formatPrice(item.price)}</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
                         Compare at Price
                       </label>
                       <input
                         type="number"
                         value={item.compareAtPrice || ''}
-                        onChange={(e) => updateItem('compareAtPrice', e.target.value ? Number(e.target.value) : undefined)}
+                        onChange={(e) =>
+                          updateItem(
+                            'compareAtPrice',
+                            e.target.value ? Number(e.target.value) : undefined
+                          )
+                        }
                         placeholder="Original price for discounts"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Quick Stats */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Stats</h3>
+                <div className="rounded-xl border border-gray-200 bg-white p-6">
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Stats</h3>
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                       <span className="text-gray-500">Total Orders</span>
                       <span className="font-semibold">{item.totalOrders.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                       <span className="text-gray-500">Created</span>
-                      <span className="text-sm">{new Date(item.createdAt).toLocaleDateString()}</span>
+                      <span className="text-sm">
+                        {new Date(item.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                       <span className="text-gray-500">Last Updated</span>
-                      <span className="text-sm">{new Date(item.updatedAt).toLocaleDateString()}</span>
+                      <span className="text-sm">
+                        {new Date(item.updatedAt).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1007,8 +1098,8 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         {activeTab === 'ingredients' && (
           <div className="space-y-6">
             {/* Ingredients List */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <div className="flex items-center justify-between mb-4">
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="mb-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">Recipe Ingredients</h3>
                   <p className="text-sm text-gray-500">
@@ -1017,20 +1108,22 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                 </div>
                 <button
                   onClick={() => setShowIngredientPicker(true)}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
                 >
                   + Add Ingredient
                 </button>
               </div>
 
               {itemIngredients.length === 0 ? (
-                <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                <div className="rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 py-12 text-center">
                   <span className="text-4xl">🥗</span>
                   <p className="mt-2 text-gray-500">No ingredients added yet</p>
-                  <p className="text-sm text-gray-400">Add ingredients to auto-compute safety data</p>
+                  <p className="text-sm text-gray-400">
+                    Add ingredients to auto-compute safety data
+                  </p>
                   <button
                     onClick={() => setShowIngredientPicker(true)}
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm"
+                    className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white"
                   >
                     Add First Ingredient
                   </button>
@@ -1040,27 +1133,37 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                   {itemIngredients.map((ii, index) => (
                     <div
                       key={ii.id}
-                      className={`flex items-center gap-4 p-4 rounded-lg border ${
-                        ii.is_optional ? 'bg-gray-50 border-gray-200' : 'bg-white border-gray-200'
+                      className={`flex items-center gap-4 rounded-lg border p-4 ${
+                        ii.is_optional ? 'border-gray-200 bg-gray-50' : 'border-gray-200 bg-white'
                       }`}
                     >
                       {/* Order */}
-                      <span className="text-gray-400 text-sm w-6">{index + 1}.</span>
+                      <span className="w-6 text-sm text-gray-400">{index + 1}.</span>
 
                       {/* Ingredient Info */}
                       <div className="flex-1">
                         <p className="font-medium text-gray-900">
                           {ii.ingredient?.name_multilang?.en || ii.ingredient_id}
                         </p>
-                        <div className="flex gap-2 mt-1">
-                          {Object.entries(ii.ingredient?.allergens || {}).filter(([,v]) => v).slice(0, 3).map(([key]) => (
-                            <span key={key} className="px-1.5 py-0.5 bg-red-100 text-red-700 rounded text-xs">
-                              {allergensList.find(a => a.key === key)?.icon} {key}
-                            </span>
-                          ))}
-                          {Object.entries(ii.ingredient?.allergens || {}).filter(([,v]) => v).length > 3 && (
+                        <div className="mt-1 flex gap-2">
+                          {Object.entries(ii.ingredient?.allergens || {})
+                            .filter(([, v]) => v)
+                            .slice(0, 3)
+                            .map(([key]) => (
+                              <span
+                                key={key}
+                                className="rounded bg-red-100 px-1.5 py-0.5 text-xs text-red-700"
+                              >
+                                {allergensList.find((a) => a.key === key)?.icon} {key}
+                              </span>
+                            ))}
+                          {Object.entries(ii.ingredient?.allergens || {}).filter(([, v]) => v)
+                            .length > 3 && (
                             <span className="text-xs text-gray-400">
-                              +{Object.entries(ii.ingredient?.allergens || {}).filter(([,v]) => v).length - 3} more
+                              +
+                              {Object.entries(ii.ingredient?.allergens || {}).filter(([, v]) => v)
+                                .length - 3}{' '}
+                              more
                             </span>
                           )}
                         </div>
@@ -1072,7 +1175,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                           type="number"
                           value={ii.quantity_grams}
                           onChange={(e) => updateIngredientQuantity(ii.id, Number(e.target.value))}
-                          className="w-20 px-2 py-1 border border-gray-300 rounded text-sm text-center"
+                          className="w-20 rounded border border-gray-300 px-2 py-1 text-center text-sm"
                           min="1"
                         />
                         <span className="text-sm text-gray-500">g</span>
@@ -1081,7 +1184,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                       {/* Optional Toggle */}
                       <button
                         onClick={() => toggleIngredientOptional(ii.id)}
-                        className={`px-3 py-1 rounded text-xs font-medium ${
+                        className={`rounded px-3 py-1 text-xs font-medium ${
                           ii.is_optional
                             ? 'bg-gray-200 text-gray-600'
                             : 'bg-green-100 text-green-700'
@@ -1093,14 +1196,15 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                       {/* Nutrition Preview */}
                       {ii.ingredient?.calories_per_100g && (
                         <span className="text-xs text-gray-400">
-                          {Math.round(ii.ingredient.calories_per_100g * ii.quantity_grams / 100)} kcal
+                          {Math.round((ii.ingredient.calories_per_100g * ii.quantity_grams) / 100)}{' '}
+                          kcal
                         </span>
                       )}
 
                       {/* Remove */}
                       <button
                         onClick={() => removeIngredient(ii.id)}
-                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
+                        className="rounded p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
                       >
                         🗑️
                       </button>
@@ -1111,9 +1215,12 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
 
               {/* Computed Summary */}
               {itemIngredients.length > 0 && (
-                <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-medium text-blue-900">Computed from {itemIngredients.filter(i => !i.is_optional).length} Ingredients</h4>
+                <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
+                  <div className="mb-3 flex items-center justify-between">
+                    <h4 className="font-medium text-blue-900">
+                      Computed from {itemIngredients.filter((i) => !i.is_optional).length}{' '}
+                      Ingredients
+                    </h4>
                     <button
                       onClick={() => computeFromIngredients(itemIngredients)}
                       className="text-sm text-blue-600 hover:text-blue-800"
@@ -1125,20 +1232,19 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                     <div>
                       <p className="text-blue-600">Allergens</p>
                       <p className="font-semibold text-blue-900">
-                        {Object.entries(item.allergens).filter(([,v]) => v).length || 0} detected
+                        {Object.entries(item.allergens).filter(([, v]) => v).length || 0} detected
                       </p>
                     </div>
                     <div>
                       <p className="text-blue-600">Intolerances</p>
                       <p className="font-semibold text-blue-900">
-                        {Object.entries(item.intolerances).filter(([,v]) => v).length || 0} detected
+                        {Object.entries(item.intolerances).filter(([, v]) => v).length || 0}{' '}
+                        detected
                       </p>
                     </div>
                     <div>
                       <p className="text-blue-600">Calories</p>
-                      <p className="font-semibold text-blue-900">
-                        {item.calories || 0} kcal
-                      </p>
+                      <p className="font-semibold text-blue-900">{item.calories || 0} kcal</p>
                     </div>
                   </div>
                 </div>
@@ -1147,9 +1253,9 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
 
             {/* Ingredient Picker Modal */}
             {showIngredientPicker && (
-              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-xl p-6 w-full max-w-lg max-h-[80vh] flex flex-col">
-                  <div className="flex items-center justify-between mb-4">
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                <div className="flex max-h-[80vh] w-full max-w-lg flex-col rounded-xl bg-white p-6">
+                  <div className="mb-4 flex items-center justify-between">
                     <h3 className="text-lg font-semibold">Add Ingredient</h3>
                     <button
                       onClick={() => {
@@ -1167,32 +1273,37 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                     value={ingredientSearch}
                     onChange={(e) => setIngredientSearch(e.target.value)}
                     placeholder="Search ingredients..."
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4"
+                    className="mb-4 w-full rounded-lg border border-gray-300 px-4 py-2"
                     autoFocus
                   />
 
-                  <div className="flex-1 overflow-y-auto space-y-1">
+                  <div className="flex-1 space-y-1 overflow-y-auto">
                     {filteredAvailableIngredients.length === 0 ? (
-                      <p className="text-center py-8 text-gray-500">
-                        {ingredientSearch ? 'No ingredients match your search' : 'All ingredients already added'}
+                      <p className="py-8 text-center text-gray-500">
+                        {ingredientSearch
+                          ? 'No ingredients match your search'
+                          : 'All ingredients already added'}
                       </p>
                     ) : (
-                      filteredAvailableIngredients.map(ing => (
+                      filteredAvailableIngredients.map((ing) => (
                         <button
                           key={ing.id}
                           onClick={() => addIngredient(ing.id)}
-                          className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 text-left transition-colors"
+                          className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-blue-50"
                         >
                           <div className="flex-1">
                             <p className="font-medium text-gray-900">
                               {ing.name_multilang?.en || ing.slug}
                             </p>
-                            <div className="flex gap-2 mt-1">
-                              {Object.entries(ing.allergens || {}).filter(([,v]) => v).slice(0, 4).map(([key]) => (
-                                <span key={key} className="text-xs text-red-600">
-                                  {allergensList.find(a => a.key === key)?.icon}
-                                </span>
-                              ))}
+                            <div className="mt-1 flex gap-2">
+                              {Object.entries(ing.allergens || {})
+                                .filter(([, v]) => v)
+                                .slice(0, 4)
+                                .map(([key]) => (
+                                  <span key={key} className="text-xs text-red-600">
+                                    {allergensList.find((a) => a.key === key)?.icon}
+                                  </span>
+                                ))}
                               {ing.calories_per_100g && (
                                 <span className="text-xs text-gray-400">
                                   {ing.calories_per_100g} kcal/100g
@@ -1206,8 +1317,11 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                     )}
                   </div>
 
-                  <div className="mt-4 pt-4 border-t text-center">
-                    <a href="/content/ingredients" className="text-sm text-blue-600 hover:underline">
+                  <div className="mt-4 border-t pt-4 text-center">
+                    <a
+                      href="/content/ingredients"
+                      className="text-sm text-blue-600 hover:underline"
+                    >
                       Manage Ingredients Database →
                     </a>
                   </div>
@@ -1222,14 +1336,15 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
           <div className="space-y-6">
             {/* Data Source Info */}
             {item.safetyDataSource === 'computed' && itemIngredients.length > 0 && (
-              <div className="p-4 bg-green-50 border border-green-200 rounded-xl">
+              <div className="rounded-xl border border-green-200 bg-green-50 p-4">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">✅</span>
                   <div>
                     <h3 className="font-medium text-green-900">Auto-Computed from Ingredients</h3>
                     <p className="text-sm text-green-700">
-                      Safety data is automatically calculated from {itemIngredients.filter(i => !i.is_optional).length} ingredients.
-                      You can still override values manually below.
+                      Safety data is automatically calculated from{' '}
+                      {itemIngredients.filter((i) => !i.is_optional).length} ingredients. You can
+                      still override values manually below.
                     </p>
                   </div>
                 </div>
@@ -1237,18 +1352,20 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             )}
 
             {/* Allergens */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <div className="flex items-center justify-between mb-4">
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="mb-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">Allergens</h3>
-                  <p className="text-sm text-gray-500">Sistema 5 Dimensioni - 30 allergens from EU, Korea, Japan + GUDBRO</p>
+                  <p className="text-sm text-gray-500">
+                    Sistema 5 Dimensioni - 30 allergens from EU, Korea, Japan + GUDBRO
+                  </p>
                 </div>
                 <div className="flex gap-2">
-                  {['all', 'EU', 'Korea', 'Japan', 'GUDBRO'].map(region => (
+                  {['all', 'EU', 'Korea', 'Japan', 'GUDBRO'].map((region) => (
                     <button
                       key={region}
                       onClick={() => setAllergenRegionFilter(region)}
-                      className={`px-3 py-1 text-xs rounded-full ${
+                      className={`rounded-full px-3 py-1 text-xs ${
                         allergenRegionFilter === region
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -1260,11 +1377,11 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                 </div>
               </div>
               <div className="grid grid-cols-5 gap-2">
-                {filteredAllergens.map(allergen => (
+                {filteredAllergens.map((allergen) => (
                   <button
                     key={allergen.key}
                     onClick={() => toggleAllergen(allergen.key)}
-                    className={`p-3 rounded-lg border text-center transition-colors ${
+                    className={`rounded-lg border p-3 text-center transition-colors ${
                       item.allergens[allergen.key]
                         ? 'border-red-400 bg-red-50 text-red-700'
                         : 'border-gray-200 text-gray-600 hover:border-gray-300'
@@ -1277,12 +1394,12 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                 ))}
               </div>
               {Object.entries(item.allergens).filter(([, v]) => v).length > 0 && (
-                <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3">
                   <p className="text-sm text-red-700">
                     ⚠️ <strong>Contains:</strong>{' '}
                     {Object.entries(item.allergens)
                       .filter(([, v]) => v)
-                      .map(([k]) => allergensList.find(a => a.key === k)?.label)
+                      .map(([k]) => allergensList.find((a) => a.key === k)?.label)
                       .join(', ')}
                   </p>
                 </div>
@@ -1290,15 +1407,17 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             </div>
 
             {/* Intolerances */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Intolerances</h3>
-              <p className="text-sm text-gray-500 mb-4">Select intolerances that may affect sensitive customers</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900">Intolerances</h3>
+              <p className="mb-4 text-sm text-gray-500">
+                Select intolerances that may affect sensitive customers
+              </p>
               <div className="grid grid-cols-5 gap-2">
-                {intolerancesList.map(intolerance => (
+                {intolerancesList.map((intolerance) => (
                   <button
                     key={intolerance.key}
                     onClick={() => toggleIntolerance(intolerance.key)}
-                    className={`p-3 rounded-lg border text-center transition-colors ${
+                    className={`rounded-lg border p-3 text-center transition-colors ${
                       item.intolerances[intolerance.key]
                         ? 'border-amber-400 bg-amber-50 text-amber-700'
                         : 'border-gray-200 text-gray-600 hover:border-gray-300'
@@ -1312,15 +1431,17 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             </div>
 
             {/* Dietary Flags */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Dietary Compatibility</h3>
-              <p className="text-sm text-gray-500 mb-4">Mark which diets this item is suitable for</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900">Dietary Compatibility</h3>
+              <p className="mb-4 text-sm text-gray-500">
+                Mark which diets this item is suitable for
+              </p>
               <div className="grid grid-cols-4 gap-2">
-                {dietaryList.map(diet => (
+                {dietaryList.map((diet) => (
                   <button
                     key={diet.key}
                     onClick={() => toggleDietary(diet.key)}
-                    className={`p-3 rounded-lg border text-center transition-colors ${
+                    className={`rounded-lg border p-3 text-center transition-colors ${
                       item.dietaryFlags[diet.key]
                         ? diet.positive
                           ? 'border-green-400 bg-green-50 text-green-700'
@@ -1336,15 +1457,15 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             </div>
 
             {/* Spice Level */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Spice Level</h3>
-              <p className="text-sm text-gray-500 mb-4">Select the heat level (Scoville scale)</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900">Spice Level</h3>
+              <p className="mb-4 text-sm text-gray-500">Select the heat level (Scoville scale)</p>
               <div className="flex gap-2">
-                {spiceLevels.map(spice => (
+                {spiceLevels.map((spice) => (
                   <button
                     key={spice.level}
                     onClick={() => updateItem('spiceLevel', spice.level)}
-                    className={`flex-1 p-4 rounded-lg border text-center transition-colors ${
+                    className={`flex-1 rounded-lg border p-4 text-center transition-colors ${
                       item.spiceLevel === spice.level
                         ? spice.level === 0
                           ? 'border-gray-400 bg-gray-100'
@@ -1361,8 +1482,8 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             </div>
 
             {/* Nutrition */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <div className="flex items-center justify-between mb-4">
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="mb-4 flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">Nutrition Info</h3>
                   <p className="text-sm text-gray-500">
@@ -1379,50 +1500,57 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                 )}
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Calories (kcal)</label>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    Calories (kcal)
+                  </label>
                   <input
                     type="number"
                     value={item.calories || ''}
-                    onChange={(e) => updateItem('calories', e.target.value ? Number(e.target.value) : undefined)}
+                    onChange={(e) =>
+                      updateItem('calories', e.target.value ? Number(e.target.value) : undefined)
+                    }
                     placeholder="e.g. 150"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Protein (g)</label>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    Protein (g)
+                  </label>
                   <input
                     type="number"
                     step="0.1"
                     placeholder="e.g. 5.2"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Carbs (g)</label>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Carbs (g)</label>
                   <input
                     type="number"
                     step="0.1"
                     placeholder="e.g. 20.5"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Fat (g)</label>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Fat (g)</label>
                   <input
                     type="number"
                     step="0.1"
                     placeholder="e.g. 8.0"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
 
-              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
                 <p className="text-sm text-blue-700">
-                  💡 <strong>Tip:</strong> Add ingredients with quantities in the Ingredients section to automatically calculate nutrition values.
-                  Each ingredient has pre-defined nutrition data per 100g.
+                  💡 <strong>Tip:</strong> Add ingredients with quantities in the Ingredients
+                  section to automatically calculate nutrition values. Each ingredient has
+                  pre-defined nutrition data per 100g.
                 </p>
               </div>
             </div>
@@ -1433,8 +1561,11 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         {activeTab === 'customizations' && (
           <div className="space-y-6">
             {item.customizations.map((customization, index) => (
-              <div key={customization.id} className="bg-white rounded-xl border border-gray-200 p-6">
-                <div className="flex items-center justify-between mb-4">
+              <div
+                key={customization.id}
+                className="rounded-xl border border-gray-200 bg-white p-6"
+              >
+                <div className="mb-4 flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">{customization.name.en}</h3>
                     <p className="text-sm text-gray-500">
@@ -1443,30 +1574,34 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                     </p>
                   </div>
                   <div className="flex gap-2">
-                    <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded">
+                    <button className="rounded p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
                       ✏️
                     </button>
-                    <button className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded">
+                    <button className="rounded p-2 text-gray-400 hover:bg-red-50 hover:text-red-600">
                       🗑️
                     </button>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  {customization.options.map(option => (
+                  {customization.options.map((option) => (
                     <div
                       key={option.id}
-                      className={`flex items-center justify-between p-3 rounded-lg ${
-                        option.is_default ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50'
+                      className={`flex items-center justify-between rounded-lg p-3 ${
+                        option.is_default ? 'border border-blue-200 bg-blue-50' : 'bg-gray-50'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         {option.is_default && (
-                          <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">Default</span>
+                          <span className="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
+                            Default
+                          </span>
                         )}
                         <span className="font-medium">{option.name.en}</span>
-                        <span className="text-gray-400 text-sm">{option.name.vi}</span>
+                        <span className="text-sm text-gray-400">{option.name.vi}</span>
                       </div>
-                      <span className={option.price_modifier > 0 ? 'text-green-600' : 'text-gray-500'}>
+                      <span
+                        className={option.price_modifier > 0 ? 'text-green-600' : 'text-gray-500'}
+                      >
                         {option.price_modifier > 0 && '+'}
                         {formatPrice(option.price_modifier)}
                       </span>
@@ -1475,7 +1610,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                 </div>
               </div>
             ))}
-            <button className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+            <button className="w-full rounded-xl border-2 border-dashed border-gray-300 p-4 text-gray-500 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600">
               + Add Customization Group
             </button>
           </div>
@@ -1485,92 +1620,96 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         {activeTab === 'availability' && (
           <div className="space-y-6">
             {/* Status */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Status</h3>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Status</h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
                   <div>
                     <p className="font-medium text-gray-900">Active</p>
                     <p className="text-sm text-gray-500">Show this item in the menu</p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
+                  <label className="relative inline-flex cursor-pointer items-center">
                     <input
                       type="checkbox"
                       checked={item.isActive}
                       onChange={(e) => updateItem('isActive', e.target.checked)}
-                      className="sr-only peer"
+                      className="peer sr-only"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
                   </label>
                 </div>
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
                   <div>
                     <p className="font-medium text-gray-900">Available</p>
                     <p className="text-sm text-gray-500">Currently in stock and can be ordered</p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
+                  <label className="relative inline-flex cursor-pointer items-center">
                     <input
                       type="checkbox"
                       checked={item.isAvailable}
                       onChange={(e) => updateItem('isAvailable', e.target.checked)}
-                      className="sr-only peer"
+                      className="peer sr-only"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
                   </label>
                 </div>
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
                   <div>
                     <p className="font-medium text-gray-900">Featured ⭐</p>
                     <p className="text-sm text-gray-500">Show in featured section</p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
+                  <label className="relative inline-flex cursor-pointer items-center">
                     <input
                       type="checkbox"
                       checked={item.isFeatured}
                       onChange={(e) => updateItem('isFeatured', e.target.checked)}
-                      className="sr-only peer"
+                      className="peer sr-only"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500"></div>
+                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-yellow-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
                   </label>
                 </div>
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
                   <div>
                     <p className="font-medium text-gray-900">New Item 🆕</p>
                     <p className="text-sm text-gray-500">Display &quot;New&quot; badge</p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
+                  <label className="relative inline-flex cursor-pointer items-center">
                     <input
                       type="checkbox"
                       checked={item.isNew}
                       onChange={(e) => updateItem('isNew', e.target.checked)}
-                      className="sr-only peer"
+                      className="peer sr-only"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
                   </label>
                 </div>
               </div>
             </div>
 
             {/* Time-based Availability */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Time-based Availability</h3>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Time-based Availability</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Available From</label>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    Available From
+                  </label>
                   <input
                     type="time"
                     value={item.availableFrom || ''}
                     onChange={(e) => updateItem('availableFrom', e.target.value || undefined)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Available To</label>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    Available To
+                  </label>
                   <input
                     type="time"
                     value={item.availableTo || ''}
                     onChange={(e) => updateItem('availableTo', e.target.value || undefined)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -1578,41 +1717,45 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             </div>
 
             {/* Inventory */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Inventory</h3>
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg mb-4">
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Inventory</h3>
+              <div className="mb-4 flex items-center justify-between rounded-lg bg-gray-50 p-4">
                 <div>
                   <p className="font-medium text-gray-900">Track Inventory</p>
                   <p className="text-sm text-gray-500">Enable stock tracking for this item</p>
                 </div>
-                <label className="relative inline-flex items-center cursor-pointer">
+                <label className="relative inline-flex cursor-pointer items-center">
                   <input
                     type="checkbox"
                     checked={item.trackInventory}
                     onChange={(e) => updateItem('trackInventory', e.target.checked)}
-                    className="sr-only peer"
+                    className="peer sr-only"
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                  <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
                 </label>
               </div>
               {item.trackInventory && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Current Stock</label>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                      Current Stock
+                    </label>
                     <input
                       type="number"
                       value={item.inventoryCount || 0}
                       onChange={(e) => updateItem('inventoryCount', Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Low Stock Alert</label>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                      Low Stock Alert
+                    </label>
                     <input
                       type="number"
                       value={item.lowStockThreshold}
                       onChange={(e) => updateItem('lowStockThreshold', Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -1625,15 +1768,17 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         {activeTab === 'seo' && (
           <div className="space-y-6">
             {/* Slug */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">URL Slug</h3>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">URL Slug</h3>
               <div className="flex items-center gap-2">
                 <span className="text-gray-500">/menu/</span>
                 <input
                   type="text"
                   value={item.slug}
-                  onChange={(e) => updateItem('slug', e.target.value.toLowerCase().replace(/\s+/g, '-'))}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={(e) =>
+                    updateItem('slug', e.target.value.toLowerCase().replace(/\s+/g, '-'))
+                  }
+                  className="flex-1 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <p className="mt-2 text-sm text-gray-500">
@@ -1642,17 +1787,22 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             </div>
 
             {/* Tags */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Tags</h3>
-              <div className="flex flex-wrap gap-2 mb-4">
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Tags</h3>
+              <div className="mb-4 flex flex-wrap gap-2">
                 {item.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                    className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700"
                   >
                     {tag}
                     <button
-                      onClick={() => updateItem('tags', item.tags.filter((_, i) => i !== index))}
+                      onClick={() =>
+                        updateItem(
+                          'tags',
+                          item.tags.filter((_, i) => i !== index)
+                        )
+                      }
                       className="text-gray-400 hover:text-red-500"
                     >
                       ×
@@ -1664,7 +1814,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
                 <input
                   type="text"
                   placeholder="Add a tag..."
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       const input = e.target as HTMLInputElement;
@@ -1681,15 +1831,17 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             </div>
 
             {/* Display Order */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Display Order</h3>
+            <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Display Order</h3>
               <input
                 type="number"
                 value={item.displayOrder}
                 onChange={(e) => updateItem('displayOrder', Number(e.target.value))}
-                className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-32 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <p className="mt-2 text-sm text-gray-500">Lower numbers appear first in the category</p>
+              <p className="mt-2 text-sm text-gray-500">
+                Lower numbers appear first in the category
+              </p>
             </div>
           </div>
         )}

@@ -543,6 +543,7 @@ export const EVENT_TYPE_CONFIG: Record<
   {
     label: string;
     labelIt: string;
+    descriptionIt: string;
     icon: string;
     color: string;
     category: EventCategory;
@@ -552,6 +553,7 @@ export const EVENT_TYPE_CONFIG: Record<
   live_music: {
     label: 'Live Music',
     labelIt: 'Musica Live',
+    descriptionIt: 'Band o artista dal vivo',
     icon: '🎵',
     color: 'bg-purple-100 text-purple-700',
     category: 'entertainment',
@@ -559,6 +561,7 @@ export const EVENT_TYPE_CONFIG: Record<
   dj_set: {
     label: 'DJ Set',
     labelIt: 'DJ Set',
+    descriptionIt: 'DJ con musica mixata',
     icon: '🎧',
     color: 'bg-blue-100 text-blue-700',
     category: 'entertainment',
@@ -566,6 +569,7 @@ export const EVENT_TYPE_CONFIG: Record<
   karaoke: {
     label: 'Karaoke',
     labelIt: 'Karaoke',
+    descriptionIt: 'Clienti cantano al microfono',
     icon: '🎤',
     color: 'bg-pink-100 text-pink-700',
     category: 'entertainment',
@@ -573,6 +577,7 @@ export const EVENT_TYPE_CONFIG: Record<
   trivia_night: {
     label: 'Trivia Night',
     labelIt: 'Quiz Night',
+    descriptionIt: 'Domande e risposte a squadre',
     icon: '🧠',
     color: 'bg-indigo-100 text-indigo-700',
     category: 'entertainment',
@@ -580,6 +585,7 @@ export const EVENT_TYPE_CONFIG: Record<
   game_night: {
     label: 'Game Night',
     labelIt: 'Serata Giochi',
+    descriptionIt: 'Giochi da tavolo o carte',
     icon: '🎲',
     color: 'bg-green-100 text-green-700',
     category: 'entertainment',
@@ -587,6 +593,7 @@ export const EVENT_TYPE_CONFIG: Record<
   comedy_night: {
     label: 'Comedy Night',
     labelIt: 'Stand-up Comedy',
+    descriptionIt: 'Spettacolo comico dal vivo',
     icon: '😂',
     color: 'bg-yellow-100 text-yellow-700',
     category: 'entertainment',
@@ -594,6 +601,7 @@ export const EVENT_TYPE_CONFIG: Record<
   open_mic: {
     label: 'Open Mic',
     labelIt: 'Open Mic',
+    descriptionIt: 'Palco aperto a tutti',
     icon: '🎙️',
     color: 'bg-gray-100 text-gray-700',
     category: 'entertainment',
@@ -601,6 +609,7 @@ export const EVENT_TYPE_CONFIG: Record<
   theme_night: {
     label: 'Theme Night',
     labelIt: 'Serata a Tema',
+    descriptionIt: "Es: anni '80, Halloween",
     icon: '🎭',
     color: 'bg-indigo-100 text-indigo-700',
     category: 'entertainment',
@@ -609,6 +618,7 @@ export const EVENT_TYPE_CONFIG: Record<
   tasting: {
     label: 'Tasting',
     labelIt: 'Degustazione',
+    descriptionIt: 'Assaggio di vini, birre, etc',
     icon: '🍷',
     color: 'bg-red-100 text-red-700',
     category: 'food',
@@ -616,6 +626,7 @@ export const EVENT_TYPE_CONFIG: Record<
   pairing: {
     label: 'Pairing Event',
     labelIt: 'Abbinamento',
+    descriptionIt: 'Cibo abbinato a vino/birra',
     icon: '🧀',
     color: 'bg-amber-100 text-amber-700',
     category: 'food',
@@ -623,6 +634,7 @@ export const EVENT_TYPE_CONFIG: Record<
   chefs_table: {
     label: "Chef's Table",
     labelIt: 'Tavola dello Chef',
+    descriptionIt: 'Esperienza esclusiva con chef',
     icon: '👨‍🍳',
     color: 'bg-gray-700 text-white',
     category: 'food',
@@ -630,6 +642,7 @@ export const EVENT_TYPE_CONFIG: Record<
   cooking_class: {
     label: 'Cooking Class',
     labelIt: 'Corso di Cucina',
+    descriptionIt: 'Clienti imparano a cucinare',
     icon: '📚',
     color: 'bg-green-100 text-green-700',
     category: 'food',
@@ -637,6 +650,7 @@ export const EVENT_TYPE_CONFIG: Record<
   menu_launch: {
     label: 'Menu Launch',
     labelIt: 'Lancio Menu',
+    descriptionIt: 'Presentazione nuovi piatti',
     icon: '✨',
     color: 'bg-yellow-100 text-yellow-700',
     category: 'food',
@@ -644,6 +658,7 @@ export const EVENT_TYPE_CONFIG: Record<
   food_tour: {
     label: 'Food Tour',
     labelIt: 'Tour Gastronomico',
+    descriptionIt: 'Percorso guidato tra piatti',
     icon: '🗺️',
     color: 'bg-teal-100 text-teal-700',
     category: 'food',
@@ -652,6 +667,7 @@ export const EVENT_TYPE_CONFIG: Record<
   happy_hour: {
     label: 'Happy Hour',
     labelIt: 'Happy Hour',
+    descriptionIt: 'Sconti su drink in orario specifico',
     icon: '🍹',
     color: 'bg-orange-100 text-orange-700',
     category: 'promo',
@@ -659,6 +675,7 @@ export const EVENT_TYPE_CONFIG: Record<
   brunch: {
     label: 'Brunch',
     labelIt: 'Brunch',
+    descriptionIt: 'Colazione/pranzo nel weekend',
     icon: '🥐',
     color: 'bg-pink-100 text-pink-700',
     category: 'promo',
@@ -666,6 +683,7 @@ export const EVENT_TYPE_CONFIG: Record<
   lunch_special: {
     label: 'Lunch Special',
     labelIt: 'Menu Pranzo',
+    descriptionIt: 'Menu speciale a pranzo',
     icon: '🍽️',
     color: 'bg-blue-100 text-blue-700',
     category: 'promo',
@@ -673,6 +691,7 @@ export const EVENT_TYPE_CONFIG: Record<
   late_night: {
     label: 'Late Night',
     labelIt: 'After Hours',
+    descriptionIt: 'Offerte dopo mezzanotte',
     icon: '🌙',
     color: 'bg-indigo-200 text-indigo-800',
     category: 'promo',
@@ -681,6 +700,7 @@ export const EVENT_TYPE_CONFIG: Record<
   sports_viewing: {
     label: 'Sports Event',
     labelIt: 'Evento Sportivo',
+    descriptionIt: 'Partita su schermo',
     icon: '⚽',
     color: 'bg-emerald-100 text-emerald-700',
     category: 'sports',
@@ -689,6 +709,7 @@ export const EVENT_TYPE_CONFIG: Record<
   networking: {
     label: 'Networking',
     labelIt: 'Networking',
+    descriptionIt: 'Incontri professionali',
     icon: '🤝',
     color: 'bg-blue-100 text-blue-700',
     category: 'community',
@@ -696,6 +717,7 @@ export const EVENT_TYPE_CONFIG: Record<
   charity: {
     label: 'Charity Event',
     labelIt: 'Evento Benefico',
+    descriptionIt: 'Raccolta fondi per causa',
     icon: '💝',
     color: 'bg-pink-100 text-pink-700',
     category: 'community',
@@ -703,6 +725,7 @@ export const EVENT_TYPE_CONFIG: Record<
   book_club: {
     label: 'Book Club',
     labelIt: 'Club del Libro',
+    descriptionIt: 'Discussione libri insieme',
     icon: '📖',
     color: 'bg-amber-100 text-amber-700',
     category: 'community',
@@ -710,6 +733,7 @@ export const EVENT_TYPE_CONFIG: Record<
   wine_club: {
     label: 'Wine Club',
     labelIt: 'Club del Vino',
+    descriptionIt: 'Appassionati di vino',
     icon: '🍇',
     color: 'bg-purple-100 text-purple-700',
     category: 'community',
@@ -717,6 +741,7 @@ export const EVENT_TYPE_CONFIG: Record<
   singles_night: {
     label: 'Singles Night',
     labelIt: 'Serata Single',
+    descriptionIt: 'Incontri per single',
     icon: '💕',
     color: 'bg-red-100 text-red-700',
     category: 'community',
@@ -725,6 +750,7 @@ export const EVENT_TYPE_CONFIG: Record<
   private_party: {
     label: 'Private Party',
     labelIt: 'Festa Privata',
+    descriptionIt: 'Evento su prenotazione',
     icon: '🎉',
     color: 'bg-pink-100 text-pink-700',
     category: 'private',
@@ -732,6 +758,7 @@ export const EVENT_TYPE_CONFIG: Record<
   corporate: {
     label: 'Corporate Event',
     labelIt: 'Evento Aziendale',
+    descriptionIt: 'Cene/meeting aziendali',
     icon: '💼',
     color: 'bg-gray-100 text-gray-700',
     category: 'private',
@@ -739,6 +766,7 @@ export const EVENT_TYPE_CONFIG: Record<
   birthday: {
     label: 'Birthday',
     labelIt: 'Compleanno',
+    descriptionIt: 'Festa di compleanno',
     icon: '🎂',
     color: 'bg-pink-100 text-pink-700',
     category: 'private',
@@ -746,6 +774,7 @@ export const EVENT_TYPE_CONFIG: Record<
   anniversary: {
     label: 'Anniversary',
     labelIt: 'Anniversario',
+    descriptionIt: 'Celebrazione di coppia',
     icon: '💍',
     color: 'bg-amber-100 text-amber-700',
     category: 'private',
@@ -754,6 +783,7 @@ export const EVENT_TYPE_CONFIG: Record<
   holiday: {
     label: 'Holiday',
     labelIt: 'Festività',
+    descriptionIt: 'Natale, Capodanno, etc',
     icon: '🎄',
     color: 'bg-red-100 text-red-700',
     category: 'special',
@@ -761,6 +791,7 @@ export const EVENT_TYPE_CONFIG: Record<
   special_menu: {
     label: 'Special Menu',
     labelIt: 'Menu Speciale',
+    descriptionIt: 'Menu temporaneo speciale',
     icon: '⭐',
     color: 'bg-amber-100 text-amber-700',
     category: 'special',
@@ -768,6 +799,7 @@ export const EVENT_TYPE_CONFIG: Record<
   closure: {
     label: 'Closure',
     labelIt: 'Chiusura',
+    descriptionIt: 'Locale chiuso',
     icon: '🔒',
     color: 'bg-gray-200 text-gray-700',
     category: 'special',
@@ -775,6 +807,7 @@ export const EVENT_TYPE_CONFIG: Record<
   other: {
     label: 'Other',
     labelIt: 'Altro',
+    descriptionIt: 'Evento personalizzato',
     icon: '📅',
     color: 'bg-gray-100 text-gray-700',
     category: 'special',

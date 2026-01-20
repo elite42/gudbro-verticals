@@ -471,7 +471,7 @@ export function Sidebar() {
                         kbPageId={'kbPageId' in item ? item.kbPageId : undefined}
                         side="right"
                         iconSize={14}
-                        className="text-gray-500 hover:text-gray-300"
+                        className="text-gray-500 opacity-0 transition-opacity hover:text-gray-300 group-hover:opacity-100"
                       />
                     )}
                     {'badge' in item && item.badge === 'live' && (

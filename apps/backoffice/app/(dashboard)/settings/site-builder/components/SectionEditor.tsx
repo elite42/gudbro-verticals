@@ -76,13 +76,19 @@ export function SectionEditor({ section, metadata, onSave, onClose, saving }: Se
       onChange: handleContentChange,
     };
 
+    // Props for editors that need locationId for image uploads
+    const propsWithLocation = {
+      ...props,
+      locationId: section.locationId,
+    };
+
     switch (section.sectionType) {
       case 'hero':
-        return <HeroEditor {...props} />;
+        return <HeroEditor {...propsWithLocation} />;
       case 'about':
         return <AboutEditor {...props} />;
       case 'gallery':
-        return <GalleryEditor {...props} />;
+        return <GalleryEditor {...propsWithLocation} />;
       case 'hours':
         return <HoursEditor {...props} />;
       case 'contact':

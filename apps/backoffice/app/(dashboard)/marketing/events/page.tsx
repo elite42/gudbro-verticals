@@ -413,20 +413,25 @@ function EventFormModal({ event, locationId, onClose, onSave }: EventFormModalPr
                   <label className="mb-2 block text-sm font-medium text-gray-700">
                     Tipo Evento
                   </label>
-                  <div className="grid max-h-48 grid-cols-4 gap-2 overflow-y-auto sm:grid-cols-6">
+                  <div className="grid max-h-72 grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-3">
                     {filteredEventTypes.map(([type, config]) => (
                       <button
                         key={type}
                         type="button"
                         onClick={() => setFormData({ ...formData, eventType: type as EventType })}
-                        className={`rounded-lg border-2 p-2 text-center transition-colors ${
+                        className={`rounded-lg border-2 p-3 text-left transition-colors ${
                           formData.eventType === type
                             ? 'border-purple-500 bg-purple-50'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
-                        <span className="block text-lg">{config.icon}</span>
-                        <span className="line-clamp-1 text-xs text-gray-600">{config.labelIt}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg">{config.icon}</span>
+                          <span className="text-sm font-medium text-gray-800">
+                            {config.labelIt}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-xs text-gray-500">{config.descriptionIt}</p>
                       </button>
                     ))}
                   </div>
