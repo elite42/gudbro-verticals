@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { EmptyState } from '@/components/ui/empty-state';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import {
   Users,
   TrendingUp,
@@ -46,26 +47,23 @@ interface CustomerAtRisk {
 }
 
 // Segment config with icons and colors
-const SEGMENT_CONFIG: Record<string, { icon: any; label: string; color: string; bgColor: string }> =
-  {
-    champion: {
-      icon: Crown,
-      label: 'Champions',
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-100',
-    },
-    loyal: { icon: Heart, label: 'Loyal', color: 'text-green-600', bgColor: 'bg-green-100' },
-    potential: { icon: Sprout, label: 'Potential', color: 'text-blue-600', bgColor: 'bg-blue-100' },
-    new: { icon: Sparkles, label: 'New', color: 'text-purple-600', bgColor: 'bg-purple-100' },
-    at_risk: {
-      icon: AlertCircle,
-      label: 'At Risk',
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-100',
-    },
-    dormant: { icon: Moon, label: 'Dormant', color: 'text-gray-600', bgColor: 'bg-gray-100' },
-    lost: { icon: XCircle, label: 'Lost', color: 'text-red-600', bgColor: 'bg-red-100' },
-  };
+const SEGMENT_CONFIG: Record<string, { icon: any; color: string; bgColor: string }> = {
+  champion: {
+    icon: Crown,
+    color: 'text-yellow-600',
+    bgColor: 'bg-yellow-100',
+  },
+  loyal: { icon: Heart, color: 'text-green-600', bgColor: 'bg-green-100' },
+  potential: { icon: Sprout, color: 'text-blue-600', bgColor: 'bg-blue-100' },
+  new: { icon: Sparkles, color: 'text-purple-600', bgColor: 'bg-purple-100' },
+  at_risk: {
+    icon: AlertCircle,
+    color: 'text-orange-600',
+    bgColor: 'bg-orange-100',
+  },
+  dormant: { icon: Moon, color: 'text-gray-600', bgColor: 'bg-gray-100' },
+  lost: { icon: XCircle, color: 'text-red-600', bgColor: 'bg-red-100' },
+};
 
 // Currency info for formatting
 const CURRENCY_INFO: Record<string, { locale: string; symbol: string }> = {
@@ -104,6 +102,7 @@ function formatCurrency(value: number, currencyCode: string = 'EUR'): string {
 }
 
 export default function CustomerIntelligencePage() {
+  const t = useTranslations('intelligencePage');
   const { brand, location } = useTenant();
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -217,12 +216,8 @@ export default function CustomerIntelligencePage() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Customer Intelligence
-          </h1>
-          <p className="mt-1 text-gray-600 dark:text-gray-400">
-            AI-powered insights to maximize customer lifetime value
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('title')}</h1>
+          <p className="mt-1 text-gray-600 dark:text-gray-400">{t('subtitle')}</p>
         </div>
         <div className="flex gap-2">
           <button
@@ -231,7 +226,7 @@ export default function CustomerIntelligencePage() {
             className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
           >
             <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
-            Sync
+            {t('sync')}
           </button>
           <button
             onClick={handleAnalyzeAll}
@@ -239,7 +234,7 @@ export default function CustomerIntelligencePage() {
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
           >
             <Sparkles className={`h-4 w-4 ${isAnalyzing ? 'animate-pulse' : ''}`} />
-            {isAnalyzing ? 'Analyzing...' : 'Analyze All'}
+            {isAnalyzing ? t('analyzing') : t('analyzeAll')}
           </button>
         </div>
       </div>
@@ -248,26 +243,26 @@ export default function CustomerIntelligencePage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           icon={DollarSign}
-          label="Total CLV"
+          label={t('stats.totalClv')}
           value={formatCurrency(summary?.totalClv || 0, currencyCode)}
           color="green"
         />
         <StatCard
           icon={Users}
-          label="Customers Analyzed"
+          label={t('stats.customersAnalyzed')}
           value={summary?.totalCustomers || 0}
           color="blue"
         />
         <StatCard
           icon={AlertTriangle}
-          label="At Risk"
+          label={t('stats.atRisk')}
           value={summary?.highRiskCount || 0}
-          subtitle="HIGH priority"
+          subtitle={t('stats.highPriority')}
           color="red"
         />
         <StatCard
           icon={TrendingUp}
-          label="Average CLV"
+          label={t('stats.averageClv')}
           value={formatCurrency(summary?.avgClv || 0, currencyCode)}
           color="purple"
         />
@@ -283,10 +278,12 @@ export default function CustomerIntelligencePage() {
               </div>
               <div>
                 <p className="font-semibold text-red-900 dark:text-red-100">
-                  URGENT: {summary?.highRiskCount} customers at risk
+                  {t('urgentBanner.title', { count: summary?.highRiskCount ?? 0 })}
                 </p>
                 <p className="text-sm text-red-700 dark:text-red-300">
-                  {formatCurrency(atRiskValue, currencyCode)} potential revenue loss
+                  {t('urgentBanner.potentialLoss', {
+                    amount: formatCurrency(atRiskValue, currencyCode),
+                  })}
                 </p>
               </div>
             </div>
@@ -294,7 +291,7 @@ export default function CustomerIntelligencePage() {
               href="#at-risk"
               className="inline-flex items-center gap-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
             >
-              View At-Risk
+              {t('urgentBanner.viewAtRisk')}
               <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
@@ -309,7 +306,7 @@ export default function CustomerIntelligencePage() {
             <div className="flex items-center gap-2">
               <Target className="h-5 w-5 text-blue-500" />
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Customer Segments
+                {t('segments.title')}
               </h2>
             </div>
           </div>
@@ -330,7 +327,7 @@ export default function CustomerIntelligencePage() {
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                        {config.label}
+                        {t(`segments.${key}`)}
                       </span>
                       <span className="text-sm text-gray-500">{count}</span>
                     </div>
@@ -367,7 +364,7 @@ export default function CustomerIntelligencePage() {
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-purple-500" />
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Top Recommended Actions
+                {t('recommendations.title')}
               </h2>
             </div>
           </div>
@@ -387,18 +384,28 @@ export default function CustomerIntelligencePage() {
                           {idx + 1}
                         </span>
                         <span className="font-medium text-gray-900 dark:text-white">
-                          Win-back {customer.name || customer.email?.split('@')[0]}
+                          {t('recommendations.winBack', {
+                            name: customer.name || customer.email?.split('@')[0],
+                          })}
                         </span>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">
-                        {formatCurrency(customer.clvEstimated, currencyCode)} CLV at risk
+                        {t('recommendations.clvAtRisk', {
+                          amount: formatCurrency(customer.clvEstimated, currencyCode),
+                        })}
                         {customer.daysSinceLastVisit && (
-                          <> • {customer.daysSinceLastVisit} days inactive</>
+                          <>
+                            {' '}
+                            •{' '}
+                            {t('recommendations.daysInactive', {
+                              days: customer.daysSinceLastVisit,
+                            })}
+                          </>
                         )}
                       </p>
                     </div>
                     <span className="rounded-lg bg-purple-100 px-3 py-1.5 text-xs font-medium text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
-                      View
+                      {t('recommendations.view')}
                     </span>
                   </div>
                 </Link>
@@ -407,12 +414,12 @@ export default function CustomerIntelligencePage() {
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
               <Sparkles className="h-12 w-12 text-gray-300 dark:text-gray-600" />
-              <p className="mt-3 text-gray-500">No actions recommended yet</p>
+              <p className="mt-3 text-gray-500">{t('recommendations.noActions')}</p>
               <button
                 onClick={handleAnalyzeAll}
                 className="mt-3 text-sm font-medium text-purple-600 hover:text-purple-700"
               >
-                Run AI Analysis
+                {t('recommendations.runAnalysis')}
               </button>
             </div>
           )}
@@ -428,17 +435,17 @@ export default function CustomerIntelligencePage() {
           <div className="flex items-center gap-2">
             <UserX className="h-5 w-5 text-red-500" />
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              At-Risk Customers
+              {t('atRiskTable.title')}
             </h2>
             <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700 dark:bg-red-900/30 dark:text-red-300">
-              Sorted by CLV
+              {t('atRiskTable.sortedByClv')}
             </span>
           </div>
           <Link
             href="/ai/triggers"
             className="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400"
           >
-            Set up automated triggers
+            {t('atRiskTable.setupTriggers')}
           </Link>
         </div>
 
@@ -448,19 +455,19 @@ export default function CustomerIntelligencePage() {
               <thead>
                 <tr className="border-b border-gray-100 dark:border-gray-800">
                   <th className="pb-3 text-left text-xs font-medium uppercase text-gray-500">
-                    Customer
+                    {t('atRiskTable.customer')}
                   </th>
                   <th className="pb-3 text-left text-xs font-medium uppercase text-gray-500">
-                    CLV
+                    {t('atRiskTable.clv')}
                   </th>
                   <th className="pb-3 text-left text-xs font-medium uppercase text-gray-500">
-                    Inactive
+                    {t('atRiskTable.inactive')}
                   </th>
                   <th className="pb-3 text-left text-xs font-medium uppercase text-gray-500">
-                    Risk
+                    {t('atRiskTable.risk')}
                   </th>
                   <th className="pb-3 text-right text-xs font-medium uppercase text-gray-500">
-                    Action
+                    {t('atRiskTable.action')}
                   </th>
                 </tr>
               </thead>
@@ -473,7 +480,7 @@ export default function CustomerIntelligencePage() {
                     <td className="py-3">
                       <Link href={`/customers/${customer.accountId}`} className="block">
                         <p className="font-medium text-gray-900 hover:text-blue-600 dark:text-white dark:hover:text-blue-400">
-                          {customer.name || 'Unknown'}
+                          {customer.name || t('atRiskTable.unknown')}
                         </p>
                         <p className="text-sm text-gray-500">{customer.email}</p>
                       </Link>
@@ -486,7 +493,7 @@ export default function CustomerIntelligencePage() {
                     <td className="py-3">
                       <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
                         <Clock className="h-4 w-4" />
-                        <span>{customer.daysSinceLastVisit} days</span>
+                        <span>{t('atRiskTable.days', { count: customer.daysSinceLastVisit })}</span>
                       </div>
                     </td>
                     <td className="py-3">
@@ -505,7 +512,7 @@ export default function CustomerIntelligencePage() {
                         href={`/customers/${customer.accountId}`}
                         className="inline-flex items-center gap-1 rounded-lg bg-blue-100 px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300"
                       >
-                        View Details
+                        {t('atRiskTable.viewDetails')}
                         <ChevronRight className="h-3 w-3" />
                       </Link>
                     </td>
@@ -517,8 +524,8 @@ export default function CustomerIntelligencePage() {
         ) : (
           <EmptyState
             icon={<Users className="h-12 w-12" />}
-            title="No at-risk customers"
-            description="Great news! All your customers are in good standing."
+            title={t('atRiskTable.emptyTitle')}
+            description={t('atRiskTable.emptyDescription')}
             variant="minimal"
             size="sm"
           />

@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import {
   OperatingHoursEditor,
   EMPTY_OPERATING_HOURS,
@@ -32,6 +33,7 @@ const DEMO_LOCATION_ID = 'demo-location-id';
 const IS_PRO_TIER = true; // Enable Pro features for demo
 
 export default function HoursSettingsPage() {
+  const t = useTranslations('hoursPage');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -465,11 +467,9 @@ export default function HoursSettingsPage() {
                 />
               </svg>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">Operating Hours</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
           </div>
-          <p className="mt-1 text-sm text-gray-500">
-            Set when your location is open and manage schedule overrides
-          </p>
+          <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
 
         {/* Current status badge */}
@@ -482,7 +482,7 @@ export default function HoursSettingsPage() {
             className={`h-2 w-2 rounded-full ${status.isOpen ? 'bg-green-500' : 'bg-red-500'}`}
           />
           <span className="font-medium">
-            {status.isOpen ? 'Currently Open' : 'Currently Closed'}
+            {status.isOpen ? t('status.open') : t('status.closed')}
           </span>
           {status.hours && (
             <span className="text-sm opacity-75">
@@ -567,7 +567,7 @@ export default function HoursSettingsPage() {
               d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
             />
           </svg>
-          <span className="text-yellow-800">You have unsaved changes</span>
+          <span className="text-yellow-800">{t('unsavedChanges')}</span>
         </div>
       )}
 
@@ -583,7 +583,7 @@ export default function HoursSettingsPage() {
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
               }`}
             >
-              Basic Schedule
+              {t('tabs.basic')}
             </button>
             <button
               onClick={() => setActiveTab('pro')}
@@ -594,7 +594,7 @@ export default function HoursSettingsPage() {
               }`}
             >
               <span className="flex items-center gap-2">
-                Advanced Overrides
+                {t('tabs.advanced')}
                 <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700">
                   PRO
                 </span>
@@ -610,10 +610,8 @@ export default function HoursSettingsPage() {
           {/* Operating Hours Section */}
           <div className="rounded-xl border border-gray-200 bg-white p-6">
             <div className="mb-4">
-              <h2 className="font-semibold text-gray-900">Weekly Schedule</h2>
-              <p className="text-sm text-gray-500">
-                Set your regular opening hours for each day of the week
-              </p>
+              <h2 className="font-semibold text-gray-900">{t('weeklySchedule.title')}</h2>
+              <p className="text-sm text-gray-500">{t('weeklySchedule.description')}</p>
             </div>
             <OperatingHoursEditor
               value={operatingHours}
@@ -635,10 +633,8 @@ export default function HoursSettingsPage() {
 
           {/* Preview Section */}
           <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <h2 className="font-semibold text-gray-900">Customer Preview</h2>
-            <p className="mb-4 text-sm text-gray-500">
-              This is how your hours will appear to customers
-            </p>
+            <h2 className="font-semibold text-gray-900">{t('preview.title')}</h2>
+            <p className="mb-4 text-sm text-gray-500">{t('preview.description')}</p>
 
             <div className="rounded-lg bg-gray-50 p-4">
               <div className="mb-4 flex items-center gap-3">
@@ -646,7 +642,7 @@ export default function HoursSettingsPage() {
                   className={`h-3 w-3 rounded-full ${status.isOpen ? 'bg-green-500' : 'bg-red-500'}`}
                 />
                 <span className="font-medium text-gray-900">
-                  {status.isOpen ? 'Open Now' : 'Closed'}
+                  {status.isOpen ? t('preview.openNow') : t('status.closed')}
                 </span>
                 {status.note && <span className="text-sm text-gray-500">({status.note})</span>}
               </div>
@@ -654,21 +650,21 @@ export default function HoursSettingsPage() {
               <div className="grid grid-cols-2 gap-2 text-sm">
                 {(['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const).map((day) => {
                   const hours = operatingHours[day];
-                  const dayLabels: Record<string, string> = {
-                    mon: 'Monday',
-                    tue: 'Tuesday',
-                    wed: 'Wednesday',
-                    thu: 'Thursday',
-                    fri: 'Friday',
-                    sat: 'Saturday',
-                    sun: 'Sunday',
+                  const dayKeys: Record<string, string> = {
+                    mon: 'monday',
+                    tue: 'tuesday',
+                    wed: 'wednesday',
+                    thu: 'thursday',
+                    fri: 'friday',
+                    sat: 'saturday',
+                    sun: 'sunday',
                   };
 
                   return (
                     <div key={day} className="flex justify-between">
-                      <span className="text-gray-600">{dayLabels[day]}</span>
+                      <span className="text-gray-600">{t(`days.${dayKeys[day]}`)}</span>
                       <span className="text-gray-900">
-                        {hours ? `${hours.open} - ${hours.close}` : 'Closed'}
+                        {hours ? `${hours.open} - ${hours.close}` : t('status.closed')}
                       </span>
                     </div>
                   );
@@ -725,14 +721,14 @@ export default function HoursSettingsPage() {
           disabled={!hasChanges || isSaving}
           className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Cancel
+          {t('cancel')}
         </button>
         <button
           onClick={handleSave}
           disabled={!hasChanges || isSaving}
           className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isSaving ? 'Saving...' : 'Save Changes'}
+          {isSaving ? t('saving') : t('saveChanges')}
         </button>
       </div>
     </div>

@@ -2,86 +2,88 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 type ContentType = 'menu' | 'services' | 'wifi' | 'attractions' | 'contacts';
 
-const contentTypes = [
-  {
-    id: 'menu' as ContentType,
-    icon: '🍽️',
-    title: 'Menu & Products',
-    description: 'Manage your menu items, categories, and prices',
-    count: 81,
-    link: '/content/menu',
-  },
-  {
-    id: 'wines' as ContentType,
-    icon: '🍷',
-    title: 'Wines',
-    description: 'Wine catalog with regions, varietals, and pairings',
-    count: 144,
-    link: '/content/wines',
-  },
-  {
-    id: 'recipes' as ContentType,
-    icon: '📖',
-    title: 'Recipes',
-    description: 'Professional barista recipes with methods and tips',
-    count: 22,
-    link: '/content/recipes',
-  },
-  {
-    id: 'ingredients' as ContentType,
-    icon: '🥕',
-    title: 'Ingredients',
-    description: 'Master ingredient database with allergens and nutrition',
-    count: 7,
-    link: '/content/ingredients',
-  },
-  {
-    id: 'categories' as ContentType,
-    icon: '📂',
-    title: 'Categories',
-    description: 'Organize your menu with categories',
-    count: 4,
-    link: '/content/categories',
-  },
-  {
-    id: 'services' as ContentType,
-    icon: '🛎️',
-    title: 'Services',
-    description: 'Room service, laundry, spa, and other offerings',
-    count: 8,
-    link: '/content/services',
-  },
-  {
-    id: 'wifi' as ContentType,
-    icon: '📶',
-    title: 'WiFi Settings',
-    description: 'Network credentials and connection instructions',
-    count: 3,
-    link: '/content/wifi',
-  },
-  {
-    id: 'attractions' as ContentType,
-    icon: '🗺️',
-    title: 'Local Attractions',
-    description: 'Nearby places, tours, and recommendations',
-    count: 12,
-    link: '/content/attractions',
-  },
-  {
-    id: 'contacts' as ContentType,
-    icon: '📞',
-    title: 'Contacts',
-    description: 'Business contacts and emergency numbers',
-    count: 5,
-    link: '/content/contacts',
-  },
-];
-
 export default function ContentPage() {
+  const t = useTranslations('content');
   const [searchQuery, setSearchQuery] = useState('');
+
+  const contentTypes = [
+    {
+      id: 'menu' as ContentType,
+      icon: '🍽️',
+      title: t('menuProducts'),
+      description: t('menuProductsDesc'),
+      count: 81,
+      link: '/content/menu',
+    },
+    {
+      id: 'wines' as ContentType,
+      icon: '🍷',
+      title: t('wines'),
+      description: t('winesDesc'),
+      count: 144,
+      link: '/content/wines',
+    },
+    {
+      id: 'recipes' as ContentType,
+      icon: '📖',
+      title: t('recipes'),
+      description: t('recipesDesc'),
+      count: 22,
+      link: '/content/recipes',
+    },
+    {
+      id: 'ingredients' as ContentType,
+      icon: '🥕',
+      title: t('ingredients'),
+      description: t('ingredientsDesc'),
+      count: 7,
+      link: '/content/ingredients',
+    },
+    {
+      id: 'categories' as ContentType,
+      icon: '📂',
+      title: t('categories'),
+      description: t('categoriesDesc'),
+      count: 4,
+      link: '/content/categories',
+    },
+    {
+      id: 'services' as ContentType,
+      icon: '🛎️',
+      title: t('services'),
+      description: t('servicesDesc'),
+      count: 8,
+      link: '/content/services',
+    },
+    {
+      id: 'wifi' as ContentType,
+      icon: '📶',
+      title: t('wifiSettings'),
+      description: t('wifiSettingsDesc'),
+      count: 3,
+      link: '/content/wifi',
+    },
+    {
+      id: 'attractions' as ContentType,
+      icon: '🗺️',
+      title: t('localAttractions'),
+      description: t('localAttractionsDesc'),
+      count: 12,
+      link: '/content/attractions',
+    },
+    {
+      id: 'contacts' as ContentType,
+      icon: '📞',
+      title: t('contacts'),
+      description: t('contactsDesc'),
+      count: 5,
+      link: '/content/contacts',
+    },
+  ];
 
   const filteredContent = contentTypes.filter(
     (type) =>
@@ -94,13 +96,11 @@ export default function ContentPage() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Content</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Manage all your business content in one place
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('description')}</p>
         </div>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">
-          + Add Content
+        <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
+          + {t('addContent')}
         </button>
       </div>
 
@@ -109,10 +109,10 @@ export default function ContentPage() {
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
         <input
           type="text"
-          placeholder="Search content..."
+          placeholder={t('searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -122,12 +122,12 @@ export default function ContentPage() {
           <Link
             key={type.id}
             href={type.link}
-            className="block p-6 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all"
+            className="block rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-blue-300 hover:shadow-md"
           >
             <div className="flex items-start justify-between">
               <span className="text-3xl">{type.icon}</span>
-              <span className="px-2 py-1 bg-gray-100 rounded text-sm text-gray-600">
-                {type.count} items
+              <span className="rounded bg-gray-100 px-2 py-1 text-sm text-gray-600">
+                {type.count} {t('items')}
               </span>
             </div>
             <h3 className="mt-4 text-lg font-semibold text-gray-900">{type.title}</h3>
@@ -138,20 +138,20 @@ export default function ContentPage() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-        <div className="p-4 bg-blue-50 rounded-lg">
-          <p className="text-sm text-blue-600 font-medium">Total Items</p>
+        <div className="rounded-lg bg-blue-50 p-4">
+          <p className="text-sm font-medium text-blue-600">{t('totalItems')}</p>
           <p className="text-2xl font-bold text-blue-900">52</p>
         </div>
-        <div className="p-4 bg-green-50 rounded-lg">
-          <p className="text-sm text-green-600 font-medium">Published</p>
+        <div className="rounded-lg bg-green-50 p-4">
+          <p className="text-sm font-medium text-green-600">{t('published')}</p>
           <p className="text-2xl font-bold text-green-900">48</p>
         </div>
-        <div className="p-4 bg-yellow-50 rounded-lg">
-          <p className="text-sm text-yellow-600 font-medium">Drafts</p>
+        <div className="rounded-lg bg-yellow-50 p-4">
+          <p className="text-sm font-medium text-yellow-600">{t('drafts')}</p>
           <p className="text-2xl font-bold text-yellow-900">4</p>
         </div>
-        <div className="p-4 bg-purple-50 rounded-lg">
-          <p className="text-sm text-purple-600 font-medium">Languages</p>
+        <div className="rounded-lg bg-purple-50 p-4">
+          <p className="text-sm font-medium text-purple-600">{t('languages')}</p>
           <p className="text-2xl font-bold text-purple-900">3</p>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
+import { useTranslations } from 'next-intl';
 
 export const dynamic = 'force-dynamic';
 
@@ -84,18 +85,59 @@ const colorOptions: { value: ColorFilter; label: string; icon: string }[] = [
 ];
 
 const countryFlags: Record<string, string> = {
-  IT: '🇮🇹', FR: '🇫🇷', ES: '🇪🇸', PT: '🇵🇹', DE: '🇩🇪', AT: '🇦🇹',
-  US: '🇺🇸', AR: '🇦🇷', CL: '🇨🇱', AU: '🇦🇺', NZ: '🇳🇿', ZA: '🇿🇦',
-  GE: '🇬🇪', HR: '🇭🇷', SI: '🇸🇮', RO: '🇷🇴', BG: '🇧🇬', GR: '🇬🇷',
-  HU: '🇭🇺', MD: '🇲🇩', RS: '🇷🇸', AM: '🇦🇲', GB: '🇬🇧', LB: '🇱🇧',
-  IL: '🇮🇱', TR: '🇹🇷', CN: '🇨🇳', JP: '🇯🇵', IN: '🇮🇳', UY: '🇺🇾',
-  BR: '🇧🇷', MA: '🇲🇦', CH: '🇨🇭', MX: '🇲🇽', CA: '🇨🇦', CZ: '🇨🇿',
-  SK: '🇸🇰', UA: '🇺🇦', CY: '🇨🇾', TN: '🇹🇳', DZ: '🇩🇿', PE: '🇵🇪',
-  BO: '🇧🇴', TH: '🇹🇭', VN: '🇻🇳', ID: '🇮🇩', BE: '🇧🇪', LU: '🇱🇺',
+  IT: '🇮🇹',
+  FR: '🇫🇷',
+  ES: '🇪🇸',
+  PT: '🇵🇹',
+  DE: '🇩🇪',
+  AT: '🇦🇹',
+  US: '🇺🇸',
+  AR: '🇦🇷',
+  CL: '🇨🇱',
+  AU: '🇦🇺',
+  NZ: '🇳🇿',
+  ZA: '🇿🇦',
+  GE: '🇬🇪',
+  HR: '🇭🇷',
+  SI: '🇸🇮',
+  RO: '🇷🇴',
+  BG: '🇧🇬',
+  GR: '🇬🇷',
+  HU: '🇭🇺',
+  MD: '🇲🇩',
+  RS: '🇷🇸',
+  AM: '🇦🇲',
+  GB: '🇬🇧',
+  LB: '🇱🇧',
+  IL: '🇮🇱',
+  TR: '🇹🇷',
+  CN: '🇨🇳',
+  JP: '🇯🇵',
+  IN: '🇮🇳',
+  UY: '🇺🇾',
+  BR: '🇧🇷',
+  MA: '🇲🇦',
+  CH: '🇨🇭',
+  MX: '🇲🇽',
+  CA: '🇨🇦',
+  CZ: '🇨🇿',
+  SK: '🇸🇰',
+  UA: '🇺🇦',
+  CY: '🇨🇾',
+  TN: '🇹🇳',
+  DZ: '🇩🇿',
+  PE: '🇵🇪',
+  BO: '🇧🇴',
+  TH: '🇹🇭',
+  VN: '🇻🇳',
+  ID: '🇮🇩',
+  BE: '🇧🇪',
+  LU: '🇱🇺',
   MT: '🇲🇹',
 };
 
 export default function WinesPage() {
+  const t = useTranslations('winesPage');
   const [wines, setWines] = useState<Wine[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -111,10 +153,7 @@ export default function WinesPage() {
   async function fetchWines() {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('wines')
-        .select('*')
-        .order('name');
+      const { data, error } = await supabase.from('wines').select('*').order('name');
 
       if (error) throw error;
       setWines(data || []);
@@ -127,20 +166,23 @@ export default function WinesPage() {
 
   // Get unique countries from wines
   const countries = useMemo(() => {
-    const countrySet = new Set(wines.map(w => w.origin_country));
+    const countrySet = new Set(wines.map((w) => w.origin_country));
     return Array.from(countrySet).sort();
   }, [wines]);
 
   // Calculate stats
-  const wineStats = useMemo(() => ({
-    red: wines.filter(w => w.color === 'red').length,
-    white: wines.filter(w => w.color === 'white').length,
-    rose: wines.filter(w => w.color === 'rosé').length,
-    sparkling: wines.filter(w => w.color === 'sparkling').length,
-    dessert: wines.filter(w => w.color === 'dessert').length,
-    fortified: wines.filter(w => w.color === 'fortified').length,
-    orange: wines.filter(w => w.color === 'orange').length,
-  }), [wines]);
+  const wineStats = useMemo(
+    () => ({
+      red: wines.filter((w) => w.color === 'red').length,
+      white: wines.filter((w) => w.color === 'white').length,
+      rose: wines.filter((w) => w.color === 'rosé').length,
+      sparkling: wines.filter((w) => w.color === 'sparkling').length,
+      dessert: wines.filter((w) => w.color === 'dessert').length,
+      fortified: wines.filter((w) => w.color === 'fortified').length,
+      orange: wines.filter((w) => w.color === 'orange').length,
+    }),
+    [wines]
+  );
 
   // Filter wines
   const filteredWines = useMemo(() => {
@@ -148,22 +190,23 @@ export default function WinesPage() {
 
     // Color filter
     if (colorFilter !== 'all') {
-      filtered = filtered.filter(w => w.color === colorFilter);
+      filtered = filtered.filter((w) => w.color === colorFilter);
     }
 
     // Country filter
     if (countryFilter !== 'all') {
-      filtered = filtered.filter(w => w.origin_country === countryFilter);
+      filtered = filtered.filter((w) => w.origin_country === countryFilter);
     }
 
     // Search
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(w =>
-        w.name.toLowerCase().includes(query) ||
-        w.description.toLowerCase().includes(query) ||
-        w.origin_region.toLowerCase().includes(query) ||
-        w.grape_varieties.some(g => g.toLowerCase().includes(query))
+      filtered = filtered.filter(
+        (w) =>
+          w.name.toLowerCase().includes(query) ||
+          w.description.toLowerCase().includes(query) ||
+          w.origin_region.toLowerCase().includes(query) ||
+          w.grape_varieties.some((g) => g.toLowerCase().includes(query))
       );
     }
 
@@ -229,24 +272,24 @@ export default function WinesPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex min-h-[400px] items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <div className="text-4xl mb-4">⚠️</div>
-          <h3 className="text-lg font-medium text-gray-900">Error loading wines</h3>
-          <p className="text-gray-500 mt-1">{error}</p>
+          <div className="mb-4 text-4xl">⚠️</div>
+          <h3 className="text-lg font-medium text-gray-900">{t('errorTitle')}</h3>
+          <p className="mt-1 text-gray-500">{error}</p>
           <button
             onClick={fetchWines}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
           >
-            Retry
+            {t('retry')}
           </button>
         </div>
       </div>
@@ -260,50 +303,50 @@ export default function WinesPage() {
         <div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <Link href="/content" className="hover:text-gray-700">
-              Content
+              {t('breadcrumb')}
             </Link>
             <span>/</span>
-            <span className="text-gray-900">Wines</span>
+            <span className="text-gray-900">{t('title')}</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Wine Catalog</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            {wines.length} wines from {countries.length} countries
+          <h1 className="mt-1 text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            {t('subtitle', { count: wines.length, countriesCount: countries.length })}
           </p>
         </div>
         <div className="flex items-center gap-3">
           <Link
             href="/content/wines/new"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
-            + Add Wine
+            {t('addWine')}
           </Link>
         </div>
       </div>
 
       {/* Stats Bar */}
       <div className="flex gap-4 overflow-x-auto pb-2">
-        <div className="flex-shrink-0 px-4 py-2 bg-red-50 rounded-lg">
-          <span className="text-sm text-red-600 font-medium">Red</span>
+        <div className="flex-shrink-0 rounded-lg bg-red-50 px-4 py-2">
+          <span className="text-sm font-medium text-red-600">{t('stats.red')}</span>
           <span className="ml-2 text-lg font-bold text-red-800">{wineStats.red}</span>
         </div>
-        <div className="flex-shrink-0 px-4 py-2 bg-yellow-50 rounded-lg">
-          <span className="text-sm text-yellow-600 font-medium">White</span>
+        <div className="flex-shrink-0 rounded-lg bg-yellow-50 px-4 py-2">
+          <span className="text-sm font-medium text-yellow-600">{t('stats.white')}</span>
           <span className="ml-2 text-lg font-bold text-yellow-800">{wineStats.white}</span>
         </div>
-        <div className="flex-shrink-0 px-4 py-2 bg-pink-50 rounded-lg">
-          <span className="text-sm text-pink-600 font-medium">Rosé</span>
+        <div className="flex-shrink-0 rounded-lg bg-pink-50 px-4 py-2">
+          <span className="text-sm font-medium text-pink-600">{t('stats.rose')}</span>
           <span className="ml-2 text-lg font-bold text-pink-800">{wineStats.rose}</span>
         </div>
-        <div className="flex-shrink-0 px-4 py-2 bg-amber-50 rounded-lg">
-          <span className="text-sm text-amber-600 font-medium">Sparkling</span>
+        <div className="flex-shrink-0 rounded-lg bg-amber-50 px-4 py-2">
+          <span className="text-sm font-medium text-amber-600">{t('stats.sparkling')}</span>
           <span className="ml-2 text-lg font-bold text-amber-800">{wineStats.sparkling}</span>
         </div>
-        <div className="flex-shrink-0 px-4 py-2 bg-orange-50 rounded-lg">
-          <span className="text-sm text-orange-600 font-medium">Dessert</span>
+        <div className="flex-shrink-0 rounded-lg bg-orange-50 px-4 py-2">
+          <span className="text-sm font-medium text-orange-600">{t('stats.dessert')}</span>
           <span className="ml-2 text-lg font-bold text-orange-800">{wineStats.dessert}</span>
         </div>
-        <div className="flex-shrink-0 px-4 py-2 bg-purple-50 rounded-lg">
-          <span className="text-sm text-purple-600 font-medium">Fortified</span>
+        <div className="flex-shrink-0 rounded-lg bg-purple-50 px-4 py-2">
+          <span className="text-sm font-medium text-purple-600">{t('stats.fortified')}</span>
           <span className="ml-2 text-lg font-bold text-purple-800">{wineStats.fortified}</span>
         </div>
       </div>
@@ -314,18 +357,20 @@ export default function WinesPage() {
           <button
             key={option.value}
             onClick={() => setColorFilter(option.value)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               colorFilter === option.value
                 ? 'bg-blue-600 text-white'
-                : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+                : 'border border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
             }`}
           >
             <span>{option.icon}</span>
-            <span>{option.label}</span>
+            <span>{t(`colorOptions.${option.value === 'rosé' ? 'rose' : option.value}`)}</span>
             {option.value === 'all' && (
-              <span className={`px-1.5 py-0.5 rounded text-xs ${
-                colorFilter === 'all' ? 'bg-blue-500' : 'bg-gray-100'
-              }`}>
+              <span
+                className={`rounded px-1.5 py-0.5 text-xs ${
+                  colorFilter === 'all' ? 'bg-blue-500' : 'bg-gray-100'
+                }`}
+              >
                 {wines.length}
               </span>
             )}
@@ -334,43 +379,46 @@ export default function WinesPage() {
       </div>
 
       {/* Search & Filters */}
-      <div className="flex items-center gap-4 flex-wrap">
-        <div className="flex-1 min-w-[200px] relative">
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="relative min-w-[200px] flex-1">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
           <input
             type="text"
-            placeholder="Search wines, grapes, regions..."
+            placeholder={t('searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <select
           value={countryFilter}
           onChange={(e) => setCountryFilter(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white"
+          className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm"
         >
-          <option value="all">All Countries ({countries.length})</option>
+          <option value="all">{t('allCountriesWithCount', { count: countries.length })}</option>
           {countries.map((country) => (
             <option key={country} value={country}>
-              {countryFlags[wines.find(w => w.origin_country === country)?.origin_country_code || ''] || ''} {country}
+              {countryFlags[
+                wines.find((w) => w.origin_country === country)?.origin_country_code || ''
+              ] || ''}{' '}
+              {country}
             </option>
           ))}
         </select>
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as 'name' | 'country' | 'popularity')}
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm bg-white"
+          className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm"
         >
-          <option value="name">Sort by Name</option>
-          <option value="country">Sort by Country</option>
-          <option value="popularity">Sort by Popularity</option>
+          <option value="name">{t('sortBy.name')}</option>
+          <option value="country">{t('sortBy.country')}</option>
+          <option value="popularity">{t('sortBy.popularity')}</option>
         </select>
       </div>
 
       {/* Results count */}
       <div className="text-sm text-gray-500">
-        Showing {filteredWines.length} of {wines.length} wines
+        {t('showingResults', { filtered: filteredWines.length, total: wines.length })}
       </div>
 
       {/* Wines Grid */}
@@ -382,10 +430,10 @@ export default function WinesPage() {
           return (
             <div
               key={wine.id}
-              className="p-4 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all"
+              className="rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-blue-300 hover:shadow-md"
             >
               {/* Wine Icon/Image */}
-              <div className="h-24 bg-gradient-to-b from-gray-50 to-gray-100 rounded-lg flex items-center justify-center text-5xl relative">
+              <div className="relative flex h-24 items-center justify-center rounded-lg bg-gradient-to-b from-gray-50 to-gray-100 text-5xl">
                 {wine.color === 'red' && '🍷'}
                 {wine.color === 'white' && '🥂'}
                 {wine.color === 'rosé' && '🌸'}
@@ -393,28 +441,32 @@ export default function WinesPage() {
                 {wine.color === 'dessert' && '🍯'}
                 {wine.color === 'fortified' && '🥃'}
                 {wine.color === 'orange' && '🟠'}
-                <span className="absolute top-2 left-2 text-xl">{flag}</span>
-                <span className={`absolute top-2 right-2 px-2 py-0.5 rounded text-xs font-medium ${priceTier.style}`}>
+                <span className="absolute left-2 top-2 text-xl">{flag}</span>
+                <span
+                  className={`absolute right-2 top-2 rounded px-2 py-0.5 text-xs font-medium ${priceTier.style}`}
+                >
                   {priceTier.label}
                 </span>
               </div>
 
               <div className="mt-4">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-semibold text-gray-900 line-clamp-1">{wine.name}</h3>
-                  <span className={`flex-shrink-0 px-2 py-0.5 rounded text-xs font-medium capitalize ${getColorBadge(wine.color)}`}>
+                  <h3 className="line-clamp-1 font-semibold text-gray-900">{wine.name}</h3>
+                  <span
+                    className={`flex-shrink-0 rounded px-2 py-0.5 text-xs font-medium capitalize ${getColorBadge(wine.color)}`}
+                  >
                     {wine.color}
                   </span>
                 </div>
 
-                <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-                  {wine.description}
-                </p>
+                <p className="mt-1 line-clamp-2 text-sm text-gray-500">{wine.description}</p>
 
                 {/* Origin */}
                 <div className="mt-2 flex items-center gap-1 text-sm text-gray-600">
                   <span>{flag}</span>
-                  <span>{wine.origin_region}, {wine.origin_country}</span>
+                  <span>
+                    {wine.origin_region}, {wine.origin_country}
+                  </span>
                 </div>
 
                 {/* Grapes */}
@@ -422,13 +474,13 @@ export default function WinesPage() {
                   {wine.grape_varieties.slice(0, 3).map((grape) => (
                     <span
                       key={grape}
-                      className="px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded text-xs capitalize"
+                      className="rounded bg-gray-100 px-1.5 py-0.5 text-xs capitalize text-gray-600"
                     >
                       {grape.replace(/_/g, ' ')}
                     </span>
                   ))}
                   {wine.grape_varieties.length > 3 && (
-                    <span className="px-1.5 py-0.5 bg-gray-100 text-gray-500 rounded text-xs">
+                    <span className="rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-500">
                       +{wine.grape_varieties.length - 3}
                     </span>
                   )}
@@ -436,30 +488,35 @@ export default function WinesPage() {
 
                 {/* Characteristics */}
                 <div className="mt-3 flex flex-wrap gap-1">
-                  <span className={`px-1.5 py-0.5 rounded text-xs ${getStatusBadge(wine.status)}`}>
+                  <span className={`rounded px-1.5 py-0.5 text-xs ${getStatusBadge(wine.status)}`}>
                     {wine.status.replace(/_/g, ' ')}
                   </span>
                   {wine.is_organic && (
-                    <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-xs">
-                      Organic
+                    <span className="rounded bg-green-100 px-1.5 py-0.5 text-xs text-green-700">
+                      {t('card.organic')}
                     </span>
                   )}
                   {wine.is_natural && (
-                    <span className="px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded text-xs">
-                      Natural
+                    <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-xs text-emerald-700">
+                      {t('card.natural')}
                     </span>
                   )}
                   {wine.is_vegan && (
-                    <span className="px-1.5 py-0.5 bg-lime-100 text-lime-700 rounded text-xs">
-                      Vegan
+                    <span className="rounded bg-lime-100 px-1.5 py-0.5 text-xs text-lime-700">
+                      {t('card.vegan')}
                     </span>
                   )}
                 </div>
 
                 {/* ABV & Serving */}
                 <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
-                  <span>ABV: {wine.abv_min}-{wine.abv_max}%</span>
-                  <span>Serve: {wine.serving_temp_min_celsius}-{wine.serving_temp_max_celsius}°C</span>
+                  <span>
+                    {t('card.abv')}: {wine.abv_min}-{wine.abv_max}%
+                  </span>
+                  <span>
+                    {t('card.serve')}: {wine.serving_temp_min_celsius}-
+                    {wine.serving_temp_max_celsius}°C
+                  </span>
                 </div>
 
                 {/* Actions */}
@@ -467,21 +524,21 @@ export default function WinesPage() {
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/content/wines/${wine.slug}`}
-                      className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
-                      title="View/Edit"
+                      className="rounded p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                      title={t('card.viewEdit')}
                     >
                       ✏️
                     </Link>
                     <button
-                      className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
-                      title="Duplicate"
+                      className="rounded p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                      title={t('card.duplicate')}
                     >
                       📋
                     </button>
                   </div>
                   <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <span title="Popularity">{wine.popularity}%</span>
-                    <span>pop.</span>
+                    <span title={t('card.popularity')}>{wine.popularity}%</span>
+                    <span>{t('card.popularity')}</span>
                   </div>
                 </div>
               </div>
@@ -492,22 +549,20 @@ export default function WinesPage() {
         {/* Add New Wine Card */}
         <Link
           href="/content/wines/new"
-          className="p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-colors flex flex-col items-center justify-center min-h-[280px]"
+          className="flex min-h-[280px] flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition-colors hover:border-blue-400 hover:bg-blue-50"
         >
           <span className="text-4xl text-gray-400">+</span>
-          <span className="mt-2 text-sm font-medium text-gray-600">Add New Wine</span>
+          <span className="mt-2 text-sm font-medium text-gray-600">{t('addNewWine')}</span>
         </Link>
       </div>
 
       {/* Empty state */}
       {filteredWines.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-4xl mb-4">🍷</div>
-          <h3 className="text-lg font-medium text-gray-900">No wines found</h3>
-          <p className="text-gray-500 mt-1">
-            {searchQuery
-              ? 'Try a different search term'
-              : 'Adjust your filters to see wines'}
+        <div className="py-12 text-center">
+          <div className="mb-4 text-4xl">🍷</div>
+          <h3 className="text-lg font-medium text-gray-900">{t('noWines')}</h3>
+          <p className="mt-1 text-gray-500">
+            {searchQuery ? t('noWinesSearchHint') : t('noWinesFilterHint')}
           </p>
         </div>
       )}

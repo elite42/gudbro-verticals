@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-require-imports, no-undef */
 const { withSentryConfig } = require('@sentry/nextjs');
+const createNextIntlPlugin = require('next-intl/plugin');
+
+// Create next-intl plugin with custom request config path
+const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -128,7 +132,10 @@ const sentryWebpackPluginOptions = {
   automaticVercelMonitors: true,
 };
 
-// Export with Sentry wrapper (only if DSN is configured)
+// Export with next-intl and Sentry wrappers
+// Chain: nextConfig -> withNextIntl -> withSentry (if DSN configured)
+const configWithIntl = withNextIntl(nextConfig);
+
 module.exports = process.env.NEXT_PUBLIC_SENTRY_DSN
-  ? withSentryConfig(nextConfig, sentryWebpackPluginOptions)
-  : nextConfig;
+  ? withSentryConfig(configWithIntl, sentryWebpackPluginOptions)
+  : configWithIntl;

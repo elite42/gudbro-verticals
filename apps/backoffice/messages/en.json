@@ -1,0 +1,2578 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "products": "My Products",
+    "catalog": "Global Catalog",
+    "analytics": "Analytics",
+    "partnerships": "Partnerships",
+    "settings": "Settings",
+    "marketing": "Marketing",
+    "content": "Content",
+    "customers": "Customers",
+    "team": "Team",
+    "billing": "Billing",
+    "qrCodes": "QR Codes",
+    "hotActions": "Hot Actions"
+  },
+  "header": {
+    "search": "Search...",
+    "help": "Help",
+    "preview": "Preview menu",
+    "aiCoManager": "AI Co-Manager",
+    "account": "Account",
+    "myAccount": "My Account",
+    "settings": "Settings",
+    "signOut": "Sign out",
+    "switchAccountType": "Switch account type",
+    "selectRole": "Select Role",
+    "loyaltyPoints": "Loyalty Points",
+    "tier": "Tier"
+  },
+  "roles": {
+    "consumer": "Personal Account",
+    "merchant": "Business",
+    "admin": "Admin",
+    "contributor": "Contributor"
+  },
+  "buttons": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "create": "Create",
+    "edit": "Edit",
+    "add": "Add",
+    "remove": "Remove",
+    "update": "Update",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "retry": "Retry",
+    "view": "View",
+    "viewAll": "View All",
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "apply": "Apply",
+    "reset": "Reset",
+    "clearAll": "Clear All",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "download": "Download",
+    "upload": "Upload",
+    "copy": "Copy",
+    "duplicate": "Duplicate",
+    "archive": "Archive",
+    "restore": "Restore",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "enable": "Enable",
+    "disable": "Disable",
+    "activate": "Activate",
+    "deactivate": "Deactivate"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success!",
+    "noResults": "No results found",
+    "noData": "No data available",
+    "required": "Required",
+    "optional": "Optional",
+    "yes": "Yes",
+    "no": "No",
+    "all": "All",
+    "none": "None",
+    "other": "Other",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "tax": "Tax",
+    "discount": "Discount",
+    "price": "Price",
+    "quantity": "Quantity",
+    "amount": "Amount",
+    "date": "Date",
+    "time": "Time",
+    "from": "From",
+    "to": "To",
+    "status": "Status",
+    "type": "Type",
+    "name": "Name",
+    "description": "Description",
+    "notes": "Notes",
+    "actions": "Actions",
+    "details": "Details",
+    "more": "More",
+    "less": "Less",
+    "items": "Items",
+    "item": "Item",
+    "of": "of",
+    "and": "and",
+    "or": "or",
+    "new": "New",
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "draft": "Draft",
+    "published": "Published",
+    "archived": "Archived",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "default": "Default",
+    "custom": "Custom",
+    "selected": "selected",
+    "unselected": "unselected",
+    "copied": "Copied to clipboard",
+    "saved": "Changes saved",
+    "deleted": "Deleted successfully",
+    "created": "Created successfully",
+    "updated": "Updated successfully"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "minLength": "Must be at least {min} characters",
+    "maxLength": "Must be at most {max} characters",
+    "min": "Must be at least {min}",
+    "max": "Must be at most {max}",
+    "number": "Must be a valid number",
+    "positive": "Must be a positive number",
+    "url": "Please enter a valid URL",
+    "phone": "Please enter a valid phone number",
+    "password": "Password must be at least 8 characters",
+    "passwordMatch": "Passwords do not match",
+    "invalidFormat": "Invalid format",
+    "unique": "This value is already in use"
+  },
+  "time": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "thisWeek": "This Week",
+    "lastWeek": "Last Week",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "thisYear": "This Year",
+    "lastYear": "Last Year",
+    "now": "Now",
+    "ago": "ago",
+    "in": "in",
+    "seconds": "seconds",
+    "minutes": "minutes",
+    "hours": "hours",
+    "days": "days",
+    "weeks": "weeks",
+    "months": "months",
+    "years": "years"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "overview": "Overview",
+    "recentOrders": "Recent Orders",
+    "topProducts": "Top Products",
+    "revenue": "Revenue",
+    "ordersToday": "Orders Today",
+    "newCustomers": "New Customers",
+    "averageOrderValue": "Average Order Value",
+    "totalSales": "Total Sales",
+    "quickActions": "Quick Actions",
+    "viewAnalytics": "View Analytics",
+    "createPromotion": "Create Promotion",
+    "manageMenu": "Manage Menu"
+  },
+  "orders": {
+    "title": "Orders",
+    "newOrder": "New Order",
+    "orderNumber": "Order #",
+    "orderDate": "Order Date",
+    "customer": "Customer",
+    "items": "Items",
+    "total": "Total",
+    "status": "Status",
+    "paymentStatus": "Payment Status",
+    "paymentMethod": "Payment Method",
+    "deliveryMethod": "Delivery Method",
+    "statusNew": "New",
+    "statusPreparing": "Preparing",
+    "statusReady": "Ready",
+    "statusDelivered": "Delivered",
+    "statusCompleted": "Completed",
+    "statusCancelled": "Cancelled",
+    "statusRefunded": "Refunded",
+    "filterByStatus": "Filter by Status",
+    "filterByDate": "Filter by Date",
+    "searchOrders": "Search orders...",
+    "noOrders": "No orders yet",
+    "orderDetails": "Order Details",
+    "updateStatus": "Update Status",
+    "printReceipt": "Print Receipt",
+    "refundOrder": "Refund Order",
+    "cancelOrder": "Cancel Order"
+  },
+  "products": {
+    "title": "Products",
+    "addProduct": "Add Product",
+    "editProduct": "Edit Product",
+    "productName": "Product Name",
+    "category": "Category",
+    "price": "Price",
+    "description": "Description",
+    "ingredients": "Ingredients",
+    "allergens": "Allergens",
+    "nutritionInfo": "Nutrition Info",
+    "calories": "Calories",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "variants": "Variants",
+    "modifiers": "Modifiers",
+    "addVariant": "Add Variant",
+    "addModifier": "Add Modifier",
+    "featured": "Featured",
+    "popular": "Popular",
+    "new": "New",
+    "searchProducts": "Search products...",
+    "noProducts": "No products yet",
+    "productDetails": "Product Details",
+    "deleteProduct": "Delete Product",
+    "duplicateProduct": "Duplicate Product"
+  },
+  "catalog": {
+    "title": "Global Catalog",
+    "browseCategories": "Browse Categories",
+    "searchCatalog": "Search catalog...",
+    "addToMenu": "Add to Menu",
+    "viewDetails": "View Details",
+    "categories": "Categories",
+    "cuisines": "Cuisines",
+    "dietary": "Dietary",
+    "filters": "Filters"
+  },
+  "content": {
+    "title": "Content",
+    "description": "Manage all your business content in one place",
+    "addContent": "Add Content",
+    "searchPlaceholder": "Search content...",
+    "items": "items",
+    "totalItems": "Total Items",
+    "published": "Published",
+    "drafts": "Drafts",
+    "languages": "Languages",
+    "menuProducts": "Menu & Products",
+    "menuProductsDesc": "Manage your menu items, categories, and prices",
+    "wines": "Wines",
+    "winesDesc": "Wine catalog with regions, varietals, and pairings",
+    "recipes": "Recipes",
+    "recipesDesc": "Professional barista recipes with methods and tips",
+    "ingredients": "Ingredients",
+    "ingredientsDesc": "Master ingredient database with allergens and nutrition",
+    "categories": "Categories",
+    "categoriesDesc": "Organize your menu with categories",
+    "services": "Services",
+    "servicesDesc": "Room service, laundry, spa, and other offerings",
+    "wifiSettings": "WiFi Settings",
+    "wifiSettingsDesc": "Network credentials and connection instructions",
+    "localAttractions": "Local Attractions",
+    "localAttractionsDesc": "Nearby places, tours, and recommendations",
+    "contacts": "Contacts",
+    "contactsDesc": "Business contacts and emergency numbers",
+    "modifiers": "Modifiers",
+    "modifiersDesc": "Add-ons and customization options for menu items",
+    "contributions": "Contributions",
+    "contributionsDesc": "Community contributed content and suggestions"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "overview": "Overview",
+    "sales": "Sales",
+    "customers": "Customers",
+    "products": "Products",
+    "trends": "Trends",
+    "reports": "Reports",
+    "dateRange": "Date Range",
+    "compare": "Compare",
+    "export": "Export Report",
+    "totalRevenue": "Total Revenue",
+    "totalOrders": "Total Orders",
+    "averageOrderValue": "Average Order Value",
+    "topSellingItems": "Top Selling Items",
+    "salesByCategory": "Sales by Category",
+    "salesByTime": "Sales by Time",
+    "customerInsights": "Customer Insights",
+    "repeatCustomers": "Repeat Customers",
+    "newVsReturning": "New vs Returning",
+    "peakHours": "Peak Hours",
+    "performance": "Performance"
+  },
+  "marketing": {
+    "title": "Marketing",
+    "description": "Create events, promotions, and campaigns to attract and engage customers.",
+    "events": "Events",
+    "eventsDesc": "Create and manage special events, happy hours, and themed nights to attract customers.",
+    "promotions": "Promotions",
+    "promotionsDesc": "Design promotional campaigns, discounts, and special offers to boost sales.",
+    "challenges": "Food Challenges",
+    "challengesDesc": "Create exciting food challenges to engage customers and build buzz on social media.",
+    "giftCards": "Gift Cards",
+    "giftCardsDesc": "Sell gift cards that customers can purchase and send to friends and family.",
+    "promoCodes": "Promo Codes",
+    "promoCodesDesc": "Create promotional codes for marketing campaigns with usage limits and conditions.",
+    "coupons": "Coupons",
+    "couponsDesc": "Issue personalized coupons to specific customers for targeted marketing.",
+    "loyalty": "Loyalty",
+    "aiPoweredMarketing": "AI-Powered Marketing",
+    "aiPoweredMarketingDesc": "Your AI Co-Manager can help create marketing campaigns, suggest optimal timing for events based on weather and local events, and generate promotional content. Ask the AI for marketing suggestions!",
+    "campaigns": "Campaigns",
+    "createEvent": "Create Event",
+    "createPromotion": "Create Promotion",
+    "createChallenge": "Create Challenge",
+    "createGiftCard": "Create Gift Card",
+    "createPromoCode": "Create Promo Code",
+    "createCoupon": "Create Coupon",
+    "eventName": "Event Name",
+    "eventDate": "Event Date",
+    "eventDescription": "Event Description",
+    "discountType": "Discount Type",
+    "discountValue": "Discount Value",
+    "percentage": "Percentage",
+    "fixedAmount": "Fixed Amount",
+    "validFrom": "Valid From",
+    "validUntil": "Valid Until",
+    "usageLimit": "Usage Limit",
+    "minimumOrder": "Minimum Order",
+    "applicableTo": "Applicable To",
+    "allProducts": "All Products",
+    "specificProducts": "Specific Products",
+    "specificCategories": "Specific Categories"
+  },
+  "customers": {
+    "title": "Customers",
+    "description": "Manage your followers, view customer analytics, and respond to feedback.",
+    "allCustomers": "All Customers",
+    "newCustomer": "New Customer",
+    "customerName": "Customer Name",
+    "email": "Email",
+    "phone": "Phone",
+    "totalOrders": "Total Orders",
+    "totalSpent": "Total Spent",
+    "lastOrder": "Last Order",
+    "memberSince": "Member Since",
+    "loyaltyPoints": "Loyalty Points",
+    "loyaltyTier": "Loyalty Tier",
+    "searchCustomers": "Search customers...",
+    "noCustomers": "No customers yet",
+    "customerDetails": "Customer Details",
+    "orderHistory": "Order History",
+    "preferences": "Preferences",
+    "notes": "Notes",
+    "totalFollowers": "Total Followers",
+    "newThisMonth": "New This Month",
+    "avgRating": "Avg Rating",
+    "pendingFeedback": "Pending Feedback",
+    "followers": "Followers",
+    "followersDesc": "View and manage customers who follow your locale. See their visit history and loyalty status.",
+    "viewFollowers": "View Followers",
+    "customerIntelligence": "Customer Intelligence",
+    "customerIntelligenceDesc": "AI-powered CLV analysis, churn prediction, and segmentation. Identify at-risk customers.",
+    "viewIntelligence": "View Intelligence",
+    "feedback": "Feedback",
+    "feedbackDesc": "Read customer reviews, ratings, and suggestions. Respond to feedback and resolve issues.",
+    "viewFeedback": "View Feedback",
+    "privacyTitle": "Privacy-First Customer Data",
+    "privacyDesc": "You only see customers who explicitly follow your locale. GudBro users must opt-in to share their data with merchants. All analytics are GDPR compliant."
+  },
+  "partnerships": {
+    "title": "Partnerships",
+    "partners": "Partners",
+    "addPartner": "Add Partner",
+    "partnerName": "Partner Name",
+    "partnerType": "Partner Type",
+    "commission": "Commission",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "searchPartners": "Search partners...",
+    "noPartners": "No partnerships yet",
+    "partnerDetails": "Partner Details"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "profile": "Profile",
+    "business": "Business",
+    "branding": "Branding",
+    "notifications": "Notifications",
+    "security": "Security",
+    "billing": "Billing",
+    "integrations": "Integrations",
+    "api": "API",
+    "languages": "Languages",
+    "currency": "Currency",
+    "timezone": "Timezone",
+    "hours": "Operating Hours",
+    "payments": "Payments",
+    "social": "Social Media",
+    "domain": "Domain",
+    "auth": "Authentication",
+    "auditLog": "Audit Log",
+    "systemAlerts": "System Alerts",
+    "siteBuilder": "Site Builder",
+    "calendar": "Calendar",
+    "businessName": "Business Name",
+    "businessEmail": "Business Email",
+    "businessPhone": "Business Phone",
+    "businessAddress": "Business Address",
+    "logo": "Logo",
+    "uploadLogo": "Upload Logo",
+    "primaryColor": "Primary Color",
+    "accentColor": "Accent Color",
+    "saveChanges": "Save Changes",
+    "discardChanges": "Discard Changes",
+    "changePassword": "Change Password",
+    "twoFactor": "Two-Factor Authentication",
+    "enableTwoFactor": "Enable Two-Factor Authentication",
+    "sessions": "Active Sessions",
+    "language": "Language",
+    "selectLanguage": "Select Language",
+    "languageDescription": "Choose your preferred language for the interface"
+  },
+  "qrCodes": {
+    "title": "QR Codes",
+    "generate": "Generate QR Code",
+    "download": "Download QR",
+    "print": "Print QR",
+    "tableNumber": "Table Number",
+    "location": "Location",
+    "type": "QR Type",
+    "menu": "Menu",
+    "order": "Order",
+    "feedback": "Feedback",
+    "wifi": "WiFi",
+    "scans": "Scans",
+    "lastScanned": "Last Scanned",
+    "noQrCodes": "No QR codes yet",
+    "createQr": "Create QR Code"
+  },
+  "team": {
+    "title": "Team",
+    "members": "Team Members",
+    "addMember": "Add Member",
+    "inviteMember": "Invite Member",
+    "memberName": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "owner": "Owner",
+    "admin": "Admin",
+    "manager": "Manager",
+    "staff": "Staff",
+    "active": "Active",
+    "pending": "Pending Invite",
+    "searchMembers": "Search team members...",
+    "noMembers": "No team members yet",
+    "editPermissions": "Edit Permissions",
+    "removeMember": "Remove Member",
+    "resendInvite": "Resend Invite"
+  },
+  "login": {
+    "title": "Sign In",
+    "subtitle": "Welcome back to GUDBRO",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "orContinueWith": "Or continue with",
+    "google": "Google",
+    "invalidCredentials": "Invalid email or password"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "notFound": "Page not found",
+    "unauthorized": "You are not authorized to access this page",
+    "forbidden": "Access forbidden",
+    "serverError": "Server error. Please try again later.",
+    "networkError": "Network error. Please check your connection.",
+    "timeout": "Request timed out. Please try again.",
+    "validation": "Please check your input and try again.",
+    "loadFailed": "Failed to load data",
+    "saveFailed": "Failed to save changes",
+    "deleteFailed": "Failed to delete",
+    "uploadFailed": "Failed to upload file"
+  },
+  "confirmations": {
+    "delete": "Are you sure you want to delete this?",
+    "deleteTitle": "Confirm Delete",
+    "deleteDescription": "This action cannot be undone.",
+    "unsavedChanges": "You have unsaved changes",
+    "unsavedChangesDescription": "Are you sure you want to leave? Your changes will be lost.",
+    "cancel": "Are you sure you want to cancel?",
+    "cancelDescription": "Any unsaved changes will be lost."
+  },
+  "empty": {
+    "noOrders": "No orders yet",
+    "noProducts": "No products yet",
+    "noCustomers": "No customers yet",
+    "noEvents": "No events yet",
+    "noPromotions": "No promotions yet",
+    "noResults": "No results found",
+    "tryDifferentSearch": "Try a different search term",
+    "getStarted": "Get started by creating your first"
+  },
+  "giftCards": {
+    "title": "Gift Cards",
+    "description": "Sell prepaid gift cards that customers can redeem to their wallet",
+    "enabled": "Enabled",
+    "tabs": {
+      "list": "Gift Cards",
+      "create": "Create New",
+      "settings": "Settings"
+    },
+    "stats": {
+      "totalSold": "Total Sold",
+      "active": "Active",
+      "redeemed": "Redeemed",
+      "expired": "Expired"
+    },
+    "table": {
+      "code": "Code",
+      "amount": "Amount",
+      "recipient": "Recipient",
+      "status": "Status",
+      "expires": "Expires",
+      "actions": "Actions"
+    },
+    "status": {
+      "all": "All Status",
+      "pending": "Pending",
+      "active": "Active",
+      "redeemed": "Redeemed",
+      "expired": "Expired",
+      "cancelled": "Cancelled"
+    },
+    "actions": {
+      "cancel": "Cancel"
+    },
+    "empty": "No gift cards found",
+    "create": {
+      "title": "Create Gift Card",
+      "amount": "Amount (EUR)",
+      "amountPlaceholder": "50.00",
+      "recipientName": "Recipient Name",
+      "recipientNamePlaceholder": "John Doe",
+      "recipientEmail": "Recipient Email",
+      "recipientEmailPlaceholder": "john@example.com",
+      "personalMessage": "Personal Message",
+      "personalMessagePlaceholder": "Enjoy your gift!",
+      "deliveryMethod": "Delivery Method",
+      "email": "Email",
+      "sms": "SMS",
+      "print": "Print",
+      "submit": "Create Gift Card",
+      "creating": "Creating..."
+    },
+    "settings": {
+      "title": "Gift Card Settings",
+      "allowCustomAmounts": "Allow Custom Amounts",
+      "minAmount": "Minimum Amount (EUR)",
+      "maxAmount": "Maximum Amount (EUR)",
+      "defaultExpiry": "Default Expiry (months)"
+    }
+  },
+  "promoCodes": {
+    "title": "Promo Codes",
+    "description": "Create marketing codes for discounts and special offers",
+    "tabs": {
+      "list": "Promo Codes",
+      "create": "Create New"
+    },
+    "table": {
+      "code": "Code",
+      "discount": "Discount",
+      "uses": "Uses",
+      "status": "Status",
+      "validUntil": "Valid Until",
+      "actions": "Actions",
+      "minOrder": "Min. order"
+    },
+    "status": {
+      "all": "All Status",
+      "active": "Active",
+      "paused": "Paused",
+      "draft": "Draft",
+      "expired": "Expired",
+      "depleted": "Depleted"
+    },
+    "actions": {
+      "pause": "Pause",
+      "activate": "Activate",
+      "delete": "Delete"
+    },
+    "noExpiry": "No expiry",
+    "empty": "No promo codes found",
+    "create": {
+      "title": "Create Promo Code",
+      "code": "Code",
+      "codePlaceholder": "WELCOME10",
+      "codeHint": "3-20 characters, letters and numbers",
+      "discountType": "Discount Type",
+      "percentageOff": "Percentage Off",
+      "fixedAmountOff": "Fixed Amount Off",
+      "freeItem": "Free Item",
+      "discountPercentage": "Discount Percentage",
+      "discountAmount": "Discount Amount (EUR)",
+      "freeItemId": "Free Item ID",
+      "maxDiscount": "Max Discount (EUR, optional)",
+      "minOrder": "Minimum Order (EUR, optional)",
+      "totalUsesLimit": "Total Uses Limit",
+      "unlimited": "Unlimited",
+      "usesPerCustomer": "Uses Per Customer",
+      "validUntil": "Valid Until (optional)",
+      "campaignName": "Campaign Name (optional)",
+      "campaignPlaceholder": "Summer Sale 2024",
+      "firstOrderOnly": "First order only",
+      "status": "Status",
+      "activeImmediately": "Active (usable immediately)",
+      "draftSaveForLater": "Draft (save for later)",
+      "submit": "Create Promo Code",
+      "creating": "Creating..."
+    }
+  },
+  "coupons": {
+    "title": "Coupons",
+    "description": "Personalized coupons for specific customers",
+    "tabs": {
+      "templates": "Templates",
+      "coupons": "Issued Coupons",
+      "issue": "Issue Coupons",
+      "createTemplate": "Create Template"
+    },
+    "stats": {
+      "totalIssued": "Total Issued",
+      "active": "Active",
+      "used": "Used",
+      "usageRate": "Usage Rate"
+    },
+    "templates": {
+      "title": "Coupon Templates",
+      "description": "Templates define the discount structure. Issue coupons to customers from templates.",
+      "name": "Name",
+      "discount": "Discount",
+      "distribution": "Distribution",
+      "validity": "Validity",
+      "status": "Status",
+      "actions": "Actions",
+      "days": "days",
+      "minOrder": "Min. order",
+      "active": "Active",
+      "inactive": "Inactive",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "empty": "No templates found. Create one to start issuing coupons.",
+      "distributionTypes": {
+        "manual": "Manual",
+        "birthday": "Birthday",
+        "reengagement": "Re-engagement",
+        "firstOrder": "First Order",
+        "loyaltyTier": "Loyalty Tier"
+      }
+    },
+    "list": {
+      "code": "Code",
+      "discount": "Discount",
+      "reason": "Reason",
+      "status": "Status",
+      "validUntil": "Valid Until",
+      "actions": "Actions",
+      "allStatus": "All Status",
+      "allTemplates": "All Templates",
+      "revoke": "Revoke",
+      "empty": "No coupons found"
+    },
+    "status": {
+      "active": "Active",
+      "used": "Used",
+      "expired": "Expired",
+      "revoked": "Revoked"
+    },
+    "issue": {
+      "title": "Issue Coupons",
+      "description": "Issue coupons from a template to one or more customers.",
+      "template": "Template",
+      "selectTemplate": "Select a template",
+      "customerIds": "Customer Account IDs",
+      "customerIdsPlaceholder": "Enter account IDs separated by commas",
+      "customerIdsHint": "Separate multiple IDs with commas",
+      "issueReason": "Issue Reason",
+      "reasons": {
+        "manual": "Manual",
+        "promotion": "Promotion",
+        "apology": "Customer Apology",
+        "loyaltyReward": "Loyalty Reward",
+        "referral": "Referral"
+      },
+      "submit": "Issue Coupons",
+      "issuing": "Issuing...",
+      "successMessage": "Issued {issued} coupons ({failed} failed)"
+    },
+    "createTemplate": {
+      "title": "Create Coupon Template",
+      "templateName": "Template Name",
+      "templateNamePlaceholder": "Birthday 20% Off",
+      "description": "Description (optional)",
+      "descriptionPlaceholder": "Special discount for customer birthdays",
+      "codePrefix": "Code Prefix",
+      "codePrefixHint": "Generated codes will start with this prefix (e.g., CPN-A2B4C6D8)",
+      "discountType": "Discount Type",
+      "percentageOff": "Percentage Off",
+      "fixedAmountOff": "Fixed Amount Off",
+      "freeItem": "Free Item",
+      "discountPercentage": "Discount Percentage",
+      "discountAmount": "Discount Amount (EUR)",
+      "freeItemId": "Free Item ID",
+      "maxDiscount": "Max Discount (EUR, optional)",
+      "minOrder": "Minimum Order (EUR, optional)",
+      "distributionType": "Distribution Type",
+      "distributionTypes": {
+        "manual": "Manual (Issue manually)",
+        "birthday": "Auto - Birthday",
+        "inactivity": "Auto - Re-engagement (Inactive customers)",
+        "firstOrder": "Auto - First Order Reward",
+        "loyaltyTier": "Auto - Loyalty Tier Upgrade"
+      },
+      "validityDays": "Validity (days)",
+      "validityHint": "How many days the coupon is valid after issuance",
+      "stackable": "Stackable with other discounts",
+      "submit": "Create Template",
+      "creating": "Creating..."
+    }
+  },
+  "events": {
+    "title": "Events",
+    "description": "Create and manage events for your venue",
+    "newEvent": "New Event",
+    "loading": "Loading events...",
+    "stats": {
+      "total": "Total Events",
+      "published": "Published",
+      "draft": "In Draft",
+      "upcoming": "Upcoming"
+    },
+    "filters": {
+      "all": "All",
+      "published": "Published",
+      "draft": "Drafts",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "empty": {
+      "title": "No events found",
+      "description": "Create your first event to get started",
+      "action": "Create Event"
+    },
+    "table": {
+      "event": "Event",
+      "type": "Type",
+      "date": "Date",
+      "status": "Status",
+      "reservations": "Reservations",
+      "actions": "Actions",
+      "featured": "FEATURED"
+    },
+    "modal": {
+      "create": "New Event",
+      "edit": "Edit Event",
+      "steps": {
+        "basics": "Basic Info",
+        "venue": "Venue",
+        "promos": "Promotions",
+        "extras": "Extras"
+      }
+    },
+    "form": {
+      "category": "Category",
+      "allCategories": "All",
+      "eventType": "Event Type",
+      "title": "Title",
+      "titlePlaceholder": "E.g.: Jazz Night with Marco Rossi",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe the event...",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "publicVisible": "Publicly visible",
+      "featured": "Featured"
+    },
+    "venue": {
+      "statusTitle": "Venue status during the event",
+      "affectedAreas": "Affected areas (comma separated)",
+      "affectedAreasPlaceholder": "E.g.: Room 1, Terrace",
+      "maxCapacity": "Max Capacity",
+      "maxCapacityPlaceholder": "E.g.: 50",
+      "entranceFee": "Entrance fee (€)",
+      "entranceFeePlaceholder": "0 = free",
+      "requiresReservation": "Requires reservation"
+    },
+    "promo": {
+      "title": "Event Promotion",
+      "description": "Activate discounts or offers during the event",
+      "enable": "Enable",
+      "type": "Promotion Type",
+      "applyTo": "Apply to",
+      "allMenu": "Entire menu",
+      "categories": "Categories",
+      "products": "Products",
+      "badge": "Badge",
+      "badgePlaceholder": "E.g.: \"-20%\", \"2x1\", \"FREE\""
+    },
+    "sports": {
+      "title": "Match Information",
+      "sport": "Sport",
+      "homeTeam": "Home Team",
+      "homeTeamPlaceholder": "E.g.: Juventus",
+      "awayTeam": "Away Team",
+      "awayTeamPlaceholder": "E.g.: Inter",
+      "competition": "Competition",
+      "competitionPlaceholder": "E.g.: Serie A, Champions League"
+    },
+    "performer": {
+      "title": "Performer / Artist (optional)",
+      "name": "Name",
+      "namePlaceholder": "E.g.: DJ Marco",
+      "genre": "Genre",
+      "genrePlaceholder": "E.g.: House / Deep House"
+    },
+    "loyalty": {
+      "title": "Loyalty Bonus",
+      "description": "Extra points for participants",
+      "enable": "Enable",
+      "pointsMultiplier": "Points multiplier",
+      "multiplierOptions": {
+        "normal": "1x (normal)",
+        "double": "2x",
+        "triple": "3x",
+        "fiveTimes": "5x"
+      },
+      "bonusPoints": "Bonus points",
+      "bonusPointsPlaceholder": "E.g.: 50"
+    },
+    "navigation": {
+      "back": "Back",
+      "next": "Next",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes",
+      "createEvent": "Create Event"
+    },
+    "actions": {
+      "edit": "Edit",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this event?"
+    },
+    "tips": {
+      "title": "Tips for successful events",
+      "addImages": "Add images",
+      "addImagesDesc": "Events with photos receive 3x more interest",
+      "loyaltyBonus": "Activate loyalty bonus",
+      "loyaltyBonusDesc": "Extra points increase participation by 40%",
+      "notifications": "Send notifications",
+      "notificationsDesc": "Remind your followers 24h before the event"
+    },
+    "promoMechanics": {
+      "percentOff": "% Off",
+      "fixedDiscount": "Fixed Discount",
+      "fixedPrice": "Fixed Price",
+      "bogo": "2x1",
+      "bogoho": "Buy 1 Get 2nd 50% Off",
+      "buyXGetY": "Buy X Pay Y",
+      "bundle": "Combo",
+      "freeItem": "Free Gift",
+      "bottomless": "Unlimited",
+      "pointsMultiplier": "Points x2",
+      "pointsBonus": "Bonus Points",
+      "freeUpgrade": "Free Upgrade",
+      "kidsFree": "Kids Free",
+      "groupDiscount": "Group Discount",
+      "earlyBird": "Early Bird",
+      "lastMinute": "Last Minute",
+      "none": "None",
+      "percentage": "Percentage",
+      "amount": "Amount (€)",
+      "price": "Price (€)",
+      "take": "Take",
+      "pay": "Pay",
+      "bundlePrice": "Bundle Price (€)",
+      "multiplier": "Multiplier",
+      "points": "Points",
+      "discount": "Discount %"
+    },
+    "sports_types": {
+      "football": "Football",
+      "basketball": "Basketball",
+      "tennis": "Tennis",
+      "f1": "Formula 1",
+      "motogp": "MotoGP",
+      "boxing": "Boxing",
+      "ufc": "UFC",
+      "rugby": "Rugby",
+      "other": "Other"
+    },
+    "venueStatus": {
+      "open": "Open",
+      "partial": "Partial",
+      "reserved": "Reserved",
+      "closed": "Closed"
+    }
+  },
+  "promotions": {
+    "title": "Promotions",
+    "description": "2-step QR Marketing system: external (awareness) + internal (conversion)",
+    "newPromotion": "New Promotion",
+    "stats": {
+      "active": "Active Promotions",
+      "scanned": "QR Scanned",
+      "conversions": "Conversions",
+      "conversionRate": "Conversion Rate",
+      "placements": "QR Placed"
+    },
+    "howItWorks": {
+      "title": "How 2-Step QR Marketing Works",
+      "step1Title": "External QR",
+      "step1Desc": "Place QR on streets, online or with partners. User scans and sees venue info + promo.",
+      "step2Title": "Visit Venue",
+      "step2Desc": "User arrives at the venue guided by Google Maps and promo information.",
+      "step3Title": "Internal QR",
+      "step3Desc": "Scan table QR to activate promo. Trigger: registration, social share, etc."
+    },
+    "filters": {
+      "all": "All",
+      "active": "Active",
+      "draft": "Drafts",
+      "paused": "Paused",
+      "expired": "Expired"
+    },
+    "empty": {
+      "title": "No promotions found",
+      "description": "Create your first promotion with external QR",
+      "action": "Create Promotion"
+    },
+    "actions": {
+      "activate": "Activate",
+      "pause": "Pause",
+      "reactivate": "Reactivate",
+      "confirmDelete": "Are you sure you want to delete this promotion?"
+    },
+    "placements": {
+      "title": "QR Placements",
+      "manageAll": "Manage all",
+      "addNew": "Add new QR placement",
+      "scans": "Scans",
+      "conv": "Conv.",
+      "roi": "ROI",
+      "noExternal": "No external QR placed",
+      "addPlacement": "+ Add placement",
+      "internalOnly": "Internal promotion only (no external QR)",
+      "usages": "usages",
+      "otherPlacements": "+ {count} other placements",
+      "offline": "Offline",
+      "offlineDesc": "Flyers, posters, partners, tickets",
+      "online": "Online",
+      "onlineDesc": "Social media, partner sites, ads, email",
+      "activePlacements": "Active Placements"
+    },
+    "modal": {
+      "title": "New Promotion",
+      "stepOf": "Step {current} of {total}",
+      "promoType": "Promotion Type",
+      "titleField": "Title",
+      "titlePlaceholder": "E.g.: 20% off first order",
+      "descriptionField": "Description",
+      "descriptionPlaceholder": "Describe the promotion...",
+      "rewardDetails": "Reward Details",
+      "discountPercent": "Discount %",
+      "discountFixed": "Fixed Discount (€)",
+      "freeProduct": "Free Product",
+      "freeProductPlaceholder": "E.g.: Coffee, Dessert",
+      "bonusPoints": "Bonus Points",
+      "triggerAction": "Action Required to Activate",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "externalQR": "External QR Marketing",
+      "externalQRDesc": "Enable the 2-step system with QR placed outside the venue",
+      "summary": "Summary",
+      "type": "Type",
+      "trigger": "Trigger",
+      "period": "Period",
+      "back": "Back",
+      "cancel": "Cancel",
+      "next": "Next",
+      "createPromotion": "Create Promotion"
+    },
+    "types": {
+      "discountPercent": "% Discount",
+      "discountFixed": "Fixed Discount",
+      "freeItem": "Free Gift",
+      "buyXGetY": "Buy X Pay Y",
+      "bundle": "Bundle",
+      "loyaltyBonus": "Bonus Points",
+      "scratchCard": "Scratch Card",
+      "spinWheel": "Fortune Wheel",
+      "firstVisit": "First Visit"
+    },
+    "status": {
+      "draft": "Draft",
+      "active": "Active",
+      "paused": "Paused",
+      "expired": "Expired",
+      "completed": "Completed"
+    },
+    "triggers": {
+      "signup": "Registration",
+      "socialShare": "Share",
+      "follow": "Follow",
+      "review": "Review",
+      "checkin": "Check-in",
+      "minimumPurchase": "Min. Purchase",
+      "none": "Automatic"
+    },
+    "placementsModal": {
+      "title": "Manage QR Placements",
+      "close": "Close",
+      "qrCode": "QR Code"
+    }
+  },
+  "challenges": {
+    "title": "Food Challenges",
+    "description": "Create viral food challenges for your venue",
+    "newChallenge": "New Challenge",
+    "loading": "Loading challenges...",
+    "stats": {
+      "total": "Total Challenges",
+      "active": "Active",
+      "attempts": "Total Attempts",
+      "winners": "Winners"
+    },
+    "filters": {
+      "all": "All",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "empty": {
+      "title": "No challenges found",
+      "description": "Create your first Food Challenge!",
+      "action": "Create Challenge"
+    },
+    "card": {
+      "timeLimit": "{time} min | {price} EUR if you lose",
+      "toFinish": "To finish:",
+      "moreItems": "+{count} more...",
+      "attempts": "Attempts",
+      "winners": "Winners",
+      "record": "RECORD",
+      "recordBy": "by {name}",
+      "noWinnerYet": "No one has won yet!",
+      "addAttempt": "+ Attempt",
+      "wallOfFame": "Wall of Fame",
+      "edit": "Edit",
+      "activate": "Activate",
+      "deactivate": "Deactivate"
+    },
+    "actions": {
+      "confirmDelete": "Are you sure you want to delete this challenge?"
+    },
+    "modal": {
+      "create": "New Food Challenge",
+      "edit": "Edit Challenge",
+      "steps": {
+        "basics": "Details",
+        "reward": "Prize",
+        "record": "Record",
+        "availability": "When"
+      }
+    },
+    "form": {
+      "challengeName": "Challenge Name",
+      "challengeNamePlaceholder": "E.g.: The Mega Burger Challenge",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe the challenge...",
+      "imageUrl": "Image URL (optional)",
+      "items": "Items to finish",
+      "itemName": "Item name",
+      "itemQuantity": "Quantity",
+      "addItem": "+ Add item",
+      "timeLimit": "Time Limit (minutes)",
+      "priceIfLose": "Price if loses (€)",
+      "difficulty": "Difficulty",
+      "rules": "Rules",
+      "rulePlaceholder": "E.g.: No bathroom breaks",
+      "addRule": "+ Add rule",
+      "winReward": "Prize if wins",
+      "cashPrize": "Cash Prize (€)",
+      "prizeName": "Prize Name",
+      "prizeDescription": "Prize Description",
+      "recordBonus": "Record Bonus",
+      "recordBonusEnabled": "Enable record bonus",
+      "recordBonusCash": "Record Bonus Cash (€)",
+      "recordBonusPrize": "Record Bonus Prize",
+      "teamChallenge": "Team Challenge",
+      "isTeamChallenge": "This is a team challenge",
+      "teamSize": "Team Size",
+      "requiresBooking": "Requires reservation",
+      "availableDays": "Available Days",
+      "availableTime": "Available Time",
+      "isActive": "Active"
+    },
+    "navigation": {
+      "back": "Back",
+      "cancel": "Cancel",
+      "next": "Next",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes",
+      "createChallenge": "Create Challenge"
+    },
+    "attempt": {
+      "title": "Record Attempt",
+      "participantName": "Participant Name",
+      "participantPlaceholder": "E.g.: Marco Rossi",
+      "date": "Date",
+      "completed": "Completed the Challenge!",
+      "completionTime": "Completion Time (minutes)",
+      "maxTime": "Max: {time} min",
+      "register": "Register"
+    },
+    "wallOfFame": {
+      "title": "Wall of Fame",
+      "empty": "No one has won yet!",
+      "emptySubtitle": "Will you be the first?",
+      "record": "RECORD",
+      "minutes": "minutes"
+    }
+  },
+  "loyalty": {
+    "title": "Loyalty Program",
+    "description": "Configure points, tiers, rewards and social sharing",
+    "active": "Active",
+    "saveChanges": "Save Changes",
+    "tabs": {
+      "overview": "Overview",
+      "tiers": "Tiers",
+      "actions": "Actions",
+      "rewards": "Rewards",
+      "social": "Social"
+    },
+    "overview": {
+      "totalMembers": "Total Members",
+      "thisMonth": "this month",
+      "activeThisMonth": "Active This Month",
+      "ofTotal": "of total",
+      "pointsIssued": "Points Issued",
+      "rewardsRedeemed": "Rewards Redeemed",
+      "pointsUsed": "points used",
+      "tierDistribution": "Tier Distribution",
+      "socialShares": "Social Shares",
+      "referrals": "Referrals",
+      "newCustomersFromReferral": "New customers from referral",
+      "pointsAssigned": "points assigned"
+    },
+    "tiers": {
+      "title": "Configure Tiers",
+      "from": "From",
+      "points": "points",
+      "bonus": "Bonus",
+      "bonusOptions": {
+        "none": "None",
+        "plus10": "+10%",
+        "plus20": "+20%",
+        "plus30": "+30%",
+        "plus50": "+50%",
+        "plus100": "+100%"
+      },
+      "tierNames": {
+        "bronze": "Bronze",
+        "silver": "Silver",
+        "gold": "Gold",
+        "platinum": "Platinum",
+        "diamond": "Diamond"
+      }
+    },
+    "actions": {
+      "purchaseSettings": "Purchase Settings",
+      "pointsPerEuro": "Points for every",
+      "euroSpent": "euro spent",
+      "rewardableActions": "Rewardable Actions",
+      "maxPerDay": "Max {count}/day"
+    },
+    "rewards": {
+      "title": "Available Rewards",
+      "newReward": "New Reward",
+      "remaining": "Remaining: {count}",
+      "minTier": "Min: {tier}"
+    },
+    "social": {
+      "configTitle": "Social Configuration",
+      "venueHashtags": "Venue Hashtags (comma separated)",
+      "instagramProfile": "Instagram Profile",
+      "shareTemplates": "Share Templates",
+      "shareTemplatesDesc": "Configure pre-set messages that customers can easily share on social media.",
+      "tagMentionOnly": "(Tag/mention only)",
+      "customerSharePreview": "Customer Share Preview",
+      "previewDesc": "This is how it will appear to the customer when they want to share:",
+      "shareTheDish": "Share the Dish"
+    }
+  },
+  "menuPage": {
+    "loading": "Loading menu data...",
+    "errorTitle": "Error loading menu",
+    "retry": "Retry",
+    "breadcrumb": "Content",
+    "title": "Menu & Products",
+    "itemsCount": "{count} items",
+    "dataSource": "Data from Supabase",
+    "template": "Template",
+    "importCsv": "Import CSV",
+    "importing": "Importing...",
+    "addItem": "Add Item",
+    "allItems": "All Items",
+    "searchPlaceholder": "Search menu items...",
+    "allStatus": "All Status",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "sortByOrder": "Sort by Order",
+    "sortByName": "Sort by Name",
+    "sortByPrice": "Sort by Price",
+    "featured": "Featured",
+    "new": "NEW",
+    "noDescription": "No description",
+    "allergen": "allergen",
+    "allergens": "allergens",
+    "vegan": "Vegan",
+    "halal": "Halal",
+    "translations": "Translations",
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "addNewItem": "Add New Item",
+    "noItems": "No menu items found",
+    "tryDifferentSearch": "Try a different search term",
+    "addFirstItem": "Add your first menu item to get started",
+    "markedAvailable": "Item marked as available",
+    "markedUnavailable": "Item marked as unavailable",
+    "failedUpdate": "Failed to update availability",
+    "deleteSuccess": "Item deleted successfully",
+    "deleteFailed": "Failed to delete item",
+    "importSuccess": "Successfully imported {count} item(s)",
+    "importPartial": "Imported {success} items with {errors} errors",
+    "importFailed": "Import failed",
+    "csvEmpty": "CSV file is empty or invalid"
+  },
+  "recipesPage": {
+    "title": "Recipe Library",
+    "description": "Browse {count}+ professional recipes from our database",
+    "createRecipe": "Create Recipe",
+    "totalRecipes": "Total Recipes",
+    "beverages": "Beverages",
+    "dishes": "Dishes",
+    "sides": "Sides",
+    "veganOptions": "Vegan Options",
+    "signatures": "Signatures",
+    "searchPlaceholder": "Search recipes by name or description...",
+    "all": "All",
+    "vegan": "Vegan",
+    "dairyFree": "Dairy-Free",
+    "glutenFree": "GF",
+    "allCategories": "All Categories",
+    "loading": "Loading recipes...",
+    "errorTitle": "Error loading recipes",
+    "tryAgain": "Try again",
+    "showingResults": "Showing {filtered} of {total} recipes",
+    "signature": "Signature",
+    "noRecipes": "No recipes found",
+    "noRecipesHint": "Try adjusting your filters or search query",
+    "contains": "Contains"
+  },
+  "ingredientsPage": {
+    "breadcrumb": "Content",
+    "title": "Ingredient Database",
+    "itemsCount": "{count} ingredients",
+    "system": "Sistema 5 Dimensioni",
+    "addIngredient": "Add Ingredient",
+    "searchPlaceholder": "Search ingredients...",
+    "tableHeaders": {
+      "name": "Name",
+      "allergens": "Allergens",
+      "nutrition": "Nutrition (per 100g)",
+      "type": "Type",
+      "actions": "Actions"
+    },
+    "none": "None",
+    "notSet": "Not set",
+    "global": "Global",
+    "local": "Local",
+    "noIngredients": "No ingredients found",
+    "editIngredient": "Edit Ingredient",
+    "modal": {
+      "nameEn": "Name (English)",
+      "nameVi": "Name (Vietnamese)",
+      "nutritionPer100g": "Nutrition (per 100g)",
+      "calories": "Calories",
+      "protein": "Protein (g)",
+      "carbs": "Carbs (g)",
+      "fat": "Fat (g)",
+      "fiber": "Fiber (g)",
+      "allergensEu14": "Allergens (EU 14)",
+      "dietaryProperties": "Dietary Properties",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "confirmDelete": "Delete this ingredient?",
+    "saveFailed": "Failed to save ingredient"
+  },
+  "categoriesPage": {
+    "breadcrumb": "Content",
+    "title": "Menu Categories",
+    "itemsCount": "{count} categories",
+    "dragToReorder": "Drag to reorder",
+    "addCategory": "+ Add Category",
+    "unnamed": "Unnamed",
+    "hidden": "Hidden",
+    "itemCount": "{count} items",
+    "noCategories": "No categories yet",
+    "createFirst": "Create your first category",
+    "hide": "Hide",
+    "show": "Show",
+    "cannotDeleteWithItems": "Cannot delete category with {count} items. Move or delete the items first.",
+    "confirmDelete": "Delete this category?",
+    "saveFailed": "Failed to save category",
+    "modal": {
+      "addTitle": "Add Category",
+      "editTitle": "Edit Category",
+      "icon": "Icon",
+      "nameEn": "Name (English) *",
+      "nameEnPlaceholder": "e.g., Hot Coffee",
+      "nameVi": "Name (Vietnamese)",
+      "nameViPlaceholder": "e.g., Cà phê nóng",
+      "slug": "Slug (URL)",
+      "slugPlaceholder": "hot-coffee",
+      "slugHint": "Auto-generated from name if empty",
+      "visibleOnMenu": "Visible on menu",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "addCategory": "Add Category"
+    },
+    "modifiersModal": {
+      "title": "Manage Modifiers",
+      "selectFor": "Select modifier groups for",
+      "noGroups": "No modifier groups available",
+      "createHint": "Create modifier groups in Content > Modifiers",
+      "single": "Single",
+      "multiple": "Multiple",
+      "required": "Required",
+      "selectedCount": "{selected} of {total} selected",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "saveChanges": "Save Changes",
+      "saveFailed": "Failed to save modifier relationships"
+    }
+  },
+  "winesPage": {
+    "breadcrumb": "Content",
+    "title": "Wine Catalog",
+    "subtitle": "{count} wines from {countriesCount} countries",
+    "addWine": "+ Add Wine",
+    "searchPlaceholder": "Search wines, grapes, regions...",
+    "allCountriesWithCount": "All Countries ({count})",
+    "colorOptions": {
+      "all": "All Wines",
+      "red": "Red",
+      "white": "White",
+      "rose": "Rosé",
+      "sparkling": "Sparkling",
+      "dessert": "Dessert",
+      "fortified": "Fortified",
+      "orange": "Orange"
+    },
+    "stats": {
+      "red": "Red",
+      "white": "White",
+      "rose": "Rosé",
+      "sparkling": "Sparkling",
+      "dessert": "Dessert",
+      "fortified": "Fortified"
+    },
+    "sortBy": {
+      "name": "Sort by Name",
+      "country": "Sort by Country",
+      "popularity": "Sort by Popularity"
+    },
+    "showingResults": "Showing {filtered} of {total} wines",
+    "errorTitle": "Error loading wines",
+    "retry": "Retry",
+    "card": {
+      "organic": "Organic",
+      "natural": "Natural",
+      "vegan": "Vegan",
+      "abv": "ABV",
+      "serve": "Serve",
+      "viewEdit": "View/Edit",
+      "duplicate": "Duplicate",
+      "popularity": "pop."
+    },
+    "addNewWine": "Add New Wine",
+    "noWines": "No wines found",
+    "noWinesSearchHint": "Try a different search term",
+    "noWinesFilterHint": "Adjust your filters to see wines",
+    "modal": {
+      "title": "Wine Details",
+      "name": "Wine Name",
+      "color": "Color",
+      "region": "Region",
+      "grapes": "Grape Varieties",
+      "abv": "ABV",
+      "body": "Body",
+      "sweetness": "Sweetness",
+      "tannins": "Tannins",
+      "acidity": "Acidity",
+      "flavors": "Flavors",
+      "foodPairings": "Food Pairings",
+      "servingTemp": "Serving Temperature",
+      "close": "Close"
+    }
+  },
+  "modifiersPage": {
+    "breadcrumb": "Content",
+    "title": "Product Modifiers",
+    "subtitle": "{groups} groups, {options} options",
+    "groups": {
+      "title": "Modifier Groups",
+      "add": "+ Add",
+      "options": "{count} options",
+      "single": "Single",
+      "multiple": "Multiple",
+      "required": "Required",
+      "active": "Active",
+      "inactive": "Inactive",
+      "edit": "Edit",
+      "delete": "Delete",
+      "empty": "No modifier groups yet",
+      "createFirst": "Create your first group",
+      "cannotDelete": "Cannot delete \"{name}\": has {count} modifiers. Delete modifiers first.",
+      "confirmDelete": "Delete group \"{name}\"?"
+    },
+    "modifiers": {
+      "singleSelection": "Single selection",
+      "multipleSelection": "Multiple selection",
+      "max": "Max {count}",
+      "searchPlaceholder": "Search...",
+      "addOption": "+ Add Option",
+      "tableHeaders": {
+        "option": "Option",
+        "price": "Price",
+        "calories": "Calories",
+        "default": "Default",
+        "available": "Available",
+        "actions": "Actions"
+      },
+      "free": "Free",
+      "kcal": "kcal",
+      "edit": "Edit",
+      "delete": "Delete",
+      "emptyGroup": "No options in this group yet",
+      "selectGroup": "Select a group to view options",
+      "addFirst": "Add first option",
+      "confirmDelete": "Delete \"{name}\"?"
+    },
+    "groupModal": {
+      "editTitle": "Edit Group",
+      "addTitle": "Add Modifier Group",
+      "icon": "Icon",
+      "nameEn": "Name (English) *",
+      "nameEnPlaceholder": "e.g., Size, Milk Type",
+      "nameIt": "Name (Italian)",
+      "nameItPlaceholder": "Dimensione",
+      "nameVi": "Name (Vietnamese)",
+      "nameViPlaceholder": "Kích cỡ",
+      "selectionType": "Selection Type",
+      "singleRadio": "Single (radio)",
+      "multipleCheckbox": "Multiple (checkbox)",
+      "required": "Required",
+      "maxSelections": "Max selections",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "addGroup": "Add Group"
+    },
+    "modifierModal": {
+      "editTitle": "Edit Option",
+      "addTitle": "Add Option",
+      "nameEn": "Name (English) *",
+      "nameEnPlaceholder": "e.g., Large, Oat Milk",
+      "nameIt": "Name (Italian)",
+      "nameItPlaceholder": "Grande",
+      "nameVi": "Name (Vietnamese)",
+      "nameViPlaceholder": "Lớn",
+      "priceAdjustment": "Price Adjustment (€)",
+      "priceAdjustmentPlaceholder": "0.50",
+      "priceType": "Price Type",
+      "priceTypes": {
+        "fixed": "Fixed (+€)",
+        "percentage": "Percentage (+%)",
+        "replace": "Replace price"
+      },
+      "caloriesAdjustment": "Calories Adjustment (kcal)",
+      "caloriesPlaceholder": "0",
+      "iconLabel": "Icon (emoji, optional)",
+      "iconPlaceholder": "🥛",
+      "setDefault": "Set as default selection",
+      "cancel": "Cancel",
+      "saveChanges": "Save Changes",
+      "addOption": "Add Option"
+    },
+    "errors": {
+      "noMerchant": "Error: No merchant ID. Please refresh the page.",
+      "saveFailed": "Failed to save",
+      "deleteFailed": "Failed to delete"
+    }
+  },
+  "followersPage": {
+    "title": "Followers",
+    "subtitle": "{count} customers following your locale",
+    "exportCsv": "Export CSV",
+    "stats": {
+      "total": "Total",
+      "active": "Active",
+      "residents": "Residents",
+      "activeTourists": "Active Tourists",
+      "paused": "Paused",
+      "archived": "Archived",
+      "returning": "Returning"
+    },
+    "filters": {
+      "searchPlaceholder": "Search by name or email...",
+      "allTypes": "All Types",
+      "residents": "Residents",
+      "tourists": "Tourists",
+      "unknown": "Unknown",
+      "allStatus": "All Status",
+      "active": "Active",
+      "paused": "Paused",
+      "stopped": "Stopped",
+      "archived": "Archived",
+      "sortByFollowDate": "Sort by: Follow Date",
+      "sortByTotalSpent": "Sort by: Total Spent",
+      "sortByOrders": "Sort by: Orders",
+      "sortByLastVisit": "Sort by: Last Visit",
+      "sortByVisitCount": "Sort by: Visit Count"
+    },
+    "visitorTypes": {
+      "resident": "Resident",
+      "tourist": "Tourist",
+      "unknown": "Unknown"
+    },
+    "notificationStatus": {
+      "active": "Active",
+      "paused": "Paused",
+      "stopped": "Stopped",
+      "archived": "Archived"
+    },
+    "table": {
+      "customer": "Customer",
+      "type": "Type",
+      "status": "Status",
+      "visits": "Visits",
+      "lastVisit": "Last Visit",
+      "orders": "Orders",
+      "totalSpent": "Total Spent",
+      "tier": "Tier",
+      "actions": "Actions",
+      "tripEnds": "Trip ends: {date}",
+      "returning": "returning",
+      "edit": "Edit"
+    },
+    "timeAgo": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "daysAgo": "{days} days ago",
+      "weeksAgo": "{weeks} weeks ago",
+      "monthsAgo": "{months} months ago",
+      "yearsAgo": "{years} years ago",
+      "never": "Never"
+    },
+    "anonymous": "Anonymous",
+    "loading": "Loading followers...",
+    "error": "Failed to load followers. Please try again.",
+    "empty": {
+      "title": "No followers found",
+      "filterHint": "Try adjusting your filters to see more results.",
+      "defaultHint": "When customers scan your QR code and follow your locale, they'll appear here."
+    }
+  },
+  "intelligencePage": {
+    "title": "Customer Intelligence",
+    "subtitle": "AI-powered insights to maximize customer lifetime value",
+    "sync": "Sync",
+    "analyzeAll": "Analyze All",
+    "analyzing": "Analyzing...",
+    "stats": {
+      "totalClv": "Total CLV",
+      "customersAnalyzed": "Customers Analyzed",
+      "atRisk": "At Risk",
+      "highPriority": "HIGH priority",
+      "averageClv": "Average CLV"
+    },
+    "urgentBanner": {
+      "title": "URGENT: {count} customers at risk",
+      "potentialLoss": "{amount} potential revenue loss",
+      "viewAtRisk": "View At-Risk"
+    },
+    "segments": {
+      "title": "Customer Segments",
+      "champion": "Champions",
+      "loyal": "Loyal",
+      "potential": "Potential",
+      "new": "New",
+      "atRisk": "At Risk",
+      "dormant": "Dormant",
+      "lost": "Lost"
+    },
+    "recommendations": {
+      "title": "Top Recommended Actions",
+      "winBack": "Win-back {name}",
+      "clvAtRisk": "{amount} CLV at risk",
+      "daysInactive": "{days} days inactive",
+      "view": "View",
+      "empty": "No actions recommended yet",
+      "runAnalysis": "Run AI Analysis"
+    },
+    "atRiskTable": {
+      "title": "At-Risk Customers",
+      "sortedByClv": "Sorted by CLV",
+      "setupTriggers": "Set up automated triggers",
+      "customer": "Customer",
+      "clv": "CLV",
+      "inactive": "Inactive",
+      "risk": "Risk",
+      "action": "Action",
+      "days": "{days} days",
+      "unknown": "Unknown",
+      "viewDetails": "View Details",
+      "emptyTitle": "No at-risk customers",
+      "emptyDesc": "Great news! All your customers are in good standing."
+    }
+  },
+  "feedbackPage": {
+    "title": "Customer Feedback",
+    "subtitle": "{count} total feedback items",
+    "newCount": "({count} new)",
+    "openIssues": "({count} open issues)",
+    "filters": {
+      "allTypes": "All Types",
+      "ratings": "Ratings",
+      "reviews": "Reviews",
+      "suggestions": "Suggestions",
+      "issues": "Issues",
+      "compliments": "Compliments",
+      "allStatus": "All Status",
+      "new": "New",
+      "read": "Read",
+      "inProgress": "In Progress",
+      "replied": "Replied",
+      "resolved": "Resolved",
+      "dismissed": "Dismissed"
+    },
+    "types": {
+      "rating": "Rating",
+      "review": "Review",
+      "suggestion": "Suggestion",
+      "issue": "Issue",
+      "compliment": "Compliment"
+    },
+    "status": {
+      "new": "New",
+      "read": "Read",
+      "inProgress": "In Progress",
+      "replied": "Replied",
+      "resolved": "Resolved",
+      "dismissed": "Dismissed"
+    },
+    "categories": {
+      "foodQuality": "Food Quality",
+      "service": "Service",
+      "ambience": "Ambience",
+      "cleanliness": "Cleanliness",
+      "appExperience": "App Experience",
+      "delivery": "Delivery",
+      "pricing": "Pricing",
+      "menu": "Menu",
+      "general": "General"
+    },
+    "public": "Public",
+    "yourReply": "Your reply:",
+    "reply": "Reply",
+    "guest": "Guest",
+    "loading": "Loading feedback...",
+    "error": "Failed to load feedback. Please try again.",
+    "empty": {
+      "title": "No feedback yet",
+      "description": "Customer feedback will appear here when they submit ratings, reviews, or suggestions through the PWA."
+    },
+    "replyModal": {
+      "title": "Reply to Feedback",
+      "noMessage": "No message",
+      "from": "From: {name}",
+      "placeholder": "Write your reply...",
+      "cancel": "Cancel",
+      "send": "Send Reply",
+      "sending": "Sending..."
+    }
+  },
+  "customerDetailPage": {
+    "errorLoading": "Error loading customer",
+    "customerNotFound": "Customer not found",
+    "goBack": "Go back",
+    "followerSince": "Follower since {date}",
+    "clvLabel": "CLV: {amount}",
+    "message": "Message",
+    "sendPromo": "Send Promo",
+    "metrics": {
+      "lifetimeValue": "Lifetime Value",
+      "confidence": "{percent}% confidence",
+      "totalOrders": "Total Orders",
+      "avgOrder": "Avg Order",
+      "loyaltyPoints": "Loyalty Points"
+    },
+    "churnRisk": {
+      "title": "Churn Risk",
+      "daysSinceLastVisit": "{days} days since last visit",
+      "predictedNextVisit": "Predicted next visit: {date}",
+      "riskFactors": "Risk Factors:",
+      "noAnalysis": "No risk analysis available",
+      "runAnalysisHint": "Run AI analysis from the Intelligence page"
+    },
+    "recommendations": {
+      "title": "AI Recommendations",
+      "expectedRoi": "Expected ROI: {amount}",
+      "empty": "No recommendations yet",
+      "emptyHint": "AI analysis will generate personalized actions"
+    },
+    "activity": {
+      "title": "Activity Summary",
+      "totalVisits": "Total Visits",
+      "lastVisit": "Last Visit",
+      "never": "Never",
+      "feedbackGiven": "Feedback Given",
+      "avgRating": "Avg Rating"
+    },
+    "triggers": {
+      "title": "Trigger History",
+      "manageTriggers": "Manage Triggers",
+      "date": "Date",
+      "trigger": "Trigger",
+      "type": "Type",
+      "status": "Status",
+      "result": "Result",
+      "converted": "Converted",
+      "sent": "Sent",
+      "failed": "Failed",
+      "empty": "No trigger history",
+      "setupTriggers": "Set up automated triggers"
+    },
+    "wallet": {
+      "title": "Customer Wallet"
+    },
+    "segments": {
+      "champion": "Champion",
+      "loyal": "Loyal",
+      "potential": "Potential",
+      "new": "New",
+      "atRisk": "At Risk",
+      "dormant": "Dormant",
+      "lost": "Lost"
+    }
+  },
+  "hoursPage": {
+    "title": "Operating Hours",
+    "subtitle": "Set when your location is open and manage schedule overrides",
+    "loading": "Loading hours...",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "saveSuccess": "Hours saved successfully!",
+    "saveFailed": "Failed to save hours",
+    "cancel": "Cancel",
+    "unsavedChanges": "You have unsaved changes",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "status": {
+      "open": "Currently Open",
+      "closed": "Closed"
+    },
+    "tabs": {
+      "basic": "Basic Schedule",
+      "advanced": "Advanced Overrides"
+    },
+    "weeklySchedule": {
+      "title": "Weekly Schedule",
+      "description": "Set your regular opening hours for each day of the week"
+    },
+    "preview": {
+      "title": "Customer Preview",
+      "description": "This is how your hours will appear to customers",
+      "openNow": "Open Now"
+    },
+    "timeSlots": {
+      "from": "From",
+      "to": "To",
+      "addSlot": "+ Add time slot",
+      "removeSlot": "Remove slot"
+    },
+    "specialHours": {
+      "title": "Special Hours",
+      "description": "Set different hours for holidays or special events",
+      "addSpecial": "Add Special Hours",
+      "date": "Date",
+      "reason": "Reason",
+      "reasonPlaceholder": "e.g., Christmas, National Holiday"
+    },
+    "timezone": {
+      "title": "Timezone",
+      "description": "Your venue's local timezone"
+    },
+    "copyToAll": "Copy to all days",
+    "resetToDefault": "Reset to default"
+  },
+  "currencyPage": {
+    "title": "Currency Settings",
+    "subtitle": "Configure your primary currency and exchange rates",
+    "loading": "Loading currency settings...",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "saveSuccess": "Currency settings saved!",
+    "saveFailed": "Failed to save currency settings",
+    "primaryCurrency": {
+      "title": "Primary Currency",
+      "description": "The main currency for your menu prices"
+    },
+    "exchangeRates": {
+      "title": "Exchange Rates",
+      "description": "Display prices in multiple currencies",
+      "enabled": "Multi-currency display enabled",
+      "disabled": "Multi-currency display disabled",
+      "rate": "Rate",
+      "lastUpdated": "Last updated: {date}",
+      "refreshRates": "Refresh Rates",
+      "refreshing": "Refreshing..."
+    },
+    "displayFormat": {
+      "title": "Display Format",
+      "symbolPosition": "Symbol Position",
+      "before": "Before (€10.00)",
+      "after": "After (10.00€)",
+      "decimals": "Decimal Places",
+      "thousandSeparator": "Thousand Separator"
+    },
+    "secondaryCurrencies": {
+      "title": "Secondary Currencies",
+      "description": "Additional currencies to display on menu",
+      "add": "Add Currency",
+      "remove": "Remove"
+    }
+  },
+  "calendarPage": {
+    "title": "Calendar",
+    "subtitle": "View schedules, events and closures in a single view",
+    "loading": "Loading calendar...",
+    "export": "Export",
+    "newEvent": "New Event",
+    "stats": {
+      "eventsThisMonth": "Events this month",
+      "scheduledClosures": "Scheduled closures",
+      "holidays": "Holidays",
+      "specialHours": "Special hours"
+    },
+    "enterprise": {
+      "badge": "ENTERPRISE",
+      "description": "Sync with Google Calendar, Apple Calendar and other external calendars"
+    },
+    "quickLinks": {
+      "operatingHours": "Operating Hours",
+      "operatingHoursDescription": "Edit base hours",
+      "manageEvents": "Manage Events",
+      "manageEventsDescription": "Create and edit events",
+      "syncCalendar": "Sync Calendar",
+      "syncCalendarDescription": "Connect external calendars"
+    },
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "saveSuccess": "Calendar saved!",
+    "saveFailed": "Failed to save calendar",
+    "views": {
+      "month": "Month",
+      "week": "Week",
+      "day": "Day",
+      "list": "List"
+    },
+    "today": "Today",
+    "addEvent": "Add Event",
+    "eventTypes": {
+      "holiday": "Holiday",
+      "specialHours": "Special Hours",
+      "privateEvent": "Private Event",
+      "promotion": "Promotion",
+      "closure": "Closure"
+    },
+    "eventForm": {
+      "title": "Event Title",
+      "titlePlaceholder": "e.g., Christmas Dinner",
+      "type": "Event Type",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "allDay": "All Day",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional notes...",
+      "recurring": "Recurring",
+      "recurrence": {
+        "none": "Does not repeat",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+      }
+    },
+    "empty": "No events scheduled",
+    "delete": "Delete Event",
+    "confirmDelete": "Are you sure you want to delete this event?"
+  },
+  "paymentsPage": {
+    "title": "Payment Settings",
+    "subtitle": "Configure how customers can pay at your venue",
+    "loading": "Loading payment settings...",
+    "saveChanges": "Save Settings",
+    "saving": "Saving...",
+    "saveSuccess": "Settings saved successfully!",
+    "saveFailed": "Failed to save settings",
+    "noMerchant": "No merchant selected",
+    "tabs": {
+      "fiat": "Fiat",
+      "crypto": "Crypto"
+    },
+    "fiat": {
+      "infoBanner": "Configure traditional payment methods. Some methods require additional setup in their respective dashboards.",
+      "stripe": {
+        "name": "Stripe",
+        "description": "Accept cards, Apple Pay, Google Pay via Stripe",
+        "accountId": "Stripe Account ID"
+      },
+      "paypal": {
+        "name": "PayPal",
+        "description": "Accept PayPal payments",
+        "clientId": "PayPal Client ID"
+      },
+      "mobilePay": {
+        "title": "Mobile Payments",
+        "applePay": "Apple Pay",
+        "googlePay": "Google Pay",
+        "samsungPay": "Samsung Pay"
+      }
+    },
+    "crypto": {
+      "enableTitle": "Enable Cryptocurrency Payments",
+      "enableDescription": "Accept BTC, ETH, USDC, and other cryptocurrencies",
+      "howItWorks": {
+        "title": "How Crypto Payments Work",
+        "step1": "Enter your wallet address for each cryptocurrency you want to accept",
+        "step2": "When a customer pays, they'll see a QR code with your wallet address",
+        "step3": "After sending, they mark the order as paid",
+        "step4": "You verify the payment on the blockchain explorer"
+      },
+      "displayOptions": {
+        "title": "Display Options",
+        "showInMenu": "Show crypto prices in menu",
+        "showInMenuDesc": "Display crypto equivalent next to fiat prices",
+        "bitcoinFormat": "Bitcoin display format",
+        "paymentTimeout": "Payment timeout (minutes)",
+        "paymentTimeoutDesc": "Time limit for customer to complete payment"
+      },
+      "walletAddresses": "Wallet Addresses",
+      "noSupportedCryptos": "No supported cryptocurrencies found.",
+      "migrationHint": "Make sure the database migration was applied.",
+      "requestCrypto": {
+        "title": "Missing a cryptocurrency?",
+        "description": "Don't see the crypto you want to accept? Let us know and we'll add support for it!",
+        "button": "Request a Crypto"
+      }
+    }
+  },
+  "authPage": {
+    "title": "Authentication Providers",
+    "subtitle": "Configure social login options for your customers. {count} provider{plural} enabled.",
+    "loading": "Loading authentication settings...",
+    "saveConfig": "Save Configuration",
+    "saving": "Saving...",
+    "saveSuccess": "Configuration saved successfully!",
+    "howItWorks": {
+      "title": "How OAuth Setup Works",
+      "step1": "Create an OAuth app on each provider's developer console",
+      "step2": "Copy the Client ID and Client Secret here",
+      "step3": "Add the callback URL to your OAuth app settings",
+      "step4": "Enable the provider and save"
+    },
+    "callbackUrl": {
+      "title": "OAuth Callback URL",
+      "description": "Use this URL as the redirect/callback URL when setting up OAuth apps:",
+      "copy": "Copy"
+    },
+    "providers": {
+      "enabled": "Enabled",
+      "configure": "Configure",
+      "close": "Close",
+      "clientId": "Client ID",
+      "clientIdPlaceholder": "Enter your Client ID",
+      "clientSecret": "Client Secret",
+      "clientSecretPlaceholder": "Enter your Client Secret",
+      "scopes": "Scopes",
+      "openConsole": "Open {provider} Developer Console"
+    },
+    "emailPassword": {
+      "title": "Email & Password",
+      "description": "Traditional email/password authentication. Always available.",
+      "alwaysEnabled": "Always Enabled"
+    },
+    "twoFactor": {
+      "title": "Two-Factor Authentication",
+      "description": "Add an extra layer of security using an authenticator app.",
+      "enabled": "Enabled",
+      "notConfigured": "Not configured on server",
+      "enable": "Enable 2FA",
+      "disable": "Disable",
+      "disableTitle": "Disable Two-Factor Authentication",
+      "disableWarning": "Disabling 2FA will make your account less secure. Enter your current authenticator code to confirm.",
+      "disabling": "Disabling...",
+      "recoveryCodes": "Recovery Codes",
+      "regenerateCodes": "Regenerate Codes",
+      "regenerateTitle": "Regenerate Recovery Codes",
+      "regenerateWarning": "Enter your current authenticator code to generate new recovery codes. Your old codes will be invalidated.",
+      "generating": "Generating...",
+      "generateNew": "Generate New Codes",
+      "newCodes": "New Recovery Codes",
+      "saveCodesWarning": "Save these codes securely. Your old codes are now invalid!",
+      "savedCodes": "I've Saved My Codes",
+      "enterCode": "Please enter a 6-digit code",
+      "cancel": "Cancel"
+    },
+    "supabaseNote": {
+      "title": "Supabase Configuration Required",
+      "description": "After saving, the OAuth providers also need to be enabled in your Supabase Dashboard under Authentication → Providers. This is a security measure that requires admin access to Supabase."
+    }
+  },
+  "socialPage": {
+    "title": "Social & Platforms",
+    "subtitle": "Add your social media profiles and delivery platform links. These will be displayed on your digital menu.",
+    "loading": "Loading social links...",
+    "saveLinks": "Save Links",
+    "saving": "Saving...",
+    "saveSuccess": "Links saved successfully!",
+    "saveFailed": "Failed to save",
+    "noMerchant": "No merchant selected",
+    "platformsConnected": "Platforms Connected",
+    "linksAppearOnMenu": "Links will appear on your digital menu",
+    "sections": {
+      "socialMedia": {
+        "title": "Social Media",
+        "description": "Your main social media profiles"
+      },
+      "asianPlatforms": {
+        "title": "Asian Platforms",
+        "description": "Popular messaging and social apps in Asia"
+      },
+      "reviewPlatforms": {
+        "title": "Review Platforms",
+        "description": "Where customers can find and review you"
+      },
+      "deliveryPlatforms": {
+        "title": "Delivery Platforms",
+        "description": "Food delivery apps where you're listed"
+      },
+      "customLinks": {
+        "title": "Custom Links",
+        "description": "Add any other platforms or links",
+        "addLink": "Add Link",
+        "noLinks": "No custom links added yet",
+        "platformName": "Platform name"
+      }
+    },
+    "requestPlatform": {
+      "title": "Missing a platform?",
+      "description": "Don't see the social network or delivery platform you use? Let us know and we'll add it!",
+      "button": "Request a Platform"
+    }
+  },
+  "auditLogPage": {
+    "title": "Audit Log",
+    "subtitle": "Track all changes and actions in your backoffice",
+    "loading": "Loading...",
+    "refresh": "Refresh",
+    "accessDenied": "Access Denied",
+    "accessDeniedMessage": "This section is only available to authorized users.",
+    "backToDashboard": "Back to Dashboard",
+    "filters": {
+      "allActions": "All Actions",
+      "allUsers": "All Users",
+      "dateRange": "Date Range",
+      "last7Days": "Last 7 days",
+      "last30Days": "Last 30 days",
+      "last90Days": "Last 90 days",
+      "custom": "Custom range"
+    },
+    "table": {
+      "timestamp": "Timestamp",
+      "user": "User",
+      "action": "Action",
+      "resource": "Resource",
+      "details": "Details",
+      "ipAddress": "IP Address"
+    },
+    "actions": {
+      "create": "Created",
+      "update": "Updated",
+      "delete": "Deleted",
+      "login": "Logged in",
+      "logout": "Logged out",
+      "export": "Exported",
+      "import": "Imported"
+    },
+    "empty": "No audit entries found",
+    "export": "Export Log",
+    "exporting": "Exporting..."
+  },
+  "systemAlertsPage": {
+    "title": "System Alerts",
+    "subtitle": "Proactive monitoring of system metrics",
+    "loading": "Loading...",
+    "refresh": "Refresh",
+    "accessDenied": "Access Denied",
+    "accessDeniedMessage": "This section is only available to users authorized to view system alerts.",
+    "backToDashboard": "Back to Dashboard",
+    "lastUpdate": "Last update",
+    "systemStatus": "System Status",
+    "activeAlerts": "active alerts on",
+    "monitored": "monitored",
+    "critical": "Critical",
+    "warning": "Warning",
+    "tabs": {
+      "overview": "Overview",
+      "alerts": "Alert Details",
+      "team": "Team Visibility"
+    },
+    "services": {
+      "database": "Database",
+      "redisCache": "Redis Cache",
+      "edgeCache": "Edge Cache",
+      "latency": "Latency",
+      "active": "ACTIVE",
+      "inactive": "INACTIVE",
+      "coalescedRequests": "Coalesced requests"
+    },
+    "activeAlertsList": {
+      "title": "Active Alerts",
+      "noAlerts": "No active alerts. All systems running correctly."
+    },
+    "alertDetail": {
+      "currentValue": "Current Value",
+      "warningThreshold": "Warning Threshold",
+      "criticalThreshold": "Critical Threshold",
+      "recommendedActions": "Recommended Actions"
+    },
+    "teamVisibility": {
+      "title": "Alert Visibility Management",
+      "description": "Select which team members can view system alerts. Only you and authorized people can access this section.",
+      "alwaysAuthorized": "Always authorized",
+      "howItWorks": "How it works",
+      "tips": [
+        "Only the Business Owner always has access to system alerts",
+        "You can authorize managers and staff to view alerts",
+        "Critical alerts are notified via Slack/Email if configured",
+        "Checks are performed automatically every 5 minutes"
+      ]
+    },
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "saveSuccess": "Alert settings saved!",
+    "saveFailed": "Failed to save alert settings",
+    "categories": {
+      "orders": {
+        "title": "Order Alerts",
+        "newOrder": "New order received",
+        "orderCancelled": "Order cancelled",
+        "highValueOrder": "High-value order",
+        "threshold": "Alert threshold (€)"
+      },
+      "inventory": {
+        "title": "Inventory Alerts",
+        "lowStock": "Low stock warning",
+        "outOfStock": "Out of stock alert",
+        "expiryWarning": "Expiry date warning"
+      },
+      "system": {
+        "title": "System Alerts",
+        "loginAttempt": "Failed login attempt",
+        "settingsChanged": "Settings changed",
+        "integrationError": "Integration error"
+      },
+      "customer": {
+        "title": "Customer Alerts",
+        "newFollower": "New follower",
+        "newFeedback": "New feedback",
+        "negativeReview": "Negative review alert"
+      }
+    },
+    "channels": {
+      "title": "Alert Channels",
+      "email": "Email",
+      "push": "Push Notification",
+      "sms": "SMS",
+      "inApp": "In-App"
+    },
+    "quietHours": {
+      "title": "Quiet Hours",
+      "description": "Mute non-urgent alerts during these hours",
+      "enabled": "Enable quiet hours",
+      "from": "From",
+      "to": "To"
+    }
+  },
+  "siteBuilderPage": {
+    "title": "Site Builder",
+    "subtitle": "Customize your digital menu appearance",
+    "loading": "Loading site settings...",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "saveSuccess": "Site settings saved!",
+    "saveFailed": "Failed to save site settings",
+    "preview": "Preview",
+    "sections": {
+      "branding": {
+        "title": "Branding",
+        "logo": "Logo",
+        "uploadLogo": "Upload Logo",
+        "favicon": "Favicon",
+        "uploadFavicon": "Upload Favicon",
+        "primaryColor": "Primary Color",
+        "secondaryColor": "Secondary Color",
+        "accentColor": "Accent Color"
+      },
+      "layout": {
+        "title": "Layout",
+        "menuStyle": "Menu Style",
+        "grid": "Grid",
+        "list": "List",
+        "compact": "Compact",
+        "showImages": "Show product images",
+        "showPrices": "Show prices",
+        "showDescriptions": "Show descriptions"
+      },
+      "header": {
+        "title": "Header",
+        "showLogo": "Show logo",
+        "showName": "Show venue name",
+        "showSearch": "Show search bar",
+        "sticky": "Sticky header"
+      },
+      "footer": {
+        "title": "Footer",
+        "showSocial": "Show social links",
+        "showContact": "Show contact info",
+        "showHours": "Show operating hours",
+        "customText": "Custom footer text",
+        "customTextPlaceholder": "Add your custom message..."
+      },
+      "fonts": {
+        "title": "Typography",
+        "headingFont": "Heading Font",
+        "bodyFont": "Body Font",
+        "fontSize": "Base Font Size"
+      }
+    }
+  },
+  "languagesPage": {
+    "title": "Languages",
+    "subtitle": "Configure available languages for your digital menu",
+    "loading": "Loading language settings...",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "saveSuccess": "Language settings saved!",
+    "saveFailed": "Failed to save language settings",
+    "defaultLanguage": {
+      "title": "Default Language",
+      "description": "The primary language for your menu"
+    },
+    "availableLanguages": {
+      "title": "Available Languages",
+      "description": "Languages customers can choose from",
+      "add": "Add Language",
+      "remove": "Remove",
+      "setDefault": "Set as Default"
+    },
+    "autoTranslate": {
+      "title": "Auto-Translation",
+      "description": "Automatically translate menu items to other languages",
+      "enabled": "Auto-translation enabled",
+      "disabled": "Auto-translation disabled",
+      "note": "Translations can be manually edited in the Content section"
+    },
+    "languageNames": {
+      "en": "English",
+      "it": "Italiano",
+      "es": "Español",
+      "fr": "Français",
+      "de": "Deutsch",
+      "pt": "Português",
+      "zh": "中文",
+      "ja": "日本語",
+      "ko": "한국어",
+      "vi": "Tiếng Việt",
+      "ar": "العربية",
+      "ru": "Русский"
+    }
+  },
+  "domainPage": {
+    "title": "Custom Domain",
+    "subtitle": "Configure your custom domain for the digital menu",
+    "loading": "Loading domain settings...",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "saveSuccess": "Domain settings saved!",
+    "saveFailed": "Failed to save domain settings",
+    "currentDomain": {
+      "title": "Current Domain",
+      "description": "Your menu is currently accessible at:",
+      "default": "Default GUDBRO domain",
+      "custom": "Custom domain"
+    },
+    "customDomain": {
+      "title": "Custom Domain",
+      "description": "Use your own domain for the digital menu",
+      "placeholder": "menu.yourrestaurant.com",
+      "add": "Add Custom Domain",
+      "remove": "Remove",
+      "verify": "Verify Domain"
+    },
+    "dnsConfig": {
+      "title": "DNS Configuration",
+      "description": "Add these DNS records to your domain provider:",
+      "type": "Type",
+      "name": "Name",
+      "value": "Value",
+      "ttl": "TTL",
+      "status": "Status",
+      "verified": "Verified",
+      "pending": "Pending",
+      "failed": "Failed"
+    },
+    "ssl": {
+      "title": "SSL Certificate",
+      "description": "Free SSL certificate is automatically provisioned",
+      "status": "Status",
+      "active": "Active",
+      "provisioning": "Provisioning...",
+      "error": "Error"
+    }
+  },
+  "analyticsPage": {
+    "title": "Analytics",
+    "subtitle": "Track user engagement and menu performance",
+    "loading": "Loading analytics...",
+    "timeRange": {
+      "7d": "7 Days",
+      "30d": "30 Days",
+      "90d": "90 Days",
+      "1y": "1 Year"
+    },
+    "metrics": {
+      "pageViews": "Page Views",
+      "uniqueVisitors": "Unique Visitors",
+      "avgSessionTime": "Avg Session Time",
+      "bounceRate": "Bounce Rate"
+    },
+    "sections": {
+      "dailyViews": "Daily Views",
+      "topItems": "Top Items",
+      "popularPages": "Popular Pages",
+      "devices": "Devices",
+      "hourlyActivity": "Hourly Activity"
+    },
+    "empty": {
+      "title": "No analytics data yet",
+      "description": "Start tracking by sharing your QR code with customers"
+    }
+  },
+  "teamPage": {
+    "title": "Team",
+    "subtitle": "Manage your staff and team settings",
+    "loading": "Loading team data...",
+    "tabs": {
+      "members": "Team",
+      "performance": "Performance",
+      "settings": "Settings"
+    },
+    "members": {
+      "addMember": "Add Member",
+      "inviteMember": "Invite Member",
+      "name": "Name",
+      "role": "Role",
+      "email": "Email",
+      "status": "Status",
+      "lastActive": "Last Active",
+      "actions": "Actions"
+    },
+    "roles": {
+      "owner": "Owner",
+      "manager": "Manager",
+      "staff": "Staff",
+      "viewer": "Viewer"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending"
+    },
+    "performance": {
+      "topPerformers": "Top Performers",
+      "weeklyReport": "Weekly Report",
+      "averageRating": "Average Rating",
+      "totalReviews": "Total Reviews"
+    },
+    "empty": {
+      "title": "No team members yet",
+      "description": "Add team members to get started"
+    }
+  },
+  "billingPage": {
+    "title": "Billing & Subscription",
+    "subtitle": "Manage your subscription and payment methods",
+    "loading": "Loading billing information...",
+    "currentPlan": {
+      "title": "Current Plan",
+      "free": "Free",
+      "starter": "Starter",
+      "pro": "Pro",
+      "enterprise": "Enterprise"
+    },
+    "billing": {
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "savePercent": "Save {percent}%",
+      "perMonth": "/month",
+      "perYear": "/year"
+    },
+    "features": {
+      "qrCodes": "QR Codes",
+      "scans": "Scans",
+      "teamMembers": "Team Members",
+      "languages": "Languages",
+      "unlimited": "Unlimited"
+    },
+    "actions": {
+      "upgrade": "Upgrade",
+      "downgrade": "Downgrade",
+      "changePlan": "Change Plan",
+      "cancelSubscription": "Cancel Subscription",
+      "reactivate": "Reactivate"
+    },
+    "paymentMethods": {
+      "title": "Payment Methods",
+      "addCard": "Add Card",
+      "defaultCard": "Default",
+      "expires": "Expires"
+    },
+    "invoices": {
+      "title": "Invoices",
+      "date": "Date",
+      "amount": "Amount",
+      "status": "Status",
+      "download": "Download",
+      "paid": "Paid",
+      "pending": "Pending"
+    }
+  },
+  "partnershipsPage": {
+    "title": "Partnerships",
+    "subtitle": "Manage your business partnerships and integrations",
+    "loading": "Loading partnerships...",
+    "tabs": {
+      "accommodations": "Accommodations",
+      "tourOperators": "Tour Operators",
+      "conventions": "Conventions",
+      "products": "Products",
+      "outreach": "Outreach"
+    },
+    "stats": {
+      "activePartners": "Active Partners",
+      "pendingRequests": "Pending Requests",
+      "totalRevenue": "Total Revenue"
+    },
+    "empty": {
+      "title": "No partnerships yet",
+      "description": "Start connecting with local businesses"
+    }
+  },
+  "qrCodesPage": {
+    "title": "QR Codes",
+    "subtitle": "Manage your QR codes for menu access",
+    "loading": "Loading QR codes...",
+    "createNew": "Create QR Code",
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "scans": "Scans",
+      "created": "Created",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "types": {
+      "menu": "Menu",
+      "table": "Table",
+      "takeaway": "Takeaway",
+      "event": "Event"
+    },
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "expired": "Expired"
+    },
+    "actions": {
+      "download": "Download",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "delete": "Delete",
+      "viewAnalytics": "View Analytics"
+    },
+    "empty": {
+      "title": "No QR codes yet",
+      "description": "Create your first QR code to get started"
+    }
+  }
+}

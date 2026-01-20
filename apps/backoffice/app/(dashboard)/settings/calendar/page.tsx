@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import CalendarView from '@/components/schedule/CalendarView';
 import {
@@ -474,6 +475,7 @@ function ExportModal({ locationId, locationName, onClose }: ExportModalProps) {
 
 // Main Page
 export default function CalendarPage() {
+  const t = useTranslations('calendarPage');
   const { location } = useTenant();
   const [events, setEvents] = useState<Event[]>([]);
   const [overrides, setOverrides] = useState<ScheduleOverride[]>([]);
@@ -535,10 +537,8 @@ export default function CalendarPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Calendario</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Visualizza orari, eventi e chiusure in un&apos;unica vista
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
         <div className="flex gap-2">
           <button
@@ -553,7 +553,7 @@ export default function CalendarPage() {
                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
               />
             </svg>
-            Esporta
+            {t('export')}
           </button>
           <a
             href="/marketing/events"
@@ -567,7 +567,7 @@ export default function CalendarPage() {
                 d="M12 4v16m8-8H4"
               />
             </svg>
-            Nuovo Evento
+            {t('newEvent')}
           </a>
         </div>
       </div>
@@ -575,25 +575,25 @@ export default function CalendarPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Eventi questo mese</p>
+          <p className="text-sm text-gray-500">{t('stats.eventsThisMonth')}</p>
           <p className="text-2xl font-bold text-gray-900">
             {events.filter((e) => e.status === 'published').length}
           </p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Chiusure programmate</p>
+          <p className="text-sm text-gray-500">{t('stats.scheduledClosures')}</p>
           <p className="text-2xl font-bold text-red-600">
             {overrides.filter((o) => o.is_closed).length}
           </p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Festività</p>
+          <p className="text-sm text-gray-500">{t('stats.holidays')}</p>
           <p className="text-2xl font-bold text-purple-600">
             {overrides.filter((o) => o.override_type === 'holiday').length}
           </p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Orari speciali</p>
+          <p className="text-sm text-gray-500">{t('stats.specialHours')}</p>
           <p className="text-2xl font-bold text-amber-600">
             {
               overrides.filter(
@@ -607,11 +607,9 @@ export default function CalendarPage() {
       {/* Enterprise Badge */}
       <div className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-purple-50 to-indigo-50 px-4 py-3">
         <span className="rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-700">
-          ENTERPRISE
+          {t('enterprise.badge')}
         </span>
-        <span className="text-sm text-gray-700">
-          Sincronizza con Google Calendar, Apple Calendar e altri calendari esterni
-        </span>
+        <span className="text-sm text-gray-700">{t('enterprise.description')}</span>
       </div>
 
       {/* Calendar */}
@@ -646,8 +644,8 @@ export default function CalendarPage() {
             </svg>
           </div>
           <div>
-            <p className="font-medium text-gray-900">Orari di apertura</p>
-            <p className="text-sm text-gray-500">Modifica gli orari base</p>
+            <p className="font-medium text-gray-900">{t('quickLinks.operatingHours')}</p>
+            <p className="text-sm text-gray-500">{t('quickLinks.operatingHoursDescription')}</p>
           </div>
         </a>
 

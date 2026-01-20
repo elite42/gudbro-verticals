@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
 
@@ -24,19 +25,48 @@ interface MerchantLanguageSettings {
 
 // Flag mapping for common languages
 const FLAG_MAP: Record<string, string> = {
-  en: '🇬🇧', vi: '🇻🇳', it: '🇮🇹', ko: '🇰🇷', ja: '🇯🇵',
-  zh: '🇨🇳', fr: '🇫🇷', de: '🇩🇪', es: '🇪🇸', pt: '🇵🇹',
-  ru: '🇷🇺', ar: '🇸🇦', he: '🇮🇱', th: '🇹🇭', fa: '🇮🇷',
-  nl: '🇳🇱', pl: '🇵🇱', tr: '🇹🇷', hi: '🇮🇳', id: '🇮🇩',
-  ms: '🇲🇾', tl: '🇵🇭', sv: '🇸🇪', da: '🇩🇰', no: '🇳🇴',
-  fi: '🇫🇮', cs: '🇨🇿', el: '🇬🇷', hu: '🇭🇺', ro: '🇷🇴',
-  uk: '🇺🇦', bg: '🇧🇬', sk: '🇸🇰', hr: '🇭🇷', sl: '🇸🇮',
+  en: '🇬🇧',
+  vi: '🇻🇳',
+  it: '🇮🇹',
+  ko: '🇰🇷',
+  ja: '🇯🇵',
+  zh: '🇨🇳',
+  fr: '🇫🇷',
+  de: '🇩🇪',
+  es: '🇪🇸',
+  pt: '🇵🇹',
+  ru: '🇷🇺',
+  ar: '🇸🇦',
+  he: '🇮🇱',
+  th: '🇹🇭',
+  fa: '🇮🇷',
+  nl: '🇳🇱',
+  pl: '🇵🇱',
+  tr: '🇹🇷',
+  hi: '🇮🇳',
+  id: '🇮🇩',
+  ms: '🇲🇾',
+  tl: '🇵🇭',
+  sv: '🇸🇪',
+  da: '🇩🇰',
+  no: '🇳🇴',
+  fi: '🇫🇮',
+  cs: '🇨🇿',
+  el: '🇬🇷',
+  hu: '🇭🇺',
+  ro: '🇷🇴',
+  uk: '🇺🇦',
+  bg: '🇧🇬',
+  sk: '🇸🇰',
+  hr: '🇭🇷',
+  sl: '🇸🇮',
 };
 
 // Default merchant ID (for demo - will be dynamic in multi-tenant setup)
 const DEFAULT_MERCHANT_ID = '770e8400-e29b-41d4-a716-446655440001';
 
 export default function LanguageSettingsPage() {
+  const t = useTranslations('languagesPage');
   const [languages, setLanguages] = useState<Language[]>([]);
   const [settings, setSettings] = useState<MerchantLanguageSettings>({
     primary_language: 'en',
@@ -184,63 +214,63 @@ export default function LanguageSettingsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading language settings...</p>
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          <p className="mt-4 text-gray-600">{t('loading')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-            <Link href="/settings" className="hover:text-blue-600">Settings</Link>
+          <div className="mb-1 flex items-center gap-2 text-sm text-gray-500">
+            <Link href="/settings" className="hover:text-blue-600">
+              Settings
+            </Link>
             <span>/</span>
             <span className="text-gray-900">Languages</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Language Settings</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Manage which languages are available in your digital menu
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
         <button
           onClick={handleSave}
           disabled={saving || saved}
-          className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`rounded-lg px-6 py-2 text-sm font-medium transition-all ${
             saved
               ? 'bg-green-600 text-white'
               : saving
-                ? 'bg-blue-400 text-white cursor-wait'
+                ? 'cursor-wait bg-blue-400 text-white'
                 : 'bg-blue-600 text-white hover:bg-blue-700'
           }`}
         >
-          {saved ? '✓ Saved!' : saving ? 'Saving...' : 'Save Changes'}
+          {saved ? `✓ ${t('saveSuccess')}` : saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-sm text-gray-500">Total Languages</p>
           <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
         </div>
-        <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+        <div className="rounded-lg border border-green-200 bg-green-50 p-4">
           <p className="text-sm text-green-600">Enabled</p>
           <p className="text-2xl font-bold text-green-700">{stats.enabled}</p>
         </div>
-        <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+        <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
           <p className="text-sm text-purple-600">RTL Languages</p>
           <p className="text-2xl font-bold text-purple-700">{stats.rtl}</p>
         </div>
       </div>
 
       {/* Primary Language */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
         <h3 className="font-semibold text-gray-900">Primary Language</h3>
         <p className="text-sm text-gray-500">
           Used for backoffice, receipts, and as the default customer language
@@ -250,7 +280,7 @@ export default function LanguageSettingsPage() {
           <select
             value={settings.primary_language}
             onChange={(e) => setPrimaryLanguage(e.target.value)}
-            className="w-full max-w-md px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full max-w-md rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {enabledLanguages.map((lang) => (
               <option key={lang.code} value={lang.code}>
@@ -258,9 +288,7 @@ export default function LanguageSettingsPage() {
               </option>
             ))}
           </select>
-          <p className="mt-2 text-sm text-gray-500">
-            Note: Primary language must be enabled
-          </p>
+          <p className="mt-2 text-sm text-gray-500">Note: Primary language must be enabled</p>
         </div>
       </div>
 
@@ -272,37 +300,33 @@ export default function LanguageSettingsPage() {
           placeholder="Search languages..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       {/* Enabled Languages */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
+        <div className="mb-4 flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-gray-900">Enabled Languages</h3>
-            <p className="text-sm text-gray-500">
-              Languages available in the customer-facing menu
-            </p>
+            <p className="text-sm text-gray-500">Languages available in the customer-facing menu</p>
           </div>
-          <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+          <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
             {enabledLanguages.length} active
           </span>
         </div>
 
         <div className="space-y-2">
           {enabledLanguages.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">
-              No enabled languages match your search
-            </p>
+            <p className="py-8 text-center text-gray-500">No enabled languages match your search</p>
           ) : (
             enabledLanguages.map((lang) => (
               <div
                 key={lang.code}
-                className={`flex items-center justify-between p-4 rounded-lg border ${
+                className={`flex items-center justify-between rounded-lg border p-4 ${
                   lang.code === settings.primary_language
-                    ? 'bg-blue-50 border-blue-200'
-                    : 'bg-gray-50 border-gray-200'
+                    ? 'border-blue-200 bg-blue-50'
+                    : 'border-gray-200 bg-gray-50'
                 }`}
               >
                 <div className="flex items-center gap-4">
@@ -311,12 +335,12 @@ export default function LanguageSettingsPage() {
                     <div className="flex items-center gap-2">
                       <p className="font-medium text-gray-900">{lang.name}</p>
                       {lang.direction === 'rtl' && (
-                        <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">
+                        <span className="rounded bg-purple-100 px-2 py-0.5 text-xs text-purple-700">
                           RTL
                         </span>
                       )}
                       {lang.code === settings.primary_language && (
-                        <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">
+                        <span className="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
                           Primary
                         </span>
                       )}
@@ -330,9 +354,9 @@ export default function LanguageSettingsPage() {
                 <button
                   onClick={() => toggleLanguage(lang.code)}
                   disabled={lang.code === settings.primary_language}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                     lang.code === settings.primary_language
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      ? 'cursor-not-allowed bg-gray-100 text-gray-400'
                       : 'bg-red-100 text-red-700 hover:bg-red-200'
                   }`}
                 >
@@ -345,46 +369,44 @@ export default function LanguageSettingsPage() {
       </div>
 
       {/* Available Languages */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
+        <div className="mb-4 flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-gray-900">Available Languages</h3>
-            <p className="text-sm text-gray-500">
-              Click to enable a language for your menu
-            </p>
+            <p className="text-sm text-gray-500">Click to enable a language for your menu</p>
           </div>
-          <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">
+          <span className="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
             {availableLanguages.length} available
           </span>
         </div>
 
         {availableLanguages.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">
+          <p className="py-8 text-center text-gray-500">
             {searchQuery
               ? 'No available languages match your search'
               : 'All languages are enabled!'}
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             {availableLanguages.slice(0, 20).map((lang) => (
               <button
                 key={lang.code}
                 onClick={() => toggleLanguage(lang.code)}
-                className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-left"
+                className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 text-left transition-colors hover:border-blue-300 hover:bg-blue-50"
               >
                 <span className="text-xl">{getFlag(lang.code)}</span>
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <p className="font-medium text-gray-900 truncate">{lang.name}</p>
+                    <p className="truncate font-medium text-gray-900">{lang.name}</p>
                     {lang.direction === 'rtl' && (
-                      <span className="px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded text-xs shrink-0">
+                      <span className="shrink-0 rounded bg-purple-100 px-1.5 py-0.5 text-xs text-purple-700">
                         RTL
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500 truncate">{lang.native_name}</p>
+                  <p className="truncate text-xs text-gray-500">{lang.native_name}</p>
                 </div>
-                <span className="text-green-600 shrink-0">+ Add</span>
+                <span className="shrink-0 text-green-600">+ Add</span>
               </button>
             ))}
           </div>
@@ -398,36 +420,42 @@ export default function LanguageSettingsPage() {
       </div>
 
       {/* Tips */}
-      <div className="bg-blue-50 rounded-xl border border-blue-200 p-4">
+      <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
         <h3 className="font-medium text-blue-900">Tips</h3>
-        <ul className="mt-2 text-sm text-blue-800 space-y-1">
+        <ul className="mt-2 space-y-1 text-sm text-blue-800">
           <li>Enable languages based on your customer demographics</li>
           <li>RTL languages (Arabic, Hebrew) require translations that flow right-to-left</li>
           <li>Primary language is always enabled and cannot be disabled</li>
-          <li>After enabling a language, add translations in the <Link href="/translations" className="underline hover:text-blue-600">Translations</Link> page</li>
+          <li>
+            After enabling a language, add translations in the{' '}
+            <Link href="/translations" className="underline hover:text-blue-600">
+              Translations
+            </Link>{' '}
+            page
+          </li>
         </ul>
       </div>
 
       {/* Bottom Save Button */}
-      <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
+      <div className="flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
         <Link
           href="/settings"
-          className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Back to Settings
         </Link>
         <button
           onClick={handleSave}
           disabled={saving || saved}
-          className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`rounded-lg px-6 py-2 text-sm font-medium transition-all ${
             saved
               ? 'bg-green-600 text-white'
               : saving
-                ? 'bg-blue-400 text-white cursor-wait'
+                ? 'cursor-wait bg-blue-400 text-white'
                 : 'bg-blue-600 text-white hover:bg-blue-700'
           }`}
         >
-          {saved ? '✓ Saved!' : saving ? 'Saving...' : 'Save Changes'}
+          {saved ? `✓ ${t('saveSuccess')}` : saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
     </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import {
   FoodChallenge,
@@ -1014,6 +1015,7 @@ function WallOfFameModal({ challenge, onClose }: WallOfFameModalProps) {
 // ============================================
 
 export default function ChallengesPage() {
+  const t = useTranslations('challenges');
   const { organization } = useTenant();
   const [challenges, setChallenges] = useState<FoodChallenge[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1069,7 +1071,7 @@ export default function ChallengesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('Sei sicuro di voler eliminare questa sfida?')) {
+    if (confirm(t('actions.confirmDelete'))) {
       await deleteChallenge(id);
       await loadChallenges();
     }
@@ -1092,7 +1094,7 @@ export default function ChallengesPage() {
       <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
           <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-orange-600"></div>
-          <p className="text-sm text-gray-500">Caricamento sfide...</p>
+          <p className="text-sm text-gray-500">{t('loading')}</p>
         </div>
       </div>
     );
@@ -1103,10 +1105,8 @@ export default function ChallengesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Food Challenges</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Crea sfide alimentari virali per il tuo locale
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('description')}</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -1115,26 +1115,26 @@ export default function ChallengesPage() {
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Nuova Sfida
+          {t('newChallenge')}
         </button>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Sfide Totali</p>
+          <p className="text-sm text-gray-500">{t('stats.total')}</p>
           <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Attive</p>
+          <p className="text-sm text-gray-500">{t('stats.active')}</p>
           <p className="text-2xl font-bold text-green-600">{stats.active}</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Tentativi Totali</p>
+          <p className="text-sm text-gray-500">{t('stats.attempts')}</p>
           <p className="text-2xl font-bold text-orange-600">{stats.totalAttempts}</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Vincitori</p>
+          <p className="text-sm text-gray-500">{t('stats.winners')}</p>
           <p className="text-2xl font-bold text-purple-600">{stats.totalWins}</p>
         </div>
       </div>
@@ -1142,9 +1142,9 @@ export default function ChallengesPage() {
       {/* Filters */}
       <div className="flex gap-2">
         {[
-          { id: 'all', label: 'Tutte' },
-          { id: 'active', label: 'Attive' },
-          { id: 'inactive', label: 'Inattive' },
+          { id: 'all', label: t('filters.all') },
+          { id: 'active', label: t('filters.active') },
+          { id: 'inactive', label: t('filters.inactive') },
         ].map((f) => (
           <button
             key={f.id}
@@ -1164,13 +1164,13 @@ export default function ChallengesPage() {
       {filteredChallenges.length === 0 ? (
         <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
           <span className="mb-4 block text-5xl">🍔</span>
-          <h3 className="mb-2 text-lg font-medium text-gray-900">Nessuna sfida trovata</h3>
-          <p className="mb-4 text-gray-500">Crea la tua prima Food Challenge!</p>
+          <h3 className="mb-2 text-lg font-medium text-gray-900">{t('empty.title')}</h3>
+          <p className="mb-4 text-gray-500">{t('empty.description')}</p>
           <button
             onClick={() => setShowCreateModal(true)}
             className="rounded-lg bg-orange-600 px-4 py-2 text-white hover:bg-orange-700"
           >
-            Crea Sfida
+            {t('empty.action')}
           </button>
         </div>
       ) : (
@@ -1203,7 +1203,9 @@ export default function ChallengesPage() {
               <div className="p-4">
                 {/* Items */}
                 <div className="mb-4">
-                  <p className="mb-1 text-xs font-medium uppercase text-gray-500">Da finire:</p>
+                  <p className="mb-1 text-xs font-medium uppercase text-gray-500">
+                    {t('card.toFinish')}
+                  </p>
                   <ul className="space-y-1">
                     {challenge.items.slice(0, 3).map((item, idx) => (
                       <li key={idx} className="flex items-center gap-2 text-sm text-gray-700">
@@ -1213,7 +1215,7 @@ export default function ChallengesPage() {
                     ))}
                     {challenge.items.length > 3 && (
                       <li className="text-sm text-gray-500">
-                        +{challenge.items.length - 3} altri...
+                        {t('card.moreItems', { count: challenge.items.length - 3 })}
                       </li>
                     )}
                   </ul>
@@ -1222,11 +1224,11 @@ export default function ChallengesPage() {
                 {/* Stats */}
                 <div className="mb-4 grid grid-cols-2 gap-2 rounded-lg bg-gray-50 p-3">
                   <div>
-                    <p className="text-xs text-gray-500">Tentativi</p>
+                    <p className="text-xs text-gray-500">{t('card.attempts')}</p>
                     <p className="text-lg font-bold text-gray-900">{challenge.total_attempts}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Vincitori</p>
+                    <p className="text-xs text-gray-500">{t('card.winners')}</p>
                     <p className="text-lg font-bold text-green-600">{challenge.total_wins}</p>
                   </div>
                 </div>
@@ -1234,16 +1236,18 @@ export default function ChallengesPage() {
                 {/* Record */}
                 {challenge.record_time_minutes ? (
                   <div className="mb-4 rounded-lg border border-yellow-200 bg-yellow-50 p-3">
-                    <p className="text-xs font-medium text-yellow-800">RECORD</p>
+                    <p className="text-xs font-medium text-yellow-800">{t('card.record')}</p>
                     <p className="text-lg font-bold text-yellow-900">
                       {formatTime(challenge.record_time_minutes)}
                     </p>
-                    <p className="text-xs text-yellow-700">di {challenge.record_holder_name}</p>
+                    <p className="text-xs text-yellow-700">
+                      {t('card.recordBy', { name: challenge.record_holder_name })}
+                    </p>
                   </div>
                 ) : (
                   <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3">
                     <p className="text-center text-sm font-medium text-gray-600">
-                      Nessuno ha ancora vinto!
+                      {t('card.noWinnerYet')}
                     </p>
                   </div>
                 )}
@@ -1254,13 +1258,13 @@ export default function ChallengesPage() {
                     onClick={() => setAttemptChallenge(challenge)}
                     className="flex-1 rounded-lg bg-orange-600 px-3 py-2 text-sm font-medium text-white hover:bg-orange-700"
                   >
-                    + Tentativo
+                    {t('card.addAttempt')}
                   </button>
                   <button
                     onClick={() => setWallOfFameChallenge(challenge)}
                     className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                   >
-                    Wall of Fame
+                    {t('card.wallOfFame')}
                   </button>
                   <button
                     onClick={() => setSelectedChallenge(challenge)}

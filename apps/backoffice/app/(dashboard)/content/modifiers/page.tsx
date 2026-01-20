@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
+import { useTranslations } from 'next-intl';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,12 +13,10 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 // Log Supabase config on load (without exposing full key)
 console.log('🔧 Supabase config:', {
   url: supabaseUrl ? `${supabaseUrl.substring(0, 30)}...` : 'MISSING',
-  keyPresent: !!supabaseAnonKey
+  keyPresent: !!supabaseAnonKey,
 });
 
-const supabase = supabaseUrl && supabaseAnonKey
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
 // Types
 interface ModifierGroup {
@@ -69,6 +68,7 @@ const MODIFIER_COLORS = [
 ];
 
 export default function ModifiersPage() {
+  const t = useTranslations('modifiersPage');
   // Data state
   const [groups, setGroups] = useState<ModifierGroup[]>([]);
   const [modifiers, setModifiers] = useState<Modifier[]>([]);
@@ -183,16 +183,19 @@ export default function ModifiersPage() {
         .select('*')
         .order('display_order');
 
-      console.log('📦 Modifiers query result:', { count: modifiersData?.length, error: modifiersError });
+      console.log('📦 Modifiers query result:', {
+        count: modifiersData?.length,
+        error: modifiersError,
+      });
       if (modifiersError) throw modifiersError;
 
       // Count modifiers per group
       const modifierCounts: Record<string, number> = {};
-      (modifiersData || []).forEach(mod => {
+      (modifiersData || []).forEach((mod) => {
         modifierCounts[mod.group_id] = (modifierCounts[mod.group_id] || 0) + 1;
       });
 
-      const groupsWithCount = (groupsData || []).map(g => ({
+      const groupsWithCount = (groupsData || []).map((g) => ({
         ...g,
         modifiers_count: modifierCounts[g.id] || 0,
       }));
@@ -212,16 +215,17 @@ export default function ModifiersPage() {
   }
 
   // Filter modifiers by selected group and search
-  const filteredModifiers = modifiers.filter(mod => {
+  const filteredModifiers = modifiers.filter((mod) => {
     const matchesGroup = !selectedGroupId || mod.group_id === selectedGroupId;
-    const matchesSearch = !searchQuery ||
+    const matchesSearch =
+      !searchQuery ||
       (mod.name_multilang?.en || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
       (mod.name_multilang?.it || '').toLowerCase().includes(searchQuery.toLowerCase());
     return matchesGroup && matchesSearch;
   });
 
   // Get selected group
-  const selectedGroup = groups.find(g => g.id === selectedGroupId);
+  const selectedGroup = groups.find((g) => g.id === selectedGroupId);
 
   // ============================================================================
   // GROUP CRUD
@@ -264,11 +268,15 @@ export default function ModifiersPage() {
     const FALLBACK_MERCHANT_ID = 'f8bf7ceb-0923-437b-bc7a-1af3b82f3049';
     const effectiveMerchantId = merchantId || FALLBACK_MERCHANT_ID;
 
-    console.log('🔵 handleSaveGroup called', { merchantId, effectiveMerchantId, name: groupForm.name_en });
+    console.log('🔵 handleSaveGroup called', {
+      merchantId,
+      effectiveMerchantId,
+      name: groupForm.name_en,
+    });
 
     if (!effectiveMerchantId) {
       console.error('❌ No merchantId - cannot save group');
-      alert('Error: No merchant ID. Please refresh the page.');
+      alert(t('errors.noMerchant'));
       return;
     }
 
@@ -277,7 +285,10 @@ export default function ModifiersPage() {
       return;
     }
 
-    const slug = groupForm.name_en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const slug = groupForm.name_en
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '');
     const tempId = `temp-${Date.now()}`;
 
     const groupData = {
@@ -288,9 +299,11 @@ export default function ModifiersPage() {
         it: groupForm.name_it || undefined,
         vi: groupForm.name_vi || undefined,
       },
-      description_multilang: groupForm.description_en ? {
-        en: groupForm.description_en,
-      } : undefined,
+      description_multilang: groupForm.description_en
+        ? {
+            en: groupForm.description_en,
+          }
+        : undefined,
       selection_type: groupForm.selection_type,
       is_required: groupForm.is_required,
       min_selections: groupForm.min_selections,
@@ -305,11 +318,11 @@ export default function ModifiersPage() {
 
     if (editingGroup) {
       // Optimistic update for edit
-      setGroups(prev => prev.map(g =>
-        g.id === editingGroup.id
-          ? { ...g, ...groupData, modifiers_count: g.modifiers_count }
-          : g
-      ));
+      setGroups((prev) =>
+        prev.map((g) =>
+          g.id === editingGroup.id ? { ...g, ...groupData, modifiers_count: g.modifiers_count } : g
+        )
+      );
     } else {
       // Optimistic update for add
       const newGroup: ModifierGroup = {
@@ -318,7 +331,7 @@ export default function ModifiersPage() {
         display_order: groups.length,
         modifiers_count: 0,
       } as ModifierGroup;
-      setGroups(prev => [...prev, newGroup]);
+      setGroups((prev) => [...prev, newGroup]);
       setSelectedGroupId(tempId);
     }
 
@@ -349,9 +362,7 @@ export default function ModifiersPage() {
         console.log('✅ Group created successfully:', data?.id);
         // Replace temp ID with real ID
         if (data) {
-          setGroups(prev => prev.map(g =>
-            g.id === tempId ? { ...g, id: data.id } : g
-          ));
+          setGroups((prev) => prev.map((g) => (g.id === tempId ? { ...g, id: data.id } : g)));
           setSelectedGroupId(data.id);
         }
       }
@@ -364,27 +375,26 @@ export default function ModifiersPage() {
   };
 
   const handleDeleteGroup = async (groupId: string) => {
-    const group = groups.find(g => g.id === groupId);
+    const group = groups.find((g) => g.id === groupId);
     if (!group) return;
 
     if ((group.modifiers_count || 0) > 0) {
-      alert(`Cannot delete "${group.name_multilang?.en}": has ${group.modifiers_count} modifiers. Delete modifiers first.`);
+      alert(
+        t('groups.cannotDelete', { name: group.name_multilang?.en, count: group.modifiers_count })
+      );
       return;
     }
 
-    if (!confirm(`Delete group "${group.name_multilang?.en}"?`)) return;
+    if (!confirm(t('groups.confirmDelete', { name: group.name_multilang?.en }))) return;
 
     try {
       if (!supabase) throw new Error('Supabase client not initialized');
 
-      const { error } = await supabase
-        .from('modifier_groups')
-        .delete()
-        .eq('id', groupId);
+      const { error } = await supabase.from('modifier_groups').delete().eq('id', groupId);
 
       if (error) throw error;
 
-      setGroups(prev => prev.filter(g => g.id !== groupId));
+      setGroups((prev) => prev.filter((g) => g.id !== groupId));
       if (selectedGroupId === groupId) {
         setSelectedGroupId(groups[0]?.id || null);
       }
@@ -398,8 +408,8 @@ export default function ModifiersPage() {
     if (!supabase) return;
 
     // Optimistic: Update UI immediately
-    setGroups(prev =>
-      prev.map(g => g.id === groupId ? { ...g, is_active: !currentStatus } : g)
+    setGroups((prev) =>
+      prev.map((g) => (g.id === groupId ? { ...g, is_active: !currentStatus } : g))
     );
 
     // Background: Save to database
@@ -413,8 +423,8 @@ export default function ModifiersPage() {
     } catch (err) {
       console.error('❌ Error toggling group:', err);
       // Rollback on error
-      setGroups(prev =>
-        prev.map(g => g.id === groupId ? { ...g, is_active: currentStatus } : g)
+      setGroups((prev) =>
+        prev.map((g) => (g.id === groupId ? { ...g, is_active: currentStatus } : g))
       );
     }
   };
@@ -461,9 +471,12 @@ export default function ModifiersPage() {
 
     if (!effectiveMerchantId || !selectedGroupId || !modifierForm.name_en) return;
 
-    const slug = modifierForm.name_en.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const slug = modifierForm.name_en
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '');
     const tempId = `temp-${Date.now()}`;
-    const groupModifiers = modifiers.filter(m => m.group_id === selectedGroupId);
+    const groupModifiers = modifiers.filter((m) => m.group_id === selectedGroupId);
 
     const modifierData = {
       merchant_id: effectiveMerchantId,
@@ -491,9 +504,9 @@ export default function ModifiersPage() {
 
     if (editingModifier) {
       // Optimistic update for edit
-      setModifiers(prev => prev.map(m =>
-        m.id === editingModifier.id ? { ...m, ...modifierData } as Modifier : m
-      ));
+      setModifiers((prev) =>
+        prev.map((m) => (m.id === editingModifier.id ? ({ ...m, ...modifierData } as Modifier) : m))
+      );
     } else {
       // Optimistic update for add
       const newModifier: Modifier = {
@@ -501,20 +514,24 @@ export default function ModifiersPage() {
         id: tempId,
         display_order: groupModifiers.length,
       } as Modifier;
-      setModifiers(prev => [...prev, newModifier]);
+      setModifiers((prev) => [...prev, newModifier]);
       // Update group modifiers count
-      setGroups(prev => prev.map(g =>
-        g.id === selectedGroupId ? { ...g, modifiers_count: (g.modifiers_count || 0) + 1 } : g
-      ));
+      setGroups((prev) =>
+        prev.map((g) =>
+          g.id === selectedGroupId ? { ...g, modifiers_count: (g.modifiers_count || 0) + 1 } : g
+        )
+      );
     }
 
     // If setting as default in single-selection group, unset others optimistically
     if (modifierForm.is_default && selectedGroup?.selection_type === 'single') {
-      setModifiers(prev => prev.map(m =>
-        m.group_id === selectedGroupId && m.id !== editingModifier?.id
-          ? { ...m, is_default: false }
-          : m
-      ));
+      setModifiers((prev) =>
+        prev.map((m) =>
+          m.group_id === selectedGroupId && m.id !== editingModifier?.id
+            ? { ...m, is_default: false }
+            : m
+        )
+      );
     }
 
     resetModifierForm();
@@ -541,22 +558,17 @@ export default function ModifiersPage() {
         if (error) throw error;
         // Replace temp ID with real ID
         if (data) {
-          setModifiers(prev => prev.map(m =>
-            m.id === tempId ? { ...m, id: data.id } : m
-          ));
+          setModifiers((prev) => prev.map((m) => (m.id === tempId ? { ...m, id: data.id } : m)));
         }
       }
 
       // If setting as default, unset others in same group (in database)
       if (modifierForm.is_default && selectedGroup?.selection_type === 'single') {
         const otherDefaults = previousModifiers.filter(
-          m => m.group_id === selectedGroupId && m.is_default && m.id !== editingModifier?.id
+          (m) => m.group_id === selectedGroupId && m.is_default && m.id !== editingModifier?.id
         );
         for (const other of otherDefaults) {
-          await supabase
-            .from('modifiers')
-            .update({ is_default: false })
-            .eq('id', other.id);
+          await supabase.from('modifiers').update({ is_default: false }).eq('id', other.id);
         }
       }
     } catch (err) {
@@ -570,19 +582,16 @@ export default function ModifiersPage() {
 
   const handleDeleteModifier = async (modifierId: string) => {
     if (!supabase) return;
-    const modifier = modifiers.find(m => m.id === modifierId);
+    const modifier = modifiers.find((m) => m.id === modifierId);
     if (!modifier) return;
 
-    if (!confirm(`Delete "${modifier.name_multilang?.en}"?`)) return;
+    if (!confirm(t('modifiers.confirmDelete', { name: modifier.name_multilang?.en }))) return;
 
     try {
-      const { error } = await supabase
-        .from('modifiers')
-        .delete()
-        .eq('id', modifierId);
+      const { error } = await supabase.from('modifiers').delete().eq('id', modifierId);
 
       if (error) throw error;
-      setModifiers(prev => prev.filter(m => m.id !== modifierId));
+      setModifiers((prev) => prev.filter((m) => m.id !== modifierId));
     } catch (err) {
       console.error('❌ Error deleting modifier:', err);
       alert('Failed to delete modifier');
@@ -593,8 +602,8 @@ export default function ModifiersPage() {
     if (!supabase) return;
 
     // Optimistic: Update UI immediately
-    setModifiers(prev =>
-      prev.map(m => m.id === modifierId ? { ...m, is_available: !currentStatus } : m)
+    setModifiers((prev) =>
+      prev.map((m) => (m.id === modifierId ? { ...m, is_available: !currentStatus } : m))
     );
 
     // Background: Save to database
@@ -608,8 +617,8 @@ export default function ModifiersPage() {
     } catch (err) {
       console.error('❌ Error toggling modifier:', err);
       // Rollback on error
-      setModifiers(prev =>
-        prev.map(m => m.id === modifierId ? { ...m, is_available: currentStatus } : m)
+      setModifiers((prev) =>
+        prev.map((m) => (m.id === modifierId ? { ...m, is_available: currentStatus } : m))
       );
     }
   };
@@ -620,8 +629,8 @@ export default function ModifiersPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex min-h-[400px] items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -632,40 +641,45 @@ export default function ModifiersPage() {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Link href="/content" className="hover:text-gray-700">Content</Link>
+            <Link href="/content" className="hover:text-gray-700">
+              {t('breadcrumb')}
+            </Link>
             <span>/</span>
-            <span className="text-gray-900">Modifiers</span>
+            <span className="text-gray-900">{t('title')}</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Product Modifiers</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            {groups.length} groups, {modifiers.length} options
+          <h1 className="mt-1 text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            {t('subtitle', { groups: groups.length, options: modifiers.length })}
           </p>
         </div>
       </div>
 
       {/* Two-column layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Left column: Groups */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="font-semibold text-gray-900">Modifier Groups</h2>
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div className="flex items-center justify-between border-b border-gray-200 p-4">
+              <h2 className="font-semibold text-gray-900">{t('groups.title')}</h2>
               <button
-                onClick={() => { resetGroupForm(); setShowGroupModal(true); }}
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                onClick={() => {
+                  resetGroupForm();
+                  setShowGroupModal(true);
+                }}
+                className="text-sm font-medium text-blue-600 hover:text-blue-700"
               >
-                + Add
+                {t('groups.add')}
               </button>
             </div>
 
             <div className="divide-y divide-gray-100">
-              {groups.map(group => (
+              {groups.map((group) => (
                 <div
                   key={group.id}
                   onClick={() => setSelectedGroupId(group.id)}
-                  className={`p-4 cursor-pointer transition-colors ${
+                  className={`cursor-pointer p-4 transition-colors ${
                     selectedGroupId === group.id
-                      ? 'bg-blue-50 border-l-4 border-l-blue-600'
+                      ? 'border-l-4 border-l-blue-600 bg-blue-50'
                       : 'hover:bg-gray-50'
                   }`}
                 >
@@ -673,17 +687,19 @@ export default function ModifiersPage() {
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{group.icon}</span>
                       <div>
-                        <div className="font-medium text-gray-900">
-                          {group.name_multilang?.en}
-                        </div>
-                        <div className="text-xs text-gray-500 flex items-center gap-2">
-                          <span>{group.modifiers_count} options</span>
+                        <div className="font-medium text-gray-900">{group.name_multilang?.en}</div>
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <span>{t('groups.options', { count: group.modifiers_count })}</span>
                           <span>•</span>
-                          <span>{group.selection_type === 'single' ? 'Single' : 'Multiple'}</span>
+                          <span>
+                            {group.selection_type === 'single'
+                              ? t('groups.single')
+                              : t('groups.multiple')}
+                          </span>
                           {group.is_required && (
                             <>
                               <span>•</span>
-                              <span className="text-red-500">Required</span>
+                              <span className="text-red-500">{t('groups.required')}</span>
                             </>
                           )}
                         </div>
@@ -691,23 +707,32 @@ export default function ModifiersPage() {
                     </div>
                     <div className="flex items-center gap-1">
                       <button
-                        onClick={(e) => { e.stopPropagation(); openEditGroupModal(group); }}
-                        className="p-1.5 text-gray-400 hover:text-blue-600 rounded"
-                        title="Edit"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openEditGroupModal(group);
+                        }}
+                        className="rounded p-1.5 text-gray-400 hover:text-blue-600"
+                        title={t('groups.edit')}
                       >
                         ✏️
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); toggleGroupActive(group.id, group.is_active); }}
-                        className={`p-1.5 rounded ${group.is_active ? 'text-green-600' : 'text-gray-300'}`}
-                        title={group.is_active ? 'Active' : 'Inactive'}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleGroupActive(group.id, group.is_active);
+                        }}
+                        className={`rounded p-1.5 ${group.is_active ? 'text-green-600' : 'text-gray-300'}`}
+                        title={group.is_active ? t('groups.active') : t('groups.inactive')}
                       >
                         {group.is_active ? '👁️' : '👁️‍🗨️'}
                       </button>
                       <button
-                        onClick={(e) => { e.stopPropagation(); handleDeleteGroup(group.id); }}
-                        className="p-1.5 text-gray-400 hover:text-red-600 rounded"
-                        title="Delete"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteGroup(group.id);
+                        }}
+                        className="rounded p-1.5 text-gray-400 hover:text-red-600"
+                        title={t('groups.delete')}
                       >
                         🗑️
                       </button>
@@ -718,12 +743,15 @@ export default function ModifiersPage() {
 
               {groups.length === 0 && (
                 <div className="p-8 text-center text-gray-500">
-                  <p>No modifier groups yet</p>
+                  <p>{t('groups.empty')}</p>
                   <button
-                    onClick={() => { resetGroupForm(); setShowGroupModal(true); }}
-                    className="mt-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                    onClick={() => {
+                      resetGroupForm();
+                      setShowGroupModal(true);
+                    }}
+                    className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-700"
                   >
-                    Create your first group
+                    {t('groups.createFirst')}
                   </button>
                 </div>
               )}
@@ -733,8 +761,8 @@ export default function ModifiersPage() {
 
         {/* Right column: Modifiers */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between gap-4">
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div className="flex items-center justify-between gap-4 border-b border-gray-200 p-4">
               <div className="flex items-center gap-3">
                 {selectedGroup && (
                   <>
@@ -744,9 +772,12 @@ export default function ModifiersPage() {
                         {selectedGroup.name_multilang?.en}
                       </h2>
                       <p className="text-xs text-gray-500">
-                        {selectedGroup.selection_type === 'single' ? 'Single selection' : 'Multiple selection'}
-                        {selectedGroup.is_required && ' • Required'}
-                        {selectedGroup.max_selections > 1 && ` • Max ${selectedGroup.max_selections}`}
+                        {selectedGroup.selection_type === 'single'
+                          ? t('modifiers.singleSelection')
+                          : t('modifiers.multipleSelection')}
+                        {selectedGroup.is_required && ` • ${t('groups.required')}`}
+                        {selectedGroup.max_selections > 1 &&
+                          ` • ${t('modifiers.max', { count: selectedGroup.max_selections })}`}
                       </p>
                     </div>
                   </>
@@ -757,18 +788,21 @@ export default function ModifiersPage() {
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
                   <input
                     type="text"
-                    placeholder="Search..."
+                    placeholder={t('modifiers.searchPlaceholder')}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm w-48"
+                    className="w-48 rounded-lg border border-gray-300 py-2 pl-9 pr-4 text-sm"
                   />
                 </div>
                 <button
-                  onClick={() => { resetModifierForm(); setShowModifierModal(true); }}
+                  onClick={() => {
+                    resetModifierForm();
+                    setShowModifierModal(true);
+                  }}
                   disabled={!selectedGroupId}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  + Add Option
+                  {t('modifiers.addOption')}
                 </button>
               </div>
             </div>
@@ -778,16 +812,28 @@ export default function ModifiersPage() {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Option</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Calories</th>
-                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Default</th>
-                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Available</th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                      {t('modifiers.tableHeaders.option')}
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                      {t('modifiers.tableHeaders.price')}
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                      {t('modifiers.tableHeaders.calories')}
+                    </th>
+                    <th className="px-6 py-3 text-center text-xs font-medium uppercase text-gray-500">
+                      {t('modifiers.tableHeaders.default')}
+                    </th>
+                    <th className="px-6 py-3 text-center text-xs font-medium uppercase text-gray-500">
+                      {t('modifiers.tableHeaders.available')}
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium uppercase text-gray-500">
+                      {t('modifiers.tableHeaders.actions')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {filteredModifiers.map(modifier => (
+                  {filteredModifiers.map((modifier) => (
                     <tr key={modifier.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
@@ -805,9 +851,13 @@ export default function ModifiersPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`font-medium ${modifier.price_adjustment > 0 ? 'text-green-600' : modifier.price_adjustment < 0 ? 'text-red-600' : 'text-gray-500'}`}>
+                        <span
+                          className={`font-medium ${modifier.price_adjustment > 0 ? 'text-green-600' : modifier.price_adjustment < 0 ? 'text-red-600' : 'text-gray-500'}`}
+                        >
                           {modifier.price_adjustment > 0 ? '+' : ''}
-                          {modifier.price_adjustment === 0 ? 'Free' : `€${modifier.price_adjustment.toFixed(2)}`}
+                          {modifier.price_adjustment === 0
+                            ? t('modifiers.free')
+                            : `€${modifier.price_adjustment.toFixed(2)}`}
                         </span>
                         {modifier.price_type !== 'fixed' && (
                           <span className="ml-1 text-xs text-gray-400">
@@ -816,40 +866,46 @@ export default function ModifiersPage() {
                         )}
                       </td>
                       <td className="px-6 py-4 text-gray-500">
-                        {modifier.calories_adjustment > 0 ? `+${modifier.calories_adjustment} kcal` : '-'}
+                        {modifier.calories_adjustment > 0
+                          ? `+${modifier.calories_adjustment} ${t('modifiers.kcal')}`
+                          : '-'}
                       </td>
                       <td className="px-6 py-4 text-center">
                         {modifier.is_default && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                            Default
+                          <span className="inline-flex items-center rounded bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
+                            {t('modifiers.tableHeaders.default')}
                           </span>
                         )}
                       </td>
                       <td className="px-6 py-4 text-center">
                         <button
-                          onClick={() => toggleModifierAvailable(modifier.id, modifier.is_available)}
-                          className={`w-10 h-6 rounded-full transition-colors ${
+                          onClick={() =>
+                            toggleModifierAvailable(modifier.id, modifier.is_available)
+                          }
+                          className={`h-6 w-10 rounded-full transition-colors ${
                             modifier.is_available ? 'bg-green-500' : 'bg-gray-300'
                           }`}
                         >
-                          <span className={`block w-4 h-4 rounded-full bg-white shadow transform transition-transform ${
-                            modifier.is_available ? 'translate-x-5' : 'translate-x-1'
-                          }`} />
+                          <span
+                            className={`block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
+                              modifier.is_available ? 'translate-x-5' : 'translate-x-1'
+                            }`}
+                          />
                         </button>
                       </td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => openEditModifierModal(modifier)}
-                            className="text-blue-600 hover:text-blue-900 text-sm"
+                            className="text-sm text-blue-600 hover:text-blue-900"
                           >
-                            Edit
+                            {t('modifiers.edit')}
                           </button>
                           <button
                             onClick={() => handleDeleteModifier(modifier.id)}
-                            className="text-red-600 hover:text-red-900 text-sm"
+                            className="text-sm text-red-600 hover:text-red-900"
                           >
-                            Delete
+                            {t('modifiers.delete')}
                           </button>
                         </div>
                       </td>
@@ -859,16 +915,19 @@ export default function ModifiersPage() {
               </table>
 
               {filteredModifiers.length === 0 && (
-                <div className="text-center py-12">
+                <div className="py-12 text-center">
                   <p className="text-gray-500">
-                    {selectedGroupId ? 'No options in this group yet' : 'Select a group to view options'}
+                    {selectedGroupId ? t('modifiers.emptyGroup') : t('modifiers.selectGroup')}
                   </p>
                   {selectedGroupId && (
                     <button
-                      onClick={() => { resetModifierForm(); setShowModifierModal(true); }}
-                      className="mt-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                      onClick={() => {
+                        resetModifierForm();
+                        setShowModifierModal(true);
+                      }}
+                      className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-700"
                     >
-                      Add first option
+                      {t('modifiers.addFirst')}
                     </button>
                   )}
                 </div>
@@ -880,23 +939,25 @@ export default function ModifiersPage() {
 
       {/* Group Modal */}
       {showGroupModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">
-              {editingGroup ? 'Edit Group' : 'Add Modifier Group'}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl bg-white p-6">
+            <h2 className="mb-4 text-xl font-bold">
+              {editingGroup ? t('groupModal.editTitle') : t('groupModal.addTitle')}
             </h2>
 
             <div className="space-y-4">
               {/* Icon picker */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  {t('groupModal.icon')}
+                </label>
                 <div className="flex flex-wrap gap-2">
-                  {GROUP_ICONS.map(icon => (
+                  {GROUP_ICONS.map((icon) => (
                     <button
                       key={icon}
                       type="button"
                       onClick={() => setGroupForm({ ...groupForm, icon })}
-                      className={`w-10 h-10 text-xl rounded-lg border-2 transition-colors ${
+                      className={`h-10 w-10 rounded-lg border-2 text-xl transition-colors ${
                         groupForm.icon === icon
                           ? 'border-blue-500 bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'
@@ -910,115 +971,130 @@ export default function ModifiersPage() {
 
               {/* Name fields */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name (English) *
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  {t('groupModal.nameEn')}
                 </label>
                 <input
                   type="text"
                   value={groupForm.name_en}
                   onChange={(e) => setGroupForm({ ...groupForm, name_en: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder="e.g., Size, Milk Type"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                  placeholder={t('groupModal.nameEnPlaceholder')}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Name (Italian)
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {t('groupModal.nameIt')}
                   </label>
                   <input
                     type="text"
                     value={groupForm.name_it}
                     onChange={(e) => setGroupForm({ ...groupForm, name_it: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                    placeholder="Dimensione"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                    placeholder={t('groupModal.nameItPlaceholder')}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Name (Vietnamese)
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {t('groupModal.nameVi')}
                   </label>
                   <input
                     type="text"
                     value={groupForm.name_vi}
                     onChange={(e) => setGroupForm({ ...groupForm, name_vi: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                    placeholder="Kích cỡ"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                    placeholder={t('groupModal.nameViPlaceholder')}
                   />
                 </div>
               </div>
 
               {/* Selection type */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Selection Type</label>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  {t('groupModal.selectionType')}
+                </label>
                 <div className="flex gap-4">
-                  <label className="flex items-center gap-2 cursor-pointer">
+                  <label className="flex cursor-pointer items-center gap-2">
                     <input
                       type="radio"
                       name="selection_type"
                       checked={groupForm.selection_type === 'single'}
-                      onChange={() => setGroupForm({ ...groupForm, selection_type: 'single', max_selections: 1 })}
-                      className="w-4 h-4"
+                      onChange={() =>
+                        setGroupForm({ ...groupForm, selection_type: 'single', max_selections: 1 })
+                      }
+                      className="h-4 w-4"
                     />
-                    <span className="text-sm">Single (radio)</span>
+                    <span className="text-sm">{t('groupModal.singleRadio')}</span>
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
+                  <label className="flex cursor-pointer items-center gap-2">
                     <input
                       type="radio"
                       name="selection_type"
                       checked={groupForm.selection_type === 'multiple'}
-                      onChange={() => setGroupForm({ ...groupForm, selection_type: 'multiple', max_selections: 5 })}
-                      className="w-4 h-4"
+                      onChange={() =>
+                        setGroupForm({
+                          ...groupForm,
+                          selection_type: 'multiple',
+                          max_selections: 5,
+                        })
+                      }
+                      className="h-4 w-4"
                     />
-                    <span className="text-sm">Multiple (checkbox)</span>
+                    <span className="text-sm">{t('groupModal.multipleCheckbox')}</span>
                   </label>
                 </div>
               </div>
 
               {/* Required & Max selections */}
               <div className="flex gap-4">
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex cursor-pointer items-center gap-2">
                   <input
                     type="checkbox"
                     checked={groupForm.is_required}
                     onChange={(e) => setGroupForm({ ...groupForm, is_required: e.target.checked })}
-                    className="w-4 h-4 rounded border-gray-300"
+                    className="h-4 w-4 rounded border-gray-300"
                   />
-                  <span className="text-sm text-gray-700">Required</span>
+                  <span className="text-sm text-gray-700">{t('groupModal.required')}</span>
                 </label>
               </div>
 
               {groupForm.selection_type === 'multiple' && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Max selections
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {t('groupModal.maxSelections')}
                   </label>
                   <input
                     type="number"
                     min="1"
                     max="10"
                     value={groupForm.max_selections}
-                    onChange={(e) => setGroupForm({ ...groupForm, max_selections: parseInt(e.target.value) || 1 })}
-                    className="w-24 px-3 py-2 border border-gray-300 rounded-lg"
+                    onChange={(e) =>
+                      setGroupForm({ ...groupForm, max_selections: parseInt(e.target.value) || 1 })
+                    }
+                    className="w-24 rounded-lg border border-gray-300 px-3 py-2"
                   />
                 </div>
               )}
             </div>
 
-            <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
+            <div className="mt-6 flex justify-end gap-3 border-t pt-4">
               <button
-                onClick={() => { setShowGroupModal(false); resetGroupForm(); }}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                onClick={() => {
+                  setShowGroupModal(false);
+                  resetGroupForm();
+                }}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
               >
-                Cancel
+                {t('groupModal.cancel')}
               </button>
               <button
                 onClick={handleSaveGroup}
                 disabled={!groupForm.name_en}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
               >
-                {editingGroup ? 'Save Changes' : 'Add Group'}
+                {editingGroup ? t('groupModal.saveChanges') : t('groupModal.addGroup')}
               </button>
             </div>
           </div>
@@ -1027,50 +1103,50 @@ export default function ModifiersPage() {
 
       {/* Modifier Modal */}
       {showModifierModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">
-              {editingModifier ? 'Edit Option' : 'Add Option'}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl bg-white p-6">
+            <h2 className="mb-4 text-xl font-bold">
+              {editingModifier ? t('modifierModal.editTitle') : t('modifierModal.addTitle')}
             </h2>
 
             <div className="space-y-4">
               {/* Name fields */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Name (English) *
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  {t('modifierModal.nameEn')}
                 </label>
                 <input
                   type="text"
                   value={modifierForm.name_en}
                   onChange={(e) => setModifierForm({ ...modifierForm, name_en: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder="e.g., Large, Oat Milk"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                  placeholder={t('modifierModal.nameEnPlaceholder')}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Name (Italian)
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {t('modifierModal.nameIt')}
                   </label>
                   <input
                     type="text"
                     value={modifierForm.name_it}
                     onChange={(e) => setModifierForm({ ...modifierForm, name_it: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                    placeholder="Grande"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                    placeholder={t('modifierModal.nameItPlaceholder')}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Name (Vietnamese)
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {t('modifierModal.nameVi')}
                   </label>
                   <input
                     type="text"
                     value={modifierForm.name_vi}
                     onChange={(e) => setModifierForm({ ...modifierForm, name_vi: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                    placeholder="Lớn"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                    placeholder={t('modifierModal.nameViPlaceholder')}
                   />
                 </div>
               </div>
@@ -1078,88 +1154,99 @@ export default function ModifiersPage() {
               {/* Price */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Price Adjustment (€)
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {t('modifierModal.priceAdjustment')}
                   </label>
                   <input
                     type="number"
                     step="0.01"
                     value={modifierForm.price_adjustment}
-                    onChange={(e) => setModifierForm({ ...modifierForm, price_adjustment: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                    placeholder="0.50"
+                    onChange={(e) =>
+                      setModifierForm({ ...modifierForm, price_adjustment: e.target.value })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                    placeholder={t('modifierModal.priceAdjustmentPlaceholder')}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Price Type
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {t('modifierModal.priceType')}
                   </label>
                   <select
                     value={modifierForm.price_type}
-                    onChange={(e) => setModifierForm({ ...modifierForm, price_type: e.target.value as any })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    onChange={(e) =>
+                      setModifierForm({ ...modifierForm, price_type: e.target.value as any })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
                   >
-                    <option value="fixed">Fixed (+€)</option>
-                    <option value="percentage">Percentage (+%)</option>
-                    <option value="replace">Replace price</option>
+                    <option value="fixed">{t('modifierModal.priceTypes.fixed')}</option>
+                    <option value="percentage">{t('modifierModal.priceTypes.percentage')}</option>
+                    <option value="replace">{t('modifierModal.priceTypes.replace')}</option>
                   </select>
                 </div>
               </div>
 
               {/* Calories */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Calories Adjustment (kcal)
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  {t('modifierModal.caloriesAdjustment')}
                 </label>
                 <input
                   type="number"
                   value={modifierForm.calories_adjustment}
-                  onChange={(e) => setModifierForm({ ...modifierForm, calories_adjustment: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder="0"
+                  onChange={(e) =>
+                    setModifierForm({ ...modifierForm, calories_adjustment: e.target.value })
+                  }
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                  placeholder={t('modifierModal.caloriesPlaceholder')}
                 />
               </div>
 
               {/* Icon */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Icon (emoji, optional)
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  {t('modifierModal.iconLabel')}
                 </label>
                 <input
                   type="text"
                   value={modifierForm.icon}
                   onChange={(e) => setModifierForm({ ...modifierForm, icon: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder="🥛"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
+                  placeholder={t('modifierModal.iconPlaceholder')}
                   maxLength={2}
                 />
               </div>
 
               {/* Default checkbox */}
-              <label className="flex items-center gap-3 cursor-pointer">
+              <label className="flex cursor-pointer items-center gap-3">
                 <input
                   type="checkbox"
                   checked={modifierForm.is_default}
-                  onChange={(e) => setModifierForm({ ...modifierForm, is_default: e.target.checked })}
-                  className="w-4 h-4 rounded border-gray-300"
+                  onChange={(e) =>
+                    setModifierForm({ ...modifierForm, is_default: e.target.checked })
+                  }
+                  className="h-4 w-4 rounded border-gray-300"
                 />
-                <span className="text-sm text-gray-700">Set as default selection</span>
+                <span className="text-sm text-gray-700">{t('modifierModal.setDefault')}</span>
               </label>
             </div>
 
-            <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
+            <div className="mt-6 flex justify-end gap-3 border-t pt-4">
               <button
-                onClick={() => { setShowModifierModal(false); resetModifierForm(); }}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                onClick={() => {
+                  setShowModifierModal(false);
+                  resetModifierForm();
+                }}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
               >
-                Cancel
+                {t('modifierModal.cancel')}
               </button>
               <button
                 onClick={handleSaveModifier}
                 disabled={!modifierForm.name_en}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
               >
-                {editingModifier ? 'Save Changes' : 'Add Option'}
+                {editingModifier ? t('modifierModal.saveChanges') : t('modifierModal.addOption')}
               </button>
             </div>
           </div>

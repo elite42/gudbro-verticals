@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { EmptyState } from '@/components/ui/empty-state';
 import {
   getAnalyticsSummary,
@@ -21,6 +22,7 @@ import {
 type TimeRange = '7d' | '30d' | '90d' | '1y';
 
 export default function AnalyticsPage() {
+  const t = useTranslations('analyticsPage');
   const [timeRange, setTimeRange] = useState<TimeRange>('7d');
   const [isLoading, setIsLoading] = useState(true);
   const [summary, setSummary] = useState<AnalyticsSummary | null>(null);
@@ -71,8 +73,8 @@ export default function AnalyticsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Analytics</h1>
-          <p className="mt-1 text-sm text-gray-500">Track user engagement and menu performance</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white p-1">
           {(['7d', '30d', '90d', '1y'] as TimeRange[]).map((range) => (

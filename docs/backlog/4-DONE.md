@@ -7,6 +7,29 @@
 
 ---
 
+## 2026-01-20
+
+| ID              | Feature                | Descrizione                                                                                                                | Completato |
+| --------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| BACKOFFICE-I18N | Internazionalizzazione | Sistema i18n completo con next-intl. EN/IT supportate. ~45 pagine tradotte, LanguageSwitcher, middleware locale detection. | 2026-01-20 |
+
+> **BACKOFFICE-I18N Files:**
+>
+> - Config: `lib/i18n/config.ts`, `lib/i18n/request.ts`, `middleware.ts`
+> - Provider: `app/providers.tsx`, `app/layout.tsx`
+> - Messages: `messages/en.json`, `messages/it.json` (~2500 keys each)
+> - Component: `components/settings/LanguageSwitcher.tsx`
+> - Pages Updated: ~45 pages (dashboard, orders, marketing, content, customers, settings, analytics, team, billing, partnerships, qr-codes)
+>
+> **Features:**
+>
+> - Locale detection via middleware (Accept-Language header)
+> - User preference persistence (localStorage + cookie)
+> - Server-side locale via next-intl
+> - Extensible for future languages (zh, es, fr, etc.)
+
+---
+
 ## 2026-01-19
 
 | ID                       | Feature                 | Descrizione                                                                                                                                 | Completato |

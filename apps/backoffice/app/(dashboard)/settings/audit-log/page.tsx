@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
@@ -100,6 +101,7 @@ const ACTION_LABELS: Record<string, { label: string; icon: string; color: string
 };
 
 export default function AuditLogPage() {
+  const t = useTranslations('auditLogPage');
   const { hasPermission } = useAuth();
   const router = useRouter();
   const [logs, setLogs] = useState<AuditLogEntry[]>([]);
@@ -125,15 +127,13 @@ export default function AuditLogPage() {
             />
           </svg>
         </div>
-        <h2 className="mb-2 text-xl font-bold text-gray-900">Accesso Negato</h2>
-        <p className="max-w-md text-center text-gray-500">
-          Questa sezione è disponibile solo per utenti autorizzati.
-        </p>
+        <h2 className="mb-2 text-xl font-bold text-gray-900">{t('accessDenied')}</h2>
+        <p className="max-w-md text-center text-gray-500">{t('accessDeniedMessage')}</p>
         <button
           onClick={() => router.push('/dashboard')}
           className="mt-4 rounded-lg bg-gray-100 px-4 py-2 text-gray-700 hover:bg-gray-200"
         >
-          Torna alla Dashboard
+          {t('backToDashboard')}
         </button>
       </div>
     );
@@ -188,8 +188,8 @@ export default function AuditLogPage() {
               <span className="text-xl">📋</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Audit Log</h1>
-              <p className="text-gray-500">Cronologia delle azioni nel sistema</p>
+              <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+              <p className="text-gray-500">{t('subtitle')}</p>
             </div>
           </div>
         </div>
@@ -198,7 +198,7 @@ export default function AuditLogPage() {
           disabled={loading}
           className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
         >
-          {loading ? 'Caricamento...' : '↻ Aggiorna'}
+          {loading ? t('loading') : `↻ ${t('refresh')}`}
         </button>
       </div>
 
@@ -233,12 +233,12 @@ export default function AuditLogPage() {
         {loading ? (
           <div className="p-8 text-center text-gray-500">
             <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
-            Caricamento log...
+            {t('loading')}
           </div>
         ) : filteredLogs.length === 0 ? (
           <div className="p-8 text-center text-gray-500">
             <span className="mb-2 block text-4xl">📋</span>
-            Nessun log trovato
+            {t('empty')}
           </div>
         ) : (
           <div className="divide-y divide-gray-200">

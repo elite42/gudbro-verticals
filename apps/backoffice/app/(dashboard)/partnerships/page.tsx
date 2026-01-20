@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useTenant } from '@/lib/contexts/TenantContext';
 
@@ -28,6 +29,7 @@ interface BookingStats {
 }
 
 export default function PartnershipsPage() {
+  const t = useTranslations('partnershipsPage');
   const { location, isLoading: tenantLoading } = useTenant();
   const [metrics, setMetrics] = useState<PartnershipMetrics | null>(null);
   const [bookingStats, setBookingStats] = useState<BookingStats>({ pendingCount: 0 });
@@ -91,10 +93,8 @@ export default function PartnershipsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Partnership Hub</h1>
-        <p className="mt-1 text-gray-600">
-          Discover and manage B2B partnerships with tour operators and accommodations.
-        </p>
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <p className="mt-1 text-gray-600">{t('subtitle')}</p>
       </div>
 
       {/* Quick Stats */}

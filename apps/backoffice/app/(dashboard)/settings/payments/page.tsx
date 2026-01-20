@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { CreditCard, Wallet, Loader2, Check, AlertCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { CryptoWalletInput } from '@/components/settings/CryptoWalletInput';
 
@@ -53,6 +54,7 @@ interface SupportedCrypto {
 // ============================================================================
 
 export default function PaymentsSettingsPage() {
+  const t = useTranslations('paymentsPage');
   const { brand, location } = useTenant();
   const merchantId = location?.id || brand?.id;
 
@@ -176,8 +178,8 @@ export default function PaymentsSettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Payment Settings</h1>
-        <p className="mt-1 text-sm text-gray-500">Configure how customers can pay at your venue.</p>
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
       </div>
 
       {/* Tabs */}
@@ -191,7 +193,7 @@ export default function PaymentsSettingsPage() {
           }`}
         >
           <CreditCard className="h-4 w-4" />
-          Fiat ({enabledFiatCount})
+          {t('tabs.fiat')} ({enabledFiatCount})
         </button>
         <button
           onClick={() => setActiveTab('crypto')}
@@ -202,7 +204,7 @@ export default function PaymentsSettingsPage() {
           }`}
         >
           <Wallet className="h-4 w-4" />
-          Crypto ({enabledCryptoCount})
+          {t('tabs.crypto')} ({enabledCryptoCount})
         </button>
       </div>
 
@@ -636,7 +638,7 @@ export default function PaymentsSettingsPage() {
           {saveSuccess && (
             <span className="flex items-center gap-1 text-sm text-green-600">
               <Check className="h-4 w-4" />
-              Settings saved successfully!
+              {t('saveSuccess')}
             </span>
           )}
         </div>
@@ -648,10 +650,10 @@ export default function PaymentsSettingsPage() {
           {isSaving ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              Saving...
+              {t('saving')}
             </>
           ) : (
-            'Save Settings'
+            t('saveChanges')
           )}
         </button>
       </div>

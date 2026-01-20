@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 interface Product {
   id: string;
@@ -70,6 +71,7 @@ function formatPrice(price?: number | null): string {
 }
 
 export default function RecipesPage() {
+  const t = useTranslations('recipesPage');
   const [products, setProducts] = useState<Product[]>([]);
   const [subcategories, setSubcategories] = useState<SubcategoryInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -140,27 +142,29 @@ export default function RecipesPage() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Recipe Library</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Browse {totalProducts.toLocaleString()}+ professional recipes from our database
+            {t('description', { count: totalProducts.toLocaleString() })}
           </p>
         </div>
         <Link
           href="/content/recipes/create"
           className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
-          <span>+</span> Create Recipe
+          <span>+</span> {t('createRecipe')}
         </Link>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
         <div className="rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 p-4">
-          <p className="text-sm font-medium text-blue-600">Total Recipes</p>
+          <p className="text-sm font-medium text-blue-600">{t('totalRecipes')}</p>
           <p className="text-2xl font-bold text-blue-900">{totalProducts.toLocaleString()}</p>
         </div>
         <div className="rounded-lg bg-gradient-to-br from-amber-50 to-amber-100 p-4">
-          <p className="text-sm font-medium text-amber-600">{CATEGORY_ICONS.beverages} Beverages</p>
+          <p className="text-sm font-medium text-amber-600">
+            {CATEGORY_ICONS.beverages} {t('beverages')}
+          </p>
           <p className="text-2xl font-bold text-amber-900">
             {(['coffee', 'tea', 'cocktails', 'wines', 'smoothies'] as const).reduce(
               (sum, key) => sum + (stats[key] || 0),
@@ -169,7 +173,9 @@ export default function RecipesPage() {
           </p>
         </div>
         <div className="rounded-lg bg-gradient-to-br from-rose-50 to-rose-100 p-4">
-          <p className="text-sm font-medium text-rose-600">{CATEGORY_ICONS.dishes} Dishes</p>
+          <p className="text-sm font-medium text-rose-600">
+            {CATEGORY_ICONS.dishes} {t('dishes')}
+          </p>
           <p className="text-2xl font-bold text-rose-900">
             {(
               ['pasta', 'pizzas', 'burgers', 'risotti', 'dumplings', 'steaks', 'seafood'] as const
@@ -177,7 +183,9 @@ export default function RecipesPage() {
           </p>
         </div>
         <div className="rounded-lg bg-gradient-to-br from-emerald-50 to-emerald-100 p-4">
-          <p className="text-sm font-medium text-emerald-600">{CATEGORY_ICONS.sides} Sides</p>
+          <p className="text-sm font-medium text-emerald-600">
+            {CATEGORY_ICONS.sides} {t('sides')}
+          </p>
           <p className="text-2xl font-bold text-emerald-900">
             {(['salads', 'soups', 'sandwiches', 'desserts', 'appetizers'] as const).reduce(
               (sum, key) => sum + (stats[key] || 0),
@@ -186,13 +194,13 @@ export default function RecipesPage() {
           </p>
         </div>
         <div className="rounded-lg bg-gradient-to-br from-green-50 to-green-100 p-4">
-          <p className="text-sm font-medium text-green-600">🌱 Vegan Options</p>
+          <p className="text-sm font-medium text-green-600">🌱 {t('veganOptions')}</p>
           <p className="text-2xl font-bold text-green-900">
             {products.filter((p) => p.is_vegan).length}
           </p>
         </div>
         <div className="rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 p-4">
-          <p className="text-sm font-medium text-purple-600">⭐ Signatures</p>
+          <p className="text-sm font-medium text-purple-600">⭐ {t('signatures')}</p>
           <p className="text-2xl font-bold text-purple-900">
             {products.filter((p) => p.is_signature).length}
           </p>
@@ -206,7 +214,7 @@ export default function RecipesPage() {
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
           <input
             type="text"
-            placeholder="Search recipes by name or description..."
+            placeholder={t('searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -216,10 +224,10 @@ export default function RecipesPage() {
         {/* Diet Filter */}
         <div className="flex gap-2">
           {[
-            { id: 'all', label: 'All', icon: '📋' },
-            { id: 'vegan', label: 'Vegan', icon: '🌱' },
-            { id: 'dairy-free', label: 'Dairy-Free', icon: '🥛' },
-            { id: 'gluten-free', label: 'GF', icon: '🌾' },
+            { id: 'all', label: t('all'), icon: '📋' },
+            { id: 'vegan', label: t('vegan'), icon: '🌱' },
+            { id: 'dairy-free', label: t('dairyFree'), icon: '🥛' },
+            { id: 'gluten-free', label: t('glutenFree'), icon: '🌾' },
           ].map((diet) => (
             <button
               key={diet.id}
@@ -249,7 +257,7 @@ export default function RecipesPage() {
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
-          📋 All Categories
+          📋 {t('allCategories')}
         </button>
         {categories.map((cat) => (
           <button
@@ -299,20 +307,20 @@ export default function RecipesPage() {
       {isLoading && (
         <div className="flex items-center justify-center py-12">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
-          <span className="ml-3 text-gray-500">Loading recipes...</span>
+          <span className="ml-3 text-gray-500">{t('loading')}</span>
         </div>
       )}
 
       {/* Error State */}
       {error && (
         <div className="rounded-lg bg-red-50 p-4 text-red-700">
-          <p className="font-medium">Error loading recipes</p>
+          <p className="font-medium">{t('errorTitle')}</p>
           <p className="text-sm">{error}</p>
           <button
             onClick={fetchProducts}
             className="mt-2 text-sm font-medium text-red-600 hover:underline"
           >
-            Try again
+            {t('tryAgain')}
           </button>
         </div>
       )}
@@ -321,7 +329,7 @@ export default function RecipesPage() {
       {!isLoading && !error && (
         <>
           <p className="text-sm text-gray-500">
-            Showing {filteredProducts.length} of {products.length} recipes
+            {t('showingResults', { filtered: filteredProducts.length, total: products.length })}
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -349,12 +357,12 @@ export default function RecipesPage() {
                   <div className="absolute left-2 top-2 flex flex-wrap gap-1">
                     {product.is_signature && (
                       <span className="rounded-full bg-purple-600 px-2 py-0.5 text-xs font-bold text-white">
-                        ⭐ Signature
+                        ⭐ {t('signature')}
                       </span>
                     )}
                     {product.is_vegan && (
                       <span className="rounded-full bg-green-600 px-2 py-0.5 text-xs font-bold text-white">
-                        🌱 Vegan
+                        🌱 {t('vegan')}
                       </span>
                     )}
                   </div>
@@ -438,8 +446,8 @@ export default function RecipesPage() {
           {filteredProducts.length === 0 && (
             <div className="py-12 text-center">
               <span className="text-5xl">🔍</span>
-              <p className="mt-4 text-lg font-medium text-gray-900">No recipes found</p>
-              <p className="mt-1 text-gray-500">Try adjusting your filters or search query</p>
+              <p className="mt-4 text-lg font-medium text-gray-900">{t('noRecipes')}</p>
+              <p className="mt-1 text-gray-500">{t('noRecipesHint')}</p>
             </div>
           )}
         </>

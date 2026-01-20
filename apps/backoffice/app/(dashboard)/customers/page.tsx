@@ -1,16 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export default function CustomersPage() {
+  const t = useTranslations('customers');
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Customers</h1>
-        <p className="mt-1 text-gray-600">
-          Manage your followers, view customer analytics, and respond to feedback.
-        </p>
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <p className="mt-1 text-gray-600">{t('description')}</p>
       </div>
 
       {/* Quick Stats */}
@@ -34,7 +35,7 @@ export default function CustomersPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">--</p>
-              <p className="text-sm text-gray-500">Total Followers</p>
+              <p className="text-sm text-gray-500">{t('totalFollowers')}</p>
             </div>
           </div>
         </div>
@@ -58,7 +59,7 @@ export default function CustomersPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">--</p>
-              <p className="text-sm text-gray-500">New This Month</p>
+              <p className="text-sm text-gray-500">{t('newThisMonth')}</p>
             </div>
           </div>
         </div>
@@ -82,7 +83,7 @@ export default function CustomersPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">--</p>
-              <p className="text-sm text-gray-500">Avg Rating</p>
+              <p className="text-sm text-gray-500">{t('avgRating')}</p>
             </div>
           </div>
         </div>
@@ -106,7 +107,7 @@ export default function CustomersPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">--</p>
-              <p className="text-sm text-gray-500">Pending Feedback</p>
+              <p className="text-sm text-gray-500">{t('pendingFeedback')}</p>
             </div>
           </div>
         </div>
@@ -134,13 +135,10 @@ export default function CustomersPage() {
                 </svg>
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900">Followers</h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  View and manage customers who follow your locale. See their visit history and
-                  loyalty status.
-                </p>
+                <h3 className="text-lg font-semibold text-gray-900">{t('followers')}</h3>
+                <p className="mt-1 text-sm text-gray-500">{t('followersDesc')}</p>
                 <div className="mt-4 flex items-center text-sm font-medium text-blue-600">
-                  View Followers
+                  {t('viewFollowers')}
                   <svg
                     className="ml-1 h-4 w-4"
                     fill="none"
@@ -181,17 +179,16 @@ export default function CustomersPage() {
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-semibold text-gray-900">Customer Intelligence</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {t('customerIntelligence')}
+                  </h3>
                   <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
                     AI
                   </span>
                 </div>
-                <p className="mt-1 text-sm text-gray-500">
-                  AI-powered CLV analysis, churn prediction, and segmentation. Identify at-risk
-                  customers.
-                </p>
+                <p className="mt-1 text-sm text-gray-500">{t('customerIntelligenceDesc')}</p>
                 <div className="mt-4 flex items-center text-sm font-medium text-red-600">
-                  View Intelligence
+                  {t('viewIntelligence')}
                   <svg
                     className="ml-1 h-4 w-4"
                     fill="none"
@@ -231,13 +228,10 @@ export default function CustomersPage() {
                 </svg>
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900">Feedback</h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Read customer reviews, ratings, and suggestions. Respond to feedback and resolve
-                  issues.
-                </p>
+                <h3 className="text-lg font-semibold text-gray-900">{t('feedback')}</h3>
+                <p className="mt-1 text-sm text-gray-500">{t('feedbackDesc')}</p>
                 <div className="mt-4 flex items-center text-sm font-medium text-purple-600">
-                  View Feedback
+                  {t('viewFeedback')}
                   <svg
                     className="ml-1 h-4 w-4"
                     fill="none"
@@ -275,11 +269,8 @@ export default function CustomersPage() {
             />
           </svg>
           <div>
-            <h4 className="font-medium text-blue-900">Privacy-First Customer Data</h4>
-            <p className="mt-0.5 text-sm text-blue-700">
-              You only see customers who explicitly follow your locale. GudBro users must opt-in to
-              share their data with merchants. All analytics are GDPR compliant.
-            </p>
+            <h4 className="font-medium text-blue-900">{t('privacyTitle')}</h4>
+            <p className="mt-0.5 text-sm text-blue-700">{t('privacyDesc')}</p>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { Shield, AlertTriangle, Check, RefreshCw, Key, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import TwoFactorSetup from '@/components/auth/TwoFactorSetup';
 
 interface OAuthProvider {
@@ -182,6 +183,7 @@ const DEFAULT_PROVIDERS: OAuthProvider[] = [
 ];
 
 export default function AuthSettingsPage() {
+  const t = useTranslations('authPage');
   const [providers, setProviders] = useState<OAuthProvider[]>(DEFAULT_PROVIDERS);
   const [editingProvider, setEditingProvider] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -394,10 +396,9 @@ export default function AuthSettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Authentication Providers</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Configure social login options for your customers. {enabledCount} provider
-          {enabledCount !== 1 ? 's' : ''} enabled.
+          {t('subtitle', { count: enabledCount, plural: enabledCount !== 1 ? 's' : '' })}
         </p>
       </div>
 
@@ -846,7 +847,7 @@ export default function AuthSettingsPage() {
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              Configuration saved successfully!
+              {t('saveSuccess')}
             </span>
           )}
         </div>
@@ -872,10 +873,10 @@ export default function AuthSettingsPage() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                 />
               </svg>
-              Saving...
+              {t('saving')}
             </>
           ) : (
-            'Save Configuration'
+            t('saveConfig')
           )}
         </button>
       </div>

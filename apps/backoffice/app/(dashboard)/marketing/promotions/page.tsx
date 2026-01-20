@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 // Types
 type PromotionType =
@@ -16,7 +17,14 @@ type PromotionType =
 
 type PromotionStatus = 'draft' | 'active' | 'paused' | 'expired' | 'completed';
 type PlacementType = 'offline' | 'online';
-type TriggerAction = 'signup' | 'social_share' | 'follow' | 'review' | 'checkin' | 'minimum_purchase' | 'none';
+type TriggerAction =
+  | 'signup'
+  | 'social_share'
+  | 'follow'
+  | 'review'
+  | 'checkin'
+  | 'minimum_purchase'
+  | 'none';
 
 interface QRPlacement {
   id: string;
@@ -61,17 +69,18 @@ interface Promotion {
   createdAt: string;
 }
 
-const PROMOTION_TYPE_CONFIG: Record<PromotionType, { label: string; icon: string; color: string }> = {
-  discount_percent: { label: 'Sconto %', icon: '🏷️', color: 'bg-green-100 text-green-700' },
-  discount_fixed: { label: 'Sconto Fisso', icon: '💵', color: 'bg-emerald-100 text-emerald-700' },
-  free_item: { label: 'Omaggio', icon: '🎁', color: 'bg-pink-100 text-pink-700' },
-  buy_x_get_y: { label: 'Prendi X Paghi Y', icon: '🛒', color: 'bg-blue-100 text-blue-700' },
-  bundle: { label: 'Bundle', icon: '📦', color: 'bg-purple-100 text-purple-700' },
-  loyalty_bonus: { label: 'Bonus Punti', icon: '⭐', color: 'bg-amber-100 text-amber-700' },
-  scratch_card: { label: 'Gratta e Vinci', icon: '🎰', color: 'bg-red-100 text-red-700' },
-  spin_wheel: { label: 'Ruota Fortuna', icon: '🎡', color: 'bg-indigo-100 text-indigo-700' },
-  first_visit: { label: 'Prima Visita', icon: '👋', color: 'bg-teal-100 text-teal-700' },
-};
+const PROMOTION_TYPE_CONFIG: Record<PromotionType, { label: string; icon: string; color: string }> =
+  {
+    discount_percent: { label: 'Sconto %', icon: '🏷️', color: 'bg-green-100 text-green-700' },
+    discount_fixed: { label: 'Sconto Fisso', icon: '💵', color: 'bg-emerald-100 text-emerald-700' },
+    free_item: { label: 'Omaggio', icon: '🎁', color: 'bg-pink-100 text-pink-700' },
+    buy_x_get_y: { label: 'Prendi X Paghi Y', icon: '🛒', color: 'bg-blue-100 text-blue-700' },
+    bundle: { label: 'Bundle', icon: '📦', color: 'bg-purple-100 text-purple-700' },
+    loyalty_bonus: { label: 'Bonus Punti', icon: '⭐', color: 'bg-amber-100 text-amber-700' },
+    scratch_card: { label: 'Gratta e Vinci', icon: '🎰', color: 'bg-red-100 text-red-700' },
+    spin_wheel: { label: 'Ruota Fortuna', icon: '🎡', color: 'bg-indigo-100 text-indigo-700' },
+    first_visit: { label: 'Prima Visita', icon: '👋', color: 'bg-teal-100 text-teal-700' },
+  };
 
 const STATUS_CONFIG: Record<PromotionStatus, { label: string; color: string }> = {
   draft: { label: 'Bozza', color: 'bg-gray-100 text-gray-700' },
@@ -137,22 +146,27 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
+      <div className="m-4 max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white">
         <form onSubmit={handleSubmit}>
-          <div className="p-6 border-b border-gray-200">
+          <div className="border-b border-gray-200 p-6">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold text-gray-900">Nuova Promozione</h2>
                 <p className="text-sm text-gray-500">Step {step} di 3</p>
               </div>
-              <button type="button" onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <button type="button" onClick={onClose} className="rounded-lg p-2 hover:bg-gray-100">
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
             {/* Progress bar */}
-            <div className="flex gap-2 mt-4">
+            <div className="mt-4 flex gap-2">
               {[1, 2, 3].map((s) => (
                 <div
                   key={s}
@@ -162,25 +176,27 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
             </div>
           </div>
 
-          <div className="p-6 space-y-6">
+          <div className="space-y-6 p-6">
             {step === 1 && (
               <>
                 {/* Promo Type Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">Tipo di Promozione</label>
+                  <label className="mb-3 block text-sm font-medium text-gray-700">
+                    Tipo di Promozione
+                  </label>
                   <div className="grid grid-cols-3 gap-2">
                     {Object.entries(PROMOTION_TYPE_CONFIG).map(([type, config]) => (
                       <button
                         key={type}
                         type="button"
                         onClick={() => setFormData({ ...formData, type: type as PromotionType })}
-                        className={`p-3 rounded-lg border-2 text-left transition-colors ${
+                        className={`rounded-lg border-2 p-3 text-left transition-colors ${
                           formData.type === type
                             ? 'border-purple-500 bg-purple-50'
                             : 'border-gray-200 hover:border-purple-300'
                         }`}
                       >
-                        <span className="text-2xl block mb-1">{config.icon}</span>
+                        <span className="mb-1 block text-2xl">{config.icon}</span>
                         <span className="text-sm font-medium text-gray-900">{config.label}</span>
                       </button>
                     ))}
@@ -189,23 +205,25 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
 
                 {/* Title & Description */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Titolo *</label>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">Titolo *</label>
                   <input
                     type="text"
                     required
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                    className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-purple-500"
                     placeholder="Es: Sconto 20% sul primo ordine"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Descrizione</label>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    Descrizione
+                  </label>
                   <textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     rows={2}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                    className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-purple-500"
                     placeholder="Descrivi la promozione..."
                   />
                 </div>
@@ -215,19 +233,21 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
             {step === 2 && (
               <>
                 {/* Reward Details based on type */}
-                <div className="bg-purple-50 rounded-xl p-4">
-                  <h4 className="font-medium text-gray-900 mb-4">Dettagli Premio</h4>
+                <div className="rounded-xl bg-purple-50 p-4">
+                  <h4 className="mb-4 font-medium text-gray-900">Dettagli Premio</h4>
 
                   {formData.type === 'discount_percent' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Sconto %</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        Sconto %
+                      </label>
                       <input
                         type="number"
                         min="1"
                         max="100"
                         value={formData.reward.discountPercent || ''}
                         onChange={(e) => updateReward('discountPercent', Number(e.target.value))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-2"
                         placeholder="Es: 20"
                       />
                     </div>
@@ -235,13 +255,15 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
 
                   {formData.type === 'discount_fixed' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Sconto Fisso (€)</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        Sconto Fisso (€)
+                      </label>
                       <input
                         type="number"
                         min="1"
                         value={formData.reward.discountFixed || ''}
                         onChange={(e) => updateReward('discountFixed', Number(e.target.value))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-2"
                         placeholder="Es: 5"
                       />
                     </div>
@@ -249,12 +271,14 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
 
                   {formData.type === 'free_item' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Prodotto Omaggio</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        Prodotto Omaggio
+                      </label>
                       <input
                         type="text"
                         value={formData.reward.freeItemName || ''}
                         onChange={(e) => updateReward('freeItemName', e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-2"
                         placeholder="Es: Caffè, Dessert"
                       />
                     </div>
@@ -262,13 +286,15 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
 
                   {formData.type === 'loyalty_bonus' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Punti Bonus</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        Punti Bonus
+                      </label>
                       <input
                         type="number"
                         min="1"
                         value={formData.reward.bonusPoints || ''}
                         onChange={(e) => updateReward('bonusPoints', Number(e.target.value))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-2"
                         placeholder="Es: 100"
                       />
                     </div>
@@ -276,20 +302,24 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
 
                   {(formData.type === 'scratch_card' || formData.type === 'spin_wheel') && (
                     <p className="text-sm text-gray-600">
-                      I premi della {formData.type === 'scratch_card' ? 'carta gratta e vinci' : 'ruota'} verranno configurati dopo la creazione.
+                      I premi della{' '}
+                      {formData.type === 'scratch_card' ? 'carta gratta e vinci' : 'ruota'} verranno
+                      configurati dopo la creazione.
                     </p>
                   )}
 
                   {formData.type === 'first_visit' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Sconto Prima Visita %</label>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        Sconto Prima Visita %
+                      </label>
                       <input
                         type="number"
                         min="1"
                         max="100"
                         value={formData.reward.discountPercent || ''}
                         onChange={(e) => updateReward('discountPercent', Number(e.target.value))}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                        className="w-full rounded-lg border border-gray-300 px-4 py-2"
                         placeholder="Es: 15"
                       />
                     </div>
@@ -298,20 +328,24 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
 
                 {/* Trigger Action */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Azione Richiesta per Attivare</label>
+                  <label className="mb-2 block text-sm font-medium text-gray-700">
+                    Azione Richiesta per Attivare
+                  </label>
                   <div className="grid grid-cols-2 gap-2">
                     {Object.entries(TRIGGER_CONFIG).map(([action, config]) => (
                       <button
                         key={action}
                         type="button"
-                        onClick={() => setFormData({ ...formData, triggerAction: action as TriggerAction })}
-                        className={`p-3 rounded-lg border-2 text-left transition-colors ${
+                        onClick={() =>
+                          setFormData({ ...formData, triggerAction: action as TriggerAction })
+                        }
+                        className={`rounded-lg border-2 p-3 text-left transition-colors ${
                           formData.triggerAction === action
                             ? 'border-purple-500 bg-purple-50'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
-                        <span className="text-lg mr-2">{config.icon}</span>
+                        <span className="mr-2 text-lg">{config.icon}</span>
                         <span className="text-sm font-medium text-gray-900">{config.label}</span>
                       </button>
                     ))}
@@ -325,53 +359,63 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
                 {/* Dates */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Data Inizio *</label>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                      Data Inizio *
+                    </label>
                     <input
                       type="date"
                       required
                       value={formData.startDate}
                       onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      className="w-full rounded-lg border border-gray-300 px-4 py-2"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Data Fine *</label>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                      Data Fine *
+                    </label>
                     <input
                       type="date"
                       required
                       value={formData.endDate}
                       onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                      className="w-full rounded-lg border border-gray-300 px-4 py-2"
                     />
                   </div>
                 </div>
 
                 {/* External QR */}
-                <div className="bg-blue-50 rounded-xl p-4">
+                <div className="rounded-xl bg-blue-50 p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="font-medium text-gray-900">QR Marketing Esterno</h4>
-                      <p className="text-sm text-gray-600">Abilita il sistema a 2 step con QR piazzati fuori dal locale</p>
+                      <p className="text-sm text-gray-600">
+                        Abilita il sistema a 2 step con QR piazzati fuori dal locale
+                      </p>
                     </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
+                    <label className="relative inline-flex cursor-pointer items-center">
                       <input
                         type="checkbox"
                         checked={formData.externalQREnabled}
-                        onChange={(e) => setFormData({ ...formData, externalQREnabled: e.target.checked })}
-                        className="sr-only peer"
+                        onChange={(e) =>
+                          setFormData({ ...formData, externalQREnabled: e.target.checked })
+                        }
+                        className="peer sr-only"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                      <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-purple-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300"></div>
                     </label>
                   </div>
                 </div>
 
                 {/* Summary */}
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <h4 className="font-medium text-gray-900 mb-3">Riepilogo</h4>
+                <div className="rounded-xl bg-gray-50 p-4">
+                  <h4 className="mb-3 font-medium text-gray-900">Riepilogo</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Tipo:</span>
-                      <span className="font-medium">{PROMOTION_TYPE_CONFIG[formData.type].label}</span>
+                      <span className="font-medium">
+                        {PROMOTION_TYPE_CONFIG[formData.type].label}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Titolo:</span>
@@ -379,11 +423,15 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Trigger:</span>
-                      <span className="font-medium">{TRIGGER_CONFIG[formData.triggerAction].label}</span>
+                      <span className="font-medium">
+                        {TRIGGER_CONFIG[formData.triggerAction].label}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Periodo:</span>
-                      <span className="font-medium">{formData.startDate} → {formData.endDate}</span>
+                      <span className="font-medium">
+                        {formData.startDate} → {formData.endDate}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -391,11 +439,11 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
             )}
           </div>
 
-          <div className="p-6 border-t border-gray-200 flex justify-between">
+          <div className="flex justify-between border-t border-gray-200 p-6">
             <button
               type="button"
-              onClick={() => step > 1 ? setStep(step - 1) : onClose()}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              onClick={() => (step > 1 ? setStep(step - 1) : onClose())}
+              className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
             >
               {step > 1 ? 'Indietro' : 'Annulla'}
             </button>
@@ -404,14 +452,14 @@ function PromotionFormModal({ onClose, onSave }: PromotionFormModalProps) {
                 type="button"
                 onClick={() => setStep(step + 1)}
                 disabled={step === 1 && !formData.title}
-                className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:opacity-50"
+                className="rounded-lg bg-gray-900 px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50"
               >
                 Avanti
               </button>
             ) : (
               <button
                 type="submit"
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                className="rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700"
               >
                 Crea Promozione
               </button>
@@ -509,7 +557,7 @@ const mockPromotions: Promotion[] = [
     id: '3',
     name: 'happy-hour-promo',
     title: 'Happy Hour: Spritz a 5€',
-    description: 'Solo durante l\'happy hour, spritz a prezzo speciale',
+    description: "Solo durante l'happy hour, spritz a prezzo speciale",
     type: 'discount_fixed',
     status: 'active',
     reward: { discountFixed: 3 },
@@ -530,54 +578,54 @@ const mockPromotions: Promotion[] = [
 ];
 
 export default function PromotionsPage() {
+  const t = useTranslations('promotions');
   const [promotions, setPromotions] = useState<Promotion[]>(mockPromotions);
   const [filter, setFilter] = useState<'all' | PromotionStatus>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedPromotion, setSelectedPromotion] = useState<Promotion | null>(null);
   const [showPlacementsModal, setShowPlacementsModal] = useState<Promotion | null>(null);
 
-  const filteredPromotions = filter === 'all'
-    ? promotions
-    : promotions.filter(p => p.status === filter);
+  const filteredPromotions =
+    filter === 'all' ? promotions : promotions.filter((p) => p.status === filter);
 
   // Calculate totals
   const totals = {
-    active: promotions.filter(p => p.status === 'active').length,
+    active: promotions.filter((p) => p.status === 'active').length,
     totalViews: promotions.reduce((sum, p) => sum + p.stats.totalViews, 0),
     totalRedemptions: promotions.reduce((sum, p) => sum + p.stats.totalRedemptions, 0),
     totalPlacements: promotions.reduce((sum, p) => sum + p.externalQR.placements.length, 0),
-    totalCost: promotions.reduce((sum, p) =>
-      sum + p.externalQR.placements.reduce((s, pl) => s + (pl.cost || 0), 0), 0
+    totalCost: promotions.reduce(
+      (sum, p) => sum + p.externalQR.placements.reduce((s, pl) => s + (pl.cost || 0), 0),
+      0
     ),
   };
 
-  const avgConversion = totals.totalViews > 0
-    ? ((totals.totalRedemptions / totals.totalViews) * 100).toFixed(1)
-    : '0';
+  const avgConversion =
+    totals.totalViews > 0 ? ((totals.totalRedemptions / totals.totalViews) * 100).toFixed(1) : '0';
 
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString('it-IT', {
       day: 'numeric',
       month: 'short',
-      year: 'numeric'
+      year: 'numeric',
     });
   };
 
   const handleActivate = (id: string) => {
-    setPromotions(prev => prev.map(p =>
-      p.id === id ? { ...p, status: 'active' as PromotionStatus } : p
-    ));
+    setPromotions((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, status: 'active' as PromotionStatus } : p))
+    );
   };
 
   const handlePause = (id: string) => {
-    setPromotions(prev => prev.map(p =>
-      p.id === id ? { ...p, status: 'paused' as PromotionStatus } : p
-    ));
+    setPromotions((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, status: 'paused' as PromotionStatus } : p))
+    );
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Sei sicuro di voler eliminare questa promozione?')) {
-      setPromotions(prev => prev.filter(p => p.id !== id));
+    if (confirm(t('actions.confirmDelete'))) {
+      setPromotions((prev) => prev.filter((p) => p.id !== id));
     }
   };
 
@@ -585,11 +633,15 @@ export default function PromotionsPage() {
   const calculateROI = (placement: QRPlacement, avgOrderValue: number = 25): string => {
     if (!placement.cost || placement.cost === 0) return '∞';
     const estimatedRevenue = placement.conversions * avgOrderValue;
-    const monthlyCost = placement.costPeriod === 'monthly' ? placement.cost :
-                        placement.costPeriod === 'weekly' ? placement.cost * 4 :
-                        placement.costPeriod === 'daily' ? placement.cost * 30 :
-                        placement.cost;
-    return ((estimatedRevenue - monthlyCost) / monthlyCost * 100).toFixed(0);
+    const monthlyCost =
+      placement.costPeriod === 'monthly'
+        ? placement.cost
+        : placement.costPeriod === 'weekly'
+          ? placement.cost * 4
+          : placement.costPeriod === 'daily'
+            ? placement.cost * 30
+            : placement.cost;
+    return (((estimatedRevenue - monthlyCost) / monthlyCost) * 100).toFixed(0);
   };
 
   return (
@@ -597,75 +649,73 @@ export default function PromotionsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Promozioni</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Sistema QR Marketing a 2 step: esterno (awareness) + interno (conversion)
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('description')}</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+          className="flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-white transition-colors hover:bg-gray-800"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Nuova Promozione
+          {t('newPromotion')}
         </button>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
-          <p className="text-sm text-gray-500">Promozioni Attive</p>
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <p className="text-sm text-gray-500">{t('stats.active')}</p>
           <p className="text-2xl font-bold text-green-600">{totals.active}</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
-          <p className="text-sm text-gray-500">QR Scansionati</p>
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <p className="text-sm text-gray-500">{t('stats.scanned')}</p>
           <p className="text-2xl font-bold text-gray-900">{totals.totalViews.toLocaleString()}</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
-          <p className="text-sm text-gray-500">Conversioni</p>
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <p className="text-sm text-gray-500">{t('stats.conversions')}</p>
           <p className="text-2xl font-bold text-purple-600">{totals.totalRedemptions}</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
-          <p className="text-sm text-gray-500">Tasso Conversione</p>
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <p className="text-sm text-gray-500">{t('stats.conversionRate')}</p>
           <p className="text-2xl font-bold text-blue-600">{avgConversion}%</p>
         </div>
-        <div className="bg-white rounded-xl p-4 border border-gray-200">
-          <p className="text-sm text-gray-500">QR Posizionati</p>
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <p className="text-sm text-gray-500">{t('stats.placements')}</p>
           <p className="text-2xl font-bold text-gray-900">{totals.totalPlacements}</p>
         </div>
       </div>
 
       {/* How it works */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-100">
-        <h3 className="font-bold text-gray-900 mb-4">Come funziona il QR Marketing a 2 Step</h3>
-        <div className="grid md:grid-cols-3 gap-6">
+      <div className="rounded-xl border border-blue-100 bg-gradient-to-r from-blue-50 to-purple-50 p-6">
+        <h3 className="mb-4 font-bold text-gray-900">{t('howItWorks.title')}</h3>
+        <div className="grid gap-6 md:grid-cols-3">
           <div className="flex gap-3">
-            <div className="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-500 font-bold text-white">
               1
             </div>
             <div>
-              <p className="font-medium text-gray-900">QR Esterno</p>
-              <p className="text-sm text-gray-600">Piazza QR in strada, online o da partner. L'utente scansiona e vede info locale + promo.</p>
+              <p className="font-medium text-gray-900">{t('howItWorks.step1Title')}</p>
+              <p className="text-sm text-gray-600">{t('howItWorks.step1Desc')}</p>
             </div>
           </div>
           <div className="flex gap-3">
-            <div className="w-10 h-10 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-purple-500 font-bold text-white">
               2
             </div>
             <div>
-              <p className="font-medium text-gray-900">Visita al Locale</p>
-              <p className="text-sm text-gray-600">L'utente arriva al locale guidato da Google Maps e info promozione.</p>
+              <p className="font-medium text-gray-900">{t('howItWorks.step2Title')}</p>
+              <p className="text-sm text-gray-600">{t('howItWorks.step2Desc')}</p>
             </div>
           </div>
           <div className="flex gap-3">
-            <div className="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-500 font-bold text-white">
               3
             </div>
             <div>
-              <p className="font-medium text-gray-900">QR Interno</p>
-              <p className="text-sm text-gray-600">Scansiona QR tavolo per attivare promo. Trigger: registrazione, social share, etc.</p>
+              <p className="font-medium text-gray-900">{t('howItWorks.step3Title')}</p>
+              <p className="text-sm text-gray-600">{t('howItWorks.step3Desc')}</p>
             </div>
           </div>
         </div>
@@ -674,16 +724,16 @@ export default function PromotionsPage() {
       {/* Filters */}
       <div className="flex gap-2 overflow-x-auto pb-2">
         {[
-          { id: 'all', label: 'Tutte' },
-          { id: 'active', label: 'Attive' },
-          { id: 'draft', label: 'Bozze' },
-          { id: 'paused', label: 'In Pausa' },
-          { id: 'expired', label: 'Scadute' },
+          { id: 'all', label: t('filters.all') },
+          { id: 'active', label: t('filters.active') },
+          { id: 'draft', label: t('filters.draft') },
+          { id: 'paused', label: t('filters.paused') },
+          { id: 'expired', label: t('filters.expired') },
         ].map((f) => (
           <button
             key={f.id}
             onClick={() => setFilter(f.id as typeof filter)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               filter === f.id
                 ? 'bg-gray-900 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -697,15 +747,15 @@ export default function PromotionsPage() {
       {/* Promotions List */}
       <div className="space-y-4">
         {filteredPromotions.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-            <span className="text-5xl mb-4 block">🎯</span>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Nessuna promozione trovata</h3>
-            <p className="text-gray-500 mb-4">Crea la tua prima promozione con QR esterno</p>
+          <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
+            <span className="mb-4 block text-5xl">🎯</span>
+            <h3 className="mb-2 text-lg font-medium text-gray-900">{t('empty.title')}</h3>
+            <p className="mb-4 text-gray-500">{t('empty.description')}</p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+              className="rounded-lg bg-gray-900 px-4 py-2 text-white hover:bg-gray-800"
             >
-              Crea Promozione
+              {t('empty.action')}
             </button>
           </div>
         ) : (
@@ -715,24 +765,33 @@ export default function PromotionsPage() {
             const triggerConfig = TRIGGER_CONFIG[promo.triggerAction];
 
             return (
-              <div key={promo.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div
+                key={promo.id}
+                className="overflow-hidden rounded-xl border border-gray-200 bg-white"
+              >
                 {/* Header */}
-                <div className="p-4 border-b border-gray-100">
+                <div className="border-b border-gray-100 p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3">
-                      <div className={`w-12 h-12 rounded-xl ${typeConfig.color} flex items-center justify-center text-2xl`}>
+                      <div
+                        className={`h-12 w-12 rounded-xl ${typeConfig.color} flex items-center justify-center text-2xl`}
+                      >
                         {typeConfig.icon}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <h3 className="font-bold text-gray-900">{promo.title}</h3>
-                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusConfig.color}`}>
+                          <span
+                            className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusConfig.color}`}
+                          >
                             {statusConfig.label}
                           </span>
                         </div>
                         <p className="text-sm text-gray-500">{promo.description}</p>
-                        <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                          <span>{formatDate(promo.startDate)} - {formatDate(promo.endDate)}</span>
+                        <div className="mt-2 flex items-center gap-3 text-xs text-gray-500">
+                          <span>
+                            {formatDate(promo.startDate)} - {formatDate(promo.endDate)}
+                          </span>
                           <span className="flex items-center gap-1">
                             {triggerConfig.icon} {triggerConfig.label}
                           </span>
@@ -743,7 +802,7 @@ export default function PromotionsPage() {
                       {promo.status === 'draft' && (
                         <button
                           onClick={() => handleActivate(promo.id)}
-                          className="px-3 py-1.5 bg-green-100 text-green-700 text-sm font-medium rounded-lg hover:bg-green-200"
+                          className="rounded-lg bg-green-100 px-3 py-1.5 text-sm font-medium text-green-700 hover:bg-green-200"
                         >
                           Attiva
                         </button>
@@ -751,7 +810,7 @@ export default function PromotionsPage() {
                       {promo.status === 'active' && (
                         <button
                           onClick={() => handlePause(promo.id)}
-                          className="px-3 py-1.5 bg-yellow-100 text-yellow-700 text-sm font-medium rounded-lg hover:bg-yellow-200"
+                          className="rounded-lg bg-yellow-100 px-3 py-1.5 text-sm font-medium text-yellow-700 hover:bg-yellow-200"
                         >
                           Pausa
                         </button>
@@ -759,25 +818,45 @@ export default function PromotionsPage() {
                       {promo.status === 'paused' && (
                         <button
                           onClick={() => handleActivate(promo.id)}
-                          className="px-3 py-1.5 bg-green-100 text-green-700 text-sm font-medium rounded-lg hover:bg-green-200"
+                          className="rounded-lg bg-green-100 px-3 py-1.5 text-sm font-medium text-green-700 hover:bg-green-200"
                         >
                           Riattiva
                         </button>
                       )}
                       <button
                         onClick={() => setSelectedPromotion(promo)}
-                        className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg"
+                        className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
                       >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
                         </svg>
                       </button>
                       <button
                         onClick={() => handleDelete(promo.id)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                        className="rounded-lg p-2 text-red-500 hover:bg-red-50"
                       >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
                         </svg>
                       </button>
                     </div>
@@ -786,24 +865,32 @@ export default function PromotionsPage() {
 
                 {/* Stats & Placements */}
                 {promo.externalQR.enabled && (
-                  <div className="p-4 bg-gray-50">
+                  <div className="bg-gray-50 p-4">
                     {/* Stats row */}
-                    <div className="grid grid-cols-4 gap-4 mb-4">
+                    <div className="mb-4 grid grid-cols-4 gap-4">
                       <div>
                         <p className="text-xs text-gray-500">Scansioni QR</p>
-                        <p className="text-lg font-bold text-gray-900">{promo.stats.totalViews.toLocaleString()}</p>
+                        <p className="text-lg font-bold text-gray-900">
+                          {promo.stats.totalViews.toLocaleString()}
+                        </p>
                       </div>
                       <div>
                         <p className="text-xs text-gray-500">Conversioni</p>
-                        <p className="text-lg font-bold text-purple-600">{promo.stats.totalRedemptions}</p>
+                        <p className="text-lg font-bold text-purple-600">
+                          {promo.stats.totalRedemptions}
+                        </p>
                       </div>
                       <div>
                         <p className="text-xs text-gray-500">Tasso Conv.</p>
-                        <p className="text-lg font-bold text-blue-600">{promo.stats.conversionRate}%</p>
+                        <p className="text-lg font-bold text-blue-600">
+                          {promo.stats.conversionRate}%
+                        </p>
                       </div>
                       <div>
                         <p className="text-xs text-gray-500">Posizionamenti</p>
-                        <p className="text-lg font-bold text-gray-900">{promo.externalQR.placements.length}</p>
+                        <p className="text-lg font-bold text-gray-900">
+                          {promo.externalQR.placements.length}
+                        </p>
                       </div>
                     </div>
 
@@ -819,23 +906,29 @@ export default function PromotionsPage() {
                             Gestisci tutti
                           </button>
                         </div>
-                        <div className="grid md:grid-cols-3 gap-2">
+                        <div className="grid gap-2 md:grid-cols-3">
                           {promo.externalQR.placements.slice(0, 3).map((placement) => {
                             const roi = calculateROI(placement);
                             return (
                               <div
                                 key={placement.id}
-                                className="bg-white rounded-lg p-3 border border-gray-200"
+                                className="rounded-lg border border-gray-200 bg-white p-3"
                               >
-                                <div className="flex items-center gap-2 mb-2">
-                                  <span className="text-lg">{placement.type === 'offline' ? '📍' : '🌐'}</span>
-                                  <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-gray-900 text-sm truncate">{placement.name}</p>
-                                    <p className="text-xs text-gray-500 truncate">
+                                <div className="mb-2 flex items-center gap-2">
+                                  <span className="text-lg">
+                                    {placement.type === 'offline' ? '📍' : '🌐'}
+                                  </span>
+                                  <div className="min-w-0 flex-1">
+                                    <p className="truncate text-sm font-medium text-gray-900">
+                                      {placement.name}
+                                    </p>
+                                    <p className="truncate text-xs text-gray-500">
                                       {placement.address || placement.platform || '-'}
                                     </p>
                                   </div>
-                                  <span className={`w-2 h-2 rounded-full ${placement.isActive ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                  <span
+                                    className={`h-2 w-2 rounded-full ${placement.isActive ? 'bg-green-500' : 'bg-gray-300'}`}
+                                  />
                                 </div>
                                 <div className="grid grid-cols-3 gap-2 text-xs">
                                   <div>
@@ -844,18 +937,29 @@ export default function PromotionsPage() {
                                   </div>
                                   <div>
                                     <p className="text-gray-500">Conv.</p>
-                                    <p className="font-medium text-purple-600">{placement.conversions}</p>
+                                    <p className="font-medium text-purple-600">
+                                      {placement.conversions}
+                                    </p>
                                   </div>
                                   <div>
                                     <p className="text-gray-500">ROI</p>
-                                    <p className={`font-medium ${roi === '∞' ? 'text-blue-600' : Number(roi) > 0 ? 'text-green-600' : Number(roi) < 0 ? 'text-red-600' : 'text-gray-600'}`}>
+                                    <p
+                                      className={`font-medium ${roi === '∞' ? 'text-blue-600' : Number(roi) > 0 ? 'text-green-600' : Number(roi) < 0 ? 'text-red-600' : 'text-gray-600'}`}
+                                    >
                                       {roi === '∞' ? '∞' : `${roi}%`}
                                     </p>
                                   </div>
                                 </div>
                                 {placement.cost && placement.cost > 0 && (
-                                  <p className="text-xs text-gray-400 mt-2">
-                                    €{placement.cost}/{placement.costPeriod === 'monthly' ? 'mese' : placement.costPeriod === 'weekly' ? 'sett' : placement.costPeriod === 'daily' ? 'giorno' : 'una tantum'}
+                                  <p className="mt-2 text-xs text-gray-400">
+                                    €{placement.cost}/
+                                    {placement.costPeriod === 'monthly'
+                                      ? 'mese'
+                                      : placement.costPeriod === 'weekly'
+                                        ? 'sett'
+                                        : placement.costPeriod === 'daily'
+                                          ? 'giorno'
+                                          : 'una tantum'}
                                   </p>
                                 )}
                               </div>
@@ -863,14 +967,14 @@ export default function PromotionsPage() {
                           })}
                         </div>
                         {promo.externalQR.placements.length > 3 && (
-                          <p className="text-xs text-gray-500 text-center">
+                          <p className="text-center text-xs text-gray-500">
                             + {promo.externalQR.placements.length - 3} altri posizionamenti
                           </p>
                         )}
                       </div>
                     ) : (
-                      <div className="text-center py-4">
-                        <p className="text-sm text-gray-500 mb-2">Nessun QR esterno posizionato</p>
+                      <div className="py-4 text-center">
+                        <p className="mb-2 text-sm text-gray-500">Nessun QR esterno posizionato</p>
                         <button
                           onClick={() => setShowPlacementsModal(promo)}
                           className="text-sm text-purple-600 hover:underline"
@@ -884,7 +988,7 @@ export default function PromotionsPage() {
 
                 {/* Internal only promo */}
                 {!promo.externalQR.enabled && (
-                  <div className="p-4 bg-gray-50">
+                  <div className="bg-gray-50 p-4">
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                       <span>📍</span>
                       <span>Promozione solo interna (no QR esterno)</span>
@@ -920,7 +1024,7 @@ export default function PromotionsPage() {
               },
               createdAt: new Date().toISOString().split('T')[0],
             };
-            setPromotions(prev => [newPromo, ...prev]);
+            setPromotions((prev) => [newPromo, ...prev]);
             setShowCreateModal(false);
           }}
         />
@@ -929,16 +1033,24 @@ export default function PromotionsPage() {
       {/* Placements Modal */}
       {showPlacementsModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto m-4">
-            <div className="p-6 border-b border-gray-200">
+          <div className="m-4 max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white">
+            <div className="border-b border-gray-200 p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">Gestione QR Posizionamenti</h2>
                   <p className="text-sm text-gray-500">{showPlacementsModal.title}</p>
                 </div>
-                <button onClick={() => setShowPlacementsModal(null)} className="p-2 hover:bg-gray-100 rounded-lg">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <button
+                  onClick={() => setShowPlacementsModal(null)}
+                  className="rounded-lg p-2 hover:bg-gray-100"
+                >
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </button>
               </div>
@@ -946,52 +1058,77 @@ export default function PromotionsPage() {
             <div className="p-6">
               {/* Add new placement */}
               <div className="mb-6">
-                <button className="w-full p-4 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-purple-400 hover:text-purple-600 transition-colors">
-                  <span className="text-2xl block mb-1">+</span>
+                <button className="w-full rounded-xl border-2 border-dashed border-gray-300 p-4 text-gray-500 transition-colors hover:border-purple-400 hover:text-purple-600">
+                  <span className="mb-1 block text-2xl">+</span>
                   <span className="text-sm font-medium">Aggiungi nuovo posizionamento QR</span>
                 </button>
               </div>
 
               {/* Placement types */}
-              <div className="grid md:grid-cols-2 gap-4 mb-6">
-                <div className="p-4 bg-blue-50 rounded-xl">
-                  <h4 className="font-medium text-blue-900 flex items-center gap-2">
+              <div className="mb-6 grid gap-4 md:grid-cols-2">
+                <div className="rounded-xl bg-blue-50 p-4">
+                  <h4 className="flex items-center gap-2 font-medium text-blue-900">
                     <span>📍</span> Offline
                   </h4>
-                  <p className="text-sm text-blue-700 mt-1">Volantini, manifesti, partner, biglietti</p>
+                  <p className="mt-1 text-sm text-blue-700">
+                    Volantini, manifesti, partner, biglietti
+                  </p>
                 </div>
-                <div className="p-4 bg-purple-50 rounded-xl">
-                  <h4 className="font-medium text-purple-900 flex items-center gap-2">
+                <div className="rounded-xl bg-purple-50 p-4">
+                  <h4 className="flex items-center gap-2 font-medium text-purple-900">
                     <span>🌐</span> Online
                   </h4>
-                  <p className="text-sm text-purple-700 mt-1">Social media, siti partner, ads, email</p>
+                  <p className="mt-1 text-sm text-purple-700">
+                    Social media, siti partner, ads, email
+                  </p>
                 </div>
               </div>
 
               {/* Existing placements */}
-              <h4 className="font-medium text-gray-900 mb-3">Posizionamenti Attivi ({showPlacementsModal.externalQR.placements.length})</h4>
+              <h4 className="mb-3 font-medium text-gray-900">
+                Posizionamenti Attivi ({showPlacementsModal.externalQR.placements.length})
+              </h4>
               <div className="space-y-3">
                 {showPlacementsModal.externalQR.placements.map((placement) => (
-                  <div key={placement.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
-                    <div className="w-16 h-16 bg-white rounded-lg border border-gray-200 flex items-center justify-center">
+                  <div
+                    key={placement.id}
+                    className="flex items-center gap-4 rounded-xl bg-gray-50 p-4"
+                  >
+                    <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-gray-200 bg-white">
                       <span className="text-3xl">{placement.type === 'offline' ? '📍' : '🌐'}</span>
                     </div>
                     <div className="flex-1">
                       <p className="font-medium text-gray-900">{placement.name}</p>
-                      <p className="text-sm text-gray-500">{placement.address || placement.platform}</p>
-                      <div className="flex items-center gap-4 mt-1 text-xs text-gray-500">
+                      <p className="text-sm text-gray-500">
+                        {placement.address || placement.platform}
+                      </p>
+                      <div className="mt-1 flex items-center gap-4 text-xs text-gray-500">
                         <span>{placement.scans} scan</span>
                         <span>{placement.conversions} conv.</span>
-                        {placement.cost && <span>€{placement.cost}/{placement.costPeriod?.slice(0, 3)}</span>}
+                        {placement.cost && (
+                          <span>
+                            €{placement.cost}/{placement.costPeriod?.slice(0, 3)}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <button className="px-3 py-1.5 bg-white border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50">
+                      <button className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50">
                         QR Code
                       </button>
-                      <button className="p-2 text-gray-500 hover:bg-gray-200 rounded-lg">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      <button className="rounded-lg p-2 text-gray-500 hover:bg-gray-200">
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
                         </svg>
                       </button>
                     </div>
@@ -999,10 +1136,10 @@ export default function PromotionsPage() {
                 ))}
               </div>
             </div>
-            <div className="p-6 border-t border-gray-200 flex justify-end">
+            <div className="flex justify-end border-t border-gray-200 p-6">
               <button
                 onClick={() => setShowPlacementsModal(null)}
-                className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+                className="rounded-lg bg-gray-900 px-4 py-2 text-white hover:bg-gray-800"
               >
                 Chiudi
               </button>

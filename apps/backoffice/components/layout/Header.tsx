@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Sparkles, Settings, LogOut, User, ChevronDown } from 'lucide-react';
 import { TenantSwitcher } from '@/components/tenant';
 import { RoleSwitcher, DevRoleSwitcher } from '@/components/account';
@@ -12,14 +13,6 @@ import { useAuth } from '@/lib/contexts/AuthContext';
 import { useAI } from '@/lib/contexts/AIContext';
 import { useAccountRoles, type AccountRole } from '@/lib/hooks/useAccountRoles';
 import { createClient } from '@/lib/supabase-browser';
-
-// Role icons and labels
-const ROLE_CONFIG: Record<string, { icon: string; label: string; color: string }> = {
-  consumer: { icon: 'user', label: 'Personal Account', color: 'text-blue-600 bg-blue-50' },
-  merchant: { icon: 'store', label: 'Business', color: 'text-green-600 bg-green-50' },
-  admin: { icon: 'shield', label: 'Admin', color: 'text-purple-600 bg-purple-50' },
-  contributor: { icon: 'star', label: 'Contributor', color: 'text-yellow-600 bg-yellow-50' },
-};
 
 function RoleIcon({ role }: { role: string }) {
   switch (role) {
@@ -72,13 +65,6 @@ function RoleIcon({ role }: { role: string }) {
   }
 }
 
-function getRoleDisplayName(role: AccountRole): string {
-  if (role.role_type === 'merchant' && role.tenant_name) {
-    return role.tenant_name;
-  }
-  return ROLE_CONFIG[role.role_type]?.label || role.role_type;
-}
-
 export function Header() {
   const router = useRouter();
   const { user } = useAuth();
@@ -90,6 +76,24 @@ export function Header() {
   const { brand, location } = useTenant();
   const supabase = createClient();
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const t = useTranslations('header');
+  const tRoles = useTranslations('roles');
+
+  // Role config with translations
+  const ROLE_CONFIG: Record<string, { label: string; color: string }> = {
+    consumer: { label: tRoles('consumer'), color: 'text-blue-600 bg-blue-50' },
+    merchant: { label: tRoles('merchant'), color: 'text-green-600 bg-green-50' },
+    admin: { label: tRoles('admin'), color: 'text-purple-600 bg-purple-50' },
+    contributor: { label: tRoles('contributor'), color: 'text-yellow-600 bg-yellow-50' },
+  };
+
+  function getRoleDisplayName(role: AccountRole): string {
+    if (role.role_type === 'merchant' && role.tenant_name) {
+      return role.tenant_name;
+    }
+    return ROLE_CONFIG[role.role_type]?.label || role.role_type;
+  }
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -149,7 +153,7 @@ export function Header() {
           </svg>
           <input
             type="search"
-            placeholder="Search..."
+            placeholder={t('search')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full rounded-lg border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -162,7 +166,7 @@ export function Header() {
         {/* Help */}
         <button
           className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
-          title="Help"
+          title={t('help')}
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
@@ -183,7 +187,7 @@ export function Header() {
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
-          title="Preview menu"
+          title={t('preview')}
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
@@ -208,7 +212,7 @@ export function Header() {
         <button
           onClick={toggleAI}
           className="relative rounded-lg p-2 text-blue-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
-          title="AI Co-Manager"
+          title={t('aiCoManager')}
         >
           <Sparkles className="h-5 w-5" />
           {hasNotification && (
@@ -227,7 +231,7 @@ export function Header() {
               setShowRoleSection(false);
             }}
             className="flex items-center gap-1.5 rounded-lg p-1.5 transition-colors hover:bg-gray-100"
-            title="Account"
+            title={t('account')}
           >
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-red-500 text-xs font-medium text-white">
               {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || 'U'}
@@ -250,7 +254,7 @@ export function Header() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-gray-900">
-                      {user?.name || 'Account'}
+                      {user?.name || t('account')}
                     </p>
                     <p className="truncate text-xs text-gray-500">{user?.email || ''}</p>
                   </div>
@@ -274,9 +278,9 @@ export function Header() {
                       )}
                       <div className="text-left">
                         <p className="text-sm font-medium text-gray-900">
-                          {currentRole ? getRoleDisplayName(currentRole) : 'Select Role'}
+                          {currentRole ? getRoleDisplayName(currentRole) : t('selectRole')}
                         </p>
-                        <p className="text-xs text-gray-500">Switch account type</p>
+                        <p className="text-xs text-gray-500">{t('switchAccountType')}</p>
                       </div>
                     </div>
                     <ChevronDown
@@ -340,13 +344,13 @@ export function Header() {
               {account && account.total_points > 0 && (
                 <div className="border-b border-gray-200 px-4 py-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-gray-500">Loyalty Points</span>
+                    <span className="text-gray-500">{t('loyaltyPoints')}</span>
                     <span className="font-medium text-gray-900">
                       {account.total_points.toLocaleString()} pts
                     </span>
                   </div>
                   <div className="mt-1 flex items-center justify-between text-xs">
-                    <span className="text-gray-500">Tier</span>
+                    <span className="text-gray-500">{t('tier')}</span>
                     <span
                       className={`font-medium capitalize ${
                         account.loyalty_tier === 'platinum'
@@ -372,7 +376,7 @@ export function Header() {
                   onClick={() => setShowUserMenu(false)}
                 >
                   <User className="h-4 w-4 text-gray-400" />
-                  My Account
+                  {t('myAccount')}
                 </a>
                 <a
                   href="/settings"
@@ -380,7 +384,7 @@ export function Header() {
                   onClick={() => setShowUserMenu(false)}
                 >
                   <Settings className="h-4 w-4 text-gray-400" />
-                  Settings
+                  {t('settings')}
                 </a>
               </div>
 
@@ -391,7 +395,7 @@ export function Header() {
                   className="flex w-full items-center gap-3 px-4 py-2 text-sm text-red-600 transition-colors hover:bg-red-50"
                 >
                   <LogOut className="h-4 w-4" />
-                  Sign out
+                  {t('signOut')}
                 </button>
               </div>
             </div>

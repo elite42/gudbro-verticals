@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 
 interface GiftCard {
@@ -40,6 +41,8 @@ interface GiftCardSettings {
 type TabId = 'list' | 'create' | 'settings';
 
 export default function GiftCardsPage() {
+  const t = useTranslations('giftCards');
+  const tCommon = useTranslations('common');
   const { brand } = useTenant();
   const merchantId = brand?.id;
   const [activeTab, setActiveTab] = useState<TabId>('list');
@@ -201,15 +204,15 @@ export default function GiftCardsPage() {
   };
 
   const tabs = [
-    { id: 'list' as TabId, label: 'Gift Cards', icon: '🎁' },
-    { id: 'create' as TabId, label: 'Create New', icon: '➕' },
-    { id: 'settings' as TabId, label: 'Settings', icon: '⚙️' },
+    { id: 'list' as TabId, label: t('tabs.list'), icon: '🎁' },
+    { id: 'create' as TabId, label: t('tabs.create'), icon: '➕' },
+    { id: 'settings' as TabId, label: t('tabs.settings'), icon: '⚙️' },
   ];
 
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-gray-500">Loading...</div>
+        <div className="text-gray-500">{tCommon('loading')}</div>
       </div>
     );
   }
@@ -240,15 +243,13 @@ export default function GiftCardsPage() {
                 </svg>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Gift Cards</h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Sell prepaid gift cards that customers can redeem to their wallet
-                </p>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('title')}</h1>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{t('description')}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <label className="flex cursor-pointer items-center gap-2">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Enabled</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">{t('enabled')}</span>
                 <div className="relative">
                   <input
                     type="checkbox"
@@ -294,24 +295,24 @@ export default function GiftCardsPage() {
         {activeTab === 'list' && stats && (
           <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
             <div className="rounded-xl bg-white p-5 shadow-sm dark:bg-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Total Sold</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('stats.totalSold')}</p>
               <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">
                 {stats.total_sold}
               </p>
               <p className="mt-1 text-sm text-green-500">{stats.total_sold_formatted}</p>
             </div>
             <div className="rounded-xl bg-white p-5 shadow-sm dark:bg-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Active</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('stats.active')}</p>
               <p className="mt-1 text-2xl font-bold text-green-600">{stats.total_active}</p>
               <p className="mt-1 text-sm text-gray-500">{stats.total_active_formatted}</p>
             </div>
             <div className="rounded-xl bg-white p-5 shadow-sm dark:bg-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Redeemed</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('stats.redeemed')}</p>
               <p className="mt-1 text-2xl font-bold text-blue-600">{stats.total_redeemed}</p>
               <p className="mt-1 text-sm text-gray-500">{stats.total_redeemed_formatted}</p>
             </div>
             <div className="rounded-xl bg-white p-5 shadow-sm dark:bg-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Expired</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('stats.expired')}</p>
               <p className="mt-1 text-2xl font-bold text-gray-600">{stats.total_expired}</p>
               <p className="mt-1 text-sm text-gray-500">{stats.total_expired_formatted}</p>
             </div>
@@ -327,11 +328,11 @@ export default function GiftCardsPage() {
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
               >
-                <option value="">All Status</option>
-                <option value="active">Active</option>
-                <option value="redeemed">Redeemed</option>
-                <option value="expired">Expired</option>
-                <option value="cancelled">Cancelled</option>
+                <option value="">{t('status.all')}</option>
+                <option value="active">{t('status.active')}</option>
+                <option value="redeemed">{t('status.redeemed')}</option>
+                <option value="expired">{t('status.expired')}</option>
+                <option value="cancelled">{t('status.cancelled')}</option>
               </select>
             </div>
             <div className="overflow-x-auto">
@@ -339,22 +340,22 @@ export default function GiftCardsPage() {
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Code
+                      {t('table.code')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Amount
+                      {t('table.amount')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Recipient
+                      {t('table.recipient')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Status
+                      {t('table.status')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Expires
+                      {t('table.expires')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Actions
+                      {t('table.actions')}
                     </th>
                   </tr>
                 </thead>
@@ -386,7 +387,7 @@ export default function GiftCardsPage() {
                             onClick={() => handleCancel(gc.id)}
                             className="text-sm text-red-600 hover:text-red-800"
                           >
-                            Cancel
+                            {t('actions.cancel')}
                           </button>
                         )}
                       </td>
@@ -395,7 +396,7 @@ export default function GiftCardsPage() {
                   {giftCards.length === 0 && (
                     <tr>
                       <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
-                        No gift cards found
+                        {t('empty')}
                       </td>
                     </tr>
                   )}
@@ -410,12 +411,12 @@ export default function GiftCardsPage() {
           <div className="max-w-lg">
             <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
-                Create Gift Card
+                {t('create.title')}
               </h3>
               <form onSubmit={handleCreate} className="space-y-4">
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Amount (EUR)
+                    {t('create.amount')}
                   </label>
                   <input
                     type="number"
@@ -426,12 +427,12 @@ export default function GiftCardsPage() {
                     onChange={(e) => setCreateForm({ ...createForm, amount: e.target.value })}
                     required
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="50.00"
+                    placeholder={t('create.amountPlaceholder')}
                   />
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Recipient Name
+                    {t('create.recipientName')}
                   </label>
                   <input
                     type="text"
@@ -440,12 +441,12 @@ export default function GiftCardsPage() {
                       setCreateForm({ ...createForm, recipient_name: e.target.value })
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="John Doe"
+                    placeholder={t('create.recipientNamePlaceholder')}
                   />
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Recipient Email
+                    {t('create.recipientEmail')}
                   </label>
                   <input
                     type="email"
@@ -454,12 +455,12 @@ export default function GiftCardsPage() {
                       setCreateForm({ ...createForm, recipient_email: e.target.value })
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="john@example.com"
+                    placeholder={t('create.recipientEmailPlaceholder')}
                   />
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Personal Message
+                    {t('create.personalMessage')}
                   </label>
                   <textarea
                     value={createForm.recipient_message}
@@ -468,12 +469,12 @@ export default function GiftCardsPage() {
                     }
                     rows={3}
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="Enjoy your gift!"
+                    placeholder={t('create.personalMessagePlaceholder')}
                   />
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Delivery Method
+                    {t('create.deliveryMethod')}
                   </label>
                   <select
                     value={createForm.delivery_method}
@@ -485,9 +486,9 @@ export default function GiftCardsPage() {
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   >
-                    <option value="email">Email</option>
-                    <option value="sms">SMS</option>
-                    <option value="print">Print</option>
+                    <option value="email">{t('create.email')}</option>
+                    <option value="sms">{t('create.sms')}</option>
+                    <option value="print">{t('create.print')}</option>
                   </select>
                 </div>
                 <button
@@ -495,7 +496,7 @@ export default function GiftCardsPage() {
                   disabled={creating}
                   className="w-full rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
                 >
-                  {creating ? 'Creating...' : 'Create Gift Card'}
+                  {creating ? t('create.creating') : t('create.submit')}
                 </button>
               </form>
             </div>
@@ -507,12 +508,12 @@ export default function GiftCardsPage() {
           <div className="max-w-lg space-y-6">
             <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
-                Gift Card Settings
+                {t('settings.title')}
               </h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-700 dark:text-gray-300">
-                    Allow Custom Amounts
+                    {t('settings.allowCustomAmounts')}
                   </span>
                   <input
                     type="checkbox"
@@ -523,7 +524,7 @@ export default function GiftCardsPage() {
                 </div>
                 <div>
                   <label className="mb-1 block text-sm text-gray-700 dark:text-gray-300">
-                    Minimum Amount (EUR)
+                    {t('settings.minAmount')}
                   </label>
                   <input
                     type="number"
@@ -538,7 +539,7 @@ export default function GiftCardsPage() {
                 </div>
                 <div>
                   <label className="mb-1 block text-sm text-gray-700 dark:text-gray-300">
-                    Maximum Amount (EUR)
+                    {t('settings.maxAmount')}
                   </label>
                   <input
                     type="number"
@@ -553,7 +554,7 @@ export default function GiftCardsPage() {
                 </div>
                 <div>
                   <label className="mb-1 block text-sm text-gray-700 dark:text-gray-300">
-                    Default Expiry (months)
+                    {t('settings.defaultExpiry')}
                   </label>
                   <input
                     type="number"

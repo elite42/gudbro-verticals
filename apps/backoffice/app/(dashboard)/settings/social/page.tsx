@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Loader2, Check, AlertCircle, ExternalLink, Plus, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { MessagingChannelsSection } from '@/components/settings/MessagingChannelsSection';
 import { useTenant } from '@/lib/contexts/TenantContext';
 
@@ -239,6 +240,7 @@ const DELIVERY_PLATFORMS = [
 // ============================================================================
 
 export default function SocialSettingsPage() {
+  const t = useTranslations('socialPage');
   const { brand, location } = useTenant();
   const merchantId = location?.id || brand?.id;
 
@@ -380,11 +382,8 @@ export default function SocialSettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Social & Platforms</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Add your social media profiles and delivery platform links. These will be displayed on
-          your digital menu.
-        </p>
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
       </div>
 
       {/* Stats */}
@@ -393,8 +392,8 @@ export default function SocialSettingsPage() {
           <span className="text-lg font-bold text-blue-600">{filledCount}</span>
         </div>
         <div>
-          <p className="font-medium text-blue-900">Platforms Connected</p>
-          <p className="text-sm text-blue-700">Links will appear on your digital menu</p>
+          <p className="font-medium text-blue-900">{t('platformsConnected')}</p>
+          <p className="text-sm text-blue-700">{t('linksAppearOnMenu')}</p>
         </div>
       </div>
 
@@ -529,7 +528,7 @@ export default function SocialSettingsPage() {
           {saveSuccess && (
             <span className="flex items-center gap-1 text-sm text-green-600">
               <Check className="h-4 w-4" />
-              Links saved successfully!
+              {t('saveSuccess')}
             </span>
           )}
         </div>
@@ -541,10 +540,10 @@ export default function SocialSettingsPage() {
           {isSaving ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              Saving...
+              {t('saving')}
             </>
           ) : (
-            'Save Links'
+            t('saveLinks')
           )}
         </button>
       </div>

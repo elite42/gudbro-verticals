@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { EmptyState } from '@/components/ui/empty-state';
 import {
@@ -90,6 +91,7 @@ const CATEGORY_LABELS: Record<string, { label: string; emoji: string }> = {
 };
 
 export default function TeamPage() {
+  const t = useTranslations('teamPage');
   const { location, brand } = useTenant();
   const locationId = location?.id || brand?.id;
 
@@ -264,10 +266,8 @@ export default function TeamPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Team Management</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Gestisci il tuo team, monitora le performance e raccogli feedback
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import {
   Event,
@@ -1011,6 +1012,7 @@ function EventFormModal({ event, locationId, onClose, onSave }: EventFormModalPr
 }
 
 export default function EventsPage() {
+  const t = useTranslations('events');
   const { location } = useTenant();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1085,7 +1087,7 @@ export default function EventsPage() {
   };
 
   const handleDelete = async (eventId: string) => {
-    if (confirm('Sei sicuro di voler eliminare questo evento?')) {
+    if (confirm(t('actions.confirmDelete'))) {
       const result = await deleteEvent(eventId);
       if (result.success) {
         await loadEvents();
@@ -1116,7 +1118,7 @@ export default function EventsPage() {
       <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
           <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900"></div>
-          <p className="text-sm text-gray-500">Caricamento eventi...</p>
+          <p className="text-sm text-gray-500">{t('loading')}</p>
         </div>
       </div>
     );
@@ -1127,8 +1129,8 @@ export default function EventsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Eventi</h1>
-          <p className="mt-1 text-sm text-gray-500">Crea e gestisci eventi per il tuo locale</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('description')}</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
@@ -1137,26 +1139,26 @@ export default function EventsPage() {
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Nuovo Evento
+          {t('newEvent')}
         </button>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Totale Eventi</p>
+          <p className="text-sm text-gray-500">{t('stats.total')}</p>
           <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Pubblicati</p>
+          <p className="text-sm text-gray-500">{t('stats.published')}</p>
           <p className="text-2xl font-bold text-green-600">{stats.published}</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">In Bozza</p>
+          <p className="text-sm text-gray-500">{t('stats.draft')}</p>
           <p className="text-2xl font-bold text-gray-600">{stats.draft}</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-sm text-gray-500">Prossimi</p>
+          <p className="text-sm text-gray-500">{t('stats.upcoming')}</p>
           <p className="text-2xl font-bold text-blue-600">{stats.upcoming}</p>
         </div>
       </div>
@@ -1164,11 +1166,11 @@ export default function EventsPage() {
       {/* Filters */}
       <div className="flex gap-2 overflow-x-auto pb-2">
         {[
-          { id: 'all', label: 'Tutti' },
-          { id: 'published', label: 'Pubblicati' },
-          { id: 'draft', label: 'Bozze' },
-          { id: 'completed', label: 'Completati' },
-          { id: 'cancelled', label: 'Annullati' },
+          { id: 'all', label: t('filters.all') },
+          { id: 'published', label: t('filters.published') },
+          { id: 'draft', label: t('filters.draft') },
+          { id: 'completed', label: t('filters.completed') },
+          { id: 'cancelled', label: t('filters.cancelled') },
         ].map((f) => (
           <button
             key={f.id}
@@ -1189,13 +1191,13 @@ export default function EventsPage() {
         {sortedEvents.length === 0 ? (
           <div className="p-12 text-center">
             <span className="mb-4 block text-5xl">📅</span>
-            <h3 className="mb-2 text-lg font-medium text-gray-900">Nessun evento trovato</h3>
-            <p className="mb-4 text-gray-500">Crea il tuo primo evento per iniziare</p>
+            <h3 className="mb-2 text-lg font-medium text-gray-900">{t('empty.title')}</h3>
+            <p className="mb-4 text-gray-500">{t('empty.description')}</p>
             <button
               onClick={() => setShowCreateModal(true)}
               className="rounded-lg bg-gray-900 px-4 py-2 text-white hover:bg-gray-800"
             >
-              Crea Evento
+              {t('empty.action')}
             </button>
           </div>
         ) : (
@@ -1203,22 +1205,22 @@ export default function EventsPage() {
             <thead className="border-b border-gray-200 bg-gray-50">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Evento
+                  {t('table.event')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Tipo
+                  {t('table.type')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Data
+                  {t('table.date')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Stato
+                  {t('table.status')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Prenotazioni
+                  {t('table.reservations')}
                 </th>
                 <th className="px-4 py-3 text-right text-xs font-medium uppercase text-gray-500">
-                  Azioni
+                  {t('table.actions')}
                 </th>
               </tr>
             </thead>
@@ -1243,7 +1245,7 @@ export default function EventsPage() {
                             <p className="font-medium text-gray-900">{event.title}</p>
                             {event.is_featured && (
                               <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-700">
-                                IN EVIDENZA
+                                {t('table.featured')}
                               </span>
                             )}
                           </div>
@@ -1413,29 +1415,27 @@ export default function EventsPage() {
 
       {/* Quick Tips */}
       <div className="rounded-xl border border-purple-100 bg-gradient-to-r from-purple-50 to-blue-50 p-6">
-        <h3 className="mb-3 font-bold text-gray-900">Suggerimenti per eventi di successo</h3>
+        <h3 className="mb-3 font-bold text-gray-900">{t('tips.title')}</h3>
         <div className="grid gap-4 md:grid-cols-3">
           <div className="flex items-start gap-3">
             <span className="text-2xl">📸</span>
             <div>
-              <p className="font-medium text-gray-900">Aggiungi immagini</p>
-              <p className="text-sm text-gray-600">Gli eventi con foto ricevono 3x più interesse</p>
+              <p className="font-medium text-gray-900">{t('tips.addImages')}</p>
+              <p className="text-sm text-gray-600">{t('tips.addImagesDesc')}</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <span className="text-2xl">⭐</span>
             <div>
-              <p className="font-medium text-gray-900">Attiva bonus fedeltà</p>
-              <p className="text-sm text-gray-600">
-                I punti extra aumentano la partecipazione del 40%
-              </p>
+              <p className="font-medium text-gray-900">{t('tips.loyaltyBonus')}</p>
+              <p className="text-sm text-gray-600">{t('tips.loyaltyBonusDesc')}</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <span className="text-2xl">🔔</span>
             <div>
-              <p className="font-medium text-gray-900">Invia notifiche</p>
-              <p className="text-sm text-gray-600">Ricorda l'evento ai tuoi follower 24h prima</p>
+              <p className="font-medium text-gray-900">{t('tips.notifications')}</p>
+              <p className="text-sm text-gray-600">{t('tips.notificationsDesc')}</p>
             </div>
           </div>
         </div>

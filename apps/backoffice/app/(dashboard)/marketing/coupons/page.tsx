@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 
 interface CouponTemplate {
@@ -53,6 +54,8 @@ interface CouponStats {
 type TabId = 'templates' | 'coupons' | 'issue' | 'create-template';
 
 export default function CouponsPage() {
+  const t = useTranslations('coupons');
+  const tCommon = useTranslations('common');
   const { brand } = useTenant();
   const merchantId = brand?.id;
   const [activeTab, setActiveTab] = useState<TabId>('templates');
@@ -284,31 +287,31 @@ export default function CouponsPage() {
   const getDistributionLabel = (type: CouponTemplate['distribution_type']) => {
     switch (type) {
       case 'manual':
-        return 'Manual';
+        return t('templates.distributionTypes.manual');
       case 'auto_birthday':
-        return 'Birthday';
+        return t('templates.distributionTypes.birthday');
       case 'auto_inactivity':
-        return 'Re-engagement';
+        return t('templates.distributionTypes.reengagement');
       case 'auto_first_order':
-        return 'First Order';
+        return t('templates.distributionTypes.firstOrder');
       case 'auto_loyalty_tier':
-        return 'Loyalty Tier';
+        return t('templates.distributionTypes.loyaltyTier');
       default:
         return type;
     }
   };
 
   const tabs = [
-    { id: 'templates' as TabId, label: 'Templates', icon: '📋' },
-    { id: 'coupons' as TabId, label: 'Issued Coupons', icon: '🎟️' },
-    { id: 'issue' as TabId, label: 'Issue Coupons', icon: '📤' },
-    { id: 'create-template' as TabId, label: 'Create Template', icon: '➕' },
+    { id: 'templates' as TabId, label: t('tabs.templates'), icon: '📋' },
+    { id: 'coupons' as TabId, label: t('tabs.coupons'), icon: '🎟️' },
+    { id: 'issue' as TabId, label: t('tabs.issue'), icon: '📤' },
+    { id: 'create-template' as TabId, label: t('tabs.createTemplate'), icon: '➕' },
   ];
 
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-gray-500">Loading...</div>
+        <div className="text-gray-500">{tCommon('loading')}</div>
       </div>
     );
   }
@@ -338,10 +341,8 @@ export default function CouponsPage() {
               </svg>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Coupons</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Personalized coupons for specific customers
-              </p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('title')}</h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('description')}</p>
             </div>
           </div>
         </div>
@@ -371,21 +372,21 @@ export default function CouponsPage() {
         {(activeTab === 'templates' || activeTab === 'coupons') && stats && (
           <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
             <div className="rounded-xl bg-white p-5 shadow-sm dark:bg-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Total Issued</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('stats.totalIssued')}</p>
               <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">
                 {stats.total_issued}
               </p>
             </div>
             <div className="rounded-xl bg-white p-5 shadow-sm dark:bg-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Active</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('stats.active')}</p>
               <p className="mt-1 text-2xl font-bold text-green-600">{stats.total_active}</p>
             </div>
             <div className="rounded-xl bg-white p-5 shadow-sm dark:bg-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Used</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('stats.used')}</p>
               <p className="mt-1 text-2xl font-bold text-blue-600">{stats.total_used}</p>
             </div>
             <div className="rounded-xl bg-white p-5 shadow-sm dark:bg-gray-800">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Usage Rate</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('stats.usageRate')}</p>
               <p className="mt-1 text-2xl font-bold text-purple-600">{stats.usage_rate}%</p>
             </div>
           </div>
@@ -396,84 +397,88 @@ export default function CouponsPage() {
           <div className="rounded-xl bg-white shadow-sm dark:bg-gray-800">
             <div className="border-b border-gray-200 p-4 dark:border-gray-700">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                Coupon Templates
+                {t('templates.title')}
               </h3>
-              <p className="text-sm text-gray-500">
-                Templates define the discount structure. Issue coupons to customers from templates.
-              </p>
+              <p className="text-sm text-gray-500">{t('templates.description')}</p>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Name
+                      {t('templates.name')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Discount
+                      {t('templates.discount')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Distribution
+                      {t('templates.distribution')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Validity
+                      {t('templates.validity')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Status
+                      {t('templates.status')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Actions
+                      {t('templates.actions')}
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {templates.map((t) => (
-                    <tr key={t.id}>
+                  {templates.map((tpl) => (
+                    <tr key={tpl.id}>
                       <td className="px-4 py-3">
-                        <span className="font-medium text-gray-900 dark:text-white">{t.name}</span>
-                        {t.description && <p className="text-xs text-gray-500">{t.description}</p>}
+                        <span className="font-medium text-gray-900 dark:text-white">
+                          {tpl.name}
+                        </span>
+                        {tpl.description && (
+                          <p className="text-xs text-gray-500">{tpl.description}</p>
+                        )}
                       </td>
                       <td className="px-4 py-3 text-gray-900 dark:text-white">
-                        {t.discount_formatted}
-                        {t.min_order_cents > 0 && (
+                        {tpl.discount_formatted}
+                        {tpl.min_order_cents > 0 && (
                           <p className="text-xs text-gray-500">
-                            Min. order: €{(t.min_order_cents / 100).toFixed(2)}
+                            {t('templates.minOrder')}: €{(tpl.min_order_cents / 100).toFixed(2)}
                           </p>
                         )}
                       </td>
                       <td className="px-4 py-3">
                         <span
                           className={`rounded px-2 py-1 text-xs font-medium ${
-                            t.distribution_type === 'manual'
+                            tpl.distribution_type === 'manual'
                               ? 'bg-gray-100 text-gray-800'
                               : 'bg-purple-100 text-purple-800'
                           }`}
                         >
-                          {getDistributionLabel(t.distribution_type)}
+                          {getDistributionLabel(tpl.distribution_type)}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-500">{t.validity_days} days</td>
+                      <td className="px-4 py-3 text-sm text-gray-500">
+                        {tpl.validity_days} {t('templates.days')}
+                      </td>
                       <td className="px-4 py-3">
                         <span
                           className={`rounded px-2 py-1 text-xs font-medium ${
-                            t.is_active
+                            tpl.is_active
                               ? 'bg-green-100 text-green-800'
                               : 'bg-gray-100 text-gray-800'
                           }`}
                         >
-                          {t.is_active ? 'Active' : 'Inactive'}
+                          {tpl.is_active ? t('templates.active') : t('templates.inactive')}
                         </span>
                       </td>
                       <td className="px-4 py-3">
                         <button
-                          onClick={() => handleToggleTemplate(t.id, t.is_active)}
+                          onClick={() => handleToggleTemplate(tpl.id, tpl.is_active)}
                           className={`text-sm ${
-                            t.is_active
+                            tpl.is_active
                               ? 'text-yellow-600 hover:text-yellow-800'
                               : 'text-green-600 hover:text-green-800'
                           }`}
                         >
-                          {t.is_active ? 'Deactivate' : 'Activate'}
+                          {tpl.is_active ? t('templates.deactivate') : t('templates.activate')}
                         </button>
                       </td>
                     </tr>
@@ -481,7 +486,7 @@ export default function CouponsPage() {
                   {templates.length === 0 && (
                     <tr>
                       <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
-                        No templates found. Create one to start issuing coupons.
+                        {t('templates.empty')}
                       </td>
                     </tr>
                   )}
@@ -500,21 +505,21 @@ export default function CouponsPage() {
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
               >
-                <option value="">All Status</option>
-                <option value="active">Active</option>
-                <option value="used">Used</option>
-                <option value="expired">Expired</option>
-                <option value="revoked">Revoked</option>
+                <option value="">{t('list.allStatus')}</option>
+                <option value="active">{t('status.active')}</option>
+                <option value="used">{t('status.used')}</option>
+                <option value="expired">{t('status.expired')}</option>
+                <option value="revoked">{t('status.revoked')}</option>
               </select>
               <select
                 value={templateFilter}
                 onChange={(e) => setTemplateFilter(e.target.value)}
                 className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
               >
-                <option value="">All Templates</option>
-                {templates.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.name}
+                <option value="">{t('list.allTemplates')}</option>
+                {templates.map((tpl) => (
+                  <option key={tpl.id} value={tpl.id}>
+                    {tpl.name}
                   </option>
                 ))}
               </select>
@@ -524,22 +529,22 @@ export default function CouponsPage() {
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Code
+                      {t('list.code')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Discount
+                      {t('list.discount')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Reason
+                      {t('list.reason')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Status
+                      {t('list.status')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Valid Until
+                      {t('list.validUntil')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Actions
+                      {t('list.actions')}
                     </th>
                   </tr>
                 </thead>
@@ -553,7 +558,7 @@ export default function CouponsPage() {
                         {c.discount_formatted}
                       </td>
                       <td className="px-4 py-3 text-sm capitalize text-gray-500">
-                        {c.issue_reason?.replace(/_/g, ' ') || 'manual'}
+                        {c.issue_reason?.replace(/_/g, ' ') || t('issue.reasons.manual')}
                       </td>
                       <td className="px-4 py-3">
                         <span
@@ -571,7 +576,7 @@ export default function CouponsPage() {
                             onClick={() => handleRevokeCoupon(c.id)}
                             className="text-sm text-red-600 hover:text-red-800"
                           >
-                            Revoke
+                            {t('list.revoke')}
                           </button>
                         )}
                       </td>
@@ -580,7 +585,7 @@ export default function CouponsPage() {
                   {coupons.length === 0 && (
                     <tr>
                       <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
-                        No coupons found
+                        {t('list.empty')}
                       </td>
                     </tr>
                   )}
@@ -595,15 +600,13 @@ export default function CouponsPage() {
           <div className="max-w-lg">
             <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
-                Issue Coupons
+                {t('issue.title')}
               </h3>
-              <p className="mb-4 text-sm text-gray-500">
-                Issue coupons from a template to one or more customers.
-              </p>
+              <p className="mb-4 text-sm text-gray-500">{t('issue.description')}</p>
               <form onSubmit={handleIssueCoupons} className="space-y-4">
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Template
+                    {t('issue.template')}
                   </label>
                   <select
                     value={issueForm.template_id}
@@ -611,19 +614,19 @@ export default function CouponsPage() {
                     required
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   >
-                    <option value="">Select a template</option>
+                    <option value="">{t('issue.selectTemplate')}</option>
                     {templates
-                      .filter((t) => t.is_active)
-                      .map((t) => (
-                        <option key={t.id} value={t.id}>
-                          {t.name} ({t.discount_formatted})
+                      .filter((tpl) => tpl.is_active)
+                      .map((tpl) => (
+                        <option key={tpl.id} value={tpl.id}>
+                          {tpl.name} ({tpl.discount_formatted})
                         </option>
                       ))}
                   </select>
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Customer Account IDs
+                    {t('issue.customerIds')}
                   </label>
                   <textarea
                     value={issueForm.account_ids}
@@ -631,24 +634,24 @@ export default function CouponsPage() {
                     required
                     rows={4}
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="Enter account IDs separated by commas"
+                    placeholder={t('issue.customerIdsPlaceholder')}
                   />
-                  <p className="mt-1 text-xs text-gray-500">Separate multiple IDs with commas</p>
+                  <p className="mt-1 text-xs text-gray-500">{t('issue.customerIdsHint')}</p>
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Issue Reason
+                    {t('issue.issueReason')}
                   </label>
                   <select
                     value={issueForm.issue_reason}
                     onChange={(e) => setIssueForm({ ...issueForm, issue_reason: e.target.value })}
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   >
-                    <option value="manual">Manual</option>
-                    <option value="promotion">Promotion</option>
-                    <option value="apology">Customer Apology</option>
-                    <option value="loyalty_reward">Loyalty Reward</option>
-                    <option value="referral">Referral</option>
+                    <option value="manual">{t('issue.reasons.manual')}</option>
+                    <option value="promotion">{t('issue.reasons.promotion')}</option>
+                    <option value="apology">{t('issue.reasons.apology')}</option>
+                    <option value="loyalty_reward">{t('issue.reasons.loyaltyReward')}</option>
+                    <option value="referral">{t('issue.reasons.referral')}</option>
                   </select>
                 </div>
                 <button
@@ -656,7 +659,7 @@ export default function CouponsPage() {
                   disabled={issuing || !issueForm.template_id}
                   className="w-full rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
                 >
-                  {issuing ? 'Issuing...' : 'Issue Coupons'}
+                  {issuing ? t('issue.issuing') : t('issue.submit')}
                 </button>
               </form>
             </div>
@@ -668,12 +671,12 @@ export default function CouponsPage() {
           <div className="max-w-lg">
             <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
-                Create Coupon Template
+                {t('createTemplate.title')}
               </h3>
               <form onSubmit={handleCreateTemplate} className="space-y-4">
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Template Name
+                    {t('createTemplate.templateName')}
                   </label>
                   <input
                     type="text"
@@ -681,12 +684,12 @@ export default function CouponsPage() {
                     onChange={(e) => setTemplateForm({ ...templateForm, name: e.target.value })}
                     required
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="Birthday 20% Off"
+                    placeholder={t('createTemplate.templateNamePlaceholder')}
                   />
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Description (optional)
+                    {t('createTemplate.description')}
                   </label>
                   <input
                     type="text"
@@ -695,12 +698,12 @@ export default function CouponsPage() {
                       setTemplateForm({ ...templateForm, description: e.target.value })
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="Special discount for customer birthdays"
+                    placeholder={t('createTemplate.descriptionPlaceholder')}
                   />
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Code Prefix
+                    {t('createTemplate.codePrefix')}
                   </label>
                   <input
                     type="text"
@@ -714,13 +717,11 @@ export default function CouponsPage() {
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 uppercase text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     placeholder="CPN"
                   />
-                  <p className="mt-1 text-xs text-gray-500">
-                    Generated codes will start with this prefix (e.g., CPN-A2B4C6D8)
-                  </p>
+                  <p className="mt-1 text-xs text-gray-500">{t('createTemplate.codePrefixHint')}</p>
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Discount Type
+                    {t('createTemplate.discountType')}
                   </label>
                   <select
                     value={templateForm.discount_type}
@@ -735,18 +736,18 @@ export default function CouponsPage() {
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   >
-                    <option value="percentage">Percentage Off</option>
-                    <option value="fixed_amount">Fixed Amount Off</option>
-                    <option value="free_item">Free Item</option>
+                    <option value="percentage">{t('createTemplate.percentageOff')}</option>
+                    <option value="fixed_amount">{t('createTemplate.fixedAmountOff')}</option>
+                    <option value="free_item">{t('createTemplate.freeItem')}</option>
                   </select>
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {templateForm.discount_type === 'percentage'
-                      ? 'Discount Percentage'
+                      ? t('createTemplate.discountPercentage')
                       : templateForm.discount_type === 'fixed_amount'
-                        ? 'Discount Amount (EUR)'
-                        : 'Free Item ID'}
+                        ? t('createTemplate.discountAmount')
+                        : t('createTemplate.freeItemId')}
                   </label>
                   <input
                     type={templateForm.discount_type === 'free_item' ? 'text' : 'number'}
@@ -762,7 +763,7 @@ export default function CouponsPage() {
                 {templateForm.discount_type === 'percentage' && (
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Max Discount (EUR, optional)
+                      {t('createTemplate.maxDiscount')}
                     </label>
                     <input
                       type="number"
@@ -778,7 +779,7 @@ export default function CouponsPage() {
                 )}
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Minimum Order (EUR, optional)
+                    {t('createTemplate.minOrder')}
                   </label>
                   <input
                     type="number"
@@ -793,7 +794,7 @@ export default function CouponsPage() {
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Distribution Type
+                    {t('createTemplate.distributionType')}
                   </label>
                   <select
                     value={templateForm.distribution_type}
@@ -805,18 +806,24 @@ export default function CouponsPage() {
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   >
-                    <option value="manual">Manual (Issue manually)</option>
-                    <option value="auto_birthday">Auto - Birthday</option>
-                    <option value="auto_inactivity">
-                      Auto - Re-engagement (Inactive customers)
+                    <option value="manual">{t('createTemplate.distributionTypes.manual')}</option>
+                    <option value="auto_birthday">
+                      {t('createTemplate.distributionTypes.birthday')}
                     </option>
-                    <option value="auto_first_order">Auto - First Order Reward</option>
-                    <option value="auto_loyalty_tier">Auto - Loyalty Tier Upgrade</option>
+                    <option value="auto_inactivity">
+                      {t('createTemplate.distributionTypes.inactivity')}
+                    </option>
+                    <option value="auto_first_order">
+                      {t('createTemplate.distributionTypes.firstOrder')}
+                    </option>
+                    <option value="auto_loyalty_tier">
+                      {t('createTemplate.distributionTypes.loyaltyTier')}
+                    </option>
                   </select>
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Validity (days)
+                    {t('createTemplate.validityDays')}
                   </label>
                   <input
                     type="number"
@@ -826,9 +833,7 @@ export default function CouponsPage() {
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   />
-                  <p className="mt-1 text-xs text-gray-500">
-                    How many days the coupon is valid after issuance
-                  </p>
+                  <p className="mt-1 text-xs text-gray-500">{t('createTemplate.validityHint')}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <input
@@ -844,7 +849,7 @@ export default function CouponsPage() {
                     htmlFor="is_stackable"
                     className="text-sm text-gray-700 dark:text-gray-300"
                   >
-                    Stackable with other discounts
+                    {t('createTemplate.stackable')}
                   </label>
                 </div>
                 <button
@@ -852,7 +857,7 @@ export default function CouponsPage() {
                   disabled={creatingTemplate}
                   className="w-full rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
                 >
-                  {creatingTemplate ? 'Creating...' : 'Create Template'}
+                  {creatingTemplate ? t('createTemplate.creating') : t('createTemplate.submit')}
                 </button>
               </form>
             </div>

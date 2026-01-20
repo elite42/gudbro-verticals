@@ -1,12 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useToast, ToastType } from '@/lib/contexts/ToastContext';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import Link from 'next/link';
+import { LanguageSwitcher } from '@/components/settings/LanguageSwitcher';
 
 export default function SettingsPage() {
   const { hasPermission } = useAuth();
+  const t = useTranslations('settings');
+  const tCommon = useTranslations('common');
+  const tButtons = useTranslations('buttons');
   const [businessName, setBusinessName] = useState('ROOTS Plant-Based Cafe');
   const [timezone, setTimezone] = useState('Asia/Ho_Chi_Minh');
   const [currency, setCurrency] = useState('VND');
@@ -18,15 +23,31 @@ export default function SettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">General Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t('general')}</h1>
         <p className="mt-1 text-sm text-gray-500">
           Manage your business profile, branding, and notifications
         </p>
       </div>
 
+      {/* Interface Language */}
+      <div className="rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6">
+        <div className="flex items-center gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100">
+            <span className="text-2xl">🌐</span>
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-gray-900">{t('language')}</h3>
+            <p className="text-sm text-gray-500">{t('languageDescription')}</p>
+          </div>
+        </div>
+        <div className="mt-4">
+          <LanguageSwitcher variant="buttons" />
+        </div>
+      </div>
+
       {/* Business Profile */}
       <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <h3 className="font-semibold text-gray-900">Business Profile</h3>
+        <h3 className="font-semibold text-gray-900">{t('business')}</h3>
         <p className="text-sm text-gray-500">Update your business information</p>
 
         <div className="mt-6 space-y-4">
@@ -36,7 +57,7 @@ export default function SettingsPage() {
             </div>
             <div>
               <button className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                Change Logo
+                {t('uploadLogo')}
               </button>
               <p className="mt-1 text-xs text-gray-500">JPG, PNG or SVG. Max 2MB.</p>
             </div>
@@ -44,7 +65,7 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Business Name</label>
+              <label className="block text-sm font-medium text-gray-700">{t('businessName')}</label>
               <input
                 type="text"
                 value={businessName}
@@ -53,18 +74,20 @@ export default function SettingsPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Business Type</label>
+              <label className="block text-sm font-medium text-gray-700">{tCommon('type')}</label>
               <select className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option>Restaurant / Cafe</option>
                 <option>Hotel</option>
                 <option>Airbnb / Rental</option>
-                <option>Other</option>
+                <option>{tCommon('other')}</option>
               </select>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
+            <label className="block text-sm font-medium text-gray-700">
+              {tCommon('description')}
+            </label>
             <textarea
               rows={3}
               className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -83,7 +106,7 @@ export default function SettingsPage() {
 
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Timezone</label>
+            <label className="block text-sm font-medium text-gray-700">{t('timezone')}</label>
             <select
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
@@ -97,7 +120,7 @@ export default function SettingsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Default Currency</label>
+            <label className="block text-sm font-medium text-gray-700">{t('currency')}</label>
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
@@ -111,7 +134,7 @@ export default function SettingsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Default Language</label>
+            <label className="block text-sm font-medium text-gray-700">Menu Language</label>
             <select
               value={defaultLanguage}
               onChange={(e) => setDefaultLanguage(e.target.value)}
@@ -129,12 +152,12 @@ export default function SettingsPage() {
 
       {/* Branding */}
       <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <h3 className="font-semibold text-gray-900">Branding</h3>
+        <h3 className="font-semibold text-gray-900">{t('branding')}</h3>
         <p className="text-sm text-gray-500">Customize how your QR pages look</p>
 
         <div className="mt-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Primary Color</label>
+            <label className="block text-sm font-medium text-gray-700">{t('primaryColor')}</label>
             <div className="mt-2 flex items-center gap-4">
               <input
                 type="color"
@@ -171,7 +194,7 @@ export default function SettingsPage() {
 
       {/* Notifications */}
       <div className="rounded-xl border border-gray-200 bg-white p-6">
-        <h3 className="font-semibold text-gray-900">Notifications</h3>
+        <h3 className="font-semibold text-gray-900">{t('notifications')}</h3>
         <p className="text-sm text-gray-500">Manage how you receive updates</p>
 
         <div className="mt-6 space-y-4">
@@ -309,9 +332,9 @@ export default function SettingsPage() {
                 <span className="text-2xl">🔔</span>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">System Alerts</h3>
+                <h3 className="font-semibold text-gray-900">{t('systemAlerts')}</h3>
                 <p className="text-sm text-gray-500">
-                  Monitoraggio proattivo delle metriche e alert di sistema
+                  Proactive monitoring of metrics and system alerts
                 </p>
               </div>
             </div>
@@ -319,7 +342,7 @@ export default function SettingsPage() {
               href="/settings/system-alerts"
               className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-orange-700"
             >
-              Gestisci Alert
+              Manage Alerts
             </Link>
           </div>
         </div>
@@ -334,9 +357,9 @@ export default function SettingsPage() {
                 <span className="text-2xl">📋</span>
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Audit Log</h3>
+                <h3 className="font-semibold text-gray-900">{t('auditLog')}</h3>
                 <p className="text-sm text-gray-500">
-                  Cronologia delle azioni e modifiche nel sistema
+                  History of actions and changes in the system
                 </p>
               </div>
             </div>
@@ -344,7 +367,7 @@ export default function SettingsPage() {
               href="/settings/audit-log"
               className="rounded-lg bg-slate-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-700"
             >
-              Visualizza Log
+              {tButtons('view')} Log
             </Link>
           </div>
         </div>
@@ -381,10 +404,10 @@ export default function SettingsPage() {
       {/* Save Button */}
       <div className="flex items-center justify-end gap-3">
         <button className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-          Cancel
+          {tButtons('cancel')}
         </button>
         <button className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700">
-          Save Changes
+          {t('saveChanges')}
         </button>
       </div>
     </div>

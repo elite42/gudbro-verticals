@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { getLocale, getMessages } from 'next-intl/server';
 import './globals.css';
 import { Providers } from './providers';
 
@@ -13,18 +14,23 @@ export const metadata: Metadata = {
   description: 'Manage your digital hospitality experience',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${inter.variable} bg-gray-50 font-sans antialiased`}
         suppressHydrationWarning
       >
-        <Providers>{children}</Providers>
+        <Providers locale={locale} messages={messages}>
+          {children}
+        </Providers>
       </body>
     </html>
   );

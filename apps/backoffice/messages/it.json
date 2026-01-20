@@ -1,0 +1,2578 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "orders": "Ordini",
+    "products": "I Miei Prodotti",
+    "catalog": "Catalogo Globale",
+    "analytics": "Analisi",
+    "partnerships": "Partnership",
+    "settings": "Impostazioni",
+    "marketing": "Marketing",
+    "content": "Contenuti",
+    "customers": "Clienti",
+    "team": "Team",
+    "billing": "Fatturazione",
+    "qrCodes": "Codici QR",
+    "hotActions": "Azioni Rapide"
+  },
+  "header": {
+    "search": "Cerca...",
+    "help": "Aiuto",
+    "preview": "Anteprima menu",
+    "aiCoManager": "AI Co-Manager",
+    "account": "Account",
+    "myAccount": "Il Mio Account",
+    "settings": "Impostazioni",
+    "signOut": "Esci",
+    "switchAccountType": "Cambia tipo di account",
+    "selectRole": "Seleziona Ruolo",
+    "loyaltyPoints": "Punti Fedeltà",
+    "tier": "Livello"
+  },
+  "roles": {
+    "consumer": "Account Personale",
+    "merchant": "Business",
+    "admin": "Admin",
+    "contributor": "Contributor"
+  },
+  "buttons": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "create": "Crea",
+    "edit": "Modifica",
+    "add": "Aggiungi",
+    "remove": "Rimuovi",
+    "update": "Aggiorna",
+    "submit": "Invia",
+    "confirm": "Conferma",
+    "close": "Chiudi",
+    "back": "Indietro",
+    "next": "Avanti",
+    "previous": "Precedente",
+    "search": "Cerca",
+    "filter": "Filtra",
+    "export": "Esporta",
+    "import": "Importa",
+    "refresh": "Aggiorna",
+    "retry": "Riprova",
+    "view": "Visualizza",
+    "viewAll": "Vedi Tutto",
+    "showMore": "Mostra Altro",
+    "showLess": "Mostra Meno",
+    "apply": "Applica",
+    "reset": "Reimposta",
+    "clearAll": "Cancella Tutto",
+    "selectAll": "Seleziona Tutto",
+    "deselectAll": "Deseleziona Tutto",
+    "download": "Scarica",
+    "upload": "Carica",
+    "copy": "Copia",
+    "duplicate": "Duplica",
+    "archive": "Archivia",
+    "restore": "Ripristina",
+    "publish": "Pubblica",
+    "unpublish": "Ritira",
+    "enable": "Abilita",
+    "disable": "Disabilita",
+    "activate": "Attiva",
+    "deactivate": "Disattiva"
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Si è verificato un errore",
+    "success": "Operazione completata!",
+    "noResults": "Nessun risultato trovato",
+    "noData": "Nessun dato disponibile",
+    "required": "Obbligatorio",
+    "optional": "Opzionale",
+    "yes": "Sì",
+    "no": "No",
+    "all": "Tutti",
+    "none": "Nessuno",
+    "other": "Altro",
+    "total": "Totale",
+    "subtotal": "Subtotale",
+    "tax": "IVA",
+    "discount": "Sconto",
+    "price": "Prezzo",
+    "quantity": "Quantità",
+    "amount": "Importo",
+    "date": "Data",
+    "time": "Ora",
+    "from": "Da",
+    "to": "A",
+    "status": "Stato",
+    "type": "Tipo",
+    "name": "Nome",
+    "description": "Descrizione",
+    "notes": "Note",
+    "actions": "Azioni",
+    "details": "Dettagli",
+    "more": "Altro",
+    "less": "Meno",
+    "items": "Articoli",
+    "item": "Articolo",
+    "of": "di",
+    "and": "e",
+    "or": "o",
+    "new": "Nuovo",
+    "active": "Attivo",
+    "inactive": "Inattivo",
+    "pending": "In attesa",
+    "completed": "Completato",
+    "cancelled": "Annullato",
+    "draft": "Bozza",
+    "published": "Pubblicato",
+    "archived": "Archiviato",
+    "enabled": "Abilitato",
+    "disabled": "Disabilitato",
+    "default": "Predefinito",
+    "custom": "Personalizzato",
+    "selected": "selezionato",
+    "unselected": "non selezionato",
+    "copied": "Copiato negli appunti",
+    "saved": "Modifiche salvate",
+    "deleted": "Eliminato con successo",
+    "created": "Creato con successo",
+    "updated": "Aggiornato con successo"
+  },
+  "validation": {
+    "required": "Questo campo è obbligatorio",
+    "email": "Inserisci un indirizzo email valido",
+    "minLength": "Deve contenere almeno {min} caratteri",
+    "maxLength": "Deve contenere al massimo {max} caratteri",
+    "min": "Deve essere almeno {min}",
+    "max": "Deve essere al massimo {max}",
+    "number": "Deve essere un numero valido",
+    "positive": "Deve essere un numero positivo",
+    "url": "Inserisci un URL valido",
+    "phone": "Inserisci un numero di telefono valido",
+    "password": "La password deve contenere almeno 8 caratteri",
+    "passwordMatch": "Le password non corrispondono",
+    "invalidFormat": "Formato non valido",
+    "unique": "Questo valore è già in uso"
+  },
+  "time": {
+    "today": "Oggi",
+    "yesterday": "Ieri",
+    "tomorrow": "Domani",
+    "thisWeek": "Questa Settimana",
+    "lastWeek": "Settimana Scorsa",
+    "thisMonth": "Questo Mese",
+    "lastMonth": "Mese Scorso",
+    "thisYear": "Quest'Anno",
+    "lastYear": "Anno Scorso",
+    "now": "Adesso",
+    "ago": "fa",
+    "in": "tra",
+    "seconds": "secondi",
+    "minutes": "minuti",
+    "hours": "ore",
+    "days": "giorni",
+    "weeks": "settimane",
+    "months": "mesi",
+    "years": "anni"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Bentornato",
+    "overview": "Panoramica",
+    "recentOrders": "Ordini Recenti",
+    "topProducts": "Prodotti Più Venduti",
+    "revenue": "Ricavi",
+    "ordersToday": "Ordini Oggi",
+    "newCustomers": "Nuovi Clienti",
+    "averageOrderValue": "Valore Medio Ordine",
+    "totalSales": "Vendite Totali",
+    "quickActions": "Azioni Rapide",
+    "viewAnalytics": "Vedi Analisi",
+    "createPromotion": "Crea Promozione",
+    "manageMenu": "Gestisci Menu"
+  },
+  "orders": {
+    "title": "Ordini",
+    "newOrder": "Nuovo Ordine",
+    "orderNumber": "Ordine #",
+    "orderDate": "Data Ordine",
+    "customer": "Cliente",
+    "items": "Articoli",
+    "total": "Totale",
+    "status": "Stato",
+    "paymentStatus": "Stato Pagamento",
+    "paymentMethod": "Metodo di Pagamento",
+    "deliveryMethod": "Metodo di Consegna",
+    "statusNew": "Nuovo",
+    "statusPreparing": "In Preparazione",
+    "statusReady": "Pronto",
+    "statusDelivered": "Consegnato",
+    "statusCompleted": "Completato",
+    "statusCancelled": "Annullato",
+    "statusRefunded": "Rimborsato",
+    "filterByStatus": "Filtra per Stato",
+    "filterByDate": "Filtra per Data",
+    "searchOrders": "Cerca ordini...",
+    "noOrders": "Nessun ordine",
+    "orderDetails": "Dettagli Ordine",
+    "updateStatus": "Aggiorna Stato",
+    "printReceipt": "Stampa Ricevuta",
+    "refundOrder": "Rimborsa Ordine",
+    "cancelOrder": "Annulla Ordine"
+  },
+  "products": {
+    "title": "Prodotti",
+    "addProduct": "Aggiungi Prodotto",
+    "editProduct": "Modifica Prodotto",
+    "productName": "Nome Prodotto",
+    "category": "Categoria",
+    "price": "Prezzo",
+    "description": "Descrizione",
+    "ingredients": "Ingredienti",
+    "allergens": "Allergeni",
+    "nutritionInfo": "Informazioni Nutrizionali",
+    "calories": "Calorie",
+    "available": "Disponibile",
+    "unavailable": "Non Disponibile",
+    "inStock": "Disponibile",
+    "outOfStock": "Esaurito",
+    "variants": "Varianti",
+    "modifiers": "Modificatori",
+    "addVariant": "Aggiungi Variante",
+    "addModifier": "Aggiungi Modificatore",
+    "featured": "In Evidenza",
+    "popular": "Popolare",
+    "new": "Nuovo",
+    "searchProducts": "Cerca prodotti...",
+    "noProducts": "Nessun prodotto",
+    "productDetails": "Dettagli Prodotto",
+    "deleteProduct": "Elimina Prodotto",
+    "duplicateProduct": "Duplica Prodotto"
+  },
+  "catalog": {
+    "title": "Catalogo Globale",
+    "browseCategories": "Sfoglia Categorie",
+    "searchCatalog": "Cerca nel catalogo...",
+    "addToMenu": "Aggiungi al Menu",
+    "viewDetails": "Vedi Dettagli",
+    "categories": "Categorie",
+    "cuisines": "Cucine",
+    "dietary": "Dietetici",
+    "filters": "Filtri"
+  },
+  "content": {
+    "title": "Contenuti",
+    "description": "Gestisci tutti i contenuti della tua attività in un unico posto",
+    "addContent": "Aggiungi Contenuto",
+    "searchPlaceholder": "Cerca contenuti...",
+    "items": "elementi",
+    "totalItems": "Elementi Totali",
+    "published": "Pubblicati",
+    "drafts": "Bozze",
+    "languages": "Lingue",
+    "menuProducts": "Menu & Prodotti",
+    "menuProductsDesc": "Gestisci i tuoi piatti, categorie e prezzi",
+    "wines": "Vini",
+    "winesDesc": "Catalogo vini con regioni, vitigni e abbinamenti",
+    "recipes": "Ricette",
+    "recipesDesc": "Ricette professionali con metodi e consigli",
+    "ingredients": "Ingredienti",
+    "ingredientsDesc": "Database ingredienti con allergeni e valori nutrizionali",
+    "categories": "Categorie",
+    "categoriesDesc": "Organizza il menu con le categorie",
+    "services": "Servizi",
+    "servicesDesc": "Room service, lavanderia, spa e altri servizi",
+    "wifiSettings": "Impostazioni WiFi",
+    "wifiSettingsDesc": "Credenziali di rete e istruzioni di connessione",
+    "localAttractions": "Attrazioni Locali",
+    "localAttractionsDesc": "Luoghi vicini, tour e raccomandazioni",
+    "contacts": "Contatti",
+    "contactsDesc": "Contatti aziendali e numeri di emergenza",
+    "modifiers": "Modificatori",
+    "modifiersDesc": "Aggiunte e opzioni di personalizzazione per i piatti",
+    "contributions": "Contributi",
+    "contributionsDesc": "Contenuti e suggerimenti dalla community"
+  },
+  "analytics": {
+    "title": "Analisi",
+    "overview": "Panoramica",
+    "sales": "Vendite",
+    "customers": "Clienti",
+    "products": "Prodotti",
+    "trends": "Tendenze",
+    "reports": "Report",
+    "dateRange": "Intervallo Date",
+    "compare": "Confronta",
+    "export": "Esporta Report",
+    "totalRevenue": "Ricavi Totali",
+    "totalOrders": "Ordini Totali",
+    "averageOrderValue": "Valore Medio Ordine",
+    "topSellingItems": "Prodotti Più Venduti",
+    "salesByCategory": "Vendite per Categoria",
+    "salesByTime": "Vendite per Orario",
+    "customerInsights": "Analisi Clienti",
+    "repeatCustomers": "Clienti Abituali",
+    "newVsReturning": "Nuovi vs Abituali",
+    "peakHours": "Ore di Punta",
+    "performance": "Performance"
+  },
+  "marketing": {
+    "title": "Marketing",
+    "description": "Crea eventi, promozioni e campagne per attirare e coinvolgere i clienti.",
+    "events": "Eventi",
+    "eventsDesc": "Crea e gestisci eventi speciali, happy hour e serate a tema per attirare clienti.",
+    "promotions": "Promozioni",
+    "promotionsDesc": "Progetta campagne promozionali, sconti e offerte speciali per aumentare le vendite.",
+    "challenges": "Food Challenge",
+    "challengesDesc": "Crea sfide gastronomiche coinvolgenti per i clienti e genera buzz sui social media.",
+    "giftCards": "Gift Card",
+    "giftCardsDesc": "Vendi gift card che i clienti possono acquistare e regalare ad amici e familiari.",
+    "promoCodes": "Codici Promo",
+    "promoCodesDesc": "Crea codici promozionali per campagne marketing con limiti di utilizzo e condizioni.",
+    "coupons": "Coupon",
+    "couponsDesc": "Emetti coupon personalizzati per clienti specifici per marketing mirato.",
+    "loyalty": "Fedeltà",
+    "aiPoweredMarketing": "Marketing con AI",
+    "aiPoweredMarketingDesc": "Il tuo AI Co-Manager può aiutarti a creare campagne marketing, suggerire tempistiche ottimali per eventi basate su meteo ed eventi locali, e generare contenuti promozionali. Chiedi all'AI suggerimenti per il marketing!",
+    "campaigns": "Campagne",
+    "createEvent": "Crea Evento",
+    "createPromotion": "Crea Promozione",
+    "createChallenge": "Crea Challenge",
+    "createGiftCard": "Crea Gift Card",
+    "createPromoCode": "Crea Codice Promo",
+    "createCoupon": "Crea Coupon",
+    "eventName": "Nome Evento",
+    "eventDate": "Data Evento",
+    "eventDescription": "Descrizione Evento",
+    "discountType": "Tipo Sconto",
+    "discountValue": "Valore Sconto",
+    "percentage": "Percentuale",
+    "fixedAmount": "Importo Fisso",
+    "validFrom": "Valido Da",
+    "validUntil": "Valido Fino A",
+    "usageLimit": "Limite Utilizzo",
+    "minimumOrder": "Ordine Minimo",
+    "applicableTo": "Applicabile A",
+    "allProducts": "Tutti i Prodotti",
+    "specificProducts": "Prodotti Specifici",
+    "specificCategories": "Categorie Specifiche"
+  },
+  "customers": {
+    "title": "Clienti",
+    "description": "Gestisci i tuoi follower, visualizza le analisi dei clienti e rispondi ai feedback.",
+    "allCustomers": "Tutti i Clienti",
+    "newCustomer": "Nuovo Cliente",
+    "customerName": "Nome Cliente",
+    "email": "Email",
+    "phone": "Telefono",
+    "totalOrders": "Ordini Totali",
+    "totalSpent": "Totale Speso",
+    "lastOrder": "Ultimo Ordine",
+    "memberSince": "Cliente Dal",
+    "loyaltyPoints": "Punti Fedeltà",
+    "loyaltyTier": "Livello Fedeltà",
+    "searchCustomers": "Cerca clienti...",
+    "noCustomers": "Nessun cliente",
+    "customerDetails": "Dettagli Cliente",
+    "orderHistory": "Storico Ordini",
+    "preferences": "Preferenze",
+    "notes": "Note",
+    "totalFollowers": "Follower Totali",
+    "newThisMonth": "Nuovi Questo Mese",
+    "avgRating": "Valutazione Media",
+    "pendingFeedback": "Feedback in Attesa",
+    "followers": "Follower",
+    "followersDesc": "Visualizza e gestisci i clienti che seguono il tuo locale. Vedi la loro cronologia visite e stato fedeltà.",
+    "viewFollowers": "Vedi Follower",
+    "customerIntelligence": "Intelligence Clienti",
+    "customerIntelligenceDesc": "Analisi CLV basata su AI, previsione abbandono e segmentazione. Identifica i clienti a rischio.",
+    "viewIntelligence": "Vedi Intelligence",
+    "feedback": "Feedback",
+    "feedbackDesc": "Leggi recensioni, valutazioni e suggerimenti dei clienti. Rispondi ai feedback e risolvi i problemi.",
+    "viewFeedback": "Vedi Feedback",
+    "privacyTitle": "Dati Clienti Privacy-First",
+    "privacyDesc": "Vedi solo i clienti che seguono esplicitamente il tuo locale. Gli utenti GudBro devono optare per condividere i loro dati con i merchant. Tutte le analisi sono conformi al GDPR."
+  },
+  "partnerships": {
+    "title": "Partnership",
+    "partners": "Partner",
+    "addPartner": "Aggiungi Partner",
+    "partnerName": "Nome Partner",
+    "partnerType": "Tipo Partner",
+    "commission": "Commissione",
+    "status": "Stato",
+    "active": "Attivo",
+    "inactive": "Inattivo",
+    "pending": "In Attesa",
+    "searchPartners": "Cerca partner...",
+    "noPartners": "Nessuna partnership",
+    "partnerDetails": "Dettagli Partner"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "general": "Generale",
+    "profile": "Profilo",
+    "business": "Attività",
+    "branding": "Branding",
+    "notifications": "Notifiche",
+    "security": "Sicurezza",
+    "billing": "Fatturazione",
+    "integrations": "Integrazioni",
+    "api": "API",
+    "languages": "Lingue",
+    "currency": "Valuta",
+    "timezone": "Fuso Orario",
+    "hours": "Orari di Apertura",
+    "payments": "Pagamenti",
+    "social": "Social Media",
+    "domain": "Dominio",
+    "auth": "Autenticazione",
+    "auditLog": "Registro Attività",
+    "systemAlerts": "Avvisi di Sistema",
+    "siteBuilder": "Site Builder",
+    "calendar": "Calendario",
+    "businessName": "Nome Attività",
+    "businessEmail": "Email Attività",
+    "businessPhone": "Telefono Attività",
+    "businessAddress": "Indirizzo Attività",
+    "logo": "Logo",
+    "uploadLogo": "Carica Logo",
+    "primaryColor": "Colore Primario",
+    "accentColor": "Colore Accento",
+    "saveChanges": "Salva Modifiche",
+    "discardChanges": "Annulla Modifiche",
+    "changePassword": "Cambia Password",
+    "twoFactor": "Autenticazione a Due Fattori",
+    "enableTwoFactor": "Abilita Autenticazione a Due Fattori",
+    "sessions": "Sessioni Attive",
+    "language": "Lingua",
+    "selectLanguage": "Seleziona Lingua",
+    "languageDescription": "Scegli la tua lingua preferita per l'interfaccia"
+  },
+  "qrCodes": {
+    "title": "Codici QR",
+    "generate": "Genera Codice QR",
+    "download": "Scarica QR",
+    "print": "Stampa QR",
+    "tableNumber": "Numero Tavolo",
+    "location": "Posizione",
+    "type": "Tipo QR",
+    "menu": "Menu",
+    "order": "Ordine",
+    "feedback": "Feedback",
+    "wifi": "WiFi",
+    "scans": "Scansioni",
+    "lastScanned": "Ultima Scansione",
+    "noQrCodes": "Nessun codice QR",
+    "createQr": "Crea Codice QR"
+  },
+  "team": {
+    "title": "Team",
+    "members": "Membri del Team",
+    "addMember": "Aggiungi Membro",
+    "inviteMember": "Invita Membro",
+    "memberName": "Nome",
+    "email": "Email",
+    "role": "Ruolo",
+    "status": "Stato",
+    "owner": "Proprietario",
+    "admin": "Admin",
+    "manager": "Manager",
+    "staff": "Staff",
+    "active": "Attivo",
+    "pending": "Invito in Attesa",
+    "searchMembers": "Cerca membri del team...",
+    "noMembers": "Nessun membro nel team",
+    "editPermissions": "Modifica Permessi",
+    "removeMember": "Rimuovi Membro",
+    "resendInvite": "Reinvia Invito"
+  },
+  "login": {
+    "title": "Accedi",
+    "subtitle": "Bentornato su GUDBRO",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Ricordami",
+    "forgotPassword": "Password dimenticata?",
+    "signIn": "Accedi",
+    "signingIn": "Accesso in corso...",
+    "noAccount": "Non hai un account?",
+    "signUp": "Registrati",
+    "orContinueWith": "Oppure continua con",
+    "google": "Google",
+    "invalidCredentials": "Email o password non validi"
+  },
+  "errors": {
+    "generic": "Qualcosa è andato storto. Riprova.",
+    "notFound": "Pagina non trovata",
+    "unauthorized": "Non sei autorizzato ad accedere a questa pagina",
+    "forbidden": "Accesso negato",
+    "serverError": "Errore del server. Riprova più tardi.",
+    "networkError": "Errore di rete. Controlla la connessione.",
+    "timeout": "Richiesta scaduta. Riprova.",
+    "validation": "Controlla i dati inseriti e riprova.",
+    "loadFailed": "Impossibile caricare i dati",
+    "saveFailed": "Impossibile salvare le modifiche",
+    "deleteFailed": "Impossibile eliminare",
+    "uploadFailed": "Impossibile caricare il file"
+  },
+  "confirmations": {
+    "delete": "Sei sicuro di voler eliminare questo elemento?",
+    "deleteTitle": "Conferma Eliminazione",
+    "deleteDescription": "Questa azione non può essere annullata.",
+    "unsavedChanges": "Hai modifiche non salvate",
+    "unsavedChangesDescription": "Sei sicuro di voler uscire? Le modifiche andranno perse.",
+    "cancel": "Sei sicuro di voler annullare?",
+    "cancelDescription": "Le modifiche non salvate andranno perse."
+  },
+  "empty": {
+    "noOrders": "Nessun ordine",
+    "noProducts": "Nessun prodotto",
+    "noCustomers": "Nessun cliente",
+    "noEvents": "Nessun evento",
+    "noPromotions": "Nessuna promozione",
+    "noResults": "Nessun risultato trovato",
+    "tryDifferentSearch": "Prova con un termine diverso",
+    "getStarted": "Inizia creando il tuo primo"
+  },
+  "giftCards": {
+    "title": "Gift Card",
+    "description": "Vendi gift card prepagate che i clienti possono riscattare nel loro wallet",
+    "enabled": "Abilitato",
+    "tabs": {
+      "list": "Gift Card",
+      "create": "Crea Nuova",
+      "settings": "Impostazioni"
+    },
+    "stats": {
+      "totalSold": "Totale Vendute",
+      "active": "Attive",
+      "redeemed": "Riscattate",
+      "expired": "Scadute"
+    },
+    "table": {
+      "code": "Codice",
+      "amount": "Importo",
+      "recipient": "Destinatario",
+      "status": "Stato",
+      "expires": "Scadenza",
+      "actions": "Azioni"
+    },
+    "status": {
+      "all": "Tutti gli Stati",
+      "pending": "In Attesa",
+      "active": "Attiva",
+      "redeemed": "Riscattata",
+      "expired": "Scaduta",
+      "cancelled": "Annullata"
+    },
+    "actions": {
+      "cancel": "Annulla"
+    },
+    "empty": "Nessuna gift card trovata",
+    "create": {
+      "title": "Crea Gift Card",
+      "amount": "Importo (EUR)",
+      "amountPlaceholder": "50,00",
+      "recipientName": "Nome Destinatario",
+      "recipientNamePlaceholder": "Mario Rossi",
+      "recipientEmail": "Email Destinatario",
+      "recipientEmailPlaceholder": "mario@esempio.com",
+      "personalMessage": "Messaggio Personale",
+      "personalMessagePlaceholder": "Buon regalo!",
+      "deliveryMethod": "Metodo di Consegna",
+      "email": "Email",
+      "sms": "SMS",
+      "print": "Stampa",
+      "submit": "Crea Gift Card",
+      "creating": "Creazione in corso..."
+    },
+    "settings": {
+      "title": "Impostazioni Gift Card",
+      "allowCustomAmounts": "Consenti Importi Personalizzati",
+      "minAmount": "Importo Minimo (EUR)",
+      "maxAmount": "Importo Massimo (EUR)",
+      "defaultExpiry": "Scadenza Predefinita (mesi)"
+    }
+  },
+  "promoCodes": {
+    "title": "Codici Promo",
+    "description": "Crea codici marketing per sconti e offerte speciali",
+    "tabs": {
+      "list": "Codici Promo",
+      "create": "Crea Nuovo"
+    },
+    "table": {
+      "code": "Codice",
+      "discount": "Sconto",
+      "uses": "Utilizzi",
+      "status": "Stato",
+      "validUntil": "Valido Fino A",
+      "actions": "Azioni",
+      "minOrder": "Ordine min."
+    },
+    "status": {
+      "all": "Tutti gli Stati",
+      "active": "Attivo",
+      "paused": "In Pausa",
+      "draft": "Bozza",
+      "expired": "Scaduto",
+      "depleted": "Esaurito"
+    },
+    "actions": {
+      "pause": "Pausa",
+      "activate": "Attiva",
+      "delete": "Elimina"
+    },
+    "noExpiry": "Nessuna scadenza",
+    "empty": "Nessun codice promo trovato",
+    "create": {
+      "title": "Crea Codice Promo",
+      "code": "Codice",
+      "codePlaceholder": "BENVENUTO10",
+      "codeHint": "3-20 caratteri, lettere e numeri",
+      "discountType": "Tipo Sconto",
+      "percentageOff": "Sconto Percentuale",
+      "fixedAmountOff": "Sconto Fisso",
+      "freeItem": "Articolo Gratis",
+      "discountPercentage": "Percentuale Sconto",
+      "discountAmount": "Importo Sconto (EUR)",
+      "freeItemId": "ID Articolo Gratis",
+      "maxDiscount": "Sconto Massimo (EUR, opzionale)",
+      "minOrder": "Ordine Minimo (EUR, opzionale)",
+      "totalUsesLimit": "Limite Utilizzi Totali",
+      "unlimited": "Illimitato",
+      "usesPerCustomer": "Utilizzi per Cliente",
+      "validUntil": "Valido Fino A (opzionale)",
+      "campaignName": "Nome Campagna (opzionale)",
+      "campaignPlaceholder": "Saldi Estate 2024",
+      "firstOrderOnly": "Solo primo ordine",
+      "status": "Stato",
+      "activeImmediately": "Attivo (utilizzabile subito)",
+      "draftSaveForLater": "Bozza (salva per dopo)",
+      "submit": "Crea Codice Promo",
+      "creating": "Creazione in corso..."
+    }
+  },
+  "coupons": {
+    "title": "Coupon",
+    "description": "Coupon personalizzati per clienti specifici",
+    "tabs": {
+      "templates": "Modelli",
+      "coupons": "Coupon Emessi",
+      "issue": "Emetti Coupon",
+      "createTemplate": "Crea Modello"
+    },
+    "stats": {
+      "totalIssued": "Totale Emessi",
+      "active": "Attivi",
+      "used": "Utilizzati",
+      "usageRate": "Tasso Utilizzo"
+    },
+    "templates": {
+      "title": "Modelli Coupon",
+      "description": "I modelli definiscono la struttura dello sconto. Emetti coupon ai clienti dai modelli.",
+      "name": "Nome",
+      "discount": "Sconto",
+      "distribution": "Distribuzione",
+      "validity": "Validità",
+      "status": "Stato",
+      "actions": "Azioni",
+      "days": "giorni",
+      "minOrder": "Ordine min.",
+      "active": "Attivo",
+      "inactive": "Inattivo",
+      "deactivate": "Disattiva",
+      "activate": "Attiva",
+      "empty": "Nessun modello trovato. Creane uno per iniziare a emettere coupon.",
+      "distributionTypes": {
+        "manual": "Manuale",
+        "birthday": "Compleanno",
+        "reengagement": "Riattivazione",
+        "firstOrder": "Primo Ordine",
+        "loyaltyTier": "Livello Fedeltà"
+      }
+    },
+    "list": {
+      "code": "Codice",
+      "discount": "Sconto",
+      "reason": "Motivo",
+      "status": "Stato",
+      "validUntil": "Valido Fino A",
+      "actions": "Azioni",
+      "allStatus": "Tutti gli Stati",
+      "allTemplates": "Tutti i Modelli",
+      "revoke": "Revoca",
+      "empty": "Nessun coupon trovato"
+    },
+    "status": {
+      "active": "Attivo",
+      "used": "Utilizzato",
+      "expired": "Scaduto",
+      "revoked": "Revocato"
+    },
+    "issue": {
+      "title": "Emetti Coupon",
+      "description": "Emetti coupon da un modello a uno o più clienti.",
+      "template": "Modello",
+      "selectTemplate": "Seleziona un modello",
+      "customerIds": "ID Account Clienti",
+      "customerIdsPlaceholder": "Inserisci gli ID account separati da virgole",
+      "customerIdsHint": "Separa gli ID multipli con virgole",
+      "issueReason": "Motivo Emissione",
+      "reasons": {
+        "manual": "Manuale",
+        "promotion": "Promozione",
+        "apology": "Scuse al Cliente",
+        "loyaltyReward": "Premio Fedeltà",
+        "referral": "Referral"
+      },
+      "submit": "Emetti Coupon",
+      "issuing": "Emissione in corso...",
+      "successMessage": "Emessi {issued} coupon ({failed} falliti)"
+    },
+    "createTemplate": {
+      "title": "Crea Modello Coupon",
+      "templateName": "Nome Modello",
+      "templateNamePlaceholder": "Compleanno 20% Sconto",
+      "description": "Descrizione (opzionale)",
+      "descriptionPlaceholder": "Sconto speciale per i compleanni dei clienti",
+      "codePrefix": "Prefisso Codice",
+      "codePrefixHint": "I codici generati inizieranno con questo prefisso (es. CPN-A2B4C6D8)",
+      "discountType": "Tipo Sconto",
+      "percentageOff": "Sconto Percentuale",
+      "fixedAmountOff": "Sconto Fisso",
+      "freeItem": "Articolo Gratis",
+      "discountPercentage": "Percentuale Sconto",
+      "discountAmount": "Importo Sconto (EUR)",
+      "freeItemId": "ID Articolo Gratis",
+      "maxDiscount": "Sconto Massimo (EUR, opzionale)",
+      "minOrder": "Ordine Minimo (EUR, opzionale)",
+      "distributionType": "Tipo Distribuzione",
+      "distributionTypes": {
+        "manual": "Manuale (Emetti manualmente)",
+        "birthday": "Auto - Compleanno",
+        "inactivity": "Auto - Riattivazione (Clienti inattivi)",
+        "firstOrder": "Auto - Premio Primo Ordine",
+        "loyaltyTier": "Auto - Upgrade Livello Fedeltà"
+      },
+      "validityDays": "Validità (giorni)",
+      "validityHint": "Per quanti giorni il coupon è valido dopo l'emissione",
+      "stackable": "Cumulabile con altri sconti",
+      "submit": "Crea Modello",
+      "creating": "Creazione in corso..."
+    }
+  },
+  "events": {
+    "title": "Eventi",
+    "description": "Crea e gestisci eventi per il tuo locale",
+    "newEvent": "Nuovo Evento",
+    "loading": "Caricamento eventi...",
+    "stats": {
+      "total": "Totale Eventi",
+      "published": "Pubblicati",
+      "draft": "In Bozza",
+      "upcoming": "Prossimi"
+    },
+    "filters": {
+      "all": "Tutti",
+      "published": "Pubblicati",
+      "draft": "Bozze",
+      "completed": "Completati",
+      "cancelled": "Annullati"
+    },
+    "empty": {
+      "title": "Nessun evento trovato",
+      "description": "Crea il tuo primo evento per iniziare",
+      "action": "Crea Evento"
+    },
+    "table": {
+      "event": "Evento",
+      "type": "Tipo",
+      "date": "Data",
+      "status": "Stato",
+      "reservations": "Prenotazioni",
+      "actions": "Azioni",
+      "featured": "IN EVIDENZA"
+    },
+    "modal": {
+      "create": "Nuovo Evento",
+      "edit": "Modifica Evento",
+      "steps": {
+        "basics": "Info Base",
+        "venue": "Locale",
+        "promos": "Promozioni",
+        "extras": "Extra"
+      }
+    },
+    "form": {
+      "category": "Categoria",
+      "allCategories": "Tutte",
+      "eventType": "Tipo Evento",
+      "title": "Titolo",
+      "titlePlaceholder": "Es: Jazz Night con Marco Rossi",
+      "description": "Descrizione",
+      "descriptionPlaceholder": "Descrivi l'evento...",
+      "startDate": "Data Inizio",
+      "endDate": "Data Fine",
+      "startTime": "Ora Inizio",
+      "endTime": "Ora Fine",
+      "publicVisible": "Visibile al pubblico",
+      "featured": "In evidenza"
+    },
+    "venue": {
+      "statusTitle": "Stato del Locale durante l'evento",
+      "affectedAreas": "Aree interessate (separate da virgola)",
+      "affectedAreasPlaceholder": "Es: Sala 1, Terrazza",
+      "maxCapacity": "Capienza Max",
+      "maxCapacityPlaceholder": "Es: 50",
+      "entranceFee": "Prezzo ingresso (€)",
+      "entranceFeePlaceholder": "0 = gratuito",
+      "requiresReservation": "Richiede prenotazione"
+    },
+    "promo": {
+      "title": "Promozione Evento",
+      "description": "Attiva sconti o offerte durante l'evento",
+      "enable": "Attiva",
+      "type": "Tipo di Promozione",
+      "applyTo": "Applica a",
+      "allMenu": "Tutto il menu",
+      "categories": "Categorie",
+      "products": "Prodotti",
+      "badge": "Badge",
+      "badgePlaceholder": "Es: \"-20%\", \"2x1\", \"GRATIS\""
+    },
+    "sports": {
+      "title": "Informazioni Partita",
+      "sport": "Sport",
+      "homeTeam": "Squadra Casa",
+      "homeTeamPlaceholder": "Es: Juventus",
+      "awayTeam": "Squadra Ospite",
+      "awayTeamPlaceholder": "Es: Inter",
+      "competition": "Competizione",
+      "competitionPlaceholder": "Es: Serie A, Champions League"
+    },
+    "performer": {
+      "title": "Performer / Artista (opzionale)",
+      "name": "Nome",
+      "namePlaceholder": "Es: DJ Marco",
+      "genre": "Genere",
+      "genrePlaceholder": "Es: House / Deep House"
+    },
+    "loyalty": {
+      "title": "Bonus Fedeltà",
+      "description": "Punti extra per chi partecipa",
+      "enable": "Attiva",
+      "pointsMultiplier": "Moltiplicatore punti",
+      "multiplierOptions": {
+        "normal": "1x (normale)",
+        "double": "2x",
+        "triple": "3x",
+        "fiveTimes": "5x"
+      },
+      "bonusPoints": "Punti bonus",
+      "bonusPointsPlaceholder": "Es: 50"
+    },
+    "navigation": {
+      "back": "Indietro",
+      "next": "Avanti",
+      "cancel": "Annulla",
+      "saving": "Salvataggio...",
+      "saveChanges": "Salva Modifiche",
+      "createEvent": "Crea Evento"
+    },
+    "actions": {
+      "edit": "Modifica",
+      "publish": "Pubblica",
+      "unpublish": "Rimuovi pubblicazione",
+      "delete": "Elimina",
+      "confirmDelete": "Sei sicuro di voler eliminare questo evento?"
+    },
+    "tips": {
+      "title": "Suggerimenti per eventi di successo",
+      "addImages": "Aggiungi immagini",
+      "addImagesDesc": "Gli eventi con foto ricevono 3x più interesse",
+      "loyaltyBonus": "Attiva bonus fedeltà",
+      "loyaltyBonusDesc": "I punti extra aumentano la partecipazione del 40%",
+      "notifications": "Invia notifiche",
+      "notificationsDesc": "Ricorda l'evento ai tuoi follower 24h prima"
+    },
+    "promoMechanics": {
+      "percentOff": "Sconto %",
+      "fixedDiscount": "Sconto Fisso",
+      "fixedPrice": "Prezzo Fisso",
+      "bogo": "2x1",
+      "bogoho": "Compra 1 il 2° -50%",
+      "buyXGetY": "Prendi X Paghi Y",
+      "bundle": "Combo",
+      "freeItem": "Omaggio",
+      "bottomless": "Illimitato",
+      "pointsMultiplier": "Punti x2",
+      "pointsBonus": "Punti Bonus",
+      "freeUpgrade": "Upgrade Gratis",
+      "kidsFree": "Bambini Gratis",
+      "groupDiscount": "Sconto Gruppo",
+      "earlyBird": "Early Bird",
+      "lastMinute": "Last Minute",
+      "none": "Nessuna",
+      "percentage": "Percentuale",
+      "amount": "Importo (€)",
+      "price": "Prezzo (€)",
+      "take": "Prendi",
+      "pay": "Paghi",
+      "bundlePrice": "Prezzo Bundle (€)",
+      "multiplier": "Moltiplicatore",
+      "points": "Punti",
+      "discount": "Sconto %"
+    },
+    "sports_types": {
+      "football": "Calcio",
+      "basketball": "Basket",
+      "tennis": "Tennis",
+      "f1": "Formula 1",
+      "motogp": "MotoGP",
+      "boxing": "Boxe",
+      "ufc": "UFC",
+      "rugby": "Rugby",
+      "other": "Altro"
+    },
+    "venueStatus": {
+      "open": "Aperto",
+      "partial": "Parziale",
+      "reserved": "Riservato",
+      "closed": "Chiuso"
+    }
+  },
+  "promotions": {
+    "title": "Promozioni",
+    "description": "Sistema QR Marketing a 2 step: esterno (awareness) + interno (conversion)",
+    "newPromotion": "Nuova Promozione",
+    "stats": {
+      "active": "Promozioni Attive",
+      "scanned": "QR Scansionati",
+      "conversions": "Conversioni",
+      "conversionRate": "Tasso Conversione",
+      "placements": "QR Posizionati"
+    },
+    "howItWorks": {
+      "title": "Come funziona il QR Marketing a 2 Step",
+      "step1Title": "QR Esterno",
+      "step1Desc": "Piazza QR in strada, online o da partner. L'utente scansiona e vede info locale + promo.",
+      "step2Title": "Visita al Locale",
+      "step2Desc": "L'utente arriva al locale guidato da Google Maps e info promozione.",
+      "step3Title": "QR Interno",
+      "step3Desc": "Scansiona QR tavolo per attivare promo. Trigger: registrazione, social share, etc."
+    },
+    "filters": {
+      "all": "Tutte",
+      "active": "Attive",
+      "draft": "Bozze",
+      "paused": "In Pausa",
+      "expired": "Scadute"
+    },
+    "empty": {
+      "title": "Nessuna promozione trovata",
+      "description": "Crea la tua prima promozione con QR esterno",
+      "action": "Crea Promozione"
+    },
+    "actions": {
+      "activate": "Attiva",
+      "pause": "Pausa",
+      "reactivate": "Riattiva",
+      "confirmDelete": "Sei sicuro di voler eliminare questa promozione?"
+    },
+    "placements": {
+      "title": "QR Posizionati",
+      "manageAll": "Gestisci tutti",
+      "addNew": "Aggiungi nuovo posizionamento QR",
+      "scans": "Scan",
+      "conv": "Conv.",
+      "roi": "ROI",
+      "noExternal": "Nessun QR esterno posizionato",
+      "addPlacement": "+ Aggiungi posizionamento",
+      "internalOnly": "Promozione solo interna (no QR esterno)",
+      "usages": "utilizzi",
+      "otherPlacements": "+ {count} altri posizionamenti",
+      "offline": "Offline",
+      "offlineDesc": "Volantini, manifesti, partner, biglietti",
+      "online": "Online",
+      "onlineDesc": "Social media, siti partner, ads, email",
+      "activePlacements": "Posizionamenti Attivi"
+    },
+    "modal": {
+      "title": "Nuova Promozione",
+      "stepOf": "Step {current} di {total}",
+      "promoType": "Tipo di Promozione",
+      "titleField": "Titolo",
+      "titlePlaceholder": "Es: Sconto 20% sul primo ordine",
+      "descriptionField": "Descrizione",
+      "descriptionPlaceholder": "Descrivi la promozione...",
+      "rewardDetails": "Dettagli Premio",
+      "discountPercent": "Sconto %",
+      "discountFixed": "Sconto Fisso (€)",
+      "freeProduct": "Prodotto Omaggio",
+      "freeProductPlaceholder": "Es: Caffè, Dessert",
+      "bonusPoints": "Punti Bonus",
+      "triggerAction": "Azione Richiesta per Attivare",
+      "startDate": "Data Inizio",
+      "endDate": "Data Fine",
+      "externalQR": "QR Marketing Esterno",
+      "externalQRDesc": "Abilita il sistema a 2 step con QR piazzati fuori dal locale",
+      "summary": "Riepilogo",
+      "type": "Tipo",
+      "trigger": "Trigger",
+      "period": "Periodo",
+      "back": "Indietro",
+      "cancel": "Annulla",
+      "next": "Avanti",
+      "createPromotion": "Crea Promozione"
+    },
+    "types": {
+      "discountPercent": "Sconto %",
+      "discountFixed": "Sconto Fisso",
+      "freeItem": "Omaggio",
+      "buyXGetY": "Prendi X Paghi Y",
+      "bundle": "Bundle",
+      "loyaltyBonus": "Bonus Punti",
+      "scratchCard": "Gratta e Vinci",
+      "spinWheel": "Ruota Fortuna",
+      "firstVisit": "Prima Visita"
+    },
+    "status": {
+      "draft": "Bozza",
+      "active": "Attiva",
+      "paused": "In Pausa",
+      "expired": "Scaduta",
+      "completed": "Completata"
+    },
+    "triggers": {
+      "signup": "Registrazione",
+      "socialShare": "Condivisione",
+      "follow": "Follow",
+      "review": "Recensione",
+      "checkin": "Check-in",
+      "minimumPurchase": "Acquisto Min.",
+      "none": "Automatica"
+    },
+    "placementsModal": {
+      "title": "Gestione QR Posizionamenti",
+      "close": "Chiudi",
+      "qrCode": "QR Code"
+    }
+  },
+  "challenges": {
+    "title": "Food Challenges",
+    "description": "Crea sfide alimentari virali per il tuo locale",
+    "newChallenge": "Nuova Sfida",
+    "loading": "Caricamento sfide...",
+    "stats": {
+      "total": "Sfide Totali",
+      "active": "Attive",
+      "attempts": "Tentativi Totali",
+      "winners": "Vincitori"
+    },
+    "filters": {
+      "all": "Tutte",
+      "active": "Attive",
+      "inactive": "Inattive"
+    },
+    "empty": {
+      "title": "Nessuna sfida trovata",
+      "description": "Crea la tua prima Food Challenge!",
+      "action": "Crea Sfida"
+    },
+    "card": {
+      "timeLimit": "{time} min | {price} EUR se perdi",
+      "toFinish": "Da finire:",
+      "moreItems": "+{count} altri...",
+      "attempts": "Tentativi",
+      "winners": "Vincitori",
+      "record": "RECORD",
+      "recordBy": "di {name}",
+      "noWinnerYet": "Nessuno ha ancora vinto!",
+      "addAttempt": "+ Tentativo",
+      "wallOfFame": "Wall of Fame",
+      "edit": "Modifica",
+      "activate": "Attiva",
+      "deactivate": "Disattiva"
+    },
+    "actions": {
+      "confirmDelete": "Sei sicuro di voler eliminare questa sfida?"
+    },
+    "modal": {
+      "create": "Nuova Sfida Alimentare",
+      "edit": "Modifica Sfida",
+      "steps": {
+        "basics": "Dettagli",
+        "reward": "Premio",
+        "record": "Record",
+        "availability": "Quando"
+      }
+    },
+    "form": {
+      "challengeName": "Nome Sfida",
+      "challengeNamePlaceholder": "Es: La Sfida del Mega Burger",
+      "description": "Descrizione",
+      "descriptionPlaceholder": "Descrivi la sfida...",
+      "imageUrl": "URL Immagine (opzionale)",
+      "items": "Elementi da finire",
+      "itemName": "Nome elemento",
+      "itemQuantity": "Quantità",
+      "addItem": "+ Aggiungi elemento",
+      "timeLimit": "Limite Tempo (minuti)",
+      "priceIfLose": "Prezzo se perde (€)",
+      "difficulty": "Difficoltà",
+      "rules": "Regole",
+      "rulePlaceholder": "Es: Niente pause bagno",
+      "addRule": "+ Aggiungi regola",
+      "winReward": "Premio se vince",
+      "cashPrize": "Premio in denaro (€)",
+      "prizeName": "Nome Premio",
+      "prizeDescription": "Descrizione Premio",
+      "recordBonus": "Bonus Record",
+      "recordBonusEnabled": "Abilita bonus record",
+      "recordBonusCash": "Bonus Record in denaro (€)",
+      "recordBonusPrize": "Premio Bonus Record",
+      "teamChallenge": "Sfida di Squadra",
+      "isTeamChallenge": "Questa è una sfida di squadra",
+      "teamSize": "Dimensione Squadra",
+      "requiresBooking": "Richiede prenotazione",
+      "availableDays": "Giorni Disponibili",
+      "availableTime": "Orario Disponibile",
+      "isActive": "Attiva"
+    },
+    "navigation": {
+      "back": "Indietro",
+      "cancel": "Annulla",
+      "next": "Avanti",
+      "saving": "Salvataggio...",
+      "saveChanges": "Salva Modifiche",
+      "createChallenge": "Crea Sfida"
+    },
+    "attempt": {
+      "title": "Registra Tentativo",
+      "participantName": "Nome Partecipante",
+      "participantPlaceholder": "Es: Marco Rossi",
+      "date": "Data",
+      "completed": "Ha Completato la Sfida!",
+      "completionTime": "Tempo di Completamento (minuti)",
+      "maxTime": "Max: {time} min",
+      "register": "Registra"
+    },
+    "wallOfFame": {
+      "title": "Wall of Fame",
+      "empty": "Nessuno ha ancora vinto!",
+      "emptySubtitle": "Sarai tu il primo?",
+      "record": "RECORD",
+      "minutes": "minuti"
+    }
+  },
+  "loyalty": {
+    "title": "Programma Fedeltà",
+    "description": "Configura punti, livelli, premi e condivisione social",
+    "active": "Attivo",
+    "saveChanges": "Salva Modifiche",
+    "tabs": {
+      "overview": "Panoramica",
+      "tiers": "Livelli",
+      "actions": "Azioni",
+      "rewards": "Premi",
+      "social": "Social"
+    },
+    "overview": {
+      "totalMembers": "Membri Totali",
+      "thisMonth": "questo mese",
+      "activeThisMonth": "Attivi Questo Mese",
+      "ofTotal": "del totale",
+      "pointsIssued": "Punti Emessi",
+      "rewardsRedeemed": "Premi Riscattati",
+      "pointsUsed": "punti usati",
+      "tierDistribution": "Distribuzione Livelli",
+      "socialShares": "Condivisioni Social",
+      "referrals": "Referral",
+      "newCustomersFromReferral": "Nuovi clienti da referral",
+      "pointsAssigned": "punti assegnati"
+    },
+    "tiers": {
+      "title": "Configura Livelli",
+      "from": "Da",
+      "points": "punti",
+      "bonus": "Bonus",
+      "bonusOptions": {
+        "none": "Nessuno",
+        "plus10": "+10%",
+        "plus20": "+20%",
+        "plus30": "+30%",
+        "plus50": "+50%",
+        "plus100": "+100%"
+      },
+      "tierNames": {
+        "bronze": "Bronzo",
+        "silver": "Argento",
+        "gold": "Oro",
+        "platinum": "Platino",
+        "diamond": "Diamante"
+      }
+    },
+    "actions": {
+      "purchaseSettings": "Impostazioni Acquisti",
+      "pointsPerEuro": "Punti per ogni",
+      "euroSpent": "euro speso",
+      "rewardableActions": "Azioni Premiabili",
+      "maxPerDay": "Max {count}/giorno"
+    },
+    "rewards": {
+      "title": "Premi Disponibili",
+      "newReward": "Nuovo Premio",
+      "remaining": "Rimanenti: {count}",
+      "minTier": "Min: {tier}"
+    },
+    "social": {
+      "configTitle": "Configurazione Social",
+      "venueHashtags": "Hashtag del Locale (separati da virgola)",
+      "instagramProfile": "Profilo Instagram",
+      "shareTemplates": "Template di Condivisione",
+      "shareTemplatesDesc": "Configura i messaggi pre-impostati che i clienti possono condividere facilmente sui social.",
+      "tagMentionOnly": "(Solo tag/menzione)",
+      "customerSharePreview": "Anteprima Condivisione Cliente",
+      "previewDesc": "Questo è come apparirà al cliente quando vorrà condividere:",
+      "shareTheDish": "Condividi il Piatto"
+    }
+  },
+  "menuPage": {
+    "loading": "Caricamento menu...",
+    "errorTitle": "Errore nel caricamento del menu",
+    "retry": "Riprova",
+    "breadcrumb": "Contenuti",
+    "title": "Menu & Prodotti",
+    "itemsCount": "{count} prodotti",
+    "dataSource": "Dati da Supabase",
+    "template": "Template",
+    "importCsv": "Importa CSV",
+    "importing": "Importazione...",
+    "addItem": "Aggiungi Prodotto",
+    "allItems": "Tutti i Prodotti",
+    "searchPlaceholder": "Cerca prodotti nel menu...",
+    "allStatus": "Tutti gli Stati",
+    "available": "Disponibile",
+    "unavailable": "Non Disponibile",
+    "sortByOrder": "Ordina per Posizione",
+    "sortByName": "Ordina per Nome",
+    "sortByPrice": "Ordina per Prezzo",
+    "featured": "In Evidenza",
+    "new": "NUOVO",
+    "noDescription": "Nessuna descrizione",
+    "allergen": "allergene",
+    "allergens": "allergeni",
+    "vegan": "Vegano",
+    "halal": "Halal",
+    "translations": "Traduzioni",
+    "edit": "Modifica",
+    "duplicate": "Duplica",
+    "delete": "Elimina",
+    "confirmDelete": "Sei sicuro di voler eliminare questo prodotto?",
+    "addNewItem": "Aggiungi Nuovo Prodotto",
+    "noItems": "Nessun prodotto trovato",
+    "tryDifferentSearch": "Prova con un termine di ricerca diverso",
+    "addFirstItem": "Aggiungi il tuo primo prodotto per iniziare",
+    "markedAvailable": "Prodotto segnato come disponibile",
+    "markedUnavailable": "Prodotto segnato come non disponibile",
+    "failedUpdate": "Impossibile aggiornare la disponibilità",
+    "deleteSuccess": "Prodotto eliminato con successo",
+    "deleteFailed": "Impossibile eliminare il prodotto",
+    "importSuccess": "Importati con successo {count} prodotto/i",
+    "importPartial": "Importati {success} prodotti con {errors} errori",
+    "importFailed": "Importazione fallita",
+    "csvEmpty": "Il file CSV è vuoto o non valido"
+  },
+  "recipesPage": {
+    "title": "Libreria Ricette",
+    "description": "Sfoglia {count}+ ricette professionali dal nostro database",
+    "createRecipe": "Crea Ricetta",
+    "totalRecipes": "Ricette Totali",
+    "beverages": "Bevande",
+    "dishes": "Piatti",
+    "sides": "Contorni",
+    "veganOptions": "Opzioni Vegane",
+    "signatures": "Signature",
+    "searchPlaceholder": "Cerca ricette per nome o descrizione...",
+    "all": "Tutte",
+    "vegan": "Vegano",
+    "dairyFree": "Senza Latticini",
+    "glutenFree": "SG",
+    "allCategories": "Tutte le Categorie",
+    "loading": "Caricamento ricette...",
+    "errorTitle": "Errore nel caricamento delle ricette",
+    "tryAgain": "Riprova",
+    "showingResults": "Mostrando {filtered} di {total} ricette",
+    "signature": "Signature",
+    "noRecipes": "Nessuna ricetta trovata",
+    "noRecipesHint": "Prova a modificare i filtri o la ricerca",
+    "contains": "Contiene"
+  },
+  "ingredientsPage": {
+    "breadcrumb": "Contenuti",
+    "title": "Database Ingredienti",
+    "itemsCount": "{count} ingredienti",
+    "system": "Sistema 5 Dimensioni",
+    "addIngredient": "Aggiungi Ingrediente",
+    "searchPlaceholder": "Cerca ingredienti...",
+    "tableHeaders": {
+      "name": "Nome",
+      "allergens": "Allergeni",
+      "nutrition": "Valori Nutrizionali (per 100g)",
+      "type": "Tipo",
+      "actions": "Azioni"
+    },
+    "none": "Nessuno",
+    "notSet": "Non impostato",
+    "global": "Globale",
+    "local": "Locale",
+    "noIngredients": "Nessun ingrediente trovato",
+    "editIngredient": "Modifica Ingrediente",
+    "modal": {
+      "nameEn": "Nome (Inglese)",
+      "nameVi": "Nome (Vietnamita)",
+      "nutritionPer100g": "Valori Nutrizionali (per 100g)",
+      "calories": "Calorie",
+      "protein": "Proteine (g)",
+      "carbs": "Carboidrati (g)",
+      "fat": "Grassi (g)",
+      "fiber": "Fibre (g)",
+      "allergensEu14": "Allergeni (EU 14)",
+      "dietaryProperties": "Proprietà Alimentari",
+      "cancel": "Annulla",
+      "save": "Salva"
+    },
+    "confirmDelete": "Eliminare questo ingrediente?",
+    "saveFailed": "Impossibile salvare l'ingrediente"
+  },
+  "categoriesPage": {
+    "breadcrumb": "Contenuti",
+    "title": "Categorie Menu",
+    "itemsCount": "{count} categorie",
+    "dragToReorder": "Trascina per riordinare",
+    "addCategory": "+ Aggiungi Categoria",
+    "unnamed": "Senza nome",
+    "hidden": "Nascosta",
+    "itemCount": "{count} prodotti",
+    "noCategories": "Nessuna categoria",
+    "createFirst": "Crea la tua prima categoria",
+    "hide": "Nascondi",
+    "show": "Mostra",
+    "cannotDeleteWithItems": "Impossibile eliminare la categoria con {count} prodotti. Sposta o elimina prima i prodotti.",
+    "confirmDelete": "Eliminare questa categoria?",
+    "saveFailed": "Impossibile salvare la categoria",
+    "modal": {
+      "addTitle": "Aggiungi Categoria",
+      "editTitle": "Modifica Categoria",
+      "icon": "Icona",
+      "nameEn": "Nome (Inglese) *",
+      "nameEnPlaceholder": "es. Caffè Caldo",
+      "nameVi": "Nome (Vietnamita)",
+      "nameViPlaceholder": "es. Cà phê nóng",
+      "slug": "Slug (URL)",
+      "slugPlaceholder": "caffe-caldo",
+      "slugHint": "Generato automaticamente dal nome se vuoto",
+      "visibleOnMenu": "Visibile nel menu",
+      "cancel": "Annulla",
+      "saveChanges": "Salva Modifiche",
+      "addCategory": "Aggiungi Categoria"
+    },
+    "modifiersModal": {
+      "title": "Gestisci Modificatori",
+      "selectFor": "Seleziona gruppi modificatori per",
+      "noGroups": "Nessun gruppo modificatori disponibile",
+      "createHint": "Crea gruppi modificatori in Contenuti > Modificatori",
+      "single": "Singolo",
+      "multiple": "Multiplo",
+      "required": "Obbligatorio",
+      "selectedCount": "{selected} di {total} selezionati",
+      "cancel": "Annulla",
+      "saving": "Salvataggio...",
+      "saveChanges": "Salva Modifiche",
+      "saveFailed": "Impossibile salvare le relazioni dei modificatori"
+    }
+  },
+  "winesPage": {
+    "breadcrumb": "Contenuti",
+    "title": "Catalogo Vini",
+    "subtitle": "{count} vini da {countriesCount} paesi",
+    "addWine": "+ Aggiungi Vino",
+    "searchPlaceholder": "Cerca vini, uve, regioni...",
+    "allCountriesWithCount": "Tutti i Paesi ({count})",
+    "colorOptions": {
+      "all": "Tutti i Vini",
+      "red": "Rosso",
+      "white": "Bianco",
+      "rose": "Rosé",
+      "sparkling": "Spumante",
+      "dessert": "Dessert",
+      "fortified": "Fortificato",
+      "orange": "Orange"
+    },
+    "stats": {
+      "red": "Rosso",
+      "white": "Bianco",
+      "rose": "Rosé",
+      "sparkling": "Spumante",
+      "dessert": "Dessert",
+      "fortified": "Fortificato"
+    },
+    "sortBy": {
+      "name": "Ordina per Nome",
+      "country": "Ordina per Paese",
+      "popularity": "Ordina per Popolarità"
+    },
+    "showingResults": "Mostrando {filtered} di {total} vini",
+    "errorTitle": "Errore nel caricamento dei vini",
+    "retry": "Riprova",
+    "card": {
+      "organic": "Biologico",
+      "natural": "Naturale",
+      "vegan": "Vegano",
+      "abv": "Grad.",
+      "serve": "Servire",
+      "viewEdit": "Visualizza/Modifica",
+      "duplicate": "Duplica",
+      "popularity": "pop."
+    },
+    "addNewWine": "Aggiungi Nuovo Vino",
+    "noWines": "Nessun vino trovato",
+    "noWinesSearchHint": "Prova un termine di ricerca diverso",
+    "noWinesFilterHint": "Modifica i filtri per vedere i vini",
+    "modal": {
+      "title": "Dettagli Vino",
+      "name": "Nome Vino",
+      "color": "Colore",
+      "region": "Regione",
+      "grapes": "Varietà d'Uva",
+      "abv": "Gradazione",
+      "body": "Corpo",
+      "sweetness": "Dolcezza",
+      "tannins": "Tannini",
+      "acidity": "Acidità",
+      "flavors": "Aromi",
+      "foodPairings": "Abbinamenti",
+      "servingTemp": "Temperatura di Servizio",
+      "close": "Chiudi"
+    }
+  },
+  "modifiersPage": {
+    "breadcrumb": "Contenuti",
+    "title": "Modificatori Prodotto",
+    "subtitle": "{groups} gruppi, {options} opzioni",
+    "groups": {
+      "title": "Gruppi Modificatori",
+      "add": "+ Aggiungi",
+      "options": "{count} opzioni",
+      "single": "Singolo",
+      "multiple": "Multiplo",
+      "required": "Obbligatorio",
+      "active": "Attivo",
+      "inactive": "Inattivo",
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "empty": "Nessun gruppo modificatori",
+      "createFirst": "Crea il tuo primo gruppo",
+      "cannotDelete": "Impossibile eliminare \"{name}\": ha {count} modificatori. Elimina prima i modificatori.",
+      "confirmDelete": "Eliminare il gruppo \"{name}\"?"
+    },
+    "modifiers": {
+      "singleSelection": "Selezione singola",
+      "multipleSelection": "Selezione multipla",
+      "max": "Max {count}",
+      "searchPlaceholder": "Cerca...",
+      "addOption": "+ Aggiungi Opzione",
+      "tableHeaders": {
+        "option": "Opzione",
+        "price": "Prezzo",
+        "calories": "Calorie",
+        "default": "Predefinito",
+        "available": "Disponibile",
+        "actions": "Azioni"
+      },
+      "free": "Gratis",
+      "kcal": "kcal",
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "emptyGroup": "Nessuna opzione in questo gruppo",
+      "selectGroup": "Seleziona un gruppo per vedere le opzioni",
+      "addFirst": "Aggiungi la prima opzione",
+      "confirmDelete": "Eliminare \"{name}\"?"
+    },
+    "groupModal": {
+      "editTitle": "Modifica Gruppo",
+      "addTitle": "Aggiungi Gruppo Modificatori",
+      "icon": "Icona",
+      "nameEn": "Nome (Inglese) *",
+      "nameEnPlaceholder": "es. Dimensione, Tipo di Latte",
+      "nameIt": "Nome (Italiano)",
+      "nameItPlaceholder": "Dimensione",
+      "nameVi": "Nome (Vietnamita)",
+      "nameViPlaceholder": "Kích cỡ",
+      "selectionType": "Tipo di Selezione",
+      "singleRadio": "Singolo (radio)",
+      "multipleCheckbox": "Multiplo (checkbox)",
+      "required": "Obbligatorio",
+      "maxSelections": "Selezioni massime",
+      "cancel": "Annulla",
+      "saveChanges": "Salva Modifiche",
+      "addGroup": "Aggiungi Gruppo"
+    },
+    "modifierModal": {
+      "editTitle": "Modifica Opzione",
+      "addTitle": "Aggiungi Opzione",
+      "nameEn": "Nome (Inglese) *",
+      "nameEnPlaceholder": "es. Grande, Latte d'Avena",
+      "nameIt": "Nome (Italiano)",
+      "nameItPlaceholder": "Grande",
+      "nameVi": "Nome (Vietnamita)",
+      "nameViPlaceholder": "Lớn",
+      "priceAdjustment": "Variazione Prezzo (€)",
+      "priceAdjustmentPlaceholder": "0.50",
+      "priceType": "Tipo Prezzo",
+      "priceTypes": {
+        "fixed": "Fisso (+€)",
+        "percentage": "Percentuale (+%)",
+        "replace": "Sostituisci prezzo"
+      },
+      "caloriesAdjustment": "Variazione Calorie (kcal)",
+      "caloriesPlaceholder": "0",
+      "iconLabel": "Icona (emoji, opzionale)",
+      "iconPlaceholder": "🥛",
+      "setDefault": "Imposta come selezione predefinita",
+      "cancel": "Annulla",
+      "saveChanges": "Salva Modifiche",
+      "addOption": "Aggiungi Opzione"
+    },
+    "errors": {
+      "noMerchant": "Errore: Nessun ID merchant. Ricarica la pagina.",
+      "saveFailed": "Salvataggio fallito",
+      "deleteFailed": "Eliminazione fallita"
+    }
+  },
+  "followersPage": {
+    "title": "Follower",
+    "subtitle": "{count} clienti che seguono il tuo locale",
+    "exportCsv": "Esporta CSV",
+    "stats": {
+      "total": "Totale",
+      "active": "Attivi",
+      "residents": "Residenti",
+      "activeTourists": "Turisti Attivi",
+      "paused": "In Pausa",
+      "archived": "Archiviati",
+      "returning": "Di Ritorno"
+    },
+    "filters": {
+      "searchPlaceholder": "Cerca per nome o email...",
+      "allTypes": "Tutti i Tipi",
+      "residents": "Residenti",
+      "tourists": "Turisti",
+      "unknown": "Sconosciuto",
+      "allStatus": "Tutti gli Stati",
+      "active": "Attivo",
+      "paused": "In Pausa",
+      "stopped": "Fermato",
+      "archived": "Archiviato",
+      "sortByFollowDate": "Ordina per: Data Follow",
+      "sortByTotalSpent": "Ordina per: Totale Speso",
+      "sortByOrders": "Ordina per: Ordini",
+      "sortByLastVisit": "Ordina per: Ultima Visita",
+      "sortByVisitCount": "Ordina per: Numero Visite"
+    },
+    "visitorTypes": {
+      "resident": "Residente",
+      "tourist": "Turista",
+      "unknown": "Sconosciuto"
+    },
+    "notificationStatus": {
+      "active": "Attivo",
+      "paused": "In Pausa",
+      "stopped": "Fermato",
+      "archived": "Archiviato"
+    },
+    "table": {
+      "customer": "Cliente",
+      "type": "Tipo",
+      "status": "Stato",
+      "visits": "Visite",
+      "lastVisit": "Ultima Visita",
+      "orders": "Ordini",
+      "totalSpent": "Totale Speso",
+      "tier": "Livello",
+      "actions": "Azioni",
+      "tripEnds": "Fine viaggio: {date}",
+      "returning": "di ritorno",
+      "edit": "Modifica"
+    },
+    "timeAgo": {
+      "today": "Oggi",
+      "yesterday": "Ieri",
+      "daysAgo": "{days} giorni fa",
+      "weeksAgo": "{weeks} settimane fa",
+      "monthsAgo": "{months} mesi fa",
+      "yearsAgo": "{years} anni fa",
+      "never": "Mai"
+    },
+    "anonymous": "Anonimo",
+    "loading": "Caricamento follower...",
+    "error": "Impossibile caricare i follower. Riprova.",
+    "empty": {
+      "title": "Nessun follower trovato",
+      "filterHint": "Prova a modificare i filtri per vedere più risultati.",
+      "defaultHint": "Quando i clienti scannerizzeranno il tuo QR e seguiranno il tuo locale, appariranno qui."
+    }
+  },
+  "intelligencePage": {
+    "title": "Intelligence Clienti",
+    "subtitle": "Insight basati su AI per massimizzare il valore del cliente",
+    "sync": "Sincronizza",
+    "analyzeAll": "Analizza Tutti",
+    "analyzing": "Analisi in corso...",
+    "stats": {
+      "totalClv": "CLV Totale",
+      "customersAnalyzed": "Clienti Analizzati",
+      "atRisk": "A Rischio",
+      "highPriority": "Priorità ALTA",
+      "averageClv": "CLV Medio"
+    },
+    "urgentBanner": {
+      "title": "URGENTE: {count} clienti a rischio",
+      "potentialLoss": "{amount} potenziale perdita di fatturato",
+      "viewAtRisk": "Vedi A Rischio"
+    },
+    "segments": {
+      "title": "Segmenti Clienti",
+      "champion": "Campioni",
+      "loyal": "Fedeli",
+      "potential": "Potenziali",
+      "new": "Nuovi",
+      "atRisk": "A Rischio",
+      "dormant": "Dormienti",
+      "lost": "Persi"
+    },
+    "recommendations": {
+      "title": "Azioni Raccomandate",
+      "winBack": "Recupera {name}",
+      "clvAtRisk": "{amount} CLV a rischio",
+      "daysInactive": "{days} giorni inattivo",
+      "view": "Vedi",
+      "empty": "Nessuna azione raccomandata",
+      "runAnalysis": "Esegui Analisi AI"
+    },
+    "atRiskTable": {
+      "title": "Clienti a Rischio",
+      "sortedByClv": "Ordinati per CLV",
+      "setupTriggers": "Configura trigger automatici",
+      "customer": "Cliente",
+      "clv": "CLV",
+      "inactive": "Inattivo",
+      "risk": "Rischio",
+      "action": "Azione",
+      "days": "{days} giorni",
+      "unknown": "Sconosciuto",
+      "viewDetails": "Vedi Dettagli",
+      "emptyTitle": "Nessun cliente a rischio",
+      "emptyDesc": "Ottime notizie! Tutti i tuoi clienti sono in buona salute."
+    }
+  },
+  "feedbackPage": {
+    "title": "Feedback Clienti",
+    "subtitle": "{count} feedback totali",
+    "newCount": "({count} nuovi)",
+    "openIssues": "({count} problemi aperti)",
+    "filters": {
+      "allTypes": "Tutti i Tipi",
+      "ratings": "Valutazioni",
+      "reviews": "Recensioni",
+      "suggestions": "Suggerimenti",
+      "issues": "Problemi",
+      "compliments": "Complimenti",
+      "allStatus": "Tutti gli Stati",
+      "new": "Nuovo",
+      "read": "Letto",
+      "inProgress": "In Corso",
+      "replied": "Risposto",
+      "resolved": "Risolto",
+      "dismissed": "Ignorato"
+    },
+    "types": {
+      "rating": "Valutazione",
+      "review": "Recensione",
+      "suggestion": "Suggerimento",
+      "issue": "Problema",
+      "compliment": "Complimento"
+    },
+    "status": {
+      "new": "Nuovo",
+      "read": "Letto",
+      "inProgress": "In Corso",
+      "replied": "Risposto",
+      "resolved": "Risolto",
+      "dismissed": "Ignorato"
+    },
+    "categories": {
+      "foodQuality": "Qualità Cibo",
+      "service": "Servizio",
+      "ambience": "Ambiente",
+      "cleanliness": "Pulizia",
+      "appExperience": "Esperienza App",
+      "delivery": "Consegna",
+      "pricing": "Prezzi",
+      "menu": "Menu",
+      "general": "Generale"
+    },
+    "public": "Pubblico",
+    "yourReply": "La tua risposta:",
+    "reply": "Rispondi",
+    "guest": "Ospite",
+    "loading": "Caricamento feedback...",
+    "error": "Impossibile caricare i feedback. Riprova.",
+    "empty": {
+      "title": "Nessun feedback",
+      "description": "I feedback dei clienti appariranno qui quando invieranno valutazioni, recensioni o suggerimenti tramite la PWA."
+    },
+    "replyModal": {
+      "title": "Rispondi al Feedback",
+      "noMessage": "Nessun messaggio",
+      "from": "Da: {name}",
+      "placeholder": "Scrivi la tua risposta...",
+      "cancel": "Annulla",
+      "send": "Invia Risposta",
+      "sending": "Invio in corso..."
+    }
+  },
+  "customerDetailPage": {
+    "errorLoading": "Errore nel caricamento del cliente",
+    "customerNotFound": "Cliente non trovato",
+    "goBack": "Torna indietro",
+    "followerSince": "Follower dal {date}",
+    "clvLabel": "CLV: {amount}",
+    "message": "Messaggio",
+    "sendPromo": "Invia Promo",
+    "metrics": {
+      "lifetimeValue": "Valore Lifetime",
+      "confidence": "{percent}% sicurezza",
+      "totalOrders": "Ordini Totali",
+      "avgOrder": "Ordine Medio",
+      "loyaltyPoints": "Punti Fedeltà"
+    },
+    "churnRisk": {
+      "title": "Rischio Abbandono",
+      "daysSinceLastVisit": "{days} giorni dall'ultima visita",
+      "predictedNextVisit": "Prossima visita prevista: {date}",
+      "riskFactors": "Fattori di Rischio:",
+      "noAnalysis": "Nessuna analisi del rischio disponibile",
+      "runAnalysisHint": "Esegui l'analisi AI dalla pagina Intelligence"
+    },
+    "recommendations": {
+      "title": "Raccomandazioni AI",
+      "expectedRoi": "ROI previsto: {amount}",
+      "empty": "Nessuna raccomandazione",
+      "emptyHint": "L'analisi AI genererà azioni personalizzate"
+    },
+    "activity": {
+      "title": "Riepilogo Attività",
+      "totalVisits": "Visite Totali",
+      "lastVisit": "Ultima Visita",
+      "never": "Mai",
+      "feedbackGiven": "Feedback Dati",
+      "avgRating": "Valutazione Media"
+    },
+    "triggers": {
+      "title": "Storico Trigger",
+      "manageTriggers": "Gestisci Trigger",
+      "date": "Data",
+      "trigger": "Trigger",
+      "type": "Tipo",
+      "status": "Stato",
+      "result": "Risultato",
+      "converted": "Convertito",
+      "sent": "Inviato",
+      "failed": "Fallito",
+      "empty": "Nessuno storico trigger",
+      "setupTriggers": "Configura trigger automatici"
+    },
+    "wallet": {
+      "title": "Wallet Cliente"
+    },
+    "segments": {
+      "champion": "Campione",
+      "loyal": "Fedele",
+      "potential": "Potenziale",
+      "new": "Nuovo",
+      "atRisk": "A Rischio",
+      "dormant": "Dormiente",
+      "lost": "Perso"
+    }
+  },
+  "hoursPage": {
+    "title": "Orari di Apertura",
+    "subtitle": "Imposta quando il tuo locale è aperto e gestisci le eccezioni",
+    "loading": "Caricamento orari...",
+    "saveChanges": "Salva Modifiche",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Orari salvati con successo!",
+    "saveFailed": "Impossibile salvare gli orari",
+    "cancel": "Annulla",
+    "unsavedChanges": "Hai modifiche non salvate",
+    "days": {
+      "monday": "Lunedì",
+      "tuesday": "Martedì",
+      "wednesday": "Mercoledì",
+      "thursday": "Giovedì",
+      "friday": "Venerdì",
+      "saturday": "Sabato",
+      "sunday": "Domenica"
+    },
+    "status": {
+      "open": "Attualmente Aperto",
+      "closed": "Chiuso"
+    },
+    "tabs": {
+      "basic": "Orario Base",
+      "advanced": "Eccezioni Avanzate"
+    },
+    "weeklySchedule": {
+      "title": "Orario Settimanale",
+      "description": "Imposta gli orari di apertura regolari per ogni giorno della settimana"
+    },
+    "preview": {
+      "title": "Anteprima Cliente",
+      "description": "Ecco come i tuoi orari appariranno ai clienti",
+      "openNow": "Aperto Ora"
+    },
+    "timeSlots": {
+      "from": "Dalle",
+      "to": "Alle",
+      "addSlot": "+ Aggiungi fascia oraria",
+      "removeSlot": "Rimuovi fascia"
+    },
+    "specialHours": {
+      "title": "Orari Speciali",
+      "description": "Imposta orari diversi per festività o eventi speciali",
+      "addSpecial": "Aggiungi Orari Speciali",
+      "date": "Data",
+      "reason": "Motivo",
+      "reasonPlaceholder": "es.: Natale, Festa Nazionale"
+    },
+    "timezone": {
+      "title": "Fuso Orario",
+      "description": "Il fuso orario locale del tuo locale"
+    },
+    "copyToAll": "Copia su tutti i giorni",
+    "resetToDefault": "Ripristina predefiniti"
+  },
+  "currencyPage": {
+    "title": "Impostazioni Valuta",
+    "subtitle": "Configura la valuta principale e i tassi di cambio",
+    "loading": "Caricamento impostazioni valuta...",
+    "saveChanges": "Salva Modifiche",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Impostazioni valuta salvate!",
+    "saveFailed": "Impossibile salvare le impostazioni valuta",
+    "primaryCurrency": {
+      "title": "Valuta Principale",
+      "description": "La valuta principale per i prezzi del menu"
+    },
+    "exchangeRates": {
+      "title": "Tassi di Cambio",
+      "description": "Mostra i prezzi in più valute",
+      "enabled": "Visualizzazione multi-valuta attiva",
+      "disabled": "Visualizzazione multi-valuta disattivata",
+      "rate": "Tasso",
+      "lastUpdated": "Ultimo aggiornamento: {date}",
+      "refreshRates": "Aggiorna Tassi",
+      "refreshing": "Aggiornamento..."
+    },
+    "displayFormat": {
+      "title": "Formato Visualizzazione",
+      "symbolPosition": "Posizione Simbolo",
+      "before": "Prima (€10,00)",
+      "after": "Dopo (10,00€)",
+      "decimals": "Cifre Decimali",
+      "thousandSeparator": "Separatore Migliaia"
+    },
+    "secondaryCurrencies": {
+      "title": "Valute Secondarie",
+      "description": "Valute aggiuntive da mostrare nel menu",
+      "add": "Aggiungi Valuta",
+      "remove": "Rimuovi"
+    }
+  },
+  "calendarPage": {
+    "title": "Calendario",
+    "subtitle": "Visualizza orari, eventi e chiusure in un'unica vista",
+    "loading": "Caricamento calendario...",
+    "export": "Esporta",
+    "newEvent": "Nuovo Evento",
+    "stats": {
+      "eventsThisMonth": "Eventi questo mese",
+      "scheduledClosures": "Chiusure programmate",
+      "holidays": "Festività",
+      "specialHours": "Orari speciali"
+    },
+    "enterprise": {
+      "badge": "ENTERPRISE",
+      "description": "Sincronizza con Google Calendar, Apple Calendar e altri calendari esterni"
+    },
+    "quickLinks": {
+      "operatingHours": "Orari di apertura",
+      "operatingHoursDescription": "Modifica gli orari base",
+      "manageEvents": "Gestisci Eventi",
+      "manageEventsDescription": "Crea e modifica eventi",
+      "syncCalendar": "Sincronizza Calendario",
+      "syncCalendarDescription": "Connetti calendari esterni"
+    },
+    "saveChanges": "Salva Modifiche",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Calendario salvato!",
+    "saveFailed": "Impossibile salvare il calendario",
+    "views": {
+      "month": "Mese",
+      "week": "Settimana",
+      "day": "Giorno",
+      "list": "Lista"
+    },
+    "today": "Oggi",
+    "addEvent": "Aggiungi Evento",
+    "eventTypes": {
+      "holiday": "Festività",
+      "specialHours": "Orari Speciali",
+      "privateEvent": "Evento Privato",
+      "promotion": "Promozione",
+      "closure": "Chiusura"
+    },
+    "eventForm": {
+      "title": "Titolo Evento",
+      "titlePlaceholder": "es.: Cena di Natale",
+      "type": "Tipo Evento",
+      "startDate": "Data Inizio",
+      "endDate": "Data Fine",
+      "allDay": "Tutto il giorno",
+      "description": "Descrizione",
+      "descriptionPlaceholder": "Note opzionali...",
+      "recurring": "Ricorrente",
+      "recurrence": {
+        "none": "Non si ripete",
+        "daily": "Giornaliero",
+        "weekly": "Settimanale",
+        "monthly": "Mensile",
+        "yearly": "Annuale"
+      }
+    },
+    "empty": "Nessun evento programmato",
+    "delete": "Elimina Evento",
+    "confirmDelete": "Sei sicuro di voler eliminare questo evento?"
+  },
+  "paymentsPage": {
+    "title": "Impostazioni Pagamenti",
+    "subtitle": "Configura come i clienti possono pagare nel tuo locale",
+    "loading": "Caricamento impostazioni pagamenti...",
+    "saveChanges": "Salva Impostazioni",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Impostazioni salvate con successo!",
+    "saveFailed": "Impossibile salvare le impostazioni",
+    "noMerchant": "Nessun merchant selezionato",
+    "tabs": {
+      "fiat": "Fiat",
+      "crypto": "Crypto"
+    },
+    "fiat": {
+      "infoBanner": "Configura i metodi di pagamento tradizionali. Alcuni metodi richiedono configurazione aggiuntiva nelle rispettive dashboard.",
+      "stripe": {
+        "name": "Stripe",
+        "description": "Accetta carte, Apple Pay, Google Pay tramite Stripe",
+        "accountId": "Stripe Account ID"
+      },
+      "paypal": {
+        "name": "PayPal",
+        "description": "Accetta pagamenti PayPal",
+        "clientId": "PayPal Client ID"
+      },
+      "mobilePay": {
+        "title": "Pagamenti Mobile",
+        "applePay": "Apple Pay",
+        "googlePay": "Google Pay",
+        "samsungPay": "Samsung Pay"
+      }
+    },
+    "crypto": {
+      "enableTitle": "Abilita Pagamenti in Criptovalute",
+      "enableDescription": "Accetta BTC, ETH, USDC e altre criptovalute",
+      "howItWorks": {
+        "title": "Come Funzionano i Pagamenti Crypto",
+        "step1": "Inserisci l'indirizzo del tuo wallet per ogni criptovaluta che vuoi accettare",
+        "step2": "Quando un cliente paga, vedrà un QR code con l'indirizzo del tuo wallet",
+        "step3": "Dopo l'invio, confermano l'ordine come pagato",
+        "step4": "Verifichi il pagamento sull'explorer blockchain"
+      },
+      "displayOptions": {
+        "title": "Opzioni Visualizzazione",
+        "showInMenu": "Mostra prezzi crypto nel menu",
+        "showInMenuDesc": "Mostra l'equivalente crypto accanto ai prezzi in valuta",
+        "bitcoinFormat": "Formato visualizzazione Bitcoin",
+        "paymentTimeout": "Timeout pagamento (minuti)",
+        "paymentTimeoutDesc": "Tempo limite per completare il pagamento"
+      },
+      "walletAddresses": "Indirizzi Wallet",
+      "noSupportedCryptos": "Nessuna criptovaluta supportata trovata.",
+      "migrationHint": "Assicurati che la migrazione del database sia stata applicata.",
+      "requestCrypto": {
+        "title": "Manca una criptovaluta?",
+        "description": "Non vedi la crypto che vuoi accettare? Facci sapere e aggiungeremo il supporto!",
+        "button": "Richiedi una Crypto"
+      }
+    }
+  },
+  "authPage": {
+    "title": "Provider di Autenticazione",
+    "subtitle": "Configura le opzioni di login social per i tuoi clienti. {count} provider attivat{plural}.",
+    "loading": "Caricamento impostazioni autenticazione...",
+    "saveConfig": "Salva Configurazione",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Configurazione salvata con successo!",
+    "howItWorks": {
+      "title": "Come Funziona la Configurazione OAuth",
+      "step1": "Crea un'app OAuth nella console sviluppatori di ogni provider",
+      "step2": "Copia il Client ID e il Client Secret qui",
+      "step3": "Aggiungi l'URL di callback alle impostazioni della tua app OAuth",
+      "step4": "Abilita il provider e salva"
+    },
+    "callbackUrl": {
+      "title": "URL di Callback OAuth",
+      "description": "Usa questo URL come redirect/callback URL quando configuri le app OAuth:",
+      "copy": "Copia"
+    },
+    "providers": {
+      "enabled": "Attivo",
+      "configure": "Configura",
+      "close": "Chiudi",
+      "clientId": "Client ID",
+      "clientIdPlaceholder": "Inserisci il tuo Client ID",
+      "clientSecret": "Client Secret",
+      "clientSecretPlaceholder": "Inserisci il tuo Client Secret",
+      "scopes": "Scope",
+      "openConsole": "Apri Console Sviluppatori {provider}"
+    },
+    "emailPassword": {
+      "title": "Email & Password",
+      "description": "Autenticazione tradizionale email/password. Sempre disponibile.",
+      "alwaysEnabled": "Sempre Attivo"
+    },
+    "twoFactor": {
+      "title": "Autenticazione a Due Fattori",
+      "description": "Aggiungi un livello extra di sicurezza usando un'app authenticator.",
+      "enabled": "Attivo",
+      "notConfigured": "Non configurato sul server",
+      "enable": "Attiva 2FA",
+      "disable": "Disattiva",
+      "disableTitle": "Disattiva Autenticazione a Due Fattori",
+      "disableWarning": "Disattivare il 2FA renderà il tuo account meno sicuro. Inserisci il codice corrente dell'authenticator per confermare.",
+      "disabling": "Disattivazione...",
+      "recoveryCodes": "Codici di Recupero",
+      "regenerateCodes": "Rigenera Codici",
+      "regenerateTitle": "Rigenera Codici di Recupero",
+      "regenerateWarning": "Inserisci il codice corrente dell'authenticator per generare nuovi codici di recupero. I vecchi codici saranno invalidati.",
+      "generating": "Generazione...",
+      "generateNew": "Genera Nuovi Codici",
+      "newCodes": "Nuovi Codici di Recupero",
+      "saveCodesWarning": "Salva questi codici in modo sicuro. I vecchi codici non sono più validi!",
+      "savedCodes": "Ho Salvato i Miei Codici",
+      "enterCode": "Inserisci un codice di 6 cifre",
+      "cancel": "Annulla"
+    },
+    "supabaseNote": {
+      "title": "Configurazione Supabase Richiesta",
+      "description": "Dopo il salvataggio, i provider OAuth devono essere abilitati anche nella Dashboard Supabase sotto Autenticazione → Provider. Questa è una misura di sicurezza che richiede accesso admin a Supabase."
+    }
+  },
+  "socialPage": {
+    "title": "Social & Piattaforme",
+    "subtitle": "Aggiungi i tuoi profili social e link alle piattaforme di delivery. Saranno mostrati nel tuo menu digitale.",
+    "loading": "Caricamento link social...",
+    "saveLinks": "Salva Link",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Link salvati con successo!",
+    "saveFailed": "Impossibile salvare",
+    "noMerchant": "Nessun merchant selezionato",
+    "platformsConnected": "Piattaforme Collegate",
+    "linksAppearOnMenu": "I link appariranno nel tuo menu digitale",
+    "sections": {
+      "socialMedia": {
+        "title": "Social Media",
+        "description": "I tuoi principali profili social"
+      },
+      "asianPlatforms": {
+        "title": "Piattaforme Asiatiche",
+        "description": "App di messaggistica e social popolari in Asia"
+      },
+      "reviewPlatforms": {
+        "title": "Piattaforme di Recensioni",
+        "description": "Dove i clienti possono trovarti e recensirti"
+      },
+      "deliveryPlatforms": {
+        "title": "Piattaforme di Delivery",
+        "description": "App di food delivery dove sei presente"
+      },
+      "customLinks": {
+        "title": "Link Personalizzati",
+        "description": "Aggiungi altre piattaforme o link",
+        "addLink": "Aggiungi Link",
+        "noLinks": "Nessun link personalizzato ancora",
+        "platformName": "Nome piattaforma"
+      }
+    },
+    "requestPlatform": {
+      "title": "Manca una piattaforma?",
+      "description": "Non vedi il social network o la piattaforma di delivery che usi? Facci sapere e la aggiungeremo!",
+      "button": "Richiedi una Piattaforma"
+    }
+  },
+  "auditLogPage": {
+    "title": "Log di Audit",
+    "subtitle": "Traccia tutte le modifiche e le azioni nel tuo backoffice",
+    "loading": "Caricamento...",
+    "refresh": "Aggiorna",
+    "accessDenied": "Accesso Negato",
+    "accessDeniedMessage": "Questa sezione è disponibile solo per utenti autorizzati.",
+    "backToDashboard": "Torna alla Dashboard",
+    "filters": {
+      "allActions": "Tutte le Azioni",
+      "allUsers": "Tutti gli Utenti",
+      "dateRange": "Intervallo Date",
+      "last7Days": "Ultimi 7 giorni",
+      "last30Days": "Ultimi 30 giorni",
+      "last90Days": "Ultimi 90 giorni",
+      "custom": "Personalizzato"
+    },
+    "table": {
+      "timestamp": "Data/Ora",
+      "user": "Utente",
+      "action": "Azione",
+      "resource": "Risorsa",
+      "details": "Dettagli",
+      "ipAddress": "Indirizzo IP"
+    },
+    "actions": {
+      "create": "Creato",
+      "update": "Aggiornato",
+      "delete": "Eliminato",
+      "login": "Accesso",
+      "logout": "Disconnesso",
+      "export": "Esportato",
+      "import": "Importato"
+    },
+    "empty": "Nessuna voce di audit trovata",
+    "export": "Esporta Log",
+    "exporting": "Esportazione..."
+  },
+  "systemAlertsPage": {
+    "title": "Avvisi di Sistema",
+    "subtitle": "Monitoraggio proattivo delle metriche di sistema",
+    "loading": "Caricamento...",
+    "refresh": "Aggiorna",
+    "accessDenied": "Accesso Negato",
+    "accessDeniedMessage": "Questa sezione è disponibile solo per utenti autorizzati a visualizzare gli alert di sistema.",
+    "backToDashboard": "Torna alla Dashboard",
+    "lastUpdate": "Ultimo aggiornamento",
+    "systemStatus": "Stato Sistema",
+    "activeAlerts": "alert attivi su",
+    "monitored": "monitorati",
+    "critical": "Critici",
+    "warning": "Warning",
+    "tabs": {
+      "overview": "Panoramica",
+      "alerts": "Alerts Dettaglio",
+      "team": "Visibilità Team"
+    },
+    "services": {
+      "database": "Database",
+      "redisCache": "Redis Cache",
+      "edgeCache": "Edge Cache",
+      "latency": "Latenza",
+      "active": "ATTIVO",
+      "inactive": "DISATTIVO",
+      "coalescedRequests": "Richieste coalizzate"
+    },
+    "activeAlertsList": {
+      "title": "Alert Attivi",
+      "noAlerts": "Nessun alert attivo. Tutti i sistemi funzionano correttamente."
+    },
+    "alertDetail": {
+      "currentValue": "Valore Attuale",
+      "warningThreshold": "Soglia Warning",
+      "criticalThreshold": "Soglia Critical",
+      "recommendedActions": "Azioni Consigliate"
+    },
+    "teamVisibility": {
+      "title": "Gestione Visibilità Alert",
+      "description": "Seleziona quali membri del team possono visualizzare gli alert di sistema. Solo tu e le persone autorizzate potranno accedere a questa sezione.",
+      "alwaysAuthorized": "Sempre autorizzato",
+      "howItWorks": "Come funziona",
+      "tips": [
+        "Solo il Business Owner ha sempre accesso agli alert di sistema",
+        "Puoi autorizzare manager e staff a visualizzare gli alert",
+        "Gli alert critici vengono notificati via Slack/Email se configurato",
+        "I check vengono eseguiti automaticamente ogni 5 minuti"
+      ]
+    },
+    "saveChanges": "Salva Modifiche",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Impostazioni avvisi salvate!",
+    "saveFailed": "Impossibile salvare le impostazioni avvisi",
+    "categories": {
+      "orders": {
+        "title": "Avvisi Ordini",
+        "newOrder": "Nuovo ordine ricevuto",
+        "orderCancelled": "Ordine annullato",
+        "highValueOrder": "Ordine di alto valore",
+        "threshold": "Soglia avviso (€)"
+      },
+      "inventory": {
+        "title": "Avvisi Inventario",
+        "lowStock": "Avviso scorte basse",
+        "outOfStock": "Avviso esaurito",
+        "expiryWarning": "Avviso data scadenza"
+      },
+      "system": {
+        "title": "Avvisi Sistema",
+        "loginAttempt": "Tentativo di accesso fallito",
+        "settingsChanged": "Impostazioni modificate",
+        "integrationError": "Errore integrazione"
+      },
+      "customer": {
+        "title": "Avvisi Clienti",
+        "newFollower": "Nuovo follower",
+        "newFeedback": "Nuovo feedback",
+        "negativeReview": "Avviso recensione negativa"
+      }
+    },
+    "channels": {
+      "title": "Canali di Avviso",
+      "email": "Email",
+      "push": "Notifica Push",
+      "sms": "SMS",
+      "inApp": "In-App"
+    },
+    "quietHours": {
+      "title": "Ore di Silenzio",
+      "description": "Silenzia gli avvisi non urgenti durante queste ore",
+      "enabled": "Abilita ore di silenzio",
+      "from": "Dalle",
+      "to": "Alle"
+    }
+  },
+  "siteBuilderPage": {
+    "title": "Site Builder",
+    "subtitle": "Personalizza l'aspetto del tuo menu digitale",
+    "loading": "Caricamento impostazioni sito...",
+    "saveChanges": "Salva Modifiche",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Impostazioni sito salvate!",
+    "saveFailed": "Impossibile salvare le impostazioni sito",
+    "preview": "Anteprima",
+    "sections": {
+      "branding": {
+        "title": "Branding",
+        "logo": "Logo",
+        "uploadLogo": "Carica Logo",
+        "favicon": "Favicon",
+        "uploadFavicon": "Carica Favicon",
+        "primaryColor": "Colore Primario",
+        "secondaryColor": "Colore Secondario",
+        "accentColor": "Colore Accento"
+      },
+      "layout": {
+        "title": "Layout",
+        "menuStyle": "Stile Menu",
+        "grid": "Griglia",
+        "list": "Lista",
+        "compact": "Compatto",
+        "showImages": "Mostra immagini prodotti",
+        "showPrices": "Mostra prezzi",
+        "showDescriptions": "Mostra descrizioni"
+      },
+      "header": {
+        "title": "Header",
+        "showLogo": "Mostra logo",
+        "showName": "Mostra nome locale",
+        "showSearch": "Mostra barra di ricerca",
+        "sticky": "Header fisso"
+      },
+      "footer": {
+        "title": "Footer",
+        "showSocial": "Mostra link social",
+        "showContact": "Mostra info contatto",
+        "showHours": "Mostra orari di apertura",
+        "customText": "Testo footer personalizzato",
+        "customTextPlaceholder": "Aggiungi il tuo messaggio..."
+      },
+      "fonts": {
+        "title": "Tipografia",
+        "headingFont": "Font Titoli",
+        "bodyFont": "Font Testo",
+        "fontSize": "Dimensione Font Base"
+      }
+    }
+  },
+  "languagesPage": {
+    "title": "Lingue",
+    "subtitle": "Configura le lingue disponibili per il tuo menu digitale",
+    "loading": "Caricamento impostazioni lingua...",
+    "saveChanges": "Salva Modifiche",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Impostazioni lingua salvate!",
+    "saveFailed": "Impossibile salvare le impostazioni lingua",
+    "defaultLanguage": {
+      "title": "Lingua Predefinita",
+      "description": "La lingua principale per il tuo menu"
+    },
+    "availableLanguages": {
+      "title": "Lingue Disponibili",
+      "description": "Lingue tra cui i clienti possono scegliere",
+      "add": "Aggiungi Lingua",
+      "remove": "Rimuovi",
+      "setDefault": "Imposta come Predefinita"
+    },
+    "autoTranslate": {
+      "title": "Traduzione Automatica",
+      "description": "Traduci automaticamente gli elementi del menu in altre lingue",
+      "enabled": "Traduzione automatica attiva",
+      "disabled": "Traduzione automatica disattivata",
+      "note": "Le traduzioni possono essere modificate manualmente nella sezione Contenuti"
+    },
+    "languageNames": {
+      "en": "English",
+      "it": "Italiano",
+      "es": "Español",
+      "fr": "Français",
+      "de": "Deutsch",
+      "pt": "Português",
+      "zh": "中文",
+      "ja": "日本語",
+      "ko": "한국어",
+      "vi": "Tiếng Việt",
+      "ar": "العربية",
+      "ru": "Русский"
+    }
+  },
+  "domainPage": {
+    "title": "Dominio Personalizzato",
+    "subtitle": "Configura il tuo dominio personalizzato per il menu digitale",
+    "loading": "Caricamento impostazioni dominio...",
+    "saveChanges": "Salva Modifiche",
+    "saving": "Salvataggio...",
+    "saveSuccess": "Impostazioni dominio salvate!",
+    "saveFailed": "Impossibile salvare le impostazioni dominio",
+    "currentDomain": {
+      "title": "Dominio Attuale",
+      "description": "Il tuo menu è attualmente accessibile a:",
+      "default": "Dominio GUDBRO predefinito",
+      "custom": "Dominio personalizzato"
+    },
+    "customDomain": {
+      "title": "Dominio Personalizzato",
+      "description": "Usa il tuo dominio per il menu digitale",
+      "placeholder": "menu.tuoristorante.com",
+      "add": "Aggiungi Dominio Personalizzato",
+      "remove": "Rimuovi",
+      "verify": "Verifica Dominio"
+    },
+    "dnsConfig": {
+      "title": "Configurazione DNS",
+      "description": "Aggiungi questi record DNS al tuo provider di dominio:",
+      "type": "Tipo",
+      "name": "Nome",
+      "value": "Valore",
+      "ttl": "TTL",
+      "status": "Stato",
+      "verified": "Verificato",
+      "pending": "In Attesa",
+      "failed": "Fallito"
+    },
+    "ssl": {
+      "title": "Certificato SSL",
+      "description": "Il certificato SSL gratuito viene fornito automaticamente",
+      "status": "Stato",
+      "active": "Attivo",
+      "provisioning": "Provisioning...",
+      "error": "Errore"
+    }
+  },
+  "analyticsPage": {
+    "title": "Analytics",
+    "subtitle": "Monitora coinvolgimento utenti e performance del menu",
+    "loading": "Caricamento analytics...",
+    "timeRange": {
+      "7d": "7 Giorni",
+      "30d": "30 Giorni",
+      "90d": "90 Giorni",
+      "1y": "1 Anno"
+    },
+    "metrics": {
+      "pageViews": "Visualizzazioni",
+      "uniqueVisitors": "Visitatori Unici",
+      "avgSessionTime": "Tempo Medio Sessione",
+      "bounceRate": "Frequenza di Rimbalzo"
+    },
+    "sections": {
+      "dailyViews": "Visualizzazioni Giornaliere",
+      "topItems": "Prodotti Più Visti",
+      "popularPages": "Pagine Popolari",
+      "devices": "Dispositivi",
+      "hourlyActivity": "Attività Oraria"
+    },
+    "empty": {
+      "title": "Nessun dato analytics",
+      "description": "Inizia a tracciare condividendo il tuo QR code con i clienti"
+    }
+  },
+  "teamPage": {
+    "title": "Team",
+    "subtitle": "Gestisci il tuo staff e le impostazioni del team",
+    "loading": "Caricamento dati team...",
+    "tabs": {
+      "members": "Team",
+      "performance": "Performance",
+      "settings": "Impostazioni"
+    },
+    "members": {
+      "addMember": "Aggiungi Membro",
+      "inviteMember": "Invita Membro",
+      "name": "Nome",
+      "role": "Ruolo",
+      "email": "Email",
+      "status": "Stato",
+      "lastActive": "Ultima Attività",
+      "actions": "Azioni"
+    },
+    "roles": {
+      "owner": "Proprietario",
+      "manager": "Manager",
+      "staff": "Staff",
+      "viewer": "Visualizzatore"
+    },
+    "status": {
+      "active": "Attivo",
+      "inactive": "Inattivo",
+      "pending": "In Attesa"
+    },
+    "performance": {
+      "topPerformers": "Migliori Performance",
+      "weeklyReport": "Report Settimanale",
+      "averageRating": "Valutazione Media",
+      "totalReviews": "Recensioni Totali"
+    },
+    "empty": {
+      "title": "Nessun membro del team",
+      "description": "Aggiungi membri del team per iniziare"
+    }
+  },
+  "billingPage": {
+    "title": "Fatturazione & Abbonamento",
+    "subtitle": "Gestisci abbonamento e metodi di pagamento",
+    "loading": "Caricamento informazioni fatturazione...",
+    "currentPlan": {
+      "title": "Piano Attuale",
+      "free": "Gratuito",
+      "starter": "Starter",
+      "pro": "Pro",
+      "enterprise": "Enterprise"
+    },
+    "billing": {
+      "monthly": "Mensile",
+      "yearly": "Annuale",
+      "savePercent": "Risparmia {percent}%",
+      "perMonth": "/mese",
+      "perYear": "/anno"
+    },
+    "features": {
+      "qrCodes": "QR Code",
+      "scans": "Scansioni",
+      "teamMembers": "Membri Team",
+      "languages": "Lingue",
+      "unlimited": "Illimitati"
+    },
+    "actions": {
+      "upgrade": "Upgrade",
+      "downgrade": "Downgrade",
+      "changePlan": "Cambia Piano",
+      "cancelSubscription": "Annulla Abbonamento",
+      "reactivate": "Riattiva"
+    },
+    "paymentMethods": {
+      "title": "Metodi di Pagamento",
+      "addCard": "Aggiungi Carta",
+      "defaultCard": "Predefinita",
+      "expires": "Scade"
+    },
+    "invoices": {
+      "title": "Fatture",
+      "date": "Data",
+      "amount": "Importo",
+      "status": "Stato",
+      "download": "Scarica",
+      "paid": "Pagata",
+      "pending": "In Attesa"
+    }
+  },
+  "partnershipsPage": {
+    "title": "Partnership",
+    "subtitle": "Gestisci le tue partnership commerciali e integrazioni",
+    "loading": "Caricamento partnership...",
+    "tabs": {
+      "accommodations": "Alloggi",
+      "tourOperators": "Tour Operator",
+      "conventions": "Convenzioni",
+      "products": "Prodotti",
+      "outreach": "Outreach"
+    },
+    "stats": {
+      "activePartners": "Partner Attivi",
+      "pendingRequests": "Richieste in Attesa",
+      "totalRevenue": "Ricavo Totale"
+    },
+    "empty": {
+      "title": "Nessuna partnership",
+      "description": "Inizia a connetterti con attività locali"
+    }
+  },
+  "qrCodesPage": {
+    "title": "QR Code",
+    "subtitle": "Gestisci i tuoi QR code per l'accesso al menu",
+    "loading": "Caricamento QR code...",
+    "createNew": "Crea QR Code",
+    "table": {
+      "name": "Nome",
+      "type": "Tipo",
+      "scans": "Scansioni",
+      "created": "Creato",
+      "status": "Stato",
+      "actions": "Azioni"
+    },
+    "types": {
+      "menu": "Menu",
+      "table": "Tavolo",
+      "takeaway": "Asporto",
+      "event": "Evento"
+    },
+    "status": {
+      "active": "Attivo",
+      "paused": "In Pausa",
+      "expired": "Scaduto"
+    },
+    "actions": {
+      "download": "Scarica",
+      "edit": "Modifica",
+      "duplicate": "Duplica",
+      "delete": "Elimina",
+      "viewAnalytics": "Vedi Analytics"
+    },
+    "empty": {
+      "title": "Nessun QR code",
+      "description": "Crea il tuo primo QR code per iniziare"
+    }
+  }
+}

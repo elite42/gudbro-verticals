@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
@@ -70,6 +71,7 @@ const MOCK_TEAM: TeamMember[] = [
 ];
 
 export default function SystemAlertsPage() {
+  const t = useTranslations('systemAlertsPage');
   const { hasPermission } = useAuth();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabId>('overview');
@@ -97,16 +99,13 @@ export default function SystemAlertsPage() {
             />
           </svg>
         </div>
-        <h2 className="mb-2 text-xl font-bold text-gray-900">Accesso Negato</h2>
-        <p className="max-w-md text-center text-gray-500">
-          Questa sezione è disponibile solo per utenti autorizzati a visualizzare gli alert di
-          sistema.
-        </p>
+        <h2 className="mb-2 text-xl font-bold text-gray-900">{t('accessDenied')}</h2>
+        <p className="max-w-md text-center text-gray-500">{t('accessDeniedMessage')}</p>
         <button
           onClick={() => router.push('/dashboard')}
           className="mt-4 rounded-lg bg-gray-100 px-4 py-2 text-gray-700 hover:bg-gray-200"
         >
-          Torna alla Dashboard
+          {t('backToDashboard')}
         </button>
       </div>
     );
@@ -181,10 +180,10 @@ export default function SystemAlertsPage() {
     }
   };
 
-  const tabs: { id: TabId; label: string; icon: string }[] = [
-    { id: 'overview', label: 'Panoramica', icon: '📊' },
-    { id: 'alerts', label: 'Alerts Dettaglio', icon: '🔔' },
-    { id: 'team', label: 'Visibilità Team', icon: '👥' },
+  const tabs: { id: TabId; labelKey: string; icon: string }[] = [
+    { id: 'overview', labelKey: 'tabs.overview', icon: '📊' },
+    { id: 'alerts', labelKey: 'tabs.alerts', icon: '🔔' },
+    { id: 'team', labelKey: 'tabs.team', icon: '👥' },
   ];
 
   return (
@@ -197,15 +196,15 @@ export default function SystemAlertsPage() {
               <span className="text-xl">🔔</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">System Alerts</h1>
-              <p className="text-gray-500">Monitoraggio proattivo delle metriche di sistema</p>
+              <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+              <p className="text-gray-500">{t('subtitle')}</p>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-3">
           {lastRefresh && (
             <span className="text-sm text-gray-500">
-              Ultimo aggiornamento: {lastRefresh.toLocaleTimeString()}
+              {t('lastUpdate')}: {lastRefresh.toLocaleTimeString()}
             </span>
           )}
           <button
@@ -233,7 +232,7 @@ export default function SystemAlertsPage() {
             ) : (
               '↻'
             )}
-            Aggiorna
+            {t('refresh')}
           </button>
         </div>
       </div>
@@ -303,7 +302,7 @@ export default function SystemAlertsPage() {
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
-              {tab.label}
+              {t(tab.labelKey)}
             </button>
           ))}
         </nav>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Plan {
   id: string;
@@ -115,6 +116,7 @@ const invoices = [
 ];
 
 export default function BillingPage() {
+  const t = useTranslations('billingPage');
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
   const currentPlan = plans.find((p) => p.isCurrent);
 
@@ -123,15 +125,13 @@ export default function BillingPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Billing</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Manage your subscription and payment methods
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
       </div>
 
       {/* Current Plan */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
+      <div className="rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-blue-200">Current Plan</p>
@@ -144,14 +144,17 @@ export default function BillingPage() {
             <p className="text-blue-200">Usage this month</p>
             <div className="mt-1">
               <span className="text-2xl font-bold">847</span>
-              <span className="text-blue-200"> / {currentPlan?.limits.scans?.toLocaleString() || '1,000'} scans</span>
+              <span className="text-blue-200">
+                {' '}
+                / {currentPlan?.limits.scans?.toLocaleString() || '1,000'} scans
+              </span>
             </div>
           </div>
         </div>
 
         <div className="mt-6">
-          <div className="h-2 bg-blue-500 rounded-full overflow-hidden">
-            <div className="h-full bg-white rounded-full" style={{ width: '84.7%' }} />
+          <div className="h-2 overflow-hidden rounded-full bg-blue-500">
+            <div className="h-full rounded-full bg-white" style={{ width: '84.7%' }} />
           </div>
           <div className="mt-2 flex items-center justify-between text-sm">
             <span className="text-blue-200">84.7% used</span>
@@ -162,25 +165,25 @@ export default function BillingPage() {
 
       {/* Usage Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-sm text-gray-500">QR Codes</p>
           <p className="text-2xl font-bold text-gray-900">
             4 <span className="text-sm font-normal text-gray-500">/ 20</span>
           </p>
         </div>
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-sm text-gray-500">Monthly Scans</p>
           <p className="text-2xl font-bold text-gray-900">
             847 <span className="text-sm font-normal text-gray-500">/ 10K</span>
           </p>
         </div>
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-sm text-gray-500">Team Members</p>
           <p className="text-2xl font-bold text-gray-900">
             2 <span className="text-sm font-normal text-gray-500">/ 3</span>
           </p>
         </div>
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-sm text-gray-500">Languages</p>
           <p className="text-2xl font-bold text-gray-900">
             3 <span className="text-sm font-normal text-gray-500">/ 6</span>
@@ -189,29 +192,25 @@ export default function BillingPage() {
       </div>
 
       {/* Plans */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-gray-900">Change Plan</h3>
             <p className="text-sm text-gray-500">Choose the plan that works best for you</p>
           </div>
-          <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+          <div className="flex items-center gap-2 rounded-lg bg-gray-100 p-1">
             <button
               onClick={() => setBillingPeriod('monthly')}
-              className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-                billingPeriod === 'monthly'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600'
+              className={`rounded px-3 py-1.5 text-sm font-medium transition-colors ${
+                billingPeriod === 'monthly' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600'
               }`}
             >
               Monthly
             </button>
             <button
               onClick={() => setBillingPeriod('yearly')}
-              className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
-                billingPeriod === 'yearly'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600'
+              className={`rounded px-3 py-1.5 text-sm font-medium transition-colors ${
+                billingPeriod === 'yearly' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600'
               }`}
             >
               Yearly <span className="text-green-600">-17%</span>
@@ -223,21 +222,21 @@ export default function BillingPage() {
           {plans.map((plan) => (
             <div
               key={plan.id}
-              className={`p-4 rounded-xl border-2 ${
+              className={`rounded-xl border-2 p-4 ${
                 plan.isCurrent
                   ? 'border-blue-600 bg-blue-50'
                   : plan.isPopular
-                  ? 'border-purple-300 bg-purple-50'
-                  : 'border-gray-200'
+                    ? 'border-purple-300 bg-purple-50'
+                    : 'border-gray-200'
               }`}
             >
               {plan.isPopular && (
-                <span className="inline-block px-2 py-1 bg-purple-600 text-white text-xs font-medium rounded mb-2">
+                <span className="mb-2 inline-block rounded bg-purple-600 px-2 py-1 text-xs font-medium text-white">
                   Most Popular
                 </span>
               )}
               {plan.isCurrent && (
-                <span className="inline-block px-2 py-1 bg-blue-600 text-white text-xs font-medium rounded mb-2">
+                <span className="mb-2 inline-block rounded bg-blue-600 px-2 py-1 text-xs font-medium text-white">
                   Current Plan
                 </span>
               )}
@@ -266,12 +265,12 @@ export default function BillingPage() {
               </ul>
 
               <button
-                className={`mt-4 w-full py-2 rounded-lg text-sm font-medium ${
+                className={`mt-4 w-full rounded-lg py-2 text-sm font-medium ${
                   plan.isCurrent
-                    ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                    ? 'cursor-not-allowed bg-gray-200 text-gray-500'
                     : plan.isPopular
-                    ? 'bg-purple-600 text-white hover:bg-purple-700'
-                    : 'bg-gray-900 text-white hover:bg-gray-800'
+                      ? 'bg-purple-600 text-white hover:bg-purple-700'
+                      : 'bg-gray-900 text-white hover:bg-gray-800'
                 }`}
                 disabled={plan.isCurrent}
               >
@@ -283,13 +282,13 @@ export default function BillingPage() {
       </div>
 
       {/* Payment Method */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
         <h3 className="font-semibold text-gray-900">Payment Method</h3>
         <p className="text-sm text-gray-500">Manage your payment information</p>
 
-        <div className="mt-4 flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+        <div className="mt-4 flex items-center justify-between rounded-lg bg-gray-50 p-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-8 bg-gradient-to-r from-blue-600 to-blue-800 rounded flex items-center justify-center text-white text-xs font-bold">
+            <div className="flex h-8 w-12 items-center justify-center rounded bg-gradient-to-r from-blue-600 to-blue-800 text-xs font-bold text-white">
               VISA
             </div>
             <div>
@@ -297,7 +296,7 @@ export default function BillingPage() {
               <p className="text-sm text-gray-500">Expires 12/25</p>
             </div>
           </div>
-          <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100">
+          <button className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">
             Update
           </button>
         </div>
@@ -308,15 +307,13 @@ export default function BillingPage() {
       </div>
 
       {/* Invoices */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-gray-900">Invoices</h3>
             <p className="text-sm text-gray-500">Download your past invoices</p>
           </div>
-          <button className="text-sm text-blue-600 hover:text-blue-700">
-            View all
-          </button>
+          <button className="text-sm text-blue-600 hover:text-blue-700">View all</button>
         </div>
 
         <div className="mt-4 overflow-x-auto">
@@ -338,7 +335,7 @@ export default function BillingPage() {
                   <td className="py-3 text-sm font-medium">${invoice.amount}.00</td>
                   <td className="py-3">
                     <span
-                      className={`px-2 py-1 text-xs font-medium rounded ${
+                      className={`rounded px-2 py-1 text-xs font-medium ${
                         invoice.status === 'paid'
                           ? 'bg-green-100 text-green-700'
                           : 'bg-yellow-100 text-yellow-700'
@@ -348,9 +345,7 @@ export default function BillingPage() {
                     </span>
                   </td>
                   <td className="py-3 text-right">
-                    <button className="text-sm text-blue-600 hover:text-blue-700">
-                      Download
-                    </button>
+                    <button className="text-sm text-blue-600 hover:text-blue-700">Download</button>
                   </td>
                 </tr>
               ))}
@@ -360,7 +355,7 @@ export default function BillingPage() {
       </div>
 
       {/* Billing Info */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="rounded-xl border border-gray-200 bg-white p-6">
         <h3 className="font-semibold text-gray-900">Billing Information</h3>
         <p className="text-sm text-gray-500">This will appear on your invoices</p>
 
@@ -370,7 +365,7 @@ export default function BillingPage() {
             <input
               type="text"
               defaultValue="ROOTS Plant-Based Cafe"
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
@@ -378,7 +373,7 @@ export default function BillingPage() {
             <input
               type="text"
               placeholder="Optional"
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div className="sm:col-span-2">
@@ -386,13 +381,13 @@ export default function BillingPage() {
             <input
               type="text"
               defaultValue="123 Nguyen Van Linh, Da Nang, Vietnam"
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
 
         <div className="mt-4 flex justify-end">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">
+          <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
             Save Changes
           </button>
         </div>

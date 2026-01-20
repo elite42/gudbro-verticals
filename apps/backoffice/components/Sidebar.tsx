@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import {
   LayoutDashboard,
@@ -15,6 +16,7 @@ import {
 
 export function Sidebar() {
   const pathname = usePathname();
+  const t = useTranslations('nav');
 
   const isActive = (path: string) => {
     return pathname === path || pathname.startsWith(`${path}/`);
@@ -35,7 +37,7 @@ export function Sidebar() {
             className="w-full justify-start"
           >
             <LayoutDashboard className="mr-2 h-4 w-4" />
-            Dashboard
+            {t('dashboard')}
           </Button>
         </Link>
         <Link href="/orders">
@@ -44,7 +46,7 @@ export function Sidebar() {
             className="w-full justify-start"
           >
             <ShoppingBag className="mr-2 h-4 w-4" />
-            Orders
+            {t('orders')}
           </Button>
         </Link>
         <Link href="/products">
@@ -53,7 +55,7 @@ export function Sidebar() {
             className="w-full justify-start"
           >
             <Box className="mr-2 h-4 w-4" />
-            My Products
+            {t('products')}
           </Button>
         </Link>
         <Link href="/catalog">
@@ -62,7 +64,7 @@ export function Sidebar() {
             className="w-full justify-start"
           >
             <Box className="mr-2 h-4 w-4" />
-            Global Catalog
+            {t('catalog')}
           </Button>
         </Link>
         <Link href="/analytics">
@@ -71,7 +73,7 @@ export function Sidebar() {
             className="w-full justify-start"
           >
             <BarChart3 className="mr-2 h-4 w-4" />
-            Analytics
+            {t('analytics')}
           </Button>
         </Link>
         <Link href="/partnerships">
@@ -80,7 +82,7 @@ export function Sidebar() {
             className="w-full justify-start"
           >
             <Handshake className="mr-2 h-4 w-4" />
-            Partnerships
+            {t('partnerships')}
           </Button>
         </Link>
         <Link href="/settings">
@@ -89,7 +91,7 @@ export function Sidebar() {
             className="w-full justify-start"
           >
             <Settings className="mr-2 h-4 w-4" />
-            Settings
+            {t('settings')}
           </Button>
         </Link>
       </nav>

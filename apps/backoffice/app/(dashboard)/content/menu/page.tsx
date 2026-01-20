@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { useToast } from '@/lib/contexts/ToastContext';
+import { useTranslations } from 'next-intl';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,6 +50,7 @@ interface Category {
 }
 
 export default function MenuPage() {
+  const t = useTranslations('menuPage');
   const [categories, setCategories] = useState<Category[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -113,14 +115,12 @@ export default function MenuPage() {
 
       // Update local state
       setMenuItems((prev) =>
-        prev.map((item) =>
-          item.id === itemId ? { ...item, is_available: !currentStatus } : item
-        )
+        prev.map((item) => (item.id === itemId ? { ...item, is_available: !currentStatus } : item))
       );
 
-      toast.success(`Item marked as ${!currentStatus ? 'available' : 'unavailable'}`);
+      toast.success(!currentStatus ? t('markedAvailable') : t('markedUnavailable'));
     } catch (err) {
-      toast.error('Failed to update availability');
+      toast.error(t('failedUpdate'));
       console.error('Error toggling availability:', err);
     }
   };
@@ -130,7 +130,7 @@ export default function MenuPage() {
     const lines = text.trim().split('\n');
     if (lines.length < 2) return [];
 
-    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+    const headers = lines[0].split(',').map((h) => h.trim().toLowerCase().replace(/"/g, ''));
     const rows: Record<string, string>[] = [];
 
     for (let i = 1; i < lines.length; i++) {
@@ -174,7 +174,7 @@ export default function MenuPage() {
       const rows = parseCSV(text);
 
       if (rows.length === 0) {
-        toast.error('CSV file is empty or invalid');
+        toast.error(t('csvEmpty'));
         return;
       }
 
@@ -192,7 +192,7 @@ export default function MenuPage() {
         // Find category by slug
         let categoryId = row.category_id;
         if (!categoryId && row.category_slug) {
-          const category = categories.find(c => c.slug === row.category_slug);
+          const category = categories.find((c) => c.slug === row.category_slug);
           if (category) {
             categoryId = category.id;
           } else {
@@ -208,10 +208,13 @@ export default function MenuPage() {
 
         // Generate slug from name
         const nameForSlug = row.name_en || row.name_vi || '';
-        const slug = nameForSlug
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-|-$/g, '') + '-' + Date.now();
+        const slug =
+          nameForSlug
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-|-$/g, '') +
+          '-' +
+          Date.now();
 
         // Parse price
         const price = parseFloat(row.price) || 0;
@@ -252,9 +255,7 @@ export default function MenuPage() {
         };
 
         // Insert into Supabase
-        const { error: insertError } = await supabase
-          .from('menu_items')
-          .insert(menuItem);
+        const { error: insertError } = await supabase.from('menu_items').insert(menuItem);
 
         if (insertError) {
           errors.push(`Row ${rowNum}: ${insertError.message}`);
@@ -265,11 +266,13 @@ export default function MenuPage() {
 
       // Show toast based on results
       if (successCount > 0 && errors.length === 0) {
-        toast.success(`Successfully imported ${successCount} item${successCount > 1 ? 's' : ''}`);
+        toast.success(t('importSuccess', { count: successCount }));
       } else if (successCount > 0 && errors.length > 0) {
-        toast.warning(`Imported ${successCount} items with ${errors.length} errors`);
+        toast.warning(t('importPartial', { success: successCount, errors: errors.length }));
       } else if (errors.length > 0) {
-        toast.error(`Import failed: ${errors.slice(0, 3).join(', ')}${errors.length > 3 ? '...' : ''}`);
+        toast.error(
+          `${t('importFailed')}: ${errors.slice(0, 3).join(', ')}${errors.length > 3 ? '...' : ''}`
+        );
       }
 
       // Refresh data if any items were imported
@@ -282,10 +285,12 @@ export default function MenuPage() {
         if (itemsData) {
           setMenuItems(itemsData);
           // Update category counts
-          setCategories(prev => prev.map(cat => ({
-            ...cat,
-            item_count: itemsData.filter(item => item.category_id === cat.id).length,
-          })));
+          setCategories((prev) =>
+            prev.map((cat) => ({
+              ...cat,
+              item_count: itemsData.filter((item) => item.category_id === cat.id).length,
+            }))
+          );
         }
       }
     } catch (err) {
@@ -350,29 +355,25 @@ export default function MenuPage() {
 
   // Delete item
   const deleteItem = async (itemId: string) => {
-    if (!confirm('Are you sure you want to delete this item?')) return;
+    if (!confirm(t('confirmDelete'))) return;
 
     try {
-      const { error } = await supabase
-        .from('menu_items')
-        .delete()
-        .eq('id', itemId);
+      const { error } = await supabase.from('menu_items').delete().eq('id', itemId);
 
       if (error) throw error;
 
       // Update local state
       setMenuItems((prev) => prev.filter((item) => item.id !== itemId));
-      toast.success('Item deleted successfully');
+      toast.success(t('deleteSuccess'));
     } catch (err) {
-      toast.error('Failed to delete item');
+      toast.error(t('deleteFailed'));
       console.error('Error deleting item:', err);
     }
   };
 
   // Filter items
   const filteredItems = menuItems.filter((item) => {
-    const matchesCategory =
-      selectedCategory === 'all' || item.category_id === selectedCategory;
+    const matchesCategory = selectedCategory === 'all' || item.category_id === selectedCategory;
     const name = item.name_multilang?.en || '';
     const description = item.description_multilang?.en || '';
     const matchesSearch =
@@ -412,10 +413,10 @@ export default function MenuPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading menu data...</p>
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          <p className="mt-4 text-gray-600">{t('loading')}</p>
         </div>
       </div>
     );
@@ -423,16 +424,16 @@ export default function MenuPage() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <div className="text-red-500 text-4xl mb-4">⚠️</div>
-          <h2 className="text-xl font-semibold text-gray-900">Error loading menu</h2>
+          <div className="mb-4 text-4xl text-red-500">⚠️</div>
+          <h2 className="text-xl font-semibold text-gray-900">{t('errorTitle')}</h2>
           <p className="mt-2 text-gray-600">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg"
+            className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white"
           >
-            Retry
+            {t('retry')}
           </button>
         </div>
       </div>
@@ -446,14 +447,14 @@ export default function MenuPage() {
         <div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <Link href="/content" className="hover:text-gray-700">
-              Content
+              {t('breadcrumb')}
             </Link>
             <span>/</span>
             <span className="text-gray-900">Menu</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Menu & Products</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            {totalItems} items • Data from Supabase
+          <h1 className="mt-1 text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            {t('itemsCount', { count: totalItems })} • {t('dataSource')}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -467,23 +468,23 @@ export default function MenuPage() {
           />
           <button
             onClick={downloadCSVTemplate}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
-            title="Download CSV template"
+            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            title={t('template')}
           >
-            Template
+            {t('template')}
           </button>
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={importing}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
           >
-            {importing ? 'Importing...' : 'Import CSV'}
+            {importing ? t('importing') : t('importCsv')}
           </button>
           <Link
             href="/content/menu/new"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
-            + Add Item
+            + {t('addItem')}
           </Link>
         </div>
       </div>
@@ -492,16 +493,16 @@ export default function MenuPage() {
       <div className="flex gap-2 overflow-x-auto pb-2">
         <button
           onClick={() => setSelectedCategory('all')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+          className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
             selectedCategory === 'all'
               ? 'bg-blue-600 text-white'
-              : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+              : 'border border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
           }`}
         >
           <span>📋</span>
-          <span>All Items</span>
+          <span>{t('allItems')}</span>
           <span
-            className={`px-1.5 py-0.5 rounded text-xs ${
+            className={`rounded px-1.5 py-0.5 text-xs ${
               selectedCategory === 'all' ? 'bg-blue-500' : 'bg-gray-100'
             }`}
           >
@@ -512,16 +513,16 @@ export default function MenuPage() {
           <button
             key={category.id}
             onClick={() => setSelectedCategory(category.id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               selectedCategory === category.id
                 ? 'bg-blue-600 text-white'
-                : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+                : 'border border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
             }`}
           >
             <span>{category.icon || '📦'}</span>
             <span>{getName(category.name_multilang)}</span>
             <span
-              className={`px-1.5 py-0.5 rounded text-xs ${
+              className={`rounded px-1.5 py-0.5 text-xs ${
                 selectedCategory === category.id ? 'bg-blue-500' : 'bg-gray-100'
               }`}
             >
@@ -533,25 +534,25 @@ export default function MenuPage() {
 
       {/* Search & Filters */}
       <div className="flex items-center gap-4">
-        <div className="flex-1 relative">
+        <div className="relative flex-1">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
           <input
             type="text"
-            placeholder="Search menu items..."
+            placeholder={t('searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <select className="px-4 py-2 border border-gray-300 rounded-lg text-sm">
-          <option>All Status</option>
-          <option>Available</option>
-          <option>Unavailable</option>
+        <select className="rounded-lg border border-gray-300 px-4 py-2 text-sm">
+          <option>{t('allStatus')}</option>
+          <option>{t('available')}</option>
+          <option>{t('unavailable')}</option>
         </select>
-        <select className="px-4 py-2 border border-gray-300 rounded-lg text-sm">
-          <option>Sort by Order</option>
-          <option>Sort by Name</option>
-          <option>Sort by Price</option>
+        <select className="rounded-lg border border-gray-300 px-4 py-2 text-sm">
+          <option>{t('sortByOrder')}</option>
+          <option>{t('sortByName')}</option>
+          <option>{t('sortByPrice')}</option>
         </select>
       </div>
 
@@ -564,29 +565,29 @@ export default function MenuPage() {
           return (
             <div
               key={item.id}
-              className={`p-4 bg-white rounded-xl border ${
+              className={`rounded-xl border bg-white p-4 ${
                 item.is_available ? 'border-gray-200' : 'border-red-200 bg-red-50'
               }`}
             >
               {/* Image placeholder */}
-              <div className="h-32 bg-gray-100 rounded-lg flex items-center justify-center text-4xl relative">
+              <div className="relative flex h-32 items-center justify-center rounded-lg bg-gray-100 text-4xl">
                 {item.image_url ? (
                   <img
                     src={item.image_url}
                     alt={getName(item.name_multilang)}
-                    className="w-full h-full object-cover rounded-lg"
+                    className="h-full w-full rounded-lg object-cover"
                   />
                 ) : (
                   getCategoryIcon(item.category_id)
                 )}
                 {item.is_featured && (
-                  <span className="absolute top-2 left-2 px-2 py-0.5 bg-yellow-400 text-yellow-900 text-xs font-medium rounded">
-                    ⭐ Featured
+                  <span className="absolute left-2 top-2 rounded bg-yellow-400 px-2 py-0.5 text-xs font-medium text-yellow-900">
+                    ⭐ {t('featured')}
                   </span>
                 )}
                 {item.is_new && (
-                  <span className="absolute top-2 right-2 px-2 py-0.5 bg-green-500 text-white text-xs font-medium rounded">
-                    NEW
+                  <span className="absolute right-2 top-2 rounded bg-green-500 px-2 py-0.5 text-xs font-medium text-white">
+                    {t('new')}
                   </span>
                 )}
               </div>
@@ -596,29 +597,29 @@ export default function MenuPage() {
                   <h3 className="font-semibold text-gray-900">{getName(item.name_multilang)}</h3>
                   <span className="font-bold text-blue-600">{formatPrice(item.price)}</span>
                 </div>
-                <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-                  {item.description_multilang?.en || 'No description'}
+                <p className="mt-1 line-clamp-2 text-sm text-gray-500">
+                  {item.description_multilang?.en || t('noDescription')}
                 </p>
 
                 {/* Safety badges */}
                 <div className="mt-2 flex flex-wrap gap-1">
                   {allergenCount > 0 && (
-                    <span className="px-1.5 py-0.5 bg-red-100 text-red-700 rounded text-xs">
-                      ⚠️ {allergenCount} allergen{allergenCount > 1 ? 's' : ''}
+                    <span className="rounded bg-red-100 px-1.5 py-0.5 text-xs text-red-700">
+                      ⚠️ {allergenCount} {allergenCount > 1 ? t('allergens') : t('allergen')}
                     </span>
                   )}
                   {item.dietary_flags?.vegan && (
-                    <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-xs">
-                      🌱 Vegan
+                    <span className="rounded bg-green-100 px-1.5 py-0.5 text-xs text-green-700">
+                      🌱 {t('vegan')}
                     </span>
                   )}
                   {item.dietary_flags?.halal && (
-                    <span className="px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded text-xs">
-                      ☪️ Halal
+                    <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-xs text-emerald-700">
+                      ☪️ {t('halal')}
                     </span>
                   )}
                   {item.spice_level > 0 && (
-                    <span className="px-1.5 py-0.5 bg-orange-100 text-orange-700 rounded text-xs">
+                    <span className="rounded bg-orange-100 px-1.5 py-0.5 text-xs text-orange-700">
                       🌶️ {'🔥'.repeat(item.spice_level)}
                     </span>
                   )}
@@ -626,28 +627,32 @@ export default function MenuPage() {
 
                 {/* Translation Status */}
                 <div className="mt-3 flex items-center gap-2">
-                  <span className="text-xs text-gray-500">Translations:</span>
+                  <span className="text-xs text-gray-500">{t('translations')}:</span>
                   <span
-                    className={`px-1.5 py-0.5 rounded text-xs ${
-                      translations.hasEn ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                    className={`rounded px-1.5 py-0.5 text-xs ${
+                      translations.hasEn
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-yellow-100 text-yellow-700'
                     }`}
                   >
                     EN {translations.hasEn ? '✓' : '⚠️'}
                   </span>
                   <span
-                    className={`px-1.5 py-0.5 rounded text-xs ${
-                      translations.hasVi ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                    className={`rounded px-1.5 py-0.5 text-xs ${
+                      translations.hasVi
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-yellow-100 text-yellow-700'
                     }`}
                   >
                     VI {translations.hasVi ? '✓' : '⚠️'}
                   </span>
                   {translations.hasKo && (
-                    <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-xs">
+                    <span className="rounded bg-green-100 px-1.5 py-0.5 text-xs text-green-700">
                       KO ✓
                     </span>
                   )}
                   {translations.hasJa && (
-                    <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded text-xs">
+                    <span className="rounded bg-green-100 px-1.5 py-0.5 text-xs text-green-700">
                       JA ✓
                     </span>
                   )}
@@ -658,33 +663,33 @@ export default function MenuPage() {
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/content/menu/${item.slug}`}
-                      className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
-                      title="Edit"
+                      className="rounded p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                      title={t('edit')}
                     >
                       ✏️
                     </Link>
                     <button
-                      className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
-                      title="Duplicate"
+                      className="rounded p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                      title={t('duplicate')}
                     >
                       📋
                     </button>
                     <button
                       onClick={() => deleteItem(item.id)}
-                      className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
-                      title="Delete"
+                      className="rounded p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
+                      title={t('delete')}
                     >
                       🗑️
                     </button>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
+                  <label className="relative inline-flex cursor-pointer items-center">
                     <input
                       type="checkbox"
                       checked={item.is_available}
                       onChange={() => toggleAvailability(item.id, item.is_available)}
-                      className="sr-only peer"
+                      className="peer sr-only"
                     />
-                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500"></div>
+                    <div className="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
                   </label>
                 </div>
               </div>
@@ -695,22 +700,20 @@ export default function MenuPage() {
         {/* Add New Item Card */}
         <Link
           href="/content/menu/new"
-          className="p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-colors flex flex-col items-center justify-center min-h-[280px]"
+          className="flex min-h-[280px] flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-4 transition-colors hover:border-blue-400 hover:bg-blue-50"
         >
           <span className="text-4xl text-gray-400">+</span>
-          <span className="mt-2 text-sm font-medium text-gray-600">Add New Item</span>
+          <span className="mt-2 text-sm font-medium text-gray-600">{t('addNewItem')}</span>
         </Link>
       </div>
 
       {/* Empty state */}
       {filteredItems.length === 0 && !loading && (
-        <div className="text-center py-12">
-          <div className="text-4xl mb-4">🍽️</div>
-          <h3 className="text-lg font-medium text-gray-900">No menu items found</h3>
-          <p className="text-gray-500 mt-1">
-            {searchQuery
-              ? 'Try a different search term'
-              : 'Add your first menu item to get started'}
+        <div className="py-12 text-center">
+          <div className="mb-4 text-4xl">🍽️</div>
+          <h3 className="text-lg font-medium text-gray-900">{t('noItems')}</h3>
+          <p className="mt-1 text-gray-500">
+            {searchQuery ? t('tryDifferentSearch') : t('addFirstItem')}
           </p>
         </div>
       )}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { QRBuilderModal, QRPreview } from '@/components/qr';
 import { QRCode as QRCodeEntity, QRContext, QRType } from '@/lib/qr/qr-types';
@@ -80,6 +81,7 @@ function QuickCreateTab({
 }
 
 export default function QRCodesPage() {
+  const t = useTranslations('qrCodesPage');
   // Tenant context
   const { brand } = useTenant();
   const merchantId = brand?.id;
@@ -228,8 +230,8 @@ export default function QRCodesPage() {
       {/* Header - Compact */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">QR Codes</h1>
-          <p className="text-sm text-gray-500">Create and manage QR codes for your business</p>
+          <h1 className="text-xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="text-sm text-gray-500">{t('subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">
           <Link

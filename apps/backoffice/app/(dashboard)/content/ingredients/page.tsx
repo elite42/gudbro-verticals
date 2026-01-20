@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
+import { useTranslations } from 'next-intl';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,6 +53,7 @@ const ALLERGENS = {
 };
 
 export default function IngredientsPage() {
+  const t = useTranslations('ingredientsPage');
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -184,12 +186,12 @@ export default function IngredientsPage() {
       resetForm();
     } catch (err) {
       console.error('Error saving ingredient:', err);
-      alert('Failed to save ingredient');
+      alert(t('saveFailed'));
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Delete this ingredient?')) return;
+    if (!confirm(t('confirmDelete'))) return;
     try {
       const { error } = await supabase.from('ingredients').delete().eq('id', id);
       if (error) throw error;
@@ -211,8 +213,8 @@ export default function IngredientsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex min-h-[400px] items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -223,20 +225,25 @@ export default function IngredientsPage() {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Link href="/content" className="hover:text-gray-700">Content</Link>
+            <Link href="/content" className="hover:text-gray-700">
+              {t('breadcrumb')}
+            </Link>
             <span>/</span>
             <span className="text-gray-900">Ingredients</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Ingredient Database</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            {ingredients.length} ingredients • Sistema 5 Dimensioni
+          <h1 className="mt-1 text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            {t('itemsCount', { count: ingredients.length })} • {t('system')}
           </p>
         </div>
         <button
-          onClick={() => { resetForm(); setShowAddModal(true); }}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+          onClick={() => {
+            resetForm();
+            setShowAddModal(true);
+          }}
+          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
-          + Add Ingredient
+          + {t('addIngredient')}
         </button>
       </div>
 
@@ -245,23 +252,33 @@ export default function IngredientsPage() {
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
         <input
           type="text"
-          placeholder="Search ingredients..."
+          placeholder={t('searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg"
+          className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4"
         />
       </div>
 
       {/* Ingredients Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="border-b border-gray-200 bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Allergens</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nutrition (per 100g)</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                {t('tableHeaders.name')}
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                {t('tableHeaders.allergens')}
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                {t('tableHeaders.nutrition')}
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
+                {t('tableHeaders.type')}
+              </th>
+              <th className="px-4 py-3 text-right text-xs font-medium uppercase text-gray-500">
+                {t('tableHeaders.actions')}
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -275,9 +292,7 @@ export default function IngredientsPage() {
                         {getName(ingredient.name_multilang)}
                       </div>
                       {ingredient.name_multilang?.vi && (
-                        <div className="text-sm text-gray-500">
-                          {ingredient.name_multilang.vi}
-                        </div>
+                        <div className="text-sm text-gray-500">{ingredient.name_multilang.vi}</div>
                       )}
                     </div>
                   </td>
@@ -287,14 +302,14 @@ export default function IngredientsPage() {
                         allergenBadges.map((a) => (
                           <span
                             key={a.key}
-                            className="px-2 py-0.5 bg-red-100 text-red-700 rounded text-xs"
+                            className="rounded bg-red-100 px-2 py-0.5 text-xs text-red-700"
                             title={a.label}
                           >
                             {a.icon} {a.label}
                           </span>
                         ))
                       ) : (
-                        <span className="text-gray-400 text-sm">None</span>
+                        <span className="text-sm text-gray-400">{t('none')}</span>
                       )}
                     </div>
                   </td>
@@ -308,30 +323,32 @@ export default function IngredientsPage() {
                           <span>F: {ingredient.fat_per_100g || 0}g</span>
                         </div>
                       ) : (
-                        <span className="text-gray-400">Not set</span>
+                        <span className="text-gray-400">{t('notSet')}</span>
                       )}
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`px-2 py-0.5 rounded text-xs ${
-                      ingredient.is_global
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'bg-gray-100 text-gray-700'
-                    }`}>
-                      {ingredient.is_global ? '🌍 Global' : '🏪 Local'}
+                    <span
+                      className={`rounded px-2 py-0.5 text-xs ${
+                        ingredient.is_global
+                          ? 'bg-blue-100 text-blue-700'
+                          : 'bg-gray-100 text-gray-700'
+                      }`}
+                    >
+                      {ingredient.is_global ? `🌍 ${t('global')}` : `🏪 ${t('local')}`}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex justify-end gap-2">
                       <button
                         onClick={() => openEditModal(ingredient)}
-                        className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"
+                        className="rounded p-1.5 text-gray-400 hover:bg-blue-50 hover:text-blue-600"
                       >
                         ✏️
                       </button>
                       <button
                         onClick={() => handleDelete(ingredient.id)}
-                        className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
+                        className="rounded p-1.5 text-gray-400 hover:bg-red-50 hover:text-red-600"
                       >
                         🗑️
                       </button>
@@ -344,52 +361,52 @@ export default function IngredientsPage() {
         </table>
 
         {filteredIngredients.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-4xl mb-4">🥕</div>
-            <p className="text-gray-500">No ingredients found</p>
+          <div className="py-12 text-center">
+            <div className="mb-4 text-4xl">🥕</div>
+            <p className="text-gray-500">{t('noIngredients')}</p>
           </div>
         )}
       </div>
 
       {/* Add/Edit Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">
-              {editingIngredient ? 'Edit Ingredient' : 'Add Ingredient'}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white p-6">
+            <h2 className="mb-4 text-xl font-bold">
+              {editingIngredient ? t('editIngredient') : t('addIngredient')}
             </h2>
 
             <div className="space-y-4">
               {/* Names */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     Name (English) *
                   </label>
                   <input
                     type="text"
                     value={formData.name_en}
                     onChange={(e) => setFormData({ ...formData, name_en: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
                     Name (Vietnamese)
                   </label>
                   <input
                     type="text"
                     value={formData.name_vi}
                     onChange={(e) => setFormData({ ...formData, name_vi: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
                   />
                 </div>
               </div>
 
               {/* Nutrition */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   Nutrition (per 100g)
                 </label>
                 <div className="grid grid-cols-5 gap-3">
@@ -399,7 +416,7 @@ export default function IngredientsPage() {
                       type="number"
                       value={formData.calories}
                       onChange={(e) => setFormData({ ...formData, calories: e.target.value })}
-                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm"
+                      className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
                       placeholder="kcal"
                     />
                   </div>
@@ -409,7 +426,7 @@ export default function IngredientsPage() {
                       type="number"
                       value={formData.protein}
                       onChange={(e) => setFormData({ ...formData, protein: e.target.value })}
-                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm"
+                      className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
                     />
                   </div>
                   <div>
@@ -418,7 +435,7 @@ export default function IngredientsPage() {
                       type="number"
                       value={formData.carbs}
                       onChange={(e) => setFormData({ ...formData, carbs: e.target.value })}
-                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm"
+                      className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
                     />
                   </div>
                   <div>
@@ -427,7 +444,7 @@ export default function IngredientsPage() {
                       type="number"
                       value={formData.fat}
                       onChange={(e) => setFormData({ ...formData, fat: e.target.value })}
-                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm"
+                      className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
                     />
                   </div>
                   <div>
@@ -436,7 +453,7 @@ export default function IngredientsPage() {
                       type="number"
                       value={formData.fiber}
                       onChange={(e) => setFormData({ ...formData, fiber: e.target.value })}
-                      className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm"
+                      className="w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
                     />
                   </div>
                 </div>
@@ -444,17 +461,17 @@ export default function IngredientsPage() {
 
               {/* Allergens */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   Allergens (EU 14)
                 </label>
                 <div className="grid grid-cols-4 gap-2">
                   {Object.entries(ALLERGENS).map(([key, { label, icon }]) => (
                     <label
                       key={key}
-                      className={`flex items-center gap-2 p-2 rounded border cursor-pointer transition-colors ${
+                      className={`flex cursor-pointer items-center gap-2 rounded border p-2 transition-colors ${
                         formData.allergens[key]
-                          ? 'bg-red-50 border-red-300'
-                          : 'bg-white border-gray-200 hover:bg-gray-50'
+                          ? 'border-red-300 bg-red-50'
+                          : 'border-gray-200 bg-white hover:bg-gray-50'
                       }`}
                     >
                       <input
@@ -472,17 +489,17 @@ export default function IngredientsPage() {
 
               {/* Dietary Flags */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   Dietary Properties
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {['vegan', 'vegetarian', 'gluten_free', 'halal', 'kosher'].map((flag) => (
                     <label
                       key={flag}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer ${
+                      className={`flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 ${
                         formData.dietary_flags[flag]
-                          ? 'bg-green-50 border-green-300'
-                          : 'bg-white border-gray-200'
+                          ? 'border-green-300 bg-green-50'
+                          : 'border-gray-200 bg-white'
                       }`}
                     >
                       <input
@@ -507,16 +524,19 @@ export default function IngredientsPage() {
             </div>
 
             {/* Actions */}
-            <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
+            <div className="mt-6 flex justify-end gap-3 border-t pt-4">
               <button
-                onClick={() => { setShowAddModal(false); resetForm(); }}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                onClick={() => {
+                  setShowAddModal(false);
+                  resetForm();
+                }}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
               >
                 {editingIngredient ? 'Save Changes' : 'Add Ingredient'}
               </button>

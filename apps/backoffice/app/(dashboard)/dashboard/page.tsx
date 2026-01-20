@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { createClient } from '@supabase/supabase-js';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { useIsMobile } from '@/lib/hooks/useIsMobile';
@@ -74,6 +75,8 @@ const defaultOnboardingSteps = [
 ];
 
 export default function DashboardPage() {
+  const t = useTranslations('dashboard');
+  const tCommon = useTranslations('common');
   const {
     organization,
     brand,
@@ -169,12 +172,12 @@ export default function DashboardPage() {
     <div className="space-y-8">
       {/* Page header with tenant info */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
         {tenantLoading ? (
           <div className="mt-1 h-5 w-64 animate-pulse rounded bg-gray-200" />
         ) : organization ? (
           <p className="mt-1 text-gray-500">
-            Welcome back! Managing{' '}
+            {t('welcome')}! Managing{' '}
             <span className="font-medium text-gray-700">{brand?.name || organization.name}</span>
             {location && (
               <>

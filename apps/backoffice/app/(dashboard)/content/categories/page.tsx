@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
+import { useTranslations } from 'next-intl';
 
 export const dynamic = 'force-dynamic';
 
@@ -68,6 +69,7 @@ const EMOJI_PICKER = [
 ];
 
 export default function CategoriesPage() {
+  const t = useTranslations('categoriesPage');
   const [categories, setCategories] = useState<Category[]>([]);
   const [modifierGroups, setModifierGroups] = useState<ModifierGroup[]>([]);
   const [loading, setLoading] = useState(true);
@@ -165,8 +167,8 @@ export default function CategoriesPage() {
   }
 
   const getName = (multilang: MultiLangText | null): string => {
-    if (!multilang) return 'Unnamed';
-    return multilang.en || multilang.vi || 'Unnamed';
+    if (!multilang) return t('unnamed');
+    return multilang.en || multilang.vi || t('unnamed');
   };
 
   const resetForm = () => {
@@ -245,16 +247,16 @@ export default function CategoriesPage() {
       resetForm();
     } catch (err) {
       console.error('Error saving category:', err);
-      alert('Failed to save category');
+      alert(t('saveFailed'));
     }
   };
 
   const handleDelete = async (id: string, itemCount: number) => {
     if (itemCount > 0) {
-      alert(`Cannot delete category with ${itemCount} items. Move or delete the items first.`);
+      alert(t('cannotDeleteWithItems', { count: itemCount }));
       return;
     }
-    if (!confirm('Delete this category?')) return;
+    if (!confirm(t('confirmDelete'))) return;
 
     try {
       const { error } = await supabase.from('menu_categories').delete().eq('id', id);
@@ -323,7 +325,7 @@ export default function CategoriesPage() {
       setSelectedModifierGroups([]);
     } catch (err) {
       console.error('Error saving modifier relationships:', err);
-      alert('Failed to save modifier relationships');
+      alert(t('modifiersModal.saveFailed'));
     } finally {
       setSavingModifiers(false);
     }
@@ -391,14 +393,14 @@ export default function CategoriesPage() {
         <div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <Link href="/content" className="hover:text-gray-700">
-              Content
+              {t('breadcrumb')}
             </Link>
             <span>/</span>
-            <span className="text-gray-900">Categories</span>
+            <span className="text-gray-900">{t('title')}</span>
           </div>
-          <h1 className="mt-1 text-2xl font-bold text-gray-900">Menu Categories</h1>
+          <h1 className="mt-1 text-2xl font-bold text-gray-900">{t('title')}</h1>
           <p className="mt-1 text-sm text-gray-500">
-            {categories.length} categories • Drag to reorder
+            {t('itemsCount', { count: categories.length })} • {t('dragToReorder')}
           </p>
         </div>
         <button
@@ -408,7 +410,7 @@ export default function CategoriesPage() {
           }}
           className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
-          + Add Category
+          {t('addCategory')}
         </button>
       </div>
 
@@ -440,12 +442,12 @@ export default function CategoriesPage() {
                   <h3 className="font-medium text-gray-900">{getName(category.name_multilang)}</h3>
                   {!category.is_active && (
                     <span className="rounded bg-gray-200 px-2 py-0.5 text-xs text-gray-600">
-                      Hidden
+                      {t('hidden')}
                     </span>
                   )}
                 </div>
                 <div className="mt-1 flex items-center gap-3 text-sm text-gray-500">
-                  <span>{category.item_count} items</span>
+                  <span>{t('itemCount', { count: category.item_count })}</span>
                   <span>•</span>
                   <span className="font-mono text-xs">{category.slug}</span>
                 </div>
@@ -470,7 +472,7 @@ export default function CategoriesPage() {
               <button
                 onClick={() => openModifiersModal(category)}
                 className="flex items-center gap-1.5 rounded-lg bg-purple-50 px-3 py-1.5 text-sm text-purple-700 transition-colors hover:bg-purple-100"
-                title="Manage Modifiers"
+                title={t('modifiersModal.title')}
               >
                 <svg
                   className="h-4 w-4"
@@ -522,7 +524,7 @@ export default function CategoriesPage() {
                       ? 'text-green-600 hover:bg-green-50'
                       : 'text-gray-400 hover:bg-gray-100'
                   }`}
-                  title={category.is_active ? 'Hide' : 'Show'}
+                  title={category.is_active ? t('hide') : t('show')}
                 >
                   {category.is_active ? '👁️' : '👁️‍🗨️'}
                 </button>
@@ -540,7 +542,7 @@ export default function CategoriesPage() {
         {categories.length === 0 && (
           <div className="py-12 text-center">
             <div className="mb-4 text-4xl">📂</div>
-            <p className="text-gray-500">No categories yet</p>
+            <p className="text-gray-500">{t('noCategories')}</p>
             <button
               onClick={() => {
                 resetForm();
@@ -548,7 +550,7 @@ export default function CategoriesPage() {
               }}
               className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white"
             >
-              Create your first category
+              {t('createFirst')}
             </button>
           </div>
         )}
@@ -559,13 +561,15 @@ export default function CategoriesPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="w-full max-w-md rounded-xl bg-white p-6">
             <h2 className="mb-4 text-xl font-bold">
-              {editingCategory ? 'Edit Category' : 'Add Category'}
+              {editingCategory ? t('modal.editTitle') : t('modal.addTitle')}
             </h2>
 
             <div className="space-y-4">
               {/* Icon Picker */}
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">Icon</label>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  {t('modal.icon')}
+                </label>
                 <div className="flex flex-wrap gap-2">
                   {EMOJI_PICKER.map((emoji) => (
                     <button
@@ -587,41 +591,43 @@ export default function CategoriesPage() {
               {/* Names */}
               <div>
                 <label className="mb-1 block text-sm font-medium text-gray-700">
-                  Name (English) *
+                  {t('modal.nameEn')}
                 </label>
                 <input
                   type="text"
                   value={formData.name_en}
                   onChange={(e) => setFormData({ ...formData, name_en: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                  placeholder="e.g., Hot Coffee"
+                  placeholder={t('modal.nameEnPlaceholder')}
                 />
               </div>
 
               <div>
                 <label className="mb-1 block text-sm font-medium text-gray-700">
-                  Name (Vietnamese)
+                  {t('modal.nameVi')}
                 </label>
                 <input
                   type="text"
                   value={formData.name_vi}
                   onChange={(e) => setFormData({ ...formData, name_vi: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                  placeholder="e.g., Cà phê nóng"
+                  placeholder={t('modal.nameViPlaceholder')}
                 />
               </div>
 
               {/* Slug */}
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">Slug (URL)</label>
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  {t('modal.slug')}
+                </label>
                 <input
                   type="text"
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 font-mono text-sm"
-                  placeholder="hot-coffee"
+                  placeholder={t('modal.slugPlaceholder')}
                 />
-                <p className="mt-1 text-xs text-gray-500">Auto-generated from name if empty</p>
+                <p className="mt-1 text-xs text-gray-500">{t('modal.slugHint')}</p>
               </div>
 
               {/* Active Toggle */}
@@ -632,7 +638,7 @@ export default function CategoriesPage() {
                   onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
                   className="h-4 w-4 rounded border-gray-300"
                 />
-                <span className="text-sm text-gray-700">Visible on menu</span>
+                <span className="text-sm text-gray-700">{t('modal.visibleOnMenu')}</span>
               </label>
             </div>
 
@@ -645,14 +651,14 @@ export default function CategoriesPage() {
                 }}
                 className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
               >
-                Cancel
+                {t('modal.cancel')}
               </button>
               <button
                 onClick={handleSave}
                 disabled={!formData.name_en}
                 className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
               >
-                {editingCategory ? 'Save Changes' : 'Add Category'}
+                {editingCategory ? t('modal.saveChanges') : t('modal.addCategory')}
               </button>
             </div>
           </div>
@@ -665,9 +671,9 @@ export default function CategoriesPage() {
           <div className="flex max-h-[80vh] w-full max-w-lg flex-col overflow-hidden rounded-xl bg-white">
             {/* Header */}
             <div className="border-b p-6">
-              <h2 className="text-xl font-bold text-gray-900">Manage Modifiers</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t('modifiersModal.title')}</h2>
               <p className="mt-1 text-sm text-gray-500">
-                Select modifier groups for{' '}
+                {t('modifiersModal.selectFor')}{' '}
                 <span className="font-medium">{getName(editingCategory.name_multilang)}</span>
               </p>
             </div>
@@ -677,10 +683,8 @@ export default function CategoriesPage() {
               {modifierGroups.length === 0 ? (
                 <div className="py-8 text-center">
                   <div className="mb-4 text-4xl">🎛️</div>
-                  <p className="text-gray-500">No modifier groups available</p>
-                  <p className="mt-1 text-sm text-gray-400">
-                    Create modifier groups in Content &gt; Modifiers
-                  </p>
+                  <p className="text-gray-500">{t('modifiersModal.noGroups')}</p>
+                  <p className="mt-1 text-sm text-gray-400">{t('modifiersModal.createHint')}</p>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -734,11 +738,13 @@ export default function CategoriesPage() {
                                   : 'bg-orange-100 text-orange-700'
                               }`}
                             >
-                              {group.selection_type === 'single' ? 'Single' : 'Multiple'}
+                              {group.selection_type === 'single'
+                                ? t('modifiersModal.single')
+                                : t('modifiersModal.multiple')}
                             </span>
                             {group.is_required && (
                               <span className="rounded bg-red-100 px-2 py-0.5 text-xs text-red-700">
-                                Required
+                                {t('modifiersModal.required')}
                               </span>
                             )}
                           </div>
@@ -755,7 +761,10 @@ export default function CategoriesPage() {
             <div className="border-t bg-gray-50 p-6">
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-500">
-                  {selectedModifierGroups.length} of {modifierGroups.length} selected
+                  {t('modifiersModal.selectedCount', {
+                    selected: selectedModifierGroups.length,
+                    total: modifierGroups.length,
+                  })}
                 </p>
                 <div className="flex gap-3">
                   <button
@@ -766,7 +775,7 @@ export default function CategoriesPage() {
                     }}
                     className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
-                    Cancel
+                    {t('modifiersModal.cancel')}
                   </button>
                   <button
                     onClick={handleSaveModifiers}
@@ -791,10 +800,10 @@ export default function CategoriesPage() {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           />
                         </svg>
-                        Saving...
+                        {t('modifiersModal.saving')}
                       </>
                     ) : (
-                      'Save Changes'
+                      t('modifiersModal.saveChanges')
                     )}
                   </button>
                 </div>

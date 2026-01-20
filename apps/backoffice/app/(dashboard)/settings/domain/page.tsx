@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { supabase } from '@/lib/supabase';
 
 type DomainStatus = 'pending' | 'verifying' | 'verified' | 'failed' | 'expired';
@@ -18,6 +19,7 @@ interface DomainConfig {
 const CNAME_TARGET = 'cname.vercel-dns.com';
 
 export default function DomainSettingsPage() {
+  const t = useTranslations('domainPage');
   const [domain, setDomain] = useState('');
   const [config, setConfig] = useState<DomainConfig | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -251,6 +253,7 @@ export default function DomainSettingsPage() {
     return (
       <div className="flex h-64 items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"></div>
+        <span className="ml-3 text-gray-500">{t('loading')}</span>
       </div>
     );
   }
@@ -259,10 +262,8 @@ export default function DomainSettingsPage() {
     <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Custom Domain</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Connect your own domain to display your menu (e.g., menu.yourbrand.com)
-        </p>
+        <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+        <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
       </div>
 
       {/* Alerts */}
@@ -283,7 +284,7 @@ export default function DomainSettingsPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-semibold text-gray-900">Current Domain</h3>
+              <h3 className="font-semibold text-gray-900">{t('currentDomain.title')}</h3>
               <p className="mt-1 font-mono text-lg text-gray-700">{config.domain}</p>
             </div>
             <div className="flex items-center gap-2">
@@ -311,7 +312,7 @@ export default function DomainSettingsPage() {
                 disabled={isVerifying}
                 className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
               >
-                {isVerifying ? 'Verifying...' : 'Verify Now'}
+                {isVerifying ? t('saving') : t('customDomain.verify')}
               </button>
             )}
             <button
@@ -319,7 +320,7 @@ export default function DomainSettingsPage() {
               disabled={isSaving}
               className="rounded-lg border border-red-300 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
             >
-              Remove Domain
+              {t('customDomain.remove')}
             </button>
           </div>
         </div>
@@ -328,16 +329,16 @@ export default function DomainSettingsPage() {
       {/* Add/Update Domain */}
       <div className="rounded-xl border border-gray-200 bg-white p-6">
         <h3 className="font-semibold text-gray-900">
-          {config ? 'Change Domain' : 'Add Custom Domain'}
+          {config ? t('customDomain.title') : t('customDomain.add')}
         </h3>
-        <p className="text-sm text-gray-500">Enter the domain you want to use for your menu</p>
+        <p className="text-sm text-gray-500">{t('customDomain.description')}</p>
 
         <div className="mt-4 flex gap-3">
           <input
             type="text"
             value={domain}
             onChange={(e) => setDomain(e.target.value.toLowerCase())}
-            placeholder="menu.yourdomain.com"
+            placeholder={t('customDomain.placeholder')}
             className="flex-1 rounded-lg border border-gray-300 px-4 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
@@ -345,7 +346,7 @@ export default function DomainSettingsPage() {
             disabled={isSaving || !domain.trim()}
             className="rounded-lg bg-black px-6 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
           >
-            {isSaving ? 'Saving...' : 'Save'}
+            {isSaving ? t('saving') : t('saveChanges')}
           </button>
         </div>
       </div>
@@ -353,10 +354,8 @@ export default function DomainSettingsPage() {
       {/* DNS Configuration Instructions */}
       {config && config.status !== 'verified' && (
         <div className="rounded-xl border border-blue-200 bg-blue-50 p-6">
-          <h3 className="font-semibold text-gray-900">DNS Configuration</h3>
-          <p className="mt-1 text-sm text-gray-600">
-            Add the following DNS record to your domain provider:
-          </p>
+          <h3 className="font-semibold text-gray-900">{t('dnsConfig.title')}</h3>
+          <p className="mt-1 text-sm text-gray-600">{t('dnsConfig.description')}</p>
 
           <div className="mt-4 space-y-4">
             {/* CNAME Record */}

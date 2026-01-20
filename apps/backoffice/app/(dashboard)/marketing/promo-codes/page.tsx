@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 
 interface PromoCode {
@@ -27,6 +28,8 @@ interface PromoCode {
 type TabId = 'list' | 'create';
 
 export default function PromoCodesPage() {
+  const t = useTranslations('promoCodes');
+  const tCommon = useTranslations('common');
   const { brand } = useTenant();
   const merchantId = brand?.id;
   const [activeTab, setActiveTab] = useState<TabId>('list');
@@ -174,14 +177,14 @@ export default function PromoCodesPage() {
   };
 
   const tabs = [
-    { id: 'list' as TabId, label: 'Promo Codes', icon: '🏷️' },
-    { id: 'create' as TabId, label: 'Create New', icon: '➕' },
+    { id: 'list' as TabId, label: t('tabs.list'), icon: '🏷️' },
+    { id: 'create' as TabId, label: t('tabs.create'), icon: '➕' },
   ];
 
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="text-gray-500">Loading...</div>
+        <div className="text-gray-500">{tCommon('loading')}</div>
       </div>
     );
   }
@@ -211,10 +214,8 @@ export default function PromoCodesPage() {
               </svg>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Promo Codes</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Create marketing codes for discounts and special offers
-              </p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('title')}</h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('description')}</p>
             </div>
           </div>
         </div>
@@ -249,12 +250,12 @@ export default function PromoCodesPage() {
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
               >
-                <option value="">All Status</option>
-                <option value="active">Active</option>
-                <option value="paused">Paused</option>
-                <option value="draft">Draft</option>
-                <option value="expired">Expired</option>
-                <option value="depleted">Depleted</option>
+                <option value="">{t('status.all')}</option>
+                <option value="active">{t('status.active')}</option>
+                <option value="paused">{t('status.paused')}</option>
+                <option value="draft">{t('status.draft')}</option>
+                <option value="expired">{t('status.expired')}</option>
+                <option value="depleted">{t('status.depleted')}</option>
               </select>
             </div>
             <div className="overflow-x-auto">
@@ -262,22 +263,22 @@ export default function PromoCodesPage() {
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Code
+                      {t('table.code')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Discount
+                      {t('table.discount')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Uses
+                      {t('table.uses')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Status
+                      {t('table.status')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Valid Until
+                      {t('table.validUntil')}
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      Actions
+                      {t('table.actions')}
                     </th>
                   </tr>
                 </thead>
@@ -296,7 +297,7 @@ export default function PromoCodesPage() {
                         {pc.discount_formatted}
                         {pc.min_order_cents > 0 && (
                           <p className="text-xs text-gray-500">
-                            Min. order: €{(pc.min_order_cents / 100).toFixed(2)}
+                            {t('table.minOrder')}: €{(pc.min_order_cents / 100).toFixed(2)}
                           </p>
                         )}
                       </td>
@@ -313,7 +314,7 @@ export default function PromoCodesPage() {
                       <td className="px-4 py-3 text-sm text-gray-500">
                         {pc.valid_until
                           ? new Date(pc.valid_until).toLocaleDateString()
-                          : 'No expiry'}
+                          : t('noExpiry')}
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
@@ -322,7 +323,7 @@ export default function PromoCodesPage() {
                               onClick={() => handleStatusChange(pc.id, 'paused')}
                               className="text-sm text-yellow-600 hover:text-yellow-800"
                             >
-                              Pause
+                              {t('actions.pause')}
                             </button>
                           )}
                           {pc.status === 'paused' && (
@@ -330,7 +331,7 @@ export default function PromoCodesPage() {
                               onClick={() => handleStatusChange(pc.id, 'active')}
                               className="text-sm text-green-600 hover:text-green-800"
                             >
-                              Activate
+                              {t('actions.activate')}
                             </button>
                           )}
                           {pc.status === 'draft' && (
@@ -338,7 +339,7 @@ export default function PromoCodesPage() {
                               onClick={() => handleStatusChange(pc.id, 'active')}
                               className="text-sm text-green-600 hover:text-green-800"
                             >
-                              Activate
+                              {t('actions.activate')}
                             </button>
                           )}
                           {pc.current_uses === 0 && (
@@ -346,7 +347,7 @@ export default function PromoCodesPage() {
                               onClick={() => handleDelete(pc.id)}
                               className="text-sm text-red-600 hover:text-red-800"
                             >
-                              Delete
+                              {t('actions.delete')}
                             </button>
                           )}
                         </div>
@@ -356,7 +357,7 @@ export default function PromoCodesPage() {
                   {promoCodes.length === 0 && (
                     <tr>
                       <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
-                        No promo codes found
+                        {t('empty')}
                       </td>
                     </tr>
                   )}
@@ -371,12 +372,12 @@ export default function PromoCodesPage() {
           <div className="max-w-lg">
             <div className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
-                Create Promo Code
+                {t('create.title')}
               </h3>
               <form onSubmit={handleCreate} className="space-y-4">
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Code
+                    {t('create.code')}
                   </label>
                   <input
                     type="text"
@@ -387,13 +388,13 @@ export default function PromoCodesPage() {
                     required
                     pattern="[A-Z0-9]{3,20}"
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 uppercase text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="WELCOME10"
+                    placeholder={t('create.codePlaceholder')}
                   />
-                  <p className="mt-1 text-xs text-gray-500">3-20 characters, letters and numbers</p>
+                  <p className="mt-1 text-xs text-gray-500">{t('create.codeHint')}</p>
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Discount Type
+                    {t('create.discountType')}
                   </label>
                   <select
                     value={createForm.discount_type}
@@ -408,18 +409,18 @@ export default function PromoCodesPage() {
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   >
-                    <option value="percentage">Percentage Off</option>
-                    <option value="fixed_amount">Fixed Amount Off</option>
-                    <option value="free_item">Free Item</option>
+                    <option value="percentage">{t('create.percentageOff')}</option>
+                    <option value="fixed_amount">{t('create.fixedAmountOff')}</option>
+                    <option value="free_item">{t('create.freeItem')}</option>
                   </select>
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {createForm.discount_type === 'percentage'
-                      ? 'Discount Percentage'
+                      ? t('create.discountPercentage')
                       : createForm.discount_type === 'fixed_amount'
-                        ? 'Discount Amount (EUR)'
-                        : 'Free Item ID'}
+                        ? t('create.discountAmount')
+                        : t('create.freeItemId')}
                   </label>
                   <input
                     type={createForm.discount_type === 'free_item' ? 'text' : 'number'}
@@ -435,7 +436,7 @@ export default function PromoCodesPage() {
                 {createForm.discount_type === 'percentage' && (
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Max Discount (EUR, optional)
+                      {t('create.maxDiscount')}
                     </label>
                     <input
                       type="number"
@@ -451,7 +452,7 @@ export default function PromoCodesPage() {
                 )}
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Minimum Order (EUR, optional)
+                    {t('create.minOrder')}
                   </label>
                   <input
                     type="number"
@@ -467,7 +468,7 @@ export default function PromoCodesPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Total Uses Limit
+                      {t('create.totalUsesLimit')}
                     </label>
                     <input
                       type="number"
@@ -476,12 +477,12 @@ export default function PromoCodesPage() {
                         setCreateForm({ ...createForm, max_uses_total: e.target.value })
                       }
                       className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                      placeholder="Unlimited"
+                      placeholder={t('create.unlimited')}
                     />
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Uses Per Customer
+                      {t('create.usesPerCustomer')}
                     </label>
                     <input
                       type="number"
@@ -495,7 +496,7 @@ export default function PromoCodesPage() {
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Valid Until (optional)
+                    {t('create.validUntil')}
                   </label>
                   <input
                     type="date"
@@ -506,7 +507,7 @@ export default function PromoCodesPage() {
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Campaign Name (optional)
+                    {t('create.campaignName')}
                   </label>
                   <input
                     type="text"
@@ -515,7 +516,7 @@ export default function PromoCodesPage() {
                       setCreateForm({ ...createForm, campaign_name: e.target.value })
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-                    placeholder="Summer Sale 2024"
+                    placeholder={t('create.campaignPlaceholder')}
                   />
                 </div>
                 <div className="flex items-center gap-2">
@@ -532,12 +533,12 @@ export default function PromoCodesPage() {
                     htmlFor="first_order_only"
                     className="text-sm text-gray-700 dark:text-gray-300"
                   >
-                    First order only
+                    {t('create.firstOrderOnly')}
                   </label>
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Status
+                    {t('create.status')}
                   </label>
                   <select
                     value={createForm.status}
@@ -546,8 +547,8 @@ export default function PromoCodesPage() {
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   >
-                    <option value="active">Active (usable immediately)</option>
-                    <option value="draft">Draft (save for later)</option>
+                    <option value="active">{t('create.activeImmediately')}</option>
+                    <option value="draft">{t('create.draftSaveForLater')}</option>
                   </select>
                 </div>
                 <button
@@ -555,7 +556,7 @@ export default function PromoCodesPage() {
                   disabled={creating}
                   className="w-full rounded-lg bg-purple-600 px-4 py-2 text-white hover:bg-purple-700 disabled:opacity-50"
                 >
-                  {creating ? 'Creating...' : 'Create Promo Code'}
+                  {creating ? t('create.creating') : t('create.submit')}
                 </button>
               </form>
             </div>

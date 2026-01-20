@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { Globe, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
 import { SectionList } from './components/SectionList';
 import { SectionEditor } from './components/SectionEditor';
@@ -73,6 +74,7 @@ const SECTION_METADATA: Record<
 // ============================================================================
 
 export default function SiteBuilderPage() {
+  const t = useTranslations('siteBuilderPage');
   // State
   const [sections, setSections] = useState<SiteSectionData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -282,10 +284,8 @@ export default function SiteBuilderPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Site Builder</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Customize the sections displayed on your customer-facing website
-          </p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
+          <p className="mt-1 text-sm text-gray-500">{t('subtitle')}</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -297,7 +297,7 @@ export default function SiteBuilderPage() {
             className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             <Globe className="h-4 w-4" />
-            Preview Site
+            {t('preview')}
           </a>
 
           {/* Publish Button */}

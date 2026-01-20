@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,6 +58,7 @@ const CURRENCY_INFO: Record<string, { symbol: string; name: string; flag: string
 };
 
 export default function CurrencySettingsPage() {
+  const t = useTranslations('currencyPage');
   const [data, setData] = useState<ExchangeRateData | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -134,10 +136,7 @@ export default function CurrencySettingsPage() {
     const query = searchQuery.toLowerCase();
     return entries.filter(([code]) => {
       const info = CURRENCY_INFO[code];
-      return (
-        code.toLowerCase().includes(query) ||
-        info?.name.toLowerCase().includes(query)
-      );
+      return code.toLowerCase().includes(query) || info?.name.toLowerCase().includes(query);
     });
   };
 
@@ -195,26 +194,28 @@ export default function CurrencySettingsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading exchange rates...</p>
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          <p className="mt-4 text-gray-600">{t('loading')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="max-w-4xl space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-            <Link href="/settings" className="hover:text-blue-600">Settings</Link>
+          <div className="mb-1 flex items-center gap-2 text-sm text-gray-500">
+            <Link href="/settings" className="hover:text-blue-600">
+              Settings
+            </Link>
             <span>/</span>
             <span className="text-gray-900">Currency & Exchange Rates</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Currency Settings</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
           <p className="mt-1 text-sm text-gray-500">
             View exchange rates used for tourist price conversion
           </p>
@@ -222,22 +223,22 @@ export default function CurrencySettingsPage() {
         <button
           onClick={handleRefreshRates}
           disabled={refreshing}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
             refreshing
-              ? 'bg-blue-400 text-white cursor-wait'
+              ? 'cursor-wait bg-blue-400 text-white'
               : 'bg-blue-600 text-white hover:bg-blue-700'
           }`}
         >
-          {refreshing ? 'Refreshing...' : 'Refresh Rates'}
+          {refreshing ? t('exchangeRates.refreshing') : t('exchangeRates.refreshRates')}
         </button>
       </div>
 
       {/* Status Card */}
-      <div className={`rounded-xl border p-4 ${
-        isStale()
-          ? 'bg-yellow-50 border-yellow-200'
-          : 'bg-green-50 border-green-200'
-      }`}>
+      <div
+        className={`rounded-xl border p-4 ${
+          isStale() ? 'border-yellow-200 bg-yellow-50' : 'border-green-200 bg-green-50'
+        }`}
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-2xl">{isStale() ? '⚠️' : '✅'}</span>
@@ -262,17 +263,19 @@ export default function CurrencySettingsPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="p-4 bg-white rounded-lg border border-gray-200">
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-sm text-gray-500">Total Currencies</p>
-          <p className="text-2xl font-bold text-gray-900">{data?.currency_count || Object.keys(data?.rates || {}).length}</p>
+          <p className="text-2xl font-bold text-gray-900">
+            {data?.currency_count || Object.keys(data?.rates || {}).length}
+          </p>
         </div>
-        <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
           <p className="text-sm text-blue-600">Your Base Currency</p>
           <p className="text-2xl font-bold text-blue-700">
             {CURRENCY_INFO[merchantCurrency]?.flag} {merchantCurrency}
           </p>
         </div>
-        <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+        <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
           <p className="text-sm text-purple-600">Update Frequency</p>
           <p className="text-2xl font-bold text-purple-700">Daily</p>
         </div>
@@ -286,20 +289,24 @@ export default function CurrencySettingsPage() {
           placeholder="Search currencies..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       {/* Exchange Rates Table */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="border-b border-gray-200 bg-gray-50">
               <tr>
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-500">Currency</th>
-                <th className="text-left px-4 py-3 text-sm font-medium text-gray-500">Name</th>
-                <th className="text-right px-4 py-3 text-sm font-medium text-gray-500">Rate (vs USD)</th>
-                <th className="text-right px-4 py-3 text-sm font-medium text-gray-500">Conversion</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Currency</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Name</th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-500">
+                  Rate (vs USD)
+                </th>
+                <th className="px-4 py-3 text-right text-sm font-medium text-gray-500">
+                  Conversion
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -309,22 +316,19 @@ export default function CurrencySettingsPage() {
                 const isMerchant = code === merchantCurrency;
 
                 return (
-                  <tr
-                    key={code}
-                    className={`hover:bg-gray-50 ${isMerchant ? 'bg-blue-50' : ''}`}
-                  >
+                  <tr key={code} className={`hover:bg-gray-50 ${isMerchant ? 'bg-blue-50' : ''}`}>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <span className="text-xl">{info.flag}</span>
                         <span className="font-medium text-gray-900">{code}</span>
                         <span className="text-gray-500">{info.symbol}</span>
                         {isBase && (
-                          <span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
+                          <span className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
                             Base
                           </span>
                         )}
                         {isMerchant && (
-                          <span className="px-2 py-0.5 bg-blue-100 text-blue-600 rounded text-xs">
+                          <span className="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-600">
                             Your Currency
                           </span>
                         )}
@@ -345,26 +349,40 @@ export default function CurrencySettingsPage() {
         </div>
 
         {filteredRates.length === 0 && (
-          <div className="text-center py-12">
+          <div className="py-12 text-center">
             <p className="text-gray-500">No currencies found</p>
           </div>
         )}
       </div>
 
       {/* How it Works */}
-      <div className="bg-blue-50 rounded-xl border border-blue-200 p-4">
+      <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
         <h3 className="font-medium text-blue-900">How Currency Conversion Works</h3>
-        <ul className="mt-2 text-sm text-blue-800 space-y-1">
-          <li><strong>Your Base Currency:</strong> Prices are stored in {merchantCurrency} (your locale&apos;s currency)</li>
-          <li><strong>Tourist View:</strong> Visitors can toggle to see prices in their preferred currency</li>
-          <li><strong>Conversion:</strong> Rates are fetched daily from exchangerate-api.com</li>
-          <li><strong>Display:</strong> Converted prices show as &quot;$12.50 (~ 300k)&quot; for reference only</li>
-          <li><strong>Payment:</strong> Actual payment is always in your base currency ({merchantCurrency})</li>
+        <ul className="mt-2 space-y-1 text-sm text-blue-800">
+          <li>
+            <strong>Your Base Currency:</strong> Prices are stored in {merchantCurrency} (your
+            locale&apos;s currency)
+          </li>
+          <li>
+            <strong>Tourist View:</strong> Visitors can toggle to see prices in their preferred
+            currency
+          </li>
+          <li>
+            <strong>Conversion:</strong> Rates are fetched daily from exchangerate-api.com
+          </li>
+          <li>
+            <strong>Display:</strong> Converted prices show as &quot;$12.50 (~ 300k)&quot; for
+            reference only
+          </li>
+          <li>
+            <strong>Payment:</strong> Actual payment is always in your base currency (
+            {merchantCurrency})
+          </li>
         </ul>
       </div>
 
       {/* API Info */}
-      <div className="bg-gray-50 rounded-xl border border-gray-200 p-4">
+      <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
         <h3 className="font-medium text-gray-900">API Information</h3>
         <div className="mt-2 grid grid-cols-2 gap-4 text-sm">
           <div>
@@ -377,7 +395,9 @@ export default function CurrencySettingsPage() {
           </div>
           <div>
             <p className="text-gray-500">Base Currency</p>
-            <p className="text-gray-900">{data?.base_currency || 'USD'} (used for rate calculation)</p>
+            <p className="text-gray-900">
+              {data?.base_currency || 'USD'} (used for rate calculation)
+            </p>
           </div>
           <div>
             <p className="text-gray-500">Coverage</p>
@@ -387,7 +407,7 @@ export default function CurrencySettingsPage() {
       </div>
 
       {/* Back Link */}
-      <div className="pt-4 border-t border-gray-200">
+      <div className="border-t border-gray-200 pt-4">
         <Link
           href="/settings"
           className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"

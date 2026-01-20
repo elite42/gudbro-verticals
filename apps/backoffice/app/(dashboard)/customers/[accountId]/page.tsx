@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import {
   ArrowLeft,
   Mail,
@@ -91,26 +92,23 @@ interface CustomerDetailData {
 }
 
 // Segment config
-const SEGMENT_CONFIG: Record<string, { icon: any; label: string; color: string; bgColor: string }> =
-  {
-    champion: {
-      icon: Crown,
-      label: 'Champion',
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-100',
-    },
-    loyal: { icon: Heart, label: 'Loyal', color: 'text-green-600', bgColor: 'bg-green-100' },
-    potential: { icon: Sprout, label: 'Potential', color: 'text-blue-600', bgColor: 'bg-blue-100' },
-    new: { icon: Sparkles, label: 'New', color: 'text-purple-600', bgColor: 'bg-purple-100' },
-    at_risk: {
-      icon: AlertCircle,
-      label: 'At Risk',
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-100',
-    },
-    dormant: { icon: Moon, label: 'Dormant', color: 'text-gray-600', bgColor: 'bg-gray-100' },
-    lost: { icon: XCircle, label: 'Lost', color: 'text-red-600', bgColor: 'bg-red-100' },
-  };
+const SEGMENT_CONFIG: Record<string, { icon: any; color: string; bgColor: string }> = {
+  champion: {
+    icon: Crown,
+    color: 'text-yellow-600',
+    bgColor: 'bg-yellow-100',
+  },
+  loyal: { icon: Heart, color: 'text-green-600', bgColor: 'bg-green-100' },
+  potential: { icon: Sprout, color: 'text-blue-600', bgColor: 'bg-blue-100' },
+  new: { icon: Sparkles, color: 'text-purple-600', bgColor: 'bg-purple-100' },
+  at_risk: {
+    icon: AlertCircle,
+    color: 'text-orange-600',
+    bgColor: 'bg-orange-100',
+  },
+  dormant: { icon: Moon, color: 'text-gray-600', bgColor: 'bg-gray-100' },
+  lost: { icon: XCircle, color: 'text-red-600', bgColor: 'bg-red-100' },
+};
 
 // Currency info
 const CURRENCY_INFO: Record<string, { locale: string; symbol: string }> = {
@@ -180,6 +178,7 @@ function getDisplayName(account: CustomerDetailData['account']): string {
 }
 
 export default function CustomerDetailPage() {
+  const t = useTranslations('customerDetailPage');
   const params = useParams();
   const router = useRouter();
   const { brand, location } = useTenant();
@@ -245,16 +244,14 @@ export default function CustomerDetailPage() {
     return (
       <div className="flex flex-col items-center justify-center py-12">
         <XCircle className="mb-4 h-12 w-12 text-red-400" />
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Error loading customer
-        </h2>
-        <p className="mt-1 text-gray-500">{error || 'Customer not found'}</p>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{t('errorLoading')}</h2>
+        <p className="mt-1 text-gray-500">{error || t('customerNotFound')}</p>
         <button
           onClick={() => router.back()}
           className="mt-4 inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700"
         >
           <ArrowLeft className="h-4 w-4" />
-          Go back
+          {t('goBack')}
         </button>
       </div>
     );
@@ -302,17 +299,17 @@ export default function CustomerDetailPage() {
                 {account?.email}
                 {follower?.followedAt && (
                   <span className="ml-2 text-gray-400">
-                    · Follower since {formatDate(follower.followedAt)}
+                    · {t('followerSince', { date: formatDate(follower.followedAt) })}
                   </span>
                 )}
               </p>
-              {segmentConfig && (
+              {segmentConfig && intelligence?.segment && (
                 <div className="mt-1 flex items-center gap-2">
                   <span
                     className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${segmentConfig.bgColor} ${segmentConfig.color}`}
                   >
                     {SegmentIcon && <SegmentIcon className="h-3 w-3" />}
-                    {segmentConfig.label}
+                    {t(`segments.${intelligence.segment}`)}
                   </span>
                   {intelligence?.clvEstimated && (
                     <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -328,11 +325,11 @@ export default function CustomerDetailPage() {
         <div className="flex gap-2">
           <button className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300">
             <Mail className="h-4 w-4" />
-            Message
+            {t('message')}
           </button>
           <button className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
             <Gift className="h-4 w-4" />
-            Send Promo
+            {t('sendPromo')}
           </button>
         </div>
       </div>
@@ -341,33 +338,33 @@ export default function CustomerDetailPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
           icon={DollarSign}
-          label="Lifetime Value"
+          label={t('metrics.lifetimeValue')}
           value={formatCurrency(
             intelligence?.clvEstimated || analytics?.totalSpent || 0,
             currencyCode
           )}
           subtitle={
             intelligence?.clvConfidence
-              ? `${Math.round(intelligence.clvConfidence * 100)}% confidence`
+              ? t('metrics.confidence', { percent: Math.round(intelligence.clvConfidence * 100) })
               : undefined
           }
           color="green"
         />
         <MetricCard
           icon={ShoppingBag}
-          label="Total Orders"
+          label={t('metrics.totalOrders')}
           value={analytics?.totalOrders || 0}
           color="blue"
         />
         <MetricCard
           icon={Calculator}
-          label="Avg Order"
+          label={t('metrics.avgOrder')}
           value={formatCurrency(analytics?.averageOrderValue || 0, currencyCode)}
           color="purple"
         />
         <MetricCard
           icon={Award}
-          label="Loyalty Points"
+          label={t('metrics.loyaltyPoints')}
           value={analytics?.loyaltyPoints || 0}
           color="yellow"
         />
@@ -379,7 +376,9 @@ export default function CustomerDetailPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <div className="mb-4 flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-orange-500" />
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Churn Risk</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              {t('churnRisk.title')}
+            </h2>
           </div>
 
           {intelligence?.churnRiskScore !== null ? (
@@ -426,14 +425,20 @@ export default function CustomerDetailPage() {
                   intelligence?.daysSinceLastVisit !== undefined && (
                     <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                       <Clock className="h-4 w-4" />
-                      <span>{intelligence?.daysSinceLastVisit} days since last visit</span>
+                      <span>
+                        {t('churnRisk.daysSinceLastVisit', {
+                          days: intelligence?.daysSinceLastVisit,
+                        })}
+                      </span>
                     </div>
                   )}
                 {intelligence?.predictedNextVisitAt && (
                   <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                     <Calendar className="h-4 w-4" />
                     <span>
-                      Predicted next visit: {formatDate(intelligence?.predictedNextVisitAt)}
+                      {t('churnRisk.predictedNextVisit', {
+                        date: formatDate(intelligence?.predictedNextVisitAt),
+                      })}
                     </span>
                   </div>
                 )}
@@ -443,7 +448,7 @@ export default function CustomerDetailPage() {
               {intelligence?.churnFactors && intelligence.churnFactors.length > 0 && (
                 <div className="mt-4 border-t border-gray-100 pt-4 dark:border-gray-800">
                   <p className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Risk Factors:
+                    {t('churnRisk.riskFactors')}
                   </p>
                   <ul className="space-y-1">
                     {intelligence.churnFactors.slice(0, 3).map((factor, idx) => (
@@ -462,8 +467,8 @@ export default function CustomerDetailPage() {
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
               <AlertTriangle className="h-12 w-12 text-gray-300 dark:text-gray-600" />
-              <p className="mt-3 text-gray-500">No risk analysis available</p>
-              <p className="text-sm text-gray-400">Run AI analysis from the Intelligence page</p>
+              <p className="mt-3 text-gray-500">{t('churnRisk.noAnalysis')}</p>
+              <p className="text-sm text-gray-400">{t('churnRisk.runAnalysis')}</p>
             </div>
           )}
         </div>
@@ -473,7 +478,7 @@ export default function CustomerDetailPage() {
           <div className="mb-4 flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-purple-500" />
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              AI Recommendations
+              {t('recommendations.title')}
             </h2>
           </div>
 
@@ -505,7 +510,9 @@ export default function CustomerDetailPage() {
                       <p className="mt-1 text-sm text-gray-500">{action.description}</p>
                       {action.expectedRoi && (
                         <p className="mt-1 text-xs text-green-600">
-                          Expected ROI: {formatCurrency(action.expectedRoi, currencyCode)}
+                          {t('recommendations.expectedRoi', {
+                            amount: formatCurrency(action.expectedRoi, currencyCode),
+                          })}
                         </p>
                       )}
                     </div>
@@ -519,10 +526,8 @@ export default function CustomerDetailPage() {
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
               <Sparkles className="h-12 w-12 text-gray-300 dark:text-gray-600" />
-              <p className="mt-3 text-gray-500">No recommendations yet</p>
-              <p className="text-sm text-gray-400">
-                AI analysis will generate personalized actions
-              </p>
+              <p className="mt-3 text-gray-500">{t('recommendations.noRecommendations')}</p>
+              <p className="text-sm text-gray-400">{t('recommendations.aiWillGenerate')}</p>
             </div>
           )}
         </div>
@@ -532,30 +537,34 @@ export default function CustomerDetailPage() {
       <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
         <div className="mb-4 flex items-center gap-2">
           <TrendingUp className="h-5 w-5 text-blue-500" />
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Activity Summary</h2>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            {t('activity.title')}
+          </h2>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-            <p className="text-sm text-gray-500 dark:text-gray-400">Total Visits</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('activity.totalVisits')}</p>
             <p className="text-2xl font-bold text-gray-900 dark:text-white">
               {analytics?.totalVisits || 0}
             </p>
           </div>
           <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-            <p className="text-sm text-gray-500 dark:text-gray-400">Last Visit</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('activity.lastVisit')}</p>
             <p className="text-2xl font-bold text-gray-900 dark:text-white">
-              {analytics?.lastVisitAt ? formatDate(analytics.lastVisitAt) : 'Never'}
+              {analytics?.lastVisitAt ? formatDate(analytics.lastVisitAt) : t('activity.never')}
             </p>
           </div>
           <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-            <p className="text-sm text-gray-500 dark:text-gray-400">Feedback Given</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {t('activity.feedbackGiven')}
+            </p>
             <p className="text-2xl font-bold text-gray-900 dark:text-white">
               {analytics?.feedbackCount || 0}
             </p>
           </div>
           <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-            <p className="text-sm text-gray-500 dark:text-gray-400">Avg Rating</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('activity.avgRating')}</p>
             <div className="flex items-center gap-1">
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
                 {analytics?.averageRating?.toFixed(1) || '-'}
@@ -573,13 +582,15 @@ export default function CustomerDetailPage() {
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Send className="h-5 w-5 text-green-500" />
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Trigger History</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              {t('triggers.title')}
+            </h2>
           </div>
           <Link
             href="/ai/triggers"
             className="text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400"
           >
-            Manage Triggers
+            {t('triggers.manage')}
           </Link>
         </div>
 
@@ -589,19 +600,19 @@ export default function CustomerDetailPage() {
               <thead>
                 <tr className="border-b border-gray-100 dark:border-gray-800">
                   <th className="pb-3 text-left text-xs font-medium uppercase text-gray-500">
-                    Date
+                    {t('triggers.date')}
                   </th>
                   <th className="pb-3 text-left text-xs font-medium uppercase text-gray-500">
-                    Trigger
+                    {t('triggers.trigger')}
                   </th>
                   <th className="pb-3 text-left text-xs font-medium uppercase text-gray-500">
-                    Type
+                    {t('triggers.type')}
                   </th>
                   <th className="pb-3 text-left text-xs font-medium uppercase text-gray-500">
-                    Status
+                    {t('triggers.status')}
                   </th>
                   <th className="pb-3 text-right text-xs font-medium uppercase text-gray-500">
-                    Result
+                    {t('triggers.result')}
                   </th>
                 </tr>
               </thead>
@@ -655,12 +666,12 @@ export default function CustomerDetailPage() {
         ) : (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <Send className="h-12 w-12 text-gray-300 dark:text-gray-600" />
-            <p className="mt-3 text-gray-500">No trigger history</p>
+            <p className="mt-3 text-gray-500">{t('triggers.noHistory')}</p>
             <Link
               href="/ai/triggers"
               className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-700"
             >
-              Set up automated triggers
+              {t('triggers.setup')}
             </Link>
           </div>
         )}
@@ -671,7 +682,9 @@ export default function CustomerDetailPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <div className="mb-4 flex items-center gap-2">
             <Wallet className="h-5 w-5 text-emerald-500" />
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Customer Wallet</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              {t('wallet.title')}
+            </h2>
           </div>
           <WalletDashboard accountId={accountId} merchantId={merchantId} />
         </div>

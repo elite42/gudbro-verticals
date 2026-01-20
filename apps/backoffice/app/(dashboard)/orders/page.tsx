@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { createClient } from '@supabase/supabase-js';
 import { EmptyState } from '@/components/ui/empty-state';
 
@@ -123,6 +124,8 @@ function getElapsedTime(submittedAt: string): string {
 }
 
 export default function OrdersPage() {
+  const t = useTranslations('orders');
+  const tButtons = useTranslations('buttons');
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -274,7 +277,7 @@ export default function OrdersPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Orders</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
           <p className="mt-1 text-sm text-gray-500">Manage incoming orders from your customers</p>
         </div>
         <div className="flex items-center gap-3">
@@ -282,7 +285,7 @@ export default function OrdersPage() {
             onClick={fetchOrders}
             className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
-            Refresh
+            {tButtons('refresh')}
           </button>
           <a
             href="/orders/kitchen"
