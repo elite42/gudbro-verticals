@@ -72,6 +72,8 @@ Quando pronto per Phase 4, vedere `1-TODO.md` sezione "SCALING INITIATIVE - Phas
 
 ## Recentemente completati (vedi 4-DONE.md)
 
+- ✅ AI-KNOWLEDGE - AI Platform Knowledge (navigation, features, how-to) - 2026-01-20
+- ✅ DATA-CONSISTENCY - Fix cross-merchant data leak in Intelligence Map - 2026-01-20
 - ✅ BACKOFFICE-TOOLTIPS - Contextual Help System (~65 pages) - 2026-01-20
 - ✅ BACKOFFICE-I18N - Internazionalizzazione EN/IT - 2026-01-20
 - ✅ SECURITY Phase 1 (3 task: headers, audit-log, alerts) - 2026-01-18

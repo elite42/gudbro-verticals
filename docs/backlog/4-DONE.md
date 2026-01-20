@@ -11,8 +11,38 @@
 
 | ID                  | Feature                | Descrizione                                                                                                                | Completato |
 | ------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| AI-KNOWLEDGE        | AI Platform Knowledge  | AI Co-Manager ora conosce la piattaforma: navigazione sidebar, dove trovare feature, how-to guides per task comuni.        | 2026-01-20 |
+| DATA-CONSISTENCY    | Customer Data Fix      | Fix Intelligence Map API per filtrare per merchant_id. Prima mostrava tutti i 49 account, ora solo quelli del merchant.    | 2026-01-20 |
 | BACKOFFICE-TOOLTIPS | Contextual Help System | Sistema tooltips contestuali con InfoTooltip component. ~65 pagine con help icons + KB links. Radix UI Tooltip base.       | 2026-01-20 |
 | BACKOFFICE-I18N     | Internazionalizzazione | Sistema i18n completo con next-intl. EN/IT supportate. ~45 pagine tradotte, LanguageSwitcher, middleware locale detection. | 2026-01-20 |
+
+> **AI-KNOWLEDGE Files:**
+>
+> - New: `lib/ai/platform-knowledge.ts` - Complete navigation structure, feature finder, how-to guides
+> - Modified: `lib/ai/knowledge-service.ts` - Integrates platform knowledge into AI context
+> - Modified: `lib/ai/prompts.ts` - Added platform navigation guidance to system prompt
+>
+> **Features:**
+>
+> - AI knows where every feature is (sidebar navigation)
+> - Answers "where is X?" questions (promo codes, gift cards, loyalty, etc.)
+> - Provides step-by-step how-to instructions
+> - Includes URLs for direct navigation
+
+> **DATA-CONSISTENCY Files:**
+>
+> - Fixed: `app/api/intelligence/map/route.ts`
+>
+> **Issue:**
+>
+> - Intelligence Map showed 49 customers, Customers page showed 0
+> - Root cause: API queried ALL accounts without merchant_id filter
+> - Security concern: Cross-merchant data visibility
+>
+> **Fix:**
+>
+> - Now filters accounts by merchant relationship (followers, loyalty, wallets, orders)
+> - Only shows customers who have interacted with this merchant
 
 > **BACKOFFICE-TOOLTIPS Files:**
 >
