@@ -451,7 +451,7 @@ export default function CategoriesPage() {
                   )}
                 </div>
                 <div className="mt-1 flex items-center gap-3 text-sm text-gray-500">
-                  <span>{t('itemCount', { count: category.item_count })}</span>
+                  <span>{t('itemCount', { count: category.item_count ?? 0 })}</span>
                   <span>•</span>
                   <span className="font-mono text-xs">{category.slug}</span>
                 </div>

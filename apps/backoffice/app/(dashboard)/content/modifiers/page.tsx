@@ -381,12 +381,15 @@ export default function ModifiersPage() {
 
     if ((group.modifiers_count || 0) > 0) {
       alert(
-        t('groups.cannotDelete', { name: group.name_multilang?.en, count: group.modifiers_count })
+        t('groups.cannotDelete', {
+          name: group.name_multilang?.en ?? '',
+          count: group.modifiers_count ?? 0,
+        })
       );
       return;
     }
 
-    if (!confirm(t('groups.confirmDelete', { name: group.name_multilang?.en }))) return;
+    if (!confirm(t('groups.confirmDelete', { name: group.name_multilang?.en ?? '' }))) return;
 
     try {
       if (!supabase) throw new Error('Supabase client not initialized');
@@ -586,7 +589,7 @@ export default function ModifiersPage() {
     const modifier = modifiers.find((m) => m.id === modifierId);
     if (!modifier) return;
 
-    if (!confirm(t('modifiers.confirmDelete', { name: modifier.name_multilang?.en }))) return;
+    if (!confirm(t('modifiers.confirmDelete', { name: modifier.name_multilang?.en ?? '' }))) return;
 
     try {
       const { error } = await supabase.from('modifiers').delete().eq('id', modifierId);
@@ -693,7 +696,7 @@ export default function ModifiersPage() {
                       <div>
                         <div className="font-medium text-gray-900">{group.name_multilang?.en}</div>
                         <div className="flex items-center gap-2 text-xs text-gray-500">
-                          <span>{t('groups.options', { count: group.modifiers_count })}</span>
+                          <span>{t('groups.options', { count: group.modifiers_count ?? 0 })}</span>
                           <span>•</span>
                           <span>
                             {group.selection_type === 'single'

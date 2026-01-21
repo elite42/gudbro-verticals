@@ -1261,7 +1261,7 @@ export default function ChallengesPage() {
                       {formatTime(challenge.record_time_minutes)}
                     </p>
                     <p className="text-xs text-yellow-700">
-                      {t('card.recordBy', { name: challenge.record_holder_name })}
+                      {t('card.recordBy', { name: challenge.record_holder_name ?? '' })}
                     </p>
                   </div>
                 ) : (
