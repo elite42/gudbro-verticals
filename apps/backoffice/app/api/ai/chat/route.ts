@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { chat, createSession, getSessions, archiveSession } from '@/lib/ai';
-import { withRateLimit, rateLimitHeaders, checkRateLimit } from '@/lib/security/rate-limiter';
+import { withRateLimit } from '@/lib/security/rate-limiter';
 
 export const dynamic = 'force-dynamic';
 

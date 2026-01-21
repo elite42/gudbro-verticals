@@ -1,5 +1,3 @@
-import { Sidebar as _Sidebar } from '@/components/layout/Sidebar';
-import { Header as _Header } from '@/components/layout/Header';
 import { TenantProvider } from '@/lib/contexts/TenantContext';
 import { ToastProvider } from '@/lib/contexts/ToastContext';
 import { AuthProvider } from '@/lib/contexts/AuthContext';
