@@ -146,14 +146,16 @@ CRON_SECRET=
 
 ---
 
-## P0 - CI/CD Fix (BLOCKING)
+## P0 - CI/CD Fix ✅ RISOLTO
 
-> **🚨 CI GITHUB ACTIONS FALLISCE** - Blocca tutti i merge
+> **✅ CI GITHUB ACTIONS FUNZIONA** - 2026-01-21
 > Lezioni apprese: `CLAUDE.md` sezione 3.5 (Compounding Engineering)
 
 | ID              | Feature                | Descrizione                                                    | Effort | Status  |
 | --------------- | ---------------------- | -------------------------------------------------------------- | ------ | ------- |
-| CI-IMPLICIT-ANY | Fix implicit any types | `useState<any[]>` → interface tipizzate in tutti i componenti  | 2h     | Pending |
+| CI-IMPLICIT-ANY | Fix implicit any types | `useState<any[]>` → interface tipizzate                        | 2h     | ✅ DONE |
+| CI-ESLINT-V8    | ESLint legacy config   | `.eslintrc.json` per tutti i frontend                          | 1h     | ✅ DONE |
+| CI-PNPM-VERSION | Fix pnpm conflict      | Rimosso `version: 9` da ci.yml                                 | 15min  | ✅ DONE |
 | CI-LOCAL-PARITY | Local/CI parity script | Script `ci-local.sh` per simulare CI (fresh install + --force) | 1h     | Pending |
 | CI-NVMRC        | Pin Node version       | Aggiungere `.nvmrc` per garantire stessa versione locale/CI    | 15min  | Pending |
 
