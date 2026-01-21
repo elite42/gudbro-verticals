@@ -8,7 +8,7 @@
     "build": "prisma generate && next build",
     "start": "next start -p 3023",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "prisma generate && tsc --noEmit",
     "clean": "rm -rf .next .turbo node_modules",
     "trigger:dev": "npx trigger.dev@latest dev",
     "trigger:deploy": "npx trigger.dev@latest deploy"
