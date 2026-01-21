@@ -373,6 +373,7 @@ VERIFICA SEMPRE:
 | 2026-01 | Prisma types missing in CI     | `typecheck` esegue prima di `build`, Prisma non generato  | Aggiungere `prisma generate &&` a script typecheck in package.json                                         | backoffice/package.json |
 | 2026-01 | e2e tests run by Vitest        | Playwright `.spec.ts` files picked up by Vitest           | Aggiungere `'**/e2e/**'` a `exclude` in vitest.config.ts                                                   | vitest.config.ts        |
 | 2026-01 | API route build fail Supabase  | `createClient()` a module level in nuove API routes       | **SEMPRE** usare `import { supabaseAdmin } from '@/lib/supabase-admin'` - MAI creare client inline         | API routes              |
+| 2026-01 | Debug CI senza visibilità      | Claude Code non vede GitHub Actions UI                    | **Chiedere coinvolgimento Cowork** per verifiche CI, log, deployment status                                | Collaborazione          |
 
 ## Pattern da Seguire
 
@@ -426,6 +427,7 @@ VERIFICA SEMPRE:
 | Prisma CI       | `"typecheck": "prisma generate && tsc --noEmit"`         | Solo `tsc --noEmit` senza generate       |
 | Test exclusion  | Vitest exclude: `'**/e2e/**'` per Playwright tests       | Lasciare che Vitest esegua e2e           |
 | API Supabase    | `import { supabaseAdmin } from '@/lib/supabase-admin'`   | `const supabase = createClient()` inline |
+| CI/Deploy debug | Chiedi a utente di coinvolgere **Cowork** per verifiche  | Tentare di indovinare senza log visibili |
 
 ## Come Aggiornare
 
