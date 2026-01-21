@@ -364,50 +364,52 @@ VERIFICA SEMPRE:
 | 2026-01 | Roadmap/docs non committati  | Sessione lunga crea file senza commit    | **Commit docs subito** dopo creazione, non aspettare fine sessione                                         | Scaling audit         |
 | 2026-01 | Backlog non sync con roadmap | Task create ma non aggiunte al backlog   | **Sync backlog** dopo ogni planning session                                                                | 1-TODO.md, 4-DONE.md  |
 | 2026-01 | CLAUDE.md non trovato        | Sessione avviata da ~ invece di progetto | **Avvia Claude dalla dir progetto** o usa alias (`alias gudbro="cd ~/Desktop/gudbro-verticals && claude"`) | Startup sessione      |
+| 2026-01 | Vercel auto-deploy bloccato  | Ignored Build Step = stringa vuota `""`  | Impostare `bash ignore-build.sh` o rimuovere completamente (exit 0=skip, 1=build)                          | Vercel backoffice     |
 
 ## Pattern da Seguire
 
-| Area            | Pattern Corretto                                        | Anti-Pattern                  |
-| --------------- | ------------------------------------------------------- | ----------------------------- |
-| SQL Arrays      | `'{\"a\",\"b\"}'`                                       | `'["a","b"]'`                 |
-| UUID            | `a1b2c3d4-...` (solo hex)                               | `ghij-klmn-...`               |
-| Imports         | `import { X } from '@/lib/...'`                         | Path relativi profondi        |
-| Error handling  | `try/catch` con logging                                 | Silent failures               |
-| RLS Backend     | `auth.role() = 'service_role'`                          | `WITH CHECK (true)`           |
-| RLS User        | `auth.uid() = user_id`                                  | `USING (true)`                |
-| RLS Public Read | `FOR SELECT USING (true)` OK                            | `FOR ALL USING (true)` NO     |
-| Env-dependent   | `Proxy` lazy init                                       | `createClient()` a import     |
-| Type unions     | Include tutti i valori validi                           | Dimenticare `'both'` etc      |
-| Warnings/Errors | Agire subito, fix o segnala                             | Ignorare e proseguire         |
-| Doc grandi      | Layered: sezioni rilevanti solo                         | Leggere/processare tutto      |
-| Debug API/MCP   | Query semplice → incrementale                           | Query complessa subito        |
-| Schema inspect  | `information_schema.columns` per tabelle specifiche     | `list_tables` su schema large |
-| Traduzioni bulk | Script OpenAI (gpt-4o-mini)                             | Generare inline con Claude    |
-| RLS bypass      | Script→SQL output→MCP execute                           | Cercare service_role_key      |
-| UA/Regex check  | Specifici prima, generici dopo                          | Chrome prima di Samsung       |
-| Test automatici | Scrivere test scopre bug                                | Solo test manuali             |
-| Hydration SSR   | `mounted` state + useEffect                             | localStorage a render         |
-| Feature 404     | Creare la pagina mancante                               | Rimuovere il link             |
-| Dev-only logic  | Componente separato `DevX`                              | if(isDev) dentro comp prod    |
-| Pieces MCP      | Query only (`ask_pieces_ltm`)                           | `create_memory` (auto-save)   |
-| Regional market | Considera piattaforme Asia                              | Assumere default occidentali  |
-| Settings UX     | Tabs orizzontali per settings                           | Submenu sidebar               |
-| Service models  | Capire modello servizio locale                          | One-size-fits-all             |
-| Entry tier      | Tier base come piede nella porta                        | Forzare full package          |
-| QR value        | QR utile anche senza ordering                           | QR = solo ordering            |
-| Backoffice mod  | PRODUCT.md Sez.6 solo nuove areas                       | Aggiornare per ogni modifica  |
-| Audit tecnico   | Snapshot datato, rigenera su richiesta                  | Mantenere aggiornato sempre   |
-| Task lunghe     | Commit ogni ~30 min o feature done                      | Task 2h+ senza checkpoint     |
-| MCP heavy ops   | Prima commit, poi type gen/migrations                   | Type gen durante sviluppo     |
-| Dev server port | Verifica `lsof -i :3023` prima di avviare               | Assumere porta libera         |
-| Port docs       | Leggi package.json per porta reale                      | Fidarsi di docs outdated      |
-| KB Backoffice   | Aggiorna `lib/kb/kb-content.ts` quando modifichi pagine | Dimenticare docs utente       |
-| Dev auth APIs   | `getSession()` deve supportare dev cookies              | Solo Supabase auth check      |
-| Env vars sync   | Quando aggiungi su Vercel, aggiungi anche `.env.local`  | Solo Vercel, dev non funziona |
-| Server cache    | Services che scrivono cache usano `supabaseAdmin`       | `supabase` bloccato da RLS    |
-| Planning docs   | Commit roadmaps/specs subito dopo creazione             | Creare file senza commit      |
-| Backlog sync    | Aggiorna 1-TODO + 4-DONE dopo ogni planning session     | Roadmap senza backlog sync    |
-| Session start   | `cd progetto && claude` o alias shell                   | Avviare Claude da ~           |
+| Area            | Pattern Corretto                                         | Anti-Pattern                     |
+| --------------- | -------------------------------------------------------- | -------------------------------- |
+| SQL Arrays      | `'{\"a\",\"b\"}'`                                        | `'["a","b"]'`                    |
+| UUID            | `a1b2c3d4-...` (solo hex)                                | `ghij-klmn-...`                  |
+| Imports         | `import { X } from '@/lib/...'`                          | Path relativi profondi           |
+| Error handling  | `try/catch` con logging                                  | Silent failures                  |
+| RLS Backend     | `auth.role() = 'service_role'`                           | `WITH CHECK (true)`              |
+| RLS User        | `auth.uid() = user_id`                                   | `USING (true)`                   |
+| RLS Public Read | `FOR SELECT USING (true)` OK                             | `FOR ALL USING (true)` NO        |
+| Env-dependent   | `Proxy` lazy init                                        | `createClient()` a import        |
+| Type unions     | Include tutti i valori validi                            | Dimenticare `'both'` etc         |
+| Warnings/Errors | Agire subito, fix o segnala                              | Ignorare e proseguire            |
+| Doc grandi      | Layered: sezioni rilevanti solo                          | Leggere/processare tutto         |
+| Debug API/MCP   | Query semplice → incrementale                            | Query complessa subito           |
+| Schema inspect  | `information_schema.columns` per tabelle specifiche      | `list_tables` su schema large    |
+| Traduzioni bulk | Script OpenAI (gpt-4o-mini)                              | Generare inline con Claude       |
+| RLS bypass      | Script→SQL output→MCP execute                            | Cercare service_role_key         |
+| UA/Regex check  | Specifici prima, generici dopo                           | Chrome prima di Samsung          |
+| Test automatici | Scrivere test scopre bug                                 | Solo test manuali                |
+| Hydration SSR   | `mounted` state + useEffect                              | localStorage a render            |
+| Feature 404     | Creare la pagina mancante                                | Rimuovere il link                |
+| Dev-only logic  | Componente separato `DevX`                               | if(isDev) dentro comp prod       |
+| Pieces MCP      | Query only (`ask_pieces_ltm`)                            | `create_memory` (auto-save)      |
+| Regional market | Considera piattaforme Asia                               | Assumere default occidentali     |
+| Settings UX     | Tabs orizzontali per settings                            | Submenu sidebar                  |
+| Service models  | Capire modello servizio locale                           | One-size-fits-all                |
+| Entry tier      | Tier base come piede nella porta                         | Forzare full package             |
+| QR value        | QR utile anche senza ordering                            | QR = solo ordering               |
+| Backoffice mod  | PRODUCT.md Sez.6 solo nuove areas                        | Aggiornare per ogni modifica     |
+| Audit tecnico   | Snapshot datato, rigenera su richiesta                   | Mantenere aggiornato sempre      |
+| Task lunghe     | Commit ogni ~30 min o feature done                       | Task 2h+ senza checkpoint        |
+| MCP heavy ops   | Prima commit, poi type gen/migrations                    | Type gen durante sviluppo        |
+| Dev server port | Verifica `lsof -i :3023` prima di avviare                | Assumere porta libera            |
+| Port docs       | Leggi package.json per porta reale                       | Fidarsi di docs outdated         |
+| KB Backoffice   | Aggiorna `lib/kb/kb-content.ts` quando modifichi pagine  | Dimenticare docs utente          |
+| Dev auth APIs   | `getSession()` deve supportare dev cookies               | Solo Supabase auth check         |
+| Env vars sync   | Quando aggiungi su Vercel, aggiungi anche `.env.local`   | Solo Vercel, dev non funziona    |
+| Server cache    | Services che scrivono cache usano `supabaseAdmin`        | `supabase` bloccato da RLS       |
+| Planning docs   | Commit roadmaps/specs subito dopo creazione              | Creare file senza commit         |
+| Backlog sync    | Aggiorna 1-TODO + 4-DONE dopo ogni planning session      | Roadmap senza backlog sync       |
+| Session start   | `cd progetto && claude` o alias shell                    | Avviare Claude da ~              |
+| Vercel Ignored  | `bash script.sh` o rimuovere (null), verifica dopo setup | Stringa vuota `""` blocca builds |
 
 ## Come Aggiornare
 
