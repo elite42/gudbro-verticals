@@ -15,6 +15,7 @@ export default defineConfig({
       '**/.next/**',
       '**/coverage/**',
       '**/shared/database/**',
+      '**/e2e/**',
     ],
     coverage: {
       provider: 'v8',
