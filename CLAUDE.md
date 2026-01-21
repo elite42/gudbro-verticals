@@ -602,6 +602,27 @@ npx supabase db push
 npx supabase gen types typescript
 ```
 
+## 9.4 CI Simulation
+
+```bash
+# Simula CI GitHub Actions in locale (catch errori prima del push)
+./scripts/ci-local.sh          # Full: clean + install + typecheck + lint + build
+./scripts/ci-local.sh --quick  # Quick: solo checks senza reinstall
+./scripts/ci-local.sh --clean  # Solo pulizia cache/node_modules
+```
+
+**Quando usare:**
+
+- Prima di push importanti
+- Quando CI fallisce ma locale passa
+- Dopo aver modificato dipendenze
+
+**Node version:** Usa `.nvmrc` per garantire stessa versione di CI:
+
+```bash
+nvm use  # Legge .nvmrc (Node 20)
+```
+
 ---
 
 # 10. ARCHITECTURAL DECISIONS
