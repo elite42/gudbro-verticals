@@ -4,7 +4,7 @@
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 > **Specs dettagliate:** `specs/` folder
 
-**Last Updated:** 2026-01-19
+**Last Updated:** 2026-01-21
 
 ---
 
@@ -158,18 +158,51 @@ CRON_SECRET=
 | CI-PNPM-VERSION | Fix pnpm conflict      | Rimosso `version: 9` da ci.yml                                 | 15min  | ✅ DONE |
 | CI-LOCAL-PARITY | Local/CI parity script | Script `ci-local.sh` per simulare CI (fresh install + --force) | 1h     | ✅ DONE |
 | CI-NVMRC        | Pin Node version       | Aggiunto `.nvmrc` con Node 20 (come CI)                        | 15min  | ✅ DONE |
+| CI-PRISMA-GEN   | Prisma in typecheck    | Aggiunto `prisma generate` a script typecheck                  | 15min  | ✅ DONE |
+| CI-VITEST-E2E   | Escludi e2e da Vitest  | Aggiunto `'**/e2e/**'` a vitest exclude                        | 15min  | ✅ DONE |
+| CI-SUPABASE-API | Supabase lazy-init     | 4 API routes fixate per usare `supabaseAdmin`                  | 30min  | ✅ DONE |
 
-**Comandi per trovare i problemi:**
+### 🔍 Post-Mortem: Perché ci abbiamo messo 2 giorni?
+
+**PROBLEMA FONDAMENTALE:** Local vs CI divergence
+
+| Locale                                      | CI                              |
+| ------------------------------------------- | ------------------------------- |
+| Cache TypeScript, Prisma types già generati | Fresh install, nessuna cache    |
+| Node v22                                    | Node v20                        |
+| `.turbo` cache presente                     | Nessuna cache                   |
+| Build genera prima di typecheck             | Typecheck esegue prima di build |
+
+**PERCHÉ I PROBLEMI SONO NATI:**
+
+1. **Prisma types** - Il typecheck script era solo `tsc --noEmit`. Funzionava localmente perché Prisma types erano già generati da un `pnpm build` precedente. In CI, typecheck esegue PRIMA di build.
+
+2. **e2e tests** - Playwright tests aggiunti in `/e2e/*.spec.ts` dopo la configurazione Vitest. Il pattern `**/*.spec.ts` li includeva. Vitest non sa eseguire `test.describe()` di Playwright.
+
+3. **Supabase module-level** - Nuove API routes create copiando codice vecchio con `createClient()` inline. Il pattern `supabaseAdmin` lazy-init era documentato ma non seguito.
+
+**PERCHÉ È STATO DIFFICILE DA DIAGNOSTICARE:**
+
+- Errori a cascata: fix uno → appare un altro
+- Errori criptici: "supabaseKey is required" durante build non dice "lazy-init problem"
+- Divergenza locale/CI nascondeva i problemi fino al push
+
+**LEZIONE PRINCIPALE:**
+
+> **Usare SEMPRE `./scripts/ci-local.sh` prima di push importanti.**
+> Il CI simula fresh install + --force per rivelare problemi nascosti dalla cache locale.
+
+**Comandi per trovare problemi futuri:**
 
 ```bash
+# Simula CI in locale (USARE QUESTO!)
+./scripts/ci-local.sh
+
 # Trova tutti useState<any[]>
 grep -rn "useState<any\[\]>" --include="*.tsx" apps/backoffice/
 
-# Trova .map((ing) senza tipo
-grep -rn "\.map((ing)" --include="*.tsx" apps/backoffice/
-
-# Simula CI in locale
-rm -rf node_modules .turbo apps/*/.next && pnpm i --frozen-lockfile && pnpm turbo typecheck --force
+# Trova createClient inline (DEVE essere 0 nei route files)
+grep -rn "const.*=.*createClient(" --include="*.ts" apps/backoffice/app/api/
 ```
 
 ---

@@ -3,7 +3,43 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-19
+**Last Updated:** 2026-01-21
+
+---
+
+## 2026-01-21
+
+| ID              | Feature            | Descrizione                                                                                                                             | Completato |
+| --------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| CI-PIPELINE-FIX | CI/CD Pipeline Fix | Risolto problema CI che falliva mentre locale passava. 3 fix: Prisma generate in typecheck, e2e exclusion da Vitest, Supabase lazy-init | 2026-01-21 |
+
+> **CI-PIPELINE-FIX Details:**
+>
+> **Root Causes Identified & Fixed:**
+>
+> 1. **Prisma types not generated** - CI runs typecheck before build, but only build had `prisma generate`
+>    - Fix: `"typecheck": "prisma generate && tsc --noEmit"` in package.json
+> 2. **Playwright e2e tests picked up by Vitest** - `.spec.ts` files in `/e2e/` folder
+>    - Fix: Added `'**/e2e/**'` to vitest.config.ts exclude array
+> 3. **API routes creating Supabase client at module level** - Build fails when env vars not available
+>    - Fix: Use `import { supabaseAdmin } from '@/lib/supabase-admin'` (lazy-init via Proxy)
+>    - Files fixed: `/api/customers/[accountId]/accommodation`, `/api/exchange-rates/refresh`, `/api/qr/r/[code]`, `/api/send-push`
+>
+> **Files Modified:**
+>
+> - `apps/backoffice/package.json` - Added prisma generate to typecheck
+> - `vitest.config.ts` - Added e2e exclusion
+> - 4 API route files - Changed to use supabaseAdmin
+> - `scripts/ci-local.sh` - CI simulation script (created earlier)
+> - `.nvmrc` - Node version pinning (created earlier)
+>
+> **Commits:**
+>
+> - `5b73880` - fix(backoffice): add prisma generate to typecheck script
+> - `540a391` - fix(tests): exclude e2e folder from vitest
+> - `64584be` - fix(api): use lazy-initialized supabaseAdmin in API routes
+>
+> **Result:** GitHub Actions CI #150 and Test Suite #38 both GREEN
 
 ---
 
