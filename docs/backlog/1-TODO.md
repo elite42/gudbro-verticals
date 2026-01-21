@@ -146,6 +146,32 @@ CRON_SECRET=
 
 ---
 
+## P0 - CI/CD Fix (BLOCKING)
+
+> **🚨 CI GITHUB ACTIONS FALLISCE** - Blocca tutti i merge
+> Lezioni apprese: `CLAUDE.md` sezione 3.5 (Compounding Engineering)
+
+| ID              | Feature                | Descrizione                                                    | Effort | Status  |
+| --------------- | ---------------------- | -------------------------------------------------------------- | ------ | ------- |
+| CI-IMPLICIT-ANY | Fix implicit any types | `useState<any[]>` → interface tipizzate in tutti i componenti  | 2h     | Pending |
+| CI-LOCAL-PARITY | Local/CI parity script | Script `ci-local.sh` per simulare CI (fresh install + --force) | 1h     | Pending |
+| CI-NVMRC        | Pin Node version       | Aggiungere `.nvmrc` per garantire stessa versione locale/CI    | 15min  | Pending |
+
+**Comandi per trovare i problemi:**
+
+```bash
+# Trova tutti useState<any[]>
+grep -rn "useState<any\[\]>" --include="*.tsx" apps/backoffice/
+
+# Trova .map((ing) senza tipo
+grep -rn "\.map((ing)" --include="*.tsx" apps/backoffice/
+
+# Simula CI in locale
+rm -rf node_modules .turbo apps/*/.next && pnpm i --frozen-lockfile && pnpm turbo typecheck --force
+```
+
+---
+
 ## P0 - Security Hardening
 
 > **🔒 SECURITY HARDENING** - Fix critici pre-launch
