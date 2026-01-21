@@ -29,6 +29,7 @@ import {
   DIFFICULTY_OPTIONS,
   WIN_REWARD_OPTIONS,
   DAYS_OPTIONS,
+  WallOfFameEntry,
 } from '@/lib/challenges-service';
 
 // ============================================
@@ -926,7 +927,7 @@ interface WallOfFameModalProps {
 }
 
 function WallOfFameModal({ challenge, onClose }: WallOfFameModalProps) {
-  const [entries, setEntries] = useState<any[]>([]);
+  const [entries, setEntries] = useState<WallOfFameEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
