@@ -437,18 +437,163 @@ Sapere immediatamente quando qualcosa si rompe.
 
 ---
 
+## FASE 7: Aggiornamento Documentazione Esistente
+
+**Tempo: ~6-8h | Priorità: CRITICA**
+
+### Obiettivo
+
+Aggiornare TUTTA la documentazione esistente per riflettere la nuova architettura. Questa fase è critica perché CLAUDE.md è la "memoria" che guida lo sviluppo futuro - se non è precisa, causerà errori.
+
+### Principi Guida
+
+1. **Single Source of Truth** - Ogni informazione in un solo posto, riferimenti altrove
+2. **Versionamento** - Data e versione su ogni documento
+3. **Esempi concreti** - Non "esegui il comando", ma `pnpm dev:backoffice`
+4. **Testabile** - Ogni comando/procedura deve funzionare se copiato
+5. **Struttura consistente** - Stessi pattern in tutti i docs
+6. **Cross-reference** - Link tra documenti correlati
+
+### File da Aggiornare
+
+#### 1. CLAUDE.md (Priorità: MASSIMA)
+
+| Sezione                        | Modifiche Richieste                                       |
+| ------------------------------ | --------------------------------------------------------- |
+| **Sezione 0 (Current Focus)**  | Aggiornare stato progetto post-migrazione                 |
+| **Sezione 4 (Repo Structure)** | Nuova struttura: 2 repo, gudbro-platform + gudbro-website |
+| **Sezione 9 (Commands)**       | Rimuovere comandi website, aggiungere comandi staging     |
+| **Sezione 2 (Workflow)**       | Nuovo workflow Dev → Staging → Prod                       |
+| **Nuova Sezione**              | Aggiungere "Staging Environment" con dettagli             |
+| **Sezione 3.5 (Compounding)**  | Aggiungere lezioni apprese da questo upgrade              |
+| **Sezione 8 (Tech Stack)**     | Aggiungere info su Supabase staging                       |
+
+```markdown
+# Esempio nuova Sezione 4 (Repo Structure)
+
+## Repository
+
+GUDBRO usa 2 repository separati:
+
+### gudbro-platform (backoffice + PWA)
+```
+
+elite42/gudbro-platform/
+├── apps/
+│ ├── backoffice/ # Admin Dashboard (:3023)
+│ └── pwa/ # Digital Menu PWA (:3004)
+├── packages/
+│ ├── database/ # Schema, migrations, types
+│ ├── types/ # Shared TypeScript types
+│ ├── utils/ # Shared utilities
+│ └── ui/ # Shared UI components
+└── docs/ # Documentazione
+
+```
+
+### gudbro-website (standalone)
+```
+
+elite42/gudbro-website/
+├── app/ # Next.js app
+├── components/ # React components
+└── public/ # Static assets
+
+```
+
+```
+
+#### 2. docs/DEVELOPMENT-WORKFLOW.md
+
+| Sezione              | Modifiche                                     |
+| -------------------- | --------------------------------------------- |
+| Workflow principale  | Dev → Staging → Prod (non più direct to prod) |
+| Branching strategy   | Aggiungere branch `staging`                   |
+| Pre-deploy checklist | Test su staging obbligatorio                  |
+
+#### 3. docs/PROCEDURE-CHECKLIST.md
+
+| Aggiunta           | Contenuto                                                    |
+| ------------------ | ------------------------------------------------------------ |
+| Checklist staging  | Verifiche prima di merge staging → main                      |
+| Checklist hotfix   | Procedura per fix urgenti (bypass staging quando necessario) |
+| Checklist rollback | Come tornare indietro se qualcosa va storto                  |
+
+#### 4. docs/backlog/\*.md
+
+| File      | Azione                                                     |
+| --------- | ---------------------------------------------------------- |
+| 1-TODO.md | Rimuovere task completate, aggiungere task post-migrazione |
+| 4-DONE.md | Documentare TUTTE le 7 fasi con dettagli                   |
+
+#### 5. File di Configurazione
+
+| File                     | Modifiche                             |
+| ------------------------ | ------------------------------------- |
+| turbo.json               | Rimuovere riferimenti a website       |
+| package.json (root)      | Aggiornare scripts, rimuovere website |
+| .github/workflows/ci.yml | Aggiornare per nuova struttura        |
+| pnpm-workspace.yaml      | Rimuovere apps/website                |
+
+#### 6. README.md (root)
+
+Aggiornare con:
+
+- Nuova struttura repository
+- Link a gudbro-website repo
+- Quick start aggiornato
+- Architettura staging
+
+### Verifica Qualità
+
+Prima di considerare Fase 7 completa:
+
+- [ ] **Test CLAUDE.md**: Leggo da zero e verifico ogni comando funzioni
+- [ ] **Test workflow**: Simulo push → staging → prod
+- [ ] **Test onboarding**: Un nuovo dev può seguire i docs senza errori?
+- [ ] **Zero riferimenti obsoleti**: Grep per "gudbro-verticals" deve dare 0 risultati (tranne storico)
+- [ ] **Cross-reference check**: Tutti i link interni funzionano
+- [ ] **Version bump**: Aggiornare versione CLAUDE.md (es. v8.0)
+
+### Template Aggiornamento Versione
+
+```markdown
+**File:** `CLAUDE.md`
+**Version:** 8.0
+**Updated:** 2026-01-XX
+**Changes:**
+
+- v8.0 - Infrastructure Upgrade: 2 repo (platform + website), staging environment, monitoring
+- v7.2 - CI/CD Pipeline Fix
+- ...
+```
+
+### Output Fase 7
+
+| Deliverable             | Descrizione                                     |
+| ----------------------- | ----------------------------------------------- |
+| CLAUDE.md v8.0          | Completamente aggiornato per nuova architettura |
+| DEVELOPMENT-WORKFLOW.md | Nuovo workflow con staging                      |
+| PROCEDURE-CHECKLIST.md  | Checklist aggiornate                            |
+| Backlog sync            | TODO e DONE aggiornati                          |
+| Config files            | turbo.json, package.json, CI aggiornati         |
+| README.md               | Quick start per nuova struttura                 |
+
+---
+
 ## TIMELINE ESECUZIONE
 
-| Giorno       | Fase                        | Tempo | Chi          |
-| ------------ | --------------------------- | ----- | ------------ |
-| 22 Gen 15:00 | Fase 1: Recovery            | 45min | Cowork       |
-| 22 Gen 16:00 | Fase 2: Separazione Website | 3h    | Claude + Dev |
-| 23 Gen       | Fase 3: Staging             | 6h    | Claude + Dev |
-| 23 Gen       | Fase 4: IaC                 | 2h    | Claude       |
-| 24 Gen       | Fase 5: Monitoring          | 3h    | Claude + Dev |
-| 24 Gen       | Fase 6: Docs                | 2h    | Claude       |
+| Giorno       | Fase                         | Tempo | Chi          |
+| ------------ | ---------------------------- | ----- | ------------ |
+| 22 Gen 15:00 | Fase 1: Recovery             | 45min | Cowork       |
+| 22 Gen 16:00 | Fase 2: Separazione Website  | 3h    | Claude + Dev |
+| 23 Gen       | Fase 3: Staging              | 6h    | Claude + Dev |
+| 23 Gen       | Fase 4: IaC                  | 2h    | Claude       |
+| 24 Gen       | Fase 5: Monitoring           | 3h    | Claude + Dev |
+| 24 Gen       | Fase 6: Nuova Documentazione | 2h    | Claude       |
+| 25 Gen       | Fase 7: Aggiornamento Docs   | 6-8h  | Claude       |
 
-**Totale: ~17h su 3 giorni**
+**Totale: ~23-25h su 4 giorni**
 
 ---
 
@@ -469,19 +614,38 @@ Sapere immediatamente quando qualcosa si rompe.
 - [ ] Dev → Staging → Prod documentato
 - [ ] Team sa come usare staging
 
-### Documentazione
+### Nuova Documentazione (Fase 6)
 
 - [ ] VERCEL-SETUP.md completo
 - [ ] DEPLOYMENT-WORKFLOW.md completo
 - [ ] RUNBOOK.md completo
 - [ ] Env vars backed up
 
-### Test
+### Aggiornamento Docs Esistenti (Fase 7)
+
+- [ ] CLAUDE.md aggiornato a v8.0 con nuova struttura
+- [ ] Sezione repo structure riflette 2 repo
+- [ ] Sezione commands aggiornata (no website, +staging)
+- [ ] Sezione workflow include staging
+- [ ] Compounding Engineering aggiornato con lezioni
+- [ ] docs/DEVELOPMENT-WORKFLOW.md aggiornato
+- [ ] docs/PROCEDURE-CHECKLIST.md aggiornato
+- [ ] turbo.json senza website
+- [ ] package.json root aggiornato
+- [ ] pnpm-workspace.yaml aggiornato
+- [ ] .github/workflows aggiornati
+- [ ] README.md aggiornato
+- [ ] Backlog sincronizzato (TODO + DONE)
+- [ ] Zero riferimenti a vecchia struttura
+- [ ] Tutti i comandi testati e funzionanti
+
+### Test Finali
 
 - [ ] Push su website → solo website builda
 - [ ] Push su platform → backoffice e/o pwa buildano
 - [ ] Push su staging → deploy su staging
 - [ ] Errore → alert arriva
+- [ ] Nuovo dev può fare onboarding seguendo docs
 
 ---
 
