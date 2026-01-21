@@ -3,19 +3,7 @@
 // URL pattern: /api/qr/r/[code]
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-// Create a separate Supabase client for this route (can't use shared client in API route)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
-  },
-});
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 // Parse user agent to get device info
 // Bug fixes from test suite: iOS/Samsung/Opera detection order corrected
@@ -90,7 +78,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
   try {
     // Look up the QR code by short_code with merchant info
-    const { data: qrCode, error: qrError } = await supabase
+    const { data: qrCode, error: qrError } = await supabaseAdmin
       .from('qr_codes')
       .select(
         `
@@ -164,7 +152,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const utm_campaign = searchParams.get('utm_campaign');
 
     // Record the scan (async, don't wait)
-    supabase
+    supabaseAdmin
       .from('qr_scans')
       .insert({
         qr_code_id: qrCode.id,

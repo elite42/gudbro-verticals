@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 import webPush from 'web-push';
 
 export const dynamic = 'force-dynamic';
@@ -10,11 +10,6 @@ export const dynamic = 'force-dynamic';
  * Called from kitchen display when order status changes to 'ready'.
  * Sends web push notifications to subscribed customer devices.
  */
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // VAPID keys for web push authentication
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || '';
@@ -69,7 +64,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Find subscriptions for this session
-    const { data: subscriptions, error: subError } = await supabase
+    const { data: subscriptions, error: subError } = await supabaseAdmin
       .from('notification_subscriptions')
       .select('id, endpoint, p256dh, auth')
       .eq('channel', 'web_push')
@@ -124,7 +119,7 @@ export async function POST(request: NextRequest) {
           await webPush.sendNotification(subscription, JSON.stringify(payload));
 
           // Update last_used_at
-          await supabase
+          await supabaseAdmin
             .from('notification_subscriptions')
             .update({ last_used_at: new Date().toISOString() })
             .eq('id', sub.id);
@@ -136,7 +131,7 @@ export async function POST(request: NextRequest) {
 
           // If subscription is expired/invalid, mark as inactive
           if (message.includes('410') || message.includes('404')) {
-            await supabase
+            await supabaseAdmin
               .from('notification_subscriptions')
               .update({ is_active: false, updated_at: new Date().toISOString() })
               .eq('id', sub.id);

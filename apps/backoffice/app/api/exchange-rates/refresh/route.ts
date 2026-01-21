@@ -1,9 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 const EXCHANGE_RATE_API_KEY = process.env.EXCHANGE_RATE_API_KEY;
 
@@ -42,17 +38,18 @@ export async function POST() {
     }
 
     // Update Supabase
-    const { error } = await supabase
-      .from('exchange_rates')
-      .upsert({
+    const { error } = await supabaseAdmin.from('exchange_rates').upsert(
+      {
         base_currency: 'USD',
         rates: data.conversion_rates,
         source: 'exchangerate-api.com',
         fetched_at: new Date().toISOString(),
         currency_count: Object.keys(data.conversion_rates).length,
-      }, {
+      },
+      {
         onConflict: 'base_currency',
-      });
+      }
+    );
 
     if (error) {
       throw error;
@@ -80,7 +77,7 @@ export async function POST() {
 
 export async function GET() {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('exchange_rates')
       .select('*')
       .order('fetched_at', { ascending: false })
