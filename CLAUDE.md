@@ -288,22 +288,21 @@ git push origin main   # Auto-deploy Vercel
 
 # 11. FINE SESSIONE
 
-**Aggiorna `docs/SESSION-LOG.md`** dopo:
+**Usa `/end-session <categoria>` per checklist guidata.**
 
-- Feature significativa completata
-- Decisioni architetturali
-- Bug complessi risolti
+| Categoria  | Quando                        |
+| ---------- | ----------------------------- |
+| `feature`  | Nuova funzionalita completata |
+| `bugfix`   | Bug risolto                   |
+| `database` | Migration applicata           |
+| `infra`    | Config Vercel/CI/Deploy       |
+| `refactor` | Refactoring significativo     |
+| `ai`       | Modifiche AI Co-Manager       |
+| `security` | Hardening/fix sicurezza       |
 
-**Template:**
+**Senza categoria:** `/end-session` esegue checklist universale.
 
-```markdown
-## YYYY-MM-DD
-
-**Focus:** [Cosa]
-**Completato:** [Lista]
-**Commits:** `hash` - message
-**Prossima sessione:** [Cosa fare]
-```
+**Vedi:** `docs/END-SESSION-CHECKLIST.md` per dettagli.
 
 ---
 
