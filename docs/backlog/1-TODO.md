@@ -351,3 +351,12 @@ docs/backlog/
 2. Leggi la spec corrispondente per dettagli
 3. Sposta in `2-IN-PROGRESS.md`
 4. Completa → sposta in `4-DONE.md`
+
+## OPT-CLAUDE-MD - Ottimizzazione CLAUDE.md (P2)
+
+**Stima:** 1h
+**Descrizione:** Ridurre context usage spostando sezioni grandi in file separati
+
+- Compounding Engineering → .claude/COMPOUNDING.md
+- MCP Servers → .claude/MCP-GUIDE.md
+- Risparmio stimato: ~150 righe (15%)

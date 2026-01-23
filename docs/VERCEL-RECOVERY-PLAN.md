@@ -2,13 +2,15 @@
 
 **Data creazione:** 2026-01-21
 **Da eseguire:** 2026-01-22 ore 15:00
-**Status:** ✅ FASE 1-5 COMPLETATE (2026-01-23)
+**Status:** ✅ TUTTE LE FASI COMPLETATE (2026-01-23)
 
 > **Nota Fase 1:** Upgrade a Vercel Pro ($20/mo) necessario per sbloccare i deploy.
 > **Nota Fase 2:** Website separato in `elite42/gudbro-website`, CI verde, produzione funzionante.
 > **Nota Fase 3:** Supabase staging project creato (`gudbro-staging`), isolamento verificato.
 > **Nota Fase 4:** vercel.json aggiornati con framework, regions, git config.
 > **Nota Fase 5:** Sentry + UptimeRobot configurati, GitHub Action verify-deploy attivo.
+> **Nota Fase 6:** VERCEL-SETUP.md + RUNBOOK.md creati in docs/.
+> **Nota Fase 7:** CLAUDE.md v8.0 (265 righe, -75%), satellite files: LESSONS-LEARNED.md, AI-SYSTEM.md.
 
 ---
 

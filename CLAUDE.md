@@ -2,154 +2,63 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-21
-> **Version:** 7.2 (CI/CD Pipeline Fixed)
+> **Last Updated:** 2026-01-23
+> **Version:** 8.0 (Optimized Structure)
 
 ---
 
-# HOW TO USE (IMPORTANTE)
+# HOW TO USE
 
-> **⚠️ NON processare tutto questo documento in una volta.**
-> Usalo a layer, sezione per sezione, in base al contesto.
+> **Leggi solo le sezioni rilevanti al task corrente.**
 
-## Principio: Layered Application
-
-Documenti grandi (~740 righe) processati insieme → qualità diluita, dettagli persi.
-Approccio corretto: **leggi solo le sezioni rilevanti al task corrente**.
-
-## Layer per Tipo di Attività
-
-```
-INIZIO SESSIONE:
-└── Sezione 0 (Current Focus) + Sezione 1 (Startup) → SEMPRE
-
-SVILUPPO CODICE:
-└── Sezione 2 (Workflow) + Sezione 3 (Validation Gates)
-└── Sezione 3.5 (Compounding) → Se fai errori
-
-DATABASE/SQL:
-└── Sezione 5 (Database Critical) + Sezione 3.1 (Prima di SQL)
-
-AI CO-MANAGER:
-└── Sezione 11 (AI System)
-
-DEPLOY/GIT:
-└── Sezione 9 (Commands) + Sezione 11.5 (Slash Commands)
-
-QUALITY ASSURANCE:
-└── Sezione 11.6 (QA System) + /qa-quick
-
-FINE SESSIONE:
-└── Sezione 15 (Fine Sessione)
-```
-
-## Quick Reference
-
-| Sezione           | Quando                 |
-| ----------------- | ---------------------- |
-| 0. Current Focus  | Sempre all'inizio      |
-| 1. Startup        | Sempre all'inizio      |
-| 2. Workflow       | Prima di sviluppare    |
-| 3. Validation     | Prima di SQL/codice    |
-| 3.5 Compounding   | Quando fai errori      |
-| 4. Repo Structure | Se cerchi file         |
-| 5. Database       | Prima di SQL           |
-| 6. Documentation  | Se cerchi docs         |
-| 9. Commands       | Per comandi specifici  |
-| 11. AI System     | Se lavori su AI        |
-| 11.6 QA System    | Check qualita progetto |
-| 15. Fine Sessione | A fine lavoro          |
-
-## Anti-Pattern
-
-❌ "Leggo tutto CLAUDE.md prima di iniziare"
-❌ "Devo ricordare tutte le 16 sezioni"
-
-## Pattern Corretto
-
-✅ "Inizio sessione → Sez. 0 + 1"
-✅ "Devo scrivere SQL → Sez. 3.1 + 5"
-✅ "Ho fatto un errore → Lo aggiungo a Sez. 3.5"
+| Attività        | Sezioni da leggere                        |
+| --------------- | ----------------------------------------- |
+| Inizio sessione | 0 + 1                                     |
+| Sviluppo codice | 2 + 3                                     |
+| Database/SQL    | 3 + 5 + `docs/LESSONS-LEARNED.md` (Sez.1) |
+| AI Co-Manager   | `docs/AI-SYSTEM.md`                       |
+| Deploy/Vercel   | 9 + `docs/LESSONS-LEARNED.md` (Sez.2)     |
+| Errori/Debug    | `docs/LESSONS-LEARNED.md`                 |
+| Fine sessione   | 11                                        |
 
 ---
 
-# 0. CURRENT FOCUS (Aggiorna quando cambi task)
+# 0. CURRENT FOCUS
 
 > **Task attiva:** Nessuna (scegli da backlog)
-> **Stato:** CI/CD FIXED - Phase 1-3 COMPLETATE + Security Phase 1 - Pronto per nuove task
-> **Ultima completata:** CI/CD Pipeline Fix - 2026-01-21
->
-> **⚠️ USER ACTION PENDING:**
-> Aggiungere env vars su Vercel - vedi `2-IN-PROGRESS.md`:
->
-> - Phase 1: Redis (Upstash) + Sentry
-> - Phase 2: Trigger.dev
-> - Phase 3: Vercel KV (optional) + CRON_SECRET
->
-> **📋 Prossime opzioni (da 1-TODO.md):**
->
-> - SEC-ERROR-HANDLING (4h) - Try-catch su tutti i routes
-> - SEC-2FA (2 days) - Two-Factor Auth per admin/owner
-> - Testing Initiative (TEST-WALLET, TEST-LOYALTY, TEST-CI)
-> - Phase 4 Scaling (SCALE-CITUS, SCALE-EVENT-BUS) - 100K→1M users
-> - PWA-FULL-SITE (architettura)
->
-> **📊 Roadmap Documents:**
->
-> - `docs/SCALE-ROADMAP.md` - Infrastructure scaling 100 → 10M users
-> - `docs/TESTING-STRATEGY.md` - Testing from 1.5% to 80%
-> - `docs/SECURITY-ROADMAP.md` - Security hardening 4 phases
+> **Stato:** Infrastructure Upgrade Complete - Pronto per nuove task
+> **Ultima completata:** Vercel Recovery + Monitoring Setup - 2026-01-23
+
+**Prossime opzioni (da 1-TODO.md):**
+
+- SEC-ERROR-HANDLING (4h) - Try-catch su tutti i routes
+- SEC-2FA (2 days) - Two-Factor Auth per admin/owner
+- Testing Initiative (TEST-WALLET, TEST-LOYALTY, TEST-CI)
 
 ---
 
-# 1. STARTUP COMMAND (OBBLIGATORIO)
+# 1. STARTUP (Obbligatorio)
 
-> **IMPORTANTE:** Questo e' l'UNICO file CLAUDE.md del progetto.
-> Claude Code legge automaticamente questo file all'avvio.
+**OGNI nuova sessione:**
 
-## 1.1 Procedura di Avvio
-
-**DEVI eseguire questi passaggi OGNI volta che inizi una nuova sessione:**
-
-### Step 1: Leggi il Backlog (USA IL TOOL READ)
+### Step 1: Leggi il Backlog
 
 ```
-LEGGI questi file con il tool Read:
-- docs/backlog/2-IN-PROGRESS.md  → Task attualmente in corso
-- docs/backlog/4-DONE.md         → Ultime 3 task completate (per contesto)
+LEGGI con Read tool:
+- docs/backlog/2-IN-PROGRESS.md
+- docs/backlog/4-DONE.md (ultime 3)
 ```
 
-### Step 2: Conferma all'utente
-
-```
-RISPONDI con questo formato ESATTO:
-
-"GUDBRO Ready.
-
-FOCUS: [task da sezione 0, o "Nessuno"]
-IN PROGRESS: [lista task da 2-IN-PROGRESS.md]
-
-Vuoi continuare [FOCUS task] o fare altro?"
-```
-
-## 1.2 Esempio di Risposta Corretta
+### Step 2: Rispondi
 
 ```
 GUDBRO Ready.
 
-FOCUS: ING-TRANSLATIONS-ALL (traduzioni ingredienti, ~10%, OFFSET 150)
-IN PROGRESS: ING-TRANSLATIONS-ALL
+FOCUS: [task da sezione 0]
+IN PROGRESS: [da 2-IN-PROGRESS.md]
 
-Vuoi continuare le traduzioni o fare altro?
+Vuoi continuare o fare altro?
 ```
-
-## 1.3 Se l'utente chiede contesto aggiuntivo
-
-Solo se richiesto, leggi anche:
-
-- `docs/DATABASE-INVENTORY.md` - Stato database
-- `docs/DATABASE-SCHEMA.md` - Schema tabelle (prima di SQL)
-- `docs/backlog/1-TODO.md` - Task da fare
 
 ---
 
@@ -157,293 +66,43 @@ Solo se richiesto, leggi anche:
 
 > **REGOLA D'ORO:** Explore → Plan → **Verify** → Validate → Implement → Document
 
-**Mai saltare fasi.** Gli errori nascono saltando direttamente all'implementazione.
+| Fase       | Azione                            |
+| ---------- | --------------------------------- |
+| EXPLORE    | Leggi, capisci, NON scrivere      |
+| PLAN       | Cosa, Come, Perché, Rischi        |
+| **VERIFY** | Ricerca online se confidenza <95% |
+| VALIDATE   | Check PRIMA di implementare       |
+| IMPLEMENT  | Codice con confidenza             |
+| DOCUMENT   | Mantieni la conoscenza            |
 
-| Fase       | Azione                                | Output          |
-| ---------- | ------------------------------------- | --------------- |
-| EXPLORE    | Leggi, capisci, NON scrivere          | Comprensione    |
-| PLAN       | Cosa, Come, Perche, Rischi            | Piano           |
-| **VERIFY** | **Ricerca online se confidenza <95%** | **Cross-check** |
-| VALIDATE   | Check PRIMA di implementare           | ✅ o ❌         |
-| IMPLEMENT  | Codice con confidenza                 | Funziona        |
-| DOCUMENT   | Mantieni la conoscenza                | Docs aggiornati |
+**Quando cercare online:** Confidenza < 95%, tecnologie che cambiano, errori criptici, security-related.
 
-## 2.1 VERIFY Online (Step Opzionale ma Raccomandato)
-
-> **Principio:** "Measure twice, cut once" - 2 min di ricerca possono risparmiare ore di debug.
-
-**QUANDO FARE RICERCA ONLINE:**
-
-| Situazione              | Esempio                                        |
-| ----------------------- | ---------------------------------------------- |
-| Confidenza < 95%        | "Credo che si faccia così, ma non sono sicuro" |
-| Tecnologie che cambiano | Supabase, Next.js, Vercel, PostgreSQL          |
-| Errori criptici         | Messaggi di errore non chiari                  |
-| Security-related        | RLS, auth, permessi                            |
-| Edge cases              | Comportamenti non standard                     |
-
-**QUANDO NON SERVE:**
-
-| Situazione              | Esempio                            |
-| ----------------------- | ---------------------------------- |
-| Pattern consolidati     | CRUD, async/await, TypeScript base |
-| Logica interna progetto | Come funziona GUDBRO               |
-| Confidenza > 95%        | So esattamente cosa fare           |
-
-**COME CERCARE:**
-
-```
-WebSearch("supabase RLS service_role best practice 2025")
-WebFetch("https://supabase.com/docs/guides/auth/row-level-security")
-```
-
-**Riferimento completo:** `docs/DEVELOPMENT-WORKFLOW.md`
-**Checklist per tipo task:** `docs/PROCEDURE-CHECKLIST.md`
-
-## 2.2 PLAN MODE (Per Task Complesse)
-
-> **Ispirato a Boris Cherny:** "Plan mode permette a Claude di esplorare e progettare prima di implementare."
-
-**COS'È PLAN MODE:**
-
-Plan mode è una modalità speciale di Claude Code che:
-
-- Permette di esplorare il codebase senza scrivere
-- Crea un piano dettagliato prima dell'implementazione
-- Richiede approvazione utente prima di procedere
-- Riduce errori e rework
-
-**QUANDO USARE PLAN MODE:**
-
-| Situazione                | Esempio                            |
-| ------------------------- | ---------------------------------- |
-| Nuove feature multi-file  | "Aggiungi sistema di prenotazioni" |
-| Refactoring significativo | "Ristruttura il sistema di auth"   |
-| Decisioni architetturali  | "Come integrare pagamenti?"        |
-| Task > 30 min stimate     | Qualsiasi lavoro complesso         |
-| Incertezza alta           | "Non so bene da dove partire"      |
-
-**QUANDO NON SERVE:**
-
-| Situazione         | Esempio                        |
-| ------------------ | ------------------------------ |
-| Bug fix singolo    | "Fixxa il typo in questo file" |
-| Modifiche puntuali | "Cambia il colore del bottone" |
-| Task < 10 min      | Lavoro triviale                |
-
-**COME ATTIVARE:**
-
-```
-Metodo 1: Shift+Tab (due volte)
-Metodo 2: Chiedere "entra in plan mode"
-Metodo 3: Claude lo suggerisce per task complesse
-```
-
-**OUTPUT DI PLAN MODE:**
-
-1. **Analisi** - Comprensione del problema
-2. **Files coinvolti** - Lista file da creare/modificare
-3. **Piano step-by-step** - Sequenza di azioni
-4. **Rischi identificati** - Potenziali problemi
-5. **Richiesta approvazione** - Prima di implementare
-
-**ESEMPIO:**
-
-```
-User: "Aggiungi dark mode all'app"
-
-Claude (Plan Mode):
-## Piano: Dark Mode Implementation
-
-### Analisi
-- L'app usa Tailwind CSS
-- Nessun sistema di temi presente
-- 15 componenti da aggiornare
-
-### Files da modificare
-1. tailwind.config.js - aggiungere dark mode
-2. lib/theme-context.tsx - nuovo context
-3. components/ThemeToggle.tsx - nuovo componente
-4. 15 componenti esistenti - classi dark:
-
-### Steps
-1. Configurare Tailwind per dark mode
-2. Creare ThemeContext e provider
-3. Aggiungere toggle in header
-4. Aggiornare componenti uno alla volta
-
-### Rischi
-- Alcuni colori hardcoded potrebbero sfuggire
-- Test manuale richiesto su tutti i componenti
-
-Approvi questo piano?
-```
+**Plan Mode:** Usa per task > 30 min. Attiva con Shift+Tab (2x) o "entra in plan mode".
 
 ---
 
-# 3. VALIDATION GATES (Obbligatori)
+# 3. VALIDATION GATES
 
-## 3.1 Prima di SQL/Migration
+## Prima di SQL/Migration
 
 ```
 VERIFICA SEMPRE:
-- [ ] UUID solo hex (0-9, a-f) - MAI lettere g-z
-- [ ] Colonne esistono nella tabella (leggi migration)
-- [ ] CHECK constraints rispettati (leggi migration)
+- [ ] UUID solo hex (0-9, a-f)
+- [ ] Colonne esistono nella tabella
 - [ ] Array syntax: '{"a","b"}' NON '["a","b"]'
 - [ ] FK references esistono
 ```
 
-## 3.2 Prima di Codice
+## Prima di Codice
 
 ```
 VERIFICA SEMPRE:
-- [ ] Types importati correttamente
+- [ ] Types importati correttamente (@/types/)
 - [ ] Pattern esistenti seguiti
 - [ ] Error handling presente
 ```
 
-## 3.3 Quick Reference Errori SQL
-
-| Errore                               | Causa              | Fix               |
-| ------------------------------------ | ------------------ | ----------------- |
-| `invalid input syntax for type uuid` | Caratteri g-z      | Solo 0-9, a-f     |
-| `column "X" does not exist`          | Colonna sbagliata  | Verifica schema   |
-| `violates check constraint`          | Valore non ammesso | Leggi CHECK       |
-| `malformed array literal`            | `[]` invece `{}`   | Usa `'{"a","b"}'` |
-
----
-
-# 3.5 COMPOUNDING ENGINEERING
-
-> **Principio Boris Cherny:** "Ogni volta che Claude fa qualcosa di sbagliato, lo aggiungiamo qui."
-> Questo file cresce nel tempo, Claude impara e non ripete gli stessi errori.
-
-## Errori Passati (Aggiungi qui quando succedono!)
-
-| Data    | Errore                         | Causa                                                     | Soluzione                                                                                                  | File/Area               |
-| ------- | ------------------------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------- |
-| 2026-01 | UUID con lettere g-z           | Generazione manuale                                       | Solo 0-9, a-f                                                                                              | Database seeds          |
-| 2026-01 | Array `[]` invece `{}`         | Sintassi JS vs PG                                         | PostgreSQL usa `'{a,b}'`                                                                                   | SQL inserts             |
-| 2026-01 | Import types sbagliati         | Path relativi errati                                      | Usa `@/types/`                                                                                             | TypeScript              |
-| 2026-01 | Feature gia esistente          | Non cercato prima                                         | Grep/Glob PRIMA di implementare                                                                            | Tutto                   |
-| 2026-01 | Pieces MCP timeout             | Server non ancora sincronizzato                           | Aspetta ~4 giorni (fino ~11 Jan)                                                                           | End session             |
-| 2026-01 | RLS policy `true`              | Permette accesso a tutti                                  | Usare `auth.role() = 'service_role'` per backend                                                           | AI tables               |
-| 2026-01 | Policies "dev\_\*" in prod     | Lasciate da sviluppo                                      | Rimuovere o sostituire con policies proper                                                                 | events table            |
-| 2026-01 | function search_path           | Vulnerabilità injection                                   | `ALTER FUNCTION x SET search_path = public`                                                                | Tutte le functions      |
-| 2026-01 | MultiLangText vi required      | Traduzioni incomplete                                     | Rendere `vi?` opzionale finché non completate                                                              | Tipi database           |
-| 2026-01 | note vs notes                  | Inconsistenza naming                                      | Usare sempre plurale `notes` per chiarezza                                                                 | Cocktail types          |
-| 2026-01 | Export duplicati               | `export interface` + default export                       | Mai duplicare - usare solo uno dei due                                                                     | menu-management.ts      |
-| 2026-01 | Tentare senza verificare       | Confidenza < 95% ma procedo                               | **VERIFY online** prima di implementare                                                                    | Workflow generale       |
-| 2026-01 | Build fail senza env vars      | Client creato a import time                               | **Proxy pattern** per lazy initialization                                                                  | supabase-admin.ts       |
-| 2026-01 | Type union incompleta          | Manca valore combinato                                    | Includere `'both'` quando dominio lo richiede                                                              | Temperature type        |
-| 2026-01 | Deploy fallito post-push       | Build error non catturato                                 | Pre-push hook con `turbo build` salva la giornata                                                          | Git hooks               |
-| 2026-01 | Warning ignorati               | Visti ma non agiti (es. husky)                            | **Agire subito** su warning/error, non aspettare                                                           | Tutto                   |
-| 2026-01 | Doc grandi → qualità persa     | Processare tutto insieme                                  | **Layered approach**: leggi solo sezioni rilevanti                                                         | CLAUDE.md, PRODUCT.md   |
-| 2026-01 | MCP/API timeout misterioso     | Query complesse senza diagnostica                         | **Debug incrementale**: query semplice → complessa                                                         | Supabase MCP            |
-| 2026-01 | list_tables blocca Claude      | Schema public troppo grande (~100 tab)                    | **Query mirata** su information_schema.columns per tabelle specifiche                                      | Supabase MCP            |
-| 2026-01 | Traduzioni inline costose      | Generare testo con Claude                                 | **Usa OpenAI API** (gpt-4o-mini): $0.0015/200 trad                                                         | translate-only.ts       |
-| 2026-01 | Contesto gonfiato = lento      | Output SQL ~450 righe × batch                             | **Insert diretto** nel DB, output 1 riga                                                                   | translate-only.ts       |
-| 2026-01 | anon_key bloccata da RLS       | Script usa anon_key per INSERT                            | Serve **service_role_key** per bypass RLS                                                                  | Script locali           |
-| 2026-01 | RLS bypass senza key           | No service_role_key in .env.local                         | **MCP Supabase ha service_role**: script→SQL→MCP                                                           | translate-only.ts       |
-| 2026-01 | Gap detection manuale          | Query ad-hoc ogni volta                                   | **Script automatico** con NOT EXISTS pattern                                                               | Traduzioni bulk         |
-| 2026-01 | No validazione traduzioni      | AI può sbagliare, nomi propri                             | **Flag is_verified** + sampling QA post-batch                                                              | translations table      |
-| 2026-01 | Traduzioni identiche = bug?    | Prosciutto=Prosciutto è corretto                          | **Distinguere** proper nouns vs translation errors                                                         | QA traduzioni           |
-| 2026-01 | User Agent parsing errato      | Ordine check regex sbagliato                              | Check specifici PRIMA di generici (iOS→macOS, Samsung→Chrome)                                              | parseUserAgent          |
-| 2026-01 | Test scoprono bug nascosti     | Test suite trova bug non previsti                         | **Test prima** scopre problemi → fix immediato                                                             | QR route helpers        |
-| 2026-01 | Hydration error localStorage   | Componente legge localStorage a render                    | **Pattern `mounted`**: stato false→true in useEffect                                                       | DevRoleSwitcher         |
-| 2026-01 | Rimuovere link per fix 404     | Link "Manage accounts" → 404                              | **Creare la pagina**, non rimuovere il link                                                                | Account management      |
-| 2026-01 | Logica dev in comp prod        | RoleSwitcher con check isDevMode                          | **Componente separato** DevRoleSwitcher per dev-only                                                       | Header components       |
-| 2026-01 | Tentato save manuale Pieces    | Pieces cattura tutto automaticamente                      | **Non serve** `create_memory`, solo `ask_pieces_ltm` per query                                             | Fine sessione           |
-| 2026-01 | Audit incompleto 75%           | Route groups non considerati                              | **Glob fresh** su `**/page.tsx`, non liste pre-esistenti                                                   | Backoffice audit        |
-| 2026-01 | Docs prodotto obsolete         | Backoffice cambia, docs no                                | **PRODUCT.md Sez.6** solo per nuove capability areas, non ogni modifica                                    | PRODUCT.md              |
-| 2026-01 | Blocco senza commit            | Task troppo lunga senza checkpoint                        | **Commit incrementali** ogni ~30 min o feature completa                                                    | Sessioni lunghe         |
-| 2026-01 | Type generation fallita        | MCP timeout durante generazione types                     | **Operazioni heavy separatamente**: prima commit, poi rigenera types                                       | database.types.ts       |
-| 2026-01 | Dev accounts non funzionano    | `getSession()` solo Supabase auth                         | **Check dev cookie** in supabase-server.ts prima di Supabase auth                                          | API routes              |
-| 2026-01 | Weather cache RLS violation    | Service usa client anon key                               | Usare **supabaseAdmin** per services che scrivono in cache tables                                          | weather-service.ts      |
-| 2026-01 | Roadmap/docs non committati    | Sessione lunga crea file senza commit                     | **Commit docs subito** dopo creazione, non aspettare fine sessione                                         | Scaling audit           |
-| 2026-01 | Backlog non sync con roadmap   | Task create ma non aggiunte al backlog                    | **Sync backlog** dopo ogni planning session                                                                | 1-TODO.md, 4-DONE.md    |
-| 2026-01 | CLAUDE.md non trovato          | Sessione avviata da ~ invece di progetto                  | **Avvia Claude dalla dir progetto** o usa alias (`alias gudbro="cd ~/Desktop/gudbro-verticals && claude"`) | Startup sessione        |
-| 2026-01 | Vercel auto-deploy bloccato    | Ignored Build Step = stringa vuota `""`                   | Impostare `bash ignore-build.sh` o rimuovere completamente (exit 0=skip, 1=build)                          | Vercel backoffice       |
-| 2026-01 | ESLint CI fail, local pass     | `eslint.config.mjs` (v9) con ESLint v8                    | Usare `.eslintrc.json` (legacy) oppure upgrade a ESLint v9                                                 | Next.js apps            |
-| 2026-01 | pnpm version conflict CI       | `version: 9` in ci.yml + `packageManager` in package.json | Rimuovere `version` da ci.yml, usare solo `packageManager` field                                           | GitHub Actions          |
-| 2026-01 | `useState<any[]>` implicit any | Locale passa, CI fallisce (strict + fresh)                | Mai `any[]` - definire sempre interface tipizzata                                                          | React components        |
-| 2026-01 | Translation `t()` null error   | Valori opzionali passati a interpolation                  | Usare sempre `?? ''` o `?? 0` per valori nullable in `t()`                                                 | next-intl               |
-| 2026-01 | Typecheck locale≠CI            | Cache locale, CI fresh install                            | Script `ci-local.sh`: `rm -rf node_modules .turbo && pnpm i --frozen-lockfile && turbo typecheck --force`  | Monorepo CI             |
-| 2026-01 | Prisma types missing in CI     | `typecheck` esegue prima di `build`, Prisma non generato  | Aggiungere `prisma generate &&` a script typecheck in package.json                                         | backoffice/package.json |
-| 2026-01 | e2e tests run by Vitest        | Playwright `.spec.ts` files picked up by Vitest           | Aggiungere `'**/e2e/**'` a `exclude` in vitest.config.ts                                                   | vitest.config.ts        |
-| 2026-01 | API route build fail Supabase  | `createClient()` a module level in nuove API routes       | **SEMPRE** usare `import { supabaseAdmin } from '@/lib/supabase-admin'` - MAI creare client inline         | API routes              |
-| 2026-01 | Debug CI senza visibilità      | Claude Code non vede GitHub Actions UI                    | **Chiedere coinvolgimento Cowork** per verifiche CI, log, deployment status                                | Collaborazione          |
-
-## Pattern da Seguire
-
-| Area            | Pattern Corretto                                         | Anti-Pattern                             |
-| --------------- | -------------------------------------------------------- | ---------------------------------------- |
-| SQL Arrays      | `'{\"a\",\"b\"}'`                                        | `'["a","b"]'`                            |
-| UUID            | `a1b2c3d4-...` (solo hex)                                | `ghij-klmn-...`                          |
-| Imports         | `import { X } from '@/lib/...'`                          | Path relativi profondi                   |
-| Error handling  | `try/catch` con logging                                  | Silent failures                          |
-| RLS Backend     | `auth.role() = 'service_role'`                           | `WITH CHECK (true)`                      |
-| RLS User        | `auth.uid() = user_id`                                   | `USING (true)`                           |
-| RLS Public Read | `FOR SELECT USING (true)` OK                             | `FOR ALL USING (true)` NO                |
-| Env-dependent   | `Proxy` lazy init                                        | `createClient()` a import                |
-| Type unions     | Include tutti i valori validi                            | Dimenticare `'both'` etc                 |
-| Warnings/Errors | Agire subito, fix o segnala                              | Ignorare e proseguire                    |
-| Doc grandi      | Layered: sezioni rilevanti solo                          | Leggere/processare tutto                 |
-| Debug API/MCP   | Query semplice → incrementale                            | Query complessa subito                   |
-| Schema inspect  | `information_schema.columns` per tabelle specifiche      | `list_tables` su schema large            |
-| Traduzioni bulk | Script OpenAI (gpt-4o-mini)                              | Generare inline con Claude               |
-| RLS bypass      | Script→SQL output→MCP execute                            | Cercare service_role_key                 |
-| UA/Regex check  | Specifici prima, generici dopo                           | Chrome prima di Samsung                  |
-| Test automatici | Scrivere test scopre bug                                 | Solo test manuali                        |
-| Hydration SSR   | `mounted` state + useEffect                              | localStorage a render                    |
-| Feature 404     | Creare la pagina mancante                                | Rimuovere il link                        |
-| Dev-only logic  | Componente separato `DevX`                               | if(isDev) dentro comp prod               |
-| Pieces MCP      | Query only (`ask_pieces_ltm`)                            | `create_memory` (auto-save)              |
-| Regional market | Considera piattaforme Asia                               | Assumere default occidentali             |
-| Settings UX     | Tabs orizzontali per settings                            | Submenu sidebar                          |
-| Service models  | Capire modello servizio locale                           | One-size-fits-all                        |
-| Entry tier      | Tier base come piede nella porta                         | Forzare full package                     |
-| QR value        | QR utile anche senza ordering                            | QR = solo ordering                       |
-| Backoffice mod  | PRODUCT.md Sez.6 solo nuove areas                        | Aggiornare per ogni modifica             |
-| Audit tecnico   | Snapshot datato, rigenera su richiesta                   | Mantenere aggiornato sempre              |
-| Task lunghe     | Commit ogni ~30 min o feature done                       | Task 2h+ senza checkpoint                |
-| MCP heavy ops   | Prima commit, poi type gen/migrations                    | Type gen durante sviluppo                |
-| Dev server port | Verifica `lsof -i :3023` prima di avviare                | Assumere porta libera                    |
-| Port docs       | Leggi package.json per porta reale                       | Fidarsi di docs outdated                 |
-| KB Backoffice   | Aggiorna `lib/kb/kb-content.ts` quando modifichi pagine  | Dimenticare docs utente                  |
-| Dev auth APIs   | `getSession()` deve supportare dev cookies               | Solo Supabase auth check                 |
-| Env vars sync   | Quando aggiungi su Vercel, aggiungi anche `.env.local`   | Solo Vercel, dev non funziona            |
-| Server cache    | Services che scrivono cache usano `supabaseAdmin`        | `supabase` bloccato da RLS               |
-| Planning docs   | Commit roadmaps/specs subito dopo creazione              | Creare file senza commit                 |
-| Backlog sync    | Aggiorna 1-TODO + 4-DONE dopo ogni planning session      | Roadmap senza backlog sync               |
-| Session start   | `cd progetto && claude` o alias shell                    | Avviare Claude da ~                      |
-| Vercel Ignored  | `bash script.sh` o rimuovere (null), verifica dopo setup | Stringa vuota `""` blocca builds         |
-| ESLint Next.js  | `.eslintrc.json` (legacy) con ESLint v8                  | `eslint.config.mjs` (v9 only)            |
-| CI pnpm version | Solo `packageManager` in package.json                    | Doppia spec (ci.yml + pkg.json)          |
-| React state     | `useState<MyInterface[]>([])` sempre tipizzato           | `useState<any[]>([])` implicit           |
-| i18n interp     | `t('key', { val: data ?? '' })` con fallback             | `t('key', { val: data })` null           |
-| CI/Local parity | `pnpm i --frozen-lockfile` + `turbo --force` locale      | Fidarsi cache locale vs CI fresh         |
-| Prisma CI       | `"typecheck": "prisma generate && tsc --noEmit"`         | Solo `tsc --noEmit` senza generate       |
-| Test exclusion  | Vitest exclude: `'**/e2e/**'` per Playwright tests       | Lasciare che Vitest esegua e2e           |
-| API Supabase    | `import { supabaseAdmin } from '@/lib/supabase-admin'`   | `const supabase = createClient()` inline |
-| CI/Deploy debug | Chiedi a utente di coinvolgere **Cowork** per verifiche  | Tentare di indovinare senza log visibili |
-
-## Come Aggiornare
-
-Quando Claude fa un errore, l'utente puo' dire:
-
-- "questa e' una nuova lezione"
-- "ricordati questo errore"
-- "non farlo piu'"
-- "segnati questo"
-- "lesson learned"
-
-Claude deve:
-
-1. Aggiungere riga alla tabella "Errori Passati"
-2. Se e' un pattern, aggiungere a "Pattern da Seguire"
-3. Confermare: "Aggiunto a Compounding Engineering"
+> **Errori comuni?** Vedi `docs/LESSONS-LEARNED.md`
 
 ---
 
@@ -453,100 +112,61 @@ Claude deve:
 gudbro-verticals/
 ├── apps/
 │   ├── coffeeshop/frontend/  # Digital Menu PWA (:3004)
-│   ├── backoffice/           # Admin Dashboard (:3001)
-│   └── website/              # Marketing Site (:3000)
+│   └── backoffice/           # Admin Dashboard (:3023)
 ├── shared/database/          # Database v6.0
-│   ├── cuisines/             # asian, european, americas, african, oceania, fusion
-│   ├── beverages/            # cocktails, wines, spirits, coffee, tea
-│   ├── dishes/               # pasta, pizzas, steaks, burgers
-│   ├── sides/                # salads, soups, desserts
-│   ├── ingredients/          # Master ingredients (2548)
-│   ├── migrations/           # schema/, ingredients/, nutrition/, seeds/
-│   └── _system/              # types, scripts, docs
-├── docs/                     # Documentazione progetto
-│   ├── backlog/              # Kanban (1-TODO, 2-IN-PROGRESS, 3-TESTING, 4-DONE)
-│   ├── features/             # Feature documentation
-│   ├── DEVELOPMENT-WORKFLOW.md
-│   ├── PROCEDURE-CHECKLIST.md
-│   ├── DATABASE-INVENTORY.md
-│   └── DATABASE-SCHEMA.md
+│   ├── cuisines/, beverages/, dishes/
+│   └── migrations/
+├── docs/                     # Documentation
+│   ├── backlog/              # Kanban
+│   ├── LESSONS-LEARNED.md    # Errori e pattern ⭐
+│   ├── AI-SYSTEM.md          # AI Co-Manager docs ⭐
+│   ├── VERCEL-SETUP.md       # Vercel config ⭐
+│   └── RUNBOOK.md            # Incident response ⭐
 └── CLAUDE.md                 # Questo file
 ```
 
 ---
 
-# 5. DATABASE CRITICAL INFO
+# 5. DATABASE CRITICAL
 
-## 5.1 Stato Attuale (2026-01-19)
+| Metrica     | Valore |
+| ----------- | ------ |
+| Prodotti    | ~4653  |
+| Ingredienti | 2548   |
+| Migrations  | 69     |
+| AI Services | 15     |
 
-| Metrica           | Valore                                 |
-| ----------------- | -------------------------------------- |
-| Database Food     | 75                                     |
-| Prodotti          | ~4653                                  |
-| Ingredienti       | 2548 (100% nutrition)                  |
-| Migrations Schema | 69 (27 core + 11 AI + 4 sec + 27 feat) |
-| AI Services       | 15                                     |
-| Marketing         | Gift Cards, Promo Codes, Coupons       |
-
-## 5.2 Schema Source of Truth
-
-**SEMPRE leggere prima di scrivere SQL:**
-
-- `docs/DATABASE-SCHEMA.md` - Schema completo tabelle
-- `shared/database/migrations/schema/` - Migration files
-
-## 5.3 AI Tables (027-036)
-
-| Migration | Tabella                                              |
-| --------- | ---------------------------------------------------- |
-| 027       | ai_merchant_preferences                              |
-| 028       | ai_daily_briefings                                   |
-| 029       | improvement_suggestions                              |
-| 030       | zone_analysis, competitors                           |
-| 031       | market_prices, partnerships                          |
-| 032       | ai_social_posts, ai_content_calendars                |
-| 033       | ai_financial_summaries, ai_budget_plans              |
-| 034       | ai_delegated_tasks                                   |
-| 035       | ai_workflow_definitions, ai_workflow_executions      |
-| 036       | ai_suppliers, ai_inventory_items, ai_purchase_orders |
+**Schema:** `docs/DATABASE-SCHEMA.md`
+**Errori SQL comuni:** `docs/LESSONS-LEARNED.md` (Sezione 1)
 
 ---
 
 # 6. DOCUMENTATION MAP
 
-| Area         | File                                              | Quando Usare                      |
-| ------------ | ------------------------------------------------- | --------------------------------- |
-| **Product**  | `docs/PRODUCT.md`                                 | **Valutazione multidimensionale** |
-| **Partner**  | `docs/GIANFRANCO.md`                              | **Capire preferenze e stile**     |
-| **Scale**    | `docs/SCALE-ROADMAP.md`                           | **Infra 100→10M utenti**          |
-| **Testing**  | `docs/TESTING-STRATEGY.md`                        | **Test coverage strategy**        |
-| **Security** | `docs/SECURITY-ROADMAP.md`                        | **Hardening 4 fasi**              |
-| Workflow     | `docs/DEVELOPMENT-WORKFLOW.md`                    | Prima di ogni task                |
-| Checklist    | `docs/PROCEDURE-CHECKLIST.md`                     | Gate di validazione               |
-| DB Inventory | `docs/DATABASE-INVENTORY.md`                      | Stato database                    |
-| DB Schema    | `docs/DATABASE-SCHEMA.md`                         | Prima di SQL                      |
-| Lessons      | `shared/database/_system/docs/LESSONS-LEARNED.md` | Errori da evitare                 |
-| Backlog      | `docs/backlog/`                                   | Task management                   |
+| File                       | Quando Usare                                |
+| -------------------------- | ------------------------------------------- |
+| `docs/LESSONS-LEARNED.md`  | **Errori da evitare** (DB, Vercel, TS, Git) |
+| `docs/AI-SYSTEM.md`        | **Lavoro su AI Co-Manager**                 |
+| `docs/VERCEL-SETUP.md`     | **Config Vercel/Deploy**                    |
+| `docs/RUNBOOK.md`          | **Incidenti/Recovery**                      |
+| `docs/PRODUCT.md`          | Valutazione feature                         |
+| `docs/GIANFRANCO.md`       | Preferenze utente                           |
+| `docs/DATABASE-SCHEMA.md`  | Prima di SQL                                |
+| `docs/SCALE-ROADMAP.md`    | Scaling infra                               |
+| `docs/SECURITY-ROADMAP.md` | Security hardening                          |
+| `docs/backlog/`            | Task management                             |
 
 ---
 
-# 7. KANBAN SYSTEM
+# 7. KANBAN
 
 ```
 docs/backlog/
-├── 1-TODO.md         # Task da fare
-├── 2-IN-PROGRESS.md  # Max 3 task
-├── 3-TESTING.md      # Da testare
-└── 4-DONE.md         # Archivio
+├── 1-TODO.md
+├── 2-IN-PROGRESS.md  # Max 3
+├── 3-TESTING.md
+└── 4-DONE.md
 ```
-
-**Workflow:** TODO → IN-PROGRESS → TESTING → DONE
-
-**Regole:**
-
-- Max 3 IN-PROGRESS
-- Aggiorna status durante il lavoro
-- Non eliminare da DONE
 
 ---
 
@@ -555,505 +175,94 @@ docs/backlog/
 | Layer     | Technology            |
 | --------- | --------------------- |
 | Framework | Next.js 14.2.33       |
-| UI        | React 18.3.1          |
-| Styling   | Tailwind CSS 3.4.1    |
 | Database  | Supabase (PostgreSQL) |
-| Auth      | Supabase Auth         |
 | Deploy    | Vercel                |
 | AI        | OpenAI GPT-4          |
-
-## 8.1 External API Keys (backoffice .env.local)
-
-| Service         | Env Variable                                                | Usage              |
-| --------------- | ----------------------------------------------------------- | ------------------ |
-| Supabase        | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Database           |
-| OpenAI          | `OPENAI_API_KEY`                                            | AI Co-Manager chat |
-| Visual Crossing | `VISUAL_CROSSING_API_KEY`                                   | Weather widget     |
-| VAPID           | `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`         | Push notifications |
-
-> **Nota:** Keys sono in `.env.local` (non committato). Per production, aggiungi su Vercel.
 
 ---
 
 # 9. COMMANDS
 
-## 9.1 Dev Servers
+## Dev Servers
 
 ```bash
-# From repo root with turbo
-pnpm dev:backoffice    # :3023 → http://localhost:3023
-pnpm dev:coffeeshop    # :3004 → http://localhost:3004
+pnpm dev:backoffice    # :3023
+pnpm dev:coffeeshop    # :3004
 
-# Or directly
-cd apps/backoffice && pnpm dev
-cd apps/coffeeshop/frontend && pnpm dev
+# Verifica porta prima
+lsof -i :3023 | grep LISTEN
 ```
 
-**IMPORTANTE:** Prima di avviare, verifica se già attivo:
+## Build & Deploy
 
 ```bash
-lsof -i :3023,:3004 | grep LISTEN
+pnpm build
+git push origin main   # Auto-deploy Vercel
 ```
 
-## 9.2 Build & Deploy
+## CI Simulation
 
 ```bash
-pnpm build             # Build all
-git push origin main   # Auto-deploy to Vercel
+./scripts/ci-local.sh          # Full
+./scripts/ci-local.sh --quick  # Quick
 ```
 
-## 9.3 Database
+## Slash Commands
 
-```bash
-# Supabase CLI
-npx supabase db push
-npx supabase gen types typescript
-```
-
-## 9.4 CI Simulation
-
-```bash
-# Simula CI GitHub Actions in locale (catch errori prima del push)
-./scripts/ci-local.sh          # Full: clean + install + typecheck + lint + build
-./scripts/ci-local.sh --quick  # Quick: solo checks senza reinstall
-./scripts/ci-local.sh --clean  # Solo pulizia cache/node_modules
-```
-
-**Quando usare:**
-
-- Prima di push importanti
-- Quando CI fallisce ma locale passa
-- Dopo aver modificato dipendenze
-
-**Node version:** Usa `.nvmrc` per garantire stessa versione di CI:
-
-```bash
-nvm use  # Legge .nvmrc (Node 20)
-```
+| Comando     | Descrizione                               |
+| ----------- | ----------------------------------------- |
+| `/qa-quick` | Check veloce (typecheck, build, advisors) |
+| `/verify`   | Verifica completa pre-deploy              |
+| `/deploy`   | Build + push + verifica                   |
 
 ---
 
 # 10. ARCHITECTURAL DECISIONS
 
-| Decision     | Rule                                           |
-| ------------ | ---------------------------------------------- |
-| DB Language  | English only                                   |
-| Translations | Separate `translations` table                  |
-| Measurements | Metric (g, ml)                                 |
-| Costs        | Never in master ingredients                    |
-| Schema       | TEXT + CHECK (no ENUM for new tables)          |
-| Accounts     | P5 unified accounts (not gudbro_user_profiles) |
-| RLS          | Via account_roles (not merchant_users)         |
-
-## 10.1 UX Principles
-
-| Principle                 | Rule                                                                 | Rationale                                                                                                        |
-| ------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| **Centralized Analytics** | Stats in pagina Analytics dedicata, link contestuali da altre pagine | Dopo setup iniziale, utente visita frequentemente stats ma raramente pagine di creazione. Evita zapping inutile. |
-| **Contextual Links**      | Ogni feature page ha link "📊 View Analytics" se ha statistiche      | Permette navigazione diretta senza cercare                                                                       |
-| **Creation Pages = Lean** | Pagine di creazione focalizzate su CRUD, no stats inline             | Mental model: "QR Codes" = gestione QR, "Analytics" = vedere performance                                         |
-| **No Redundant CTAs**     | Mai 3+ modi per fare la stessa azione nella stessa pagina            | Riduce confusione, rispetta spazio                                                                               |
+| Decision     | Rule                   |
+| ------------ | ---------------------- |
+| DB Language  | English only           |
+| Translations | Separate table         |
+| Schema       | TEXT + CHECK (no ENUM) |
+| Accounts     | P5 unified accounts    |
 
 ---
 
-# 11. AI CO-MANAGER SYSTEM
+# 11. FINE SESSIONE
 
-## 11.1 Services (apps/backoffice/lib/ai/)
+**Aggiorna `docs/SESSION-LOG.md`** dopo:
 
-| Service                       | Purpose                               |
-| ----------------------------- | ------------------------------------- |
-| chat-service                  | Main chat interface                   |
-| knowledge-service             | Menu, orders, events, feedback access |
-| actions-service               | Create events, translate, update menu |
-| proactivity-service           | Daily briefings, alerts               |
-| feedback-loop-service         | Collect merchant feedback             |
-| bootstrap-service             | Zone analysis, competitors            |
-| market-intelligence-service   | Pricing, partnerships                 |
-| social-media-service          | Auto posts, calendars                 |
-| financial-service             | P&L, budgets, forecasts               |
-| task-delegation-service       | Staff task management                 |
-| agentic-workflow-service      | Multi-step automations                |
-| inventory-negotiation-service | Stock, suppliers, POs                 |
-| onboarding-service            | Guided setup                          |
+- Feature significativa completata
+- Decisioni architetturali
+- Bug complessi risolti
 
-## 11.2 API Routes (apps/backoffice/app/api/ai/)
-
-All routes follow pattern: `/api/ai/[feature]`
-
----
-
-# 11.5 SLASH COMMANDS & HOOKS
-
-> **Ispirato a Boris Cherny** (creatore Claude Code): automazione e verifica integrata.
-
-## Comandi Disponibili
-
-| Comando            | Descrizione                                      |
-| ------------------ | ------------------------------------------------ |
-| `/start-session`   | Inizia sessione, legge backlog e CLAUDE.md       |
-| `/end-session`     | Chiudi sessione, salva contesto                  |
-| `/deploy`          | Build + push + verifica Vercel                   |
-| `/typecheck`       | Esegui typecheck TypeScript                      |
-| `/verify`          | Verifica completa (typecheck + build + advisors) |
-| `/qa-quick`        | Quick QA check (5 min) - stato progetto          |
-| `/db-status`       | Stato database e traduzioni                      |
-| `/translate-batch` | Continua traduzioni da dove interrotto           |
-| `/ralph-loop`      | Loop iterativo Ralph Wiggum (task autonome)      |
-| `/cancel-ralph`    | Cancella loop Ralph attivo                       |
-
-## Hooks Attivi
-
-| Hook                      | Trigger          | Azione                                       |
-| ------------------------- | ---------------- | -------------------------------------------- |
-| post-edit.sh              | PostToolUse Edit | Reminder typecheck per .ts/.tsx              |
-| security_reminder_hook.py | PreToolUse Edit  | Warning security (XSS, injection, eval, etc) |
-| stop-hook.sh              | Stop             | Ralph loop: blocca exit e reitera prompt     |
-
-## Skills Attive
-
-| Skill           | Attivazione | Descrizione                                     |
-| --------------- | ----------- | ----------------------------------------------- |
-| frontend-design | Automatica  | Design distintivo, evita estetica "AI generica" |
-
-> **Nota:** Le skill si attivano automaticamente quando Claude rileva il contesto appropriato.
-
-## Come Aggiungere Comandi
-
-```bash
-# Crea nuovo comando
-touch .claude/commands/nome-comando.md
-
-# Struttura:
----
-description: Breve descrizione
-allowed-tools: Bash(*), mcp__supabase__*
----
-# Contenuto del comando
-```
-
----
-
-# 11.6 QA SYSTEM
-
-> **Filosofia:** "E' piu importante avere un prodotto che funziona ed e' ben fatto che avere un prodotto pieno di problemi"
-
-## Overview
-
-Sistema di Quality Assurance strutturato per mantenere la qualita del prodotto.
-
-| Risorsa           | Path                              | Scopo                   |
-| ----------------- | --------------------------------- | ----------------------- |
-| QA Overview       | `docs/qa/README.md`               | Panoramica sistema      |
-| Coverage Report   | `docs/qa/COVERAGE-REPORT.md`      | Stato test              |
-| Feature Index     | `docs/features/README.md`         | Status tutte le feature |
-| Session Checklist | `docs/qa/templates/session-qa.md` | Checklist per sessione  |
-
-## Comandi QA
-
-| Comando     | Descrizione                                      |
-| ----------- | ------------------------------------------------ |
-| `/qa-quick` | Check veloce (5 min): typecheck, build, advisors |
-| `/verify`   | Verifica completa pre-deploy                     |
-
-## Quality Gates
-
-### Automatici (via Husky)
-
-- **Pre-commit:** Prettier, ESLint
-- **Pre-push:** `turbo build`
-
-### Manuali
-
-- **Inizio sessione:** `/qa-quick`
-- **Pre-deploy:** `/verify`
-- **Fine sessione:** Checklist in `docs/qa/templates/session-qa.md`
-
-## Coverage Targets
-
-| Area          | Attuale | Target |
-| ------------- | ------- | ------ |
-| Auth/Security | 0%      | 80%    |
-| AI Services   | 0%      | 40%    |
-| API Routes    | ~2%     | 30%    |
-| Components    | ~9%     | 20%    |
-
-## Red Flags (fermarsi e risolvere)
-
-- TypeScript errors > 0
-- Build fail
-- Security advisors critical
-- IN-PROGRESS > 3 tasks
-
-## Documentazione Features
-
-Ogni feature dovrebbe avere:
-
-1. `EXECUTIVE.md` - Per imprenditore (cosa fa, perche importa)
-2. `USER.md` - Per utenti (come usare)
-3. `DEV.md` - Per sviluppatori (architettura, API, test)
-
-Template in: `docs/features/_template/`
-
----
-
-# 12. ANTI-PATTERNS (Evitare)
-
-| Anti-Pattern        | Problema             | Soluzione              |
-| ------------------- | -------------------- | ---------------------- |
-| "Scrivi subito"     | Errori da assunzioni | EXPLORE prima          |
-| "Fixxa veloce"      | Fix su fix           | Capire causa root      |
-| "Tanto funziona"    | Technical debt       | VALIDATE sempre        |
-| "Lo documento dopo" | Conoscenza persa     | DOCUMENT subito        |
-| "Claude sa gia"     | Context loss         | Dare context esplicito |
-
----
-
-# 13. FILE REFERENCES
-
-Per includere contesto aggiuntivo in conversazioni:
-
-```
-@docs/DATABASE-SCHEMA.md
-@shared/database/migrations/schema/036-ai-inventory-negotiation.sql
-@apps/backoffice/lib/ai/index.ts
-```
-
----
-
-# 14. MCP SERVERS (Model Context Protocol)
-
-> **4 server MCP configurati** per potenziare le capacita di Claude Code.
-
-## 14.1 Server Disponibili
-
-| Server       | Tipo  | Scopo                          |
-| ------------ | ----- | ------------------------------ |
-| **Supabase** | HTTP  | Database operations dirette    |
-| **GitHub**   | HTTP  | Repository, issues, PR         |
-| **Vercel**   | stdio | Deployments, projects, domains |
-| **Pieces**   | stdio | Long-term memory, context      |
-
-## 14.2 Supabase MCP
-
-**Quando usare:** Operazioni database senza passare da REST API
-
-```
-mcp__supabase__execute_sql      → Esegui query SQL dirette
-mcp__supabase__apply_migration  → Applica migration DDL
-mcp__supabase__list_tables      → Lista tabelle
-mcp__supabase__get_logs         → Debug logs (auth, postgres, edge)
-mcp__supabase__get_advisors     → Security/performance checks
-mcp__supabase__deploy_edge_function → Deploy edge functions
-mcp__supabase__generate_typescript_types → Genera types
-```
-
-**Best practice:**
-
-- Usa `execute_sql` per SELECT, INSERT, UPDATE
-- Usa `apply_migration` per DDL (CREATE, ALTER, DROP)
-- Dopo DDL, esegui `get_advisors` per check RLS
-
-## 14.3 GitHub MCP
-
-**Quando usare:** Gestione repo senza uscire da Claude Code
-
-```
-mcp__github__list_issues        → Lista issues
-mcp__github__issue_write        → Crea/aggiorna issues
-mcp__github__create_pull_request → Crea PR
-mcp__github__list_commits       → Storia commits
-mcp__github__search_code        → Cerca nel codice
-mcp__github__get_file_contents  → Leggi file da repo remoto
-```
-
-**Best practice:**
-
-- Usa per sincronizzare issue tracking
-- Crea PR direttamente dopo feature complete
-- Search code per trovare pattern in altri repo
-
-## 14.4 Vercel MCP
-
-**Quando usare:** Gestione deployments e progetti Vercel
-
-```
-Capabilities:
-- Lista progetti e deployments
-- Controlla stato deploy
-- Gestisci environment variables
-- Gestisci domini
-- Rollback deployments
-```
-
-**Best practice:**
-
-- Verifica deploy status dopo push
-- Check logs per errori di build
-- Gestisci env vars per staging/production
-
-## 14.5 Pieces MCP
-
-> **Pieces e' un sistema di memoria a lungo termine che cattura automaticamente tutto.**
-> Registra attivita' da terminal, browser, e altre app in background - senza intervento manuale.
-
-**Come funziona:**
-
-- Pieces gira in background sul Mac dell'utente
-- Cattura automaticamente: comandi terminal, pagine browser, screenshot
-- Crea "summaries" automatici delle sessioni di lavoro
-- NON serve salvare manualmente - lo fa da solo
-
-**⚠️ ATTENZIONE - BLOCCO:**
-
-```
-❌ mcp__Pieces__create_pieces_memory → BLOCCA CLAUDE! Non usare MAI.
-   Pieces salva automaticamente in background.
-
-✅ mcp__Pieces__ask_pieces_ltm → Query per recuperare contesto (USA SOLO QUESTO)
-```
-
-**Per salvare contesto:** Usa file markdown nel progetto (es. `BACKLOG-*.md`), NON Pieces.
-
-**Esempio query inizio sessione:**
-
-```
-mcp__Pieces__ask_pieces_ltm(
-  question: "What did we work on yesterday on gudbro-verticals?",
-  topics: ["gudbro", "session"]
-)
-```
-
-**Complemento:** `docs/SESSION-LOG.md` per note strutturate che Pieces potrebbe non catturare
-
-## 14.6 Configurazione
-
-I server MCP sono configurati in `~/.claude.json`:
-
-```bash
-# Verifica stato
-claude mcp list
-
-# Aggiungi server
-claude mcp add <name> -- <command>
-
-# Rimuovi server
-claude mcp remove <name>
-```
-
----
-
-# 15. FINE SESSIONE (Workflow)
-
-> **IMPORTANTE:** Prima di terminare una sessione produttiva, aggiorna il Session Log.
-
-## 15.1 Quando Aggiornare
-
-- Dopo aver completato una feature significativa
-- Dopo decisioni architetturali importanti
-- Dopo aver risolto bug complessi
-- A fine giornata di lavoro
-
-## 15.2 File Session Log
-
-**Location:** `docs/SESSION-LOG.md`
-
-Diario di bordo strutturato con entry in ordine cronologico inverso (nuove in cima).
-
-## 15.3 Template Entry
+**Template:**
 
 ```markdown
 ## YYYY-MM-DD
 
-**Focus:** [Cosa si e' lavorato]
-**Durata:** ~Xh
-
-### Completato
-
-- [Task 1]
-- [Task 2]
-
-### Commits
-
-- `hash` - message
-
-### Decisioni
-
-- [Decisione]: [Motivazione]
-
-### Note tecniche
-
-- [Pattern, soluzione, lesson learned]
-
-### Prossima sessione
-
-- [Cosa fare dopo]
+**Focus:** [Cosa]
+**Completato:** [Lista]
+**Commits:** `hash` - message
+**Prossima sessione:** [Cosa fare]
 ```
-
-## 15.4 Inizio Sessione
-
-Per recuperare contesto dalla sessione precedente:
-
-```bash
-# Leggi ultima entry
-head -80 docs/SESSION-LOG.md
-```
-
-Oppure chiedi a Claude: "Cosa abbiamo fatto l'ultima sessione?"
 
 ---
 
-# 16. GITHUB ISSUES SYNC
+# 12. ANTI-PATTERNS
 
-> **Backlog locale + GitHub Issues per visibilita e tracking**
-
-## 16.1 Mapping Labels
-
-| Label GitHub  | File Locale      | Descrizione               |
-| ------------- | ---------------- | ------------------------- |
-| `P0`          | 1-TODO.md (P0)   | Critico, questa settimana |
-| `P0.5`        | 1-TODO.md (P0.5) | Architettura da rivedere  |
-| `P1`          | 1-TODO.md (P1)   | Alta priorita             |
-| `P2`          | 1-TODO.md (P2)   | Media priorita            |
-| `in-progress` | 2-IN-PROGRESS.md | In lavorazione            |
-| `testing`     | 3-TESTING.md     | Da testare                |
-
-## 16.2 Workflow
-
-**Creare nuova task:**
-
-1. Aggiungi a `1-TODO.md` locale
-2. Crea issue su GitHub: `mcp__github__issue_write(...)`
-3. Assegna labels corrette
-
-**Iniziare task:**
-
-1. Sposta in `2-IN-PROGRESS.md`
-2. Aggiorna issue con label `in-progress`
-
-**Completare task:**
-
-1. Sposta in `4-DONE.md`
-2. Chiudi issue: `mcp__github__issue_write(method: "update", state: "closed")`
-
-## 16.3 Issues Attive
-
-- #2 PWA-FULL-SITE (P0.5)
-- #3 AI-CUSTOMER-CHAT (P0.5)
-- #4 RESERVATIONS-SYSTEM (P0.5)
-- #5 ING-TRANSLATIONS (P1)
+| Anti-Pattern        | Soluzione              |
+| ------------------- | ---------------------- |
+| "Scrivi subito"     | EXPLORE prima          |
+| "Fixxa veloce"      | Capire causa root      |
+| "Lo documento dopo" | DOCUMENT subito        |
+| "Claude sa già"     | Dare context esplicito |
 
 ---
 
-**File:** `CLAUDE.md`
-**Version:** 7.2
-**Updated:** 2026-01-21
+**Version:** 8.0
 **Changes:**
 
-- v7.2 - CI/CD Pipeline Fix: Prisma generate in typecheck, e2e vitest exclusion, Supabase lazy-init pattern, post-mortem documentation
-- v7.1 - Scaling Phase 1-3 Complete, Security Phase 1
-- v6.7 - Official Plugins: frontend-design skill, security-guidance hook, ralph-wiggum (/ralph-loop, /cancel-ralph)
-- v6.6 - QA System (11.6): docs/qa/, feature templates, /qa-quick command, coverage targets
-- v6.5 - B2B Partnership Ecosystem specs (TOURISM-B2B, Weather Intel, Conventions)
-- v6.2 - Added PRODUCT.md (docs/PRODUCT.md) for multidimensional feature evaluation
-- v6.1 - Plan Mode (2.2), verify-app subagent, auto-format hook (Boris Cherny improvements)
-- v6.0 - Compounding Engineering (3.5), Slash Commands & Hooks (11.5), Current Focus (0)
+- v8.0 - Optimized structure: content migrated to satellite files (LESSONS-LEARNED.md, AI-SYSTEM.md)
+- v7.2 - CI/CD Pipeline Fix
+- v7.1 - Scaling Phase 1-3, Security Phase 1
