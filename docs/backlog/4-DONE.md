@@ -3,7 +3,38 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-21
+**Last Updated:** 2026-01-23
+
+---
+
+## 2026-01-23
+
+| ID            | Feature                | Descrizione                                                                                                                                             | Completato |
+| ------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| INFRA-UPGRADE | Infrastructure Upgrade | 7 fasi: Vercel Pro, website separation, staging env, vercel.json, monitoring (Sentry+UptimeRobot), docs (VERCEL-SETUP, RUNBOOK), CLAUDE.md optimization | 2026-01-23 |
+| SENTRY-VERIFY | Sentry Verification    | Test endpoint `/api/test/sentry`, verificato errori arrivano su dashboard, CRON_SECRET configurato                                                      | 2026-01-23 |
+| CLAUDE-V8     | CLAUDE.md Optimization | Ridotto da 1063→265 righe (-75%), creati satellite files: LESSONS-LEARNED.md, AI-SYSTEM.md                                                              | 2026-01-23 |
+
+> **INFRA-UPGRADE Details:**
+>
+> **7 Fasi Completate:**
+>
+> 1. Recovery backoffice - Upgrade Vercel Pro ($20/mo)
+> 2. Website separation - Repo standalone `elite42/gudbro-website`
+> 3. Staging environment - Supabase `gudbro-staging` project
+> 4. Infrastructure as Code - vercel.json con framework, regions, git config
+> 5. Monitoring - Sentry error tracking + UptimeRobot uptime + GitHub Action verify-deploy
+> 6. Documentation - VERCEL-SETUP.md + RUNBOOK.md
+> 7. CLAUDE.md optimization - Satellite files per lettura contestuale
+>
+> **Files Created:**
+>
+> - `docs/VERCEL-SETUP.md` - Guida configurazione Vercel
+> - `docs/RUNBOOK.md` - Procedure incident response
+> - `docs/LESSONS-LEARNED.md` - Errori categorizzati (DB, Vercel, TS, Git)
+> - `docs/AI-SYSTEM.md` - Documentazione AI Co-Manager
+> - `.github/workflows/verify-deploy.yml` - Post-deploy health check
+> - `apps/backoffice/app/api/test/sentry/route.ts` - Sentry test endpoint
 
 ---
 

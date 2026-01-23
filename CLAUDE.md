@@ -26,14 +26,14 @@
 # 0. CURRENT FOCUS
 
 > **Task attiva:** Nessuna (scegli da backlog)
-> **Stato:** Infrastructure Upgrade Complete - Pronto per nuove task
-> **Ultima completata:** Vercel Recovery + Monitoring Setup - 2026-01-23
+> **Stato:** Infra solida, monitoring attivo (Sentry+UptimeRobot), pronto per nuove task
+> **Ultima completata:** Infrastructure Upgrade (7 fasi) + Sentry Verified - 2026-01-23
 
 **Prossime opzioni (da 1-TODO.md):**
 
-- SEC-ERROR-HANDLING (4h) - Try-catch su tutti i routes
-- SEC-2FA (2 days) - Two-Factor Auth per admin/owner
-- Testing Initiative (TEST-WALLET, TEST-LOYALTY, TEST-CI)
+- SEC-2FA (2 days) - Two-Factor Auth per admin/owner (in Testing)
+- SCALE-CITUS (6 weeks) - Database Sharding per Phase 4
+- SITE-CUSTOMIZATION - Sezioni custom per merchant
 
 ---
 
