@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
@@ -8,6 +8,7 @@ import { useAuth } from '@/lib/auth';
 import { useSidebar } from '@/lib/contexts/SidebarContext';
 import { Pin, PinOff, ChevronDown } from 'lucide-react';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import type { Permission } from '@/lib/auth/types';
 
 // Platform admin navigation (GudBro Owner only)
 const platformNavigation = [
@@ -34,12 +35,25 @@ const platformNavigation = [
   },
 ];
 
-const navigation = [
+// Navigation item type with permission requirements
+interface NavItem {
+  name: string;
+  href: string;
+  tooltipKey?: string;
+  kbPageId?: string;
+  icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+  badge?: 'live' | 'new' | 'ai' | 'admin';
+  children?: { name: string; href: string; requiredPermission?: Permission }[];
+  requiredPermission?: Permission; // Permission needed to see this item
+}
+
+const navigation: NavItem[] = [
   {
     name: 'Dashboard',
     href: '/dashboard',
     tooltipKey: 'dashboard',
     kbPageId: 'dashboard',
+    // No permission required - everyone can see dashboard
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -55,6 +69,7 @@ const navigation = [
     href: '/ai',
     tooltipKey: 'aiCoManager',
     kbPageId: 'ai-co-manager',
+    requiredPermission: 'content:write', // Managers and above
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -284,6 +299,7 @@ const navigation = [
     href: '/analytics',
     tooltipKey: 'analytics',
     kbPageId: 'analytics',
+    requiredPermission: 'analytics:read', // Managers and above
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -330,6 +346,7 @@ const navigation = [
     href: '/billing',
     tooltipKey: 'billing',
     kbPageId: 'billing',
+    requiredPermission: 'billing:read', // Owners only
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -345,6 +362,7 @@ const navigation = [
     href: '/settings',
     tooltipKey: 'settings',
     kbPageId: 'settings-general',
+    requiredPermission: 'settings:read', // Managers and above
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -373,17 +391,64 @@ const navigation = [
   },
 ];
 
+// Staff-only navigation (for "My Tips" page)
+const staffNavigation: NavItem[] = [
+  {
+    name: 'Le Mie Mance',
+    href: '/team/my-tips',
+    tooltipKey: 'myTips',
+    kbPageId: 'tips',
+    icon: (props: React.SVGProps<SVGSVGElement>) => (
+      <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    ),
+  },
+];
+
 export function Sidebar() {
   const pathname = usePathname();
   const { brand, location } = useTenant();
-  const { hasPermission } = useAuth();
+  const { hasPermission, user } = useAuth();
   const { isPinned, isExpanded, togglePin, expand, collapse } = useSidebar();
 
   // Check if user has platform admin access
   const isPlatformAdmin = hasPermission('platform:read');
 
+  // Check if user is staff (has limited permissions)
+  const isStaffOnly = user?.role === 'staff';
+
+  // Filter navigation based on user permissions
+  const filteredNavigation = useMemo(() => {
+    return navigation.filter((item) => {
+      // If no permission required, show to everyone
+      if (!item.requiredPermission) return true;
+      // Check if user has the required permission
+      return hasPermission(item.requiredPermission);
+    });
+  }, [hasPermission]);
+
   // Combine navigation based on role
-  const fullNavigation = isPlatformAdmin ? [...platformNavigation, ...navigation] : navigation;
+  // Staff gets limited navigation + "My Tips"
+  // Managers and above get full navigation (filtered by permissions)
+  // Platform admins also get platform navigation
+  const fullNavigation = useMemo(() => {
+    if (isStaffOnly) {
+      // Staff sees: Dashboard, Orders, Team (redirects to My Tips), Help + My Tips shortcut
+      const staffItems = filteredNavigation.filter((item) =>
+        ['Dashboard', 'Orders', 'Help'].includes(item.name)
+      );
+      return [...staffItems, ...staffNavigation];
+    }
+    if (isPlatformAdmin) {
+      return [...platformNavigation, ...filteredNavigation];
+    }
+    return filteredNavigation;
+  }, [isStaffOnly, isPlatformAdmin, filteredNavigation]);
 
   // Find which menu is active based on current pathname
   const getActiveMenuName = useCallback(() => {

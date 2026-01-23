@@ -4,7 +4,7 @@
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 > **Specs dettagliate:** `specs/` folder
 
-**Last Updated:** 2026-01-21
+**Last Updated:** 2026-01-23
 
 ---
 
@@ -296,10 +296,27 @@ grep -rn "const.*=.*createClient(" --include="*.ts" apps/backoffice/app/api/
 
 ---
 
+## P1.5 - Staff Management & Tips
+
+> **🧑‍🍳 Sistema Staff Completo** - Gestione personale, mance, self-service
+> Prerequisito: Migration 071 (tip distribution) già implementata
+
+| ID                | Feature             | Descrizione                                     | Effort | Status  |
+| ----------------- | ------------------- | ----------------------------------------------- | ------ | ------- |
+| TIPS-APPLY-MIGR   | Apply Migration 071 | Applicare migration tip distribution a Supabase | 1h     | ✅ DONE |
+| STAFF-INVITE      | Staff Invitation UI | UI backoffice per invitare staff via email      | 2 days | ✅ DONE |
+| STAFF-ASSIGNMENTS | Staff Table Assign  | Manager assegna sezioni/tavoli a staff          | 2 days | ✅ DONE |
+| STAFF-SELF-ASSIGN | Staff Self-Assign   | Cameriere scansiona QR tavolo → auto-assegna    | 1 day  | ✅ DONE |
+| STAFF-ESCALATION  | Escalation System   | Sistema alert configurabile per richieste       | 1 day  | ✅ DONE |
+| STAFF-PWA         | Staff App PWA       | App dedicata camerieri con dashboard richieste  | 5 days | Pending |
+
+---
+
 ## P2 - Media Priorità
 
 | ID                  | Feature             | Descrizione                                  | Effort | Spec                                       |
 | ------------------- | ------------------- | -------------------------------------------- | ------ | ------------------------------------------ |
+| QR-NFC-ORDERING     | QR/NFC Product Shop | Ordina supporti fisici QR+NFC dal backoffice | 5 days | Pending                                    |
 | AI-ASSISTANT-MODULE | AI Prompt Generator | Perfect prompts per Midjourney/DALL-E/Vision | Medium | [spec](../features/AI-ASSISTANT-MODULE.md) |
 | MT-GEOFENCING       | Location Geofencing | Radius-based location                        | High   | [spec](specs/P2/MENUTIGER-AUDIT.md)        |
 | MT-KDS              | Kitchen Display     | Display ordini cucina                        | High   | ✅ DONE                                    |

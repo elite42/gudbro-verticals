@@ -5,6 +5,66 @@
 
 ---
 
+## 2026-01-23 (Session 13) - Staff PWA & Table Management
+
+**Focus:** Sistema completo per gestione staff, tavoli, richieste e mance
+**Durata:** ~4h
+**Tipo:** Feature / Database / UI
+
+### Completato
+
+**Database Migrations (4):**
+
+- 071: Tip Distribution System - tabelle per distribuzione mance (individual/pool), periodi, allocazioni
+- 072: Staff Table Assignments - assegnazioni tavoli per sezione, tavolo specifico, o location
+- 073: Request Escalation Settings - sistema escalation configurabile con preset
+- 074: Add 'takeover' assignment method
+
+**Staff PWA Mobile App:**
+
+- `/staff` - Dashboard con richieste pendenti, contatori, tavoli assegnati
+- `/staff/requests` - Lista completa richieste con filtri (pending/in_progress/completed)
+- `/staff/scan` - Scanner QR per auto-assegnazione tavoli (BarcodeDetector API + fallback manuale)
+- Layout mobile-first con bottom navigation e offline detection
+
+**APIs Create:**
+
+- `POST/GET /api/staff/self-assign` - Auto-assegnazione tavoli via QR
+- `GET/POST/DELETE /api/staff/assignments` - CRUD assegnazioni manager
+- `POST /api/requests/action` - Gestione richieste (acknowledge/complete/cancel)
+- `GET/PUT /api/settings/escalation` - Configurazione escalation con preset
+
+**Takeover System:**
+
+- Quando cameriere B serve tavolo di cameriere A, appare modal di conferma
+- Opzione 1: "Solo questa richiesta" - gestisce richiesta, tavolo resta ad A
+- Opzione 2: "Prendi in carico il tavolo" - tavolo migra a B per il resto del turno
+
+**Escalation Configurabile:**
+
+- Preset: minimal, soft, standard, strict, custom
+- Opzioni: reminder, notifica manager, auto-reassign, alert critico
+- Tempi configurabili per ogni tipo di richiesta
+- Completamente opt-in (manager può disattivare tutto)
+
+### Architettura Decisioni
+
+- **Takeover esplicito:** L'utente ha scelto opzione 4 (conferma con scelta) invece di migrazione automatica
+- **Escalation opt-in:** Il sistema non forza nessun workflow, il manager ha controllo totale
+- **Staff PWA in backoffice:** Usa route group `(staff)` invece di app separata per condividere auth
+
+### Commits
+
+- (da committare) - feat: staff PWA, table assignments, escalation system
+
+### Prossima sessione
+
+- Test end-to-end del flusso staff
+- Implementazione push notifications (opzionale)
+- Split bill per menu digitale (da piano originale)
+
+---
+
 ## 2026-01-18 (Session 12) - Backlog Remediation
 
 **Focus:** Fix backlog inconsistency from scaling audit session

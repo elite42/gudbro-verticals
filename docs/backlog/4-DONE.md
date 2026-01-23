@@ -9,11 +9,37 @@
 
 ## 2026-01-23
 
-| ID            | Feature                | Descrizione                                                                                                                                             | Completato |
-| ------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| INFRA-UPGRADE | Infrastructure Upgrade | 7 fasi: Vercel Pro, website separation, staging env, vercel.json, monitoring (Sentry+UptimeRobot), docs (VERCEL-SETUP, RUNBOOK), CLAUDE.md optimization | 2026-01-23 |
-| SENTRY-VERIFY | Sentry Verification    | Test endpoint `/api/test/sentry`, verificato errori arrivano su dashboard, CRON_SECRET configurato                                                      | 2026-01-23 |
-| CLAUDE-V8     | CLAUDE.md Optimization | Ridotto da 1063→265 righe (-75%), creati satellite files: LESSONS-LEARNED.md, AI-SYSTEM.md                                                              | 2026-01-23 |
+| ID                | Feature                 | Descrizione                                                                                                                       | Completato |
+| ----------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| STAFF-PWA         | Staff Mobile App        | PWA mobile-first per camerieri: dashboard, lista richieste, scan QR per auto-assign, gestione "chiama cameriere"/"richiedi conto" | 2026-01-23 |
+| STAFF-ASSIGNMENTS | Staff Table Assignments | Sistema assegnazione tavoli: manager assign, self-assign via QR, takeover con conferma                                            | 2026-01-23 |
+| ESCALATION-CONFIG | Configurable Escalation | Sistema escalation opt-in con preset (minimal/soft/standard/strict/custom), tempi configurabili, notifiche manager                | 2026-01-23 |
+| TIP-DISTRIBUTION  | Tip Distribution System | Migration 071: distribuzione mance (individual/pool), periodi, allocazioni staff                                                  | 2026-01-23 |
+| INFRA-UPGRADE     | Infrastructure Upgrade  | 7 fasi: Vercel Pro, website separation, staging env, vercel.json, monitoring (Sentry+UptimeRobot), docs                           | 2026-01-23 |
+| SENTRY-VERIFY     | Sentry Verification     | Test endpoint `/api/test/sentry`, verificato errori arrivano su dashboard, CRON_SECRET configurato                                | 2026-01-23 |
+| CLAUDE-V8         | CLAUDE.md Optimization  | Ridotto da 1063→265 righe (-75%), creati satellite files: LESSONS-LEARNED.md, AI-SYSTEM.md                                        | 2026-01-23 |
+
+> **STAFF-PWA & ASSIGNMENTS Details:**
+>
+> **Migrations:**
+>
+> - 071: Tip distribution system (tip_distribution_settings, tip_pool_members, tip_pool_periods, tip_allocations, order_sessions)
+> - 072: Staff table assignments (staff_table_assignments with section/table/location scope)
+> - 073: Request escalation settings (request_notification_settings, request_type_settings, escalation_events)
+> - 074: Add 'takeover' assignment method
+>
+> **Staff PWA Routes:**
+>
+> - `/staff` - Dashboard con richieste pendenti, tavoli assegnati
+> - `/staff/requests` - Lista completa con filtri (pending/in_progress/completed)
+> - `/staff/scan` - Scanner QR per auto-assegnazione tavoli
+>
+> **Key Features:**
+>
+> - Takeover system: quando cameriere serve tavolo non suo, sceglie "solo questa richiesta" o "prendi tavolo"
+> - Color-coded priority: verde (<3min), giallo (3-5min), rosso (>5min)
+> - Polling automatico ogni 15-30 secondi
+> - Escalation configurabile: reminder, notifica manager, auto-reassign, alert critico
 
 > **INFRA-UPGRADE Details:**
 >

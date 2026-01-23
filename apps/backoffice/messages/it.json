@@ -1977,7 +1977,8 @@
     "noMerchant": "Nessun merchant selezionato",
     "tabs": {
       "fiat": "Fiat",
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+      "taxTips": "Tasse & Mance"
     },
     "fiat": {
       "infoBanner": "Configura i metodi di pagamento tradizionali. Alcuni metodi richiedono configurazione aggiuntiva nelle rispettive dashboard.",
@@ -2023,6 +2024,59 @@
         "title": "Manca una criptovaluta?",
         "description": "Non vedi la crypto che vuoi accettare? Facci sapere e aggiungeremo il supporto!",
         "button": "Richiedi una Crypto"
+      }
+    },
+    "taxTips": {
+      "infoBanner": "Configura tasse, mance e costi del servizio per il tuo locale. Queste impostazioni influenzano come vengono visualizzati e calcolati i prezzi.",
+      "tax": {
+        "title": "Impostazioni Tasse",
+        "description": "Configura percentuale IVA e modalità di visualizzazione",
+        "enable": "Abilita Tasse",
+        "enableDesc": "Aggiungi le tasse agli ordini",
+        "percentage": "Percentuale Tasse",
+        "percentagePlaceholder": "es. 22",
+        "displayMode": "Modalità Visualizzazione",
+        "inclusive": "Inclusiva (prezzi includono IVA)",
+        "exclusive": "Esclusiva (IVA aggiunta al checkout)",
+        "label": "Etichetta Tasse",
+        "labelPlaceholder": "IVA, Tax, GST",
+        "labelHint": "Mostrata ai clienti nel riepilogo ordine"
+      },
+      "tips": {
+        "title": "Mance (Volontarie)",
+        "description": "Permetti ai clienti di aggiungere una mancia volontaria",
+        "enable": "Abilita Mance",
+        "enableDesc": "Permetti ai clienti di lasciare mance al checkout",
+        "presets": "Preset Mance",
+        "presetsDesc": "Percentuali mostrate ai clienti",
+        "allowCustom": "Permetti Importo Personalizzato",
+        "allowCustomDesc": "I clienti possono inserire qualsiasi importo",
+        "calculationBase": "Calcola Mancia Su",
+        "preTax": "Subtotale (pre-tasse)",
+        "postTax": "Totale (post-tasse)"
+      },
+      "serviceCharge": {
+        "title": "Costo del Servizio (Obbligatorio)",
+        "description": "Aggiungi un costo del servizio obbligatorio a tutti gli ordini",
+        "enable": "Abilita Costo Servizio",
+        "enableDesc": "Aggiunto automaticamente a tutti gli ordini",
+        "percentage": "Percentuale Costo Servizio",
+        "percentagePlaceholder": "es. 10",
+        "label": "Etichetta Costo Servizio",
+        "labelPlaceholder": "Costo Servizio, Coperto, Service",
+        "labelHint": "Mostrata ai clienti nel riepilogo ordine",
+        "calculationBase": "Calcola Costo Servizio Su",
+        "preTax": "Subtotale (pre-tasse)",
+        "postTax": "Totale (post-tasse)"
+      },
+      "preview": {
+        "title": "Anteprima",
+        "subtotal": "Subtotale",
+        "tax": "Tasse",
+        "taxIncluded": "(inclusa)",
+        "serviceCharge": "Costo Servizio",
+        "tip": "Mancia",
+        "total": "Totale"
       }
     }
   },
@@ -2468,6 +2522,113 @@
     "empty": {
       "title": "Nessun membro del team",
       "description": "Aggiungi membri del team per iniziare"
+    },
+    "tips": {
+      "title": "Mance",
+      "subtitle": "Gestisci le impostazioni di distribuzione mance",
+      "tabs": {
+        "config": "Configurazione",
+        "members": "Membri Pool",
+        "periods": "Periodi"
+      },
+      "distributionMode": {
+        "title": "Modalità Distribuzione",
+        "description": "Come vengono distribuite le mance al team",
+        "individual": "Individuale",
+        "individualDesc": "100% al cameriere che serve",
+        "pool": "Pool Condiviso",
+        "poolDesc": "Condiviso tra tutto lo staff",
+        "none": "Non Distribuite",
+        "noneDesc": "Le mance vanno all'azienda"
+      },
+      "poolConfig": {
+        "title": "Configurazione Pool",
+        "description": "Come dividere le mance tra i membri del pool",
+        "type": "Tipo di divisione",
+        "equal": "Equo - Tutti ricevono la stessa quota",
+        "byRole": "Per Ruolo - Percentuali basate sul ruolo",
+        "custom": "Custom - Percentuali individuali",
+        "rolePercentages": "Percentuali per Ruolo",
+        "includeServiceCharge": "Includi Coperto nel Pool",
+        "includeServiceChargeDesc": "Il coperto viene aggiunto alle mance da distribuire"
+      },
+      "period": {
+        "title": "Periodo Distribuzione",
+        "description": "Quando vengono distribuite le mance",
+        "weekly": "Settimanale",
+        "biweekly": "Bisettimanale",
+        "monthly": "Mensile",
+        "custom": "Personalizzato",
+        "day": "Giorno",
+        "dayOfWeek": "Giorno della settimana",
+        "dayOfMonth": "Giorno del mese"
+      },
+      "members": {
+        "title": "Membri Pool",
+        "sync": "Sincronizza da Staff",
+        "included": "Incluso",
+        "excluded": "Escluso",
+        "percentage": "Percentuale",
+        "empty": "Nessun membro nel pool",
+        "emptyDesc": "Sincronizza i membri dello staff per aggiungerli al pool delle mance"
+      },
+      "periods": {
+        "title": "Periodi",
+        "newPeriod": "Nuovo Periodo",
+        "open": "Aperto",
+        "closed": "Chiuso",
+        "distributed": "Distribuito",
+        "tips": "Mance",
+        "serviceCharge": "Coperto",
+        "total": "Totale Distribuito",
+        "closePeriod": "Chiudi Periodo",
+        "preview": "Anteprima",
+        "distribute": "Distribuisci",
+        "empty": "Nessun periodo",
+        "emptyDesc": "Crea un nuovo periodo per iniziare a tracciare le mance"
+      },
+      "preview": {
+        "title": "Anteprima Distribuzione",
+        "description": "Ecco come verranno distribuite le mance"
+      },
+      "saveSettings": "Salva Impostazioni",
+      "saving": "Salvataggio..."
+    },
+    "myTips": {
+      "title": "Le Mie Mance",
+      "subtitle": "Visualizza le mance guadagnate",
+      "refresh": "Aggiorna",
+      "totalEarned": "Totale Guadagnato",
+      "currentPeriod": "Periodo Corrente",
+      "pendingPayment": "In Attesa di Pagamento",
+      "alreadyPaid": "Già Pagato",
+      "history": "Storico Mance",
+      "filter": {
+        "all": "Tutti",
+        "pending": "In Attesa",
+        "paid": "Pagati"
+      },
+      "source": {
+        "individualOrder": "Ordine Diretto",
+        "poolShare": "Pool Condiviso",
+        "adjustment": "Correzione"
+      },
+      "status": {
+        "paid": "Pagato",
+        "pending": "In attesa"
+      },
+      "info": {
+        "title": "Come funzionano le mance?",
+        "directOrder": "Mance ricevute da ordini che hai servito tu",
+        "poolShare": "La tua quota dalla distribuzione del pool",
+        "adjustment": "Aggiustamenti manuali dal manager",
+        "paymentNote": "Le mance in attesa verranno pagate secondo il periodo stabilito dal manager."
+      },
+      "noProfile": {
+        "title": "Profilo non trovato",
+        "description": "Non sei associato a un profilo staff. Contatta il manager per essere aggiunto al sistema."
+      },
+      "empty": "Nessuna mancia trovata"
     }
   },
   "billingPage": {

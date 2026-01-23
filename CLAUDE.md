@@ -3,7 +3,7 @@
 > **Contesto essenziale per Claude Code**
 >
 > **Last Updated:** 2026-01-23
-> **Version:** 8.0 (Optimized Structure)
+> **Version:** 8.2 (Added Payment Icons)
 
 ---
 
@@ -178,6 +178,64 @@ docs/backlog/
 | Database  | Supabase (PostgreSQL) |
 | Deploy    | Vercel                |
 | AI        | OpenAI GPT-4          |
+| Icons     | **Phosphor Icons** ⭐ |
+| UI        | Radix UI + Tailwind   |
+
+## 8.1 ICONS - Phosphor Icons (PREFERITO)
+
+> **IMPORTANTE:** Usa Phosphor Icons invece di Lucide per nuovi componenti.
+> Phosphor ha 9,000+ icone con 6 stili diversi (duotone è il più bello).
+
+```tsx
+// ✅ CORRETTO - Phosphor Icons
+import { House, ShoppingCart, User } from '@phosphor-icons/react'
+
+<House size={24} weight="duotone" />        // Duotone - consigliato
+<ShoppingCart size={24} weight="fill" />    // Filled
+<User size={24} weight="regular" />         // Regular (default)
+
+// Pesi disponibili: thin, light, regular, bold, fill, duotone
+```
+
+```tsx
+// ⚠️ LEGACY - Lucide (solo per componenti esistenti)
+import { Home } from 'lucide-react';
+```
+
+**Documentazione:** https://phosphoricons.com
+
+## 8.2 PAYMENT ICONS - Crypto & Fiat
+
+> Per i metodi di pagamento, usa queste librerie dedicate.
+
+### Crypto (BTC, ETH, USDC, SOL, TON, BNB, USDT)
+
+```tsx
+import { TokenIcon, NetworkIcon } from '@web3icons/react'
+
+<TokenIcon symbol="BTC" variant="branded" size={32} />   // Bitcoin colored
+<TokenIcon symbol="ETH" variant="mono" size={32} />      // Ethereum mono
+<TokenIcon symbol="USDC" variant="branded" size={32} />  // USDC colored
+<NetworkIcon network="solana" variant="branded" />        // Solana network
+```
+
+### Fiat (Visa, Mastercard, PayPal, Stripe, etc.)
+
+```tsx
+import { Visa, Mastercard, Paypal, Stripe, Amex } from 'react-svg-credit-card-payment-icons'
+
+<Visa width={40} />
+<Mastercard width={40} />
+<Paypal width={40} />
+<Stripe width={40} />
+
+// Formati disponibili: flat, flatRounded, logo, mono, monoOutline
+```
+
+**Documentazione:**
+
+- Crypto: https://web3icons.io
+- Fiat: https://github.com/marcovoliveira/react-svg-credit-card-payment-icons
 
 ---
 
@@ -260,9 +318,11 @@ git push origin main   # Auto-deploy Vercel
 
 ---
 
-**Version:** 8.0
+**Version:** 8.2
 **Changes:**
 
+- v8.2 - Added Payment Icons (@web3icons/react for crypto, react-svg-credit-card-payment-icons for fiat)
+- v8.1 - Added Phosphor Icons (9,000+ icons, 6 weights) as preferred icon library
 - v8.0 - Optimized structure: content migrated to satellite files (LESSONS-LEARNED.md, AI-SYSTEM.md)
 - v7.2 - CI/CD Pipeline Fix
 - v7.1 - Scaling Phase 1-3, Security Phase 1

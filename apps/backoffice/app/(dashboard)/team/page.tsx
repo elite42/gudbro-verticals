@@ -13,8 +13,23 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
+import { StaffInviteModal, PendingInvitationsList } from '@/components/team/StaffInviteModal';
+import { StaffAssignmentsTab } from '@/components/team/StaffAssignmentsTab';
+import { EscalationSettings } from '@/components/team/EscalationSettings';
 
 // Types
+interface StaffInvitation {
+  id: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  roleTitle: string;
+  permissions: Record<string, boolean>;
+  status: string;
+  createdAt: string;
+  expiresAt: string;
+  message?: string;
+}
 interface StaffProfile {
   id: string;
   accountId: string;
@@ -73,11 +88,63 @@ interface WeeklyReport {
 // Tab definitions
 const TABS = [
   { id: 'members', label: 'Team', icon: '👥' },
+  { id: 'assignments', label: 'Assegnazioni', icon: '📋' },
   { id: 'performance', label: 'Performance', icon: '📊' },
+  { id: 'tips', label: 'Mance', icon: '💰' },
   { id: 'settings', label: 'Impostazioni', icon: '⚙️' },
 ] as const;
 
 type TabId = (typeof TABS)[number]['id'];
+
+// Tip distribution types
+interface TipDistributionSettings {
+  id?: string;
+  merchantId: string;
+  distributionMode: 'individual' | 'pool' | 'none';
+  poolType: 'equal' | 'by_role' | 'custom';
+  rolePercentages: Record<string, number>;
+  distributionPeriod: 'weekly' | 'biweekly' | 'monthly' | 'custom';
+  distributionDay: number;
+  includeServiceCharge: boolean;
+  requireMinimumHours: boolean;
+  minimumHoursPerPeriod: number;
+}
+
+interface TipPoolMember {
+  id: string;
+  merchantId: string;
+  staffId: string;
+  staffName: string;
+  staffPhoto?: string;
+  jobTitle: string;
+  isIncluded: boolean;
+  exclusionReason?: string;
+  customPercentage?: number;
+  tipRole?: string;
+}
+
+interface TipPoolPeriod {
+  id: string;
+  merchantId: string;
+  periodStart: string;
+  periodEnd: string;
+  status: 'open' | 'closed' | 'distributed';
+  totalTips: number;
+  totalServiceCharges: number;
+  totalDistributed: number;
+  closedAt?: string;
+  distributedAt?: string;
+  notes?: string;
+}
+
+interface DistributionPreview {
+  staffId: string;
+  staffName: string;
+  staffPhoto?: string;
+  tipRole: string;
+  allocationAmount: number;
+  percentageShare: number;
+}
 
 // Category labels
 const CATEGORY_LABELS: Record<string, { label: string; emoji: string }> = {
@@ -106,12 +173,29 @@ export default function TeamPage() {
   const [weeklyReport, setWeeklyReport] = useState<WeeklyReport | null>(null);
   const [topPerformers, setTopPerformers] = useState<TopPerformer[]>([]);
 
+  // Tips data state
+  const [tipSettings, setTipSettings] = useState<TipDistributionSettings | null>(null);
+  const [tipPoolMembers, setTipPoolMembers] = useState<TipPoolMember[]>([]);
+  const [tipPeriods, setTipPeriods] = useState<TipPoolPeriod[]>([]);
+  const [distributionPreview, setDistributionPreview] = useState<DistributionPreview[] | null>(
+    null
+  );
+  const [isTipsLoading, setIsTipsLoading] = useState(false);
+
   // Modal state
   const [showSettingsTooltip, setShowSettingsTooltip] = useState(false);
   const [showStaffModal, setShowStaffModal] = useState(false);
   const [editingStaff, setEditingStaff] = useState<StaffProfile | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
+
+  // Staff invitations state
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [pendingInvitations, setPendingInvitations] = useState<StaffInvitation[]>([]);
+  const [isInvitationsLoading, setIsInvitationsLoading] = useState(false);
+
+  // Get organization ID from tenant context
+  const organizationId = brand?.id || location?.id;
 
   // Open modal for new staff
   const handleAddStaff = () => {
@@ -203,6 +287,262 @@ export default function TeamPage() {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  // Load pending invitations
+  const loadInvitations = useCallback(async () => {
+    if (!organizationId) return;
+
+    setIsInvitationsLoading(true);
+    try {
+      const res = await fetch(`/api/staff/invite?organizationId=${organizationId}`);
+      const data = await res.json();
+      if (data.success) {
+        setPendingInvitations(data.invitations || []);
+      }
+    } catch (err) {
+      console.error('Error loading invitations:', err);
+    } finally {
+      setIsInvitationsLoading(false);
+    }
+  }, [organizationId]);
+
+  // Load invitations when members tab is active
+  useEffect(() => {
+    if (activeTab === 'members') {
+      loadInvitations();
+    }
+  }, [activeTab, loadInvitations]);
+
+  // Handle invitation sent
+  const handleInvitationSent = () => {
+    setSaveSuccess('Invito inviato con successo!');
+    setTimeout(() => setSaveSuccess(null), 3000);
+    loadInvitations();
+  };
+
+  // Handle invitation revoked
+  const handleInvitationRevoked = (invitationId: string) => {
+    setPendingInvitations((prev) => prev.filter((i) => i.id !== invitationId));
+    setSaveSuccess('Invito revocato');
+    setTimeout(() => setSaveSuccess(null), 3000);
+  };
+
+  // Load tips data
+  const loadTipsData = useCallback(async () => {
+    if (!locationId) return;
+
+    setIsTipsLoading(true);
+    try {
+      const res = await fetch(`/api/tips?merchantId=${locationId}`);
+      const data = await res.json();
+      if (data.success) {
+        setTipSettings(data.settings);
+        setTipPoolMembers(data.members || []);
+        setTipPeriods(data.periods || []);
+      }
+    } catch (err) {
+      console.error('Error loading tips data:', err);
+    } finally {
+      setIsTipsLoading(false);
+    }
+  }, [locationId]);
+
+  // Load tips when tab is active
+  useEffect(() => {
+    if (activeTab === 'tips') {
+      loadTipsData();
+    }
+  }, [activeTab, loadTipsData]);
+
+  // Save tip settings
+  const handleSaveTipSettings = async (newSettings: Partial<TipDistributionSettings>) => {
+    if (!locationId) return;
+
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/tips', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'updateSettings',
+          merchantId: locationId,
+          data: newSettings,
+        }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        setSaveSuccess('Impostazioni mance salvate!');
+        setTimeout(() => setSaveSuccess(null), 3000);
+        loadTipsData();
+      }
+    } catch (err) {
+      setError('Errore nel salvataggio');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Update pool member
+  const handleUpdatePoolMember = async (memberId: string, data: Partial<TipPoolMember>) => {
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/tips', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'updateMember',
+          merchantId: locationId,
+          data: { id: memberId, ...data },
+        }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        setSaveSuccess('Membro aggiornato!');
+        setTimeout(() => setSaveSuccess(null), 3000);
+        loadTipsData();
+      }
+    } catch (err) {
+      setError('Errore nel salvataggio');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Sync pool members from staff
+  const handleSyncPoolMembers = async () => {
+    if (!locationId) return;
+
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/tips', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'syncMembers',
+          merchantId: locationId,
+        }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        setSaveSuccess(`${result.added} membri sincronizzati!`);
+        setTimeout(() => setSaveSuccess(null), 3000);
+        loadTipsData();
+      }
+    } catch (err) {
+      setError('Errore nella sincronizzazione');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Close period
+  const handleClosePeriod = async (periodId: string) => {
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/tips', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'closePeriod',
+          merchantId: locationId,
+          data: { periodId },
+        }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        setSaveSuccess('Periodo chiuso!');
+        setTimeout(() => setSaveSuccess(null), 3000);
+        loadTipsData();
+      }
+    } catch (err) {
+      setError('Errore nella chiusura periodo');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Preview distribution
+  const handlePreviewDistribution = async (periodId: string) => {
+    try {
+      const res = await fetch(`/api/tips/distribute?merchantId=${locationId}&periodId=${periodId}`);
+      const data = await res.json();
+      if (data.success) {
+        setDistributionPreview(data.preview.allocations);
+      }
+    } catch (err) {
+      console.error('Error previewing distribution:', err);
+    }
+  };
+
+  // Distribute tips
+  const handleDistributeTips = async (periodId: string) => {
+    if (!locationId) return;
+
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/tips/distribute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          merchantId: locationId,
+          periodId,
+        }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        setSaveSuccess(result.message);
+        setTimeout(() => setSaveSuccess(null), 3000);
+        setDistributionPreview(null);
+        loadTipsData();
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      setError('Errore nella distribuzione');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Create new period
+  const handleCreatePeriod = async () => {
+    if (!locationId) return;
+
+    const today = new Date();
+    const periodStart = today.toISOString().split('T')[0];
+    const periodEnd = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split('T')[0];
+
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/tips', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'createPeriod',
+          merchantId: locationId,
+          data: { periodStart, periodEnd },
+        }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        setSaveSuccess('Nuovo periodo creato!');
+        setTimeout(() => setSaveSuccess(null), 3000);
+        loadTipsData();
+      }
+    } catch (err) {
+      setError('Errore nella creazione periodo');
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   // Save settings
   const handleSaveSettings = async (newSettings: Partial<TeamSettings>) => {
@@ -368,7 +708,17 @@ export default function TeamPage() {
           profiles={staffProfiles}
           onAddStaff={handleAddStaff}
           onEditStaff={handleEditStaff}
+          onInviteStaff={() => setShowInviteModal(true)}
+          pendingInvitations={pendingInvitations}
+          isInvitationsLoading={isInvitationsLoading}
+          onRevokeInvitation={handleInvitationRevoked}
+          onRefreshInvitations={loadInvitations}
+          organizationId={organizationId}
         />
+      )}
+
+      {activeTab === 'assignments' && locationId && (
+        <StaffAssignmentsTab locationId={locationId} staffProfiles={staffProfiles} />
       )}
 
       {activeTab === 'performance' && (
@@ -382,12 +732,33 @@ export default function TeamPage() {
         />
       )}
 
+      {activeTab === 'tips' && (
+        <TipsTab
+          settings={tipSettings}
+          members={tipPoolMembers}
+          periods={tipPeriods}
+          staffProfiles={staffProfiles}
+          isLoading={isTipsLoading}
+          isSaving={isSaving}
+          distributionPreview={distributionPreview}
+          onSaveSettings={handleSaveTipSettings}
+          onUpdateMember={handleUpdatePoolMember}
+          onSyncMembers={handleSyncPoolMembers}
+          onClosePeriod={handleClosePeriod}
+          onPreviewDistribution={handlePreviewDistribution}
+          onDistribute={handleDistributeTips}
+          onCreatePeriod={handleCreatePeriod}
+          onClearPreview={() => setDistributionPreview(null)}
+        />
+      )}
+
       {activeTab === 'settings' && (
         <SettingsTab
           settings={teamSettings}
           onSave={handleSaveSettings}
           isSaving={isSaving}
           onShowTooltip={() => setShowSettingsTooltip(true)}
+          merchantId={locationId}
         />
       )}
 
@@ -453,6 +824,18 @@ export default function TeamPage() {
         isSaving={isSaving}
         locationId={locationId}
       />
+
+      {/* Staff Invite Modal */}
+      {organizationId && (
+        <StaffInviteModal
+          open={showInviteModal}
+          onOpenChange={setShowInviteModal}
+          organizationId={organizationId}
+          locationId={locationId}
+          brandId={brand?.id}
+          onInviteSent={handleInvitationSent}
+        />
+      )}
     </div>
   );
 }
@@ -464,45 +847,101 @@ function MembersTab({
   profiles,
   onAddStaff,
   onEditStaff,
+  onInviteStaff,
+  pendingInvitations,
+  isInvitationsLoading,
+  onRevokeInvitation,
+  onRefreshInvitations,
+  organizationId,
 }: {
   profiles: StaffProfile[];
   onAddStaff: () => void;
   onEditStaff: (profile: StaffProfile) => void;
+  onInviteStaff: () => void;
+  pendingInvitations: StaffInvitation[];
+  isInvitationsLoading: boolean;
+  onRevokeInvitation: (invitationId: string) => void;
+  onRefreshInvitations: () => void;
+  organizationId?: string;
 }) {
-  if (profiles.length === 0) {
+  if (profiles.length === 0 && pendingInvitations.length === 0) {
     return (
-      <EmptyState
-        icon={<span className="text-5xl">👥</span>}
-        title="Nessun membro del team"
-        description="Aggiungi i profili del tuo staff per iniziare a raccogliere feedback dai clienti."
-        action={{ label: 'Aggiungi Staff', onClick: onAddStaff }}
-        variant="default"
-        size="default"
-      />
+      <div className="space-y-6">
+        <EmptyState
+          icon={<span className="text-5xl">👥</span>}
+          title="Nessun membro del team"
+          description="Aggiungi i profili del tuo staff o invita nuovi membri via email."
+          action={{ label: 'Invita Staff', onClick: onInviteStaff }}
+          variant="default"
+          size="default"
+        />
+        <div className="flex justify-center">
+          <button onClick={onAddStaff} className="text-sm text-gray-500 hover:text-gray-700">
+            oppure aggiungi manualmente →
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Actions */}
-      <div className="flex justify-end">
-        <button
-          onClick={onAddStaff}
-          className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-        >
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Aggiungi Staff
-        </button>
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-gray-500">
+          {profiles.length} {profiles.length === 1 ? 'membro' : 'membri'} nel team
+        </p>
+        <div className="flex gap-2">
+          <button
+            onClick={onInviteStaff}
+            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            Invita via Email
+          </button>
+          <button
+            onClick={onAddStaff}
+            className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Aggiungi Manualmente
+          </button>
+        </div>
       </div>
 
+      {/* Pending Invitations */}
+      {organizationId && (
+        <PendingInvitationsList
+          organizationId={organizationId}
+          invitations={pendingInvitations}
+          isLoading={isInvitationsLoading}
+          onRevokeInvitation={onRevokeInvitation}
+          onRefresh={onRefreshInvitations}
+        />
+      )}
+
       {/* Staff Grid */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {profiles.map((profile) => (
-          <StaffCard key={profile.id} profile={profile} onEdit={() => onEditStaff(profile)} />
-        ))}
-      </div>
+      {profiles.length > 0 && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {profiles.map((profile) => (
+            <StaffCard key={profile.id} profile={profile} onEdit={() => onEditStaff(profile)} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -912,11 +1351,13 @@ function SettingsTab({
   onSave,
   isSaving,
   onShowTooltip,
+  merchantId,
 }: {
   settings: TeamSettings | null;
   onSave: (settings: Partial<TeamSettings>) => void;
   isSaving: boolean;
   onShowTooltip: () => void;
+  merchantId?: string;
 }) {
   const [localSettings, setLocalSettings] = useState<TeamSettings | null>(settings);
 
@@ -1089,6 +1530,13 @@ function SettingsTab({
           </div>
         </div>
       </div>
+
+      {/* Escalation Settings */}
+      {merchantId && (
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <EscalationSettings merchantId={merchantId} />
+        </div>
+      )}
     </div>
   );
 }
@@ -1514,5 +1962,582 @@ function StaffFormModal({
         </form>
       </DialogContent>
     </Dialog>
+  );
+}
+
+// ============================================
+// Tips Tab
+// ============================================
+function TipsTab({
+  settings,
+  members,
+  periods,
+  staffProfiles,
+  isLoading,
+  isSaving,
+  distributionPreview,
+  onSaveSettings,
+  onUpdateMember,
+  onSyncMembers,
+  onClosePeriod,
+  onPreviewDistribution,
+  onDistribute,
+  onCreatePeriod,
+  onClearPreview,
+}: {
+  settings: TipDistributionSettings | null;
+  members: TipPoolMember[];
+  periods: TipPoolPeriod[];
+  staffProfiles: StaffProfile[];
+  isLoading: boolean;
+  isSaving: boolean;
+  distributionPreview: DistributionPreview[] | null;
+  onSaveSettings: (settings: Partial<TipDistributionSettings>) => void;
+  onUpdateMember: (memberId: string, data: Partial<TipPoolMember>) => void;
+  onSyncMembers: () => void;
+  onClosePeriod: (periodId: string) => void;
+  onPreviewDistribution: (periodId: string) => void;
+  onDistribute: (periodId: string) => void;
+  onCreatePeriod: () => void;
+  onClearPreview: () => void;
+}) {
+  const [localSettings, setLocalSettings] = useState<Partial<TipDistributionSettings>>(
+    settings || {
+      distributionMode: 'individual',
+      poolType: 'equal',
+      rolePercentages: { waiter: 60, kitchen: 25, manager: 15 },
+      distributionPeriod: 'weekly',
+      distributionDay: 1,
+      includeServiceCharge: true,
+      requireMinimumHours: false,
+      minimumHoursPerPeriod: 20,
+    }
+  );
+  const [activeSection, setActiveSection] = useState<'config' | 'members' | 'periods'>('config');
+
+  useEffect(() => {
+    if (settings) {
+      setLocalSettings(settings);
+    }
+  }, [settings]);
+
+  const handleSave = () => {
+    onSaveSettings(localSettings);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Section Tabs */}
+      <div className="flex gap-2 border-b border-gray-200 pb-2">
+        {[
+          { id: 'config', label: 'Configurazione', icon: '⚙️' },
+          { id: 'members', label: 'Membri Pool', icon: '👥' },
+          { id: 'periods', label: 'Periodi', icon: '📅' },
+        ].map((section) => (
+          <button
+            key={section.id}
+            onClick={() => setActiveSection(section.id as typeof activeSection)}
+            className={`flex items-center gap-2 rounded-t-lg px-4 py-2 text-sm font-medium transition-colors ${
+              activeSection === section.id
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
+            }`}
+          >
+            <span>{section.icon}</span>
+            {section.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Configuration Section */}
+      {activeSection === 'config' && (
+        <div className="space-y-6">
+          {/* Distribution Mode */}
+          <div className="rounded-xl border border-gray-200 bg-white">
+            <div className="border-b border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-900">💰 Modalità Distribuzione</h3>
+              <p className="mt-1 text-sm text-gray-500">
+                Come vengono distribuite le mance al team
+              </p>
+            </div>
+            <div className="space-y-4 p-4">
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  {
+                    value: 'individual',
+                    label: 'Individuale',
+                    desc: '100% al cameriere che serve',
+                    icon: '👤',
+                  },
+                  {
+                    value: 'pool',
+                    label: 'Pool Condiviso',
+                    desc: 'Condiviso tra tutto lo staff',
+                    icon: '👥',
+                  },
+                  {
+                    value: 'none',
+                    label: 'Non Distribuite',
+                    desc: "Le mance vanno all'azienda",
+                    icon: '🏢',
+                  },
+                ].map((mode) => (
+                  <button
+                    key={mode.value}
+                    onClick={() =>
+                      setLocalSettings({
+                        ...localSettings,
+                        distributionMode: mode.value as 'individual' | 'pool' | 'none',
+                      })
+                    }
+                    className={`flex flex-col items-center rounded-xl border-2 p-4 transition-all ${
+                      localSettings.distributionMode === mode.value
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    <span className="mb-2 text-2xl">{mode.icon}</span>
+                    <span className="font-medium text-gray-900">{mode.label}</span>
+                    <span className="mt-1 text-center text-xs text-gray-500">{mode.desc}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Pool Configuration (if pool mode) */}
+          {localSettings.distributionMode === 'pool' && (
+            <div className="rounded-xl border border-gray-200 bg-white">
+              <div className="border-b border-gray-200 p-4">
+                <h3 className="font-semibold text-gray-900">📊 Configurazione Pool</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  Come dividere le mance tra i membri del pool
+                </p>
+              </div>
+              <div className="space-y-4 p-4">
+                {/* Pool Type */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Tipo di divisione
+                  </label>
+                  <select
+                    value={localSettings.poolType}
+                    onChange={(e) =>
+                      setLocalSettings({
+                        ...localSettings,
+                        poolType: e.target.value as 'equal' | 'by_role' | 'custom',
+                      })
+                    }
+                    className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                  >
+                    <option value="equal">Equo - Tutti ricevono la stessa quota</option>
+                    <option value="by_role">Per Ruolo - Percentuali basate sul ruolo</option>
+                    <option value="custom">Custom - Percentuali individuali</option>
+                  </select>
+                </div>
+
+                {/* Role Percentages (if by_role) */}
+                {localSettings.poolType === 'by_role' && (
+                  <div className="space-y-3">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Percentuali per Ruolo
+                    </label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {Object.entries(localSettings.rolePercentages || {}).map(([role, pct]) => (
+                        <div key={role} className="flex items-center gap-2">
+                          <span className="w-20 text-sm capitalize text-gray-600">{role}</span>
+                          <input
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={pct}
+                            onChange={(e) =>
+                              setLocalSettings({
+                                ...localSettings,
+                                rolePercentages: {
+                                  ...localSettings.rolePercentages,
+                                  [role]: parseInt(e.target.value) || 0,
+                                },
+                              })
+                            }
+                            className="w-20 rounded-lg border border-gray-300 px-2 py-1 text-sm"
+                          />
+                          <span className="text-sm text-gray-500">%</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Totale:{' '}
+                      {Object.values(localSettings.rolePercentages || {}).reduce(
+                        (a, b) => a + b,
+                        0
+                      )}
+                      %
+                    </p>
+                  </div>
+                )}
+
+                {/* Include Service Charge */}
+                <div className="flex items-center justify-between rounded-lg border border-gray-200 p-3">
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">Includi Coperto nel Pool</p>
+                    <p className="text-xs text-gray-500">
+                      Il coperto viene aggiunto alle mance da distribuire
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={localSettings.includeServiceCharge}
+                    onClick={() =>
+                      setLocalSettings({
+                        ...localSettings,
+                        includeServiceCharge: !localSettings.includeServiceCharge,
+                      })
+                    }
+                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
+                      localSettings.includeServiceCharge ? 'bg-blue-600' : 'bg-gray-200'
+                    }`}
+                  >
+                    <span
+                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow transition ${
+                        localSettings.includeServiceCharge ? 'translate-x-5' : 'translate-x-0'
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Distribution Period */}
+          <div className="rounded-xl border border-gray-200 bg-white">
+            <div className="border-b border-gray-200 p-4">
+              <h3 className="font-semibold text-gray-900">📅 Periodo Distribuzione</h3>
+              <p className="mt-1 text-sm text-gray-500">Quando vengono distribuite le mance</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4 p-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Periodo</label>
+                <select
+                  value={localSettings.distributionPeriod}
+                  onChange={(e) =>
+                    setLocalSettings({
+                      ...localSettings,
+                      distributionPeriod: e.target.value as
+                        | 'weekly'
+                        | 'biweekly'
+                        | 'monthly'
+                        | 'custom',
+                    })
+                  }
+                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                >
+                  <option value="weekly">Settimanale</option>
+                  <option value="biweekly">Bisettimanale</option>
+                  <option value="monthly">Mensile</option>
+                  <option value="custom">Personalizzato</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Giorno{' '}
+                  {localSettings.distributionPeriod === 'monthly' ? 'del mese' : 'della settimana'}
+                </label>
+                <select
+                  value={localSettings.distributionDay}
+                  onChange={(e) =>
+                    setLocalSettings({
+                      ...localSettings,
+                      distributionDay: parseInt(e.target.value),
+                    })
+                  }
+                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+                >
+                  {localSettings.distributionPeriod === 'monthly' ? (
+                    Array.from({ length: 28 }, (_, i) => (
+                      <option key={i + 1} value={i + 1}>
+                        {i + 1}
+                      </option>
+                    ))
+                  ) : (
+                    <>
+                      <option value="1">Lunedì</option>
+                      <option value="2">Martedì</option>
+                      <option value="3">Mercoledì</option>
+                      <option value="4">Giovedì</option>
+                      <option value="5">Venerdì</option>
+                      <option value="6">Sabato</option>
+                      <option value="7">Domenica</option>
+                    </>
+                  )}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Save Button */}
+          <div className="flex justify-end">
+            <button
+              onClick={handleSave}
+              disabled={isSaving}
+              className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+            >
+              {isSaving ? 'Salvataggio...' : 'Salva Impostazioni'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Members Section */}
+      {activeSection === 'members' && (
+        <div className="space-y-4">
+          {/* Actions */}
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-500">{members.length} membri nel pool</p>
+            <button
+              onClick={onSyncMembers}
+              disabled={isSaving}
+              className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            >
+              🔄 Sincronizza da Staff
+            </button>
+          </div>
+
+          {members.length === 0 ? (
+            <EmptyState
+              icon={<span className="text-5xl">👥</span>}
+              title="Nessun membro nel pool"
+              description="Sincronizza i membri dello staff per aggiungerli al pool delle mance."
+              action={{ label: 'Sincronizza Staff', onClick: onSyncMembers }}
+              variant="default"
+              size="default"
+            />
+          ) : (
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {members.map((member) => (
+                <div
+                  key={member.id}
+                  className={`rounded-xl border p-4 transition-all ${
+                    member.isIncluded
+                      ? 'border-gray-200 bg-white'
+                      : 'border-gray-100 bg-gray-50 opacity-60'
+                  }`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      {member.staffPhoto ? (
+                        <img
+                          src={member.staffPhoto}
+                          alt={member.staffName}
+                          className="h-10 w-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-600">
+                          {member.staffName.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <div>
+                        <p className="font-medium text-gray-900">{member.staffName}</p>
+                        <p className="text-xs text-gray-500">{member.tipRole || member.jobTitle}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => onUpdateMember(member.id, { isIncluded: !member.isIncluded })}
+                      className={`rounded-lg px-2 py-1 text-xs font-medium ${
+                        member.isIncluded
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-gray-100 text-gray-500'
+                      }`}
+                    >
+                      {member.isIncluded ? '✓ Incluso' : 'Escluso'}
+                    </button>
+                  </div>
+
+                  {/* Custom Percentage (if custom mode) */}
+                  {settings?.poolType === 'custom' && member.isIncluded && (
+                    <div className="mt-3 flex items-center gap-2">
+                      <span className="text-sm text-gray-600">Percentuale:</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={member.customPercentage || 0}
+                        onChange={(e) =>
+                          onUpdateMember(member.id, {
+                            customPercentage: parseFloat(e.target.value) || 0,
+                          })
+                        }
+                        className="w-20 rounded-lg border border-gray-300 px-2 py-1 text-sm"
+                      />
+                      <span className="text-sm text-gray-500">%</span>
+                    </div>
+                  )}
+
+                  {/* Exclusion Reason */}
+                  {!member.isIncluded && member.exclusionReason && (
+                    <p className="mt-2 text-xs text-gray-400">Motivo: {member.exclusionReason}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Periods Section */}
+      {activeSection === 'periods' && (
+        <div className="space-y-4">
+          {/* Actions */}
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-500">{periods.length} periodi</p>
+            <button
+              onClick={onCreatePeriod}
+              disabled={isSaving}
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+            >
+              + Nuovo Periodo
+            </button>
+          </div>
+
+          {periods.length === 0 ? (
+            <EmptyState
+              icon={<span className="text-5xl">📅</span>}
+              title="Nessun periodo"
+              description="Crea un nuovo periodo per iniziare a tracciare le mance."
+              action={{ label: 'Crea Periodo', onClick: onCreatePeriod }}
+              variant="default"
+              size="default"
+            />
+          ) : (
+            <div className="space-y-3">
+              {periods.map((period) => (
+                <div key={period.id} className="rounded-xl border border-gray-200 bg-white p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                            period.status === 'open'
+                              ? 'bg-green-100 text-green-700'
+                              : period.status === 'closed'
+                                ? 'bg-yellow-100 text-yellow-700'
+                                : 'bg-blue-100 text-blue-700'
+                          }`}
+                        >
+                          {period.status === 'open'
+                            ? '🟢 Aperto'
+                            : period.status === 'closed'
+                              ? '🟡 Chiuso'
+                              : '✅ Distribuito'}
+                        </span>
+                        <span className="font-medium text-gray-900">
+                          {new Date(period.periodStart).toLocaleDateString('it-IT')} -{' '}
+                          {new Date(period.periodEnd).toLocaleDateString('it-IT')}
+                        </span>
+                      </div>
+                      <div className="mt-2 flex items-center gap-4 text-sm text-gray-600">
+                        <span>💰 Mance: €{period.totalTips.toFixed(2)}</span>
+                        <span>🍽️ Coperto: €{period.totalServiceCharges.toFixed(2)}</span>
+                        {period.status === 'distributed' && (
+                          <span>✅ Distribuito: €{period.totalDistributed.toFixed(2)}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {period.status === 'open' && (
+                        <button
+                          onClick={() => onClosePeriod(period.id)}
+                          disabled={isSaving}
+                          className="rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-1.5 text-sm font-medium text-yellow-700 hover:bg-yellow-100 disabled:opacity-50"
+                        >
+                          Chiudi Periodo
+                        </button>
+                      )}
+                      {period.status === 'closed' && (
+                        <>
+                          <button
+                            onClick={() => onPreviewDistribution(period.id)}
+                            className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                          >
+                            Anteprima
+                          </button>
+                          <button
+                            onClick={() => onDistribute(period.id)}
+                            disabled={isSaving}
+                            className="rounded-lg bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+                          >
+                            Distribuisci
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Distribution Preview Modal */}
+          {distributionPreview && (
+            <Dialog open={true} onOpenChange={() => onClearPreview()}>
+              <DialogContent className="sm:max-w-lg">
+                <DialogHeader>
+                  <DialogTitle>📊 Anteprima Distribuzione</DialogTitle>
+                  <DialogDescription>Ecco come verranno distribuite le mance</DialogDescription>
+                </DialogHeader>
+                <div className="max-h-80 space-y-2 overflow-y-auto py-4">
+                  {distributionPreview.map((alloc, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center justify-between rounded-lg border border-gray-200 p-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        {alloc.staffPhoto ? (
+                          <img
+                            src={alloc.staffPhoto}
+                            alt={alloc.staffName}
+                            className="h-8 w-8 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-600">
+                            {alloc.staffName.charAt(0)}
+                          </div>
+                        )}
+                        <div>
+                          <p className="font-medium text-gray-900">{alloc.staffName}</p>
+                          <p className="text-xs text-gray-500">
+                            {alloc.tipRole} • {alloc.percentageShare.toFixed(1)}%
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-lg font-bold text-green-600">
+                        €{alloc.allocationAmount.toFixed(2)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <DialogFooter>
+                  <button
+                    onClick={() => onClearPreview()}
+                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  >
+                    Chiudi
+                  </button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

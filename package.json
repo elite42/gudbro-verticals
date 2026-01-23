@@ -83,6 +83,8 @@
     }
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "@web3icons/react": "^4.1.14",
     "crypto-js": "^4.2.0",
     "date-fns-tz": "^3.2.0",
     "framer-motion": "^12.24.7",
@@ -90,6 +92,7 @@
     "qrcode.react": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-svg-credit-card-payment-icons": "^5.1.2",
     "zod": "^3.23.0"
   }
 }

@@ -49,6 +49,24 @@ interface PaymentSettingsRequest {
   cryptoPriceDisplayUnit?: 'standard' | 'milli' | 'micro';
   cryptoPaymentTimeoutMinutes?: number;
   cryptoPriceBufferPercent?: number;
+
+  // Tax settings
+  taxEnabled?: boolean;
+  taxPercentage?: number;
+  taxDisplayMode?: 'inclusive' | 'exclusive';
+  taxLabel?: string;
+
+  // Tip settings
+  tipsEnabled?: boolean;
+  tipPresets?: number[];
+  tipAllowCustom?: boolean;
+  tipCalculationBase?: 'pre_tax' | 'post_tax';
+
+  // Service Charge settings
+  serviceChargeEnabled?: boolean;
+  serviceChargePercentage?: number;
+  serviceChargeLabel?: string;
+  serviceChargeCalculationBase?: 'pre_tax' | 'post_tax';
 }
 
 // ============================================================================
@@ -129,6 +147,24 @@ export async function GET(request: Request) {
         cryptoPriceDisplayUnit: settings.crypto_price_display_unit,
         cryptoPaymentTimeoutMinutes: settings.crypto_payment_timeout_minutes,
         cryptoPriceBufferPercent: settings.crypto_price_buffer_percent,
+
+        // Tax
+        taxEnabled: settings.tax_enabled ?? false,
+        taxPercentage: settings.tax_percentage ?? 0,
+        taxDisplayMode: settings.tax_display_mode ?? 'inclusive',
+        taxLabel: settings.tax_label ?? 'VAT',
+
+        // Tips
+        tipsEnabled: settings.tips_enabled ?? false,
+        tipPresets: settings.tip_presets ?? [10, 15, 20],
+        tipAllowCustom: settings.tip_allow_custom ?? true,
+        tipCalculationBase: settings.tip_calculation_base ?? 'pre_tax',
+
+        // Service Charge
+        serviceChargeEnabled: settings.service_charge_enabled ?? false,
+        serviceChargePercentage: settings.service_charge_percentage ?? 0,
+        serviceChargeLabel: settings.service_charge_label ?? 'Service Charge',
+        serviceChargeCalculationBase: settings.service_charge_calculation_base ?? 'pre_tax',
 
         createdAt: settings.created_at,
         updatedAt: settings.updated_at,
@@ -215,6 +251,24 @@ export async function PUT(request: Request) {
       crypto_price_display_unit: body.cryptoPriceDisplayUnit || 'standard',
       crypto_payment_timeout_minutes: body.cryptoPaymentTimeoutMinutes || 30,
       crypto_price_buffer_percent: body.cryptoPriceBufferPercent || 0.5,
+
+      // Tax
+      tax_enabled: body.taxEnabled ?? false,
+      tax_percentage: body.taxPercentage ?? 0,
+      tax_display_mode: body.taxDisplayMode || 'inclusive',
+      tax_label: body.taxLabel || 'VAT',
+
+      // Tips
+      tips_enabled: body.tipsEnabled ?? false,
+      tip_presets: body.tipPresets || [10, 15, 20],
+      tip_allow_custom: body.tipAllowCustom ?? true,
+      tip_calculation_base: body.tipCalculationBase || 'pre_tax',
+
+      // Service Charge
+      service_charge_enabled: body.serviceChargeEnabled ?? false,
+      service_charge_percentage: body.serviceChargePercentage ?? 0,
+      service_charge_label: body.serviceChargeLabel || 'Service Charge',
+      service_charge_calculation_base: body.serviceChargeCalculationBase || 'pre_tax',
 
       updated_at: new Date().toISOString(),
     };

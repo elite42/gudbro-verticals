@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { CreditCard, Wallet, Loader2, Check, AlertCircle } from 'lucide-react';
+import { Percent, HandCoins, Receipt } from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { CryptoWalletInput } from '@/components/settings/CryptoWalletInput';
@@ -37,6 +38,21 @@ interface PaymentSettings {
   cryptoShowPricesInMenu: boolean;
   cryptoPriceDisplayUnit: 'standard' | 'milli' | 'micro';
   cryptoPaymentTimeoutMinutes: number;
+  // Tax
+  taxEnabled: boolean;
+  taxPercentage: number;
+  taxDisplayMode: 'inclusive' | 'exclusive';
+  taxLabel: string;
+  // Tips
+  tipsEnabled: boolean;
+  tipPresets: number[];
+  tipAllowCustom: boolean;
+  tipCalculationBase: 'pre_tax' | 'post_tax';
+  // Service Charge
+  serviceChargeEnabled: boolean;
+  serviceChargePercentage: number;
+  serviceChargeLabel: string;
+  serviceChargeCalculationBase: 'pre_tax' | 'post_tax';
 }
 
 interface SupportedCrypto {
@@ -59,7 +75,7 @@ export default function PaymentsSettingsPage() {
   const { brand, location } = useTenant();
   const merchantId = location?.id || brand?.id;
 
-  const [activeTab, setActiveTab] = useState<'fiat' | 'crypto'>('crypto');
+  const [activeTab, setActiveTab] = useState<'fiat' | 'crypto' | 'taxTips'>('crypto');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -80,6 +96,21 @@ export default function PaymentsSettingsPage() {
     cryptoShowPricesInMenu: false,
     cryptoPriceDisplayUnit: 'milli',
     cryptoPaymentTimeoutMinutes: 30,
+    // Tax
+    taxEnabled: false,
+    taxPercentage: 0,
+    taxDisplayMode: 'inclusive',
+    taxLabel: 'VAT',
+    // Tips
+    tipsEnabled: false,
+    tipPresets: [10, 15, 20],
+    tipAllowCustom: true,
+    tipCalculationBase: 'pre_tax',
+    // Service Charge
+    serviceChargeEnabled: false,
+    serviceChargePercentage: 0,
+    serviceChargeLabel: 'Service Charge',
+    serviceChargeCalculationBase: 'pre_tax',
   });
 
   // Load settings on mount
@@ -209,6 +240,17 @@ export default function PaymentsSettingsPage() {
         >
           <Wallet className="h-4 w-4" />
           {t('tabs.crypto')} ({enabledCryptoCount})
+        </button>
+        <button
+          onClick={() => setActiveTab('taxTips')}
+          className={`flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+            activeTab === 'taxTips'
+              ? 'bg-white text-gray-900 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
+          }`}
+        >
+          <Percent className="h-4 w-4" weight="duotone" />
+          {t('tabs.taxTips')}
         </button>
       </div>
 
@@ -630,6 +672,518 @@ export default function PaymentsSettingsPage() {
                 </div>
               </div>
             </>
+          )}
+        </div>
+      )}
+
+      {/* ================================================================ */}
+      {/* TAX & TIPS TAB */}
+      {/* ================================================================ */}
+      {activeTab === 'taxTips' && (
+        <div className="space-y-6">
+          {/* Info Banner */}
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+            <div className="flex gap-3">
+              <Receipt className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" weight="duotone" />
+              <p className="text-sm text-emerald-800">{t('taxTips.infoBanner')}</p>
+            </div>
+          </div>
+
+          {/* ======================== TAX SECTION ======================== */}
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div className="border-b border-gray-100 bg-gray-50 px-5 py-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                  <Percent className="h-5 w-5 text-blue-600" weight="duotone" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">{t('taxTips.tax.title')}</h3>
+                  <p className="text-sm text-gray-500">{t('taxTips.tax.description')}</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4 p-5">
+              {/* Enable Tax */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-medium text-gray-900">{t('taxTips.tax.enable')}</span>
+                  <p className="text-sm text-gray-500">{t('taxTips.tax.enableDesc')}</p>
+                </div>
+                <label className="relative inline-flex cursor-pointer items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.taxEnabled}
+                    onChange={(e) =>
+                      setSettings((prev) => ({ ...prev, taxEnabled: e.target.checked }))
+                    }
+                    className="peer sr-only"
+                  />
+                  <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300"></div>
+                </label>
+              </div>
+
+              {settings.taxEnabled && (
+                <>
+                  {/* Tax Percentage */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        {t('taxTips.tax.percentage')}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          min={0}
+                          max={100}
+                          step={0.01}
+                          value={settings.taxPercentage}
+                          onChange={(e) =>
+                            setSettings((prev) => ({
+                              ...prev,
+                              taxPercentage: parseFloat(e.target.value) || 0,
+                            }))
+                          }
+                          placeholder={t('taxTips.tax.percentagePlaceholder')}
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-8 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                          %
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        {t('taxTips.tax.label')}
+                      </label>
+                      <input
+                        type="text"
+                        value={settings.taxLabel}
+                        onChange={(e) =>
+                          setSettings((prev) => ({ ...prev, taxLabel: e.target.value }))
+                        }
+                        placeholder={t('taxTips.tax.labelPlaceholder')}
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                      />
+                      <p className="mt-1 text-xs text-gray-500">{t('taxTips.tax.labelHint')}</p>
+                    </div>
+                  </div>
+
+                  {/* Display Mode */}
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                      {t('taxTips.tax.displayMode')}
+                    </label>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() =>
+                          setSettings((prev) => ({ ...prev, taxDisplayMode: 'inclusive' }))
+                        }
+                        className={`flex-1 rounded-lg border-2 px-4 py-3 text-left transition-colors ${
+                          settings.taxDisplayMode === 'inclusive'
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <div className="font-semibold text-gray-900">
+                          {t('taxTips.tax.inclusive')}
+                        </div>
+                        <div className="mt-1 text-xs text-gray-500">€10.00 = €10.00</div>
+                      </button>
+                      <button
+                        onClick={() =>
+                          setSettings((prev) => ({ ...prev, taxDisplayMode: 'exclusive' }))
+                        }
+                        className={`flex-1 rounded-lg border-2 px-4 py-3 text-left transition-colors ${
+                          settings.taxDisplayMode === 'exclusive'
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <div className="font-semibold text-gray-900">
+                          {t('taxTips.tax.exclusive')}
+                        </div>
+                        <div className="mt-1 text-xs text-gray-500">
+                          €10.00 + {settings.taxPercentage}% = €
+                          {(10 * (1 + settings.taxPercentage / 100)).toFixed(2)}
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* ======================== TIPS SECTION ======================== */}
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div className="border-b border-gray-100 bg-gray-50 px-5 py-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100">
+                  <HandCoins className="h-5 w-5 text-amber-600" weight="duotone" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">{t('taxTips.tips.title')}</h3>
+                  <p className="text-sm text-gray-500">{t('taxTips.tips.description')}</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4 p-5">
+              {/* Enable Tips */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-medium text-gray-900">{t('taxTips.tips.enable')}</span>
+                  <p className="text-sm text-gray-500">{t('taxTips.tips.enableDesc')}</p>
+                </div>
+                <label className="relative inline-flex cursor-pointer items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.tipsEnabled}
+                    onChange={(e) =>
+                      setSettings((prev) => ({ ...prev, tipsEnabled: e.target.checked }))
+                    }
+                    className="peer sr-only"
+                  />
+                  <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-amber-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300"></div>
+                </label>
+              </div>
+
+              {settings.tipsEnabled && (
+                <>
+                  {/* Tip Presets */}
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                      {t('taxTips.tips.presets')}
+                    </label>
+                    <p className="mb-2 text-xs text-gray-500">{t('taxTips.tips.presetsDesc')}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {settings.tipPresets.map((preset, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-1 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2"
+                        >
+                          <input
+                            type="number"
+                            min={1}
+                            max={100}
+                            value={preset}
+                            onChange={(e) => {
+                              const newPresets = [...settings.tipPresets];
+                              newPresets[idx] = parseInt(e.target.value) || 0;
+                              setSettings((prev) => ({ ...prev, tipPresets: newPresets }));
+                            }}
+                            className="w-12 border-none bg-transparent text-center font-semibold text-amber-700 focus:outline-none"
+                          />
+                          <span className="text-amber-600">%</span>
+                          <button
+                            onClick={() => {
+                              const newPresets = settings.tipPresets.filter((_, i) => i !== idx);
+                              setSettings((prev) => ({ ...prev, tipPresets: newPresets }));
+                            }}
+                            className="ml-1 text-amber-400 hover:text-amber-600"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                      {settings.tipPresets.length < 4 && (
+                        <button
+                          onClick={() => {
+                            setSettings((prev) => ({
+                              ...prev,
+                              tipPresets: [...prev.tipPresets, 25],
+                            }));
+                          }}
+                          className="flex items-center gap-1 rounded-lg border-2 border-dashed border-gray-300 px-3 py-2 text-sm text-gray-500 hover:border-amber-400 hover:text-amber-600"
+                        >
+                          + Add
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Allow Custom */}
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="font-medium text-gray-900">
+                        {t('taxTips.tips.allowCustom')}
+                      </span>
+                      <p className="text-sm text-gray-500">{t('taxTips.tips.allowCustomDesc')}</p>
+                    </div>
+                    <label className="relative inline-flex cursor-pointer items-center">
+                      <input
+                        type="checkbox"
+                        checked={settings.tipAllowCustom}
+                        onChange={(e) =>
+                          setSettings((prev) => ({ ...prev, tipAllowCustom: e.target.checked }))
+                        }
+                        className="peer sr-only"
+                      />
+                      <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-amber-500 peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+                    </label>
+                  </div>
+
+                  {/* Calculation Base */}
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                      {t('taxTips.tips.calculationBase')}
+                    </label>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() =>
+                          setSettings((prev) => ({ ...prev, tipCalculationBase: 'pre_tax' }))
+                        }
+                        className={`flex-1 rounded-lg border-2 px-4 py-2 text-center transition-colors ${
+                          settings.tipCalculationBase === 'pre_tax'
+                            ? 'border-amber-500 bg-amber-50 font-medium text-amber-700'
+                            : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                        }`}
+                      >
+                        {t('taxTips.tips.preTax')}
+                      </button>
+                      <button
+                        onClick={() =>
+                          setSettings((prev) => ({ ...prev, tipCalculationBase: 'post_tax' }))
+                        }
+                        className={`flex-1 rounded-lg border-2 px-4 py-2 text-center transition-colors ${
+                          settings.tipCalculationBase === 'post_tax'
+                            ? 'border-amber-500 bg-amber-50 font-medium text-amber-700'
+                            : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                        }`}
+                      >
+                        {t('taxTips.tips.postTax')}
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* ======================== SERVICE CHARGE SECTION ======================== */}
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div className="border-b border-gray-100 bg-gray-50 px-5 py-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
+                  <Receipt className="h-5 w-5 text-purple-600" weight="duotone" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">
+                    {t('taxTips.serviceCharge.title')}
+                  </h3>
+                  <p className="text-sm text-gray-500">{t('taxTips.serviceCharge.description')}</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4 p-5">
+              {/* Enable Service Charge */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-medium text-gray-900">
+                    {t('taxTips.serviceCharge.enable')}
+                  </span>
+                  <p className="text-sm text-gray-500">{t('taxTips.serviceCharge.enableDesc')}</p>
+                </div>
+                <label className="relative inline-flex cursor-pointer items-center">
+                  <input
+                    type="checkbox"
+                    checked={settings.serviceChargeEnabled}
+                    onChange={(e) =>
+                      setSettings((prev) => ({ ...prev, serviceChargeEnabled: e.target.checked }))
+                    }
+                    className="peer sr-only"
+                  />
+                  <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-purple-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300"></div>
+                </label>
+              </div>
+
+              {settings.serviceChargeEnabled && (
+                <>
+                  {/* Service Charge Percentage and Label */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        {t('taxTips.serviceCharge.percentage')}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          min={0}
+                          max={100}
+                          step={0.01}
+                          value={settings.serviceChargePercentage}
+                          onChange={(e) =>
+                            setSettings((prev) => ({
+                              ...prev,
+                              serviceChargePercentage: parseFloat(e.target.value) || 0,
+                            }))
+                          }
+                          placeholder={t('taxTips.serviceCharge.percentagePlaceholder')}
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-8 focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                          %
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        {t('taxTips.serviceCharge.label')}
+                      </label>
+                      <input
+                        type="text"
+                        value={settings.serviceChargeLabel}
+                        onChange={(e) =>
+                          setSettings((prev) => ({ ...prev, serviceChargeLabel: e.target.value }))
+                        }
+                        placeholder={t('taxTips.serviceCharge.labelPlaceholder')}
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-purple-500 focus:ring-2 focus:ring-purple-500"
+                      />
+                      <p className="mt-1 text-xs text-gray-500">
+                        {t('taxTips.serviceCharge.labelHint')}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Calculation Base */}
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-gray-700">
+                      {t('taxTips.serviceCharge.calculationBase')}
+                    </label>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() =>
+                          setSettings((prev) => ({
+                            ...prev,
+                            serviceChargeCalculationBase: 'pre_tax',
+                          }))
+                        }
+                        className={`flex-1 rounded-lg border-2 px-4 py-2 text-center transition-colors ${
+                          settings.serviceChargeCalculationBase === 'pre_tax'
+                            ? 'border-purple-500 bg-purple-50 font-medium text-purple-700'
+                            : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                        }`}
+                      >
+                        {t('taxTips.serviceCharge.preTax')}
+                      </button>
+                      <button
+                        onClick={() =>
+                          setSettings((prev) => ({
+                            ...prev,
+                            serviceChargeCalculationBase: 'post_tax',
+                          }))
+                        }
+                        className={`flex-1 rounded-lg border-2 px-4 py-2 text-center transition-colors ${
+                          settings.serviceChargeCalculationBase === 'post_tax'
+                            ? 'border-purple-500 bg-purple-50 font-medium text-purple-700'
+                            : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                        }`}
+                      >
+                        {t('taxTips.serviceCharge.postTax')}
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* ======================== PREVIEW SECTION ======================== */}
+          {(settings.taxEnabled || settings.tipsEnabled || settings.serviceChargeEnabled) && (
+            <div className="rounded-xl border border-gray-200 bg-white p-5">
+              <h3 className="mb-4 font-semibold text-gray-900">{t('taxTips.preview.title')}</h3>
+              <div className="rounded-lg bg-gray-50 p-4 font-mono text-sm">
+                <div className="flex justify-between py-1">
+                  <span className="text-gray-600">{t('taxTips.preview.subtotal')}</span>
+                  <span className="text-gray-900">€25.00</span>
+                </div>
+                {settings.taxEnabled && settings.taxDisplayMode === 'exclusive' && (
+                  <div className="flex justify-between py-1">
+                    <span className="text-gray-600">
+                      {settings.taxLabel} ({settings.taxPercentage}%)
+                    </span>
+                    <span className="text-gray-900">
+                      €{((25 * settings.taxPercentage) / 100).toFixed(2)}
+                    </span>
+                  </div>
+                )}
+                {settings.taxEnabled && settings.taxDisplayMode === 'inclusive' && (
+                  <div className="flex justify-between py-1 text-xs text-gray-400">
+                    <span>
+                      {settings.taxLabel} {t('taxTips.preview.taxIncluded')}
+                    </span>
+                    <span>€{(25 - 25 / (1 + settings.taxPercentage / 100)).toFixed(2)}</span>
+                  </div>
+                )}
+                {settings.serviceChargeEnabled && (
+                  <div className="flex justify-between py-1">
+                    <span className="text-gray-600">
+                      {settings.serviceChargeLabel} ({settings.serviceChargePercentage}%)
+                    </span>
+                    <span className="text-gray-900">
+                      €
+                      {(
+                        ((settings.serviceChargeCalculationBase === 'post_tax' &&
+                        settings.taxDisplayMode === 'exclusive'
+                          ? 25 * (1 + settings.taxPercentage / 100)
+                          : 25) *
+                          settings.serviceChargePercentage) /
+                        100
+                      ).toFixed(2)}
+                    </span>
+                  </div>
+                )}
+                {settings.tipsEnabled && (
+                  <div className="flex justify-between py-1">
+                    <span className="text-gray-600">{t('taxTips.preview.tip')} (15%)</span>
+                    <span className="text-gray-900">
+                      €
+                      {(
+                        (settings.tipCalculationBase === 'post_tax' &&
+                        settings.taxDisplayMode === 'exclusive'
+                          ? 25 * (1 + settings.taxPercentage / 100)
+                          : 25) * 0.15
+                      ).toFixed(2)}
+                    </span>
+                  </div>
+                )}
+                <div className="mt-2 border-t border-gray-300 pt-2">
+                  <div className="flex justify-between font-bold">
+                    <span className="text-gray-900">{t('taxTips.preview.total')}</span>
+                    <span className="text-green-700">
+                      €
+                      {(() => {
+                        let total = 25;
+                        const taxAmount =
+                          settings.taxEnabled && settings.taxDisplayMode === 'exclusive'
+                            ? (25 * settings.taxPercentage) / 100
+                            : 0;
+                        total += taxAmount;
+
+                        const serviceChargeBase =
+                          settings.serviceChargeCalculationBase === 'post_tax' &&
+                          settings.taxDisplayMode === 'exclusive'
+                            ? 25 + taxAmount
+                            : 25;
+                        const serviceChargeAmount = settings.serviceChargeEnabled
+                          ? (serviceChargeBase * settings.serviceChargePercentage) / 100
+                          : 0;
+                        total += serviceChargeAmount;
+
+                        const tipBase =
+                          settings.tipCalculationBase === 'post_tax' &&
+                          settings.taxDisplayMode === 'exclusive'
+                            ? 25 + taxAmount
+                            : 25;
+                        const tipAmount = settings.tipsEnabled ? tipBase * 0.15 : 0;
+                        total += tipAmount;
+
+                        return total.toFixed(2);
+                      })()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       )}

@@ -37,22 +37,53 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const supabase = createClient();
 
   /**
+   * Fetch user role from database
+   */
+  const fetchUserRole = useCallback(async (supabaseUserData: User) => {
+    try {
+      const response = await fetch('/api/auth/role');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          return {
+            role: data.role as UserRole,
+            permissions: data.permissions as Permission[],
+          };
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+    }
+    // Fallback to staff role if fetch fails
+    return {
+      role: 'staff' as UserRole,
+      permissions: ROLE_PERMISSIONS.staff,
+    };
+  }, []);
+
+  /**
    * Check Supabase session and map to AuthUser
    */
   const checkSupabaseSession = useCallback(async () => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (session?.user) {
         setSupabaseUser(session.user);
-        // Map Supabase user to AuthUser
-        // TODO: In production, fetch role from user_metadata or database
+
+        // Fetch actual role from database
+        const { role, permissions } = await fetchUserRole(session.user);
+
+        // Map Supabase user to AuthUser with real role
         setUser({
           id: session.user.id,
           email: session.user.email || '',
-          name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
+          name:
+            session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
           avatarUrl: session.user.user_metadata?.avatar_url,
-          role: 'business_owner', // Default role - should come from DB
-          permissions: ROLE_PERMISSIONS.business_owner,
+          role,
+          permissions,
         });
       }
     } catch (error) {
@@ -60,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, [supabase.auth]);
+  }, [supabase.auth, fetchUserRole]);
 
   /**
    * Initialize auth state on mount
@@ -91,16 +122,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkSupabaseSession();
 
     // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
         setSupabaseUser(session.user);
+
+        // Fetch actual role from database
+        const { role, permissions } = await fetchUserRole(session.user);
+
         setUser({
           id: session.user.id,
           email: session.user.email || '',
-          name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
+          name:
+            session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
           avatarUrl: session.user.user_metadata?.avatar_url,
-          role: 'business_owner',
-          permissions: ROLE_PERMISSIONS.business_owner,
+          role,
+          permissions,
         });
       } else {
         setSupabaseUser(null);
@@ -113,7 +151,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       subscription.unsubscribe();
     };
-  }, [checkSupabaseSession, supabase.auth, isDevMode]);
+  }, [checkSupabaseSession, supabase.auth, isDevMode, fetchUserRole]);
 
   /**
    * Sign out current user
@@ -168,7 +206,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const account = DEV_ACCOUNTS.find(a => a.id === accountId);
+    const account = DEV_ACCOUNTS.find((a) => a.id === accountId);
     if (account) {
       devLogin(account);
       // Force page reload to update middleware context
@@ -182,11 +220,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const hasAnyPermission = (permissions: Permission[]): boolean => {
-    return permissions.some(p => hasPermission(p));
+    return permissions.some((p) => hasPermission(p));
   };
 
   const hasAllPermissions = (permissions: Permission[]): boolean => {
-    return permissions.every(p => hasPermission(p));
+    return permissions.every((p) => hasPermission(p));
   };
 
   const isRole = (role: UserRole): boolean => {
