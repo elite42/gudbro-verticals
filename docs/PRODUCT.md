@@ -4,8 +4,8 @@
 > Questo documento mi permette di valutare features e decisioni da più prospettive,
 > non solo tecnica ma anche operativa, umana, competitiva e di business.
 >
-> **Last Updated:** 2026-01-11
-> **Version:** 1.6
+> **Last Updated:** 2026-01-23
+> **Version:** 1.7
 
 ---
 
@@ -777,20 +777,20 @@ Organization (Catena/Gruppo)
 
 **52 pagine | ~17,700 LOC | 12 aree funzionali**
 
-| Area                   | Pagine | Capabilities Chiave                                                                                           |
-| ---------------------- | ------ | ------------------------------------------------------------------------------------------------------------- |
-| **Dashboard Core**     | 6      | Overview KPI, Analytics centralizzata, AI Co-Manager chat, Account management, Billing                        |
-| **Content Management** | 12     | Menu editor completo (6 tabs), Recipe library, Ingredients (2548), Categories, Modifiers, Wines, Menu Builder |
-| **Marketing**          | 4      | Promozioni con QR 2-step strategy, Loyalty program (4 tier), Events, Gamification challenges                  |
-| **Orders**             | 2      | Order management realtime, Kitchen Display System (KDS)                                                       |
-| **QR Codes**           | 1      | Quick create, 5 types (Table/Takeaway/Delivery/Promo/Event), Batch ops, Analytics                             |
-| **Food Costs**         | 2      | Profit margin tracking (thresholds), Ingredient cost management (multi-currency)                              |
-| **Settings**           | 9      | General, Payments (Fiat+Crypto), Social/Delivery platforms, Hours, Languages, Calendar, Auth, Currency        |
-| **Customers**          | 3      | Customer list, Followers analytics, Feedback management                                                       |
-| **Team**               | 3      | Staff management, Performance tracking, Translations (CSV import/export)                                      |
-| **Standalone**         | 6      | Login (Email/Google/Dev), Products, Catalog, Menu Import (AI), Platform settings                              |
-| **Onboarding**         | 1      | Wizard 5-step (Account→Org→Brand→Location→Review)                                                             |
-| **Public (QR/WiFi)**   | 5      | QR error states (expired/inactive/limit/not-found), WiFi connection helper                                    |
+| Area                   | Pagine | Capabilities Chiave                                                                                            |
+| ---------------------- | ------ | -------------------------------------------------------------------------------------------------------------- |
+| **Dashboard Core**     | 6      | Overview KPI, Analytics centralizzata, AI Co-Manager chat, Account management, Billing                         |
+| **Content Management** | 12     | Menu editor completo (6 tabs), Recipe library, Ingredients (2548), Categories, Modifiers, Wines, Menu Builder  |
+| **Marketing**          | 4      | Promozioni con QR 2-step strategy, Loyalty program (4 tier), Events, Gamification challenges                   |
+| **Orders**             | 2      | Order management realtime, Kitchen Display System (KDS)                                                        |
+| **QR Codes**           | 1      | Quick create, 5 types (Table/Takeaway/Delivery/Promo/Event), Batch ops, Analytics                              |
+| **Food Costs**         | 2      | Profit margin tracking (thresholds), Ingredient cost management (multi-currency)                               |
+| **Settings**           | 9      | General, Payments (Fiat+Crypto), Social/Delivery platforms, Hours, Languages, Calendar, Auth, Currency         |
+| **Customers**          | 3      | Customer list, Followers analytics, Feedback management                                                        |
+| **Team**               | 5      | Staff management, Table assignments, Tip distribution, Escalation settings, Performance tracking, Translations |
+| **Standalone**         | 6      | Login (Email/Google/Dev), Products, Catalog, Menu Import (AI), Platform settings                               |
+| **Onboarding**         | 1      | Wizard 5-step (Account→Org→Brand→Location→Review)                                                              |
+| **Public (QR/WiFi)**   | 5      | QR error states (expired/inactive/limit/not-found), WiFi connection helper                                     |
 
 ### 6.2 Capabilities Dettagliate
 
@@ -817,6 +817,10 @@ Organization (Catena/Gruppo)
 - **KDS**: Kanban board, timers, touch-optimized, full-screen mode
 - **Food Costs**: Margin tracking (Excellent >70%, Good 60-70%, Warning 50-60%, Critical <50%)
 - **Team Performance**: Weekly reports, AI suggestions, staff reviews
+- **Staff Assignments**: Manager assigns tables/sections, self-assign via QR, takeover with confirmation
+- **Hot Actions**: "Call waiter" / "Request bill" from customer PWA, auto-assigned to responsible staff
+- **Escalation System**: Configurable alerts (reminder, manager notification, auto-reassign, critical alert) with presets (minimal/soft/standard/strict/custom)
+- **Tip Distribution**: Individual or pool mode, custom percentages by role, weekly/biweekly/monthly periods
 
 #### Onboarding & Public
 
@@ -848,6 +852,34 @@ Organization (Catena/Gruppo)
 | Financial Summary   | "Questa settimana +12% vs scorsa"              |
 | Social Media        | "Post suggerito per Instagram"                 |
 | Workflow Automation | "Reminder prenotazioni domani ore 18"          |
+
+### 6.5 Staff PWA (Camerieri)
+
+Mobile-first app per staff operativo, accessibile da `/staff` nel backoffice.
+
+| Route             | Funzione                                                   |
+| ----------------- | ---------------------------------------------------------- |
+| `/staff`          | Dashboard: richieste pendenti, tavoli assegnati, contatori |
+| `/staff/requests` | Lista richieste con filtri (pending/in_progress/completed) |
+| `/staff/scan`     | Scanner QR per auto-assegnazione tavoli                    |
+
+**Funzionalità chiave:**
+
+- **Real-time polling**: Aggiornamento richieste ogni 15-30 secondi
+- **Priority indicators**: Verde (<3min), Giallo (3-5min), Rosso (>5min)
+- **Takeover system**: Quando cameriere B serve tavolo di cameriere A, può scegliere:
+  - "Solo questa richiesta" → gestisce richiesta, tavolo resta ad A
+  - "Prendi in carico il tavolo" → tavolo migra a B per il turno
+- **Offline detection**: Banner warning quando offline
+- **Bottom navigation**: Home, Richieste, Scan QR
+
+**Workflow assegnazioni:**
+
+```
+Manager Assign    → Manager assegna sezioni/tavoli a inizio turno
+Self-Assign (QR)  → Cameriere scansiona QR tavolo → auto-assegnazione
+Takeover          → Cameriere serve tavolo di collega → conferma richiesta
+```
 
 ---
 
@@ -918,6 +950,33 @@ Comportamento CORRETTO (nostro):
 → CTA: "Prenota un tavolo" o "Salva per dopo"
 → Se vuole ordinare: "Scansiona il QR al tavolo quando arrivi"
 → Welcome page: "Benvenuto da Google Maps! 10% sconto prima visita"
+```
+
+### 7.4 Scenario: Cameriere Copre Collega
+
+```
+Situazione:
+- Venerdì sera, locale pieno
+- Mario (cameriere) ha tavoli 1-8 assegnati
+- Mario in pausa bagno
+- Tavolo 5 preme "Chiama Cameriere"
+
+Senza GUDBRO:
+1. Notifica arriva solo a Mario (in bagno)
+2. Cliente aspetta 5+ minuti
+3. Cliente irritato, reclamo
+4. Mario torna, situazione tesa
+
+Con GUDBRO:
+1. Notifica a Mario + visibile a tutti nello Staff PWA
+2. Luigi (collega) vede richiesta tavolo 5, prende in carico
+3. Appare modal: "Tavolo 5 è di Mario. Cosa vuoi fare?"
+   - [Solo questa richiesta] → Luigi serve, tavolo resta a Mario
+   - [Prendi in carico il tavolo] → Tavolo passa a Luigi
+4. Luigi sceglie "Solo questa richiesta"
+5. Cliente servito in 1 minuto
+6. Mario torna, il tavolo è ancora suo
+7. Sistema traccia che Luigi ha aiutato (per mance/performance)
 ```
 
 ---
