@@ -147,8 +147,8 @@ export async function middleware(request: NextRequest) {
     '/verify-2fa', // 2FA verification page (user is logged in but needs 2FA)
   ];
 
-  // API routes that are public
-  const publicApiRoutes = ['/api/auth', '/api/public'];
+  // API routes that are public (have their own auth via CRON_SECRET or are health checks)
+  const publicApiRoutes = ['/api/auth', '/api/public', '/api/health', '/api/test'];
 
   // Check if current path is public
   const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
