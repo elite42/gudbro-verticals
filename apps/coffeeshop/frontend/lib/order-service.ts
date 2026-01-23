@@ -17,7 +17,8 @@ import { orderHistoryStore, Order as HistoryOrder } from './order-history-store'
 
 // Default merchant ID for demo - in production, this comes from QR code or URL
 // Using the default UUID from the schema: 00000000-0000-0000-0000-000000000001
-const DEFAULT_MERCHANT_ID = process.env.NEXT_PUBLIC_MERCHANT_ID || '00000000-0000-0000-0000-000000000001';
+const DEFAULT_MERCHANT_ID =
+  process.env.NEXT_PUBLIC_MERCHANT_ID || '00000000-0000-0000-0000-000000000001';
 
 // Retry configuration
 const MAX_RETRIES = 3;
@@ -68,7 +69,7 @@ const ERROR_MESSAGES: Record<OrderErrorCode, { en: string; vi: string; it: strin
   UNKNOWN_ERROR: {
     en: 'Something went wrong. Please try again or contact support.',
     vi: 'Đã có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ hỗ trợ.',
-    it: 'Si è verificato un errore. Riprova o contatta l\'assistenza.',
+    it: "Si è verificato un errore. Riprova o contatta l'assistenza.",
   },
 };
 
@@ -87,9 +88,15 @@ function createOrderError(
 }
 
 // Sleep helper for retry delays
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
+export type OrderStatus =
+  | 'pending'
+  | 'confirmed'
+  | 'preparing'
+  | 'ready'
+  | 'delivered'
+  | 'cancelled';
 
 // Extended Order type for UI display (combines Supabase and localStorage formats)
 export interface Order {
@@ -274,7 +281,7 @@ async function submitToSupabase(orderData: SubmitOrderData): Promise<SubmittedOr
   }
 
   // 2. Create order items
-  const orderItems = orderData.items.map(item => ({
+  const orderItems = orderData.items.map((item) => ({
     order_id: order.id,
     menu_item_id: null, // We don't have menu_item_id from frontend yet
     item_name: { en: item.dish.name },
@@ -282,15 +289,14 @@ async function submitToSupabase(orderData: SubmitOrderData): Promise<SubmittedOr
     item_image_url: item.dish.image,
     unit_price: item.dish.price,
     quantity: item.quantity,
-    extras: item.extras.map(e => ({ id: e.id, name: e.name, price: e.price })),
+    extras: item.extras.map((e) => ({ id: e.id, name: e.name, price: e.price })),
     extras_total: item.extras.reduce((sum, e) => sum + e.price, 0) * item.quantity,
-    line_total: (item.dish.price + item.extras.reduce((sum, e) => sum + e.price, 0)) * item.quantity,
+    line_total:
+      (item.dish.price + item.extras.reduce((sum, e) => sum + e.price, 0)) * item.quantity,
     item_status: 'pending' as const,
   }));
 
-  const { error: itemsError } = await supabase
-    .from('order_items')
-    .insert(orderItems);
+  const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
 
   if (itemsError) {
     console.error('Error creating order items:', itemsError);
@@ -325,7 +331,7 @@ async function submitToLocalStorage(orderData: SubmitOrderData): Promise<Submitt
 
   // Generate a mock order code
   const orderNumber = orderHistoryStore.count();
-  const letter = String.fromCharCode(65 + Math.floor((orderNumber - 1) / 100) % 6);
+  const letter = String.fromCharCode(65 + (Math.floor((orderNumber - 1) / 100) % 6));
   const num = ((orderNumber - 1) % 100) + 1;
   const orderCode = `${letter}-${num.toString().padStart(3, '0')}`;
 
@@ -348,11 +354,7 @@ export async function getOrderStatus(orderId: string): Promise<OrderStatus | nul
     return localOrder?.status || null;
   }
 
-  const { data, error } = await supabase
-    .from('orders')
-    .select('status')
-    .eq('id', orderId)
-    .single();
+  const { data, error } = await supabase.from('orders').select('status').eq('id', orderId).single();
 
   if (error) {
     console.error('Error fetching order status:', error);
@@ -401,6 +403,33 @@ export function subscribeToOrderStatus(
 /**
  * Get all orders for current session
  */
+// ETA types
+export interface OrderETA {
+  orderId: string;
+  etaMinutes: number;
+  etaRange: { min: number; max: number };
+  confidence: 'high' | 'medium' | 'low';
+  itemsRemaining: number;
+  etaReadyAt: string;
+  message: string;
+}
+
+/**
+ * Get estimated time to completion for an order
+ */
+export async function getOrderETA(orderId: string): Promise<OrderETA | null> {
+  try {
+    const response = await fetch(`/api/orders/${orderId}/eta`);
+    if (!response.ok) {
+      return null;
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching order ETA:', error);
+    return null;
+  }
+}
+
 export async function getSessionOrders(): Promise<Order[]> {
   if (!isSupabaseConfigured || !supabase) {
     // Convert localStorage orders to new Order format
@@ -415,12 +444,13 @@ export async function getSessionOrders(): Promise<Order[]> {
       customer_name: o.table_context.customer_name,
       consumption_type: o.table_context.consumption_type,
       service_type: o.table_context.service_type,
-      items: o.items.map(item => ({
+      items: o.items.map((item) => ({
         name: item.dish.name,
         quantity: item.quantity,
-        subtotal: (item.dish.price + item.extras.reduce((sum, e) => sum + e.price, 0)) * item.quantity,
+        subtotal:
+          (item.dish.price + item.extras.reduce((sum, e) => sum + e.price, 0)) * item.quantity,
         image: item.dish.image,
-        extras: item.extras.map(e => ({ name: e.name, price: e.price })),
+        extras: item.extras.map((e) => ({ name: e.name, price: e.price })),
       })),
     }));
   }
@@ -430,7 +460,8 @@ export async function getSessionOrders(): Promise<Order[]> {
   // Fetch orders with items
   const { data, error } = await supabase
     .from('orders')
-    .select(`
+    .select(
+      `
       id,
       order_code,
       status,
@@ -448,7 +479,8 @@ export async function getSessionOrders(): Promise<Order[]> {
         item_image_url,
         extras
       )
-    `)
+    `
+    )
     .eq('session_id', sessionId)
     .order('submitted_at', { ascending: false })
     .limit(20);
@@ -467,18 +499,19 @@ export async function getSessionOrders(): Promise<Order[]> {
       customer_name: o.table_context.customer_name,
       consumption_type: o.table_context.consumption_type,
       service_type: o.table_context.service_type,
-      items: o.items.map(item => ({
+      items: o.items.map((item) => ({
         name: item.dish.name,
         quantity: item.quantity,
-        subtotal: (item.dish.price + item.extras.reduce((sum, e) => sum + e.price, 0)) * item.quantity,
+        subtotal:
+          (item.dish.price + item.extras.reduce((sum, e) => sum + e.price, 0)) * item.quantity,
         image: item.dish.image,
-        extras: item.extras.map(e => ({ name: e.name, price: e.price })),
+        extras: item.extras.map((e) => ({ name: e.name, price: e.price })),
       })),
     }));
   }
 
   // Convert Supabase data to Order format
-  return (data || []).map(o => ({
+  return (data || []).map((o) => ({
     id: o.id,
     order_code: o.order_code,
     status: o.status as OrderStatus,
@@ -488,12 +521,20 @@ export async function getSessionOrders(): Promise<Order[]> {
     customer_name: o.customer_name,
     consumption_type: o.consumption_type as 'dine-in' | 'takeaway',
     service_type: o.service_type as 'table-service' | 'counter-pickup' | 'takeaway',
-    items: (o.order_items || []).map((item: { item_name: { en?: string }; quantity: number; line_total: string | number; item_image_url?: string; extras?: { name: string; price: number }[] }) => ({
-      name: item.item_name?.en || 'Item',
-      quantity: item.quantity,
-      subtotal: parseFloat(String(item.line_total)),
-      image: item.item_image_url,
-      extras: item.extras || [],
-    })),
+    items: (o.order_items || []).map(
+      (item: {
+        item_name: { en?: string };
+        quantity: number;
+        line_total: string | number;
+        item_image_url?: string;
+        extras?: { name: string; price: number }[];
+      }) => ({
+        name: item.item_name?.en || 'Item',
+        quantity: item.quantity,
+        subtotal: parseFloat(String(item.line_total)),
+        image: item.item_image_url,
+        extras: item.extras || [],
+      })
+    ),
   }));
 }

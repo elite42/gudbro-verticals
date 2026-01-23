@@ -7,6 +7,48 @@
 
 ---
 
+## 2026-01-24
+
+| ID           | Feature                | Descrizione                                                                                                                                        | Completato |
+| ------------ | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| ORDER-TIMING | Order Timing Analytics | Sistema completo per tracking tempi preparazione: item-level timestamps, station attribution, analytics dashboard, ETA prediction per customer PWA | 2026-01-24 |
+
+> **ORDER-TIMING Details:**
+>
+> **4 Fasi Implementate:**
+>
+> 1. **Data Collection** - Tabella `order_item_status_history`, trigger auto-log, colonne timestamps su `order_items`
+> 2. **Analytics Foundation** - Materialized views (prep_time_summary, hourly, item_30d), Trigger.dev aggregation job
+> 3. **Analytics Dashboard** - `/analytics/prep-time` con cards, chart, slowest/fastest items, hourly heatmap
+> 4. **ETA Prediction** - Service predizione, API endpoint, display ETA su Customer PWA con aggiornamento real-time
+>
+> **Migrations:**
+>
+> - 074: `order_item_status_history` table, trigger, timestamps columns
+> - 075: Materialized views for analytics
+> - 076: Daily aggregates table with compute functions
+>
+> **Files Creati:**
+>
+> - `apps/backoffice/lib/prep-time-analytics-service.ts`
+> - `apps/backoffice/lib/eta-prediction-service.ts`
+> - `apps/backoffice/trigger/analytics/aggregate-prep-time.ts`
+> - `apps/backoffice/app/(dashboard)/analytics/prep-time/page.tsx`
+> - `apps/backoffice/app/api/analytics/prep-time/route.ts`
+> - `apps/backoffice/app/api/orders/items/[itemId]/status/route.ts`
+> - `apps/backoffice/app/api/orders/items/[itemId]/history/route.ts`
+> - `apps/backoffice/app/api/orders/[orderId]/eta/route.ts`
+> - `apps/coffeeshop/frontend/app/api/orders/[orderId]/eta/route.ts`
+>
+> **Files Modificati:**
+>
+> - Kitchen display: per-item status tracking con auto-station detection
+> - Bar display: per-item controls con 'bar' station
+> - Customer PWA orders page: ETA display con confidence e auto-refresh
+> - `refresh-views.ts`: nuove materialized views nel job
+
+---
+
 ## 2026-01-23
 
 | ID                | Feature                 | Descrizione                                                                                                                       | Completato |

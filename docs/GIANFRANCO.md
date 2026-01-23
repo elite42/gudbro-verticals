@@ -3,8 +3,8 @@
 > **Scopo:** Documento vivente per capire meglio Gianfranco e collaborare in modo più efficace.
 > Aggiornato continuamente basandosi sulle interazioni.
 >
-> **Last Updated:** 2026-01-11
-> **Version:** 1.3
+> **Last Updated:** 2026-01-24
+> **Version:** 1.4
 
 ---
 
@@ -108,6 +108,20 @@
 - Tailwind CSS
 - Vercel per deploy
 - MCP servers per automazione
+
+### UI/UX Development (REGOLA OBBLIGATORIA)
+
+> **IMPORTANTE:** Quando lavoro su UI/UX, DEVO usare la skill `frontend-design`.
+
+| Quando                            | Azione                                         |
+| --------------------------------- | ---------------------------------------------- |
+| Nuova pagina/componente UI        | Invocare skill `frontend-design`               |
+| Redesign significativo            | Invocare skill `frontend-design`               |
+| Componenti customer-facing        | Invocare skill `frontend-design`               |
+| Piccole modifiche a UI esistente  | Seguire pattern esistenti (no skill richiesta) |
+| Fix bug UI / aggiustamenti minori | Seguire pattern esistenti (no skill richiesta) |
+
+**Motivo:** La skill garantisce design distintivi e di alta qualità, evitando l'estetica generica "AI slop".
 
 ---
 
@@ -235,6 +249,7 @@ Questo pattern è molto utile per feature review e debugging.
 
 | Data       | Aggiornamento                                                           |
 | ---------- | ----------------------------------------------------------------------- |
+| 2026-01-24 | Aggiunto: Regola obbligatoria skill `frontend-design` per lavoro UI/UX  |
 | 2026-01-11 | Aggiunto: Sezione 10 "Guardrails - Quando Farmi Rallentare"             |
 | 2026-01-10 | Aggiunto: Location (Da Nang, Vietnam)                                   |
 | 2026-01-10 | Aggiunto: "Come Pensa Meglio" (cammina, osserva, emergente, psicologia) |

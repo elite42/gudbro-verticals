@@ -1,5 +1,13 @@
 'use client';
 
+/**
+ * Bar Display
+ *
+ * Dedicated display for bar/beverage orders.
+ * Similar to Kitchen Display but filtered for drinks.
+ * Auto-sets station to 'bar' for all item updates.
+ */
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
@@ -13,9 +21,10 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
 type ItemStatus = 'pending' | 'preparing' | 'ready' | 'served';
 type LayoutMode = 'grid' | 'columns';
-type ViewMode = 'order' | 'item'; // NEW: Order-level or Item-level view
+type FilterMode = 'beverages' | 'all';
+type ViewMode = 'order' | 'item';
 
-const STATION = 'kitchen'; // Auto-set station for this display
+const STATION = 'bar'; // Auto-set station for this display
 
 interface OrderItem {
   id: string;
@@ -27,6 +36,8 @@ interface OrderItem {
   station: string | null;
   preparing_at: string | null;
   ready_at: string | null;
+  category?: string;
+  is_beverage?: boolean;
 }
 
 interface Order {
@@ -44,7 +55,7 @@ interface Order {
   isNew?: boolean;
 }
 
-// Generate alert sound using Web Audio API
+// Generate alert sound - different tone for bar
 function playAlertSound(audioContext: AudioContext | null) {
   if (!audioContext) return;
 
@@ -54,27 +65,27 @@ function playAlertSound(audioContext: AudioContext | null) {
   oscillator.connect(gainNode);
   gainNode.connect(audioContext.destination);
 
-  oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
+  oscillator.frequency.setValueAtTime(1046.5, audioContext.currentTime);
   oscillator.type = 'sine';
 
-  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+  gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
 
   oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.5);
+  oscillator.stop(audioContext.currentTime + 0.4);
 
   setTimeout(() => {
     const osc2 = audioContext.createOscillator();
     const gain2 = audioContext.createGain();
     osc2.connect(gain2);
     gain2.connect(audioContext.destination);
-    osc2.frequency.setValueAtTime(1108.73, audioContext.currentTime);
+    osc2.frequency.setValueAtTime(1318.51, audioContext.currentTime);
     osc2.type = 'sine';
-    gain2.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+    gain2.gain.setValueAtTime(0.25, audioContext.currentTime);
+    gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
     osc2.start(audioContext.currentTime);
-    osc2.stop(audioContext.currentTime + 0.4);
-  }, 150);
+    osc2.stop(audioContext.currentTime + 0.3);
+  }, 120);
 }
 
 function getElapsedMinutes(dateString: string): number {
@@ -90,11 +101,11 @@ function getElapsedSeconds(dateString: string): number {
 }
 
 function getTimerColor(minutes: number, status: OrderStatus | ItemStatus): string {
-  if (status === 'ready') return 'text-green-600';
-  if (minutes > 15) return 'text-red-600';
-  if (minutes > 10) return 'text-orange-600';
-  if (minutes > 5) return 'text-yellow-600';
-  return 'text-gray-600';
+  if (status === 'ready') return 'text-green-400';
+  if (minutes > 10) return 'text-red-400';
+  if (minutes > 5) return 'text-orange-400';
+  if (minutes > 3) return 'text-yellow-400';
+  return 'text-gray-400';
 }
 
 function formatTimer(minutes: number): string {
@@ -114,14 +125,59 @@ function formatTimerSeconds(seconds: number): string {
   return `${hours}h ${mins}m`;
 }
 
-export default function KitchenDisplayPage() {
+// Check if an item is a beverage based on category or name
+function isBeverageItem(item: OrderItem): boolean {
+  if (item.is_beverage) return true;
+  if (item.category) {
+    const beverageCategories = [
+      'beverage',
+      'beverages',
+      'drink',
+      'drinks',
+      'coffee',
+      'tea',
+      'juice',
+      'smoothie',
+      'cocktail',
+      'beer',
+      'wine',
+      'alcohol',
+    ];
+    return beverageCategories.some((cat) => item.category!.toLowerCase().includes(cat));
+  }
+  const name = (item.item_name.en || item.item_name.vi || '').toLowerCase();
+  const beverageKeywords = [
+    'coffee',
+    'tea',
+    'latte',
+    'cappuccino',
+    'espresso',
+    'americano',
+    'juice',
+    'smoothie',
+    'soda',
+    'water',
+    'beer',
+    'wine',
+    'cocktail',
+    'mojito',
+    'margarita',
+    'cà phê',
+    'trà',
+    'nước',
+  ];
+  return beverageKeywords.some((keyword) => name.includes(keyword));
+}
+
+export default function BarDisplayPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [now, setNow] = useState(new Date());
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>('grid');
-  const [viewMode, setViewMode] = useState<ViewMode>('order'); // NEW
+  const [layoutMode, setLayoutMode] = useState<LayoutMode>('columns');
+  const [filterMode, setFilterMode] = useState<FilterMode>('beverages');
+  const [viewMode, setViewMode] = useState<ViewMode>('order');
   const [showSettings, setShowSettings] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const previousOrderIdsRef = useRef<Set<string>>(new Set());
@@ -163,16 +219,27 @@ export default function KitchenDisplayPage() {
             const { data: items } = await supabase
               .from('order_items')
               .select(
-                'id, item_name, quantity, extras, special_instructions, item_status, station, preparing_at, ready_at'
+                'id, item_name, quantity, extras, special_instructions, item_status, station, preparing_at, ready_at, category, is_beverage'
               )
               .eq('order_id', order.id);
             return { ...order, order_items: items || [] };
           })
         );
 
-        // Check for new orders and mark them + play sound
-        const currentIds = new Set(ordersWithItems.map((o) => o.id));
-        const newOrderIds = ordersWithItems
+        // Filter orders that have beverage items (if filter is on)
+        const filteredOrders =
+          filterMode === 'beverages'
+            ? ordersWithItems
+                .map((order) => ({
+                  ...order,
+                  order_items: order.order_items?.filter(isBeverageItem) || [],
+                }))
+                .filter((order) => (order.order_items?.length || 0) > 0)
+            : ordersWithItems;
+
+        // Check for new orders
+        const currentIds = new Set(filteredOrders.map((o) => o.id));
+        const newOrderIds = filteredOrders
           .filter((o) => !previousOrderIdsRef.current.has(o.id) && o.status === 'confirmed')
           .map((o) => o.id);
 
@@ -180,7 +247,7 @@ export default function KitchenDisplayPage() {
           playAlertSound(audioContextRef.current);
         }
 
-        const ordersWithNewFlag = ordersWithItems.map((o) => ({
+        const ordersWithNewFlag = filteredOrders.map((o) => ({
           ...o,
           isNew: newOrderIds.includes(o.id),
         }));
@@ -199,7 +266,7 @@ export default function KitchenDisplayPage() {
         setLoading(false);
       }
     },
-    [soundEnabled]
+    [soundEnabled, filterMode]
   );
 
   // Update ORDER status
@@ -241,7 +308,7 @@ export default function KitchenDisplayPage() {
         }
       }
 
-      // Send push notification when order is ready
+      // Send push notification when ready
       if (newStatus === 'ready') {
         try {
           const { data: orderData } = await supabase
@@ -258,6 +325,7 @@ export default function KitchenDisplayPage() {
                 orderId,
                 sessionId: orderData.session_id,
                 orderCode: order.order_code,
+                message: 'Your drinks are ready! 🍹',
               }),
             }).catch((err) => console.log('[Push] Notification skipped:', err.message));
           }
@@ -266,6 +334,7 @@ export default function KitchenDisplayPage() {
         }
       }
     } catch (err) {
+      // Rollback on error
       console.error('Error updating order status:', err);
       if (newStatus === 'delivered') {
         setOrders((prev) =>
@@ -281,10 +350,9 @@ export default function KitchenDisplayPage() {
     }
   };
 
-  // Update ITEM status (NEW)
+  // Update ITEM status
   const updateItemStatus = async (itemId: string, newStatus: ItemStatus, refetch = true) => {
     try {
-      // Call API to update item status with station tracking
       const response = await fetch(`/api/orders/items/${itemId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -298,7 +366,6 @@ export default function KitchenDisplayPage() {
         throw new Error('Failed to update item status');
       }
 
-      // Refresh orders to get updated item statuses
       if (refetch) {
         await fetchOrders(false);
       }
@@ -324,7 +391,6 @@ export default function KitchenDisplayPage() {
   useEffect(() => {
     fetchOrders(false);
 
-    // Update timer every second for item-level timing
     const timerInterval = setInterval(
       () => {
         setNow(new Date());
@@ -335,7 +401,7 @@ export default function KitchenDisplayPage() {
     const refreshInterval = setInterval(() => fetchOrders(false), 30000);
 
     const channel = supabase
-      .channel('kitchen-orders')
+      .channel('bar-orders')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
         fetchOrders(true);
       })
@@ -387,6 +453,10 @@ export default function KitchenDisplayPage() {
         setLayoutMode((prev) => (prev === 'grid' ? 'columns' : 'grid'));
       }
 
+      if (key.toLowerCase() === 'b') {
+        setFilterMode((prev) => (prev === 'beverages' ? 'all' : 'beverages'));
+      }
+
       if (key.toLowerCase() === 'v') {
         setViewMode((prev) => (prev === 'order' ? 'item' : 'order'));
       }
@@ -415,7 +485,7 @@ export default function KitchenDisplayPage() {
   };
 
   // Item status button component
-  const ItemStatusButton = ({ item, orderId }: { item: OrderItem; orderId: string }) => {
+  const ItemStatusButton = ({ item }: { item: OrderItem }) => {
     const elapsed = item.preparing_at ? getElapsedSeconds(item.preparing_at) : 0;
     const elapsedMinutes = Math.floor(elapsed / 60);
 
@@ -435,9 +505,9 @@ export default function KitchenDisplayPage() {
     const getButtonStyle = () => {
       switch (item.item_status) {
         case 'pending':
-          return 'bg-blue-600 hover:bg-blue-700';
+          return 'bg-cyan-600 hover:bg-cyan-700';
         case 'preparing':
-          return 'bg-orange-600 hover:bg-orange-700';
+          return 'bg-purple-600 hover:bg-purple-700';
         case 'ready':
           return 'bg-green-600';
         case 'served':
@@ -452,7 +522,7 @@ export default function KitchenDisplayPage() {
         case 'pending':
           return '⏳';
         case 'preparing':
-          return '🔥';
+          return '🍹';
         case 'ready':
           return '✓';
         case 'served':
@@ -463,10 +533,10 @@ export default function KitchenDisplayPage() {
     };
 
     return (
-      <div className="flex items-center justify-between rounded-lg bg-gray-800/50 p-2 text-sm">
+      <div className="flex items-center justify-between rounded-lg bg-slate-800/50 p-2 text-sm">
         <div className="flex-1">
           <span className="font-medium text-white">
-            <span className="text-orange-400">{item.quantity}×</span>{' '}
+            <span className="text-purple-400">{item.quantity}×</span>{' '}
             {item.item_name.en || item.item_name.vi}
           </span>
           {item.special_instructions && <span className="ml-1 text-yellow-400">⚠️</span>}
@@ -507,26 +577,31 @@ export default function KitchenDisplayPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-900">
-        <div className="h-16 w-16 animate-spin rounded-full border-b-4 border-orange-500"></div>
+      <div className="flex min-h-screen items-center justify-center bg-slate-900">
+        <div className="h-16 w-16 animate-spin rounded-full border-b-4 border-purple-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 p-4">
+    <div className="min-h-screen bg-slate-900 p-4">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold text-white">Kitchen Display</h1>
-            <InfoTooltip contentKey="pages.kitchenDisplay" kbPageId="kitchen-display" />
+            <h1 className="text-3xl font-bold text-white">🍹 Bar Display</h1>
+            <InfoTooltip contentKey="pages.barDisplay" kbPageId="bar-display" />
           </div>
-          <span className="rounded-full bg-green-600 px-3 py-1 text-sm font-medium text-white">
+          <span className="rounded-full bg-purple-600 px-3 py-1 text-sm font-medium text-white">
             Live
           </span>
+          {filterMode === 'beverages' && (
+            <span className="rounded-full bg-cyan-600 px-3 py-1 text-sm font-medium text-white">
+              Beverages Only
+            </span>
+          )}
           {viewMode === 'item' && (
-            <span className="rounded-full bg-orange-600 px-3 py-1 text-sm font-medium text-white">
+            <span className="rounded-full bg-purple-600 px-3 py-1 text-sm font-medium text-white">
               Per-Item Mode
             </span>
           )}
@@ -541,12 +616,25 @@ export default function KitchenDisplayPage() {
             onClick={() => setViewMode(viewMode === 'order' ? 'item' : 'order')}
             className={`rounded-lg p-2 transition-colors ${
               viewMode === 'item'
-                ? 'bg-orange-700 text-white hover:bg-orange-600'
+                ? 'bg-purple-700 text-white hover:bg-purple-600'
                 : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
             }`}
             title={viewMode === 'order' ? 'Switch to Item Mode (V)' : 'Switch to Order Mode (V)'}
           >
-            {viewMode === 'order' ? '📦' : '🍽️'}
+            {viewMode === 'order' ? '📦' : '🍹'}
+          </button>
+
+          {/* Filter Toggle */}
+          <button
+            onClick={() => setFilterMode(filterMode === 'beverages' ? 'all' : 'beverages')}
+            className={`rounded-lg p-2 transition-colors ${
+              filterMode === 'beverages'
+                ? 'bg-cyan-700 text-white hover:bg-cyan-600'
+                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+            }`}
+            title={filterMode === 'beverages' ? 'Beverages Only (B)' : 'All Items (B)'}
+          >
+            🍹
           </button>
 
           {/* Sound Toggle */}
@@ -554,7 +642,7 @@ export default function KitchenDisplayPage() {
             onClick={() => setSoundEnabled(!soundEnabled)}
             className={`rounded-lg p-2 transition-colors ${
               soundEnabled
-                ? 'bg-green-700 text-white hover:bg-green-600'
+                ? 'bg-purple-700 text-white hover:bg-purple-600'
                 : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
             }`}
             title={soundEnabled ? 'Sound ON (M)' : 'Sound OFF (M)'}
@@ -589,11 +677,11 @@ export default function KitchenDisplayPage() {
           </button>
 
           <a
-            href="/orders/bar"
-            className="hidden rounded-lg bg-purple-800 px-4 py-2 text-white hover:bg-purple-700 sm:block"
-            title="Switch to Bar Display"
+            href="/orders/kitchen"
+            className="hidden rounded-lg bg-orange-800 px-4 py-2 text-white hover:bg-orange-700 sm:block"
+            title="Switch to Kitchen Display"
           >
-            🍹 Bar
+            🍳 Kitchen
           </a>
 
           <a
@@ -607,7 +695,7 @@ export default function KitchenDisplayPage() {
 
       {/* Keyboard Shortcuts Panel */}
       {showSettings && (
-        <div className="mb-6 rounded-xl border border-gray-700 bg-gray-800 p-4">
+        <div className="mb-6 rounded-xl border border-purple-700 bg-slate-800 p-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold text-white">⌨️ Keyboard Shortcuts (Bump Bar)</h3>
             <button
@@ -618,8 +706,8 @@ export default function KitchenDisplayPage() {
             </button>
           </div>
           <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="rounded-lg bg-blue-900/50 p-3">
-              <p className="mb-2 font-medium text-blue-300">Queue → Preparing</p>
+            <div className="rounded-lg bg-cyan-900/50 p-3">
+              <p className="mb-2 font-medium text-cyan-300">Queue → Preparing</p>
               <div className="flex flex-wrap gap-1">
                 {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((k) => (
                   <kbd key={k} className="rounded bg-gray-700 px-2 py-1 text-sm text-white">
@@ -628,8 +716,8 @@ export default function KitchenDisplayPage() {
                 ))}
               </div>
             </div>
-            <div className="rounded-lg bg-orange-900/50 p-3">
-              <p className="mb-2 font-medium text-orange-300">Preparing → Ready</p>
+            <div className="rounded-lg bg-purple-900/50 p-3">
+              <p className="mb-2 font-medium text-purple-300">Preparing → Ready</p>
               <div className="flex flex-wrap gap-1">
                 {['Q', 'W', 'E', 'R', 'T'].map((k) => (
                   <kbd key={k} className="rounded bg-gray-700 px-2 py-1 text-sm text-white">
@@ -657,6 +745,9 @@ export default function KitchenDisplayPage() {
               <kbd className="rounded bg-gray-700 px-2 py-1 text-white">L</kbd> Toggle layout
             </span>
             <span>
+              <kbd className="rounded bg-gray-700 px-2 py-1 text-white">B</kbd> Toggle filter
+            </span>
+            <span>
               <kbd className="rounded bg-gray-700 px-2 py-1 text-white">V</kbd> Toggle view mode
             </span>
             <span>
@@ -668,13 +759,13 @@ export default function KitchenDisplayPage() {
 
       {/* Stats Bar */}
       <div className="mb-6 grid grid-cols-3 gap-4">
-        <div className="rounded-xl border border-blue-700 bg-blue-900/50 p-4 text-center">
-          <p className="text-sm font-medium text-blue-400">Queue</p>
-          <p className="text-4xl font-bold text-blue-300">{confirmedOrders.length}</p>
+        <div className="rounded-xl border border-cyan-700 bg-cyan-900/50 p-4 text-center">
+          <p className="text-sm font-medium text-cyan-400">Queue</p>
+          <p className="text-4xl font-bold text-cyan-300">{confirmedOrders.length}</p>
         </div>
-        <div className="rounded-xl border border-orange-700 bg-orange-900/50 p-4 text-center">
-          <p className="text-sm font-medium text-orange-400">Preparing</p>
-          <p className="text-4xl font-bold text-orange-300">{preparingOrders.length}</p>
+        <div className="rounded-xl border border-purple-700 bg-purple-900/50 p-4 text-center">
+          <p className="text-sm font-medium text-purple-400">Preparing</p>
+          <p className="text-4xl font-bold text-purple-300">{preparingOrders.length}</p>
         </div>
         <div className="rounded-xl border border-green-700 bg-green-900/50 p-4 text-center">
           <p className="text-sm font-medium text-green-400">Ready</p>
@@ -686,8 +777,8 @@ export default function KitchenDisplayPage() {
       {layoutMode === 'columns' ? (
         <div className="grid min-h-[60vh] grid-cols-3 gap-4">
           {/* Queue Column */}
-          <div className="rounded-xl border border-blue-700 bg-blue-900/20 p-3">
-            <h2 className="mb-4 text-center text-xl font-bold text-blue-300">
+          <div className="rounded-xl border border-cyan-700 bg-cyan-900/20 p-3">
+            <h2 className="mb-4 text-center text-xl font-bold text-cyan-300">
               QUEUE ({confirmedOrders.length})
             </h2>
             <div className="space-y-3">
@@ -696,7 +787,7 @@ export default function KitchenDisplayPage() {
                 return (
                   <div
                     key={order.id}
-                    className={`rounded-xl border-2 border-blue-600 bg-blue-900/30 p-3 ${
+                    className={`rounded-xl border-2 border-cyan-600 bg-cyan-900/30 p-3 ${
                       order.isNew ? 'animate-pulse ring-4 ring-yellow-400' : ''
                     }`}
                   >
@@ -713,7 +804,7 @@ export default function KitchenDisplayPage() {
                         {formatTimer(elapsed)}
                       </span>
                     </div>
-                    <p className="mb-2 text-xs text-blue-300">
+                    <p className="mb-2 text-xs text-cyan-300">
                       {order.customer_name || 'Guest'} •{' '}
                       {order.consumption_type === 'takeaway' ? 'TAKE' : 'DINE'}
                       {order.table_number ? ` • T${order.table_number}` : ''}
@@ -721,22 +812,22 @@ export default function KitchenDisplayPage() {
                     <div className="mb-3 space-y-1">
                       {viewMode === 'item' ? (
                         order.order_items?.map((item) => (
-                          <ItemStatusButton key={item.id} item={item} orderId={order.id} />
+                          <ItemStatusButton key={item.id} item={item} />
                         ))
                       ) : (
                         <>
-                          {order.order_items?.slice(0, 3).map((item) => (
+                          {order.order_items?.slice(0, 4).map((item) => (
                             <p key={item.id} className="text-sm text-white">
-                              <span className="text-blue-400">{item.quantity}×</span>{' '}
+                              <span className="text-cyan-400">{item.quantity}×</span>{' '}
                               {item.item_name.en || item.item_name.vi}
                               {item.special_instructions && (
                                 <span className="ml-1 text-yellow-400">⚠️</span>
                               )}
                             </p>
                           ))}
-                          {(order.order_items?.length || 0) > 3 && (
-                            <p className="text-xs text-blue-400">
-                              +{(order.order_items?.length || 0) - 3} more...
+                          {(order.order_items?.length || 0) > 4 && (
+                            <p className="text-xs text-cyan-400">
+                              +{(order.order_items?.length || 0) - 4} more...
                             </p>
                           )}
                         </>
@@ -744,7 +835,7 @@ export default function KitchenDisplayPage() {
                     </div>
                     <button
                       onClick={() => updateOrderStatus(order.id, 'preparing')}
-                      className="w-full rounded-lg bg-orange-600 py-2 font-bold text-white hover:bg-orange-700"
+                      className="w-full rounded-lg bg-purple-600 py-2 font-bold text-white hover:bg-purple-700"
                     >
                       START ALL
                     </button>
@@ -752,14 +843,14 @@ export default function KitchenDisplayPage() {
                 );
               })}
               {confirmedOrders.length === 0 && (
-                <p className="py-8 text-center text-blue-400">No orders in queue</p>
+                <p className="py-8 text-center text-cyan-400">No drinks in queue</p>
               )}
             </div>
           </div>
 
           {/* Preparing Column */}
-          <div className="rounded-xl border border-orange-700 bg-orange-900/20 p-3">
-            <h2 className="mb-4 text-center text-xl font-bold text-orange-300">
+          <div className="rounded-xl border border-purple-700 bg-purple-900/20 p-3">
+            <h2 className="mb-4 text-center text-xl font-bold text-purple-300">
               PREPARING ({preparingOrders.length})
             </h2>
             <div className="space-y-3">
@@ -769,7 +860,7 @@ export default function KitchenDisplayPage() {
                 return (
                   <div
                     key={order.id}
-                    className="rounded-xl border-2 border-orange-500 bg-orange-900/30 p-3"
+                    className="rounded-xl border-2 border-purple-500 bg-purple-900/30 p-3"
                   >
                     <div className="mb-2 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -786,7 +877,7 @@ export default function KitchenDisplayPage() {
                         {formatTimer(elapsed)}
                       </span>
                     </div>
-                    <p className="mb-2 text-xs text-orange-300">
+                    <p className="mb-2 text-xs text-purple-300">
                       {order.customer_name || 'Guest'} •{' '}
                       {order.consumption_type === 'takeaway' ? 'TAKE' : 'DINE'}
                       {order.table_number ? ` • T${order.table_number}` : ''}
@@ -794,11 +885,11 @@ export default function KitchenDisplayPage() {
                     <div className="mb-3 space-y-1">
                       {viewMode === 'item'
                         ? order.order_items?.map((item) => (
-                            <ItemStatusButton key={item.id} item={item} orderId={order.id} />
+                            <ItemStatusButton key={item.id} item={item} />
                           ))
                         : order.order_items?.map((item) => (
                             <p key={item.id} className="text-sm text-white">
-                              <span className="text-orange-400">{item.quantity}×</span>{' '}
+                              <span className="text-purple-400">{item.quantity}×</span>{' '}
                               {item.item_name.en || item.item_name.vi}
                               {item.special_instructions && (
                                 <span className="ml-1 text-yellow-400">⚠️</span>
@@ -816,7 +907,7 @@ export default function KitchenDisplayPage() {
                 );
               })}
               {preparingOrders.length === 0 && (
-                <p className="py-8 text-center text-orange-400">No orders preparing</p>
+                <p className="py-8 text-center text-purple-400">No drinks preparing</p>
               )}
             </div>
           </div>
@@ -853,7 +944,7 @@ export default function KitchenDisplayPage() {
                       {order.table_number ? ` • T${order.table_number}` : ''}
                     </p>
                     <p className="mb-3 text-sm text-green-200">
-                      {order.order_items?.reduce((sum, item) => sum + item.quantity, 0)} items
+                      {order.order_items?.reduce((sum, item) => sum + item.quantity, 0)} drinks
                     </p>
                     <button
                       onClick={() => updateOrderStatus(order.id, 'delivered')}
@@ -865,7 +956,7 @@ export default function KitchenDisplayPage() {
                 );
               })}
               {readyOrders.length === 0 && (
-                <p className="py-8 text-center text-green-400">No orders ready</p>
+                <p className="py-8 text-center text-green-400">No drinks ready</p>
               )}
             </div>
           </div>
@@ -873,13 +964,13 @@ export default function KitchenDisplayPage() {
       ) : (
         /* Grid Layout */
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {/* Confirmed Orders - Queue */}
+          {/* Confirmed Orders */}
           {confirmedOrders.map((order, index) => {
             const elapsed = getElapsedMinutes(order.submitted_at);
             return (
               <div
                 key={order.id}
-                className={`rounded-xl border-2 border-blue-600 bg-blue-900/30 p-4 ${
+                className={`rounded-xl border-2 border-cyan-600 bg-cyan-900/30 p-4 ${
                   order.isNew ? 'animate-pulse ring-4 ring-yellow-400' : ''
                 }`}
               >
@@ -892,7 +983,7 @@ export default function KitchenDisplayPage() {
                     )}
                     <span className="text-2xl font-bold text-white">{order.order_code}</span>
                     {order.table_number && (
-                      <span className="rounded bg-blue-800 px-2 py-0.5 text-sm text-blue-200">
+                      <span className="rounded bg-cyan-800 px-2 py-0.5 text-sm text-cyan-200">
                         T{order.table_number}
                       </span>
                     )}
@@ -904,7 +995,7 @@ export default function KitchenDisplayPage() {
                   </span>
                 </div>
 
-                <p className="mb-3 text-sm text-blue-300">
+                <p className="mb-3 text-sm text-cyan-300">
                   {order.customer_name || 'Guest'} •{' '}
                   {order.consumption_type === 'takeaway' ? 'TAKEAWAY' : 'Dine-in'}
                 </p>
@@ -912,16 +1003,16 @@ export default function KitchenDisplayPage() {
                 <div className="mb-4 space-y-2">
                   {viewMode === 'item'
                     ? order.order_items?.map((item) => (
-                        <ItemStatusButton key={item.id} item={item} orderId={order.id} />
+                        <ItemStatusButton key={item.id} item={item} />
                       ))
                     : order.order_items?.map((item) => (
-                        <div key={item.id} className="rounded-lg bg-blue-900/50 p-2">
+                        <div key={item.id} className="rounded-lg bg-cyan-900/50 p-2">
                           <p className="font-medium text-white">
-                            <span className="text-blue-400">{item.quantity}x</span>{' '}
+                            <span className="text-cyan-400">{item.quantity}x</span>{' '}
                             {item.item_name.en || item.item_name.vi}
                           </p>
                           {item.extras && item.extras.length > 0 && (
-                            <p className="text-sm text-blue-300">
+                            <p className="text-sm text-cyan-300">
                               + {item.extras.map((e) => e.name).join(', ')}
                             </p>
                           )}
@@ -934,15 +1025,9 @@ export default function KitchenDisplayPage() {
                       ))}
                 </div>
 
-                {order.customer_notes && (
-                  <div className="mb-4 rounded-lg border border-yellow-600 bg-yellow-900/50 p-2">
-                    <p className="text-sm text-yellow-300">{order.customer_notes}</p>
-                  </div>
-                )}
-
                 <button
                   onClick={() => updateOrderStatus(order.id, 'preparing')}
-                  className="w-full rounded-lg bg-orange-600 py-3 text-lg font-bold text-white transition-colors hover:bg-orange-700"
+                  className="w-full rounded-lg bg-purple-600 py-3 text-lg font-bold text-white transition-colors hover:bg-purple-700"
                 >
                   START
                 </button>
@@ -957,7 +1042,7 @@ export default function KitchenDisplayPage() {
             return (
               <div
                 key={order.id}
-                className="rounded-xl border-2 border-orange-500 bg-orange-900/30 p-4"
+                className="rounded-xl border-2 border-purple-500 bg-purple-900/30 p-4"
               >
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -968,7 +1053,7 @@ export default function KitchenDisplayPage() {
                     )}
                     <span className="text-2xl font-bold text-white">{order.order_code}</span>
                     {order.table_number && (
-                      <span className="rounded bg-orange-800 px-2 py-0.5 text-sm text-orange-200">
+                      <span className="rounded bg-purple-800 px-2 py-0.5 text-sm text-purple-200">
                         T{order.table_number}
                       </span>
                     )}
@@ -980,7 +1065,7 @@ export default function KitchenDisplayPage() {
                   </span>
                 </div>
 
-                <p className="mb-3 text-sm text-orange-300">
+                <p className="mb-3 text-sm text-purple-300">
                   {order.customer_name || 'Guest'} •{' '}
                   {order.consumption_type === 'takeaway' ? 'TAKEAWAY' : 'Dine-in'}
                 </p>
@@ -988,19 +1073,14 @@ export default function KitchenDisplayPage() {
                 <div className="mb-4 space-y-2">
                   {viewMode === 'item'
                     ? order.order_items?.map((item) => (
-                        <ItemStatusButton key={item.id} item={item} orderId={order.id} />
+                        <ItemStatusButton key={item.id} item={item} />
                       ))
                     : order.order_items?.map((item) => (
-                        <div key={item.id} className="rounded-lg bg-orange-900/50 p-2">
+                        <div key={item.id} className="rounded-lg bg-purple-900/50 p-2">
                           <p className="font-medium text-white">
-                            <span className="text-orange-400">{item.quantity}x</span>{' '}
+                            <span className="text-purple-400">{item.quantity}x</span>{' '}
                             {item.item_name.en || item.item_name.vi}
                           </p>
-                          {item.extras && item.extras.length > 0 && (
-                            <p className="text-sm text-orange-300">
-                              + {item.extras.map((e) => e.name).join(', ')}
-                            </p>
-                          )}
                           {item.special_instructions && (
                             <p className="mt-1 text-sm text-yellow-400">
                               ⚠️ {item.special_instructions}
@@ -1053,7 +1133,7 @@ export default function KitchenDisplayPage() {
                 </p>
 
                 <p className="mb-4 text-green-200">
-                  {order.order_items?.reduce((sum, item) => sum + item.quantity, 0)} items
+                  {order.order_items?.reduce((sum, item) => sum + item.quantity, 0)} drinks
                 </p>
 
                 <button
@@ -1071,9 +1151,9 @@ export default function KitchenDisplayPage() {
       {/* Empty State */}
       {orders.length === 0 && (
         <div className="flex flex-col items-center justify-center py-20">
-          <span className="mb-4 text-6xl">👨‍🍳</span>
-          <p className="text-2xl text-gray-400">No active orders</p>
-          <p className="mt-2 text-gray-500">New orders will appear here automatically</p>
+          <span className="mb-4 text-6xl">🍹</span>
+          <p className="text-2xl text-gray-400">No drink orders</p>
+          <p className="mt-2 text-gray-500">New drink orders will appear here automatically</p>
         </div>
       )}
     </div>

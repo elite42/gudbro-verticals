@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import {
   getSessionOrders,
   subscribeToOrderStatus,
+  getOrderETA,
   Order,
   OrderStatus,
+  OrderETA,
 } from '../../lib/order-service';
 import { currencyPreferencesStore } from '../../lib/currency-preferences';
 import { formatConvertedPrice } from '../../lib/currency-converter';
@@ -91,6 +93,7 @@ function OrderCard({
   const config = statusConfig[order.status];
   const isActive = ['pending', 'confirmed', 'preparing', 'ready'].includes(order.status);
   const isReady = order.status === 'ready';
+  const [eta, setEta] = useState<OrderETA | null>(null);
 
   useEffect(() => {
     // Subscribe to real-time status updates
@@ -100,6 +103,27 @@ function OrderCard({
 
     return unsubscribe;
   }, [order.id, onStatusUpdate]);
+
+  // Fetch ETA for active orders
+  useEffect(() => {
+    if (!isActive || isReady) {
+      setEta(null);
+      return;
+    }
+
+    const fetchETA = async () => {
+      const etaData = await getOrderETA(order.id);
+      setEta(etaData);
+    };
+
+    // Initial fetch
+    fetchETA();
+
+    // Refresh ETA every 30 seconds
+    const interval = setInterval(fetchETA, 30000);
+
+    return () => clearInterval(interval);
+  }, [order.id, order.status, isActive, isReady]);
 
   // Get relative time
   const getRelativeTime = (timestamp: number): string => {
@@ -184,6 +208,38 @@ function OrderCard({
             {getAbsoluteTime(order.submitted_at)}
           </span>
         </div>
+
+        {/* ETA Display */}
+        {eta && !isReady && eta.etaMinutes > 0 && (
+          <div className="mt-3 flex items-center gap-2 rounded-lg bg-amber-500/20 px-3 py-2">
+            <span className="text-lg">⏱️</span>
+            <div className="flex-1">
+              <div className="flex items-baseline gap-2">
+                <span className="text-lg font-bold text-amber-700">{eta.message}</span>
+                {eta.confidence === 'high' && (
+                  <span className="text-xs text-green-600">precisione alta</span>
+                )}
+                {eta.confidence === 'medium' && (
+                  <span className="text-xs text-amber-600">stima</span>
+                )}
+                {eta.confidence === 'low' && (
+                  <span className="text-xs text-gray-500">stima approssimativa</span>
+                )}
+              </div>
+              <div className="text-xs text-amber-600">
+                {eta.etaRange.min === eta.etaRange.max
+                  ? `Pronto alle ~${new Date(eta.etaReadyAt).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}`
+                  : `${eta.etaRange.min}-${eta.etaRange.max} min`}
+              </div>
+            </div>
+            {eta.itemsRemaining > 1 && (
+              <div className="text-right">
+                <div className="text-xs text-amber-600">{eta.itemsRemaining} items</div>
+                <div className="text-xs text-amber-500">rimanenti</div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Progress Bar (for active orders) */}

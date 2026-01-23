@@ -27,7 +27,7 @@
 
 > **Task attiva:** Nessuna (scegli da backlog)
 > **Stato:** Infra solida, monitoring attivo (Sentry+UptimeRobot), pronto per nuove task
-> **Ultima completata:** Infrastructure Upgrade (7 fasi) + Sentry Verified - 2026-01-23
+> **Ultima completata:** Order Timing Analytics (4 fasi) - 2026-01-24
 
 **Prossime opzioni (da 1-TODO.md):**
 
@@ -133,7 +133,7 @@ gudbro-verticals/
 | ----------- | ------ |
 | Prodotti    | ~4653  |
 | Ingredienti | 2548   |
-| Migrations  | 69     |
+| Migrations  | 76     |
 | AI Services | 15     |
 
 **Schema:** `docs/DATABASE-SCHEMA.md`

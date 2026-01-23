@@ -48,6 +48,10 @@ const MATERIALIZED_VIEWS = [
   'mv_top_items_30d',
   'mv_hourly_traffic',
   'mv_device_breakdown',
+  // Prep time analytics views (Phase 2)
+  'mv_prep_time_summary',
+  'mv_prep_time_hourly',
+  'mv_item_prep_time_30d',
 ];
 
 async function refreshAllViews(): Promise<{
