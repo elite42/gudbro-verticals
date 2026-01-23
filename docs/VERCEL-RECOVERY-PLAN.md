@@ -2,7 +2,13 @@
 
 **Data creazione:** 2026-01-21
 **Da eseguire:** 2026-01-22 ore 15:00
-**Status:** READY TO EXECUTE
+**Status:** ✅ FASE 1-5 COMPLETATE (2026-01-23)
+
+> **Nota Fase 1:** Upgrade a Vercel Pro ($20/mo) necessario per sbloccare i deploy.
+> **Nota Fase 2:** Website separato in `elite42/gudbro-website`, CI verde, produzione funzionante.
+> **Nota Fase 3:** Supabase staging project creato (`gudbro-staging`), isolamento verificato.
+> **Nota Fase 4:** vercel.json aggiornati con framework, regions, git config.
+> **Nota Fase 5:** Sentry + UptimeRobot configurati, GitHub Action verify-deploy attivo.
 
 ---
 
@@ -173,12 +179,36 @@ GitHub:
 7. **Rinominare repo principale** (opzionale)
    - GitHub → gudbro-verticals → Settings → Rename to `gudbro-platform`
 
-### Verifica
+### 🛡️ Security Checkpoints (OBBLIGATORI)
+
+> **REGOLA:** Ogni checkpoint deve essere ✅ PRIMA di procedere al successivo.
+> **Se un checkpoint fallisce:** STOP, risolvi, poi riprova.
+
+| #   | Checkpoint                         | Verifica                                         | Rollback Plan                   |
+| --- | ---------------------------------- | ------------------------------------------------ | ------------------------------- |
+| 2.1 | **Pre-separazione backup**         | `git stash` o branch backup del codice website   | N/A                             |
+| 2.2 | **Website builda standalone**      | `cd gudbro-website && pnpm build` → Exit 0       | Non procedere, fix errori build |
+| 2.3 | **Website deploya con successo**   | Vercel deploy → Status "Ready"                   | Verifica env vars, logs         |
+| 2.4 | **Website funziona in produzione** | Visita gudbro.com, verifica tutte le pagine      | Rollback DNS a vecchio deploy   |
+| 2.5 | **Monorepo builda SENZA website**  | Dopo `rm -rf apps/website`, esegui `pnpm build`  | Ripristina da git               |
+| 2.6 | **Nessun broken import**           | `grep -r "apps/website" .` deve dare 0 risultati | Fix imports prima di commit     |
+| 2.7 | **CI passa**                       | Push su branch test, verifica GitHub Actions     | Fix CI prima di merge           |
+
+**Sequenza:**
+
+```
+2.1 → 2.2 → 2.3 → 2.4 → (SOLO ORA) → 2.5 → 2.6 → 2.7
+         ↑
+    PUNTO DI NON RITORNO: dopo 2.4 puoi rimuovere dal monorepo
+```
+
+### Verifica Finale
 
 - [ ] gudbro-website builda standalone
 - [ ] Deploy Vercel funziona
 - [ ] gudbro.com punta al nuovo progetto
 - [ ] Monorepo funziona senza website
+- [ ] **TUTTI i checkpoint 2.1-2.7 completati**
 
 ---
 
@@ -277,13 +307,50 @@ Mai più deploy diretto in produzione senza test.
 - staging.menu.gudbro.com
 - Stesse env vars staging
 
-### Verifica
+### 🛡️ Security Checkpoints (OBBLIGATORI)
+
+> **⚠️ CRITICO:** Staging MAI deve toccare dati di produzione.
+> Un errore qui può corrompere dati reali dei clienti.
+
+| #   | Checkpoint                                 | Verifica                                                      | Conseguenza se saltato          |
+| --- | ------------------------------------------ | ------------------------------------------------------------- | ------------------------------- |
+| 3.1 | **Supabase staging è progetto SEPARATO**   | Dashboard Supabase → sono 2 progetti distinti                 | Rischio: scritture su prod      |
+| 3.2 | **URL staging ≠ URL prod**                 | Confronta `NEXT_PUBLIC_SUPABASE_URL` staging vs prod          | Rischio: merge dati             |
+| 3.3 | **Service key staging ≠ Service key prod** | Le chiavi devono essere diverse                               | Rischio: bypass RLS su prod     |
+| 3.4 | **Test connessione isolata**               | Da staging, `SELECT current_database()` → nome staging        | Rischio: query su prod          |
+| 3.5 | **Seed data NON contiene dati prod**       | Verifica seed script usa SOLO dati fake/test                  | Rischio: leak dati sensibili    |
+| 3.6 | **Dry-run INSERT**                         | Inserisci record test in staging, verifica NON appare in prod | Rischio: corruzione dati        |
+| 3.7 | **Dry-run DELETE**                         | Elimina record test da staging, verifica prod invariato       | Rischio: perdita dati           |
+| 3.8 | **Env vars Vercel separate**               | Preview env vars ≠ Production env vars                        | Rischio: staging scrive su prod |
+
+**Test di Isolamento Obbligatorio:**
+
+```sql
+-- Esegui su STAGING
+INSERT INTO test_isolation (id, env) VALUES (gen_random_uuid(), 'staging-test');
+
+-- Poi verifica su PROD
+SELECT * FROM test_isolation WHERE env = 'staging-test';
+-- DEVE restituire 0 righe!
+```
+
+**Sequenza:**
+
+```
+3.1 → 3.2 → 3.3 → 3.4 → 3.5 → 3.6 → 3.7 → 3.8
+                    ↑
+              SOLO dopo 3.4 inizia a usare staging
+```
+
+### Verifica Finale
 
 - [ ] Supabase staging project creato
 - [ ] Branch staging esiste
 - [ ] Push su staging → deploy su staging.admin.gudbro.com
 - [ ] Staging usa DB staging (non prod!)
 - [ ] Workflow documentato
+- [ ] **Test isolamento eseguito e verificato**
+- [ ] **TUTTI i checkpoint 3.1-3.8 completati**
 
 ---
 
@@ -330,11 +397,43 @@ Configurazione Vercel versionata, non manuale.
 }
 ```
 
-### Verifica
+### 🛡️ Security Checkpoints (OBBLIGATORI)
+
+> **Principio:** IaC deve produrre lo STESSO risultato della config manuale.
+> Qualsiasi differenza = potenziale problema.
+
+| #   | Checkpoint                 | Verifica                                         | Azione se fallisce   |
+| --- | -------------------------- | ------------------------------------------------ | -------------------- |
+| 4.1 | **Backup config manuale**  | Screenshot/export della config Vercel attuale    | N/A (prerequisito)   |
+| 4.2 | **vercel.json valido**     | `npx vercel pull` non dà errori di parsing       | Fix JSON syntax      |
+| 4.3 | **Deploy test su branch**  | Push vercel.json su branch test, verifica deploy | Non pushare su main  |
+| 4.4 | **Confronto output**       | Build output identico a prima di vercel.json     | Analizza differenze  |
+| 4.5 | **Env vars preservate**    | Tutte le env vars esistenti ancora funzionano    | Ripristina da backup |
+| 4.6 | **Regions corrette**       | `"regions": ["fra1"]` → verifica deploy in EU    | Fix region config    |
+| 4.7 | **Build command corretto** | Turbo build filtra correttamente l'app           | Fix filter pattern   |
+
+**Test Pre-Merge:**
+
+```bash
+# Su branch test (NON main)
+git checkout -b test-vercel-json
+git add apps/backoffice/vercel.json
+git commit -m "test: vercel.json config"
+git push origin test-vercel-json
+
+# Aspetta deploy Vercel preview
+# Verifica: funziona come prima?
+# Se SI → merge to main
+# Se NO → fix o rollback
+```
+
+### Verifica Finale
 
 - [ ] vercel.json committati
 - [ ] Deploy usa config da file (non dashboard)
 - [ ] Cambiare config = PR review
+- [ ] **Build output identico a config manuale**
+- [ ] **TUTTI i checkpoint 4.1-4.7 completati**
 
 ---
 
@@ -400,13 +499,59 @@ Sapere immediatamente quando qualcosa si rompe.
              fi
    ```
 
-### Verifica
+### 🛡️ Security Checkpoints (OBBLIGATORI)
+
+> **Filosofia:** Il monitoring che non viene testato non funziona quando serve.
+> DEVI simulare errori per verificare che gli alert arrivino.
+
+| #   | Checkpoint                   | Verifica                                                  | Azione se fallisce              |
+| --- | ---------------------------- | --------------------------------------------------------- | ------------------------------- |
+| 5.1 | **Health endpoint risponde** | `curl https://admin.gudbro.com/api/health` → 200          | Fix endpoint prima di procedere |
+| 5.2 | **Health mostra version**    | Response contiene `VERCEL_GIT_COMMIT_SHA`                 | Aggiungere env var              |
+| 5.3 | **Sentry cattura errori**    | Trigger errore test, appare in Sentry dashboard           | Verifica DSN e config           |
+| 5.4 | **Slack webhook funziona**   | Test message arriva nel canale                            | Verifica URL webhook            |
+| 5.5 | **UptimeRobot configurato**  | Monitor attivo per tutti gli endpoint                     | Completare setup                |
+| 5.6 | **SIMULAZIONE DOWN**         | Metti temporaneamente offline un endpoint, verifica alert | Fix alert config                |
+| 5.7 | **GitHub Action funziona**   | Push su main, action esegue e verifica SHA                | Fix workflow yaml               |
+| 5.8 | **Alert entro 10 min**       | Dal momento del problema all'alert < 10 min               | Riduci intervallo check         |
+
+**Test Obbligatorio - Simulazione Errore:**
+
+```bash
+# 1. Crea errore intenzionale
+# In api/health/route.ts temporaneamente:
+# return Response.json({ status: 'error' }, { status: 500 })
+
+# 2. Push e aspetta deploy
+
+# 3. Verifica:
+# - [ ] Sentry ha catturato l'errore?
+# - [ ] Slack ha ricevuto notifica?
+# - [ ] UptimeRobot ha rilevato down?
+# - [ ] GitHub Action ha fallito come previsto?
+
+# 4. IMPORTANTE: Ripristina health endpoint!
+```
+
+**Tempi di Risposta Target:**
+
+| Canale        | Tempo Massimo | Azione             |
+| ------------- | ------------- | ------------------ |
+| Sentry        | < 1 min       | Capture automatico |
+| Slack         | < 5 min       | Webhook Vercel     |
+| UptimeRobot   | < 10 min      | Check ogni 5 min   |
+| GitHub Action | < 3 min       | Post-deploy check  |
+
+### Verifica Finale
 
 - [ ] Health endpoints funzionano
 - [ ] Sentry configurato
 - [ ] Notifiche Slack attive
 - [ ] Uptime monitoring attivo
 - [ ] GitHub Action verifica deploy
+- [ ] **Simulazione errore eseguita**
+- [ ] **Tutti gli alert ricevuti entro i tempi target**
+- [ ] **TUTTI i checkpoint 5.1-5.8 completati**
 
 ---
 
@@ -434,6 +579,41 @@ Sapere immediatamente quando qualcosa si rompe.
 4. **Backup Env Vars**
    - Export in password manager (1Password/Bitwarden)
    - Aggiornare quando cambiano
+
+### 🛡️ Security Checkpoints (OBBLIGATORI)
+
+> **Principio:** Documentazione non testata = documentazione falsa.
+> Ogni procedura scritta DEVE essere eseguibile.
+
+| #   | Checkpoint                          | Verifica                                      | Azione se fallisce        |
+| --- | ----------------------------------- | --------------------------------------------- | ------------------------- |
+| 6.1 | **VERCEL-SETUP.md testabile**       | Segui ogni passo, funziona al primo tentativo | Fix documentazione        |
+| 6.2 | **DEPLOYMENT-WORKFLOW.md accurato** | Workflow descritto = workflow reale           | Aggiorna doc              |
+| 6.3 | **RUNBOOK.md completo**             | Ogni scenario ha procedura chiara             | Aggiungi scenari mancanti |
+| 6.4 | **Env vars documentate**            | Ogni env var ha descrizione e esempio         | Completa lista            |
+| 6.5 | **Backup verificato**               | Restore da backup funziona                    | Test restore              |
+| 6.6 | **User review**                     | Gianfranco legge e approva ogni doc           | Revisione obbligatoria    |
+
+**Test Documentazione - Checklist:**
+
+```markdown
+Per ogni documento, verifica:
+
+- [ ] Posso seguire i passi senza chiedere chiarimenti?
+- [ ] I comandi funzionano se copiati/incollati?
+- [ ] Gli screenshot/esempi sono aggiornati?
+- [ ] I link interni funzionano?
+- [ ] Un nuovo developer capirebbe?
+```
+
+### Verifica Finale
+
+- [ ] VERCEL-SETUP.md completo
+- [ ] DEPLOYMENT-WORKFLOW.md completo
+- [ ] RUNBOOK.md completo
+- [ ] Env vars backed up
+- [ ] **User review completata**
+- [ ] **TUTTI i checkpoint 6.1-6.6 completati**
 
 ---
 
@@ -579,6 +759,82 @@ Prima di considerare Fase 7 completa:
 | Config files            | turbo.json, package.json, CI aggiornati         |
 | README.md               | Quick start per nuova struttura                 |
 
+### 🛡️ Security Checkpoints (OBBLIGATORI)
+
+> **CRITICO:** CLAUDE.md è la "memoria" del progetto.
+> Se contiene informazioni sbagliate, ogni sessione futura partirà con presupposti errati.
+
+| #   | Checkpoint                    | Verifica                                                 | Conseguenza se saltato        |
+| --- | ----------------------------- | -------------------------------------------------------- | ----------------------------- |
+| 7.1 | **Zero riferimenti obsoleti** | `grep -r "gudbro-verticals" docs/` → 0 (escluso storico) | Claude confuso su struttura   |
+| 7.2 | **Comandi testati**           | Ogni comando in CLAUDE.md funziona se copiato            | Developer bloccati            |
+| 7.3 | **Sezione repo corretta**     | Riflette 2 repo: platform + website                      | Assunzioni sbagliate          |
+| 7.4 | **Workflow staging presente** | Dev → Staging → Prod documentato                         | Deploy diretto in prod        |
+| 7.5 | **Cross-reference validi**    | Tutti i link interni funzionano                          | Docs orfani                   |
+| 7.6 | **Version bump**              | CLAUDE.md version = 8.0                                  | Confusione versione           |
+| 7.7 | **User review finale**        | Gianfranco approva CLAUDE.md v8.0                        | Docs non allineati con vision |
+| 7.8 | **Test onboarding**           | Simula: "nuovo dev legge docs, riesce a fare setup?"     | Onboarding fallito            |
+
+**Test Comandi - Script:**
+
+```bash
+#!/bin/bash
+# test-claude-md-commands.sh
+
+echo "Testing CLAUDE.md commands..."
+
+# Test dev servers
+echo "1. Testing dev servers..."
+cd apps/backoffice && timeout 10 pnpm dev &
+sleep 5
+curl -s http://localhost:3023 > /dev/null && echo "✅ backoffice" || echo "❌ backoffice"
+pkill -f "next dev"
+
+# Test build
+echo "2. Testing build..."
+pnpm build && echo "✅ build" || echo "❌ build"
+
+# Test CI simulation
+echo "3. Testing CI simulation..."
+./scripts/ci-local.sh --quick && echo "✅ ci-local" || echo "❌ ci-local"
+
+echo "Done!"
+```
+
+**Grep Check Obbligatorio:**
+
+```bash
+# Deve restituire 0 risultati (escluso questo file e storico)
+grep -r "gudbro-verticals" . \
+  --include="*.md" \
+  --exclude-dir=".git" \
+  --exclude="VERCEL-RECOVERY-PLAN.md" \
+  --exclude="4-DONE.md" \
+  --exclude="SESSION-LOG.md"
+
+# Se > 0 risultati → aggiorna quei file!
+```
+
+### Verifica Finale Fase 7
+
+- [ ] CLAUDE.md aggiornato a v8.0 con nuova struttura
+- [ ] Sezione repo structure riflette 2 repo
+- [ ] Sezione commands aggiornata (no website, +staging)
+- [ ] Sezione workflow include staging
+- [ ] Compounding Engineering aggiornato con lezioni
+- [ ] docs/DEVELOPMENT-WORKFLOW.md aggiornato
+- [ ] docs/PROCEDURE-CHECKLIST.md aggiornato
+- [ ] turbo.json senza website
+- [ ] package.json root aggiornato
+- [ ] pnpm-workspace.yaml aggiornato
+- [ ] .github/workflows aggiornati
+- [ ] README.md aggiornato
+- [ ] Backlog sincronizzato (TODO + DONE)
+- [ ] **Zero riferimenti a vecchia struttura (grep check)**
+- [ ] **Tutti i comandi testati e funzionanti**
+- [ ] **User review completata e approvata**
+- [ ] **TUTTI i checkpoint 7.1-7.8 completati**
+
 ---
 
 ## TIMELINE ESECUZIONE
@@ -599,6 +855,19 @@ Prima di considerare Fase 7 completa:
 
 ## CHECKLIST FINALE
 
+### 🛡️ Security Checkpoints Summary
+
+> **REGOLA ASSOLUTA:** Nessuna fase è completa senza TUTTI i suoi checkpoint ✅
+
+| Fase   | Checkpoints | Critico                             |
+| ------ | ----------- | ----------------------------------- |
+| Fase 2 | 2.1 → 2.7   | 2.4 (punto di non ritorno)          |
+| Fase 3 | 3.1 → 3.8   | 3.6, 3.7 (test isolamento)          |
+| Fase 4 | 4.1 → 4.7   | 4.4 (confronto output)              |
+| Fase 5 | 5.1 → 5.8   | 5.6 (simulazione down)              |
+| Fase 6 | 6.1 → 6.6   | 6.6 (user review)                   |
+| Fase 7 | 7.1 → 7.8   | 7.7, 7.8 (review + onboarding test) |
+
 ### Infrastruttura
 
 - [ ] Backoffice deploy automatico funziona
@@ -607,12 +876,14 @@ Prima di considerare Fase 7 completa:
 - [ ] vercel.json per ogni app
 - [ ] Health endpoints attivi
 - [ ] Monitoring configurato
+- [ ] **Tutti i checkpoint Fase 2-5 completati**
 
 ### Workflow
 
 - [ ] Branch staging esiste
 - [ ] Dev → Staging → Prod documentato
 - [ ] Team sa come usare staging
+- [ ] **Test isolamento staging/prod eseguito**
 
 ### Nuova Documentazione (Fase 6)
 
@@ -620,6 +891,8 @@ Prima di considerare Fase 7 completa:
 - [ ] DEPLOYMENT-WORKFLOW.md completo
 - [ ] RUNBOOK.md completo
 - [ ] Env vars backed up
+- [ ] **User review completata**
+- [ ] **Tutti i checkpoint 6.1-6.6 completati**
 
 ### Aggiornamento Docs Esistenti (Fase 7)
 
@@ -638,6 +911,8 @@ Prima di considerare Fase 7 completa:
 - [ ] Backlog sincronizzato (TODO + DONE)
 - [ ] Zero riferimenti a vecchia struttura
 - [ ] Tutti i comandi testati e funzionanti
+- [ ] **User review finale completata**
+- [ ] **Tutti i checkpoint 7.1-7.8 completati**
 
 ### Test Finali
 
@@ -646,6 +921,7 @@ Prima di considerare Fase 7 completa:
 - [ ] Push su staging → deploy su staging
 - [ ] Errore → alert arriva
 - [ ] Nuovo dev può fare onboarding seguendo docs
+- [ ] **Simulazione errore completata con alert ricevuti**
 
 ---
 
@@ -677,5 +953,10 @@ Dopo queste fasi:
 ---
 
 **Documento creato:** 2026-01-21
-**Ultimo aggiornamento:** 2026-01-21
+**Ultimo aggiornamento:** 2026-01-22
 **Autori:** Claude + Gianfranco
+
+**Changelog:**
+
+- 2026-01-22: Aggiunti Security Checkpoints obbligatori per Fasi 2-7
+- 2026-01-21: Documento iniziale con 7 fasi
