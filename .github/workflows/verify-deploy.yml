@@ -1,0 +1,77 @@
+name: Verify Deployment
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # Allow manual triggering
+
+concurrency:
+  group: verify-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-backoffice:
+    name: Verify Backoffice Deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Wait for Vercel deployment
+        run: |
+          echo "Waiting 3 minutes for Vercel to deploy..."
+          sleep 180
+
+      - name: Check health endpoint
+        id: health
+        run: |
+          echo "Checking backoffice health endpoint..."
+          RESPONSE=$(curl -s -w "\n%{http_code}" https://admin.gudbro.com/api/health || echo "FAILED")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+
+          echo "HTTP Status: $HTTP_CODE"
+          echo "Response: $BODY"
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::error::Health check failed with status $HTTP_CODE"
+            exit 1
+          fi
+
+          # Extract version from response
+          DEPLOYED_VERSION=$(echo "$BODY" | jq -r '.version // "unknown"')
+          echo "Deployed version: $DEPLOYED_VERSION"
+          echo "Expected SHA prefix: ${GITHUB_SHA:0:7}"
+
+          # Compare versions
+          if [ "$DEPLOYED_VERSION" = "unknown" ] || [ "$DEPLOYED_VERSION" = "null" ]; then
+            echo "::warning::Could not determine deployed version"
+          elif [ "$DEPLOYED_VERSION" != "${GITHUB_SHA:0:7}" ]; then
+            echo "::warning::Version mismatch - deployed: $DEPLOYED_VERSION, expected: ${GITHUB_SHA:0:7}"
+            echo "Note: This may be normal if deployment is still in progress"
+          else
+            echo "✅ Version matches! Deployment verified."
+          fi
+
+      - name: Check PWA health endpoint
+        id: pwa-health
+        continue-on-error: true
+        run: |
+          echo "Checking PWA health endpoint..."
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://menu.gudbro.com/api/health || echo "000")
+
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "✅ PWA health check passed"
+          else
+            echo "::warning::PWA health check returned status $HTTP_CODE (endpoint may not exist yet)"
+          fi
+
+      - name: Summary
+        run: |
+          echo "## Deployment Verification Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Endpoint | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Backoffice | ${{ steps.health.outcome == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| PWA | ${{ steps.pwa-health.outcome == 'success' && '✅ Passed' || '⚠️ Skipped' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
