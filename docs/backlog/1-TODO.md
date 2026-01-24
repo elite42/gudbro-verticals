@@ -4,7 +4,7 @@
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 > **Specs dettagliate:** `specs/` folder
 
-**Last Updated:** 2026-01-23
+**Last Updated:** 2026-01-24
 
 ---
 
@@ -312,10 +312,29 @@ grep -rn "const.*=.*createClient(" --include="*.ts" apps/backoffice/app/api/
 
 ---
 
+## PWA V2 - Completamento Migrazione
+
+> **Design System v2 migrato** - 2026-01-24
+> Redirect attivi: `/` → `/v2`, `/menu` → `/v2/menu`, `/cart` → `/v2/cart`, `/favorites` → `/v2/favorites`
+> Opt-out: `?legacy=true` per tornare a v1
+
+| ID                | Feature            | Descrizione                             | Effort | Status  |
+| ----------------- | ------------------ | --------------------------------------- | ------ | ------- |
+| V2-WELCOME-MODAL  | Welcome Modal      | Modal benvenuto con opzioni login/guest | 1 day  | Pending |
+| V2-AUTH-MODAL     | Auth Modal v2      | Login/Register con Supabase Auth        | 1 day  | Pending |
+| V2-TABLE-CONTEXT  | QR Table Context   | Banner tavolo dopo scansione QR         | 4h     | Pending |
+| V2-SEARCH-OVERLAY | Search Full-screen | Overlay ricerca come v1                 | 4h     | Pending |
+| V2-DESKTOP-LAYOUT | Desktop Sidebar    | Layout desktop con sidebar categorie    | 1 day  | Pending |
+| V2-CLEANUP        | Rimuovi v1         | Cleanup componenti v1 quando v2 stabile | 2h     | Pending |
+| V2-TIER-TEST      | Test Tier System   | Testare BASIC, PRO, ENTERPRISE          | 2h     | Pending |
+
+---
+
 ## P2 - Media Priorità
 
 | ID                  | Feature             | Descrizione                                  | Effort | Spec                                       |
 | ------------------- | ------------------- | -------------------------------------------- | ------ | ------------------------------------------ |
+| USEFUL-NUMBERS      | Numeri Utili        | Emergenze + info utili in PWA, auto-tradotti | Medium | [spec](specs/P2/USEFUL-NUMBERS.md)         |
 | QR-NFC-ORDERING     | QR/NFC Product Shop | Ordina supporti fisici QR+NFC dal backoffice | 5 days | Pending                                    |
 | AI-ASSISTANT-MODULE | AI Prompt Generator | Perfect prompts per Midjourney/DALL-E/Vision | Medium | [spec](../features/AI-ASSISTANT-MODULE.md) |
 | MT-GEOFENCING       | Location Geofencing | Radius-based location                        | High   | [spec](specs/P2/MENUTIGER-AUDIT.md)        |
