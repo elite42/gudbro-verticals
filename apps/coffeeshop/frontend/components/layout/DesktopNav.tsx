@@ -17,6 +17,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { href: '/', label: 'Home' },
   { href: '/menu', label: 'Menu' },
+  { href: '/useful-numbers', label: 'Useful Numbers' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -42,7 +43,10 @@ export function DesktopNav() {
   }, []);
 
   return (
-    <header className="bg-theme-bg-elevated border-theme-border-light sticky top-0 z-50 hidden border-b shadow-sm lg:block">
+    <header
+      data-desktop-nav
+      className="bg-theme-bg-elevated border-theme-border-light sticky top-0 z-50 hidden border-b shadow-sm lg:block"
+    >
       <nav
         role="navigation"
         aria-label="Main navigation"

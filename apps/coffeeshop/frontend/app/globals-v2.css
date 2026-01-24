@@ -1,0 +1,865 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * GUDBRO Digital Menu - Design System v2
+ * Style: "Organic Minimal"
+ *
+ * Aesthetic: Clean, warm, sophisticated but accessible
+ * Inspired by: Menuviel's neutral palette + organic warmth
+ *
+ * Color Philosophy:
+ * - Colors that complement food photography
+ * - Neutral foundations with warm undertones
+ * - High contrast for accessibility
+ * - Subtle depth through layering
+ */
+
+/* ============================================
+   CUSTOM FONTS
+   Fraunces: Display serif with personality
+   DM Sans: Clean geometric sans-serif
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
+/* ============================================
+   LIGHT THEME (Default)
+   Warm, inviting, appetizing
+   ============================================ */
+:root {
+  /* Font families */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  /* ---- Core Surfaces ---- */
+  --surface-ground: #faf9f7; /* Warm off-white base */
+  --surface-card: #ffffff; /* Pure white cards */
+  --surface-elevated: #ffffff; /* Elevated elements */
+  --surface-overlay: rgba(0, 0, 0, 0.5);
+
+  /* ---- Background Layers ---- */
+  --bg-primary: #faf9f7; /* Main background - warm cream */
+  --bg-secondary: #f5f3ef; /* Secondary areas - slightly darker */
+  --bg-tertiary: #edebe6; /* Tertiary/hover states */
+  --bg-accent: #e8e6e1; /* Accent backgrounds */
+
+  /* ---- Text Colors ---- */
+  --text-primary: #1c1917; /* Rich warm black */
+  --text-secondary: #57534e; /* Stone 600 */
+  --text-tertiary: #a8a29e; /* Stone 400 */
+  --text-muted: #d6d3d1; /* Stone 300 */
+  --text-inverse: #faf9f7; /* Light text on dark */
+
+  /* ---- Border Colors ---- */
+  --border-light: #f5f3ef; /* Subtle borders */
+  --border-medium: #e7e5e4; /* Default borders */
+  --border-heavy: #d6d3d1; /* Prominent borders */
+
+  /* ---- Brand Colors ---- */
+  --brand-primary: #292524; /* Stone 800 - dark accent */
+  --brand-primary-hover: #1c1917; /* Stone 900 */
+  --brand-accent: #78716c; /* Stone 500 */
+  --brand-warm: #c4a574; /* Warm gold accent */
+
+  /* ---- Interactive States ---- */
+  --interactive-primary: #22c55e; /* Green 500 - appetizing, "go" */
+  --interactive-primary-hover: #16a34a; /* Green 600 */
+  --interactive-secondary: #78716c;
+  --interactive-secondary-hover: #57534e;
+
+  /* ---- Status Colors ---- */
+  --status-success: #15803d; /* Green 700 */
+  --status-success-bg: #dcfce7;
+  --status-warning: #b45309; /* Amber 700 */
+  --status-warning-bg: #fef3c7;
+  --status-error: #b91c1c; /* Red 700 */
+  --status-error-bg: #fee2e2;
+  --status-info: #0369a1; /* Sky 700 */
+  --status-info-bg: #e0f2fe;
+
+  /* ---- Category Colors (food-friendly) ---- */
+  --category-coffee: #78350f; /* Amber 900 */
+  --category-drinks: #0e7490; /* Cyan 700 */
+  --category-food: #15803d; /* Green 700 */
+  --category-dessert: #9333ea; /* Purple 600 */
+  --category-specials: #c2410c; /* Orange 700 */
+
+  /* ---- Price Colors ---- */
+  --price-primary: #b45309; /* Amber 700 - warm, visible, appetizing */
+  --price-discount: #15803d; /* Green for discounted prices */
+  --price-original: #a8a29e;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 2px 0 rgba(28, 25, 23, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(28, 25, 23, 0.05), 0 2px 4px -2px rgba(28, 25, 23, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(28, 25, 23, 0.08), 0 4px 6px -4px rgba(28, 25, 23, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(28, 25, 23, 0.08), 0 8px 10px -6px rgba(28, 25, 23, 0.03);
+  --shadow-glow: 0 0 20px rgba(196, 165, 116, 0.15);
+
+  /* ---- Transitions ---- */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ---- Spacing ---- */
+  --spacing-nav: 4.5rem; /* Bottom nav height */
+  --spacing-header: 4rem; /* Header height */
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* ---- Border Radius ---- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ============================================
+     V1 COMPATIBILITY ALIASES
+     Maps --color-* (v1) to v2 variables
+     Remove after full migration to v2
+     ============================================ */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-elevated: var(--surface-elevated);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-inverse: var(--text-inverse);
+
+  --color-border-light: var(--border-light);
+  --color-border-medium: var(--border-medium);
+  --color-border-heavy: var(--border-heavy);
+
+  --color-interactive-primary: var(--interactive-primary);
+  --color-interactive-primary-hover: var(--interactive-primary-hover);
+  --color-interactive-secondary: var(--interactive-secondary);
+  --color-interactive-secondary-hover: var(--interactive-secondary-hover);
+  --color-interactive-danger: var(--status-error);
+  --color-interactive-danger-hover: #991b1b;
+  --color-interactive-success: var(--status-success);
+  --color-interactive-warning: var(--status-warning);
+
+  --color-status-favorite: #ef4444;
+  --color-status-badge: #ef4444;
+  --color-status-highlight: #fef3c7;
+
+  /* Theme class aliases for v1 components using .text-theme-* etc */
+  --theme-bg-primary: var(--bg-primary);
+  --theme-bg-secondary: var(--bg-secondary);
+  --theme-bg-tertiary: var(--bg-tertiary);
+  --theme-bg-elevated: var(--surface-elevated);
+  --theme-text-primary: var(--text-primary);
+  --theme-text-secondary: var(--text-secondary);
+  --theme-text-tertiary: var(--text-tertiary);
+  --theme-brand-primary: var(--brand-primary);
+  --theme-brand-secondary: var(--bg-tertiary);
+  --theme-brand-accent: var(--brand-warm);
+}
+
+/* ============================================
+   DARK THEME
+   Elegant, moody, sophisticated
+   Supports both .dark class and [data-theme="dark"] attribute
+   ============================================ */
+.dark,
+[data-theme='dark'] {
+  /* ---- Core Surfaces ---- */
+  --surface-ground: #0c0a09; /* Stone 950 */
+  --surface-card: #1c1917; /* Stone 900 */
+  --surface-elevated: #292524; /* Stone 800 */
+  --surface-overlay: rgba(0, 0, 0, 0.7);
+
+  /* ---- Background Layers ---- */
+  --bg-primary: #0c0a09; /* Deep warm black */
+  --bg-secondary: #1c1917; /* Elevated surfaces */
+  --bg-tertiary: #292524; /* Tertiary/hover */
+  --bg-accent: #44403c; /* Accent backgrounds */
+
+  /* ---- Text Colors ---- */
+  --text-primary: #faf9f7; /* Warm white */
+  --text-secondary: #d6d3d1; /* Stone 300 */
+  --text-tertiary: #a8a29e; /* Stone 400 */
+  --text-muted: #78716c; /* Stone 500 */
+  --text-inverse: #1c1917; /* Dark text on light */
+
+  /* ---- Border Colors ---- */
+  --border-light: #292524;
+  --border-medium: #44403c;
+  --border-heavy: #57534e;
+
+  /* ---- Brand Colors ---- */
+  --brand-primary: #faf9f7;
+  --brand-primary-hover: #e7e5e4;
+  --brand-accent: #a8a29e;
+  --brand-warm: #d4a855; /* Slightly brighter gold for dark */
+
+  /* ---- Interactive States ---- */
+  --interactive-primary: #22c55e; /* Green 500 - same in dark */
+  --interactive-primary-hover: #16a34a; /* Green 600 */
+  --interactive-secondary: #a8a29e;
+  --interactive-secondary-hover: #d6d3d1;
+
+  /* ---- Status Colors (adjusted for dark) ---- */
+  --status-success: #22c55e;
+  --status-success-bg: rgba(34, 197, 94, 0.15);
+  --status-warning: #f59e0b;
+  --status-warning-bg: rgba(245, 158, 11, 0.15);
+  --status-error: #ef4444;
+  --status-error-bg: rgba(239, 68, 68, 0.15);
+  --status-info: #38bdf8;
+  --status-info-bg: rgba(56, 189, 248, 0.15);
+
+  /* ---- Category Colors (brighter for dark) ---- */
+  --category-coffee: #fbbf24;
+  --category-drinks: #22d3ee;
+  --category-food: #4ade80;
+  --category-dessert: #c084fc;
+  --category-specials: #fb923c;
+
+  /* ---- Price Colors ---- */
+  --price-primary: #fbbf24; /* Amber 400 - bright in dark mode */
+  --price-discount: #4ade80;
+  --price-original: #78716c;
+
+  /* ---- Shadows (subtle in dark mode) ---- */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 30px rgba(212, 168, 85, 0.1);
+
+  /* V1 Compatibility Aliases - Dark Mode */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-elevated: var(--surface-elevated);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-inverse: var(--text-inverse);
+  --color-border-light: var(--border-light);
+  --color-border-medium: var(--border-medium);
+  --color-border-heavy: var(--border-heavy);
+  --theme-bg-primary: var(--bg-primary);
+  --theme-bg-secondary: var(--bg-secondary);
+  --theme-bg-tertiary: var(--bg-tertiary);
+  --theme-bg-elevated: var(--surface-elevated);
+  --theme-text-primary: var(--text-primary);
+  --theme-text-secondary: var(--text-secondary);
+  --theme-text-tertiary: var(--text-tertiary);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem; /* 16px base */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
+}
+
+/* Mobile readability boost */
+@media (max-width: 480px) {
+  body {
+    font-size: 1.0625rem; /* 17px for better mobile readability */
+  }
+
+  .text-sm {
+    font-size: 0.9375rem !important; /* 15px instead of 14px */
+  }
+
+  .text-xs {
+    font-size: 0.8125rem !important; /* 13px instead of 12px */
+  }
+}
+
+/* Display font for headings */
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================
+   COMPONENT UTILITIES
+   ============================================ */
+
+/* Card component */
+.card {
+  background: var(--surface-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  transition:
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.card-elevated {
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Button base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--interactive-primary);
+  color: #ffffff; /* Pure white for max contrast on green */
+}
+
+.btn-primary:hover {
+  background: var(--interactive-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-accent);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* Badge component */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+.badge-new {
+  background: #dcfce7; /* Green 100 */
+  color: #15803d; /* Green 700 */
+  font-weight: 600;
+}
+
+.badge-popular {
+  background: #fef3c7; /* Amber 100 */
+  color: #b45309; /* Amber 700 */
+  font-weight: 600;
+}
+
+.badge-best-seller {
+  background: #fee2e2; /* Red 100 */
+  color: #b91c1c; /* Red 700 */
+  font-weight: 600;
+}
+
+/* Dark mode badge variants */
+.dark .badge-new,
+[data-theme='dark'] .badge-new {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.dark .badge-popular,
+[data-theme='dark'] .badge-popular {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.dark .badge-best-seller,
+[data-theme='dark'] .badge-best-seller {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+/* Price styling */
+.price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--price-primary);
+}
+
+.price-lg {
+  font-size: 1.25rem;
+}
+
+.price-discount {
+  color: var(--price-discount);
+}
+
+.price-original {
+  color: var(--price-original);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+/* Safe area padding */
+.safe-area-bottom {
+  padding-bottom: calc(var(--spacing-nav) + var(--safe-area-bottom));
+}
+
+/* Container */
+.container-app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container-app {
+    max-width: 768px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-app {
+    max-width: 1024px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Fade in up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp var(--transition-slow) ease-out forwards;
+}
+
+/* Stagger children */
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp var(--transition-slow) ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+.stagger-children > *:nth-child(2) {
+  animation-delay: 50ms;
+}
+.stagger-children > *:nth-child(3) {
+  animation-delay: 100ms;
+}
+.stagger-children > *:nth-child(4) {
+  animation-delay: 150ms;
+}
+.stagger-children > *:nth-child(5) {
+  animation-delay: 200ms;
+}
+.stagger-children > *:nth-child(6) {
+  animation-delay: 250ms;
+}
+.stagger-children > *:nth-child(7) {
+  animation-delay: 300ms;
+}
+.stagger-children > *:nth-child(8) {
+  animation-delay: 350ms;
+}
+
+/* Slide up (for bottom sheets) */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 400ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+/* Scale in */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn var(--transition-base) ease-out forwards;
+}
+
+/* Pulse glow (for CTAs) */
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: var(--shadow-md);
+  }
+  50% {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Skeleton loading */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--bg-secondary) 50%,
+    var(--bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar for desktop */
+@media (min-width: 768px) {
+  .scrollbar-styled::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-styled::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-full);
+  }
+
+  .scrollbar-styled::-webkit-scrollbar-thumb {
+    background: var(--border-heavy);
+    border-radius: var(--radius-full);
+  }
+
+  .scrollbar-styled::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* Focus visible */
+*:focus-visible {
+  outline: 2px solid var(--brand-warm);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.75rem 1.5rem;
+  background: var(--interactive-primary);
+  color: var(--text-inverse);
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  z-index: 9999;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Minimum touch targets */
+@media (pointer: coarse) {
+  button,
+  a,
+  [role='button'],
+  input[type='checkbox'],
+  input[type='radio'] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* ============================================
+   RTL SUPPORT
+   Complete RTL utilities for Arabic, Hebrew,
+   Persian, Urdu, Pashto, Divehi
+   ============================================ */
+[dir='rtl'] {
+  direction: rtl;
+}
+
+[dir='rtl'] .rtl\:flip {
+  transform: scaleX(-1);
+}
+
+/* Flip horizontal margins/paddings for RTL */
+[dir='rtl'] .rtl\:space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+/* RTL-aware text alignment */
+.text-start {
+  text-align: start;
+}
+.text-end {
+  text-align: end;
+}
+
+/* RTL-aware flex direction */
+[dir='rtl'] .rtl\:flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+/* RTL-aware margins */
+[dir='rtl'] .rtl\:mr-0 {
+  margin-right: 0;
+}
+[dir='rtl'] .rtl\:ml-0 {
+  margin-left: 0;
+}
+[dir='rtl'] .rtl\:mr-auto {
+  margin-right: auto;
+}
+[dir='rtl'] .rtl\:ml-auto {
+  margin-left: auto;
+}
+
+/* RTL-aware paddings */
+[dir='rtl'] .rtl\:pr-0 {
+  padding-right: 0;
+}
+[dir='rtl'] .rtl\:pl-0 {
+  padding-left: 0;
+}
+[dir='rtl'] .rtl\:pr-4 {
+  padding-right: 1rem;
+}
+[dir='rtl'] .rtl\:pl-4 {
+  padding-left: 1rem;
+}
+
+/* RTL-aware transforms */
+[dir='rtl'] .rtl\:scale-x-flip {
+  transform: scaleX(-1);
+}
+
+/* RTL-aware absolute positioning */
+[dir='rtl'] .rtl\:left-0 {
+  left: 0;
+  right: auto;
+}
+[dir='rtl'] .rtl\:right-0 {
+  right: 0;
+  left: auto;
+}
+[dir='rtl'] .rtl\:left-auto {
+  left: auto;
+}
+[dir='rtl'] .rtl\:right-auto {
+  right: auto;
+}
+
+/* RTL-aware border radius */
+[dir='rtl'] .rtl\:rounded-l-lg {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+[dir='rtl'] .rtl\:rounded-r-lg {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+/* RTL-aware horizontal scroll containers */
+[dir='rtl'] .overflow-x-auto,
+[dir='rtl'] .overflow-x-scroll {
+  direction: rtl;
+}
+
+/* Ensure icons don't flip (unless intentional) */
+[dir='rtl'] .no-flip {
+  transform: none !important;
+}
+
+/* Force LTR for specific elements (numbers, codes, etc.) */
+.ltr-force {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ============================================
+   GLASS MORPHISM (subtle, for overlays)
+   ============================================ */
+.glass {
+  background: rgba(250, 249, 247, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass,
+[data-theme='dark'] .glass {
+  background: rgba(28, 25, 23, 0.85);
+}
+
+/* ============================================
+   IMAGE HANDLING
+   ============================================ */
+.img-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.img-fade-edge {
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+/* Aspect ratios for food photos */
+.aspect-menu-item {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect-hero {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+/* ============================================
+   NOISE TEXTURE OVERLAY (subtle grain)
+   ============================================ */
+.texture-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark .texture-grain::before,
+[data-theme='dark'] .texture-grain::before {
+  opacity: 0.05;
+}

@@ -258,11 +258,11 @@ Usa sempre l'import centralizzato:
 
 ```tsx
 // ✅ Corretto
-import { Button, Card, Input, Badge } from '@/components/ui'
+import { Button, Card, Input, Badge } from '@/components/ui';
 
 // ❌ Evitare
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 ```
 
 ### 2. Modifiche Centralizzate
@@ -271,7 +271,7 @@ Per modificare TUTTI i bottoni di un tipo:
 
 ```tsx
 // File: components/ui/button.tsx:22
-primary: "bg-theme-brand-primary hover:bg-theme-brand-primary-hover ..."
+primary: 'bg-theme-brand-primary hover:bg-theme-brand-primary-hover ...';
 // Modifica qui → tutti i bottoni primary nell'app cambiano
 ```
 
@@ -304,9 +304,7 @@ Componi i componenti per creare UI complesse:
 
   <CardContent>
     <Alert variant="info">
-      <AlertDescription>
-        Tempo stimato: 15 minuti
-      </AlertDescription>
+      <AlertDescription>Tempo stimato: 15 minuti</AlertDescription>
     </Alert>
   </CardContent>
 
@@ -336,13 +334,21 @@ NON riscrivere tutto subito. Quando tocchi un file:
 ### Esempio 1: Form di Login
 
 ```tsx
-import { Input, Button, Alert, Card, CardHeader, CardTitle, CardContent } from '@/components/ui'
+import {
+  Input,
+  Button,
+  Alert,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from '@/components/ui';
 
 function LoginForm() {
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
 
   return (
-    <Card variant="elevated" padding="lg" className="max-w-md mx-auto">
+    <Card variant="elevated" padding="lg" className="mx-auto max-w-md">
       <CardHeader>
         <CardTitle>Accedi</CardTitle>
       </CardHeader>
@@ -354,17 +360,9 @@ function LoginForm() {
           </Alert>
         )}
 
-        <Input
-          type="email"
-          placeholder="Email"
-          inputSize="lg"
-        />
+        <Input type="email" placeholder="Email" inputSize="lg" />
 
-        <Input
-          type="password"
-          placeholder="Password"
-          inputSize="lg"
-        />
+        <Input type="password" placeholder="Password" inputSize="lg" />
 
         <Button variant="primary" size="lg" className="w-full">
           Accedi
@@ -375,59 +373,61 @@ function LoginForm() {
         </Button>
       </CardContent>
     </Card>
-  )
+  );
 }
 ```
 
 ### Esempio 2: Lista Prodotti
 
 ```tsx
-import { Card, Badge, Button } from '@/components/ui'
+import { Card, Badge, Button } from '@/components/ui';
 
 function ProductCard({ product }) {
   return (
     <Card variant="interactive" className="relative">
       <CardContent className="p-4">
         {product.isNew && (
-          <Badge variant="info" className="absolute top-2 right-2">
+          <Badge variant="info" className="absolute right-2 top-2">
             Nuovo
           </Badge>
         )}
 
-        <h3 className="font-bold text-lg">{product.name}</h3>
-        <p className="text-sm text-theme-text-secondary mt-1">
+        <h3 className="text-lg font-bold">{product.name}</h3>
+        <p className="text-theme-text-secondary mt-1 text-sm">
           {product.description}
         </p>
 
-        <div className="flex items-center justify-between mt-4">
+        <div className="mt-4 flex items-center justify-between">
           <span className="font-bold">${product.price}</span>
 
           <div className="flex gap-2">
-            <Badge
-              variant={product.available ? "success" : "error"}
-              size="sm"
-            >
-              {product.available ? "Disponibile" : "Esaurito"}
+            <Badge variant={product.available ? 'success' : 'error'} size="sm">
+              {product.available ? 'Disponibile' : 'Esaurito'}
             </Badge>
 
-            <Button
-              size="sm"
-              disabled={!product.available}
-            >
+            <Button size="sm" disabled={!product.available}>
               Aggiungi
             </Button>
           </div>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 ```
 
 ### Esempio 3: Backoffice Dashboard
 
 ```tsx
-import { Card, CardHeader, CardTitle, CardContent, Button, Badge, Alert } from '@/components/ui'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Button,
+  Badge,
+  Alert,
+} from '@/components/ui';
 
 function Dashboard() {
   return (
@@ -435,25 +435,31 @@ function Dashboard() {
       {/* Stat Cards */}
       <Card variant="elevated">
         <CardContent className="p-6">
-          <div className="text-sm text-theme-text-secondary">Ordini Oggi</div>
-          <div className="text-3xl font-bold mt-2">142</div>
-          <Badge variant="success" className="mt-2">+12%</Badge>
+          <div className="text-theme-text-secondary text-sm">Ordini Oggi</div>
+          <div className="mt-2 text-3xl font-bold">142</div>
+          <Badge variant="success" className="mt-2">
+            +12%
+          </Badge>
         </CardContent>
       </Card>
 
       <Card variant="elevated">
         <CardContent className="p-6">
-          <div className="text-sm text-theme-text-secondary">Ricavi</div>
-          <div className="text-3xl font-bold mt-2">€2,450</div>
-          <Badge variant="success" className="mt-2">+8%</Badge>
+          <div className="text-theme-text-secondary text-sm">Ricavi</div>
+          <div className="mt-2 text-3xl font-bold">€2,450</div>
+          <Badge variant="success" className="mt-2">
+            +8%
+          </Badge>
         </CardContent>
       </Card>
 
       <Card variant="elevated">
         <CardContent className="p-6">
-          <div className="text-sm text-theme-text-secondary">Tempo Medio</div>
-          <div className="text-3xl font-bold mt-2">18 min</div>
-          <Badge variant="warning" className="mt-2">-5%</Badge>
+          <div className="text-theme-text-secondary text-sm">Tempo Medio</div>
+          <div className="mt-2 text-3xl font-bold">18 min</div>
+          <Badge variant="warning" className="mt-2">
+            -5%
+          </Badge>
         </CardContent>
       </Card>
 
@@ -465,12 +471,10 @@ function Dashboard() {
             <Button variant="outline">Vedi tutti</Button>
           </div>
         </CardHeader>
-        <CardContent>
-          {/* Order items here */}
-        </CardContent>
+        <CardContent>{/* Order items here */}</CardContent>
       </Card>
     </div>
-  )
+  );
 }
 ```
 
@@ -481,16 +485,16 @@ function Dashboard() {
 La funzione `cn()` in `lib/utils/cn.ts` è usata internamente per mergere le classi Tailwind in modo intelligente:
 
 ```tsx
-import { cn } from '@/lib/utils/cn'
+import { cn } from '@/lib/utils/cn';
 
 // Merge classi con conflict resolution
-cn("px-2", "px-4") // → "px-4" (l'ultimo vince)
+cn('px-2', 'px-4'); // → "px-4" (l'ultimo vince)
 
 // Con condizioni
-cn("px-2", isActive && "bg-blue-500") // → "px-2 bg-blue-500" (se isActive=true)
+cn('px-2', isActive && 'bg-blue-500'); // → "px-2 bg-blue-500" (se isActive=true)
 
 // Con array
-cn(["px-2", "py-1"], className) // → merge con className esterno
+cn(['px-2', 'py-1'], className); // → merge con className esterno
 ```
 
 ---
@@ -499,9 +503,9 @@ cn(["px-2", "py-1"], className) // → merge con className esterno
 
 Per cambiare il theme globale (colori, border-radius, etc.):
 
-1. **Colori**: Modifica `app/globals.css` con le variabili CSS theme-*
-2. **Border Radius**: Modifica `rounded-xl` nei file components/ui/*.tsx
-3. **Font**: Modifica `font-semibold` nei file components/ui/*.tsx
+1. **Colori**: Modifica `app/globals-v2.css` con le variabili CSS theme-\*
+2. **Border Radius**: Modifica `rounded-xl` nei file components/ui/\*.tsx
+3. **Font**: Modifica `font-semibold` nei file components/ui/\*.tsx
 4. **Spacing**: Modifica padding/margin nei variants
 
 ---

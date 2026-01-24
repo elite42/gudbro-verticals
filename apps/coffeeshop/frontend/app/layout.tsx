@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
+import './globals-v2.css';
 import { ThemeProvider } from '@/lib/theme/theme-context';
 import { DirectionProvider } from '@/components/DirectionProvider';
 import { MerchantConfigProvider } from '@/lib/contexts/MerchantConfigContext';
@@ -8,8 +7,6 @@ import { PWAProvider } from '@/components/PWAProvider';
 import { AnalyticsProvider } from '@/components/AnalyticsProvider';
 import { DesktopNav } from '@/components/layout/DesktopNav';
 import { Footer } from '@/components/layout/Footer';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'ROOTS Plant-Based Cafe - Healthy Vegan Restaurant in Danang',
@@ -42,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
-      <body className={inter.className}>
+      <body>
         <PWAProvider>
           <ThemeProvider>
             <MerchantConfigProvider>

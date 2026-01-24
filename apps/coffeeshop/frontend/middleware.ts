@@ -94,10 +94,52 @@ async function resolveDomain(hostname: string): Promise<DomainResolution | null>
 export async function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') || '';
   const pathname = request.nextUrl.pathname;
+  const searchParams = request.nextUrl.searchParams;
 
   // Block /design-system routes in production
   if (process.env.NODE_ENV === 'production' && pathname.startsWith('/design-system')) {
     return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // ==========================================================================
+  // V2 REDIRECT LOGIC (Gradual Migration)
+  // ==========================================================================
+  // Routes to migrate: / → /v2, /menu → /v2/menu, /cart → /v2/cart
+  // Opt-out: ?legacy=true sets cookie to prefer v1
+  // Opt-in: ?use-v2=true forces v2 and clears legacy preference
+  // ==========================================================================
+
+  const V2_ROUTES: Record<string, string> = {
+    '/': '/v2',
+    '/menu': '/v2/menu',
+    '/cart': '/v2/cart',
+    '/favorites': '/v2/favorites',
+  };
+
+  const preferV1Cookie = request.cookies.get('prefer-v1')?.value === 'true';
+  const legacyParam = searchParams.get('legacy') === 'true';
+  const useV2Param = searchParams.get('use-v2') === 'true';
+
+  // Handle opt-in to v2 (clears legacy preference)
+  if (useV2Param && V2_ROUTES[pathname]) {
+    const v2Url = new URL(V2_ROUTES[pathname], request.url);
+    const response = NextResponse.redirect(v2Url);
+    response.cookies.delete('prefer-v1');
+    return response;
+  }
+
+  // Handle opt-out to v1 (sets legacy preference)
+  if (legacyParam) {
+    const v1Url = new URL(pathname, request.url);
+    v1Url.searchParams.delete('legacy');
+    const response = NextResponse.redirect(v1Url);
+    response.cookies.set('prefer-v1', 'true', { maxAge: 60 * 60 * 24 * 30 }); // 30 days
+    return response;
+  }
+
+  // Redirect to v2 if: route is migratable AND user hasn't opted out
+  if (V2_ROUTES[pathname] && !preferV1Cookie) {
+    return NextResponse.redirect(new URL(V2_ROUTES[pathname], request.url));
   }
 
   // Skip domain resolution for platform domains

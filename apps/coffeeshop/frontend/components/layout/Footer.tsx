@@ -80,7 +80,10 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-theme-bg-elevated border-theme-border-light mt-auto hidden border-t md:block">
+    <footer
+      data-footer
+      className="bg-theme-bg-elevated border-theme-border-light mt-auto hidden border-t md:block"
+    >
       <div className="mx-auto max-w-screen-xl px-4 py-12 lg:px-8">
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:gap-12">
