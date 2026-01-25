@@ -52,8 +52,16 @@ export { AccountPage } from './AccountPage';
 export { FavoritesPage } from './FavoritesPage';
 export { OrderHistoryPage } from './OrderHistoryPage';
 
-// Auth
+// Auth & Welcome
 export { AuthModal } from './AuthModal';
+export { WelcomeModal } from './WelcomeModal';
+
+// Context & Navigation
+export { TableContextBanner } from './TableContextBanner';
+export { SearchOverlay } from './SearchOverlay';
+
+// Layout
+export { DesktopMenuLayout } from './DesktopMenuLayout';
 
 // Connected Components (v2 + v1 services integration)
 export {

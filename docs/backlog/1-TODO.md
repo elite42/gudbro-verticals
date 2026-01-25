@@ -318,15 +318,21 @@ grep -rn "const.*=.*createClient(" --include="*.ts" apps/backoffice/app/api/
 > Redirect attivi: `/` → `/v2`, `/menu` → `/v2/menu`, `/cart` → `/v2/cart`, `/favorites` → `/v2/favorites`
 > Opt-out: `?legacy=true` per tornare a v1
 
-| ID                | Feature            | Descrizione                             | Effort | Status  |
-| ----------------- | ------------------ | --------------------------------------- | ------ | ------- |
-| V2-WELCOME-MODAL  | Welcome Modal      | Modal benvenuto con opzioni login/guest | 1 day  | Pending |
-| V2-AUTH-MODAL     | Auth Modal v2      | Login/Register con Supabase Auth        | 1 day  | Pending |
-| V2-TABLE-CONTEXT  | QR Table Context   | Banner tavolo dopo scansione QR         | 4h     | Pending |
-| V2-SEARCH-OVERLAY | Search Full-screen | Overlay ricerca come v1                 | 4h     | Pending |
-| V2-DESKTOP-LAYOUT | Desktop Sidebar    | Layout desktop con sidebar categorie    | 1 day  | Pending |
-| V2-CLEANUP        | Rimuovi v1         | Cleanup componenti v1 quando v2 stabile | 2h     | Pending |
-| V2-TIER-TEST      | Test Tier System   | Testare BASIC, PRO, ENTERPRISE          | 2h     | Pending |
+| ID                | Feature            | Descrizione                             | Effort | Status     |
+| ----------------- | ------------------ | --------------------------------------- | ------ | ---------- |
+| V2-WELCOME-MODAL  | Welcome Modal      | Modal benvenuto con opzioni login/guest | 1 day  | ✅ DONE    |
+| V2-AUTH-MODAL     | Auth Modal v2      | Login/Register con Supabase Auth        | 1 day  | ✅ DONE    |
+| V2-TABLE-CONTEXT  | QR Table Context   | Banner tavolo dopo scansione QR         | 4h     | ✅ DONE    |
+| V2-SEARCH-OVERLAY | Search Full-screen | Overlay ricerca come v1                 | 4h     | ✅ DONE    |
+| V2-DESKTOP-LAYOUT | Desktop Sidebar    | Layout desktop con sidebar categorie    | 1 day  | ✅ DONE    |
+| V2-CLEANUP        | Rimuovi v1         | Cleanup componenti v1 quando v2 stabile | 2h     | Deferred\* |
+| V2-TIER-TEST      | Test Tier System   | Testare BASIC, PRO, ENTERPRISE          | 2h     | ✅ DONE    |
+
+> **\*V2-CLEANUP deferred:** I componenti v1 sono ancora usati da route legacy (contact, about, events, account) e dal fallback `?legacy=true`. Il cleanup va fatto dopo:
+>
+> 1. Migrazione delle route secondarie a v2 (contact, about, events)
+> 2. Periodo di stabilizzazione v2 (almeno 2 settimane senza bug report)
+> 3. Rimozione del fallback `?legacy=true` dal middleware
 
 ---
 
