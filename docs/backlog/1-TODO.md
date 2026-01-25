@@ -219,7 +219,7 @@ grep -rn "const.*=.*createClient(" --include="*.ts" apps/backoffice/app/api/
 | SEC-HEADERS        | Security Headers   | CSP, HSTS, X-Frame-Options                             | 4h     | ✅ DONE |
 | SEC-ERROR-HANDLING | API Error Handling | Try-catch su tutti i routes                            | 4h     | ✅ DONE |
 | SEC-AUDIT-LOG      | Audit Logging      | Log azioni sensibili (login, payments, config changes) | 2 days | ✅ DONE |
-| SEC-2FA            | Two-Factor Auth    | TOTP per account admin/owner                           | 2 days | Testing |
+| SEC-2FA            | Two-Factor Auth    | TOTP per account admin/owner                           | 2 days | ✅ DONE |
 
 ---
 
