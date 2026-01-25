@@ -1,7 +1,7 @@
 # LESSONS LEARNED
 
-**Last Updated:** 2026-01-23
-**Version:** 1.0
+**Last Updated:** 2026-01-25
+**Version:** 1.1
 
 > **Principio Boris Cherny:** "Ogni volta che Claude fa qualcosa di sbagliato, lo aggiungiamo qui."
 > Questo file cresce nel tempo, Claude impara e non ripete gli stessi errori.
@@ -66,12 +66,16 @@
 
 ### Errori Comuni
 
-| Errore                      | Causa                                    | Soluzione                          |
-| --------------------------- | ---------------------------------------- | ---------------------------------- |
-| Vercel auto-deploy bloccato | Ignored Build Step = stringa vuota `""`  | `bash ignore-build.sh` o rimuovere |
-| Build fail senza env vars   | Client creato a import time              | **Proxy pattern** per lazy init    |
-| Deploy fallito post-push    | Build error non catturato                | Pre-push hook con `turbo build`    |
-| Vercel Hobby blocca deploy  | Limitazioni non documentate per monorepo | **Upgrade a Pro** ($20/mo)         |
+| Errore                      | Causa                                    | Soluzione                                      |
+| --------------------------- | ---------------------------------------- | ---------------------------------------------- |
+| Vercel auto-deploy bloccato | Ignored Build Step = stringa vuota `""`  | `bash ignore-build.sh` o rimuovere             |
+| Build fail senza env vars   | Client creato a import time              | **Proxy pattern** per lazy init                |
+| Deploy fallito post-push    | Build error non catturato                | Pre-push hook con `turbo build`                |
+| Vercel Hobby blocca deploy  | Limitazioni non documentate per monorepo | **Upgrade a Pro** ($20/mo)                     |
+| ERR_PNPM_OUTDATED_LOCKFILE  | pnpm version mismatch locale/Vercel      | `--no-frozen-lockfile` o allineare versioni    |
+| pnpm 10 build scripts block | pnpm 10 blocca lifecycle scripts default | `onlyBuiltDependencies` in pnpm-workspace.yaml |
+| BUILD_UTILS_SPAWN_1         | Errore generico build - **LEGGI I LOG**  | Vercel Dashboard → Build Logs → errore esatto  |
+| Dashboard override nascosto | installCommand override in dashboard     | Verificare projectSettings in deployment API   |
 
 ### Patterns Corretti
 
@@ -81,6 +85,10 @@
 | Vercel Ignored  | `bash script.sh` o rimuovere (null)                    | Stringa vuota `""` blocca builds         |
 | Vercel monorepo | **Piano Pro** per progetti complessi                   | Piano Hobby (UI/Hook bloccati)           |
 | API Supabase    | `import { supabaseAdmin } from '@/lib/supabase-admin'` | `const supabase = createClient()` inline |
+| pnpm 10 scripts | `onlyBuiltDependencies` in pnpm-workspace.yaml         | Ignorare warning "Ignored build scripts" |
+| pnpm lockfile   | Allineare packageManager con lockfileVersion           | Mismatch locale/CI versioni pnpm         |
+| Build error     | **Leggere Build Logs** su Vercel Dashboard             | Ipotizzare causa senza log               |
+| Debug deploy    | Chiedere log all'utente se non accessibili via API     | Tentare fix al buio per ore              |
 
 ### API Route Pattern
 
@@ -209,24 +217,30 @@ const supabase = createClient(
 | Backlog non sync con roadmap | Task create ma non aggiunte        | **Sync backlog** dopo planning           |
 | Rimuovere link per fix 404   | Link → 404                         | **Creare la pagina**, non rimuovere link |
 | Audit incompleto 75%         | Route groups non considerati       | **Glob fresh** su `**/page.tsx`          |
+| **Procedere per tentativi**  | Ipotesi senza dati/log             | **LEGGI I LOG PRIMA** di ipotizzare      |
+| File non committati          | Creati ma non `git add`            | **`git status`** prima di debug build    |
+| Debug cieco su CI/Deploy     | Non ho accesso diretto ai log      | **CHIEDI i log all'utente** subito       |
 
 ### Patterns Corretti
 
-| Area            | Pattern Corretto                       | Anti-Pattern               |
-| --------------- | -------------------------------------- | -------------------------- |
-| Error handling  | `try/catch` con logging                | Silent failures            |
-| Warnings/Errors | Agire subito, fix o segnala            | Ignorare e proseguire      |
-| Doc grandi      | Layered: sezioni rilevanti solo        | Leggere/processare tutto   |
-| Task lunghe     | Commit ogni ~30 min                    | Task 2h+ senza checkpoint  |
-| MCP heavy ops   | Prima commit, poi type gen             | Type gen durante sviluppo  |
-| Dev server port | Verifica `lsof -i :3023` prima         | Assumere porta libera      |
-| Hydration SSR   | `mounted` state + useEffect            | localStorage a render      |
-| Feature 404     | Creare la pagina mancante              | Rimuovere il link          |
-| Dev-only logic  | Componente separato `DevX`             | if(isDev) dentro comp prod |
-| Planning docs   | Commit roadmaps/specs subito           | Creare file senza commit   |
-| Backlog sync    | Aggiorna 1-TODO + 4-DONE dopo planning | Roadmap senza sync         |
-| Session start   | `cd progetto && claude` o alias        | Avviare Claude da ~        |
-| KB Backoffice   | Aggiorna `lib/kb/kb-content.ts`        | Dimenticare docs utente    |
+| Area            | Pattern Corretto                       | Anti-Pattern                  |
+| --------------- | -------------------------------------- | ----------------------------- |
+| Error handling  | `try/catch` con logging                | Silent failures               |
+| Warnings/Errors | Agire subito, fix o segnala            | Ignorare e proseguire         |
+| Doc grandi      | Layered: sezioni rilevanti solo        | Leggere/processare tutto      |
+| Task lunghe     | Commit ogni ~30 min                    | Task 2h+ senza checkpoint     |
+| MCP heavy ops   | Prima commit, poi type gen             | Type gen durante sviluppo     |
+| Dev server port | Verifica `lsof -i :3023` prima         | Assumere porta libera         |
+| Hydration SSR   | `mounted` state + useEffect            | localStorage a render         |
+| Feature 404     | Creare la pagina mancante              | Rimuovere il link             |
+| Dev-only logic  | Componente separato `DevX`             | if(isDev) dentro comp prod    |
+| Planning docs   | Commit roadmaps/specs subito           | Creare file senza commit      |
+| Backlog sync    | Aggiorna 1-TODO + 4-DONE dopo planning | Roadmap senza sync            |
+| Session start   | `cd progetto && claude` o alias        | Avviare Claude da ~           |
+| KB Backoffice   | Aggiorna `lib/kb/kb-content.ts`        | Dimenticare docs utente       |
+| **Debug CI**    | **Dati → Analisi → Piano → Azione**    | Tentativi casuali senza dati  |
+| **Pre-deploy**  | `git status` per file non committati   | Debug build senza check files |
+| **Log access**  | Chiedi log all'utente se serve         | Ipotizzare per ore senza dati |
 
 ### UX Patterns
 
