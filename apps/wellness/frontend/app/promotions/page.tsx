@@ -1,203 +1,384 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { OfferCard } from '../../components/OfferCard';
-import { wellnessConfig } from '../../config/wellness.config';
-import { Header, BottomNav } from '@gudbro/menu-template/components';
+
+// =============================================================================
+// MOCK DATA
+// =============================================================================
+
+const promotions = [
+  {
+    id: 'promo-1',
+    name: '20% Off All Massages',
+    description:
+      'Enjoy 20% off every massage treatment for the entire month. Perfect for first-timers and regulars alike.',
+    originalPrice: 450000,
+    discountedPrice: 360000,
+    discountType: 'percentage' as const,
+    discountValue: 20,
+    validFrom: '2026-01-01',
+    validTo: '2026-01-31',
+    services: ['Thai Massage', 'Swedish Massage', 'Hot Stone Massage', 'Aromatherapy Massage'],
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&h=250&fit=crop',
+    active: true,
+  },
+  {
+    id: 'promo-2',
+    name: 'Couples Retreat Special',
+    description:
+      'Book a couples massage and receive a complimentary herbal tea ceremony and rose petal decoration.',
+    originalPrice: 1200000,
+    discountedPrice: 800000,
+    discountType: 'fixed' as const,
+    discountValue: 400000,
+    validFrom: '2026-02-01',
+    validTo: '2026-02-28',
+    services: ['Couples Massage (2 persons)', 'Champagne & Strawberries', 'Rose Petals Decoration'],
+    image: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=400&h=250&fit=crop',
+    active: true,
+  },
+  {
+    id: 'promo-3',
+    name: 'Happy Hour Facial',
+    description:
+      'Book a facial treatment between 2-4 PM weekdays and get 30% off. Limited spots available.',
+    originalPrice: 500000,
+    discountedPrice: 350000,
+    discountType: 'percentage' as const,
+    discountValue: 30,
+    validFrom: '2026-01-01',
+    validTo: '2026-03-31',
+    services: ['Korean Facial', 'Anti-aging Treatment', 'Deep Cleansing'],
+    conditions: 'Monday-Friday, 2:00 PM - 4:00 PM only',
+    image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=250&fit=crop',
+    active: true,
+  },
+  {
+    id: 'promo-expired',
+    name: 'Black Friday Deal',
+    description: 'Was: 50% off all services for one day only.',
+    originalPrice: 500000,
+    discountedPrice: 250000,
+    discountType: 'percentage' as const,
+    discountValue: 50,
+    validFrom: '2025-11-28',
+    validTo: '2025-11-28',
+    services: ['All services'],
+    image: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=400&h=250&fit=crop',
+    active: false,
+  },
+];
+
+// =============================================================================
+// UTILS
+// =============================================================================
+
+function formatPrice(price: number, currency: string): string {
+  if (currency === 'VND') return new Intl.NumberFormat('vi-VN').format(price) + '₫';
+  if (currency === 'USD') return '$' + (price / 24000).toFixed(0);
+  return '€' + (price / 26000).toFixed(0);
+}
+
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+// =============================================================================
+// COMPONENT
+// =============================================================================
 
 export default function PromotionsPage() {
-  const { business, ui, contact } = wellnessConfig;
+  const [currency] = useState('VND');
 
-  // Example promotions with type='promotion', validity dates, and discounts
-  const promotions = [
-    {
-      id: 'promo-1',
-      name: '-20% su Tutti i Massaggi',
-      description: 'Sconto del 20% su tutti i massaggi corpo per tutto il mese!',
-      price: 350000, // Original price
-      duration: '60-90 min',
-      icon: '💆‍♀️',
-      type: 'promotion' as const,
-      popular: true,
-      validFrom: '2025-11-01',
-      validTo: '2025-11-30',
-      discount: {
-        type: 'percentage' as const,
-        value: 20,
-      },
-      services: ['Thai Massage', 'Swedish Massage', 'Hot Stone Massage', 'Aromatherapy Massage'],
-    },
-    {
-      id: 'promo-2',
-      name: 'Pacchetto San Valentino',
-      description: 'Offerta speciale per coppie - due trattamenti al prezzo di uno!',
-      price: 800000,
-      duration: '120 min',
-      icon: '💕',
-      type: 'promotion' as const,
-      validFrom: '2025-02-10',
-      validTo: '2025-02-14',
-      discount: {
-        type: 'fixed' as const,
-        value: 400000,
-      },
-      services: ['Couples Massage (2 persone)', 'Champagne & Fragole', 'Rose Petals Decoration'],
-    },
-    {
-      id: 'promo-3',
-      name: 'Happy Hour Facial',
-      description: 'Sconto su trattamenti viso prenotati dalle 14:00 alle 16:00',
-      price: 200000,
-      duration: '45 min',
-      icon: '🌟',
-      type: 'promotion' as const,
-      validFrom: '2025-11-01',
-      validTo: '2025-12-31',
-      discount: {
-        type: 'percentage' as const,
-        value: 30,
-      },
-      services: ['Korean Facial', 'Anti-aging Treatment', 'Deep Cleansing'],
-      conditions: 'Valido solo lun-ven 14:00-16:00',
-    },
-    {
-      id: 'promo-expired',
-      name: 'Black Friday Deal (Scaduta)',
-      description: 'Era: 50% di sconto su tutti i servizi',
-      price: 500000,
-      duration: '90 min',
-      icon: '🖤',
-      type: 'promotion' as const,
-      validFrom: '2024-11-24',
-      validTo: '2024-11-24',
-      discount: {
-        type: 'percentage' as const,
-        value: 50,
-      },
-      services: ['Tutti i servizi'],
-    },
-  ];
-
-  // Filter active vs expired
-  const activePromotions = promotions.filter((promo) => {
-    if (!promo.validFrom || !promo.validTo) return true;
-    const now = new Date();
-    const from = new Date(promo.validFrom);
-    const to = new Date(promo.validTo);
-    return now >= from && now <= to;
-  });
-
-  const expiredPromotions = promotions.filter((promo) => {
-    if (!promo.validFrom || !promo.validTo) return false;
-    const now = new Date();
-    const to = new Date(promo.validTo);
-    return now > to;
-  });
+  const activePromos = promotions.filter((p) => p.active);
+  const expiredPromos = promotions.filter((p) => !p.active);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 pb-24">
-      {/* Header */}
-      <Header config={wellnessConfig} showBackButton={true} variant="minimal" />
-
-      {/* Hero */}
-      <div className="bg-gradient-to-r from-pink-500 to-orange-500 px-4 py-12 text-white">
-        <div className="container mx-auto text-center">
-          <h1 className="mb-3 text-4xl font-bold">
-            🎁 {ui?.labels?.promotions || 'Promozioni Speciali'}
-          </h1>
-          <p className="text-xl opacity-90">Approfitta delle nostre offerte a tempo limitato!</p>
+    <div className="min-h-screen bg-[var(--cream)] pb-24">
+      {/* ===== HEADER ===== */}
+      <header className="bg-[var(--cream)]/90 fixed left-0 right-0 top-0 z-50 border-b border-[var(--cream-dark)] backdrop-blur-md">
+        <div className="flex items-center gap-3 px-4 py-3">
+          <Link
+            href="/"
+            className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-[var(--cream-dark)]"
+          >
+            <svg
+              className="h-5 w-5 text-[var(--charcoal)]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </Link>
+          <div>
+            <h1 className="font-display text-lg font-semibold text-[var(--charcoal)]">
+              Special Offers
+            </h1>
+            <p className="text-xs text-[var(--charcoal-muted)]">
+              {activePromos.length} active promotions
+            </p>
+          </div>
         </div>
-      </div>
+      </header>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Active Promotions */}
-        {activePromotions.length > 0 && (
-          <div className="mb-12">
-            <h2 className="mb-6 text-3xl font-bold text-gray-800">✨ Offerte Attive</h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {activePromotions.map((promo) => (
-                <OfferCard key={promo.id} offer={promo} variant="grid" />
+      <main className="px-4 pt-20">
+        {/* ===== ACTIVE PROMOTIONS ===== */}
+        {activePromos.length > 0 && (
+          <section className="mb-8">
+            <div className="space-y-4">
+              {activePromos.map((promo, index) => (
+                <div
+                  key={promo.id}
+                  className="animate-fade-in-up shadow-soft-lg overflow-hidden rounded-2xl bg-white"
+                  style={{ animationDelay: `${index * 80}ms` }}
+                >
+                  {/* Image */}
+                  <div className="relative h-40 overflow-hidden">
+                    <img
+                      src={promo.image}
+                      alt={promo.name}
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                    {/* Discount Badge */}
+                    <div className="absolute left-3 top-3 rounded-full bg-[var(--gold)] px-3 py-1 text-xs font-bold text-[var(--charcoal)]">
+                      {promo.discountType === 'percentage'
+                        ? `-${promo.discountValue}%`
+                        : `Save ${formatPrice(promo.discountValue, currency)}`}
+                    </div>
+
+                    {/* Validity */}
+                    <div className="absolute bottom-3 right-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-medium text-[var(--charcoal)] backdrop-blur-sm">
+                      {formatDate(promo.validFrom)} - {formatDate(promo.validTo)}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-4">
+                    <h2 className="font-display mb-1 text-lg font-semibold text-[var(--charcoal)]">
+                      {promo.name}
+                    </h2>
+                    <p className="mb-3 text-xs text-[var(--charcoal-muted)]">{promo.description}</p>
+
+                    {/* Price */}
+                    <div className="mb-3 flex items-baseline gap-2">
+                      <span className="font-display text-xl font-bold text-[var(--sage-hex)]">
+                        {formatPrice(promo.discountedPrice, currency)}
+                      </span>
+                      <span className="text-sm text-[var(--charcoal-muted)] line-through">
+                        {formatPrice(promo.originalPrice, currency)}
+                      </span>
+                    </div>
+
+                    {/* Applicable Services */}
+                    <div className="mb-3">
+                      <p className="mb-1.5 text-[10px] font-medium uppercase tracking-wider text-[var(--charcoal-muted)]">
+                        Applies to
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {promo.services.map((svc, i) => (
+                          <span
+                            key={i}
+                            className="rounded-full bg-[var(--sage-light)] px-2.5 py-1 text-[11px] font-medium text-[var(--sage-dark)]"
+                          >
+                            {svc}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Conditions */}
+                    {promo.conditions && (
+                      <div className="mb-3 rounded-lg bg-[var(--cream)] px-3 py-2">
+                        <p className="text-xs text-[var(--charcoal-muted)]">
+                          <span className="font-medium text-[var(--charcoal)]">Note:</span>{' '}
+                          {promo.conditions}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Book CTA */}
+                    <button className="w-full rounded-xl bg-[var(--sage-hex)] py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-[var(--sage-dark)] active:scale-[0.98]">
+                      Claim Offer
+                    </button>
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
+          </section>
         )}
 
-        {/* No active promotions message */}
-        {activePromotions.length === 0 && (
+        {/* ===== NO ACTIVE PROMOS ===== */}
+        {activePromos.length === 0 && (
           <div className="py-16 text-center">
-            <div className="mb-6 text-6xl">🎁</div>
-            <h2 className="mb-4 text-3xl font-bold text-gray-800">
-              Nessuna Promozione Attiva Al Momento
+            <div className="mb-4 text-5xl">🌿</div>
+            <h2 className="font-display mb-2 text-xl font-semibold text-[var(--charcoal)]">
+              No Active Promotions
             </h2>
-            <p className="mb-8 text-xl text-gray-600">
-              Torna presto per vedere le nostre offerte speciali!
+            <p className="mb-6 text-sm text-[var(--charcoal-muted)]">
+              Check back soon for special offers and exclusive deals.
             </p>
             <Link
-              href={`https://zalo.me/${contact?.zaloId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block transform rounded-full bg-gradient-to-r from-pink-500 to-purple-500 px-8 py-4 text-lg font-bold text-white transition-all hover:scale-105 hover:from-pink-600 hover:to-purple-600"
+              href="/"
+              className="inline-block rounded-xl bg-[var(--sage-hex)] px-6 py-3 text-sm font-semibold text-white"
             >
-              💬 Contattaci su Zalo
+              Browse Services
             </Link>
           </div>
         )}
 
-        {/* Expired Promotions */}
-        {expiredPromotions.length > 0 && (
-          <div className="mb-8">
-            <h2 className="mb-4 text-2xl font-bold text-gray-500">⏰ Offerte Scadute</h2>
-            <div className="grid grid-cols-1 gap-6 opacity-60 md:grid-cols-2 lg:grid-cols-3">
-              {expiredPromotions.map((promo) => (
-                <OfferCard key={promo.id} offer={promo} variant="grid" />
+        {/* ===== EXPIRED PROMOTIONS ===== */}
+        {expiredPromos.length > 0 && (
+          <section className="mb-8">
+            <h2 className="font-display mb-3 text-base text-[var(--charcoal-muted)]">
+              Past Offers
+            </h2>
+            <div className="space-y-3 opacity-50">
+              {expiredPromos.map((promo) => (
+                <div
+                  key={promo.id}
+                  className="shadow-soft flex items-center gap-3 rounded-xl bg-white p-3"
+                >
+                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg">
+                    <img
+                      src={promo.image}
+                      alt={promo.name}
+                      className="h-full w-full object-cover grayscale"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-display text-sm font-semibold text-[var(--charcoal)]">
+                      {promo.name}
+                    </h3>
+                    <p className="text-xs text-[var(--charcoal-muted)]">
+                      Expired {formatDate(promo.validTo)}
+                    </p>
+                  </div>
+                  <span className="rounded-full bg-[var(--cream-dark)] px-2 py-0.5 text-[10px] font-medium text-[var(--charcoal-muted)]">
+                    EXPIRED
+                  </span>
+                </div>
               ))}
             </div>
-          </div>
+          </section>
         )}
 
-        {/* CTA Section */}
-        <div className="mt-12 rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 p-8">
-          <div className="text-center">
-            <h3 className="mb-4 text-2xl font-bold text-gray-800">
-              💝 Ricevi le Nostre Offerte Esclusive
-            </h3>
-            <p className="mb-6 text-gray-600">
-              Contattaci su Zalo per essere sempre aggiornato sulle promozioni e offerte riservate
-              ai nostri clienti VIP
+        {/* ===== STAY UPDATED CTA ===== */}
+        <section className="mb-4">
+          <div className="shadow-soft rounded-2xl bg-gradient-to-br from-[var(--charcoal)] to-[var(--charcoal-light)] p-5 text-white">
+            <h3 className="font-display mb-2 text-lg font-semibold">Never Miss an Offer</h3>
+            <p className="mb-4 text-sm text-white/70">
+              Contact us on WhatsApp or Zalo to receive exclusive VIP offers and early access to
+              promotions.
             </p>
-            <Link
-              href={`https://zalo.me/${contact?.zaloId}?text=${encodeURIComponent('Vorrei ricevere informazioni sulle promozioni')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block transform rounded-full bg-gradient-to-r from-pink-500 to-purple-500 px-8 py-4 text-lg font-bold text-white transition-all hover:scale-105 hover:from-pink-600 hover:to-purple-600"
+            <div className="flex gap-2">
+              <a
+                href="https://wa.me/84123456789"
+                className="flex-1 rounded-lg bg-green-600 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-green-700"
+              >
+                WhatsApp
+              </a>
+              <a
+                href="https://zalo.me/84123456789"
+                className="flex-1 rounded-lg bg-blue-600 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-blue-700"
+              >
+                Zalo
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* ===== BOTTOM NAVIGATION ===== */}
+      <nav className="pb-safe-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
+        <div className="mx-auto flex max-w-lg items-center justify-between">
+          <Link href="/" className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1.5"
             >
-              💬 Iscriviti alle Offerte
-            </Link>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+              />
+            </svg>
+          </Link>
+          <Link
+            href="/services"
+            className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
+              />
+            </svg>
+          </Link>
+          <span className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
+              />
+            </svg>
+          </span>
+          <Link
+            href="/staff"
+            className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
+              />
+            </svg>
+          </Link>
+          <span className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+              />
+            </svg>
+          </span>
         </div>
-
-        {/* Benefits */}
-        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="rounded-xl bg-white p-6 text-center shadow-md">
-            <div className="mb-3 text-4xl">⭐</div>
-            <h4 className="mb-2 text-lg font-bold">Sconti Esclusivi</h4>
-            <p className="text-sm text-gray-600">Fino al 50% di sconto su servizi selezionati</p>
-          </div>
-          <div className="rounded-xl bg-white p-6 text-center shadow-md">
-            <div className="mb-3 text-4xl">🎉</div>
-            <h4 className="mb-2 text-lg font-bold">Offerte Stagionali</h4>
-            <p className="text-sm text-gray-600">Promozioni speciali per ogni occasione</p>
-          </div>
-          <div className="rounded-xl bg-white p-6 text-center shadow-md">
-            <div className="mb-3 text-4xl">💎</div>
-            <h4 className="mb-2 text-lg font-bold">Programma Fedeltà</h4>
-            <p className="text-sm text-gray-600">Accumula punti e ricevi vantaggi esclusivi</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Navigation */}
-      <BottomNav config={wellnessConfig} />
+      </nav>
     </div>
   );
 }
