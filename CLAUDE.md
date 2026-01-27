@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-23
-> **Version:** 8.2 (Added Payment Icons)
+> **Last Updated:** 2026-01-27
+> **Version:** 8.8 (Vertical PWAs Map)
 
 ---
 
@@ -11,15 +11,18 @@
 
 > **Leggi solo le sezioni rilevanti al task corrente.**
 
-| Attività        | Sezioni da leggere                        |
-| --------------- | ----------------------------------------- |
-| Inizio sessione | 0 + 1                                     |
-| Sviluppo codice | 2 + 3                                     |
-| Database/SQL    | 3 + 5 + `docs/LESSONS-LEARNED.md` (Sez.1) |
-| AI Co-Manager   | `docs/AI-SYSTEM.md`                       |
-| Deploy/Vercel   | 9 + `docs/LESSONS-LEARNED.md` (Sez.2)     |
-| Errori/Debug    | `docs/LESSONS-LEARNED.md`                 |
-| Fine sessione   | 11                                        |
+| Attività            | Sezioni da leggere                                |
+| ------------------- | ------------------------------------------------- |
+| Inizio sessione     | 0 + 1 + 1.5                                       |
+| Sviluppo codice     | 2 + 3                                             |
+| **PWA Frontend v2** | `docs/knowledge/systems/V2-MIGRATION-GUIDE.md` ⭐ |
+| **Customizations**  | `docs/knowledge/systems/CUSTOMIZATIONS-SYSTEM.md` |
+| Database/SQL        | 3 + 5 + `docs/core/lessons/database.md`           |
+| AI Co-Manager       | `docs/core/AI-SYSTEM.md`                          |
+| Deploy/Vercel       | 9 + `docs/core/lessons/vercel.md`                 |
+| Errori/Debug        | `docs/core/lessons/` (file per argomento)         |
+| Fine sessione       | 12                                                |
+| Skills/Plugin       | 10                                                |
 
 ---
 
@@ -59,6 +62,19 @@ IN PROGRESS: [da 2-IN-PROGRESS.md]
 
 Vuoi continuare o fare altro?
 ```
+
+---
+
+# 1.5 MCP TOOLS (Regole Critiche)
+
+> **Queste regole sono OBBLIGATORIE. Ignorarle causa errori ripetuti e spreco di token.**
+
+| Tool                                | Azione       | Note                         |
+| ----------------------------------- | ------------ | ---------------------------- |
+| `mcp__Pieces__ask_pieces_ltm`       | ✅ USA       | Interroga memoria storica    |
+| `mcp__Pieces__create_pieces_memory` | ❌ MAI USARE | Pieces salva automaticamente |
+
+**Per salvare ricerche/note:** Scrivi in `docs/research/` o `docs/knowledge/`, NON tentare di salvare in Pieces.
 
 ---
 
@@ -102,7 +118,7 @@ VERIFICA SEMPRE:
 - [ ] Error handling presente
 ```
 
-> **Errori comuni?** Vedi `docs/LESSONS-LEARNED.md`
+> **Errori comuni?** Vedi `docs/core/lessons/` (file per argomento)
 
 ---
 
@@ -111,17 +127,37 @@ VERIFICA SEMPRE:
 ```
 gudbro-verticals/
 ├── apps/
-│   ├── coffeeshop/frontend/  # Digital Menu PWA (:3004)
+│   ├── coffeeshop/frontend/  # Digital Menu PWA (:3004) - Food & Beverage
+│   ├── accommodations/       # Stays PWA - Hotels, Apartments, Hostels
+│   │   ├── frontend/         # Booking Mode + In-Stay Dashboard
+│   │   └── PRD.md            # Product Requirements v2.2
+│   ├── tours/                # Tours PWA - Activities, Experiences
+│   ├── wellness/             # Wellness PWA - Spa, Hair, Nails, Tattoo
+│   ├── waiter/               # Waiter PWA - Staff order taking
+│   ├── rentals/              # Rentals PWA - Vehicles, Equipment
+│   ├── website/              # Landing pages
 │   └── backoffice/           # Admin Dashboard (:3023)
 ├── shared/database/          # Database v6.0
 │   ├── cuisines/, beverages/, dishes/
 │   └── migrations/
-├── docs/                     # Documentation
+├── docs/
+│   ├── core/                 # ⭐ Operativi quotidiani
+│   │   ├── lessons/          # Errori per argomento
+│   │   │   ├── database.md
+│   │   │   ├── vercel.md
+│   │   │   ├── typescript.md
+│   │   │   └── ...
+│   │   ├── RUNBOOK.md
+│   │   ├── VERCEL-SETUP.md
+│   │   └── AI-SYSTEM.md
+│   ├── reference/            # Consultazione
+│   │   ├── DATABASE-SCHEMA.md
+│   │   ├── PRODUCT.md
+│   │   └── TESTING-STRATEGY.md
+│   ├── roadmaps/             # Pianificazione
+│   ├── features/             # Feature specs
 │   ├── backlog/              # Kanban
-│   ├── LESSONS-LEARNED.md    # Errori e pattern ⭐
-│   ├── AI-SYSTEM.md          # AI Co-Manager docs ⭐
-│   ├── VERCEL-SETUP.md       # Vercel config ⭐
-│   └── RUNBOOK.md            # Incident response ⭐
+│   └── archive/              # File datati/obsoleti
 └── CLAUDE.md                 # Questo file
 ```
 
@@ -143,18 +179,52 @@ gudbro-verticals/
 
 # 6. DOCUMENTATION MAP
 
-| File                       | Quando Usare                                |
-| -------------------------- | ------------------------------------------- |
-| `docs/LESSONS-LEARNED.md`  | **Errori da evitare** (DB, Vercel, TS, Git) |
-| `docs/AI-SYSTEM.md`        | **Lavoro su AI Co-Manager**                 |
-| `docs/VERCEL-SETUP.md`     | **Config Vercel/Deploy**                    |
-| `docs/RUNBOOK.md`          | **Incidenti/Recovery**                      |
-| `docs/PRODUCT.md`          | Valutazione feature                         |
-| `docs/GIANFRANCO.md`       | Preferenze utente                           |
-| `docs/DATABASE-SCHEMA.md`  | Prima di SQL                                |
-| `docs/SCALE-ROADMAP.md`    | Scaling infra                               |
-| `docs/SECURITY-ROADMAP.md` | Security hardening                          |
-| `docs/backlog/`            | Task management                             |
+## Core (Uso Quotidiano) ⭐
+
+| File                                  | Quando Usare                          |
+| ------------------------------------- | ------------------------------------- |
+| `docs/core/lessons/database.md`       | **Errori DB/Supabase/RLS**            |
+| `docs/core/lessons/vercel.md`         | **Errori Deploy/Vercel**              |
+| `docs/core/lessons/typescript.md`     | **Errori TypeScript**                 |
+| `docs/core/lessons/git.md`            | **Errori Git/CI/CD**                  |
+| `docs/core/lessons/patterns.md`       | **Workflow & UX patterns**            |
+| `docs/core/RUNBOOK.md`                | **Incidenti/Recovery**                |
+| `docs/core/VERCEL-SETUP.md`           | **Config Vercel/Deploy**              |
+| `docs/core/AI-SYSTEM.md`              | **Lavoro su AI Co-Manager**           |
+| `docs/design/IMPLEMENTATION-GUIDE.md` | **PWA Frontend v2** - Guida esecutiva |
+
+## Reference (Consultazione)
+
+| File                                 | Quando Usare        |
+| ------------------------------------ | ------------------- |
+| `docs/reference/DATABASE-SCHEMA.md`  | Prima di SQL        |
+| `docs/reference/PRODUCT.md`          | Valutazione feature |
+| `docs/reference/TESTING-STRATEGY.md` | Testing patterns    |
+| `docs/GIANFRANCO.md`                 | Preferenze utente   |
+
+## Knowledge Base (Sistemi & Pattern)
+
+| File                                              | Quando Usare                                           |
+| ------------------------------------------------- | ------------------------------------------------------ |
+| `docs/knowledge/systems/CUSTOMIZATIONS-SYSTEM.md` | **Personalizzazioni merchant** (colori, temi, sezioni) |
+| `docs/knowledge/systems/V2-MIGRATION-GUIDE.md`    | **PWA v2** - Pattern 4-tier, middleware                |
+| `docs/knowledge/CONTRIBUTING.md`                  | **Regole** per espandere/modificare KB                 |
+
+## Vertical PWAs (Product Requirements)
+
+| File                         | Quando Usare                                         |
+| ---------------------------- | ---------------------------------------------------- |
+| `apps/accommodations/PRD.md` | **Stays PWA** - In-Stay Dashboard, visa, local deals |
+| `docs/features/TOURS-PRD.md` | **Tours PWA** - Activities, experiences              |
+| `apps/wellness/PRD.md`       | **Wellness PWA** - Spa, hair, nails, tattoo          |
+
+## Roadmaps & Backlog
+
+| File                                | Quando Usare       |
+| ----------------------------------- | ------------------ |
+| `docs/roadmaps/SCALE-ROADMAP.md`    | Scaling infra      |
+| `docs/roadmaps/SECURITY-ROADMAP.md` | Security hardening |
+| `docs/backlog/`                     | Task management    |
 
 ---
 
@@ -265,7 +335,7 @@ git push origin main   # Auto-deploy Vercel
 ./scripts/ci-local.sh --quick  # Quick
 ```
 
-## Slash Commands
+## Slash Commands (Custom)
 
 | Comando     | Descrizione                               |
 | ----------- | ----------------------------------------- |
@@ -275,7 +345,62 @@ git push origin main   # Auto-deploy Vercel
 
 ---
 
-# 10. ARCHITECTURAL DECISIONS
+# 10. SKILLS & PLUGINS
+
+> **Skills e comandi disponibili da plugin installati.**
+> Usa queste risorse per task specifici.
+
+## 10.1 Skills (Invocabili)
+
+| Skill                   | Quando Usare                                                         | Come Invocare                   |
+| ----------------------- | -------------------------------------------------------------------- | ------------------------------- |
+| `frontend-design`       | **UI/UX nuovo, redesign, componenti customer-facing** ⭐             | Automatica o `/frontend-design` |
+| `ui-ux-pro-max`         | UI/UX avanzato alternativo                                           | Skill tool                      |
+| `ralph-loop`            | Task iterativi con criteri di successo chiari (es. far passare test) | `/ralph-loop`                   |
+| `stripe-best-practices` | Integrazione Stripe                                                  | Skill tool                      |
+
+### Regola UI/UX (OBBLIGATORIA)
+
+```
+Quando lavoro su UI/UX DEVO usare skill `frontend-design`:
+- ✅ Nuova pagina/componente UI
+- ✅ Redesign significativo
+- ✅ Componenti customer-facing
+- ❌ Piccole modifiche (segui pattern esistenti)
+- ❌ Fix bug UI minori
+```
+
+## 10.2 Slash Commands (Plugin)
+
+| Comando                                     | Plugin            | Descrizione              |
+| ------------------------------------------- | ----------------- | ------------------------ |
+| `/ralph-loop "<prompt>" --max-iterations N` | ralph-loop        | Loop iterativo autonomo  |
+| `/cancel-ralph`                             | ralph-loop        | Ferma loop attivo        |
+| `/commit`                                   | commit-commands   | Commit con messaggio     |
+| `/commit-push-pr`                           | commit-commands   | Commit, push e crea PR   |
+| `/code-review`                              | code-review       | Review del codice        |
+| `/review-pr`                                | pr-review-toolkit | Review di una PR GitHub  |
+| `/feature-dev`                              | feature-dev       | Sviluppo feature guidato |
+| `/hookify`                                  | hookify           | Gestione hooks           |
+
+## 10.3 Ralph Loop - Uso Consigliato
+
+```bash
+# Esempio: Task iterativo con test
+/ralph-loop "Implementa feature X con TDD.
+1. Scrivi test
+2. Implementa
+3. Esegui test
+4. Se falliscono, correggi
+5. Output <promise>COMPLETE</promise> quando tutti i test passano" --completion-promise "COMPLETE" --max-iterations 20
+```
+
+**Buono per:** Task ben definiti, iterazione su test, progetti greenfield
+**Non buono per:** Task con giudizio umano, criteri vaghi, debugging production
+
+---
+
+# 11. ARCHITECTURAL DECISIONS
 
 | Decision     | Rule                   |
 | ------------ | ---------------------- |
@@ -286,7 +411,7 @@ git push origin main   # Auto-deploy Vercel
 
 ---
 
-# 11. FINE SESSIONE
+# 12. FINE SESSIONE
 
 **Usa `/end-session <categoria>` per checklist guidata.**
 
@@ -302,11 +427,13 @@ git push origin main   # Auto-deploy Vercel
 
 **Senza categoria:** `/end-session` esegue checklist universale.
 
+**Knowledge Capture:** Rispondi alle domande in `docs/knowledge/CONTRIBUTING.md` (sezione "Domande Fine Sessione") per migliorare la Knowledge Base.
+
 **Vedi:** `docs/END-SESSION-CHECKLIST.md` per dettagli.
 
 ---
 
-# 12. ANTI-PATTERNS
+# 13. ANTI-PATTERNS
 
 | Anti-Pattern        | Soluzione              |
 | ------------------- | ---------------------- |
@@ -317,9 +444,15 @@ git push origin main   # Auto-deploy Vercel
 
 ---
 
-**Version:** 8.2
+**Version:** 8.8
 **Changes:**
 
+- v8.8 - Vertical PWAs Map: added apps structure with accommodations, tours, wellness, waiter, rentals + Vertical PWAs section in doc map
+- v8.7 - MCP Tools Rules: added section 1.5 with critical Pieces MCP rules (never use create_pieces_memory)
+- v8.6 - Knowledge Base: added docs/knowledge/ with CUSTOMIZATIONS-SYSTEM.md and V2-MIGRATION-GUIDE.md
+- v8.5 - Modular Lessons: split LESSONS-LEARNED.md into 7 topic-specific files
+- v8.4 - Added Skills & Plugins section (frontend-design, ralph-loop, slash commands)
+- v8.3 - Added PWA v2 Implementation Guide with executable checklist, component specs, and API connections
 - v8.2 - Added Payment Icons (@web3icons/react for crypto, react-svg-credit-card-payment-icons for fiat)
 - v8.1 - Added Phosphor Icons (9,000+ icons, 6 weights) as preferred icon library
 - v8.0 - Optimized structure: content migrated to satellite files (LESSONS-LEARNED.md, AI-SYSTEM.md)

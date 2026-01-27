@@ -4,7 +4,7 @@
 > **Max 3 task** alla volta per focus.
 > Quando completata → spostala in `3-TESTING.md` o `4-DONE.md`
 
-**Last Updated:** 2026-01-20 (no active tasks)
+**Last Updated:** 2026-01-27 (no active tasks)
 
 ---
 
@@ -72,6 +72,8 @@ Quando pronto per Phase 4, vedere `1-TODO.md` sezione "SCALING INITIATIVE - Phas
 
 ## Recentemente completati (vedi 4-DONE.md)
 
+- ✅ ACCOM-INSTAY - Accommodations In-Stay PWA (WiFi, visa dinamico, local deals, partner GUDBRO) - 2026-01-27
+- ✅ PWA-V2-PARITY - PWA v2 Feature Parity (14 feature: navigation, tracking, notifications, info pages) - 2026-01-25
 - ✅ AI-KNOWLEDGE - AI Platform Knowledge (navigation, features, how-to) - 2026-01-20
 - ✅ DATA-CONSISTENCY - Fix cross-merchant data leak in Intelligence Map - 2026-01-20
 - ✅ BACKOFFICE-TOOLTIPS - Contextual Help System (~65 pages) - 2026-01-20

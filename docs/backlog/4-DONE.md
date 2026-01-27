@@ -3,7 +3,69 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-23
+**Last Updated:** 2026-01-27
+
+---
+
+## 2026-01-27
+
+| ID           | Feature                    | Descrizione                                                                                            | Completato |
+| ------------ | -------------------------- | ------------------------------------------------------------------------------------------------------ | ---------- |
+| ACCOM-INSTAY | Accommodations In-Stay PWA | Dashboard ospiti per alloggi: WiFi, visa status dinamico, local deals, partner GUDBRO, delivery/pickup | 2026-01-27 |
+
+> **ACCOM-INSTAY Details:**
+>
+> **Funzionalità Implementate:**
+>
+> 1. **WiFi Card** - Network + password con copy button
+> 2. **Visa Status** - Dinamico per nazionalità (45 giorni esenzione per 24 paesi, 90 giorni E-Visa)
+> 3. **Local Deals** - Tabs (Tours/Food/More) con partner GUDBRO integrati vs esterni
+> 4. **Delivery/Pickup** - Opzioni per ristoranti partner + link app delivery (Grab, ShopeeFood, Baemin)
+> 5. **Useful Numbers** - Emergenza, servizi locali, contatto host
+> 6. **Bottom Sheets** - Animazioni fadeIn/slideUp 0.3s
+>
+> **Business Model Documentato:**
+>
+> - Commission: 85% partner, 10% property owner, 5% GUDBRO
+> - Zero-Noise Advantage: nessun competitor nei suggerimenti
+> - Collaborative Ecosystem: cross-referral tra property, ristoranti, tour
+>
+> **File:** `apps/accommodations/frontend/app/stay/[code]/page.tsx` (878 linee)
+> **PRD:** `apps/accommodations/PRD.md` v2.2
+
+---
+
+## 2026-01-25
+
+| ID            | Feature               | Descrizione                                                                                                 | Completato |
+| ------------- | --------------------- | ----------------------------------------------------------------------------------------------------------- | ---------- |
+| PWA-V2-PARITY | PWA v2 Feature Parity | Parità funzionale PWA v2 con v1: navigation, real-time tracking, push/sound notifications, info pages, auth | 2026-01-25 |
+
+> **PWA-V2-PARITY Details:**
+>
+> **3 Fasi Implementate (14 feature totali):**
+>
+> 1. **Core Navigation** - Category page `/v2/menu/category/[categoryId]`, Popular page `/v2/menu/popular`
+> 2. **Real-time Features** - Order tracking hooks, ETA display, push notifications prompt, sound notifications
+> 3. **Info Pages** - About, Contact (con Google Maps), Offers, Events, Team (con review modal), Reset Password
+>
+> **Hooks Creati:**
+>
+> - `useOrderTracking.ts` - Real-time tracking ordine singolo via Supabase
+> - `useOrderETA.ts` - Polling ETA ogni 30s
+> - `useMultipleOrderTracking.ts` - Tracking ordini multipli simultanei
+> - `useSoundNotifications.ts` - Suoni notifica cambio stato
+>
+> **Componenti Creati:**
+>
+> - `OrderTracker.tsx` - Progress bar animata 5 step
+> - `OrderETA.tsx` - Display tempo stimato con confidence
+> - `NotificationPrompt.tsx` - Banner/modal permesso push
+> - `ConnectedOrderTracker.tsx`, `ConnectedNotificationPrompt.tsx`
+>
+> **Audio Files:** 5 file WAV da github.com/akx/Notifications (CC0)
+>
+> **Pattern:** Server → Client → Connected → Presentational (4 layer architecture)
 
 ---
 
