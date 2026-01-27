@@ -4,7 +4,7 @@
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 > **Specs dettagliate:** `specs/` folder
 
-**Last Updated:** 2026-01-24
+**Last Updated:** 2026-01-26
 
 ---
 
@@ -358,6 +358,128 @@ grep -rn "const.*=.*createClient(" --include="*.ts" apps/backoffice/app/api/
 | DEPS-MAJOR       | Major Deps Update | React 19, Next 16, TW 4   | [spec](specs/P3/FUTURE-FEATURES.md) |
 | W3-NFT-LOYALTY   | NFT Loyalty       | Collezione NFT loyalty    | [spec](specs/P3/FUTURE-FEATURES.md) |
 | CRYPTO-P2        | Crypto Phase 2    | Wallet Connect, Lightning | [spec](specs/P3/FUTURE-FEATURES.md) |
+
+---
+
+## AI INFRASTRUCTURE - Mac Studio + Clawdbot
+
+> **🤖 AI Employee 24/7** - Automazione locale con LLM + Image + Video + Development
+> Target: Febbraio-Maggio 2026 | Ricerca: `docs/research/ai-employee.md`
+
+| ID                 | Feature          | Descrizione                                   | Effort | Status  |
+| ------------------ | ---------------- | --------------------------------------------- | ------ | ------- |
+| AI-INFRA-HW        | Mac Studio M4    | Acquisto Mac Studio M4 Max 64GB ($2,899)      | -      | Pending |
+| AI-INFRA-CLAWDBOT  | Clawdbot Setup   | Installazione Clawdbot + LLM locale (Llama 4) | 2 days | Pending |
+| AI-INFRA-FLUX      | FLUX Setup       | FLUX.1 Schnell + FLUX.2 Klein 4B per immagini | 1 day  | Pending |
+| AI-INFRA-REMOTION  | Remotion Setup   | Video generation con React + FFmpeg           | 1 day  | Pending |
+| AI-INFRA-SKILL-IMG | Food Image Skill | Skill per generazione immagini prodotti       | 3 days | Pending |
+| AI-INFRA-SKILL-VID | Video Skill      | Skill per generazione video marketing         | 2 days | Pending |
+| AI-INFRA-SKILL-DEV | Dev Orchestrator | Skill per arricchimento prompt Claude         | 2 days | Pending |
+| AI-INFRA-BATCH     | Batch Generation | Generazione ~4653 immagini prodotti (~6 ore)  | 1 day  | Pending |
+
+### Architettura
+
+```
+Mac Studio M4 (64GB) + Clawdbot + FLUX + Remotion
+         │
+         ├── LLM locale (Llama 4 8B) → comprensione, orchestrazione
+         ├── FLUX.1 Schnell (12B) → immagini qualità
+         ├── FLUX.2 Klein 4B → immagini veloci
+         ├── Remotion + FFmpeg → video marketing
+         └── Skills custom
+                 │
+                 ├── food_images.py → genera immagini prodotti
+                 ├── video_creator.py → crea video marketing
+                 ├── code_assistant.py → arricchisce prompt Claude
+                 ├── content_writer.py → blog, social posts
+                 └── publisher.py → pubblica su canali
+```
+
+### Costi
+
+| Voce                   | Costo     | Frequenza  |
+| ---------------------- | --------- | ---------- |
+| Mac Studio M4 Max 64GB | $2,899    | Una tantum |
+| Elettricità            | ~$25/mese | Ricorrente |
+| Immagini               | $0        | -          |
+| LLM                    | $0        | -          |
+
+### Benefici
+
+- ✅ 100% copertura immagini prodotti (~4653)
+- ✅ Video marketing automatizzati
+- ✅ Sviluppo: 93% meno token, prompt perfetti
+- ✅ Zero costi ricorrenti (tutto locale)
+- ✅ Autonomo 24/7 (cron jobs)
+- ✅ ROI < 2 mesi
+
+---
+
+## VERTICALS - Espansione Business
+
+> **🏢 Nuove Verticali** - Espansione oltre coffeeshop
+> Struttura: `apps/{vertical}/` | Context: `apps/{vertical}/VERTICAL-CONTEXT.md`
+
+| ID            | Vertical        | Target Market                             | Status                                | Context                                           |
+| ------------- | --------------- | ----------------------------------------- | ------------------------------------- | ------------------------------------------------- |
+| VERT-WELLNESS | Wellness/Spa    | Spa, massage, hair, nails, barber, tattoo | **IN PROGRESS** - Homepage redesigned | [PRD](../../apps/wellness/PRD.md)                 |
+| VERT-RENTALS  | Rentals         | Vehicle/equipment rental                  | Minimal (7 TSX)                       | [context](../../apps/rentals/VERTICAL-CONTEXT.md) |
+| VERT-TOURS    | Tours           | Tour operators, transport                 | **NEW** - Structure created           | [context](../../apps/tours/VERTICAL-CONTEXT.md)   |
+| VERT-LAUNDRY  | Laundry         | Lavanderie self-service e full-service    | **NEW** - Da progettare               | -                                                 |
+| VERT-PHARMACY | Pharmacy/Health | Farmacie, integratori, health store       | **NEW** - Da progettare               | -                                                 |
+
+### Cross-Merchant Conventions (Post-Rental)
+
+> **VERT-CONVENTIONS** - Sistema di referral/convenzioni tra merchant GUDBRO
+> Es: Hotel → Spa, Ristorante → Tour, Spa → Hair Salon
+> Complessita': tracking referral, commissioni, split, analytics cross-merchant
+> **Da valutare dopo completamento VERT-RENTALS** quando il network di verticali lo giustifica.
+
+### Laundry Vertical (NEW - 2026-01-27)
+
+**Target:** Lavanderie in Vietnam (ovunque, alta densita')
+
+**Modello:**
+
+- Pricing weight-based (kg) + per-item (abiti speciali)
+- Servizi: wash & fold, dry cleaning, ironing, express
+- Tracking status: received → washing → drying → ready → delivered
+- Pickup/delivery opzionale
+- PWA leggera, alta frequenza d'uso, basso ticket medio
+
+**Utenti:** Turisti (hotel senza laundry), digital nomad, expat, locali
+
+### Pharmacy/Health Store Vertical (NEW - 2026-01-27)
+
+**Target:** Farmacie e negozi integratori in Vietnam
+
+**Modello:**
+
+- Catalogo prodotti: farmaci OTC, integratori, skincare, vitamine
+- Ricerca in inglese per expat/turisti (nomi internazionali)
+- Disponibilita' in tempo reale
+- Delivery opzionale
+- Info prodotto multilingua
+- Suggerimenti per problemi comuni (mal di testa, stomaco, etc.)
+
+**Utenti:** Expat che cercano prodotti specifici, turisti con emergenze salute, digital nomad
+
+### Tours Vertical (NEW - 2026-01-26)
+
+**Target:** Piccoli operatori turistici, ambulanti, trasporto in Vietnam
+
+**Problema risolto:**
+
+- Cartelloni con prezzi solo VND
+- 1-2 lingue max
+- Turisti non capiscono → non comprano
+
+**Soluzione:**
+
+- QR code con menu tour multi-lingua
+- Prezzi multi-valuta (VND, USD, EUR, KRW, JPY, CNY)
+- Dettagli completi: foto, durata, incluso/escluso
+- Prenotazione diretta + conferma WhatsApp/Zalo
 
 ---
 
