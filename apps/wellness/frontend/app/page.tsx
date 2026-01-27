@@ -322,58 +322,154 @@ export default function WellnessHomePage() {
   const [language, setLanguage] = useState('en');
   const [currency, setCurrency] = useState('VND');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState('home');
+  const [showMenu, setShowMenu] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
+  const [showCurrMenu, setShowCurrMenu] = useState(false);
 
   return (
     <div className="min-h-screen bg-[var(--cream)] pb-24">
       {/* ===== HEADER ===== */}
-      <header className="glass sticky top-0 z-50 border-b border-[var(--cream-dark)]">
-        <div className="px-4 py-3">
-          <div className="flex items-center justify-between">
-            {/* Logo + Name */}
-            <div className="flex items-center gap-3">
-              <div className="shadow-soft relative h-10 w-10 overflow-hidden rounded-full bg-[var(--sage-light)]">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Icons.Sparkles className="h-5 w-5 text-[var(--sage-hex)]" />
+      <header className="bg-[var(--cream)]/90 fixed left-0 right-0 top-0 z-50 border-b border-[var(--cream-dark)] backdrop-blur-md">
+        <div className="flex items-center justify-between px-4 py-3">
+          {/* Logo + Name */}
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--sage-light)]">
+              <Icons.Sparkles className="h-4.5 w-4.5 text-[var(--sage-hex)]" />
+            </div>
+            <div>
+              <h1 className="font-display text-base font-semibold leading-tight text-[var(--charcoal)]">
+                {business.name}
+              </h1>
+              <div className="flex items-center gap-1 text-[11px] text-[var(--charcoal-muted)]">
+                <Icons.Star className="h-3 w-3 text-[var(--gold)]" filled />
+                <span className="font-medium">{business.rating}</span>
+                <span>·</span>
+                <span>{business.reviewCount} reviews</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-1">
+            {/* Language */}
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setShowLangMenu(!showLangMenu);
+                  setShowCurrMenu(false);
+                }}
+                className="rounded-full p-2 transition-colors hover:bg-[var(--cream-dark)]"
+              >
+                <svg
+                  className="h-5 w-5 text-[var(--charcoal)]"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                  />
+                </svg>
+              </button>
+              {showLangMenu && (
+                <div className="shadow-soft-lg absolute right-0 top-full mt-1 w-36 rounded-xl bg-white p-1">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setLanguage(lang.code);
+                        setShowLangMenu(false);
+                      }}
+                      className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                        language === lang.code
+                          ? 'bg-[var(--sage-light)] font-medium text-[var(--sage-hex)]'
+                          : 'text-[var(--charcoal)] hover:bg-[var(--cream)]'
+                      }`}
+                    >
+                      <span>{lang.flag}</span>
+                      <span>{lang.label}</span>
+                    </button>
+                  ))}
                 </div>
-              </div>
-              <div>
-                <h1 className="font-display text-lg font-semibold text-[var(--charcoal)]">
-                  {business.name}
-                </h1>
-                <p className="text-xs text-[var(--charcoal-muted)]">{business.tagline}</p>
-              </div>
+              )}
             </div>
 
-            {/* Language + Currency */}
-            <div className="flex items-center gap-2">
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="rounded-lg border border-[var(--cream-dark)] bg-white/50 px-2 py-1 text-xs font-medium text-[var(--charcoal)] focus:border-[var(--sage-hex)] focus:outline-none focus:ring-1 focus:ring-[var(--sage-hex)]"
+            {/* Currency */}
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setShowCurrMenu(!showCurrMenu);
+                  setShowLangMenu(false);
+                }}
+                className="flex items-center gap-0.5 rounded-full px-2.5 py-1.5 text-sm font-medium text-[var(--charcoal)] transition-colors hover:bg-[var(--cream-dark)]"
               >
-                {languages.map((lang) => (
-                  <option key={lang.code} value={lang.code}>
-                    {lang.flag} {lang.label}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-                className="rounded-lg border border-[var(--cream-dark)] bg-white/50 px-2 py-1 text-xs font-medium text-[var(--charcoal)] focus:border-[var(--sage-hex)] focus:outline-none focus:ring-1 focus:ring-[var(--sage-hex)]"
-              >
-                {currencies.map((curr) => (
-                  <option key={curr} value={curr}>
-                    {curr}
-                  </option>
-                ))}
-              </select>
+                {currency === 'VND' ? '₫' : currency === 'USD' ? '$' : '€'}
+              </button>
+              {showCurrMenu && (
+                <div className="shadow-soft-lg absolute right-0 top-full mt-1 w-28 rounded-xl bg-white p-1">
+                  {currencies.map((curr) => (
+                    <button
+                      key={curr}
+                      onClick={() => {
+                        setCurrency(curr);
+                        setShowCurrMenu(false);
+                      }}
+                      className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                        currency === curr
+                          ? 'bg-[var(--sage-light)] font-medium text-[var(--sage-hex)]'
+                          : 'text-[var(--charcoal)] hover:bg-[var(--cream)]'
+                      }`}
+                    >
+                      <span>{curr === 'VND' ? '₫' : curr === 'USD' ? '$' : '€'}</span>
+                      <span>{curr}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
+
+            {/* Share */}
+            <button className="rounded-full p-2 transition-colors hover:bg-[var(--cream-dark)]">
+              <svg
+                className="h-5 w-5 text-[var(--charcoal)]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+                />
+              </svg>
+            </button>
+
+            {/* Save/Favorite */}
+            <button className="rounded-full p-2 transition-colors hover:bg-[var(--cream-dark)]">
+              <svg
+                className="h-5 w-5 text-[var(--charcoal)]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="px-4 pt-4">
+      <main className="px-4 pt-16">
         {/* ===== CATEGORY PILLS ===== */}
         <section className="animate-fade-in-up mb-6">
           <div className="hide-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-2">
@@ -716,60 +812,167 @@ export default function WellnessHomePage() {
       </main>
 
       {/* ===== BOTTOM NAVIGATION ===== */}
-      <nav className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white/95 backdrop-blur-lg">
-        <div className="flex h-16 items-center justify-around px-2">
-          <NavItem href="/" icon={<Icons.Home className="h-6 w-6" />} label="Home" active />
-          <NavItem
-            href="/services"
-            icon={<Icons.Services className="h-6 w-6" />}
-            label="Services"
-          />
-          <NavItemCenter href="/book" />
-          <NavItem href="/staff" icon={<Icons.Users className="h-6 w-6" />} label="Team" />
-          <NavItem href="/more" icon={<Icons.Menu className="h-6 w-6" />} label="More" />
+      <nav className="pb-safe-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
+        <div className="mx-auto flex max-w-lg items-center justify-between">
+          {/* Home */}
+          <button
+            onClick={() => setActiveTab('home')}
+            className={`flex flex-col items-center py-2 transition-all ${
+              activeTab === 'home'
+                ? 'scale-110 text-[var(--sage-hex)]'
+                : 'text-[var(--charcoal-muted)]'
+            }`}
+          >
+            <svg
+              className="h-6 w-6"
+              fill={activeTab === 'home' ? 'currentColor' : 'none'}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={activeTab === 'home' ? 0 : 1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+              />
+            </svg>
+          </button>
+
+          {/* Services */}
+          <button
+            onClick={() => setActiveTab('services')}
+            className={`flex flex-col items-center py-2 transition-all ${
+              activeTab === 'services'
+                ? 'scale-110 text-[var(--sage-hex)]'
+                : 'text-[var(--charcoal-muted)]'
+            }`}
+          >
+            <svg
+              className="h-6 w-6"
+              fill={activeTab === 'services' ? 'currentColor' : 'none'}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={activeTab === 'services' ? 0 : 1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
+              />
+            </svg>
+          </button>
+
+          {/* Center Bento Menu */}
+          <button
+            onClick={() => setShowMenu(!showMenu)}
+            className="flex flex-col items-center py-2 text-[var(--charcoal-muted)] transition-all hover:text-[var(--sage-hex)]"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
+              />
+            </svg>
+          </button>
+
+          {/* Team */}
+          <button
+            onClick={() => setActiveTab('team')}
+            className={`flex flex-col items-center py-2 transition-all ${
+              activeTab === 'team'
+                ? 'scale-110 text-[var(--sage-hex)]'
+                : 'text-[var(--charcoal-muted)]'
+            }`}
+          >
+            <svg
+              className="h-6 w-6"
+              fill={activeTab === 'team' ? 'currentColor' : 'none'}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={activeTab === 'team' ? 0 : 1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
+              />
+            </svg>
+          </button>
+
+          {/* Profile */}
+          <button
+            onClick={() => setActiveTab('profile')}
+            className={`flex flex-col items-center py-2 transition-all ${
+              activeTab === 'profile'
+                ? 'scale-110 text-[var(--sage-hex)]'
+                : 'text-[var(--charcoal-muted)]'
+            }`}
+          >
+            <svg
+              className="h-6 w-6"
+              fill={activeTab === 'profile' ? 'currentColor' : 'none'}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={activeTab === 'profile' ? 0 : 1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+              />
+            </svg>
+          </button>
         </div>
       </nav>
+
+      {/* ===== BENTO MENU DRAWER ===== */}
+      {showMenu && (
+        <div className="fixed inset-0 z-50">
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => setShowMenu(false)}
+          />
+          <div className="pb-safe-bottom animate-slide-up absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white p-6">
+            <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-[var(--cream-dark)]" />
+            <h3 className="font-display mb-4 text-xl font-semibold text-[var(--charcoal)]">
+              Quick Access
+            </h3>
+            <div className="grid grid-cols-3 gap-4">
+              <button className="hover:bg-[var(--sage-hex)]/10 flex flex-col items-center rounded-2xl bg-[var(--cream)] p-4 transition-colors">
+                <span className="mb-2 text-2xl">📅</span>
+                <span className="text-sm text-[var(--charcoal)]">Book Now</span>
+              </button>
+              <button className="hover:bg-[var(--sage-hex)]/10 flex flex-col items-center rounded-2xl bg-[var(--cream)] p-4 transition-colors">
+                <span className="mb-2 text-2xl">🎁</span>
+                <span className="text-sm text-[var(--charcoal)]">Packages</span>
+              </button>
+              <button className="hover:bg-[var(--sage-hex)]/10 flex flex-col items-center rounded-2xl bg-[var(--cream)] p-4 transition-colors">
+                <span className="mb-2 text-2xl">⭐</span>
+                <span className="text-sm text-[var(--charcoal)]">Reviews</span>
+              </button>
+              <button className="hover:bg-[var(--sage-hex)]/10 flex flex-col items-center rounded-2xl bg-[var(--cream)] p-4 transition-colors">
+                <span className="mb-2 text-2xl">📍</span>
+                <span className="text-sm text-[var(--charcoal)]">Directions</span>
+              </button>
+              <button className="hover:bg-[var(--sage-hex)]/10 flex flex-col items-center rounded-2xl bg-[var(--cream)] p-4 transition-colors">
+                <span className="mb-2 text-2xl">💬</span>
+                <span className="text-sm text-[var(--charcoal)]">Contact</span>
+              </button>
+              <button className="hover:bg-[var(--sage-hex)]/10 flex flex-col items-center rounded-2xl bg-[var(--cream)] p-4 transition-colors">
+                <span className="mb-2 text-2xl">🌐</span>
+                <span className="text-sm text-[var(--charcoal)]">Language</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  );
-}
-
-// =============================================================================
-// NAV COMPONENTS
-// =============================================================================
-
-function NavItem({
-  href,
-  icon,
-  label,
-  active = false,
-}: {
-  href: string;
-  icon: React.ReactNode;
-  label: string;
-  active?: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      className={`flex flex-1 flex-col items-center justify-center gap-0.5 py-2 transition-colors ${
-        active
-          ? 'text-[var(--sage-hex)]'
-          : 'text-[var(--charcoal-muted)] hover:text-[var(--sage-hex)]'
-      }`}
-    >
-      {icon}
-      <span className="text-[10px] font-medium">{label}</span>
-    </Link>
-  );
-}
-
-function NavItemCenter({ href }: { href: string }) {
-  return (
-    <Link
-      href={href}
-      className="relative -top-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--sage-hex)] text-white shadow-lg transition-all hover:bg-[var(--sage-dark)] hover:shadow-xl active:scale-95"
-    >
-      <Icons.Calendar className="h-6 w-6" />
-    </Link>
   );
 }
