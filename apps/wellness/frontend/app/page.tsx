@@ -696,7 +696,7 @@ export default function WellnessHomePage() {
               Guest Reviews
             </h2>
             <Link
-              href="/reviews"
+              href="/promotions"
               className="flex items-center gap-1 text-sm font-medium text-[var(--sage-hex)] hover:text-[var(--sage-dark)]"
             >
               See all
