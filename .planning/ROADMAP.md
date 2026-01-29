@@ -13,7 +13,7 @@ This QA milestone ensures all 8 vertical PWAs (accommodations, tours, gym, welln
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: TypeScript Fixes** - Resolve all compilation errors
+- [x] **Phase 1: TypeScript Fixes** - Resolve all compilation errors
 - [ ] **Phase 2: UI/UX Harmony** - Align components and patterns across verticals
 - [ ] **Phase 3: Verification** - Validate builds and navigation
 
@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 
-- [ ] 01-01-PLAN.md — Fix all TS compilation errors (shared DB syntax + type narrowing)
+- [x] 01-01-PLAN.md — Fix all TS compilation errors (shared DB syntax + type narrowing)
 
 ### Phase 2: UI/UX Harmony
 
@@ -77,8 +77,8 @@ Plans:
 **Execution Order:**
 Phases execute in numeric order: 1 → 2 → 3
 
-| Phase               | Plans Complete | Status      | Completed |
-| ------------------- | -------------- | ----------- | --------- |
-| 1. TypeScript Fixes | 0/1            | Not started | -         |
-| 2. UI/UX Harmony    | 0/?            | Not started | -         |
-| 3. Verification     | 0/?            | Not started | -         |
+| Phase               | Plans Complete | Status      | Completed  |
+| ------------------- | -------------- | ----------- | ---------- |
+| 1. TypeScript Fixes | 1/1            | ✓ Complete  | 2026-01-29 |
+| 2. UI/UX Harmony    | 0/?            | Not started | -          |
+| 3. Verification     | 0/?            | Not started | -          |

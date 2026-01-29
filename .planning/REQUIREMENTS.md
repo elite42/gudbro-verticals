@@ -9,11 +9,11 @@ Requirements for QA milestone. Each maps to roadmap phases.
 
 ### TypeScript
 
-- [ ] **TS-01**: All vertical PWAs compile without TypeScript errors
-- [ ] **TS-02**: Fix wellness gym/[slug]/page.tsx type narrowing (pass.price)
-- [ ] **TS-03**: Fix accommodations stay/[code]/page.tsx ReactNode type error (deal.tag)
-- [ ] **TS-04**: Fix shared/database beverages.ts unescaped quote
-- [ ] **TS-05**: Fix shared/database international-appetizers.ts corrupted ingredient_ids
+- [x] **TS-01**: All vertical PWAs compile without TypeScript errors
+- [x] **TS-02**: Fix wellness gym/[slug]/page.tsx type narrowing (pass.price)
+- [x] **TS-03**: Fix accommodations stay/[code]/page.tsx ReactNode type error (deal.tag)
+- [x] **TS-04**: Fix shared/database beverages.ts unescaped quote
+- [x] **TS-05**: Fix shared/database international-appetizers.ts corrupted ingredient_ids
 
 ### UI/UX Harmony
 
@@ -64,29 +64,29 @@ Deferred to Backend Accommodations milestone.
 
 Updated during roadmap creation.
 
-| Requirement | Phase   | Status  |
-| ----------- | ------- | ------- |
-| TS-01       | Phase 1 | Pending |
-| TS-02       | Phase 1 | Pending |
-| TS-03       | Phase 1 | Pending |
-| TS-04       | Phase 1 | Pending |
-| TS-05       | Phase 1 | Pending |
-| UX-01       | Phase 2 | Pending |
-| UX-02       | Phase 2 | Pending |
-| UX-03       | Phase 2 | Pending |
-| UX-04       | Phase 2 | Pending |
-| UX-05       | Phase 2 | Pending |
-| UX-06       | Phase 2 | Pending |
-| BLD-01      | Phase 3 | Pending |
-| BLD-02      | Phase 3 | Pending |
-| BLD-03      | Phase 3 | Pending |
-| BLD-04      | Phase 3 | Pending |
-| BLD-05      | Phase 3 | Pending |
-| BLD-06      | Phase 3 | Pending |
-| BLD-07      | Phase 3 | Pending |
-| NAV-01      | Phase 3 | Pending |
-| NAV-02      | Phase 3 | Pending |
-| NAV-03      | Phase 3 | Pending |
+| Requirement | Phase   | Status   |
+| ----------- | ------- | -------- |
+| TS-01       | Phase 1 | Complete |
+| TS-02       | Phase 1 | Complete |
+| TS-03       | Phase 1 | Complete |
+| TS-04       | Phase 1 | Complete |
+| TS-05       | Phase 1 | Complete |
+| UX-01       | Phase 2 | Pending  |
+| UX-02       | Phase 2 | Pending  |
+| UX-03       | Phase 2 | Pending  |
+| UX-04       | Phase 2 | Pending  |
+| UX-05       | Phase 2 | Pending  |
+| UX-06       | Phase 2 | Pending  |
+| BLD-01      | Phase 3 | Pending  |
+| BLD-02      | Phase 3 | Pending  |
+| BLD-03      | Phase 3 | Pending  |
+| BLD-04      | Phase 3 | Pending  |
+| BLD-05      | Phase 3 | Pending  |
+| BLD-06      | Phase 3 | Pending  |
+| BLD-07      | Phase 3 | Pending  |
+| NAV-01      | Phase 3 | Pending  |
+| NAV-02      | Phase 3 | Pending  |
+| NAV-03      | Phase 3 | Pending  |
 
 **Coverage:**
 
