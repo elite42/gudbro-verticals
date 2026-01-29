@@ -851,7 +851,7 @@ export default function PropertyPage() {
 
       <BottomNav
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={(tab) => setActiveTab(tab as typeof activeTab)}
         onMenuToggle={() => setShowMenu(!showMenu)}
       />
 

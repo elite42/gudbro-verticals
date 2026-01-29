@@ -49,7 +49,7 @@ const navItems = [
     id: 'menu',
     label: 'Menu',
     isCenter: true,
-    icon: () => (
+    icon: (_active: boolean) => (
       <svg
         className="h-6 w-6"
         fill="none"
