@@ -39,13 +39,13 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 
 ### F&B Integration
 
-- [ ] **FNB-01**: Deep-link from In-Stay dashboard to property's coffeeshop PWA — when property has linked F&B vertical, "Restaurant" / "Breakfast" service card opens the coffeeshop PWA with property context
-- [ ] **FNB-02**: Property configuration flag: has_linked_fnb (boolean) + linked_fnb_slug (coffeeshop PWA slug) — determines whether services show simple menu or deep-link to F&B PWA
-- [ ] **FNB-03**: Simple in-stay menu for properties WITHOUT linked F&B — static list of items with prices, no ordering (view-only catalog for B&B breakfast, minibar)
+- [x] **FNB-01**: Deep-link from In-Stay dashboard to property's coffeeshop PWA — when property has linked F&B vertical, "Restaurant" / "Breakfast" service card opens the coffeeshop PWA with property context
+- [x] **FNB-02**: Property configuration flag: has_linked_fnb (boolean) + linked_fnb_slug (coffeeshop PWA slug) — determines whether services show simple menu or deep-link to F&B PWA
+- [x] **FNB-03**: Simple in-stay menu for properties WITHOUT linked F&B — static list of items with prices, no ordering (view-only catalog for B&B breakfast, minibar)
 
 ### Integration
 
-- [ ] **INT-01**: Connect conventions system (migration 050) to accommodations — property_id as convention source
+- [x] **INT-01**: Connect conventions system (migration 050) to accommodations — property_id as convention source
 - [x] **INT-02**: Supabase client configuration in accommodations frontend (env vars, client setup)
 - [x] **INT-03**: Error handling and loading states for all API calls
 - [x] **INT-04**: Multi-language support for service names and descriptions (at minimum English)
@@ -113,10 +113,10 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 | STAY-06     | Phase 6 | Complete |
 | STAY-07     | Phase 6 | Complete |
 | STAY-08     | Phase 6 | Complete |
-| FNB-01      | Phase 7 | Pending  |
-| FNB-02      | Phase 7 | Pending  |
-| FNB-03      | Phase 7 | Pending  |
-| INT-01      | Phase 7 | Pending  |
+| FNB-01      | Phase 7 | Complete |
+| FNB-02      | Phase 7 | Complete |
+| FNB-03      | Phase 7 | Complete |
+| INT-01      | Phase 7 | Complete |
 
 **Coverage:**
 
@@ -134,4 +134,4 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 ---
 
 _Requirements defined: 2026-01-29_
-_Last updated: 2026-01-29 after phase 6 completion_
+_Last updated: 2026-01-30 after phase 7 completion (v1.1 milestone complete — 28/28 requirements)_

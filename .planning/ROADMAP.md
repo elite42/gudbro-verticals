@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 QA Multi-Vertical PWAs** - Phases 1-3 (shipped 2026-01-29)
-- 🚧 **v1.1 In-Stay MVP Backend** - Phases 4-7 (in progress)
+- ✅ **v1.1 In-Stay MVP Backend** - Phases 4-7 (shipped 2026-01-30)
 - 📋 **v1.2 Booking & Owner Dashboard** - Phases TBD (planned)
 
 ## Overview
@@ -32,7 +32,7 @@ This milestone transforms the Accommodations vertical from a frontend-only proto
 
 </details>
 
-## 🚧 v1.1 In-Stay MVP Backend (In Progress)
+## ✅ v1.1 In-Stay MVP Backend (Shipped 2026-01-30)
 
 **Milestone Goal:** Connect Accommodations In-Stay Dashboard to Supabase, enabling guests to access real stay data via booking code verification.
 
@@ -142,8 +142,8 @@ Plans:
 
 Plans:
 
-- [ ] 07-01-PLAN.md — Backend: migration for F&B linking columns, property API extension, type updates
-- [ ] 07-02-PLAN.md — Frontend: RestaurantSection component (deep-link or static menu) + dashboard wiring
+- [x] 07-01-PLAN.md — Backend: migration for F&B linking columns, property API extension, type updates
+- [x] 07-02-PLAN.md — Frontend: RestaurantSection component (deep-link or static menu) + dashboard wiring
 
 ---
 
@@ -152,16 +152,16 @@ Plans:
 **Execution Order:**
 Phases execute in numeric order: 4 → 5 → 6 → 7
 
-| Phase                      | Milestone | Plans Complete | Status      | Completed  |
-| -------------------------- | --------- | -------------- | ----------- | ---------- |
-| 1. TypeScript Verification | v1.0      | 2/2            | Complete    | 2026-01-29 |
-| 2. UI/UX Audit             | v1.0      | 3/3            | Complete    | 2026-01-29 |
-| 3. Build & Navigation      | v1.0      | 1/1            | Complete    | 2026-01-29 |
-| 4. Database Foundation     | v1.1      | 2/2            | Complete    | 2026-01-29 |
-| 5. API Layer               | v1.1      | 2/2            | Complete    | 2026-01-29 |
-| 6. In-Stay Dashboard       | v1.1      | 4/4            | Complete    | 2026-01-29 |
-| 7. F&B Integration         | v1.1      | 0/2            | Not started | -          |
+| Phase                      | Milestone | Plans Complete | Status   | Completed  |
+| -------------------------- | --------- | -------------- | -------- | ---------- |
+| 1. TypeScript Verification | v1.0      | 2/2            | Complete | 2026-01-29 |
+| 2. UI/UX Audit             | v1.0      | 3/3            | Complete | 2026-01-29 |
+| 3. Build & Navigation      | v1.0      | 1/1            | Complete | 2026-01-29 |
+| 4. Database Foundation     | v1.1      | 2/2            | Complete | 2026-01-29 |
+| 5. API Layer               | v1.1      | 2/2            | Complete | 2026-01-29 |
+| 6. In-Stay Dashboard       | v1.1      | 4/4            | Complete | 2026-01-29 |
+| 7. F&B Integration         | v1.1      | 2/2            | Complete | 2026-01-30 |
 
 ---
 
-_Last updated: 2026-01-30 (phase 7 planned)_
+_Last updated: 2026-01-30 (v1.1 milestone complete)_
