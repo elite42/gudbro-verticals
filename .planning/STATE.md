@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 8 of 8 (Schema-API Alignment)
-Plan: 1 of 2 (in progress)
-Status: In progress. Plan 08-01 complete (migration 081).
-Last activity: 2026-01-30 — Completed 08-01-PLAN.md
+Plan: 2 of 2 (complete)
+Status: Phase 8 complete. All schema-API gaps closed.
+Last activity: 2026-01-30 — Completed 08-02-PLAN.md
 
-Progress: [███████████░] 11/12 plans (phases 4-8)
+Progress: [████████████] 12/12 plans (phases 4-8) -- v1.1 COMPLETE
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [███████████░] 11/12 plans (phases 4-8)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 11
-- Average duration: 2.6 minutes
-- Total execution time: ~28 minutes
+- Total plans completed: 12
+- Average duration: 2.7 minutes
+- Total execution time: ~32 minutes
 
 ## Accumulated Context
 
@@ -79,6 +79,7 @@ Recent decisions affecting v1.1 work:
 - 08-01: Generated column for `type` (reserved word avoidance) instead of RENAME
 - 08-01: house_rules TEXT->JSONB splits on ". " delimiter
 - 08-01: price_type as TEXT not ENUM (project convention)
+- 08-02: Added description and contactEmail to PropertyInfo for full schema coverage
 
 ### Known Issues
 
@@ -98,15 +99,15 @@ None.
 
 ### Blockers/Concerns
 
-Phase 8 (gap closure) must complete before v1.1 can ship. 10 integration gaps and 3 broken E2E flows.
+None. v1.1 milestone complete. All 10 integration gaps closed, schema aligned with API routes.
 
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 08-01-PLAN.md
+Stopped at: Completed 08-02-PLAN.md (final plan of v1.1)
 Resume file: None
-Next: Execute 08-02-PLAN.md (seed data updates and API route fixes)
+Next: v1.1 milestone complete. Next milestone per roadmap.
 
 ---
 
-_Last updated: 2026-01-30 after 08-01 Schema-API Column Alignment execution_
+_Last updated: 2026-01-30 after 08-02 Seed Data & Type Alignment execution_
