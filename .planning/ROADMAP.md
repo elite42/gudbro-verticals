@@ -55,12 +55,12 @@ This milestone transforms the Accommodations vertical from a frontend-only proto
 7. One demo property exists with rooms, active bookings, services, and partnership deals
 8. All tables follow GUDBRO database standards (TEXT + CHECK constraints, English column names, translations via separate tables)
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 
-- [ ] 04-01: TBD (schema design and migration)
-- [ ] 04-02: TBD (RLS policies and seed data)
+- [ ] 04-01-PLAN.md — Complete schema: 6 tables, 3 functions, triggers, indexes, RLS policies, and grants
+- [ ] 04-02-PLAN.md — Seed data: demo property "Roots Da Nang" with rooms, bookings, services, partnerships
 
 ---
 
@@ -155,11 +155,11 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 | 1. TypeScript Verification | v1.0      | 2/2            | Complete    | 2026-01-29 |
 | 2. UI/UX Audit             | v1.0      | 3/3            | Complete    | 2026-01-29 |
 | 3. Build & Navigation      | v1.0      | 1/1            | Complete    | 2026-01-29 |
-| 4. Database Foundation     | v1.1      | 0/2            | Not started | -          |
+| 4. Database Foundation     | v1.1      | 0/2            | Planning    | -          |
 | 5. API Layer               | v1.1      | 0/2            | Not started | -          |
 | 6. In-Stay Dashboard       | v1.1      | 0/2            | Not started | -          |
 | 7. F&B Integration         | v1.1      | 0/2            | Not started | -          |
 
 ---
 
-_Last updated: 2026-01-29 (roadmap created)_
+_Last updated: 2026-01-29 (phase 4 planned)_
