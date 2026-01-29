@@ -14,6 +14,9 @@ import CheckoutInfo from '@/components/stay/CheckoutInfo';
 import ContactSheet from '@/components/stay/ContactSheet';
 import VisaStatusCard from '@/components/stay/VisaStatusCard';
 import ReturnGuestBanner from '@/components/stay/ReturnGuestBanner';
+import ServicesCarousel from '@/components/stay/ServicesCarousel';
+import LocalDeals from '@/components/stay/LocalDeals';
+import UsefulNumbers from '@/components/stay/UsefulNumbers';
 import BottomNav from '@/components/BottomNav';
 
 export default function InStayDashboard({ params }: { params: { code: string } }) {
@@ -94,16 +97,11 @@ export default function InStayDashboard({ params }: { params: { code: string } }
           />
         )}
 
-        {/* Services carousel — Plan 04 */}
-        {propertyLoading && (
-          <section className="mb-5 px-4">
-            <div className="h-24 animate-pulse rounded-2xl bg-gray-100" />
-          </section>
-        )}
+        <ServicesCarousel bookingCode={params.code} token={token!} />
 
-        {/* Local deals — Plan 04 */}
+        <LocalDeals bookingCode={params.code} token={token!} />
 
-        {/* Useful numbers — Plan 04 */}
+        <UsefulNumbers bookingCode={params.code} token={token!} />
 
         {propertyExtended?.returnBannerText && propertyExtended?.returnBannerUrl && (
           <ReturnGuestBanner
