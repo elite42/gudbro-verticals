@@ -64,17 +64,39 @@ Deferred to Backend Accommodations milestone.
 
 Updated during roadmap creation.
 
-| Requirement               | Phase | Status |
-| ------------------------- | ----- | ------ |
-| (populated by roadmapper) |       |        |
+| Requirement | Phase   | Status  |
+| ----------- | ------- | ------- |
+| TS-01       | Phase 1 | Pending |
+| TS-02       | Phase 1 | Pending |
+| TS-03       | Phase 1 | Pending |
+| TS-04       | Phase 1 | Pending |
+| TS-05       | Phase 1 | Pending |
+| UX-01       | Phase 2 | Pending |
+| UX-02       | Phase 2 | Pending |
+| UX-03       | Phase 2 | Pending |
+| UX-04       | Phase 2 | Pending |
+| UX-05       | Phase 2 | Pending |
+| UX-06       | Phase 2 | Pending |
+| BLD-01      | Phase 3 | Pending |
+| BLD-02      | Phase 3 | Pending |
+| BLD-03      | Phase 3 | Pending |
+| BLD-04      | Phase 3 | Pending |
+| BLD-05      | Phase 3 | Pending |
+| BLD-06      | Phase 3 | Pending |
+| BLD-07      | Phase 3 | Pending |
+| NAV-01      | Phase 3 | Pending |
+| NAV-02      | Phase 3 | Pending |
+| NAV-03      | Phase 3 | Pending |
 
 **Coverage:**
 
 - v1 requirements: 21 total
-- Mapped to phases: 0
-- Unmapped: 21
+- Mapped to phases: 21
+- Unmapped: 0
+
+✓ 100% coverage achieved
 
 ---
 
 _Requirements defined: 2026-01-29_
-_Last updated: 2026-01-29 after initial definition_
+_Last updated: 2026-01-29 after roadmap creation_
