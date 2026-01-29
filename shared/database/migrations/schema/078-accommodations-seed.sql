@@ -2,10 +2,13 @@
 -- Migration 078: Accommodations Seed Data
 -- ============================================================================
 -- Date: 2026-01-29
+-- Updated: 2026-01-30 (aligned with 081-schema-api-alignment.sql column names)
 -- Description: Demo data for the In-Stay Dashboard.
 --              One complete property "Roots Da Nang" with rooms, bookings,
 --              service categories/items, and local partnership deals.
 -- Depends on: 077-accommodations-schema.sql, 050-b2b-conventions.sql
+-- Note: Column names match post-081 schema (wifi_network, contact_phone,
+--       contact_email, checkout_time, country, sort_order, etc.)
 -- ============================================================================
 
 -- ============================================================================
@@ -33,11 +36,11 @@ VALUES (
 
 INSERT INTO accom_properties (
   id, name, slug, description, tagline, property_type,
-  address, city, country_code, timezone,
-  host_name, host_phone, host_email, emergency_phone,
-  wifi_ssid, wifi_password,
+  address, city, country, timezone,
+  host_name, contact_phone, contact_email, contact_whatsapp, emergency_phone,
+  wifi_network, wifi_password,
   currency, default_language, supported_languages,
-  check_in_time, check_out_time,
+  check_in_time, checkout_time,
   images, amenities, house_rules,
   owner_id, is_active
 ) VALUES (
@@ -54,6 +57,7 @@ INSERT INTO accom_properties (
   'Nguyen Van Minh',
   '+84905123456',
   'minh@rootsdanang.com',
+  '+84905123456',
   '+84905999888',
   'Roots-Guest-5G',
   'welcome2danang',
@@ -64,7 +68,7 @@ INSERT INTO accom_properties (
   '11:00',
   '[]',
   '["wifi", "air_conditioning", "kitchen", "washing_machine", "beach_access", "motorbike_parking", "rooftop_terrace"]',
-  'No smoking indoors. Quiet hours 22:00-07:00. No parties. Shoes off at entrance. Trash separation required.',
+  '["No smoking indoors", "Quiet hours 22:00-07:00", "No parties", "Shoes off at entrance", "Trash separation required"]'::JSONB,
   'a0000000-0000-0000-0000-000000000010',
   true
 );
@@ -162,7 +166,7 @@ INSERT INTO accom_bookings (
 -- 4. SERVICE CATEGORIES
 -- ============================================================================
 
-INSERT INTO accom_service_categories (id, property_id, name, slug, icon, display_order)
+INSERT INTO accom_service_categories (id, property_id, name, slug, icon, sort_order)
 VALUES (
   'cc000000-0000-0000-0000-000000000001',
   'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
@@ -172,7 +176,7 @@ VALUES (
   1
 );
 
-INSERT INTO accom_service_categories (id, property_id, name, slug, icon, display_order)
+INSERT INTO accom_service_categories (id, property_id, name, slug, icon, sort_order)
 VALUES (
   'cc000000-0000-0000-0000-000000000002',
   'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
@@ -182,7 +186,7 @@ VALUES (
   2
 );
 
-INSERT INTO accom_service_categories (id, property_id, name, slug, icon, display_order)
+INSERT INTO accom_service_categories (id, property_id, name, slug, icon, sort_order)
 VALUES (
   'cc000000-0000-0000-0000-000000000003',
   'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
@@ -198,7 +202,7 @@ VALUES (
 
 -- --- Breakfast Items (available 07:00 - 10:30) ---
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, available_from, available_until, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, available_from, available_until, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000001',
   'cc000000-0000-0000-0000-000000000001',
@@ -209,10 +213,11 @@ VALUES (
   false,
   '07:00',
   '10:30',
-  1
+  1,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, available_from, available_until, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, available_from, available_until, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000002',
   'cc000000-0000-0000-0000-000000000001',
@@ -223,10 +228,11 @@ VALUES (
   false,
   '07:00',
   '10:30',
-  2
+  2,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, available_from, available_until, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, available_from, available_until, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000003',
   'cc000000-0000-0000-0000-000000000001',
@@ -237,10 +243,11 @@ VALUES (
   false,
   '07:00',
   '10:30',
-  3
+  3,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, available_from, available_until, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, available_from, available_until, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000004',
   'cc000000-0000-0000-0000-000000000001',
@@ -251,12 +258,13 @@ VALUES (
   false,
   '07:00',
   '10:30',
-  4
+  4,
+  'VND', 'fixed', true
 );
 
 -- --- Minibar Items (always available) ---
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000005',
   'cc000000-0000-0000-0000-000000000002',
@@ -265,10 +273,11 @@ VALUES (
   'Vietnamese lager, 330ml can',
   25000,
   true,
-  1
+  1,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000006',
   'cc000000-0000-0000-0000-000000000002',
@@ -277,10 +286,11 @@ VALUES (
   '330ml can',
   15000,
   true,
-  2
+  2,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000007',
   'cc000000-0000-0000-0000-000000000002',
@@ -289,10 +299,11 @@ VALUES (
   'Pure spring water, 500ml',
   10000,
   true,
-  3
+  3,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000008',
   'cc000000-0000-0000-0000-000000000002',
@@ -301,10 +312,11 @@ VALUES (
   'Premium Vietnamese beer, 330ml bottle',
   30000,
   true,
-  4
+  4,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000009',
   'cc000000-0000-0000-0000-000000000002',
@@ -313,10 +325,11 @@ VALUES (
   'Young coconut, 500ml',
   20000,
   true,
-  5
+  5,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000010',
   'cc000000-0000-0000-0000-000000000002',
@@ -325,12 +338,13 @@ VALUES (
   'Vietnamese G7 coffee, pack of 3',
   12000,
   true,
-  6
+  6,
+  'VND', 'fixed', true
 );
 
 -- --- Laundry Items (always available) ---
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000011',
   'cc000000-0000-0000-0000-000000000003',
@@ -339,10 +353,11 @@ VALUES (
   'Standard laundry service, returned same day',
   30000,
   true,
-  1
+  1,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000012',
   'cc000000-0000-0000-0000-000000000003',
@@ -351,10 +366,11 @@ VALUES (
   'Professional pressing service',
   15000,
   true,
-  2
+  2,
+  'VND', 'fixed', true
 );
 
-INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, display_order)
+INSERT INTO accom_service_items (id, category_id, property_id, name, description, price, is_always_available, sort_order, currency, price_type, in_stock)
 VALUES (
   'dd000000-0000-0000-0000-000000000013',
   'cc000000-0000-0000-0000-000000000003',
@@ -363,7 +379,8 @@ VALUES (
   'Returned within 3 hours, per kg',
   50000,
   true,
-  3
+  3,
+  'VND', 'fixed', true
 );
 
 -- ============================================================================
