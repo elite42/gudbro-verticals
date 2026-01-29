@@ -1,0 +1,80 @@
+# Requirements: GUDBRO Verticals QA
+
+**Defined:** 2026-01-29
+**Core Value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience
+
+## v1 Requirements
+
+Requirements for QA milestone. Each maps to roadmap phases.
+
+### TypeScript
+
+- [ ] **TS-01**: All vertical PWAs compile without TypeScript errors
+- [ ] **TS-02**: Fix wellness gym/[slug]/page.tsx type narrowing (pass.price)
+- [ ] **TS-03**: Fix accommodations stay/[code]/page.tsx ReactNode type error (deal.tag)
+- [ ] **TS-04**: Fix shared/database beverages.ts unescaped quote
+- [ ] **TS-05**: Fix shared/database international-appetizers.ts corrupted ingredient_ids
+
+### UI/UX Harmony
+
+- [ ] **UX-01**: Accommodations PWA has BottomNav consistent with other verticals
+- [ ] **UX-02**: Wellness PWA no longer has legacy /gym routes (gym is standalone)
+- [ ] **UX-03**: All vertical headers follow consistent pattern (language/currency selector where applicable)
+- [ ] **UX-04**: BottomNav active states use vertical brand color consistently
+- [ ] **UX-05**: Page structure follows shared pattern (hero, sections, spacing)
+- [ ] **UX-06**: All PWAs have consistent padding-bottom for safe area (pb-safe)
+
+### Build Verification
+
+- [ ] **BLD-01**: Pharmacy PWA builds successfully (next build)
+- [ ] **BLD-02**: Workshops PWA builds successfully
+- [ ] **BLD-03**: Gym PWA builds successfully
+- [ ] **BLD-04**: Wellness PWA builds successfully
+- [ ] **BLD-05**: Laundry PWA builds successfully
+- [ ] **BLD-06**: Tours PWA builds successfully
+- [ ] **BLD-07**: Accommodations PWA builds successfully
+
+### Navigation
+
+- [ ] **NAV-01**: All BottomNav links point to existing routes
+- [ ] **NAV-02**: All internal page links (CTAs, cards) point to valid routes
+- [ ] **NAV-03**: Back navigation works correctly on detail pages
+
+## v2 Requirements
+
+Deferred to Backend Accommodations milestone.
+
+- **ACCOM-01**: Backoffice module for accommodations management
+- **ACCOM-02**: Room/property management with real data
+- **ACCOM-03**: Convention system active (partner linking, discounts)
+- **ACCOM-04**: In-Stay dashboard connected to real data
+
+## Out of Scope
+
+| Feature                    | Reason                                      |
+| -------------------------- | ------------------------------------------- |
+| New pages/routes           | QA only, not adding features                |
+| Database migrations        | Frontend QA, no schema changes              |
+| Backend API connections    | Verticals use mock data                     |
+| Coffeeshop changes         | Already production-ready, separate concerns |
+| Rentals/Waiter             | Minimal PWAs, not priority                  |
+| Icon migration to Phosphor | Cosmetic, defer to future                   |
+
+## Traceability
+
+Updated during roadmap creation.
+
+| Requirement               | Phase | Status |
+| ------------------------- | ----- | ------ |
+| (populated by roadmapper) |       |        |
+
+**Coverage:**
+
+- v1 requirements: 21 total
+- Mapped to phases: 0
+- Unmapped: 21
+
+---
+
+_Requirements defined: 2026-01-29_
+_Last updated: 2026-01-29 after initial definition_
