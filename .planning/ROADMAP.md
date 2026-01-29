@@ -138,12 +138,12 @@ Plans:
 4. Conventions system (migration 050) is connected to properties via property_id as convention source
 5. Deep-link to coffeeshop PWA works correctly (opens PWA with merchant context)
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 
-- [ ] 07-01: TBD (property config and deep-link logic)
-- [ ] 07-02: TBD (conventions integration)
+- [ ] 07-01-PLAN.md — Backend: migration for F&B linking columns, property API extension, type updates
+- [ ] 07-02-PLAN.md — Frontend: RestaurantSection component (deep-link or static menu) + dashboard wiring
 
 ---
 
@@ -164,4 +164,4 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 
 ---
 
-_Last updated: 2026-01-29 (phase 6 complete)_
+_Last updated: 2026-01-30 (phase 7 planned)_
