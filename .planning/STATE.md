@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 8 of 8 (Schema-API Alignment)
-Plan: 0 of 2 (planning)
-Status: Phase 8 added from milestone audit gap closure. Plans not yet created.
-Last activity: 2026-01-30 — Added Phase 8 from gap closure analysis
+Plan: 1 of 2 (in progress)
+Status: In progress. Plan 08-01 complete (migration 081).
+Last activity: 2026-01-30 — Completed 08-01-PLAN.md
 
-Progress: [██████████░░] 10/12 plans (phases 4-8)
+Progress: [███████████░] 11/12 plans (phases 4-8)
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [██████████░░] 10/12 plans (phases 4-8)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 10
-- Average duration: 2.7 minutes
-- Total execution time: ~27 minutes
+- Total plans completed: 11
+- Average duration: 2.6 minutes
+- Total execution time: ~28 minutes
 
 ## Accumulated Context
 
@@ -76,6 +76,9 @@ Recent decisions affecting v1.1 work:
 - 07-02: Static menu rendered inline (not modal or route) per CONTEXT.md
 - 07-02: F&B category filtering by name.toLowerCase().includes(slug)
 - 07-02: StaticMenuBranch internal component isolates hooks from conditional return
+- 08-01: Generated column for `type` (reserved word avoidance) instead of RENAME
+- 08-01: house_rules TEXT->JSONB splits on ". " delimiter
+- 08-01: price_type as TEXT not ENUM (project convention)
 
 ### Known Issues
 
@@ -100,10 +103,10 @@ Phase 8 (gap closure) must complete before v1.1 can ship. 10 integration gaps an
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Created Phase 8 from milestone audit gap closure
+Stopped at: Completed 08-01-PLAN.md
 Resume file: None
-Next: `/gsd:plan-phase 8` to create execution plans for Schema-API Alignment
+Next: Execute 08-02-PLAN.md (seed data updates and API route fixes)
 
 ---
 
-_Last updated: 2026-01-30 after Phase 8 gap closure creation_
+_Last updated: 2026-01-30 after 08-01 Schema-API Column Alignment execution_
