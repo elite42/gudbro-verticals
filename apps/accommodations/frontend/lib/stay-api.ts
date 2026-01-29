@@ -1,4 +1,10 @@
-import type { ServiceCategoryResponse, DealResponse, PropertyInfo, WifiInfo } from '@/types/stay';
+import type {
+  ServiceCategoryResponse,
+  DealResponse,
+  PropertyInfo,
+  WifiInfo,
+  UsefulNumbersResponse,
+} from '@/types/stay';
 
 /**
  * Generic result type for all stay API calls.
@@ -76,32 +82,12 @@ export function fetchProperty(
 }
 
 /**
- * Fetch useful numbers (emergency, local services) for a stay.
+ * Fetch useful numbers (emergency, city, property contact) for a stay.
  * GET /api/stay/[code]/useful-numbers
- *
- * Note: This route will be implemented in a future phase.
- * The wrapper is ready for when the API route exists.
  */
 export function fetchUsefulNumbers(
   code: string,
   token: string
 ): Promise<FetchResult<UsefulNumbersResponse>> {
   return fetchStayAPI<UsefulNumbersResponse>(`/api/stay/${code}/useful-numbers`, token);
-}
-
-/**
- * Useful numbers response type.
- * Defined here until the API route is built and types are added to stay.ts.
- */
-export interface UsefulNumbersResponse {
-  numbers: UsefulNumber[];
-}
-
-export interface UsefulNumber {
-  id: string;
-  category: string;
-  name: string;
-  number: string;
-  icon: string | null;
-  sortOrder: number;
 }
