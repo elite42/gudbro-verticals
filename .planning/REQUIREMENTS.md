@@ -26,19 +26,19 @@ Requirements for QA milestone. Each maps to roadmap phases.
 
 ### Build Verification
 
-- [ ] **BLD-01**: Pharmacy PWA builds successfully (next build)
-- [ ] **BLD-02**: Workshops PWA builds successfully
-- [ ] **BLD-03**: Gym PWA builds successfully
-- [ ] **BLD-04**: Wellness PWA builds successfully
-- [ ] **BLD-05**: Laundry PWA builds successfully
-- [ ] **BLD-06**: Tours PWA builds successfully
-- [ ] **BLD-07**: Accommodations PWA builds successfully
+- [x] **BLD-01**: Pharmacy PWA builds successfully (next build)
+- [x] **BLD-02**: Workshops PWA builds successfully
+- [x] **BLD-03**: Gym PWA builds successfully
+- [x] **BLD-04**: Wellness PWA builds successfully
+- [x] **BLD-05**: Laundry PWA builds successfully
+- [x] **BLD-06**: Tours PWA builds successfully
+- [x] **BLD-07**: Accommodations PWA builds successfully
 
 ### Navigation
 
-- [ ] **NAV-01**: All BottomNav links point to existing routes
-- [ ] **NAV-02**: All internal page links (CTAs, cards) point to valid routes
-- [ ] **NAV-03**: Back navigation works correctly on detail pages
+- [x] **NAV-01**: All BottomNav links point to existing routes
+- [x] **NAV-02**: All internal page links (CTAs, cards) point to valid routes
+- [x] **NAV-03**: Back navigation works correctly on detail pages
 
 ## v2 Requirements
 
@@ -77,16 +77,16 @@ Updated during roadmap creation.
 | UX-04       | Phase 2 | Complete |
 | UX-05       | Phase 2 | Complete |
 | UX-06       | Phase 2 | Complete |
-| BLD-01      | Phase 3 | Pending  |
-| BLD-02      | Phase 3 | Pending  |
-| BLD-03      | Phase 3 | Pending  |
-| BLD-04      | Phase 3 | Pending  |
-| BLD-05      | Phase 3 | Pending  |
-| BLD-06      | Phase 3 | Pending  |
-| BLD-07      | Phase 3 | Pending  |
-| NAV-01      | Phase 3 | Pending  |
-| NAV-02      | Phase 3 | Pending  |
-| NAV-03      | Phase 3 | Pending  |
+| BLD-01      | Phase 3 | Complete |
+| BLD-02      | Phase 3 | Complete |
+| BLD-03      | Phase 3 | Complete |
+| BLD-04      | Phase 3 | Complete |
+| BLD-05      | Phase 3 | Complete |
+| BLD-06      | Phase 3 | Complete |
+| BLD-07      | Phase 3 | Complete |
+| NAV-01      | Phase 3 | Complete |
+| NAV-02      | Phase 3 | Complete |
+| NAV-03      | Phase 3 | Complete |
 
 **Coverage:**
 
