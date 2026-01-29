@@ -167,7 +167,7 @@ Plans:
 6. TypeScript types aligned with updated schema
 7. `next build` succeeds for accommodations frontend
 
-**Plans:** TBD
+**Plans:** 2 plans
 
 Plans:
 
@@ -194,4 +194,4 @@ Phases execute in numeric order: 4 → 5 → 6 → 7 → 8
 
 ---
 
-_Last updated: 2026-01-30 (Phase 8 added for gap closure)_
+_Last updated: 2026-01-30 (Phase 8 plans created)_
