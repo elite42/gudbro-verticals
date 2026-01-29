@@ -83,12 +83,12 @@ Plans:
 7. Loading states are handled gracefully (no flash of wrong content)
 8. Multi-language support works for service names and descriptions (English minimum)
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 
-- [ ] 05-01: TBD (verification and stay data routes)
-- [ ] 05-02: TBD (services, deals, and property routes)
+- [ ] 05-01-PLAN.md — Supabase client, JWT auth, types, public booking lookup, and guest verification routes
+- [ ] 05-02-PLAN.md — Protected routes: services, deals, and property info (JWT required)
 
 ---
 
@@ -162,4 +162,4 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 
 ---
 
-_Last updated: 2026-01-29 (phase 4 complete)_
+_Last updated: 2026-01-29 (phase 5 planned)_
