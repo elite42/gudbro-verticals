@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Guests scan a QR in their room and instantly access WiFi, stay info, services, local deals, and host contact — all from real data.
-**Current focus:** v1.1 In-Stay MVP Backend — Phase 5 complete, ready for Phase 6 (Frontend Integration)
+**Current focus:** v1.1 In-Stay Dashboard — Phase 6 in progress (Frontend Integration)
 
 ## Current Position
 
-Phase: 5 of 7 (API Layer)
-Plan: 2 of 2 (complete)
-Status: Phase 5 complete. All 5 API routes built and verified. Ready for Phase 6 (Frontend Integration).
-Last activity: 2026-01-29 — Completed 05-02-PLAN.md (protected stay data routes)
+Phase: 6 of 7 (In-Stay Dashboard)
+Plan: 1 of 4
+Status: In progress. Backend extensions complete (migration 079, useful numbers API, bug fixes).
+Last activity: 2026-01-29 — Completed 06-01-PLAN.md (backend extensions for dashboard sections)
 
-Progress: [████░░░░░░] 4/8 plans (50%)
+Progress: [█████░░░░░] 5/8 plans (62%)
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [████░░░░░░] 4/8 plans (50%)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 4
-- Average duration: 2.5 minutes
-- Total execution time: ~10 minutes
+- Total plans completed: 5
+- Average duration: 2.8 minutes
+- Total execution time: ~14 minutes
 
 ## Accumulated Context
 
@@ -58,6 +58,10 @@ Recent decisions affecting v1.1 work:
 - 05-02: Services items filtered client-side for nested active status
 - 05-02: Deals uses explicit FK name for merchant join
 - 05-02: Property returns { property, wifi } matching verify route pattern
+- 06-01: Quick actions stored as JSONB array on accom_properties (flexible, no extra table)
+- 06-01: Guest country stored as TEXT on accom_bookings (ISO code, no CHECK constraint)
+- 06-01: City useful numbers reuse existing infrastructure from migration 073
+- 06-01: Property contact in useful numbers uses emergency_phone with host_phone fallback
 
 ### Known Issues
 
@@ -77,15 +81,15 @@ None.
 
 ### Blockers/Concerns
 
-None. Phase 5 complete. Phase 6 can proceed with frontend integration.
+None. Phase 6 Plan 1 complete. Plans 2-4 can proceed with frontend components.
 
 ## Session Continuity
 
-Last session: 2026-01-29T12:50:24Z
-Stopped at: Completed 05-02-PLAN.md (protected stay data routes) — Phase 5 complete
+Last session: 2026-01-29T14:01:48Z
+Stopped at: Completed 06-01-PLAN.md (backend extensions for dashboard sections)
 Resume file: None
-Next: Plan and execute Phase 6 (Frontend Integration)
+Next: Execute 06-02-PLAN.md (frontend dashboard components)
 
 ---
 
-_Last updated: 2026-01-29 after 05-02 execution_
+_Last updated: 2026-01-29 after 06-01 execution_
