@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 6 of 7 (In-Stay Dashboard)
-Plan: 1 of 4
-Status: In progress. Backend extensions complete (migration 079, useful numbers API, bug fixes).
-Last activity: 2026-01-29 — Completed 06-01-PLAN.md (backend extensions for dashboard sections)
+Plan: 3 of 4 (06-01, 06-02, 06-03 complete)
+Status: In progress. Dashboard split into composable components. Plan 04 (services, deals, useful numbers) remaining.
+Last activity: 2026-01-29 — Completed 06-03-PLAN.md (dashboard shell + section components)
 
-Progress: [█████░░░░░] 5/8 plans (62%)
+Progress: [███████░░░] 7/8 plans (87%)
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [█████░░░░░] 5/8 plans (62%)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 5
-- Average duration: 2.8 minutes
-- Total execution time: ~14 minutes
+- Total plans completed: 7
+- Average duration: 2.7 minutes
+- Total execution time: ~19 minutes
 
 ## Accumulated Context
 
@@ -62,6 +62,11 @@ Recent decisions affecting v1.1 work:
 - 06-01: Guest country stored as TEXT on accom_bookings (ISO code, no CHECK constraint)
 - 06-01: City useful numbers reuse existing infrastructure from migration 073
 - 06-01: Property contact in useful numbers uses emergency_phone with host_phone fallback
+- 06-02: Client JWT decode via atob (no jose on client)
+- 06-02: localStorage keys: gudbro_stay_token and gudbro_stay_data
+- 06-02: Booking code auto-uppercase and auto-prefix BK-
+- 06-03: Dashboard shell pattern: 130-line thin shell composing 8 section components
+- 06-03: Visa exemption static lookup for 15 nationalities with e-visa portal fallback
 
 ### Known Issues
 
@@ -81,15 +86,15 @@ None.
 
 ### Blockers/Concerns
 
-None. Phase 6 Plan 1 complete. Plans 2-4 can proceed with frontend components.
+None. Plan 04 (services carousel, local deals, useful numbers) is the final plan in Phase 6.
 
 ## Session Continuity
 
-Last session: 2026-01-29T14:01:48Z
-Stopped at: Completed 06-01-PLAN.md (backend extensions for dashboard sections)
+Last session: 2026-01-29T14:12:00Z
+Stopped at: Completed 06-03-PLAN.md (dashboard shell + section components)
 Resume file: None
-Next: Execute 06-02-PLAN.md (frontend dashboard components)
+Next: Execute 06-04-PLAN.md (services, deals, useful numbers components)
 
 ---
 
-_Last updated: 2026-01-29 after 06-01 execution_
+_Last updated: 2026-01-29 after 06-03 execution_
