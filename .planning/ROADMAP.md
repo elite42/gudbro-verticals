@@ -111,12 +111,14 @@ Plans:
 9. Loading states are handled gracefully (no flash of wrong content)
 10. Multi-language support works for service names and descriptions (English minimum)
 
-**Plans**: TBD
+**Plans:** 4 plans
 
 Plans:
 
-- [ ] 06-01: TBD (verification and core dashboard)
-- [ ] 06-02: TBD (services and deals integration)
+- [ ] 06-01-PLAN.md — Backend extensions: migration for quick_actions/return_banner/guest_country, useful-numbers API route, lookup bug fix
+- [ ] 06-02-PLAN.md — Frontend foundation: session hook, typed API wrappers, verification landing page
+- [ ] 06-03-PLAN.md — Dashboard split + core sections: WiFi, welcome, quick actions, checkout, contact, visa, return banner
+- [ ] 06-04-PLAN.md — Data-fetching sections: services carousel, local deals, useful numbers + final build verification
 
 ---
 
@@ -157,9 +159,9 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 | 3. Build & Navigation      | v1.0      | 1/1            | Complete    | 2026-01-29 |
 | 4. Database Foundation     | v1.1      | 2/2            | Complete    | 2026-01-29 |
 | 5. API Layer               | v1.1      | 2/2            | Complete    | 2026-01-29 |
-| 6. In-Stay Dashboard       | v1.1      | 0/2            | Not started | -          |
+| 6. In-Stay Dashboard       | v1.1      | 0/4            | Not started | -          |
 | 7. F&B Integration         | v1.1      | 0/2            | Not started | -          |
 
 ---
 
-_Last updated: 2026-01-29 (phase 5 complete)_
+_Last updated: 2026-01-29 (phase 6 planned)_
