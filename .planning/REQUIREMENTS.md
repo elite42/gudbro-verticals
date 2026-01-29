@@ -17,12 +17,12 @@ Requirements for QA milestone. Each maps to roadmap phases.
 
 ### UI/UX Harmony
 
-- [ ] **UX-01**: Accommodations PWA has BottomNav consistent with other verticals
-- [ ] **UX-02**: Wellness PWA no longer has legacy /gym routes (gym is standalone)
-- [ ] **UX-03**: All vertical headers follow consistent pattern (language/currency selector where applicable)
-- [ ] **UX-04**: BottomNav active states use vertical brand color consistently
-- [ ] **UX-05**: Page structure follows shared pattern (hero, sections, spacing)
-- [ ] **UX-06**: All PWAs have consistent padding-bottom for safe area (pb-safe)
+- [x] **UX-01**: Accommodations PWA has BottomNav consistent with other verticals
+- [x] **UX-02**: Wellness PWA no longer has legacy /gym routes (gym is standalone)
+- [x] **UX-03**: All vertical headers follow consistent pattern (language/currency selector where applicable)
+- [x] **UX-04**: BottomNav active states use vertical brand color consistently
+- [x] **UX-05**: Page structure follows shared pattern (hero, sections, spacing)
+- [x] **UX-06**: All PWAs have consistent padding-bottom for safe area (pb-safe)
 
 ### Build Verification
 
@@ -71,12 +71,12 @@ Updated during roadmap creation.
 | TS-03       | Phase 1 | Complete |
 | TS-04       | Phase 1 | Complete |
 | TS-05       | Phase 1 | Complete |
-| UX-01       | Phase 2 | Pending  |
-| UX-02       | Phase 2 | Pending  |
-| UX-03       | Phase 2 | Pending  |
-| UX-04       | Phase 2 | Pending  |
-| UX-05       | Phase 2 | Pending  |
-| UX-06       | Phase 2 | Pending  |
+| UX-01       | Phase 2 | Complete |
+| UX-02       | Phase 2 | Complete |
+| UX-03       | Phase 2 | Complete |
+| UX-04       | Phase 2 | Complete |
+| UX-05       | Phase 2 | Complete |
+| UX-06       | Phase 2 | Complete |
 | BLD-01      | Phase 3 | Pending  |
 | BLD-02      | Phase 3 | Pending  |
 | BLD-03      | Phase 3 | Pending  |
