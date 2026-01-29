@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Guests scan a QR in their room and instantly access WiFi, stay info, services, local deals, and host contact — all from real data.
-**Current focus:** v1.1 In-Stay MVP Backend — Phase 4 (Database Foundation)
+**Current focus:** v1.1 In-Stay MVP Backend — Phase 5 (API Layer)
 
 ## Current Position
 
 Phase: 4 of 7 (Database Foundation)
-Plan: 1 of 2 (in progress)
-Status: In progress - Plan 04-01 complete, Plan 04-02 next
-Last activity: 2026-01-29 — Completed 04-01-PLAN.md (accommodations schema)
+Plan: 2 of 2 (complete)
+Status: Phase 4 complete. Ready for Phase 5 (API Layer).
+Last activity: 2026-01-29 — Completed 04-02-PLAN.md (accommodations seed data)
 
-Progress: [█░░░░░░░░░] 1/8 plans (12%)
+Progress: [██░░░░░░░░] 2/8 plans (25%)
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [█░░░░░░░░░] 1/8 plans (12%)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 1
-- Average duration: 2 minutes
-- Total execution time: 2 minutes
+- Total plans completed: 2
+- Average duration: 2.5 minutes
+- Total execution time: 5 minutes
 
 ## Accumulated Context
 
@@ -46,6 +46,9 @@ Recent decisions affecting v1.1 work:
 - 04-01: Booking codes use BK-XXXXXX format excluding 0/O/1/I/L for readability
 - 04-01: Price stored as INTEGER (minor currency unit) not DECIMAL
 - 04-01: Accommodations tables prefixed with accom\_ namespace
+- 04-02: Created demo host account for owner_id FK (accom_properties.owner_id NOT NULL)
+- 04-02: Seed UUID pattern: aa/bb/cc/dd/ee/ff prefixes for rooms/bookings/categories/items/merchants/conventions
+- 04-02: Merchant inserts use ON CONFLICT DO NOTHING for idempotent re-runs
 
 ### Known Issues
 
@@ -65,15 +68,15 @@ None.
 
 ### Blockers/Concerns
 
-None. v1.1 phases are well-scoped with clear dependencies.
+None. Phase 4 complete. Phase 5 can proceed with API routes.
 
 ## Session Continuity
 
-Last session: 2026-01-29T11:44:37Z
-Stopped at: Completed 04-01-PLAN.md (accommodations schema)
+Last session: 2026-01-29T11:51:30Z
+Stopped at: Completed 04-02-PLAN.md (accommodations seed data) — Phase 4 complete
 Resume file: None
-Next: Execute 04-02-PLAN.md (seed data)
+Next: Plan and execute Phase 5 (API Layer)
 
 ---
 
-_Last updated: 2026-01-29 after 04-01 execution_
+_Last updated: 2026-01-29 after 04-02 execution_
