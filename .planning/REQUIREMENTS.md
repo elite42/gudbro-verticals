@@ -87,44 +87,51 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 
 ## Traceability
 
-| Requirement | Phase | Status  |
-| ----------- | ----- | ------- |
-| DB-01       | TBD   | Pending |
-| DB-02       | TBD   | Pending |
-| DB-03       | TBD   | Pending |
-| DB-04       | TBD   | Pending |
-| DB-05       | TBD   | Pending |
-| DB-06       | TBD   | Pending |
-| DB-07       | TBD   | Pending |
-| DB-08       | TBD   | Pending |
-| API-01      | TBD   | Pending |
-| API-02      | TBD   | Pending |
-| API-03      | TBD   | Pending |
-| API-04      | TBD   | Pending |
-| API-05      | TBD   | Pending |
-| STAY-01     | TBD   | Pending |
-| STAY-02     | TBD   | Pending |
-| STAY-03     | TBD   | Pending |
-| STAY-04     | TBD   | Pending |
-| STAY-05     | TBD   | Pending |
-| STAY-06     | TBD   | Pending |
-| STAY-07     | TBD   | Pending |
-| STAY-08     | TBD   | Pending |
-| FNB-01      | TBD   | Pending |
-| FNB-02      | TBD   | Pending |
-| FNB-03      | TBD   | Pending |
-| INT-01      | TBD   | Pending |
-| INT-02      | TBD   | Pending |
-| INT-03      | TBD   | Pending |
-| INT-04      | TBD   | Pending |
+| Requirement | Phase   | Status  |
+| ----------- | ------- | ------- |
+| DB-01       | Phase 4 | Pending |
+| DB-02       | Phase 4 | Pending |
+| DB-03       | Phase 4 | Pending |
+| DB-04       | Phase 4 | Pending |
+| DB-05       | Phase 4 | Pending |
+| DB-06       | Phase 4 | Pending |
+| DB-07       | Phase 4 | Pending |
+| DB-08       | Phase 4 | Pending |
+| API-01      | Phase 5 | Pending |
+| API-02      | Phase 5 | Pending |
+| API-03      | Phase 5 | Pending |
+| API-04      | Phase 5 | Pending |
+| API-05      | Phase 5 | Pending |
+| INT-02      | Phase 5 | Pending |
+| INT-03      | Phase 5 | Pending |
+| INT-04      | Phase 5 | Pending |
+| STAY-01     | Phase 6 | Pending |
+| STAY-02     | Phase 6 | Pending |
+| STAY-03     | Phase 6 | Pending |
+| STAY-04     | Phase 6 | Pending |
+| STAY-05     | Phase 6 | Pending |
+| STAY-06     | Phase 6 | Pending |
+| STAY-07     | Phase 6 | Pending |
+| STAY-08     | Phase 6 | Pending |
+| FNB-01      | Phase 7 | Pending |
+| FNB-02      | Phase 7 | Pending |
+| FNB-03      | Phase 7 | Pending |
+| INT-01      | Phase 7 | Pending |
 
 **Coverage:**
 
 - v1.1 requirements: 28 total
-- Mapped to phases: 0
-- Unmapped: 28
+- Mapped to phases: 28 (100%)
+- Unmapped: 0
+
+**Phase Distribution:**
+
+- Phase 4 (Database Foundation): 8 requirements
+- Phase 5 (API Layer): 8 requirements
+- Phase 6 (In-Stay Dashboard): 8 requirements
+- Phase 7 (F&B Integration): 4 requirements
 
 ---
 
 _Requirements defined: 2026-01-29_
-_Last updated: 2026-01-29 after initial definition_
+_Last updated: 2026-01-29 after roadmap creation_
