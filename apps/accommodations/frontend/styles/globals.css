@@ -16,6 +16,7 @@
   --primary: 15 80% 55%;
   --primary-hover: 15 80% 48%;
   --primary-light: 15 80% 95%;
+  --primary-hex: #e07a5f;
 
   /* Secondary - Deep teal for trust */
   --secondary: 175 50% 35%;
@@ -36,6 +37,10 @@
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* Neutrals */
+  --charcoal-muted: #6b6560;
+  --cloud-dark: #e8e4df;
 
   /* Radius */
   --radius-sm: 0.375rem;
@@ -108,6 +113,11 @@
 
   .dark .glass {
     @apply bg-black/60;
+  }
+
+  /* Safe Area Insets */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }
 
