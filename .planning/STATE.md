@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Guests scan a QR in their room and instantly access WiFi, stay info, services, local deals, and host contact — all from real data.
-**Current focus:** v1.1 In-Stay Dashboard — Phase 6 in progress (Frontend Integration)
+**Current focus:** v1.1 In-Stay MVP Backend — Phase 6 complete, ready for Phase 7 (F&B Integration)
 
 ## Current Position
 
 Phase: 6 of 7 (In-Stay Dashboard)
-Plan: 3 of 4 (06-01, 06-02, 06-03 complete)
-Status: In progress. Dashboard split into composable components. Plan 04 (services, deals, useful numbers) remaining.
-Last activity: 2026-01-29 — Completed 06-03-PLAN.md (dashboard shell + section components)
+Plan: 4 of 4 (complete)
+Status: Phase 6 complete. All 10 success criteria verified. Dashboard displays real data from API routes.
+Last activity: 2026-01-29 — Completed Phase 6 execution and verification (10/10 must-haves)
 
-Progress: [███████░░░] 7/8 plans (87%)
+Progress: [████████░░] 8/8 plans (100% of phases 4-6)
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [███████░░░] 7/8 plans (87%)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 7
-- Average duration: 2.7 minutes
-- Total execution time: ~19 minutes
+- Total plans completed: 8
+- Average duration: 2.8 minutes
+- Total execution time: ~22 minutes
 
 ## Accumulated Context
 
@@ -65,8 +65,11 @@ Recent decisions affecting v1.1 work:
 - 06-02: Client JWT decode via atob (no jose on client)
 - 06-02: localStorage keys: gudbro_stay_token and gudbro_stay_data
 - 06-02: Booking code auto-uppercase and auto-prefix BK-
-- 06-03: Dashboard shell pattern: 130-line thin shell composing 8 section components
+- 06-03: Dashboard shell pattern: 128-line thin shell composing 11 section components
 - 06-03: Visa exemption static lookup for 15 nationalities with e-visa portal fallback
+- 06-04: Zero-decimal currencies (VND, JPY, KRW) use minor units directly; others divide by 100
+- 06-04: UsefulNumbers hides silently on error (don't alarm guests)
+- 06-04: City numbers grouped by category for organized display
 
 ### Known Issues
 
@@ -86,15 +89,15 @@ None.
 
 ### Blockers/Concerns
 
-None. Plan 04 (services carousel, local deals, useful numbers) is the final plan in Phase 6.
+None. Phase 6 complete and verified. Phase 7 (F&B Integration) can proceed.
 
 ## Session Continuity
 
-Last session: 2026-01-29T14:12:00Z
-Stopped at: Completed 06-03-PLAN.md (dashboard shell + section components)
+Last session: 2026-01-29T14:30:00Z
+Stopped at: Completed Phase 6 execution — all 4 plans executed, 10/10 must-haves verified
 Resume file: None
-Next: Execute 06-04-PLAN.md (services, deals, useful numbers components)
+Next: Plan and execute Phase 7 (F&B Integration)
 
 ---
 
-_Last updated: 2026-01-29 after 06-03 execution_
+_Last updated: 2026-01-29 after phase 6 completion_

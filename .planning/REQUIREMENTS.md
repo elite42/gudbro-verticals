@@ -28,14 +28,14 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 
 ### In-Stay Dashboard
 
-- [ ] **STAY-01**: Booking verification screen — guest enters last name + booking code to access dashboard
-- [ ] **STAY-02**: WiFi card prominently displayed — network name, password, copy-to-clipboard button
-- [ ] **STAY-03**: Stay summary card — dates, room number, guest count, checkout time, countdown
-- [ ] **STAY-04**: Services menu — browse categories (breakfast, minibar, laundry, room service) with items and prices (view only, no ordering)
-- [ ] **STAY-05**: Local deals section — partner offers with discounts, descriptions, and contact/booking action
-- [ ] **STAY-06**: Contact host — WhatsApp deep link with pre-filled message, phone call option
-- [ ] **STAY-07**: Checkout info — time, procedure, key return instructions
-- [ ] **STAY-08**: Replace all mock data in accommodations frontend with real API calls
+- [x] **STAY-01**: Booking verification screen — guest enters last name + booking code to access dashboard
+- [x] **STAY-02**: WiFi card prominently displayed — network name, password, copy-to-clipboard button
+- [x] **STAY-03**: Stay summary card — dates, room number, guest count, checkout time, countdown
+- [x] **STAY-04**: Services menu — browse categories (breakfast, minibar, laundry, room service) with items and prices (view only, no ordering)
+- [x] **STAY-05**: Local deals section — partner offers with discounts, descriptions, and contact/booking action
+- [x] **STAY-06**: Contact host — WhatsApp deep link with pre-filled message, phone call option
+- [x] **STAY-07**: Checkout info — time, procedure, key return instructions
+- [x] **STAY-08**: Replace all mock data in accommodations frontend with real API calls
 
 ### F&B Integration
 
@@ -47,8 +47,8 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 
 - [ ] **INT-01**: Connect conventions system (migration 050) to accommodations — property_id as convention source
 - [x] **INT-02**: Supabase client configuration in accommodations frontend (env vars, client setup)
-- [ ] **INT-03**: Error handling and loading states for all API calls
-- [ ] **INT-04**: Multi-language support for service names and descriptions (at minimum English)
+- [x] **INT-03**: Error handling and loading states for all API calls
+- [x] **INT-04**: Multi-language support for service names and descriptions (at minimum English)
 
 ## v1.2 Requirements (Deferred)
 
@@ -97,22 +97,22 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 | DB-06       | Phase 4 | Complete |
 | DB-07       | Phase 4 | Complete |
 | DB-08       | Phase 4 | Complete |
-| API-01      | Phase 5 | Pending  |
-| API-02      | Phase 5 | Pending  |
-| API-03      | Phase 5 | Pending  |
-| API-04      | Phase 5 | Pending  |
-| API-05      | Phase 5 | Pending  |
-| INT-02      | Phase 5 | Pending  |
-| INT-03      | Phase 5 | Pending  |
-| INT-04      | Phase 5 | Pending  |
-| STAY-01     | Phase 6 | Pending  |
-| STAY-02     | Phase 6 | Pending  |
-| STAY-03     | Phase 6 | Pending  |
-| STAY-04     | Phase 6 | Pending  |
-| STAY-05     | Phase 6 | Pending  |
-| STAY-06     | Phase 6 | Pending  |
-| STAY-07     | Phase 6 | Pending  |
-| STAY-08     | Phase 6 | Pending  |
+| API-01      | Phase 5 | Complete |
+| API-02      | Phase 5 | Complete |
+| API-03      | Phase 5 | Complete |
+| API-04      | Phase 5 | Complete |
+| API-05      | Phase 5 | Complete |
+| INT-02      | Phase 5 | Complete |
+| INT-03      | Phase 6 | Complete |
+| INT-04      | Phase 6 | Complete |
+| STAY-01     | Phase 6 | Complete |
+| STAY-02     | Phase 6 | Complete |
+| STAY-03     | Phase 6 | Complete |
+| STAY-04     | Phase 6 | Complete |
+| STAY-05     | Phase 6 | Complete |
+| STAY-06     | Phase 6 | Complete |
+| STAY-07     | Phase 6 | Complete |
+| STAY-08     | Phase 6 | Complete |
 | FNB-01      | Phase 7 | Pending  |
 | FNB-02      | Phase 7 | Pending  |
 | FNB-03      | Phase 7 | Pending  |
@@ -134,4 +134,4 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 ---
 
 _Requirements defined: 2026-01-29_
-_Last updated: 2026-01-29 after phase 4 completion_
+_Last updated: 2026-01-29 after phase 6 completion_
