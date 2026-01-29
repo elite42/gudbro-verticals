@@ -20,11 +20,11 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 
 ### API Routes
 
-- [ ] **API-01**: GET /api/stay/[code] — verify booking code and return stay data (property, room, dates, WiFi)
-- [ ] **API-02**: POST /api/stay/verify — verify guest identity (last name + booking code) and return session token
-- [ ] **API-03**: GET /api/stay/[code]/services — return available services with items and prices
-- [ ] **API-04**: GET /api/stay/[code]/deals — return local partnership deals for the property
-- [ ] **API-05**: GET /api/stay/[code]/property — return property info (contact, house rules, checkout info)
+- [x] **API-01**: GET /api/stay/[code] — verify booking code and return stay data (property, room, dates, WiFi)
+- [x] **API-02**: POST /api/stay/verify — verify guest identity (last name + booking code) and return session token
+- [x] **API-03**: GET /api/stay/[code]/services — return available services with items and prices
+- [x] **API-04**: GET /api/stay/[code]/deals — return local partnership deals for the property
+- [x] **API-05**: GET /api/stay/[code]/property — return property info (contact, house rules, checkout info)
 
 ### In-Stay Dashboard
 
@@ -46,7 +46,7 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 ### Integration
 
 - [ ] **INT-01**: Connect conventions system (migration 050) to accommodations — property_id as convention source
-- [ ] **INT-02**: Supabase client configuration in accommodations frontend (env vars, client setup)
+- [x] **INT-02**: Supabase client configuration in accommodations frontend (env vars, client setup)
 - [ ] **INT-03**: Error handling and loading states for all API calls
 - [ ] **INT-04**: Multi-language support for service names and descriptions (at minimum English)
 

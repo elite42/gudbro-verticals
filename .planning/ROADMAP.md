@@ -85,8 +85,8 @@ Plans:
 
 Plans:
 
-- [ ] 05-01-PLAN.md — Supabase client, JWT auth, types, public booking lookup, and guest verification routes
-- [ ] 05-02-PLAN.md — Protected routes: services, deals, and property info (JWT required)
+- [x] 05-01-PLAN.md — Supabase client, JWT auth, types, public booking lookup, and guest verification routes
+- [x] 05-02-PLAN.md — Protected routes: services, deals, and property info (JWT required)
 
 ---
 
@@ -156,10 +156,10 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 | 2. UI/UX Audit             | v1.0      | 3/3            | Complete    | 2026-01-29 |
 | 3. Build & Navigation      | v1.0      | 1/1            | Complete    | 2026-01-29 |
 | 4. Database Foundation     | v1.1      | 2/2            | Complete    | 2026-01-29 |
-| 5. API Layer               | v1.1      | 0/2            | Not started | -          |
+| 5. API Layer               | v1.1      | 2/2            | Complete    | 2026-01-29 |
 | 6. In-Stay Dashboard       | v1.1      | 0/2            | Not started | -          |
 | 7. F&B Integration         | v1.1      | 0/2            | Not started | -          |
 
 ---
 
-_Last updated: 2026-01-29 (phase 5 revised per checker feedback)_
+_Last updated: 2026-01-29 (phase 5 complete)_
