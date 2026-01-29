@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Guests scan a QR in their room and instantly access WiFi, stay info, services, local deals, and host contact — all from real data.
-**Current focus:** v1.1 In-Stay MVP Backend — Phase 6 complete, ready for Phase 7 (F&B Integration)
+**Current focus:** v1.1 In-Stay MVP Backend — Phase 7 in progress (F&B Integration)
 
 ## Current Position
 
-Phase: 6 of 7 (In-Stay Dashboard)
-Plan: 4 of 4 (complete)
-Status: Phase 6 complete. All 10 success criteria verified. Dashboard displays real data from API routes.
-Last activity: 2026-01-29 — Completed Phase 6 execution and verification (10/10 must-haves)
+Phase: 7 of 7 (F&B Integration)
+Plan: 1 of 2 (backend complete)
+Status: In progress. Plan 07-01 complete (migration + API). Plan 07-02 pending (frontend).
+Last activity: 2026-01-30 — Completed 07-01-PLAN.md (F&B backend integration)
 
-Progress: [████████░░] 8/8 plans (100% of phases 4-6)
+Progress: [█████████░] 9/10 plans (phases 4-7)
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [████████░░] 8/8 plans (100% of phases 4-6)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 2.8 minutes
-- Total execution time: ~22 minutes
+- Total execution time: ~25 minutes
 
 ## Accumulated Context
 
@@ -70,6 +70,9 @@ Recent decisions affecting v1.1 work:
 - 06-04: Zero-decimal currencies (VND, JPY, KRW) use minor units directly; others divide by 100
 - 06-04: UsefulNumbers hides silently on error (don't alarm guests)
 - 06-04: City numbers grouped by category for organized display
+- 07-01: F&B linking uses slug-based deep-linking (not FK to merchants table)
+- 07-01: INT-01 satisfied by existing partner_conventions polymorphic pattern (partner_id + partner_type)
+- 07-01: No redundant property_id column on partner_conventions (data drift risk)
 
 ### Known Issues
 
@@ -89,15 +92,15 @@ None.
 
 ### Blockers/Concerns
 
-None. Phase 6 complete and verified. Phase 7 (F&B Integration) can proceed.
+None. Plan 07-01 complete. Plan 07-02 (frontend RestaurantSection) can proceed.
 
 ## Session Continuity
 
-Last session: 2026-01-29T14:30:00Z
-Stopped at: Completed Phase 6 execution — all 4 plans executed, 10/10 must-haves verified
+Last session: 2026-01-30T20:08:00Z
+Stopped at: Completed 07-01-PLAN.md (F&B backend integration)
 Resume file: None
-Next: Plan and execute Phase 7 (F&B Integration)
+Next: Execute 07-02-PLAN.md (F&B frontend RestaurantSection)
 
 ---
 
-_Last updated: 2026-01-29 after phase 6 completion_
+_Last updated: 2026-01-30 after 07-01 completion_
