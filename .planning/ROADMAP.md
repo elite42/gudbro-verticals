@@ -38,22 +38,26 @@ Plans:
 
 ### Phase 2: UI/UX Harmony
 
-**Goal**: All vertical PWAs follow consistent UI patterns and component structure
+**Goal**: Fix known inconsistencies (Wellness, Accommodations) and verify all 8 verticals meet UI/UX criteria
 **Depends on**: Phase 1
 **Requirements**: UX-01, UX-02, UX-03, UX-04, UX-05, UX-06
-**Plans:** 2 plans
+**Plans:** 3 plans
 **Success Criteria** (what must be TRUE):
 
-1. All 8 verticals have BottomNav with identical layout pattern (flat center)
-2. BottomNav active states consistently use each vertical's brand color
-3. All vertical headers follow the same structural pattern
+1. All 8 verticals have a BottomNav — either as an extracted component (7 verticals) or inline nav (Tours, acceptable exception with 1 page)
+2. BottomNav active states use CSS variables for brand color (no hardcoded hex), except Tours which uses Tailwind class (acceptable exception)
+3. All BottomNavs have safe area padding via pb-safe class or inline env() equivalent
 4. No PWA contains routes belonging to another vertical (wellness no /gym)
-5. All PWAs have safe area padding on bottom (pb-safe for iOS)
+5. All vertical main pages have header sections following consistent structural patterns
+6. Verification audit confirms all 8 verticals pass criteria (not just the 2 that were fixed)
+
+**Scope note:** Research (02-RESEARCH.md) confirmed 6 of 8 verticals already meet all criteria. Plans 02-01 and 02-02 fix the 2 with actual issues. Plan 02-03 verifies all 8 pass.
 
 Plans:
 
 - [ ] 02-01-PLAN.md — Fix Wellness BottomNav brand color + remove legacy /gym routes
 - [ ] 02-02-PLAN.md — Create Accommodations BottomNav component + add pb-safe
+- [ ] 02-03-PLAN.md — Verify all 8 verticals meet UI/UX consistency criteria
 
 ### Phase 3: Verification
 
@@ -81,5 +85,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase               | Plans Complete | Status      | Completed  |
 | ------------------- | -------------- | ----------- | ---------- |
 | 1. TypeScript Fixes | 1/1            | ✓ Complete  | 2026-01-29 |
-| 2. UI/UX Harmony    | 0/2            | Not started | -          |
+| 2. UI/UX Harmony    | 0/3            | Not started | -          |
 | 3. Verification     | 0/?            | Not started | -          |
