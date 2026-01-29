@@ -10,30 +10,30 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 1 of 3 (TypeScript Fixes)
-Plan: 0 of ? (ready to plan)
-Status: Ready to plan
-Last activity: 2026-01-29 — Roadmap created with 3 phases
+Plan: 1 of 1 (complete)
+Status: Phase complete
+Last activity: 2026-01-29 — Completed 01-01-PLAN.md
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: 3 minutes
+- Total execution time: 0.05 hours
 
 **By Phase:**
 
-| Phase | Plans | Total | Avg/Plan |
-| ----- | ----- | ----- | -------- |
-| —     | —     | —     | —        |
+| Phase               | Plans | Total     | Avg/Plan  |
+| ------------------- | ----- | --------- | --------- |
+| 01-typescript-fixes | 1     | 3 minutes | 3 minutes |
 
 **Recent Trend:**
 
-- Last 5 plans: None yet
-- Trend: —
+- Last 5 plans: 01-01 (3m)
+- Trend: First plan completed
 
 _Updated after each plan completion_
 
@@ -47,15 +47,21 @@ Recent decisions affecting current work:
 - PWA standalone (not hub) — not competing with Google/Yelp on discovery
 - Flat BottomNav pattern — uniform look across all verticals
 - DM Sans as shared body font — consistency while allowing unique display fonts
+- **Use type predicates for filtering** (01-01): TypeScript type assertions don't provide proper narrowing. Type predicates are trusted by TS.
+- **Ternary for conditional JSX** (01-01): Expression "x && y && <Component />" can't satisfy ReactNode when y is unknown. Ternary forces explicit type.
 
 ### Known Issues (TypeScript)
 
-From exploration and typecheck:
+**Resolved in 01-01:**
 
-- wellness/gym/[slug]/page.tsx: `number | undefined` not assignable to `number` (line 622)
-- accommodations/stay/[code]/page.tsx: `unknown` not assignable to `ReactNode` (lines 1102, 1104)
-- shared/database/beverages.ts: unescaped single quote (line 47)
-- shared/database/international-appetizers.ts: corrupted ingredient_ids array (line 430)
+- ✅ wellness/gym/[slug]/page.tsx: Fixed with type predicate
+- ✅ accommodations/stay/[code]/page.tsx: Fixed with ternary operator
+- ✅ shared/database/beverages.ts: Fixed apostrophe escape
+- ✅ shared/database/international-appetizers.ts: Fixed ingredient IDs
+
+**Remaining (outside scope):**
+
+- tours-frontend: soups database type errors (not prioritized)
 
 ### UI/UX Findings
 
@@ -75,6 +81,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29 13:33
-Stopped at: Roadmap created, ready to plan Phase 1
+Last session: 2026-01-29 14:01
+Stopped at: Completed Phase 1 (TypeScript Fixes) - 01-01-PLAN.md
 Resume file: None
+Next: Ready for Phase 2 (UI/UX Audit & Fixes)
