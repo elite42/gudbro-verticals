@@ -51,6 +51,8 @@ export interface PropertyInfo {
   houseRules: string[];
   amenities: string[];
   images: string[];
+  hasLinkedFnb: boolean;
+  linkedFnbSlug: string | null;
 }
 
 export interface RoomInfo {

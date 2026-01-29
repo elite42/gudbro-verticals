@@ -79,7 +79,8 @@ export async function POST(request: NextRequest) {
         accom_properties!inner(
           name, slug, type, contact_phone, contact_whatsapp,
           checkout_time, house_rules, amenities, images,
-          wifi_network, wifi_password
+          wifi_network, wifi_password,
+          has_linked_fnb, linked_fnb_slug
         )
       `
       )
@@ -112,6 +113,8 @@ export async function POST(request: NextRequest) {
       houseRules: (rawProperty.house_rules as string[]) || [],
       amenities: (rawProperty.amenities as string[]) || [],
       images: (rawProperty.images as string[]) || [],
+      hasLinkedFnb: (rawProperty.has_linked_fnb as boolean) ?? false,
+      linkedFnbSlug: (rawProperty.linked_fnb_slug as string) || null,
     };
 
     const room: RoomInfo = {

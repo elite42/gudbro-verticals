@@ -49,7 +49,8 @@ export async function GET(request: NextRequest) {
         contact_phone, contact_whatsapp, contact_email,
         check_in_time, checkout_time, house_rules, amenities,
         images, cover_image, rating, review_count,
-        wifi_network, wifi_password
+        wifi_network, wifi_password,
+        has_linked_fnb, linked_fnb_slug
       `
       )
       .eq('id', guest.propertyId)
@@ -77,6 +78,8 @@ export async function GET(request: NextRequest) {
       houseRules: data.house_rules || [],
       amenities: data.amenities || [],
       images: data.images || [],
+      hasLinkedFnb: data.has_linked_fnb ?? false,
+      linkedFnbSlug: data.linked_fnb_slug || null,
     };
 
     const wifi: WifiInfo = {
