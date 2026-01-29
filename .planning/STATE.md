@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 4 of 7 (Database Foundation)
-Plan: 0 of 2 (ready to plan)
-Status: Roadmap created, ready to plan Phase 4
-Last activity: 2026-01-29 — Roadmap created for v1.1 milestone
+Plan: 1 of 2 (in progress)
+Status: In progress - Plan 04-01 complete, Plan 04-02 next
+Last activity: 2026-01-29 — Completed 04-01-PLAN.md (accommodations schema)
 
-Progress: [░░░░░░░░░░] 0/8 plans (0%)
+Progress: [█░░░░░░░░░] 1/8 plans (12%)
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [░░░░░░░░░░] 0/8 plans (0%)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 0
-- Average duration: TBD
-- Total execution time: 0 minutes
+- Total plans completed: 1
+- Average duration: 2 minutes
+- Total execution time: 2 minutes
 
 ## Accumulated Context
 
@@ -42,6 +42,10 @@ Recent decisions affecting v1.1 work:
 - v1.1: Accommodations chosen as first vertical with real backend (strategic node, distributes to other verticals)
 - v1.1: Reuse existing conventions system (migration 050) for local partnerships instead of creating new tables
 - v1.1: Start phase numbering at 4 (continuous from v1.0 Phase 3)
+- 04-01: Guest access via SECURITY DEFINER function, not RLS policy on bookings table
+- 04-01: Booking codes use BK-XXXXXX format excluding 0/O/1/I/L for readability
+- 04-01: Price stored as INTEGER (minor currency unit) not DECIMAL
+- 04-01: Accommodations tables prefixed with accom\_ namespace
 
 ### Known Issues
 
@@ -65,11 +69,11 @@ None. v1.1 phases are well-scoped with clear dependencies.
 
 ## Session Continuity
 
-Last session: 2026-01-29
-Stopped at: Roadmap created for v1.1
+Last session: 2026-01-29T11:44:37Z
+Stopped at: Completed 04-01-PLAN.md (accommodations schema)
 Resume file: None
-Next: `/gsd:plan-phase 4` to create database foundation plan
+Next: Execute 04-02-PLAN.md (seed data)
 
 ---
 
-_Last updated: 2026-01-29 after roadmap creation_
+_Last updated: 2026-01-29 after 04-01 execution_
