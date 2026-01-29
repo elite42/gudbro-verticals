@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Guests scan a QR in their room and instantly access WiFi, stay info, services, local deals, and host contact — all from real data.
-**Current focus:** v1.1 In-Stay MVP Backend — Phase 7 complete (F&B Integration)
+**Current focus:** v1.1 In-Stay MVP Backend — Phase 8 (Schema-API Alignment, gap closure)
 
 ## Current Position
 
-Phase: 7 of 7 (F&B Integration)
-Plan: 2 of 2 (all plans complete)
-Status: Phase 7 complete. All v1.1 phases (4-7) finished.
-Last activity: 2026-01-30 — Completed 07-02-PLAN.md (F&B frontend RestaurantSection)
+Phase: 8 of 8 (Schema-API Alignment)
+Plan: 0 of 2 (planning)
+Status: Phase 8 added from milestone audit gap closure. Plans not yet created.
+Last activity: 2026-01-30 — Added Phase 8 from gap closure analysis
 
-Progress: [██████████] 10/10 plans (phases 4-7)
+Progress: [██████████░░] 10/12 plans (phases 4-8)
 
 ## Performance Metrics
 
@@ -95,15 +95,15 @@ None.
 
 ### Blockers/Concerns
 
-None. All v1.1 phases complete.
+Phase 8 (gap closure) must complete before v1.1 can ship. 10 integration gaps and 3 broken E2E flows.
 
 ## Session Continuity
 
-Last session: 2026-01-30T20:11:15Z
-Stopped at: Completed 07-02-PLAN.md (F&B frontend RestaurantSection)
+Last session: 2026-01-30
+Stopped at: Created Phase 8 from milestone audit gap closure
 Resume file: None
-Next: v1.1 milestone complete. See docs/roadmaps/MULTI-VERTICAL-STRATEGY.md for next milestone.
+Next: `/gsd:plan-phase 8` to create execution plans for Schema-API Alignment
 
 ---
 
-_Last updated: 2026-01-30 after 07-02 completion_
+_Last updated: 2026-01-30 after Phase 8 gap closure creation_

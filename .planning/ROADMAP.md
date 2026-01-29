@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 QA Multi-Vertical PWAs** - Phases 1-3 (shipped 2026-01-29)
-- ✅ **v1.1 In-Stay MVP Backend** - Phases 4-7 (shipped 2026-01-30)
+- 🔧 **v1.1 In-Stay MVP Backend** - Phases 4-8 (Phase 8: gap closure)
 - 📋 **v1.2 Booking & Owner Dashboard** - Phases TBD (planned)
 
 ## Overview
@@ -32,7 +32,7 @@ This milestone transforms the Accommodations vertical from a frontend-only proto
 
 </details>
 
-## ✅ v1.1 In-Stay MVP Backend (Shipped 2026-01-30)
+## 🔧 v1.1 In-Stay MVP Backend
 
 **Milestone Goal:** Connect Accommodations In-Stay Dashboard to Supabase, enabling guests to access real stay data via booking code verification.
 
@@ -147,10 +147,39 @@ Plans:
 
 ---
 
+### Phase 8: Schema-API Alignment
+
+**Goal**: Align database column names with API route SELECTs, add missing columns, and fix type mismatches so all E2E flows work against real Supabase data
+
+**Depends on**: Phase 7 (all features implemented)
+
+**Gap Closure**: Closes 10 integration gaps + 3 broken E2E flows from milestone audit
+
+**Requirements**: Cross-cutting (affects API-01, API-02, API-03, API-05, STAY-02, STAY-04, STAY-06)
+
+**Success Criteria** (what must be TRUE):
+
+1. DB column names match API SELECT strings: wifi_network, contact_phone, contact_email, checkout_time, sort_order, image (service items)
+2. Missing columns exist: contact_whatsapp (properties), currency/price_type/in_stock (service items)
+3. house_rules stored as JSONB array (not plain TEXT)
+4. Seed data updated for renamed/new columns
+5. All 7 E2E flows pass (WiFi Access, Services Browsing, Contact Host previously broken)
+6. TypeScript types aligned with updated schema
+7. `next build` succeeds for accommodations frontend
+
+**Plans:** TBD
+
+Plans:
+
+- [ ] 08-01-PLAN.md — Migration 081: rename columns, add missing columns, change house_rules type
+- [ ] 08-02-PLAN.md — Update seed data, TypeScript types, and verify all API routes against new schema
+
+---
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 4 → 5 → 6 → 7
+Phases execute in numeric order: 4 → 5 → 6 → 7 → 8
 
 | Phase                      | Milestone | Plans Complete | Status   | Completed  |
 | -------------------------- | --------- | -------------- | -------- | ---------- |
@@ -161,7 +190,8 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 | 5. API Layer               | v1.1      | 2/2            | Complete | 2026-01-29 |
 | 6. In-Stay Dashboard       | v1.1      | 4/4            | Complete | 2026-01-29 |
 | 7. F&B Integration         | v1.1      | 2/2            | Complete | 2026-01-30 |
+| 8. Schema-API Alignment    | v1.1      | 0/2            | Planned  |            |
 
 ---
 
-_Last updated: 2026-01-30 (v1.1 milestone complete)_
+_Last updated: 2026-01-30 (Phase 8 added for gap closure)_
