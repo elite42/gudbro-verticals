@@ -24,17 +24,17 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Goal**: All vertical PWAs and shared code compile without TypeScript errors
 **Depends on**: Nothing (first phase)
 **Requirements**: TS-01, TS-02, TS-03, TS-04, TS-05
+**Plans:** 1 plan
 **Success Criteria** (what must be TRUE):
 
 1. Developer can run `pnpm typecheck` in any vertical workspace with zero errors
 2. Wellness gym detail page correctly narrows pass.price type
 3. Accommodations stay detail page correctly types deal.tag as ReactNode
 4. Shared database files have no syntax errors (quotes, arrays)
-   **Plans**: TBD
 
 Plans:
 
-- [ ] 01-01: TBD during planning
+- [ ] 01-01-PLAN.md — Fix all TS compilation errors (shared DB syntax + type narrowing)
 
 ### Phase 2: UI/UX Harmony
 
@@ -79,6 +79,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase               | Plans Complete | Status      | Completed |
 | ------------------- | -------------- | ----------- | --------- |
-| 1. TypeScript Fixes | 0/?            | Not started | -         |
+| 1. TypeScript Fixes | 0/1            | Not started | -         |
 | 2. UI/UX Harmony    | 0/?            | Not started | -         |
 | 3. Verification     | 0/?            | Not started | -         |
