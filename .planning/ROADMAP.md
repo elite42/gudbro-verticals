@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 QA Multi-Vertical PWAs** - Phases 1-3 (shipped 2026-01-29)
-- 🔧 **v1.1 In-Stay MVP Backend** - Phases 4-8 (Phase 8: gap closure)
+- ✅ **v1.1 In-Stay MVP Backend** - Phases 4-8 (shipped 2026-01-30)
 - 📋 **v1.2 Booking & Owner Dashboard** - Phases TBD (planned)
 
 ## Overview
@@ -32,7 +32,7 @@ This milestone transforms the Accommodations vertical from a frontend-only proto
 
 </details>
 
-## 🔧 v1.1 In-Stay MVP Backend
+## ✅ v1.1 In-Stay MVP Backend
 
 **Milestone Goal:** Connect Accommodations In-Stay Dashboard to Supabase, enabling guests to access real stay data via booking code verification.
 
@@ -171,8 +171,8 @@ Plans:
 
 Plans:
 
-- [ ] 08-01-PLAN.md — Migration 081: rename columns, add missing columns, change house_rules type
-- [ ] 08-02-PLAN.md — Update seed data, TypeScript types, and verify all API routes against new schema
+- [x] 08-01-PLAN.md — Migration 081: rename columns, add missing columns, change house_rules type
+- [x] 08-02-PLAN.md — Update seed data, TypeScript types, and verify all API routes against new schema
 
 ---
 
@@ -190,8 +190,8 @@ Phases execute in numeric order: 4 → 5 → 6 → 7 → 8
 | 5. API Layer               | v1.1      | 2/2            | Complete | 2026-01-29 |
 | 6. In-Stay Dashboard       | v1.1      | 4/4            | Complete | 2026-01-29 |
 | 7. F&B Integration         | v1.1      | 2/2            | Complete | 2026-01-30 |
-| 8. Schema-API Alignment    | v1.1      | 0/2            | Planned  |            |
+| 8. Schema-API Alignment    | v1.1      | 2/2            | Complete | 2026-01-30 |
 
 ---
 
-_Last updated: 2026-01-30 (Phase 8 plans created)_
+_Last updated: 2026-01-30 (Phase 8 complete — v1.1 milestone shipped)_
