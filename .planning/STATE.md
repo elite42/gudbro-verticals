@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Guests scan a QR in their room and instantly access WiFi, stay info, services, local deals, and host contact — all from real data.
-**Current focus:** v1.1 In-Stay MVP Backend — Phase 7 in progress (F&B Integration)
+**Current focus:** v1.1 In-Stay MVP Backend — Phase 7 complete (F&B Integration)
 
 ## Current Position
 
 Phase: 7 of 7 (F&B Integration)
-Plan: 1 of 2 (backend complete)
-Status: In progress. Plan 07-01 complete (migration + API). Plan 07-02 pending (frontend).
-Last activity: 2026-01-30 — Completed 07-01-PLAN.md (F&B backend integration)
+Plan: 2 of 2 (all plans complete)
+Status: Phase 7 complete. All v1.1 phases (4-7) finished.
+Last activity: 2026-01-30 — Completed 07-02-PLAN.md (F&B frontend RestaurantSection)
 
-Progress: [█████████░] 9/10 plans (phases 4-7)
+Progress: [██████████] 10/10 plans (phases 4-7)
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [█████████░] 9/10 plans (phases 4-7)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 9
-- Average duration: 2.8 minutes
-- Total execution time: ~25 minutes
+- Total plans completed: 10
+- Average duration: 2.7 minutes
+- Total execution time: ~27 minutes
 
 ## Accumulated Context
 
@@ -73,6 +73,9 @@ Recent decisions affecting v1.1 work:
 - 07-01: F&B linking uses slug-based deep-linking (not FK to merchants table)
 - 07-01: INT-01 satisfied by existing partner_conventions polymorphic pattern (partner_id + partner_type)
 - 07-01: No redundant property_id column on partner_conventions (data drift risk)
+- 07-02: Static menu rendered inline (not modal or route) per CONTEXT.md
+- 07-02: F&B category filtering by name.toLowerCase().includes(slug)
+- 07-02: StaticMenuBranch internal component isolates hooks from conditional return
 
 ### Known Issues
 
@@ -92,15 +95,15 @@ None.
 
 ### Blockers/Concerns
 
-None. Plan 07-01 complete. Plan 07-02 (frontend RestaurantSection) can proceed.
+None. All v1.1 phases complete.
 
 ## Session Continuity
 
-Last session: 2026-01-30T20:08:00Z
-Stopped at: Completed 07-01-PLAN.md (F&B backend integration)
+Last session: 2026-01-30T20:11:15Z
+Stopped at: Completed 07-02-PLAN.md (F&B frontend RestaurantSection)
 Resume file: None
-Next: Execute 07-02-PLAN.md (F&B frontend RestaurantSection)
+Next: v1.1 milestone complete. See docs/roadmaps/MULTI-VERTICAL-STRATEGY.md for next milestone.
 
 ---
 
-_Last updated: 2026-01-30 after 07-01 completion_
+_Last updated: 2026-01-30 after 07-02 completion_
