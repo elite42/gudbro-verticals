@@ -20,7 +20,7 @@ export const beverages: ArgentinianDish[] = [
     allergens: [],
     tags: ['national-drink', 'social', 'daily'],
     popularity: 99,
-    ingredients: ['ING_YERBA_MATE', 'ING_WATER']
+    ingredients: ['ING_YERBA_MATE', 'ING_WATER'],
   },
   {
     id: 'ARG_MATE_COCIDO',
@@ -38,13 +38,13 @@ export const beverages: ArgentinianDish[] = [
     allergens: [],
     tags: ['tea-style', 'breakfast', 'mild'],
     popularity: 75,
-    ingredients: ['ING_YERBA_MATE', 'ING_WATER', 'ING_MILK']
+    ingredients: ['ING_YERBA_MATE', 'ING_WATER', 'ING_MILK'],
   },
   {
     id: 'ARG_FERNET_COLA',
     slug: 'fernet-con-coca',
     name: 'Fernet con Coca',
-    description: 'Fernet Branca mixed with cola, Argentina''s signature cocktail',
+    description: "Fernet Branca mixed with cola, Argentina's signature cocktail",
     category: 'beverage',
     status: 'iconic',
     region: 'Córdoba',
@@ -56,7 +56,7 @@ export const beverages: ArgentinianDish[] = [
     allergens: [],
     tags: ['cocktail', 'nightlife', 'cordoba'],
     popularity: 92,
-    ingredients: ['ING_FERNET_BRANCA', 'ING_COLA']
+    ingredients: ['ING_FERNET_BRANCA', 'ING_COLA'],
   },
   {
     id: 'ARG_CLERICO',
@@ -74,7 +74,7 @@ export const beverages: ArgentinianDish[] = [
     allergens: [],
     tags: ['sangria', 'summer', 'party'],
     popularity: 80,
-    ingredients: ['ING_WHITE_WINE', 'ING_APPLE', 'ING_ORANGE', 'ING_PEACH', 'ING_SUGAR']
+    ingredients: ['ING_WHITE_WINE', 'ING_APPLE', 'ING_ORANGE', 'ING_PEACH', 'ING_SUGAR'],
   },
   {
     id: 'ARG_SUBMARINO',
@@ -92,6 +92,6 @@ export const beverages: ArgentinianDish[] = [
     allergens: ['dairy'],
     tags: ['hot-chocolate', 'kids', 'cafe'],
     popularity: 85,
-    ingredients: ['ING_MILK', 'ING_CHOCOLATE']
-  }
+    ingredients: ['ING_MILK', 'ING_CHOCOLATE'],
+  },
 ];

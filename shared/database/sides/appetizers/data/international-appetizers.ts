@@ -13,30 +13,36 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Tzatziki',
       it: 'Tzatziki',
-      vi: 'Sot sua chua Hy Lap'
+      vi: 'Sot sua chua Hy Lap',
     },
     description: {
       en: 'Creamy Greek yogurt dip with cucumber, garlic and dill',
       it: 'Cremosa salsa greca allo yogurt con cetriolo, aglio e aneto',
-      vi: 'Sot sua chua Hy Lap kem voi dua chuot, toi va thi la'
+      vi: 'Sot sua chua Hy Lap kem voi dua chuot, toi va thi la',
     },
     style: 'greek',
     status: 'classic',
     category: 'dips',
     serving_temp: 'cold',
-    ingredient_ids: ['ING_DAIRY_YOGURT_GREEK', 'ING_VEGETABLE_CUCUMBER', 'ING_VEGETABLE_GARLIC', 'ING_HERB_DILL', 'ING_OIL_OLIVE'],
+    ingredient_ids: [
+      'ING_DAIRY_YOGURT_GREEK',
+      'ING_VEGETABLE_CUCUMBER',
+      'ING_VEGETABLE_GARLIC',
+      'ING_HERB_DILL',
+      'ING_OIL_OLIVE',
+    ],
     is_fried: false,
     is_baked: false,
     is_raw: true,
     spice_level: 0,
     origin: {
       country: 'Greece',
-      country_code: 'GR'
+      country_code: 'GR',
     },
     serving: {
       portion_size: 'small',
       is_shareable: true,
-      recommended_pairing: ['pita bread', 'grilled meats', 'ouzo']
+      recommended_pairing: ['pita bread', 'grilled meats', 'ouzo'],
     },
     dietary: {
       is_vegetarian: true,
@@ -54,15 +60,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 5,
       carbs_g: 4,
       fat_g: 6,
-      fiber_g: 0
+      fiber_g: 0,
     },
     preparation: {
       prep_time_min: 15,
       cook_time_min: 0,
-      difficulty: 'easy'
+      difficulty: 'easy',
     },
     tags: ['greek', 'mezze', 'dip', 'yogurt', 'refreshing'],
-    popularity: 92
+    popularity: 92,
   },
   {
     id: 'hummus',
@@ -70,30 +76,36 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Hummus',
       it: 'Hummus',
-      vi: 'Sot dau ga'
+      vi: 'Sot dau ga',
     },
     description: {
       en: 'Silky chickpea dip with tahini, lemon, garlic and olive oil',
-      it: 'Cremosa crema di ceci con tahina, limone, aglio e olio d\'oliva',
-      vi: 'Sot dau ga min voi tahini, chanh, toi va dau o liu'
+      it: "Cremosa crema di ceci con tahina, limone, aglio e olio d'oliva",
+      vi: 'Sot dau ga min voi tahini, chanh, toi va dau o liu',
     },
     style: 'middle_eastern',
     status: 'classic',
     category: 'dips',
     serving_temp: 'room_temp',
-    ingredient_ids: ['ING_LEGUME_CHICKPEA', 'ING_SAUCE_TAHINI', 'ING_FRUIT_LEMON', 'ING_VEGETABLE_GARLIC', 'ING_OIL_OLIVE'],
+    ingredient_ids: [
+      'ING_LEGUME_CHICKPEA',
+      'ING_SAUCE_TAHINI',
+      'ING_FRUIT_LEMON',
+      'ING_VEGETABLE_GARLIC',
+      'ING_OIL_OLIVE',
+    ],
     is_fried: false,
     is_baked: false,
     is_raw: false,
     spice_level: 0,
     origin: {
       country: 'Lebanon',
-      country_code: 'LB'
+      country_code: 'LB',
     },
     serving: {
       portion_size: 'medium',
       is_shareable: true,
-      recommended_pairing: ['pita', 'falafel', 'vegetables']
+      recommended_pairing: ['pita', 'falafel', 'vegetables'],
     },
     dietary: {
       is_vegetarian: true,
@@ -111,15 +123,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 8,
       carbs_g: 20,
       fat_g: 9,
-      fiber_g: 5
+      fiber_g: 5,
     },
     preparation: {
       prep_time_min: 15,
       cook_time_min: 0,
-      difficulty: 'easy'
+      difficulty: 'easy',
     },
     tags: ['middle-eastern', 'mezze', 'dip', 'vegan', 'chickpeas'],
-    popularity: 95
+    popularity: 95,
   },
   {
     id: 'falafel',
@@ -127,18 +139,24 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Falafel',
       it: 'Falafel',
-      vi: 'Banh dau ga chien'
+      vi: 'Banh dau ga chien',
     },
     description: {
       en: 'Crispy fried chickpea fritters with herbs and spices',
       it: 'Frittelle di ceci croccanti con erbe e spezie',
-      vi: 'Banh dau ga chien gion voi thao moc va gia vi'
+      vi: 'Banh dau ga chien gion voi thao moc va gia vi',
     },
     style: 'middle_eastern',
     status: 'classic',
     category: 'fritti',
     serving_temp: 'hot',
-    ingredient_ids: ['ING_LEGUME_CHICKPEA', 'ING_HERB_PARSLEY', 'ING_HERB_CILANTRO', 'ING_SPICE_CUMIN', 'ING_VEGETABLE_GARLIC'],
+    ingredient_ids: [
+      'ING_LEGUME_CHICKPEA',
+      'ING_HERB_PARSLEY',
+      'ING_HERB_CILANTRO',
+      'ING_SPICE_CUMIN',
+      'ING_VEGETABLE_GARLIC',
+    ],
     sauce_or_dip: 'tahini sauce',
     is_fried: true,
     is_baked: false,
@@ -146,13 +164,13 @@ export const internationalAppetizers: Appetizer[] = [
     spice_level: 1,
     origin: {
       country: 'Egypt',
-      country_code: 'EG'
+      country_code: 'EG',
     },
     serving: {
       portion_size: 'small',
       pieces_per_serving: 5,
       is_shareable: true,
-      recommended_pairing: ['hummus', 'tahini', 'pita']
+      recommended_pairing: ['hummus', 'tahini', 'pita'],
     },
     dietary: {
       is_vegetarian: true,
@@ -170,15 +188,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 12,
       carbs_g: 32,
       fat_g: 14,
-      fiber_g: 6
+      fiber_g: 6,
     },
     preparation: {
       prep_time_min: 30,
       cook_time_min: 15,
-      difficulty: 'medium'
+      difficulty: 'medium',
     },
     tags: ['middle-eastern', 'falafel', 'vegan', 'fried', 'chickpeas'],
-    popularity: 90
+    popularity: 90,
   },
   {
     id: 'baba-ganoush',
@@ -186,30 +204,36 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Baba Ganoush',
       it: 'Baba Ganoush',
-      vi: 'Sot ca tim nuong'
+      vi: 'Sot ca tim nuong',
     },
     description: {
       en: 'Smoky roasted eggplant dip with tahini and lemon',
       it: 'Crema affumicata di melanzane arrosto con tahina e limone',
-      vi: 'Sot ca tim nuong khoi voi tahini va chanh'
+      vi: 'Sot ca tim nuong khoi voi tahini va chanh',
     },
     style: 'middle_eastern',
     status: 'classic',
     category: 'dips',
     serving_temp: 'room_temp',
-    ingredient_ids: ['ING_VEGETABLE_EGGPLANT', 'ING_SAUCE_TAHINI', 'ING_FRUIT_LEMON', 'ING_VEGETABLE_GARLIC', 'ING_OIL_OLIVE'],
+    ingredient_ids: [
+      'ING_VEGETABLE_EGGPLANT',
+      'ING_SAUCE_TAHINI',
+      'ING_FRUIT_LEMON',
+      'ING_VEGETABLE_GARLIC',
+      'ING_OIL_OLIVE',
+    ],
     is_fried: false,
     is_baked: true,
     is_raw: false,
     spice_level: 0,
     origin: {
       country: 'Lebanon',
-      country_code: 'LB'
+      country_code: 'LB',
     },
     serving: {
       portion_size: 'medium',
       is_shareable: true,
-      recommended_pairing: ['pita', 'vegetables', 'grilled meats']
+      recommended_pairing: ['pita', 'vegetables', 'grilled meats'],
     },
     dietary: {
       is_vegetarian: true,
@@ -227,15 +251,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 3,
       carbs_g: 10,
       fat_g: 8,
-      fiber_g: 4
+      fiber_g: 4,
     },
     preparation: {
       prep_time_min: 10,
       cook_time_min: 40,
-      difficulty: 'easy'
+      difficulty: 'easy',
     },
     tags: ['middle-eastern', 'mezze', 'dip', 'eggplant', 'vegan'],
-    popularity: 85
+    popularity: 85,
   },
   {
     id: 'dolmades',
@@ -243,31 +267,38 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Dolmades',
       it: 'Dolmades',
-      vi: 'La nho cuon'
+      vi: 'La nho cuon',
     },
     description: {
       en: 'Grape leaves stuffed with herbed rice, pine nuts and currants',
       it: 'Foglie di vite ripiene di riso alle erbe, pinoli e uvetta',
-      vi: 'La nho cuon com thom, hat thong va nho kho'
+      vi: 'La nho cuon com thom, hat thong va nho kho',
     },
     style: 'greek',
     status: 'classic',
     category: 'rolls',
     serving_temp: 'cold',
-    ingredient_ids: ['ING_WRAPPER_GRAPE_LEAVES', 'ING_GRAIN_RICE', 'ING_HERB_DILL', 'ING_HERB_MINT', 'ING_NUT_PINE', 'ING_FRUIT_LEMON'],
+    ingredient_ids: [
+      'ING_WRAPPER_GRAPE_LEAVES',
+      'ING_GRAIN_RICE',
+      'ING_HERB_DILL',
+      'ING_HERB_MINT',
+      'ING_NUT_PINE',
+      'ING_FRUIT_LEMON',
+    ],
     is_fried: false,
     is_baked: false,
     is_raw: false,
     spice_level: 0,
     origin: {
       country: 'Greece',
-      country_code: 'GR'
+      country_code: 'GR',
     },
     serving: {
       portion_size: 'small',
       pieces_per_serving: 6,
       is_shareable: true,
-      recommended_pairing: ['tzatziki', 'white wine', 'ouzo']
+      recommended_pairing: ['tzatziki', 'white wine', 'ouzo'],
     },
     dietary: {
       is_vegetarian: true,
@@ -285,15 +316,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 3,
       carbs_g: 24,
       fat_g: 6,
-      fiber_g: 2
+      fiber_g: 2,
     },
     preparation: {
       prep_time_min: 45,
       cook_time_min: 40,
-      difficulty: 'hard'
+      difficulty: 'hard',
     },
     tags: ['greek', 'mezze', 'stuffed', 'vegetarian', 'cold'],
-    popularity: 78
+    popularity: 78,
   },
   {
     id: 'spanakopita',
@@ -301,31 +332,37 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Spanakopita',
       it: 'Spanakopita',
-      vi: 'Banh cai bo xoi Hy Lap'
+      vi: 'Banh cai bo xoi Hy Lap',
     },
     description: {
       en: 'Crispy phyllo pastry filled with spinach and feta cheese',
       it: 'Pasta fillo croccante ripiena di spinaci e feta',
-      vi: 'Banh phyllo gion nhan cai bo xoi va pho mai feta'
+      vi: 'Banh phyllo gion nhan cai bo xoi va pho mai feta',
     },
     style: 'greek',
     status: 'classic',
     category: 'bites',
     serving_temp: 'warm',
-    ingredient_ids: ['ING_PASTRY_PHYLLO', 'ING_VEGETABLE_SPINACH', 'ING_CHEESE_FETA', 'ING_HERB_DILL', 'ING_VEGETABLE_ONION'],
+    ingredient_ids: [
+      'ING_PASTRY_PHYLLO',
+      'ING_VEGETABLE_SPINACH',
+      'ING_CHEESE_FETA',
+      'ING_HERB_DILL',
+      'ING_VEGETABLE_ONION',
+    ],
     is_fried: false,
     is_baked: true,
     is_raw: false,
     spice_level: 0,
     origin: {
       country: 'Greece',
-      country_code: 'GR'
+      country_code: 'GR',
     },
     serving: {
       portion_size: 'small',
       pieces_per_serving: 3,
       is_shareable: true,
-      recommended_pairing: ['white wine', 'retsina', 'tzatziki']
+      recommended_pairing: ['white wine', 'retsina', 'tzatziki'],
     },
     dietary: {
       is_vegetarian: true,
@@ -343,15 +380,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 10,
       carbs_g: 18,
       fat_g: 14,
-      fiber_g: 2
+      fiber_g: 2,
     },
     preparation: {
       prep_time_min: 30,
       cook_time_min: 35,
-      difficulty: 'medium'
+      difficulty: 'medium',
     },
     tags: ['greek', 'mezze', 'phyllo', 'spinach', 'feta'],
-    popularity: 82
+    popularity: 82,
   },
   {
     id: 'tabbouleh',
@@ -359,30 +396,37 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Tabbouleh',
       it: 'Tabbouleh',
-      vi: 'Salad rau mui'
+      vi: 'Salad rau mui',
     },
     description: {
       en: 'Fresh parsley salad with bulgur, tomatoes, mint and lemon',
       it: 'Insalata fresca di prezzemolo con bulgur, pomodori, menta e limone',
-      vi: 'Salad rau mui tuoi voi bulgur, ca chua, bac ha va chanh'
+      vi: 'Salad rau mui tuoi voi bulgur, ca chua, bac ha va chanh',
     },
     style: 'middle_eastern',
     status: 'classic',
     category: 'other',
     serving_temp: 'cold',
-    ingredient_ids: ['ING_HERB_PARSLEY', 'ING_GRAIN_BULGUR', 'ING_VEGETABLE_TOMATO', 'ING_HERB_MINT', 'ING_FRUIT_LEMON', 'ING_OIL_OLIVE'],
+    ingredient_ids: [
+      'ING_HERB_PARSLEY',
+      'ING_GRAIN_BULGUR',
+      'ING_VEGETABLE_TOMATO',
+      'ING_HERB_MINT',
+      'ING_FRUIT_LEMON',
+      'ING_OIL_OLIVE',
+    ],
     is_fried: false,
     is_baked: false,
     is_raw: true,
     spice_level: 0,
     origin: {
       country: 'Lebanon',
-      country_code: 'LB'
+      country_code: 'LB',
     },
     serving: {
       portion_size: 'small',
       is_shareable: true,
-      recommended_pairing: ['hummus', 'grilled chicken', 'pita']
+      recommended_pairing: ['hummus', 'grilled chicken', 'pita'],
     },
     dietary: {
       is_vegetarian: true,
@@ -400,15 +444,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 3,
       carbs_g: 18,
       fat_g: 6,
-      fiber_g: 4
+      fiber_g: 4,
     },
     preparation: {
       prep_time_min: 25,
       cook_time_min: 0,
-      difficulty: 'easy'
+      difficulty: 'easy',
     },
     tags: ['middle-eastern', 'salad', 'vegan', 'fresh', 'herbs'],
-    popularity: 80
+    popularity: 80,
   },
   {
     id: 'labneh',
@@ -416,30 +460,35 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Labneh',
       it: 'Labneh',
-      vi: 'Sua chua do Trung Dong'
+      vi: 'Sua chua do Trung Dong',
     },
     description: {
-      en: 'Thick strained yogurt with olive oil, za\'atar and mint',
-      it: 'Yogurt denso colato con olio d\'oliva, za\'atar e menta',
-      vi: 'Sua chua do dac voi dau o liu, za\'atar va bac ha'
+      en: "Thick strained yogurt with olive oil, za'atar and mint",
+      it: "Yogurt denso colato con olio d'oliva, za'atar e menta",
+      vi: "Sua chua do dac voi dau o liu, za'atar va bac ha",
     },
     style: 'middle_eastern',
     status: 'classic',
     category: 'dips',
     serving_temp: 'cold',
-    ingredient_ids: ['ING_DAIRY_YOGURT_STRAINED'ING_OTHER___'ING_OIL_OLIVE', 'ING_OTHER_ZA_'atar', 'mint'],
+    ingredient_ids: [
+      'ING_DAIRY_YOGURT_STRAINED',
+      'ING_OIL_OLIVE',
+      'ING_SPICE_ZAATAR',
+      'ING_HERB_MINT',
+    ],
     is_fried: false,
     is_baked: false,
     is_raw: true,
     spice_level: 0,
     origin: {
       country: 'Lebanon',
-      country_code: 'LB'
+      country_code: 'LB',
     },
     serving: {
       portion_size: 'small',
       is_shareable: true,
-      recommended_pairing: ['pita', 'vegetables', 'olive oil']
+      recommended_pairing: ['pita', 'vegetables', 'olive oil'],
     },
     dietary: {
       is_vegetarian: true,
@@ -457,15 +506,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 8,
       carbs_g: 4,
       fat_g: 10,
-      fiber_g: 0
+      fiber_g: 0,
     },
     preparation: {
       prep_time_min: 10,
       cook_time_min: 0,
-      difficulty: 'easy'
+      difficulty: 'easy',
     },
     tags: ['middle-eastern', 'dip', 'yogurt', 'healthy'],
-    popularity: 75
+    popularity: 75,
   },
 
   // === ASIAN APPETIZERS ===
@@ -475,18 +524,25 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Vietnamese Fresh Spring Rolls',
       it: 'Involtini Primavera Vietnamiti',
-      vi: 'Goi cuon'
+      vi: 'Goi cuon',
     },
     description: {
       en: 'Rice paper rolls with shrimp, pork, vermicelli and fresh herbs',
       it: 'Involtini di carta di riso con gamberi, maiale, vermicelli ed erbe fresche',
-      vi: 'Banh trang cuon tom, thit, bun va rau thom'
+      vi: 'Banh trang cuon tom, thit, bun va rau thom',
     },
     style: 'asian',
     status: 'classic',
     category: 'rolls',
     serving_temp: 'cold',
-    ingredient_ids: ['ING_WRAPPER_RICE_PAPER', 'ING_SEAFOOD_SHRIMP', 'ING_PROTEIN_PORK', 'ING_NOODLE_VERMICELLI', 'ING_VEGETABLE_LETTUCE', 'ING_HERB_MIX'],
+    ingredient_ids: [
+      'ING_WRAPPER_RICE_PAPER',
+      'ING_SEAFOOD_SHRIMP',
+      'ING_PROTEIN_PORK',
+      'ING_NOODLE_VERMICELLI',
+      'ING_VEGETABLE_LETTUCE',
+      'ING_HERB_MIX',
+    ],
     sauce_or_dip: 'nuoc cham',
     is_fried: false,
     is_baked: false,
@@ -494,13 +550,13 @@ export const internationalAppetizers: Appetizer[] = [
     spice_level: 0,
     origin: {
       country: 'Vietnam',
-      country_code: 'VN'
+      country_code: 'VN',
     },
     serving: {
       portion_size: 'small',
       pieces_per_serving: 2,
       is_shareable: true,
-      recommended_pairing: ['vietnamese beer', 'iced tea']
+      recommended_pairing: ['vietnamese beer', 'iced tea'],
     },
     dietary: {
       is_vegetarian: false,
@@ -518,15 +574,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 12,
       carbs_g: 18,
       fat_g: 3,
-      fiber_g: 1
+      fiber_g: 1,
     },
     preparation: {
       prep_time_min: 30,
       cook_time_min: 0,
-      difficulty: 'medium'
+      difficulty: 'medium',
     },
     tags: ['vietnamese', 'fresh', 'healthy', 'rolls', 'cold'],
-    popularity: 88
+    popularity: 88,
   },
   {
     id: 'gyoza',
@@ -534,18 +590,24 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Gyoza',
       it: 'Gyoza',
-      vi: 'Ha cao Nhat'
+      vi: 'Ha cao Nhat',
     },
     description: {
       en: 'Pan-fried Japanese dumplings with pork and cabbage',
       it: 'Ravioli giapponesi alla piastra con maiale e cavolo',
-      vi: 'Ha cao Nhat chien voi thit heo va bap cai'
+      vi: 'Ha cao Nhat chien voi thit heo va bap cai',
     },
     style: 'asian',
     status: 'classic',
     category: 'bites',
     serving_temp: 'hot',
-    ingredient_ids: ['ING_PROTEIN_PORK', 'ING_VEGETABLE_CABBAGE', 'ING_VEGETABLE_GARLIC', 'ING_SPICE_GINGER', 'ING_WRAPPER_GENERIC'],
+    ingredient_ids: [
+      'ING_PROTEIN_PORK',
+      'ING_VEGETABLE_CABBAGE',
+      'ING_VEGETABLE_GARLIC',
+      'ING_SPICE_GINGER',
+      'ING_WRAPPER_GENERIC',
+    ],
     sauce_or_dip: 'ponzu + chili oil',
     is_fried: true,
     is_baked: false,
@@ -553,13 +615,13 @@ export const internationalAppetizers: Appetizer[] = [
     spice_level: 1,
     origin: {
       country: 'Japan',
-      country_code: 'JP'
+      country_code: 'JP',
     },
     serving: {
       portion_size: 'small',
       pieces_per_serving: 6,
       is_shareable: true,
-      recommended_pairing: ['sake', 'japanese beer', 'rice']
+      recommended_pairing: ['sake', 'japanese beer', 'rice'],
     },
     dietary: {
       is_vegetarian: false,
@@ -577,15 +639,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 14,
       carbs_g: 28,
       fat_g: 12,
-      fiber_g: 2
+      fiber_g: 2,
     },
     preparation: {
       prep_time_min: 45,
       cook_time_min: 10,
-      difficulty: 'medium'
+      difficulty: 'medium',
     },
     tags: ['japanese', 'dumplings', 'fried', 'pork'],
-    popularity: 90
+    popularity: 90,
   },
   {
     id: 'edamame',
@@ -593,12 +655,12 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Edamame',
       it: 'Edamame',
-      vi: 'Dau nanh non'
+      vi: 'Dau nanh non',
     },
     description: {
       en: 'Steamed young soybeans with sea salt',
       it: 'Fagioli di soia giovani al vapore con sale marino',
-      vi: 'Dau nanh non hap voi muoi bien'
+      vi: 'Dau nanh non hap voi muoi bien',
     },
     style: 'asian',
     status: 'classic',
@@ -611,12 +673,12 @@ export const internationalAppetizers: Appetizer[] = [
     spice_level: 0,
     origin: {
       country: 'Japan',
-      country_code: 'JP'
+      country_code: 'JP',
     },
     serving: {
       portion_size: 'small',
       is_shareable: true,
-      recommended_pairing: ['sake', 'beer', 'any japanese dish']
+      recommended_pairing: ['sake', 'beer', 'any japanese dish'],
     },
     dietary: {
       is_vegetarian: true,
@@ -634,15 +696,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 11,
       carbs_g: 9,
       fat_g: 5,
-      fiber_g: 4
+      fiber_g: 4,
     },
     preparation: {
       prep_time_min: 5,
       cook_time_min: 5,
-      difficulty: 'easy'
+      difficulty: 'easy',
     },
     tags: ['japanese', 'vegan', 'healthy', 'protein', 'simple'],
-    popularity: 85
+    popularity: 85,
   },
   {
     id: 'satay-chicken',
@@ -650,18 +712,23 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Chicken Satay',
       it: 'Satay di Pollo',
-      vi: 'Ga nuong satay'
+      vi: 'Ga nuong satay',
     },
     description: {
       en: 'Grilled chicken skewers with peanut sauce and cucumber relish',
       it: 'Spiedini di pollo alla griglia con salsa di arachidi e cetrioli',
-      vi: 'Ga xiên nuong voi sot dau phong va dua chuot'
+      vi: 'Ga xiên nuong voi sot dau phong va dua chuot',
     },
     style: 'asian',
     status: 'classic',
     category: 'skewers',
     serving_temp: 'hot',
-    ingredient_ids: ['ING_PROTEIN_CHICKEN', 'ING_HERB_LEMONGRASS', 'ING_SPICE_TURMERIC', 'ING_DAIRY_COCONUT_MILK'],
+    ingredient_ids: [
+      'ING_PROTEIN_CHICKEN',
+      'ING_HERB_LEMONGRASS',
+      'ING_SPICE_TURMERIC',
+      'ING_DAIRY_COCONUT_MILK',
+    ],
     sauce_or_dip: 'peanut sauce',
     is_fried: false,
     is_baked: false,
@@ -669,13 +736,13 @@ export const internationalAppetizers: Appetizer[] = [
     spice_level: 1,
     origin: {
       country: 'Indonesia',
-      country_code: 'ID'
+      country_code: 'ID',
     },
     serving: {
       portion_size: 'small',
       pieces_per_serving: 4,
       is_shareable: true,
-      recommended_pairing: ['beer', 'iced tea', 'jasmine rice']
+      recommended_pairing: ['beer', 'iced tea', 'jasmine rice'],
     },
     dietary: {
       is_vegetarian: false,
@@ -693,15 +760,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 24,
       carbs_g: 8,
       fat_g: 18,
-      fiber_g: 1
+      fiber_g: 1,
     },
     preparation: {
       prep_time_min: 30,
       cook_time_min: 15,
-      difficulty: 'medium'
+      difficulty: 'medium',
     },
     tags: ['indonesian', 'grilled', 'chicken', 'peanut', 'skewers'],
-    popularity: 88
+    popularity: 88,
   },
   {
     id: 'banh-mi-bites',
@@ -709,31 +776,38 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Banh Mi Bites',
       it: 'Bocconcini Banh Mi',
-      vi: 'Banh mi mini'
+      vi: 'Banh mi mini',
     },
     description: {
       en: 'Mini Vietnamese baguettes with pate, pork and pickled vegetables',
       it: 'Mini baguette vietnamite con pate, maiale e verdure sottaceto',
-      vi: 'Banh mi mini voi pate, thit va do chua'
+      vi: 'Banh mi mini voi pate, thit va do chua',
     },
     style: 'asian',
     status: 'modern',
     category: 'bites',
     serving_temp: 'room_temp',
-    ingredient_ids: ['ING_BREAD_BAGUETTE', 'ING_PROTEIN_PATE', 'ING_PROTEIN_PORK', 'ING_VEGETABLE_CARROT_PICKLED', 'ING_HERB_CILANTRO', 'ING_VEGETABLE_PEPPER_JALAPENO'],
+    ingredient_ids: [
+      'ING_BREAD_BAGUETTE',
+      'ING_PROTEIN_PATE',
+      'ING_PROTEIN_PORK',
+      'ING_VEGETABLE_CARROT_PICKLED',
+      'ING_HERB_CILANTRO',
+      'ING_VEGETABLE_PEPPER_JALAPENO',
+    ],
     is_fried: false,
     is_baked: true,
     is_raw: false,
     spice_level: 2,
     origin: {
       country: 'Vietnam',
-      country_code: 'VN'
+      country_code: 'VN',
     },
     serving: {
       portion_size: 'small',
       pieces_per_serving: 3,
       is_shareable: true,
-      recommended_pairing: ['vietnamese coffee', 'beer', 'iced tea']
+      recommended_pairing: ['vietnamese coffee', 'beer', 'iced tea'],
     },
     dietary: {
       is_vegetarian: false,
@@ -751,15 +825,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 16,
       carbs_g: 26,
       fat_g: 10,
-      fiber_g: 2
+      fiber_g: 2,
     },
     preparation: {
       prep_time_min: 20,
       cook_time_min: 10,
-      difficulty: 'medium'
+      difficulty: 'medium',
     },
     tags: ['vietnamese', 'fusion', 'mini', 'pork', 'pickled'],
-    popularity: 80
+    popularity: 80,
   },
 
   // === FRENCH APPETIZERS ===
@@ -769,30 +843,36 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Country Pate',
       it: 'Pate di Campagna',
-      vi: 'Pate que'
+      vi: 'Pate que',
     },
     description: {
       en: 'Rustic French pork pate with pistachios and cornichons',
       it: 'Rustico pate francese di maiale con pistacchi e cetriolini',
-      vi: 'Pate thit heo kieu Phap voi hat de cuoi va dua chuot chua'
+      vi: 'Pate thit heo kieu Phap voi hat de cuoi va dua chuot chua',
     },
     style: 'french',
     status: 'classic',
     category: 'affettati',
     serving_temp: 'cold',
-    ingredient_ids: ['ING_PROTEIN_PORK', 'ING_PROTEIN_LIVER_PORK', 'ING_NUT_PISTACHIO', 'ING_SPIRIT_BRANDY', 'ING_HERB_MIX'],
+    ingredient_ids: [
+      'ING_PROTEIN_PORK',
+      'ING_PROTEIN_LIVER_PORK',
+      'ING_NUT_PISTACHIO',
+      'ING_SPIRIT_BRANDY',
+      'ING_HERB_MIX',
+    ],
     is_fried: false,
     is_baked: true,
     is_raw: false,
     spice_level: 0,
     origin: {
       country: 'France',
-      country_code: 'FR'
+      country_code: 'FR',
     },
     serving: {
       portion_size: 'small',
       is_shareable: true,
-      recommended_pairing: ['crusty bread', 'cornichons', 'red wine']
+      recommended_pairing: ['crusty bread', 'cornichons', 'red wine'],
     },
     dietary: {
       is_vegetarian: false,
@@ -810,15 +890,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 16,
       carbs_g: 2,
       fat_g: 24,
-      fiber_g: 0
+      fiber_g: 0,
     },
     preparation: {
       prep_time_min: 45,
       cook_time_min: 90,
-      difficulty: 'hard'
+      difficulty: 'hard',
     },
     tags: ['french', 'pate', 'pork', 'charcuterie', 'classic'],
-    popularity: 72
+    popularity: 72,
   },
   {
     id: 'gougeres',
@@ -826,12 +906,12 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Gougeres',
       it: 'Gougeres',
-      vi: 'Banh su pho mai'
+      vi: 'Banh su pho mai',
     },
     description: {
       en: 'Light French cheese puffs made with Gruyere',
       it: 'Leggeri bigne al formaggio francesi con Gruyere',
-      vi: 'Banh su pho mai Phap nhe voi Gruyere'
+      vi: 'Banh su pho mai Phap nhe voi Gruyere',
     },
     style: 'french',
     status: 'classic',
@@ -845,13 +925,13 @@ export const internationalAppetizers: Appetizer[] = [
     origin: {
       country: 'France',
       country_code: 'FR',
-      region: 'Burgundy'
+      region: 'Burgundy',
     },
     serving: {
       portion_size: 'small',
       pieces_per_serving: 4,
       is_shareable: true,
-      recommended_pairing: ['champagne', 'white wine', 'burgundy']
+      recommended_pairing: ['champagne', 'white wine', 'burgundy'],
     },
     dietary: {
       is_vegetarian: true,
@@ -869,15 +949,15 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 8,
       carbs_g: 12,
       fat_g: 12,
-      fiber_g: 0
+      fiber_g: 0,
     },
     preparation: {
       prep_time_min: 20,
       cook_time_min: 25,
-      difficulty: 'medium'
+      difficulty: 'medium',
     },
     tags: ['french', 'cheese', 'puffs', 'elegant', 'burgundy'],
-    popularity: 75
+    popularity: 75,
   },
   {
     id: 'escargots-bourguignon',
@@ -885,18 +965,24 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Escargots de Bourgogne',
       it: 'Escargot alla Borgognona',
-      vi: 'Oc Phap sot bo toi'
+      vi: 'Oc Phap sot bo toi',
     },
     description: {
       en: 'Burgundy snails baked in garlic herb butter',
       it: 'Lumache della Borgogna cotte nel burro alle erbe e aglio',
-      vi: 'Oc Burgundy nuong trong bo thao moc va toi'
+      vi: 'Oc Burgundy nuong trong bo thao moc va toi',
     },
     style: 'french',
     status: 'classic',
     category: 'other',
     serving_temp: 'hot',
-    ingredient_ids: ['ING_SEAFOOD_SNAILS', 'ING_DAIRY_BUTTER', 'ING_VEGETABLE_GARLIC', 'ING_HERB_PARSLEY', 'ING_VEGETABLE_SHALLOT'],
+    ingredient_ids: [
+      'ING_SEAFOOD_SNAILS',
+      'ING_DAIRY_BUTTER',
+      'ING_VEGETABLE_GARLIC',
+      'ING_HERB_PARSLEY',
+      'ING_VEGETABLE_SHALLOT',
+    ],
     is_fried: false,
     is_baked: true,
     is_raw: false,
@@ -904,13 +990,13 @@ export const internationalAppetizers: Appetizer[] = [
     origin: {
       country: 'France',
       country_code: 'FR',
-      region: 'Burgundy'
+      region: 'Burgundy',
     },
     serving: {
       portion_size: 'small',
       pieces_per_serving: 6,
       is_shareable: true,
-      recommended_pairing: ['chablis', 'burgundy white', 'crusty bread']
+      recommended_pairing: ['chablis', 'burgundy white', 'crusty bread'],
     },
     dietary: {
       is_vegetarian: false,
@@ -928,18 +1014,18 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 14,
       carbs_g: 2,
       fat_g: 28,
-      fiber_g: 0
+      fiber_g: 0,
     },
     preparation: {
       prep_time_min: 30,
       cook_time_min: 15,
-      difficulty: 'medium'
+      difficulty: 'medium',
     },
     pricing: {
-      cost_level: 'premium'
+      cost_level: 'premium',
     },
     tags: ['french', 'snails', 'butter', 'garlic', 'burgundy', 'classic'],
-    popularity: 68
+    popularity: 68,
   },
   {
     id: 'tapenade',
@@ -947,18 +1033,24 @@ export const internationalAppetizers: Appetizer[] = [
     name: {
       en: 'Tapenade',
       it: 'Tapenade',
-      vi: 'Sot olive Phap'
+      vi: 'Sot olive Phap',
     },
     description: {
       en: 'Provencal olive spread with capers, anchovies and herbs',
       it: 'Crema provenzale di olive con capperi, acciughe ed erbe',
-      vi: 'Sot olive Provence voi ca, ca com va thao moc'
+      vi: 'Sot olive Provence voi ca, ca com va thao moc',
     },
     style: 'french',
     status: 'classic',
     category: 'dips',
     serving_temp: 'room_temp',
-    ingredient_ids: ['ING_VEGETABLE_OLIVES_BLACK', 'ING_VEGETABLE_CAPERS', 'ING_SEAFOOD_ANCHOVIES', 'ING_VEGETABLE_GARLIC', 'ING_OIL_OLIVE'],
+    ingredient_ids: [
+      'ING_VEGETABLE_OLIVES_BLACK',
+      'ING_VEGETABLE_CAPERS',
+      'ING_SEAFOOD_ANCHOVIES',
+      'ING_VEGETABLE_GARLIC',
+      'ING_OIL_OLIVE',
+    ],
     is_fried: false,
     is_baked: false,
     is_raw: true,
@@ -966,12 +1058,12 @@ export const internationalAppetizers: Appetizer[] = [
     origin: {
       country: 'France',
       country_code: 'FR',
-      region: 'Provence'
+      region: 'Provence',
     },
     serving: {
       portion_size: 'small',
       is_shareable: true,
-      recommended_pairing: ['crusty bread', 'rose wine', 'crudites']
+      recommended_pairing: ['crusty bread', 'rose wine', 'crudites'],
     },
     dietary: {
       is_vegetarian: false,
@@ -989,16 +1081,16 @@ export const internationalAppetizers: Appetizer[] = [
       protein_g: 2,
       carbs_g: 4,
       fat_g: 14,
-      fiber_g: 2
+      fiber_g: 2,
     },
     preparation: {
       prep_time_min: 15,
       cook_time_min: 0,
-      difficulty: 'easy'
+      difficulty: 'easy',
     },
     tags: ['french', 'provencal', 'olives', 'spread', 'mediterranean'],
-    popularity: 78
-  }
+    popularity: 78,
+  },
 ];
 
 export default internationalAppetizers;
