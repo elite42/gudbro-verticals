@@ -14,6 +14,7 @@ import CheckoutInfo from '@/components/stay/CheckoutInfo';
 import ContactSheet from '@/components/stay/ContactSheet';
 import VisaStatusCard from '@/components/stay/VisaStatusCard';
 import ReturnGuestBanner from '@/components/stay/ReturnGuestBanner';
+import RestaurantSection from '@/components/stay/RestaurantSection';
 import ServicesCarousel from '@/components/stay/ServicesCarousel';
 import LocalDeals from '@/components/stay/LocalDeals';
 import UsefulNumbers from '@/components/stay/UsefulNumbers';
@@ -49,6 +50,8 @@ export default function InStayDashboard({ params }: { params: { code: string } }
           quickActions: (data.property as unknown as PropertyExtended).quickActions || [],
           returnBannerText: (data.property as unknown as PropertyExtended).returnBannerText || null,
           returnBannerUrl: (data.property as unknown as PropertyExtended).returnBannerUrl || null,
+          hasLinkedFnb: (data.property as unknown as PropertyExtended).hasLinkedFnb ?? false,
+          linkedFnbSlug: (data.property as unknown as PropertyExtended).linkedFnbSlug ?? null,
         };
         setPropertyExtended(extended);
       }
@@ -96,6 +99,13 @@ export default function InStayDashboard({ params }: { params: { code: string } }
             propertyName={property.name}
           />
         )}
+
+        <RestaurantSection
+          hasLinkedFnb={propertyExtended?.hasLinkedFnb ?? false}
+          linkedFnbSlug={propertyExtended?.linkedFnbSlug ?? null}
+          bookingCode={params.code}
+          token={token!}
+        />
 
         <ServicesCarousel bookingCode={params.code} token={token!} />
 
