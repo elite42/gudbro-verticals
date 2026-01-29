@@ -41,6 +41,7 @@ Plans:
 **Goal**: All vertical PWAs follow consistent UI patterns and component structure
 **Depends on**: Phase 1
 **Requirements**: UX-01, UX-02, UX-03, UX-04, UX-05, UX-06
+**Plans:** 2 plans
 **Success Criteria** (what must be TRUE):
 
 1. All 8 verticals have BottomNav with identical layout pattern (flat center)
@@ -48,11 +49,11 @@ Plans:
 3. All vertical headers follow the same structural pattern
 4. No PWA contains routes belonging to another vertical (wellness no /gym)
 5. All PWAs have safe area padding on bottom (pb-safe for iOS)
-   **Plans**: TBD
 
 Plans:
 
-- [ ] 02-01: TBD during planning
+- [ ] 02-01-PLAN.md — Fix Wellness BottomNav brand color + remove legacy /gym routes
+- [ ] 02-02-PLAN.md — Create Accommodations BottomNav component + add pb-safe
 
 ### Phase 3: Verification
 
@@ -80,5 +81,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase               | Plans Complete | Status      | Completed  |
 | ------------------- | -------------- | ----------- | ---------- |
 | 1. TypeScript Fixes | 1/1            | ✓ Complete  | 2026-01-29 |
-| 2. UI/UX Harmony    | 0/?            | Not started | -          |
+| 2. UI/UX Harmony    | 0/2            | Not started | -          |
 | 3. Verification     | 0/?            | Not started | -          |
