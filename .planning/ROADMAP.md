@@ -64,6 +64,7 @@ Plans:
 **Goal**: All vertical PWAs build successfully and have working navigation
 **Depends on**: Phase 2
 **Requirements**: BLD-01, BLD-02, BLD-03, BLD-04, BLD-05, BLD-06, BLD-07, NAV-01, NAV-02, NAV-03
+**Plans:** 2 plans
 **Success Criteria** (what must be TRUE):
 
 1. All 7 new vertical PWAs complete `next build` without errors
@@ -71,11 +72,11 @@ Plans:
 3. All internal page links (CTAs, cards, buttons) point to valid routes
 4. Back navigation from detail pages returns to correct listing page
 5. Developer can visit any PWA locally and navigate without 404s
-   **Plans**: TBD
 
 Plans:
 
-- [ ] 03-01: TBD during planning
+- [ ] 03-01-PLAN.md — Build all 7 vertical PWAs, fix errors inline
+- [ ] 03-02-PLAN.md — Validate navigation links + produce verification report
 
 ## Progress
 
@@ -86,4 +87,4 @@ Phases execute in numeric order: 1 → 2 → 3
 | ------------------- | -------------- | ----------- | ---------- |
 | 1. TypeScript Fixes | 1/1            | ✓ Complete  | 2026-01-29 |
 | 2. UI/UX Harmony    | 3/3            | ✓ Complete  | 2026-01-29 |
-| 3. Verification     | 0/?            | Not started | -          |
+| 3. Verification     | 0/2            | Not started | -          |
