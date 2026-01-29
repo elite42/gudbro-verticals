@@ -1099,11 +1099,11 @@ export default function InStayDashboard({ params: _params }: { params: { code: s
                 <div className="min-w-0 flex-1 py-0.5">
                   <div className="mb-0.5 flex items-start justify-between gap-2">
                     <h3 className="truncate text-sm font-semibold text-[#2D2016]">{deal.name}</h3>
-                    {'tag' in deal && deal.tag && (
+                    {'tag' in deal && deal.tag ? (
                       <span className="flex-shrink-0 rounded-full bg-[#3D8B87]/10 px-1.5 py-0.5 text-[9px] font-medium text-[#3D8B87]">
-                        {deal.tag}
+                        {String(deal.tag)}
                       </span>
-                    )}
+                    ) : null}
                   </div>
                   <div className="mb-1 flex items-center gap-2">
                     <span className="text-[10px] text-[#8B7355]">{deal.partner}</span>
