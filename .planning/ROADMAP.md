@@ -70,7 +70,7 @@ Plans:
 
 **Depends on**: Phase 4 (database schema exists)
 
-**Requirements**: API-01, API-02, API-03, API-04, API-05, INT-02, INT-03, INT-04
+**Requirements**: API-01, API-02, API-03, API-04, API-05, INT-02
 
 **Success Criteria** (what must be TRUE):
 
@@ -80,8 +80,6 @@ Plans:
 4. GET /api/stay/[code]/deals returns local partnership deals with discounts and booking actions
 5. GET /api/stay/[code]/property returns property info (contact, house rules, checkout time)
 6. All routes include proper error handling (invalid codes, expired bookings, server errors)
-7. Loading states are handled gracefully (no flash of wrong content)
-8. Multi-language support works for service names and descriptions (English minimum)
 
 **Plans:** 2 plans
 
@@ -98,7 +96,7 @@ Plans:
 
 **Depends on**: Phase 5 (API routes exist)
 
-**Requirements**: STAY-01, STAY-02, STAY-03, STAY-04, STAY-05, STAY-06, STAY-07, STAY-08
+**Requirements**: STAY-01, STAY-02, STAY-03, STAY-04, STAY-05, STAY-06, STAY-07, STAY-08, INT-03, INT-04
 
 **Success Criteria** (what must be TRUE):
 
@@ -110,6 +108,8 @@ Plans:
 6. Contact host opens WhatsApp with pre-filled message using real property contact number
 7. Checkout info shows time and procedure from property data
 8. All mock data has been replaced with API calls to Phase 5 routes
+9. Loading states are handled gracefully (no flash of wrong content)
+10. Multi-language support works for service names and descriptions (English minimum)
 
 **Plans**: TBD
 
@@ -162,4 +162,4 @@ Phases execute in numeric order: 4 → 5 → 6 → 7
 
 ---
 
-_Last updated: 2026-01-29 (phase 5 planned)_
+_Last updated: 2026-01-29 (phase 5 revised per checker feedback)_
