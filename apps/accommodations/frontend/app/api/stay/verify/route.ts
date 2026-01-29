@@ -73,8 +73,8 @@ export async function POST(request: NextRequest) {
       .from('accom_bookings')
       .select(
         `
-        id, booking_code, guest_first_name, guest_last_name, guest_count,
-        check_in, check_out, status,
+        id, booking_code, guest_name, guest_last_name, guest_count,
+        guest_country, check_in_date, check_out_date, status,
         accom_rooms!inner(room_number, name, floor),
         accom_properties!inner(
           name, slug, type, contact_phone, contact_whatsapp,
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
     const token = await signGuestToken({
       bookingId: result.booking_id,
       propertyId: result.property_id,
-      checkoutDate: bookingData.check_out,
+      checkoutDate: bookingData.check_out_date,
     });
 
     // Map database rows to API response types
@@ -121,18 +121,19 @@ export async function POST(request: NextRequest) {
     };
 
     const nights = differenceInCalendarDays(
-      new Date(bookingData.check_out),
-      new Date(bookingData.check_in)
+      new Date(bookingData.check_out_date),
+      new Date(bookingData.check_in_date)
     );
 
     const booking: BookingInfo = {
       code: bookingData.booking_code,
-      guestName: `${bookingData.guest_first_name} ${bookingData.guest_last_name}`,
+      guestName: `${bookingData.guest_name} ${bookingData.guest_last_name}`,
       guestCount: bookingData.guest_count,
-      checkIn: bookingData.check_in,
-      checkOut: bookingData.check_out,
+      checkIn: bookingData.check_in_date,
+      checkOut: bookingData.check_out_date,
       nights,
       status: bookingData.status,
+      guestCountry: (bookingData.guest_country as string) || null,
     };
 
     const wifi: WifiInfo = {

@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
  * GET /api/stay/[code]
  *
  * Public booking lookup endpoint. Returns minimal booking info
- * (property name, dates, guest first name) for the verification screen.
+ * (property name, dates, guest name) for the verification screen.
  *
  * No authentication required — this is the entry point for guests.
  */
@@ -26,7 +26,7 @@ export async function GET(_request: NextRequest, { params }: { params: { code: s
 
     const { data, error } = await supabase
       .from('accom_bookings')
-      .select('id, guest_first_name, check_in, check_out, accom_properties!inner(name)')
+      .select('id, guest_name, check_in_date, check_out_date, accom_properties!inner(name)')
       .eq('booking_code', code)
       .single();
 
@@ -35,7 +35,7 @@ export async function GET(_request: NextRequest, { params }: { params: { code: s
     }
 
     // Check if booking has expired (checkout date has passed)
-    const checkOut = new Date(data.check_out);
+    const checkOut = new Date(data.check_out_date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     if (checkOut < today) {
@@ -47,9 +47,9 @@ export async function GET(_request: NextRequest, { params }: { params: { code: s
 
     const response: StayLookupResponse = {
       propertyName: property.name,
-      checkIn: data.check_in,
-      checkOut: data.check_out,
-      guestFirstName: data.guest_first_name,
+      checkIn: data.check_in_date,
+      checkOut: data.check_out_date,
+      guestFirstName: data.guest_name,
     };
 
     return NextResponse.json<ApiResponse<StayLookupResponse>>({

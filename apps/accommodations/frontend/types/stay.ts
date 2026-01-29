@@ -67,6 +67,7 @@ export interface BookingInfo {
   checkOut: string;
   nights: number;
   status: string;
+  guestCountry: string | null;
 }
 
 export interface WifiInfo {
@@ -98,6 +99,44 @@ export interface ServiceItemResponse {
   priceType: string;
   image: string | null;
   inStock: boolean;
+}
+
+// --- GET /api/stay/[code]/useful-numbers ---
+
+export interface EmergencyNumber {
+  serviceType: string;
+  phoneNumber: string;
+}
+
+export interface CityNumber {
+  label: string;
+  phoneNumber: string;
+  category: string;
+  sortOrder: number;
+}
+
+export interface UsefulNumbersResponse {
+  emergency: EmergencyNumber[];
+  city: CityNumber[];
+  property: {
+    name: string;
+    phone: string;
+  };
+}
+
+// --- Quick Actions & Return Banner ---
+
+export interface QuickAction {
+  id: string;
+  name: string;
+  icon: string;
+  whatsappMessage: string;
+}
+
+export interface PropertyExtended extends PropertyInfo {
+  quickActions: QuickAction[];
+  returnBannerText: string | null;
+  returnBannerUrl: string | null;
 }
 
 // --- GET /api/stay/[code]/deals ---
