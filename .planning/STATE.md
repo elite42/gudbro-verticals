@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience
-**Current focus:** Planning next milestone
+**Current focus:** v1.1 — In-Stay MVP Backend (Accommodations)
 
 ## Current Position
 
-Phase: None (between milestones)
-Plan: N/A
-Status: v1.0 milestone complete, ready for next milestone
-Last activity: 2026-01-29 — v1.0 QA milestone shipped
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements for v1.1
+Last activity: 2026-01-29 — Milestone v1.1 started
 
-Progress: Milestone complete
+Progress: Initializing
 
 ## Performance Metrics
 
@@ -54,6 +54,6 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: v1.0 milestone completed and archived
+Stopped at: v1.1 milestone initialized, defining requirements
 Resume file: None
-Next: `/gsd:new-milestone` to start next milestone cycle
+Next: Complete requirements → roadmap → `/gsd:plan-phase`

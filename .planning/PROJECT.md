@@ -29,13 +29,31 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ### Active
 
-(Next milestone will define new requirements)
+#### Current Milestone: v1.1 — In-Stay MVP Backend
+
+**Goal:** Connect Accommodations In-Stay Dashboard to a real backend, enabling guests to scan a QR in their room and access WiFi, stay info, services, local deals, and host contact — all from real data.
+
+**Target features:**
+
+- In-Stay guest dashboard connected to Supabase (WiFi, stay summary, services, deals, contact)
+- Booking verification (guest enters name + code to access dashboard)
+- Property-owned services catalog (breakfast, minibar, laundry, room service)
+- Local partnerships/conventions display (partner deals with discounts)
+- Host contact (WhatsApp integration)
+- Database schema for accommodations domain (properties, rooms, bookings, services, partnerships)
+- API routes for In-Stay data
 
 ### Out of Scope
 
 - New vertical creation -- all 8 frontends exist
-- Backoffice modifications -- separate concern
-- Database migrations for verticals -- frontends use mock data
+- Booking Mode (property page, booking flow) -- deferred to v1.2
+- Owner Dashboard (property management UI) -- deferred to v1.2
+- Visa Tracker -- deferred to later milestone
+- Digital Laundry Form -- deferred to later milestone
+- Online payments -- cash/transfer only for MVP
+- GUDBRO Network integration -- future
+- Review system -- future
+- Calendar sync -- future
 
 ## Context
 
@@ -69,4 +87,4 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ---
 
-_Last updated: 2026-01-29 after v1.0 milestone completion_
+_Last updated: 2026-01-29 after v1.1 milestone initialization_
