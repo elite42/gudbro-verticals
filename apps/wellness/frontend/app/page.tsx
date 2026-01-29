@@ -163,6 +163,8 @@ const Icons = {
   Home: ({ className }: { className?: string }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -178,6 +180,8 @@ const Icons = {
   Services: ({ className }: { className?: string }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -193,6 +197,8 @@ const Icons = {
   Calendar: ({ className }: { className?: string }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -208,6 +214,8 @@ const Icons = {
   Users: ({ className }: { className?: string }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -223,6 +231,8 @@ const Icons = {
   Menu: ({ className }: { className?: string }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -238,6 +248,8 @@ const Icons = {
   Star: ({ className, filled }: { className?: string; filled?: boolean }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill={filled ? 'currentColor' : 'none'}
       stroke="currentColor"
@@ -253,6 +265,8 @@ const Icons = {
   Clock: ({ className }: { className?: string }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -268,6 +282,8 @@ const Icons = {
   MapPin: ({ className }: { className?: string }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -284,6 +300,8 @@ const Icons = {
   Phone: ({ className }: { className?: string }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -299,6 +317,8 @@ const Icons = {
   ChevronRight: ({ className }: { className?: string }) => (
     <svg
       className={className}
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -308,7 +328,7 @@ const Icons = {
     </svg>
   ),
   Sparkles: ({ className }: { className?: string }) => (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
       <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
     </svg>
   ),
@@ -335,7 +355,7 @@ export default function WellnessHomePage() {
           {/* Logo + Name */}
           <div className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--sage-light)]">
-              <Icons.Sparkles className="h-4.5 w-4.5 text-[var(--sage-hex)]" />
+              <Icons.Sparkles className="h-5 w-5 text-[var(--sage-hex)]" />
             </div>
             <div>
               <h1 className="font-display text-base font-semibold leading-tight text-[var(--charcoal)]">
@@ -739,7 +759,7 @@ export default function WellnessHomePage() {
         </section>
 
         {/* ===== LOCATION & HOURS ===== */}
-        <section className="animate-fade-in-up mb-8 delay-500">
+        <section className="animate-fade-in-up delay-600 mb-8">
           <h2 className="font-display mb-4 text-xl font-semibold text-[var(--charcoal)]">
             Visit Us
           </h2>
@@ -812,7 +832,7 @@ export default function WellnessHomePage() {
       </main>
 
       {/* ===== BOTTOM NAVIGATION ===== */}
-      <nav className="pb-safe-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
+      <nav className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
         <div className="mx-auto flex max-w-lg items-center justify-between">
           {/* Home */}
           <button
@@ -939,7 +959,7 @@ export default function WellnessHomePage() {
             className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={() => setShowMenu(false)}
           />
-          <div className="pb-safe-bottom animate-slide-up absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white p-6">
+          <div className="pb-safe animate-slide-up absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white p-6">
             <div className="mx-auto mb-6 h-1 w-12 rounded-full bg-[var(--cream-dark)]" />
             <h3 className="font-display mb-4 text-xl font-semibold text-[var(--charcoal)]">
               Quick Access
