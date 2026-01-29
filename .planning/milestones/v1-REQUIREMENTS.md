@@ -1,3 +1,13 @@
+# Requirements Archive: v1 QA Multi-Vertical PWAs
+
+**Archived:** 2026-01-29
+**Status:** SHIPPED
+
+This is the archived requirements specification for v1.
+For current requirements, see `.planning/REQUIREMENTS.md` (created for next milestone).
+
+---
+
 # Requirements: GUDBRO Verticals QA
 
 **Defined:** 2026-01-29
@@ -40,29 +50,7 @@ Requirements for QA milestone. Each maps to roadmap phases.
 - [x] **NAV-02**: All internal page links (CTAs, cards) point to valid routes
 - [x] **NAV-03**: Back navigation works correctly on detail pages
 
-## v2 Requirements
-
-Deferred to Backend Accommodations milestone.
-
-- **ACCOM-01**: Backoffice module for accommodations management
-- **ACCOM-02**: Room/property management with real data
-- **ACCOM-03**: Convention system active (partner linking, discounts)
-- **ACCOM-04**: In-Stay dashboard connected to real data
-
-## Out of Scope
-
-| Feature                    | Reason                                      |
-| -------------------------- | ------------------------------------------- |
-| New pages/routes           | QA only, not adding features                |
-| Database migrations        | Frontend QA, no schema changes              |
-| Backend API connections    | Verticals use mock data                     |
-| Coffeeshop changes         | Already production-ready, separate concerns |
-| Rentals/Waiter             | Minimal PWAs, not priority                  |
-| Icon migration to Phosphor | Cosmetic, defer to future                   |
-
 ## Traceability
-
-Updated during roadmap creation.
 
 | Requirement | Phase   | Status   |
 | ----------- | ------- | -------- |
@@ -88,15 +76,16 @@ Updated during roadmap creation.
 | NAV-02      | Phase 3 | Complete |
 | NAV-03      | Phase 3 | Complete |
 
-**Coverage:**
-
-- v1 requirements: 21 total
-- Mapped to phases: 21
-- Unmapped: 0
-
-✓ 100% coverage achieved
+**Coverage:** 100% (21/21 requirements mapped and completed)
 
 ---
 
-_Requirements defined: 2026-01-29_
-_Last updated: 2026-01-29 after roadmap creation_
+## Milestone Summary
+
+**Shipped:** 21 of 21 v1 requirements
+**Adjusted:** None - all requirements shipped as originally specified
+**Dropped:** None
+
+---
+
+_Archived: 2026-01-29 as part of v1 milestone completion_
