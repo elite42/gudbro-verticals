@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Guests scan a QR in their room and instantly access WiFi, stay info, services, local deals, and host contact — all from real data.
-**Current focus:** v1.1 In-Stay MVP Backend — Phase 5 (API Layer)
+**Current focus:** v1.1 In-Stay MVP Backend — Phase 5 complete, ready for Phase 6 (Frontend Integration)
 
 ## Current Position
 
-Phase: 4 of 7 (Database Foundation)
+Phase: 5 of 7 (API Layer)
 Plan: 2 of 2 (complete)
-Status: Phase 4 complete. Ready for Phase 5 (API Layer).
-Last activity: 2026-01-29 — Completed 04-02-PLAN.md (accommodations seed data)
+Status: Phase 5 complete. All 5 API routes built and verified. Ready for Phase 6 (Frontend Integration).
+Last activity: 2026-01-29 — Completed 05-02-PLAN.md (protected stay data routes)
 
-Progress: [██░░░░░░░░] 2/8 plans (25%)
+Progress: [████░░░░░░] 4/8 plans (50%)
 
 ## Performance Metrics
 
@@ -27,9 +27,9 @@ Progress: [██░░░░░░░░] 2/8 plans (25%)
 
 **v1.1 Velocity:**
 
-- Total plans completed: 2
+- Total plans completed: 4
 - Average duration: 2.5 minutes
-- Total execution time: 5 minutes
+- Total execution time: ~10 minutes
 
 ## Accumulated Context
 
@@ -49,6 +49,15 @@ Recent decisions affecting v1.1 work:
 - 04-02: Created demo host account for owner_id FK (accom_properties.owner_id NOT NULL)
 - 04-02: Seed UUID pattern: aa/bb/cc/dd/ee/ff prefixes for rooms/bookings/categories/items/merchants/conventions
 - 04-02: Merchant inserts use ON CONFLICT DO NOTHING for idempotent re-runs
+- 05-01: Lazy singleton Proxy pattern for Supabase client (from backoffice)
+- 05-01: JWT secret via GUEST_JWT_SECRET env var (server-only)
+- 05-01: Token expiry = checkout date + 24h buffer
+- 05-01: Generic verification_failed error prevents booking code enumeration
+- 05-01: RPC result accessed as data[0] (array return from Supabase .rpc())
+- 05-02: Auth guard helper inlined per route (authenticateGuest function)
+- 05-02: Services items filtered client-side for nested active status
+- 05-02: Deals uses explicit FK name for merchant join
+- 05-02: Property returns { property, wifi } matching verify route pattern
 
 ### Known Issues
 
@@ -68,15 +77,15 @@ None.
 
 ### Blockers/Concerns
 
-None. Phase 4 complete. Phase 5 can proceed with API routes.
+None. Phase 5 complete. Phase 6 can proceed with frontend integration.
 
 ## Session Continuity
 
-Last session: 2026-01-29T11:51:30Z
-Stopped at: Completed 04-02-PLAN.md (accommodations seed data) — Phase 4 complete
+Last session: 2026-01-29T12:50:24Z
+Stopped at: Completed 05-02-PLAN.md (protected stay data routes) — Phase 5 complete
 Resume file: None
-Next: Plan and execute Phase 5 (API Layer)
+Next: Plan and execute Phase 6 (Frontend Integration)
 
 ---
 
-_Last updated: 2026-01-29 after 04-02 execution_
+_Last updated: 2026-01-29 after 05-02 execution_
