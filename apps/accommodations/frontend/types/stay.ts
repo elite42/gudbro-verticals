@@ -45,7 +45,9 @@ export interface PropertyInfo {
   name: string;
   slug: string;
   type: string;
+  description: string | null;
   contactPhone: string | null;
+  contactEmail: string | null;
   contactWhatsapp: string | null;
   checkoutTime: string;
   houseRules: string[];
