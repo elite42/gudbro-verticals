@@ -9,14 +9,14 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 
 ### Database Schema
 
-- [ ] **DB-01**: Properties table with name, slug, description, amenities, WiFi credentials, contact info, images
-- [ ] **DB-02**: Rooms table linked to properties with room number, type, capacity, floor
-- [ ] **DB-03**: Bookings table with guest name, email, phone, check-in/out dates, booking code (BK-XXXXXX), room assignment, status
-- [ ] **DB-04**: Services table with categories (breakfast, minibar, laundry, room service), items, prices, availability hours
-- [ ] **DB-05**: Service items table with name, description, price, category, image, availability
-- [ ] **DB-06**: Local partnerships integrated with existing conventions system (migration 050) — link partner_conventions to properties
-- [ ] **DB-07**: RLS policies for guest access (read-only via booking code) and owner access (full CRUD)
-- [ ] **DB-08**: Seed data for one demo property with rooms, bookings, services, and partnerships
+- [x] **DB-01**: Properties table with name, slug, description, amenities, WiFi credentials, contact info, images
+- [x] **DB-02**: Rooms table linked to properties with room number, type, capacity, floor
+- [x] **DB-03**: Bookings table with guest name, email, phone, check-in/out dates, booking code (BK-XXXXXX), room assignment, status
+- [x] **DB-04**: Services table with categories (breakfast, minibar, laundry, room service), items, prices, availability hours
+- [x] **DB-05**: Service items table with name, description, price, category, image, availability
+- [x] **DB-06**: Local partnerships integrated with existing conventions system (migration 050) — link partner_conventions to properties
+- [x] **DB-07**: RLS policies for guest access (read-only via booking code) and owner access (full CRUD)
+- [x] **DB-08**: Seed data for one demo property with rooms, bookings, services, and partnerships
 
 ### API Routes
 
@@ -87,36 +87,36 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 
 ## Traceability
 
-| Requirement | Phase   | Status  |
-| ----------- | ------- | ------- |
-| DB-01       | Phase 4 | Pending |
-| DB-02       | Phase 4 | Pending |
-| DB-03       | Phase 4 | Pending |
-| DB-04       | Phase 4 | Pending |
-| DB-05       | Phase 4 | Pending |
-| DB-06       | Phase 4 | Pending |
-| DB-07       | Phase 4 | Pending |
-| DB-08       | Phase 4 | Pending |
-| API-01      | Phase 5 | Pending |
-| API-02      | Phase 5 | Pending |
-| API-03      | Phase 5 | Pending |
-| API-04      | Phase 5 | Pending |
-| API-05      | Phase 5 | Pending |
-| INT-02      | Phase 5 | Pending |
-| INT-03      | Phase 5 | Pending |
-| INT-04      | Phase 5 | Pending |
-| STAY-01     | Phase 6 | Pending |
-| STAY-02     | Phase 6 | Pending |
-| STAY-03     | Phase 6 | Pending |
-| STAY-04     | Phase 6 | Pending |
-| STAY-05     | Phase 6 | Pending |
-| STAY-06     | Phase 6 | Pending |
-| STAY-07     | Phase 6 | Pending |
-| STAY-08     | Phase 6 | Pending |
-| FNB-01      | Phase 7 | Pending |
-| FNB-02      | Phase 7 | Pending |
-| FNB-03      | Phase 7 | Pending |
-| INT-01      | Phase 7 | Pending |
+| Requirement | Phase   | Status   |
+| ----------- | ------- | -------- |
+| DB-01       | Phase 4 | Complete |
+| DB-02       | Phase 4 | Complete |
+| DB-03       | Phase 4 | Complete |
+| DB-04       | Phase 4 | Complete |
+| DB-05       | Phase 4 | Complete |
+| DB-06       | Phase 4 | Complete |
+| DB-07       | Phase 4 | Complete |
+| DB-08       | Phase 4 | Complete |
+| API-01      | Phase 5 | Pending  |
+| API-02      | Phase 5 | Pending  |
+| API-03      | Phase 5 | Pending  |
+| API-04      | Phase 5 | Pending  |
+| API-05      | Phase 5 | Pending  |
+| INT-02      | Phase 5 | Pending  |
+| INT-03      | Phase 5 | Pending  |
+| INT-04      | Phase 5 | Pending  |
+| STAY-01     | Phase 6 | Pending  |
+| STAY-02     | Phase 6 | Pending  |
+| STAY-03     | Phase 6 | Pending  |
+| STAY-04     | Phase 6 | Pending  |
+| STAY-05     | Phase 6 | Pending  |
+| STAY-06     | Phase 6 | Pending  |
+| STAY-07     | Phase 6 | Pending  |
+| STAY-08     | Phase 6 | Pending  |
+| FNB-01      | Phase 7 | Pending  |
+| FNB-02      | Phase 7 | Pending  |
+| FNB-03      | Phase 7 | Pending  |
+| INT-01      | Phase 7 | Pending  |
 
 **Coverage:**
 
@@ -134,4 +134,4 @@ Requirements for In-Stay MVP Backend (Accommodations vertical).
 ---
 
 _Requirements defined: 2026-01-29_
-_Last updated: 2026-01-29 after roadmap creation_
+_Last updated: 2026-01-29 after phase 4 completion_
