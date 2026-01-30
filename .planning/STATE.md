@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 12 of 12 (Visual & Quality)
-Plan: 01 of 02 complete
-Status: In progress — 12-01 complete (manifests, screenshot CSS, QA checklist)
-Last activity: 2026-01-30 — Completed 12-01-PLAN.md
+Plan: 02 of 02 complete
+Status: Phase 12 complete — v1.2 milestone DONE
+Last activity: 2026-01-30 — Completed 12-02-PLAN.md
 
-Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [███████░] 7/8 (phase 9-11 done, 12-01 done)
+Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [████████] 8/8 (ALL PHASES COMPLETE)
 
 ## Performance Metrics
 
@@ -32,7 +32,7 @@ Progress: v1.0 [██████] 6/6 plans | v1.1 [████████�
 
 **v1.2 Velocity:**
 
-- Plans completed so far: 6
+- Plans completed: 8 (ALL DONE)
 - 09-01: ~4 minutes (3 tasks)
 - 09-02: ~9 minutes (2 tasks)
 - 10-01: ~3 minutes (2 tasks)
@@ -40,6 +40,7 @@ Progress: v1.0 [██████] 6/6 plans | v1.1 [████████�
 - 11-01: ~9 minutes (2 tasks)
 - 11-02: ~25 minutes (2 tasks + 3x validation)
 - 12-01: ~3 minutes (2 tasks)
+- 12-02: ~4 minutes (1 task + 3x validation)
 
 ## Accumulated Context
 
@@ -63,6 +64,7 @@ Full history in PROJECT.md Key Decisions table and milestones archives.
 | Custom benign errors for coffeeshop        | 11-02 | MerchantConfig 400 in dev is not a real error                                |
 | Graceful no-nav for accommodations         | 11-02 | Home page (booking) has no BottomNav; skip nav test gracefully               |
 | Array themeColor: use light-mode value     | 12-01 | manifest.json requires single string; light mode is primary brand color      |
+| Baseline under coffeeshop projects         | 12-02 | All verticals on localhost; coffeeshop project provides mobile+desktop VPs   |
 
 ### Known Issues
 
@@ -79,10 +81,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 12-01-PLAN.md
+Stopped at: Completed 12-02-PLAN.md (v1.2 milestone complete)
 Resume file: None
-Next: `/gsd:execute-phase 12` (plan 02)
+Next: v1.2 milestone complete. Next milestone TBD.
 
 ---
 
-_Last updated: 2026-01-30 after 12-01 completion_
+_Last updated: 2026-01-30 after 12-02 completion (v1.2 DONE)_
