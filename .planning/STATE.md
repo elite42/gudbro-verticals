@@ -11,8 +11,8 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 Phase: 8 of 8 (Schema-API Alignment)
 Plan: 2 of 2 (complete)
-Status: Phase 8 complete. All schema-API gaps closed.
-Last activity: 2026-01-30 — Completed 08-02-PLAN.md
+Status: Phase 8 complete. All schema-API gaps closed. Quick-001 closed last audit gap.
+Last activity: 2026-01-30 — Completed quick-001 (useful-numbers column fix)
 
 Progress: [████████████] 12/12 plans (phases 4-8) -- v1.1 COMPLETE
 
@@ -99,15 +99,15 @@ None.
 
 ### Blockers/Concerns
 
-None. v1.1 milestone complete. All 10 integration gaps closed, schema aligned with API routes.
+None. v1.1 milestone complete. All 10 integration gaps closed + 1 residual gap fixed by quick-001. Audit: 22/22 integration, 8/8 flows.
 
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 08-02-PLAN.md (final plan of v1.1)
+Stopped at: Completed quick-001 (useful-numbers pre-081 column fix)
 Resume file: None
-Next: v1.1 milestone complete. Next milestone per roadmap.
+Next: v1.1 milestone fully clean. Next milestone per roadmap.
 
 ---
 
-_Last updated: 2026-01-30 after 08-02 Seed Data & Type Alignment execution_
+_Last updated: 2026-01-30 after quick-001 useful-numbers column fix execution_
