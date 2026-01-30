@@ -86,12 +86,12 @@ Plans:
 2. Every vertical's PWA manifest is validated: `name`, `short_name`, `icons` (with at least one 192px and one 512px), and `theme_color` are present and non-empty
 3. A visual QA checklist document exists that lists what to verify on physical devices (layout, touch targets, font rendering, scroll behavior) with per-vertical items
 4. Visual regression tests pass with a pixel threshold that produces less than 5% false positive rate
-   **Plans**: TBD
+   **Plans**: 2 plans
 
 Plans:
 
-- [ ] 12-01: TBD
-- [ ] 12-02: TBD
+- [ ] 12-01-PLAN.md — Create PWA manifests for 6 missing verticals, placeholder icons, screenshot CSS, physical QA checklist
+- [ ] 12-02-PLAN.md — Add visual regression screenshot tests + manifest validation tests to all 8 smoke specs
 
 ## Progress
 
@@ -102,9 +102,9 @@ Plans:
 | 9. Code Fixes               | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 10. E2E Test Infrastructure | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 11. E2E Smoke Tests         | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
-| 12. Visual and Quality      | v1.2      | 0/TBD          | Not started | -          |
+| 12. Visual and Quality      | v1.2      | 0/2            | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-30_
-_Last updated: 2026-01-30 after Phase 11 execution_
+_Last updated: 2026-01-30 after Phase 12 planning_
