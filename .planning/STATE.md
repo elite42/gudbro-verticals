@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.2 Tech Debt Cleanup — Phase 12 (Visual & Quality) IN PROGRESS
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 12 of 12 (Visual & Quality)
-Plan: 02 of 02 complete
-Status: Phase 12 complete — v1.2 milestone DONE
-Last activity: 2026-01-30 — Completed 12-02-PLAN.md
+Phase: 12 of 12 (all complete)
+Plan: N/A
+Status: v1.2 milestone complete — ready for next milestone
+Last activity: 2026-01-30 — v1.2 Tech Debt Cleanup shipped
 
-Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [████████] 8/8 (ALL PHASES COMPLETE)
+Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] — ALL SHIPPED
 
 ## Performance Metrics
 
@@ -48,27 +48,9 @@ Progress: v1.0 [██████] 6/6 plans | v1.1 [████████�
 
 Full history in PROJECT.md Key Decisions table and milestones archives.
 
-| Decision                                   | Phase | Rationale                                                                    |
-| ------------------------------------------ | ----- | ---------------------------------------------------------------------------- |
-| Tours ToS: span instead of link            | 09-01 | No /terms route exists; span preserves visual without broken navigation      |
-| Workshops CTAs: mailto links               | 09-01 | No /contact route; mailto with subject prefill is functional alternative     |
-| Opacity modifiers for light tint bg        | 09-02 | bg-accent/10 keeps variable count manageable vs separate CSS vars            |
-| unoptimized prop for external mock images  | 09-02 | Avoids remotePatterns config for demo Unsplash URLs                          |
-| encodeURIComponent for SVG data URIs       | 09-02 | Buffer not available in ESLint browser env; encodeURIComponent universal     |
-| ESLint no-empty-pattern for PW fixtures    | 10-01 | Playwright's async ({}, use) convention requires disable for option fixtures |
-| testIgnore on legacy PW projects           | 10-02 | Prevents chromium/Mobile Chrome/Safari from picking up vertical smoke tests  |
-| Graceful desktop nav skip in tests         | 11-01 | count === 0 early return allows same BottomNav test on mobile+desktop        |
-| overflow-x:hidden fix for laundry/pharmacy | 11-01 | Matches wellness pattern; -mx-4 carousels caused real horizontal overflow    |
-| Remove /stay from accommodations registry  | 11-02 | /stay is not standalone page; only /stay/[code] exists                       |
-| Scoped nav selector for coffeeshop         | 11-02 | nav[role="navigation"] avoids picking up desktop nav links                   |
-| Custom benign errors for coffeeshop        | 11-02 | MerchantConfig 400 in dev is not a real error                                |
-| Graceful no-nav for accommodations         | 11-02 | Home page (booking) has no BottomNav; skip nav test gracefully               |
-| Array themeColor: use light-mode value     | 12-01 | manifest.json requires single string; light mode is primary brand color      |
-| Baseline under coffeeshop projects         | 12-02 | All verticals on localhost; coffeeshop project provides mobile+desktop VPs   |
-
 ### Known Issues
 
-All 7 tech debt items from v1.0 are now tracked as CFIX-01..05 requirements in v1.2. The remaining 2 items (visual QA, no manual smoke testing) are covered by E2EI and VISQ requirements.
+None. All tech debt resolved in v1.2.
 
 ### Pending Todos
 
@@ -81,10 +63,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 12-02-PLAN.md (v1.2 milestone complete)
+Stopped at: v1.2 milestone completed and archived
 Resume file: None
-Next: v1.2 milestone complete. Next milestone TBD.
+Next: Start next milestone with `/gsd:new-milestone`
 
 ---
 
-_Last updated: 2026-01-30 after 12-02 completion (v1.2 DONE)_
+_Last updated: 2026-01-30 after v1.2 milestone completion_

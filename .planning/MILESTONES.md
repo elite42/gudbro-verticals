@@ -1,5 +1,36 @@
 # Milestones
 
+## v1.2 — Tech Debt Cleanup (Shipped: 2026-01-30)
+
+**Delivered:** All 7 v1.0 tech debt items resolved and automated E2E smoke testing established across all 8 verticals with visual regression baselines, PWA manifest validation, and physical QA checklist.
+
+**Phases completed:** 9-12 (8 plans total)
+
+**Key accomplishments:**
+
+- Resolved all 7 tech debt items: Tours TS compilation, CSS variable migration, Wellness back link, ESLint warnings, placeholder links
+- Built E2E test infrastructure: vertical registry, BasePwaPage, shared fixtures, 16 Playwright projects
+- 72 smoke tests across 8 verticals (page load, BottomNav nav, responsive viewports) — 3x zero-flaky validation
+- Visual regression baselines (26 PNGs) + PWA manifest validation for all 8 verticals
+- PWA manifests created for 6 missing verticals + 78-item physical device QA checklist
+- Tours brand colors migrated to CSS variable-backed Tailwind tokens (~50 hardcoded values)
+
+**Stats:**
+
+- 104 files created/modified (+10,031 / -190 lines)
+- 4 phases, 8 plans, ~17 tasks
+- 1 day (2026-01-30)
+
+**Git range:** `30850c1` → `829d430`
+
+**Audit:** 13/13 requirements, 4/4 phases, 9/9 integration, 1/1 E2E flows — all passed
+
+**What's next:** TBD (next milestone via `/gsd:new-milestone`)
+
+**Archive:** `milestones/v1.2-ROADMAP.md`, `milestones/v1.2-REQUIREMENTS.md`
+
+---
+
 ## v1.1 — In-Stay MVP Backend (Shipped: 2026-01-30)
 
 **Delivered:** Guests scan a QR in their room and access WiFi, stay info, services, local deals, and host contact — all from real Supabase data via JWT-authenticated API routes.
