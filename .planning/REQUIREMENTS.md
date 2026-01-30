@@ -23,9 +23,9 @@
 
 ### Visual & Quality
 
-- [ ] **VISQ-01**: Visual regression baselines captured for every vertical (toHaveScreenshot)
-- [ ] **VISQ-02**: PWA manifest validation for every vertical (name, icons, theme_color present)
-- [ ] **VISQ-03**: Visual QA checklist documented for physical device testing
+- [x] **VISQ-01**: Visual regression baselines captured for every vertical (toHaveScreenshot)
+- [x] **VISQ-02**: PWA manifest validation for every vertical (name, icons, theme_color present)
+- [x] **VISQ-03**: Visual QA checklist documented for physical device testing
 
 ## Future Requirements
 
@@ -65,9 +65,9 @@
 | E2EI-03     | 11    | Complete |
 | E2EI-04     | 11    | Complete |
 | E2EI-05     | 11    | Complete |
-| VISQ-01     | 12    | Pending  |
-| VISQ-02     | 12    | Pending  |
-| VISQ-03     | 12    | Pending  |
+| VISQ-01     | 12    | Complete |
+| VISQ-02     | 12    | Complete |
+| VISQ-03     | 12    | Complete |
 
 **Coverage:**
 
@@ -78,4 +78,4 @@
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after Phase 11 completion_
+_Last updated: 2026-01-30 after Phase 12 completion (v1.2 COMPLETE - all 13 requirements satisfied)_

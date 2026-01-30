@@ -4,7 +4,7 @@
 
 - ✅ **v1.0 QA Multi-Vertical PWAs** - Phases 1-3 (shipped 2026-01-29)
 - ✅ **v1.1 In-Stay MVP Backend** - Phases 4-8 (shipped 2026-01-30)
-- 🚧 **v1.2 Tech Debt Cleanup** - Phases 9-12 (in progress)
+- ✅ **v1.2 Tech Debt Cleanup** - Phases 9-12 (shipped 2026-01-30)
 
 ## Phases
 
@@ -22,7 +22,7 @@ See milestones/v1.1-ROADMAP.md for details.
 
 </details>
 
-### 🚧 v1.2 Tech Debt Cleanup (In Progress)
+### ✅ v1.2 Tech Debt Cleanup (SHIPPED 2026-01-30)
 
 **Milestone Goal:** Resolve all 7 tech debt items from v1.0 and establish automated E2E smoke testing across all 8 verticals with visual regression baselines.
 
@@ -90,8 +90,8 @@ Plans:
 
 Plans:
 
-- [ ] 12-01-PLAN.md — Create PWA manifests for 6 missing verticals, placeholder icons, screenshot CSS, physical QA checklist
-- [ ] 12-02-PLAN.md — Add visual regression screenshot tests + manifest validation tests to all 8 smoke specs
+- [x] 12-01-PLAN.md — Create PWA manifests for 6 missing verticals, placeholder icons, screenshot CSS, physical QA checklist
+- [x] 12-02-PLAN.md — Add visual regression screenshot tests + manifest validation tests to all 8 smoke specs
 
 ## Progress
 
@@ -102,9 +102,9 @@ Plans:
 | 9. Code Fixes               | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 10. E2E Test Infrastructure | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 11. E2E Smoke Tests         | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
-| 12. Visual and Quality      | v1.2      | 0/2            | Not started | -          |
+| 12. Visual and Quality      | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 
 ---
 
 _Roadmap created: 2026-01-30_
-_Last updated: 2026-01-30 after Phase 12 planning_
+_Last updated: 2026-01-30 after Phase 12 completion (v1.2 SHIPPED)_
