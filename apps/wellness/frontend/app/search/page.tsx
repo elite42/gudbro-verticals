@@ -1,14 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
+
+interface WellnessService {
+  id: string;
+  name: string;
+  description?: string;
+  image: string;
+  category?: string;
+  duration?: number;
+  pricing?: Record<string, { base?: number }>;
+}
 
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [services, setServices] = useState<any[]>([]);
-  const [filteredServices, setFilteredServices] = useState<any[]>([]);
+  const [services, setServices] = useState<WellnessService[]>([]);
+  const [filteredServices, setFilteredServices] = useState<WellnessService[]>([]);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3013/api/wellness';
+  const apiUrl = useMemo(
+    () => process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3013/api/wellness',
+    []
+  );
   const hubId = '660e8400-e29b-41d4-a716-446655440000';
 
   useEffect(() => {
@@ -22,7 +36,7 @@ export default function SearchPage() {
       }
     }
     fetchServices();
-  }, []);
+  }, [apiUrl]);
 
   useEffect(() => {
     if (searchQuery.trim() === '') {
@@ -99,7 +113,9 @@ export default function SearchPage() {
         ) : filteredServices.length === 0 ? (
           <div className="py-12 text-center">
             <div className="mb-4 text-6xl">😕</div>
-            <p className="mb-2 text-xl text-gray-600">Nessun risultato per "{searchQuery}"</p>
+            <p className="mb-2 text-xl text-gray-600">
+              Nessun risultato per &quot;{searchQuery}&quot;
+            </p>
             <p className="text-gray-500">Prova con un termine di ricerca diverso</p>
           </div>
         ) : (
@@ -116,10 +132,13 @@ export default function SearchPage() {
                   key={service.id}
                   className="transform overflow-hidden rounded-xl bg-white shadow-lg transition-all hover:scale-105 hover:shadow-2xl"
                 >
-                  <img
+                  <Image
                     src={service.image}
                     alt={service.name}
+                    width={400}
+                    height={192}
                     className="h-48 w-full object-cover"
+                    unoptimized
                   />
                   <div className="p-6">
                     <div className="mb-2 flex items-center justify-between">

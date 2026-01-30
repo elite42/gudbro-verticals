@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 // =============================================================================
@@ -196,10 +197,13 @@ export default function StaffPage() {
               >
                 {/* Photo */}
                 <div className="relative h-36 w-28 shrink-0 overflow-hidden">
-                  <img
+                  <Image
                     src={member.image}
                     alt={member.name}
+                    width={112}
+                    height={144}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    unoptimized
                   />
                   {member.featured && (
                     <div className="absolute left-1.5 top-1.5 rounded-full bg-[var(--gold)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--charcoal)]">
@@ -298,13 +302,15 @@ export default function StaffPage() {
       </main>
 
       {/* ===== BOTTOM NAVIGATION ===== */}
-      <nav className="pb-safe-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
+      <nav className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
         <div className="mx-auto flex max-w-lg items-center justify-between">
           <Link
             href="/"
             className="flex flex-col items-center py-2 text-[var(--charcoal-muted)] transition-all"
           >
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -323,6 +329,8 @@ export default function StaffPage() {
             className="flex flex-col items-center py-2 text-[var(--charcoal-muted)] transition-all"
           >
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -338,6 +346,8 @@ export default function StaffPage() {
           </Link>
           <span className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -353,6 +363,8 @@ export default function StaffPage() {
           </span>
           <span className="flex scale-110 flex-col items-center py-2 text-[var(--sage-hex)]">
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="currentColor"
               viewBox="0 0 24 24"
@@ -368,6 +380,8 @@ export default function StaffPage() {
           </span>
           <span className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"

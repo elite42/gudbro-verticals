@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 // =============================================================================
@@ -535,10 +536,13 @@ export default function WellnessHomePage() {
               >
                 {/* Image */}
                 <div className="relative h-36 overflow-hidden">
-                  <img
+                  <Image
                     src={service.image}
                     alt={service.name}
+                    width={256}
+                    height={144}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    unoptimized
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
@@ -612,10 +616,13 @@ export default function WellnessHomePage() {
                 style={{ animationDelay: `${250 + index * 50}ms` }}
               >
                 <div className="relative mx-auto mb-2 h-20 w-20 overflow-hidden rounded-full">
-                  <img
+                  <Image
                     src={member.image}
                     alt={member.name}
+                    width={80}
+                    height={80}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    unoptimized
                   />
                 </div>
                 <h3 className="font-display text-sm font-semibold text-[var(--charcoal)]">

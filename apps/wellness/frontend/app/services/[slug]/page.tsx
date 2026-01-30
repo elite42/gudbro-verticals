@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -249,6 +250,8 @@ export default function ServiceDetailPage() {
             className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 shadow-sm backdrop-blur-sm transition-colors hover:bg-white"
           >
             <svg
+              width="24"
+              height="24"
               className="h-5 w-5 text-[var(--charcoal)]"
               fill="none"
               viewBox="0 0 24 24"
@@ -260,6 +263,8 @@ export default function ServiceDetailPage() {
           </Link>
           <button className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 shadow-sm backdrop-blur-sm">
             <svg
+              width="24"
+              height="24"
               className="h-5 w-5 text-[var(--charcoal)]"
               fill="none"
               viewBox="0 0 24 24"
@@ -278,7 +283,14 @@ export default function ServiceDetailPage() {
 
       {/* ===== HERO IMAGE ===== */}
       <div className="relative h-64 overflow-hidden">
-        <img src={service.image} alt={service.name} className="h-full w-full object-cover" />
+        <Image
+          src={service.image}
+          alt={service.name}
+          width={800}
+          height={256}
+          className="h-full w-full object-cover"
+          unoptimized
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
         {/* Category + Rating overlay */}
@@ -290,7 +302,13 @@ export default function ServiceDetailPage() {
             {cat?.label}
           </div>
           <div className="flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold backdrop-blur-sm">
-            <svg className="h-3.5 w-3.5 text-[var(--gold)]" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              width="24"
+              height="24"
+              className="h-3.5 w-3.5 text-[var(--gold)]"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
               <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
             </svg>
             <span>{service.rating}</span>
@@ -312,6 +330,8 @@ export default function ServiceDetailPage() {
           <div className="flex gap-3">
             <div className="shadow-soft flex-1 rounded-xl bg-white p-3 text-center">
               <svg
+                width="24"
+                height="24"
                 className="mx-auto mb-1 h-5 w-5 text-[var(--sage-hex)]"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -331,6 +351,8 @@ export default function ServiceDetailPage() {
             </div>
             <div className="shadow-soft flex-1 rounded-xl bg-white p-3 text-center">
               <svg
+                width="24"
+                height="24"
                 className="mx-auto mb-1 h-5 w-5 text-[var(--sage-hex)]"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -355,6 +377,8 @@ export default function ServiceDetailPage() {
             </div>
             <div className="shadow-soft flex-1 rounded-xl bg-white p-3 text-center">
               <svg
+                width="24"
+                height="24"
                 className="mx-auto mb-1 h-5 w-5 text-[var(--gold)]"
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -428,10 +452,13 @@ export default function ServiceDetailPage() {
                   href={`/staff/${member.name.toLowerCase().replace(/\s+/g, '-')}`}
                   className="shadow-soft hover-lift flex items-center gap-3 rounded-xl bg-white p-3"
                 >
-                  <img
+                  <Image
                     src={member.image}
                     alt={member.name}
+                    width={48}
+                    height={48}
                     className="h-12 w-12 rounded-full object-cover"
+                    unoptimized
                   />
                   <div className="flex-1">
                     <h3 className="font-display text-sm font-semibold text-[var(--charcoal)]">
@@ -450,6 +477,8 @@ export default function ServiceDetailPage() {
                     ))}
                   </div>
                   <svg
+                    width="24"
+                    height="24"
                     className="h-4 w-4 text-[var(--charcoal-muted)]"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -482,10 +511,13 @@ export default function ServiceDetailPage() {
                   className="shadow-soft hover-lift group w-48 shrink-0 overflow-hidden rounded-xl bg-white"
                 >
                   <div className="relative h-28 overflow-hidden">
-                    <img
+                    <Image
                       src={rel.image}
                       alt={rel.name}
+                      width={192}
+                      height={112}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      unoptimized
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   </div>
@@ -510,7 +542,7 @@ export default function ServiceDetailPage() {
       </main>
 
       {/* ===== STICKY BOOK CTA ===== */}
-      <div className="pb-safe-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-4 py-3">
+      <div className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-4 py-3">
         <div className="mx-auto flex max-w-lg items-center justify-between gap-4">
           <div>
             <p className="text-xs text-[var(--charcoal-muted)]">From</p>

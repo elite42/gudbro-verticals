@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 // =============================================================================
@@ -137,10 +138,13 @@ export default function PromotionsPage() {
                 >
                   {/* Image */}
                   <div className="relative h-40 overflow-hidden">
-                    <img
+                    <Image
                       src={promo.image}
                       alt={promo.name}
+                      width={400}
+                      height={160}
                       className="h-full w-full object-cover"
+                      unoptimized
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
@@ -244,10 +248,13 @@ export default function PromotionsPage() {
                   className="shadow-soft flex items-center gap-3 rounded-xl bg-white p-3"
                 >
                   <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg">
-                    <img
+                    <Image
                       src={promo.image}
                       alt={promo.name}
+                      width={64}
+                      height={64}
                       className="h-full w-full object-cover grayscale"
+                      unoptimized
                     />
                   </div>
                   <div className="flex-1">
@@ -294,10 +301,12 @@ export default function PromotionsPage() {
       </main>
 
       {/* ===== BOTTOM NAVIGATION ===== */}
-      <nav className="pb-safe-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
+      <nav className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
         <div className="mx-auto flex max-w-lg items-center justify-between">
           <Link href="/" className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -316,6 +325,8 @@ export default function PromotionsPage() {
             className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]"
           >
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -331,6 +342,8 @@ export default function PromotionsPage() {
           </Link>
           <span className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -349,6 +362,8 @@ export default function PromotionsPage() {
             className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]"
           >
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -364,6 +379,8 @@ export default function PromotionsPage() {
           </Link>
           <span className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"

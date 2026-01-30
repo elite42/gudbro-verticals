@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 // =============================================================================
@@ -327,10 +328,13 @@ export default function ServicesPage() {
               >
                 {/* Image */}
                 <div className="relative h-32 w-28 shrink-0 overflow-hidden">
-                  <img
+                  <Image
                     src={service.image}
                     alt={service.name}
+                    width={112}
+                    height={128}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    unoptimized
                   />
                   {/* Category Badge */}
                   <div
@@ -457,13 +461,15 @@ export default function ServicesPage() {
       </main>
 
       {/* ===== BOTTOM NAVIGATION ===== */}
-      <nav className="pb-safe-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
+      <nav className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-6 pt-2">
         <div className="mx-auto flex max-w-lg items-center justify-between">
           <Link
             href="/"
             className="flex flex-col items-center py-2 text-[var(--charcoal-muted)] transition-all"
           >
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -479,6 +485,8 @@ export default function ServicesPage() {
           </Link>
           <span className="flex scale-110 flex-col items-center py-2 text-[var(--sage-hex)]">
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="currentColor"
               viewBox="0 0 24 24"
@@ -490,6 +498,8 @@ export default function ServicesPage() {
           </span>
           <span className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -508,6 +518,8 @@ export default function ServicesPage() {
             className="flex flex-col items-center py-2 text-[var(--charcoal-muted)] transition-all"
           >
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
@@ -523,6 +535,8 @@ export default function ServicesPage() {
           </Link>
           <span className="flex flex-col items-center py-2 text-[var(--charcoal-muted)]">
             <svg
+              width="24"
+              height="24"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"

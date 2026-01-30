@@ -21,32 +21,30 @@ export function generateImageSrcSet(imageUrl, widths = [320, 640, 1024, 1920]) {
 
   if (isVercel) {
     // Vercel Image Optimization
-    const srcset = widths.map(width =>
-      `/_next/image?url=${encodeURIComponent(imageUrl)}&w=${width}&q=75 ${width}w`
-    ).join(', ');
+    const srcset = widths
+      .map((width) => `/_next/image?url=${encodeURIComponent(imageUrl)}&w=${width}&q=75 ${width}w`)
+      .join(', ');
 
     return {
       srcset,
       sizes: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
-      src: `/_next/image?url=${encodeURIComponent(imageUrl)}&w=1024&q=75`
+      src: `/_next/image?url=${encodeURIComponent(imageUrl)}&w=1024&q=75`,
     };
   } else if (isCloudflare) {
     // Cloudflare Images
-    const srcset = widths.map(width =>
-      `${imageUrl}/w=${width},q=85 ${width}w`
-    ).join(', ');
+    const srcset = widths.map((width) => `${imageUrl}/w=${width},q=85 ${width}w`).join(', ');
 
     return {
       srcset,
       sizes: '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
-      src: `${imageUrl}/w=1024,q=85`
+      src: `${imageUrl}/w=1024,q=85`,
     };
   } else {
     // Fallback (no optimization)
     return {
       srcset: '',
       sizes: '',
-      src: imageUrl
+      src: imageUrl,
     };
   }
 }
@@ -59,16 +57,9 @@ export function generateImageSrcSet(imageUrl, widths = [320, 640, 1024, 1920]) {
  * @returns {string} HTML picture element
  */
 export function generatePictureElement(imageUrl, alt, options = {}) {
-  const {
-    width,
-    height,
-    loading = 'lazy',
-    fetchpriority = 'auto',
-    className = ''
-  } = options;
+  const { width, height, loading = 'lazy', fetchpriority = 'auto', className = '' } = options;
 
   const baseUrl = imageUrl.replace(/\.(jpg|jpeg|png)$/i, '');
-  const ext = imageUrl.match(/\.(jpg|jpeg|png)$/i)?.[1] || 'jpg';
 
   return `<picture>
   <source srcset="${baseUrl}.avif" type="image/avif">
@@ -92,11 +83,13 @@ export function generatePictureElement(imageUrl, alt, options = {}) {
  * @returns {string} HTML link tags
  */
 export function generatePreloadLinks(resources) {
-  return resources.map(resource => {
-    const { href, as, type, crossorigin } = resource;
+  return resources
+    .map((resource) => {
+      const { href, as, type, crossorigin } = resource;
 
-    return `<link rel="preload" href="${href}" as="${as}"${type ? ` type="${type}"` : ''}${crossorigin ? ' crossorigin' : ''}>`;
-  }).join('\n');
+      return `<link rel="preload" href="${href}" as="${as}"${type ? ` type="${type}"` : ''}${crossorigin ? ' crossorigin' : ''}>`;
+    })
+    .join('\n');
 }
 
 /**
@@ -105,9 +98,7 @@ export function generatePreloadLinks(resources) {
  * @returns {string} HTML link tags
  */
 export function generatePrefetchLinks(urls) {
-  return urls.map(url =>
-    `<link rel="prefetch" href="${url}">`
-  ).join('\n');
+  return urls.map((url) => `<link rel="prefetch" href="${url}">`).join('\n');
 }
 
 /**
@@ -116,9 +107,7 @@ export function generatePrefetchLinks(urls) {
  * @returns {string} HTML link tags
  */
 export function generateDnsPrefetch(domains) {
-  return domains.map(domain =>
-    `<link rel="dns-prefetch" href="//${domain}">`
-  ).join('\n');
+  return domains.map((domain) => `<link rel="dns-prefetch" href="//${domain}">`).join('\n');
 }
 
 /**
@@ -138,7 +127,7 @@ export function extractCriticalCSS(html, css) {
   const classMatches = html.matchAll(/class="([^"]*)"/g);
   for (const match of classMatches) {
     const classes = match[1].split(' ');
-    classes.forEach(cls => {
+    classes.forEach((cls) => {
       if (cls) selectors.add(`.${cls}`);
     });
   }
@@ -159,11 +148,11 @@ export function extractCriticalCSS(html, css) {
 
   // Filter CSS rules that match selectors
   const criticalCSS = [];
-  const cssRules = css.split('}').filter(rule => rule.trim());
+  const cssRules = css.split('}').filter((rule) => rule.trim());
 
   for (const rule of cssRules) {
     const selector = rule.split('{')[0]?.trim();
-    if (selector && Array.from(selectors).some(sel => rule.includes(sel))) {
+    if (selector && Array.from(selectors).some((sel) => rule.includes(sel))) {
       criticalCSS.push(rule + '}');
     }
   }
@@ -177,10 +166,12 @@ export function extractCriticalCSS(html, css) {
  * @returns {string} HTML link tags
  */
 export function generateFontPreloads(fonts) {
-  return fonts.map(font => {
-    const { url, format = 'woff2' } = font;
-    return `<link rel="preload" href="${url}" as="font" type="font/${format}" crossorigin>`;
-  }).join('\n');
+  return fonts
+    .map((font) => {
+      const { url, format = 'woff2' } = font;
+      return `<link rel="preload" href="${url}" as="font" type="font/${format}" crossorigin>`;
+    })
+    .join('\n');
 }
 
 /**
@@ -246,9 +237,9 @@ export function estimateImageSize(width, height, format = 'jpeg') {
   // Rough estimates (KB)
   const estimates = {
     jpeg: pixels / 1000, // ~1 byte per pixel for JPEG
-    png: pixels / 500,   // ~2 bytes per pixel for PNG
+    png: pixels / 500, // ~2 bytes per pixel for PNG
     webp: pixels / 1500, // ~0.67 bytes per pixel for WebP
-    avif: pixels / 2000  // ~0.5 bytes per pixel for AVIF
+    avif: pixels / 2000, // ~0.5 bytes per pixel for AVIF
   };
 
   const sizeKB = Math.round(estimates[format] || estimates.jpeg);
@@ -282,7 +273,7 @@ export function generateNextImageProps(src, width, height, options = {}) {
     quality = 75,
     placeholder = 'blur',
     blurDataURL,
-    sizes
+    sizes,
   } = options;
 
   return {
@@ -295,7 +286,7 @@ export function generateNextImageProps(src, width, height, options = {}) {
     placeholder,
     ...(blurDataURL && { blurDataURL }),
     ...(sizes && { sizes }),
-    style: { width: '100%', height: 'auto' }
+    style: { width: '100%', height: 'auto' },
   };
 }
 
@@ -314,7 +305,7 @@ export function generateImagePlaceholder(width = 10, height = 10, color = '#cccc
     </svg>
   `.trim();
 
-  return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
 /**
@@ -325,20 +316,20 @@ export function generateImagePlaceholder(width = 10, height = 10, color = '#cccc
 export function checkPerformanceBudget(metrics) {
   const budget = {
     // Core Web Vitals
-    LCP: 2500,        // Largest Contentful Paint (ms)
-    FID: 100,         // First Input Delay (ms)
-    CLS: 0.1,         // Cumulative Layout Shift (score)
+    LCP: 2500, // Largest Contentful Paint (ms)
+    FID: 100, // First Input Delay (ms)
+    CLS: 0.1, // Cumulative Layout Shift (score)
 
     // Additional metrics
-    FCP: 1800,        // First Contentful Paint (ms)
-    TTI: 3800,        // Time to Interactive (ms)
-    TBT: 300,         // Total Blocking Time (ms)
+    FCP: 1800, // First Contentful Paint (ms)
+    TTI: 3800, // Time to Interactive (ms)
+    TBT: 300, // Total Blocking Time (ms)
 
     // Resource budgets
-    totalSize: 1024,  // Total page size (KB)
-    imageSize: 512,   // Total image size (KB)
-    jsSize: 256,      // Total JavaScript size (KB)
-    cssSize: 128,     // Total CSS size (KB)
+    totalSize: 1024, // Total page size (KB)
+    imageSize: 512, // Total image size (KB)
+    jsSize: 256, // Total JavaScript size (KB)
+    cssSize: 128, // Total CSS size (KB)
   };
 
   const violations = [];
@@ -349,7 +340,7 @@ export function checkPerformanceBudget(metrics) {
         metric,
         value: metrics[metric],
         limit,
-        percentage: Math.round((metrics[metric] / limit) * 100)
+        percentage: Math.round((metrics[metric] / limit) * 100),
       });
     }
   });
@@ -357,7 +348,7 @@ export function checkPerformanceBudget(metrics) {
   return {
     passed: violations.length === 0,
     violations,
-    score: Math.max(0, 100 - (violations.length * 10))
+    score: Math.max(0, 100 - violations.length * 10),
   };
 }
 
@@ -367,11 +358,7 @@ export function checkPerformanceBudget(metrics) {
  * @returns {string} CSP header value
  */
 export function generateCSP(options = {}) {
-  const {
-    allowInlineStyles = false,
-    allowInlineScripts = false,
-    allowedDomains = []
-  } = options;
+  const { allowInlineStyles = false, allowInlineScripts = false, allowedDomains = [] } = options;
 
   const directives = [
     "default-src 'self'",
@@ -382,11 +369,11 @@ export function generateCSP(options = {}) {
     "connect-src 'self' https://api.gudbro.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
-    "form-action 'self'"
+    "form-action 'self'",
   ];
 
   if (allowedDomains.length > 0) {
-    allowedDomains.forEach(domain => {
+    allowedDomains.forEach((domain) => {
       directives.push(`connect-src 'self' ${domain}`);
     });
   }

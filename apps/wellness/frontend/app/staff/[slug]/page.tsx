@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -236,8 +236,6 @@ function formatDuration(minutes: number): string {
 export default function StaffDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
-  const [_tab] = useState<'about' | 'services'>('about');
-
   const member = allStaff[slug];
 
   if (!member) {
@@ -305,7 +303,14 @@ export default function StaffDetailPage() {
 
       {/* ===== HERO IMAGE ===== */}
       <div className="relative h-72 overflow-hidden">
-        <img src={member.image} alt={member.name} className="h-full w-full object-cover" />
+        <Image
+          src={member.image}
+          alt={member.name}
+          width={800}
+          height={288}
+          className="h-full w-full object-cover"
+          unoptimized
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--cream)] via-transparent to-black/20" />
       </div>
 

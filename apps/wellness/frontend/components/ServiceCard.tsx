@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { wellnessConfig } from '../config/wellness.config';
 
@@ -25,7 +26,7 @@ interface ServiceCardProps {
 export function ServiceCard({
   service,
   variant = 'horizontal',
-  showBookButton = true
+  showBookButton = true,
 }: ServiceCardProps) {
   const { contact } = wellnessConfig;
 
@@ -47,36 +48,35 @@ export function ServiceCard({
   if (variant === 'vertical') {
     // Vertical card for grid layouts
     return (
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105">
-        <img
+      <div className="transform overflow-hidden rounded-xl bg-white shadow-lg transition-all hover:scale-105 hover:shadow-2xl">
+        <Image
           src={service.image}
           alt={service.name}
-          className="w-full h-48 object-cover"
+          width={400}
+          height={192}
+          className="h-48 w-full object-cover"
+          unoptimized
         />
         <div className="p-5">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-pink-600 uppercase">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-xs font-semibold uppercase text-pink-600">
               {service.category}
             </span>
             {service.duration && (
-              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+              <span className="rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-500">
                 ⏱️ {service.duration} min
               </span>
             )}
           </div>
 
-          <h3 className="text-lg font-bold mb-2 text-gray-800 line-clamp-2">
-            {service.name}
-          </h3>
+          <h3 className="mb-2 line-clamp-2 text-lg font-bold text-gray-800">{service.name}</h3>
 
           {service.description && (
-            <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-              {service.description}
-            </p>
+            <p className="mb-4 line-clamp-2 text-sm text-gray-600">{service.description}</p>
           )}
 
           {price && (
-            <div className="mb-4 pb-3 border-b border-gray-200">
+            <div className="mb-4 border-b border-gray-200 pb-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-500">Da:</span>
                 <span className="text-xl font-bold text-pink-600">
@@ -91,7 +91,7 @@ export function ServiceCard({
               href={bookingLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-center bg-pink-500 hover:bg-pink-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors"
+              className="block rounded-lg bg-pink-500 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-pink-600"
             >
               💬 Prenota
             </Link>
@@ -103,39 +103,36 @@ export function ServiceCard({
 
   // Horizontal card for scroll lists (default)
   return (
-    <div className="flex-shrink-0 w-72 bg-white rounded-xl shadow-lg overflow-hidden snap-start hover:shadow-2xl transition-all">
-      <img
+    <div className="w-72 flex-shrink-0 snap-start overflow-hidden rounded-xl bg-white shadow-lg transition-all hover:shadow-2xl">
+      <Image
         src={service.image}
         alt={service.name}
-        className="w-full h-48 object-cover"
+        width={400}
+        height={192}
+        className="h-48 w-full object-cover"
+        unoptimized
       />
       <div className="p-5">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold text-pink-600 uppercase">
-            {service.category}
-          </span>
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-xs font-semibold uppercase text-pink-600">{service.category}</span>
           {service.duration && (
-            <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+            <span className="rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-500">
               ⏱️ {service.duration} min
             </span>
           )}
         </div>
 
-        <h3 className="text-lg font-bold mb-2 text-gray-800 line-clamp-2">
-          {service.name}
-        </h3>
+        <h3 className="mb-2 line-clamp-2 text-lg font-bold text-gray-800">{service.name}</h3>
 
-        <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+        <p className="mb-4 line-clamp-2 text-sm text-gray-600">
           {service.description || 'Trattamento professionale per il tuo benessere'}
         </p>
 
         {price && (
-          <div className="mb-4 pb-3 border-b border-gray-200">
+          <div className="mb-4 border-b border-gray-200 pb-3">
             <div className="flex items-center justify-between">
               <span className="text-xs text-gray-500">Da:</span>
-              <span className="text-xl font-bold text-pink-600">
-                {price.toLocaleString()} VND
-              </span>
+              <span className="text-xl font-bold text-pink-600">{price.toLocaleString()} VND</span>
             </div>
           </div>
         )}
@@ -145,7 +142,7 @@ export function ServiceCard({
             href={bookingLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="block text-center bg-pink-500 hover:bg-pink-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors"
+            className="block rounded-lg bg-pink-500 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-pink-600"
           >
             💬 Prenota
           </Link>
