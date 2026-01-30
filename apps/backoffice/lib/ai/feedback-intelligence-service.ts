@@ -4,6 +4,7 @@
 
 import { getOpenAIClient, calculateCost } from './openai';
 import { supabaseAdmin } from '../supabase-admin';
+import { createFeedbackNotification } from '../feedback/notification-utils';
 
 // =============================================================================
 // CONSTANTS
@@ -86,6 +87,7 @@ interface Submission {
   original_body: string;
   status: string;
   processing_attempts: number;
+  submitted_by_account_id: string | null;
 }
 
 // =============================================================================
@@ -110,7 +112,9 @@ export async function processSubmission(submissionId: string): Promise<void> {
   // 1. Fetch submission
   const { data: submission, error: fetchError } = await supabaseAdmin
     .from('fb_submissions')
-    .select('id, merchant_id, original_title, original_body, status, processing_attempts')
+    .select(
+      'id, merchant_id, original_title, original_body, status, processing_attempts, submitted_by_account_id'
+    )
     .eq('id', submissionId)
     .single();
 
@@ -190,6 +194,19 @@ export async function processSubmission(submissionId: string): Promise<void> {
       .eq('id', submissionId);
 
     console.log('[FeedbackIntelligence] Processed submission:', submissionId, '-> task:', taskId);
+
+    // Create "acknowledged" notification for the submitter
+    if (sub.submitted_by_account_id) {
+      await createFeedbackNotification({
+        merchantId: sub.merchant_id,
+        accountId: sub.submitted_by_account_id,
+        submissionId: submissionId,
+        taskId: taskId,
+        type: 'acknowledged',
+        title: 'Your feedback has been received',
+        body: `Your submission "${sub.original_title || 'Feedback'}" has been processed and linked to a task.`,
+      });
+    }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown processing error';
     console.error('[FeedbackIntelligence] Processing failed:', submissionId, errorMessage);

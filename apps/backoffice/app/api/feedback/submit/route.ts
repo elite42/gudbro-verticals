@@ -26,6 +26,21 @@ function mapType(uiType: string): SubmissionType | null {
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
+
+    // Resolve account_id from auth session
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    let accountId: string | null = null;
+    if (user) {
+      const { data: account } = await supabase
+        .from('accounts')
+        .select('id')
+        .eq('auth_id', user.id)
+        .single();
+      accountId = account?.id || null;
+    }
+
     const body = await request.json();
 
     const {
@@ -72,6 +87,7 @@ export async function POST(request: NextRequest) {
         vertical: vertical || null,
         page_path: page_path || null,
         screenshot_url: screenshot_url || null,
+        submitted_by_account_id: accountId,
       })
       .select('id')
       .single();
