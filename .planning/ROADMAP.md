@@ -5,7 +5,7 @@
 - ✅ **v1.0 QA Multi-Vertical PWAs** - Phases 1-3 (shipped 2026-01-29)
 - ✅ **v1.1 In-Stay MVP Backend** - Phases 4-8 (shipped 2026-01-30)
 - ✅ **v1.2 Tech Debt Cleanup** - Phases 9-12 (shipped 2026-01-30)
-- 🚧 **v1.3 Merchant Feedback Intelligence** - Phases 13-17 (in progress)
+- ✅ **v1.3 Merchant Feedback Intelligence** - Phases 13-17 (shipped 2026-01-30)
 
 ## Phases
 
@@ -30,7 +30,7 @@ See milestones/v1.2-ROADMAP.md for details.
 
 </details>
 
-### 🚧 v1.3 Merchant Feedback Intelligence
+### ✅ v1.3 Merchant Feedback Intelligence
 
 **Milestone Goal:** Merchants submit feedback in any language from the backoffice; AI translates, classifies, and groups similar submissions into tasks; admins manage tasks on a kanban board with full analytics visibility.
 
@@ -38,7 +38,7 @@ See milestones/v1.2-ROADMAP.md for details.
 - [x] **Phase 14: Merchant Submission UI** - Feedback form, screenshot upload, and submission history
 - [x] **Phase 15: Merchant Notifications** - In-app notification system with bell icon and polling
 - [x] **Phase 16: Admin Kanban** - Drag-and-drop task board with detail panel and status notifications
-- [ ] **Phase 17: Analytics Dashboard** - Submission volume, breakdowns, top features, and response time
+- [x] **Phase 17: Analytics Dashboard** - Submission volume, breakdowns, top features, and response time
 
 ## Phase Details
 
@@ -137,8 +137,8 @@ Plans:
 
 Plans:
 
-- [ ] 17-01-PLAN.md — Analytics API routes (volume time-series + summary with type/vertical breakdown, top features, response times)
-- [ ] 17-02-PLAN.md — Analytics dashboard page with Recharts charts, KPI cards, time range selector, and sidebar navigation
+- [x] 17-01-PLAN.md — Analytics API routes (volume time-series + summary with type/vertical breakdown, top features, response times)
+- [x] 17-02-PLAN.md — Analytics dashboard page with Recharts charts, KPI cards, time range selector, and sidebar navigation
 
 ## Progress
 
@@ -160,9 +160,9 @@ Plans:
 | 14. Merchant Submission UI     | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
 | 15. Merchant Notifications     | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
 | 16. Admin Kanban               | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
-| 17. Analytics Dashboard        | v1.3      | 0/2            | Not started | -          |
+| 17. Analytics Dashboard        | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-30 after planning phase 17_
+_Last updated: 2026-01-30 after completing phase 17 — v1.3 milestone shipped_

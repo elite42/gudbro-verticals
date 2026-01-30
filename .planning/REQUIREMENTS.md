@@ -40,10 +40,10 @@ Requirements for Merchant Feedback Intelligence milestone. Each maps to roadmap 
 
 ### Analytics
 
-- [ ] **FBAN-01**: Admin can view submission volume over time chart
-- [ ] **FBAN-02**: Admin can view breakdown by type and vertical
-- [ ] **FBAN-03**: Admin can view top requested features (by linked submission count)
-- [ ] **FBAN-04**: Admin can view average response time metrics
+- [x] **FBAN-01**: Admin can view submission volume over time chart
+- [x] **FBAN-02**: Admin can view breakdown by type and vertical
+- [x] **FBAN-03**: Admin can view top requested features (by linked submission count)
+- [x] **FBAN-04**: Admin can view average response time metrics
 
 ## Future Requirements
 
@@ -106,10 +106,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FBNOT-02    | Phase 15 | Complete |
 | FBNOT-03    | Phase 15 | Complete |
 | FBNOT-04    | Phase 15 | Complete |
-| FBAN-01     | Phase 17 | Pending  |
-| FBAN-02     | Phase 17 | Pending  |
-| FBAN-03     | Phase 17 | Pending  |
-| FBAN-04     | Phase 17 | Pending  |
+| FBAN-01     | Phase 17 | Complete |
+| FBAN-02     | Phase 17 | Complete |
+| FBAN-03     | Phase 17 | Complete |
+| FBAN-04     | Phase 17 | Complete |
 
 **Coverage:**
 
@@ -120,4 +120,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after completing phase 16_
+_Last updated: 2026-01-30 after completing phase 17 — all v1.3 requirements complete_
