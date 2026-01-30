@@ -1,8 +1,18 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
-import { Bug, Lightbulb, ChatCircle, Camera, X, Check } from '@phosphor-icons/react';
+import {
+  Bug,
+  Lightbulb,
+  ChatCircle,
+  Camera,
+  X,
+  Check,
+  CaretDown,
+  CaretUp,
+  Image,
+} from '@phosphor-icons/react';
 import { Loader2 } from 'lucide-react';
 
 // ============================================================================
@@ -10,6 +20,16 @@ import { Loader2 } from 'lucide-react';
 // ============================================================================
 
 type FeedbackType = 'bug' | 'feature_request' | 'feedback';
+
+interface Submission {
+  id: string;
+  original_title: string;
+  type: string;
+  status: string;
+  created_at: string;
+  screenshot_url: string | null;
+  original_body: string;
+}
 
 interface FeedbackSubmissionManagerProps {
   merchantId: string;
@@ -54,6 +74,53 @@ const TYPE_OPTIONS: {
 ];
 
 // ============================================================================
+// Display helpers
+// ============================================================================
+
+const TYPE_BADGE_MAP: Record<string, { label: string; bg: string; text: string }> = {
+  bug: { label: 'Bug', bg: 'bg-red-100', text: 'text-red-700' },
+  feature_request: { label: 'Richiesta', bg: 'bg-blue-100', text: 'text-blue-700' },
+  improvement: { label: 'Feedback', bg: 'bg-green-100', text: 'text-green-700' },
+};
+
+const STATUS_BADGE_MAP: Record<string, { label: string; bg: string; text: string }> = {
+  pending: { label: 'In attesa', bg: 'bg-gray-100', text: 'text-gray-700' },
+  processing: { label: 'In elaborazione', bg: 'bg-yellow-100', text: 'text-yellow-700' },
+  processed: { label: 'Elaborato', bg: 'bg-blue-100', text: 'text-blue-700' },
+  acknowledged: { label: 'Preso in carico', bg: 'bg-green-100', text: 'text-green-700' },
+  rejected: { label: 'Rifiutato', bg: 'bg-red-100', text: 'text-red-700' },
+};
+
+function getTypeBadge(type: string) {
+  return (
+    TYPE_BADGE_MAP[type] || {
+      label: type.charAt(0).toUpperCase() + type.slice(1),
+      bg: 'bg-gray-100',
+      text: 'text-gray-700',
+    }
+  );
+}
+
+function getStatusBadge(status: string) {
+  return (
+    STATUS_BADGE_MAP[status] || {
+      label: status.charAt(0).toUpperCase() + status.slice(1),
+      bg: 'bg-gray-100',
+      text: 'text-gray-700',
+    }
+  );
+}
+
+function formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return new Intl.DateTimeFormat('it-IT', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+}
+
+// ============================================================================
 // Component
 // ============================================================================
 
@@ -70,7 +137,33 @@ export function FeedbackSubmissionManager({ merchantId }: FeedbackSubmissionMana
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  // History state
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Fetch submission history
+  const fetchHistory = useCallback(async () => {
+    setIsLoadingHistory(true);
+    try {
+      const res = await fetch(`/api/feedback/history?merchantId=${merchantId}`);
+      if (res.ok) {
+        const data = await res.json();
+        setSubmissions(data.submissions || []);
+      }
+    } catch (err) {
+      console.error('Error fetching feedback history:', err);
+    } finally {
+      setIsLoadingHistory(false);
+    }
+  }, [merchantId]);
+
+  // Fetch history on mount
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
 
   // Clean up object URL on unmount or removal
   useEffect(() => {
@@ -186,6 +279,9 @@ export function FeedbackSubmissionManager({ merchantId }: FeedbackSubmissionMana
       resetForm();
       setSuccess(true);
       setTimeout(() => setSuccess(false), 4000);
+
+      // Refresh history to show new submission
+      fetchHistory();
     } catch (err) {
       console.error('Error submitting feedback:', err);
       setError(err instanceof Error ? err.message : "Errore nell'invio della segnalazione");
@@ -333,6 +429,132 @@ export function FeedbackSubmissionManager({ merchantId }: FeedbackSubmissionMana
               Invia Segnalazione
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* ================================================================== */}
+      {/* History Section */}
+      {/* ================================================================== */}
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+        <div className="p-6">
+          {/* Section Header */}
+          <div className="mb-4 flex items-center gap-3">
+            <h3 className="text-lg font-semibold text-gray-900">Le tue segnalazioni</h3>
+            {!isLoadingHistory && submissions.length > 0 && (
+              <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
+                {submissions.length}
+              </span>
+            )}
+          </div>
+
+          {/* Loading */}
+          {isLoadingHistory && (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!isLoadingHistory && submissions.length === 0 && (
+            <p className="py-6 text-center text-sm italic text-gray-400">
+              Nessuna segnalazione inviata
+            </p>
+          )}
+
+          {/* Submissions List */}
+          {!isLoadingHistory && submissions.length > 0 && (
+            <div className="divide-y divide-gray-100">
+              {submissions.map((sub) => {
+                const typeBadge = getTypeBadge(sub.type);
+                const statusBadge = getStatusBadge(sub.status);
+                const isExpanded = expandedId === sub.id;
+
+                return (
+                  <div key={sub.id}>
+                    {/* Row */}
+                    <button
+                      type="button"
+                      onClick={() => setExpandedId(isExpanded ? null : sub.id)}
+                      className="flex w-full items-center gap-3 px-2 py-3 text-left transition-colors hover:bg-gray-50"
+                    >
+                      {/* Title */}
+                      <span className="min-w-0 flex-1 truncate text-sm font-medium text-gray-900">
+                        {sub.original_title}
+                      </span>
+
+                      {/* Type Badge */}
+                      <span
+                        className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium ${typeBadge.bg} ${typeBadge.text}`}
+                      >
+                        {typeBadge.label}
+                      </span>
+
+                      {/* Status Badge */}
+                      <span
+                        className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge.bg} ${statusBadge.text}`}
+                      >
+                        {statusBadge.label}
+                      </span>
+
+                      {/* Date */}
+                      <span className="shrink-0 text-xs text-gray-400">
+                        {formatDate(sub.created_at)}
+                      </span>
+
+                      {/* Expand icon */}
+                      {isExpanded ? (
+                        <CaretUp size={16} className="shrink-0 text-gray-400" />
+                      ) : (
+                        <CaretDown size={16} className="shrink-0 text-gray-400" />
+                      )}
+                    </button>
+
+                    {/* Expanded Detail */}
+                    {isExpanded && (
+                      <div className="mb-3 ml-2 rounded-lg border border-gray-100 bg-gray-50 p-4">
+                        {/* Description */}
+                        <p className="whitespace-pre-wrap text-sm text-gray-700">
+                          {sub.original_body}
+                        </p>
+
+                        {/* Screenshot */}
+                        {sub.screenshot_url && (
+                          <div className="mt-3">
+                            <a
+                              href={sub.screenshot_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group inline-block"
+                            >
+                              <div className="flex items-center gap-2 text-xs text-blue-600 group-hover:text-blue-700">
+                                <Image size={16} weight="duotone" />
+                                <span className="underline">Vedi screenshot</span>
+                              </div>
+                              <img
+                                src={sub.screenshot_url}
+                                alt="Screenshot"
+                                className="mt-2 h-32 w-auto rounded-lg border border-gray-200 object-cover"
+                              />
+                            </a>
+                          </div>
+                        )}
+
+                        {/* Status in detail */}
+                        <div className="mt-3 flex items-center gap-2">
+                          <span className="text-xs text-gray-500">Stato:</span>
+                          <span
+                            className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge.bg} ${statusBadge.text}`}
+                          >
+                            {statusBadge.label}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>
