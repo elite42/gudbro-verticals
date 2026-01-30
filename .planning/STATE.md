@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.3 Merchant Feedback Intelligence — Phase 14 complete
+**Current focus:** v1.3 Merchant Feedback Intelligence — Phase 15 in progress
 
 ## Current Position
 
-Phase: 14 of 17 (Merchant Submission UI)
-Plan: 2 of 2 in current phase
-Status: Phase complete
-Last activity: 2026-01-30 — Completed 14-02-PLAN.md (Submission history list and detail view)
+Phase: 15 of 17 (Merchant Notifications)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-30 — Completed 15-01-PLAN.md (Notification backend API and utilities)
 
-Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] | v1.3 [4/10]
-██████████████████████████████░░░░░░░░░░ 30/36 (83%)
+Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] | v1.3 [5/10]
+███████████████████████████████░░░░░░░░░ 31/36 (86%)
 
 ## Performance Metrics
 
@@ -53,6 +53,8 @@ Full history in PROJECT.md Key Decisions table and milestones archives.
 | -------- | ------------------------------------------------------------------------------ | ----- |
 | D-1301-1 | Dedicated fb_merchant_notifications table (not reusing internal_notifications) | 13-01 |
 | D-1301-2 | CTE-based scoring in find_similar_tasks (fixed invalid HAVING pattern)         | 13-01 |
+| D-1501-1 | Fire-and-forget pattern for notification creation (never blocks main flow)     | 15-01 |
+| D-1501-2 | notifyTaskStatusChange designed for Phase 16 kanban handlers                   | 15-01 |
 
 ### Known Issues
 
@@ -69,10 +71,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 14-02-PLAN.md (Submission history list and detail view)
+Stopped at: Completed 15-01-PLAN.md (Notification backend API and utilities)
 Resume file: None
-Next: `/gsd:execute-phase 15` to execute Phase 15
+Next: `/gsd:execute-phase 15` to execute Plan 15-02
 
 ---
 
-_Last updated: 2026-01-30 after completing 14-02_
+_Last updated: 2026-01-30 after completing 15-01_
