@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.2 Tech Debt Cleanup
+**Current focus:** v1.2 Tech Debt Cleanup — Phase 9 (Code Fixes)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 9 of 12 (Code Fixes)
 Plan: —
-Status: Defining requirements for v1.2
-Last activity: 2026-01-30 — Milestone v1.2 started
+Status: Ready to plan
+Last activity: 2026-01-30 — Roadmap created for v1.2 (4 phases, 13 requirements)
 
-Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick task | v1.2 [░░░░░░] 0/?
+Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [░░░░░░░░] 0/?
 
 ## Performance Metrics
 
@@ -23,7 +23,6 @@ Progress: v1.0 [██████] 6/6 plans | v1.1 [████████�
 - Total plans completed: 6
 - Average duration: 3.3 minutes
 - Total execution time: ~20 minutes
-- Total milestone time: ~3 hours (including planning, research, execution)
 
 **v1.1 Velocity:**
 
@@ -35,19 +34,11 @@ Progress: v1.0 [██████] 6/6 plans | v1.1 [████████�
 
 ### Decisions
 
-Full history in PROJECT.md Key Decisions table and milestones/v1.1-ROADMAP.md.
+Full history in PROJECT.md Key Decisions table and milestones archives.
 
 ### Known Issues
 
-**Tech debt from v1.0 (7 items) — being resolved in v1.2:**
-
-- Tours soups DB type errors (excluded from tsconfig)
-- Visual QA on physical devices not performed
-- Tours uses Tailwind instead of CSS variables
-- Wellness /staff/[slug] lacks explicit back link
-- 19 ESLint warnings in Wellness
-- 3 placeholder links (href="#") in Tours/Workshops
-- No manual smoke testing performed
+All 7 tech debt items from v1.0 are now tracked as CFIX-01..05 requirements in v1.2. The remaining 2 items (visual QA, no manual smoke testing) are covered by E2EI and VISQ requirements.
 
 ### Pending Todos
 
@@ -60,10 +51,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: v1.2 milestone initialization
+Stopped at: v1.2 roadmap created (4 phases, 13 requirements mapped)
 Resume file: None
-Next: Define requirements, then `/gsd:plan-phase`
+Next: `/gsd:plan-phase 9`
 
 ---
 
-_Last updated: 2026-01-30 after v1.2 milestone start_
+_Last updated: 2026-01-30 after roadmap creation_

@@ -55,27 +55,27 @@
 
 | Requirement | Phase | Status  |
 | ----------- | ----- | ------- |
-| CFIX-01     | TBD   | Pending |
-| CFIX-02     | TBD   | Pending |
-| CFIX-03     | TBD   | Pending |
-| CFIX-04     | TBD   | Pending |
-| CFIX-05     | TBD   | Pending |
-| E2EI-01     | TBD   | Pending |
-| E2EI-02     | TBD   | Pending |
-| E2EI-03     | TBD   | Pending |
-| E2EI-04     | TBD   | Pending |
-| E2EI-05     | TBD   | Pending |
-| VISQ-01     | TBD   | Pending |
-| VISQ-02     | TBD   | Pending |
-| VISQ-03     | TBD   | Pending |
+| CFIX-01     | 9     | Pending |
+| CFIX-02     | 9     | Pending |
+| CFIX-03     | 9     | Pending |
+| CFIX-04     | 9     | Pending |
+| CFIX-05     | 9     | Pending |
+| E2EI-01     | 10    | Pending |
+| E2EI-02     | 10    | Pending |
+| E2EI-03     | 11    | Pending |
+| E2EI-04     | 11    | Pending |
+| E2EI-05     | 11    | Pending |
+| VISQ-01     | 12    | Pending |
+| VISQ-02     | 12    | Pending |
+| VISQ-03     | 12    | Pending |
 
 **Coverage:**
 
 - v1.2 requirements: 13 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 13
+- Mapped to phases: 13
+- Unmapped: 0
 
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after initial definition_
+_Last updated: 2026-01-30 after roadmap creation_
