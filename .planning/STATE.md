@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.2 Tech Debt Cleanup — Phase 11 (E2E Smoke Tests) IN PROGRESS
+**Current focus:** v1.2 Tech Debt Cleanup — Phase 11 (E2E Smoke Tests) COMPLETE
 
 ## Current Position
 
-Phase: 11 of 12 (E2E Smoke Tests)
-Plan: 01 of 02 complete
-Status: In progress — Plan 11-01 (link-based verticals) complete, Plan 11-02 pending
-Last activity: 2026-01-30 — Completed 11-01-PLAN.md
+Phase: 11 of 12 (E2E Smoke Tests) — COMPLETE
+Plan: 02 of 02 complete
+Status: Phase 11 verified — all 8 verticals pass 3x consecutive (1026-1029 tests, zero flaky)
+Last activity: 2026-01-30 — Phase 11 complete (all 8 verticals smoke tested)
 
-Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [█████░░░] 5/8 (phase 9 done, phase 10 done, 11-01 done)
+Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [██████░░] 6/8 (phase 9-11 done)
 
 ## Performance Metrics
 
@@ -32,12 +32,13 @@ Progress: v1.0 [██████] 6/6 plans | v1.1 [████████�
 
 **v1.2 Velocity:**
 
-- Plans completed so far: 5
+- Plans completed so far: 6
 - 09-01: ~4 minutes (3 tasks)
 - 09-02: ~9 minutes (2 tasks)
 - 10-01: ~3 minutes (2 tasks)
 - 10-02: ~5 minutes (2 tasks)
 - 11-01: ~9 minutes (2 tasks)
+- 11-02: ~25 minutes (2 tasks + 3x validation)
 
 ## Accumulated Context
 
@@ -56,6 +57,10 @@ Full history in PROJECT.md Key Decisions table and milestones archives.
 | testIgnore on legacy PW projects           | 10-02 | Prevents chromium/Mobile Chrome/Safari from picking up vertical smoke tests  |
 | Graceful desktop nav skip in tests         | 11-01 | count === 0 early return allows same BottomNav test on mobile+desktop        |
 | overflow-x:hidden fix for laundry/pharmacy | 11-01 | Matches wellness pattern; -mx-4 carousels caused real horizontal overflow    |
+| Remove /stay from accommodations registry  | 11-02 | /stay is not standalone page; only /stay/[code] exists                       |
+| Scoped nav selector for coffeeshop         | 11-02 | nav[role="navigation"] avoids picking up desktop nav links                   |
+| Custom benign errors for coffeeshop        | 11-02 | MerchantConfig 400 in dev is not a real error                                |
+| Graceful no-nav for accommodations         | 11-02 | Home page (booking) has no BottomNav; skip nav test gracefully               |
 
 ### Known Issues
 
@@ -72,10 +77,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 11-01-PLAN.md (link-based verticals smoke tests)
+Stopped at: Phase 11 complete and verified (all 8 verticals, 3x validation)
 Resume file: None
-Next: `/gsd:execute-phase 11` (plan 11-02: callback-based and mixed verticals)
+Next: `/gsd:discuss-phase 12` or `/gsd:plan-phase 12`
 
 ---
 
-_Last updated: 2026-01-30 after 11-01 completion_
+_Last updated: 2026-01-30 after Phase 11 completion_

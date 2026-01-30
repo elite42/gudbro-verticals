@@ -72,8 +72,8 @@ Plans:
 
 Plans:
 
-- [ ] 11-01-PLAN.md — Smoke tests for wellness (update), laundry, pharmacy, workshops (link-based nav)
-- [ ] 11-02-PLAN.md — Smoke tests for coffeeshop, gym, tours, accommodations + full suite 3x validation
+- [x] 11-01-PLAN.md — Smoke tests for wellness (update), laundry, pharmacy, workshops (link-based nav)
+- [x] 11-02-PLAN.md — Smoke tests for coffeeshop, gym, tours, accommodations + full suite 3x validation
 
 #### Phase 12: Visual and Quality
 
@@ -101,10 +101,10 @@ Plans:
 | --------------------------- | --------- | -------------- | ----------- | ---------- |
 | 9. Code Fixes               | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 10. E2E Test Infrastructure | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
-| 11. E2E Smoke Tests         | v1.2      | 0/2            | Not started | -          |
+| 11. E2E Smoke Tests         | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 12. Visual and Quality      | v1.2      | 0/TBD          | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-30_
-_Last updated: 2026-01-30 after Phase 11 planning_
+_Last updated: 2026-01-30 after Phase 11 execution_

@@ -17,9 +17,9 @@
 
 - [x] **E2EI-01**: Playwright config extended with per-vertical projects (8 verticals, mobile + desktop viewports)
 - [x] **E2EI-02**: Shared test fixtures (BasePwaPage, viewport helpers, vertical registry)
-- [ ] **E2EI-03**: Page load smoke test for every vertical (page loads without JS errors)
-- [ ] **E2EI-04**: BottomNav navigation test for every vertical (all links work)
-- [ ] **E2EI-05**: Responsive viewport test for every vertical (mobile 375px, tablet 768px, desktop 1280px)
+- [x] **E2EI-03**: Page load smoke test for every vertical (page loads without JS errors)
+- [x] **E2EI-04**: BottomNav navigation test for every vertical (all links work)
+- [x] **E2EI-05**: Responsive viewport test for every vertical (mobile 375px, tablet 768px, desktop 1280px)
 
 ### Visual & Quality
 
@@ -62,9 +62,9 @@
 | CFIX-05     | 9     | Complete |
 | E2EI-01     | 10    | Complete |
 | E2EI-02     | 10    | Complete |
-| E2EI-03     | 11    | Pending  |
-| E2EI-04     | 11    | Pending  |
-| E2EI-05     | 11    | Pending  |
+| E2EI-03     | 11    | Complete |
+| E2EI-04     | 11    | Complete |
+| E2EI-05     | 11    | Complete |
 | VISQ-01     | 12    | Pending  |
 | VISQ-02     | 12    | Pending  |
 | VISQ-03     | 12    | Pending  |
@@ -78,4 +78,4 @@
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after Phase 10 completion_
+_Last updated: 2026-01-30 after Phase 11 completion_
