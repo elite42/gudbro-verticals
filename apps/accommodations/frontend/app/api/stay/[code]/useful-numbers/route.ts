@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
     // Fetch property location info for number lookups
     const { data: property, error: propertyError } = await supabase
       .from('accom_properties')
-      .select('country_code, city, host_name, host_phone, emergency_phone')
+      .select('country, city, host_name, contact_phone, emergency_phone')
       .eq('id', guest.propertyId)
       .single();
 
@@ -58,11 +58,11 @@ export async function GET(request: NextRequest) {
       supabase
         .from('emergency_numbers')
         .select('service_type, phone_number')
-        .eq('country_code', property.country_code),
+        .eq('country_code', property.country),
       supabase
         .from('city_useful_numbers')
         .select('label, phone_number, category, sort_order')
-        .eq('country_code', property.country_code)
+        .eq('country_code', property.country)
         .eq('city_name', property.city)
         .eq('is_active', true)
         .order('sort_order', { ascending: true }),
@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
       })),
       property: {
         name: property.host_name || '',
-        phone: property.emergency_phone || property.host_phone || '',
+        phone: property.emergency_phone || property.contact_phone || '',
       },
     };
 
