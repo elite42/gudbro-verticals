@@ -146,3 +146,235 @@ CREATE INDEX idx_fb_notifications_merchant ON fb_merchant_notifications(merchant
 COMMENT ON TABLE fb_submissions IS 'Raw merchant feedback submissions with AI-processed classification, translation, and tagging';
 COMMENT ON TABLE fb_tasks IS 'Aggregated tasks from similar feedback submissions with denormalized metrics';
 COMMENT ON TABLE fb_merchant_notifications IS 'Notification records for merchant feedback lifecycle events (acknowledged, status changes, resolution)';
+
+-- =============================================
+-- ROW LEVEL SECURITY
+-- =============================================
+
+ALTER TABLE fb_submissions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE fb_tasks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE fb_merchant_notifications ENABLE ROW LEVEL SECURITY;
+
+-- ----- fb_submissions RLS -----
+
+CREATE POLICY "Merchants can view own submissions"
+  ON fb_submissions FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM account_roles ar
+      WHERE ar.account_id IN (SELECT id FROM accounts WHERE auth_id = auth.uid())
+      AND ar.tenant_id = fb_submissions.merchant_id
+      AND ar.role_type = 'merchant'
+      AND ar.is_active = true
+    )
+  );
+
+CREATE POLICY "Merchants can insert own submissions"
+  ON fb_submissions FOR INSERT
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM account_roles ar
+      WHERE ar.account_id IN (SELECT id FROM accounts WHERE auth_id = auth.uid())
+      AND ar.tenant_id = fb_submissions.merchant_id
+      AND ar.role_type = 'merchant'
+      AND ar.is_active = true
+    )
+  );
+
+CREATE POLICY "Service role full access submissions"
+  ON fb_submissions FOR ALL
+  USING (auth.role() = 'service_role');
+
+-- ----- fb_tasks RLS -----
+
+CREATE POLICY "Merchants can view own tasks"
+  ON fb_tasks FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM account_roles ar
+      WHERE ar.account_id IN (SELECT id FROM accounts WHERE auth_id = auth.uid())
+      AND ar.tenant_id = fb_tasks.merchant_id
+      AND ar.role_type = 'merchant'
+      AND ar.is_active = true
+    )
+  );
+
+CREATE POLICY "Service role full access tasks"
+  ON fb_tasks FOR ALL
+  USING (auth.role() = 'service_role');
+
+-- ----- fb_merchant_notifications RLS -----
+
+CREATE POLICY "Accounts can view own notifications"
+  ON fb_merchant_notifications FOR SELECT
+  USING (
+    account_id IN (SELECT id FROM accounts WHERE auth_id = auth.uid())
+  );
+
+CREATE POLICY "Accounts can update own notifications"
+  ON fb_merchant_notifications FOR UPDATE
+  USING (
+    account_id IN (SELECT id FROM accounts WHERE auth_id = auth.uid())
+  );
+
+CREATE POLICY "Service role full access notifications"
+  ON fb_merchant_notifications FOR ALL
+  USING (auth.role() = 'service_role');
+
+-- =============================================
+-- FUNCTIONS
+-- =============================================
+
+-- Find similar tasks for a new submission using tag overlap + trigram similarity
+CREATE OR REPLACE FUNCTION find_similar_tasks(
+  p_merchant_id UUID,
+  p_translated_body TEXT,
+  p_tags TEXT[],
+  p_threshold DECIMAL DEFAULT 0.5
+)
+RETURNS TABLE (
+  task_id UUID,
+  similarity_score DECIMAL,
+  tag_overlap INTEGER,
+  trigram_score REAL
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  RETURN QUERY
+  WITH scored_tasks AS (
+    SELECT
+      t.id,
+      -- Tag overlap: count of matching tags / total input tags
+      COALESCE(
+        (SELECT COUNT(*)::INTEGER FROM unnest(p_tags) tag WHERE tag = ANY(t.tags)),
+        0
+      ) AS overlap_count,
+      -- Trigram similarity on concatenated title + description vs input body
+      COALESCE(
+        similarity(t.title || ' ' || COALESCE(t.description, ''), p_translated_body),
+        0
+      ) AS trgm_score
+    FROM fb_tasks t
+    WHERE t.merchant_id = p_merchant_id
+      AND t.status NOT IN ('done', 'rejected')
+  )
+  SELECT
+    st.id AS task_id,
+    (
+      0.6 * (st.overlap_count::DECIMAL / GREATEST(array_length(p_tags, 1), 1)) +
+      0.4 * st.trgm_score
+    )::DECIMAL AS similarity_score,
+    st.overlap_count AS tag_overlap,
+    st.trgm_score AS trigram_score
+  FROM scored_tasks st
+  WHERE (
+    0.6 * (st.overlap_count::DECIMAL / GREATEST(array_length(p_tags, 1), 1)) +
+    0.4 * st.trgm_score
+  ) >= p_threshold
+  ORDER BY similarity_score DESC
+  LIMIT 5;
+END;
+$$;
+
+-- Recalculate denormalized metrics on fb_tasks from linked submissions
+CREATE OR REPLACE FUNCTION update_task_metrics(p_task_id UUID)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  UPDATE fb_tasks
+  SET
+    submission_count = sub.cnt,
+    languages = sub.langs,
+    avg_sentiment = sub.avg_sent,
+    last_submitted_at = sub.last_sub,
+    updated_at = NOW()
+  FROM (
+    SELECT
+      COUNT(*)::INTEGER AS cnt,
+      ARRAY(
+        SELECT DISTINCT s2.detected_language
+        FROM fb_submissions s2
+        WHERE s2.task_id = p_task_id
+          AND s2.detected_language IS NOT NULL
+      ) AS langs,
+      AVG(
+        CASE s.sentiment
+          WHEN 'positive' THEN 1.0
+          WHEN 'neutral' THEN 0.5
+          WHEN 'negative' THEN 0.0
+          ELSE NULL
+        END
+      )::DECIMAL(3,2) AS avg_sent,
+      MAX(s.created_at) AS last_sub
+    FROM fb_submissions s
+    WHERE s.task_id = p_task_id
+  ) AS sub
+  WHERE fb_tasks.id = p_task_id;
+END;
+$$;
+
+-- =============================================
+-- TRIGGERS: updated_at
+-- =============================================
+
+-- Generic updated_at trigger function (create if not exists)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_proc
+    WHERE proname = 'update_updated_at_column'
+    AND pronamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public')
+  ) THEN
+    EXECUTE $func$
+      CREATE FUNCTION update_updated_at_column()
+      RETURNS TRIGGER
+      LANGUAGE plpgsql
+      AS $trigger$
+      BEGIN
+        NEW.updated_at = NOW();
+        RETURN NEW;
+      END;
+      $trigger$;
+    $func$;
+  END IF;
+END $$;
+
+DROP TRIGGER IF EXISTS update_fb_submissions_updated_at ON fb_submissions;
+CREATE TRIGGER update_fb_submissions_updated_at
+  BEFORE UPDATE ON fb_submissions
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_fb_tasks_updated_at ON fb_tasks;
+CREATE TRIGGER update_fb_tasks_updated_at
+  BEFORE UPDATE ON fb_tasks
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_fb_notifications_updated_at ON fb_merchant_notifications;
+CREATE TRIGGER update_fb_notifications_updated_at
+  BEFORE UPDATE ON fb_merchant_notifications
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- =============================================
+-- MIGRATION COMPLETE
+-- =============================================
+-- Tables created:
+--   - fb_submissions (merchant feedback with AI processing fields)
+--   - fb_tasks (aggregated tasks with denormalized metrics)
+--   - fb_merchant_notifications (lifecycle notification records)
+--
+-- Functions created:
+--   - find_similar_tasks(merchant_id, translated_body, tags, threshold)
+--   - update_task_metrics(task_id)
+--
+-- RLS Policies:
+--   - Merchants view/insert own submissions via account_roles
+--   - Merchants view own tasks via account_roles
+--   - Accounts view/update own notifications via auth_id
+--   - Service role has full access to all tables
+-- =============================================
