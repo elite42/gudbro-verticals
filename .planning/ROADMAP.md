@@ -49,12 +49,12 @@ Plans:
 2. Shared fixtures (`BasePwaPage`, viewport helpers, vertical registry) exist in `tests/e2e/shared/` and are importable by any smoke test
 3. At least one vertical's smoke test passes using the shared fixture, confirming the pattern works end-to-end
 4. Existing 35 F&B/waiter/backoffice tests still pass without modification
-   **Plans**: TBD
+   **Plans**: 2 plans
 
 Plans:
 
-- [ ] 10-01: TBD
-- [ ] 10-02: TBD
+- [ ] 10-01-PLAN.md — Shared test utilities (vertical registry, BasePwaPage, fixtures, viewport helpers)
+- [ ] 10-02-PLAN.md — Playwright config vertical projects + wellness validation smoke test
 
 #### Phase 11: E2E Smoke Tests
 
@@ -100,7 +100,7 @@ Plans:
 | Phase                       | Milestone | Plans Complete | Status      | Completed  |
 | --------------------------- | --------- | -------------- | ----------- | ---------- |
 | 9. Code Fixes               | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
-| 10. E2E Test Infrastructure | v1.2      | 0/TBD          | Not started | -          |
+| 10. E2E Test Infrastructure | v1.2      | 0/2            | Not started | -          |
 | 11. E2E Smoke Tests         | v1.2      | 0/TBD          | Not started | -          |
 | 12. Visual and Quality      | v1.2      | 0/TBD          | Not started | -          |
 
