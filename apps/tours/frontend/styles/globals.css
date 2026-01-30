@@ -1,0 +1,392 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GUDBRO TOURS - Tropical Adventure Design System
+
+   Aesthetic: Warm adventure vibes with Vietnamese tropical elegance.
+   Palette: Burnt orange + forest green + golden accents on warm cream.
+   Typography: Playful display + crisp body text.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+  :root {
+    /* ─────────────────────────────────────────────────────────────────────
+       COLOR PALETTE - Tropical Adventure
+       ───────────────────────────────────────────────────────────────────── */
+
+    /* Primary - Burnt Orange (Adventure, Warmth, Energy) */
+    --primary: 24 90% 50%; /* #E07B39 */
+    --primary-hover: 24 90% 45%; /* Darker on hover */
+    --primary-light: 24 90% 95%; /* Light tint */
+
+    /* Secondary - Forest Green (Nature, Trust, Vietnam) */
+    --secondary: 122 38% 28%; /* #2C5F2D */
+    --secondary-hover: 122 38% 23%;
+    --secondary-light: 122 38% 95%;
+
+    /* Accent - Golden Sun (Premium, Highlight) */
+    --accent: 43 100% 50%; /* #FFB400 */
+    --accent-glow: 43 100% 60%;
+    --accent-light: 43 100% 92%; /* Light tint for backgrounds */
+    --accent-foreground: 43 80% 25%; /* Dark text on accent backgrounds */
+
+    /* Background - Warm Cream (Papyrus feel) */
+    --background: 40 20% 97%; /* #FAFAF8 */
+    --background-card: 0 0% 100%;
+    --background-elevated: 40 15% 99%;
+
+    /* Foreground */
+    --foreground: 0 0% 10%; /* #1A1A1A */
+    --foreground-muted: 0 0% 40%; /* #666666 */
+    --foreground-subtle: 0 0% 60%; /* #999999 */
+
+    /* Semantic */
+    --success: 142 71% 45%; /* #22C55E */
+    --success-light: 142 71% 95%;
+    --success-foreground: 142 60% 30%; /* Dark green text */
+    --error: 0 84% 60%; /* #EF4444 */
+    --error-light: 0 84% 95%;
+    --error-foreground: 0 70% 35%; /* Dark red text */
+    --warning: 38 92% 50%; /* #F59E0B */
+    --warning-light: 38 92% 93%;
+    --warning-foreground: 38 80% 30%;
+
+    /* Borders & Shadows */
+    --border: 40 10% 90%;
+    --border-strong: 40 10% 80%;
+    --ring: 24 90% 50%;
+
+    /* Radii */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-full: 9999px;
+
+    /* ─────────────────────────────────────────────────────────────────────
+       TYPOGRAPHY - Readable & Modern
+       ───────────────────────────────────────────────────────────────────── */
+
+    --font-display: 'Inter', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  /* Dark mode - not primary focus but supported */
+  .dark {
+    --background: 0 0% 8%;
+    --background-card: 0 0% 12%;
+    --foreground: 0 0% 95%;
+    --foreground-muted: 0 0% 70%;
+    --border: 0 0% 20%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-body);
+    font-feature-settings: 'ss01', 'ss02';
+  }
+
+  /* Headings with display font */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  /* Smooth focus outlines */
+  :focus-visible {
+    @apply ring-primary ring-offset-background outline-none ring-2 ring-offset-2;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CUSTOM COMPONENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+  /* ─────────────────────────────────────────────────────────────────────
+     BUTTONS
+     ───────────────────────────────────────────────────────────────────── */
+
+  .btn-primary {
+    @apply relative overflow-hidden rounded-xl bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(24,85%,55%)] px-6 py-3 font-semibold text-white shadow-lg shadow-orange-500/25 transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl hover:shadow-orange-500/30 active:scale-[0.98];
+  }
+
+  .btn-primary::before {
+    content: '';
+    @apply absolute inset-0 translate-y-full bg-white/20 transition-transform duration-300;
+  }
+
+  .btn-primary:hover::before {
+    @apply translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply rounded-xl bg-[hsl(var(--secondary))] px-6 py-3 font-semibold text-white shadow-md shadow-green-900/20 transition-all duration-300 hover:bg-[hsl(var(--secondary-hover))] hover:shadow-lg active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply text-foreground-muted hover:text-foreground rounded-lg px-4 py-2 font-medium transition-all duration-200 hover:bg-black/5;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     CARDS
+     ───────────────────────────────────────────────────────────────────── */
+
+  .card-tour {
+    @apply border-border hover:border-primary/30 relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10;
+  }
+
+  .card-tour::after {
+    content: '';
+    @apply from-primary via-accent to-secondary absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r opacity-0 transition-opacity duration-300;
+  }
+
+  .card-tour:hover::after {
+    @apply opacity-100;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     BADGES
+     ───────────────────────────────────────────────────────────────────── */
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium transition-colors;
+  }
+
+  .badge-primary {
+    @apply bg-primary/10 text-[hsl(var(--primary))];
+  }
+
+  .badge-secondary {
+    @apply bg-secondary/10 text-[hsl(var(--secondary))];
+  }
+
+  .badge-accent {
+    @apply bg-accent-light text-accent-foreground;
+  }
+
+  .badge-verified {
+    @apply bg-success-light text-success-foreground;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     INPUTS
+     ───────────────────────────────────────────────────────────────────── */
+
+  .input {
+    @apply border-border text-foreground placeholder:text-foreground-subtle focus:border-primary focus:ring-primary/10 hover:border-primary/30 w-full rounded-xl border-2 bg-white px-4 py-3 transition-all duration-200 focus:ring-4;
+  }
+
+  .input-label {
+    @apply text-foreground-muted mb-2 block text-sm font-medium;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     SPECIAL EFFECTS
+     ───────────────────────────────────────────────────────────────────── */
+
+  /* Tropical gradient background */
+  .bg-tropical {
+    background:
+      radial-gradient(ellipse at 0% 0%, hsl(24 90% 50% / 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 100%, hsl(122 38% 28% / 0.06) 0%, transparent 50%),
+      hsl(var(--background));
+  }
+
+  /* Golden shimmer effect */
+  .shimmer {
+    background: linear-gradient(
+      110deg,
+      transparent 33%,
+      hsl(var(--accent) / 0.15) 50%,
+      transparent 67%
+    );
+    background-size: 300% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      background-position: 100% 0;
+    }
+    50% {
+      background-position: -100% 0;
+    }
+  }
+
+  /* Floating animation for decorative elements */
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(2deg);
+    }
+  }
+
+  /* Pulse glow for CTAs */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 12px hsl(var(--primary) / 0);
+    }
+  }
+
+  /* Staggered entrance animations */
+  .animate-in {
+    animation: animate-in 0.5s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  @keyframes animate-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+  .delay-400 {
+    animation-delay: 400ms;
+  }
+  .delay-500 {
+    animation-delay: 500ms;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--accent))] bg-clip-text text-transparent;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Safe area padding for mobile */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  /* Touch-friendly tap targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Price display */
+  .price-primary {
+    @apply text-foreground text-2xl font-bold;
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .price-secondary {
+    @apply text-foreground-muted text-sm;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Rating stars */
+  .star-filled {
+    @apply text-accent;
+  }
+
+  .star-empty {
+    @apply text-gray-300;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS (Mobile-first)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Extra small phones (< 375px) */
+@media (max-width: 374px) {
+  .btn-primary,
+  .btn-secondary {
+    @apply px-4 py-2.5 text-sm;
+  }
+}
+
+/* Landscape phone handling */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-section {
+    @apply py-4;
+  }
+}
+
+/* Sunlight readability - increase contrast on bright screens */
+@media (prefers-contrast: more) {
+  :root {
+    --foreground: 0 0% 5%;
+    --foreground-muted: 0 0% 25%;
+    --border: 0 0% 70%;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
