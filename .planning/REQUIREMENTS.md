@@ -15,8 +15,8 @@
 
 ### E2E Infrastructure
 
-- [ ] **E2EI-01**: Playwright config extended with per-vertical projects (8 verticals, mobile + desktop viewports)
-- [ ] **E2EI-02**: Shared test fixtures (BasePwaPage, viewport helpers, vertical registry)
+- [x] **E2EI-01**: Playwright config extended with per-vertical projects (8 verticals, mobile + desktop viewports)
+- [x] **E2EI-02**: Shared test fixtures (BasePwaPage, viewport helpers, vertical registry)
 - [ ] **E2EI-03**: Page load smoke test for every vertical (page loads without JS errors)
 - [ ] **E2EI-04**: BottomNav navigation test for every vertical (all links work)
 - [ ] **E2EI-05**: Responsive viewport test for every vertical (mobile 375px, tablet 768px, desktop 1280px)
@@ -60,8 +60,8 @@
 | CFIX-03     | 9     | Complete |
 | CFIX-04     | 9     | Complete |
 | CFIX-05     | 9     | Complete |
-| E2EI-01     | 10    | Pending  |
-| E2EI-02     | 10    | Pending  |
+| E2EI-01     | 10    | Complete |
+| E2EI-02     | 10    | Complete |
 | E2EI-03     | 11    | Pending  |
 | E2EI-04     | 11    | Pending  |
 | E2EI-05     | 11    | Pending  |
@@ -78,4 +78,4 @@
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after roadmap creation_
+_Last updated: 2026-01-30 after Phase 10 completion_

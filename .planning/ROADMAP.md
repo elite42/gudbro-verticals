@@ -53,8 +53,8 @@ Plans:
 
 Plans:
 
-- [ ] 10-01-PLAN.md — Shared test utilities (vertical registry, BasePwaPage, fixtures, viewport helpers)
-- [ ] 10-02-PLAN.md — Playwright config vertical projects + wellness validation smoke test
+- [x] 10-01-PLAN.md — Shared test utilities (vertical registry, BasePwaPage, fixtures, viewport helpers)
+- [x] 10-02-PLAN.md — Playwright config vertical projects + wellness validation smoke test
 
 #### Phase 11: E2E Smoke Tests
 
@@ -100,11 +100,11 @@ Plans:
 | Phase                       | Milestone | Plans Complete | Status      | Completed  |
 | --------------------------- | --------- | -------------- | ----------- | ---------- |
 | 9. Code Fixes               | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
-| 10. E2E Test Infrastructure | v1.2      | 0/2            | Not started | -          |
+| 10. E2E Test Infrastructure | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 11. E2E Smoke Tests         | v1.2      | 0/TBD          | Not started | -          |
 | 12. Visual and Quality      | v1.2      | 0/TBD          | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-30_
-_Last updated: 2026-01-30 after Phase 9 completion_
+_Last updated: 2026-01-30 after Phase 10 completion_
