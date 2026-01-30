@@ -132,12 +132,13 @@ Plans:
 2. Admin sees a breakdown view showing submission counts grouped by type (bug/feature/feedback) and by vertical
 3. Admin sees a ranked list of top requested features ordered by linked submission count
 4. Admin sees average response time metrics (time from submission to acknowledgment, time to resolution)
-   **Plans**: TBD
+
+**Plans:** 2 plans
 
 Plans:
 
-- [ ] 17-01: Analytics API routes (aggregation queries for volume, breakdown, top features, response time)
-- [ ] 17-02: Analytics dashboard page with charts and metric cards
+- [ ] 17-01-PLAN.md — Analytics API routes (volume time-series + summary with type/vertical breakdown, top features, response times)
+- [ ] 17-02-PLAN.md — Analytics dashboard page with Recharts charts, KPI cards, time range selector, and sidebar navigation
 
 ## Progress
 
@@ -164,4 +165,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-30 after completing phase 16_
+_Last updated: 2026-01-30 after planning phase 17_
