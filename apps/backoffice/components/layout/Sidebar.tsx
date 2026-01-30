@@ -31,6 +31,7 @@ const platformNavigation = [
       { name: 'Revenue', href: '/platform/revenue' },
       { name: 'Countries', href: '/platform/countries' },
       { name: 'Support', href: '/platform/support' },
+      { name: 'Feedback Analytics', href: '/platform/feedback-analytics' },
     ],
   },
 ];
@@ -104,6 +105,7 @@ const navigation: NavItem[] = [
     children: [
       { name: 'All Orders', href: '/orders' },
       { name: 'Kitchen Display', href: '/orders/kitchen' },
+      { name: 'Bar Display', href: '/orders/bar' },
     ],
   },
   {
