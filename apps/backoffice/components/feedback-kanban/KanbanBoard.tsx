@@ -14,6 +14,8 @@ import {
 } from '@dnd-kit/core';
 import { KanbanColumn } from './KanbanColumn';
 import { TaskCard, type FeedbackTask } from './TaskCard';
+import { TaskDetailPanel } from './TaskDetailPanel';
+import { StatusChangeDialog } from './StatusChangeDialog';
 
 // ============================================================================
 // Column config
@@ -29,20 +31,27 @@ const KANBAN_COLUMNS = [
 
 type TaskStatus = (typeof KANBAN_COLUMNS)[number]['id'];
 
+// Terminal statuses that require confirmation dialog
+const TERMINAL_STATUSES: TaskStatus[] = ['done', 'rejected'];
+
 // ============================================================================
 // Component
 // ============================================================================
 
-interface KanbanBoardProps {
-  onTaskClick?: (task: FeedbackTask) => void;
-}
-
-export function KanbanBoard({ onTaskClick }: KanbanBoardProps) {
+export function KanbanBoard() {
   const [tasks, setTasks] = useState<FeedbackTask[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTask, setActiveTask] = useState<FeedbackTask | null>(null);
   const snapshotRef = useRef<FeedbackTask[]>([]);
+
+  // Detail panel state
+  const [selectedTask, setSelectedTask] = useState<FeedbackTask | null>(null);
+
+  // Status change dialog state
+  const [pendingMove, setPendingMove] = useState<{ taskId: string; newStatus: string } | null>(
+    null
+  );
 
   // Sensors
   const sensors = useSensors(
@@ -90,7 +99,81 @@ export function KanbanBoard({ onTaskClick }: KanbanBoardProps) {
     [tasks]
   );
 
+  // ========================================================================
+  // Status change logic (shared by drag and panel actions)
+  // ========================================================================
+
+  const applyStatusChange = useCallback(
+    async (taskId: string, newStatus: string, resolutionNote?: string) => {
+      const snapshot = [...tasks];
+      // Optimistic update
+      setTasks((prev) =>
+        prev.map((t) =>
+          t.id === taskId ? { ...t, status: newStatus as FeedbackTask['status'] } : t
+        )
+      );
+
+      // Update selectedTask if it's the one being changed
+      setSelectedTask((prev) =>
+        prev && prev.id === taskId ? { ...prev, status: newStatus as FeedbackTask['status'] } : prev
+      );
+
+      try {
+        const res = await fetch('/api/feedback/tasks', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            taskId,
+            status: newStatus,
+            ...(resolutionNote ? { resolutionNote } : {}),
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to update task status');
+        }
+      } catch (err) {
+        console.error('Error updating task status:', err);
+        // Revert on failure
+        setTasks(snapshot);
+        setSelectedTask((prev) => {
+          if (!prev || prev.id !== taskId) return prev;
+          const original = snapshot.find((t) => t.id === taskId);
+          return original ? { ...prev, status: original.status } : prev;
+        });
+      }
+    },
+    [tasks]
+  );
+
+  // Handle confirmed status change (from dialog)
+  const handleConfirmedStatusChange = useCallback(
+    (resolutionNote?: string) => {
+      if (!pendingMove) return;
+      applyStatusChange(pendingMove.taskId, pendingMove.newStatus, resolutionNote);
+      setPendingMove(null);
+    },
+    [pendingMove, applyStatusChange]
+  );
+
+  // Handle status change from detail panel
+  const handleStatusChangeFromPanel = useCallback(
+    (taskId: string, newStatus: string) => {
+      if (TERMINAL_STATUSES.includes(newStatus as TaskStatus)) {
+        // Terminal status: show confirmation dialog
+        setPendingMove({ taskId, newStatus });
+      } else {
+        // Non-terminal: apply directly
+        applyStatusChange(taskId, newStatus);
+      }
+    },
+    [applyStatusChange]
+  );
+
+  // ========================================================================
   // Drag handlers
+  // ========================================================================
+
   const handleDragStart = (event: DragStartEvent) => {
     const task = event.active.data.current?.task as FeedbackTask | undefined;
     if (task) {
@@ -99,7 +182,7 @@ export function KanbanBoard({ onTaskClick }: KanbanBoardProps) {
     }
   };
 
-  const handleDragEnd = async (event: DragEndEvent) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     setActiveTask(null);
 
@@ -111,37 +194,27 @@ export function KanbanBoard({ onTaskClick }: KanbanBoardProps) {
 
     if (!currentStatus || newStatus === currentStatus) return;
 
-    // Confirmation for Done/Rejected moves
-    if (newStatus === 'done' || newStatus === 'rejected') {
-      const confirmed = window.confirm('This will notify merchants. Continue?');
-      if (!confirmed) return;
-    }
-
-    // Optimistic update
-    const snapshot = snapshotRef.current;
-    setTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t)));
-
-    // Persist via API
-    try {
-      const res = await fetch('/api/feedback/tasks', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ taskId, status: newStatus }),
-      });
-
-      if (!res.ok) {
-        throw new Error('Failed to update task status');
-      }
-    } catch (err) {
-      console.error('Error updating task status:', err);
-      // Revert on failure
-      setTasks(snapshot);
+    if (TERMINAL_STATUSES.includes(newStatus)) {
+      // Terminal status: show confirmation dialog (no optimistic update yet)
+      setPendingMove({ taskId, newStatus });
+    } else {
+      // Non-terminal: apply directly with optimistic update
+      applyStatusChange(taskId, newStatus);
     }
   };
 
   const handleDragCancel = () => {
     setActiveTask(null);
   };
+
+  // Handle card click to open detail panel
+  const handleTaskClick = (task: FeedbackTask) => {
+    setSelectedTask(task);
+  };
+
+  // ========================================================================
+  // Render
+  // ========================================================================
 
   // Loading state
   if (loading) {
@@ -170,30 +243,54 @@ export function KanbanBoard({ onTaskClick }: KanbanBoardProps) {
     );
   }
 
-  return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCorners}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragCancel={handleDragCancel}
-    >
-      <div className="flex gap-4 overflow-x-auto pb-4">
-        {KANBAN_COLUMNS.map((col) => (
-          <KanbanColumn
-            key={col.id}
-            id={col.id}
-            title={col.title}
-            color={col.color}
-            tasks={tasksByStatus[col.id]}
-            onTaskClick={onTaskClick}
-          />
-        ))}
-      </div>
+  // Resolve pending move task for dialog props
+  const pendingTask = pendingMove ? tasks.find((t) => t.id === pendingMove.taskId) : null;
 
-      <DragOverlay dropAnimation={null}>
-        {activeTask ? <TaskCard task={activeTask} isOverlay /> : null}
-      </DragOverlay>
-    </DndContext>
+  return (
+    <>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={handleDragCancel}
+      >
+        <div className="flex gap-4 overflow-x-auto pb-4">
+          {KANBAN_COLUMNS.map((col) => (
+            <KanbanColumn
+              key={col.id}
+              id={col.id}
+              title={col.title}
+              color={col.color}
+              tasks={tasksByStatus[col.id]}
+              onTaskClick={handleTaskClick}
+            />
+          ))}
+        </div>
+
+        <DragOverlay dropAnimation={null}>
+          {activeTask ? <TaskCard task={activeTask} isOverlay /> : null}
+        </DragOverlay>
+      </DndContext>
+
+      {/* Task detail slide-over panel */}
+      <TaskDetailPanel
+        task={selectedTask}
+        onClose={() => setSelectedTask(null)}
+        onStatusChange={handleStatusChangeFromPanel}
+      />
+
+      {/* Status change confirmation dialog */}
+      <StatusChangeDialog
+        open={!!pendingMove}
+        onOpenChange={(open) => {
+          if (!open) setPendingMove(null);
+        }}
+        targetStatus={pendingMove?.newStatus || ''}
+        taskTitle={pendingTask?.title || ''}
+        submissionCount={pendingTask?.submission_count || 0}
+        onConfirm={handleConfirmedStatusChange}
+      />
+    </>
   );
 }
