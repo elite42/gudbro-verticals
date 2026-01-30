@@ -97,6 +97,12 @@ Recent decisions affecting v1.1 work:
 
 None.
 
+### Quick Tasks Completed
+
+| #   | Description                                   | Date       | Commit  | Directory                                                                               |
+| --- | --------------------------------------------- | ---------- | ------- | --------------------------------------------------------------------------------------- |
+| 001 | Fix useful-numbers route pre-081 column names | 2026-01-30 | ad6f1d0 | [001-fix-useful-numbers-pre081-columns](./quick/001-fix-useful-numbers-pre081-columns/) |
+
 ### Blockers/Concerns
 
 None. v1.1 milestone complete. All 10 integration gaps closed + 1 residual gap fixed by quick-001. Audit: 22/22 integration, 8/8 flows.
