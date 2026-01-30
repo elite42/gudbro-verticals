@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** Planning next milestone (v1.2)
+**Current focus:** v1.2 Tech Debt Cleanup
 
 ## Current Position
 
-Phase: Ready for next milestone
-Plan: Not started
-Status: v1.1 shipped and archived. Ready to plan v1.2.
-Last activity: 2026-01-30 — v1.1 milestone completed and archived
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements for v1.2
+Last activity: 2026-01-30 — Milestone v1.2 started
 
-Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick task
+Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick task | v1.2 [░░░░░░] 0/?
 
 ## Performance Metrics
 
@@ -39,7 +39,7 @@ Full history in PROJECT.md Key Decisions table and milestones/v1.1-ROADMAP.md.
 
 ### Known Issues
 
-**Tech debt from v1.0 (7 items):**
+**Tech debt from v1.0 (7 items) — being resolved in v1.2:**
 
 - Tours soups DB type errors (excluded from tsconfig)
 - Visual QA on physical devices not performed
@@ -55,15 +55,15 @@ None.
 
 ### Blockers/Concerns
 
-None. v1.1 milestone shipped. Ready for v1.2.
+None.
 
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: v1.1 milestone completed and archived
+Stopped at: v1.2 milestone initialization
 Resume file: None
-Next: `/gsd:new-milestone` to start v1.2
+Next: Define requirements, then `/gsd:plan-phase`
 
 ---
 
-_Last updated: 2026-01-30 after v1.1 milestone completion and archival_
+_Last updated: 2026-01-30 after v1.2 milestone start_

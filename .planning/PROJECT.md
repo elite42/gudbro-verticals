@@ -34,14 +34,26 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ### Active
 
-No active milestone. Next: v1.2 Booking & Owner Dashboard (planned).
+**Current Milestone: v1.2 Tech Debt Cleanup**
+
+**Goal:** Resolve all 7 tech debt items from v1.0 and establish automated testing coverage across all verticals.
+
+**Target features:**
+
+- Fix Tours DB type errors (remove tsconfig exclusion)
+- Migrate Tours from Tailwind to CSS variables
+- Add back link to Wellness /staff/[slug]
+- Fix 19 ESLint warnings in Wellness
+- Fix 3 placeholder links in Tours/Workshops
+- E2E smoke tests with Playwright for all 8 verticals
+- Visual QA checklist for physical device testing
 
 ### Out of Scope
 
 - New vertical creation -- all 8 frontends exist
-- Booking Mode (property page, booking flow) -- deferred to v1.2
-- Owner Dashboard (property management UI) -- deferred to v1.2
-- Service Ordering (guest submits requests) -- deferred to v1.2
+- Booking Mode (property page, booking flow) -- deferred to v1.3
+- Owner Dashboard (property management UI) -- deferred to v1.3
+- Service Ordering (guest submits requests) -- deferred to v1.3
 - Visa Tracker -- deferred to later milestone
 - Digital Laundry Form -- deferred to later milestone
 - Online payments -- cash/transfer only for MVP
@@ -59,7 +71,7 @@ No active milestone. Next: v1.2 Booking & Owner Dashboard (planned).
 - @shared/payment workspace package established as pattern for shared modules
 - Icons: mix of Phosphor (coffeeshop) and custom SVG (other verticals)
 - Migration chain: 077 (schema) → 078 (seed) → 079 (phase6 ext) → 080 (fnb) → 081 (alignment)
-- 7 tech debt items carried from v1.0 (see MILESTONES.md)
+- 7 tech debt items from v1.0 being resolved in v1.2
 
 ## Constraints
 
@@ -91,4 +103,4 @@ No active milestone. Next: v1.2 Booking & Owner Dashboard (planned).
 
 ---
 
-_Last updated: 2026-01-30 after v1.1 milestone completion_
+_Last updated: 2026-01-30 after v1.2 milestone start_
