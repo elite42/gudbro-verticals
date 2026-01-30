@@ -36,7 +36,7 @@ See milestones/v1.2-ROADMAP.md for details.
 
 - [x] **Phase 13: Foundation and AI Pipeline** - Database schema and AI processing service
 - [x] **Phase 14: Merchant Submission UI** - Feedback form, screenshot upload, and submission history
-- [ ] **Phase 15: Merchant Notifications** - In-app notification system with bell icon and polling
+- [x] **Phase 15: Merchant Notifications** - In-app notification system with bell icon and polling
 - [ ] **Phase 16: Admin Kanban** - Drag-and-drop task board with detail panel and status notifications
 - [ ] **Phase 17: Analytics Dashboard** - Submission volume, breakdowns, top features, and response time
 
@@ -98,8 +98,8 @@ Plans:
 
 Plans:
 
-- [ ] 15-01-PLAN.md — Notification API routes, createFeedbackNotification utility, submit route account_id fix, AI service notification creation
-- [ ] 15-02-PLAN.md — useNotifications polling hook and NotificationDropdown wired to real API data
+- [x] 15-01-PLAN.md — Notification API routes, createFeedbackNotification utility, submit route account_id fix, AI service notification creation
+- [x] 15-02-PLAN.md — useNotifications polling hook and NotificationDropdown wired to real API data
 
 ### Phase 16: Admin Kanban
 
@@ -156,11 +156,11 @@ Plans:
 | 12. Visual and Quality         | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 13. Foundation and AI Pipeline | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
 | 14. Merchant Submission UI     | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
-| 15. Merchant Notifications     | v1.3      | 0/2            | Not started | -          |
+| 15. Merchant Notifications     | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
 | 16. Admin Kanban               | v1.3      | 0/2            | Not started | -          |
 | 17. Analytics Dashboard        | v1.3      | 0/2            | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-30 after planning phase 15_
+_Last updated: 2026-01-30 after completing phase 15_

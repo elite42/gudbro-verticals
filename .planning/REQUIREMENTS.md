@@ -33,10 +33,10 @@ Requirements for Merchant Feedback Intelligence milestone. Each maps to roadmap 
 
 ### Notifications
 
-- [ ] **FBNOT-01**: Merchant receives in-app notification when submission is acknowledged
-- [ ] **FBNOT-02**: Merchant receives notification when linked task moves to In Progress, Done, or Rejected
-- [ ] **FBNOT-03**: Bell icon in global header shows unread notification count
-- [ ] **FBNOT-04**: Merchant can view and mark notifications as read
+- [x] **FBNOT-01**: Merchant receives in-app notification when submission is acknowledged
+- [x] **FBNOT-02**: Merchant receives notification when linked task moves to In Progress, Done, or Rejected
+- [x] **FBNOT-03**: Bell icon in global header shows unread notification count
+- [x] **FBNOT-04**: Merchant can view and mark notifications as read
 
 ### Analytics
 
@@ -102,10 +102,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FBADM-03    | Phase 16 | Pending  |
 | FBADM-04    | Phase 16 | Pending  |
 | FBADM-05    | Phase 16 | Pending  |
-| FBNOT-01    | Phase 15 | Pending  |
-| FBNOT-02    | Phase 15 | Pending  |
-| FBNOT-03    | Phase 15 | Pending  |
-| FBNOT-04    | Phase 15 | Pending  |
+| FBNOT-01    | Phase 15 | Complete |
+| FBNOT-02    | Phase 15 | Complete |
+| FBNOT-03    | Phase 15 | Complete |
+| FBNOT-04    | Phase 15 | Complete |
 | FBAN-01     | Phase 17 | Pending  |
 | FBAN-02     | Phase 17 | Pending  |
 | FBAN-03     | Phase 17 | Pending  |
@@ -120,4 +120,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after completing phase 14_
+_Last updated: 2026-01-30 after completing phase 15_
