@@ -70,17 +70,20 @@ export default defineConfig({
   },
 
   projects: [
-    // Single-system tests (legacy)
+    // Single-system tests (legacy) — exclude vertical smoke tests
     {
       name: 'chromium',
+      testIgnore: /verticals\//,
       use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'Mobile Chrome',
+      testIgnore: /verticals\//,
       use: { ...devices['Pixel 5'] },
     },
     {
       name: 'Mobile Safari',
+      testIgnore: /verticals\//,
       use: { ...devices['iPhone 13'] },
     },
 
