@@ -31,19 +31,12 @@ See milestones/v1.1-ROADMAP.md for details.
 **Goal**: All v1.0 tech debt items resolved — every vertical compiles cleanly, uses consistent theming, and has zero placeholder links or lint warnings.
 **Depends on**: Nothing (first phase of v1.2)
 **Requirements**: CFIX-01, CFIX-02, CFIX-03, CFIX-04, CFIX-05
-**Success Criteria** (what must be TRUE):
-
-1. Tours compiles with `tsc --noEmit` without the soups DB type exclusion in tsconfig
-2. Tours brand colors are defined as CSS variables and zero hardcoded Tailwind color values remain for brand theming
-3. Wellness /staff/[slug] page has a visible back link that navigates to the staff list
-4. `pnpm lint` produces zero warnings for the Wellness app
-5. Zero `href="#"` placeholder links exist in Tours and Workshops codebases
-   **Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 
-- [ ] 09-01: TBD
-- [ ] 09-02: TBD
+- [ ] 09-01-PLAN.md — Quick fixes: verify Tours TS compilation, Wellness back link, placeholder links
+- [ ] 09-02-PLAN.md — Tours brand color CSS variable migration, Wellness ESLint warnings
 
 #### Phase 10: E2E Test Infrastructure
 
@@ -106,7 +99,7 @@ Plans:
 
 | Phase                       | Milestone | Plans Complete | Status      | Completed |
 | --------------------------- | --------- | -------------- | ----------- | --------- |
-| 9. Code Fixes               | v1.2      | 0/TBD          | Not started | -         |
+| 9. Code Fixes               | v1.2      | 0/2            | Planned     | -         |
 | 10. E2E Test Infrastructure | v1.2      | 0/TBD          | Not started | -         |
 | 11. E2E Smoke Tests         | v1.2      | 0/TBD          | Not started | -         |
 | 12. Visual and Quality      | v1.2      | 0/TBD          | Not started | -         |
