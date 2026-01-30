@@ -1,236 +1,401 @@
-# Technology Stack: E2E Smoke Testing Across 8 PWA Verticals
+# Technology Stack: Merchant Feedback Intelligence System
 
-**Project:** GUDBRO Multi-Vertical E2E Smoke Tests
+**Project:** GUDBRO Merchant Feedback Intelligence
 **Researched:** 2026-01-30
 **Overall Confidence:** HIGH
 
 ---
 
+## Key Finding: Almost Everything Already Exists
+
+The backoffice already has every major capability needed. This is an **integration and composition** task, not a new-stack task. The research below focuses on what to reuse, what to extend, and the few genuinely new patterns needed.
+
+**Existing capabilities confirmed in codebase:**
+
+- Supabase Storage uploads (`apps/backoffice/app/api/upload/image/route.ts`) with folder configs, auth, validation
+- OpenAI integration (`apps/backoffice/lib/ai/openai.ts`) with 46 files, translation service, cost tracking
+- Supabase Realtime (`apps/backoffice/lib/realtime/chat-channel.ts`) with Postgres Changes subscriptions
+- @dnd-kit kanban-style DnD (`apps/backoffice/app/(dashboard)/settings/site-builder/`) with sortable lists
+- Feedback types already defined (`apps/backoffice/lib/ai/feedback-loop-service.ts`) with classification, AI summary, sentiment
+
+---
+
 ## Recommended Stack
 
-### Core Testing Framework
+### 1. Image/Screenshot Upload and Storage
 
-| Technology         | Version                     | Purpose         | Why                                                                                                                                     |
-| ------------------ | --------------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `@playwright/test` | ^1.57.0 (already installed) | E2E test runner | Already in project, latest stable. v1.57 switched to Chrome for Testing builds for more reliable headless execution. No upgrade needed. |
+**Recommendation: Supabase Storage (existing)** -- zero new dependencies.
 
-**No new test framework dependencies required.** Playwright 1.57 already provides everything needed for multi-project configuration, visual regression, mobile emulation, and parallel execution.
+| Technology       | Version            | Purpose            | Why                                                                                                                                    |
+| ---------------- | ------------------ | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Supabase Storage | Already configured | Screenshot storage | Already used for 9 folder types (staff, menu, logos, etc.). Add a `feedback` folder config to existing `FOLDER_CONFIGS` in `route.ts`. |
 
-### Visual Regression (Built-in)
+**What to do:**
 
-| Technology                           | Version                     | Purpose                       | Why                                                                                                                                                                 |
-| ------------------------------------ | --------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `expect(page).toHaveScreenshot()`    | Built into @playwright/test | Visual regression baselines   | Zero additional dependencies. Pixel-level comparison is sufficient for 8 verticals at our scale. Commercial tools (Applitools, Percy) are overkill for smoke tests. |
-| `expect(locator).toHaveScreenshot()` | Built into @playwright/test | Component-level visual checks | Target specific sections (hero, nav, footer) to reduce false positives from dynamic content.                                                                        |
+- Add `'feedback-screenshots'` folder config to existing `apps/backoffice/app/api/upload/image/route.ts`
+- Config: `maxSize: 10MB`, `allowedTypes: ['image/png', 'image/jpeg', 'image/webp']`, `subfolder: 'feedback'`
+- Path pattern: `feedback/{merchantId}/{timestamp}-{randomId}.{ext}`
 
-**Why NOT Applitools/Percy:** These services cost $199+/month, require cloud accounts, add external dependencies to CI, and solve a problem we do not have (cross-browser rendering at scale). Our 8 verticals share the same design system and stack -- Playwright's built-in pixel comparison with masking handles this fine. Revisit only if false positive rate exceeds 10% of test runs.
+**What NOT to do:**
 
-### Device Emulation (Built-in)
+- Do NOT add Cloudinary. No image transformations needed for feedback screenshots -- just store and display. Cloudinary adds cost ($99+/month at scale) and a new external dependency for zero benefit.
+- Do NOT add Vercel Blob. Would split storage across two systems (Supabase for everything else, Blob for screenshots). Operational complexity for no gain.
+- Do NOT use signed upload URLs. Screenshots are under 10MB; the existing server-side upload pattern works fine and maintains auth control.
 
-| Technology           | Version  | Purpose                        | Why                                                                                          |
-| -------------------- | -------- | ------------------------------ | -------------------------------------------------------------------------------------------- |
-| `playwright.devices` | Built-in | Mobile/tablet/desktop profiles | Predefined profiles for Pixel 5, iPhone 13, iPad, Desktop Chrome. No extra libraries needed. |
+**Cost:** Included in existing Supabase plan. 1GB free storage, Pro plan includes 100GB. Feedback screenshots at ~200KB avg, 100 feedbacks/month = ~20MB/month. Negligible.
 
-### CI Integration
-
-| Technology     | Version | Purpose   | Why                                                                                                                      |
-| -------------- | ------- | --------- | ------------------------------------------------------------------------------------------------------------------------ |
-| GitHub Actions | N/A     | CI runner | Already used by project. Playwright has first-class GH Actions support with `mcr.microsoft.com/playwright` Docker image. |
-
-### Supporting Utilities (New, zero-dependency)
-
-These are patterns/helpers to write, not libraries to install:
-
-| Utility                | Purpose                                                                 | Implementation                                  |
-| ---------------------- | ----------------------------------------------------------------------- | ----------------------------------------------- |
-| `vertical-registry.ts` | Maps all 8 verticals to ports, routes, and expected elements            | TypeScript config file in `tests/e2e/fixtures/` |
-| `smoke-helpers.ts`     | Shared assertions for navigation, page load, responsive checks          | Playwright test helper using built-in APIs      |
-| `visual-config.ts`     | Screenshot comparison settings (threshold, masking, naming conventions) | Playwright config extension                     |
+**Confidence:** HIGH -- pattern verified in existing codebase.
 
 ---
 
-## Configuration Architecture
+### 2. AI Processing Pipeline
 
-### Multi-Project Setup for 8 Verticals
+**Recommendation: OpenAI GPT-4.1-mini (upgrade from gpt-4o-mini) via existing client** -- update model constant only.
 
-The existing `playwright.config.ts` has 6 projects (chromium, Mobile Chrome, Mobile Safari, multi-system, waiter-pwa, backoffice). For 8-vertical smoke testing, use a **per-vertical project** pattern:
+| Technology           | Version                     | Purpose                                      | Why                                                                                       |
+| -------------------- | --------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `openai` npm package | ^6.15.0 (already installed) | AI API client                                | Already in backoffice, lazy-initialized, with cost tracking                               |
+| GPT-4.1-mini model   | API model ID                | Translation + classification + summarization | 60% cheaper than gpt-4o-mini ($0.40/$1.60 vs legacy pricing), better at structured output |
+| GPT-4.1-nano model   | API model ID                | Duplicate detection, simple classification   | Ultra-cheap ($0.10/$0.40 per 1M tokens) for high-volume simple tasks                      |
 
-```typescript
-// Pattern: one project per vertical x device combination
-// This gives granular control and parallel execution
+**Pipeline architecture -- synchronous, not batch:**
 
-const VERTICALS = {
-  coffeeshop: { port: 3004, name: 'Coffeeshop' },
-  accommodations: { port: 3028, name: 'Accommodations' },
-  tours: { port: 3026, name: 'Tours' },
-  gym: { port: 3033, name: 'Gym' },
-  wellness: { port: 3003, name: 'Wellness' },
-  laundry: { port: 3030, name: 'Laundry' },
-  pharmacy: { port: 3031, name: 'Pharmacy' },
-  workshops: { port: 3032, name: 'Workshops' },
-} as const;
+Feedback processing does NOT need the OpenAI Batch API. Rationale:
 
-// Projects generated per vertical:
-// - {vertical}-mobile   (Pixel 5, touch, mobile viewport)
-// - {vertical}-desktop  (Desktop Chrome, 1280x720)
+- Volume: ~100-500 feedbacks/month across all merchants. This is trivially low.
+- Latency expectation: Merchants expect near-instant submission confirmation. AI processing should complete within 5-10 seconds.
+- Existing pattern: The codebase already processes AI tasks synchronously in API routes (translation, chat, suggestions).
+
+**Processing steps (single API route, sequential):**
+
+```
+1. TRANSLATE (if not English) -- GPT-4.1-mini
+   Input: merchant feedback text (any language)
+   Output: English translation + detected source language
+
+2. CLASSIFY -- GPT-4.1-nano (cheapest, fastest)
+   Input: English text
+   Output: { type, category, priority, sentiment }
+
+3. SUMMARIZE -- GPT-4.1-mini
+   Input: English text + classification
+   Output: 1-sentence summary for kanban card
+
+4. DUPLICATE CHECK -- GPT-4.1-nano with embedding comparison
+   Input: summary + recent feedback summaries
+   Output: potential_duplicate_ids[]
 ```
 
-**Why per-vertical projects instead of a single project with parameterized tests:**
+**Cost estimate (per feedback):**
 
-1. Run one vertical at a time: `npx playwright test --project=coffeeshop-mobile`
-2. Independent failure isolation -- pharmacy failing does not block coffeeshop results
-3. Separate screenshot baselines per vertical per device
-4. Parallel execution across verticals in CI
+- Translate: ~500 input tokens + ~500 output = $0.0004
+- Classify: ~300 input + ~100 output = $0.00004
+- Summarize: ~500 input + ~100 output = $0.0003
+- Duplicate check: ~1000 input + ~100 output = $0.00015
+- **Total per feedback: ~$0.001 (one tenth of a cent)**
+- **Monthly at 500 feedbacks: ~$0.50**
 
-### WebServer Configuration
+**What to do:**
 
-**Problem:** Starting 8 Next.js dev servers simultaneously requires significant memory (~500MB each = ~4GB total).
+- Update `MODEL_PRICING` in `openai.ts` to include `gpt-4.1-mini` and `gpt-4.1-nano`
+- Create `lib/ai/feedback-intelligence-service.ts` following existing service patterns
+- Reuse existing `translation-service.ts` patterns for the translate step
+- Use structured output (JSON mode) for classification -- already supported by OpenAI SDK v6
 
-**Recommendation:** Use `SKIP_WEBSERVER=1` and manage servers externally:
+**What NOT to do:**
+
+- Do NOT use OpenAI Batch API. Volume is too low to justify 24-hour async processing.
+- Do NOT use embeddings for duplicate detection initially. Start with GPT-4.1-nano text comparison. Add pgvector embeddings only if duplicate detection accuracy is insufficient.
+- Do NOT use GPT-4o or GPT-4.1 (full). Classification and summarization of short feedback texts do not need frontier model capabilities.
+
+**Confidence:** HIGH -- existing OpenAI integration verified, pricing verified via official sources.
+
+---
+
+### 3. Real-time Notifications (Bell/Campanella)
+
+**Recommendation: Supabase Realtime Postgres Changes (existing pattern)** -- zero new dependencies.
+
+| Technology        | Version            | Purpose                   | Why                                                                                               |
+| ----------------- | ------------------ | ------------------------- | ------------------------------------------------------------------------------------------------- |
+| Supabase Realtime | Already configured | Push notification updates | Existing `useChatRealtime` hook pattern. Subscribe to `notifications` table changes per merchant. |
+
+**Architecture:**
+
+```
+Database INSERT into `merchant_notifications` table
+  → Supabase Realtime broadcasts via WebSocket
+  → Client hook receives payload
+  → Updates bell badge count + notification dropdown
+```
+
+**What to do:**
+
+- Create `lib/realtime/notification-channel.ts` following `chat-channel.ts` pattern exactly
+- Subscribe to `merchant_notifications` table filtered by `account_id`
+- Initial load: fetch unread count + recent notifications via standard query
+- Real-time: listen for INSERTs to update badge count
+
+**What NOT to do:**
+
+- Do NOT implement polling. Supabase Realtime is already working in production for chat. Same pattern, different table.
+- Do NOT add Firebase Cloud Messaging (FCM) or push notifications. This is in-app only (bell icon). Browser push notifications are a separate future concern.
+- Do NOT add a WebSocket library. Supabase JS client handles WebSocket connection internally.
+
+**Confidence:** HIGH -- exact pattern already implemented in `chat-channel.ts`.
+
+---
+
+### 4. Kanban Board UI
+
+**Recommendation: @dnd-kit (already installed)** -- extend existing pattern for multi-column kanban.
+
+| Technology           | Version                     | Purpose                 | Why                                                       |
+| -------------------- | --------------------------- | ----------------------- | --------------------------------------------------------- |
+| `@dnd-kit/core`      | ^6.3.1 (already installed)  | Drag and drop core      | Already in package.json, used in site-builder SectionList |
+| `@dnd-kit/sortable`  | ^10.0.0 (already installed) | Sortable containers     | Already in package.json                                   |
+| `@dnd-kit/utilities` | ^3.2.2 (already installed)  | CSS transform utilities | Already in package.json                                   |
+
+**Current vs needed:**
+
+The existing SectionList uses `verticalListSortingStrategy` for reordering within a single list. The kanban board needs:
+
+- Multiple columns (statuses: New, Reviewing, In Progress, Resolved, Won't Fix)
+- Drag between columns (cross-container sorting)
+- Drag within columns (priority reordering)
+
+This is a standard @dnd-kit pattern. The library supports multi-container sorting out of the box with `DndContext` + multiple `SortableContext` containers.
+
+**What to do:**
+
+- Build kanban using the existing @dnd-kit packages -- no new installs
+- Use `rectSortingStrategy` instead of `verticalListSortingStrategy` for column items
+- Add `DragOverlay` for smooth cross-column drag visual feedback
+- Follow the [dnd-kit kanban example pattern](https://docs.dndkit.com/)
+
+**Alternatives considered:**
+
+| Library                                           | Why NOT                                                                              |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `@hello-pangea/dnd`                               | Would add a duplicate DnD library. @dnd-kit is already installed and sufficient.     |
+| `@atlaskit/pragmatic-drag-and-drop`               | Smaller bundle but worse DX, limited docs, tied to Atlaskit. @dnd-kit already works. |
+| Build from scratch with HTML5 DnD API             | Reinventing the wheel when @dnd-kit is already a dependency.                         |
+| Third-party kanban component (react-kanban, etc.) | Over-opinionated, hard to customize to match existing Radix/Tailwind design system.  |
+
+**Confidence:** HIGH -- library already installed and working in codebase.
+
+---
+
+### 5. Database Patterns
+
+**Recommendation: Standard PostgreSQL with existing Supabase patterns** -- no new database technology.
+
+| Technology            | Version                     | Purpose                          | Why                                                          |
+| --------------------- | --------------------------- | -------------------------------- | ------------------------------------------------------------ |
+| PostgreSQL (Supabase) | Already configured          | Feedback + notifications storage | All other data already here. RLS for multi-tenant isolation. |
+| Prisma                | ^5.22.0 (already installed) | ORM for backoffice queries       | Already used for all backoffice data access                  |
+
+**New tables needed:**
+
+```sql
+-- Core feedback table
+merchant_feedback (
+  id UUID PK,
+  account_id UUID FK NOT NULL,       -- multi-tenant isolation
+  merchant_id UUID FK NOT NULL,       -- who submitted
+  location_id UUID FK,                -- optional, which location
+
+  -- Merchant input
+  type TEXT CHECK (type IN ('bug','feature_request','improvement','question','praise')) NOT NULL,
+  subject TEXT NOT NULL,
+  description TEXT NOT NULL,
+  screenshot_url TEXT,                -- Supabase Storage URL
+  source_language TEXT,               -- detected language code
+
+  -- AI processing
+  translated_subject TEXT,            -- English translation
+  translated_description TEXT,        -- English translation
+  ai_summary TEXT,                    -- 1-sentence summary
+  ai_category TEXT,                   -- AI-classified category
+  ai_priority INTEGER CHECK (ai_priority BETWEEN 1 AND 5),
+  ai_sentiment TEXT CHECK (ai_sentiment IN ('positive','neutral','negative')),
+  ai_duplicate_of UUID FK REFERENCES merchant_feedback(id),
+  ai_processed_at TIMESTAMPTZ,
+
+  -- Internal management (GUDBRO team kanban)
+  status TEXT CHECK (status IN ('new','reviewing','in_progress','resolved','wont_fix')) DEFAULT 'new',
+  assigned_to TEXT,                   -- GUDBRO team member
+  internal_notes TEXT,                -- GUDBRO team notes
+  resolution TEXT,                    -- How it was resolved
+
+  -- Timestamps
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  reviewed_at TIMESTAMPTZ,
+  resolved_at TIMESTAMPTZ
+);
+
+-- Notification table for merchant bell
+merchant_notifications (
+  id UUID PK,
+  account_id UUID FK NOT NULL,
+  merchant_id UUID FK NOT NULL,
+
+  type TEXT NOT NULL,                 -- 'feedback_status_change', 'feedback_response', etc.
+  title TEXT NOT NULL,
+  body TEXT,
+  link TEXT,                          -- Deep link within backoffice
+  read BOOLEAN DEFAULT FALSE,
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  read_at TIMESTAMPTZ
+);
+
+-- Aggregation view for GUDBRO team
+feedback_aggregation (
+  id UUID PK,
+  period TEXT NOT NULL,               -- 'weekly', 'monthly'
+  period_start DATE NOT NULL,
+
+  total_count INTEGER,
+  by_type JSONB,                      -- {"bug": 5, "feature_request": 12, ...}
+  by_category JSONB,
+  by_sentiment JSONB,
+  top_requests JSONB,                 -- [{subject, count, feedback_ids}]
+  ai_generated_summary TEXT,          -- AI-written trend summary
+
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+**RLS policies:**
+
+- Merchants can INSERT feedback and SELECT their own feedback + notifications
+- GUDBRO team (service role) can SELECT/UPDATE all feedback
+- Notifications filtered by `account_id = auth.uid()`
+- Enable Realtime on `merchant_notifications` table
+
+**Indexes:**
+
+- `merchant_feedback(account_id, created_at DESC)` -- merchant's feedback list
+- `merchant_feedback(status, ai_priority)` -- kanban board sorting
+- `merchant_notifications(account_id, read, created_at DESC)` -- bell badge query
+
+**What NOT to do:**
+
+- Do NOT add pgvector for embeddings. Overkill for <500 feedbacks/month. GPT-4.1-nano text comparison is sufficient for duplicate detection.
+- Do NOT create a separate database. Everything stays in the existing Supabase instance.
+- Do NOT use ENUM types. Project convention is `TEXT + CHECK` constraints (per CLAUDE.md Section 11).
+
+**Confidence:** HIGH -- follows existing database conventions verified in codebase.
+
+---
+
+### 6. Aggregation Pipeline
+
+**Recommendation: Trigger.dev (already installed) for scheduled aggregation**
+
+| Technology         | Version                    | Purpose                       | Why                                                                                                       |
+| ------------------ | -------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `@trigger.dev/sdk` | ^4.3.2 (already installed) | Scheduled AI aggregation jobs | Already used for `daily-briefing` and `social-content` triggers. Add weekly/monthly feedback aggregation. |
+
+**What to do:**
+
+- Create `trigger/ai/feedback-aggregation.ts` following existing trigger patterns
+- Schedule: weekly (Sunday night) and monthly (1st of month)
+- Job: Query all feedback in period, send to GPT-4.1-mini for trend analysis, write to `feedback_aggregation` table
+
+**What NOT to do:**
+
+- Do NOT use cron jobs or Vercel Cron. Trigger.dev is already the job runner for this project.
+- Do NOT aggregate in real-time. Aggregation is a batch concern -- run it periodically.
+
+**Confidence:** HIGH -- Trigger.dev already configured with AI jobs.
+
+---
+
+## Complete New Dependencies Summary
 
 ```bash
-# In CI: start only the verticals being tested
-# In local dev: start servers manually with pnpm dev:*
+# Nothing new to install.
+# All required packages are already in apps/backoffice/package.json:
+#
+# - @supabase/supabase-js (storage + realtime)
+# - @supabase/ssr (auth)
+# - openai (AI processing)
+# - @dnd-kit/core + @dnd-kit/sortable + @dnd-kit/utilities (kanban DnD)
+# - @trigger.dev/sdk (scheduled aggregation)
+# - @prisma/client (database ORM)
+# - zod (input validation)
+# - @tanstack/react-query (data fetching + cache)
+
+# Total new npm dependencies: 0
 ```
 
-For CI, use a matrix strategy in GitHub Actions to test verticals in parallel jobs (each job starts only its own server). This keeps memory per job under 1GB.
+---
 
-### Visual Regression Settings
+## Model Pricing Update Needed
+
+The existing `openai.ts` has pricing for `gpt-4o-mini`, `gpt-4o`, `gpt-4-turbo`, `gpt-3.5-turbo`. Update to include newer, cheaper models:
 
 ```typescript
-// Recommended settings for PWA smoke tests
-{
-  // Allow 0.5% pixel difference (font rendering, anti-aliasing)
-  maxDiffPixelRatio: 0.005,
-
-  // Threshold for individual pixel color difference (0-1)
-  threshold: 0.2,
-
-  // Reduce motion to eliminate animation flakiness
-  reducedMotion: 'reduce',
-
-  // Mask dynamic content (timestamps, counters)
-  // Use locator-based masking per test
-}
+// Add to MODEL_PRICING in openai.ts
+'gpt-4.1-mini': { input: 0.40, output: 1.60 },
+'gpt-4.1-nano': { input: 0.10, output: 0.40 },
+'gpt-4.1': { input: 2.00, output: 8.00 },
 ```
 
-**Screenshot naming convention:** `{vertical}-{page}-{device}.png`
-Example: `coffeeshop-menu-mobile.png`, `pharmacy-search-desktop.png`
+**Cost-tier strategy for feedback intelligence:**
 
-**Baseline storage:** Commit to `tests/e2e/__screenshots__/` in git. Playwright's default behavior. At 8 verticals x ~5 pages x 2 devices = ~80 baseline images (~10MB total). Acceptable for git.
-
----
-
-## What NOT to Add
-
-### Anti-Recommendations
-
-| Tool/Library                                               | Why NOT                                                                                 | What to Do Instead                                       |
-| ---------------------------------------------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| **Applitools Eyes**                                        | $500+/month, overkill for smoke tests across same-stack verticals                       | Use built-in `toHaveScreenshot()` with pixel threshold   |
-| **Percy (BrowserStack)**                                   | $199/month, requires cloud account, adds external dependency to CI                      | Built-in visual comparison is sufficient                 |
-| **Cypress**                                                | Different paradigm, would fragment test tooling. Playwright already installed.          | Stay with Playwright                                     |
-| **Storybook visual tests**                                 | Requires Storybook setup across 8 apps, component-level not page-level                  | Page-level Playwright screenshots cover smoke test needs |
-| **Docker for local testing**                               | Adds complexity. Docker only needed if cross-platform baseline consistency is an issue. | Run locally, use CI baselines as source of truth         |
-| **playwright-lighthouse**                                  | Performance testing is a separate concern from smoke tests                              | Add later as separate milestone if needed                |
-| **@axe-core/playwright**                                   | Accessibility testing is valuable but separate scope                                    | Add as separate milestone; do not mix with smoke tests   |
-| **Custom screenshot diffing libraries** (pixelmatch, etc.) | Playwright already uses pixelmatch internally                                           | Built-in is sufficient                                   |
-| **Test parallelization services** (Currents, etc.)         | 80 smoke tests complete in <5 min on GH Actions. Not a bottleneck.                      | Use Playwright's built-in `fullyParallel: true`          |
-
-### Anti-Patterns to Avoid
-
-| Anti-Pattern                               | Why Bad                                                                        | Do This Instead                                                         |
-| ------------------------------------------ | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| One giant config with all 8 webServers     | 4GB+ RAM, slow startup, coupled failures                                       | Matrix strategy in CI, one vertical per job                             |
-| Screenshot baselines in CI artifacts only  | Lost on every run, no diff tracking                                            | Commit baselines to git                                                 |
-| Testing full user flows in smoke tests     | Smoke tests must be fast (<30s per vertical); full flows are integration tests | Smoke = "does it load and look right?" Only navigation + visual checks. |
-| Sharing browser context across verticals   | Cookie/state leakage between apps                                              | Fresh context per vertical (Playwright default)                         |
-| `networkidle` waits everywhere             | Flaky, deprecated-ish pattern                                                  | Use `domcontentloaded` + explicit element waits                         |
-| Hardcoded viewport sizes                   | Diverges from real device profiles                                             | Use `playwright.devices` presets                                        |
-| Testing all 8 verticals in a single CI job | Memory pressure, slow feedback, all-or-nothing failure                         | Matrix strategy: parallel jobs per vertical                             |
+- **Nano tier** ($0.10/$0.40): Classification, duplicate detection, simple extraction
+- **Mini tier** ($0.40/$1.60): Translation, summarization, trend analysis
+- **Full tier** (not needed): Reserve for complex multi-step reasoning only
 
 ---
 
-## Vertical Port Registry
+## Integration Points with Existing Stack
 
-For reference during implementation:
-
-| Vertical       | Port | Package Filter           | PWA Type                |
-| -------------- | ---- | ------------------------ | ----------------------- |
-| Coffeeshop     | 3004 | `@gudbro/coffeeshop`     | Customer menu, ordering |
-| Wellness       | 3003 | `@gudbro/wellness`       | Services, booking       |
-| Tours          | 3026 | `@gudbro/tours`          | Tour catalog, booking   |
-| Accommodations | 3028 | `@gudbro/accommodations` | Stay dashboard, booking |
-| Laundry        | 3030 | `@gudbro/laundry`        | Service catalog         |
-| Pharmacy       | 3031 | `@gudbro/pharmacy`       | Product catalog, search |
-| Workshops      | 3032 | `@gudbro/workshops`      | Workshop catalog        |
-| Gym            | 3033 | `@gudbro/gym`            | Fitness, day passes     |
-| Waiter         | 3005 | `@gudbro/waiter`         | Staff order-taking      |
-| Backoffice     | 3023 | `@gudbro/backoffice`     | Admin dashboard         |
+| Existing System                                           | Integration                                                                |
+| --------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Supabase Storage (`/api/upload/image`)                    | Add `feedback-screenshots` folder config                                   |
+| OpenAI client (`lib/ai/openai.ts`)                        | Add GPT-4.1-mini/nano pricing, update DEFAULT_MODEL consideration          |
+| Translation service (`lib/ai/translation-service.ts`)     | Reuse translation patterns for feedback text                               |
+| Feedback loop service (`lib/ai/feedback-loop-service.ts`) | **Extend or replace** -- already has matching types (AIFeedback interface) |
+| Realtime hooks (`lib/realtime/chat-channel.ts`)           | Clone pattern for notification subscriptions                               |
+| DnD components (`site-builder/SectionList.tsx`)           | Extend pattern for multi-column kanban                                     |
+| Trigger.dev (`trigger/ai/daily-briefing.ts`)              | Add feedback aggregation scheduled job                                     |
+| TanStack Query (`@tanstack/react-query`)                  | Use for feedback list, kanban state, notification polling fallback         |
+| Zod (`zod`)                                               | Validate feedback submission form input                                    |
+| Radix UI + Tailwind                                       | Build kanban cards, notification dropdown, feedback form                   |
 
 ---
 
-## CI Configuration Pattern
+## Architecture Decision: Existing feedback-loop-service.ts
 
-```yaml
-# GitHub Actions matrix strategy (recommended pattern)
-strategy:
-  fail-fast: false
-  matrix:
-    vertical:
-      [
-        coffeeshop,
-        wellness,
-        tours,
-        accommodations,
-        laundry,
-        pharmacy,
-        workshops,
-        gym,
-      ]
+The codebase already has `lib/ai/feedback-loop-service.ts` with an `AIFeedback` interface that closely matches our needs. It defines:
 
-steps:
-  - uses: actions/checkout@v4
-  - uses: actions/setup-node@v4
-  - run: npx playwright install --with-deps chromium
-  - run: pnpm install
-  - run: |
-      # Start only the vertical under test
-      pnpm --filter @gudbro/${{ matrix.vertical }} dev &
-      npx wait-on http://localhost:${{ matrix.vertical_port }}
-      npx playwright test --project=${{ matrix.vertical }}-mobile --project=${{ matrix.vertical }}-desktop
-  - uses: actions/upload-artifact@v4
-    if: failure()
-    with:
-      name: playwright-report-${{ matrix.vertical }}
-      path: playwright-report/
-```
+- Types: `bug`, `feature_request`, `improvement`, `complaint`, `praise`, `question`
+- Categories: `ai_chat`, `ai_actions`, `ai_suggestions`, `ui_ux`, `data_accuracy`, `performance`, `other`
+- Status: `new`, `reviewed`, `in_progress`, `resolved`, `wont_fix`
+- AI fields: `aiSummary`, `aiSentiment`, `aiPriority`
 
----
+**Recommendation:** Extend this existing service rather than creating from scratch. The types are already defined and match the Merchant Feedback Intelligence requirements. Add:
 
-## Installation
-
-```bash
-# Nothing new to install. Playwright 1.57 is already in package.json.
-# Just ensure browsers are installed:
-npx playwright install --with-deps chromium
-
-# For visual regression on CI, also install WebKit for Safari baseline diversity:
-npx playwright install --with-deps chromium webkit
-```
-
-**Total new npm dependencies: 0**
+1. Translation step (not in current service)
+2. Duplicate detection (not in current service)
+3. Screenshot upload integration
+4. Aggregation pipeline
+5. Notification system
 
 ---
 
 ## Sources
 
-- [Playwright Projects Documentation](https://playwright.dev/docs/test-projects) - Multi-project configuration (HIGH confidence)
-- [Playwright Visual Comparisons](https://playwright.dev/docs/test-snapshots) - Built-in toHaveScreenshot() API (HIGH confidence)
-- [Playwright Emulation](https://playwright.dev/docs/emulation) - Device profiles and mobile emulation (HIGH confidence)
-- [Playwright Release Notes](https://playwright.dev/docs/release-notes) - v1.57 changelog (HIGH confidence)
-- [Turborepo Playwright Guide](https://turborepo.com/docs/guides/tools/playwright) - Monorepo patterns (MEDIUM confidence)
-- [BrowserStack - Playwright Best Practices 2026](https://www.browserstack.com/guide/playwright-best-practices) - General best practices (MEDIUM confidence)
-- [BrowserStack - Snapshot Testing with Playwright 2026](https://www.browserstack.com/guide/playwright-snapshot-testing) - Visual regression patterns (MEDIUM confidence)
-- [Ash Connolly - Playwright Visual Regression in Next.js](https://ashconnolly.com/blog/playwright-visual-regression-testing-in-next) - Next.js-specific setup (MEDIUM confidence)
-- [DEV Community - Visual Regression Testing](https://dev.to/subito/how-we-catch-ui-bugs-early-with-visual-regression-testing-and-playwright-5h2a) - Real-world patterns (MEDIUM confidence)
+- [Supabase Storage Documentation](https://supabase.com/docs/guides/storage) -- Storage setup and RLS (HIGH confidence)
+- [Supabase Realtime Documentation](https://supabase.com/docs/guides/realtime) -- Postgres Changes subscriptions (HIGH confidence)
+- [OpenAI API Pricing](https://openai.com/api/pricing/) -- GPT-4.1-mini/nano pricing verified (HIGH confidence)
+- [GPT-4.1 Pricing Calculator](https://pricepertoken.com/pricing-page/model/openai-gpt-4.1) -- Batch vs standard pricing (MEDIUM confidence)
+- [@dnd-kit/core on npm](https://www.npmjs.com/package/@dnd-kit/core) -- v6.3.1 latest stable (HIGH confidence)
+- [dnd-kit Kanban Board Guide](https://docs.dndkit.com/) -- Multi-container sorting patterns (MEDIUM confidence)
+- [Building Real-time Notifications with Supabase and Next.js](https://makerkit.dev/blog/tutorials/real-time-notifications-supabase-nextjs) -- Notification system pattern (MEDIUM confidence)
+- [Complete Guide to File Uploads with Next.js and Supabase](https://supalaunch.com/blog/file-upload-nextjs-supabase) -- Upload patterns (MEDIUM confidence)
+- Existing codebase: `apps/backoffice/app/api/upload/image/route.ts`, `lib/ai/openai.ts`, `lib/ai/feedback-loop-service.ts`, `lib/realtime/chat-channel.ts`, `settings/site-builder/components/SectionList.tsx` (HIGH confidence)

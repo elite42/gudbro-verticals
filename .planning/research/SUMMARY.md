@@ -1,356 +1,316 @@
 # Project Research Summary
 
-**Project:** GUDBRO v1.2 - E2E Smoke Testing Ecosystem
-**Domain:** E2E testing infrastructure for 8 PWA verticals in Next.js monorepo
+**Project:** GUDBRO Merchant Feedback Intelligence System (v1.3)
+**Domain:** AI-powered feedback collection, classification, and internal task management for multi-vertical SaaS
 **Researched:** 2026-01-30
 **Confidence:** HIGH
 
 ## Executive Summary
 
-The research reveals a well-defined path for adding E2E smoke tests to GUDBRO's 8 PWA verticals using the existing Playwright infrastructure. The key insight is that this is fundamentally a **smoke testing ecosystem**, not a comprehensive E2E testing suite - a critical distinction that determines scope, architecture, and success criteria. With 7 mock-data verticals and 1 backend-connected app (accommodations), the project requires a two-tier testing strategy: structural assertions for mock apps ("does it render and navigate?") versus behavioral testing for the real backend.
+The GUDBRO Merchant Feedback Intelligence system is an **integration and composition** task, not a greenfield build. Research reveals that 95% of required capabilities already exist in the backoffice codebase: Supabase Storage for screenshots, OpenAI integration for AI processing, Realtime for notifications, and even a `feedback-loop-service.ts` with matching data structures. The key insight is that this is about extending existing patterns, not adding new technology.
 
-The recommended approach extends the existing root-level `playwright.config.ts` with per-vertical projects rather than creating separate packages. This preserves the working 35-test suite for coffeeshop/waiter/backoffice while adding 8 new smoke projects. Playwright 1.57 already provides all needed capabilities - no new dependencies required. The critical architectural decision is to avoid starting all 8 dev servers simultaneously (2-3GB RAM, port conflicts) by using CI matrix strategy where each vertical tests in its own job.
+The recommended approach is a **three-phase build**: (1) Foundation with database schema, AI processing service, and API routes; (2) Merchant-facing submission flow with notification system; (3) Admin kanban board for GUDBRO team task management. This order follows natural dependencies — merchants provide input before admins can manage it — and leverages existing infrastructure incrementally. The system processes feedback synchronously on submit (translate to English, classify by type/priority, detect duplicates, aggregate similar requests into internal tasks), then notifies merchants asynchronously as tasks progress.
 
-The primary risks are scope creep (building comprehensive E2E instead of smoke tests), port conflict hell from multiple Next.js apps, and treating mock-data verticals as if they have backends. Mitigation: cap at 3-5 tests per vertical (24-40 total), use per-vertical projects with isolated webServer configs, and enforce structural assertions for the 7 mock apps. The project is well-positioned for success given the existing Playwright setup, clear vertical boundaries, and well-documented testing patterns.
+The primary risk is **over-engineering**. The most common pitfall in feedback systems is building Canny-level public voting boards with complex workflows when GUDBRO needs a lightweight internal kanban with smart aggregation. Research confirms: zero new npm dependencies required, use GPT-4.1-mini/nano for cost-efficient AI ($0.001 per submission), and cap V1 scope at submission + aggregation + notifications. Defer public roadmaps, GitHub integration, and semantic clustering to post-MVP once the system proves value.
 
 ## Key Findings
 
 ### Recommended Stack
 
-Research confirms that **zero new dependencies are needed**. Playwright 1.57 (already installed) provides all required capabilities including multi-project configuration, built-in visual regression via `toHaveScreenshot()`, device emulation presets, and CI integration. The v1.57 release switched to Chrome for Testing builds, improving headless execution reliability - a fortunate timing for this project.
+**Zero new dependencies.** Every capability needed already exists in the backoffice. The stack research focused on what to reuse and extend rather than what to add.
 
 **Core technologies:**
 
-- **Playwright @playwright/test ^1.57.0** - Already installed, provides E2E runner, visual regression, mobile emulation, parallel execution
-- **GitHub Actions** - Already in use, first-class Playwright support with official Docker images
-- **pnpm workspace** - Already configured, enables per-vertical test filtering
+- **Supabase Storage** (existing): Screenshot uploads — add `feedback-screenshots` folder config to existing `/api/upload/image` route. Handles 10MB images, RLS isolation, ~$0.20/month at expected volume.
+- **OpenAI GPT-4.1-mini/nano** (upgrade from gpt-4o-mini): AI processing pipeline — translation, classification, duplicate detection. $0.001 per feedback submission (~$0.50/month at 500 feedbacks/month). Update `MODEL_PRICING` constants only.
+- **Supabase Realtime** (existing): Push notifications via Postgres Changes — clone `chat-channel.ts` pattern for `notification-channel.ts` subscribing to `fb_merchant_notifications` table.
+- **@dnd-kit** (already installed): Kanban drag-and-drop — extend existing `SectionList.tsx` pattern from single-column to multi-column with `rectSortingStrategy`.
+- **Trigger.dev** (existing): Scheduled aggregation jobs — add `feedback-aggregation.ts` trigger for weekly/monthly trend analysis following `daily-briefing.ts` pattern.
+- **PostgreSQL + Prisma** (existing): Three new tables (`fb_submissions`, `fb_tasks`, `fb_merchant_notifications`) following existing TEXT+CHECK conventions, RLS via `account_roles`, indexed for performance.
 
-**What NOT to add:**
+**Architecture decision:** Extend existing patterns rather than replace. The current `feedback-loop-service.ts` already defines matching types (`bug`, `feature_request`, `improvement`, statuses, AI fields). Build on this foundation instead of creating parallel infrastructure.
 
-- Commercial visual testing services (Applitools, Percy) - $199-500/month, unnecessary for same-stack verticals with shared design system
-- Separate test frameworks (Cypress, Storybook visual tests) - would fragment tooling, existing Playwright setup is sufficient
-- Performance testing (Lighthouse integration) - separate concern, defer to separate milestone
-- Accessibility testing (@axe-core/playwright) - valuable but separate scope, add as Phase 3 or later
-
-**Critical decision:** Use Playwright's built-in `toHaveScreenshot()` with pixel threshold (0.5% diff) rather than commercial services. Revisit only if false positive rate exceeds 10% of test runs.
+**Cost efficiency:** At 500 feedbacks/month, total AI cost is ~$0.50/month (translation + classification + embedding + duplicate check). Storage adds ~$0.20/month. Total incremental cost: ~$1/month. This is negligible compared to platform revenue.
 
 ### Expected Features
 
-Research identified 13 feature categories with clear prioritization. The distinction between "table stakes" (what smoke tests must have) and "differentiators" (quality enhancers) is critical for scope control.
+Research analyzed 12+ SaaS feedback systems (Canny, Productboard, Usersnap, Frill) to identify table stakes vs differentiators vs anti-features.
 
 **Must have (table stakes):**
 
-- **Page load smoke tests** - All pages render without JS errors, visible content loads (one test per page per vertical)
-- **Navigation flow testing** - BottomNav works, back button, deep links (shared component across all 8 PWAs)
-- **Responsive viewport testing** - Mobile (Pixel 5) + Desktop (Chrome) viewports (PWAs are mobile-first, QR access)
-- **Tag-based organization** - @smoke, @vertical:name tags for selective CI runs (enables fast feedback)
-- **Visual content assertions** - Critical headings present, images load, DM Sans font loads (catches broken assets)
-- **HTTP status checks** - API routes return 200 for accommodations only (the one backend-connected vertical)
+- **Feedback submission form** — Type selector (bug/feature/feedback), free-text description, screenshot upload (67% of bug reports need visual context per Usersnap data), vertical/module auto-detection
+- **AI processing pipeline** — Auto-translate to English (GUDBRO is multi-country), classify by type/priority, detect duplicates via similarity, aggregate similar submissions into actionable internal tasks
+- **Internal team kanban** — Columns (New, Reviewing, In Progress, Done, Rejected), drag-and-drop workflow, task cards showing aggregated info (merchant count, languages, sentiment, priority)
+- **Merchant notifications** — "Received" confirmation, "In Progress" update, "Completed" or "Declined" with reason. Email + in-app bell icon with unread count.
+- **Feedback history list** — Merchants see their past submissions with current status (Submitted, In Review, Planned, Completed, Declined)
+- **Native language input** — Merchants write in any language, AI handles translation. No language picker needed.
 
-**Should have (competitive):**
+**Should have (competitive differentiators):**
 
-- **Visual regression screenshots** - Per-vertical baselines, mobile + desktop, catches CSS regressions (built-in `toHaveScreenshot()`)
-- **Shared fixture architecture** - Custom `test.extend()` with vertical config, reusable page objects (DRY, maintainability)
-- **PWA manifest validation** - Fetch manifest.json, validate required fields, check icon paths (installability requirement)
-- **Cross-vertical consistency checks** - Same font, theme variables work, shared components render identically (brand consistency)
+- **Smart aggregation engine** — Semantic clustering (not just keyword matching) to group "menu is slow" with "loading takes forever on food page"
+- **Auto-generated task summaries** — AI reads 15 merchant submissions and produces one clear summary for team
+- **Sentiment analysis** — Detect frustrated merchants before they churn, auto-escalate high-priority + negative sentiment
+- **Cross-vertical pattern recognition** — Surface themes like "4 verticals all asking for dark mode"
 
 **Defer (v2+):**
 
-- **Accessibility smoke tests** - axe-core integration, keyboard nav (valuable but separate milestone)
-- **Performance budgets** - Page load timing, CLS checks, bundle size monitoring (separate concern)
-- **Real-time/WebSocket testing** - Already covered by existing `full-lunch-flow.spec.ts` for coffeeshop
-- **Cross-browser testing** - Safari WebKit, Firefox (diminishing returns for smoke, reserve for release gates)
+- **Public roadmap** — Creates entitlement ("500 votes means you must build it"). GUDBRO is early-stage, keep product direction team-driven.
+- **Real-time chat** — Turns feedback into support desk, different problem space
+- **GitHub integration** — Sync with issues/PRs. Wait until dev workflow stabilizes.
+- **NPS/CSAT surveys** — Different methodology, separate feature
+- **Multi-step wizards** — Friction kills submissions, keep single-page form
 
-**Anti-features (explicitly avoid):**
-
-- Unit-level logic in E2E (use Vitest instead)
-- Full Supabase database integration (mock at API boundary)
-- Service worker offline testing (Playwright SW support limited, open issue #26875)
-- Push notification flows (requires OS interaction, fragile)
-- Real payment processing (security risk, use mocks)
-- Testing every page state variation (combinatorial explosion, unit test edge cases)
-
-**MVP Recommendation:** Phases 1-2 features (foundation + confidence) deliver 90% of value. Phase 3 (quality enhancers) can be added incrementally based on observed failure patterns.
+**Critical insight:** The gap between "feedback form" and "feedback intelligence" is the aggregation layer. Many platforms collect feedback but merchants see no action because the volume overwhelms the team. GUDBRO's AI aggregation (translate, classify, merge duplicates) is the core value proposition.
 
 ### Architecture Approach
 
-Research strongly recommends **extending the existing root-level Playwright config** with per-vertical projects rather than creating separate Playwright packages per app. This decision preserves backward compatibility with the existing 35 F&B tests while enabling selective execution and parallel CI jobs.
-
-The architecture leverages Playwright's native `projects` feature to map verticals to ports and test files. Each project declares its `baseURL`, `testMatch` pattern, and device profile. The existing `webServer` array remains for coffeeshop/waiter/backoffice; new verticals use `SKIP_WEBSERVER=1` and manage server lifecycle externally via CI scripts.
+**Decision: New tables with `fb_` prefix, not extending `ai_feedback`.** The existing `ai_feedback` table is scoped to AI Co-Manager feedback (categories like `ai_chat`, `ai_actions`). The new system is general-purpose product feedback with different aggregation needs. Clean separation prevents breaking existing AI feedback flows.
 
 **Major components:**
 
-1. **Playwright Config with Per-Vertical Projects** - 16 projects total: 8 x (mobile + desktop), plus existing projects (chromium, multi-system, waiter-pwa, backoffice). Each project isolated: own baseURL, testMatch, device profile.
+1. **Database layer** — Three tables: `fb_submissions` (merchant input + AI analysis), `fb_tasks` (aggregated tasks for kanban with denormalized metrics), `fb_merchant_notifications` (bell icon state). RLS via `account_roles.tenant_id` for multi-tenant isolation. Service role for admin full access.
 
-2. **Shared Test Infrastructure (`tests/e2e/shared/`)** - Custom fixture extending base test with PWA helpers, base page object modeling common elements (header, footer nav, language switcher), assertion helpers for responsive/a11y checks. Enables DRY across 8 verticals.
+2. **AI processing service** (`lib/feedback/feedback-intelligence-service.ts`) — Single synchronous pipeline on submit (~2-3s total): detect language, translate to English if needed, classify type/priority/sentiment, extract topic tags, find similar existing tasks via tag overlap + trigram similarity (V1 approach, no embeddings yet), link to existing task or create new one.
 
-3. **Per-Vertical Smoke Tests (`tests/e2e/smoke/`)** - One file per vertical (`coffeeshop.smoke.spec.ts`, `wellness.smoke.spec.ts`, etc.). Each file: 3-5 tests max, structural assertions (not content-specific), uses shared fixtures and page objects.
+3. **API routes** (`/api/feedback/...`) — 8 new routes: submissions CRUD, tasks CRUD, task reorder, notifications list/count. Follows existing auth patterns (`getSession()` server-side, RLS enforcement). Side-effects: moving task to Done/Rejected triggers merchant notifications for all linked submissions.
 
-4. **CI Matrix Strategy** - GitHub Actions matrix with 8 parallel jobs (one per vertical). Each job: builds only its vertical, starts only its server, runs only its smoke tests. `fail-fast: false` ensures all verticals test even if one fails.
+4. **Merchant UI** (`settings/feedback/page.tsx`) — FeedbackSubmitForm (type selector, title, description, screenshot uploader) + MySubmissionsList (past submissions with status badges). Uses existing Radix + Tailwind patterns.
 
-**Critical architectural decision:** Do NOT start all 8 dev servers simultaneously. Each Next.js dev server consumes 200-400MB RAM; 8 servers = 2-3GB plus port conflicts. Solution: CI matrix runs one vertical per job (each starts only its server), locally use `reuseExistingServer: true` to test against running dev server.
+5. **Admin UI** (`platform/feedback/page.tsx`) — FeedbackKanbanBoard with drag-and-drop (@dnd-kit multi-column pattern), TaskCard components, TaskDetailPanel slide-out showing all linked submissions with original language + English translation side-by-side.
 
-**Directory structure preserves existing tests:**
+6. **Notification system** — Polling-based (60-second interval) via `/api/feedback/notifications/count` for bell badge. Simpler than Realtime for non-critical notifications. NotificationBell component in global header.
 
-```
-tests/e2e/
-  ├── smoke/                    # NEW: per-vertical smoke tests
-  ├── shared/                   # NEW: fixtures, page objects, helpers
-  ├── fixtures/                 # EXISTING: F&B mock data (untouched)
-  ├── utils/                    # EXISTING: multi-system helper (untouched)
-  ├── scenarios/                # EXISTING: full-lunch-flow (untouched)
-  ├── backoffice/               # EXISTING: admin tests (untouched)
-  └── waiter/                   # EXISTING: waiter tests (untouched)
-```
+**Integration points with existing stack:**
 
-**Execution strategy:**
+- Screenshot upload: Add `feedback-screenshots` folder to `/api/upload/image` FOLDER_CONFIGS
+- AI client: Reuse `lib/ai/openai.ts`, add GPT-4.1-mini/nano pricing
+- Translation: Follow `translation-service.ts` patterns
+- Realtime (optional future): Clone `chat-channel.ts` pattern if polling proves insufficient
+- DnD: Extend `site-builder/SectionList.tsx` from single-column to multi-column
+- Trigger.dev: Add `feedback-aggregation.ts` for weekly/monthly batch analysis
 
-- Local: `pnpm test:e2e --project=smoke-wellness` (single vertical)
-- Local: `pnpm test:e2e --project="smoke-*"` (all smoke tests, pre-commit)
-- CI: Matrix strategy, each vertical in parallel job, 5-8 minutes total
-- Backward compat: `pnpm test:e2e` still runs existing tests
+**Build order:** Database → AI service → API routes → Merchant UI → Notification system → Admin kanban. This sequence follows natural dependencies and allows incremental testing with real data.
 
 ### Critical Pitfalls
 
-Research identified 13 pitfalls ranging from critical (cause rewrites) to minor (annoyance). The top 5 below represent the highest risk areas based on similar monorepo E2E projects.
+Research identified 14 pitfalls from SaaS feedback systems and Playwright E2E testing. Top 5 for this project:
 
-1. **Over-Testing with E2E Instead of Smoke Tests** - Teams write comprehensive E2E suites covering every flow, edge case, error state. Suite grows to 200+ tests, takes 30-60 minutes, developers stop waiting, tests ignored. **Prevention:** Define "smoke" strictly (page loads, navigation, one critical flow). Cap at 3-5 tests per vertical (24-40 total). Name files `*.smoke.spec.ts` to enforce separation. Track test count; if any vertical exceeds 8, review scope. Address in Phase 1.
+1. **Over-engineering the feature scope** — Most feedback systems fail by trying to be Canny/Productboard clones with public voting, complex workflows, and feature request management. For GUDBRO v1.3, the goal is simpler: collect merchant input, let AI aggregate duplicates, give the team an internal kanban. Defer public roadmaps, GitHub sync, and advanced analytics to v2+. Prevention: Cap MVP at 3 tables, 8 API routes, 2 UI pages (merchant submit, admin kanban).
 
-2. **Port Conflict Hell with 8 Apps** - Multiple Next.js apps compete for ports. Tests fail intermittently with EADDRINUSE. Current config already has 3 hardcoded ports; adding 5+ more multiplies the problem. **Prevention:** Do NOT start all 8 apps simultaneously. Use per-vertical projects with isolated webServer configs. Test sequentially or in small groups. In CI, matrix strategy starts one server per job. Add port-cleanup before tests. Consider production builds (`next build && next start`) instead of dev servers. Address in Phase 1 config architecture.
+2. **Testing mock-data apps as if they have backends** — 7 of 8 GUDBRO verticals use mock data (coffeeshop, tours, wellness, laundry, pharmacy, workshops, gym). Writing E2E tests that assert specific product names or prices creates brittleness — when mock data updates, every test breaks. Prevention: Test structure, not content. Assert "menu has items" not "menu has Cappuccino at EUR 3.50." Only accommodations (real Supabase backend) should test data accuracy.
 
-3. **Testing Mock-Data Apps as if They Have Backends** - Writing tests that assert specific data values for the 7 mock verticals. When mock data changes (which it will), every test breaks. Teams add fixture data duplicating mock layer, creating maintenance nightmare. **Prevention:** For mock verticals, test structure not content (assert "menu has items" not "menu has Cappuccino at EUR 3.50"). Use structural assertions: `toHaveCount.greaterThan(0)`. For accommodations (real backend), use proper test data seeding. Document two-tier strategy explicitly. Address in Phase 1 strategy.
+3. **Ignoring multi-language complexity** — GUDBRO operates across multiple countries and languages. Merchants will submit feedback in Italian, Vietnamese, Korean, etc. Forcing English input loses nuance. The AI pipeline MUST translate every submission to English for team processing, but store both original and translated versions. Prevention: Make translation the first step in AI pipeline, store `original_language` + `title_en` + `description_en`, display side-by-side in admin UI.
 
-4. **Shared State Between Vertical Tests** - Tests share browser context, localStorage, cookies, service worker registrations. Language preference from coffeeshop leaks into wellness tests. Tests pass individually, fail in suite. **Prevention:** Fresh browser context per test file (Playwright default, verify no shared storageState). Never share storageState across verticals. Set `serviceWorkers: 'block'` unless explicitly testing PWA offline. Use `test.describe.configure({ mode: 'serial' })` only within one vertical, never across. Address in Phase 1 isolation setup.
+4. **Building a brittle kanban with hard-coded workflows** — Many systems enforce rigid status transitions (can't move from Inbox to Done without passing through Triaging and Planned). This breaks when reality doesn't match the flowchart. Prevention: Allow any status transition, log state changes for audit trail, rely on human judgment not enforced workflows.
 
-5. **Starting Dev Servers Instead of Production Builds** - Using `next dev` (as current config does) results in slow startup, hot-reload interference, inconsistent behavior vs production. Dev compiles pages on-demand, causing first-navigation timeouts. **Prevention:** For CI, use `next build && next start`. For local, keep `reuseExistingServer: true` for dev workflow. Pre-build only tested verticals, not all 8. Cache `.next` artifacts in CI. Address in Phase 2 CI optimization.
+5. **Notification fatigue from real-time updates** — Sending merchants a notification for every minor status change trains them to ignore notifications. Prevention: Notify only on meaningful state changes: submission acknowledged, moved to In Progress, completed, or declined. Do NOT notify on "Reviewing" or internal team actions. Rate limit to max 1 notification per submission per day.
 
-**Moderate pitfalls:**
+**Secondary pitfalls to watch:**
 
-- No test tagging = all verticals test on every PR (add @vertical:name tags, selective CI)
-- Brittle CSS selectors in UI without data-testid (budget time to add testid, prefer getByRole)
-- Accommodations auth complexity ignored (use storageState + API auth, dedicated test user)
-- CI resource exhaustion from parallel Next.js builds (build sequentially `--concurrency=1`, cache)
-
-**Minor pitfalls:**
-
-- Screenshot/video artifacts filling CI storage (set `video: 'off'` for smoke, 7-day retention)
-- Forgetting mobile viewports (use existing Mobile Chrome project for key tests)
-- Not handling i18n/RTL (add one RTL test per vertical in Phase 3)
+- Port conflicts when testing 8 apps simultaneously (test verticals sequentially, not in parallel)
+- Merchant-to-merchant discussion threads (out of scope, use existing WhatsApp channels)
+- Auto-responses without human review (AI drafts, humans send)
+- Full-text search before needed (embedding similarity suffices for <1000 submissions)
 
 ## Implications for Roadmap
 
-Based on research, suggested phase structure balances foundation-building, validation of patterns, and incremental scaling:
+Based on research, suggested phase structure:
 
-### Phase 1: Test Infrastructure Foundation
+### Phase 1: Foundation (Database + AI Processing)
 
-**Rationale:** Everything depends on the shared test utilities and config architecture. Build and validate the pattern with one vertical before scaling to 8. Addresses the highest-risk architectural pitfalls (port conflicts, isolation, scope definition) upfront.
-
-**Delivers:**
-
-- `playwright.config.ts` extended with per-vertical projects pattern
-- Shared test infrastructure (`pwa-smoke.fixture.ts`, `base-pwa.page.ts`, viewport helpers)
-- First vertical smoke test (coffeeshop) validating the pattern
-- Test strategy doc explicitly defining smoke vs E2E, mock vs backend testing
-
-**Addresses from FEATURES.md:**
-
-- Shared fixture architecture (foundational for all other features)
-- Tag-based organization (enables all selective execution)
-
-**Avoids from PITFALLS.md:**
-
-- Pitfall 1 (over-testing) - explicit scope definition in strategy doc
-- Pitfall 2 (port conflicts) - per-vertical projects with isolated configs
-- Pitfall 4 (shared state) - fresh context per vertical, serviceWorkers: 'block'
-
-**Success criteria:**
-
-- Coffeeshop has 3-5 smoke tests passing locally
-- Tests can run individually and in suite without state leakage
-- Shared fixture used successfully by all coffeeshop tests
-- Zero new npm dependencies added
-
-### Phase 2: Scale to All Verticals
-
-**Rationale:** With the pattern validated in Phase 1, replicating to the remaining 7 verticals is mechanical. Group the 7 mock-data verticals together (wellness, tours, gym, laundry, pharmacy, workshops, accommodations frontend) since they share testing strategy. Address CI integration while scaling to catch performance issues early.
+**Rationale:** Database schema and AI processing service are foundational dependencies. Everything else builds on these. Migration must come first to establish the data model. AI service must be testable independently before wiring to API routes.
 
 **Delivers:**
 
-- Smoke tests for all 8 verticals (24-40 tests total)
-- CI matrix strategy with parallel vertical jobs
-- Production builds in CI (`next build && next start`)
-- Selective test execution via --project flag
+- Migration 082: `fb_submissions`, `fb_tasks`, `fb_merchant_notifications` tables with RLS policies
+- `lib/feedback/types.ts` with TypeScript interfaces
+- `lib/feedback/feedback-intelligence-service.ts` with translate/classify/similarity functions
+- `lib/feedback/feedback-queries.ts` with DB query helpers
+- Updated `/api/upload/image` route with `feedback-screenshots` folder config
+- Updated `lib/ai/openai.ts` with GPT-4.1-mini/nano pricing
 
-**Addresses from FEATURES.md:**
+**Addresses:** Table stakes features (AI processing pipeline), avoids pitfall of building UI before data model is validated.
 
-- Page load smoke tests (all verticals)
-- Navigation flow testing (shared BottomNav component)
-- Responsive viewport testing (mobile + desktop per vertical)
-- Visual content assertions (headings, images, font)
+**Avoids:** Over-engineering (no embeddings yet, no real-time subscriptions, no complex workflows — just the minimum viable data structure).
 
-**Avoids from PITFALLS.md:**
+**Estimated effort:** 8-12 hours (migration + service + tests).
 
-- Pitfall 3 (mock-data coupling) - structural assertions enforced across 7 verticals
-- Pitfall 5 (slow dev servers) - production builds in CI
-- Pitfall 6 (no selective running) - matrix strategy, --project flags
-- Pitfall 9 (CI OOM) - build sequentially, cache .next, only build tested verticals
+### Phase 2: Merchant Submission Flow
 
-**Uses from STACK.md:**
-
-- Playwright device emulation (Pixel 5, Desktop Chrome)
-- CI matrix pattern from GitHub Actions
-- pnpm workspace filtering
-
-**Success criteria:**
-
-- All 8 verticals have 3-5 passing smoke tests
-- CI completes all verticals in under 8 minutes
-- Matrix strategy: individual vertical failures don't block others
-- Zero port conflicts in CI or local runs
-
-### Phase 3: Quality Enhancements
-
-**Rationale:** With structural smoke tests working across all verticals, add quality enhancements that catch regressions the basic tests miss. Visual regression catches CSS changes, PWA manifest validation ensures installability, accommodations backend tests validate the one real API surface.
+**Rationale:** Merchants are the input side. Need working submission flow before admin side has anything to manage. This phase makes the system functional for data collection.
 
 **Delivers:**
 
-- Visual regression screenshots (per-vertical baselines, mobile + desktop)
-- PWA manifest validation for all 8 verticals
-- Accommodations backend API smoke tests (6 routes + JWT auth)
-- Cross-vertical consistency checks (font, theme, shared components)
+- `POST /api/feedback/submissions` route with sync AI processing
+- `GET /api/feedback/submissions` route for merchant's own history
+- `GET /api/feedback/submissions/[id]` route for detail view
+- `components/feedback/FeedbackSubmitForm.tsx` with type selector, title, description, screenshot upload
+- `components/feedback/MySubmissionsList.tsx` with SubmissionCard and StatusBadge components
+- `app/(dashboard)/settings/feedback/page.tsx` merchant-facing page
+- "Feedback" link in Settings section of Sidebar
 
-**Addresses from FEATURES.md:**
+**Uses:** Phase 1 database schema, AI service, screenshot upload config.
 
-- Visual regression testing (differentiator, catches CSS regressions)
-- PWA manifest validation (installability requirement)
-- HTTP status checks for accommodations (backend-connected vertical)
-- Cross-vertical consistency (brand compliance)
+**Implements:** Merchant submission form (table stakes), feedback history list (table stakes), native language input (table stakes).
 
-**Avoids from PITFALLS.md:**
+**Avoids:** Brittle selectors pitfall — add `data-testid` attributes to key elements during build, not as separate task.
 
-- Pitfall 7 (brittle selectors) - budget testid additions with visual tests
-- Pitfall 8 (accommodations complexity) - separate strategy, storageState pattern
+**Estimated effort:** 10-14 hours (API routes + components + integration).
 
-**Implements from ARCHITECTURE.md:**
+### Phase 3: Notification System
 
-- Visual config with pixel threshold, masking
-- Accommodations-specific page objects (if needed beyond BasePwaPage)
-- API-level auth for accommodations tests
-
-**Success criteria:**
-
-- Visual baselines committed for all 8 verticals (80 screenshots ~10MB)
-- Visual tests have <5% false positive rate
-- Accommodations tests cover all 6 API routes + auth flow
-- Manifest validation catches missing required fields
-
-### Phase 4 (Optional): Advanced Coverage
-
-**Rationale:** Only pursue if Phase 3 reveals gaps or if product requires higher confidence. These are valuable but not essential for smoke testing.
+**Rationale:** Close the feedback loop early. Merchants need to see their submissions were received and are being acted on. Notifications provide this visibility before full kanban is built.
 
 **Delivers:**
 
-- Accessibility smoke tests (axe-core integration, keyboard nav)
-- i18n/RTL testing (one RTL language per vertical)
-- Performance budgets (page load timing, CLS thresholds)
+- `GET /api/feedback/notifications` and `GET /api/feedback/notifications/count` routes
+- `PATCH /api/feedback/notifications` route for mark-as-read
+- `hooks/useFeedbackNotifications.ts` with 60-second polling
+- `components/layout/NotificationBell.tsx` with unread badge and dropdown
+- Integrated bell icon in global header
+- Auto-notification creation on submission (acknowledged) and task status changes
 
-**Deferred to separate milestones:**
+**Uses:** Phase 1 notification table, Phase 2 submission flow triggers.
 
-- Full E2E user flows (existing `full-lunch-flow.spec.ts` pattern)
-- Real-time/WebSocket testing (already partially covered)
-- Cross-browser testing (Safari, Firefox - reserve for release gates)
+**Implements:** Merchant notifications (table stakes), in-app notification center (table stakes).
+
+**Avoids:** Notification fatigue pitfall — only notify on meaningful state changes, max 1/day per submission.
+
+**Estimated effort:** 8-10 hours (routes + polling + UI + integration).
+
+### Phase 4: Admin Kanban Board
+
+**Rationale:** Admin side is the most complex UI (drag-and-drop, aggregated data display, multi-merchant visibility). Building this last means there's real submission data to work with and test against.
+
+**Delivers:**
+
+- `GET /api/feedback/tasks` route for kanban data with filters
+- `PATCH /api/feedback/tasks/[id]` route for task updates (move column, assign, add notes)
+- `PATCH /api/feedback/tasks/reorder` route for drag-and-drop persistence
+- `GET /api/feedback/tasks/[id]/submissions` route for linked submissions view
+- `components/feedback/FeedbackKanbanBoard.tsx` with @dnd-kit multi-column
+- `components/feedback/TaskCard.tsx`, `ColumnHeader.tsx`, `TaskDetailPanel.tsx`
+- `app/(dashboard)/platform/feedback/page.tsx` admin-only page
+- Status change triggers for merchant notifications (In Progress, Done, Rejected)
+
+**Uses:** Phase 1 tasks table, @dnd-kit library, existing Radix/Tailwind patterns.
+
+**Implements:** Internal team kanban (table stakes), task cards with aggregated info (table stakes), linked submissions view (table stakes), assignment (table stakes).
+
+**Avoids:** Hard-coded workflow pitfall — allow any status transition, log changes, trust team judgment.
+
+**Estimated effort:** 14-18 hours (drag-and-drop is complex, testing multi-merchant aggregation takes time).
+
+### Phase 5: Analytics and Polish (Optional for v1.3)
+
+**Rationale:** Nice-to-have for launch, but not blocking. Analytics provide insights once there's data volume. Can be deferred to v1.4 if timeline is tight.
+
+**Delivers:**
+
+- Basic analytics dashboard: submission volume over time, breakdown by type/vertical, response time tracking
+- Top requested features list (by linked submission count)
+- Trigger.dev aggregation job for weekly/monthly trend summaries
+- UI polish: loading states, error handling, empty states, mobile responsive refinements
+
+**Uses:** Phase 1-4 complete system, Trigger.dev patterns from existing daily-briefing job.
+
+**Implements:** Basic analytics (table stakes), smart aggregation engine (differentiator via scheduled batch job).
+
+**Estimated effort:** 6-8 hours (simpler than kanban, mostly queries + charts).
 
 ### Phase Ordering Rationale
 
-1. **Foundation before scale** - Building shared infrastructure and validating with one vertical (Phase 1) prevents multiplying mistakes across 8 verticals. The architectural decisions (per-vertical projects, shared fixtures, isolation strategy) must be proven before replication.
-
-2. **Mock verticals grouped together** - The 7 mock-data verticals (wellness, tours, gym, laundry, pharmacy, workshops, basic accommodations UI) share testing strategy (structural assertions, no backend). Grouping in Phase 2 enables consistent pattern application. Accommodations backend testing separated to Phase 3 due to auth complexity.
-
-3. **CI integration during scale** - Waiting until Phase 2 to add CI avoids premature optimization. The matrix strategy, build caching, and production-build pattern are validated with 8 verticals, not tuned for one. CI feedback during scale-out catches resource issues (OOM, timeouts) when they matter.
-
-4. **Quality enhancements after smoke coverage** - Visual regression and manifest validation (Phase 3) require the basic smoke tests to be stable. Adding visual tests while still debugging port conflicts or state leakage creates noise. Baselines must be committed after smoke tests are passing reliably.
-
-5. **Avoids common pitfall progression** - This ordering directly addresses the pitfall analysis: Phase 1 prevents over-scoping and config mistakes, Phase 2 enforces mock-vs-backend distinction during scale, Phase 3 adds complexity only after foundation proves solid.
+- **Database first** because everything depends on the schema. Building UI before data model is validated causes rework.
+- **AI service second** because it's independent and testable in isolation. Submit flow needs it but doesn't block UI scaffolding.
+- **Merchant flow before admin** because merchants are the input side — you need submissions before admins have anything to manage. Also allows early validation that AI processing works correctly.
+- **Notifications before kanban** because closing the feedback loop early (letting merchants see their input was received) is higher value than giving admins a fancy UI. Notifications can work with the simple task list from Phase 2.
+- **Kanban last** because it's the most complex UI component (drag-and-drop, multi-merchant aggregation display) and benefits from having real data to develop against.
+- **Analytics optional** because it's reporting on data patterns — needs volume first. Can launch without it and add in v1.4 based on team usage patterns.
 
 ### Research Flags
 
-**Phases needing deeper research during planning:**
-
-- **Phase 3 (Accommodations backend)** - JWT auth testing with storageState, Supabase test user setup, API data seeding/cleanup patterns. Current research covers strategy but not Supabase-specific implementation details.
-- **Phase 4 (i18n/RTL)** - Best practices for testing RTL layouts, which locales to test, handling translation loading in tests. Minor concern, well-documented patterns exist.
-
 **Phases with standard patterns (skip research-phase):**
 
-- **Phase 1 (Foundation)** - Playwright fixtures and page objects are well-documented, existing codebase already uses Playwright. Implementation is straightforward extension.
-- **Phase 2 (Scale)** - Replication of Phase 1 pattern is mechanical. CI matrix strategy is standard GitHub Actions pattern with official Playwright examples.
-- **Phase 3 (Visual regression)** - `toHaveScreenshot()` is built-in Playwright feature with extensive documentation. Baseline management patterns are well-established.
+- **Phase 1:** Database schema and AI service follow existing backoffice patterns (Supabase RLS, OpenAI client, Prisma queries). No new research needed.
+- **Phase 2:** Submission form is standard Next.js + Radix UI. Screenshot upload already implemented. No research needed.
+- **Phase 3:** Notification polling is straightforward. Bell icon follows existing header patterns. No research needed.
+
+**Phases likely needing deeper research during planning:**
+
+- **Phase 4:** Drag-and-drop kanban with @dnd-kit. While the library is already installed, extending from single-column (existing SectionList) to multi-column with cross-container sorting is a new pattern. Plan to allocate 2-3 hours for researching @dnd-kit multi-container examples and testing drag behavior.
+- **Phase 5 (if included):** Trigger.dev scheduled jobs. While daily-briefing pattern exists, feedback aggregation has different data needs (clustering similar submissions, generating trend summaries). May need 1-2 hours researching optimal aggregation algorithms.
+
+**External dependencies to validate:**
+
+- **OpenAI API:** Verify GPT-4.1-mini/nano pricing and availability. If models are not accessible, fallback to gpt-4o-mini (already working, just slightly more expensive).
+- **Supabase Storage:** Confirm current plan has sufficient storage for feedback screenshots. At ~200KB avg, 500 screenshots/month = ~100MB/month. Current plan likely sufficient but worth checking.
 
 ## Confidence Assessment
 
-| Area         | Confidence | Notes                                                                                                                                                                                                          |
-| ------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stack        | HIGH       | Playwright 1.57 already installed, zero new dependencies needed. Official docs for all features. Existing config provides working foundation.                                                                  |
-| Features     | HIGH       | Clear distinction between smoke (3-5 per vertical) and E2E (separate milestone). MVP features all have documented Playwright patterns. Anti-features list prevents scope creep.                                |
-| Architecture | HIGH       | Per-vertical projects pattern verified in Playwright docs and community examples. Existing 35-test suite provides working model. Directory structure preserves backward compatibility.                         |
-| Pitfalls     | HIGH       | Pitfalls sourced from 10+ real-world monorepo E2E articles, Playwright GitHub issues, and BrowserStack/Semaphore best practices. Top 5 pitfalls directly address the most common failures in similar projects. |
+| Area         | Confidence | Notes                                                                                                                                                                                                                                                                             |
+| ------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stack        | HIGH       | Every technology is already in use. Research verified by reading existing code (`feedback-loop-service.ts`, `chat-channel.ts`, `upload/image/route.ts`, etc.). No new dependencies = no unknown unknowns.                                                                         |
+| Features     | HIGH       | Analyzed 12+ competing products (Canny, Productboard, Usersnap, Frill) with strong consensus on table stakes. GUDBRO's multi-language requirement is well-understood from existing translation infrastructure.                                                                    |
+| Architecture | HIGH       | All patterns verified against existing codebase. Database conventions (TEXT+CHECK, RLS via account_roles), API patterns (getSession, service role), UI patterns (Radix+Tailwind) are established. Only new pattern is multi-column kanban, which is well-documented for @dnd-kit. |
+| Pitfalls     | HIGH       | Based on documented failure modes from feedback system postmortems, Playwright testing guides, and GUDBRO's own lessons-learned. The 7-mock-data vs 1-real-backend distinction is unique to GUDBRO but clearly understood from codebase inspection.                               |
 
 **Overall confidence:** HIGH
 
-All four research dimensions converge on a consistent approach: extend existing Playwright setup with per-vertical projects, cap at 3-5 smoke tests per vertical, use shared test infrastructure for DRY, apply two-tier strategy for mock vs backend verticals. No conflicts or contradictions across research files. The project benefits from existing Playwright infrastructure (35 working tests, configured webServer, retries, screenshots) - this is enhancement not greenfield.
-
 ### Gaps to Address
 
-**Minor gaps requiring validation during implementation:**
+**Minor gaps:**
 
-1. **Exact port numbers for Tours and Accommodations** - STACK.md shows "TBD" for these two verticals. Resolution: Check package.json scripts or .env.local in each app's directory during Phase 2. Low impact: worst case is updating a port number in config.
+- **GPT-4.1 model availability:** Research assumes GPT-4.1-mini and GPT-4.1-nano are available via OpenAI API. These are newer models (late 2025/early 2026 announcements). If not accessible, fallback to `gpt-4o-mini` (already working, tested in codebase, just 60% more expensive at $0.15/$0.60 per 1M tokens vs $0.10/$0.40 for nano and $0.40/$1.60 for mini). Cost difference at 500 feedbacks/month: ~$0.30/month more. Negligible.
+  - **Validation:** Test API call with `gpt-4.1-mini` model name during Phase 1. If 404/not-found, update constants to use `gpt-4o-mini`.
 
-2. **Service worker strategy for PWA offline testing** - FEATURES.md identifies service worker testing as anti-feature due to Playwright limitations (open issue #26875), but PWAs by definition have service workers. Resolution: Set `serviceWorkers: 'block'` in test config to prevent interference with smoke tests. If offline functionality needs testing later, use Lighthouse in separate workflow. Address during Phase 1 config setup.
+- **Duplicate detection accuracy:** V1 approach uses tag overlap + trigram similarity instead of embeddings. This is intentionally simpler (no pgvector extension, no embedding storage) but may miss semantic duplicates. Research suggests this is acceptable for <1000 submissions but needs real-world validation.
+  - **Validation:** During Phase 2, after 20-30 real submissions, manually review duplicate detection accuracy. If <70% accuracy (too many false negatives), plan to add embeddings in Phase 5 or v1.4.
 
-3. **Screenshot baseline platform consistency** - PITFALLS.md warns about font rendering differences macOS vs Linux CI. Resolution: Generate all baselines in CI environment (GitHub Actions Ubuntu runner), not locally on macOS. Use `threshold: 0.2` and `maxDiffPixelRatio: 0.005` to allow minor rendering differences. Address during Phase 3 visual regression setup.
+- **Kanban drag-and-drop on mobile:** @dnd-kit works well on desktop. Mobile touch support exists but needs testing on actual devices (not just Chrome DevTools). Research confirms it should work but touch interactions may need tuning.
+  - **Validation:** During Phase 4, test on 2-3 actual mobile devices (iOS Safari, Android Chrome). If touch DnD is problematic, provide fallback UI (move-up/move-down buttons) for mobile.
 
-4. **Accommodations Supabase test user credentials** - Phase 3 requires dedicated test user with known data. Resolution: Create test user during Phase 3 planning, document in test README, store credentials in GitHub Secrets for CI. Use `storageState` to save authenticated session and reuse. Medium priority: accommodations is Phase 3, can be resolved when planned.
-
-5. **Baseline storage git size** - 80 screenshots at ~100KB each = ~8MB committed to git. Research says acceptable but worth monitoring. Resolution: If baseline size exceeds 20MB, revisit storage strategy (git LFS, artifact storage, reduce screenshot dimensions). Track during Phase 3.
+**No major gaps.** The research confidence is high because all technology is already in use and patterns are verified in production code.
 
 ## Sources
 
 ### Primary (HIGH confidence)
 
-- **Playwright Official Documentation** - Test projects, visual comparisons, emulation, fixtures, best practices
-  - [Test Projects](https://playwright.dev/docs/test-projects)
-  - [Visual Comparisons](https://playwright.dev/docs/test-snapshots)
-  - [Emulation](https://playwright.dev/docs/emulation)
-  - [Fixtures](https://playwright.dev/docs/test-fixtures)
-  - [Test Parallelism](https://playwright.dev/docs/test-parallel)
-  - [Best Practices](https://playwright.dev/docs/best-practices)
-  - [Service Workers](https://playwright.dev/docs/service-workers)
-- **Project Codebase** - Existing `playwright.config.ts`, `tests/e2e/` directory structure, working 35-test suite
-- **Playwright Release Notes** - v1.57 changelog, Chrome for Testing migration
-- **GitHub Actions** - Matrix strategy documentation, Playwright official actions
+- **GUDBRO codebase** — Verified against existing implementations:
+  - `apps/backoffice/lib/ai/feedback-loop-service.ts` (matching types and AI processing pattern)
+  - `apps/backoffice/app/api/upload/image/route.ts` (screenshot upload pattern)
+  - `apps/backoffice/lib/ai/openai.ts` (AI client with cost tracking)
+  - `apps/backoffice/lib/realtime/chat-channel.ts` (Realtime subscription pattern)
+  - `apps/backoffice/app/(dashboard)/settings/site-builder/components/SectionList.tsx` (@dnd-kit single-column pattern)
+  - `shared/database/migrations/` (migrations 012, 024, 029, 059 for schema conventions)
+- [Supabase Storage Documentation](https://supabase.com/docs/guides/storage) — Storage RLS and folder organization
+- [Supabase Realtime Documentation](https://supabase.com/docs/guides/realtime) — Postgres Changes subscriptions
+- [OpenAI API Pricing](https://openai.com/api/pricing/) — GPT-4.1-mini/nano pricing (verified 2026-01-30)
+- [@dnd-kit Documentation](https://docs.dndkit.com/) — Multi-container sorting patterns
 
 ### Secondary (MEDIUM confidence)
 
-- **BrowserStack Guides** - Playwright best practices 2026, snapshot testing guide, PWA testing guide
-- **Turborepo Documentation** - Playwright monorepo patterns, per-app vs root-level config tradeoffs
-- **Community Patterns** - Ash Connolly (Next.js visual regression), Kyrre Gjerstad (monorepo E2E setup), Tim Deschryver (Playwright tagging), Makerkit (SaaS smoke testing), Graphite (monorepo testing strategies)
-- **Better Stack/Semaphore** - Avoiding flaky tests, test speed optimization
-- **TestDouble** - Auth flow testing with Playwright and Next.js
+- [Canny](https://canny.io/use-cases/feature-request-management) — Feature request management patterns
+- [Productboard](https://www.featurebase.app/blog/canny-vs-productboard) — Competitive analysis
+- [Usersnap](https://usersnap.com/l/feedback-management-tool) — Screenshot-based feedback UX (67% stat on visual context)
+- [Qualaroo: SaaS Feedback Strategies](https://qualaroo.com/blog/customer-feedback-saas/) — Table stakes features
+- [Zonka: Feedback Tools 2026](https://www.zonkafeedback.com/blog/saas-customer-feedback-tools) — Tool comparison
+- [Featurebase: SaaS Feedback Tools](https://www.featurebase.app/blog/saas-feedback-tools) — Feature analysis
+- [Frill: Customer Feedback Software](https://frill.co/blog/posts/customer-feedback-software) — Top 20 tools comparison
+- [Kanban Tool: Feedback Management](https://kanbantool.com/blog/feedback-management-with-kanban) — Kanban workflow patterns
+- [ProductLed: SaaS Feedback Loop](https://productled.com/blog/saas-customer-feedback-loop) — Closing the loop best practices
+- [Userpilot: Notification Types](https://userpilot.com/blog/notification-types/) — In-app notification patterns
+- [Dialzara: Multilingual Feedback Tools](https://dialzara.com/blog/top-7-ai-tools-for-multilingual-feedback) — Multi-language handling
+- [BrowserStack: Playwright Best Practices](https://www.browserstack.com/guide/playwright-best-practices) — E2E testing patterns
+- [Turborepo Playwright Guide](https://turborepo.com/docs/guides/tools/playwright) — Monorepo testing
 
-### Tertiary (LOW confidence)
+### Tertiary (LOW confidence, needs validation)
 
-- **Currents/Endform** - Test speed optimization (commercial services, patterns applicable but service-specific)
-- **Playwright GitHub Issues** - Open issues for PWA installation testing (#26875, #19677), webServer config evolution (#11141, #29273)
-
-**Source quality notes:**
-
-- Zero reliance on outdated content (all sources 2024-2026)
-- Primary sources (Playwright docs, project codebase) provide 80% of needed information
-- Secondary sources used for validation and real-world patterns, not core strategy
-- No conflicts between primary and secondary sources
-- Tertiary sources used only to identify what NOT to do (commercial services) or document known limitations (GitHub issues)
+- [PricePerToken GPT-4.1 Calculator](https://pricepertoken.com/pricing-page/model/openai-gpt-4.1) — Batch pricing comparison (source reliability uncertain, prefer official OpenAI docs)
+- [FeedbackPlus OSS Screenshot Library](https://github.com/ColonelParrot/feedbackplus) — Alternative screenshot approach (not needed, using existing Supabase pattern)
 
 ---
 
-_Research completed: 2026-01-30_
-_Ready for roadmap: yes_
-_Estimated implementation: 3-4 weeks (Phase 1: 1 week, Phase 2: 1.5 weeks, Phase 3: 1 week, buffer: 0.5 weeks)_
+**Research completed:** 2026-01-30
+**Ready for roadmap:** Yes
+
+**Next step:** Create roadmap with 4-5 phases based on implications above. Each phase should have 3-5 atomic tasks, clear acceptance criteria, and estimated effort (4-18 hours per phase based on complexity).
