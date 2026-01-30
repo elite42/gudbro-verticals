@@ -25,11 +25,11 @@ Requirements for Merchant Feedback Intelligence milestone. Each maps to roadmap 
 
 ### Admin Kanban
 
-- [ ] **FBADM-01**: Admin can view kanban board with columns (New, Reviewing, In Progress, Done, Rejected)
-- [ ] **FBADM-02**: Admin can drag-and-drop tasks between columns
-- [ ] **FBADM-03**: Task cards display aggregated info (merchant count, languages, sentiment, priority)
-- [ ] **FBADM-04**: Admin can open task detail panel showing all linked submissions with original + translated text
-- [ ] **FBADM-05**: Moving task to Done/Rejected triggers merchant notifications for all linked submissions
+- [x] **FBADM-01**: Admin can view kanban board with columns (New, Reviewing, In Progress, Done, Rejected)
+- [x] **FBADM-02**: Admin can drag-and-drop tasks between columns
+- [x] **FBADM-03**: Task cards display aggregated info (merchant count, languages, sentiment, priority)
+- [x] **FBADM-04**: Admin can open task detail panel showing all linked submissions with original + translated text
+- [x] **FBADM-05**: Moving task to Done/Rejected triggers merchant notifications for all linked submissions
 
 ### Notifications
 
@@ -97,11 +97,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FBAI-03     | Phase 13 | Complete |
 | FBAI-04     | Phase 13 | Complete |
 | FBAI-05     | Phase 13 | Complete |
-| FBADM-01    | Phase 16 | Pending  |
-| FBADM-02    | Phase 16 | Pending  |
-| FBADM-03    | Phase 16 | Pending  |
-| FBADM-04    | Phase 16 | Pending  |
-| FBADM-05    | Phase 16 | Pending  |
+| FBADM-01    | Phase 16 | Complete |
+| FBADM-02    | Phase 16 | Complete |
+| FBADM-03    | Phase 16 | Complete |
+| FBADM-04    | Phase 16 | Complete |
+| FBADM-05    | Phase 16 | Complete |
 | FBNOT-01    | Phase 15 | Complete |
 | FBNOT-02    | Phase 15 | Complete |
 | FBNOT-03    | Phase 15 | Complete |
@@ -120,4 +120,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after completing phase 15_
+_Last updated: 2026-01-30 after completing phase 16_

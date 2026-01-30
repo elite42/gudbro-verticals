@@ -37,7 +37,7 @@ See milestones/v1.2-ROADMAP.md for details.
 - [x] **Phase 13: Foundation and AI Pipeline** - Database schema and AI processing service
 - [x] **Phase 14: Merchant Submission UI** - Feedback form, screenshot upload, and submission history
 - [x] **Phase 15: Merchant Notifications** - In-app notification system with bell icon and polling
-- [ ] **Phase 16: Admin Kanban** - Drag-and-drop task board with detail panel and status notifications
+- [x] **Phase 16: Admin Kanban** - Drag-and-drop task board with detail panel and status notifications
 - [ ] **Phase 17: Analytics Dashboard** - Submission volume, breakdowns, top features, and response time
 
 ## Phase Details
@@ -118,8 +118,8 @@ Plans:
 
 Plans:
 
-- [ ] 16-01-PLAN.md — API routes (GET all tasks, GET single task, GET submissions, PATCH status with notification triggers) + kanban board with @dnd-kit drag-and-drop, columns, and task cards
-- [ ] 16-02-PLAN.md — Task detail slide-over panel with linked submissions, Radix status change confirmation dialog, full board integration
+- [x] 16-01-PLAN.md — API routes (GET all tasks, GET single task, GET submissions, PATCH status with notification triggers) + kanban board with @dnd-kit drag-and-drop, columns, and task cards
+- [x] 16-02-PLAN.md — Task detail slide-over panel with linked submissions, Radix status change confirmation dialog, full board integration
 
 ### Phase 17: Analytics Dashboard
 
@@ -158,10 +158,10 @@ Plans:
 | 13. Foundation and AI Pipeline | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
 | 14. Merchant Submission UI     | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
 | 15. Merchant Notifications     | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
-| 16. Admin Kanban               | v1.3      | 0/2            | Not started | -          |
+| 16. Admin Kanban               | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
 | 17. Analytics Dashboard        | v1.3      | 0/2            | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-30 after planning phase 16_
+_Last updated: 2026-01-30 after completing phase 16_

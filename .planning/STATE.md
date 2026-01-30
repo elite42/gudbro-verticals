@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.3 Merchant Feedback Intelligence — Phase 16 in progress
+**Current focus:** v1.3 Merchant Feedback Intelligence — Phase 16 complete
 
 ## Current Position
 
-Phase: 16 of 17 (Admin Kanban Board)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-01-30 — Completed 16-01-PLAN.md (Admin Kanban Board)
+Phase: 16 of 17 (Admin Kanban)
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-01-30 — Completed 16-02-PLAN.md (Task Detail Panel)
 
-Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] | v1.3 [7/10]
-█████████████████████████████████░░░░░░░ 33/36 (92%)
+Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] | v1.3 [8/10]
+██████████████████████████████████░░░░░░ 34/36 (94%)
 
 ## Performance Metrics
 
@@ -57,6 +57,8 @@ Full history in PROJECT.md Key Decisions table and milestones archives.
 | D-1501-2 | notifyTaskStatusChange designed for Phase 16 kanban handlers                          | 15-01 |
 | D-1502-1 | merchantId derived from location?.id or brand?.id (same pattern as feedback settings) | 15-02 |
 | D-1502-2 | Visual-only dismiss (filters from display, marks as read) instead of DELETE from DB   | 15-02 |
+| D-1601-1 | closestCorners collision detection for multi-column kanban (not closestCenter)        | 16-01 |
+| D-1602-1 | Radix StatusChangeDialog replaces browser confirm() for Done/Rejected moves           | 16-02 |
 
 ### Known Issues
 
@@ -73,10 +75,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 16-01-PLAN.md (Admin Kanban Board)
+Stopped at: Completed 16-02-PLAN.md (Task Detail Panel) — Phase 16 complete
 Resume file: None
-Next: `/gsd:execute-phase 16` to execute 16-02-PLAN.md (Task Detail Panel)
+Next: `/gsd:plan-phase 17` to plan Phase 17 (Analytics Dashboard)
 
 ---
 
-_Last updated: 2026-01-30 after completing 16-01_
+_Last updated: 2026-01-30 after completing 16-02_
