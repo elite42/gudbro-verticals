@@ -59,7 +59,7 @@ See milestones/v1.2-ROADMAP.md for details.
 
 Plans:
 
-- [ ] 13-01-PLAN.md — Database schema (fb_submissions, fb_tasks, fb_merchant_notifications + indexes + RLS + similarity function)
+- [x] 13-01-PLAN.md — Database schema (fb_submissions, fb_tasks, fb_merchant_notifications + indexes + RLS + similarity function)
 - [ ] 13-02-PLAN.md — AI processing service (translate, classify, tag, similarity detection, task aggregation + API route)
 
 ### Phase 14: Merchant Submission UI
@@ -152,7 +152,7 @@ Plans:
 | 10. E2E Test Infrastructure    | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 11. E2E Smoke Tests            | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 12. Visual and Quality         | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
-| 13. Foundation and AI Pipeline | v1.3      | 0/2            | Not started | -          |
+| 13. Foundation and AI Pipeline | v1.3      | 1/2            | In progress | -          |
 | 14. Merchant Submission UI     | v1.3      | 0/2            | Not started | -          |
 | 15. Merchant Notifications     | v1.3      | 0/2            | Not started | -          |
 | 16. Admin Kanban               | v1.3      | 0/2            | Not started | -          |
@@ -161,4 +161,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-30 after phase 13 planning_
+_Last updated: 2026-01-30 after completing 13-01-PLAN.md_

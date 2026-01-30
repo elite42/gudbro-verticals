@@ -5,16 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.3 Merchant Feedback Intelligence — Phase 13 ready to plan
+**Current focus:** v1.3 Merchant Feedback Intelligence — Phase 13 in progress
 
 ## Current Position
 
 Phase: 13 of 17 (Foundation and AI Pipeline)
-Plan: 0 of 2 in current phase
-Status: Ready to plan
-Last activity: 2026-01-30 — Roadmap created for v1.3 (5 phases, 23 requirements mapped)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-30 — Completed 13-01-PLAN.md (database schema)
 
-Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] | v1.3 [0/10]
+Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] | v1.3 [1/10]
+████████████████████████████░░░░░░░░░░░░ 27/36 (75%)
 
 ## Performance Metrics
 
@@ -48,6 +49,11 @@ Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] | v1.3 [0/10]
 
 Full history in PROJECT.md Key Decisions table and milestones archives.
 
+| ID       | Decision                                                                       | Phase |
+| -------- | ------------------------------------------------------------------------------ | ----- |
+| D-1301-1 | Dedicated fb_merchant_notifications table (not reusing internal_notifications) | 13-01 |
+| D-1301-2 | CTE-based scoring in find_similar_tasks (fixed invalid HAVING pattern)         | 13-01 |
+
 ### Known Issues
 
 None. All tech debt resolved in v1.2.
@@ -63,10 +69,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Roadmap created for v1.3 Merchant Feedback Intelligence
+Stopped at: Completed 13-01-PLAN.md (database schema for feedback intelligence)
 Resume file: None
-Next: `/gsd:plan-phase 13` to plan Foundation and AI Pipeline
+Next: `/gsd:execute-phase 13` to execute 13-02-PLAN.md (AI processing service)
 
 ---
 
-_Last updated: 2026-01-30 after v1.3 roadmap creation_
+_Last updated: 2026-01-30 after completing 13-01-PLAN.md_
