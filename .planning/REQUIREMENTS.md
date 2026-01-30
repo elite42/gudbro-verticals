@@ -17,11 +17,11 @@ Requirements for Merchant Feedback Intelligence milestone. Each maps to roadmap 
 
 ### AI Processing
 
-- [ ] **FBAI-01**: System auto-translates submission to English (storing original language + translated fields)
-- [ ] **FBAI-02**: System classifies submission by type, priority, and sentiment
-- [ ] **FBAI-03**: System extracts topic tags from submission content
-- [ ] **FBAI-04**: System detects similar existing tasks via tag overlap + trigram similarity
-- [ ] **FBAI-05**: System aggregates similar submissions into unified tasks with denormalized metrics
+- [x] **FBAI-01**: System auto-translates submission to English (storing original language + translated fields)
+- [x] **FBAI-02**: System classifies submission by type, priority, and sentiment
+- [x] **FBAI-03**: System extracts topic tags from submission content
+- [x] **FBAI-04**: System detects similar existing tasks via tag overlap + trigram similarity
+- [x] **FBAI-05**: System aggregates similar submissions into unified tasks with denormalized metrics
 
 ### Admin Kanban
 
@@ -85,31 +85,31 @@ Explicitly excluded. Documented to prevent scope creep.
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase    | Status  |
-| ----------- | -------- | ------- |
-| FBSUB-01    | Phase 14 | Pending |
-| FBSUB-02    | Phase 14 | Pending |
-| FBSUB-03    | Phase 14 | Pending |
-| FBSUB-04    | Phase 14 | Pending |
-| FBSUB-05    | Phase 14 | Pending |
-| FBAI-01     | Phase 13 | Pending |
-| FBAI-02     | Phase 13 | Pending |
-| FBAI-03     | Phase 13 | Pending |
-| FBAI-04     | Phase 13 | Pending |
-| FBAI-05     | Phase 13 | Pending |
-| FBADM-01    | Phase 16 | Pending |
-| FBADM-02    | Phase 16 | Pending |
-| FBADM-03    | Phase 16 | Pending |
-| FBADM-04    | Phase 16 | Pending |
-| FBADM-05    | Phase 16 | Pending |
-| FBNOT-01    | Phase 15 | Pending |
-| FBNOT-02    | Phase 15 | Pending |
-| FBNOT-03    | Phase 15 | Pending |
-| FBNOT-04    | Phase 15 | Pending |
-| FBAN-01     | Phase 17 | Pending |
-| FBAN-02     | Phase 17 | Pending |
-| FBAN-03     | Phase 17 | Pending |
-| FBAN-04     | Phase 17 | Pending |
+| Requirement | Phase    | Status   |
+| ----------- | -------- | -------- |
+| FBSUB-01    | Phase 14 | Pending  |
+| FBSUB-02    | Phase 14 | Pending  |
+| FBSUB-03    | Phase 14 | Pending  |
+| FBSUB-04    | Phase 14 | Pending  |
+| FBSUB-05    | Phase 14 | Pending  |
+| FBAI-01     | Phase 13 | Complete |
+| FBAI-02     | Phase 13 | Complete |
+| FBAI-03     | Phase 13 | Complete |
+| FBAI-04     | Phase 13 | Complete |
+| FBAI-05     | Phase 13 | Complete |
+| FBADM-01    | Phase 16 | Pending  |
+| FBADM-02    | Phase 16 | Pending  |
+| FBADM-03    | Phase 16 | Pending  |
+| FBADM-04    | Phase 16 | Pending  |
+| FBADM-05    | Phase 16 | Pending  |
+| FBNOT-01    | Phase 15 | Pending  |
+| FBNOT-02    | Phase 15 | Pending  |
+| FBNOT-03    | Phase 15 | Pending  |
+| FBNOT-04    | Phase 15 | Pending  |
+| FBAN-01     | Phase 17 | Pending  |
+| FBAN-02     | Phase 17 | Pending  |
+| FBAN-03     | Phase 17 | Pending  |
+| FBAN-04     | Phase 17 | Pending  |
 
 **Coverage:**
 
