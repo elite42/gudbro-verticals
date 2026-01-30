@@ -179,7 +179,7 @@ export function Header() {
         </button>
 
         {/* Notifications */}
-        <NotificationDropdown />
+        <NotificationDropdown merchantId={location?.id || brand?.id} />
 
         {/* Preview link */}
         <a
