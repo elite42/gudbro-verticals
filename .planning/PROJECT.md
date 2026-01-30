@@ -44,7 +44,18 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ### Active
 
-No active requirements. Next milestone to be defined via `/gsd:new-milestone`.
+**Current Milestone: v1.3 — Merchant Feedback Intelligence**
+
+**Goal:** Enable merchants to submit feedback, report bugs, and request features directly from the backoffice, with AI-powered translation, classification, and aggregation of similar requests into an internal kanban for the GUDBRO team.
+
+**Target features:**
+
+- Merchant feedback submission (text + screenshot + type + auto-context) in Settings
+- AI processing layer (OpenAI): translate, classify, structure, detect duplicates
+- Aggregation of similar requests across merchants/languages into unified tasks
+- Internal kanban board for GUDBRO team (admin role) to manage aggregated requests
+- In-app notifications (campanella) for merchants when requests are received/completed
+- Action workflow: accept → develop → complete → notify, or reject with reasoning
 
 ### Out of Scope
 
@@ -111,4 +122,4 @@ No active requirements. Next milestone to be defined via `/gsd:new-milestone`.
 
 ---
 
-_Last updated: 2026-01-30 after v1.2 milestone_
+_Last updated: 2026-01-30 after v1.3 milestone start_

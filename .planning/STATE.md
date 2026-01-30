@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** Planning next milestone
+**Current focus:** v1.3 Merchant Feedback Intelligence — defining requirements
 
 ## Current Position
 
-Phase: 12 of 12 (all complete)
-Plan: N/A
-Status: v1.2 milestone complete — ready for next milestone
-Last activity: 2026-01-30 — v1.2 Tech Debt Cleanup shipped
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements for v1.3
+Last activity: 2026-01-30 — Milestone v1.3 started
 
 Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] — ALL SHIPPED
 
@@ -63,10 +63,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: v1.2 milestone completed and archived
+Stopped at: Milestone v1.3 started — researching domain
 Resume file: None
-Next: Start next milestone with `/gsd:new-milestone`
+Next: Complete research → define requirements → create roadmap
 
 ---
 
-_Last updated: 2026-01-30 after v1.2 milestone completion_
+_Last updated: 2026-01-30 after v1.3 milestone start_
