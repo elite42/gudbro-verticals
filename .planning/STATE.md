@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 9 of 12 (Code Fixes)
-Plan: —
-Status: Ready to plan
-Last activity: 2026-01-30 — Roadmap created for v1.2 (4 phases, 13 requirements)
+Plan: 1 of 2
+Status: In progress
+Last activity: 2026-01-30 — Completed 09-01-PLAN.md (CFIX-01, CFIX-03, CFIX-05)
 
-Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [░░░░░░░░] 0/?
+Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [█░░░░░░░] 1/?
 
 ## Performance Metrics
 
@@ -36,6 +36,11 @@ Progress: v1.0 [██████] 6/6 plans | v1.1 [████████�
 
 Full history in PROJECT.md Key Decisions table and milestones archives.
 
+| Decision                        | Phase | Rationale                                                                |
+| ------------------------------- | ----- | ------------------------------------------------------------------------ |
+| Tours ToS: span instead of link | 09-01 | No /terms route exists; span preserves visual without broken navigation  |
+| Workshops CTAs: mailto links    | 09-01 | No /contact route; mailto with subject prefill is functional alternative |
+
 ### Known Issues
 
 All 7 tech debt items from v1.0 are now tracked as CFIX-01..05 requirements in v1.2. The remaining 2 items (visual QA, no manual smoke testing) are covered by E2EI and VISQ requirements.
@@ -51,10 +56,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: v1.2 roadmap created (4 phases, 13 requirements mapped)
+Stopped at: Completed 09-01-PLAN.md
 Resume file: None
-Next: `/gsd:plan-phase 9`
+Next: Execute 09-02-PLAN.md
 
 ---
 
-_Last updated: 2026-01-30 after roadmap creation_
+_Last updated: 2026-01-30 after 09-01 execution_
