@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.2 Tech Debt Cleanup — Phase 10 (E2E Test Infrastructure)
+**Current focus:** v1.2 Tech Debt Cleanup — Phase 10 (E2E Test Infrastructure) COMPLETE
 
 ## Current Position
 
-Phase: 10 of 12 (E2E Test Infrastructure) — In progress
-Plan: 01 of 02 complete
-Status: Plan 10-01 complete, ready for 10-02
-Last activity: 2026-01-30 — Completed 10-01-PLAN.md (shared test utilities)
+Phase: 10 of 12 (E2E Test Infrastructure) — COMPLETE
+Plan: 02 of 02 complete
+Status: Phase 10 complete, all E2E test infrastructure in place
+Last activity: 2026-01-30 — Completed 10-02-PLAN.md (vertical projects + wellness smoke)
 
-Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [███░░░░░] 3/4 (phase 9 done, phase 10: 1/2)
+Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [████░░░░] 4/4 (phase 9 done, phase 10 done)
 
 ## Performance Metrics
 
@@ -32,10 +32,11 @@ Progress: v1.0 [██████] 6/6 plans | v1.1 [████████�
 
 **v1.2 Velocity:**
 
-- Plans completed so far: 3
+- Plans completed so far: 4
 - 09-01: ~4 minutes (3 tasks)
 - 09-02: ~9 minutes (2 tasks)
 - 10-01: ~3 minutes (2 tasks)
+- 10-02: ~5 minutes (2 tasks)
 
 ## Accumulated Context
 
@@ -51,6 +52,7 @@ Full history in PROJECT.md Key Decisions table and milestones archives.
 | unoptimized prop for external mock images | 09-02 | Avoids remotePatterns config for demo Unsplash URLs                          |
 | encodeURIComponent for SVG data URIs      | 09-02 | Buffer not available in ESLint browser env; encodeURIComponent universal     |
 | ESLint no-empty-pattern for PW fixtures   | 10-01 | Playwright's async ({}, use) convention requires disable for option fixtures |
+| testIgnore on legacy PW projects          | 10-02 | Prevents chromium/Mobile Chrome/Safari from picking up vertical smoke tests  |
 
 ### Known Issues
 
@@ -67,10 +69,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 10-01-PLAN.md (shared test utilities)
+Stopped at: Completed 10-02-PLAN.md (vertical projects + wellness smoke test)
 Resume file: None
-Next: `/gsd:execute-phase 10` (plan 10-02)
+Next: Phase 10 complete. Next phase per roadmap.
 
 ---
 
-_Last updated: 2026-01-30 after Plan 10-01 execution_
+_Last updated: 2026-01-30 after Plan 10-02 execution_
