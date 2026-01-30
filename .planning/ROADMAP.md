@@ -74,12 +74,13 @@ Plans:
 3. Submission automatically captures current vertical, module/page path, and merchant ID without merchant input
 4. Merchant can write in Italian, Thai, or any language and submission is accepted and processed (no language picker)
 5. Merchant can view a list of their past submissions showing title, type, status, and submission date
-   **Plans**: TBD
+
+**Plans:** 2 plans
 
 Plans:
 
-- [ ] 14-01: Feedback submission form (type selector, title, description, screenshot upload, context capture)
-- [ ] 14-02: Submission history list and API routes
+- [ ] 14-01-PLAN.md — Feedback submission form (API route, upload config, page shell, form component with type selector, title, description, screenshot upload, context auto-capture)
+- [ ] 14-02-PLAN.md — Submission history list (history API route, history list with type/status badges, expandable detail view)
 
 ### Phase 15: Merchant Notifications
 
