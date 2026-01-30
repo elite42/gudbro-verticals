@@ -93,12 +93,13 @@ Plans:
 2. When a linked task moves to In Progress, Done, or Rejected, the merchant receives a corresponding notification
 3. A bell icon in the backoffice global header displays an unread count badge that updates via 60-second polling
 4. Merchant can open the notification dropdown, see all notifications, and mark them as read
-   **Plans**: TBD
+
+**Plans:** 2 plans
 
 Plans:
 
-- [ ] 15-01: Notification API routes and bell icon component with polling
-- [ ] 15-02: Notification list UI with read/unread state management
+- [ ] 15-01-PLAN.md — Notification API routes, createFeedbackNotification utility, submit route account_id fix, AI service notification creation
+- [ ] 15-02-PLAN.md — useNotifications polling hook and NotificationDropdown wired to real API data
 
 ### Phase 16: Admin Kanban
 
@@ -162,4 +163,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-30 after completing phase 14_
+_Last updated: 2026-01-30 after planning phase 15_
