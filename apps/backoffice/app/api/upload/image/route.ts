@@ -68,6 +68,11 @@ const FOLDER_CONFIGS: Record<
     allowedTypes: ['image/png', 'image/jpeg', 'image/webp'],
     subfolder: 'challenges',
   },
+  'feedback-screenshots': {
+    maxSize: 5 * 1024 * 1024, // 5MB
+    allowedTypes: ['image/png', 'image/jpeg', 'image/webp'],
+    subfolder: 'feedback',
+  },
 };
 
 const DEFAULT_CONFIG = {
