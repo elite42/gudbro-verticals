@@ -54,12 +54,13 @@ See milestones/v1.2-ROADMAP.md for details.
 3. Topic tags are extracted and stored as an array on the submission record
 4. When a submission shares tags or trigram similarity with an existing task, the system detects and links them
 5. Unified tasks in fb_tasks have denormalized counts (submission count, language set, average sentiment) that update when submissions are linked
-   **Plans**: TBD
+
+**Plans:** 2 plans
 
 Plans:
 
-- [ ] 13-01: Database schema (fb_submissions, fb_tasks, fb_merchant_notifications tables + indexes + RLS)
-- [ ] 13-02: AI processing service (translate, classify, tag, similarity detection, task aggregation)
+- [ ] 13-01-PLAN.md — Database schema (fb_submissions, fb_tasks, fb_merchant_notifications + indexes + RLS + similarity function)
+- [ ] 13-02-PLAN.md — AI processing service (translate, classify, tag, similarity detection, task aggregation + API route)
 
 ### Phase 14: Merchant Submission UI
 
@@ -160,4 +161,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-30 after v1.3 roadmap creation_
+_Last updated: 2026-01-30 after phase 13 planning_
