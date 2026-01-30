@@ -2,7 +2,7 @@
 
 ## What This Is
 
-GUDBRO is a multi-vertical platform providing standalone PWAs for hospitality businesses (F&B, accommodations, gym, wellness, laundry, pharmacy, workshops, tours). Each merchant gets their own branded PWA with QR/link access. The platform includes a backoffice admin dashboard, AI Co-Manager, and a convention system linking merchants together. All 8 vertical PWAs are QA-verified with consistent UI/UX, zero TypeScript errors, and working navigation.
+GUDBRO is a multi-vertical platform providing standalone PWAs for hospitality businesses (F&B, accommodations, gym, wellness, laundry, pharmacy, workshops, tours). Each merchant gets their own branded PWA with QR/link access. The platform includes a backoffice admin dashboard, AI Co-Manager, and a convention system linking merchants together. The Accommodations vertical now has a fully functional In-Stay Dashboard connected to Supabase, where guests scan a QR code to access WiFi, stay info, services, local deals, and host contact from real data.
 
 ## Core Value
 
@@ -26,28 +26,22 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 - Complete vertical separation (no cross-vertical routes) -- v1.0
 - All 7 new vertical PWAs build successfully (next build) -- v1.0
 - All navigation links validated (zero broken links) -- v1.0
+- Accommodations database schema: properties, rooms, bookings, services, partnerships with RLS -- v1.1
+- 6 JWT-protected API routes for In-Stay data (lookup, verify, services, deals, property, useful-numbers) -- v1.1
+- In-Stay Dashboard with booking verification, WiFi card, stay summary, services, deals, contact, checkout -- v1.1
+- F&B cross-vertical deep-linking (has_linked_fnb + linked_fnb_slug pattern) -- v1.1
+- Schema-API alignment with migration 081 (9 renames, 7 new columns, house_rules JSONB) -- v1.1
 
 ### Active
 
-#### Current Milestone: v1.1 — In-Stay MVP Backend
-
-**Goal:** Connect Accommodations In-Stay Dashboard to a real backend, enabling guests to scan a QR in their room and access WiFi, stay info, services, local deals, and host contact — all from real data.
-
-**Target features:**
-
-- In-Stay guest dashboard connected to Supabase (WiFi, stay summary, services, deals, contact)
-- Booking verification (guest enters name + code to access dashboard)
-- Property-owned services catalog (breakfast, minibar, laundry, room service)
-- Local partnerships/conventions display (partner deals with discounts)
-- Host contact (WhatsApp integration)
-- Database schema for accommodations domain (properties, rooms, bookings, services, partnerships)
-- API routes for In-Stay data
+No active milestone. Next: v1.2 Booking & Owner Dashboard (planned).
 
 ### Out of Scope
 
 - New vertical creation -- all 8 frontends exist
 - Booking Mode (property page, booking flow) -- deferred to v1.2
 - Owner Dashboard (property management UI) -- deferred to v1.2
+- Service Ordering (guest submits requests) -- deferred to v1.2
 - Visa Tracker -- deferred to later milestone
 - Digital Laundry Form -- deferred to later milestone
 - Online payments -- cash/transfer only for MVP
@@ -57,34 +51,44 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ## Context
 
-- 8 vertical PWAs with mock data, frontend-only, all QA-verified (v1.0)
+- 8 vertical PWAs, all QA-verified (v1.0)
+- Accommodations vertical has real backend: 6 DB tables, 6 API routes, JWT auth, In-Stay Dashboard (v1.1)
 - Coffeeshop is most mature (v1+v2 coexistence, production data)
 - All new verticals share DM Sans body font and CSS variable theming
 - 4 BottomNav patterns documented: Coffeeshop v2 (advanced), Tours (bento), Template (6 verticals), Accommodations (tab-based)
 - @shared/payment workspace package established as pattern for shared modules
 - Icons: mix of Phosphor (coffeeshop) and custom SVG (other verticals)
+- Migration chain: 077 (schema) → 078 (seed) → 079 (phase6 ext) → 080 (fnb) → 081 (alignment)
 - 7 tech debt items carried from v1.0 (see MILESTONES.md)
 
 ## Constraints
 
 - **Tech stack**: Next.js 14.2.33, Tailwind, Phosphor Icons preferred
-- **Mock data**: All new verticals use inline mock data, no DB connection yet
+- **Mock data**: All verticals except Accommodations use inline mock data, no DB connection yet
 - **Port allocation**: Each vertical has assigned port (3003-3033)
+- **Database conventions**: TEXT + CHECK (no ENUM), English column names, accom\_ namespace prefix
 
 ## Key Decisions
 
-| Decision                        | Rationale                                                        | Outcome    |
-| ------------------------------- | ---------------------------------------------------------------- | ---------- |
-| PWA standalone (not hub)        | Not competing with Google/Yelp on discovery                      | -- Pending |
-| Accommodation as strategic node | First tourist touchpoint, distributes to other verticals         | -- Pending |
-| Flat BottomNav pattern          | Uniform look across all verticals                                | Good       |
-| DM Sans as shared body font     | Consistency across verticals while allowing unique display fonts | -- Pending |
-| Type predicates for filtering   | TypeScript trusts them for narrowing, unlike type assertions     | Good       |
-| CSS variables for brand colors  | Enables consistent theming and easy customization                | Good       |
-| Complete vertical separation    | Each PWA is standalone, zero cross-vertical contamination        | Good       |
-| @shared/payment workspace pkg   | Proper module resolution for shared TypeScript modules           | Good       |
-| Selective tsconfig includes     | Prevent type pollution from unused shared modules                | Good       |
+| Decision                          | Rationale                                                        | Outcome    |
+| --------------------------------- | ---------------------------------------------------------------- | ---------- |
+| PWA standalone (not hub)          | Not competing with Google/Yelp on discovery                      | -- Pending |
+| Accommodation as strategic node   | First tourist touchpoint, distributes to other verticals         | Good       |
+| Flat BottomNav pattern            | Uniform look across all verticals                                | Good       |
+| DM Sans as shared body font       | Consistency across verticals while allowing unique display fonts | -- Pending |
+| Type predicates for filtering     | TypeScript trusts them for narrowing, unlike type assertions     | Good       |
+| CSS variables for brand colors    | Enables consistent theming and easy customization                | Good       |
+| Complete vertical separation      | Each PWA is standalone, zero cross-vertical contamination        | Good       |
+| @shared/payment workspace pkg     | Proper module resolution for shared TypeScript modules           | Good       |
+| Selective tsconfig includes       | Prevent type pollution from unused shared modules                | Good       |
+| SECURITY DEFINER for guest access | Safer than RLS on bookings; function-based access control        | Good       |
+| BK-XXXXXX booking codes           | Excluding 0/O/1/I/L for readability                              | Good       |
+| INTEGER price (minor currency)    | Avoids floating point issues with money                          | Good       |
+| accom\_ table prefix              | Clear namespace separation for accommodations domain             | Good       |
+| JWT with checkout+24h expiry      | Guest tokens auto-expire shortly after checkout                  | Good       |
+| Slug-based F&B deep-linking       | Decouples accommodations from coffeeshop schema                  | Good       |
+| Dashboard shell pattern           | 128-line shell composing 11 sections; easy to extend             | Good       |
 
 ---
 
-_Last updated: 2026-01-29 after v1.1 milestone initialization_
+_Last updated: 2026-01-30 after v1.1 milestone completion_
