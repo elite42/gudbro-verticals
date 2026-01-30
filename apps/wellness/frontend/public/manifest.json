@@ -1,0 +1,23 @@
+{
+  "name": "Serenity Wellness & Spa",
+  "short_name": "Serenity",
+  "description": "Premium spa, massage, hair salon, and beauty services - Book online with instant confirmation",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#8BA888",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["health", "beauty", "lifestyle"]
+}
