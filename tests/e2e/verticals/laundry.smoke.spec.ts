@@ -1,17 +1,20 @@
 /**
- * Wellness PWA Smoke Tests
+ * Laundry PWA Smoke Tests
  *
- * Validates that the wellness vertical loads correctly, has proper navigation,
+ * Validates that the laundry vertical loads correctly, has proper navigation,
  * no console errors, all key routes are accessible, BottomNav links navigate,
  * and no horizontal overflow at responsive viewports.
  *
- * Run: SKIP_WEBSERVER=1 npx playwright test --project=wellness-mobile
+ * Navigation: 4 links (Home, Services, Promo, Search) + center button (Menu).
+ * Center button uses onCenterClick callback, filtered out by a[href]:not([href="#"]).
+ *
+ * Run: SKIP_WEBSERVER=1 npx playwright test --project=laundry-mobile
  */
 
 import { test, expect } from '../shared/fixtures';
 import { VERTICALS } from '../shared/vertical-registry';
 
-const vertical = VERTICALS.wellness;
+const vertical = VERTICALS.laundry;
 
 test.describe(`${vertical.name} PWA Smoke`, () => {
   // === Page Load ===

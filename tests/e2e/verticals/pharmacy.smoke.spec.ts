@@ -1,17 +1,20 @@
 /**
- * Wellness PWA Smoke Tests
+ * Pharmacy PWA Smoke Tests
  *
- * Validates that the wellness vertical loads correctly, has proper navigation,
+ * Validates that the pharmacy vertical loads correctly, has proper navigation,
  * no console errors, all key routes are accessible, BottomNav links navigate,
  * and no horizontal overflow at responsive viewports.
  *
- * Run: SKIP_WEBSERVER=1 npx playwright test --project=wellness-mobile
+ * Navigation: All 5 nav items are links (Home, Products, Symptoms/center, Offers, Info).
+ * Center item "Symptoms" is a Link to /search (not a button).
+ *
+ * Run: SKIP_WEBSERVER=1 npx playwright test --project=pharmacy-mobile
  */
 
 import { test, expect } from '../shared/fixtures';
 import { VERTICALS } from '../shared/vertical-registry';
 
-const vertical = VERTICALS.wellness;
+const vertical = VERTICALS.pharmacy;
 
 test.describe(`${vertical.name} PWA Smoke`, () => {
   // === Page Load ===

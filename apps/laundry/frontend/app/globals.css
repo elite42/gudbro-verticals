@@ -1,0 +1,279 @@
+/* =============================================================================
+   FRESH & CLEAN LAUNDRY - Design System
+   Palette: azzurro/blu, bianco, grigio chiaro — comunica pulizia
+   Fonts: DM Sans (body) + Inter (display)
+   ============================================================================= */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================================
+   CSS Custom Properties — Fresh & Clean palette
+   ============================================================================= */
+:root {
+  /* Primary: Azzurro/Blu */
+  --blue: #4a90d9;
+  --blue-light: #e8f1fb;
+  --blue-dark: #2d6cb5;
+  --blue-hex: #4a90d9;
+
+  /* Background: Bianco-azzurro */
+  --cloud: #f8fafe;
+  --cloud-dark: #e8eef5;
+
+  /* Text: Charcoal */
+  --charcoal: #2d3748;
+  --charcoal-light: #4a5568;
+  --charcoal-muted: #718096;
+
+  /* Accent: Teal for CTA */
+  --teal: #38b2ac;
+  --teal-light: #e6fffa;
+  --teal-dark: #2c9490;
+
+  /* Gold: Promos/badges */
+  --gold: #d69e2e;
+  --gold-light: #fefce8;
+
+  /* Status */
+  --success: #38a169;
+  --express: #ed8936;
+
+  /* Fonts */
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* =============================================================================
+   Base Styles
+   ============================================================================= */
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--cloud);
+  color: var(--charcoal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* =============================================================================
+   Utility Classes
+   ============================================================================= */
+
+/* Shadows */
+.shadow-soft {
+  box-shadow:
+    0 2px 8px rgba(74, 144, 217, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-soft-lg {
+  box-shadow:
+    0 4px 16px rgba(74, 144, 217, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Hover lift */
+.hover-lift {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 20px rgba(74, 144, 217, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Glass morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(45, 55, 72, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Scrollbar */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Snap scroll */
+.snap-x {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-center {
+  scroll-snap-align: center;
+}
+.snap-start {
+  scroll-snap-align: start;
+}
+
+/* Safe area */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.safe-area-pb {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+}
+
+/* Focus states */
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   Category Colors
+   ============================================================================= */
+.cat-wash {
+  background-color: #e8f1fb;
+  color: #2d6cb5;
+}
+.cat-iron {
+  background-color: #e6fffa;
+  color: #2c9490;
+}
+.cat-dry-clean {
+  background-color: #f3e8ff;
+  color: #7c3aed;
+}
+.cat-iron-only {
+  background-color: #fff7ed;
+  color: #c2410c;
+}
+.cat-shoes {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+.cat-express {
+  background-color: #fefce8;
+  color: #a16207;
+}
+
+/* =============================================================================
+   Animations
+   ============================================================================= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out both;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out both;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Staggered delays */
+.delay-75 {
+  animation-delay: 75ms;
+}
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-150 {
+  animation-delay: 150ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
+.delay-600 {
+  animation-delay: 600ms;
+}
+
+/* =============================================================================
+   Responsive
+   ============================================================================= */
+@media (min-width: 768px) {
+  .hide-scrollbar {
+    overflow-x: visible;
+  }
+}

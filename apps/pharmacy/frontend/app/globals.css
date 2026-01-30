@@ -1,0 +1,303 @@
+/* =============================================================================
+   MEDIVIET PHARMACY - Design System
+   Palette: clean green, white, soft mint — communicates health & trust
+   Fonts: DM Sans (body) + Outfit (display)
+   ============================================================================= */
+
+/* --- Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================================
+   CSS Custom Properties — Pharmacy palette
+   ============================================================================= */
+:root {
+  /* Primary: Medical Green */
+  --green: #2d9f83;
+  --green-light: #e6f7f2;
+  --green-dark: #1f7a63;
+  --green-hex: #2d9f83;
+
+  /* Secondary: Soft Mint */
+  --mint: #5bb5a2;
+  --mint-light: #edf8f5;
+
+  /* Background: Clean White-Mint */
+  --cloud: #f7faf9;
+  --cloud-dark: #e4edea;
+
+  /* Text: Deep Charcoal */
+  --charcoal: #1a2e2a;
+  --charcoal-light: #3d5550;
+  --charcoal-muted: #6b8580;
+
+  /* Accent: Warm Amber (for warnings, CTAs) */
+  --amber: #e8a838;
+  --amber-light: #fff8eb;
+  --amber-dark: #c48b20;
+
+  /* Alert: Medical Red (for banned drugs, warnings) */
+  --red: #dc4545;
+  --red-light: #fef2f2;
+  --red-dark: #b91c1c;
+
+  /* Status */
+  --success: #38a169;
+  --info: #4a90d9;
+  --otc: #2d9f83;
+  --prescription: #e8a838;
+  --banned: #dc4545;
+
+  /* Fonts */
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* =============================================================================
+   Base Styles
+   ============================================================================= */
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--cloud);
+  color: var(--charcoal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* =============================================================================
+   Utility Classes
+   ============================================================================= */
+
+/* Shadows */
+.shadow-soft {
+  box-shadow:
+    0 2px 8px rgba(45, 159, 131, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-soft-lg {
+  box-shadow:
+    0 4px 16px rgba(45, 159, 131, 0.12),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Hover lift */
+.hover-lift {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 20px rgba(45, 159, 131, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Glass morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(26, 46, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Scrollbar */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Snap scroll */
+.snap-x {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-center {
+  scroll-snap-align: center;
+}
+.snap-start {
+  scroll-snap-align: start;
+}
+
+/* Safe area */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.safe-area-pb {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+}
+
+/* Focus states */
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   Category Colors (Drug types)
+   ============================================================================= */
+.cat-otc {
+  background-color: #e6f7f2;
+  color: #1f7a63;
+}
+.cat-prescription {
+  background-color: #fff8eb;
+  color: #c48b20;
+}
+.cat-banned {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+.cat-pain {
+  background-color: #ede9fe;
+  color: #7c3aed;
+}
+.cat-stomach {
+  background-color: #fff8eb;
+  color: #c48b20;
+}
+.cat-allergy {
+  background-color: #fef3c7;
+  color: #a16207;
+}
+.cat-cold {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+.cat-skincare {
+  background-color: #fce7f3;
+  color: #be185d;
+}
+.cat-first-aid {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+.cat-vitamins {
+  background-color: #ecfdf5;
+  color: #047857;
+}
+
+/* =============================================================================
+   Animations
+   ============================================================================= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out both;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out both;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Staggered delays */
+.delay-75 {
+  animation-delay: 75ms;
+}
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-150 {
+  animation-delay: 150ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
+.delay-600 {
+  animation-delay: 600ms;
+}
+
+/* =============================================================================
+   Responsive
+   ============================================================================= */
+@media (min-width: 768px) {
+  .hide-scrollbar {
+    overflow-x: visible;
+  }
+}
