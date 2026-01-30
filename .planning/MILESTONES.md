@@ -1,5 +1,36 @@
 # Milestones
 
+## v1.3 — Merchant Feedback Intelligence (Shipped: 2026-01-30)
+
+**Delivered:** Merchants submit feedback in any language from the backoffice; AI translates, classifies, and groups similar submissions into tasks; admins manage tasks on a kanban board with full analytics visibility.
+
+**Phases completed:** 13-17 (10 plans total)
+
+**Key accomplishments:**
+
+- Database schema feedback intelligence (fb_submissions, fb_tasks, fb_merchant_notifications) with pg_trgm similarity
+- AI pipeline OpenAI GPT-4o-mini (translation, classification, tagging, deduplication) in single call
+- Merchant feedback form with screenshot upload and submission history
+- In-app notification system with bell icon and 60s polling
+- Admin kanban board with @dnd-kit drag-and-drop and task detail slide-over
+- Analytics dashboard with Recharts (volume, breakdown, top features, response times)
+
+**Stats:**
+
+- 63 files created/modified (+9,661 / -221 lines)
+- 5 phases, 10 plans, ~20 tasks
+- 1 day (2026-01-30)
+
+**Git range:** `44fafe7` → `d0596a7`
+
+**Audit:** 23/23 requirements, 5/5 phases, 12/12 integration, 3/3 E2E flows — all passed
+
+**What's next:** TBD (next milestone via `/gsd:new-milestone`)
+
+**Archive:** `milestones/v1.3-ROADMAP.md`, `milestones/v1.3-REQUIREMENTS.md`
+
+---
+
 ## v1.2 — Tech Debt Cleanup (Shipped: 2026-01-30)
 
 **Delivered:** All 7 v1.0 tech debt items resolved and automated E2E smoke testing established across all 8 verticals with visual regression baselines, PWA manifest validation, and physical QA checklist.

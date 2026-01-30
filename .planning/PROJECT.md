@@ -41,21 +41,16 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 - Visual regression baselines (26 PNGs) for all 8 verticals -- v1.2
 - PWA manifest validation for all 8 verticals -- v1.2
 - Physical device QA checklist (78 items) -- v1.2
+- Feedback intelligence DB schema (fb_submissions, fb_tasks, fb_merchant_notifications + pg_trgm) -- v1.3
+- AI pipeline: GPT-4o-mini single-call translate/classify/tag/deduplicate -- v1.3
+- Merchant feedback form with screenshot upload and submission history -- v1.3
+- In-app notification system with bell icon and 60s polling -- v1.3
+- Admin kanban board with @dnd-kit drag-and-drop and task detail panel -- v1.3
+- Analytics dashboard with Recharts (volume, breakdown, top features, response times) -- v1.3
 
 ### Active
 
-**Current Milestone: v1.3 — Merchant Feedback Intelligence**
-
-**Goal:** Enable merchants to submit feedback, report bugs, and request features directly from the backoffice, with AI-powered translation, classification, and aggregation of similar requests into an internal kanban for the GUDBRO team.
-
-**Target features:**
-
-- Merchant feedback submission (text + screenshot + type + auto-context) in Settings
-- AI processing layer (OpenAI): translate, classify, structure, detect duplicates
-- Aggregation of similar requests across merchants/languages into unified tasks
-- Internal kanban board for GUDBRO team (admin role) to manage aggregated requests
-- In-app notifications (campanella) for merchants when requests are received/completed
-- Action workflow: accept → develop → complete → notify, or reject with reasoning
+(Next milestone TBD — run `/gsd:new-milestone` to define)
 
 ### Out of Scope
 
@@ -84,7 +79,7 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 - E2E test infrastructure: 8 smoke specs, 16 Playwright projects, vertical registry, shared fixtures
 - Visual regression: 26 baseline PNGs, screenshot stabilization CSS, 3x zero-flaky validation
 - PWA manifests for all 8 verticals (6 created in v1.2, coffeeshop + gym pre-existing)
-- 3 milestones shipped: v1.0 (QA), v1.1 (Backend), v1.2 (Tech Debt + Testing)
+- 4 milestones shipped: v1.0 (QA), v1.1 (Backend), v1.2 (Tech Debt + Testing), v1.3 (Feedback Intelligence)
 
 ## Constraints
 
@@ -122,4 +117,4 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ---
 
-_Last updated: 2026-01-30 after v1.3 milestone start_
+_Last updated: 2026-01-30 after v1.3 milestone_
