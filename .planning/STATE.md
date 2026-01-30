@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.3 Merchant Feedback Intelligence — Phase 16 complete
+**Current focus:** v1.3 Merchant Feedback Intelligence — Phase 17 in progress
 
 ## Current Position
 
-Phase: 16 of 17 (Admin Kanban)
-Plan: 2 of 2 in current phase
-Status: Phase complete
-Last activity: 2026-01-30 — Completed 16-02-PLAN.md (Task Detail Panel)
+Phase: 17 of 17 (Analytics Dashboard)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-30 — Completed 17-01-PLAN.md (Analytics API Routes)
 
-Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] | v1.3 [8/10]
-██████████████████████████████████░░░░░░ 34/36 (94%)
+Progress: v1.0 [6/6] | v1.1 [12/12 + 1 quick] | v1.2 [8/8] | v1.3 [9/10]
+███████████████████████████████████░░░░░ 35/36 (97%)
 
 ## Performance Metrics
 
@@ -59,6 +59,8 @@ Full history in PROJECT.md Key Decisions table and milestones archives.
 | D-1502-2 | Visual-only dismiss (filters from display, marks as read) instead of DELETE from DB   | 15-02 |
 | D-1601-1 | closestCorners collision detection for multi-column kanban (not closestCenter)        | 16-01 |
 | D-1602-1 | Radix StatusChangeDialog replaces browser confirm() for Done/Rejected moves           | 16-02 |
+| D-1701-1 | JS-side aggregation instead of Postgres RPC functions (simpler, no migration needed)  | 17-01 |
+| D-1701-2 | Two batched endpoints (volume + summary) to minimize API calls from dashboard         | 17-01 |
 
 ### Known Issues
 
@@ -75,10 +77,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 16-02-PLAN.md (Task Detail Panel) — Phase 16 complete
+Stopped at: Completed 17-01-PLAN.md (Analytics API Routes) — Phase 17 plan 1/2
 Resume file: None
-Next: `/gsd:plan-phase 17` to plan Phase 17 (Analytics Dashboard)
+Next: `/gsd:execute-phase 17` to execute 17-02-PLAN.md (Dashboard Page)
 
 ---
 
-_Last updated: 2026-01-30 after completing 16-02_
+_Last updated: 2026-01-30 after completing 17-01_
