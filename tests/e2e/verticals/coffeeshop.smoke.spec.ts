@@ -13,8 +13,11 @@
  * Run: SKIP_WEBSERVER=1 npx playwright test --project=coffeeshop-mobile
  */
 
+import path from 'path';
 import { test, expect } from '../shared/fixtures';
 import { VERTICALS } from '../shared/vertical-registry';
+
+const SCREENSHOT_CSS = path.join(__dirname, '../shared/screenshot-stable.css');
 
 const vertical = VERTICALS.coffeeshop;
 
@@ -116,4 +119,60 @@ test.describe(`${vertical.name} PWA Smoke`, () => {
       expect(hasOverflow, `Horizontal overflow at ${vp.width}px`).toBe(false);
     });
   }
+});
+
+test.describe(`${vertical.name} Visual Regression`, () => {
+  test('homepage visual baseline', async ({ page, pwaPage }) => {
+    await pwaPage.goto();
+    await page.waitForLoadState('networkidle');
+    await expect(page).toHaveScreenshot(`${vertical.slug}-home.png`, {
+      maxDiffPixelRatio: 0.01,
+      threshold: 0.2,
+      animations: 'disabled',
+      stylePath: SCREENSHOT_CSS,
+    });
+  });
+
+  test('key page visual baseline', async ({ page }) => {
+    const nonHomeRoutes = Object.entries(vertical.routes).filter(([k]) => k !== 'home');
+    if (nonHomeRoutes.length === 0) {
+      test.skip();
+      return;
+    }
+    const [routeName, routePath] = nonHomeRoutes[0];
+    await page.goto(routePath);
+    await page.waitForLoadState('networkidle');
+    await expect(page).toHaveScreenshot(`${vertical.slug}-${routeName}.png`, {
+      maxDiffPixelRatio: 0.01,
+      threshold: 0.2,
+      animations: 'disabled',
+      stylePath: SCREENSHOT_CSS,
+    });
+  });
+});
+
+test.describe(`${vertical.name} PWA Manifest`, () => {
+  test('manifest.json has required fields', async ({ page }) => {
+    const response = await page.request.get('/manifest.json');
+    expect(response.ok(), 'manifest.json should be accessible').toBeTruthy();
+
+    const manifest = await response.json();
+
+    // Required string fields
+    expect(manifest.name, 'name must be non-empty').toBeTruthy();
+    expect(manifest.short_name, 'short_name must be non-empty').toBeTruthy();
+    expect(manifest.theme_color, 'theme_color must be non-empty').toBeTruthy();
+    expect(manifest.display, 'display must be set').toBeTruthy();
+    expect(manifest.start_url, 'start_url must be set').toBeTruthy();
+
+    // Icon validation
+    const icons: Array<{ sizes?: string }> = manifest.icons || [];
+    expect(icons.length, 'must have at least 2 icons').toBeGreaterThanOrEqual(2);
+
+    const sizes = icons.map((i) => i.sizes || '');
+    const has192 = sizes.some((s) => s.includes('192'));
+    const has512 = sizes.some((s) => s.includes('512'));
+    expect(has192, 'must include 192x192 icon').toBeTruthy();
+    expect(has512, 'must include 512x512 icon').toBeTruthy();
+  });
 });
