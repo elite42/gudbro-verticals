@@ -9,11 +9,11 @@ Requirements for Merchant Feedback Intelligence milestone. Each maps to roadmap 
 
 ### Feedback Submission
 
-- [ ] **FBSUB-01**: Merchant can submit feedback with type selector (bug/feature/feedback), title, and description
-- [ ] **FBSUB-02**: Merchant can attach a screenshot to feedback submission
-- [ ] **FBSUB-03**: Submission auto-captures context (vertical, module/page, merchant ID)
-- [ ] **FBSUB-04**: Merchant can write in any language (no language picker required)
-- [ ] **FBSUB-05**: Merchant can view list of own past submissions with current status
+- [x] **FBSUB-01**: Merchant can submit feedback with type selector (bug/feature/feedback), title, and description
+- [x] **FBSUB-02**: Merchant can attach a screenshot to feedback submission
+- [x] **FBSUB-03**: Submission auto-captures context (vertical, module/page, merchant ID)
+- [x] **FBSUB-04**: Merchant can write in any language (no language picker required)
+- [x] **FBSUB-05**: Merchant can view list of own past submissions with current status
 
 ### AI Processing
 
@@ -87,11 +87,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase    | Status   |
 | ----------- | -------- | -------- |
-| FBSUB-01    | Phase 14 | Pending  |
-| FBSUB-02    | Phase 14 | Pending  |
-| FBSUB-03    | Phase 14 | Pending  |
-| FBSUB-04    | Phase 14 | Pending  |
-| FBSUB-05    | Phase 14 | Pending  |
+| FBSUB-01    | Phase 14 | Complete |
+| FBSUB-02    | Phase 14 | Complete |
+| FBSUB-03    | Phase 14 | Complete |
+| FBSUB-04    | Phase 14 | Complete |
+| FBSUB-05    | Phase 14 | Complete |
 | FBAI-01     | Phase 13 | Complete |
 | FBAI-02     | Phase 13 | Complete |
 | FBAI-03     | Phase 13 | Complete |
@@ -120,4 +120,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after roadmap phase mapping_
+_Last updated: 2026-01-30 after completing phase 14_

@@ -35,7 +35,7 @@ See milestones/v1.2-ROADMAP.md for details.
 **Milestone Goal:** Merchants submit feedback in any language from the backoffice; AI translates, classifies, and groups similar submissions into tasks; admins manage tasks on a kanban board with full analytics visibility.
 
 - [x] **Phase 13: Foundation and AI Pipeline** - Database schema and AI processing service
-- [ ] **Phase 14: Merchant Submission UI** - Feedback form, screenshot upload, and submission history
+- [x] **Phase 14: Merchant Submission UI** - Feedback form, screenshot upload, and submission history
 - [ ] **Phase 15: Merchant Notifications** - In-app notification system with bell icon and polling
 - [ ] **Phase 16: Admin Kanban** - Drag-and-drop task board with detail panel and status notifications
 - [ ] **Phase 17: Analytics Dashboard** - Submission volume, breakdowns, top features, and response time
@@ -79,8 +79,8 @@ Plans:
 
 Plans:
 
-- [ ] 14-01-PLAN.md — Feedback submission form (API route, upload config, page shell, form component with type selector, title, description, screenshot upload, context auto-capture)
-- [ ] 14-02-PLAN.md — Submission history list (history API route, history list with type/status badges, expandable detail view)
+- [x] 14-01-PLAN.md — Feedback submission form (API route, upload config, page shell, form component with type selector, title, description, screenshot upload, context auto-capture)
+- [x] 14-02-PLAN.md — Submission history list (history API route, history list with type/status badges, expandable detail view)
 
 ### Phase 15: Merchant Notifications
 
@@ -154,7 +154,7 @@ Plans:
 | 11. E2E Smoke Tests            | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 12. Visual and Quality         | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
 | 13. Foundation and AI Pipeline | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
-| 14. Merchant Submission UI     | v1.3      | 0/2            | Not started | -          |
+| 14. Merchant Submission UI     | v1.3      | 2/2            | ✅ Complete | 2026-01-30 |
 | 15. Merchant Notifications     | v1.3      | 0/2            | Not started | -          |
 | 16. Admin Kanban               | v1.3      | 0/2            | Not started | -          |
 | 17. Analytics Dashboard        | v1.3      | 0/2            | Not started | -          |
@@ -162,4 +162,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-30 after completing phase 13_
+_Last updated: 2026-01-30 after completing phase 14_
