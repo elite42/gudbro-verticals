@@ -3,15 +3,167 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-27
+**Last Updated:** 2026-01-30
+
+---
+
+### 2026-01-30 — GSD Milestones v1.1 + v1.2 + v1.3
+
+**v1.1 In-Stay MVP Backend** (Phases 4-8, 12 plans)
+
+- Accommodations DB schema (6 tables, RLS, SECURITY DEFINER functions)
+- 6 JWT-protected API routes for In-Stay data
+- In-Stay Dashboard refactored (1387 LOC -> 128-line shell + 11 sections)
+- F&B cross-vertical deep-linking (slug-based)
+- Schema-API alignment migration 081
+
+**v1.2 Tech Debt Cleanup** (Phases 9-12, 8 plans)
+
+- 7 tech debt items resolved (Tours TS, CSS vars, Wellness back link, ESLint, placeholders)
+- Playwright E2E infrastructure (vertical registry, BasePwaPage, 16 projects)
+- 72 smoke tests across 8 verticals (3x zero-flaky validation)
+- Visual regression baselines (26 PNGs) + PWA manifest validation
+- Physical device QA checklist (78 items)
+
+**v1.3 Merchant Feedback Intelligence** (Phases 13-17, 10 plans)
+
+- Feedback intelligence DB schema (fb_submissions, fb_tasks, fb_merchant_notifications + pg_trgm)
+- AI pipeline GPT-4o-mini (translate, classify, tag, deduplicate) single call
+- Merchant feedback form with screenshot upload + submission history
+- In-app notification system (bell icon, 60s polling, optimistic updates)
+- Admin kanban board (@dnd-kit drag-and-drop, task detail slide-over, Radix dialogs)
+- Analytics dashboard (Recharts: volume, type/vertical breakdown, top features, response times)
+
+**Totale giornata:** 30 piani eseguiti, 3 milestones shipped, ~9,600+ LOC
+
+---
+
+### 2026-01-29 — BottomNav Uniforming + Multi-Vertical Strategy
+
+**BottomNav Uniforming** (tutte le PWA verticali)
+
+- Revisione completa di 9 BottomNav across all PWAs
+- Rimosso bottone centrale elevato/colorato da: Pharmacy, Workshops, Gym, Wellness
+- Pattern uniforme: flat center button, same size, brand color su active, scale(1.1)
+- Wellness riscritto completamente (era gradient pink/purple w-16 h-16)
+- Files modificati: 4 BottomNav.tsx (pharmacy, workshops, gym, wellness)
+
+**Multi-Vertical Strategy** (brainstorming + documentazione)
+
+- Analisi completa backoffice: 89 migrazioni, 48 API, 45+ servizi categorizzati
+- Decisione: NO hub centrale (non siamo Yelp/Google), SI PWA standalone per commerciante
+- Alloggio identificato come nodo strategico centrale (primo touchpoint turista)
+- Sistema convenzioni (migration 050) come collante tra verticali
+- MVP convenzioni senza commissioni/redistribuzione profitto
+- Fasi: Frontend mock (attuale) → Backend Accommodations → Connessione verticali → Booking diretto
+- Documento strategia: `docs/roadmaps/MULTI-VERTICAL-STRATEGY.md` v1.0
+
+---
+
+### 2026-01-28 — Gym/Fitness Standalone PWA + QA Improvements
+
+**Gym Standalone PWA** (`apps/gym/frontend`, port 3033)
+
+- Migrated from Wellness integration to standalone PWA with dedicated design system (Orange/Navy/Yellow)
+- Scaffolded full Next.js 14 frontend (~32 files across 6 phases)
+- Pages: homepage, courses catalog, course detail, passes pricing, shop catalog, shop detail, account, register, search, promotions, info
+- Infrastructure: BottomNav (5 tabs with center DayPassDrawer), ClientShell, currency converter, SEO libs
+- Design: DM Sans + Inter fonts, energetic orange primary, deep navy secondary, bright yellow accent
+
+**Gym QA & Improvements** (same session)
+
+- Added sticky glass-effect header with language selector (EN/VI/KO) and currency selector (VND/USD/EUR/KRW)
+- Fixed `formatVNDPrice()`: amounts ≥1M now show as "6M" instead of "6000k"
+- Removed redundant ₫ symbol from all price displays across 8+ files (currency shown in header)
+- Personal Training system: added PT data model (PTPackage interface, ptRate, ptPackages, ptAvailability per instructor)
+- Created trainer profile pages at `/courses/trainers/[slug]` with hero, bio, certifications, PT pricing table, weekly availability grid, WhatsApp booking CTA
+- Added PT section to homepage with horizontal scroll trainer cards
+- Updated courses page with full trainer listing section replacing simple WhatsApp CTA
+- Social media integration: added Instagram/Facebook/TikTok/Google links for gym and individual trainers
+- Social buttons on homepage Location & Contact section and trainer profile pages
+- Updated sitemap with trainer pages
+
+**Files created/modified:**
+
+- `lib/currency-converter.ts` — formatVNDPrice M notation
+- `config/gym.config.ts` — PTPackage interface, instructor PT data + social, gymConfig.social
+- `app/page.tsx` — sticky header, PT section, social links
+- `app/courses/trainers/[slug]/page.tsx` — NEW trainer profile page
+- `app/courses/page.tsx` — trainer listing section
+- `app/courses/[slug]/page.tsx` — clickable instructor linking to profile
+- `app/sitemap.xml/route.ts` — trainer pages
+- 7 files with ₫ removal (passes, shop, shop/[slug], register, info, search, DayPassDrawer)
+
+---
+
+### 2026-01-27 — New Verticals: Pharmacy, Workshops, Gym/Fitness
+
+**Pharmacy PWA** (`apps/pharmacy/frontend`, port 3031)
+
+- Created PRD v2.0 at `apps/pharmacy/PRD.md`
+- Scaffolded full Next.js 14 frontend with medical green design system
+- Pages: homepage, products listing, product detail, search (symptom-based), promotions, info (tourist pharmacy guide)
+- All pages use inline mock data, CSS variables, staggered animations
+- Design: Outfit + DM Sans fonts, green/amber/red badge system for OTC/Rx/Controlled
+
+**Workshops PWA** (`apps/workshops/frontend`, port 3032)
+
+- Created PRD v2.0 at `apps/workshops/PRD.md`
+- Scaffolded full Next.js 14 frontend with terracotta earth-tone design system
+- Pages: homepage, workshops catalog, workshop detail, search (filters), promotions, about
+- Infrastructure: currency converter, currency preferences, SEO libs, BottomNav, ClientShell
+- Design: DM Serif Display + DM Sans, terracotta/amber/ivory/sage palette
+
+**Gym/Fitness Integration** (in `apps/wellness/frontend`)
+
+- Created PRD Fitness Addendum at `apps/wellness/PRD-FITNESS-ADDENDUM.md`
+- Added gym category to wellness homepage with NEW badge and promo section
+- Created gym listing page at `/gym` with 6 mock gyms, filters, search
+- Created gym detail page at `/gym/[slug]` with 12 sections (hero, pricing, facilities, equipment, classes, hours, location, reviews, similar gyms, sticky buy bar)
+- Added `.cat-gym` CSS class to globals.css
+
+**Laundry Form Drawer** (`apps/laundry/frontend`)
+
+- Created `components/LaundryForm.tsx` — full drawer with garment selection, quantity, service, notes, express toggle
+- Integrated with BottomNav center button and ClientShell state management
+- localStorage persistence + WhatsApp/Zalo message generation
+
+**Infrastructure**
+
+- Updated `pnpm-workspace.yaml` to include all new vertical frontend packages
 
 ---
 
 ## 2026-01-27
 
-| ID           | Feature                    | Descrizione                                                                                            | Completato |
-| ------------ | -------------------------- | ------------------------------------------------------------------------------------------------------ | ---------- |
-| ACCOM-INSTAY | Accommodations In-Stay PWA | Dashboard ospiti per alloggi: WiFi, visa status dinamico, local deals, partner GUDBRO, delivery/pickup | 2026-01-27 |
+| ID               | Feature                    | Descrizione                                                                                                                                   | Completato |
+| ---------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| LAUNDRY-FORM     | Laundry Bag Drawer         | Drawer modale per compilare scheda capi da lavare: tipo capo + qty + servizio + note + express toggle, save localStorage, invio WhatsApp/Zalo | 2026-01-27 |
+| VERT-LAUNDRY-P1  | Laundry PWA Phase 1        | PWA frontend completa: homepage, services, service detail, promotions, search, BottomNav, SEO, design system azzurro/blu                      | 2026-01-27 |
+| VERT-WELLNESS-P1 | Wellness PWA Phase 1       | PWA frontend completa: homepage redesign, services page, service detail, staff page, staff detail, promotions. Design system verde/teal       | 2026-01-27 |
+| VERT-TOURS-P1    | Tours PWA Phase 1          | PWA frontend creata: homepage, tours listing, tour detail, multi-lingua, multi-valuta                                                         | 2026-01-27 |
+| ACCOM-INSTAY     | Accommodations In-Stay PWA | Dashboard ospiti per alloggi: WiFi, visa status dinamico, local deals, partner GUDBRO, delivery/pickup                                        | 2026-01-27 |
+
+> **LAUNDRY-FORM Details:**
+>
+> **File creati:**
+>
+> - `components/LaundryForm.tsx` — Drawer modale completo (garment pills, service pills, qty stepper, express toggle, summary, WhatsApp/Zalo send)
+> - `components/ClientShell.tsx` — Wrapper client per stato condiviso (preserva Server Component layout con metadata)
+>
+> **File modificati:**
+>
+> - `components/BottomNav.tsx` — Aggiunta prop `onCenterClick`, badge conteggio items, center button cliccabile, evento `laundry-bag-updated`
+> - `app/layout.tsx` — Importa ClientShell che wrappa children + BottomNav + LaundryForm
+> - `app/page.tsx` — Rimosso nav inline e bento menu drawer (ora dal layout)
+> - `app/promotions/page.tsx` e `app/search/page.tsx` — Rimosso BottomNav duplicato
+>
+> **Decisioni architetturali:**
+>
+> - ClientShell pattern per evitare `'use client'` nel layout (che eliminerebbe `export metadata`)
+> - BottomNav centralizzato nel layout invece che per-page (elimina duplicazione)
+> - localStorage con evento custom per sincronizzare badge BottomNav con LaundryForm
+> - Service selector: chip pills (teal) invece di `<select>` nativo (UX migliore su mobile)
 
 > **ACCOM-INSTAY Details:**
 >

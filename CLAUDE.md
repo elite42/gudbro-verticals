@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-27
-> **Version:** 8.8 (Vertical PWAs Map)
+> **Last Updated:** 2026-01-30
+> **Version:** 9.3 (New plugins: superpowers, backend-development, debugging-toolkit, developer-essentials)
 
 ---
 
@@ -28,15 +28,15 @@
 
 # 0. CURRENT FOCUS
 
-> **Task attiva:** Nessuna (scegli da backlog)
-> **Stato:** Infra solida, monitoring attivo (Sentry+UptimeRobot), pronto per nuove task
-> **Ultima completata:** Order Timing Analytics (4 fasi) - 2026-01-24
+> **Task attiva:** Nessuna — pronto per nuovo milestone
+> **Stato:** v1.3 Merchant Feedback Intelligence completato e archiviato. 4 milestones shipped (v1.0-v1.3).
+> **Ultima completata:** v1.3 Merchant Feedback Intelligence - 2026-01-30
 
-**Prossime opzioni (da 1-TODO.md):**
+**Prossimo milestone (da strategia):**
 
-- SEC-2FA (2 days) - Two-Factor Auth per admin/owner (in Testing)
-- SCALE-CITUS (6 weeks) - Database Sharding per Phase 4
-- SITE-CUSTOMIZATION - Sezioni custom per merchant
+- Definire con `/gsd:new-milestone`
+- Vedi `docs/roadmaps/MULTI-VERTICAL-STRATEGY.md` per roadmap completa
+- GitHub Board: https://github.com/users/elite42/projects/1
 
 ---
 
@@ -95,6 +95,8 @@ Vuoi continuare o fare altro?
 
 **Plan Mode:** Usa per task > 30 min. Attiva con Shift+Tab (2x) o "entra in plan mode".
 
+**GSD Framework:** Per feature complesse o nuovi progetti, usa GSD (Get Shit Done) per planning e building strutturato con sub-agent e context pulito. Vedi sezione 10.4.
+
 ---
 
 # 3. VALIDATION GATES
@@ -132,7 +134,17 @@ gudbro-verticals/
 │   │   ├── frontend/         # Booking Mode + In-Stay Dashboard
 │   │   └── PRD.md            # Product Requirements v2.2
 │   ├── tours/                # Tours PWA - Activities, Experiences
-│   ├── wellness/             # Wellness PWA - Spa, Hair, Nails, Tattoo
+│   ├── gym/                  # Gym PWA (:3033) - Fitness, PT, day passes, shop
+│   ├── wellness/             # Wellness PWA (:3003) - Spa, Hair, Nails, Tattoo
+│   ├── laundry/              # Laundry PWA (:3030) - Wash & fold, dry clean
+│   │   ├── frontend/         # Service catalog + LaundryForm drawer
+│   │   └── PRD.md
+│   ├── pharmacy/             # Pharmacy PWA (:3031) - Tourist medicines
+│   │   ├── frontend/         # Symptom search, product catalog
+│   │   └── PRD.md
+│   ├── workshops/            # Workshops PWA (:3032) - Artisan experiences
+│   │   ├── frontend/         # Workshop catalog, booking via WhatsApp
+│   │   └── PRD.md
 │   ├── waiter/               # Waiter PWA - Staff order taking
 │   ├── rentals/              # Rentals PWA - Vehicles, Equipment
 │   ├── website/              # Landing pages
@@ -212,23 +224,54 @@ gudbro-verticals/
 
 ## Vertical PWAs (Product Requirements)
 
-| File                         | Quando Usare                                         |
-| ---------------------------- | ---------------------------------------------------- |
-| `apps/accommodations/PRD.md` | **Stays PWA** - In-Stay Dashboard, visa, local deals |
-| `docs/features/TOURS-PRD.md` | **Tours PWA** - Activities, experiences              |
-| `apps/wellness/PRD.md`       | **Wellness PWA** - Spa, hair, nails, tattoo          |
+| File                                    | Quando Usare                                               |
+| --------------------------------------- | ---------------------------------------------------------- |
+| `apps/accommodations/PRD.md`            | **Stays PWA** - In-Stay Dashboard, visa, local deals       |
+| `docs/features/TOURS-PRD.md`            | **Tours PWA** - Activities, experiences                    |
+| `apps/wellness/PRD.md`                  | **Wellness PWA** - Spa, hair, nails, tattoo                |
+| `apps/laundry/PRD.md`                   | **Laundry PWA** - Lavanderie standalone, pricing, tracking |
+| `apps/pharmacy/PRD.md`                  | **Pharmacy PWA** - Tourist medicines, symptom search       |
+| `apps/workshops/PRD.md`                 | **Workshops PWA** - Artisan experiences, booking           |
+| `apps/wellness/PRD-FITNESS-ADDENDUM.md` | **Gym/Fitness** - Day passes, hotel partnerships           |
 
 ## Roadmaps & Backlog
 
-| File                                | Quando Usare       |
-| ----------------------------------- | ------------------ |
-| `docs/roadmaps/SCALE-ROADMAP.md`    | Scaling infra      |
-| `docs/roadmaps/SECURITY-ROADMAP.md` | Security hardening |
-| `docs/backlog/`                     | Task management    |
+| File                                       | Quando Usare                     |
+| ------------------------------------------ | -------------------------------- |
+| `docs/roadmaps/MULTI-VERTICAL-STRATEGY.md` | **Strategia multi-verticale** ⭐ |
+| `docs/roadmaps/SCALE-ROADMAP.md`           | Scaling infra                    |
+| `docs/roadmaps/SECURITY-ROADMAP.md`        | Security hardening               |
+| `docs/backlog/`                            | Task management                  |
 
 ---
 
-# 7. KANBAN
+# 7. KANBAN (GitHub Projects)
+
+> **Board:** https://github.com/users/elite42/projects/1
+> **Repo:** elite42/gudbro-verticals
+
+## Processo Obbligatorio
+
+**Quando AGGIORNARE il board:**
+
+| Evento                  | Azione                            | Comando                                                                                                                                         |
+| ----------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Inizio lavoro su issue  | Sposta in **In Progress**         | `gh project item-edit --project-id PVT_kwHOAPbSG84BNwg5 --id <ITEM_ID> --field-id <STATUS_FIELD_ID> --single-select-option-id <IN_PROGRESS_ID>` |
+| Lavoro completato       | Sposta in **Done** + chiudi issue | `gh issue close <N> -R elite42/gudbro-verticals`                                                                                                |
+| Nuovo task identificato | Crea issue + aggiungi al board    | `gh issue create` + `gh project item-add 1 --owner elite42 --url <URL>`                                                                         |
+| Bug trovato             | Crea issue con label `bug`        | `gh issue create -R elite42/gudbro-verticals`                                                                                                   |
+
+**Custom Fields disponibili:**
+
+- **Priority**: Alta, Media, Bassa
+- **Vertical**: Hospitality, F&B, Shared
+- **Type**: Feature, Bug, Improvement, Infrastructure
+
+**Labels in uso:** `QA`, `enhancement`, `feature`, `F&B`, `backend`, `infrastructure`, `launch`, `expansion`, `bug`
+
+**Convenzione titoli issue:** `[Categoria] Titolo` (es. `[F&B] Table-Specific Ordering`, `[QA] Build Verification`)
+
+## Legacy (docs/backlog/)
 
 ```
 docs/backlog/
@@ -237,6 +280,8 @@ docs/backlog/
 ├── 3-TESTING.md
 └── 4-DONE.md
 ```
+
+> **Nota:** Il backlog in `docs/backlog/` resta per compatibilità ma il sistema primario è ora GitHub Projects.
 
 ---
 
@@ -337,11 +382,23 @@ git push origin main   # Auto-deploy Vercel
 
 ## Slash Commands (Custom)
 
-| Comando     | Descrizione                               |
-| ----------- | ----------------------------------------- |
-| `/qa-quick` | Check veloce (typecheck, build, advisors) |
-| `/verify`   | Verifica completa pre-deploy              |
-| `/deploy`   | Build + push + verifica                   |
+| Comando                | Descrizione                                           |
+| ---------------------- | ----------------------------------------------------- |
+| `/qa-quick`            | Check veloce (typecheck, build, advisors)             |
+| `/verify`              | Verifica completa pre-deploy                          |
+| `/deploy`              | Build + push + verifica                               |
+| `/start-session`       | Avvio sessione GUDBRO (legge backlog e focus)         |
+| `/end-session`         | Checklist fine sessione per categoria                 |
+| `/new-feature`         | Workflow completo nuova feature (plan→build→test→doc) |
+| `/db-status`           | Stato database, traduzioni, security e performance    |
+| `/inventory`           | Inventario progetto (DB, backlog, features, repo)     |
+| `/typecheck`           | TypeScript typecheck con guida errori                 |
+| `/translate-batch`     | Continua traduzioni ingredienti (9 lingue, batch 50)  |
+| `/gsd:new-project`     | GSD: inizializza nuovo progetto                       |
+| `/gsd:plan-phase N`    | GSD: pianifica fase N                                 |
+| `/gsd:execute-phase N` | GSD: esegui fase N                                    |
+| `/gsd:progress`        | GSD: stato avanzamento                                |
+| `/gsd:quick`           | GSD: task rapido con garanzie atomiche                |
 
 ---
 
@@ -358,6 +415,11 @@ git push origin main   # Auto-deploy Vercel
 | `ui-ux-pro-max`         | UI/UX avanzato alternativo                                           | Skill tool                      |
 | `ralph-loop`            | Task iterativi con criteri di successo chiari (es. far passare test) | `/ralph-loop`                   |
 | `stripe-best-practices` | Integrazione Stripe                                                  | Skill tool                      |
+| `gsd`                   | **Feature complesse, nuovi progetti, milestone** ⭐                  | `/gsd:*` comandi                |
+| `superpowers`           | **TDD, debugging sistematico, collaboration patterns**               | Automatica                      |
+| `backend-development`   | **API design, architecture patterns, GraphQL, TDD backend**          | Automatica                      |
+| `debugging-toolkit`     | **Smart debugging, developer experience optimization**               | Automatica                      |
+| `developer-essentials`  | **Git avanzato, SQL optimization, monorepo, E2E testing, auth**      | Automatica                      |
 
 ### Regola UI/UX (OBBLIGATORIA)
 
@@ -397,6 +459,90 @@ Quando lavoro su UI/UX DEVO usare skill `frontend-design`:
 
 **Buono per:** Task ben definiti, iterazione su test, progetti greenfield
 **Non buono per:** Task con giudizio umano, criteri vaghi, debugging production
+
+## 10.35 Agents (Sub-agent locali)
+
+> **Agent specializzati in `.claude/agents/`.** Claude li usa come sub-agent per task specifici.
+
+| Agent                   | Funzione                                                                        | Quando Usare                                         |
+| ----------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `analyst`               | Analizza dati analytics, genera report settimanali, identifica trend e anomalie | Report, analisi metriche, funnel conversion          |
+| `backoffice-specialist` | Sviluppo Backoffice Admin (CRUD, TanStack Table, Prisma, multi-tenant)          | Nuove pagine admin, gestione dati, import/export     |
+| `proposer`              | Genera suggerimenti miglioramento basati su dati (prioritizzati per impatto)    | Dopo report analyst, sprint planning, ottimizzazioni |
+| `pwa-specialist`        | Sviluppo Coffeeshop PWA (multi-locale, RTL, currency, UI)                       | Feature menu digitale, multi-lingua, PWA             |
+| `verify-app`            | Verifica completa post-modifiche (typecheck, build, security, test)             | Dopo feature, prima di commit/PR, QA                 |
+
+### Quando Claude USA gli Agents
+
+```
+✅ USA agent automaticamente:
+- verify-app → dopo ogni feature significativa
+- pwa-specialist → lavoro su PWA coffeeshop
+- backoffice-specialist → lavoro su admin dashboard
+- analyst → richiesta analisi dati
+- proposer → dopo report analyst, prima di sprint planning
+
+❌ NON serve agent:
+- Fix rapidi (usa direttamente)
+- Task cross-verticale (gestisce Claude direttamente)
+```
+
+## 10.4 GSD Framework (Get Shit Done)
+
+> **Meta-prompting e context engineering per task complessi.**
+> Installato globalmente in `~/.claude/`. Claude decide autonomamente quando usarlo.
+
+### Cos'è
+
+GSD è un layer di orchestrazione che combatte il **context rot** (degrado qualità quando il context window si riempie). Ogni task viene eseguito in un sub-agent fresco con 200k token di context pulito.
+
+### Come Funziona
+
+```
+1. PLANNING  → Gap analysis (spec vs codice), genera TODO prioritizzata. Zero codice.
+2. BUILDING  → Prende i task, implementa, testa, committa (atomic commits).
+3. LOOP      → Ripete finché tutti i task sono completati.
+```
+
+Ogni piano ha max 3 task. Ogni commit è atomico, indipendentemente revertabile, e git bisect trova l'esatto task fallito.
+
+### Quando Claude USA GSD
+
+```
+✅ USA GSD (ciclo completo):
+- Nuova feature complessa (multi-file, multi-step)
+- Nuovo progetto o milestone
+- Refactoring significativo
+- Task che richiedono planning strutturato
+
+✅ USA GSD Quick Mode (/gsd:quick):
+- Bug fix con garanzie (atomic commit, state tracking)
+- Piccola feature ben definita
+- Config changes tracciabili
+
+❌ NON usare GSD:
+- Fix di una riga
+- Piccole modifiche CSS/copy
+- Task esplorativo/ricerca
+- QA rapido
+```
+
+### Comandi Principali
+
+| Comando                | Descrizione                                                            |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `/gsd:new-project`     | Inizializza progetto (questioning → research → requirements → roadmap) |
+| `/gsd:new-milestone`   | Nuovo ciclo per codebase esistente                                     |
+| `/gsd:plan-phase N`    | Crea piano dettagliato per fase N                                      |
+| `/gsd:execute-phase N` | Esegui fase N                                                          |
+| `/gsd:progress`        | Stato avanzamento e prossima azione                                    |
+| `/gsd:quick`           | Task rapido con garanzie GSD                                           |
+| `/gsd:help`            | Lista completa comandi                                                 |
+
+### Trade-off
+
+- **Più token consumati** (sub-agent freschi) ma **qualità costante** e zero context rot
+- Investimento che ripaga su task non banali dove il rework costerebbe di più
 
 ---
 
@@ -444,9 +590,14 @@ Quando lavoro su UI/UX DEVO usare skill `frontend-design`:
 
 ---
 
-**Version:** 8.8
+**Version:** 9.0
 **Changes:**
 
+- v9.3 - New Plugins: installed superpowers (TDD, debugging, collaboration), backend-development (API design, architecture, GraphQL), debugging-toolkit (smart debug, DX), developer-essentials (Git, SQL, monorepo, E2E, auth). Added to skills table.
+- v9.2 - Complete Documentation: added all 5 local agents (analyst, backoffice-specialist, proposer, pwa-specialist, verify-app), 6 missing custom commands (db-status, inventory, start-session, new-feature, translate-batch, typecheck) to CLAUDE.md.
+- v9.1 - GSD Framework: added GSD (Get Shit Done) to skills, commands, and workflow. Updated ai-employee.md (M4→M5, Clawdbot→Moltbot→OpenClaw, timeline Luglio-Ottobre 2026).
+- v9.0 - Gym Standalone PWA: gym as independent PWA (:3033), removed from wellness. Updated repo structure, current focus.
+- v8.9 - New Verticals: added Pharmacy, Workshops, Gym/Fitness to repo structure, doc map, workspace config. Updated current focus.
 - v8.8 - Vertical PWAs Map: added apps structure with accommodations, tours, wellness, waiter, rentals + Vertical PWAs section in doc map
 - v8.7 - MCP Tools Rules: added section 1.5 with critical Pieces MCP rules (never use create_pieces_memory)
 - v8.6 - Knowledge Base: added docs/knowledge/ with CUSTOMIZATIONS-SYSTEM.md and V2-MIGRATION-GUIDE.md
