@@ -32,7 +32,7 @@ export const VERTICALS: Record<string, VerticalConfig> = {
     port: 3028,
     baseURL: 'http://localhost:3028',
     pnpmFilter: '@gudbro/accommodations-frontend',
-    routes: { home: '/', stay: '/stay' },
+    routes: { home: '/' },
   },
   tours: {
     name: 'Tours',
