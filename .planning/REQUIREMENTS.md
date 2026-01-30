@@ -85,39 +85,39 @@ Explicitly excluded. Documented to prevent scope creep.
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase   | Status  |
-| ----------- | ------- | ------- |
-| FBSUB-01    | Pending | Pending |
-| FBSUB-02    | Pending | Pending |
-| FBSUB-03    | Pending | Pending |
-| FBSUB-04    | Pending | Pending |
-| FBSUB-05    | Pending | Pending |
-| FBAI-01     | Pending | Pending |
-| FBAI-02     | Pending | Pending |
-| FBAI-03     | Pending | Pending |
-| FBAI-04     | Pending | Pending |
-| FBAI-05     | Pending | Pending |
-| FBADM-01    | Pending | Pending |
-| FBADM-02    | Pending | Pending |
-| FBADM-03    | Pending | Pending |
-| FBADM-04    | Pending | Pending |
-| FBADM-05    | Pending | Pending |
-| FBNOT-01    | Pending | Pending |
-| FBNOT-02    | Pending | Pending |
-| FBNOT-03    | Pending | Pending |
-| FBNOT-04    | Pending | Pending |
-| FBAN-01     | Pending | Pending |
-| FBAN-02     | Pending | Pending |
-| FBAN-03     | Pending | Pending |
-| FBAN-04     | Pending | Pending |
+| Requirement | Phase    | Status  |
+| ----------- | -------- | ------- |
+| FBSUB-01    | Phase 14 | Pending |
+| FBSUB-02    | Phase 14 | Pending |
+| FBSUB-03    | Phase 14 | Pending |
+| FBSUB-04    | Phase 14 | Pending |
+| FBSUB-05    | Phase 14 | Pending |
+| FBAI-01     | Phase 13 | Pending |
+| FBAI-02     | Phase 13 | Pending |
+| FBAI-03     | Phase 13 | Pending |
+| FBAI-04     | Phase 13 | Pending |
+| FBAI-05     | Phase 13 | Pending |
+| FBADM-01    | Phase 16 | Pending |
+| FBADM-02    | Phase 16 | Pending |
+| FBADM-03    | Phase 16 | Pending |
+| FBADM-04    | Phase 16 | Pending |
+| FBADM-05    | Phase 16 | Pending |
+| FBNOT-01    | Phase 15 | Pending |
+| FBNOT-02    | Phase 15 | Pending |
+| FBNOT-03    | Phase 15 | Pending |
+| FBNOT-04    | Phase 15 | Pending |
+| FBAN-01     | Phase 17 | Pending |
+| FBAN-02     | Phase 17 | Pending |
+| FBAN-03     | Phase 17 | Pending |
+| FBAN-04     | Phase 17 | Pending |
 
 **Coverage:**
 
 - v1.3 requirements: 23 total
-- Mapped to phases: 0
-- Unmapped: 23 ⚠️
+- Mapped to phases: 23
+- Unmapped: 0
 
 ---
 
 _Requirements defined: 2026-01-30_
-_Last updated: 2026-01-30 after initial definition_
+_Last updated: 2026-01-30 after roadmap phase mapping_
