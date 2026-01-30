@@ -7,11 +7,11 @@
 
 ### Code Fixes
 
-- [ ] **CFIX-01**: Tours compiles without TypeScript errors (remove tsconfig exclusion for soups DB types)
-- [ ] **CFIX-02**: Tours uses CSS variables for brand colors instead of hardcoded Tailwind values
-- [ ] **CFIX-03**: Wellness /staff/[slug] has explicit back link to staff list page
-- [ ] **CFIX-04**: Zero ESLint warnings in Wellness (currently 19)
-- [ ] **CFIX-05**: Zero placeholder links (href="#") in Tours and Workshops (currently 3)
+- [x] **CFIX-01**: Tours compiles without TypeScript errors (remove tsconfig exclusion for soups DB types)
+- [x] **CFIX-02**: Tours uses CSS variables for brand colors instead of hardcoded Tailwind values
+- [x] **CFIX-03**: Wellness /staff/[slug] has explicit back link to staff list page
+- [x] **CFIX-04**: Zero ESLint warnings in Wellness (currently 19)
+- [x] **CFIX-05**: Zero placeholder links (href="#") in Tours and Workshops (currently 3)
 
 ### E2E Infrastructure
 
@@ -53,21 +53,21 @@
 
 ## Traceability
 
-| Requirement | Phase | Status  |
-| ----------- | ----- | ------- |
-| CFIX-01     | 9     | Pending |
-| CFIX-02     | 9     | Pending |
-| CFIX-03     | 9     | Pending |
-| CFIX-04     | 9     | Pending |
-| CFIX-05     | 9     | Pending |
-| E2EI-01     | 10    | Pending |
-| E2EI-02     | 10    | Pending |
-| E2EI-03     | 11    | Pending |
-| E2EI-04     | 11    | Pending |
-| E2EI-05     | 11    | Pending |
-| VISQ-01     | 12    | Pending |
-| VISQ-02     | 12    | Pending |
-| VISQ-03     | 12    | Pending |
+| Requirement | Phase | Status   |
+| ----------- | ----- | -------- |
+| CFIX-01     | 9     | Complete |
+| CFIX-02     | 9     | Complete |
+| CFIX-03     | 9     | Complete |
+| CFIX-04     | 9     | Complete |
+| CFIX-05     | 9     | Complete |
+| E2EI-01     | 10    | Pending  |
+| E2EI-02     | 10    | Pending  |
+| E2EI-03     | 11    | Pending  |
+| E2EI-04     | 11    | Pending  |
+| E2EI-05     | 11    | Pending  |
+| VISQ-01     | 12    | Pending  |
+| VISQ-02     | 12    | Pending  |
+| VISQ-03     | 12    | Pending  |
 
 **Coverage:**
 

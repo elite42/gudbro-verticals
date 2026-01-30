@@ -35,8 +35,8 @@ See milestones/v1.1-ROADMAP.md for details.
 
 Plans:
 
-- [ ] 09-01-PLAN.md — Quick fixes: verify Tours TS compilation, Wellness back link, placeholder links
-- [ ] 09-02-PLAN.md — Tours brand color CSS variable migration, Wellness ESLint warnings
+- [x] 09-01-PLAN.md — Quick fixes: verify Tours TS compilation, Wellness back link, placeholder links
+- [x] 09-02-PLAN.md — Tours brand color CSS variable migration, Wellness ESLint warnings
 
 #### Phase 10: E2E Test Infrastructure
 
@@ -97,14 +97,14 @@ Plans:
 
 **Execution Order:** Phases 9 → 10 → 11 → 12
 
-| Phase                       | Milestone | Plans Complete | Status      | Completed |
-| --------------------------- | --------- | -------------- | ----------- | --------- |
-| 9. Code Fixes               | v1.2      | 0/2            | Planned     | -         |
-| 10. E2E Test Infrastructure | v1.2      | 0/TBD          | Not started | -         |
-| 11. E2E Smoke Tests         | v1.2      | 0/TBD          | Not started | -         |
-| 12. Visual and Quality      | v1.2      | 0/TBD          | Not started | -         |
+| Phase                       | Milestone | Plans Complete | Status      | Completed  |
+| --------------------------- | --------- | -------------- | ----------- | ---------- |
+| 9. Code Fixes               | v1.2      | 2/2            | ✅ Complete | 2026-01-30 |
+| 10. E2E Test Infrastructure | v1.2      | 0/TBD          | Not started | -          |
+| 11. E2E Smoke Tests         | v1.2      | 0/TBD          | Not started | -          |
+| 12. Visual and Quality      | v1.2      | 0/TBD          | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-30_
-_Last updated: 2026-01-30_
+_Last updated: 2026-01-30 after Phase 9 completion_
