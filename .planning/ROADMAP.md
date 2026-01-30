@@ -113,12 +113,13 @@ Plans:
 3. Each task card shows merchant count, languages involved, sentiment indicator, and priority badge
 4. Admin can click a task card to open a detail panel showing all linked submissions with both original and translated text
 5. Moving a task to Done or Rejected creates notifications for every merchant who submitted a linked feedback
-   **Plans**: TBD
+
+**Plans:** 2 plans
 
 Plans:
 
-- [ ] 16-01: Kanban board layout with @dnd-kit multi-column drag-and-drop
-- [ ] 16-02: Task card design, detail panel, and status-change notification triggers
+- [ ] 16-01-PLAN.md — API routes (GET all tasks, GET single task, GET submissions, PATCH status with notification triggers) + kanban board with @dnd-kit drag-and-drop, columns, and task cards
+- [ ] 16-02-PLAN.md — Task detail slide-over panel with linked submissions, Radix status change confirmation dialog, full board integration
 
 ### Phase 17: Analytics Dashboard
 
@@ -163,4 +164,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-30 after completing phase 15_
+_Last updated: 2026-01-30 after planning phase 16_
