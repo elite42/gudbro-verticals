@@ -388,7 +388,7 @@ export default function AboutPage() {
             ))}
           </div>
           <Link
-            href="#"
+            href="mailto:workshops@gudbro.com?subject=Join%20Our%20Network"
             style={{
               display: 'block',
               textAlign: 'center',
@@ -457,7 +457,7 @@ export default function AboutPage() {
             ))}
           </div>
           <Link
-            href="#"
+            href="mailto:workshops@gudbro.com?subject=Partner%20With%20Us"
             style={{
               display: 'block',
               textAlign: 'center',

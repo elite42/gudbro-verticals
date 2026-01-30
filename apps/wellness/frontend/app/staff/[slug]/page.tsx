@@ -272,6 +272,8 @@ export default function StaffDetailPage() {
             className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 shadow-sm backdrop-blur-sm transition-colors hover:bg-white"
           >
             <svg
+              width="24"
+              height="24"
               className="h-5 w-5 text-[var(--charcoal)]"
               fill="none"
               viewBox="0 0 24 24"
@@ -283,6 +285,8 @@ export default function StaffDetailPage() {
           </Link>
           <button className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 shadow-sm backdrop-blur-sm">
             <svg
+              width="24"
+              height="24"
               className="h-5 w-5 text-[var(--charcoal)]"
               fill="none"
               viewBox="0 0 24 24"
@@ -307,6 +311,25 @@ export default function StaffDetailPage() {
 
       {/* ===== PROFILE INFO ===== */}
       <main className="-mt-8 px-4">
+        <Link
+          href="/staff"
+          className="relative mb-3 inline-flex items-center gap-1 text-sm text-[var(--charcoal-muted)] transition-colors hover:text-[var(--charcoal)]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          Back to Team
+        </Link>
         <section className="animate-fade-in-up relative">
           <div className="mb-1 flex items-center gap-2">
             {member.featured && (
@@ -329,6 +352,8 @@ export default function StaffDetailPage() {
           <div className="mb-5 flex gap-3">
             <div className="shadow-soft flex-1 rounded-xl bg-white p-3 text-center">
               <svg
+                width="24"
+                height="24"
                 className="mx-auto mb-1 h-5 w-5 text-[var(--gold)]"
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -344,6 +369,8 @@ export default function StaffDetailPage() {
             </div>
             <div className="shadow-soft flex-1 rounded-xl bg-white p-3 text-center">
               <svg
+                width="24"
+                height="24"
                 className="mx-auto mb-1 h-5 w-5 text-[var(--sage-hex)]"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -363,6 +390,8 @@ export default function StaffDetailPage() {
             </div>
             <div className="shadow-soft flex-1 rounded-xl bg-white p-3 text-center">
               <svg
+                width="24"
+                height="24"
                 className="mx-auto mb-1 h-5 w-5 text-[var(--sage-hex)]"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -474,6 +503,8 @@ export default function StaffDetailPage() {
                       {formatPrice(svc.price)}
                     </span>
                     <svg
+                      width="24"
+                      height="24"
                       className="h-4 w-4 text-[var(--charcoal-muted)]"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -495,7 +526,7 @@ export default function StaffDetailPage() {
       </main>
 
       {/* ===== STICKY BOOK CTA ===== */}
-      <div className="pb-safe-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-4 py-3">
+      <div className="pb-safe fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--cream-dark)] bg-white px-4 py-3">
         <div className="mx-auto max-w-lg">
           <button className="w-full rounded-xl bg-[var(--sage-hex)] py-3.5 text-center text-sm font-bold text-white shadow-lg transition-all hover:bg-[var(--sage-dark)] active:scale-[0.98]">
             Book with {member.name.split(' ')[0]}

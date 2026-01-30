@@ -502,10 +502,7 @@ export function BookingForm({ tour, currency, onSubmit, onBack }: BookingFormPro
 
           <p className="text-foreground-muted mt-4 text-center text-xs">
             By booking, you agree to our{' '}
-            <a href="#" className="text-primary hover:underline">
-              {/* TODO: add /terms route */}
-              Terms of Service
-            </a>
+            <span className="text-primary cursor-default underline">Terms of Service</span>
           </p>
         </div>
       </form>
