@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.2 Tech Debt Cleanup — Phase 11 (E2E Smoke Tests) COMPLETE
+**Current focus:** v1.2 Tech Debt Cleanup — Phase 12 (Visual & Quality) IN PROGRESS
 
 ## Current Position
 
-Phase: 11 of 12 (E2E Smoke Tests) — COMPLETE
-Plan: 02 of 02 complete
-Status: Phase 11 verified — all 8 verticals pass 3x consecutive (1026-1029 tests, zero flaky)
-Last activity: 2026-01-30 — Phase 11 complete (all 8 verticals smoke tested)
+Phase: 12 of 12 (Visual & Quality)
+Plan: 01 of 02 complete
+Status: In progress — 12-01 complete (manifests, screenshot CSS, QA checklist)
+Last activity: 2026-01-30 — Completed 12-01-PLAN.md
 
-Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [██████░░] 6/8 (phase 9-11 done)
+Progress: v1.0 [██████] 6/6 plans | v1.1 [████████████] 12/12 plans + 1 quick | v1.2 [███████░] 7/8 (phase 9-11 done, 12-01 done)
 
 ## Performance Metrics
 
@@ -39,6 +39,7 @@ Progress: v1.0 [██████] 6/6 plans | v1.1 [████████�
 - 10-02: ~5 minutes (2 tasks)
 - 11-01: ~9 minutes (2 tasks)
 - 11-02: ~25 minutes (2 tasks + 3x validation)
+- 12-01: ~3 minutes (2 tasks)
 
 ## Accumulated Context
 
@@ -61,6 +62,7 @@ Full history in PROJECT.md Key Decisions table and milestones archives.
 | Scoped nav selector for coffeeshop         | 11-02 | nav[role="navigation"] avoids picking up desktop nav links                   |
 | Custom benign errors for coffeeshop        | 11-02 | MerchantConfig 400 in dev is not a real error                                |
 | Graceful no-nav for accommodations         | 11-02 | Home page (booking) has no BottomNav; skip nav test gracefully               |
+| Array themeColor: use light-mode value     | 12-01 | manifest.json requires single string; light mode is primary brand color      |
 
 ### Known Issues
 
@@ -77,10 +79,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Phase 11 complete and verified (all 8 verticals, 3x validation)
+Stopped at: Completed 12-01-PLAN.md
 Resume file: None
-Next: `/gsd:discuss-phase 12` or `/gsd:plan-phase 12`
+Next: `/gsd:execute-phase 12` (plan 02)
 
 ---
 
-_Last updated: 2026-01-30 after Phase 11 completion_
+_Last updated: 2026-01-30 after 12-01 completion_
