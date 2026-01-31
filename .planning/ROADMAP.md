@@ -103,12 +103,13 @@ Plans:
 3. Stripe card payments collect a deposit via Stripe Checkout with webhook confirmation handling payment success and failure
 4. Cash bookings are confirmed immediately; bank transfer bookings stay pending until owner confirms payment manually
 5. Crypto payment deep-links via @shared/payment are functional
-   **Plans**: TBD
+   **Plans**: 3 plans (wave 1 -> wave 2 parallel)
 
 Plans:
 
-- [ ] 20-01: TBD
-- [ ] 20-02: TBD
+- [ ] 20-01-PLAN.md -- DB migration 084 (payment config columns, status extension) + TypeScript types
+- [ ] 20-02-PLAN.md -- Guest payment UI (PaymentMethodSelector, BankTransferInstructions, CryptoPaymentOptions) + booking API integration
+- [ ] 20-03-PLAN.md -- Stripe Checkout session + webhook handler + manual payment confirmation + booking page status
 
 ### Phase 21: Owner Dashboard - Bookings & Property
 
@@ -214,7 +215,7 @@ Plans:
 | 17. Analytics Dashboard                   | v1.3      | 2/2            | Complete    | 2026-01-30 |
 | 18. Database Foundation                   | v1.4      | 2/2            | Complete    | 2026-01-31 |
 | 19. Property Page & Booking Flow          | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 20. Payments                              | v1.4      | 0/2            | Not started | -          |
+| 20. Payments                              | v1.4      | 0/3            | Not started | -          |
 | 21. Owner Dashboard - Bookings & Property | v1.4      | 0/3            | Not started | -          |
 | 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 0/2            | Not started | -          |
 | 23. Service Ordering                      | v1.4      | 0/3            | Not started | -          |
