@@ -1,24 +1,76 @@
 'use client';
 
+import { useState, useCallback } from 'react';
 import { useRoomSession } from '@/hooks/useRoomSession';
+import { useServiceCart } from '@/hooks/useServiceCart';
+import { useOrderPolling } from '@/hooks/useOrderPolling';
+import type { ServiceCategoryWithItems } from '@/types/stay';
 
 import WifiCard from '@/components/stay/WifiCard';
 import CheckoutInfo from '@/components/stay/CheckoutInfo';
 import ContactSheet from '@/components/stay/ContactSheet';
 import RestaurantSection from '@/components/stay/RestaurantSection';
+import ServicesCarousel from '@/components/stay/ServicesCarousel';
+import ActiveOrders from '@/components/stay/ActiveOrders';
+import CartFAB from '@/components/stay/CartFAB';
+import CartDrawer from '@/components/stay/CartDrawer';
+import InlineVerification from '@/components/stay/InlineVerification';
 
 /**
- * Room QR Dashboard - Browse Tier
+ * Room QR Dashboard - Progressive Authentication
  *
  * Renders when guest scans a permanent room QR code.
- * Shows WiFi, property info, contacts, house rules immediately.
- * Hides guest-specific info (name, orders, cart) in browse tier.
- *
- * For Phase 25: read-only dashboard. Phase 26 adds inline verification
- * to upgrade to full tier for ordering.
+ * Browse tier: Shows WiFi, property info, contacts, house rules, and services (view-only).
+ * Full tier: After inline verification, enables ordering, cart, and active orders.
  */
 export default function RoomDashboard({ params }: { params: { roomCode: string } }) {
-  const { token, stay, isLoading, hasActiveBooking, error } = useRoomSession(params.roomCode);
+  const { token, stay, isLoading, hasActiveBooking, accessTier, error, upgradeSession } =
+    useRoomSession(params.roomCode);
+
+  // Verification modal state
+  const [showVerification, setShowVerification] = useState(false);
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+
+  // Cart state (only used in full tier, but initialized always for hook rules)
+  const cart = useServiceCart();
+  const [showCart, setShowCart] = useState(false);
+
+  // Service categories from carousel (used to determine currency)
+  const [serviceCategories, setServiceCategories] = useState<ServiceCategoryWithItems[]>([]);
+  const [serviceTimezone, setServiceTimezone] = useState('UTC');
+
+  const handleCategoriesLoaded = useCallback(
+    (categories: ServiceCategoryWithItems[], timezone: string) => {
+      setServiceCategories(categories);
+      setServiceTimezone(timezone);
+    },
+    []
+  );
+
+  // Order polling (only when full tier with a booking code)
+  const bookingCode = accessTier === 'full' && stay?.booking ? stay.booking.code : '';
+  const { orders, refetch: refetchOrders } = useOrderPolling({
+    bookingCode,
+    token: token ?? '',
+    enabled: accessTier === 'full' && !!bookingCode,
+  });
+
+  /**
+   * Gate paid actions behind verification.
+   * If already full tier, executes immediately.
+   * If browse tier, stores the action and opens verification modal.
+   */
+  const requireFullTier = useCallback(
+    (action: () => void) => {
+      if (accessTier === 'full') {
+        action();
+      } else {
+        setPendingAction(() => action);
+        setShowVerification(true);
+      }
+    },
+    [accessTier]
+  );
 
   // Loading state
   if (isLoading) {
@@ -37,7 +89,7 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FAF8F5] p-4">
         <div className="max-w-sm text-center">
-          <div className="mb-4 text-4xl">🔍</div>
+          <div className="mb-4 text-4xl">&#128269;</div>
           <h1 className="mb-2 text-lg font-semibold text-[#2D2016]">Room Not Found</h1>
           <p className="mb-4 text-sm text-[#8B7355]">
             {error ||
@@ -56,6 +108,8 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
 
   const { property, room, wifi, booking } = stay;
   const hostPhone = property.contactWhatsapp || property.contactPhone || '';
+  const propertyCurrency = serviceCategories[0]?.items[0]?.currency ?? 'EUR';
+  const isFullTier = accessTier === 'full';
 
   // Property info page (no active booking)
   if (!hasActiveBooking) {
@@ -97,7 +151,7 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
             />
           )}
 
-          {/* F&B link if available (deep-link only, no static menu in browse tier) */}
+          {/* F&B link if available */}
           {property.hasLinkedFnb && property.linkedFnbSlug && (
             <RestaurantSection
               hasLinkedFnb={true}
@@ -111,16 +165,30 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
     );
   }
 
-  // Full browse-tier dashboard (active booking, but read-only)
+  // Active booking dashboard (browse or full tier)
   return (
     <div className="min-h-screen bg-[#FAF8F5] pb-24">
-      {/* Header - property name instead of guest name (browse tier privacy) */}
+      {/* Header - shows guest name in full tier, property name in browse tier */}
       <div className="border-b border-[#E8E2D9] bg-white px-4 py-4">
-        <h1 className="text-lg font-semibold text-[#2D2016]">Welcome to {property.name}</h1>
-        <p className="mt-0.5 text-sm text-[#8B7355]">
-          Room {room.number}
-          {room.name ? ` \u00b7 ${room.name}` : ''}
-        </p>
+        {isFullTier && booking ? (
+          <>
+            <h1 className="text-lg font-semibold text-[#2D2016]">
+              Welcome, {booking.guestName.split(' ')[0]}
+            </h1>
+            <p className="mt-0.5 text-sm text-[#8B7355]">
+              {property.name} &middot; Room {room.number}
+              {room.name ? ` \u00b7 ${room.name}` : ''}
+            </p>
+          </>
+        ) : (
+          <>
+            <h1 className="text-lg font-semibold text-[#2D2016]">Welcome to {property.name}</h1>
+            <p className="mt-0.5 text-sm text-[#8B7355]">
+              Room {room.number}
+              {room.name ? ` \u00b7 ${room.name}` : ''}
+            </p>
+          </>
+        )}
         {booking && (
           <p className="mt-1 text-xs text-[#8B7355]/70">
             {booking.checkIn} &mdash; {booking.checkOut}
@@ -130,6 +198,31 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
 
       {/* WiFi card - prominent, first thing guest needs */}
       <WifiCard wifi={wifi} />
+
+      {/* Services carousel - visible in both tiers
+          In browse tier: cart prop triggers verification via requireFullTier
+          In full tier: cart works normally with booking code */}
+      {booking && token && (
+        <ServicesCarousel
+          bookingCode={isFullTier ? booking.code : booking.code}
+          token={token}
+          cart={
+            isFullTier
+              ? cart
+              : {
+                  // Wrap cart methods to gate behind verification in browse tier
+                  ...cart,
+                  addItem: (item) => {
+                    requireFullTier(() => cart.addItem(item));
+                  },
+                }
+          }
+          onCategoriesLoaded={handleCategoriesLoaded}
+        />
+      )}
+
+      {/* Active orders - full tier only */}
+      {isFullTier && <ActiveOrders orders={orders} currency={propertyCurrency} />}
 
       {/* House rules + checkout time */}
       <CheckoutInfo checkoutTime={property.checkoutTime} houseRules={property.houseRules} />
@@ -154,25 +247,74 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
         />
       )}
 
-      {/* F&B link (deep-link only, no static menu without real token) */}
+      {/* F&B link */}
       {property.hasLinkedFnb && property.linkedFnbSlug && (
         <RestaurantSection
           hasLinkedFnb={true}
           linkedFnbSlug={property.linkedFnbSlug}
-          bookingCode=""
-          token=""
+          bookingCode={isFullTier && booking ? booking.code : ''}
+          token={isFullTier && token ? token : ''}
         />
       )}
 
-      {/* Browse tier notice - gentle prompt for Phase 26 upgrade */}
-      <section className="mb-5 px-4">
-        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-center">
-          <p className="text-sm text-blue-700">
-            To order room service or other paid services, please verify your booking.
-          </p>
-          <p className="mt-1 text-xs text-blue-500">This feature is coming soon.</p>
-        </div>
-      </section>
+      {/* Browse tier: gentle verify prompt (replaces "coming soon") */}
+      {!isFullTier && (
+        <section className="mb-5 px-4">
+          <button
+            onClick={() => setShowVerification(true)}
+            className="w-full rounded-2xl border border-[#3D8B87]/20 bg-[#3D8B87]/5 p-4 text-center transition-colors hover:bg-[#3D8B87]/10"
+          >
+            <p className="text-sm font-medium text-[#3D8B87]">
+              Verify your booking to order room service
+            </p>
+            <p className="mt-1 text-xs text-[#8B7355]">
+              Quick verification with your{' '}
+              {stay.verificationMethod === 'pin' ? 'room PIN' : 'last name'}
+            </p>
+          </button>
+        </section>
+      )}
+
+      {/* Cart FAB + drawer - full tier only */}
+      {isFullTier && (
+        <>
+          <CartFAB itemCount={cart.itemCount} onClick={() => setShowCart(true)} />
+          {showCart && booking && token && (
+            <CartDrawer
+              cart={cart}
+              bookingCode={booking.code}
+              token={token}
+              currency={propertyCurrency}
+              timezone={serviceTimezone}
+              onClose={() => setShowCart(false)}
+              onOrderPlaced={() => {
+                refetchOrders();
+                setShowCart(false);
+              }}
+            />
+          )}
+        </>
+      )}
+
+      {/* Inline verification modal */}
+      <InlineVerification
+        isOpen={showVerification}
+        onClose={() => {
+          setShowVerification(false);
+          setPendingAction(null);
+        }}
+        onVerified={() => {
+          setShowVerification(false);
+          if (pendingAction) {
+            setTimeout(() => {
+              pendingAction();
+              setPendingAction(null);
+            }, 100);
+          }
+        }}
+        verificationMethod={stay.verificationMethod || 'last_name'}
+        upgradeSession={upgradeSession}
+      />
     </div>
   );
 }
