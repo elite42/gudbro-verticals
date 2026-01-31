@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access — Phase 25 Room Code Foundation (COMPLETE)
+**Current focus:** v1.5 Frictionless Guest Access — Phase 26 Progressive Authentication
 
 ## Current Position
 
-Phase: 25 of 29 (Room Code Foundation)
-Plan: 2 of 2 in current phase
-Status: Phase complete
-Last activity: 2026-02-01 — Completed 25-02-PLAN.md (room code frontend)
+Phase: 26 of 29 (Progressive Authentication)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-02-01 — Completed 26-01-PLAN.md (progressive auth backend)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██░░░░░░░░] 2/10 plans (20%)
+Progress: v1.5 [███░░░░░░░] 3/10 plans (30%)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 59 (+ 1 quick task)
+- Total plans completed: 60 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~4.4 hours
+- Total execution time: ~4.5 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [██░░░░░░░░] 2/10 plans (20%)
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 2/10  | ~9 min     | 4.5 min  |
+| v1.5      | 3/10  | ~13 min    | 4.2 min  |
 
 ## Accumulated Context
 
@@ -55,6 +55,9 @@ Recent decisions for v1.5:
 - signGuestToken accepts null bookingId for no-booking room sessions
 - No-booking token expires 7 days from now; active-booking token expires checkout+24h
 - Room session shares localStorage keys with booking session (latest wins)
+- Partial last name match (startsWith) with min 3 chars for flexible international name verification
+- In-memory rate limiting (Map-based, 5 attempts/5 min) sufficient for Phase 26; hardened in Phase 27
+- NFD normalization strips diacritics for robust name matching across character sets
 
 ### Pending Todos
 
@@ -70,10 +73,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 25-02-PLAN.md (Phase 25 complete)
+Stopped at: Completed 26-01-PLAN.md (progressive auth backend)
 Resume file: None
-Next: `/gsd:discuss-phase 26` (Progressive Authentication)
+Next: Phase 26-02 (Progressive Authentication Frontend)
 
 ---
 
-_Last updated: 2026-02-01 after completing 25-02-PLAN.md_
+_Last updated: 2026-02-01 after completing 26-01-PLAN.md_
