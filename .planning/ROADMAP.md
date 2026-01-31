@@ -142,12 +142,12 @@ Plans:
 2. Owner can block and unblock date ranges for maintenance or personal use
 3. Owner can set base price per room type and override prices for specific date ranges (seasonal pricing)
 4. Owner can set weekly and monthly discount percentages that automatically apply to qualifying bookings
-   **Plans**: TBD
+   **Plans**: 2 plans (wave 1 -> wave 2)
 
 Plans:
 
-- [ ] 22-01: TBD
-- [ ] 22-02: TBD
+- [ ] 22-01-PLAN.md -- SQL migration 085 (room blocks + seasonal pricing tables), calendar/blocks/pricing API routes, property PUT discount allowlist
+- [ ] 22-02-PLAN.md -- AvailabilityCalendar grid, CalendarDetailPanel, SeasonalPricingManager, DiscountSettings, calendar page, sidebar nav
 
 ### Phase 23: Service Ordering
 
