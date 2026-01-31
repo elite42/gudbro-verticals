@@ -83,13 +83,13 @@ Plans:
 3. Guest can submit a booking with name, email, phone, dates, and guest count without creating an account
 4. Property page is server-rendered with OG meta tags and structured data for SEO
 5. Inquiry bookings auto-expire after the configured timeout, and booking confirmation is sent via WhatsApp deep-link and email
-   **Plans**: TBD
+   **Plans**: 3 plans (wave 1 -> wave 2 -> wave 3)
 
 Plans:
 
-- [ ] 19-01: TBD
-- [ ] 19-02: TBD
-- [ ] 19-03: TBD
+- [ ] 19-01-PLAN.md -- Dependencies, types, lib utilities, API routes (property, availability, booking)
+- [ ] 19-02-PLAN.md -- Client components (gallery, property sections, calendar, form, confirmation)
+- [ ] 19-03-PLAN.md -- Server page (SSR, SEO, JSON-LD), client orchestrator, confirmation page, CSS theming
 
 ### Phase 20: Payments
 
