@@ -7,6 +7,7 @@ import type {
   StayData,
   ApiResponse,
   AccessTier,
+  AccessSettings,
   VerificationMethod,
 } from '@/types/stay';
 
@@ -25,6 +26,7 @@ export interface RoomSession {
   isLoading: boolean;
   hasActiveBooking: boolean;
   accessTier: AccessTier;
+  accessSettings: AccessSettings | undefined;
   error: string | null;
   refresh: () => Promise<void>;
   upgradeSession: (method: VerificationMethod, value: string) => Promise<UpgradeResult>;
@@ -153,6 +155,7 @@ export function useRoomSession(roomCode: string): RoomSession {
           hasActiveBooking: true,
           accessTier: 'full',
           verificationMethod: method,
+          accessSettings: stay?.accessSettings, // Preserve through upgrade
         };
 
         // Persist to localStorage and update React state
@@ -209,6 +212,7 @@ export function useRoomSession(roomCode: string): RoomSession {
     isLoading,
     hasActiveBooking: stay?.hasActiveBooking ?? false,
     accessTier,
+    accessSettings: stay?.accessSettings,
     error,
     refresh: resolveRoom,
     upgradeSession,

@@ -4,7 +4,8 @@ import { useState, useCallback } from 'react';
 import { useRoomSession } from '@/hooks/useRoomSession';
 import { useServiceCart } from '@/hooks/useServiceCart';
 import { useOrderPolling } from '@/hooks/useOrderPolling';
-import type { ServiceCategoryWithItems } from '@/types/stay';
+import type { ServiceCategoryWithItems, AccessSettings } from '@/types/stay';
+import { ACCESS_PRESETS } from '@/types/stay';
 
 import WifiCard from '@/components/stay/WifiCard';
 import CheckoutInfo from '@/components/stay/CheckoutInfo';
@@ -24,8 +25,16 @@ import InlineVerification from '@/components/stay/InlineVerification';
  * Full tier: After inline verification, enables ordering, cart, and active orders.
  */
 export default function RoomDashboard({ params }: { params: { roomCode: string } }) {
-  const { token, stay, isLoading, hasActiveBooking, accessTier, error, upgradeSession } =
-    useRoomSession(params.roomCode);
+  const {
+    token,
+    stay,
+    isLoading,
+    hasActiveBooking,
+    accessTier,
+    accessSettings,
+    error,
+    upgradeSession,
+  } = useRoomSession(params.roomCode);
 
   // Verification modal state
   const [showVerification, setShowVerification] = useState(false);
@@ -110,6 +119,21 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
   const hostPhone = property.contactWhatsapp || property.contactPhone || '';
   const propertyCurrency = serviceCategories[0]?.items[0]?.currency ?? 'EUR';
   const isFullTier = accessTier === 'full';
+
+  /**
+   * Check if a specific action is gated (requires verification).
+   * Returns false when: already full tier, or owner set action as free (false).
+   * Returns true when: browse tier AND action is gated in access_settings.
+   * Legacy properties (no access_settings): fall back to standard preset behavior.
+   */
+  const effectiveActions = accessSettings?.actions ?? ACCESS_PRESETS.standard.actions;
+  function isActionGated(action: keyof AccessSettings['actions']): boolean {
+    if (isFullTier) return false; // Already verified, nothing gated
+    return effectiveActions[action] ?? true; // true = gated = needs verification
+  }
+
+  // Whether any action is gated (used to show/hide verify prompt)
+  const hasAnyGatedAction = Object.values(effectiveActions).some((v) => v);
 
   // Property info page (no active booking)
   if (!hasActiveBooking) {
@@ -207,7 +231,7 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
           bookingCode={isFullTier ? booking.code : booking.code}
           token={token}
           cart={
-            isFullTier
+            isFullTier || !isActionGated('order_service')
               ? cart
               : {
                   // Wrap cart methods to gate behind verification in browse tier
@@ -221,8 +245,10 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
         />
       )}
 
-      {/* Active orders - full tier only */}
-      {isFullTier && <ActiveOrders orders={orders} currency={propertyCurrency} />}
+      {/* Active orders - visible when full tier OR view_orders is not gated */}
+      {(isFullTier || !isActionGated('view_orders')) && (
+        <ActiveOrders orders={orders} currency={propertyCurrency} />
+      )}
 
       {/* House rules + checkout time */}
       <CheckoutInfo checkoutTime={property.checkoutTime} houseRules={property.houseRules} />
@@ -257,8 +283,8 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
         />
       )}
 
-      {/* Browse tier: gentle verify prompt (replaces "coming soon") */}
-      {!isFullTier && (
+      {/* Browse tier: gentle verify prompt — only when at least one action is gated */}
+      {!isFullTier && hasAnyGatedAction && (
         <section className="mb-5 px-4">
           <button
             onClick={() => setShowVerification(true)}
