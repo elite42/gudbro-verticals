@@ -47,11 +47,11 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ### Owner Dashboard -- Calendar & Pricing
 
-- [ ] **OCAL-01**: Owner can view availability calendar with color-coded booking status
-- [ ] **OCAL-02**: Owner can block/unblock date ranges (maintenance, personal use)
-- [ ] **OCAL-03**: Owner can set base price per room type
-- [ ] **OCAL-04**: Owner can set seasonal price overrides per date range
-- [ ] **OCAL-05**: Owner can set weekly/monthly discount percentages
+- [x] **OCAL-01**: Owner can view availability calendar with color-coded booking status
+- [x] **OCAL-02**: Owner can block/unblock date ranges (maintenance, personal use)
+- [x] **OCAL-03**: Owner can set base price per room type
+- [x] **OCAL-04**: Owner can set seasonal price overrides per date range
+- [x] **OCAL-05**: Owner can set weekly/monthly discount percentages
 
 ### Owner Dashboard -- Property Management
 
@@ -164,11 +164,11 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 | OBOOK-04    | Phase 21 | Pending  |
 | OBOOK-05    | Phase 21 | Pending  |
 | OBOOK-06    | Phase 21 | Pending  |
-| OCAL-01     | Phase 22 | Pending  |
-| OCAL-02     | Phase 22 | Pending  |
-| OCAL-03     | Phase 22 | Pending  |
-| OCAL-04     | Phase 22 | Pending  |
-| OCAL-05     | Phase 22 | Pending  |
+| OCAL-01     | Phase 22 | Complete |
+| OCAL-02     | Phase 22 | Complete |
+| OCAL-03     | Phase 22 | Complete |
+| OCAL-04     | Phase 22 | Complete |
+| OCAL-05     | Phase 22 | Complete |
 | OMGMT-01    | Phase 21 | Pending  |
 | OMGMT-02    | Phase 21 | Pending  |
 | OMGMT-03    | Phase 23 | Pending  |

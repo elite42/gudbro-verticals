@@ -46,7 +46,7 @@ See milestones/v1.3-ROADMAP.md for details.
 - [x] **Phase 19: Property Page & Booking Flow** - Public property page with SEO, guest booking submission (completed 2026-01-31)
 - [x] **Phase 20: Payments** - Payment method configuration, Stripe checkout, webhook handling (completed 2026-01-31)
 - [x] **Phase 21: Owner Dashboard - Bookings & Property** - Booking management, room CRUD, property settings, QR codes (completed 2026-01-31)
-- [ ] **Phase 22: Owner Dashboard - Calendar & Pricing** - Availability calendar, date blocking, seasonal pricing
+- [x] **Phase 22: Owner Dashboard - Calendar & Pricing** - Availability calendar, date blocking, seasonal pricing (completed 2026-01-31)
 - [ ] **Phase 23: Service Ordering** - Guest service catalog, cart, order lifecycle, owner order management
 - [ ] **Phase 24: Analytics, Deals & Communication** - Owner analytics, local deals, guest email notifications
 
@@ -146,8 +146,8 @@ Plans:
 
 Plans:
 
-- [ ] 22-01-PLAN.md -- SQL migration 085 (room blocks + seasonal pricing tables), calendar/blocks/pricing API routes, property PUT discount allowlist
-- [ ] 22-02-PLAN.md -- AvailabilityCalendar grid, CalendarDetailPanel, SeasonalPricingManager, DiscountSettings, calendar page, sidebar nav
+- [x] 22-01-PLAN.md -- SQL migration 085 (room blocks + seasonal pricing tables), calendar/blocks/pricing API routes, property PUT discount allowlist
+- [x] 22-02-PLAN.md -- AvailabilityCalendar grid, CalendarDetailPanel, SeasonalPricingManager, DiscountSettings, calendar page, sidebar nav
 
 ### Phase 23: Service Ordering
 
@@ -217,11 +217,11 @@ Plans:
 | 19. Property Page & Booking Flow          | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 20. Payments                              | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 21. Owner Dashboard - Bookings & Property | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 0/2            | Not started | -          |
+| 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 2/2            | Complete    | 2026-01-31 |
 | 23. Service Ordering                      | v1.4      | 0/3            | Not started | -          |
 | 24. Analytics, Deals & Communication      | v1.4      | 0/3            | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-31 after Phase 21 completion_
+_Last updated: 2026-01-31 after Phase 22 completion_
