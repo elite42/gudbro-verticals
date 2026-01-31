@@ -95,14 +95,14 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ### Database & Infrastructure
 
-- [ ] **INFRA-01**: New migration: accom_availability table with exclusion constraint for double-booking prevention
-- [ ] **INFRA-02**: New migration: accom_service_orders + accom_service_order_items tables
-- [ ] **INFRA-03**: Extend accom_properties with booking_mode, accepted_payment_methods, pricing config
-- [ ] **INFRA-04**: Extend accom_rooms with base_price, images, beds JSONB
-- [ ] **INFRA-05**: Extend accom_bookings with pricing, payment fields
-- [ ] **INFRA-06**: RLS policies on all new tables (owner manages via property_id, guest reads via booking)
-- [ ] **INFRA-07**: Check-in/check-out dates stored as DATE (not TIMESTAMPTZ) to prevent timezone shifts
-- [ ] **INFRA-08**: Stripe webhook endpoint with signature verification
+- [x] **INFRA-01**: New migration: accom_availability table with exclusion constraint for double-booking prevention
+- [x] **INFRA-02**: New migration: accom_service_orders + accom_service_order_items tables
+- [x] **INFRA-03**: Extend accom_properties with booking_mode, accepted_payment_methods, pricing config
+- [x] **INFRA-04**: Extend accom_rooms with base_price, images, beds JSONB
+- [x] **INFRA-05**: Extend accom_bookings with pricing, payment fields
+- [x] **INFRA-06**: RLS policies on all new tables (owner manages via property_id, guest reads via booking)
+- [x] **INFRA-07**: Check-in/check-out dates stored as DATE (not TIMESTAMPTZ) to prevent timezone shifts
+- [x] **INFRA-08**: Stripe webhook endpoint with signature verification
 
 ## Future Requirements (v1.5+)
 
@@ -136,72 +136,72 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ## Traceability
 
-| Requirement | Phase    | Status  |
-| ----------- | -------- | ------- |
-| PROP-01     | Phase 19 | Pending |
-| PROP-02     | Phase 19 | Pending |
-| PROP-03     | Phase 19 | Pending |
-| PROP-04     | Phase 19 | Pending |
-| PROP-05     | Phase 19 | Pending |
-| PROP-06     | Phase 19 | Pending |
-| BOOK-01     | Phase 19 | Pending |
-| BOOK-02     | Phase 19 | Pending |
-| BOOK-03     | Phase 20 | Pending |
-| BOOK-04     | Phase 19 | Pending |
-| BOOK-05     | Phase 19 | Pending |
-| BOOK-06     | Phase 19 | Pending |
-| BOOK-07     | Phase 19 | Pending |
-| PAY-01      | Phase 20 | Pending |
-| PAY-02      | Phase 20 | Pending |
-| PAY-03      | Phase 20 | Pending |
-| PAY-04      | Phase 20 | Pending |
-| PAY-05      | Phase 20 | Pending |
-| PAY-06      | Phase 20 | Pending |
-| PAY-07      | Phase 20 | Pending |
-| OBOOK-01    | Phase 21 | Pending |
-| OBOOK-02    | Phase 21 | Pending |
-| OBOOK-03    | Phase 21 | Pending |
-| OBOOK-04    | Phase 21 | Pending |
-| OBOOK-05    | Phase 21 | Pending |
-| OBOOK-06    | Phase 21 | Pending |
-| OCAL-01     | Phase 22 | Pending |
-| OCAL-02     | Phase 22 | Pending |
-| OCAL-03     | Phase 22 | Pending |
-| OCAL-04     | Phase 22 | Pending |
-| OCAL-05     | Phase 22 | Pending |
-| OMGMT-01    | Phase 21 | Pending |
-| OMGMT-02    | Phase 21 | Pending |
-| OMGMT-03    | Phase 23 | Pending |
-| OMGMT-04    | Phase 21 | Pending |
-| OMGMT-05    | Phase 23 | Pending |
-| OANA-01     | Phase 24 | Pending |
-| OANA-02     | Phase 24 | Pending |
-| OANA-03     | Phase 24 | Pending |
-| OANA-04     | Phase 24 | Pending |
-| SERV-01     | Phase 23 | Pending |
-| SERV-02     | Phase 23 | Pending |
-| SERV-03     | Phase 23 | Pending |
-| SERV-04     | Phase 23 | Pending |
-| SERV-05     | Phase 23 | Pending |
-| SERV-06     | Phase 23 | Pending |
-| SERV-07     | Phase 23 | Pending |
-| SERV-08     | Phase 23 | Pending |
-| SERV-09     | Phase 23 | Pending |
-| DEAL-01     | Phase 24 | Pending |
-| DEAL-02     | Phase 24 | Pending |
-| DEAL-03     | Phase 24 | Pending |
-| COMM-01     | Phase 24 | Pending |
-| COMM-02     | Phase 24 | Pending |
-| COMM-03     | Phase 24 | Pending |
-| COMM-04     | Phase 24 | Pending |
-| INFRA-01    | Phase 18 | Pending |
-| INFRA-02    | Phase 18 | Pending |
-| INFRA-03    | Phase 18 | Pending |
-| INFRA-04    | Phase 18 | Pending |
-| INFRA-05    | Phase 18 | Pending |
-| INFRA-06    | Phase 18 | Pending |
-| INFRA-07    | Phase 18 | Pending |
-| INFRA-08    | Phase 18 | Pending |
+| Requirement | Phase    | Status   |
+| ----------- | -------- | -------- |
+| PROP-01     | Phase 19 | Pending  |
+| PROP-02     | Phase 19 | Pending  |
+| PROP-03     | Phase 19 | Pending  |
+| PROP-04     | Phase 19 | Pending  |
+| PROP-05     | Phase 19 | Pending  |
+| PROP-06     | Phase 19 | Pending  |
+| BOOK-01     | Phase 19 | Pending  |
+| BOOK-02     | Phase 19 | Pending  |
+| BOOK-03     | Phase 20 | Pending  |
+| BOOK-04     | Phase 19 | Pending  |
+| BOOK-05     | Phase 19 | Pending  |
+| BOOK-06     | Phase 19 | Pending  |
+| BOOK-07     | Phase 19 | Pending  |
+| PAY-01      | Phase 20 | Pending  |
+| PAY-02      | Phase 20 | Pending  |
+| PAY-03      | Phase 20 | Pending  |
+| PAY-04      | Phase 20 | Pending  |
+| PAY-05      | Phase 20 | Pending  |
+| PAY-06      | Phase 20 | Pending  |
+| PAY-07      | Phase 20 | Pending  |
+| OBOOK-01    | Phase 21 | Pending  |
+| OBOOK-02    | Phase 21 | Pending  |
+| OBOOK-03    | Phase 21 | Pending  |
+| OBOOK-04    | Phase 21 | Pending  |
+| OBOOK-05    | Phase 21 | Pending  |
+| OBOOK-06    | Phase 21 | Pending  |
+| OCAL-01     | Phase 22 | Pending  |
+| OCAL-02     | Phase 22 | Pending  |
+| OCAL-03     | Phase 22 | Pending  |
+| OCAL-04     | Phase 22 | Pending  |
+| OCAL-05     | Phase 22 | Pending  |
+| OMGMT-01    | Phase 21 | Pending  |
+| OMGMT-02    | Phase 21 | Pending  |
+| OMGMT-03    | Phase 23 | Pending  |
+| OMGMT-04    | Phase 21 | Pending  |
+| OMGMT-05    | Phase 23 | Pending  |
+| OANA-01     | Phase 24 | Pending  |
+| OANA-02     | Phase 24 | Pending  |
+| OANA-03     | Phase 24 | Pending  |
+| OANA-04     | Phase 24 | Pending  |
+| SERV-01     | Phase 23 | Pending  |
+| SERV-02     | Phase 23 | Pending  |
+| SERV-03     | Phase 23 | Pending  |
+| SERV-04     | Phase 23 | Pending  |
+| SERV-05     | Phase 23 | Pending  |
+| SERV-06     | Phase 23 | Pending  |
+| SERV-07     | Phase 23 | Pending  |
+| SERV-08     | Phase 23 | Pending  |
+| SERV-09     | Phase 23 | Pending  |
+| DEAL-01     | Phase 24 | Pending  |
+| DEAL-02     | Phase 24 | Pending  |
+| DEAL-03     | Phase 24 | Pending  |
+| COMM-01     | Phase 24 | Pending  |
+| COMM-02     | Phase 24 | Pending  |
+| COMM-03     | Phase 24 | Pending  |
+| COMM-04     | Phase 24 | Pending  |
+| INFRA-01    | Phase 18 | Complete |
+| INFRA-02    | Phase 18 | Complete |
+| INFRA-03    | Phase 18 | Complete |
+| INFRA-04    | Phase 18 | Complete |
+| INFRA-05    | Phase 18 | Complete |
+| INFRA-06    | Phase 18 | Complete |
+| INFRA-07    | Phase 18 | Complete |
+| INFRA-08    | Phase 18 | Complete |
 
 **Coverage:**
 
