@@ -6,7 +6,7 @@
 - ✅ **v1.1 In-Stay MVP Backend** - Phases 4-8 (shipped 2026-01-30)
 - ✅ **v1.2 Tech Debt Cleanup** - Phases 9-12 (shipped 2026-01-30)
 - ✅ **v1.3 Merchant Feedback Intelligence** - Phases 13-17 (shipped 2026-01-30)
-- **v1.4 Accommodations v2** - Phases 18-24 (in progress)
+- ✅ **v1.4 Accommodations v2** - Phases 18-24 (shipped 2026-01-31)
 
 ## Phases
 
@@ -48,7 +48,7 @@ See milestones/v1.3-ROADMAP.md for details.
 - [x] **Phase 21: Owner Dashboard - Bookings & Property** - Booking management, room CRUD, property settings, QR codes (completed 2026-01-31)
 - [x] **Phase 22: Owner Dashboard - Calendar & Pricing** - Availability calendar, date blocking, seasonal pricing (completed 2026-01-31)
 - [x] **Phase 23: Service Ordering** - Guest service catalog, cart, order lifecycle, owner order management (completed 2026-01-31)
-- [ ] **Phase 24: Analytics, Deals & Communication** - Owner analytics, local deals, guest email notifications
+- [x] **Phase 24: Analytics, Deals & Communication** - Owner analytics, local deals, guest email notifications (completed 2026-01-31)
 
 ## Phase Details
 
@@ -187,42 +187,42 @@ Plans:
 Plans:
 
 - [x] 24-01-PLAN.md -- Migration 087 (deals, click tracking, email logs tables), analytics API routes, analytics dashboard with recharts
-- [ ] 24-02-PLAN.md -- Deals CRUD (backoffice + guest frontend update + click tracking redirect)
-- [ ] 24-03-PLAN.md -- Email communication (confirmation + pre-arrival cron with QR) + WhatsApp deep-links
+- [x] 24-02-PLAN.md -- Deals CRUD (backoffice + guest frontend update + click tracking redirect)
+- [x] 24-03-PLAN.md -- Email communication (confirmation + pre-arrival cron with QR) + WhatsApp deep-links
 
 ## Progress
 
 **Execution Order:** 18 > 19 > 20 > 21 > 22 > 23 > 24
 (Phase 20 and 21 can partially overlap -- both depend on Phase 19 but are independent of each other)
 
-| Phase                                     | Milestone | Plans Complete | Status      | Completed  |
-| ----------------------------------------- | --------- | -------------- | ----------- | ---------- |
-| 1. TypeScript QA                          | v1.0      | 2/2            | Complete    | 2026-01-29 |
-| 2. UI/UX QA                               | v1.0      | 2/2            | Complete    | 2026-01-29 |
-| 3. Build & Nav QA                         | v1.0      | 2/2            | Complete    | 2026-01-29 |
-| 4. Accommodations Schema                  | v1.1      | 2/2            | Complete    | 2026-01-30 |
-| 5. Seed Data                              | v1.1      | 2/2            | Complete    | 2026-01-30 |
-| 6. API Routes                             | v1.1      | 2/2            | Complete    | 2026-01-30 |
-| 7. Dashboard Frontend                     | v1.1      | 4/4            | Complete    | 2026-01-30 |
-| 8. Integration & Polish                   | v1.1      | 2/2            | Complete    | 2026-01-30 |
-| 9. Code Fixes                             | v1.2      | 2/2            | Complete    | 2026-01-30 |
-| 10. E2E Test Infrastructure               | v1.2      | 2/2            | Complete    | 2026-01-30 |
-| 11. E2E Smoke Tests                       | v1.2      | 2/2            | Complete    | 2026-01-30 |
-| 12. Visual and Quality                    | v1.2      | 2/2            | Complete    | 2026-01-30 |
-| 13. Foundation and AI Pipeline            | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 14. Merchant Submission UI                | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 15. Merchant Notifications                | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 16. Admin Kanban                          | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 17. Analytics Dashboard                   | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 18. Database Foundation                   | v1.4      | 2/2            | Complete    | 2026-01-31 |
-| 19. Property Page & Booking Flow          | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 20. Payments                              | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 21. Owner Dashboard - Bookings & Property | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 2/2            | Complete    | 2026-01-31 |
-| 23. Service Ordering                      | v1.4      | 4/4            | Complete    | 2026-01-31 |
-| 24. Analytics, Deals & Communication      | v1.4      | 1/3            | In progress | -          |
+| Phase                                     | Milestone | Plans Complete | Status   | Completed  |
+| ----------------------------------------- | --------- | -------------- | -------- | ---------- |
+| 1. TypeScript QA                          | v1.0      | 2/2            | Complete | 2026-01-29 |
+| 2. UI/UX QA                               | v1.0      | 2/2            | Complete | 2026-01-29 |
+| 3. Build & Nav QA                         | v1.0      | 2/2            | Complete | 2026-01-29 |
+| 4. Accommodations Schema                  | v1.1      | 2/2            | Complete | 2026-01-30 |
+| 5. Seed Data                              | v1.1      | 2/2            | Complete | 2026-01-30 |
+| 6. API Routes                             | v1.1      | 2/2            | Complete | 2026-01-30 |
+| 7. Dashboard Frontend                     | v1.1      | 4/4            | Complete | 2026-01-30 |
+| 8. Integration & Polish                   | v1.1      | 2/2            | Complete | 2026-01-30 |
+| 9. Code Fixes                             | v1.2      | 2/2            | Complete | 2026-01-30 |
+| 10. E2E Test Infrastructure               | v1.2      | 2/2            | Complete | 2026-01-30 |
+| 11. E2E Smoke Tests                       | v1.2      | 2/2            | Complete | 2026-01-30 |
+| 12. Visual and Quality                    | v1.2      | 2/2            | Complete | 2026-01-30 |
+| 13. Foundation and AI Pipeline            | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 14. Merchant Submission UI                | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 15. Merchant Notifications                | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 16. Admin Kanban                          | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 17. Analytics Dashboard                   | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 18. Database Foundation                   | v1.4      | 2/2            | Complete | 2026-01-31 |
+| 19. Property Page & Booking Flow          | v1.4      | 3/3            | Complete | 2026-01-31 |
+| 20. Payments                              | v1.4      | 3/3            | Complete | 2026-01-31 |
+| 21. Owner Dashboard - Bookings & Property | v1.4      | 3/3            | Complete | 2026-01-31 |
+| 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 2/2            | Complete | 2026-01-31 |
+| 23. Service Ordering                      | v1.4      | 4/4            | Complete | 2026-01-31 |
+| 24. Analytics, Deals & Communication      | v1.4      | 3/3            | Complete | 2026-01-31 |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-31 after Phase 24 planning_
+_Last updated: 2026-01-31 after Phase 24 complete_

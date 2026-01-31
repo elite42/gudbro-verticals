@@ -63,10 +63,10 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ### Owner Dashboard -- Analytics
 
-- [ ] **OANA-01**: Owner can view occupancy rate over time
-- [ ] **OANA-02**: Owner can view revenue summary (total, by room type, by month)
-- [ ] **OANA-03**: Owner can view average daily rate (ADR) trend
-- [ ] **OANA-04**: Owner can view service revenue breakdown by category
+- [x] **OANA-01**: Owner can view occupancy rate over time
+- [x] **OANA-02**: Owner can view revenue summary (total, by room type, by month)
+- [x] **OANA-03**: Owner can view average daily rate (ADR) trend
+- [x] **OANA-04**: Owner can view service revenue breakdown by category
 
 ### Service Ordering
 
@@ -82,16 +82,16 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ### Local Deals & Partnerships
 
-- [ ] **DEAL-01**: Owner can manage local deals in dashboard (CRUD: partner name, discount, description)
-- [ ] **DEAL-02**: Guest can view local deals in In-Stay Dashboard (already exists, needs real data)
-- [ ] **DEAL-03**: Referral tracking: log when guest taps a partner deal link
+- [x] **DEAL-01**: Owner can manage local deals in dashboard (CRUD: partner name, discount, description)
+- [x] **DEAL-02**: Guest can view local deals in In-Stay Dashboard (already exists, needs real data)
+- [x] **DEAL-03**: Referral tracking: log when guest taps a partner deal link
 
 ### Guest Communication
 
-- [ ] **COMM-01**: Guest can contact host via WhatsApp deep-link from property page and In-Stay Dashboard
-- [ ] **COMM-02**: Owner receives WhatsApp notifications for bookings, inquiries, and service orders
-- [ ] **COMM-03**: Guest receives booking confirmation email with booking code and property details
-- [ ] **COMM-04**: Guest receives pre-arrival email (1 day before check-in) with QR code and check-in info
+- [x] **COMM-01**: Guest can contact host via WhatsApp deep-link from property page and In-Stay Dashboard
+- [x] **COMM-02**: Owner receives WhatsApp notifications for bookings, inquiries, and service orders
+- [x] **COMM-03**: Guest receives booking confirmation email with booking code and property details
+- [x] **COMM-04**: Guest receives pre-arrival email (1 day before check-in) with QR code and check-in info
 
 ### Database & Infrastructure
 
@@ -158,26 +158,26 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 | PAY-05      | Phase 20 | Complete |
 | PAY-06      | Phase 20 | Complete |
 | PAY-07      | Phase 20 | Complete |
-| OBOOK-01    | Phase 21 | Pending  |
-| OBOOK-02    | Phase 21 | Pending  |
-| OBOOK-03    | Phase 21 | Pending  |
-| OBOOK-04    | Phase 21 | Pending  |
-| OBOOK-05    | Phase 21 | Pending  |
-| OBOOK-06    | Phase 21 | Pending  |
+| OBOOK-01    | Phase 21 | Complete |
+| OBOOK-02    | Phase 21 | Complete |
+| OBOOK-03    | Phase 21 | Complete |
+| OBOOK-04    | Phase 21 | Complete |
+| OBOOK-05    | Phase 21 | Complete |
+| OBOOK-06    | Phase 21 | Complete |
 | OCAL-01     | Phase 22 | Complete |
 | OCAL-02     | Phase 22 | Complete |
 | OCAL-03     | Phase 22 | Complete |
 | OCAL-04     | Phase 22 | Complete |
 | OCAL-05     | Phase 22 | Complete |
-| OMGMT-01    | Phase 21 | Pending  |
-| OMGMT-02    | Phase 21 | Pending  |
+| OMGMT-01    | Phase 21 | Complete |
+| OMGMT-02    | Phase 21 | Complete |
 | OMGMT-03    | Phase 23 | Complete |
-| OMGMT-04    | Phase 21 | Pending  |
+| OMGMT-04    | Phase 21 | Complete |
 | OMGMT-05    | Phase 23 | Complete |
-| OANA-01     | Phase 24 | Pending  |
-| OANA-02     | Phase 24 | Pending  |
-| OANA-03     | Phase 24 | Pending  |
-| OANA-04     | Phase 24 | Pending  |
+| OANA-01     | Phase 24 | Complete |
+| OANA-02     | Phase 24 | Complete |
+| OANA-03     | Phase 24 | Complete |
+| OANA-04     | Phase 24 | Complete |
 | SERV-01     | Phase 23 | Complete |
 | SERV-02     | Phase 23 | Complete |
 | SERV-03     | Phase 23 | Complete |
@@ -187,13 +187,13 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 | SERV-07     | Phase 23 | Complete |
 | SERV-08     | Phase 23 | Complete |
 | SERV-09     | Phase 23 | Complete |
-| DEAL-01     | Phase 24 | Pending  |
-| DEAL-02     | Phase 24 | Pending  |
-| DEAL-03     | Phase 24 | Pending  |
-| COMM-01     | Phase 24 | Pending  |
-| COMM-02     | Phase 24 | Pending  |
-| COMM-03     | Phase 24 | Pending  |
-| COMM-04     | Phase 24 | Pending  |
+| DEAL-01     | Phase 24 | Complete |
+| DEAL-02     | Phase 24 | Complete |
+| DEAL-03     | Phase 24 | Complete |
+| COMM-01     | Phase 24 | Complete |
+| COMM-02     | Phase 24 | Complete |
+| COMM-03     | Phase 24 | Complete |
+| COMM-04     | Phase 24 | Complete |
 | INFRA-01    | Phase 18 | Complete |
 | INFRA-02    | Phase 18 | Complete |
 | INFRA-03    | Phase 18 | Complete |
@@ -212,4 +212,4 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 ---
 
 _Requirements defined: 2026-01-31_
-_Last updated: 2026-01-31 after Phase 19 completion (12 requirements marked Complete)_
+_Last updated: 2026-01-31 after Phase 24 completion (all 64 requirements Complete)_
