@@ -255,3 +255,88 @@
     transform: translateY(0);
   }
 }
+
+/* ==============================================
+   React DayPicker v9 - Custom Theme
+   Matches accommodations design system colors
+   ============================================== */
+
+.rdp {
+  --rdp-accent-color: hsl(var(--primary));
+  --rdp-accent-background-color: hsl(var(--primary) / 0.1);
+  --rdp-range-background-color: hsl(var(--primary) / 0.08);
+  --rdp-disabled-opacity: 0.35;
+  --rdp-day-height: 44px;
+  --rdp-day-width: 44px;
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+/* Selected range endpoints */
+.rdp-day_range_start .rdp-day_button,
+.rdp-day_range_end .rdp-day_button {
+  background-color: hsl(var(--primary));
+  color: white;
+  border-radius: 9999px;
+}
+
+/* Range middle days */
+.rdp-day_range_middle {
+  background-color: hsl(var(--primary) / 0.08);
+}
+
+/* Today indicator */
+.rdp-day_today:not(.rdp-day_selected) .rdp-day_button {
+  font-weight: 700;
+  color: hsl(var(--primary));
+}
+
+/* Hover on non-disabled days */
+.rdp-day:not(.rdp-day_disabled):not(.rdp-day_selected) .rdp-day_button:hover {
+  background-color: hsl(var(--primary) / 0.06);
+  border-radius: 9999px;
+}
+
+/* Disabled day styling */
+.rdp-day_disabled .rdp-day_button {
+  text-decoration: line-through;
+  color: hsl(var(--foreground-muted));
+}
+
+/* Month caption */
+.rdp-caption_label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Navigation buttons */
+.rdp-button_previous,
+.rdp-button_next {
+  color: hsl(var(--foreground));
+}
+
+/* ==============================================
+   react-international-phone - Custom Theme
+   ============================================== */
+
+.react-international-phone-input-container {
+  width: 100%;
+}
+
+.react-international-phone-input {
+  width: 100% !important;
+  border-radius: 0.75rem !important;
+  border-color: hsl(var(--border)) !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 1rem !important;
+  font-family: var(--font-body), system-ui, sans-serif !important;
+}
+
+.react-international-phone-input:focus {
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2) !important;
+}
+
+.react-international-phone-country-selector-button {
+  border-radius: 0.75rem 0 0 0.75rem !important;
+  border-color: hsl(var(--border)) !important;
+}
