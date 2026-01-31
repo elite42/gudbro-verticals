@@ -27,7 +27,8 @@ export async function GET(request: NextRequest) {
        property_type, booking_mode, check_in_time, check_out_time, house_rules,
        cancellation_policy, amenities, images, host_name, host_phone, host_whatsapp,
        host_email, contact_email, deposit_percent, cancellation_penalty_percent,
-       accepted_payment_methods, bank_transfer_info, crypto_wallet_addresses, is_active`
+       accepted_payment_methods, bank_transfer_info, crypto_wallet_addresses,
+       weekly_discount_percent, monthly_discount_percent, is_active`
     )
     .eq('id', propertyId)
     .single();
@@ -81,6 +82,8 @@ export async function PUT(request: NextRequest) {
     'host_whatsapp',
     'host_email',
     'contact_email',
+    'weekly_discount_percent',
+    'monthly_discount_percent',
   ];
 
   const update: Record<string, unknown> = {};
