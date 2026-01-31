@@ -10,19 +10,19 @@ See: .planning/PROJECT.md (updated 2026-01-31)
 ## Current Position
 
 Phase: 18 of 24 (Database Foundation) -- first of 7 phases in v1.4
-Plan: 0 of 2 in current phase
-Status: Ready to plan
-Last activity: 2026-01-31 -- v1.4 roadmap created (7 phases, 64 requirements)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-31 -- Completed 18-01-PLAN.md (migration 083)
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [░░░░░░░░░░░░░░░░░░] 0/18
-████████████████████████████████████████ prior | ░░░░░░░░░░░░░░░░░░ v1.4
+Progress: v1.0-v1.3 [36/36] | v1.4 [█░░░░░░░░░░░░░░░░░] 1/18
+████████████████████████████████████████ prior | █░░░░░░░░░░░░░░░░░ v1.4
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 36 (+ 1 quick task)
-- Average duration: ~3.0 min/plan
+- Total plans completed: 37 (+ 1 quick task)
+- Average duration: ~2.9 min/plan
 - Total execution time: ~2.5 hours
 
 **By Milestone:**
@@ -47,6 +47,9 @@ Key v1.4 architectural decisions:
 - DATE type for check-in/check-out (not TIMESTAMPTZ)
 - Single booking model with status field (instant vs inquiry)
 - Cash/transfer default, Stripe as progressive enhancement
+- Half-open [) daterange for back-to-back bookings (checkout day free for new checkin)
+- All prices INTEGER minor currency units (not NUMERIC/DECIMAL)
+- Service order items snapshot name/unit_price for historical accuracy
 
 ### Pending Todos
 
@@ -60,10 +63,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: v1.4 roadmap created, ready to plan Phase 18
+Stopped at: Completed 18-01-PLAN.md (migration 083)
 Resume file: None
-Next: `/gsd:plan-phase 18`
+Next: Execute 18-02-PLAN.md or `/gsd:execute-phase 18` for plan 02
 
 ---
 
-_Last updated: 2026-01-31 after v1.4 roadmap creation_
+_Last updated: 2026-01-31 after 18-01 execution_
