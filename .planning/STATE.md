@@ -72,7 +72,7 @@ None.
 Last session: 2026-02-01
 Stopped at: Completed 25-02-PLAN.md (Phase 25 complete)
 Resume file: None
-Next: `/gsd:plan-phase 26` (Inline Verification)
+Next: `/gsd:discuss-phase 26` (Progressive Authentication)
 
 ---
 

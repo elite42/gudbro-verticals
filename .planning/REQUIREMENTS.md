@@ -9,15 +9,15 @@ Requirements for frictionless guest access milestone. Each maps to roadmap phase
 
 ### QR Access
 
-- [ ] **QRA-01**: Guest scans QR in room and immediately accesses dashboard without any login form
-- [ ] **QRA-02**: QR contains a permanent room code that resolves to the active booking for that room
-- [ ] **QRA-03**: If no active booking exists, QR shows a read-only property info page
+- [x] **QRA-01**: Guest scans QR in room and immediately accesses dashboard without any login form
+- [x] **QRA-02**: QR contains a permanent room code that resolves to the active booking for that room
+- [x] **QRA-03**: If no active booking exists, QR shows a read-only property info page
 - [ ] **QRA-04**: After checkout, QR blocks orders and paid actions for previous booking
-- [ ] **QRA-05**: Legacy `/stay/{booking-code}` URLs continue working (backward compatibility)
+- [x] **QRA-05**: Legacy `/stay/{booking-code}` URLs continue working (backward compatibility)
 
 ### Progressive Auth
 
-- [ ] **AUTH-01**: Guest can browse WiFi, property info, contacts, house rules without any verification
+- [x] **AUTH-01**: Guest can browse WiFi, property info, contacts, house rules without any verification
 - [ ] **AUTH-02**: When guest tries to order a paid service, an inline verification modal appears
 - [ ] **AUTH-03**: Verification accepts last name or numeric PIN (configurable by owner)
 - [ ] **AUTH-04**: After verification, token upgrades to "full" without page reload
@@ -81,38 +81,38 @@ Explicitly excluded. Documented to prevent scope creep.
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase | Status  |
-| ----------- | ----- | ------- |
-| QRA-01      | —     | Pending |
-| QRA-02      | —     | Pending |
-| QRA-03      | —     | Pending |
-| QRA-04      | —     | Pending |
-| QRA-05      | —     | Pending |
-| AUTH-01     | —     | Pending |
-| AUTH-02     | —     | Pending |
-| AUTH-03     | —     | Pending |
-| AUTH-04     | —     | Pending |
-| AUTH-05     | —     | Pending |
-| CONF-01     | —     | Pending |
-| CONF-02     | —     | Pending |
-| CONF-03     | —     | Pending |
-| CONF-04     | —     | Pending |
-| WIFI-01     | —     | Pending |
-| WIFI-02     | —     | Pending |
-| WIFI-03     | —     | Pending |
-| DOC-01      | —     | Pending |
-| DOC-02      | —     | Pending |
-| DOC-03      | —     | Pending |
-| DOC-04      | —     | Pending |
-| DOC-05      | —     | Pending |
+| Requirement | Phase | Status   |
+| ----------- | ----- | -------- |
+| QRA-01      | 25    | Complete |
+| QRA-02      | 25    | Complete |
+| QRA-03      | 25    | Complete |
+| QRA-04      | 26    | Pending  |
+| QRA-05      | 25    | Complete |
+| AUTH-01     | 25    | Complete |
+| AUTH-02     | 26    | Pending  |
+| AUTH-03     | 26    | Pending  |
+| AUTH-04     | 26    | Pending  |
+| AUTH-05     | 26    | Pending  |
+| CONF-01     | 27    | Pending  |
+| CONF-02     | 27    | Pending  |
+| CONF-03     | 27    | Pending  |
+| CONF-04     | 27    | Pending  |
+| WIFI-01     | 29    | Pending  |
+| WIFI-02     | 29    | Pending  |
+| WIFI-03     | 29    | Pending  |
+| DOC-01      | 28    | Pending  |
+| DOC-02      | 28    | Pending  |
+| DOC-03      | 28    | Pending  |
+| DOC-04      | 28    | Pending  |
+| DOC-05      | 28    | Pending  |
 
 **Coverage:**
 
 - v1.5 requirements: 22 total
-- Mapped to phases: 0
-- Unmapped: 22
+- Mapped to phases: 22
+- Unmapped: 0
 
 ---
 
 _Requirements defined: 2026-01-31_
-_Last updated: 2026-01-31 after initial definition_
+_Last updated: 2026-02-01 after Phase 25 complete (QRA-01,02,03,05 + AUTH-01 marked Complete)_
