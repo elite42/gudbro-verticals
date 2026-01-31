@@ -154,12 +154,11 @@ export interface PropertyExtended extends PropertyInfo {
 
 export interface DealResponse {
   id: string;
-  merchantName: string;
-  merchantSlug: string;
+  partnerName: string;
   discountLabel: string;
   description: string | null;
-  validUntil: string | null;
-  bookingAction: string | null;
+  imageUrl: string | null;
+  url: string | null;
 }
 
 // --- Service Ordering Types ---

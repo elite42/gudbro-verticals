@@ -6,10 +6,11 @@ import type { DealResponse } from '@/types/stay';
 
 interface LocalDealsProps {
   bookingCode: string;
+  bookingId?: string;
   token: string;
 }
 
-export default function LocalDeals({ bookingCode, token }: LocalDealsProps) {
+export default function LocalDeals({ bookingCode, bookingId, token }: LocalDealsProps) {
   const [deals, setDeals] = useState<DealResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -65,44 +66,43 @@ export default function LocalDeals({ bookingCode, token }: LocalDealsProps) {
       </div>
 
       <div className="space-y-3">
-        {deals.map((deal) => (
-          <div key={deal.id} className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-            <div className="mb-2 flex items-start justify-between gap-3">
-              <div className="min-w-0 flex-1">
-                <p className="font-medium text-[#2D2016]">{deal.merchantName}</p>
-                {deal.description && (
-                  <p className="mt-1 text-sm text-[#8B7355]">{deal.description}</p>
-                )}
+        {deals.map((deal) => {
+          const clickUrl = deal.url
+            ? `/api/deals/${deal.id}/click${bookingId ? `?bid=${bookingId}` : ''}`
+            : null;
+
+          return (
+            <div
+              key={deal.id}
+              className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm"
+            >
+              <div className="mb-2 flex items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-[#2D2016]">{deal.partnerName}</p>
+                  {deal.description && (
+                    <p className="mt-1 text-sm text-[#8B7355]">{deal.description}</p>
+                  )}
+                </div>
+                <span className="flex-shrink-0 rounded-full bg-[#E07A5F]/10 px-3 py-1 text-sm font-semibold text-[#E07A5F]">
+                  {deal.discountLabel}
+                </span>
               </div>
-              <span className="flex-shrink-0 rounded-full bg-[#E07A5F]/10 px-3 py-1 text-sm font-semibold text-[#E07A5F]">
-                {deal.discountLabel}
-              </span>
-            </div>
 
-            <div className="flex items-center justify-between">
-              {deal.validUntil && (
-                <p className="text-[11px] text-[#8B7355]">
-                  Valid until{' '}
-                  {new Date(deal.validUntil).toLocaleDateString('en', {
-                    month: 'short',
-                    day: 'numeric',
-                  })}
-                </p>
-              )}
-
-              {deal.bookingAction && (
-                <a
-                  href={deal.bookingAction}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-lg bg-[#3D8B87] px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#2D7A76]"
-                >
-                  Book
-                </a>
+              {clickUrl && (
+                <div className="flex items-center justify-end">
+                  <a
+                    href={clickUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg bg-[#3D8B87] px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-[#2D7A76]"
+                  >
+                    Visit
+                  </a>
+                </div>
               )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

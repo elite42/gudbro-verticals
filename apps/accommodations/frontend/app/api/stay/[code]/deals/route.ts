@@ -26,9 +26,8 @@ async function authenticateGuest(request: NextRequest) {
 /**
  * GET /api/stay/[code]/deals
  *
- * Protected endpoint returning local partnership deals for the property.
- * Queries partner_conventions where the property is the partner (accommodation type).
- * Joins with merchants table for business display info.
+ * Protected endpoint returning active local deals for the property.
+ * Queries accom_deals where property_id matches the guest's property.
  *
  * Requires valid guest JWT token. propertyId from token payload determines results.
  */
@@ -42,17 +41,12 @@ export async function GET(request: NextRequest) {
     const supabase = getSupabaseAdmin();
 
     const { data, error } = await supabase
-      .from('partner_conventions')
-      .select(
-        `
-        id, convention_name, benefit_type, benefit_value, benefit_description,
-        valid_from, valid_until, verification_method,
-        merchants!partner_conventions_merchant_id_fkey(name, slug, city, logo_url)
-      `
-      )
-      .eq('partner_id', guest.propertyId)
-      .eq('partner_type', 'accommodation')
-      .eq('is_active', true);
+      .from('accom_deals')
+      .select('id, partner_name, discount_description, description, url, image_url')
+      .eq('property_id', guest.propertyId)
+      .eq('is_active', true)
+      .order('display_order', { ascending: true })
+      .order('created_at', { ascending: true });
 
     if (error) {
       console.error('GET /api/stay/[code]/deals query error:', error);
@@ -60,19 +54,14 @@ export async function GET(request: NextRequest) {
     }
 
     // Map DB rows to DealResponse[]
-    const deals: DealResponse[] = (data || []).map((conv) => {
-      const merchant = conv.merchants as unknown as Record<string, unknown> | null;
-
-      return {
-        id: conv.id,
-        merchantName: (merchant?.name as string) || 'Local Partner',
-        merchantSlug: (merchant?.slug as string) || '',
-        discountLabel: conv.convention_name,
-        description: conv.benefit_description || null,
-        validUntil: conv.valid_until || null,
-        bookingAction: conv.verification_method || null,
-      };
-    });
+    const deals: DealResponse[] = (data || []).map((deal) => ({
+      id: deal.id,
+      partnerName: deal.partner_name,
+      discountLabel: deal.discount_description,
+      description: deal.description || null,
+      imageUrl: deal.image_url || null,
+      url: deal.url || null,
+    }));
 
     return NextResponse.json<ApiResponse<DealResponse[]>>({
       data: deals,
