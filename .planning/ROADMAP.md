@@ -161,13 +161,14 @@ Plans:
 3. Guest can track order status through the full lifecycle (submitted, confirmed, preparing, ready, delivered)
 4. Owner can manage service categories and items (CRUD with pricing, availability hours) and configure automation level per category
 5. Owner receives WhatsApp notification on new orders and can confirm, update status, or reject from the dashboard
-   **Plans**: TBD
+   **Plans**: 4 plans (wave 1 -> wave 2 parallel -> wave 3)
 
 Plans:
 
-- [ ] 23-01: TBD
-- [ ] 23-02: TBD
-- [ ] 23-03: TBD
+- [ ] 23-01-PLAN.md -- Migration 086 (automation_level), TypeScript types, order state machine, guest order API routes, stay-api extension
+- [ ] 23-02-PLAN.md -- Owner service catalog CRUD (backoffice page, API, ServiceCatalogManager component)
+- [ ] 23-03-PLAN.md -- Guest catalog UI, cart, order submission, order tracking with polling
+- [ ] 23-04-PLAN.md -- Owner order management (filterable table, status actions, detail panel), sidebar nav, WhatsApp
 
 ### Phase 24: Analytics, Deals & Communication
 
@@ -218,10 +219,10 @@ Plans:
 | 20. Payments                              | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 21. Owner Dashboard - Bookings & Property | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 2/2            | Complete    | 2026-01-31 |
-| 23. Service Ordering                      | v1.4      | 0/3            | Not started | -          |
+| 23. Service Ordering                      | v1.4      | 0/4            | Not started | -          |
 | 24. Analytics, Deals & Communication      | v1.4      | 0/3            | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-31 after Phase 22 completion_
+_Last updated: 2026-01-31 after Phase 23 planning_
