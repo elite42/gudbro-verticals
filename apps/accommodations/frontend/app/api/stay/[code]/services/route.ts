@@ -3,8 +3,8 @@ import { getSupabaseAdmin } from '@/lib/supabase';
 import { verifyGuestToken } from '@/lib/auth';
 import type {
   ApiResponse,
-  ServiceCategoryResponse,
   ServiceCategoryWithItems,
+  ServiceCategoryResponseWithTimezone,
   ServiceItemResponse,
 } from '@/types/stay';
 
@@ -46,13 +46,28 @@ export async function GET(request: NextRequest) {
 
     const supabase = getSupabaseAdmin();
 
+    // Fetch property timezone
+    const { data: propertyData, error: propertyError } = await supabase
+      .from('accom_properties')
+      .select('timezone')
+      .eq('id', guest.propertyId)
+      .single();
+
+    if (propertyError) {
+      console.error('GET /api/stay/[code]/services property query error:', propertyError);
+      return NextResponse.json<ApiResponse<null>>({ error: 'internal_error' }, { status: 500 });
+    }
+
+    const timezone = propertyData?.timezone || 'UTC';
+
     const { data, error } = await supabase
       .from('accom_service_categories')
       .select(
         `
-        id, name, icon, description, sort_order,
+        id, name, icon, description, sort_order, automation_level,
         accom_service_items(
-          id, name, description, price, currency, price_type, image, in_stock, is_active, sort_order
+          id, name, description, price, currency, price_type, image, in_stock, is_active, sort_order,
+          is_always_available, available_from, available_until
         )
       `
       )
@@ -82,6 +97,9 @@ export async function GET(request: NextRequest) {
           priceType: item.price_type as string,
           image: (item.image as string) || null,
           inStock: item.in_stock as boolean,
+          isAlwaysAvailable: item.is_always_available as boolean,
+          availableFrom: (item.available_from as string) || null,
+          availableUntil: (item.available_until as string) || null,
         }));
 
       return {
@@ -90,12 +108,13 @@ export async function GET(request: NextRequest) {
         icon: cat.icon || null,
         description: cat.description || null,
         sortOrder: cat.sort_order,
+        automationLevel: (cat as unknown as Record<string, unknown>).automation_level as string,
         items,
       };
     });
 
-    return NextResponse.json<ApiResponse<ServiceCategoryResponse>>({
-      data: { categories },
+    return NextResponse.json<ApiResponse<ServiceCategoryResponseWithTimezone>>({
+      data: { categories, timezone },
     });
   } catch (err) {
     console.error('GET /api/stay/[code]/services error:', err);
