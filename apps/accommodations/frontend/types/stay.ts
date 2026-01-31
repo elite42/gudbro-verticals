@@ -52,6 +52,52 @@ export interface StayData {
 
 export type AccessTier = 'browse' | 'full';
 
+// --- Access settings for owner security configuration (Phase 27) ---
+
+export interface AccessSettings {
+  preset: 'family' | 'standard' | 'structured';
+  actions: {
+    order_service: boolean;
+    order_fnb: boolean;
+    request_checkout: boolean;
+    view_orders: boolean;
+    contact_host: boolean;
+  };
+}
+
+export const ACCESS_PRESETS: Record<string, AccessSettings> = {
+  family: {
+    preset: 'family',
+    actions: {
+      order_service: false,
+      order_fnb: false,
+      request_checkout: false,
+      view_orders: false,
+      contact_host: false,
+    },
+  },
+  standard: {
+    preset: 'standard',
+    actions: {
+      order_service: true,
+      order_fnb: true,
+      request_checkout: false,
+      view_orders: false,
+      contact_host: false,
+    },
+  },
+  structured: {
+    preset: 'structured',
+    actions: {
+      order_service: true,
+      order_fnb: true,
+      request_checkout: true,
+      view_orders: true,
+      contact_host: true,
+    },
+  },
+};
+
 // --- Verification types for progressive auth (Phase 26) ---
 
 export type VerificationMethod = 'last_name' | 'pin';
@@ -85,6 +131,7 @@ export interface RoomStayData {
   hasActiveBooking: boolean;
   accessTier: AccessTier;
   verificationMethod?: VerificationMethod; // Present when hasActiveBooking=true
+  accessSettings?: AccessSettings; // Owner-configured action gates (Phase 27)
 }
 
 export interface PropertyInfo {
