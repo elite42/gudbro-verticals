@@ -254,6 +254,21 @@ export async function POST(request: NextRequest) {
       response.stripeCheckoutUrl = null;
     }
 
+    // Fire-and-forget: send booking confirmation email
+    // Email failure must never block the booking response
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+      fetch(`${baseUrl}/api/email/booking-confirmation`, {
+        method: 'POST',
+        body: JSON.stringify({ bookingId: booking.id }),
+        headers: { 'Content-Type': 'application/json' },
+      }).catch((emailErr) => {
+        console.error('Email trigger failed (fire-and-forget):', emailErr);
+      });
+    } catch {
+      // Silently ignore -- email is enhancement, not gate
+    }
+
     return NextResponse.json<ApiResponse<BookingResponse>>({ data: response });
   } catch (err) {
     console.error('POST /api/booking error:', err);
