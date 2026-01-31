@@ -107,12 +107,12 @@ Plans:
 2. Each preset visibly defines which guest actions require verification and which are free -- owner sees this before saving
 3. Owner can customize individual action gates beyond the selected preset
 4. "Family" preset allows all actions without verification; "Structured" preset requires verification for every order -- safe defaults work out of the box
-   **Plans**: TBD
+   **Plans**: 2 plans
 
 Plans:
 
-- [ ] 27-01: access_settings JSONB schema + presets + backoffice settings page
-- [ ] 27-02: Frontend integration (InlineVerification reads property settings, resolve_room_access returns config)
+- [ ] 27-01-PLAN.md — Migration 090 (access_settings JSONB + resolve_room_access update) + backoffice security settings page with preset selector and action toggles
+- [ ] 27-02-PLAN.md — Frontend integration: room resolve returns access_settings, room dashboard uses isActionGated() for conditional verification
 
 ### Phase 28: Document Upload + Visa Tracking
 
