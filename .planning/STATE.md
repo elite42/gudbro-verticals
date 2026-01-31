@@ -9,21 +9,21 @@ See: .planning/PROJECT.md (updated 2026-01-31)
 
 ## Current Position
 
-Phase: 19 of 24 (Property Page & Booking Flow) -- COMPLETE
-Plan: 3 of 3 in current phase
-Status: Phase 19 verified (25/25 must-haves), ready to plan Phase 20
-Last activity: 2026-01-31 -- Phase 19 verified and complete
+Phase: 20 of 24 (Payments)
+Plan: 1 of 3 in current phase
+Status: In progress -- Plan 01 complete, Plans 02-03 remaining
+Last activity: 2026-01-31 -- Completed 20-01-PLAN.md (Schema & Types)
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [█████░░░░░░░░░░░░░] 5/18
-████████████████████████████████████████ prior | █████░░░░░░░░░░░░░ v1.4
+Progress: v1.0-v1.3 [36/36] | v1.4 [██████░░░░░░░░░░░░] 6/18
+████████████████████████████████████████ prior | ██████░░░░░░░░░░░░ v1.4
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 41 (+ 1 quick task)
+- Total plans completed: 42 (+ 1 quick task)
 - Average duration: ~2.8 min/plan
-- Total execution time: ~2.7 hours
+- Total execution time: ~2.75 hours
 
 **By Milestone:**
 
@@ -33,7 +33,7 @@ Progress: v1.0-v1.3 [36/36] | v1.4 [█████░░░░░░░░░�
 | v1.1      | 12+1  | ~32 min    | 2.7 min  |
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
-| v1.4      | 5     | ~11 min    | 2.2 min  |
+| v1.4      | 6     | ~14 min    | 2.3 min  |
 
 ## Accumulated Context
 
@@ -58,6 +58,10 @@ Key v1.4 architectural decisions:
 - Regular join (not !inner) for rooms query so page loads even with no active rooms
 - Booking code as access token for /booking/[code] -- no auth required
 - noindex on booking confirmation pages to prevent search indexing
+- Deposit percent 1-100 range (no 0% -- at least 1% required for commitment)
+- Payment method CHECK allows NULL for legacy bookings
+- BankTransferInfo as JSONB (flexible for different banking systems)
+- Cancellation penalty as percent of deposit (not total price)
 
 ### Pending Todos
 
@@ -71,10 +75,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Phase 19 verified and complete, ready for Phase 20
+Stopped at: Completed 20-01-PLAN.md (Schema & Types for Payment System)
 Resume file: None
-Next: `/gsd:discuss-phase 20` or `/gsd:plan-phase 20`
+Next: `/gsd:execute-phase 20` (Plan 02: Payment Method Selector UI)
 
 ---
 
-_Last updated: 2026-01-31 after Phase 19 verification_
+_Last updated: 2026-01-31 after 20-01 execution_
