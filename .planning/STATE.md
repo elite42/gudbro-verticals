@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access — Phase 27 Owner Security Configuration
+**Current focus:** v1.5 Frictionless Guest Access — Phase 27 Owner Security Configuration (COMPLETE)
 
 ## Current Position
 
 Phase: 27 of 29 (Owner Security Configuration)
-Plan: 1 of 2 in current phase
-Status: In progress — Plan 01 complete
-Last activity: 2026-02-01 — Completed 27-01-PLAN.md
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-02-01 — Completed 27-02-PLAN.md
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [█████░░░░░] 5/10 plans (50%)
+Progress: v1.5 [██████░░░░] 6/10 plans (60%)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 62 (+ 1 quick task)
+- Total plans completed: 63 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
 - Total execution time: ~4.5 hours
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████░░░░░] 5/10 plans (50%)
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 5/10  | ~20 min    | 4.0 min  |
+| v1.5      | 6/10  | ~22 min    | 3.7 min  |
 
 ## Accumulated Context
 
@@ -65,6 +65,9 @@ Recent decisions for v1.5:
 - Preset definitions duplicated in backoffice (not cross-app import) to avoid cross-app dependency
 - CHECK constraint allows NULL access_settings for backward compat with existing properties
 - Boolean convention: true = gated (requires verification), false = free for browse tier
+- Legacy fallback uses standard preset when access_settings is null (backward compatible)
+- isActionGated pattern: centralized per-action gating check with tier, settings, and fallback logic
+- hasAnyGatedAction controls verify prompt visibility (Family preset hides it entirely)
 
 ### Pending Todos
 
@@ -80,10 +83,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 27-01-PLAN.md (access_settings schema + backoffice security page)
+Stopped at: Completed 27-02-PLAN.md (Frontend enforcement of access_settings)
 Resume file: None
-Next: `/gsd:execute-phase 27` plan 02 (Frontend enforcement of access_settings)
+Next: `/gsd:execute-phase 28` (Document Verification)
 
 ---
 
-_Last updated: 2026-02-01 after 27-01 plan complete_
+_Last updated: 2026-02-01 after 27-02 plan complete (Phase 27 complete)_
