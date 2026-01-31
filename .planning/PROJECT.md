@@ -50,21 +50,26 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ### Active
 
-(Next milestone TBD — run `/gsd:new-milestone` to define)
+## Current Milestone: v1.4 Accommodations v2
+
+**Goal:** Complete the Accommodations vertical end-to-end: public property page with hybrid booking, full owner dashboard, and configurable service ordering with cross-vertical deep-links.
+
+**Target features:**
+
+- Booking Mode: public property page (landing essenziale), hybrid booking (instant or inquiry, owner-configured), configurable payments (cash/transfer/Stripe/crypto via @shared/payment)
+- Owner Dashboard: booking management, availability calendar, pricing (per room type, seasonal), analytics (occupancy, revenue), service management, local deals management, guest communication
+- Service Ordering: configurable service catalog per owner, automation levels per service (auto-confirm, manual, WhatsApp redirect), cross-vertical deep-links (F&B, tours, wellness), guest orders from In-Stay Dashboard
 
 ### Out of Scope
 
-- Booking Mode (property page, booking flow) -- deferred to future milestone
-- Owner Dashboard (property management UI) -- deferred to future milestone
-- Service Ordering (guest submits requests) -- deferred to future milestone
 - Visa Tracker -- deferred to later milestone
 - Digital Laundry Form -- deferred to later milestone
-- Online payments -- cash/transfer only for MVP
 - GUDBRO Network integration -- future
 - Review system -- future
-- Calendar sync -- future
+- Calendar sync (external calendars) -- future
 - Offline/Service Worker testing -- Playwright PWA install limited
 - Cross-browser parity testing -- Chromium-only sufficient for smoke tests
+- Property page premium version (vetrina completa) -- future upsell option
 
 ## Context
 
@@ -117,4 +122,4 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ---
 
-_Last updated: 2026-01-30 after v1.3 milestone_
+_Last updated: 2026-01-31 after v1.4 milestone start_
