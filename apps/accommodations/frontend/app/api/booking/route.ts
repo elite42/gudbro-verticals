@@ -3,7 +3,12 @@ import { differenceInDays, parseISO, addHours, isBefore, startOfDay } from 'date
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { signGuestToken } from '@/lib/auth';
 import { calculatePriceBreakdown } from '@/lib/price-utils';
-import type { ApiResponse, BookingResponse, BookingSubmission } from '@/types/property';
+import type {
+  ApiResponse,
+  BookingResponse,
+  BookingSubmission,
+  AccomPaymentMethod,
+} from '@/types/property';
 
 export const dynamic = 'force-dynamic';
 
@@ -72,11 +77,11 @@ export async function POST(request: NextRequest) {
 
     const supabase = getSupabaseAdmin();
 
-    // Fetch property
+    // Fetch property (including payment config)
     const { data: property, error: propError } = await supabase
       .from('accom_properties')
       .select(
-        'id, name, booking_mode, min_nights, max_nights, cleaning_fee, weekly_discount_percent, monthly_discount_percent, inquiry_timeout_hours, contact_phone, contact_whatsapp'
+        'id, name, booking_mode, min_nights, max_nights, cleaning_fee, weekly_discount_percent, monthly_discount_percent, inquiry_timeout_hours, contact_phone, contact_whatsapp, deposit_percent, bank_transfer_info, crypto_wallets, accepted_payment_methods, stripe_account_id'
       )
       .eq('slug', propertySlug)
       .eq('is_active', true)
@@ -133,8 +138,42 @@ export async function POST(request: NextRequest) {
       room.currency
     );
 
-    // Determine booking status
-    const status = property.booking_mode === 'instant' ? 'confirmed' : 'pending';
+    // --- Payment method validation ---
+    const acceptedMethods: string[] = property.accepted_payment_methods || [];
+    let paymentMethod: AccomPaymentMethod | null = body.paymentMethod || null;
+
+    if (paymentMethod && acceptedMethods.length > 0 && !acceptedMethods.includes(paymentMethod)) {
+      return NextResponse.json<ApiResponse<null>>(
+        { error: 'payment_method_not_accepted' },
+        { status: 400 }
+      );
+    }
+
+    // Default to first accepted method if none provided (backward compat)
+    if (!paymentMethod && acceptedMethods.length > 0) {
+      paymentMethod = acceptedMethods[0] as AccomPaymentMethod;
+    }
+
+    // --- Deposit calculation ---
+    const depositPercent = property.deposit_percent ?? 100;
+    const depositAmount = Math.round(priceBreakdown.totalPrice * (depositPercent / 100));
+
+    // --- Determine booking status based on payment method ---
+    let status: 'confirmed' | 'pending' | 'pending_payment';
+    if (
+      paymentMethod === 'bank_transfer' ||
+      paymentMethod === 'crypto' ||
+      paymentMethod === 'card'
+    ) {
+      status = 'pending_payment';
+    } else if (paymentMethod === 'cash') {
+      // Cash follows existing booking mode logic
+      status = property.booking_mode === 'instant' ? 'confirmed' : 'pending';
+    } else {
+      // No payment method (legacy) -- use booking mode
+      status = property.booking_mode === 'instant' ? 'confirmed' : 'pending';
+    }
+
     const expiresAt =
       status === 'pending' ? addHours(new Date(), property.inquiry_timeout_hours || 24) : null;
 
@@ -162,6 +201,9 @@ export async function POST(request: NextRequest) {
         total_price: priceBreakdown.totalPrice,
         currency: priceBreakdown.currency,
         expires_at: expiresAt?.toISOString() || null,
+        payment_method: paymentMethod,
+        deposit_amount: depositAmount,
+        deposit_percent: depositPercent,
       })
       .select('id, booking_code')
       .single();
@@ -185,18 +227,34 @@ export async function POST(request: NextRequest) {
       checkoutDate: checkOut,
     });
 
-    return NextResponse.json<ApiResponse<BookingResponse>>({
-      data: {
-        bookingCode: booking.booking_code,
-        token,
-        status: status as 'confirmed' | 'pending',
-        expiresAt: expiresAt?.toISOString() || null,
-        priceBreakdown,
-        propertyName: property.name,
-        hostPhone: property.contact_phone,
-        hostWhatsapp: property.contact_whatsapp,
-      },
-    });
+    // Build response with payment-specific data
+    const response: BookingResponse = {
+      bookingCode: booking.booking_code,
+      token,
+      status,
+      expiresAt: expiresAt?.toISOString() || null,
+      priceBreakdown,
+      propertyName: property.name,
+      hostPhone: property.contact_phone,
+      hostWhatsapp: property.contact_whatsapp,
+      paymentMethod: paymentMethod || undefined,
+      depositAmount,
+      depositPercent,
+    };
+
+    // Add payment-method-specific data
+    if (paymentMethod === 'bank_transfer' && property.bank_transfer_info) {
+      response.bankTransferInfo = property.bank_transfer_info;
+    }
+    if (paymentMethod === 'crypto' && property.crypto_wallets) {
+      response.cryptoWallets = property.crypto_wallets;
+    }
+    if (paymentMethod === 'card') {
+      // Stripe session is NOT created here -- Plan 03 handles /api/checkout
+      response.stripeCheckoutUrl = null;
+    }
+
+    return NextResponse.json<ApiResponse<BookingResponse>>({ data: response });
   } catch (err) {
     console.error('POST /api/booking error:', err);
     return NextResponse.json<ApiResponse<null>>({ error: 'internal_error' }, { status: 500 });

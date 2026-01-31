@@ -26,6 +26,8 @@ export async function GET(_request: NextRequest, { params }: { params: { slug: s
         booking_mode, accepted_payment_methods,
         min_nights, max_nights, cleaning_fee,
         weekly_discount_percent, monthly_discount_percent,
+        deposit_percent, bank_transfer_info, crypto_wallets,
+        cancellation_window_hours, cancellation_penalty_percent,
         has_linked_fnb, linked_fnb_slug,
         accom_rooms(
           id, room_number, room_type, capacity, description,

@@ -8,9 +8,12 @@ import {
   Copy,
   Check,
   Clock,
+  Money,
 } from '@phosphor-icons/react';
 import { formatPrice } from '@/lib/price-utils';
 import type { BookingResponse } from '@/types/property';
+import BankTransferInstructions from './BankTransferInstructions';
+import CryptoPaymentOptions from './CryptoPaymentOptions';
 
 interface BookingConfirmationProps {
   bookingResult: BookingResponse;
@@ -23,6 +26,7 @@ export default function BookingConfirmation({ bookingResult }: BookingConfirmati
     bookingResult;
 
   const isConfirmed = status === 'confirmed';
+  const isPendingPayment = status === 'pending_payment';
 
   const copyBookingCode = async () => {
     try {
@@ -48,27 +52,38 @@ export default function BookingConfirmation({ bookingResult }: BookingConfirmati
     ? Math.max(0, Math.round((new Date(expiresAt).getTime() - Date.now()) / 3600000))
     : null;
 
+  // Determine header text and icon
+  let headerText = 'Booking Confirmed!';
+  let subText = 'Your stay has been confirmed. See you soon!';
+  if (isPendingPayment) {
+    headerText = 'Awaiting Payment';
+    subText = 'Complete your payment to confirm the booking.';
+  } else if (!isConfirmed) {
+    headerText = 'Booking Request Sent';
+    subText = 'Waiting for host confirmation.';
+  }
+
   return (
     <div className="text-center">
-      {/* Success icon */}
+      {/* Success / Pending icon */}
       <div className="mb-4 flex justify-center">
-        <div className="bg-success-light rounded-full p-4">
-          <CheckCircle size={48} weight="fill" className="text-success" />
-        </div>
+        {isPendingPayment ? (
+          <div className="rounded-full bg-amber-100 p-4">
+            <Clock size={48} weight="fill" className="text-amber-600" />
+          </div>
+        ) : (
+          <div className="bg-success-light rounded-full p-4">
+            <CheckCircle size={48} weight="fill" className="text-success" />
+          </div>
+        )}
       </div>
 
       {/* Status message */}
-      <h2 className="font-display text-foreground mb-1 text-2xl font-bold">
-        {isConfirmed ? 'Booking Confirmed!' : 'Booking Request Sent'}
-      </h2>
-      <p className="text-foreground-muted mb-6 text-sm">
-        {isConfirmed
-          ? 'Your stay has been confirmed. See you soon!'
-          : 'Waiting for host confirmation.'}
-      </p>
+      <h2 className="font-display text-foreground mb-1 text-2xl font-bold">{headerText}</h2>
+      <p className="text-foreground-muted mb-6 text-sm">{subText}</p>
 
       {/* Inquiry expiry notice */}
-      {!isConfirmed && hoursUntilExpiry !== null && (
+      {!isConfirmed && !isPendingPayment && hoursUntilExpiry !== null && (
         <div className="bg-accent/10 text-foreground-muted mx-auto mb-6 flex max-w-sm items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm">
           <Clock size={16} weight="duotone" />
           <span>The host has {hoursUntilExpiry} hours to respond</span>
@@ -120,6 +135,42 @@ export default function BookingConfirmation({ bookingResult }: BookingConfirmati
               </span>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Payment-specific instructions */}
+      {bookingResult.paymentMethod === 'cash' && (
+        <div className="mx-auto mb-6 flex max-w-sm items-center gap-2 rounded-lg bg-emerald-50 p-3 text-left text-sm text-emerald-700">
+          <Money size={20} weight="fill" className="flex-shrink-0" />
+          <span>
+            Pay{' '}
+            {priceBreakdown
+              ? formatPrice(priceBreakdown.totalPrice, priceBreakdown.currency)
+              : 'the full amount'}{' '}
+            at check-in
+          </span>
+        </div>
+      )}
+
+      {bookingResult.paymentMethod === 'bank_transfer' && bookingResult.bankTransferInfo && (
+        <div className="mb-6">
+          <BankTransferInstructions
+            bankInfo={bookingResult.bankTransferInfo}
+            amount={priceBreakdown?.totalPrice || 0}
+            currency={priceBreakdown?.currency || 'VND'}
+            bookingCode={bookingCode}
+          />
+        </div>
+      )}
+
+      {bookingResult.paymentMethod === 'crypto' && bookingResult.cryptoWallets && (
+        <div className="mb-6">
+          <CryptoPaymentOptions
+            wallets={bookingResult.cryptoWallets}
+            amount={priceBreakdown?.totalPrice || 0}
+            currency={priceBreakdown?.currency || 'VND'}
+            bookingCode={bookingCode}
+          />
         </div>
       )}
 
