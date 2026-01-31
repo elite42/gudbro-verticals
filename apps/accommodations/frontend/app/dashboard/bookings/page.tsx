@@ -11,7 +11,7 @@
  */
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { formatPrice } from '@/lib/price-utils';
 import { PAYMENT_METHOD_CONFIG } from '@/types/property';
@@ -69,7 +69,7 @@ function formatDate(dateStr: string): string {
   });
 }
 
-export default function DashboardBookingsPage() {
+function DashboardBookingsContent() {
   const searchParams = useSearchParams();
   const propertyId = searchParams.get('propertyId');
   const apiKey = searchParams.get('key');
@@ -260,5 +260,19 @@ export default function DashboardBookingsPage() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function DashboardBookingsPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="mx-auto max-w-6xl px-4 py-8">
+          <p className="text-gray-500">Loading bookings...</p>
+        </main>
+      }
+    >
+      <DashboardBookingsContent />
+    </Suspense>
   );
 }
