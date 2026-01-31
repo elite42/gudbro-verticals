@@ -4,18 +4,17 @@
  * Handles payment lifecycle events from Stripe Checkout.
  * Signature verification ensures only legitimate Stripe events are processed.
  *
- * Event handlers are stubbed -- actual logic added in Phase 20 (Payments).
+ * Events handled:
+ * - checkout.session.completed: Confirm booking, update payment status
+ * - checkout.session.expired: Revert to pending for retry
  *
  * POST /api/webhooks/stripe
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-
-// Initialize Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2023-10-16',
-});
+import { getStripe } from '@/lib/stripe';
+import { getSupabaseAdmin } from '@/lib/supabase';
 
 const endpointSecret = process.env.STRIPE_ACCOM_WEBHOOK_SECRET;
 
@@ -30,11 +29,14 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event;
 
   try {
+    const stripe = getStripe();
     event = stripe.webhooks.constructEvent(body, signature, endpointSecret);
   } catch (err) {
     console.error('Webhook signature verification failed:', err);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
+
+  const supabase = getSupabaseAdmin();
 
   // Handle the event
   switch (event.type) {
@@ -43,8 +45,41 @@ export async function POST(request: NextRequest) {
       const bookingId = session.metadata?.booking_id;
 
       if (bookingId) {
-        // TODO Phase 20: Update booking payment_status to 'paid', status to 'confirmed'
-        console.log('Checkout session completed for booking:', bookingId);
+        // Idempotency check: skip if already paid
+        const { data: existing } = await supabase
+          .from('accom_bookings')
+          .select('payment_status')
+          .eq('id', bookingId)
+          .single();
+
+        if (existing?.payment_status === 'paid') {
+          console.log(`Payment already confirmed for booking ${bookingId}, skipping`);
+          break;
+        }
+
+        // Determine payment status based on deposit percent
+        const depositPercent = parseInt(session.metadata?.deposit_percent || '100', 10);
+        const paymentStatus = depositPercent >= 100 ? 'paid' : 'partial';
+
+        const { error: updateError } = await supabase
+          .from('accom_bookings')
+          .update({
+            payment_status: paymentStatus,
+            status: 'confirmed',
+            stripe_payment_intent_id:
+              typeof session.payment_intent === 'string'
+                ? session.payment_intent
+                : session.payment_intent?.id || null,
+          })
+          .eq('id', bookingId);
+
+        if (updateError) {
+          console.error(`Failed to update booking ${bookingId}:`, updateError);
+        } else {
+          console.log(
+            `Payment confirmed for booking ${bookingId} (${paymentStatus}, ${depositPercent}% deposit)`
+          );
+        }
       }
       break;
     }
@@ -54,8 +89,18 @@ export async function POST(request: NextRequest) {
       const bookingId = session.metadata?.booking_id;
 
       if (bookingId) {
-        // TODO Phase 20: Handle expired checkout session
-        console.log('Checkout session expired for booking:', bookingId);
+        // Only revert if still pending_payment (conditional update)
+        const { error: updateError } = await supabase
+          .from('accom_bookings')
+          .update({ status: 'pending' })
+          .eq('id', bookingId)
+          .eq('status', 'pending_payment');
+
+        if (updateError) {
+          console.error(`Failed to revert booking ${bookingId}:`, updateError);
+        } else {
+          console.log(`Checkout session expired for booking ${bookingId}, reverted to pending`);
+        }
       }
       break;
     }
