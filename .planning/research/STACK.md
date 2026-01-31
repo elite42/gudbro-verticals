@@ -1,281 +1,270 @@
-# Technology Stack: Accommodations v2
+# Technology Stack: Frictionless Guest Access
 
-**Project:** GUDBRO Accommodations v2 -- Booking, Owner Dashboard, Service Ordering
+**Project:** GUDBRO Accommodations -- QR-based frictionless access, progressive auth, document upload
 **Researched:** 2026-01-31
 **Overall Confidence:** HIGH
 
 ---
 
-## Key Finding: Modest Additions to Existing Stack
+## Key Finding: Zero New Dependencies for Core Features
 
-The accommodations frontend currently has a minimal package set (Next.js, Supabase, Radix, date-fns, jose). The v2 features require **targeted additions** for payments (Stripe), date picking (availability calendar), charts (owner analytics), animations, and server-state management. The backoffice already uses most of these libraries, so patterns and integration knowledge exist in the codebase.
-
-**What already exists in the accommodations frontend:**
-
-- Next.js 14.2.33, React 18, Tailwind, Radix UI (dialog, slot)
-- Supabase JS client with JWT auth via jose
-- date-fns for date manipulation
-- clsx + tailwind-merge for class utilities
-
-**What already exists in the broader monorepo (proven patterns):**
-
-- Stripe integration (backoffice: `stripe@^14.0.0`) -- server-side only
-- @shared/payment package (types, formatPrice, currency conversion)
-- Recharts (backoffice: `recharts@^3.7.0`) -- analytics charts
-- @tanstack/react-query (backoffice: `@tanstack/react-query@^5.90.19`)
-- Zod validation (backoffice: `zod@^3.23.0`)
-- Framer Motion (coffeeshop: `framer-motion@^12.24.7`)
-- Phosphor Icons (coffeeshop: `@phosphor-icons/react@^2.1.10`)
-- QR code generation (coffeeshop: `qrcode@^1.5.4`, `qrcode.react@^4.2.0`)
+The frictionless QR routing, progressive authentication, and owner-configurable security levels require **no new npm packages**. They are architectural changes to the existing auth system using `jose` (JWT), Next.js middleware, and Supabase RLS. The only genuinely new library needs are for document/passport photo upload and HEIC image conversion.
 
 ---
 
-## Recommended Stack Additions
+## Current Stack Inventory (Relevant to This Milestone)
 
-### 1. Payment Processing -- Stripe
+These already exist in `apps/accommodations/frontend/package.json` and are the foundation:
 
-**For booking deposits and service ordering payments.**
+| Package                 | Version | Role in This Milestone                                            |
+| ----------------------- | ------- | ----------------------------------------------------------------- |
+| `jose`                  | ^6.0.8  | JWT signing/verification -- will extend with two-tier token types |
+| `@supabase/supabase-js` | ^2.39.0 | Database queries, Storage uploads, RLS enforcement                |
+| `qrcode`                | ^1.5.4  | QR generation (backoffice side, already exists)                   |
+| `next`                  | 14.2.33 | Middleware for QR routing, API routes for token issuance          |
+| `date-fns`              | ^3.3.1  | Token expiry calculations, checkout date checks                   |
 
-| Package                   | Version | Purpose                              | Why                                                                                                                                                                                                                             |
-| ------------------------- | ------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `stripe`                  | ^17.0.0 | Server-side Stripe API               | Create checkout sessions, handle webhooks. Pin to v17 (not v20) because backoffice uses v14 and v20 is a breaking major with new API version. v17 is stable, compatible with API 2024-x, and avoids forcing backoffice upgrade. |
-| `@stripe/stripe-js`       | ^8.6.1  | Client-side Stripe.js loader         | Load Stripe Elements for embedded payment forms. Singleton pattern.                                                                                                                                                             |
-| `@stripe/react-stripe-js` | ^5.4.1  | React components for Stripe Elements | PaymentElement, AddressElement for checkout flow.                                                                                                                                                                               |
+**jose note:** The project uses jose ^6.0.8. Current latest is 6.1.3 (verified via npm). No upgrade needed -- ^6.0.8 already resolves to 6.1.x. The `SignJWT` and `jwtVerify` APIs used in `lib/auth.ts` are stable across jose 6.x.
 
-**Architecture decision: Stripe Checkout (hosted) for bookings, Stripe Elements (embedded) for services.**
+---
 
-- **Booking deposits** use Stripe Checkout (hosted page). Reason: highest conversion, Apple/Google Pay out of the box, PCI compliance with zero effort, reduces liability for a young product. Guest clicks "Book" -> redirected to Stripe -> returns to confirmation page.
-- **In-stay service ordering** uses Stripe Payment Intents with Elements (embedded). Reason: small amounts ($5-30), guest is already authenticated via booking code, inline payment feels natural for ordering breakfast/laundry.
-- **Server Actions pattern** (not API routes) for creating checkout sessions. This is the modern Next.js 14+ approach -- cleaner, more secure, no manual fetch calls.
+## Feature-by-Feature Stack Requirements
 
-**Integration with @shared/payment:**
+### 1. Room-Based QR Routing (Scan -> Immediate Dashboard)
 
-- Use `PaymentMethod` types from @shared/payment for method selection UI
-- Use `formatPrice()` for price display across currencies
-- Stripe handles card/Apple Pay/Google Pay; @shared/payment handles cash/crypto/VNPay display
-- The `PaymentIntent` type from @shared/payment maps cleanly to Stripe PaymentIntents
+**New packages needed: NONE**
+
+**What changes:**
+
+- **Next.js Middleware** (`middleware.ts`): Intercept `/checkin/{propertyId}/{roomId}` routes. Currently these URLs exist in QR codes (see `AccomQRGenerator.tsx` line 94) but route to a check-in verification page. The middleware will instead issue a "browse-level" JWT and redirect directly to the stay dashboard.
+- **New API route** `/api/stay/room-access`: Takes `propertyId` + `roomId`, looks up the active booking for that room (today's date), issues a limited JWT. No guest input required.
+- **New SECURITY DEFINER function** in Supabase: `get_active_booking_for_room(p_property_id UUID, p_room_id UUID)` -- returns booking data for the room if check-in <= today <= check-out+24h. This replaces the current `verify_booking_access()` which requires lastName.
+
+**Why no new packages:**
+
+- QR codes already encode `https://stays.gudbro.com/checkin/{propertyId}/{roomId}` (verified in `AccomQRGenerator.tsx`)
+- Next.js middleware handles route interception natively
+- jose handles JWT issuance with custom claims
+- Supabase RPC handles the room-to-booking lookup
+
+**Architecture decision:** The QR URL format stays the same. The behavior changes server-side. This means existing printed QR codes continue to work -- a critical requirement for hospitality where QR codes are physically printed and placed in rooms.
+
+**Confidence:** HIGH -- all code paths verified in codebase.
+
+---
+
+### 2. Progressive Authentication (Two-Tier JWT)
+
+**New packages needed: NONE**
+
+**What changes to `lib/auth.ts`:**
+
+Currently there is one token type: `GuestTokenPayload` with `{ bookingId, propertyId, checkoutDate }`. This token is issued after booking code + last name verification.
+
+The new system introduces **two token levels**:
+
+| Level      | Name           | Issued When             | Contains                                                                        | Allows                                                             |
+| ---------- | -------------- | ----------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `browse`   | Browse token   | QR scan (automatic)     | `{ propertyId, roomId, bookingId, level: 'browse', checkoutDate }`              | View dashboard, WiFi, info, deals, contact host                    |
+| `verified` | Verified token | Guest verifies identity | `{ propertyId, roomId, bookingId, level: 'verified', guestName, checkoutDate }` | All browse actions + place orders, make payments, upload documents |
+
+**Implementation with existing `jose`:**
+
+```typescript
+// Extended payload -- backwards compatible
+export interface GuestTokenPayload {
+  bookingId: string;
+  propertyId: string;
+  roomId?: string; // NEW: for room-scoped tokens
+  checkoutDate: string;
+  level: 'browse' | 'verified'; // NEW: auth level
+  guestName?: string; // NEW: only in verified tokens
+}
+```
+
+The `signGuestToken()` and `verifyGuestToken()` functions in `lib/auth.ts` already use jose's `SignJWT` and `jwtVerify`. Adding claims to the payload requires zero library changes.
+
+**API route protection pattern:**
+
+```typescript
+// In any API route that requires verified access:
+const payload = await verifyGuestToken(token);
+if (payload.level !== 'verified') {
+  return NextResponse.json({ error: 'verification_required' }, { status: 403 });
+}
+```
+
+**Frontend hook change (`useStaySession.ts`):**
+
+- Add `authLevel: 'browse' | 'verified' | null` to session state
+- Add `upgrade()` method that triggers the verification flow (booking code + last name)
+- When guest tries a paid action with browse-level token, show inline verification prompt
+
+**Confidence:** HIGH -- verified existing auth code, jose API supports arbitrary claims.
+
+---
+
+### 3. Owner-Configurable Security Levels
+
+**New packages needed: NONE**
+
+**What changes (database only):**
+
+Add column to `accom_properties`:
+
+```sql
+ALTER TABLE accom_properties
+  ADD COLUMN IF NOT EXISTS guest_security_level TEXT NOT NULL DEFAULT 'progressive'
+    CHECK (guest_security_level IN ('open', 'progressive', 'strict'));
+```
+
+| Level         | Behavior                                             | Use Case                          |
+| ------------- | ---------------------------------------------------- | --------------------------------- |
+| `open`        | QR scan -> full dashboard, no verification ever      | Small guesthouses, trust-based    |
+| `progressive` | QR scan -> browse dashboard, verify for paid actions | Default, recommended              |
+| `strict`      | QR scan -> verification required before ANY access   | Hotels with security requirements |
+
+**Implementation:** The `/api/stay/room-access` endpoint reads `guest_security_level` from the property and issues the appropriate token level. No new packages. Pure business logic in the API route.
+
+**Backoffice UI:** A simple radio group in property settings. Uses existing Radix UI components.
+
+**Confidence:** HIGH -- straightforward column addition and conditional logic.
+
+---
+
+### 4. Multi-Zone WiFi Display
+
+**New packages needed: NONE**
+
+**What changes (database only):**
+
+Currently `accom_properties` has single-value WiFi: `wifi_ssid TEXT, wifi_password TEXT`.
+
+Replace with a JSONB column for multiple zones:
+
+```sql
+ALTER TABLE accom_properties
+  ADD COLUMN IF NOT EXISTS wifi_zones JSONB NOT NULL DEFAULT '[]';
+
+-- Example data:
+-- [
+--   { "name": "Lobby", "ssid": "Hotel_Lobby", "password": "welcome123" },
+--   { "name": "Pool Area", "ssid": "Hotel_Pool", "password": "swim456" },
+--   { "name": "Room 203", "ssid": "Room203_5G", "password": "guest789" }
+-- ]
+```
+
+**Keep existing `wifi_ssid` and `wifi_password` columns** for backward compatibility. The frontend `WifiCard.tsx` component checks `wifi_zones` first; if empty, falls back to the single `wifi_ssid`/`wifi_password`.
+
+**Frontend:** The existing `WifiCard.tsx` component gets an accordion/tabs UI for multiple zones. Uses existing Radix UI primitives (`@radix-ui/react-accordion` or simple state toggle). Currently only `@radix-ui/react-dialog` and `@radix-ui/react-slot` are installed. Recommend adding `@radix-ui/react-accordion` for the multi-zone display.
+
+| Package                     | Version | Purpose                   | Why                                                            |
+| --------------------------- | ------- | ------------------------- | -------------------------------------------------------------- |
+| `@radix-ui/react-accordion` | ^1.2.3  | Expandable WiFi zone list | Accessible, keyboard-navigable, matches existing Radix pattern |
+
+**Alternative:** Could use simple `useState` toggle instead of adding another Radix package. Given the minimal component needs, a custom disclosure component with `<details>/<summary>` HTML would also work and add zero bytes to the bundle.
+
+**Recommendation:** Use native `<details>/<summary>` elements styled with Tailwind. Do NOT add `@radix-ui/react-accordion` for a single use case. If more accordion patterns emerge later, add it then.
+
+**Confidence:** HIGH -- straightforward JSONB column, no new packages needed.
+
+---
+
+### 5. Passport/Visa Document Upload with Photo Capture
+
+**New packages needed: 2 (one required, one recommended)**
+
+This is the only feature that genuinely requires new dependencies.
+
+#### Required: Image Compression
+
+| Package                     | Version | Purpose                                     | Why                                                                                                                                                                |
+| --------------------------- | ------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `browser-image-compression` | ^2.0.2  | Client-side image compression before upload | Passport photos from phone cameras are 3-8MB. Supabase Storage standard upload limit is 6MB. Must compress to ~1MB before upload. Runs in WebWorker, non-blocking. |
+
+**Verified:** Latest version is 2.0.2 (published ~3 years ago but stable, 248 dependents, actively used). No newer alternative needed -- the API is simple and the library works.
+
+**Source:** [npm: browser-image-compression](https://www.npmjs.com/package/browser-image-compression)
+
+#### Recommended: HEIC Conversion
+
+| Package    | Version | Purpose                                       | Why                                                                                                                             |
+| ---------- | ------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `heic2any` | ^0.0.4  | Convert iPhone HEIC photos to JPEG in browser | iPhones shoot HEIC by default. Many guests will use iPhones. Without this, HEIC uploads silently fail or show as broken images. |
+
+**Verified:** Latest version is 0.0.4 (stable, 80 dependents). Alternative `heic-to` tracks libheif more closely but has fewer users.
+
+**Source:** [npm: heic2any](https://www.npmjs.com/package/heic2any)
+
+#### Camera Capture: NO Library Needed
+
+The browser's native `navigator.mediaDevices.getUserMedia()` API handles camera access. On mobile (the primary use case), the simpler approach is an `<input type="file" accept="image/*" capture="environment">` HTML element, which opens the native camera app directly. No JavaScript camera library needed.
+
+```tsx
+// Simple, works on all mobile browsers:
+<input
+  type="file"
+  accept="image/jpeg,image/png,image/heic,image/heif"
+  capture="environment"
+  onChange={handleFileSelect}
+/>
+```
+
+This is more reliable than `getUserMedia()` on mobile because:
+
+- Works in all mobile browsers including in-app WebViews (Instagram, Facebook, LINE)
+- Uses the native camera UI (familiar to users)
+- Handles permissions natively
+- Returns a File object directly (no canvas intermediate step)
+
+**Source:** [MDN: Media Capture](https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/Taking_still_photos)
+
+#### Storage: Supabase Storage (No New Package)
+
+Documents upload to a **private** Supabase Storage bucket. The `@supabase/supabase-js` client already supports `.storage.from('bucket').upload()`.
+
+**Bucket configuration:**
+
+- Bucket name: `guest-documents`
+- Public: `false` (private -- documents contain passport data)
+- File size limit: 5MB (after client-side compression)
+- Allowed MIME types: `image/jpeg, image/png, application/pdf`
+- Folder structure: `{propertyId}/{bookingId}/{documentType}-{timestamp}.jpg`
+
+**RLS policy:** Only the API route (using service role key) can write. Guests cannot directly access the bucket. The API route validates the guest JWT before uploading.
+
+**Signed URLs:** For owner access in backoffice, use `supabase.storage.from('guest-documents').createSignedUrl(path, 3600)` (1-hour expiry).
 
 **What NOT to add:**
 
-- Do NOT add PayPal SDK. Southeast Asia market -- Stripe + VNPay/MoMo covers 95%+ of transactions. PayPal adds complexity for minimal adoption.
-- Do NOT add a Stripe subscription product. Bookings are one-time payments. Recurring billing is not in scope.
-- Do NOT implement Stripe Connect yet. The commission model (85/10/5 split) is manual/offline for MVP. Connect marketplace adds massive complexity -- defer to post-launch when volume justifies it.
+- Do NOT add Uppy or Dropzone. Overkill for a single-file passport upload. A simple `<input type="file">` with a preview is sufficient.
+- Do NOT add Tesseract.js or any OCR library. Visa expiry date extraction should be manual entry by the guest. OCR on passport photos is unreliable (glare, angles, varied formats) and adds 10MB+ to the bundle.
+- Do NOT add sharp or any server-side image processing. Client-side compression via `browser-image-compression` is sufficient. If server-side processing is needed later, use a Supabase Edge Function.
 
-**Webhook endpoint:** `/api/webhooks/stripe` -- handles `checkout.session.completed`, `payment_intent.succeeded`, `payment_intent.payment_failed`. Use `stripe.webhooks.constructEvent()` for signature verification.
-
-**Confidence:** HIGH -- Stripe versions verified via [npm](https://www.npmjs.com/package/stripe), patterns verified in backoffice codebase and [Stripe Next.js docs](https://docs.stripe.com/checkout/quickstart?client=next).
+**Confidence:** HIGH for architecture, MEDIUM for heic2any (stable but old, test on target devices).
 
 ---
 
-### 2. Availability Calendar -- react-day-picker
+### 6. QR Lifecycle (Deactivation After Checkout)
 
-**For date range selection in booking flow and owner availability management.**
+**New packages needed: NONE**
 
-| Package            | Version | Purpose                     | Why                                                                                                                                                                    |
-| ------------------ | ------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `react-day-picker` | ^9.13.0 | Date range picker component | Best React date picker: accessible (WCAG 2.1 AA), supports date ranges natively, Buddhist calendar support (Thailand market), lightweight, customizable with Tailwind. |
+**What changes:**
 
-**Why react-day-picker over alternatives:**
+The QR deactivation is purely a **backend/database concern**. The QR codes themselves are static URLs (they never change). What changes is what happens when someone scans an expired QR:
 
-| Library                    | Why NOT                                                                                        |
-| -------------------------- | ---------------------------------------------------------------------------------------------- |
-| `react-datepicker`         | Heavier, requires separate CSS import, less customizable. react-day-picker is more composable. |
-| `react-date-range`         | Unmaintained (last publish 2+ years ago). Dead project.                                        |
-| `@radix-ui/react-calendar` | Does not exist. Radix has no calendar primitive.                                               |
-| Custom from scratch        | Date edge cases (timezone, DST, month boundaries) are notoriously error-prone.                 |
+1. **`/api/stay/room-access`** checks if there's an active booking for the room today
+2. If no active booking -> return a friendly "No active stay" page (not a 404)
+3. If booking status is `checked_out` -> return "Your stay has ended" with a link to rebook
 
-**Key date-fns compatibility note:** react-day-picker v9 bundles its own date-fns internally (moved from peer dependency to direct dependency). The accommodations frontend already has `date-fns@^3.3.1`. These will coexist without conflict -- react-day-picker uses its bundled version, app code uses the project version. However, recommend upgrading the project date-fns to `^4.1.0` (matching backoffice) for consistency and to get the latest locale/timezone improvements.
+**Vercel Cron (already exists):** The project already has a cron job at `/api/cron/pre-arrival-emails/route.ts`. Add a companion cron `/api/cron/checkout-cleanup` that:
 
-**Usage in booking flow:**
+- Marks bookings as `checked_out` when `check_out_date < today` and status is still `checked_in`
+- This automatically "deactivates" the QR because `get_active_booking_for_room()` only returns bookings with valid dates
 
-- Guest selects check-in/check-out range
-- Disabled dates from owner's availability calendar
-- Price display per night on hover (custom day cell renderer)
-- Minimum stay enforcement
+**No new packages needed.** The existing Vercel cron infrastructure and Supabase queries handle this.
 
-**Usage in owner dashboard:**
-
-- Calendar view of bookings (color-coded by status)
-- Block dates (maintenance, personal use)
-- Seasonal pricing date ranges
-
-**Confidence:** HIGH -- version verified via [npm](https://www.npmjs.com/package/react-day-picker), date-fns compatibility researched via [GitHub issue #2465](https://github.com/gpbl/react-day-picker/issues/2465) and [daypicker.dev](https://daypicker.dev/).
-
----
-
-### 3. Analytics Charts -- Recharts
-
-**For owner dashboard: revenue charts, booking trends, occupancy rates.**
-
-| Package    | Version | Purpose       | Why                                                                                                                             |
-| ---------- | ------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `recharts` | ^3.6.0  | Chart library | Already used in backoffice for analytics. Proven patterns exist. React-native, declarative API, supports responsive containers. |
-
-**What to build:**
-
-- Revenue over time (AreaChart)
-- Booking sources (PieChart: direct vs OTA vs referral)
-- Occupancy rate (BarChart by month)
-- Service revenue breakdown (BarChart by category)
-
-**Alternatives considered:**
-
-| Library                    | Why NOT                                                                                               |
-| -------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Chart.js + react-chartjs-2 | Would introduce a second charting library. Recharts is already in the monorepo.                       |
-| Nivo                       | More beautiful defaults but significantly larger bundle. Recharts is sufficient for dashboard charts. |
-| Tremor                     | Opinionated UI library, doesn't match existing Tailwind/Radix design system.                          |
-
-**Confidence:** HIGH -- version verified via [npm](https://www.npmjs.com/package/recharts), patterns verified in backoffice.
-
----
-
-### 4. Server State Management -- TanStack Query
-
-**For data fetching, caching, and optimistic updates across all dashboard views.**
-
-| Package                 | Version  | Purpose                 | Why                                                                                                                                                           |
-| ----------------------- | -------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@tanstack/react-query` | ^5.90.19 | Server state management | Already proven in backoffice. Essential for: booking list pagination, calendar data caching, optimistic status updates, stale-while-revalidate for analytics. |
-
-**Why this is necessary (not optional):**
-
-- Owner dashboard has 6+ data sources (bookings, services, pricing, analytics, partners, notifications)
-- Manual `useEffect` + `useState` fetching leads to waterfall requests and stale data
-- Optimistic updates critical for booking status changes (owner confirms/rejects)
-- Background refetching keeps calendar availability fresh
-
-**What NOT to add:**
-
-- Do NOT add SWR. TanStack Query is already the project standard and more feature-rich.
-- Do NOT use React Server Components for all data. RSC works for initial page load, but the dashboard needs client-side mutations and real-time cache updates.
-
-**Confidence:** HIGH -- version verified via [npm](https://www.npmjs.com/package/@tanstack/react-query).
-
----
-
-### 5. Form Validation -- Zod
-
-**For booking form, service configuration, and owner property setup validation.**
-
-| Package | Version | Purpose           | Why                                                                                                                                                                                                  |
-| ------- | ------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `zod`   | ^3.24.0 | Schema validation | Stay on Zod 3.x (not 4.x). Zod 4 was released Jan 2026 but is a major rewrite. The entire monorepo uses Zod 3. Mixing versions creates confusion. Upgrade to Zod 4 as a separate coordinated effort. |
-
-**Why Zod 3.x, not 4.x:**
-
-- Zod 4 changes the import path and some APIs
-- Backoffice uses `zod@^3.23.0` -- stay aligned
-- Zod 3.24.x is actively maintained with security patches
-- Upgrade to 4 when the whole monorepo can move together
-
-**Key schemas needed:**
-
-- `BookingRequestSchema` -- dates, guest count, contact info, special requests
-- `PropertyConfigSchema` -- pricing rules, availability, amenities
-- `ServiceItemSchema` -- name, price, category, automation level
-- `ServiceOrderSchema` -- items, quantities, delivery time, payment method
-
-**Confidence:** HIGH -- Zod 4 release verified via [npm](https://www.npmjs.com/package/zod), decision to stay on 3.x is deliberate.
-
----
-
-### 6. UI Enhancements -- Icons, Animations, QR
-
-| Package                    | Version  | Purpose            | Why                                                                                                                                                                                    |
-| -------------------------- | -------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@phosphor-icons/react`    | ^2.1.10  | Icon library       | Project standard (CLAUDE.md Section 8.1). 9,000+ icons, duotone weight preferred.                                                                                                      |
-| `framer-motion`            | ^12.27.0 | Animations         | Page transitions, booking flow steps, gallery swipe. Already in coffeeshop. Note: package is being rebranded to "motion" but framer-motion@12 still works and has no breaking changes. |
-| `qrcode.react`             | ^4.2.0   | QR code generation | Room QR codes for in-stay dashboard access. Already in coffeeshop.                                                                                                                     |
-| `class-variance-authority` | ^0.7.1   | Component variants | Button/card variants. Already in backoffice and coffeeshop.                                                                                                                            |
-
-**What NOT to add:**
-
-- Do NOT add Lucide React. Phosphor is the project standard. Legacy Lucide only in existing components.
-- Do NOT add `motion` (the rebrand of framer-motion). Stay on `framer-motion` for consistency with coffeeshop. Migrate all at once later.
-
-**Confidence:** HIGH -- all versions verified, all already in monorepo.
-
----
-
-### 7. Image Gallery -- Swiper or Embla
-
-**For property photo gallery (swipeable, full-screen capable).**
-
-| Package                | Version | Purpose                 | Why                                                                                                                                                    |
-| ---------------------- | ------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `embla-carousel-react` | ^8.5.1  | Touch-friendly carousel | Lightweight (4KB gzipped), no dependencies, excellent touch/swipe, SSR compatible, accessible. Better than Swiper for a PWA where bundle size matters. |
-
-**Alternatives considered:**
-
-| Library                | Why NOT                                                                                    |
-| ---------------------- | ------------------------------------------------------------------------------------------ |
-| `swiper`               | 60KB+ bundle, CSS-heavy, overkill for a simple photo gallery.                              |
-| `react-slick`          | Deprecated maintenance mode, jQuery-era patterns.                                          |
-| Custom CSS scroll-snap | Works for basic cases but no pinch-zoom, no full-screen mode, no lazy loading integration. |
-| `keen-slider`          | Good but Embla has better React integration and smaller bundle.                            |
-
-**Usage:**
-
-- Property page hero gallery (swipe through photos)
-- Full-screen gallery overlay (pinch to zoom on mobile)
-- Thumbnail navigation strip
-
-**Confidence:** MEDIUM -- version from training data, recommend verifying at install time with `npm info embla-carousel-react version`.
-
----
-
-### 8. Real-time Communication -- Supabase Realtime
-
-**For booking notifications, service order updates, guest-host messaging.**
-
-| Technology                           | Version                           | Purpose                                        | Why                                                               |
-| ------------------------------------ | --------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
-| Supabase Realtime (Postgres Changes) | Included in @supabase/supabase-js | Booking status updates, service order tracking | Already configured. Subscribe to booking/order status changes.    |
-| Supabase Realtime (Broadcast)        | Included                          | Guest-host chat messages                       | Low-latency pub/sub, RLS-authorized since recent Supabase update. |
-| Supabase Realtime (Presence)         | Included                          | "Host is online" indicator                     | Show guest if host is currently available.                        |
-
-**No new packages needed.** Supabase JS client already supports all three Realtime modes.
-
-**Architecture:**
-
-- Booking confirmations: Postgres Changes on `accom_bookings` table (status column)
-- Service order updates: Postgres Changes on `accom_service_orders` table
-- Guest-host messaging: Broadcast channel scoped to booking code
-- Host online status: Presence channel scoped to property
-
-**Confidence:** HIGH -- Supabase Realtime features verified via [official docs](https://supabase.com/docs/guides/realtime) and [Supabase 2026 review](https://hackceleration.com/supabase-review/).
-
----
-
-### 9. Email Notifications -- Resend (NEW)
-
-**For booking confirmations, pre-arrival info, and receipt emails.**
-
-| Package  | Version | Purpose             | Why                                                                                                                               |
-| -------- | ------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `resend` | ^4.0.0  | Transactional email | Simple API, generous free tier (100 emails/day = 3000/month), React email templates, works perfectly with Next.js Server Actions. |
-
-**Why Resend over alternatives:**
-
-| Service              | Why NOT                                                                                                          |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| SendGrid             | Complex setup, requires API key + domain verification + sender identity. Overkill for transactional email.       |
-| AWS SES              | Cheapest at scale but requires AWS account, domain verification, sandbox escape. Too much ops for current stage. |
-| Supabase Auth emails | Only for auth flows, cannot customize for booking confirmations.                                                 |
-| Nodemailer + SMTP    | Requires SMTP server management, deliverability issues, no templates.                                            |
-
-**Emails needed:**
-
-1. Booking confirmation (guest)
-2. New booking notification (owner)
-3. Pre-arrival info with QR code (guest, 1 day before check-in)
-4. Service order confirmation (guest)
-5. Check-out receipt (guest)
-
-**Alternative: WhatsApp Business API.** The PRD mentions WhatsApp as primary communication channel. For MVP, use WhatsApp for real-time notifications (booking status, service updates) and Resend for formal confirmations/receipts that guests need in their inbox. WhatsApp API integration is a separate concern -- use simple `wa.me` links initially (already in @shared/payment utils).
-
-**Confidence:** MEDIUM -- Resend version from training data. Verify with `npm info resend version` at install time.
+**Confidence:** HIGH -- pattern already exists in codebase.
 
 ---
 
@@ -284,121 +273,116 @@ The accommodations frontend currently has a minimal package set (Next.js, Supaba
 ```bash
 # From apps/accommodations/frontend/
 
-# Core additions
-pnpm add stripe@^17.0.0 @stripe/stripe-js@^8.6.1 @stripe/react-stripe-js@^5.4.1
+# Document upload (only genuinely new dependencies)
+pnpm add browser-image-compression@^2.0.2 heic2any@^0.0.4
 
-# Calendar and charts
-pnpm add react-day-picker@^9.13.0 recharts@^3.6.0
-
-# Server state and validation
-pnpm add @tanstack/react-query@^5.90.19 zod@^3.24.0
-
-# UI enhancements
-pnpm add @phosphor-icons/react@^2.1.10 framer-motion@^12.27.0 qrcode.react@^4.2.0 class-variance-authority@^0.7.1
-
-# Image gallery
-pnpm add embla-carousel-react@^8.5.1
-
-# Email
-pnpm add resend@^4.0.0
-
-# Upgrade existing
-pnpm add date-fns@^4.1.0
-
-# Dev dependencies (QR types already needed)
-pnpm add -D @types/qrcode@^1.5.6
+# Dev dependencies
+pnpm add -D @types/heic2any
 ```
 
-**Total new direct dependencies: 13**
-**Total new dev dependencies: 1**
+**Total new direct dependencies: 2**
+**Total new dev dependencies: 1 (if types exist; verify with `npm info @types/heic2any`)**
 
----
+Note: `heic2any` may not have published types. If not, create a local declaration file:
 
-## Alternatives Considered (Full Summary)
-
-| Category   | Recommended                | Alternative                        | Why Not                                                                 |
-| ---------- | -------------------------- | ---------------------------------- | ----------------------------------------------------------------------- |
-| Payments   | Stripe Checkout + Elements | PayPal, Square, Paddle             | SEA market coverage, developer experience, existing backoffice pattern  |
-| Calendar   | react-day-picker           | react-datepicker, react-date-range | Accessibility, Buddhist calendar support (Thailand), active maintenance |
-| Charts     | Recharts                   | Chart.js, Nivo, Tremor             | Already in monorepo, sufficient for dashboard charts                    |
-| State      | TanStack Query             | SWR, Zustand, Redux                | Already project standard, better mutation/cache features                |
-| Validation | Zod 3.x                    | Zod 4.x, Yup, io-ts                | Monorepo consistency, avoid premature migration                         |
-| Icons      | Phosphor                   | Lucide, Heroicons                  | Project standard per CLAUDE.md                                          |
-| Animations | Framer Motion              | React Spring, GSAP                 | Already in monorepo, best React DX                                      |
-| Gallery    | Embla Carousel             | Swiper, keen-slider                | Smallest bundle, best touch support                                     |
-| Email      | Resend                     | SendGrid, SES, Nodemailer          | Simplest setup, React templates, generous free tier                     |
-| Realtime   | Supabase Realtime          | Pusher, Ably, Socket.io            | Already included, RLS authorization, zero additional cost               |
+```typescript
+// types/heic2any.d.ts
+declare module 'heic2any' {
+  interface HeicToAnyOptions {
+    blob: Blob;
+    toType?: string;
+    quality?: number;
+    gifInterval?: number;
+  }
+  export default function heic2any(
+    options: HeicToAnyOptions
+  ): Promise<Blob | Blob[]>;
+}
+```
 
 ---
 
 ## What NOT to Add (and Why)
 
-| Library/Service          | Why NOT                                                                                                                                                  |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stripe Connect           | Commission splits (85/10/5) are manual for MVP. Connect marketplace adds weeks of complexity for a feature needed only at scale.                         |
-| Prisma                   | Accommodations frontend uses Supabase JS client directly (not Prisma). Keep it that way -- Prisma is for backoffice only.                                |
-| NextAuth/Auth.js         | Owners authenticate via Supabase Auth (already configured). Guests authenticate via booking code + JWT (already built). No need for a third auth system. |
-| Mapbox/Google Maps       | Location display is nice-to-have, not MVP. Use a static map image or simple link to Google Maps initially. Add interactive maps in a later phase.        |
-| i18n library (next-intl) | The PRD mentions multi-language but the existing accommodations frontend has no i18n setup. Defer to a dedicated i18n phase. Don't half-implement it.    |
-| Cloudinary/imgix         | Photo optimization can be handled by Next.js Image component + Supabase Storage. No need for a third-party image CDN at this scale.                      |
-| Redis/Upstash            | No caching layer needed. Supabase handles all data, TanStack Query handles client-side caching. Add Redis only if API latency becomes a problem.         |
+| Library/Service             | Why NOT                                                                                                                                                            |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `next-auth` / `auth.js`     | Guest auth is JWT-based via jose. Adding a full auth framework for a two-tier token system is massive overkill.                                                    |
+| `tesseract.js` (OCR)        | Passport OCR is unreliable on phone photos (glare, angles). Manual date entry is faster and more accurate. Adds 10MB+ to bundle.                                   |
+| `uppy` / `react-dropzone`   | Single-file passport upload needs a simple `<input type="file">`. Drag-and-drop zones make no sense on mobile (primary device).                                    |
+| `sharp` (image processing)  | Server-side image processing is not needed. Client-side compression handles the size issue.                                                                        |
+| `@radix-ui/react-accordion` | WiFi zones can use native `<details>/<summary>` HTML. Don't add a package for one component.                                                                       |
+| `nanoid` / `uuid`           | UUIDs are generated by Supabase (`gen_random_uuid()`). No need for client-side ID generation.                                                                      |
+| `qrcode.react`              | QR generation happens in backoffice only (already has `qrcode` package). The accommodations frontend only **scans** QR codes -- the browser handles this natively. |
+| `zxing-js` (QR scanner)     | Guests don't scan QR codes in the app. They scan physical QR codes with their phone camera, which opens the URL in the browser. No in-app scanner needed.          |
+| Middleware auth library     | Next.js middleware with `jose.jwtVerify()` handles route protection. No need for a wrapper library.                                                                |
 
 ---
 
-## Environment Variables Needed
+## Environment Variables (No New Ones)
+
+All features use existing environment variables:
 
 ```env
-# Stripe
-STRIPE_SECRET_KEY=sk_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_...
-
-# Resend (email)
-RESEND_API_KEY=re_...
-
-# Existing (already configured)
+# Already configured
 NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
-JWT_SECRET=...
+GUEST_JWT_SECRET=...
+```
+
+**No new API keys or services required.** This is a major advantage of the architectural approach -- frictionless access is achieved by restructuring the auth flow, not by adding external services.
+
+---
+
+## Database Changes Summary
+
+| Change                                       | Table              | Type            | Migration           |
+| -------------------------------------------- | ------------------ | --------------- | ------------------- |
+| Add `guest_security_level` column            | `accom_properties` | ALTER TABLE     | New migration       |
+| Add `wifi_zones` JSONB column                | `accom_properties` | ALTER TABLE     | Same migration      |
+| Add `get_active_booking_for_room()` function | N/A                | CREATE FUNCTION | Same migration      |
+| Add `guest-documents` storage bucket         | Supabase Storage   | Bucket creation | Manual or migration |
+| Add `accom_guest_documents` table            | New table          | CREATE TABLE    | Same migration      |
+
+The `accom_guest_documents` table:
+
+```sql
+CREATE TABLE IF NOT EXISTS accom_guest_documents (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    booking_id UUID NOT NULL REFERENCES accom_bookings(id) ON DELETE CASCADE,
+    property_id UUID NOT NULL REFERENCES accom_properties(id) ON DELETE CASCADE,
+    document_type TEXT NOT NULL CHECK (document_type IN ('passport', 'visa', 'id_card', 'other')),
+    storage_path TEXT NOT NULL,
+    file_name TEXT NOT NULL,
+    file_size INTEGER NOT NULL,
+    mime_type TEXT NOT NULL,
+    uploaded_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    -- Visa-specific
+    visa_expiry_date DATE,
+    visa_type TEXT,
+    -- Metadata
+    notes TEXT
+);
 ```
 
 ---
 
 ## Version Compatibility Matrix
 
-| Package                 | Version  | React 18     | Next.js 14 | TypeScript 5 | Notes                |
-| ----------------------- | -------- | ------------ | ---------- | ------------ | -------------------- |
-| stripe                  | ^17.0.0  | N/A (server) | Yes        | Yes          | Server-side only     |
-| @stripe/stripe-js       | ^8.6.1   | Yes          | Yes        | Yes          | Client singleton     |
-| @stripe/react-stripe-js | ^5.4.1   | Yes (16.8+)  | Yes        | Yes          |                      |
-| react-day-picker        | ^9.13.0  | Yes          | Yes        | Yes          | Bundles own date-fns |
-| recharts                | ^3.6.0   | Yes (18+)    | Yes        | Yes          |                      |
-| @tanstack/react-query   | ^5.90.19 | Yes (18+)    | Yes        | Yes          |                      |
-| zod                     | ^3.24.0  | N/A          | N/A        | Yes (5+)     |                      |
-| @phosphor-icons/react   | ^2.1.10  | Yes          | Yes (RSC)  | Yes          |                      |
-| framer-motion           | ^12.27.0 | Yes          | Yes        | Yes          |                      |
-| qrcode.react            | ^4.2.0   | Yes          | Yes        | Yes          |                      |
-| embla-carousel-react    | ^8.5.1   | Yes          | Yes        | Yes          |                      |
-| resend                  | ^4.0.0   | N/A (server) | Yes        | Yes          |                      |
-| date-fns                | ^4.1.0   | N/A          | N/A        | Yes          | Upgrade from ^3.3.1  |
+| Package                   | Version | React 18         | Next.js 14 | TypeScript 5 | Notes                                   |
+| ------------------------- | ------- | ---------------- | ---------- | ------------ | --------------------------------------- |
+| jose                      | ^6.0.8  | N/A (server)     | Yes        | Yes          | Already installed, no change            |
+| browser-image-compression | ^2.0.2  | N/A (vanilla JS) | Yes        | Yes          | WebWorker-based                         |
+| heic2any                  | ^0.0.4  | N/A (vanilla JS) | Yes        | Needs .d.ts  | May need local type declaration         |
+| @supabase/supabase-js     | ^2.39.0 | N/A (server)     | Yes        | Yes          | Already installed, Storage API included |
 
 ---
 
 ## Sources
 
-- [Stripe npm package](https://www.npmjs.com/package/stripe) -- v20.2.0 latest, v17 chosen for compatibility (HIGH confidence)
-- [@stripe/stripe-js npm](https://www.npmjs.com/package/@stripe/stripe-js) -- v8.6.1 verified (HIGH confidence)
-- [@stripe/react-stripe-js npm](https://www.npmjs.com/package/@stripe/react-stripe-js) -- v5.4.1 verified (HIGH confidence)
-- [Stripe Next.js Checkout Quickstart](https://docs.stripe.com/checkout/quickstart?client=next) -- official integration guide (HIGH confidence)
-- [react-day-picker npm](https://www.npmjs.com/package/react-day-picker) -- v9.13.0 verified (HIGH confidence)
-- [react-day-picker date-fns compatibility](https://github.com/gpbl/react-day-picker/issues/2465) -- v9 bundles own date-fns (HIGH confidence)
-- [daypicker.dev](https://daypicker.dev/) -- official docs, Buddhist calendar support (HIGH confidence)
-- [recharts npm](https://www.npmjs.com/package/recharts) -- v3.6.0 verified (HIGH confidence)
-- [@tanstack/react-query npm](https://www.npmjs.com/package/@tanstack/react-query) -- v5.90.19 verified (HIGH confidence)
-- [zod npm](https://www.npmjs.com/package/zod) -- v4.3.5 latest, staying on v3.x for consistency (HIGH confidence)
-- [@phosphor-icons/react npm](https://www.npmjs.com/package/@phosphor-icons/react) -- v2.1.10 verified (HIGH confidence)
-- [framer-motion npm](https://www.npmjs.com/package/framer-motion) -- v12.27.0 verified, rebrand to "motion" noted (HIGH confidence)
-- [Supabase Realtime docs](https://supabase.com/docs/guides/realtime) -- Broadcast/Presence/Postgres Changes (HIGH confidence)
-- [Supabase Realtime Authorization](https://supabase.com/blog/supabase-realtime-broadcast-and-presence-authorization) -- RLS for Broadcast/Presence (HIGH confidence)
-- Existing codebase: `apps/backoffice/package.json`, `apps/coffeeshop/frontend/package.json`, `apps/accommodations/frontend/package.json`, `shared/payment/` (HIGH confidence)
+- [npm: jose v6.1.3](https://www.npmjs.com/package/jose) -- verified latest, ^6.0.8 resolves correctly (HIGH confidence)
+- [npm: browser-image-compression v2.0.2](https://www.npmjs.com/package/browser-image-compression) -- verified latest (HIGH confidence)
+- [npm: heic2any v0.0.4](https://www.npmjs.com/package/heic2any) -- verified latest (MEDIUM confidence -- stable but old)
+- [Supabase Storage docs](https://supabase.com/docs/guides/storage/uploads/standard-uploads) -- standard upload for files <=6MB (HIGH confidence)
+- [Supabase Storage RLS](https://supabase.com/docs/guides/storage) -- private bucket patterns (HIGH confidence)
+- [MDN: Media Capture API](https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/Taking_still_photos) -- camera access via getUserMedia (HIGH confidence)
+- Existing codebase: `lib/auth.ts` (jose JWT), `hooks/useStaySession.ts` (session management), `AccomQRGenerator.tsx` (QR URL format), `077-accommodations-schema.sql` (DB schema) -- all verified by direct code reading (HIGH confidence)

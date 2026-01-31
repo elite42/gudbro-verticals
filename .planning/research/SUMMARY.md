@@ -1,236 +1,220 @@
 # Project Research Summary
 
-**Project:** GUDBRO Accommodations v2 -- Booking, Owner Dashboard, Service Ordering
-**Domain:** Accommodation booking platform with in-stay service management
+**Project:** v1.5 Accommodations — Frictionless Guest Access
+**Domain:** Hotel/accommodation guest experience, QR-based room access, progressive authentication
 **Researched:** 2026-01-31
 **Confidence:** HIGH
 
 ## Executive Summary
 
-GUDBRO Accommodations v2 transforms the existing in-stay dashboard into a complete zero-commission booking platform for small Southeast Asian property owners. The research reveals this is a well-trodden domain with established patterns from Airbnb, Booking.com, and property management systems, but GUDBRO's differentiator is clear: eliminate the 15-25% OTA commission while adding in-stay revenue opportunities through service ordering and local partnerships that no competitor offers natively.
+This milestone transforms the accommodations PWA from a booking-code-gated dashboard into a frictionless QR-based room access system with progressive authentication. The core insight: physical presence in the room (having the key, seeing the QR) is already authentication for browsing. Financial actions require identity verification, but WiFi and property info should be instant.
 
-The recommended approach is incremental extension of the existing codebase rather than greenfield development. The accommodations frontend already has a functional JWT-based in-stay dashboard with 6 API routes, complete database schema, and service catalog infrastructure. The stack additions are modest (13 packages) and proven within the GUDBRO monorepo: Stripe for payments, react-day-picker for calendars, Recharts for analytics, TanStack Query for state management, and Embla for image galleries. The owner dashboard lives in the Backoffice app to leverage existing auth, UI components, and multi-vertical patterns rather than creating a separate deployment.
+The recommended approach is additive, not replacement. Existing booking-code URLs continue working unchanged. Room-based QR codes add a new entry point with two authentication tiers: browse (instant, for WiFi and catalog) and verified (identity-checked, for orders). This requires zero new dependencies for core features — the existing jose JWT system, Supabase RLS, and Next.js middleware handle everything. Only document upload requires new packages (browser-image-compression and heic2any).
 
-The critical risks center on payment timing and data integrity. Stripe authorization expires after 7 days unless you have MCC 7011 and extended authorization capability, so a deposit + balance strategy is required for advance bookings. Double booking prevention demands a PostgreSQL exclusion constraint on date ranges, not just application-level checks. Timezone handling must use DATE type for check-in/check-out to avoid international guests experiencing +/- 1 day shifts. RLS policies must be written alongside every new table to prevent cross-tenant data leakage in the existing multi-tenant system. Starting with cash/bank transfer as default payment methods and treating Stripe as progressive enhancement avoids Stripe Connect onboarding friction that blocks 40%+ of SEA property owners.
+Key risk: stale QR reuse. When Guest A checks out and Guest B checks in, the permanent room QR must resolve correctly to the current booking — never exposing previous guest data or allowing previous guest actions. Mitigation: JWT invalidation on check-in, date-based booking resolution in SECURITY DEFINER functions, and explicit vacancy state handling. This must be architected correctly before any implementation.
 
 ## Key Findings
 
 ### Recommended Stack
 
-The accommodations frontend is currently minimal (Next.js 14, Supabase, Radix UI, date-fns, jose). The v2 features require targeted additions for payments, calendars, charts, animations, and state management. Critically, most of these libraries already exist elsewhere in the monorepo, so integration patterns are proven rather than experimental.
+**Zero new dependencies for 5 of 6 core features.** The frictionless QR routing, progressive authentication, multi-zone WiFi, QR lifecycle management, and owner-configurable security levels require only architectural changes to existing systems. The only genuinely new packages are for document upload.
 
-**Core technologies:**
+**Core technologies (all already in package.json):**
 
-- **Stripe (v17.0.0, not v20):** Server-side payment processing with Elements for embedded forms. Checkout for booking deposits, PaymentIntents for service orders. Pin to v17 for backoffice compatibility, avoid v20 breaking changes.
-- **react-day-picker (v9.13.0):** Date range picker with Buddhist calendar support (Thailand market), WCAG 2.1 AA accessible, Tailwind customizable.
-- **Recharts (v3.6.0):** Analytics charts (already in backoffice). Revenue over time, occupancy rates, service breakdown.
-- **TanStack Query (v5.90.19):** Server state management (already in backoffice). Essential for booking pagination, optimistic status updates, stale-while-revalidate for 6+ owner dashboard data sources.
-- **Zod (v3.24.0, not v4.x):** Form validation. Stay on 3.x for monorepo consistency, defer v4 upgrade to coordinated effort.
-- **Embla Carousel (v8.5.1):** Image gallery. Lightweight (4KB), better touch support than Swiper, no CSS bloat.
-- **Resend (v4.0.0):** Transactional email. Booking confirmations, pre-arrival info, receipts. 100 emails/day free tier.
-- **Supabase Realtime:** Booking notifications, service order updates, guest-host messaging. Already included, no new dependencies.
+- jose ^6.0.8: JWT signing/verification — extends to support two-tier tokens (browse vs. verified) via custom claims
+- @supabase/supabase-js ^2.39.0: Database queries, Storage for documents, RLS enforcement — no version upgrade needed
+- Next.js 14.2.33: Middleware for QR routing interception, API routes for room-based access — native route interception
+- date-fns ^3.3.1: Token expiry calculations, checkout date validation — existing patterns continue
 
-**Critical version note:** Do NOT add Stripe Connect yet. The 85/10/5 commission split is manual for MVP. Connect marketplace adds weeks of complexity for a post-launch feature.
+**New packages (document upload only):**
+
+- browser-image-compression ^2.0.2: Client-side image compression before Supabase Storage upload (passport photos are 3-8MB, must compress to ~1MB)
+- heic2any ^0.0.4: Convert iPhone HEIC photos to JPEG in browser (iPhones shoot HEIC by default)
+
+**What NOT to add:** next-auth (overkill for guest JWT), tesseract.js (OCR unreliable, adds 10MB), uppy/dropzone (single-file upload needs simple input), @radix-ui/react-accordion (native details/summary works for WiFi zones).
+
+**Source confidence:** HIGH — all current packages verified in codebase, new package versions verified on npm.
 
 ### Expected Features
 
-The feature landscape divides cleanly into table stakes (universal expectations), differentiators (GUDBRO unique value), and anti-features (explicit avoidance to maintain simplicity for small SEA property owners).
+**Must have (table stakes — every competitor does this):**
 
-**Must have (table stakes):**
-
-- Photo gallery (swipeable, 5-20 images) -- no photos = no bookings
-- Date picker with availability calendar -- core interaction for any booking system
-- Price display with breakdown (per-night x nights + cleaning fee + taxes) -- transparent pricing expected
-- Hybrid booking mode (instant book + request to book) -- Airbnb offers both, small owners want approval control
-- Guest booking form (name, email, phone, dates, payment method) -- minimal fields, NO account creation required
-- Booking confirmation via WhatsApp + email with booking code (BK-XXXXXX format already exists)
-- Owner booking management (list, detail, confirm/decline, status tracking)
-- Availability calendar editor (block dates, set price overrides, bulk operations)
-- Service ordering (browse catalog, cart, order submission, status tracking)
-- Mobile-responsive layout -- 80%+ of SEA bookings are mobile
+- Instant dashboard on QR scan with no login barrier — WiFi must be visible immediately, or guests abandon
+- Progressive authentication for paid actions — browse free, verify for orders (e-commerce UX pattern applied to hospitality)
+- QR activation/deactivation tied to booking lifecycle — security requirement to prevent previous guest access
+- Unique URL per active booking — the URL IS the credential (Duve, STAY App, mycloud all use this)
+- Document upload for passport/visa with secure storage — legal requirement in Vietnam (NA17 registration)
 
 **Should have (competitive differentiators):**
 
-- Zero-commission direct booking -- Airbnb charges 14-16%, Booking.com 15-25%, GUDBRO charges 0%
-- In-stay revenue ecosystem (local partnerships: tours, restaurants, spas with discount + commission) -- no competitor offers this natively
-- Digital laundry form (visual garment selection, multi-language, pre-filled guest data) -- eliminates paper forms
-- Visa compliance tools (expiry tracker with push notifications, NA17 pre-fill for Vietnamese police registration) -- SEA-specific value
-- Configurable service automation levels (auto-confirm, manual approval, WhatsApp-only) per service category
-- Template-based property setup (hostel vs villa vs apartment presets) -- reduces onboarding from 30 min to 5 min
+- Owner-configurable security levels per property type — B&B (trust-based) vs. Hotel (verification-required) have different needs, no competitor offers this
+- Multi-zone WiFi credential display — hotels have lobby/pool/room WiFi, currently GUDBRO shows one network
+- Visa expiry tracking with alerts — extends existing visa tracker (PRD section 13), 14/7/3 day alert schedule
+- QR scan analytics — owner sees engagement rate, peak scan times, which rooms scan most (no competitor provides this for small properties)
+- Grace period after checkout — guest may need WiFi in lobby or receipt after checkout (configurable 2-4 hours)
 
-**Defer (v2+):**
+**Defer to post-milestone:**
 
-- Online payment processing (Stripe, crypto) -- cash/bank transfer dominate SEA small accommodation. Add Stripe as v2.1 post-MVP.
-- Review system -- needs 500+ bookings for meaningful reviews, fake review prevention is whole product
-- Channel manager (OTA sync) -- extremely complex (Airbnb, Booking.com, Expedia APIs all different), not MVP scope
-- Dynamic pricing algorithm -- Airbnb's Price Tips took years, overkill for 1-5 property owners
-- Calendar sync (iCal import) -- 1-3 hour delays cause double bookings, defer until API partnerships exist
-- Built-in messaging/chat -- duplicates WhatsApp workflow, turns GUDBRO into support desk
+- OCR document extraction — high complexity, needs third-party service evaluation, manual entry works for v1
+- Per-feature auth configuration — security presets are enough for v1, custom toggles add UI complexity
+- Multi-QR per room with context parameters — nice to have but single room QR sufficient initially
+- NA17 export for Vietnam compliance — important but can be a focused follow-up
+- Liveness/biometric verification — not for small SEA properties market segment, ever
+
+**Source confidence:** MEDIUM-HIGH — patterns well-established in hospitality tech (Duve #1 Hotel Guest App 2026, Canary #1 Contactless Check-in), progressive auth is novel combination of web UX patterns.
 
 ### Architecture Approach
 
-The architecture is extension-based rather than greenfield. The existing in-stay dashboard (JWT auth, 6 API routes, service catalog, F&B deep-linking) remains untouched. New capabilities layer on through: (1) public property pages for booking discovery, (2) owner dashboard pages in the Backoffice app, (3) service ordering API routes extending the in-stay mode.
+The architecture is additive layering, not replacement. Two entry points coexist: `/stay/{booking-code}` (existing, unchanged) and `/stay/room/{room-code}` (new). Both render the same dashboard components. The difference is authentication method, not UI. Room-based access introduces permanent room codes (short, human-readable like "BVA-203") that resolve to the current active booking via a SECURITY DEFINER function. JWT payload extends with `accessTier: 'browse' | 'full'` and optional `roomId`. API routes distinguish between tiers: read endpoints accept browse-tier, write endpoints enforce full-tier. Token upgrade flow is seamless: guest taps "Order," sees inline verification prompt (last name), upgrades to full-tier without page reload.
 
 **Major components:**
 
-1. **Public Property Page (Booking Mode)** -- SEO-friendly Server Component at `/{slug}`, public API routes for property data + availability, BookingForm with instant/inquiry mode handling, WhatsApp/email confirmation. Connects to in-stay mode via booking code (BK-XXXXXX).
-2. **Hybrid Booking System** -- Single booking model with status field (instant bookings start as 'confirmed', inquiry bookings start as 'pending_approval'), owner notification via WhatsApp, booking code generation via existing trigger. Database additions: `accom_availability` table (per-room per-date with price overrides), pricing columns on properties/rooms/bookings.
-3. **Service Ordering (Guest Side)** -- Extends existing ServicesCarousel to support add-to-cart, ServiceOrderSheet bottom drawer, new `accom_service_orders` + `accom_service_order_items` tables, owner notification on submission, status tracking (submitted > confirmed > preparing > ready > delivered).
-4. **Owner Dashboard (Backoffice Integration)** -- New `/stays/*` routes in `apps/backoffice/` leveraging existing Supabase Auth, TanStack Table, Radix UI components. Sidebar integration adds "Stays" section with 8 subpages (dashboard, bookings, calendar, rooms, services, deals, reviews, analytics). Shares Supabase database with PWA, data flows through DB not direct API calls.
-5. **Payments (Phase 1: Cash/Transfer, Phase 2: Stripe)** -- MVP supports cash on arrival, bank transfer details display, owner manual payment status management. Post-MVP adds Stripe Checkout for booking deposits, Stripe Elements for in-stay services. Reuses `@shared/payment` types for method selection UI, formatPrice for display.
+1. **Room code resolution (SECURITY DEFINER)** — `resolve_room_access(room_code)` returns room info, property info, WiFi, and current booking if active (LEFT JOIN bookings on date range + status). Handles vacancy state explicitly.
+2. **Two-tier JWT system (lib/auth.ts extension)** — `signRoomBrowseToken()` issues 24h browse token with propertyId + roomId + optional bookingId. `signGuestToken()` extended with accessTier field. Single token with scopes, not two separate tokens.
+3. **Inline verification component** — Bottom sheet/modal triggered on paid actions. Accepts last name (or PIN, owner-configurable). Upgrades session silently on success, original action proceeds.
+4. **Document upload with GDPR compliance** — Supabase Storage private bucket + accom_guest_documents table with RLS. Upload via SECURITY DEFINER function. Auto-delete cron (checkout + 30 days retention). Signed URLs (5-min expiry) for owner access.
+5. **Multi-zone WiFi resolution** — Property has wifi_zones JSONB array, rooms can override with wifi_ssid/password. Resolution: room override → zone primary → property fallback. WifiCard displays primary prominently, other zones in accordion.
 
-**Critical architectural decisions:**
-
-- Owner dashboard in Backoffice (not PWA) -- avoids mixing Supabase Auth with guest JWT, leverages existing UI patterns
-- Guest flows remain JWT-based -- no account creation required, booking code + last name verification
-- Database schema uses DATE (not TIMESTAMPTZ) for check-in/check-out -- prevents timezone shift bugs
-- Single booking model with status field -- not separate tables/flows for instant vs inquiry
-- Admin client for public booking creation -- guests do not have Supabase Auth, API routes use service role with explicit validation
+**Source confidence:** HIGH — all findings based on direct codebase analysis (existing auth.ts, stay API routes, AccomQRGenerator, database schema in migrations 077-087).
 
 ### Critical Pitfalls
 
-**1. Double Booking Race Condition**
-Two guests select same dates simultaneously, both see available, both submit. Without proper concurrency control, both bookings accepted. Create PostgreSQL exclusion constraint using `daterange` type with `&&` overlap operator to make double booking physically impossible at DB level. Add `SELECT FOR UPDATE` when checking availability. Test by opening two browser tabs and submitting simultaneously.
+**Top 5 to avoid (from research):**
 
-**2. Stripe Authorization Expiry**
-Standard Stripe authorizations expire after 7 days. Extended auth (up to 30 days) requires MCC 7011, IC+ pricing, and `request_extended_authorization: 'if_available'`. For bookings more than 7 days out, collect a deposit (30-50%) immediately as standard charge, auth-and-capture remainder closer to check-in. Handle `payment_intent.canceled` webhook for expired auths.
+1. **Stale QR reuse — previous guest orders service after checkout** — Physical QR is permanent. When Guest A checks out and Guest B checks in, the room QR must resolve to Guest B's booking, never Guest A's. Prevention: `resolve_room_access()` checks `check_in_date <= CURRENT_DATE AND check_out_date + 24h >= NOW()`, invalidate previous JWT on new check-in, explicit vacancy state when no active booking.
 
-**3. Stripe Connect Onboarding Friction**
-Small SEA property owners hit KYC walls: non-English ID, unsupported banks, multi-day verification. Start with cash/bank transfer as default, make Stripe progressive onboarding. Use Connect Custom accounts for incremental data collection. Test with Thai, Vietnamese, Indonesian bank details before launch.
+2. **Removing auth creates unprotected API endpoints** — Going from "all protected" to "some public, some protected" requires touching every endpoint. Miss one and service ordering becomes unauthenticated. Prevention: explicit endpoint classification matrix BEFORE coding (GET endpoints can be public, ALL POST/PUT/DELETE require full-tier auth), shared auth middleware helper, integration tests per endpoint.
 
-**4. RLS Policy Gaps on New Tables**
-New booking-related tables often created without RLS policies or with incorrect tenant scoping. Write RLS alongside CREATE TABLE in same migration. Guest access via API routes with service-role key + explicit WHERE clauses (not direct Supabase, since guests are unauthenticated). Owner access via RLS with `merchant_id` matching. Write isolation tests for each new table.
+3. **Progressive auth gate positioned wrong** — Too early (verify before WiFi) kills adoption. Too late (orders without verification) enables abuse. Prevention: action-level gates not page-level, WiFi + browsing free, orders + documents gated, inline verification not redirect, user-test the flow.
 
-**5. Timezone Mismatch on Check-In Dates**
-Guest in NYC (UTC-5) books "January 15" at Da Nang property (UTC+7). If stored as timestamp, timezone conversion shifts date by +/- 1 day. Use PostgreSQL `DATE` type (no timezone component) for check-in/check-out. Send dates as YYYY-MM-DD strings from frontend, never convert to Date object before API. Store property timezone, display in property's timezone.
+4. **Multi-guest rooms break single-booking QR assumption** — Booking stores primary guest last name. Partner cannot verify with their name. Prevention: PIN-based verification alongside name (4-digit PIN given at check-in, same for all guests in room), or room-number verification option, owner-configurable method.
 
-**Moderate pitfalls:** Over-engineering hybrid booking (use single model with status field), service ordering without fulfillment states (define state machine + owner notification), owner dashboard overload (two-zone UI: "Today" vs "Manage"), payment module fragmentation (extend `@shared/payment`, define payment method matrix), QR in-stay access without verification (booking code + session expiry required).
+5. **Backward compatibility — existing booking-code QR codes stop working** — Properties have printed QR codes pointing to `/stay/BK-ABC123`. URLs must continue working. Prevention: never break `/stay/[code]` route, add new `/stay/room/[roomCode]` route alongside, existing JWTs remain valid, pre-arrival emails keep using booking codes, owner transitions to room QR at own pace.
+
+**Source confidence:** HIGH — verified against OWASP session management patterns, existing GUDBRO codebase constraints, GDPR hospitality requirements (Marriott $52M settlement), industry QR security patterns.
 
 ## Implications for Roadmap
 
-Based on research, the roadmap should follow a dependency-driven structure prioritizing guest-facing revenue generation before owner management tools. The existing in-stay dashboard is production-ready, so the booking flow is the highest-value addition.
+Based on research, recommended 5-phase structure:
 
-### Phase 1: Database Foundation
+### Phase 1: Room Code Foundation + Browse Entry Point
 
-**Rationale:** Everything depends on schema correctness. Building on wrong schema causes rewrites.
-**Delivers:** Extended `accom_properties` with booking_mode and pricing columns, extended `accom_rooms` with base_price_per_night, new `accom_availability` table with exclusion constraint for double-booking prevention, extended `accom_bookings` with pricing/payment fields, new `accom_service_orders` + `accom_service_order_items`, new `accom_reviews`, RLS policies for all new tables, TypeScript types update.
-**Addresses:** Double booking prevention (Pitfall 1), timezone handling (Pitfall 5), RLS security (Pitfall 4).
-**Avoids:** Building on flawed schema, retrofitting constraints later, data integrity bugs.
+**Rationale:** Establishes the permanent room code system and browse-tier access — the foundation everything else builds on. Must come first to validate room-to-booking resolution and vacancy state handling before adding verification complexity.
+**Delivers:** Guests scan QR, see WiFi + property info immediately (browse mode). No ordering yet, but core value (WiFi access) is live.
+**Implements:** `room_code` column + generation function, `resolve_room_access()` SECURITY DEFINER, `/stay/room/[roomCode]` page route, `/api/stay/room/[roomCode]` API route issuing browse JWT, `useRoomSession` hook (browse tier only), AccomQRGenerator update to room codes, redirect from old /checkin URLs.
+**Avoids:** Pitfall 1 (stale QR) via date-based booking resolution, Pitfall 7 (backward compatibility) via redirect from old URLs.
+**Addresses:** Must-have features — instant dashboard on QR scan, unique URL per booking, QR activation/deactivation.
+**Research flag:** Standard patterns, skip research-phase. Well-documented Supabase RPC and Next.js routing.
 
-### Phase 2: Public Property Page + Booking Flow
+### Phase 2: Two-Tier Authentication + Inline Verification
 
-**Rationale:** This is the revenue-generating feature. Guests need to discover and book before owner dashboard is useful.
-**Delivers:** `/{slug}` route (Server Component for SEO), public API routes for property data + availability, photo gallery with Embla, DatePicker with react-day-picker, PriceBreakdown, BookingForm with guest info + payment method selector, BookingConfirmation page with booking code, WhatsApp/email notifications.
-**Uses:** react-day-picker, Embla Carousel, Resend, Zod for validation, `@shared/payment` types.
-**Addresses:** Table stakes features (photo gallery, date picker, booking form), hybrid booking mode, zero-commission positioning.
-**Avoids:** Form abandonment (minimal fields only), currency confusion (display conversions).
+**Rationale:** With browse access working, add the verification layer for paid actions. This completes the full guest flow: scan → browse → order (verify inline) → order proceeds.
+**Delivers:** Full ordering functionality via room QR. Guests can place service orders, request laundry, book tours — the full in-stay dashboard.
+**Implements:** `accessTier` field in JWT payload (backward-compatible), `InlineVerification` component, `/api/stay/room/[roomCode]/verify` route, tier checking in write API routes (orders POST returns 403 for browse-tier), token upgrade flow in useRoomSession, relax read API routes to accept browse-tier.
+**Avoids:** Pitfall 2 (unprotected endpoints) via explicit classification matrix and tier enforcement, Pitfall 9 (token conflicts) via single token with scopes.
+**Addresses:** Must-have features — progressive authentication, paid action gating. Should-have — grace period after checkout (implemented via JWT expiry).
+**Uses:** jose (JWT with custom claims), existing order API routes.
+**Research flag:** Needs light research-phase for inline verification UX patterns (modal vs. bottom sheet, error handling, retry flow).
 
-### Phase 3: Owner Dashboard Foundation (Backoffice)
+### Phase 3: Configurable Security Settings
 
-**Rationale:** Owners need to manage what Phase 2 generates. Building before booking flow exists creates empty states with no test data.
-**Delivers:** Sidebar "Stays" integration in Backoffice, `/stays` dashboard with stats, `/stays/bookings` with TanStack Table (filters, search), `/stays/bookings/{id}` detail + status actions, `/stays/rooms` CRUD, `/stays/settings` for booking mode + pricing config.
-**Uses:** TanStack Query for data fetching, Recharts for basic stats, existing Radix UI components.
-**Implements:** Owner Dashboard component (Architecture), booking management (FEATURES.md table stakes).
-**Avoids:** UX overload (two-zone dashboard: daily tasks vs setup), mixing auth systems (stays in Backoffice with Supabase Auth).
+**Rationale:** With both tiers working, give owners control over security posture. Different property types have different trust models (B&B owner knows every guest vs. 100-room hotel).
+**Delivers:** Owner dashboard section for access settings. Three presets (B&B/Guesthouse/Hotel) with sensible defaults. Owner can adjust verification method (last name vs. PIN vs. room number).
+**Implements:** `access_settings` JSONB column on accom_properties, property type defaults, backoffice settings page, resolve_room_access reads and returns settings, InlineVerification adapts to configured method, useRoomSession respects browse_requires_verification flag.
+**Avoids:** Pitfall 5 (owner misconfiguration) via hardcoded safe defaults and outcome-based settings labels, Pitfall 4 (multi-guest rooms) via PIN verification option.
+**Addresses:** Should-have differentiator — owner-configurable security (unique to GUDBRO).
+**Research flag:** Needs research-phase for access control patterns (DAC vs. MAC, preset design, settings UX).
 
-### Phase 4: Availability Calendar + Service Management
+### Phase 4: Document Upload + Visa Tracking
 
-**Rationale:** Calendar and service CRUD are management tools for existing bookings/services. Less urgent than core booking flow.
-**Delivers:** `/stays/calendar` visual month grid with color-coded dates, block/unblock date ranges, bulk seasonal pricing, `/stays/services` CRUD for categories + items with drag-to-reorder.
-**Uses:** react-day-picker for calendar widget, TanStack Table for service lists.
-**Addresses:** Table stakes (availability calendar editor, service management).
-**Avoids:** Over-engineering calendar (use proven library, not custom from scratch).
+**Rationale:** With authentication solid, add the compliance features. This builds on tier-2 (verified) auth — documents can only be uploaded by verified guests.
+**Delivers:** Guest document upload (passport, visa) with photo capture, visa expiry tracking with 14/7/3 day alerts, backoffice document viewer for owners.
+**Implements:** `accom_guest_documents` table + RLS + SECURITY DEFINER upload function, Supabase Storage private bucket with policies, document upload API route + UI component, visa expiry tracking logic (extends existing VisaStatusCard), backoffice document viewer, cron for expiring visa notifications, auto-delete cron (checkout + 30 days).
+**Avoids:** Pitfall 8 (GDPR non-compliance) via private bucket, consent flow, retention policy, auto-delete.
+**Addresses:** Must-have — document upload for passport/visa. Should-have — visa expiry tracking.
+**Uses:** browser-image-compression (new), heic2any (new), Supabase Storage.
+**Research flag:** Needs research-phase for camera capture UX (native input vs. getUserMedia), HEIC conversion testing on target devices, GDPR retention rules for Vietnam/EU.
 
-### Phase 5: Service Ordering (Guest Side)
+### Phase 5: Multi-Zone WiFi
 
-**Rationale:** Extends in-stay dashboard with revenue capability. Requires service management (Phase 4) to be in place for owners to configure services.
-**Delivers:** Modified ServicesCarousel with add-to-cart, ServiceOrderSheet (bottom sheet cart), `POST /api/stay/{code}/orders` route, order confirmation + history components, owner WhatsApp notification on new order.
-**Uses:** Existing JWT auth, Supabase Realtime for order status updates (optional).
-**Addresses:** In-stay revenue differentiator, service ordering table stakes, automation levels (auto-confirm, manual, WhatsApp-only).
-**Avoids:** Missing fulfillment states (define state machine: submitted > acknowledged > preparing > ready > delivered).
-
-### Phase 6: Analytics + Reviews + Partnerships
-
-**Rationale:** Growth features, not blocking MVP. Bookings and service orders must exist first to generate data for analytics.
-**Delivers:** `/stays/analytics` with Recharts (occupancy rate, revenue, ADR, booking trends), `/stays/reviews` with reply functionality, `/stays/deals` local partnerships CRUD, referral tracking + commission reporting.
-**Uses:** Recharts, new `accom_partnerships` + `accom_referrals` tables.
-**Addresses:** Differentiators (local partnerships, commission tracking), basic analytics (table stakes).
-**Avoids:** Commission tracking without confirmation (partner confirmation flow required).
-
-### Phase 7: Payment Integration (Stripe)
-
-**Rationale:** Deferred post-MVP. Cash/bank transfer handles SEA market for initial launch. Stripe adds complexity without immediate ROI.
-**Delivers:** Stripe Checkout for booking deposits, Stripe Elements for in-stay services, Stripe Connect progressive onboarding, webhook handlers, payment status tracking.
-**Uses:** Stripe v17.0.0, `@stripe/stripe-js`, `@stripe/react-stripe-js`.
-**Addresses:** Card payment support, international guest payment preference.
-**Avoids:** Stripe auth expiry (deposit + balance strategy), Connect onboarding friction (cash/transfer as default, Stripe as upgrade).
+**Rationale:** With core access working, enhance WiFi display for multi-building properties. Low complexity, high practical value, safe to defer.
+**Delivers:** Owner can configure multiple WiFi zones (lobby, pool, rooms), guests see all relevant networks with labels, per-room WiFi overrides for properties with room-specific networks.
+**Implements:** `wifi_zones` JSONB on accom_properties, `wifi_ssid`/`wifi_password` on accom_rooms, WiFi resolution logic (room → zone primary → property fallback), updated WifiCard for multi-zone display (accordion or tabs), backoffice WiFi zone management UI.
+**Avoids:** Pitfall 10 (QR scanning failures) via improved WiFi accessibility.
+**Addresses:** Should-have differentiator — multi-zone WiFi (competitor gap).
+**Research flag:** Standard patterns, skip research-phase. JSONB schema + UI work.
 
 ### Phase Ordering Rationale
 
-- **DB first (Phase 1):** Schema correctness is non-negotiable. Exclusion constraint prevents double bookings at DB level. RLS prevents data leakage. DATE type prevents timezone bugs. Get this right once.
-- **Booking before dashboard (Phase 2 before 3):** Revenue generation before management tools. Owners need bookings to manage before dashboard is useful. Testing with real booking data validates flows.
-- **Public property page before in-stay ordering (Phase 2 before 5):** Guests must book before they can order services. Booking flow is higher priority revenue path.
-- **Calendar after booking (Phase 4 after 2/3):** Calendar management is for handling existing bookings. Core booking flow is more valuable to build first.
-- **Service ordering after service management (Phase 5 after 4):** Owners need to configure services before guests can order them.
-- **Analytics last (Phase 6):** Requires booking/order data to exist. Nice-to-have, not blocking.
-- **Payments last (Phase 7):** Cash/transfer sufficient for SEA MVP. Stripe adds complexity, defer until proven booking flow works.
+**Dependencies-first:** Phase 1 (room codes) must precede Phase 2 (verification) because you cannot verify access to a room-based booking without room codes existing. Phase 2 must precede Phase 3 (security config) because you cannot configure authentication tiers until both tiers exist. Phase 4 (documents) depends on Phase 2 because uploads require tier-2 (verified) auth.
+
+**Risk-first:** Stale QR reuse (Pitfall 1) is addressed in Phase 1, before any live data exists. Unprotected endpoints (Pitfall 2) addressed in Phase 2 via classification matrix. GDPR compliance (Pitfall 8) addressed in Phase 4 with retention policy baked into the upload feature from day one.
+
+**Value-first:** Phase 1 delivers immediate guest value (WiFi access) with minimal complexity. Phase 2 completes the core flow. Phase 3 adds owner control (differentiator). Phase 4 adds compliance features (visa partnership revenue opportunity). Phase 5 is pure polish (WiFi UX enhancement).
+
+**Integration points:** Each phase integrates with existing systems without breaking them. Phase 1 adds new routes alongside old ones. Phase 2 extends JWT payload backward-compatibly. Phase 3 adds JSONB column with safe defaults. Phase 4 uses existing Supabase Storage patterns. Phase 5 enhances existing WifiCard component.
 
 ### Research Flags
 
-Phases likely needing deeper research during planning:
+**Phases needing deeper research during planning:**
 
-- **Phase 7 (Stripe):** Complex Stripe Connect integration with SEA market considerations. Needs dedicated research on MCC 7011, KYC for SEA users, extended authorization setup, webhook security, Connect account types.
-- **Phase 6 (Partnerships):** Partner confirmation flow for commission tracking is domain-specific. Research referral confirmation patterns in hospitality.
+- **Phase 2 (Verification UX):** Inline auth patterns for PWAs, modal vs. bottom sheet performance on mobile, error state handling best practices. Medium complexity.
+- **Phase 3 (Security presets):** Access control preset design, hospitality security standards, owner-facing settings UX (avoid technical jargon). Niche domain.
+- **Phase 4 (Document upload):** Camera capture APIs (input file vs. getUserMedia vs. Capacitor), HEIC conversion reliability across devices, GDPR retention rules specific to Vietnam + EU tourists. High compliance risk.
 
-Phases with standard patterns (skip research-phase):
+**Phases with standard patterns (skip research-phase):**
 
-- **Phase 1 (Database):** PostgreSQL exclusion constraints and RLS are well-documented. Existing GUDBRO migrations provide patterns.
-- **Phase 2 (Booking Flow):** Standard e-commerce checkout patterns. Airbnb/Booking.com flows are public. Stripe Checkout docs are comprehensive.
-- **Phase 3 (Owner Dashboard):** Backoffice patterns already exist. TanStack Table + Radix UI examples abundant.
-- **Phase 4 (Calendar):** react-day-picker has extensive docs. Calendar UI is solved problem.
-- **Phase 5 (Service Ordering):** Extension of existing service catalog. Cart + order submission is standard pattern.
+- **Phase 1 (Room codes):** Supabase RPC functions, Next.js dynamic routes, JWT signing with jose — all well-documented, patterns exist in codebase.
+- **Phase 5 (Multi-zone WiFi):** JSONB schema patterns, Radix UI accordion (or native details/summary), form state management — standard web patterns.
 
 ## Confidence Assessment
 
-| Area         | Confidence | Notes                                                                                                                                                                                                                                       |
-| ------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stack        | HIGH       | All package versions verified via npm, patterns verified in existing codebase. Stripe v17, react-day-picker v9, Recharts v3, TanStack Query v5 all confirmed. Zod 3.x vs 4.x decision deliberate.                                           |
-| Features     | HIGH       | Table stakes mapped from Airbnb, Booking.com, Cloudbeds, Lodgify public documentation and feature comparison. GUDBRO differentiators grounded in PRD v2.3. Anti-features informed by target market research.                                |
-| Architecture | HIGH       | All patterns verified against existing accommodations frontend codebase (migrations 077-081, API routes, JWT auth, Supabase admin client). Backoffice integration verified against existing patterns. Guest vs owner auth separation clear. |
-| Pitfalls     | HIGH       | Double booking, Stripe auth expiry, Connect onboarding, RLS gaps, timezone handling all documented in hospitality payment processing guides, Stripe docs, Supabase RLS best practices, booking system design articles.                      |
+| Area         | Confidence  | Notes                                                                                                                                                                                                                                                                                                                                        |
+| ------------ | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stack        | HIGH        | All existing packages verified in codebase, new packages verified on npm. Zero dependency on external services beyond what exists (Supabase, Vercel). jose JWT API stable across v6.x.                                                                                                                                                       |
+| Features     | MEDIUM-HIGH | Table stakes features validated against 5 competitors (Duve, STAY App, Canary, HelloShift, mycloud). Progressive auth is extrapolated from e-commerce patterns — novel in hospitality but sound. Differentiators (security config, multi-zone WiFi) are original, not competitor-validated.                                                  |
+| Architecture | HIGH        | Direct codebase analysis of all existing components. Two-tier JWT design verified against OWASP session management patterns. SECURITY DEFINER functions follow existing GUDBRO patterns (verify_booking_access). All integration points mapped.                                                                                              |
+| Pitfalls     | HIGH        | Stale QR reuse verified against hospitality security research (Partsfe, Uniqode QR lifecycle). GDPR compliance verified against hotel-specific guidance (HotelTechReport Marriott case, Hotelogix retention schedules). Endpoint protection verified against OWASP Top 10 2025. Multi-guest rooms validated against Accommodations PRD v2.3. |
 
 **Overall confidence:** HIGH
 
+Architecture is sound, stack requires minimal changes, pitfalls are well-documented in industry. The main uncertainty is progressive auth adoption (novel pattern) — but it degrades gracefully (worst case: owners set browse_requires_verification=true and it behaves like the current system).
+
 ### Gaps to Address
 
-**Stripe SEA market testing:** Research confirmed Stripe MCC 7011 and extended authorization requirements, but actual Stripe Connect onboarding for Vietnamese/Thai property owners needs validation. The existing GUDBRO system has Stripe in backoffice but not Connect. Mitigate by: (1) start with cash/transfer default, (2) pilot Stripe with 3-5 owners before full rollout, (3) document KYC failure modes per country.
+**Phase 2 (Verification UX):** Inline verification best practices for PWAs are documented in e-commerce but not hospitality-specific. Recommendation: user-test with 5 target users (tourists unfamiliar with the property) during implementation. A/B test modal vs. bottom sheet if adoption is lower than projected 90%.
 
-**Partner confirmation flow:** The referral commission tracking depends on partners confirming guest transactions, but the confirmation mechanism is underspecified. Is it WhatsApp reply? Partner dashboard? GUDBRO link? Mitigate by: (1) start with referral click tracking only (no commission promises), (2) manual monthly reconciliation with partners, (3) build automated confirmation in Phase 6 based on pilot learnings.
+**Phase 3 (Security config):** Access control presets for different property types are original design, not validated against competitor features (no competitor offers this). Recommendation: interview 3-5 SEA property owners (representing B&B, hotel, hostel) to validate preset logic before building UI.
 
-**Service automation thresholds:** The PRD specifies three automation levels (auto-confirm, manual, WhatsApp-only) but does not specify timing thresholds. When does auto-confirm happen? Immediately? After 5 minutes? Mitigate by: (1) default to WhatsApp notification + manual for MVP, (2) add auto-confirm post-launch based on owner feedback, (3) make thresholds configurable per property.
+**Phase 4 (Document upload):** HEIC conversion reliability on Android (heic2any is primarily tested on iOS). Recommendation: test on 3 Android devices (Samsung, Xiaomi, Oppo — most common in SEA) before launch. Fallback: detect HEIC support, show "Please use JPEG mode on your camera" message if unsupported.
 
-**Multi-language property descriptions:** Service translations table exists, but property-level content (description, house rules, amenities) needs translation schema. Mitigate by: (1) English-only for MVP, (2) add `accom_property_translations` table in Phase 1 (already in database plan), (3) owner provides translations manually or via Google Translate with edit capability.
+**Phase 4 (GDPR retention):** Vietnam-specific document retention requirements for NA17 police registration are not documented in English sources. Recommendation: consult with a Vietnam-based property owner or legal advisor to confirm 30-day retention is compliant vs. required retention period.
+
+**Backward compatibility validation:** Existing JWTs have `{bookingId, propertyId, checkoutDate}`. New JWTs add `roomId?, accessTier`. Recommendation: write migration tests that issue old-format tokens and verify they are accepted by new API routes (accessTier defaults to 'full' if missing). Ensure no 401s on existing tokens.
 
 ## Sources
 
 ### Primary (HIGH confidence)
 
-- **Existing codebase:** All patterns verified against `apps/accommodations/frontend/`, migrations 077-081, `shared/payment/`, backoffice patterns
-- **GUDBRO PRD:** `apps/accommodations/PRD.md` v2.3, `apps/accommodations/VERTICAL-CONTEXT.md`
-- **Stripe official docs:** Payment capture strategies, extended authorization, hospitality payment processing, Connect marketplace guide
-- **Package versions:** All 13 stack additions verified via npm (Stripe, react-day-picker, Recharts, TanStack Query, Zod, Embla, Resend, Phosphor, Framer Motion, qrcode.react, CVA)
-- **Supabase docs:** RLS, Realtime (Broadcast/Presence/Postgres Changes), multi-tenant architecture
-- **PostgreSQL:** Exclusion constraints, daterange operators, DATE vs TIMESTAMPTZ
+- Existing GUDBRO codebase (apps/accommodations/frontend/, shared/database/migrations/schema/077-087, apps/backoffice/components/AccomQRGenerator) — all architectural decisions verified via direct code reading
+- apps/accommodations/PRD.md v2.3 — visa tracker requirements, QR strategy, product context
+- npm package registries — jose v6.1.3, browser-image-compression v2.0.2, heic2any v0.0.4 versions verified
+- OWASP Session Management Cheat Sheet — anonymous-to-authenticated transitions, session ID regeneration
+- Supabase Storage documentation — private bucket patterns, RLS policies, signed URLs
 
 ### Secondary (MEDIUM confidence)
 
-- **Competitor analysis:** Airbnb Host Dashboard, Booking.com Extranet, Cloudbeds/Lodgify/Hostaway feature comparison, hotel digital concierge guides
-- **Hospitality patterns:** Hotel room service software comparison, guest app usage data, booking system design guides
-- **Domain pitfalls:** Double booking prevention techniques, hotel kitchen order fulfillment, booking engine UX mistakes, automation best practices
+- Hotel Tech Report 2026 rankings — Duve #1 Hotel Guest App, Canary #1 Contactless Check-in, market size $4.8B
+- Duve, STAY App, Canary, HelloShift, mycloud product documentation — QR access patterns, web-based no-download approach
+- RoomRaccoon, Klippa, HelloShift product pages — document scanning and OCR patterns in hospitality
+- HotelTechReport GDPR compliance articles — Marriott $52M settlement, retention requirements
+- Uniqode, Partsfe security guides — QR lifecycle management, hospitality-specific QR security threats
 
-### Tertiary (LOW confidence)
+### Tertiary (LOW confidence, needs validation)
 
-- **Package versions requiring verification at install:** Embla Carousel v8.5.1, Resend v4.0.0 (from training data cutoff, recommend `npm info` at install time)
+- Progressive authentication pattern applied to hospitality — No direct hospitality source found. Pattern extrapolated from e-commerce (Amazon checkout) and mobile banking UX. Conceptually sound but novel in this domain.
+- Configurable security levels per property type — No competitor offers this explicitly. Recommendation inferred from access control research (360Connect DAC/MAC patterns). Original feature design.
+- Multi-zone WiFi as competitive gap — No industry source confirming this is a missing feature. Observation based on property walkthroughs (hotels have multiple networks) vs. competitor demo videos (show single network).
 
 ---
 
