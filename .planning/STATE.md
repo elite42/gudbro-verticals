@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-01-31)
 ## Current Position
 
 Phase: 20 of 24 (Payments)
-Plan: 1 of 3 in current phase
-Status: In progress -- Plan 01 complete, Plans 02-03 remaining
-Last activity: 2026-01-31 -- Completed 20-01-PLAN.md (Schema & Types)
+Plan: 3 of 3 in current phase
+Status: Phase 20 complete -- All 3 plans executed
+Last activity: 2026-01-31 -- Completed 20-03-PLAN.md (Stripe Integration & Payment Management)
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [██████░░░░░░░░░░░░] 6/18
-████████████████████████████████████████ prior | ██████░░░░░░░░░░░░ v1.4
+Progress: v1.0-v1.3 [36/36] | v1.4 [████████████░░░░░░] 9/18
+████████████████████████████████████████ prior | ████████████░░░░░░ v1.4
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 42 (+ 1 quick task)
-- Average duration: ~2.8 min/plan
-- Total execution time: ~2.75 hours
+- Total plans completed: 45 (+ 1 quick task)
+- Average duration: ~2.9 min/plan
+- Total execution time: ~2.95 hours
 
 **By Milestone:**
 
@@ -33,7 +33,7 @@ Progress: v1.0-v1.3 [36/36] | v1.4 [██████░░░░░░░░�
 | v1.1      | 12+1  | ~32 min    | 2.7 min  |
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
-| v1.4      | 6     | ~14 min    | 2.3 min  |
+| v1.4      | 9     | ~26 min    | 2.9 min  |
 
 ## Accumulated Context
 
@@ -62,6 +62,10 @@ Key v1.4 architectural decisions:
 - Payment method CHECK allows NULL for legacy bookings
 - BankTransferInfo as JSONB (flexible for different banking systems)
 - Cancellation penalty as percent of deposit (not total price)
+- Stripe client as lazy singleton with Proxy pattern (same as supabase.ts)
+- ADMIN_API_KEY for owner endpoints (simple auth before full session system)
+- Dashboard bookings page in accommodations PWA (self-contained vertical)
+- Webhook sets payment_status to partial when deposit < 100%
 
 ### Pending Todos
 
@@ -75,10 +79,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 20-01-PLAN.md (Schema & Types for Payment System)
+Stopped at: Completed 20-03-PLAN.md (Stripe Integration & Payment Management)
 Resume file: None
-Next: `/gsd:execute-phase 20` (Plan 02: Payment Method Selector UI)
+Next: `/gsd:execute-phase 21` (next phase)
 
 ---
 
-_Last updated: 2026-01-31 after 20-01 execution_
+_Last updated: 2026-01-31 after 20-03 execution_
