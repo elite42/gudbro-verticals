@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useStaySession } from '@/hooks/useStaySession';
+import { useServiceCart } from '@/hooks/useServiceCart';
+import { useOrderPolling } from '@/hooks/useOrderPolling';
 import { fetchProperty } from '@/lib/stay-api';
-import type { PropertyExtended } from '@/types/stay';
+import type { PropertyExtended, ServiceCategoryWithItems } from '@/types/stay';
 
 import DashboardHeader from '@/components/stay/DashboardHeader';
 import WifiCard from '@/components/stay/WifiCard';
@@ -16,6 +18,10 @@ import VisaStatusCard from '@/components/stay/VisaStatusCard';
 import ReturnGuestBanner from '@/components/stay/ReturnGuestBanner';
 import RestaurantSection from '@/components/stay/RestaurantSection';
 import ServicesCarousel from '@/components/stay/ServicesCarousel';
+import ServiceCatalog from '@/components/stay/ServiceCatalog';
+import ActiveOrders from '@/components/stay/ActiveOrders';
+import CartFAB from '@/components/stay/CartFAB';
+import CartDrawer from '@/components/stay/CartDrawer';
 import LocalDeals from '@/components/stay/LocalDeals';
 import UsefulNumbers from '@/components/stay/UsefulNumbers';
 import BottomNav from '@/components/BottomNav';
@@ -26,6 +32,42 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   const [propertyExtended, setPropertyExtended] = useState<PropertyExtended | null>(null);
   const [propertyLoading, setPropertyLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('home');
+
+  // Cart state at page level -- survives tab navigation
+  const cart = useServiceCart();
+
+  // Catalog overlay state
+  const [showCatalog, setShowCatalog] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+  const [serviceCategories, setServiceCategories] = useState<ServiceCategoryWithItems[]>([]);
+  const [serviceTimezone, setServiceTimezone] = useState('UTC');
+
+  // Order polling
+  const { orders, refetch: refetchOrders } = useOrderPolling({
+    bookingCode: params.code,
+    token: token ?? '',
+    enabled: isAuthenticated,
+  });
+
+  // Callback for ServicesCarousel when categories load
+  const handleCategoriesLoaded = useCallback(
+    (categories: ServiceCategoryWithItems[], timezone: string) => {
+      setServiceCategories(categories);
+      setServiceTimezone(timezone);
+    },
+    []
+  );
+
+  // Handle BottomNav tab changes -- "services" opens catalog
+  const handleTabChange = useCallback(
+    (tab: string) => {
+      setActiveTab(tab);
+      if (tab === 'services' && serviceCategories.length > 0) {
+        setShowCatalog(true);
+      }
+    },
+    [serviceCategories.length]
+  );
 
   // Redirect to landing if not authenticated
   useEffect(() => {
@@ -77,6 +119,8 @@ export default function InStayDashboard({ params }: { params: { code: string } }
 
   const { property, room, booking, wifi } = stay;
   const hostPhone = property.contactWhatsapp || property.contactPhone || '';
+  // Use first item currency or fallback
+  const propertyCurrency = serviceCategories[0]?.items[0]?.currency ?? 'EUR';
 
   return (
     <div className="min-h-screen bg-[#FAF8F5]">
@@ -107,7 +151,15 @@ export default function InStayDashboard({ params }: { params: { code: string } }
           token={token!}
         />
 
-        <ServicesCarousel bookingCode={params.code} token={token!} />
+        <ServicesCarousel
+          bookingCode={params.code}
+          token={token!}
+          cart={cart}
+          onViewAll={() => setShowCatalog(true)}
+          onCategoriesLoaded={handleCategoriesLoaded}
+        />
+
+        <ActiveOrders orders={orders} currency={propertyCurrency} />
 
         <LocalDeals bookingCode={params.code} token={token!} />
 
@@ -132,7 +184,40 @@ export default function InStayDashboard({ params }: { params: { code: string } }
         )}
       </div>
 
-      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} onMenuToggle={() => {}} />
+      {/* CartFAB -- visible when cart has items */}
+      <CartFAB itemCount={cart.itemCount} onClick={() => setShowCart(true)} />
+
+      {/* Cart drawer overlay */}
+      {showCart && (
+        <CartDrawer
+          cart={cart}
+          bookingCode={params.code}
+          token={token!}
+          currency={propertyCurrency}
+          timezone={serviceTimezone}
+          onClose={() => setShowCart(false)}
+          onOrderPlaced={() => {
+            refetchOrders();
+            setShowCart(false);
+          }}
+        />
+      )}
+
+      {/* Full catalog overlay */}
+      {showCatalog && serviceCategories.length > 0 && (
+        <ServiceCatalog
+          categories={serviceCategories}
+          cart={cart}
+          timezone={serviceTimezone}
+          propertyCurrency={propertyCurrency}
+          onClose={() => {
+            setShowCatalog(false);
+            setActiveTab('home');
+          }}
+        />
+      )}
+
+      <BottomNav activeTab={activeTab} onTabChange={handleTabChange} onMenuToggle={() => {}} />
     </div>
   );
 }
