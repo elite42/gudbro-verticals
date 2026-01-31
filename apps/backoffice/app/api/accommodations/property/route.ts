@@ -28,7 +28,8 @@ export async function GET(request: NextRequest) {
        cancellation_policy, amenities, images, host_name, host_phone, host_whatsapp,
        host_email, contact_email, deposit_percent, cancellation_penalty_percent,
        accepted_payment_methods, bank_transfer_info, crypto_wallet_addresses,
-       weekly_discount_percent, monthly_discount_percent, is_active`
+       weekly_discount_percent, monthly_discount_percent, is_active,
+       guest_verification_method, access_settings`
     )
     .eq('id', propertyId)
     .single();
@@ -84,6 +85,8 @@ export async function PUT(request: NextRequest) {
     'contact_email',
     'weekly_discount_percent',
     'monthly_discount_percent',
+    'guest_verification_method',
+    'access_settings',
   ];
 
   const update: Record<string, unknown> = {};
