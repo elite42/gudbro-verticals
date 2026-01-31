@@ -63,7 +63,18 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ### Active
 
-(None -- ready for next milestone definition via `/gsd:new-milestone`)
+## Current Milestone: v1.5 Frictionless Guest Access
+
+**Goal:** Replace booking code + last name verification with room-based QR access, progressive authentication for paid actions, and owner-configurable security levels.
+
+**Target features:**
+
+- QR room-based access (scan → immediate dashboard, no login)
+- Progressive authentication (free browsing, verify only for paid actions)
+- Owner-configurable security levels (none/light/standard/full)
+- Multi-zone WiFi support (room, restaurant, pool, lobby)
+- Passport/visa document upload with expiry reminders
+- QR lifecycle management (deactivation after checkout, regeneration)
 
 ### Out of Scope
 
@@ -142,4 +153,4 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ---
 
-_Last updated: 2026-01-31 after v1.4 milestone_
+_Last updated: 2026-01-31 after v1.5 milestone start_

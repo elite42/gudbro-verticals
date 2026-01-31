@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-01-31)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** Planning next milestone
+**Current focus:** v1.5 Frictionless Guest Access
 
 ## Current Position
 
-Phase: 24 of 24 — all milestones complete (v1.0-v1.4)
-Plan: N/A
-Status: Ready for next milestone
-Last activity: 2026-01-31 — v1.4 milestone archived
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-01-31 — Milestone v1.5 Frictionless Guest Access started
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
 
@@ -54,8 +54,8 @@ None.
 Last session: 2026-01-31
 Stopped at: v1.4 milestone archived
 Resume file: None
-Next: `/gsd:new-milestone`
+Next: Define requirements for v1.5
 
 ---
 
-_Last updated: 2026-01-31 after v1.4 milestone completion_
+_Last updated: 2026-01-31 after v1.5 milestone start_
