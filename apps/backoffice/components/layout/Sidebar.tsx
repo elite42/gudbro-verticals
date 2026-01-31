@@ -374,6 +374,7 @@ const navigation: NavItem[] = [
     badge: 'new' as const,
     children: [
       { name: 'Bookings', href: '/accommodations/bookings' },
+      { name: 'Calendar & Pricing', href: '/accommodations/calendar' },
       { name: 'Rooms', href: '/accommodations/rooms' },
       { name: 'Settings', href: '/accommodations/settings' },
       { name: 'QR Codes', href: '/accommodations/qr-codes' },
