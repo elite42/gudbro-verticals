@@ -21,7 +21,12 @@
     "date-fns": "^3.3.1",
     "jose": "^6.0.8",
     "@supabase/supabase-js": "^2.39.0",
-    "stripe": "^14.0.0"
+    "stripe": "^14.0.0",
+    "embla-carousel-react": "^8.6.0",
+    "react-day-picker": "^9.13.0",
+    "react-international-phone": "^4.3.0",
+    "schema-dts": "^1.1.0",
+    "@phosphor-icons/react": "^2.1.7"
   },
   "devDependencies": {
     "@types/node": "^20",
