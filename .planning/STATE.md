@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-01-31)
 ## Current Position
 
 Phase: 19 of 24 (Property Page & Booking Flow)
-Plan: 2 of 5 in current phase
-Status: In progress - Plan 19-02 complete, Plan 19-03 next
-Last activity: 2026-01-31 -- Completed 19-02-PLAN.md (client components)
+Plan: 3 of 5 in current phase
+Status: In progress - Plan 19-03 complete, Plan 19-04 next
+Last activity: 2026-01-31 -- Completed 19-03-PLAN.md (page assembly & SEO)
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [████░░░░░░░░░░░░░░] 4/18
-████████████████████████████████████████ prior | ████░░░░░░░░░░░░░░ v1.4
+Progress: v1.0-v1.3 [36/36] | v1.4 [█████░░░░░░░░░░░░░] 5/18
+████████████████████████████████████████ prior | █████░░░░░░░░░░░░░ v1.4
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 40 (+ 1 quick task)
+- Total plans completed: 41 (+ 1 quick task)
 - Average duration: ~2.8 min/plan
-- Total execution time: ~2.6 hours
+- Total execution time: ~2.7 hours
 
 **By Milestone:**
 
@@ -33,7 +33,7 @@ Progress: v1.0-v1.3 [36/36] | v1.4 [████░░░░░░░░░░�
 | v1.1      | 12+1  | ~32 min    | 2.7 min  |
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
-| v1.4      | 4     | ~7 min     | 1.8 min  |
+| v1.4      | 5     | ~11 min    | 2.2 min  |
 
 ## Accumulated Context
 
@@ -55,6 +55,9 @@ Key v1.4 architectural decisions:
 - Phosphor SSR imports: @phosphor-icons/react/dist/ssr for server components, @phosphor-icons/react for client
 - BookingCalendar is presentational -- receives bookedRanges as props, useBookingForm owns fetch lifecycle
 - OpenStreetMap embed for map preview (no API key); Google Maps link for navigation
+- Regular join (not !inner) for rooms query so page loads even with no active rooms
+- Booking code as access token for /booking/[code] -- no auth required
+- noindex on booking confirmation pages to prevent search indexing
 
 ### Pending Todos
 
@@ -68,10 +71,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 19-02-PLAN.md (client components)
+Stopped at: Completed 19-03-PLAN.md (page assembly & SEO)
 Resume file: None
-Next: `/gsd:execute-phase 19` (plan 03 - page composition)
+Next: `/gsd:execute-phase 19` (plan 04)
 
 ---
 
-_Last updated: 2026-01-31 after Plan 19-02 execution_
+_Last updated: 2026-01-31 after Plan 19-03 execution_
