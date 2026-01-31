@@ -182,13 +182,13 @@ Plans:
 3. Referral clicks from the In-Stay Dashboard to partner deal links are logged for tracking
 4. Guest receives booking confirmation email with booking code and property details, and a pre-arrival email with QR code one day before check-in
 5. Guest can contact host via WhatsApp deep-link from both the property page and the In-Stay Dashboard, and owner receives WhatsApp notifications for bookings, inquiries, and service orders
-   **Plans**: TBD
+   **Plans**: 3 plans
 
 Plans:
 
-- [ ] 24-01: TBD
-- [ ] 24-02: TBD
-- [ ] 24-03: TBD
+- [ ] 24-01-PLAN.md -- Migration 087 (deals, click tracking, email logs tables), analytics API routes, analytics dashboard with recharts
+- [ ] 24-02-PLAN.md -- Deals CRUD (backoffice + guest frontend update + click tracking redirect)
+- [ ] 24-03-PLAN.md -- Email communication (confirmation + pre-arrival cron with QR) + WhatsApp deep-links
 
 ## Progress
 
@@ -225,4 +225,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-31 after Phase 23 execution_
+_Last updated: 2026-01-31 after Phase 24 planning_
