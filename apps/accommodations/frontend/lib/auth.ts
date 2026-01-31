@@ -9,6 +9,8 @@ export interface GuestTokenPayload {
   bookingId: string;
   propertyId: string;
   checkoutDate: string;
+  accessTier?: 'browse' | 'full'; // undefined treated as 'full' for backward compat
+  roomCode?: string;
 }
 
 function getSecret(): Uint8Array {
@@ -29,9 +31,11 @@ function getSecret(): Uint8Array {
  * @returns Signed JWT string
  */
 export async function signGuestToken(payload: {
-  bookingId: string;
+  bookingId: string | null; // null for no-booking room sessions
   propertyId: string;
   checkoutDate: string;
+  accessTier?: 'browse' | 'full';
+  roomCode?: string;
 }): Promise<string> {
   const checkoutDate = new Date(payload.checkoutDate);
   const expiresAt = addHours(checkoutDate, 24);
@@ -40,6 +44,8 @@ export async function signGuestToken(payload: {
     bookingId: payload.bookingId,
     propertyId: payload.propertyId,
     checkoutDate: payload.checkoutDate,
+    ...(payload.accessTier && { accessTier: payload.accessTier }),
+    ...(payload.roomCode && { roomCode: payload.roomCode }),
   })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
@@ -60,5 +66,7 @@ export async function verifyGuestToken(token: string): Promise<GuestTokenPayload
     bookingId: payload.bookingId as string,
     propertyId: payload.propertyId as string,
     checkoutDate: payload.checkoutDate as string,
+    accessTier: (payload.accessTier as 'browse' | 'full') || 'full',
+    roomCode: (payload.roomCode as string) || undefined,
   };
 }

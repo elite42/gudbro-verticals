@@ -14,7 +14,8 @@ export type ApiError =
   | 'internal_error'
   | 'order_not_found'
   | 'invalid_transition'
-  | 'outside_hours';
+  | 'outside_hours'
+  | 'invalid_room_code';
 
 export interface ApiResponse<T> {
   data?: T;
@@ -42,6 +43,30 @@ export interface StayData {
   room: RoomInfo;
   booking: BookingInfo;
   wifi: WifiInfo;
+}
+
+// --- Access tier for progressive auth ---
+
+export type AccessTier = 'browse' | 'full';
+
+// --- GET /api/stay/room/[roomCode] ---
+
+export interface RoomResolveResponse {
+  token: string;
+  stay: RoomStayData;
+}
+
+/**
+ * Stay data from room code resolution.
+ * Similar to StayData but booking is optional (room may be vacant).
+ */
+export interface RoomStayData {
+  property: PropertyInfo;
+  room: RoomInfo;
+  booking: BookingInfo | null; // null when no active booking
+  wifi: WifiInfo;
+  hasActiveBooking: boolean;
+  accessTier: AccessTier;
 }
 
 export interface PropertyInfo {
