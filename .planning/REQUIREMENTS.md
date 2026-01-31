@@ -12,7 +12,7 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 - [ ] **PROP-01**: Guest can view property page with photo gallery (swipeable, fullscreen)
 - [ ] **PROP-02**: Guest can see property description, amenities, house rules, and host info
 - [ ] **PROP-03**: Guest can check room availability via date picker calendar
-- [ ] **PROP-04**: Guest can see price breakdown (per-night × nights + cleaning fee + discounts)
+- [ ] **PROP-04**: Guest can see price breakdown (per-night x nights + cleaning fee + discounts)
 - [ ] **PROP-05**: Guest can view property location (static map or Google Maps link)
 - [ ] **PROP-06**: Property page is server-rendered for SEO (OG meta tags, structured data)
 
@@ -36,7 +36,7 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 - [ ] **PAY-06**: Stripe webhook handles payment confirmation and failure
 - [ ] **PAY-07**: Owner can update payment status manually in dashboard
 
-### Owner Dashboard — Bookings
+### Owner Dashboard -- Bookings
 
 - [ ] **OBOOK-01**: Owner can view list of all bookings with status filters
 - [ ] **OBOOK-02**: Owner can view booking detail (guest info, dates, payment, special requests)
@@ -45,7 +45,7 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 - [ ] **OBOOK-05**: Owner can cancel a booking with reason
 - [ ] **OBOOK-06**: Owner receives WhatsApp notification on new booking/inquiry
 
-### Owner Dashboard — Calendar & Pricing
+### Owner Dashboard -- Calendar & Pricing
 
 - [ ] **OCAL-01**: Owner can view availability calendar with color-coded booking status
 - [ ] **OCAL-02**: Owner can block/unblock date ranges (maintenance, personal use)
@@ -53,7 +53,7 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 - [ ] **OCAL-04**: Owner can set seasonal price overrides per date range
 - [ ] **OCAL-05**: Owner can set weekly/monthly discount percentages
 
-### Owner Dashboard — Property Management
+### Owner Dashboard -- Property Management
 
 - [ ] **OMGMT-01**: Owner can manage rooms (CRUD: add, edit, deactivate rooms with capacity, description, images)
 - [ ] **OMGMT-02**: Owner can edit property settings (booking mode, check-in/out times, policies)
@@ -61,7 +61,7 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 - [ ] **OMGMT-04**: Owner can generate QR codes for property and individual rooms
 - [ ] **OMGMT-05**: Owner can configure automation level per service category (auto-confirm, manual, WhatsApp)
 
-### Owner Dashboard — Analytics
+### Owner Dashboard -- Analytics
 
 - [ ] **OANA-01**: Owner can view occupancy rate over time
 - [ ] **OANA-02**: Owner can view revenue summary (total, by room type, by month)
@@ -74,7 +74,7 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 - [ ] **SERV-02**: Guest can add items to cart with quantity and notes
 - [ ] **SERV-03**: Guest can specify delivery time (ASAP or time slot)
 - [ ] **SERV-04**: Guest can submit service order from In-Stay Dashboard
-- [ ] **SERV-05**: Guest can track order status (submitted → confirmed → preparing → ready → delivered)
+- [ ] **SERV-05**: Guest can track order status (submitted > confirmed > preparing > ready > delivered)
 - [ ] **SERV-06**: Owner receives WhatsApp notification on new service order
 - [ ] **SERV-07**: Owner can manage incoming service orders (confirm, update status, reject)
 - [ ] **SERV-08**: Service availability respects configured hours (prevent ordering outside hours)
@@ -136,17 +136,80 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ## Traceability
 
-| Requirement | Phase | Status                            |
-| ----------- | ----- | --------------------------------- |
-| —           | —     | Populated during roadmap creation |
+| Requirement | Phase    | Status  |
+| ----------- | -------- | ------- |
+| PROP-01     | Phase 19 | Pending |
+| PROP-02     | Phase 19 | Pending |
+| PROP-03     | Phase 19 | Pending |
+| PROP-04     | Phase 19 | Pending |
+| PROP-05     | Phase 19 | Pending |
+| PROP-06     | Phase 19 | Pending |
+| BOOK-01     | Phase 19 | Pending |
+| BOOK-02     | Phase 19 | Pending |
+| BOOK-03     | Phase 20 | Pending |
+| BOOK-04     | Phase 19 | Pending |
+| BOOK-05     | Phase 19 | Pending |
+| BOOK-06     | Phase 19 | Pending |
+| BOOK-07     | Phase 19 | Pending |
+| PAY-01      | Phase 20 | Pending |
+| PAY-02      | Phase 20 | Pending |
+| PAY-03      | Phase 20 | Pending |
+| PAY-04      | Phase 20 | Pending |
+| PAY-05      | Phase 20 | Pending |
+| PAY-06      | Phase 20 | Pending |
+| PAY-07      | Phase 20 | Pending |
+| OBOOK-01    | Phase 21 | Pending |
+| OBOOK-02    | Phase 21 | Pending |
+| OBOOK-03    | Phase 21 | Pending |
+| OBOOK-04    | Phase 21 | Pending |
+| OBOOK-05    | Phase 21 | Pending |
+| OBOOK-06    | Phase 21 | Pending |
+| OCAL-01     | Phase 22 | Pending |
+| OCAL-02     | Phase 22 | Pending |
+| OCAL-03     | Phase 22 | Pending |
+| OCAL-04     | Phase 22 | Pending |
+| OCAL-05     | Phase 22 | Pending |
+| OMGMT-01    | Phase 21 | Pending |
+| OMGMT-02    | Phase 21 | Pending |
+| OMGMT-03    | Phase 23 | Pending |
+| OMGMT-04    | Phase 21 | Pending |
+| OMGMT-05    | Phase 23 | Pending |
+| OANA-01     | Phase 24 | Pending |
+| OANA-02     | Phase 24 | Pending |
+| OANA-03     | Phase 24 | Pending |
+| OANA-04     | Phase 24 | Pending |
+| SERV-01     | Phase 23 | Pending |
+| SERV-02     | Phase 23 | Pending |
+| SERV-03     | Phase 23 | Pending |
+| SERV-04     | Phase 23 | Pending |
+| SERV-05     | Phase 23 | Pending |
+| SERV-06     | Phase 23 | Pending |
+| SERV-07     | Phase 23 | Pending |
+| SERV-08     | Phase 23 | Pending |
+| SERV-09     | Phase 23 | Pending |
+| DEAL-01     | Phase 24 | Pending |
+| DEAL-02     | Phase 24 | Pending |
+| DEAL-03     | Phase 24 | Pending |
+| COMM-01     | Phase 24 | Pending |
+| COMM-02     | Phase 24 | Pending |
+| COMM-03     | Phase 24 | Pending |
+| COMM-04     | Phase 24 | Pending |
+| INFRA-01    | Phase 18 | Pending |
+| INFRA-02    | Phase 18 | Pending |
+| INFRA-03    | Phase 18 | Pending |
+| INFRA-04    | Phase 18 | Pending |
+| INFRA-05    | Phase 18 | Pending |
+| INFRA-06    | Phase 18 | Pending |
+| INFRA-07    | Phase 18 | Pending |
+| INFRA-08    | Phase 18 | Pending |
 
 **Coverage:**
 
-- v1.4 requirements: 53 total
-- Mapped to phases: 0
-- Unmapped: 53 ⚠️
+- v1.4 requirements: 64 total
+- Mapped to phases: 64
+- Unmapped: 0
 
 ---
 
 _Requirements defined: 2026-01-31_
-_Last updated: 2026-01-31 after initial definition_
+_Last updated: 2026-01-31 after roadmap creation (traceability populated)_
