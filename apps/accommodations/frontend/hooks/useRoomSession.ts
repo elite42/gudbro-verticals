@@ -1,18 +1,33 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import type { RoomStayData, RoomResolveResponse, ApiResponse } from '@/types/stay';
+import type {
+  RoomStayData,
+  RoomResolveResponse,
+  StayData,
+  ApiResponse,
+  AccessTier,
+  VerificationMethod,
+} from '@/types/stay';
 
 const TOKEN_KEY = 'gudbro_stay_token';
 const STAY_KEY = 'gudbro_stay_data';
+
+export interface UpgradeResult {
+  success: boolean;
+  error?: string;
+  retryAfter?: number;
+}
 
 export interface RoomSession {
   token: string | null;
   stay: RoomStayData | null;
   isLoading: boolean;
   hasActiveBooking: boolean;
+  accessTier: AccessTier;
   error: string | null;
   refresh: () => Promise<void>;
+  upgradeSession: (method: VerificationMethod, value: string) => Promise<UpgradeResult>;
 }
 
 /**
@@ -40,10 +55,12 @@ function isTokenExpired(token: string): boolean {
 
 /**
  * Check if a stored session is a room session for the given room code.
+ * Accepts both browse and full tier tokens — an upgraded (full-tier) token
+ * must NOT trigger a re-resolve that would overwrite it with browse-tier.
  */
 function isMatchingRoomSession(token: string, roomCode: string): boolean {
   const payload = decodeJwtPayload(token);
-  return payload?.roomCode === roomCode && payload?.accessTier === 'browse';
+  return payload?.roomCode === roomCode;
 }
 
 /**
@@ -90,6 +107,68 @@ export function useRoomSession(roomCode: string): RoomSession {
     }
   }, [roomCode]);
 
+  /**
+   * Upgrade session from browse to full tier by verifying guest identity.
+   * On success: replaces token + stay data in localStorage and React state.
+   */
+  const upgradeSession = useCallback(
+    async (method: VerificationMethod, value: string): Promise<UpgradeResult> => {
+      try {
+        const res = await fetch(`/api/stay/room/${roomCode}/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ method, value }),
+        });
+
+        if (res.status === 401) {
+          return { success: false, error: 'verification_failed' };
+        }
+
+        if (res.status === 429) {
+          const json = await res.json().catch(() => ({}));
+          return {
+            success: false,
+            error: 'too_many_attempts',
+            retryAfter: json.retryAfter ?? 300,
+          };
+        }
+
+        if (!res.ok) {
+          const json = await res.json().catch(() => ({}));
+          return { success: false, error: json.error || 'unknown_error' };
+        }
+
+        const json: ApiResponse<{ token: string; stay: StayData }> = await res.json();
+
+        if (!json.data) {
+          return { success: false, error: 'unknown_error' };
+        }
+
+        // Build upgraded RoomStayData from verified StayData
+        const upgradedStay: RoomStayData = {
+          property: json.data.stay.property,
+          room: json.data.stay.room,
+          booking: json.data.stay.booking,
+          wifi: json.data.stay.wifi,
+          hasActiveBooking: true,
+          accessTier: 'full',
+          verificationMethod: method,
+        };
+
+        // Persist to localStorage and update React state
+        localStorage.setItem(TOKEN_KEY, json.data.token);
+        localStorage.setItem(STAY_KEY, JSON.stringify(upgradedStay));
+        setToken(json.data.token);
+        setStay(upgradedStay);
+
+        return { success: true };
+      } catch {
+        return { success: false, error: 'unknown_error' };
+      }
+    },
+    [roomCode]
+  );
+
   // On mount: check for existing valid session or resolve fresh
   useEffect(() => {
     async function init() {
@@ -121,12 +200,17 @@ export function useRoomSession(roomCode: string): RoomSession {
     init();
   }, [roomCode, resolveRoom]);
 
+  // Derive access tier from current stay data
+  const accessTier: AccessTier = stay?.accessTier ?? 'browse';
+
   return {
     token,
     stay,
     isLoading,
     hasActiveBooking: stay?.hasActiveBooking ?? false,
+    accessTier,
     error,
     refresh: resolveRoom,
+    upgradeSession,
   };
 }
