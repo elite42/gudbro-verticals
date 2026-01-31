@@ -123,13 +123,13 @@ Plans:
 3. Owner receives a WhatsApp notification when a new booking or inquiry arrives
 4. Owner can add, edit, and deactivate rooms with capacity, description, and images
 5. Owner can generate QR codes for the property and individual rooms
-   **Plans**: TBD
+   **Plans**: 3 plans (wave 1 -> wave 2 parallel)
 
 Plans:
 
-- [ ] 21-01: TBD
-- [ ] 21-02: TBD
-- [ ] 21-03: TBD
+- [ ] 21-01-PLAN.md -- API routes (bookings CRUD + rooms CRUD + property settings), shared helpers, BookingStatusBadge
+- [ ] 21-02-PLAN.md -- Booking list page (tab filtering, search) + booking detail page (actions, timeline, WhatsApp)
+- [ ] 21-03-PLAN.md -- Room management (ChargesManager pattern), property settings form, QR code generation, sidebar navigation
 
 ### Phase 22: Owner Dashboard - Calendar & Pricing
 
