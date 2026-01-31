@@ -57,9 +57,9 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 - [x] **OMGMT-01**: Owner can manage rooms (CRUD: add, edit, deactivate rooms with capacity, description, images)
 - [x] **OMGMT-02**: Owner can edit property settings (booking mode, check-in/out times, policies)
-- [ ] **OMGMT-03**: Owner can manage service categories and items (CRUD with pricing, availability hours)
+- [x] **OMGMT-03**: Owner can manage service categories and items (CRUD with pricing, availability hours)
 - [x] **OMGMT-04**: Owner can generate QR codes for property and individual rooms
-- [ ] **OMGMT-05**: Owner can configure automation level per service category (auto-confirm, manual, WhatsApp)
+- [x] **OMGMT-05**: Owner can configure automation level per service category (auto-confirm, manual, WhatsApp)
 
 ### Owner Dashboard -- Analytics
 
@@ -70,15 +70,15 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ### Service Ordering
 
-- [ ] **SERV-01**: Guest can browse full service catalog organized by category
-- [ ] **SERV-02**: Guest can add items to cart with quantity and notes
-- [ ] **SERV-03**: Guest can specify delivery time (ASAP or time slot)
-- [ ] **SERV-04**: Guest can submit service order from In-Stay Dashboard
-- [ ] **SERV-05**: Guest can track order status (submitted > confirmed > preparing > ready > delivered)
-- [ ] **SERV-06**: Owner receives WhatsApp notification on new service order
-- [ ] **SERV-07**: Owner can manage incoming service orders (confirm, update status, reject)
-- [ ] **SERV-08**: Service availability respects configured hours (prevent ordering outside hours)
-- [ ] **SERV-09**: Cross-vertical deep-links from In-Stay Dashboard (F&B menu, tours, wellness)
+- [x] **SERV-01**: Guest can browse full service catalog organized by category
+- [x] **SERV-02**: Guest can add items to cart with quantity and notes
+- [x] **SERV-03**: Guest can specify delivery time (ASAP or time slot)
+- [x] **SERV-04**: Guest can submit service order from In-Stay Dashboard
+- [x] **SERV-05**: Guest can track order status (submitted > confirmed > preparing > ready > delivered)
+- [x] **SERV-06**: Owner receives WhatsApp notification on new service order
+- [x] **SERV-07**: Owner can manage incoming service orders (confirm, update status, reject)
+- [x] **SERV-08**: Service availability respects configured hours (prevent ordering outside hours)
+- [x] **SERV-09**: Cross-vertical deep-links from In-Stay Dashboard (F&B menu, tours, wellness)
 
 ### Local Deals & Partnerships
 
@@ -171,22 +171,22 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 | OCAL-05     | Phase 22 | Complete |
 | OMGMT-01    | Phase 21 | Pending  |
 | OMGMT-02    | Phase 21 | Pending  |
-| OMGMT-03    | Phase 23 | Pending  |
+| OMGMT-03    | Phase 23 | Complete |
 | OMGMT-04    | Phase 21 | Pending  |
-| OMGMT-05    | Phase 23 | Pending  |
+| OMGMT-05    | Phase 23 | Complete |
 | OANA-01     | Phase 24 | Pending  |
 | OANA-02     | Phase 24 | Pending  |
 | OANA-03     | Phase 24 | Pending  |
 | OANA-04     | Phase 24 | Pending  |
-| SERV-01     | Phase 23 | Pending  |
-| SERV-02     | Phase 23 | Pending  |
-| SERV-03     | Phase 23 | Pending  |
-| SERV-04     | Phase 23 | Pending  |
-| SERV-05     | Phase 23 | Pending  |
-| SERV-06     | Phase 23 | Pending  |
-| SERV-07     | Phase 23 | Pending  |
-| SERV-08     | Phase 23 | Pending  |
-| SERV-09     | Phase 23 | Pending  |
+| SERV-01     | Phase 23 | Complete |
+| SERV-02     | Phase 23 | Complete |
+| SERV-03     | Phase 23 | Complete |
+| SERV-04     | Phase 23 | Complete |
+| SERV-05     | Phase 23 | Complete |
+| SERV-06     | Phase 23 | Complete |
+| SERV-07     | Phase 23 | Complete |
+| SERV-08     | Phase 23 | Complete |
+| SERV-09     | Phase 23 | Complete |
 | DEAL-01     | Phase 24 | Pending  |
 | DEAL-02     | Phase 24 | Pending  |
 | DEAL-03     | Phase 24 | Pending  |

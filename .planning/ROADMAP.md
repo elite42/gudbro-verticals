@@ -47,7 +47,7 @@ See milestones/v1.3-ROADMAP.md for details.
 - [x] **Phase 20: Payments** - Payment method configuration, Stripe checkout, webhook handling (completed 2026-01-31)
 - [x] **Phase 21: Owner Dashboard - Bookings & Property** - Booking management, room CRUD, property settings, QR codes (completed 2026-01-31)
 - [x] **Phase 22: Owner Dashboard - Calendar & Pricing** - Availability calendar, date blocking, seasonal pricing (completed 2026-01-31)
-- [ ] **Phase 23: Service Ordering** - Guest service catalog, cart, order lifecycle, owner order management
+- [x] **Phase 23: Service Ordering** - Guest service catalog, cart, order lifecycle, owner order management (completed 2026-01-31)
 - [ ] **Phase 24: Analytics, Deals & Communication** - Owner analytics, local deals, guest email notifications
 
 ## Phase Details
@@ -219,10 +219,10 @@ Plans:
 | 20. Payments                              | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 21. Owner Dashboard - Bookings & Property | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 2/2            | Complete    | 2026-01-31 |
-| 23. Service Ordering                      | v1.4      | 0/4            | Not started | -          |
+| 23. Service Ordering                      | v1.4      | 4/4            | Complete    | 2026-01-31 |
 | 24. Analytics, Deals & Communication      | v1.4      | 0/3            | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-31 after Phase 23 planning_
+_Last updated: 2026-01-31 after Phase 23 execution_

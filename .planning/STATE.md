@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-01-31)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** Phase 23 - Service Ordering (v1.4 Accommodations v2)
+**Current focus:** Phase 24 - Analytics, Deals & Communication (v1.4 Accommodations v2)
 
 ## Current Position
 
-Phase: 23 of 24 (Service Ordering)
-Plan: 2 of 4 in current phase
-Status: In progress - Plan 23-02 complete
-Last activity: 2026-01-31 -- Completed 23-02-PLAN.md (Backoffice Service Catalog Manager)
+Phase: 23 of 24 (Service Ordering) -- COMPLETE
+Plan: 4 of 4 in current phase
+Status: Phase 23 verified (5/5 must-haves), ready to plan Phase 24
+Last activity: 2026-01-31 -- Phase 23 verified and complete
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [████████████████████████░] 16/18
-████████████████████████████████████████ prior | ████████████████████████░ v1.4
+Progress: v1.0-v1.3 [36/36] | v1.4 [██████████████████████████░] 18/21
+████████████████████████████████████████ prior | ██████████████████████████░ v1.4
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 52 (+ 1 quick task)
+- Total plans completed: 54 (+ 1 quick task)
 - Average duration: ~3.3 min/plan
-- Total execution time: ~3.6 hours
+- Total execution time: ~3.9 hours
 
 **By Milestone:**
 
@@ -33,7 +33,7 @@ Progress: v1.0-v1.3 [36/36] | v1.4 [██████████████�
 | v1.1      | 12+1  | ~32 min    | 2.7 min  |
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
-| v1.4      | 16    | ~62 min    | 3.9 min  |
+| v1.4      | 18    | ~72 min    | 4.0 min  |
 
 ## Accumulated Context
 
@@ -87,6 +87,11 @@ Key v1.4 architectural decisions:
 - Price input in major units with auto-conversion to minor (x100) for service catalog
 - Zero-decimal currency set for VND, JPY, KRW etc. skips x100 conversion
 - Category cascade delete: items deleted explicitly before category
+- Cart state at page level (not localStorage) for tab navigation survival
+- ServiceCatalog and CartDrawer as fixed overlays (not route changes)
+- Order polling auto-stops when no active orders remain
+- Slide-out detail panel for order management (not separate page)
+- Orders after Bookings in sidebar, Services after Rooms
 
 ### Pending Todos
 
@@ -100,10 +105,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 23-02-PLAN.md (Backoffice Service Catalog Manager)
+Stopped at: Phase 23 verified and complete, ready for Phase 24
 Resume file: None
-Next: `/gsd:execute-phase 23` (plan 03)
+Next: `/gsd:discuss-phase 24` or `/gsd:plan-phase 24`
 
 ---
 
-_Last updated: 2026-01-31 after completing plan 23-02_
+_Last updated: 2026-01-31 after Phase 23 verification_
