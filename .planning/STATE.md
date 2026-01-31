@@ -10,19 +10,19 @@ See: .planning/PROJECT.md (updated 2026-01-31)
 ## Current Position
 
 Phase: 18 of 24 (Database Foundation) -- first of 7 phases in v1.4
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-01-31 -- Completed 18-01-PLAN.md (migration 083)
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-01-31 -- Completed 18-02-PLAN.md (Stripe webhook infrastructure)
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [█░░░░░░░░░░░░░░░░░] 1/18
-████████████████████████████████████████ prior | █░░░░░░░░░░░░░░░░░ v1.4
+Progress: v1.0-v1.3 [36/36] | v1.4 [██░░░░░░░░░░░░░░░░] 2/18
+████████████████████████████████████████ prior | ██░░░░░░░░░░░░░░░░ v1.4
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 37 (+ 1 quick task)
-- Average duration: ~2.9 min/plan
+- Total plans completed: 38 (+ 1 quick task)
+- Average duration: ~2.8 min/plan
 - Total execution time: ~2.5 hours
 
 **By Milestone:**
@@ -33,6 +33,7 @@ Progress: v1.0-v1.3 [36/36] | v1.4 [█░░░░░░░░░░░░░�
 | v1.1      | 12+1  | ~32 min    | 2.7 min  |
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
+| v1.4      | 2     | ~2 min     | 1.0 min  |
 
 ## Accumulated Context
 
@@ -50,6 +51,7 @@ Key v1.4 architectural decisions:
 - Half-open [) daterange for back-to-back bookings (checkout day free for new checkin)
 - All prices INTEGER minor currency units (not NUMERIC/DECIMAL)
 - Service order items snapshot name/unit_price for historical accuracy
+- Separate STRIPE_ACCOM_WEBHOOK_SECRET env var (not shared with wallet webhook)
 
 ### Pending Todos
 
@@ -63,10 +65,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 18-01-PLAN.md (migration 083)
+Stopped at: Completed Phase 18 (Database Foundation) -- both plans done
 Resume file: None
-Next: Execute 18-02-PLAN.md or `/gsd:execute-phase 18` for plan 02
+Next: `/gsd:plan-phase 19` (next phase in v1.4)
 
 ---
 
-_Last updated: 2026-01-31 after 18-01 execution_
+_Last updated: 2026-01-31 after 18-02 execution_
