@@ -186,7 +186,7 @@ Plans:
 
 Plans:
 
-- [ ] 24-01-PLAN.md -- Migration 087 (deals, click tracking, email logs tables), analytics API routes, analytics dashboard with recharts
+- [x] 24-01-PLAN.md -- Migration 087 (deals, click tracking, email logs tables), analytics API routes, analytics dashboard with recharts
 - [ ] 24-02-PLAN.md -- Deals CRUD (backoffice + guest frontend update + click tracking redirect)
 - [ ] 24-03-PLAN.md -- Email communication (confirmation + pre-arrival cron with QR) + WhatsApp deep-links
 
@@ -220,7 +220,7 @@ Plans:
 | 21. Owner Dashboard - Bookings & Property | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 2/2            | Complete    | 2026-01-31 |
 | 23. Service Ordering                      | v1.4      | 4/4            | Complete    | 2026-01-31 |
-| 24. Analytics, Deals & Communication      | v1.4      | 0/3            | Not started | -          |
+| 24. Analytics, Deals & Communication      | v1.4      | 1/3            | In progress | -          |
 
 ---
 
