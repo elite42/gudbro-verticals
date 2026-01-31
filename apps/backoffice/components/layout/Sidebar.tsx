@@ -378,6 +378,8 @@ const navigation: NavItem[] = [
       { name: 'Calendar & Pricing', href: '/accommodations/calendar' },
       { name: 'Rooms', href: '/accommodations/rooms' },
       { name: 'Services', href: '/accommodations/services' },
+      { name: 'Analytics', href: '/accommodations/analytics' },
+      { name: 'Deals', href: '/accommodations/deals' },
       { name: 'Settings', href: '/accommodations/settings' },
       { name: 'QR Codes', href: '/accommodations/qr-codes' },
     ],
