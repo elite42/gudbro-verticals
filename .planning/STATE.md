@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-01-31)
 ## Current Position
 
 Phase: 22 of 24 (Owner Dashboard - Calendar & Pricing)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-01-31 -- Completed 22-01-PLAN.md (backend data layer)
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-01-31 -- Completed 22-02-PLAN.md (Calendar & Pricing UI)
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [████████████████████░░░░] 12/18
-████████████████████████████████████████ prior | ████████████████████░░░░ v1.4
+Progress: v1.0-v1.3 [36/36] | v1.4 [██████████████████████░░] 14/18
+████████████████████████████████████████ prior | ██████████████████████░░ v1.4
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 49 (+ 1 quick task)
+- Total plans completed: 50 (+ 1 quick task)
 - Average duration: ~3.3 min/plan
-- Total execution time: ~3.3 hours
+- Total execution time: ~3.4 hours
 
 **By Milestone:**
 
@@ -33,7 +33,7 @@ Progress: v1.0-v1.3 [36/36] | v1.4 [██████████████�
 | v1.1      | 12+1  | ~32 min    | 2.7 min  |
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
-| v1.4      | 13    | ~47 min    | 3.6 min  |
+| v1.4      | 14    | ~52 min    | 3.7 min  |
 
 ## Accumulated Context
 
@@ -77,6 +77,10 @@ Key v1.4 architectural decisions:
 - Application-level overlap check against active bookings before creating room blocks
 - Calendar API computes grid range from month using date-fns startOfWeek/endOfWeek
 - Seasonal pricing PUT uses camelCase-to-snake_case field mapping
+- dateTo +1 day conversion for block API (UI inclusive range, API half-open)
+- Status priority: blocked > booked > partial > available
+- CalendarDay interface as shared contract between calendar and detail panel
+- Range selection state (rangeStart/rangeEnd) managed at page level
 
 ### Pending Todos
 
@@ -90,10 +94,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 22-01-PLAN.md (backend data layer for calendar & pricing)
+Stopped at: Completed 22-02-PLAN.md (Calendar & Pricing UI - phase 22 complete)
 Resume file: None
-Next: `/gsd:execute-phase 22` (plan 22-02: Calendar UI)
+Next: `/gsd:plan-phase 23` (Settings & Analytics)
 
 ---
 
-_Last updated: 2026-01-31 after completing 22-01_
+_Last updated: 2026-01-31 after completing 22-02_
