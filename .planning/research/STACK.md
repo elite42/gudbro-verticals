@@ -1,401 +1,404 @@
-# Technology Stack: Merchant Feedback Intelligence System
+# Technology Stack: Accommodations v2
 
-**Project:** GUDBRO Merchant Feedback Intelligence
-**Researched:** 2026-01-30
+**Project:** GUDBRO Accommodations v2 -- Booking, Owner Dashboard, Service Ordering
+**Researched:** 2026-01-31
 **Overall Confidence:** HIGH
 
 ---
 
-## Key Finding: Almost Everything Already Exists
+## Key Finding: Modest Additions to Existing Stack
 
-The backoffice already has every major capability needed. This is an **integration and composition** task, not a new-stack task. The research below focuses on what to reuse, what to extend, and the few genuinely new patterns needed.
+The accommodations frontend currently has a minimal package set (Next.js, Supabase, Radix, date-fns, jose). The v2 features require **targeted additions** for payments (Stripe), date picking (availability calendar), charts (owner analytics), animations, and server-state management. The backoffice already uses most of these libraries, so patterns and integration knowledge exist in the codebase.
 
-**Existing capabilities confirmed in codebase:**
+**What already exists in the accommodations frontend:**
 
-- Supabase Storage uploads (`apps/backoffice/app/api/upload/image/route.ts`) with folder configs, auth, validation
-- OpenAI integration (`apps/backoffice/lib/ai/openai.ts`) with 46 files, translation service, cost tracking
-- Supabase Realtime (`apps/backoffice/lib/realtime/chat-channel.ts`) with Postgres Changes subscriptions
-- @dnd-kit kanban-style DnD (`apps/backoffice/app/(dashboard)/settings/site-builder/`) with sortable lists
-- Feedback types already defined (`apps/backoffice/lib/ai/feedback-loop-service.ts`) with classification, AI summary, sentiment
+- Next.js 14.2.33, React 18, Tailwind, Radix UI (dialog, slot)
+- Supabase JS client with JWT auth via jose
+- date-fns for date manipulation
+- clsx + tailwind-merge for class utilities
 
----
+**What already exists in the broader monorepo (proven patterns):**
 
-## Recommended Stack
-
-### 1. Image/Screenshot Upload and Storage
-
-**Recommendation: Supabase Storage (existing)** -- zero new dependencies.
-
-| Technology       | Version            | Purpose            | Why                                                                                                                                    |
-| ---------------- | ------------------ | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Supabase Storage | Already configured | Screenshot storage | Already used for 9 folder types (staff, menu, logos, etc.). Add a `feedback` folder config to existing `FOLDER_CONFIGS` in `route.ts`. |
-
-**What to do:**
-
-- Add `'feedback-screenshots'` folder config to existing `apps/backoffice/app/api/upload/image/route.ts`
-- Config: `maxSize: 10MB`, `allowedTypes: ['image/png', 'image/jpeg', 'image/webp']`, `subfolder: 'feedback'`
-- Path pattern: `feedback/{merchantId}/{timestamp}-{randomId}.{ext}`
-
-**What NOT to do:**
-
-- Do NOT add Cloudinary. No image transformations needed for feedback screenshots -- just store and display. Cloudinary adds cost ($99+/month at scale) and a new external dependency for zero benefit.
-- Do NOT add Vercel Blob. Would split storage across two systems (Supabase for everything else, Blob for screenshots). Operational complexity for no gain.
-- Do NOT use signed upload URLs. Screenshots are under 10MB; the existing server-side upload pattern works fine and maintains auth control.
-
-**Cost:** Included in existing Supabase plan. 1GB free storage, Pro plan includes 100GB. Feedback screenshots at ~200KB avg, 100 feedbacks/month = ~20MB/month. Negligible.
-
-**Confidence:** HIGH -- pattern verified in existing codebase.
+- Stripe integration (backoffice: `stripe@^14.0.0`) -- server-side only
+- @shared/payment package (types, formatPrice, currency conversion)
+- Recharts (backoffice: `recharts@^3.7.0`) -- analytics charts
+- @tanstack/react-query (backoffice: `@tanstack/react-query@^5.90.19`)
+- Zod validation (backoffice: `zod@^3.23.0`)
+- Framer Motion (coffeeshop: `framer-motion@^12.24.7`)
+- Phosphor Icons (coffeeshop: `@phosphor-icons/react@^2.1.10`)
+- QR code generation (coffeeshop: `qrcode@^1.5.4`, `qrcode.react@^4.2.0`)
 
 ---
 
-### 2. AI Processing Pipeline
+## Recommended Stack Additions
 
-**Recommendation: OpenAI GPT-4.1-mini (upgrade from gpt-4o-mini) via existing client** -- update model constant only.
+### 1. Payment Processing -- Stripe
 
-| Technology           | Version                     | Purpose                                      | Why                                                                                       |
-| -------------------- | --------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `openai` npm package | ^6.15.0 (already installed) | AI API client                                | Already in backoffice, lazy-initialized, with cost tracking                               |
-| GPT-4.1-mini model   | API model ID                | Translation + classification + summarization | 60% cheaper than gpt-4o-mini ($0.40/$1.60 vs legacy pricing), better at structured output |
-| GPT-4.1-nano model   | API model ID                | Duplicate detection, simple classification   | Ultra-cheap ($0.10/$0.40 per 1M tokens) for high-volume simple tasks                      |
+**For booking deposits and service ordering payments.**
 
-**Pipeline architecture -- synchronous, not batch:**
+| Package                   | Version | Purpose                              | Why                                                                                                                                                                                                                             |
+| ------------------------- | ------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stripe`                  | ^17.0.0 | Server-side Stripe API               | Create checkout sessions, handle webhooks. Pin to v17 (not v20) because backoffice uses v14 and v20 is a breaking major with new API version. v17 is stable, compatible with API 2024-x, and avoids forcing backoffice upgrade. |
+| `@stripe/stripe-js`       | ^8.6.1  | Client-side Stripe.js loader         | Load Stripe Elements for embedded payment forms. Singleton pattern.                                                                                                                                                             |
+| `@stripe/react-stripe-js` | ^5.4.1  | React components for Stripe Elements | PaymentElement, AddressElement for checkout flow.                                                                                                                                                                               |
 
-Feedback processing does NOT need the OpenAI Batch API. Rationale:
+**Architecture decision: Stripe Checkout (hosted) for bookings, Stripe Elements (embedded) for services.**
 
-- Volume: ~100-500 feedbacks/month across all merchants. This is trivially low.
-- Latency expectation: Merchants expect near-instant submission confirmation. AI processing should complete within 5-10 seconds.
-- Existing pattern: The codebase already processes AI tasks synchronously in API routes (translation, chat, suggestions).
+- **Booking deposits** use Stripe Checkout (hosted page). Reason: highest conversion, Apple/Google Pay out of the box, PCI compliance with zero effort, reduces liability for a young product. Guest clicks "Book" -> redirected to Stripe -> returns to confirmation page.
+- **In-stay service ordering** uses Stripe Payment Intents with Elements (embedded). Reason: small amounts ($5-30), guest is already authenticated via booking code, inline payment feels natural for ordering breakfast/laundry.
+- **Server Actions pattern** (not API routes) for creating checkout sessions. This is the modern Next.js 14+ approach -- cleaner, more secure, no manual fetch calls.
 
-**Processing steps (single API route, sequential):**
+**Integration with @shared/payment:**
 
-```
-1. TRANSLATE (if not English) -- GPT-4.1-mini
-   Input: merchant feedback text (any language)
-   Output: English translation + detected source language
+- Use `PaymentMethod` types from @shared/payment for method selection UI
+- Use `formatPrice()` for price display across currencies
+- Stripe handles card/Apple Pay/Google Pay; @shared/payment handles cash/crypto/VNPay display
+- The `PaymentIntent` type from @shared/payment maps cleanly to Stripe PaymentIntents
 
-2. CLASSIFY -- GPT-4.1-nano (cheapest, fastest)
-   Input: English text
-   Output: { type, category, priority, sentiment }
+**What NOT to add:**
 
-3. SUMMARIZE -- GPT-4.1-mini
-   Input: English text + classification
-   Output: 1-sentence summary for kanban card
+- Do NOT add PayPal SDK. Southeast Asia market -- Stripe + VNPay/MoMo covers 95%+ of transactions. PayPal adds complexity for minimal adoption.
+- Do NOT add a Stripe subscription product. Bookings are one-time payments. Recurring billing is not in scope.
+- Do NOT implement Stripe Connect yet. The commission model (85/10/5 split) is manual/offline for MVP. Connect marketplace adds massive complexity -- defer to post-launch when volume justifies it.
 
-4. DUPLICATE CHECK -- GPT-4.1-nano with embedding comparison
-   Input: summary + recent feedback summaries
-   Output: potential_duplicate_ids[]
-```
+**Webhook endpoint:** `/api/webhooks/stripe` -- handles `checkout.session.completed`, `payment_intent.succeeded`, `payment_intent.payment_failed`. Use `stripe.webhooks.constructEvent()` for signature verification.
 
-**Cost estimate (per feedback):**
-
-- Translate: ~500 input tokens + ~500 output = $0.0004
-- Classify: ~300 input + ~100 output = $0.00004
-- Summarize: ~500 input + ~100 output = $0.0003
-- Duplicate check: ~1000 input + ~100 output = $0.00015
-- **Total per feedback: ~$0.001 (one tenth of a cent)**
-- **Monthly at 500 feedbacks: ~$0.50**
-
-**What to do:**
-
-- Update `MODEL_PRICING` in `openai.ts` to include `gpt-4.1-mini` and `gpt-4.1-nano`
-- Create `lib/ai/feedback-intelligence-service.ts` following existing service patterns
-- Reuse existing `translation-service.ts` patterns for the translate step
-- Use structured output (JSON mode) for classification -- already supported by OpenAI SDK v6
-
-**What NOT to do:**
-
-- Do NOT use OpenAI Batch API. Volume is too low to justify 24-hour async processing.
-- Do NOT use embeddings for duplicate detection initially. Start with GPT-4.1-nano text comparison. Add pgvector embeddings only if duplicate detection accuracy is insufficient.
-- Do NOT use GPT-4o or GPT-4.1 (full). Classification and summarization of short feedback texts do not need frontier model capabilities.
-
-**Confidence:** HIGH -- existing OpenAI integration verified, pricing verified via official sources.
+**Confidence:** HIGH -- Stripe versions verified via [npm](https://www.npmjs.com/package/stripe), patterns verified in backoffice codebase and [Stripe Next.js docs](https://docs.stripe.com/checkout/quickstart?client=next).
 
 ---
 
-### 3. Real-time Notifications (Bell/Campanella)
+### 2. Availability Calendar -- react-day-picker
 
-**Recommendation: Supabase Realtime Postgres Changes (existing pattern)** -- zero new dependencies.
+**For date range selection in booking flow and owner availability management.**
 
-| Technology        | Version            | Purpose                   | Why                                                                                               |
-| ----------------- | ------------------ | ------------------------- | ------------------------------------------------------------------------------------------------- |
-| Supabase Realtime | Already configured | Push notification updates | Existing `useChatRealtime` hook pattern. Subscribe to `notifications` table changes per merchant. |
+| Package            | Version | Purpose                     | Why                                                                                                                                                                    |
+| ------------------ | ------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `react-day-picker` | ^9.13.0 | Date range picker component | Best React date picker: accessible (WCAG 2.1 AA), supports date ranges natively, Buddhist calendar support (Thailand market), lightweight, customizable with Tailwind. |
 
-**Architecture:**
+**Why react-day-picker over alternatives:**
 
-```
-Database INSERT into `merchant_notifications` table
-  → Supabase Realtime broadcasts via WebSocket
-  → Client hook receives payload
-  → Updates bell badge count + notification dropdown
-```
+| Library                    | Why NOT                                                                                        |
+| -------------------------- | ---------------------------------------------------------------------------------------------- |
+| `react-datepicker`         | Heavier, requires separate CSS import, less customizable. react-day-picker is more composable. |
+| `react-date-range`         | Unmaintained (last publish 2+ years ago). Dead project.                                        |
+| `@radix-ui/react-calendar` | Does not exist. Radix has no calendar primitive.                                               |
+| Custom from scratch        | Date edge cases (timezone, DST, month boundaries) are notoriously error-prone.                 |
 
-**What to do:**
+**Key date-fns compatibility note:** react-day-picker v9 bundles its own date-fns internally (moved from peer dependency to direct dependency). The accommodations frontend already has `date-fns@^3.3.1`. These will coexist without conflict -- react-day-picker uses its bundled version, app code uses the project version. However, recommend upgrading the project date-fns to `^4.1.0` (matching backoffice) for consistency and to get the latest locale/timezone improvements.
 
-- Create `lib/realtime/notification-channel.ts` following `chat-channel.ts` pattern exactly
-- Subscribe to `merchant_notifications` table filtered by `account_id`
-- Initial load: fetch unread count + recent notifications via standard query
-- Real-time: listen for INSERTs to update badge count
+**Usage in booking flow:**
 
-**What NOT to do:**
+- Guest selects check-in/check-out range
+- Disabled dates from owner's availability calendar
+- Price display per night on hover (custom day cell renderer)
+- Minimum stay enforcement
 
-- Do NOT implement polling. Supabase Realtime is already working in production for chat. Same pattern, different table.
-- Do NOT add Firebase Cloud Messaging (FCM) or push notifications. This is in-app only (bell icon). Browser push notifications are a separate future concern.
-- Do NOT add a WebSocket library. Supabase JS client handles WebSocket connection internally.
+**Usage in owner dashboard:**
 
-**Confidence:** HIGH -- exact pattern already implemented in `chat-channel.ts`.
+- Calendar view of bookings (color-coded by status)
+- Block dates (maintenance, personal use)
+- Seasonal pricing date ranges
+
+**Confidence:** HIGH -- version verified via [npm](https://www.npmjs.com/package/react-day-picker), date-fns compatibility researched via [GitHub issue #2465](https://github.com/gpbl/react-day-picker/issues/2465) and [daypicker.dev](https://daypicker.dev/).
 
 ---
 
-### 4. Kanban Board UI
+### 3. Analytics Charts -- Recharts
 
-**Recommendation: @dnd-kit (already installed)** -- extend existing pattern for multi-column kanban.
+**For owner dashboard: revenue charts, booking trends, occupancy rates.**
 
-| Technology           | Version                     | Purpose                 | Why                                                       |
-| -------------------- | --------------------------- | ----------------------- | --------------------------------------------------------- |
-| `@dnd-kit/core`      | ^6.3.1 (already installed)  | Drag and drop core      | Already in package.json, used in site-builder SectionList |
-| `@dnd-kit/sortable`  | ^10.0.0 (already installed) | Sortable containers     | Already in package.json                                   |
-| `@dnd-kit/utilities` | ^3.2.2 (already installed)  | CSS transform utilities | Already in package.json                                   |
+| Package    | Version | Purpose       | Why                                                                                                                             |
+| ---------- | ------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `recharts` | ^3.6.0  | Chart library | Already used in backoffice for analytics. Proven patterns exist. React-native, declarative API, supports responsive containers. |
 
-**Current vs needed:**
+**What to build:**
 
-The existing SectionList uses `verticalListSortingStrategy` for reordering within a single list. The kanban board needs:
-
-- Multiple columns (statuses: New, Reviewing, In Progress, Resolved, Won't Fix)
-- Drag between columns (cross-container sorting)
-- Drag within columns (priority reordering)
-
-This is a standard @dnd-kit pattern. The library supports multi-container sorting out of the box with `DndContext` + multiple `SortableContext` containers.
-
-**What to do:**
-
-- Build kanban using the existing @dnd-kit packages -- no new installs
-- Use `rectSortingStrategy` instead of `verticalListSortingStrategy` for column items
-- Add `DragOverlay` for smooth cross-column drag visual feedback
-- Follow the [dnd-kit kanban example pattern](https://docs.dndkit.com/)
+- Revenue over time (AreaChart)
+- Booking sources (PieChart: direct vs OTA vs referral)
+- Occupancy rate (BarChart by month)
+- Service revenue breakdown (BarChart by category)
 
 **Alternatives considered:**
 
-| Library                                           | Why NOT                                                                              |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| `@hello-pangea/dnd`                               | Would add a duplicate DnD library. @dnd-kit is already installed and sufficient.     |
-| `@atlaskit/pragmatic-drag-and-drop`               | Smaller bundle but worse DX, limited docs, tied to Atlaskit. @dnd-kit already works. |
-| Build from scratch with HTML5 DnD API             | Reinventing the wheel when @dnd-kit is already a dependency.                         |
-| Third-party kanban component (react-kanban, etc.) | Over-opinionated, hard to customize to match existing Radix/Tailwind design system.  |
+| Library                    | Why NOT                                                                                               |
+| -------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Chart.js + react-chartjs-2 | Would introduce a second charting library. Recharts is already in the monorepo.                       |
+| Nivo                       | More beautiful defaults but significantly larger bundle. Recharts is sufficient for dashboard charts. |
+| Tremor                     | Opinionated UI library, doesn't match existing Tailwind/Radix design system.                          |
 
-**Confidence:** HIGH -- library already installed and working in codebase.
-
----
-
-### 5. Database Patterns
-
-**Recommendation: Standard PostgreSQL with existing Supabase patterns** -- no new database technology.
-
-| Technology            | Version                     | Purpose                          | Why                                                          |
-| --------------------- | --------------------------- | -------------------------------- | ------------------------------------------------------------ |
-| PostgreSQL (Supabase) | Already configured          | Feedback + notifications storage | All other data already here. RLS for multi-tenant isolation. |
-| Prisma                | ^5.22.0 (already installed) | ORM for backoffice queries       | Already used for all backoffice data access                  |
-
-**New tables needed:**
-
-```sql
--- Core feedback table
-merchant_feedback (
-  id UUID PK,
-  account_id UUID FK NOT NULL,       -- multi-tenant isolation
-  merchant_id UUID FK NOT NULL,       -- who submitted
-  location_id UUID FK,                -- optional, which location
-
-  -- Merchant input
-  type TEXT CHECK (type IN ('bug','feature_request','improvement','question','praise')) NOT NULL,
-  subject TEXT NOT NULL,
-  description TEXT NOT NULL,
-  screenshot_url TEXT,                -- Supabase Storage URL
-  source_language TEXT,               -- detected language code
-
-  -- AI processing
-  translated_subject TEXT,            -- English translation
-  translated_description TEXT,        -- English translation
-  ai_summary TEXT,                    -- 1-sentence summary
-  ai_category TEXT,                   -- AI-classified category
-  ai_priority INTEGER CHECK (ai_priority BETWEEN 1 AND 5),
-  ai_sentiment TEXT CHECK (ai_sentiment IN ('positive','neutral','negative')),
-  ai_duplicate_of UUID FK REFERENCES merchant_feedback(id),
-  ai_processed_at TIMESTAMPTZ,
-
-  -- Internal management (GUDBRO team kanban)
-  status TEXT CHECK (status IN ('new','reviewing','in_progress','resolved','wont_fix')) DEFAULT 'new',
-  assigned_to TEXT,                   -- GUDBRO team member
-  internal_notes TEXT,                -- GUDBRO team notes
-  resolution TEXT,                    -- How it was resolved
-
-  -- Timestamps
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  reviewed_at TIMESTAMPTZ,
-  resolved_at TIMESTAMPTZ
-);
-
--- Notification table for merchant bell
-merchant_notifications (
-  id UUID PK,
-  account_id UUID FK NOT NULL,
-  merchant_id UUID FK NOT NULL,
-
-  type TEXT NOT NULL,                 -- 'feedback_status_change', 'feedback_response', etc.
-  title TEXT NOT NULL,
-  body TEXT,
-  link TEXT,                          -- Deep link within backoffice
-  read BOOLEAN DEFAULT FALSE,
-
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  read_at TIMESTAMPTZ
-);
-
--- Aggregation view for GUDBRO team
-feedback_aggregation (
-  id UUID PK,
-  period TEXT NOT NULL,               -- 'weekly', 'monthly'
-  period_start DATE NOT NULL,
-
-  total_count INTEGER,
-  by_type JSONB,                      -- {"bug": 5, "feature_request": 12, ...}
-  by_category JSONB,
-  by_sentiment JSONB,
-  top_requests JSONB,                 -- [{subject, count, feedback_ids}]
-  ai_generated_summary TEXT,          -- AI-written trend summary
-
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-```
-
-**RLS policies:**
-
-- Merchants can INSERT feedback and SELECT their own feedback + notifications
-- GUDBRO team (service role) can SELECT/UPDATE all feedback
-- Notifications filtered by `account_id = auth.uid()`
-- Enable Realtime on `merchant_notifications` table
-
-**Indexes:**
-
-- `merchant_feedback(account_id, created_at DESC)` -- merchant's feedback list
-- `merchant_feedback(status, ai_priority)` -- kanban board sorting
-- `merchant_notifications(account_id, read, created_at DESC)` -- bell badge query
-
-**What NOT to do:**
-
-- Do NOT add pgvector for embeddings. Overkill for <500 feedbacks/month. GPT-4.1-nano text comparison is sufficient for duplicate detection.
-- Do NOT create a separate database. Everything stays in the existing Supabase instance.
-- Do NOT use ENUM types. Project convention is `TEXT + CHECK` constraints (per CLAUDE.md Section 11).
-
-**Confidence:** HIGH -- follows existing database conventions verified in codebase.
+**Confidence:** HIGH -- version verified via [npm](https://www.npmjs.com/package/recharts), patterns verified in backoffice.
 
 ---
 
-### 6. Aggregation Pipeline
+### 4. Server State Management -- TanStack Query
 
-**Recommendation: Trigger.dev (already installed) for scheduled aggregation**
+**For data fetching, caching, and optimistic updates across all dashboard views.**
 
-| Technology         | Version                    | Purpose                       | Why                                                                                                       |
-| ------------------ | -------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `@trigger.dev/sdk` | ^4.3.2 (already installed) | Scheduled AI aggregation jobs | Already used for `daily-briefing` and `social-content` triggers. Add weekly/monthly feedback aggregation. |
+| Package                 | Version  | Purpose                 | Why                                                                                                                                                           |
+| ----------------------- | -------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@tanstack/react-query` | ^5.90.19 | Server state management | Already proven in backoffice. Essential for: booking list pagination, calendar data caching, optimistic status updates, stale-while-revalidate for analytics. |
 
-**What to do:**
+**Why this is necessary (not optional):**
 
-- Create `trigger/ai/feedback-aggregation.ts` following existing trigger patterns
-- Schedule: weekly (Sunday night) and monthly (1st of month)
-- Job: Query all feedback in period, send to GPT-4.1-mini for trend analysis, write to `feedback_aggregation` table
+- Owner dashboard has 6+ data sources (bookings, services, pricing, analytics, partners, notifications)
+- Manual `useEffect` + `useState` fetching leads to waterfall requests and stale data
+- Optimistic updates critical for booking status changes (owner confirms/rejects)
+- Background refetching keeps calendar availability fresh
 
-**What NOT to do:**
+**What NOT to add:**
 
-- Do NOT use cron jobs or Vercel Cron. Trigger.dev is already the job runner for this project.
-- Do NOT aggregate in real-time. Aggregation is a batch concern -- run it periodically.
+- Do NOT add SWR. TanStack Query is already the project standard and more feature-rich.
+- Do NOT use React Server Components for all data. RSC works for initial page load, but the dashboard needs client-side mutations and real-time cache updates.
 
-**Confidence:** HIGH -- Trigger.dev already configured with AI jobs.
+**Confidence:** HIGH -- version verified via [npm](https://www.npmjs.com/package/@tanstack/react-query).
 
 ---
 
-## Complete New Dependencies Summary
+### 5. Form Validation -- Zod
+
+**For booking form, service configuration, and owner property setup validation.**
+
+| Package | Version | Purpose           | Why                                                                                                                                                                                                  |
+| ------- | ------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `zod`   | ^3.24.0 | Schema validation | Stay on Zod 3.x (not 4.x). Zod 4 was released Jan 2026 but is a major rewrite. The entire monorepo uses Zod 3. Mixing versions creates confusion. Upgrade to Zod 4 as a separate coordinated effort. |
+
+**Why Zod 3.x, not 4.x:**
+
+- Zod 4 changes the import path and some APIs
+- Backoffice uses `zod@^3.23.0` -- stay aligned
+- Zod 3.24.x is actively maintained with security patches
+- Upgrade to 4 when the whole monorepo can move together
+
+**Key schemas needed:**
+
+- `BookingRequestSchema` -- dates, guest count, contact info, special requests
+- `PropertyConfigSchema` -- pricing rules, availability, amenities
+- `ServiceItemSchema` -- name, price, category, automation level
+- `ServiceOrderSchema` -- items, quantities, delivery time, payment method
+
+**Confidence:** HIGH -- Zod 4 release verified via [npm](https://www.npmjs.com/package/zod), decision to stay on 3.x is deliberate.
+
+---
+
+### 6. UI Enhancements -- Icons, Animations, QR
+
+| Package                    | Version  | Purpose            | Why                                                                                                                                                                                    |
+| -------------------------- | -------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@phosphor-icons/react`    | ^2.1.10  | Icon library       | Project standard (CLAUDE.md Section 8.1). 9,000+ icons, duotone weight preferred.                                                                                                      |
+| `framer-motion`            | ^12.27.0 | Animations         | Page transitions, booking flow steps, gallery swipe. Already in coffeeshop. Note: package is being rebranded to "motion" but framer-motion@12 still works and has no breaking changes. |
+| `qrcode.react`             | ^4.2.0   | QR code generation | Room QR codes for in-stay dashboard access. Already in coffeeshop.                                                                                                                     |
+| `class-variance-authority` | ^0.7.1   | Component variants | Button/card variants. Already in backoffice and coffeeshop.                                                                                                                            |
+
+**What NOT to add:**
+
+- Do NOT add Lucide React. Phosphor is the project standard. Legacy Lucide only in existing components.
+- Do NOT add `motion` (the rebrand of framer-motion). Stay on `framer-motion` for consistency with coffeeshop. Migrate all at once later.
+
+**Confidence:** HIGH -- all versions verified, all already in monorepo.
+
+---
+
+### 7. Image Gallery -- Swiper or Embla
+
+**For property photo gallery (swipeable, full-screen capable).**
+
+| Package                | Version | Purpose                 | Why                                                                                                                                                    |
+| ---------------------- | ------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `embla-carousel-react` | ^8.5.1  | Touch-friendly carousel | Lightweight (4KB gzipped), no dependencies, excellent touch/swipe, SSR compatible, accessible. Better than Swiper for a PWA where bundle size matters. |
+
+**Alternatives considered:**
+
+| Library                | Why NOT                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------ |
+| `swiper`               | 60KB+ bundle, CSS-heavy, overkill for a simple photo gallery.                              |
+| `react-slick`          | Deprecated maintenance mode, jQuery-era patterns.                                          |
+| Custom CSS scroll-snap | Works for basic cases but no pinch-zoom, no full-screen mode, no lazy loading integration. |
+| `keen-slider`          | Good but Embla has better React integration and smaller bundle.                            |
+
+**Usage:**
+
+- Property page hero gallery (swipe through photos)
+- Full-screen gallery overlay (pinch to zoom on mobile)
+- Thumbnail navigation strip
+
+**Confidence:** MEDIUM -- version from training data, recommend verifying at install time with `npm info embla-carousel-react version`.
+
+---
+
+### 8. Real-time Communication -- Supabase Realtime
+
+**For booking notifications, service order updates, guest-host messaging.**
+
+| Technology                           | Version                           | Purpose                                        | Why                                                               |
+| ------------------------------------ | --------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------- |
+| Supabase Realtime (Postgres Changes) | Included in @supabase/supabase-js | Booking status updates, service order tracking | Already configured. Subscribe to booking/order status changes.    |
+| Supabase Realtime (Broadcast)        | Included                          | Guest-host chat messages                       | Low-latency pub/sub, RLS-authorized since recent Supabase update. |
+| Supabase Realtime (Presence)         | Included                          | "Host is online" indicator                     | Show guest if host is currently available.                        |
+
+**No new packages needed.** Supabase JS client already supports all three Realtime modes.
+
+**Architecture:**
+
+- Booking confirmations: Postgres Changes on `accom_bookings` table (status column)
+- Service order updates: Postgres Changes on `accom_service_orders` table
+- Guest-host messaging: Broadcast channel scoped to booking code
+- Host online status: Presence channel scoped to property
+
+**Confidence:** HIGH -- Supabase Realtime features verified via [official docs](https://supabase.com/docs/guides/realtime) and [Supabase 2026 review](https://hackceleration.com/supabase-review/).
+
+---
+
+### 9. Email Notifications -- Resend (NEW)
+
+**For booking confirmations, pre-arrival info, and receipt emails.**
+
+| Package  | Version | Purpose             | Why                                                                                                                               |
+| -------- | ------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `resend` | ^4.0.0  | Transactional email | Simple API, generous free tier (100 emails/day = 3000/month), React email templates, works perfectly with Next.js Server Actions. |
+
+**Why Resend over alternatives:**
+
+| Service              | Why NOT                                                                                                          |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| SendGrid             | Complex setup, requires API key + domain verification + sender identity. Overkill for transactional email.       |
+| AWS SES              | Cheapest at scale but requires AWS account, domain verification, sandbox escape. Too much ops for current stage. |
+| Supabase Auth emails | Only for auth flows, cannot customize for booking confirmations.                                                 |
+| Nodemailer + SMTP    | Requires SMTP server management, deliverability issues, no templates.                                            |
+
+**Emails needed:**
+
+1. Booking confirmation (guest)
+2. New booking notification (owner)
+3. Pre-arrival info with QR code (guest, 1 day before check-in)
+4. Service order confirmation (guest)
+5. Check-out receipt (guest)
+
+**Alternative: WhatsApp Business API.** The PRD mentions WhatsApp as primary communication channel. For MVP, use WhatsApp for real-time notifications (booking status, service updates) and Resend for formal confirmations/receipts that guests need in their inbox. WhatsApp API integration is a separate concern -- use simple `wa.me` links initially (already in @shared/payment utils).
+
+**Confidence:** MEDIUM -- Resend version from training data. Verify with `npm info resend version` at install time.
+
+---
+
+## Complete Installation Command
 
 ```bash
-# Nothing new to install.
-# All required packages are already in apps/backoffice/package.json:
-#
-# - @supabase/supabase-js (storage + realtime)
-# - @supabase/ssr (auth)
-# - openai (AI processing)
-# - @dnd-kit/core + @dnd-kit/sortable + @dnd-kit/utilities (kanban DnD)
-# - @trigger.dev/sdk (scheduled aggregation)
-# - @prisma/client (database ORM)
-# - zod (input validation)
-# - @tanstack/react-query (data fetching + cache)
+# From apps/accommodations/frontend/
 
-# Total new npm dependencies: 0
+# Core additions
+pnpm add stripe@^17.0.0 @stripe/stripe-js@^8.6.1 @stripe/react-stripe-js@^5.4.1
+
+# Calendar and charts
+pnpm add react-day-picker@^9.13.0 recharts@^3.6.0
+
+# Server state and validation
+pnpm add @tanstack/react-query@^5.90.19 zod@^3.24.0
+
+# UI enhancements
+pnpm add @phosphor-icons/react@^2.1.10 framer-motion@^12.27.0 qrcode.react@^4.2.0 class-variance-authority@^0.7.1
+
+# Image gallery
+pnpm add embla-carousel-react@^8.5.1
+
+# Email
+pnpm add resend@^4.0.0
+
+# Upgrade existing
+pnpm add date-fns@^4.1.0
+
+# Dev dependencies (QR types already needed)
+pnpm add -D @types/qrcode@^1.5.6
+```
+
+**Total new direct dependencies: 13**
+**Total new dev dependencies: 1**
+
+---
+
+## Alternatives Considered (Full Summary)
+
+| Category   | Recommended                | Alternative                        | Why Not                                                                 |
+| ---------- | -------------------------- | ---------------------------------- | ----------------------------------------------------------------------- |
+| Payments   | Stripe Checkout + Elements | PayPal, Square, Paddle             | SEA market coverage, developer experience, existing backoffice pattern  |
+| Calendar   | react-day-picker           | react-datepicker, react-date-range | Accessibility, Buddhist calendar support (Thailand), active maintenance |
+| Charts     | Recharts                   | Chart.js, Nivo, Tremor             | Already in monorepo, sufficient for dashboard charts                    |
+| State      | TanStack Query             | SWR, Zustand, Redux                | Already project standard, better mutation/cache features                |
+| Validation | Zod 3.x                    | Zod 4.x, Yup, io-ts                | Monorepo consistency, avoid premature migration                         |
+| Icons      | Phosphor                   | Lucide, Heroicons                  | Project standard per CLAUDE.md                                          |
+| Animations | Framer Motion              | React Spring, GSAP                 | Already in monorepo, best React DX                                      |
+| Gallery    | Embla Carousel             | Swiper, keen-slider                | Smallest bundle, best touch support                                     |
+| Email      | Resend                     | SendGrid, SES, Nodemailer          | Simplest setup, React templates, generous free tier                     |
+| Realtime   | Supabase Realtime          | Pusher, Ably, Socket.io            | Already included, RLS authorization, zero additional cost               |
+
+---
+
+## What NOT to Add (and Why)
+
+| Library/Service          | Why NOT                                                                                                                                                  |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stripe Connect           | Commission splits (85/10/5) are manual for MVP. Connect marketplace adds weeks of complexity for a feature needed only at scale.                         |
+| Prisma                   | Accommodations frontend uses Supabase JS client directly (not Prisma). Keep it that way -- Prisma is for backoffice only.                                |
+| NextAuth/Auth.js         | Owners authenticate via Supabase Auth (already configured). Guests authenticate via booking code + JWT (already built). No need for a third auth system. |
+| Mapbox/Google Maps       | Location display is nice-to-have, not MVP. Use a static map image or simple link to Google Maps initially. Add interactive maps in a later phase.        |
+| i18n library (next-intl) | The PRD mentions multi-language but the existing accommodations frontend has no i18n setup. Defer to a dedicated i18n phase. Don't half-implement it.    |
+| Cloudinary/imgix         | Photo optimization can be handled by Next.js Image component + Supabase Storage. No need for a third-party image CDN at this scale.                      |
+| Redis/Upstash            | No caching layer needed. Supabase handles all data, TanStack Query handles client-side caching. Add Redis only if API latency becomes a problem.         |
+
+---
+
+## Environment Variables Needed
+
+```env
+# Stripe
+STRIPE_SECRET_KEY=sk_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_...
+
+# Resend (email)
+RESEND_API_KEY=re_...
+
+# Existing (already configured)
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+JWT_SECRET=...
 ```
 
 ---
 
-## Model Pricing Update Needed
+## Version Compatibility Matrix
 
-The existing `openai.ts` has pricing for `gpt-4o-mini`, `gpt-4o`, `gpt-4-turbo`, `gpt-3.5-turbo`. Update to include newer, cheaper models:
-
-```typescript
-// Add to MODEL_PRICING in openai.ts
-'gpt-4.1-mini': { input: 0.40, output: 1.60 },
-'gpt-4.1-nano': { input: 0.10, output: 0.40 },
-'gpt-4.1': { input: 2.00, output: 8.00 },
-```
-
-**Cost-tier strategy for feedback intelligence:**
-
-- **Nano tier** ($0.10/$0.40): Classification, duplicate detection, simple extraction
-- **Mini tier** ($0.40/$1.60): Translation, summarization, trend analysis
-- **Full tier** (not needed): Reserve for complex multi-step reasoning only
-
----
-
-## Integration Points with Existing Stack
-
-| Existing System                                           | Integration                                                                |
-| --------------------------------------------------------- | -------------------------------------------------------------------------- |
-| Supabase Storage (`/api/upload/image`)                    | Add `feedback-screenshots` folder config                                   |
-| OpenAI client (`lib/ai/openai.ts`)                        | Add GPT-4.1-mini/nano pricing, update DEFAULT_MODEL consideration          |
-| Translation service (`lib/ai/translation-service.ts`)     | Reuse translation patterns for feedback text                               |
-| Feedback loop service (`lib/ai/feedback-loop-service.ts`) | **Extend or replace** -- already has matching types (AIFeedback interface) |
-| Realtime hooks (`lib/realtime/chat-channel.ts`)           | Clone pattern for notification subscriptions                               |
-| DnD components (`site-builder/SectionList.tsx`)           | Extend pattern for multi-column kanban                                     |
-| Trigger.dev (`trigger/ai/daily-briefing.ts`)              | Add feedback aggregation scheduled job                                     |
-| TanStack Query (`@tanstack/react-query`)                  | Use for feedback list, kanban state, notification polling fallback         |
-| Zod (`zod`)                                               | Validate feedback submission form input                                    |
-| Radix UI + Tailwind                                       | Build kanban cards, notification dropdown, feedback form                   |
-
----
-
-## Architecture Decision: Existing feedback-loop-service.ts
-
-The codebase already has `lib/ai/feedback-loop-service.ts` with an `AIFeedback` interface that closely matches our needs. It defines:
-
-- Types: `bug`, `feature_request`, `improvement`, `complaint`, `praise`, `question`
-- Categories: `ai_chat`, `ai_actions`, `ai_suggestions`, `ui_ux`, `data_accuracy`, `performance`, `other`
-- Status: `new`, `reviewed`, `in_progress`, `resolved`, `wont_fix`
-- AI fields: `aiSummary`, `aiSentiment`, `aiPriority`
-
-**Recommendation:** Extend this existing service rather than creating from scratch. The types are already defined and match the Merchant Feedback Intelligence requirements. Add:
-
-1. Translation step (not in current service)
-2. Duplicate detection (not in current service)
-3. Screenshot upload integration
-4. Aggregation pipeline
-5. Notification system
+| Package                 | Version  | React 18     | Next.js 14 | TypeScript 5 | Notes                |
+| ----------------------- | -------- | ------------ | ---------- | ------------ | -------------------- |
+| stripe                  | ^17.0.0  | N/A (server) | Yes        | Yes          | Server-side only     |
+| @stripe/stripe-js       | ^8.6.1   | Yes          | Yes        | Yes          | Client singleton     |
+| @stripe/react-stripe-js | ^5.4.1   | Yes (16.8+)  | Yes        | Yes          |                      |
+| react-day-picker        | ^9.13.0  | Yes          | Yes        | Yes          | Bundles own date-fns |
+| recharts                | ^3.6.0   | Yes (18+)    | Yes        | Yes          |                      |
+| @tanstack/react-query   | ^5.90.19 | Yes (18+)    | Yes        | Yes          |                      |
+| zod                     | ^3.24.0  | N/A          | N/A        | Yes (5+)     |                      |
+| @phosphor-icons/react   | ^2.1.10  | Yes          | Yes (RSC)  | Yes          |                      |
+| framer-motion           | ^12.27.0 | Yes          | Yes        | Yes          |                      |
+| qrcode.react            | ^4.2.0   | Yes          | Yes        | Yes          |                      |
+| embla-carousel-react    | ^8.5.1   | Yes          | Yes        | Yes          |                      |
+| resend                  | ^4.0.0   | N/A (server) | Yes        | Yes          |                      |
+| date-fns                | ^4.1.0   | N/A          | N/A        | Yes          | Upgrade from ^3.3.1  |
 
 ---
 
 ## Sources
 
-- [Supabase Storage Documentation](https://supabase.com/docs/guides/storage) -- Storage setup and RLS (HIGH confidence)
-- [Supabase Realtime Documentation](https://supabase.com/docs/guides/realtime) -- Postgres Changes subscriptions (HIGH confidence)
-- [OpenAI API Pricing](https://openai.com/api/pricing/) -- GPT-4.1-mini/nano pricing verified (HIGH confidence)
-- [GPT-4.1 Pricing Calculator](https://pricepertoken.com/pricing-page/model/openai-gpt-4.1) -- Batch vs standard pricing (MEDIUM confidence)
-- [@dnd-kit/core on npm](https://www.npmjs.com/package/@dnd-kit/core) -- v6.3.1 latest stable (HIGH confidence)
-- [dnd-kit Kanban Board Guide](https://docs.dndkit.com/) -- Multi-container sorting patterns (MEDIUM confidence)
-- [Building Real-time Notifications with Supabase and Next.js](https://makerkit.dev/blog/tutorials/real-time-notifications-supabase-nextjs) -- Notification system pattern (MEDIUM confidence)
-- [Complete Guide to File Uploads with Next.js and Supabase](https://supalaunch.com/blog/file-upload-nextjs-supabase) -- Upload patterns (MEDIUM confidence)
-- Existing codebase: `apps/backoffice/app/api/upload/image/route.ts`, `lib/ai/openai.ts`, `lib/ai/feedback-loop-service.ts`, `lib/realtime/chat-channel.ts`, `settings/site-builder/components/SectionList.tsx` (HIGH confidence)
+- [Stripe npm package](https://www.npmjs.com/package/stripe) -- v20.2.0 latest, v17 chosen for compatibility (HIGH confidence)
+- [@stripe/stripe-js npm](https://www.npmjs.com/package/@stripe/stripe-js) -- v8.6.1 verified (HIGH confidence)
+- [@stripe/react-stripe-js npm](https://www.npmjs.com/package/@stripe/react-stripe-js) -- v5.4.1 verified (HIGH confidence)
+- [Stripe Next.js Checkout Quickstart](https://docs.stripe.com/checkout/quickstart?client=next) -- official integration guide (HIGH confidence)
+- [react-day-picker npm](https://www.npmjs.com/package/react-day-picker) -- v9.13.0 verified (HIGH confidence)
+- [react-day-picker date-fns compatibility](https://github.com/gpbl/react-day-picker/issues/2465) -- v9 bundles own date-fns (HIGH confidence)
+- [daypicker.dev](https://daypicker.dev/) -- official docs, Buddhist calendar support (HIGH confidence)
+- [recharts npm](https://www.npmjs.com/package/recharts) -- v3.6.0 verified (HIGH confidence)
+- [@tanstack/react-query npm](https://www.npmjs.com/package/@tanstack/react-query) -- v5.90.19 verified (HIGH confidence)
+- [zod npm](https://www.npmjs.com/package/zod) -- v4.3.5 latest, staying on v3.x for consistency (HIGH confidence)
+- [@phosphor-icons/react npm](https://www.npmjs.com/package/@phosphor-icons/react) -- v2.1.10 verified (HIGH confidence)
+- [framer-motion npm](https://www.npmjs.com/package/framer-motion) -- v12.27.0 verified, rebrand to "motion" noted (HIGH confidence)
+- [Supabase Realtime docs](https://supabase.com/docs/guides/realtime) -- Broadcast/Presence/Postgres Changes (HIGH confidence)
+- [Supabase Realtime Authorization](https://supabase.com/blog/supabase-realtime-broadcast-and-presence-authorization) -- RLS for Broadcast/Presence (HIGH confidence)
+- Existing codebase: `apps/backoffice/package.json`, `apps/coffeeshop/frontend/package.json`, `apps/accommodations/frontend/package.json`, `shared/payment/` (HIGH confidence)

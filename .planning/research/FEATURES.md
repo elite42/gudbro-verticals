@@ -1,303 +1,345 @@
-# Feature Landscape: Merchant Feedback Intelligence System
+# Feature Landscape: Accommodations v2 (Booking, Owner Dashboard, Service Ordering)
 
-**Domain:** AI-powered merchant feedback collection, classification, and internal task management for multi-vertical SaaS
-**Researched:** 2026-01-30
-**Confidence:** HIGH (well-established patterns from Canny, Productboard, Usersnap; existing GUDBRO AI infrastructure)
+**Domain:** Accommodation booking systems, property management dashboards, guest service ordering
+**Researched:** 2026-01-31
+**Confidence:** HIGH (well-established patterns from Airbnb, Booking.com, Cloudbeds, Lodgify, Hostaway; existing GUDBRO In-Stay Dashboard already built)
 
 ## Context
 
-GUDBRO is a multi-vertical SaaS platform serving merchants across 8+ verticals (F&B, accommodations, gym, wellness, tours, laundry, pharmacy, workshops) in multiple countries and languages. Merchants access a backoffice dashboard (52 pages, Next.js 14, Supabase). An AI Co-Manager system already exists with 15 services using OpenAI GPT-4o/4o-mini.
+GUDBRO Accommodations v1 (In-Stay Dashboard) is already built and functional with:
 
-The Feedback Intelligence system must:
+- Guest dashboard accessed via QR + booking code verification
+- WiFi card, stay summary, services carousel, local deals, contact host, checkout info
+- 6 JWT-protected API routes (verify, property, services, deals, useful-numbers, stay data)
+- Database schema: `accom_properties`, `accom_rooms`, `accom_bookings`, `accom_service_categories`, `accom_service_items`, `accom_service_translations`
+- F&B deep-linking integration (migration 080)
+- Quick actions, return guest banner, visa status card
 
-- Let merchants submit feedback/bugs/feature requests from their backoffice Settings page
-- AI processes submissions: translates to English, classifies by type/priority, detects duplicates
-- Similar requests get aggregated into actionable internal tasks
-- GUDBRO team manages aggregated tasks via internal kanban
-- Merchants receive status notifications as their requests progress
+Accommodations v2 adds three major capabilities:
 
-### Existing Infrastructure to Leverage
+1. **Public Property Page** with hybrid booking (instant/inquiry, owner-configured)
+2. **Owner Dashboard** for property, booking, service, and partnership management
+3. **Service Ordering** with configurable automation levels per service
 
-| Asset                            | What It Provides                                                   |
-| -------------------------------- | ------------------------------------------------------------------ |
-| AI Co-Manager (15 services)      | OpenAI integration, gpt-4o/4o-mini clients, service patterns       |
-| Notification system (7 channels) | WhatsApp, Zalo, Telegram, email, push, Kakao, Line                 |
-| Supabase + RLS                   | Multi-tenant database with row-level security patterns             |
-| Backoffice Settings              | 15 settings pages already exist, natural home for feedback         |
-| `feedback-loop-service.ts`       | Existing merchant feedback service (ai_merchant_preferences table) |
-| Audit Log (migration 064)        | Event tracking patterns                                            |
+### Target User: Small SEA Property Owner (1-5 properties)
+
+The target market is NOT large hotel chains. It is small property owners in Southeast Asia (Vietnam, Thailand, Bali) who currently pay 15-25% to OTAs and manage bookings manually via WhatsApp. They need simplicity over feature depth.
 
 ---
 
 ## Table Stakes
 
-Features merchants and the GUDBRO team expect. Missing any of these makes the system feel incomplete or unusable.
+Features that competing products universally offer. Missing any of these makes the product feel incomplete to both guests and property owners.
 
-### 1. Feedback Submission Form (Merchant-Facing)
+### A. Public Property Page (Booking Mode)
 
-| Feature                                                              | Why Expected                                                            | Complexity | Notes                                                                                                |
-| -------------------------------------------------------------------- | ----------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------- |
-| Feedback type selector (Bug, Feature Request, Improvement, Question) | Merchants need to categorize what they're reporting                     | Low        | Dropdown or segmented control. Maps to internal classification.                                      |
-| Free-text description field                                          | Core of any feedback system                                             | Low        | Rich text unnecessary -- plain textarea with character limit (1000 chars).                           |
-| Screenshot attachment                                                | 67% of bug reports are ambiguous without visual context (Usersnap data) | Medium     | Use html2canvas for DOM-based capture + file upload fallback. Max 3 images.                          |
-| Vertical/module selector                                             | GUDBRO has 8+ verticals; team needs to know which module is affected    | Low        | Auto-detect from merchant's active verticals. Pre-populated dropdown.                                |
-| Submission confirmation                                              | Merchants need to know their feedback was received                      | Low        | Toast notification + email confirmation. Sets expectation for response time.                         |
-| Feedback history list                                                | Merchants want to track what they've submitted and current status       | Low        | Simple list view in Settings with status badges (Submitted, In Review, In Progress, Done, Rejected). |
-| Native language input                                                | Merchants are in multiple countries; forcing English loses nuance       | Low        | Accept any language. AI handles translation. No language picker needed.                              |
+| Feature                                                        | Why Expected                                                               | Complexity | Notes                                                                                                                                |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Photo gallery (swipeable, 5-20 images)                         | Airbnb, Booking.com, every listing site has this. No photos = no bookings. | Medium     | Use Supabase Storage. Lazy-loading, touch-optimized carousel. Cover image + gallery.                                                 |
+| Property description with amenities grid                       | Guests evaluate based on description + amenity icons. Universal pattern.   | Low        | Amenities stored as JSONB array (already in schema). Icon grid with Phosphor icons.                                                  |
+| Location display with area name                                | "Where is this?" is the second question after photos. Map embed essential. | Medium     | Leaflet/Mapbox for map. Show area name prominently (e.g., "My Khe Beach, Da Nang"). No Google Maps (cost).                           |
+| Date picker (check-in/out)                                     | Cannot book without selecting dates. Core interaction.                     | Medium     | Use a calendar component. Block unavailable dates. Minimum/maximum stay enforcement.                                                 |
+| Guest count selector                                           | Pricing and availability depend on guest count. Universal.                 | Low        | Simple +/- counter. Max from room capacity.                                                                                          |
+| Price display with breakdown                                   | Airbnb shows per-night + fees + total. Guests expect transparent pricing.  | Medium     | Calculate: nights x rate + cleaning fee + taxes. Show weekly/monthly discounts if applicable.                                        |
+| Booking submission form (name, email, phone, special requests) | Minimum guest info needed for any booking. No account creation required.   | Low        | Keep minimal. Name, email, phone, guest count, special requests. NO forced account creation (key differentiator).                    |
+| Booking confirmation (WhatsApp + email)                        | Guests need proof of booking. WhatsApp is primary in SEA.                  | Medium     | WhatsApp Business API message with booking code. Email as fallback. Booking code format already exists (BK-XXXXXX).                  |
+| House rules section                                            | Guests need to know rules before booking. Airbnb requires acceptance.      | Low        | Text display from `house_rules` column. Consider structured rules (no_smoking, quiet_hours, etc).                                    |
+| Host profile section                                           | Trust signal. Guests want to know who they're staying with.                | Low        | Host name, photo, joined date, response rate. Pull from accounts table.                                                              |
+| Mobile-responsive layout                                       | 80%+ of bookings are mobile in SEA. Must be mobile-first.                  | Medium     | Already PWA. Property page must be single-column, touch-optimized, fast.                                                             |
+| Multi-language property display                                | Tourists from KR, JP, ZH, RU, DE, FR need translated content.              | Medium     | Property descriptions need translation support. Service translations table already exists. Extend pattern to property-level content. |
 
-**Dependency:** Existing backoffice Settings page structure (15 pages already exist).
+**Dependency:** `accom_properties` table already has `images`, `amenities`, `house_rules`, `cover_image_url`. New tables needed: `accom_availability` (date-level availability/pricing), `accom_property_translations`.
 
-### 2. AI Processing Pipeline
+### B. Hybrid Booking System (Instant + Inquiry)
 
-| Feature                                                | Why Expected                                                                | Complexity | Notes                                                                                                                                  |
-| ------------------------------------------------------ | --------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Auto-translation to English                            | GUDBRO team works in English; merchants write in native language            | Low        | Use existing gpt-4o-mini integration. ~$0.0015 per translation. Store both original + translated.                                      |
-| Type classification (bug/feature/improvement/question) | Even if merchant selects a type, AI should verify and re-classify if needed | Low        | Single GPT-4o-mini call with few-shot prompt. Confidence score stored.                                                                 |
-| Priority inference (critical/high/medium/low)          | Team needs automated triage to focus on what matters                        | Medium     | Based on: keyword analysis, merchant tier, frequency of similar reports, affected vertical count.                                      |
-| Duplicate/similar detection                            | Prevents the same issue from being tracked 20 times                         | Medium     | Use text-embedding-3-small ($0.02/1M tokens) to generate embeddings. Cosine similarity threshold (>0.85) to flag potential duplicates. |
-| Aggregation into internal tasks                        | The core intelligence: N merchant submissions become 1 actionable task      | High       | When similarity threshold met, auto-link new submission to existing internal task. Increment vote count. Surface in kanban.            |
+| Feature                                              | Why Expected                                                                                   | Complexity | Notes                                                                                                                                                    |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Owner-configured booking mode (instant/inquiry/both) | Airbnb offers both Instant Book and Request to Book. Small owners often want approval control. | Medium     | New column on `accom_properties`: `booking_mode` ('instant', 'inquiry', 'hybrid'). Hybrid = instant for verified guests, inquiry for others.             |
+| Instant booking: immediate confirmation              | Standard for Booking.com, Airbnb Instant Book. Guest gets confirmed immediately.               | Medium     | On submit: check availability, create booking with status 'confirmed', send confirmation. Need race condition prevention (SELECT FOR UPDATE or similar). |
+| Inquiry booking: owner approval required             | Many small SEA owners want to vet guests first. Airbnb Request to Book works this way.         | Medium     | On submit: create booking with status 'pending', notify owner via WhatsApp. Owner has 24h to approve/decline. Auto-expire if no response.                |
+| Owner notification on new booking/inquiry            | Airbnb notifies hosts immediately. Owners cannot miss bookings.                                | Low        | WhatsApp notification with guest details + approve/decline link. Already have WhatsApp Business API pattern in GUDBRO.                                   |
+| Availability calendar for guests                     | Guests must see which dates are available before attempting to book.                           | Medium     | New `accom_availability` table. One row per room per date. Visual calendar on property page showing available/blocked dates.                             |
+| Payment method selection                             | Owner configures accepted methods. Guest chooses at booking.                                   | Medium     | Owner sets: cash on arrival, bank transfer, Stripe card, crypto. Guest sees only owner-enabled methods. Use existing `shared/payment/` infrastructure.   |
+| Booking code delivery                                | Guests need their code for check-in and in-stay dashboard access.                              | Low        | Already implemented (BK-XXXXXX format). Send via WhatsApp + email on confirmation.                                                                       |
 
-**Dependency:** Existing OpenAI integration (openai-client.ts), text-embedding-3-small model already configured.
+**Dependency:** Existing `accom_bookings` table has `status` field with correct states. Need new `accom_availability` table and `booking_mode` + `accepted_payment_methods` columns on properties.
 
-### 3. Internal Team Kanban (GUDBRO Admin-Facing)
+### C. Owner Dashboard (Property Management)
 
-| Feature                            | Why Expected                                                                                      | Complexity | Notes                                                                            |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------- |
-| Kanban board with columns          | Standard task management UX. Columns: Inbox, Triaging, Planned, In Progress, Done, Rejected       | Medium     | Build with existing Radix UI + Tailwind. Drag-and-drop with @dnd-kit or similar. |
-| Task cards with aggregated info    | Each card shows: title, type, priority, vote count (how many merchants reported this), top quotes | Medium     | Aggregated view is the key differentiator vs a basic helpdesk.                   |
-| Status workflow transitions        | Move tasks through stages with validation (e.g., can't skip from Inbox to Done)                   | Low        | State machine pattern. Simple allowed-transitions map.                           |
-| Filter by type, priority, vertical | Team needs to focus on specific areas                                                             | Low        | Standard filter UI. Combine with search.                                         |
-| Assignment to team member          | Someone owns each task                                                                            | Low        | Simple user selector. Store assignee_id.                                         |
-| Linked submissions view            | Click a task to see all original merchant submissions that fed into it                            | Low        | One-to-many relationship. Show original language + translation side-by-side.     |
-| Manual task creation               | Sometimes the team identifies issues themselves                                                   | Low        | Same form as aggregated tasks but without linked submissions.                    |
+| Feature                                       | Why Expected                                                                                     | Complexity | Notes                                                                                                                               |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Booking list with status filters              | Every PMS shows bookings list. Columns: guest, dates, status, room, amount.                      | Medium     | Filterable table: upcoming, current, past, cancelled. Search by guest name or booking code.                                         |
+| Booking detail view with actions              | Owner needs to see full booking details + take action (confirm, cancel, mark as checked-in/out). | Medium     | Detail page with guest info, dates, payment status, special requests, action buttons. Status transitions with validation.           |
+| Availability calendar management              | Core PMS feature. Owners block dates, set custom pricing per date.                               | High       | Interactive calendar. Click date to toggle available/blocked. Drag to set date ranges. Bulk operations for seasonal pricing.        |
+| Room/unit management (CRUD)                   | Owners manage their rooms/units. Add, edit, deactivate rooms.                                    | Medium     | Already have `accom_rooms` table. Build CRUD interface. Room type, capacity, description, images.                                   |
+| Property settings editor                      | Edit property details, photos, amenities, house rules, WiFi, check-in/out times.                 | Medium     | Form-based editor. Photo upload/reorder. Amenity checkbox grid. Already have schema columns for all of this.                        |
+| Service management (categories + items)       | Owners configure in-stay services. Already have schema. Need UI.                                 | Medium     | CRUD for `accom_service_categories` and `accom_service_items`. Drag to reorder. Price/availability settings.                        |
+| Basic analytics: occupancy rate + revenue     | Every PMS shows at minimum: occupancy %, revenue this month, average daily rate (ADR).           | Medium     | Calculate from bookings data. Show: occupancy rate, total revenue, ADR, bookings count. Monthly trend chart.                        |
+| QR code generation (property + room-specific) | Owners need printable QR codes for rooms (in-stay dashboard access). Already mentioned in PRD.   | Low        | Generate QR for `stays.gudbro.com/stay/BK-XXXXXX` or generic `stays.gudbro.com/checkin/{propertyId}/{roomId}`. Download as PNG/PDF. |
+| Guest communication (WhatsApp deep-link)      | Small SEA owners primarily communicate via WhatsApp. Not a built-in chat, just quick links.      | Low        | "Message Guest" button opens WhatsApp with pre-filled message. Use guest phone from booking.                                        |
 
-**Dependency:** Backoffice auth system (JWT), team/role management.
+**Dependency:** Existing `accom_*` tables. Backoffice auth system. Owner access pattern via RLS (already configured in migration 077).
 
-### 4. Merchant Notifications (Status Updates)
+### D. Service Ordering (Guest-Facing)
 
-| Feature                             | Why Expected                                              | Complexity | Notes                                                                     |
-| ----------------------------------- | --------------------------------------------------------- | ---------- | ------------------------------------------------------------------------- |
-| "Received" confirmation             | Immediate feedback that submission was captured           | Low        | Email + in-app notification. Triggered on submission.                     |
-| "In Progress" notification          | Merchant knows their issue is being worked on             | Low        | Triggered when linked internal task moves to "In Progress".               |
-| "Completed" notification            | Closed loop -- merchant sees their feedback led to action | Low        | Triggered on task completion. Include brief description of what was done. |
-| "Rejected" notification with reason | Honest communication prevents frustration                 | Low        | Triggered on rejection. Requires team to enter reason (mandatory field).  |
-| In-app notification center          | Merchants see all notifications in backoffice             | Medium     | Bell icon in header. Unread count badge. List of recent notifications.    |
+| Feature                             | Why Expected                                                                                                                     | Complexity | Notes                                                                                                                                                                                                     |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Browse service catalog by category  | Guest sees organized services: Breakfast, Minibar, Laundry, Room Service, etc.                                                   | Low        | Already have `accom_service_categories` + `accom_service_items`. ServicesCarousel component exists. Extend to full catalog view.                                                                          |
+| Add items to order with quantity    | Standard e-commerce cart pattern. Guest selects items, adjusts quantity.                                                         | Medium     | In-memory cart (no table needed until submit). Show running total. Item notes field.                                                                                                                      |
+| Specify delivery time               | "Breakfast at 7:30 AM" is a core accommodation service pattern. Hotels and digital concierge apps all offer this.                | Low        | Time picker or preset slots ("ASAP", "7:00 AM", "7:30 AM", "8:00 AM"). Store as `requested_time` on order.                                                                                                |
+| Order submission with confirmation  | Guest submits, gets confirmation, owner gets notified.                                                                           | Medium     | New `accom_service_orders` + `accom_service_order_items` tables. On submit: create order, notify owner via WhatsApp.                                                                                      |
+| Order status tracking               | Guest wants to know: is my breakfast being prepared? Hotels like Duve and IRIS all show order status.                            | Medium     | Status flow: submitted > confirmed > preparing > ready > delivered. Real-time update via polling (SSE overkill for small scale).                                                                          |
+| Configurable automation per service | Owner decides per service: auto-confirm, manual approval, or WhatsApp-only. Three automation levels cover all owner preferences. | Medium     | New column on `accom_service_categories`: `automation_level` ('auto_confirm', 'manual_approval', 'whatsapp_only'). Auto-confirm = instant. Manual = owner approves. WhatsApp-only = redirect to WhatsApp. |
+| Service availability hours          | Breakfast: 6:30-10:00. Laundry: 8-18. Already in schema (`available_from`, `available_until`).                                   | Low        | Show "Available 6:30-10:00 AM" or "Closed" based on current time. Prevent ordering outside hours.                                                                                                         |
+| Cross-vertical deep-links           | Guest orders from linked F&B PWA, books tour from partner. GUDBRO network strength.                                              | Low        | Already have F&B deep-link (migration 080). Extend pattern for tours, wellness. URL parameters pass guest context.                                                                                        |
 
-**Dependency:** Existing notification system (7 channels, migration 059). Leverage for email/push. In-app needs new UI.
-
-### 5. Basic Analytics
-
-| Feature                             | Why Expected                                                        | Complexity | Notes                                                      |
-| ----------------------------------- | ------------------------------------------------------------------- | ---------- | ---------------------------------------------------------- |
-| Submission volume over time         | Team needs to track whether feedback volume is growing or declining | Low        | Simple line chart. Group by week/month.                    |
-| Breakdown by type and vertical      | Identify which verticals generate most feedback, and what type      | Low        | Bar chart / pie chart. Standard analytics pattern.         |
-| Average response time               | SLA tracking -- how fast does the team respond?                     | Low        | Calculate time between submission and first status change. |
-| Top requested features (vote count) | Product prioritization signal                                       | Low        | Ranked list of internal tasks by linked submission count.  |
-
-**Dependency:** Existing analytics infrastructure (migrations 017, 060, 061).
+**Dependency:** Existing `accom_service_categories` + `accom_service_items` tables. New tables: `accom_service_orders`, `accom_service_order_items`.
 
 ---
 
 ## Differentiators
 
-Features that make this system smarter than a generic helpdesk or basic feedback form. Not expected in MVP, but these are what make the "Intelligence" part real.
+Features that set GUDBRO apart from generic PMS/booking engines. Not universally expected, but high value for the target market.
 
-### 6. Smart Aggregation Engine
+### 1. Zero-Commission Direct Booking
 
-| Feature                                         | Value Proposition                                                                        | Complexity | Notes                                                                                                                        |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Semantic clustering (not just keyword matching) | Groups "the menu is slow" and "loading takes forever on the food page" as the same issue | High       | Embedding-based clustering. Run nightly batch job to re-cluster. Use DBSCAN or hierarchical clustering on embedding vectors. |
-| Auto-generated task summaries                   | AI reads 15 merchant submissions and produces one clear summary for the team             | Medium     | GPT-4o call with all linked submissions as context. Regenerate when new submissions link.                                    |
-| Trend detection alerts                          | "Bug reports about payments increased 300% this week"                                    | Medium     | Compare current week vs rolling 4-week average. Alert on significant deviations.                                             |
-| Cross-vertical pattern recognition              | "Merchants across 4 different verticals are all asking for dark mode"                    | Medium     | Cluster without vertical filter. Surface cross-cutting themes.                                                               |
+| Feature                     | Value Proposition                                                                                                       | Complexity | Notes                                                                                                                      |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------- |
+| No booking fee for owners   | Airbnb charges 14-16%, Booking.com 15-25%. GUDBRO charges 0% on direct bookings. This is THE value prop.                | N/A        | Business model, not a feature. But the property page must communicate this clearly: "Book direct. No commission."          |
+| Shareable booking link + QR | Owner shares `stays.gudbro.com/beach-view-apartment` on social media, business cards, flyers. No app download required. | Low        | Already in URL structure. Generate clean, shareable links. OG meta tags for social media preview (photo, price, location). |
 
-### 7. Merchant Sentiment Analysis
+### 2. In-Stay Revenue Ecosystem
 
-| Feature                          | Value Proposition                                                      | Complexity | Notes                                                                      |
-| -------------------------------- | ---------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------- |
-| Sentiment scoring per submission | Detect frustrated merchants before they churn                          | Low        | Single GPT-4o-mini call. Store sentiment score (-1 to 1).                  |
-| Merchant health score            | Aggregate sentiment over time per merchant                             | Medium     | Rolling average of last N submissions. Flag declining trends.              |
-| Urgency escalation               | Auto-escalate if sentiment is very negative AND merchant is high-value | Medium     | Combine sentiment + merchant tier + submission type. Push to top of Inbox. |
+| Feature                        | Value Proposition                                                                                                                                 | Complexity | Notes                                                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Local partnership management   | Owner adds local tour operators, restaurants, spas with discount + commission. Guest gets deals, owner earns. No competitor offers this natively. | High       | Already designed in PRD (Type 2 partnerships). New tables: `accom_partnerships`, `accom_referrals`. Owner CRUD in dashboard. |
+| Commission tracking dashboard  | Owner sees: "$42 earned from referrals this month." Tangible value beyond booking revenue.                                                        | Medium     | Aggregate from referrals table. Monthly summary. Per-partner breakdown.                                                      |
+| GUDBRO Network cross-promotion | Properties refer to each other. "Heading to Hoi An? Stay at Mario's City Loft." No competitor does cross-property referrals.                      | Medium     | Use existing GUDBRO partnership infrastructure. Link accommodation-to-accommodation with commission model.                   |
 
-### 8. Public Roadmap / Changelog
+### 3. Visa Compliance Tools (SEA-Specific)
 
-| Feature                     | Value Proposition                                          | Complexity | Notes                                                                                |
-| --------------------------- | ---------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------ |
-| Public roadmap view         | Merchants see what's planned, what's in progress           | Medium     | Subset of kanban visible to merchants. Opt-in per task (team decides what's public). |
-| Feature voting from roadmap | Merchants upvote features they want most                   | Low        | Simple vote button. Feeds into prioritization.                                       |
-| Changelog/release notes     | "We shipped what you asked for" -- closes the loop visibly | Low        | Markdown-based release notes. Link to completed tasks.                               |
+| Feature                        | Value Proposition                                                                                                                   | Complexity | Notes                                                                                                                  |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Visa expiry tracker for guests | In-stay dashboard shows days remaining on visa with progress bar. Push notifications at 14/7/3 days. Vietnam-specific but valuable. | Medium     | Already have VisaStatusCard component. Needs guest_country (migration 079 adds this). Visa rules database per country. |
+| NA17 pre-fill assistance       | Vietnamese law requires registering foreign guests with police within 12-24h. Digital data collection streamlines this.             | Medium     | Export guest data (passport, visa type, dates) in format suitable for NA17 registration. Owner compliance dashboard.   |
+| Visa service partner referrals | Connect guests needing extensions to trusted visa agents. Owner earns commission.                                                   | Low        | Subset of local partnerships with `partner_type = 'visa_services'`. Already in PRD data model.                         |
 
-### 9. Smart Response Templates
+### 4. Digital Laundry Form (Hospitality Innovation)
 
-| Feature                                         | Value Proposition                               | Complexity | Notes                                                                                             |
-| ----------------------------------------------- | ----------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------- |
-| AI-generated response drafts                    | Team reviews and sends, not writes from scratch | Medium     | GPT-4o generates response based on task context + merchant language. Team edits before sending.   |
-| Auto-translate responses to merchant's language | Response arrives in merchant's native language  | Low        | Detect original submission language. Translate response with gpt-4o-mini.                         |
-| Canned responses for common scenarios           | Speed up team workflow for repetitive replies   | Low        | Template library: "Known issue, fix coming", "Feature planned for Q2", "Not planned, here's why". |
+| Feature                             | Value Proposition                                                                                                    | Complexity | Notes                                                                                                                       |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Visual garment selection with icons | Eliminates paper laundry forms. Multi-language. Pre-filled guest data. No competitor does this for small properties. | Medium     | Already fully designed in PRD (Section 7.2.1). Garment type grid with quantities. Service type per garment. Express toggle. |
+| Laundry status tracking             | Guest sees: submitted > received > washing > ready > delivered. Replaces "ask at reception."                         | Low        | Simple status column on laundry order. Owner updates via dashboard or WhatsApp notification flow.                           |
 
-### 10. Integration with Development Workflow
+### 5. Intelligent Owner Onboarding
 
-| Feature                                | Value Proposition                                    | Complexity | Notes                                                                              |
-| -------------------------------------- | ---------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
-| GitHub Issue creation from kanban task | Seamless handoff to dev team                         | Medium     | Use GitHub API (gh CLI already in workflow). Create issue with aggregated context. |
-| Status sync from GitHub                | When GitHub issue closes, kanban task auto-completes | Medium     | GitHub webhook or polling. Update task status + trigger merchant notifications.    |
-| Link to specific code changes          | Merchants see "this was fixed in version X"          | Low        | Store commit/PR reference on completed tasks.                                      |
+| Feature                        | Value Proposition                                                                                                                                                        | Complexity | Notes                                                                                                                                             |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Template-based property setup  | Pre-filled service catalogs by property type. "Hostel" template has: dorm bed, locker, laundry, common kitchen. "Villa" template has: pool, breakfast, airport transfer. | Medium     | JSON template library. Owner selects property type, gets pre-populated services/amenities they can customize. Reduces setup from 30 min to 5 min. |
+| Step-by-step onboarding wizard | Guided flow: create account > add property > upload photos > set pricing > configure services > generate QR.                                                             | Medium     | Multi-step form with progress indicator. Already designed in VERTICAL-CONTEXT.md (Steps 1-7). Save progress between steps.                        |
 
 ---
 
 ## Anti-Features
 
-Features to explicitly NOT build. Common mistakes in feedback systems that add complexity without proportional value.
+Features to explicitly NOT build. Common mistakes that add complexity without proportional value for small SEA property owners.
 
-| Anti-Feature                                        | Why Avoid                                                                                                                                     | What to Do Instead                                                                                            |
-| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Public voting board (Canny-style)                   | Creates entitlement ("500 votes means you must build it"). GUDBRO is early stage -- product direction should be team-driven, not vote-driven. | Internal vote counting from submissions. Team sees demand signals but retains decision authority.             |
-| Real-time chat with merchants about their feedback  | Turns feedback system into a support desk. Different problem, different UX.                                                                   | Status notifications only. Use existing WhatsApp/chat channels for conversations.                             |
-| SLA enforcement / automatic escalation timers       | Over-engineering for a small team. Creates false urgency.                                                                                     | Simple "days since submitted" counter visible on kanban cards. Human judgment for urgency.                    |
-| Merchant-to-merchant discussion threads             | Creates community management burden. Not GUDBRO's value prop.                                                                                 | One-way submission. If merchants want to discuss, they have their own channels.                               |
-| Custom feedback form builder (drag-and-drop fields) | Unnecessary flexibility. One good form beats 50 mediocre ones.                                                                                | Fixed form with type, description, screenshot, vertical. That's it.                                           |
-| NPS/CSAT surveys within the feedback system         | Different methodology, different timing, different analysis. Mixing them dilutes both.                                                        | Build NPS/CSAT as a separate feature if needed. Feedback Intelligence is for qualitative input.               |
-| Multi-step feedback wizards                         | Friction kills submission rates. Every extra step loses ~20% of submissions.                                                                  | Single-page form. Submit in under 60 seconds.                                                                 |
-| Audio/video feedback recording                      | Complexity explosion (storage, transcription, playback). Screenshots + text cover 95% of cases.                                               | Screenshot capture + text description. Add video later only if text+screenshot proves insufficient.           |
-| Automated response without human review             | Erodes trust. Merchants can tell when a bot responds.                                                                                         | AI drafts responses, human reviews and sends. Always.                                                         |
-| Full-text search across all submissions             | Over-engineering for v1 volume. Embedding-based similarity is better for finding related items.                                               | Use embedding similarity for "find related". Add full-text search only when volume exceeds ~1000 submissions. |
+| Anti-Feature                                         | Why Avoid                                                                                                                                                           | What to Do Instead                                                                                                                                                                  |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Channel manager (OTA sync)                           | Extremely complex to build (Airbnb, Booking.com, Expedia APIs all different). Hostaway and Cloudbeds charge $20-100/month for this. Not MVP scope.                  | Manual booking entry. Owner can add bookings from any source with `booking_source` field (already in schema: direct, booking_com, airbnb, etc). iCal export for one-way sync later. |
+| Built-in messaging/chat system                       | Turns GUDBRO into a support desk. Small SEA owners already use WhatsApp for everything. Building a chat duplicates their workflow.                                  | WhatsApp deep-links everywhere. Pre-filled messages with context (booking code, guest name). Owner's WhatsApp number prominent on all pages.                                        |
+| Review/rating system (v2)                            | Requires critical mass of bookings to be meaningful. Fake review prevention is a whole product. Too early.                                                          | "Leave a review on Google" link. Collect testimonials manually. Build reviews system only after 500+ bookings on platform.                                                          |
+| Dynamic pricing algorithm                            | Requires market data, competitor pricing, demand forecasting. Airbnb's Price Tips took years to build. Overkill for 1-5 property owners.                            | Manual seasonal pricing: owner sets price overrides per date range. Weekly/monthly discounts. That is sufficient for the target market.                                             |
+| Calendar sync (iCal import)                          | iCal sync has 1-3 hour delays. Causes double bookings (25% of first-year Booking.com partners experience this). API sync is reliable but requires OTA partnerships. | Owners manually block dates that are booked elsewhere. Clear UI to quickly block/unblock date ranges. Double-booking prevention within GUDBRO (SELECT FOR UPDATE on availability).  |
+| Multi-currency dynamic conversion                    | Exchange rates change constantly. Showing wrong prices creates disputes. Financial liability.                                                                       | Owner sets one currency per property (already in schema). Guest sees prices in owner's currency. Add display-only conversion note: "~$45 USD" without liability.                    |
+| Guest account system                                 | Forces guests to create an account before booking. Every extra step loses ~20% of conversions. Airbnb requires it but GUDBRO is competing on simplicity.            | Book without account. Guest identifies with name + email + phone. For return guests, booking code + last name is sufficient (already implemented via `verify_booking_access()`).    |
+| Online payment processing (Stripe, crypto) in v2 MVP | Payment integration adds PCI compliance, refund handling, dispute resolution complexity. Cash and bank transfer dominate SEA small accommodation payments.          | Phase as v2.1 post-launch. v2 MVP supports: cash on arrival, bank transfer details displayed, owner WhatsApp for payment arrangement. Add Stripe/crypto as post-MVP enhancement.    |
+| Multi-property portfolio page                        | Extra routing complexity. Most owners in target market have 1-2 properties.                                                                                         | Each property has its own standalone page. If owner has multiple, they share individual links. Portfolio page is a v3 feature when owners have 5+ properties.                       |
+| Automated guest check-in (keyless entry)             | Requires hardware integration (smart locks, keypads). Different technology domain entirely.                                                                         | Digital check-in info: send check-in instructions + access codes via WhatsApp before arrival. Property's QR code in room handles the rest.                                          |
 
 ---
 
 ## Feature Dependencies
 
 ```
-Merchant Submission Form (Settings page)
+EXISTING (v1 - Already Built)
     |
-    +---> AI Processing Pipeline
-    |         |
-    |         +---> Translation (gpt-4o-mini)
-    |         |
-    |         +---> Classification (gpt-4o-mini)
-    |         |
-    |         +---> Embedding Generation (text-embedding-3-small)
-    |         |         |
-    |         |         +---> Duplicate Detection (cosine similarity)
-    |         |                   |
-    |         |                   +---> Aggregation into Internal Tasks
-    |         |
-    |         +---> Priority Inference
+    +---> In-Stay Dashboard (QR + booking code access)
+    |       +---> WiFi Card, Stay Summary, Services Carousel
+    |       +---> Local Deals, Contact Host, Checkout Info
+    |       +---> Visa Status Card, Quick Actions, Return Banner
+    |       +---> F&B Deep-Link Integration
     |
-    +---> Merchant Feedback History (read own submissions)
+    +---> Database Schema (migrations 077-081)
+    |       +---> accom_properties, accom_rooms, accom_bookings
+    |       +---> accom_service_categories, accom_service_items
+    |       +---> accom_service_translations
     |
-    +---> Merchant Notifications
-              |
-              +---> "Received" (on submit)
-              +---> "In Progress" (on task status change)
-              +---> "Completed" / "Rejected" (on resolution)
+    +---> 6 API Routes (verify, property, services, deals, useful-numbers, stay)
 
-Internal Team Kanban
+NEW (v2 - To Build)
     |
-    +---> Task Cards (aggregated from submissions)
+    +---> A. Public Property Page
+    |       +---> Photo gallery, amenities, description
+    |       +---> Date picker + availability calendar
+    |       +---> Price calculator with breakdown
+    |       +---> Guest booking form
+    |       |
+    |       +---> B. Hybrid Booking System
+    |               +---> Instant booking path (auto-confirm)
+    |               +---> Inquiry booking path (owner approval)
+    |               +---> Owner notification (WhatsApp)
+    |               +---> Booking confirmation (WhatsApp + email)
+    |               +---> NEW TABLE: accom_availability
     |
-    +---> Status Workflow (Inbox -> Triaging -> Planned -> In Progress -> Done/Rejected)
+    +---> C. Owner Dashboard
+    |       +---> Booking management (list + detail + actions)
+    |       +---> Availability calendar editor
+    |       +---> Property settings editor (photos, amenities, pricing)
+    |       +---> Room/unit CRUD
+    |       +---> Service management (categories + items CRUD)
+    |       +---> QR code generation
+    |       +---> Basic analytics (occupancy, revenue, ADR)
+    |       +---> DEPENDS ON: Backoffice auth system
     |
-    +---> Assignment
+    +---> D. Service Ordering
+    |       +---> Service catalog (full view, extends ServicesCarousel)
+    |       +---> Cart + order submission
+    |       +---> Order status tracking
+    |       +---> Automation level per service
+    |       +---> Owner order management
+    |       +---> NEW TABLES: accom_service_orders, accom_service_order_items
     |
-    +---> Linked Submissions View
+    +---> [LATER] Local Partnerships Management
+    |       +---> Partner CRUD in owner dashboard
+    |       +---> Referral tracking + commission reporting
+    |       +---> NEW TABLES: accom_partnerships, accom_referrals
     |
-    +---> Basic Analytics Dashboard
-
-[LATER] Smart Aggregation Engine
-    |
-    +---> Semantic Clustering (nightly batch)
-    +---> Auto-generated Summaries
-    +---> Trend Detection
-
-[LATER] GitHub Integration
-    |
-    +---> Issue Creation from Task
-    +---> Status Sync Back
+    +---> [LATER] Payment Integration
+            +---> Stripe card payments
+            +---> Crypto payments
+            +---> Configurable per property
 ```
 
 ---
 
-## Multi-Language Handling (Critical for GUDBRO)
+## Competitor Feature Matrix
 
-GUDBRO merchants operate across multiple countries. Language handling is not a "nice to have" -- it's foundational.
+Features mapped to what competitors offer and what GUDBRO needs.
 
-| Aspect                         | Approach                                                                                               | Confidence                                                                                  |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| **Input language**             | Accept any language. No language picker. Detect automatically.                                         | HIGH -- GPT-4o-mini handles language detection natively                                     |
-| **Translation**                | Translate every submission to English immediately on receipt. Store both original and English version. | HIGH -- Already using gpt-4o-mini for translations in the platform                          |
-| **Classification**             | Classify on the English translation (more accurate than non-English classification)                    | HIGH -- English classification outperforms multilingual (research confirms performance gap) |
-| **Embedding generation**       | Generate embeddings on English text for consistency in similarity matching                             | HIGH -- text-embedding-3-small performs best on English                                     |
-| **Team interface**             | All internal kanban shows English translations. Toggle to see original language.                       | MEDIUM -- UX decision, straightforward implementation                                       |
-| **Merchant notifications**     | Translate team responses back to merchant's detected language before sending                           | HIGH -- Same gpt-4o-mini pipeline. Store language preference on merchant profile.           |
-| **Edge case: mixed languages** | Some merchants mix languages (e.g., Italian + English). Translate the full text regardless.            | MEDIUM -- GPT handles mixed input well but results vary                                     |
-
-**Cost estimate for translation pipeline:**
-
-- ~$0.0015 per submission (translate) + ~$0.001 (classify) + ~$0.00002 (embed) = ~$0.003 per submission
-- At 100 submissions/month: ~$0.30/month. At 1000/month: ~$3.00/month. Negligible.
+| Feature                 | Airbnb                 | Booking.com          | Cloudbeds          | Lodgify          | GUDBRO v2                          |
+| ----------------------- | ---------------------- | -------------------- | ------------------ | ---------------- | ---------------------------------- |
+| Photo gallery           | Yes                    | Yes                  | Yes                | Yes              | **Must have**                      |
+| Instant booking         | Yes (toggle)           | Yes (default)        | Yes                | Yes              | **Must have (hybrid)**             |
+| Request to book         | Yes (toggle)           | Yes (new 2026)       | N/A                | N/A              | **Must have**                      |
+| Availability calendar   | Yes                    | Yes                  | Yes                | Yes              | **Must have**                      |
+| Seasonal pricing        | Yes (smart)            | Yes (rate plans)     | Yes (revenue mgmt) | Yes (manual)     | **Manual overrides**               |
+| Guest messaging         | Built-in chat          | Built-in chat        | Built-in           | Built-in         | **WhatsApp deep-links**            |
+| Review system           | Yes (required)         | Yes (required)       | Yes                | Yes              | **Deferred**                       |
+| Channel manager         | N/A (is the channel)   | N/A (is the channel) | Yes (300+)         | Yes (major OTAs) | **Not building**                   |
+| In-stay services        | New in 2025 (Services) | Limited              | Yes (POS)          | No               | **Core differentiator**            |
+| Local partnerships      | No                     | No                   | No                 | No               | **Unique to GUDBRO**               |
+| Commission on bookings  | 14-16%                 | 15-25%               | $0 (SaaS fee)      | $0 (SaaS fee)    | **0%**                             |
+| Digital laundry form    | No                     | No                   | No                 | No               | **Unique to GUDBRO**               |
+| Visa compliance tools   | No                     | No                   | No                 | No               | **Unique to GUDBRO**               |
+| No guest account needed | No (required)          | No (required)        | N/A                | Configurable     | **Yes (differentiator)**           |
+| Multi-language          | Yes (100+)             | Yes (40+)            | Yes                | Yes (limited)    | **8 languages (tourism priority)** |
 
 ---
 
 ## MVP Recommendation
 
-### Phase 1: Foundation (Week 1-2)
+### Phase 1: Public Property Page + Booking (Priority)
 
-Build the submission pipeline and basic internal view:
+Build the guest-facing booking flow -- this is the revenue-generating feature:
 
-1. **Feedback submission form** in Settings -- type, description, screenshot upload, vertical selector
-2. **AI processing on submit** -- translate, classify, generate embedding, store all
-3. **Basic internal list view** -- not full kanban yet, just a filterable table of all submissions
-4. **"Received" email notification** to merchant
-5. **Database tables** -- `feedback_submissions`, `feedback_internal_tasks`, `feedback_task_links`
+1. **Property page** -- photo gallery, description, amenities, location, host info, house rules
+2. **Availability display** -- calendar showing available dates (new `accom_availability` table)
+3. **Booking form** -- date selection, guest info, price breakdown, submit
+4. **Hybrid booking flow** -- owner chooses instant or inquiry mode per property
+5. **Booking confirmation** -- WhatsApp + email with booking code
+6. **Owner notification** -- WhatsApp alert on new booking/inquiry with approve/decline actions
 
-### Phase 2: Intelligence (Week 2-3)
+### Phase 2: Owner Dashboard (Management)
 
-Add the smart parts:
+Build the owner tools to manage what Phase 1 generates:
 
-6. **Duplicate detection** -- on each new submission, find similar existing tasks (cosine similarity > 0.85)
-7. **Aggregation** -- link similar submissions to existing tasks, increment vote count
-8. **Kanban board** -- full drag-and-drop board for internal team
-9. **Status notifications** -- "In Progress", "Completed", "Rejected" notifications to merchants
-10. **Assignment** -- assign tasks to team members
+7. **Booking management** -- list, detail, status transitions (confirm, check-in, check-out, cancel)
+8. **Availability calendar editor** -- block dates, set price overrides, bulk operations
+9. **Property editor** -- update photos, amenities, description, pricing, booking mode
+10. **Room/unit management** -- CRUD for rooms
+11. **QR code generation** -- for rooms and property
 
-### Phase 3: Insights (Week 3-4)
+### Phase 3: Service Ordering (In-Stay Revenue)
 
-Add analytics and polish:
+Extend the existing in-stay dashboard with ordering capability:
 
-11. **Analytics dashboard** -- volume over time, breakdown by type/vertical, response times
-12. **Merchant feedback history** -- full history view with status tracking in Settings
-13. **In-app notification center** -- bell icon, unread count, notification list
-14. **Priority auto-inference** -- combine frequency + sentiment + merchant tier
+12. **Full service catalog** -- expand ServicesCarousel to full browsable catalog
+13. **Order flow** -- cart, time selection, notes, submit
+14. **Owner order management** -- incoming orders, status updates, notification
+15. **Automation levels** -- auto-confirm, manual, WhatsApp-only per service category
+16. **Service management UI** -- CRUD for categories and items in owner dashboard
 
-### Defer to Post-MVP
+### Phase 4: Analytics + Partnerships (Growth)
 
-- Public roadmap / changelog (needs product maturity first)
-- GitHub integration (team workflow not yet standardized)
-- Semantic clustering batch job (v1 cosine similarity is sufficient)
-- Smart response templates (team should write manually first to understand patterns)
-- Sentiment-based merchant health scores (need submission volume first)
+17. **Basic analytics** -- occupancy rate, revenue, ADR, booking trends
+18. **Local partnerships CRUD** -- owner adds/manages partners with discounts + commissions
+19. **Referral tracking** -- track guest usage of partner deals, commission reporting
+20. **Digital laundry form** -- specialized ordering flow for laundry service
+
+### Defer to Post-MVP (v2.1+)
+
+- **Online payments (Stripe/crypto):** Add after proving booking flow works with cash/transfer
+- **Review system:** Need 500+ bookings first for meaningful reviews
+- **Calendar sync (iCal):** Risk of double bookings outweighs convenience at small scale
+- **Channel manager:** Enterprise feature, not needed for 1-5 property owners
+- **Dynamic pricing:** Manual overrides sufficient for target market
+- **Portfolio page:** Build when owners have 5+ properties
+- **Template-based onboarding:** Nice optimization but not blocking launch
+
+---
+
+## New Database Tables Required
+
+| Table                         | Purpose                                          | Phase   |
+| ----------------------------- | ------------------------------------------------ | ------- |
+| `accom_availability`          | Per-room per-date availability + price overrides | Phase 1 |
+| `accom_property_translations` | Multi-language property descriptions             | Phase 1 |
+| `accom_service_orders`        | Guest service orders with status tracking        | Phase 3 |
+| `accom_service_order_items`   | Line items within service orders                 | Phase 3 |
+| `accom_partnerships`          | Local partner businesses with commission config  | Phase 4 |
+| `accom_referrals`             | Referral tracking per guest per partner          | Phase 4 |
+
+### Schema Changes to Existing Tables
+
+| Table                      | Change                                                                                                                                | Phase   |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `accom_properties`         | Add `booking_mode`, `accepted_payment_methods`, `min_stay`, `max_stay`, `cleaning_fee`, `weekly_discount_pct`, `monthly_discount_pct` | Phase 1 |
+| `accom_rooms`              | Add `base_price`, `images`, `beds` (JSONB), `amenities` (JSONB)                                                                       | Phase 1 |
+| `accom_bookings`           | Add `total_price`, `cleaning_fee`, `nights`, `payment_method`, `payment_status`, `inquiry_expires_at`                                 | Phase 1 |
+| `accom_service_categories` | Add `automation_level` ('auto_confirm', 'manual_approval', 'whatsapp_only')                                                           | Phase 3 |
 
 ---
 
 ## Sources
 
-- [Qualaroo: Customer Feedback Strategies for SaaS 2026](https://qualaroo.com/blog/customer-feedback-saas/)
-- [Zonka: Customer Feedback Tools for SaaS 2026](https://www.zonkafeedback.com/blog/saas-customer-feedback-tools)
-- [Featurebase: Top SaaS Feedback Tools 2026](https://www.featurebase.app/blog/saas-feedback-tools)
-- [Frill: Top 20 Customer Feedback Software 2026](https://frill.co/blog/posts/customer-feedback-software)
-- [Canny: Feature Request Management](https://canny.io/use-cases/feature-request-management)
-- [Featurebase: Canny vs Productboard 2026](https://www.featurebase.app/blog/canny-vs-productboard)
-- [Canny: How SaaS Can Use AI](https://canny.io/blog/how-saas-can-use-ai/)
-- [Zonka: AI Survey Tools 2026](https://www.zonkafeedback.com/blog/ai-survey-tools)
-- [Zonka: AI Insight Tools for Feedback Intelligence](https://www.zonkafeedback.com/blog/ai-insight-tools)
-- [Kanban Tool: Feedback Management with Kanban](https://kanbantool.com/blog/feedback-management-with-kanban)
-- [Usersnap: Feedback Management Tool](https://usersnap.com/l/feedback-management-tool)
-- [Usersnap: Feedback Widget](https://usersnap.com/blog/feedback-widget/)
-- [Usersnap: Visual Feedback with Screenshot](https://help.usersnap.com/docs/feedback-with-a-screenshot)
-- [Userback: SaaS Feedback Portal](https://userback.io/blog/idea-portal-for-saas/)
-- [Userpilot: Notification Types for SaaS](https://userpilot.com/blog/notification-types/)
-- [ProductLed: Customer Feedback Loop for SaaS](https://productled.com/blog/saas-customer-feedback-loop)
-- [Dialzara: AI Tools for Multilingual Feedback](https://dialzara.com/blog/top-7-ai-tools-for-multilingual-feedback)
-- [FeedbackPlus: Open Source Screenshot Library](https://github.com/ColonelParrot/feedbackplus)
-- GUDBRO internal: `docs/core/AI-SYSTEM.md` (existing AI infrastructure)
-- GUDBRO internal: `docs/roadmaps/MULTI-VERTICAL-STRATEGY.md` (platform context)
+- [Airbnb Host Dashboard & Booking Management](https://www.airbnb.com/resources/hosting-homes/a/exploring-your-hosting-tools-738) - HIGH confidence
+- [Airbnb Instant Book vs Request to Book](https://www.airbnb.com/help/article/523) - HIGH confidence
+- [Airbnb Booking Settings for Hosts](https://www.airbnb.com/help/article/3728) - HIGH confidence
+- [Airbnb Host Tools October 2025 Update](https://www.rentalscaleup.com/airbnb-host-tools-october-2025-update/) - MEDIUM confidence
+- [Airbnb 2025 Summer Release](https://touchstay.com/blog/airbnb-2025-summer-release) - MEDIUM confidence
+- [Booking.com Extranet Guide 2026](https://bnbmanagementlondon.co.uk/booking-com-extranet-guide/) - MEDIUM confidence
+- [Booking.com Extranet Essential Guide 2025](https://holidayhomesindubai.ae/booking-com-extranet-guide/) - MEDIUM confidence
+- [Booking.com Double Booking Prevention](https://partner.booking.com/en-us/help/reservations/manage/all-you-need-know-about-double-bookings) - HIGH confidence
+- [Guesty vs Hostaway vs Lodgify Comparison 2026](https://www.guesty.com/blog/guesty-vs-hostaway-vs-lodgify/) - MEDIUM confidence
+- [Hotel Digital Concierge Complete Guide 2026](https://www.sunver.app/blog/hotel-digital-concierge-the-complete-guide-for-hotels-in-2026) - MEDIUM confidence
+- [10 Best Mobile Ordering & Room Service Software 2026](https://hoteltechreport.com/food-and-beverage/mobile-ordering-room-service) - MEDIUM confidence
+- [Hotel Guest Apps 2025: What Guests Actually Use](https://www.hotelspeak.com/2025/03/hotel-guest-apps-in-2025-what-the-data-says-about-features-guests-actually-use/) - MEDIUM confidence
+- [Hidden Cost of Double Bookings 2025](https://holidayhomesindubai.ae/double-bookings/) - MEDIUM confidence
+- [Lodgify: How to Avoid Double Bookings](https://www.lodgify.com/blog/avoid-double-bookings/) - MEDIUM confidence
+- [OwnerRez: Instant Book vs Request to Book](https://www.ownerrez.com/support/articles/instant-book-vs-request-to-book) - HIGH confidence
+- GUDBRO internal: `apps/accommodations/PRD.md` v2.3
+- GUDBRO internal: `apps/accommodations/VERTICAL-CONTEXT.md`
+- GUDBRO internal: `shared/database/migrations/schema/077-accommodations-schema.sql`
+- GUDBRO internal: `shared/database/migrations/schema/079-accommodations-phase6-extensions.sql`
+- GUDBRO internal: `shared/database/migrations/schema/080-accommodations-fnb-integration.sql`

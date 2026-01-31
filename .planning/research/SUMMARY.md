@@ -1,316 +1,238 @@
 # Project Research Summary
 
-**Project:** GUDBRO Merchant Feedback Intelligence System (v1.3)
-**Domain:** AI-powered feedback collection, classification, and internal task management for multi-vertical SaaS
-**Researched:** 2026-01-30
+**Project:** GUDBRO Accommodations v2 -- Booking, Owner Dashboard, Service Ordering
+**Domain:** Accommodation booking platform with in-stay service management
+**Researched:** 2026-01-31
 **Confidence:** HIGH
 
 ## Executive Summary
 
-The GUDBRO Merchant Feedback Intelligence system is an **integration and composition** task, not a greenfield build. Research reveals that 95% of required capabilities already exist in the backoffice codebase: Supabase Storage for screenshots, OpenAI integration for AI processing, Realtime for notifications, and even a `feedback-loop-service.ts` with matching data structures. The key insight is that this is about extending existing patterns, not adding new technology.
+GUDBRO Accommodations v2 transforms the existing in-stay dashboard into a complete zero-commission booking platform for small Southeast Asian property owners. The research reveals this is a well-trodden domain with established patterns from Airbnb, Booking.com, and property management systems, but GUDBRO's differentiator is clear: eliminate the 15-25% OTA commission while adding in-stay revenue opportunities through service ordering and local partnerships that no competitor offers natively.
 
-The recommended approach is a **three-phase build**: (1) Foundation with database schema, AI processing service, and API routes; (2) Merchant-facing submission flow with notification system; (3) Admin kanban board for GUDBRO team task management. This order follows natural dependencies — merchants provide input before admins can manage it — and leverages existing infrastructure incrementally. The system processes feedback synchronously on submit (translate to English, classify by type/priority, detect duplicates, aggregate similar requests into internal tasks), then notifies merchants asynchronously as tasks progress.
+The recommended approach is incremental extension of the existing codebase rather than greenfield development. The accommodations frontend already has a functional JWT-based in-stay dashboard with 6 API routes, complete database schema, and service catalog infrastructure. The stack additions are modest (13 packages) and proven within the GUDBRO monorepo: Stripe for payments, react-day-picker for calendars, Recharts for analytics, TanStack Query for state management, and Embla for image galleries. The owner dashboard lives in the Backoffice app to leverage existing auth, UI components, and multi-vertical patterns rather than creating a separate deployment.
 
-The primary risk is **over-engineering**. The most common pitfall in feedback systems is building Canny-level public voting boards with complex workflows when GUDBRO needs a lightweight internal kanban with smart aggregation. Research confirms: zero new npm dependencies required, use GPT-4.1-mini/nano for cost-efficient AI ($0.001 per submission), and cap V1 scope at submission + aggregation + notifications. Defer public roadmaps, GitHub integration, and semantic clustering to post-MVP once the system proves value.
+The critical risks center on payment timing and data integrity. Stripe authorization expires after 7 days unless you have MCC 7011 and extended authorization capability, so a deposit + balance strategy is required for advance bookings. Double booking prevention demands a PostgreSQL exclusion constraint on date ranges, not just application-level checks. Timezone handling must use DATE type for check-in/check-out to avoid international guests experiencing +/- 1 day shifts. RLS policies must be written alongside every new table to prevent cross-tenant data leakage in the existing multi-tenant system. Starting with cash/bank transfer as default payment methods and treating Stripe as progressive enhancement avoids Stripe Connect onboarding friction that blocks 40%+ of SEA property owners.
 
 ## Key Findings
 
 ### Recommended Stack
 
-**Zero new dependencies.** Every capability needed already exists in the backoffice. The stack research focused on what to reuse and extend rather than what to add.
+The accommodations frontend is currently minimal (Next.js 14, Supabase, Radix UI, date-fns, jose). The v2 features require targeted additions for payments, calendars, charts, animations, and state management. Critically, most of these libraries already exist elsewhere in the monorepo, so integration patterns are proven rather than experimental.
 
 **Core technologies:**
 
-- **Supabase Storage** (existing): Screenshot uploads — add `feedback-screenshots` folder config to existing `/api/upload/image` route. Handles 10MB images, RLS isolation, ~$0.20/month at expected volume.
-- **OpenAI GPT-4.1-mini/nano** (upgrade from gpt-4o-mini): AI processing pipeline — translation, classification, duplicate detection. $0.001 per feedback submission (~$0.50/month at 500 feedbacks/month). Update `MODEL_PRICING` constants only.
-- **Supabase Realtime** (existing): Push notifications via Postgres Changes — clone `chat-channel.ts` pattern for `notification-channel.ts` subscribing to `fb_merchant_notifications` table.
-- **@dnd-kit** (already installed): Kanban drag-and-drop — extend existing `SectionList.tsx` pattern from single-column to multi-column with `rectSortingStrategy`.
-- **Trigger.dev** (existing): Scheduled aggregation jobs — add `feedback-aggregation.ts` trigger for weekly/monthly trend analysis following `daily-briefing.ts` pattern.
-- **PostgreSQL + Prisma** (existing): Three new tables (`fb_submissions`, `fb_tasks`, `fb_merchant_notifications`) following existing TEXT+CHECK conventions, RLS via `account_roles`, indexed for performance.
+- **Stripe (v17.0.0, not v20):** Server-side payment processing with Elements for embedded forms. Checkout for booking deposits, PaymentIntents for service orders. Pin to v17 for backoffice compatibility, avoid v20 breaking changes.
+- **react-day-picker (v9.13.0):** Date range picker with Buddhist calendar support (Thailand market), WCAG 2.1 AA accessible, Tailwind customizable.
+- **Recharts (v3.6.0):** Analytics charts (already in backoffice). Revenue over time, occupancy rates, service breakdown.
+- **TanStack Query (v5.90.19):** Server state management (already in backoffice). Essential for booking pagination, optimistic status updates, stale-while-revalidate for 6+ owner dashboard data sources.
+- **Zod (v3.24.0, not v4.x):** Form validation. Stay on 3.x for monorepo consistency, defer v4 upgrade to coordinated effort.
+- **Embla Carousel (v8.5.1):** Image gallery. Lightweight (4KB), better touch support than Swiper, no CSS bloat.
+- **Resend (v4.0.0):** Transactional email. Booking confirmations, pre-arrival info, receipts. 100 emails/day free tier.
+- **Supabase Realtime:** Booking notifications, service order updates, guest-host messaging. Already included, no new dependencies.
 
-**Architecture decision:** Extend existing patterns rather than replace. The current `feedback-loop-service.ts` already defines matching types (`bug`, `feature_request`, `improvement`, statuses, AI fields). Build on this foundation instead of creating parallel infrastructure.
-
-**Cost efficiency:** At 500 feedbacks/month, total AI cost is ~$0.50/month (translation + classification + embedding + duplicate check). Storage adds ~$0.20/month. Total incremental cost: ~$1/month. This is negligible compared to platform revenue.
+**Critical version note:** Do NOT add Stripe Connect yet. The 85/10/5 commission split is manual for MVP. Connect marketplace adds weeks of complexity for a post-launch feature.
 
 ### Expected Features
 
-Research analyzed 12+ SaaS feedback systems (Canny, Productboard, Usersnap, Frill) to identify table stakes vs differentiators vs anti-features.
+The feature landscape divides cleanly into table stakes (universal expectations), differentiators (GUDBRO unique value), and anti-features (explicit avoidance to maintain simplicity for small SEA property owners).
 
 **Must have (table stakes):**
 
-- **Feedback submission form** — Type selector (bug/feature/feedback), free-text description, screenshot upload (67% of bug reports need visual context per Usersnap data), vertical/module auto-detection
-- **AI processing pipeline** — Auto-translate to English (GUDBRO is multi-country), classify by type/priority, detect duplicates via similarity, aggregate similar submissions into actionable internal tasks
-- **Internal team kanban** — Columns (New, Reviewing, In Progress, Done, Rejected), drag-and-drop workflow, task cards showing aggregated info (merchant count, languages, sentiment, priority)
-- **Merchant notifications** — "Received" confirmation, "In Progress" update, "Completed" or "Declined" with reason. Email + in-app bell icon with unread count.
-- **Feedback history list** — Merchants see their past submissions with current status (Submitted, In Review, Planned, Completed, Declined)
-- **Native language input** — Merchants write in any language, AI handles translation. No language picker needed.
+- Photo gallery (swipeable, 5-20 images) -- no photos = no bookings
+- Date picker with availability calendar -- core interaction for any booking system
+- Price display with breakdown (per-night x nights + cleaning fee + taxes) -- transparent pricing expected
+- Hybrid booking mode (instant book + request to book) -- Airbnb offers both, small owners want approval control
+- Guest booking form (name, email, phone, dates, payment method) -- minimal fields, NO account creation required
+- Booking confirmation via WhatsApp + email with booking code (BK-XXXXXX format already exists)
+- Owner booking management (list, detail, confirm/decline, status tracking)
+- Availability calendar editor (block dates, set price overrides, bulk operations)
+- Service ordering (browse catalog, cart, order submission, status tracking)
+- Mobile-responsive layout -- 80%+ of SEA bookings are mobile
 
 **Should have (competitive differentiators):**
 
-- **Smart aggregation engine** — Semantic clustering (not just keyword matching) to group "menu is slow" with "loading takes forever on food page"
-- **Auto-generated task summaries** — AI reads 15 merchant submissions and produces one clear summary for team
-- **Sentiment analysis** — Detect frustrated merchants before they churn, auto-escalate high-priority + negative sentiment
-- **Cross-vertical pattern recognition** — Surface themes like "4 verticals all asking for dark mode"
+- Zero-commission direct booking -- Airbnb charges 14-16%, Booking.com 15-25%, GUDBRO charges 0%
+- In-stay revenue ecosystem (local partnerships: tours, restaurants, spas with discount + commission) -- no competitor offers this natively
+- Digital laundry form (visual garment selection, multi-language, pre-filled guest data) -- eliminates paper forms
+- Visa compliance tools (expiry tracker with push notifications, NA17 pre-fill for Vietnamese police registration) -- SEA-specific value
+- Configurable service automation levels (auto-confirm, manual approval, WhatsApp-only) per service category
+- Template-based property setup (hostel vs villa vs apartment presets) -- reduces onboarding from 30 min to 5 min
 
 **Defer (v2+):**
 
-- **Public roadmap** — Creates entitlement ("500 votes means you must build it"). GUDBRO is early-stage, keep product direction team-driven.
-- **Real-time chat** — Turns feedback into support desk, different problem space
-- **GitHub integration** — Sync with issues/PRs. Wait until dev workflow stabilizes.
-- **NPS/CSAT surveys** — Different methodology, separate feature
-- **Multi-step wizards** — Friction kills submissions, keep single-page form
-
-**Critical insight:** The gap between "feedback form" and "feedback intelligence" is the aggregation layer. Many platforms collect feedback but merchants see no action because the volume overwhelms the team. GUDBRO's AI aggregation (translate, classify, merge duplicates) is the core value proposition.
+- Online payment processing (Stripe, crypto) -- cash/bank transfer dominate SEA small accommodation. Add Stripe as v2.1 post-MVP.
+- Review system -- needs 500+ bookings for meaningful reviews, fake review prevention is whole product
+- Channel manager (OTA sync) -- extremely complex (Airbnb, Booking.com, Expedia APIs all different), not MVP scope
+- Dynamic pricing algorithm -- Airbnb's Price Tips took years, overkill for 1-5 property owners
+- Calendar sync (iCal import) -- 1-3 hour delays cause double bookings, defer until API partnerships exist
+- Built-in messaging/chat -- duplicates WhatsApp workflow, turns GUDBRO into support desk
 
 ### Architecture Approach
 
-**Decision: New tables with `fb_` prefix, not extending `ai_feedback`.** The existing `ai_feedback` table is scoped to AI Co-Manager feedback (categories like `ai_chat`, `ai_actions`). The new system is general-purpose product feedback with different aggregation needs. Clean separation prevents breaking existing AI feedback flows.
+The architecture is extension-based rather than greenfield. The existing in-stay dashboard (JWT auth, 6 API routes, service catalog, F&B deep-linking) remains untouched. New capabilities layer on through: (1) public property pages for booking discovery, (2) owner dashboard pages in the Backoffice app, (3) service ordering API routes extending the in-stay mode.
 
 **Major components:**
 
-1. **Database layer** — Three tables: `fb_submissions` (merchant input + AI analysis), `fb_tasks` (aggregated tasks for kanban with denormalized metrics), `fb_merchant_notifications` (bell icon state). RLS via `account_roles.tenant_id` for multi-tenant isolation. Service role for admin full access.
+1. **Public Property Page (Booking Mode)** -- SEO-friendly Server Component at `/{slug}`, public API routes for property data + availability, BookingForm with instant/inquiry mode handling, WhatsApp/email confirmation. Connects to in-stay mode via booking code (BK-XXXXXX).
+2. **Hybrid Booking System** -- Single booking model with status field (instant bookings start as 'confirmed', inquiry bookings start as 'pending_approval'), owner notification via WhatsApp, booking code generation via existing trigger. Database additions: `accom_availability` table (per-room per-date with price overrides), pricing columns on properties/rooms/bookings.
+3. **Service Ordering (Guest Side)** -- Extends existing ServicesCarousel to support add-to-cart, ServiceOrderSheet bottom drawer, new `accom_service_orders` + `accom_service_order_items` tables, owner notification on submission, status tracking (submitted > confirmed > preparing > ready > delivered).
+4. **Owner Dashboard (Backoffice Integration)** -- New `/stays/*` routes in `apps/backoffice/` leveraging existing Supabase Auth, TanStack Table, Radix UI components. Sidebar integration adds "Stays" section with 8 subpages (dashboard, bookings, calendar, rooms, services, deals, reviews, analytics). Shares Supabase database with PWA, data flows through DB not direct API calls.
+5. **Payments (Phase 1: Cash/Transfer, Phase 2: Stripe)** -- MVP supports cash on arrival, bank transfer details display, owner manual payment status management. Post-MVP adds Stripe Checkout for booking deposits, Stripe Elements for in-stay services. Reuses `@shared/payment` types for method selection UI, formatPrice for display.
 
-2. **AI processing service** (`lib/feedback/feedback-intelligence-service.ts`) — Single synchronous pipeline on submit (~2-3s total): detect language, translate to English if needed, classify type/priority/sentiment, extract topic tags, find similar existing tasks via tag overlap + trigram similarity (V1 approach, no embeddings yet), link to existing task or create new one.
+**Critical architectural decisions:**
 
-3. **API routes** (`/api/feedback/...`) — 8 new routes: submissions CRUD, tasks CRUD, task reorder, notifications list/count. Follows existing auth patterns (`getSession()` server-side, RLS enforcement). Side-effects: moving task to Done/Rejected triggers merchant notifications for all linked submissions.
-
-4. **Merchant UI** (`settings/feedback/page.tsx`) — FeedbackSubmitForm (type selector, title, description, screenshot uploader) + MySubmissionsList (past submissions with status badges). Uses existing Radix + Tailwind patterns.
-
-5. **Admin UI** (`platform/feedback/page.tsx`) — FeedbackKanbanBoard with drag-and-drop (@dnd-kit multi-column pattern), TaskCard components, TaskDetailPanel slide-out showing all linked submissions with original language + English translation side-by-side.
-
-6. **Notification system** — Polling-based (60-second interval) via `/api/feedback/notifications/count` for bell badge. Simpler than Realtime for non-critical notifications. NotificationBell component in global header.
-
-**Integration points with existing stack:**
-
-- Screenshot upload: Add `feedback-screenshots` folder to `/api/upload/image` FOLDER_CONFIGS
-- AI client: Reuse `lib/ai/openai.ts`, add GPT-4.1-mini/nano pricing
-- Translation: Follow `translation-service.ts` patterns
-- Realtime (optional future): Clone `chat-channel.ts` pattern if polling proves insufficient
-- DnD: Extend `site-builder/SectionList.tsx` from single-column to multi-column
-- Trigger.dev: Add `feedback-aggregation.ts` for weekly/monthly batch analysis
-
-**Build order:** Database → AI service → API routes → Merchant UI → Notification system → Admin kanban. This sequence follows natural dependencies and allows incremental testing with real data.
+- Owner dashboard in Backoffice (not PWA) -- avoids mixing Supabase Auth with guest JWT, leverages existing UI patterns
+- Guest flows remain JWT-based -- no account creation required, booking code + last name verification
+- Database schema uses DATE (not TIMESTAMPTZ) for check-in/check-out -- prevents timezone shift bugs
+- Single booking model with status field -- not separate tables/flows for instant vs inquiry
+- Admin client for public booking creation -- guests do not have Supabase Auth, API routes use service role with explicit validation
 
 ### Critical Pitfalls
 
-Research identified 14 pitfalls from SaaS feedback systems and Playwright E2E testing. Top 5 for this project:
+**1. Double Booking Race Condition**
+Two guests select same dates simultaneously, both see available, both submit. Without proper concurrency control, both bookings accepted. Create PostgreSQL exclusion constraint using `daterange` type with `&&` overlap operator to make double booking physically impossible at DB level. Add `SELECT FOR UPDATE` when checking availability. Test by opening two browser tabs and submitting simultaneously.
 
-1. **Over-engineering the feature scope** — Most feedback systems fail by trying to be Canny/Productboard clones with public voting, complex workflows, and feature request management. For GUDBRO v1.3, the goal is simpler: collect merchant input, let AI aggregate duplicates, give the team an internal kanban. Defer public roadmaps, GitHub sync, and advanced analytics to v2+. Prevention: Cap MVP at 3 tables, 8 API routes, 2 UI pages (merchant submit, admin kanban).
+**2. Stripe Authorization Expiry**
+Standard Stripe authorizations expire after 7 days. Extended auth (up to 30 days) requires MCC 7011, IC+ pricing, and `request_extended_authorization: 'if_available'`. For bookings more than 7 days out, collect a deposit (30-50%) immediately as standard charge, auth-and-capture remainder closer to check-in. Handle `payment_intent.canceled` webhook for expired auths.
 
-2. **Testing mock-data apps as if they have backends** — 7 of 8 GUDBRO verticals use mock data (coffeeshop, tours, wellness, laundry, pharmacy, workshops, gym). Writing E2E tests that assert specific product names or prices creates brittleness — when mock data updates, every test breaks. Prevention: Test structure, not content. Assert "menu has items" not "menu has Cappuccino at EUR 3.50." Only accommodations (real Supabase backend) should test data accuracy.
+**3. Stripe Connect Onboarding Friction**
+Small SEA property owners hit KYC walls: non-English ID, unsupported banks, multi-day verification. Start with cash/bank transfer as default, make Stripe progressive onboarding. Use Connect Custom accounts for incremental data collection. Test with Thai, Vietnamese, Indonesian bank details before launch.
 
-3. **Ignoring multi-language complexity** — GUDBRO operates across multiple countries and languages. Merchants will submit feedback in Italian, Vietnamese, Korean, etc. Forcing English input loses nuance. The AI pipeline MUST translate every submission to English for team processing, but store both original and translated versions. Prevention: Make translation the first step in AI pipeline, store `original_language` + `title_en` + `description_en`, display side-by-side in admin UI.
+**4. RLS Policy Gaps on New Tables**
+New booking-related tables often created without RLS policies or with incorrect tenant scoping. Write RLS alongside CREATE TABLE in same migration. Guest access via API routes with service-role key + explicit WHERE clauses (not direct Supabase, since guests are unauthenticated). Owner access via RLS with `merchant_id` matching. Write isolation tests for each new table.
 
-4. **Building a brittle kanban with hard-coded workflows** — Many systems enforce rigid status transitions (can't move from Inbox to Done without passing through Triaging and Planned). This breaks when reality doesn't match the flowchart. Prevention: Allow any status transition, log state changes for audit trail, rely on human judgment not enforced workflows.
+**5. Timezone Mismatch on Check-In Dates**
+Guest in NYC (UTC-5) books "January 15" at Da Nang property (UTC+7). If stored as timestamp, timezone conversion shifts date by +/- 1 day. Use PostgreSQL `DATE` type (no timezone component) for check-in/check-out. Send dates as YYYY-MM-DD strings from frontend, never convert to Date object before API. Store property timezone, display in property's timezone.
 
-5. **Notification fatigue from real-time updates** — Sending merchants a notification for every minor status change trains them to ignore notifications. Prevention: Notify only on meaningful state changes: submission acknowledged, moved to In Progress, completed, or declined. Do NOT notify on "Reviewing" or internal team actions. Rate limit to max 1 notification per submission per day.
-
-**Secondary pitfalls to watch:**
-
-- Port conflicts when testing 8 apps simultaneously (test verticals sequentially, not in parallel)
-- Merchant-to-merchant discussion threads (out of scope, use existing WhatsApp channels)
-- Auto-responses without human review (AI drafts, humans send)
-- Full-text search before needed (embedding similarity suffices for <1000 submissions)
+**Moderate pitfalls:** Over-engineering hybrid booking (use single model with status field), service ordering without fulfillment states (define state machine + owner notification), owner dashboard overload (two-zone UI: "Today" vs "Manage"), payment module fragmentation (extend `@shared/payment`, define payment method matrix), QR in-stay access without verification (booking code + session expiry required).
 
 ## Implications for Roadmap
 
-Based on research, suggested phase structure:
+Based on research, the roadmap should follow a dependency-driven structure prioritizing guest-facing revenue generation before owner management tools. The existing in-stay dashboard is production-ready, so the booking flow is the highest-value addition.
 
-### Phase 1: Foundation (Database + AI Processing)
+### Phase 1: Database Foundation
 
-**Rationale:** Database schema and AI processing service are foundational dependencies. Everything else builds on these. Migration must come first to establish the data model. AI service must be testable independently before wiring to API routes.
+**Rationale:** Everything depends on schema correctness. Building on wrong schema causes rewrites.
+**Delivers:** Extended `accom_properties` with booking_mode and pricing columns, extended `accom_rooms` with base_price_per_night, new `accom_availability` table with exclusion constraint for double-booking prevention, extended `accom_bookings` with pricing/payment fields, new `accom_service_orders` + `accom_service_order_items`, new `accom_reviews`, RLS policies for all new tables, TypeScript types update.
+**Addresses:** Double booking prevention (Pitfall 1), timezone handling (Pitfall 5), RLS security (Pitfall 4).
+**Avoids:** Building on flawed schema, retrofitting constraints later, data integrity bugs.
 
-**Delivers:**
+### Phase 2: Public Property Page + Booking Flow
 
-- Migration 082: `fb_submissions`, `fb_tasks`, `fb_merchant_notifications` tables with RLS policies
-- `lib/feedback/types.ts` with TypeScript interfaces
-- `lib/feedback/feedback-intelligence-service.ts` with translate/classify/similarity functions
-- `lib/feedback/feedback-queries.ts` with DB query helpers
-- Updated `/api/upload/image` route with `feedback-screenshots` folder config
-- Updated `lib/ai/openai.ts` with GPT-4.1-mini/nano pricing
+**Rationale:** This is the revenue-generating feature. Guests need to discover and book before owner dashboard is useful.
+**Delivers:** `/{slug}` route (Server Component for SEO), public API routes for property data + availability, photo gallery with Embla, DatePicker with react-day-picker, PriceBreakdown, BookingForm with guest info + payment method selector, BookingConfirmation page with booking code, WhatsApp/email notifications.
+**Uses:** react-day-picker, Embla Carousel, Resend, Zod for validation, `@shared/payment` types.
+**Addresses:** Table stakes features (photo gallery, date picker, booking form), hybrid booking mode, zero-commission positioning.
+**Avoids:** Form abandonment (minimal fields only), currency confusion (display conversions).
 
-**Addresses:** Table stakes features (AI processing pipeline), avoids pitfall of building UI before data model is validated.
+### Phase 3: Owner Dashboard Foundation (Backoffice)
 
-**Avoids:** Over-engineering (no embeddings yet, no real-time subscriptions, no complex workflows — just the minimum viable data structure).
+**Rationale:** Owners need to manage what Phase 2 generates. Building before booking flow exists creates empty states with no test data.
+**Delivers:** Sidebar "Stays" integration in Backoffice, `/stays` dashboard with stats, `/stays/bookings` with TanStack Table (filters, search), `/stays/bookings/{id}` detail + status actions, `/stays/rooms` CRUD, `/stays/settings` for booking mode + pricing config.
+**Uses:** TanStack Query for data fetching, Recharts for basic stats, existing Radix UI components.
+**Implements:** Owner Dashboard component (Architecture), booking management (FEATURES.md table stakes).
+**Avoids:** UX overload (two-zone dashboard: daily tasks vs setup), mixing auth systems (stays in Backoffice with Supabase Auth).
 
-**Estimated effort:** 8-12 hours (migration + service + tests).
+### Phase 4: Availability Calendar + Service Management
 
-### Phase 2: Merchant Submission Flow
+**Rationale:** Calendar and service CRUD are management tools for existing bookings/services. Less urgent than core booking flow.
+**Delivers:** `/stays/calendar` visual month grid with color-coded dates, block/unblock date ranges, bulk seasonal pricing, `/stays/services` CRUD for categories + items with drag-to-reorder.
+**Uses:** react-day-picker for calendar widget, TanStack Table for service lists.
+**Addresses:** Table stakes (availability calendar editor, service management).
+**Avoids:** Over-engineering calendar (use proven library, not custom from scratch).
 
-**Rationale:** Merchants are the input side. Need working submission flow before admin side has anything to manage. This phase makes the system functional for data collection.
+### Phase 5: Service Ordering (Guest Side)
 
-**Delivers:**
+**Rationale:** Extends in-stay dashboard with revenue capability. Requires service management (Phase 4) to be in place for owners to configure services.
+**Delivers:** Modified ServicesCarousel with add-to-cart, ServiceOrderSheet (bottom sheet cart), `POST /api/stay/{code}/orders` route, order confirmation + history components, owner WhatsApp notification on new order.
+**Uses:** Existing JWT auth, Supabase Realtime for order status updates (optional).
+**Addresses:** In-stay revenue differentiator, service ordering table stakes, automation levels (auto-confirm, manual, WhatsApp-only).
+**Avoids:** Missing fulfillment states (define state machine: submitted > acknowledged > preparing > ready > delivered).
 
-- `POST /api/feedback/submissions` route with sync AI processing
-- `GET /api/feedback/submissions` route for merchant's own history
-- `GET /api/feedback/submissions/[id]` route for detail view
-- `components/feedback/FeedbackSubmitForm.tsx` with type selector, title, description, screenshot upload
-- `components/feedback/MySubmissionsList.tsx` with SubmissionCard and StatusBadge components
-- `app/(dashboard)/settings/feedback/page.tsx` merchant-facing page
-- "Feedback" link in Settings section of Sidebar
+### Phase 6: Analytics + Reviews + Partnerships
 
-**Uses:** Phase 1 database schema, AI service, screenshot upload config.
+**Rationale:** Growth features, not blocking MVP. Bookings and service orders must exist first to generate data for analytics.
+**Delivers:** `/stays/analytics` with Recharts (occupancy rate, revenue, ADR, booking trends), `/stays/reviews` with reply functionality, `/stays/deals` local partnerships CRUD, referral tracking + commission reporting.
+**Uses:** Recharts, new `accom_partnerships` + `accom_referrals` tables.
+**Addresses:** Differentiators (local partnerships, commission tracking), basic analytics (table stakes).
+**Avoids:** Commission tracking without confirmation (partner confirmation flow required).
 
-**Implements:** Merchant submission form (table stakes), feedback history list (table stakes), native language input (table stakes).
+### Phase 7: Payment Integration (Stripe)
 
-**Avoids:** Brittle selectors pitfall — add `data-testid` attributes to key elements during build, not as separate task.
-
-**Estimated effort:** 10-14 hours (API routes + components + integration).
-
-### Phase 3: Notification System
-
-**Rationale:** Close the feedback loop early. Merchants need to see their submissions were received and are being acted on. Notifications provide this visibility before full kanban is built.
-
-**Delivers:**
-
-- `GET /api/feedback/notifications` and `GET /api/feedback/notifications/count` routes
-- `PATCH /api/feedback/notifications` route for mark-as-read
-- `hooks/useFeedbackNotifications.ts` with 60-second polling
-- `components/layout/NotificationBell.tsx` with unread badge and dropdown
-- Integrated bell icon in global header
-- Auto-notification creation on submission (acknowledged) and task status changes
-
-**Uses:** Phase 1 notification table, Phase 2 submission flow triggers.
-
-**Implements:** Merchant notifications (table stakes), in-app notification center (table stakes).
-
-**Avoids:** Notification fatigue pitfall — only notify on meaningful state changes, max 1/day per submission.
-
-**Estimated effort:** 8-10 hours (routes + polling + UI + integration).
-
-### Phase 4: Admin Kanban Board
-
-**Rationale:** Admin side is the most complex UI (drag-and-drop, aggregated data display, multi-merchant visibility). Building this last means there's real submission data to work with and test against.
-
-**Delivers:**
-
-- `GET /api/feedback/tasks` route for kanban data with filters
-- `PATCH /api/feedback/tasks/[id]` route for task updates (move column, assign, add notes)
-- `PATCH /api/feedback/tasks/reorder` route for drag-and-drop persistence
-- `GET /api/feedback/tasks/[id]/submissions` route for linked submissions view
-- `components/feedback/FeedbackKanbanBoard.tsx` with @dnd-kit multi-column
-- `components/feedback/TaskCard.tsx`, `ColumnHeader.tsx`, `TaskDetailPanel.tsx`
-- `app/(dashboard)/platform/feedback/page.tsx` admin-only page
-- Status change triggers for merchant notifications (In Progress, Done, Rejected)
-
-**Uses:** Phase 1 tasks table, @dnd-kit library, existing Radix/Tailwind patterns.
-
-**Implements:** Internal team kanban (table stakes), task cards with aggregated info (table stakes), linked submissions view (table stakes), assignment (table stakes).
-
-**Avoids:** Hard-coded workflow pitfall — allow any status transition, log changes, trust team judgment.
-
-**Estimated effort:** 14-18 hours (drag-and-drop is complex, testing multi-merchant aggregation takes time).
-
-### Phase 5: Analytics and Polish (Optional for v1.3)
-
-**Rationale:** Nice-to-have for launch, but not blocking. Analytics provide insights once there's data volume. Can be deferred to v1.4 if timeline is tight.
-
-**Delivers:**
-
-- Basic analytics dashboard: submission volume over time, breakdown by type/vertical, response time tracking
-- Top requested features list (by linked submission count)
-- Trigger.dev aggregation job for weekly/monthly trend summaries
-- UI polish: loading states, error handling, empty states, mobile responsive refinements
-
-**Uses:** Phase 1-4 complete system, Trigger.dev patterns from existing daily-briefing job.
-
-**Implements:** Basic analytics (table stakes), smart aggregation engine (differentiator via scheduled batch job).
-
-**Estimated effort:** 6-8 hours (simpler than kanban, mostly queries + charts).
+**Rationale:** Deferred post-MVP. Cash/bank transfer handles SEA market for initial launch. Stripe adds complexity without immediate ROI.
+**Delivers:** Stripe Checkout for booking deposits, Stripe Elements for in-stay services, Stripe Connect progressive onboarding, webhook handlers, payment status tracking.
+**Uses:** Stripe v17.0.0, `@stripe/stripe-js`, `@stripe/react-stripe-js`.
+**Addresses:** Card payment support, international guest payment preference.
+**Avoids:** Stripe auth expiry (deposit + balance strategy), Connect onboarding friction (cash/transfer as default, Stripe as upgrade).
 
 ### Phase Ordering Rationale
 
-- **Database first** because everything depends on the schema. Building UI before data model is validated causes rework.
-- **AI service second** because it's independent and testable in isolation. Submit flow needs it but doesn't block UI scaffolding.
-- **Merchant flow before admin** because merchants are the input side — you need submissions before admins have anything to manage. Also allows early validation that AI processing works correctly.
-- **Notifications before kanban** because closing the feedback loop early (letting merchants see their input was received) is higher value than giving admins a fancy UI. Notifications can work with the simple task list from Phase 2.
-- **Kanban last** because it's the most complex UI component (drag-and-drop, multi-merchant aggregation display) and benefits from having real data to develop against.
-- **Analytics optional** because it's reporting on data patterns — needs volume first. Can launch without it and add in v1.4 based on team usage patterns.
+- **DB first (Phase 1):** Schema correctness is non-negotiable. Exclusion constraint prevents double bookings at DB level. RLS prevents data leakage. DATE type prevents timezone bugs. Get this right once.
+- **Booking before dashboard (Phase 2 before 3):** Revenue generation before management tools. Owners need bookings to manage before dashboard is useful. Testing with real booking data validates flows.
+- **Public property page before in-stay ordering (Phase 2 before 5):** Guests must book before they can order services. Booking flow is higher priority revenue path.
+- **Calendar after booking (Phase 4 after 2/3):** Calendar management is for handling existing bookings. Core booking flow is more valuable to build first.
+- **Service ordering after service management (Phase 5 after 4):** Owners need to configure services before guests can order them.
+- **Analytics last (Phase 6):** Requires booking/order data to exist. Nice-to-have, not blocking.
+- **Payments last (Phase 7):** Cash/transfer sufficient for SEA MVP. Stripe adds complexity, defer until proven booking flow works.
 
 ### Research Flags
 
-**Phases with standard patterns (skip research-phase):**
+Phases likely needing deeper research during planning:
 
-- **Phase 1:** Database schema and AI service follow existing backoffice patterns (Supabase RLS, OpenAI client, Prisma queries). No new research needed.
-- **Phase 2:** Submission form is standard Next.js + Radix UI. Screenshot upload already implemented. No research needed.
-- **Phase 3:** Notification polling is straightforward. Bell icon follows existing header patterns. No research needed.
+- **Phase 7 (Stripe):** Complex Stripe Connect integration with SEA market considerations. Needs dedicated research on MCC 7011, KYC for SEA users, extended authorization setup, webhook security, Connect account types.
+- **Phase 6 (Partnerships):** Partner confirmation flow for commission tracking is domain-specific. Research referral confirmation patterns in hospitality.
 
-**Phases likely needing deeper research during planning:**
+Phases with standard patterns (skip research-phase):
 
-- **Phase 4:** Drag-and-drop kanban with @dnd-kit. While the library is already installed, extending from single-column (existing SectionList) to multi-column with cross-container sorting is a new pattern. Plan to allocate 2-3 hours for researching @dnd-kit multi-container examples and testing drag behavior.
-- **Phase 5 (if included):** Trigger.dev scheduled jobs. While daily-briefing pattern exists, feedback aggregation has different data needs (clustering similar submissions, generating trend summaries). May need 1-2 hours researching optimal aggregation algorithms.
-
-**External dependencies to validate:**
-
-- **OpenAI API:** Verify GPT-4.1-mini/nano pricing and availability. If models are not accessible, fallback to gpt-4o-mini (already working, just slightly more expensive).
-- **Supabase Storage:** Confirm current plan has sufficient storage for feedback screenshots. At ~200KB avg, 500 screenshots/month = ~100MB/month. Current plan likely sufficient but worth checking.
+- **Phase 1 (Database):** PostgreSQL exclusion constraints and RLS are well-documented. Existing GUDBRO migrations provide patterns.
+- **Phase 2 (Booking Flow):** Standard e-commerce checkout patterns. Airbnb/Booking.com flows are public. Stripe Checkout docs are comprehensive.
+- **Phase 3 (Owner Dashboard):** Backoffice patterns already exist. TanStack Table + Radix UI examples abundant.
+- **Phase 4 (Calendar):** react-day-picker has extensive docs. Calendar UI is solved problem.
+- **Phase 5 (Service Ordering):** Extension of existing service catalog. Cart + order submission is standard pattern.
 
 ## Confidence Assessment
 
-| Area         | Confidence | Notes                                                                                                                                                                                                                                                                             |
-| ------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stack        | HIGH       | Every technology is already in use. Research verified by reading existing code (`feedback-loop-service.ts`, `chat-channel.ts`, `upload/image/route.ts`, etc.). No new dependencies = no unknown unknowns.                                                                         |
-| Features     | HIGH       | Analyzed 12+ competing products (Canny, Productboard, Usersnap, Frill) with strong consensus on table stakes. GUDBRO's multi-language requirement is well-understood from existing translation infrastructure.                                                                    |
-| Architecture | HIGH       | All patterns verified against existing codebase. Database conventions (TEXT+CHECK, RLS via account_roles), API patterns (getSession, service role), UI patterns (Radix+Tailwind) are established. Only new pattern is multi-column kanban, which is well-documented for @dnd-kit. |
-| Pitfalls     | HIGH       | Based on documented failure modes from feedback system postmortems, Playwright testing guides, and GUDBRO's own lessons-learned. The 7-mock-data vs 1-real-backend distinction is unique to GUDBRO but clearly understood from codebase inspection.                               |
+| Area         | Confidence | Notes                                                                                                                                                                                                                                       |
+| ------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stack        | HIGH       | All package versions verified via npm, patterns verified in existing codebase. Stripe v17, react-day-picker v9, Recharts v3, TanStack Query v5 all confirmed. Zod 3.x vs 4.x decision deliberate.                                           |
+| Features     | HIGH       | Table stakes mapped from Airbnb, Booking.com, Cloudbeds, Lodgify public documentation and feature comparison. GUDBRO differentiators grounded in PRD v2.3. Anti-features informed by target market research.                                |
+| Architecture | HIGH       | All patterns verified against existing accommodations frontend codebase (migrations 077-081, API routes, JWT auth, Supabase admin client). Backoffice integration verified against existing patterns. Guest vs owner auth separation clear. |
+| Pitfalls     | HIGH       | Double booking, Stripe auth expiry, Connect onboarding, RLS gaps, timezone handling all documented in hospitality payment processing guides, Stripe docs, Supabase RLS best practices, booking system design articles.                      |
 
 **Overall confidence:** HIGH
 
 ### Gaps to Address
 
-**Minor gaps:**
+**Stripe SEA market testing:** Research confirmed Stripe MCC 7011 and extended authorization requirements, but actual Stripe Connect onboarding for Vietnamese/Thai property owners needs validation. The existing GUDBRO system has Stripe in backoffice but not Connect. Mitigate by: (1) start with cash/transfer default, (2) pilot Stripe with 3-5 owners before full rollout, (3) document KYC failure modes per country.
 
-- **GPT-4.1 model availability:** Research assumes GPT-4.1-mini and GPT-4.1-nano are available via OpenAI API. These are newer models (late 2025/early 2026 announcements). If not accessible, fallback to `gpt-4o-mini` (already working, tested in codebase, just 60% more expensive at $0.15/$0.60 per 1M tokens vs $0.10/$0.40 for nano and $0.40/$1.60 for mini). Cost difference at 500 feedbacks/month: ~$0.30/month more. Negligible.
-  - **Validation:** Test API call with `gpt-4.1-mini` model name during Phase 1. If 404/not-found, update constants to use `gpt-4o-mini`.
+**Partner confirmation flow:** The referral commission tracking depends on partners confirming guest transactions, but the confirmation mechanism is underspecified. Is it WhatsApp reply? Partner dashboard? GUDBRO link? Mitigate by: (1) start with referral click tracking only (no commission promises), (2) manual monthly reconciliation with partners, (3) build automated confirmation in Phase 6 based on pilot learnings.
 
-- **Duplicate detection accuracy:** V1 approach uses tag overlap + trigram similarity instead of embeddings. This is intentionally simpler (no pgvector extension, no embedding storage) but may miss semantic duplicates. Research suggests this is acceptable for <1000 submissions but needs real-world validation.
-  - **Validation:** During Phase 2, after 20-30 real submissions, manually review duplicate detection accuracy. If <70% accuracy (too many false negatives), plan to add embeddings in Phase 5 or v1.4.
+**Service automation thresholds:** The PRD specifies three automation levels (auto-confirm, manual, WhatsApp-only) but does not specify timing thresholds. When does auto-confirm happen? Immediately? After 5 minutes? Mitigate by: (1) default to WhatsApp notification + manual for MVP, (2) add auto-confirm post-launch based on owner feedback, (3) make thresholds configurable per property.
 
-- **Kanban drag-and-drop on mobile:** @dnd-kit works well on desktop. Mobile touch support exists but needs testing on actual devices (not just Chrome DevTools). Research confirms it should work but touch interactions may need tuning.
-  - **Validation:** During Phase 4, test on 2-3 actual mobile devices (iOS Safari, Android Chrome). If touch DnD is problematic, provide fallback UI (move-up/move-down buttons) for mobile.
-
-**No major gaps.** The research confidence is high because all technology is already in use and patterns are verified in production code.
+**Multi-language property descriptions:** Service translations table exists, but property-level content (description, house rules, amenities) needs translation schema. Mitigate by: (1) English-only for MVP, (2) add `accom_property_translations` table in Phase 1 (already in database plan), (3) owner provides translations manually or via Google Translate with edit capability.
 
 ## Sources
 
 ### Primary (HIGH confidence)
 
-- **GUDBRO codebase** — Verified against existing implementations:
-  - `apps/backoffice/lib/ai/feedback-loop-service.ts` (matching types and AI processing pattern)
-  - `apps/backoffice/app/api/upload/image/route.ts` (screenshot upload pattern)
-  - `apps/backoffice/lib/ai/openai.ts` (AI client with cost tracking)
-  - `apps/backoffice/lib/realtime/chat-channel.ts` (Realtime subscription pattern)
-  - `apps/backoffice/app/(dashboard)/settings/site-builder/components/SectionList.tsx` (@dnd-kit single-column pattern)
-  - `shared/database/migrations/` (migrations 012, 024, 029, 059 for schema conventions)
-- [Supabase Storage Documentation](https://supabase.com/docs/guides/storage) — Storage RLS and folder organization
-- [Supabase Realtime Documentation](https://supabase.com/docs/guides/realtime) — Postgres Changes subscriptions
-- [OpenAI API Pricing](https://openai.com/api/pricing/) — GPT-4.1-mini/nano pricing (verified 2026-01-30)
-- [@dnd-kit Documentation](https://docs.dndkit.com/) — Multi-container sorting patterns
+- **Existing codebase:** All patterns verified against `apps/accommodations/frontend/`, migrations 077-081, `shared/payment/`, backoffice patterns
+- **GUDBRO PRD:** `apps/accommodations/PRD.md` v2.3, `apps/accommodations/VERTICAL-CONTEXT.md`
+- **Stripe official docs:** Payment capture strategies, extended authorization, hospitality payment processing, Connect marketplace guide
+- **Package versions:** All 13 stack additions verified via npm (Stripe, react-day-picker, Recharts, TanStack Query, Zod, Embla, Resend, Phosphor, Framer Motion, qrcode.react, CVA)
+- **Supabase docs:** RLS, Realtime (Broadcast/Presence/Postgres Changes), multi-tenant architecture
+- **PostgreSQL:** Exclusion constraints, daterange operators, DATE vs TIMESTAMPTZ
 
 ### Secondary (MEDIUM confidence)
 
-- [Canny](https://canny.io/use-cases/feature-request-management) — Feature request management patterns
-- [Productboard](https://www.featurebase.app/blog/canny-vs-productboard) — Competitive analysis
-- [Usersnap](https://usersnap.com/l/feedback-management-tool) — Screenshot-based feedback UX (67% stat on visual context)
-- [Qualaroo: SaaS Feedback Strategies](https://qualaroo.com/blog/customer-feedback-saas/) — Table stakes features
-- [Zonka: Feedback Tools 2026](https://www.zonkafeedback.com/blog/saas-customer-feedback-tools) — Tool comparison
-- [Featurebase: SaaS Feedback Tools](https://www.featurebase.app/blog/saas-feedback-tools) — Feature analysis
-- [Frill: Customer Feedback Software](https://frill.co/blog/posts/customer-feedback-software) — Top 20 tools comparison
-- [Kanban Tool: Feedback Management](https://kanbantool.com/blog/feedback-management-with-kanban) — Kanban workflow patterns
-- [ProductLed: SaaS Feedback Loop](https://productled.com/blog/saas-customer-feedback-loop) — Closing the loop best practices
-- [Userpilot: Notification Types](https://userpilot.com/blog/notification-types/) — In-app notification patterns
-- [Dialzara: Multilingual Feedback Tools](https://dialzara.com/blog/top-7-ai-tools-for-multilingual-feedback) — Multi-language handling
-- [BrowserStack: Playwright Best Practices](https://www.browserstack.com/guide/playwright-best-practices) — E2E testing patterns
-- [Turborepo Playwright Guide](https://turborepo.com/docs/guides/tools/playwright) — Monorepo testing
+- **Competitor analysis:** Airbnb Host Dashboard, Booking.com Extranet, Cloudbeds/Lodgify/Hostaway feature comparison, hotel digital concierge guides
+- **Hospitality patterns:** Hotel room service software comparison, guest app usage data, booking system design guides
+- **Domain pitfalls:** Double booking prevention techniques, hotel kitchen order fulfillment, booking engine UX mistakes, automation best practices
 
-### Tertiary (LOW confidence, needs validation)
+### Tertiary (LOW confidence)
 
-- [PricePerToken GPT-4.1 Calculator](https://pricepertoken.com/pricing-page/model/openai-gpt-4.1) — Batch pricing comparison (source reliability uncertain, prefer official OpenAI docs)
-- [FeedbackPlus OSS Screenshot Library](https://github.com/ColonelParrot/feedbackplus) — Alternative screenshot approach (not needed, using existing Supabase pattern)
+- **Package versions requiring verification at install:** Embla Carousel v8.5.1, Resend v4.0.0 (from training data cutoff, recommend `npm info` at install time)
 
 ---
 
-**Research completed:** 2026-01-30
-**Ready for roadmap:** Yes
-
-**Next step:** Create roadmap with 4-5 phases based on implications above. Each phase should have 3-5 atomic tasks, clear acceptance criteria, and estimated effort (4-18 hours per phase based on complexity).
+_Research completed: 2026-01-31_
+_Ready for roadmap: yes_
