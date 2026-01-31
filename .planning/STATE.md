@@ -5,17 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-31)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.4 Accommodations v2 — COMPLETE
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 24 of 24 (Analytics, Deals & Communication) -- COMPLETE
-Plan: 3 of 3 in current phase
-Status: v1.4 milestone complete (all 7 phases verified)
-Last activity: 2026-01-31 -- Phase 24 verified and complete
+Phase: 24 of 24 — all milestones complete (v1.0-v1.4)
+Plan: N/A
+Status: Ready for next milestone
+Last activity: 2026-01-31 — v1.4 milestone archived
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [██████████████████████████████] 21/21
-████████████████████████████████████████ prior | ██████████████████████████████ v1.4
+Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
 
 ## Performance Metrics
 
@@ -41,14 +40,6 @@ Progress: v1.0-v1.3 [36/36] | v1.4 [██████████████�
 
 Full history in PROJECT.md Key Decisions table and milestone archives.
 
-Key Phase 24 decisions:
-
-- Recharts v3 Tooltip formatter typed as `any` to handle optional params
-- Static room type color map with gray fallback for unknown types
-- Fire-and-forget email on booking creation (not awaited, not blocking)
-- CRON_SECRET optional for dev (allows local cron testing)
-- bookingId optional in click tracking (not exposed from JWT in v1)
-
 ### Pending Todos
 
 None.
@@ -56,14 +47,15 @@ None.
 ### Blockers/Concerns
 
 - Stripe MCC 7011 extended authorization needs validation with SEA property owners
+- ADMIN_API_KEY auth pattern needs migration to session-based auth
 
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: v1.4 milestone complete, all 24 phases done
+Stopped at: v1.4 milestone archived
 Resume file: None
-Next: `/gsd:audit-milestone` or `/gsd:complete-milestone`
+Next: `/gsd:new-milestone`
 
 ---
 
-_Last updated: 2026-01-31 after Phase 24 verification_
+_Last updated: 2026-01-31 after v1.4 milestone completion_

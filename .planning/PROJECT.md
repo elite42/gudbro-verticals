@@ -2,7 +2,7 @@
 
 ## What This Is
 
-GUDBRO is a multi-vertical platform providing standalone PWAs for hospitality businesses (F&B, accommodations, gym, wellness, laundry, pharmacy, workshops, tours). Each merchant gets their own branded PWA with QR/link access. The platform includes a backoffice admin dashboard, AI Co-Manager, and a convention system linking merchants together. The Accommodations vertical has a fully functional In-Stay Dashboard connected to Supabase. All 8 verticals are QA-verified with automated E2E smoke tests, visual regression baselines, and PWA manifest validation.
+GUDBRO is a multi-vertical platform providing standalone PWAs for hospitality businesses (F&B, accommodations, gym, wellness, laundry, pharmacy, workshops, tours). Each merchant gets their own branded PWA with QR/link access. The platform includes a backoffice admin dashboard, AI Co-Manager, and a convention system linking merchants together. The Accommodations vertical is now a complete end-to-end product: public property pages with SEO, hybrid booking flow (instant or inquiry), multi-payment support (cash/transfer/Stripe/crypto), full owner dashboard (bookings, rooms, calendar, pricing, analytics, services, deals), service ordering from In-Stay Dashboard, and automated guest communication (confirmation + pre-arrival emails). All 8 verticals are QA-verified with automated E2E smoke tests, visual regression baselines, and PWA manifest validation.
 
 ## Core Value
 
@@ -47,18 +47,23 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 - In-app notification system with bell icon and 60s polling -- v1.3
 - Admin kanban board with @dnd-kit drag-and-drop and task detail panel -- v1.3
 - Analytics dashboard with Recharts (volume, breakdown, top features, response times) -- v1.3
+- Public property page with SSR, SEO (OG meta, JSON-LD), photo gallery, availability calendar, price breakdown -- v1.4
+- Hybrid booking flow: instant-confirm or inquiry (owner-configured), guest checkout without account -- v1.4
+- Multi-payment: cash, bank transfer, Stripe Checkout with webhooks, crypto via @shared/payment -- v1.4
+- Owner dashboard: booking management with status tabs, detail view, confirm/decline/check-in/out/cancel -- v1.4
+- Owner dashboard: room CRUD, property settings, QR code generation -- v1.4
+- Owner dashboard: availability calendar with color-coded dates, date blocking, seasonal pricing, discounts -- v1.4
+- Service ordering: guest catalog + cart, order state machine, ASAP/time slot delivery -- v1.4
+- Owner service management: catalog CRUD, automation levels, order management with status actions -- v1.4
+- Analytics: occupancy rate, revenue by room/month, ADR trend, service revenue breakdown (Recharts) -- v1.4
+- Local deals: CRUD with partner name/discount/description, referral click tracking -- v1.4
+- Guest communication: booking confirmation email, pre-arrival email with QR (Vercel cron), WhatsApp deep-links -- v1.4
+- Database: exclusion constraint double-booking prevention, 5 migrations (083-087), RLS on all new tables -- v1.4
+- Cross-vertical deep-links from In-Stay Dashboard (F&B, tours, wellness) -- v1.4
 
 ### Active
 
-## Current Milestone: v1.4 Accommodations v2
-
-**Goal:** Complete the Accommodations vertical end-to-end: public property page with hybrid booking, full owner dashboard, and configurable service ordering with cross-vertical deep-links.
-
-**Target features:**
-
-- Booking Mode: public property page (landing essenziale), hybrid booking (instant or inquiry, owner-configured), configurable payments (cash/transfer/Stripe/crypto via @shared/payment)
-- Owner Dashboard: booking management, availability calendar, pricing (per room type, seasonal), analytics (occupancy, revenue), service management, local deals management, guest communication
-- Service Ordering: configurable service catalog per owner, automation levels per service (auto-confirm, manual, WhatsApp redirect), cross-vertical deep-links (F&B, tours, wellness), guest orders from In-Stay Dashboard
+(None -- ready for next milestone definition via `/gsd:new-milestone`)
 
 ### Out of Scope
 
@@ -70,21 +75,28 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 - Offline/Service Worker testing -- Playwright PWA install limited
 - Cross-browser parity testing -- Chromium-only sufficient for smoke tests
 - Property page premium version (vetrina completa) -- future upsell option
+- Channel manager (OTA sync) -- enterprise complexity, not needed for 1-5 property owners
+- Built-in chat system -- WhatsApp dominates SEA
+- Guest account system -- friction kills conversion; booking code is sufficient
+- Stripe Connect marketplace -- commission splits manual for MVP
+- Multi-property portfolio page -- most target owners have 1-2 properties
+- Automated check-in (keyless entry) -- hardware integration, different domain
 
 ## Context
 
 - 8 vertical PWAs, all QA-verified with automated E2E smoke tests (v1.2)
-- Accommodations vertical has real backend: 6 DB tables, 6 API routes, JWT auth, In-Stay Dashboard (v1.1)
+- Accommodations vertical is now complete end-to-end: property page, booking, payments, owner dashboard, service ordering, analytics, communication (v1.4)
 - Coffeeshop is most mature (v1+v2 coexistence, production data)
 - All new verticals share DM Sans body font and CSS variable theming
 - 4 BottomNav patterns documented: Coffeeshop v2 (advanced), Tours (bento), Template (6 verticals), Accommodations (tab-based)
 - @shared/payment workspace package established as pattern for shared modules
 - Icons: mix of Phosphor (coffeeshop) and custom SVG (other verticals)
-- Migration chain: 077 (schema) → 078 (seed) → 079 (phase6 ext) → 080 (fnb) → 081 (alignment)
+- Migration chain: 077-087 (11 migrations for accommodations)
 - E2E test infrastructure: 8 smoke specs, 16 Playwright projects, vertical registry, shared fixtures
 - Visual regression: 26 baseline PNGs, screenshot stabilization CSS, 3x zero-flaky validation
-- PWA manifests for all 8 verticals (6 created in v1.2, coffeeshop + gym pre-existing)
-- 4 milestones shipped: v1.0 (QA), v1.1 (Backend), v1.2 (Tech Debt + Testing), v1.3 (Feedback Intelligence)
+- PWA manifests for all 8 verticals
+- 5 milestones shipped: v1.0 (QA), v1.1 (Backend), v1.2 (Tech Debt + Testing), v1.3 (Feedback Intelligence), v1.4 (Accommodations v2)
+- Accommodations v1.4: 161 files, 29,211 LOC added, 7 phases, 20 plans, 86 commits in 1 day
 
 ## Constraints
 
@@ -95,31 +107,39 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ## Key Decisions
 
-| Decision                           | Rationale                                                        | Outcome    |
-| ---------------------------------- | ---------------------------------------------------------------- | ---------- |
-| PWA standalone (not hub)           | Not competing with Google/Yelp on discovery                      | -- Pending |
-| Accommodation as strategic node    | First tourist touchpoint, distributes to other verticals         | Good       |
-| Flat BottomNav pattern             | Uniform look across all verticals                                | Good       |
-| DM Sans as shared body font        | Consistency across verticals while allowing unique display fonts | -- Pending |
-| Type predicates for filtering      | TypeScript trusts them for narrowing, unlike type assertions     | Good       |
-| CSS variables for brand colors     | Enables consistent theming and easy customization                | Good       |
-| Complete vertical separation       | Each PWA is standalone, zero cross-vertical contamination        | Good       |
-| @shared/payment workspace pkg      | Proper module resolution for shared TypeScript modules           | Good       |
-| Selective tsconfig includes        | Prevent type pollution from unused shared modules                | Good       |
-| SECURITY DEFINER for guest access  | Safer than RLS on bookings; function-based access control        | Good       |
-| BK-XXXXXX booking codes            | Excluding 0/O/1/I/L for readability                              | Good       |
-| INTEGER price (minor currency)     | Avoids floating point issues with money                          | Good       |
-| accom\_ table prefix               | Clear namespace separation for accommodations domain             | Good       |
-| JWT with checkout+24h expiry       | Guest tokens auto-expire shortly after checkout                  | Good       |
-| Slug-based F&B deep-linking        | Decouples accommodations from coffeeshop schema                  | Good       |
-| Dashboard shell pattern            | 128-line shell composing 11 sections; easy to extend             | Good       |
-| Opacity modifiers for light tint   | bg-accent/10 keeps variable count manageable                     | Good       |
-| Vertical registry as SSOT          | Single Record for all 8 verticals' config in test infra          | Good       |
-| BasePwaPage page object            | Reusable 5-method smoke check class with benign error allowlist  | Good       |
-| testIgnore on legacy PW projects   | Prevents legacy projects from picking up vertical smoke tests    | Good       |
-| Graceful no-nav for accommodations | Home page (booking) has no BottomNav; skip test gracefully       | Good       |
-| Screenshot stabilization CSS       | Disables animations/transitions for deterministic baselines      | Good       |
+| Decision                           | Rationale                                                                       | Outcome    |
+| ---------------------------------- | ------------------------------------------------------------------------------- | ---------- |
+| PWA standalone (not hub)           | Not competing with Google/Yelp on discovery                                     | -- Pending |
+| Accommodation as strategic node    | First tourist touchpoint, distributes to other verticals                        | Good       |
+| Flat BottomNav pattern             | Uniform look across all verticals                                               | Good       |
+| DM Sans as shared body font        | Consistency across verticals while allowing unique display fonts                | -- Pending |
+| Type predicates for filtering      | TypeScript trusts them for narrowing, unlike type assertions                    | Good       |
+| CSS variables for brand colors     | Enables consistent theming and easy customization                               | Good       |
+| Complete vertical separation       | Each PWA is standalone, zero cross-vertical contamination                       | Good       |
+| @shared/payment workspace pkg      | Proper module resolution for shared TypeScript modules                          | Good       |
+| Selective tsconfig includes        | Prevent type pollution from unused shared modules                               | Good       |
+| SECURITY DEFINER for guest access  | Safer than RLS on bookings; function-based access control                       | Good       |
+| BK-XXXXXX booking codes            | Excluding 0/O/1/I/L for readability                                             | Good       |
+| INTEGER price (minor currency)     | Avoids floating point issues with money                                         | Good       |
+| accom\_ table prefix               | Clear namespace separation for accommodations domain                            | Good       |
+| JWT with checkout+24h expiry       | Guest tokens auto-expire shortly after checkout                                 | Good       |
+| Slug-based F&B deep-linking        | Decouples accommodations from coffeeshop schema                                 | Good       |
+| Dashboard shell pattern            | 128-line shell composing 11 sections; easy to extend                            | Good       |
+| Opacity modifiers for light tint   | bg-accent/10 keeps variable count manageable                                    | Good       |
+| Vertical registry as SSOT          | Single Record for all 8 verticals' config in test infra                         | Good       |
+| BasePwaPage page object            | Reusable 5-method smoke check class with benign error allowlist                 | Good       |
+| testIgnore on legacy PW projects   | Prevents legacy projects from picking up vertical smoke tests                   | Good       |
+| Graceful no-nav for accommodations | Home page (booking) has no BottomNav; skip test gracefully                      | Good       |
+| Screenshot stabilization CSS       | Disables animations/transitions for deterministic baselines                     | Good       |
+| Exclusion constraint (btree_gist)  | Database-level double booking prevention; no race conditions                    | Good       |
+| Hybrid booking mode                | Owner chooses instant-confirm or inquiry; flexible for different property types | Good       |
+| Stripe MCC 7011                    | Extended authorization for accommodation deposits                               | -- Pending |
+| Fire-and-forget email              | Non-blocking booking creation; email failure doesn't block booking              | Good       |
+| Recharts for analytics             | Lightweight, React-native, good for dashboard charts                            | Good       |
+| Vercel cron for pre-arrival emails | Daily cron checks tomorrow's check-ins; no external scheduler needed            | Good       |
+| Order state machine                | Explicit state transitions prevent invalid order status changes                 | Good       |
+| Automation levels per service      | Owner controls auto-confirm vs manual vs WhatsApp per category                  | Good       |
 
 ---
 
-_Last updated: 2026-01-31 after v1.4 milestone start_
+_Last updated: 2026-01-31 after v1.4 milestone_

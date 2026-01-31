@@ -38,162 +38,14 @@ See milestones/v1.3-ROADMAP.md for details.
 
 </details>
 
-### v1.4 Accommodations v2
+<details>
+<summary>v1.4 Accommodations v2 (Phases 18-24) - SHIPPED 2026-01-31</summary>
 
-**Milestone Goal:** Complete the Accommodations vertical end-to-end: public property page with hybrid booking, full owner dashboard in backoffice, and configurable service ordering with cross-vertical deep-links.
+See milestones/v1.4-ROADMAP.md for details.
 
-- [x] **Phase 18: Database Foundation** - Schema extensions, availability constraint, service order tables, RLS (completed 2026-01-31)
-- [x] **Phase 19: Property Page & Booking Flow** - Public property page with SEO, guest booking submission (completed 2026-01-31)
-- [x] **Phase 20: Payments** - Payment method configuration, Stripe checkout, webhook handling (completed 2026-01-31)
-- [x] **Phase 21: Owner Dashboard - Bookings & Property** - Booking management, room CRUD, property settings, QR codes (completed 2026-01-31)
-- [x] **Phase 22: Owner Dashboard - Calendar & Pricing** - Availability calendar, date blocking, seasonal pricing (completed 2026-01-31)
-- [x] **Phase 23: Service Ordering** - Guest service catalog, cart, order lifecycle, owner order management (completed 2026-01-31)
-- [x] **Phase 24: Analytics, Deals & Communication** - Owner analytics, local deals, guest email notifications (completed 2026-01-31)
-
-## Phase Details
-
-### Phase 18: Database Foundation
-
-**Goal**: All database tables, constraints, and policies are in place so every subsequent phase builds on correct schema
-**Depends on**: Nothing (first phase of v1.4)
-**Requirements**: INFRA-01, INFRA-02, INFRA-03, INFRA-04, INFRA-05, INFRA-06, INFRA-07, INFRA-08
-**Success Criteria** (what must be TRUE):
-
-1. Double booking is impossible at the database level (exclusion constraint rejects overlapping date ranges for the same room)
-2. Check-in and check-out dates are stored as DATE type, preventing timezone shift bugs
-3. All new and extended tables have RLS policies that prevent cross-tenant data access
-4. Service order tables exist with proper foreign keys to bookings and services
-5. Stripe webhook endpoint path is registered and signature verification logic is in place
-   **Plans**: 2 plans
-
-Plans:
-
-- [x] 18-01-PLAN.md -- SQL migration 083: table extensions, exclusion constraint, service order tables, RLS
-- [x] 18-02-PLAN.md -- Stripe webhook endpoint with signature verification (stubbed handlers)
-
-### Phase 19: Property Page & Booking Flow
-
-**Goal**: Guests can discover a property via its public page and submit a booking request or get instant confirmation
-**Depends on**: Phase 18
-**Requirements**: PROP-01, PROP-02, PROP-03, PROP-04, PROP-05, PROP-06, BOOK-01, BOOK-02, BOOK-04, BOOK-05, BOOK-06, BOOK-07
-**Success Criteria** (what must be TRUE):
-
-1. Guest can open a property page by URL, see photos in a swipeable gallery, and read property details (description, amenities, house rules, host info, location)
-2. Guest can select dates on a calendar, see which dates are unavailable, and view a price breakdown (per-night x nights + cleaning fee + discounts)
-3. Guest can submit a booking with name, email, phone, dates, and guest count without creating an account
-4. Property page is server-rendered with OG meta tags and structured data for SEO
-5. Inquiry bookings auto-expire after the configured timeout, and booking confirmation is sent via WhatsApp deep-link and email
-   **Plans**: 3 plans (wave 1 -> wave 2 -> wave 3)
-
-Plans:
-
-- [x] 19-01-PLAN.md -- Dependencies, types, lib utilities, API routes (property, availability, booking)
-- [x] 19-02-PLAN.md -- Client components (gallery, property sections, calendar, form, confirmation)
-- [x] 19-03-PLAN.md -- Server page (SSR, SEO, JSON-LD), client orchestrator, confirmation page, CSS theming
-
-### Phase 20: Payments
-
-**Goal**: Owners can configure accepted payment methods and guests can pay via cash, bank transfer, Stripe card, or crypto
-**Depends on**: Phase 19
-**Requirements**: BOOK-03, PAY-01, PAY-02, PAY-03, PAY-04, PAY-05, PAY-06, PAY-07
-**Success Criteria** (what must be TRUE):
-
-1. Owner can configure which payment methods are accepted for their property
-2. Guest sees only the enabled payment methods and can select one during booking
-3. Stripe card payments collect a deposit via Stripe Checkout with webhook confirmation handling payment success and failure
-4. Cash bookings are confirmed immediately; bank transfer bookings stay pending until owner confirms payment manually
-5. Crypto payment deep-links via @shared/payment are functional
-   **Plans**: 3 plans (wave 1 -> wave 2 parallel)
-
-Plans:
-
-- [x] 20-01-PLAN.md -- DB migration 084 (payment config columns, status extension) + TypeScript types
-- [x] 20-02-PLAN.md -- Guest payment UI (PaymentMethodSelector, BankTransferInstructions, CryptoPaymentOptions) + booking API integration
-- [x] 20-03-PLAN.md -- Stripe Checkout session + webhook handler + manual payment confirmation + booking page status
-
-### Phase 21: Owner Dashboard - Bookings & Property
-
-**Goal**: Owners can manage bookings and configure their property and rooms from the backoffice
-**Depends on**: Phase 19
-**Requirements**: OBOOK-01, OBOOK-02, OBOOK-03, OBOOK-04, OBOOK-05, OBOOK-06, OMGMT-01, OMGMT-02, OMGMT-04
-**Success Criteria** (what must be TRUE):
-
-1. Owner can view a filterable list of all bookings and drill into any booking to see guest info, dates, payment status, and special requests
-2. Owner can confirm or decline inquiry bookings, mark guests as checked-in or checked-out, and cancel bookings with a reason
-3. Owner receives a WhatsApp notification when a new booking or inquiry arrives
-4. Owner can add, edit, and deactivate rooms with capacity, description, and images
-5. Owner can generate QR codes for the property and individual rooms
-   **Plans**: 3 plans (wave 1 -> wave 2 parallel)
-
-Plans:
-
-- [x] 21-01-PLAN.md -- API routes (bookings CRUD + rooms CRUD + property settings), shared helpers, BookingStatusBadge
-- [x] 21-02-PLAN.md -- Booking list page (tab filtering, search) + booking detail page (actions, timeline, WhatsApp)
-- [x] 21-03-PLAN.md -- Room management (ChargesManager pattern), property settings form, QR code generation, sidebar navigation
-
-### Phase 22: Owner Dashboard - Calendar & Pricing
-
-**Goal**: Owners can visually manage availability and set flexible pricing strategies
-**Depends on**: Phase 21
-**Requirements**: OCAL-01, OCAL-02, OCAL-03, OCAL-04, OCAL-05
-**Success Criteria** (what must be TRUE):
-
-1. Owner can view a monthly calendar with color-coded dates showing booked, available, and blocked status
-2. Owner can block and unblock date ranges for maintenance or personal use
-3. Owner can set base price per room type and override prices for specific date ranges (seasonal pricing)
-4. Owner can set weekly and monthly discount percentages that automatically apply to qualifying bookings
-   **Plans**: 2 plans (wave 1 -> wave 2)
-
-Plans:
-
-- [x] 22-01-PLAN.md -- SQL migration 085 (room blocks + seasonal pricing tables), calendar/blocks/pricing API routes, property PUT discount allowlist
-- [x] 22-02-PLAN.md -- AvailabilityCalendar grid, CalendarDetailPanel, SeasonalPricingManager, DiscountSettings, calendar page, sidebar nav
-
-### Phase 23: Service Ordering
-
-**Goal**: Guests can browse and order services from the In-Stay Dashboard, and owners can manage service catalog and incoming orders
-**Depends on**: Phase 18, Phase 21
-**Requirements**: SERV-01, SERV-02, SERV-03, SERV-04, SERV-05, SERV-06, SERV-07, SERV-08, SERV-09, OMGMT-03, OMGMT-05
-**Success Criteria** (what must be TRUE):
-
-1. Guest can browse the full service catalog organized by category and add items to a cart with quantity and notes
-2. Guest can submit a service order from the In-Stay Dashboard specifying ASAP or a time slot for delivery
-3. Guest can track order status through the full lifecycle (submitted, confirmed, preparing, ready, delivered)
-4. Owner can manage service categories and items (CRUD with pricing, availability hours) and configure automation level per category
-5. Owner receives WhatsApp notification on new orders and can confirm, update status, or reject from the dashboard
-   **Plans**: 4 plans (wave 1 -> wave 2 parallel -> wave 3)
-
-Plans:
-
-- [ ] 23-01-PLAN.md -- Migration 086 (automation_level), TypeScript types, order state machine, guest order API routes, stay-api extension
-- [ ] 23-02-PLAN.md -- Owner service catalog CRUD (backoffice page, API, ServiceCatalogManager component)
-- [ ] 23-03-PLAN.md -- Guest catalog UI, cart, order submission, order tracking with polling
-- [ ] 23-04-PLAN.md -- Owner order management (filterable table, status actions, detail panel), sidebar nav, WhatsApp
-
-### Phase 24: Analytics, Deals & Communication
-
-**Goal**: Owners have visibility into business performance, guests discover local deals, and booking communication flows automatically
-**Depends on**: Phase 21, Phase 23
-**Requirements**: OANA-01, OANA-02, OANA-03, OANA-04, DEAL-01, DEAL-02, DEAL-03, COMM-01, COMM-02, COMM-03, COMM-04
-**Success Criteria** (what must be TRUE):
-
-1. Owner can view occupancy rate, revenue summary (total, by room type, by month), ADR trend, and service revenue breakdown
-2. Owner can create, edit, and delete local deals with partner name, discount, and description
-3. Referral clicks from the In-Stay Dashboard to partner deal links are logged for tracking
-4. Guest receives booking confirmation email with booking code and property details, and a pre-arrival email with QR code one day before check-in
-5. Guest can contact host via WhatsApp deep-link from both the property page and the In-Stay Dashboard, and owner receives WhatsApp notifications for bookings, inquiries, and service orders
-   **Plans**: 3 plans
-
-Plans:
-
-- [x] 24-01-PLAN.md -- Migration 087 (deals, click tracking, email logs tables), analytics API routes, analytics dashboard with recharts
-- [x] 24-02-PLAN.md -- Deals CRUD (backoffice + guest frontend update + click tracking redirect)
-- [x] 24-03-PLAN.md -- Email communication (confirmation + pre-arrival cron with QR) + WhatsApp deep-links
+</details>
 
 ## Progress
-
-**Execution Order:** 18 > 19 > 20 > 21 > 22 > 23 > 24
-(Phase 20 and 21 can partially overlap -- both depend on Phase 19 but are independent of each other)
 
 | Phase                                     | Milestone | Plans Complete | Status   | Completed  |
 | ----------------------------------------- | --------- | -------------- | -------- | ---------- |
@@ -225,4 +77,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-31 after Phase 24 complete_
+_Last updated: 2026-01-31 after v1.4 milestone archived_

@@ -1,5 +1,36 @@
 # Milestones
 
+## v1.4 — Accommodations v2 (Shipped: 2026-01-31)
+
+**Delivered:** Complete Accommodations vertical end-to-end: public property page with hybrid booking, multi-payment support (cash/transfer/Stripe/crypto), full owner dashboard with calendar/pricing/analytics, configurable service ordering with cross-vertical deep-links, and automated guest communication.
+
+**Phases completed:** 18-24 (20 plans total)
+
+**Key accomplishments:**
+
+- Public property page with SSR, SEO (OG meta, JSON-LD), photo gallery, availability calendar, price breakdown
+- Hybrid booking flow (instant-confirm or inquiry), guest checkout without account, auto-expiry
+- Multi-payment: cash, bank transfer, Stripe Checkout with webhooks, crypto deep-links via @shared/payment
+- Full owner dashboard: booking management, room CRUD, property settings, QR codes, availability calendar, seasonal pricing, discounts
+- Service ordering system: guest catalog + cart, order state machine, owner order management, automation levels, cross-vertical deep-links
+- Analytics dashboard (occupancy, revenue, ADR, service breakdown), local deals CRUD with click tracking, automated emails (confirmation + pre-arrival with QR)
+
+**Stats:**
+
+- 161 files created/modified (+29,211 / -289 lines)
+- 7 phases, 20 plans, 86 commits
+- 1 day (2026-01-31)
+
+**Git range:** `0d6418e` -> `a428ae5`
+
+**Audit:** 64/64 requirements, 7/7 phases, 47/47 integration, 5/5 E2E flows — all passed
+
+**What's next:** TBD (next milestone via `/gsd:new-milestone`)
+
+**Archive:** `milestones/v1.4-ROADMAP.md`, `milestones/v1.4-REQUIREMENTS.md`
+
+---
+
 ## v1.3 — Merchant Feedback Intelligence (Shipped: 2026-01-30)
 
 **Delivered:** Merchants submit feedback in any language from the backoffice; AI translates, classifies, and groups similar submissions into tasks; admins manage tasks on a kanban board with full analytics visibility.
