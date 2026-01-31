@@ -70,7 +70,7 @@ See milestones/v1.4-ROADMAP.md for details.
 3. When no booking is active for a room, the QR shows a read-only property info page (not an error)
 4. Legacy `/stay/{booking-code}` URLs continue to work exactly as before (zero regressions)
 5. Guest can browse WiFi, property info, contacts, and house rules without any verification prompt
-   **Plans**: TBD
+   **Plans**: 2 plans
 
 Plans:
 
@@ -89,12 +89,12 @@ Plans:
 3. After successful verification, the original action proceeds without page reload and the session stays upgraded for the rest of the stay
 4. Multiple guests in the same room can each verify independently using a shared PIN
 5. After checkout, the previous guest's QR blocks all orders and paid actions (session invalidated)
-   **Plans**: TBD
+   **Plans**: 2 plans
 
 Plans:
 
-- [ ] 26-01: Two-tier JWT system (accessTier claim), API endpoint classification (read=browse, write=full), backward-compatible token handling
-- [ ] 26-02: InlineVerification component, /api/stay/room/[roomCode]/verify route, token upgrade flow, checkout invalidation
+- [ ] 26-01-PLAN.md — Backend: migration (PIN + verification method), verify endpoint, requireFullAccess guard, tier gating on orders
+- [ ] 26-02-PLAN.md — Frontend: InlineVerification bottom sheet, useRoomSession upgrade, room dashboard services + verification trigger
 
 ### Phase 27: Owner Security Configuration
 
@@ -191,4 +191,4 @@ Note: Phase 28 and Phase 29 are independent of each other (both depend on Phase 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after Phase 25 complete_
+_Last updated: 2026-02-01 after Phase 26 planning complete_
