@@ -10,6 +10,7 @@ import type {
   RoomInfo,
   BookingInfo,
   WifiInfo,
+  VerificationMethod,
 } from '@/types/stay';
 
 export const dynamic = 'force-dynamic';
@@ -142,6 +143,9 @@ export async function GET(_request: NextRequest, { params }: { params: { roomCod
       wifi,
       hasActiveBooking: result.has_active_booking,
       accessTier: 'browse',
+      ...(result.has_active_booking && {
+        verificationMethod: (result.guest_verification_method as VerificationMethod) || 'last_name',
+      }),
     };
 
     return NextResponse.json<ApiResponse<RoomResolveResponse>>({

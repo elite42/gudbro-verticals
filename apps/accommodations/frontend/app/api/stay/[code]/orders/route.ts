@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
-import { verifyGuestToken } from '@/lib/auth';
+import { verifyGuestToken, requireFullAccess } from '@/lib/auth';
 import type { ApiResponse, ServiceOrder, ServiceOrderItem, CreateOrderRequest } from '@/types/stay';
 
 export const dynamic = 'force-dynamic';
@@ -145,6 +145,14 @@ export async function POST(request: NextRequest) {
     const guest = await authenticateGuest(request);
     if (!guest) {
       return NextResponse.json<ApiResponse<null>>({ error: 'session_expired' }, { status: 401 });
+    }
+
+    // Require full-tier access for ordering (browse-tier gets 403)
+    if (!requireFullAccess(guest)) {
+      return NextResponse.json<ApiResponse<null>>(
+        { error: 'verification_required' },
+        { status: 403 }
+      );
     }
 
     const body = (await request.json()) as CreateOrderRequest;
