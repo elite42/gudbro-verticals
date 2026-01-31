@@ -15,7 +15,10 @@ export type ApiError =
   | 'order_not_found'
   | 'invalid_transition'
   | 'outside_hours'
-  | 'invalid_room_code';
+  | 'invalid_room_code'
+  | 'verification_required'
+  | 'too_many_attempts'
+  | 'no_active_booking';
 
 export interface ApiResponse<T> {
   data?: T;
@@ -49,6 +52,20 @@ export interface StayData {
 
 export type AccessTier = 'browse' | 'full';
 
+// --- Verification types for progressive auth (Phase 26) ---
+
+export type VerificationMethod = 'last_name' | 'pin';
+
+export interface VerifyRoomRequest {
+  method: VerificationMethod;
+  value: string;
+}
+
+export interface VerifyRoomResponse {
+  token: string;
+  stay: StayData;
+}
+
 // --- GET /api/stay/room/[roomCode] ---
 
 export interface RoomResolveResponse {
@@ -67,6 +84,7 @@ export interface RoomStayData {
   wifi: WifiInfo;
   hasActiveBooking: boolean;
   accessTier: AccessTier;
+  verificationMethod?: VerificationMethod; // Present when hasActiveBooking=true
 }
 
 export interface PropertyInfo {

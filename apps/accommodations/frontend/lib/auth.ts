@@ -60,6 +60,17 @@ export async function signGuestToken(payload: {
  * @returns Decoded payload with bookingId, propertyId, checkoutDate
  * @throws On invalid or expired token
  */
+/**
+ * Check if a guest token has full access tier.
+ * Tokens without explicit accessTier (from existing booking flow) default to 'full'.
+ *
+ * @param guest - Decoded guest token payload
+ * @returns true if guest has full access, false for browse-tier
+ */
+export function requireFullAccess(guest: GuestTokenPayload): boolean {
+  return (guest.accessTier || 'full') === 'full';
+}
+
 export async function verifyGuestToken(token: string): Promise<GuestTokenPayload> {
   const { payload } = await jwtVerify(token, getSecret());
   return {
