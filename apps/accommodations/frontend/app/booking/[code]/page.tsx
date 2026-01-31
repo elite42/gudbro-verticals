@@ -2,12 +2,16 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { formatPrice } from '@/lib/price-utils';
+import { PAYMENT_METHOD_CONFIG } from '@/types/property';
+import type { AccomPaymentMethod } from '@/types/property';
 
 interface Props {
   params: { code: string };
+  searchParams: { payment?: string };
 }
 
 interface BookingData {
+  id: string;
   booking_code: string;
   status: string;
   check_in_date: string;
@@ -17,6 +21,10 @@ interface BookingData {
   currency: string;
   special_requests: string | null;
   created_at: string;
+  payment_method: string | null;
+  payment_status: string | null;
+  deposit_amount: number | null;
+  deposit_percent: number | null;
   property: {
     name: string;
     city: string | null;
@@ -36,6 +44,7 @@ async function fetchBooking(code: string): Promise<BookingData | null> {
     .from('accom_bookings')
     .select(
       `
+      id,
       booking_code,
       status,
       check_in_date,
@@ -45,6 +54,10 @@ async function fetchBooking(code: string): Promise<BookingData | null> {
       currency,
       special_requests,
       created_at,
+      payment_method,
+      payment_status,
+      deposit_amount,
+      deposit_percent,
       property:accom_properties!accom_bookings_property_id_fkey (
         name,
         city,
@@ -63,6 +76,7 @@ async function fetchBooking(code: string): Promise<BookingData | null> {
   if (error || !data) return null;
 
   return {
+    id: data.id,
     booking_code: data.booking_code,
     status: data.status,
     check_in_date: data.check_in_date,
@@ -72,6 +86,10 @@ async function fetchBooking(code: string): Promise<BookingData | null> {
     currency: data.currency || 'VND',
     special_requests: data.special_requests,
     created_at: data.created_at,
+    payment_method: data.payment_method,
+    payment_status: data.payment_status,
+    deposit_amount: data.deposit_amount,
+    deposit_percent: data.deposit_percent,
     property: (data.property as unknown as BookingData['property']) || {
       name: 'Property',
       city: null,
@@ -118,6 +136,16 @@ const STATUS_STYLES: Record<string, { bg: string; text: string; label: string }>
     text: 'text-amber-700',
     label: 'Pending',
   },
+  pending_payment: {
+    bg: 'bg-amber-50',
+    text: 'text-amber-700',
+    label: 'Awaiting Payment',
+  },
+  payment_failed: {
+    bg: 'bg-[hsl(var(--error-light))]',
+    text: 'text-[hsl(var(--error))]',
+    label: 'Payment Failed',
+  },
   cancelled: {
     bg: 'bg-[hsl(var(--error-light))]',
     text: 'text-[hsl(var(--error))]',
@@ -125,15 +153,100 @@ const STATUS_STYLES: Record<string, { bg: string; text: string; label: string }>
   },
 };
 
-export default async function BookingPage({ params }: Props) {
+const PAYMENT_STATUS_STYLES: Record<string, { bg: string; text: string; label: string }> = {
+  paid: {
+    bg: 'bg-[hsl(var(--success-light))]',
+    text: 'text-[hsl(var(--success))]',
+    label: 'Paid',
+  },
+  partial: {
+    bg: 'bg-blue-50',
+    text: 'text-blue-700',
+    label: 'Deposit Paid',
+  },
+  unpaid: {
+    bg: 'bg-gray-100',
+    text: 'text-gray-600',
+    label: 'Unpaid',
+  },
+  pending: {
+    bg: 'bg-amber-50',
+    text: 'text-amber-700',
+    label: 'Pending',
+  },
+  failed: {
+    bg: 'bg-[hsl(var(--error-light))]',
+    text: 'text-[hsl(var(--error))]',
+    label: 'Failed',
+  },
+};
+
+function getPaymentMethodLabel(method: string | null): string {
+  if (!method) return 'Not specified';
+  const config = PAYMENT_METHOD_CONFIG[method as AccomPaymentMethod];
+  return config?.label || method;
+}
+
+/**
+ * Inline script for the payment button.
+ * The bookingId is a server-known UUID (not user input), safe for inline use.
+ */
+function getPaymentScript(bookingId: string): string {
+  // Validate bookingId is UUID format to prevent injection
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!uuidRegex.test(bookingId)) return '';
+
+  return `
+    document.getElementById('payment-button')?.addEventListener('click', async function() {
+      this.disabled = true;
+      this.textContent = 'Redirecting...';
+      try {
+        var res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ bookingId: '${bookingId}' })
+        });
+        var data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          alert('Could not create payment session. Please try again.');
+          this.disabled = false;
+          this.textContent = 'Complete Payment';
+        }
+      } catch (e) {
+        alert('Something went wrong. Please try again.');
+        this.disabled = false;
+        this.textContent = 'Complete Payment';
+      }
+    });
+  `;
+}
+
+export default async function BookingPage({ params, searchParams }: Props) {
   const booking = await fetchBooking(params.code);
   if (!booking) notFound();
 
   const nights = getNights(booking.check_in_date, booking.check_out_date);
   const statusStyle = STATUS_STYLES[booking.status] || STATUS_STYLES.pending;
+  const paymentResult = searchParams.payment;
+  const showPaymentRetry =
+    booking.status === 'pending_payment' && booking.payment_method === 'card';
 
   return (
     <main className="mx-auto max-w-lg px-4 py-8">
+      {/* Payment result banners */}
+      {paymentResult === 'success' && (
+        <div className="mb-6 rounded-xl border border-green-200 bg-green-50 p-4 text-center text-sm font-medium text-green-800">
+          Payment successful! Your booking is confirmed.
+        </div>
+      )}
+      {paymentResult === 'cancelled' && (
+        <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-center text-sm font-medium text-amber-800">
+          Payment was not completed. You can try again below.
+        </div>
+      )}
+
       {/* Header */}
       <div className="mb-8 text-center">
         <h1 className="font-display text-2xl font-bold">Booking Details</h1>
@@ -197,6 +310,88 @@ export default async function BookingPage({ params }: Props) {
           </div>
         </dl>
       </div>
+
+      {/* Payment info section */}
+      {booking.payment_method && (
+        <div className="mb-6 rounded-xl border border-[hsl(var(--border))] bg-white p-5">
+          <h3 className="mb-4 font-semibold">Payment</h3>
+          <dl className="space-y-3 text-sm">
+            <div className="flex items-center justify-between">
+              <dt className="text-[hsl(var(--foreground-muted))]">Method</dt>
+              <dd className="font-medium">{getPaymentMethodLabel(booking.payment_method)}</dd>
+            </div>
+            {booking.payment_status && (
+              <div className="flex items-center justify-between">
+                <dt className="text-[hsl(var(--foreground-muted))]">Status</dt>
+                <dd>
+                  <span
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      (
+                        PAYMENT_STATUS_STYLES[booking.payment_status] ||
+                        PAYMENT_STATUS_STYLES.unpaid
+                      ).bg
+                    } ${
+                      (
+                        PAYMENT_STATUS_STYLES[booking.payment_status] ||
+                        PAYMENT_STATUS_STYLES.unpaid
+                      ).text
+                    }`}
+                  >
+                    {
+                      (
+                        PAYMENT_STATUS_STYLES[booking.payment_status] ||
+                        PAYMENT_STATUS_STYLES.unpaid
+                      ).label
+                    }
+                  </span>
+                </dd>
+              </div>
+            )}
+            {/* Deposit breakdown */}
+            {booking.deposit_percent != null &&
+              booking.deposit_percent < 100 &&
+              booking.deposit_amount != null &&
+              booking.deposit_amount > 0 && (
+                <>
+                  <hr className="border-[hsl(var(--border))]" />
+                  <div className="flex justify-between">
+                    <dt className="text-[hsl(var(--foreground-muted))]">
+                      Deposit ({booking.deposit_percent}%)
+                    </dt>
+                    <dd className="font-medium">
+                      {formatPrice(booking.deposit_amount, booking.currency)}
+                    </dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-[hsl(var(--foreground-muted))]">Remaining at check-in</dt>
+                    <dd className="font-medium">
+                      {formatPrice(booking.total_price - booking.deposit_amount, booking.currency)}
+                    </dd>
+                  </div>
+                </>
+              )}
+          </dl>
+
+          {/* Card payment retry button */}
+          {showPaymentRetry && (
+            <div className="mt-4">
+              <button
+                type="button"
+                id="payment-button"
+                className="w-full rounded-xl bg-indigo-600 px-6 py-3 font-medium text-white transition-colors hover:bg-indigo-700"
+                data-booking-id={booking.id}
+              >
+                Complete Payment
+              </button>
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: getPaymentScript(booking.id),
+                }}
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       {/* WhatsApp CTA */}
       {booking.property.contact_whatsapp && (
