@@ -51,7 +51,7 @@ See milestones/v1.4-ROADMAP.md for details.
 **Milestone Goal:** Replace booking-code verification with room-based QR access, progressive authentication for paid actions, owner-configurable security levels, document upload with GDPR compliance, and multi-zone WiFi display.
 
 - [x] **Phase 25: Room Code Foundation** - Permanent room codes, browse-tier QR access, instant WiFi/info dashboard
-- [ ] **Phase 26: Progressive Authentication** - Two-tier JWT, inline verification for paid actions, multi-guest PIN support
+- [x] **Phase 26: Progressive Authentication** - Two-tier JWT, inline verification for paid actions, multi-guest PIN support
 - [ ] **Phase 27: Owner Security Configuration** - Security presets, configurable verification methods, action-level gating
 - [ ] **Phase 28: Document Upload + Visa Tracking** - Passport/visa photo upload, expiry reminders, GDPR auto-delete
 - [ ] **Phase 29: Multi-Zone WiFi** - Per-zone WiFi credentials, room overrides, zone-organized display
@@ -93,8 +93,8 @@ Plans:
 
 Plans:
 
-- [ ] 26-01-PLAN.md — Backend: migration (PIN + verification method), verify endpoint, requireFullAccess guard, tier gating on orders
-- [ ] 26-02-PLAN.md — Frontend: InlineVerification bottom sheet, useRoomSession upgrade, room dashboard services + verification trigger
+- [x] 26-01-PLAN.md — Backend: migration (PIN + verification method), verify endpoint, requireFullAccess guard, tier gating on orders
+- [x] 26-02-PLAN.md — Frontend: InlineVerification bottom sheet, useRoomSession upgrade, room dashboard services + verification trigger
 
 ### Phase 27: Owner Security Configuration
 
@@ -183,7 +183,7 @@ Note: Phase 28 and Phase 29 are independent of each other (both depend on Phase 
 | 23. Service Ordering                      | v1.4      | 4/4            | Complete    | 2026-01-31 |
 | 24. Analytics, Deals & Communication      | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 25. Room Code Foundation                  | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 26. Progressive Authentication            | v1.5      | 0/2            | Not started | -          |
+| 26. Progressive Authentication            | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 27. Owner Security Configuration          | v1.5      | 0/2            | Not started | -          |
 | 28. Document Upload + Visa Tracking       | v1.5      | 0/2            | Not started | -          |
 | 29. Multi-Zone WiFi                       | v1.5      | 0/2            | Not started | -          |
@@ -191,4 +191,4 @@ Note: Phase 28 and Phase 29 are independent of each other (both depend on Phase 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after Phase 26 planning complete_
+_Last updated: 2026-02-01 after Phase 26 complete_

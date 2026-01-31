@@ -12,16 +12,16 @@ Requirements for frictionless guest access milestone. Each maps to roadmap phase
 - [x] **QRA-01**: Guest scans QR in room and immediately accesses dashboard without any login form
 - [x] **QRA-02**: QR contains a permanent room code that resolves to the active booking for that room
 - [x] **QRA-03**: If no active booking exists, QR shows a read-only property info page
-- [ ] **QRA-04**: After checkout, QR blocks orders and paid actions for previous booking
+- [x] **QRA-04**: After checkout, QR blocks orders and paid actions for previous booking
 - [x] **QRA-05**: Legacy `/stay/{booking-code}` URLs continue working (backward compatibility)
 
 ### Progressive Auth
 
 - [x] **AUTH-01**: Guest can browse WiFi, property info, contacts, house rules without any verification
-- [ ] **AUTH-02**: When guest tries to order a paid service, an inline verification modal appears
-- [ ] **AUTH-03**: Verification accepts last name or numeric PIN (configurable by owner)
-- [ ] **AUTH-04**: After verification, token upgrades to "full" without page reload
-- [ ] **AUTH-05**: Multi-guest: multiple people in same room can verify independently via PIN
+- [x] **AUTH-02**: When guest tries to order a paid service, an inline verification modal appears
+- [x] **AUTH-03**: Verification accepts last name or numeric PIN (configurable by owner)
+- [x] **AUTH-04**: After verification, token upgrades to "full" without page reload
+- [x] **AUTH-05**: Multi-guest: multiple people in same room can verify independently via PIN
 
 ### Owner Configuration
 
@@ -86,13 +86,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | QRA-01      | 25    | Complete |
 | QRA-02      | 25    | Complete |
 | QRA-03      | 25    | Complete |
-| QRA-04      | 26    | Pending  |
+| QRA-04      | 26    | Complete |
 | QRA-05      | 25    | Complete |
 | AUTH-01     | 25    | Complete |
-| AUTH-02     | 26    | Pending  |
-| AUTH-03     | 26    | Pending  |
-| AUTH-04     | 26    | Pending  |
-| AUTH-05     | 26    | Pending  |
+| AUTH-02     | 26    | Complete |
+| AUTH-03     | 26    | Complete |
+| AUTH-04     | 26    | Complete |
+| AUTH-05     | 26    | Complete |
 | CONF-01     | 27    | Pending  |
 | CONF-02     | 27    | Pending  |
 | CONF-03     | 27    | Pending  |
@@ -115,4 +115,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-01-31_
-_Last updated: 2026-02-01 after Phase 25 complete (QRA-01,02,03,05 + AUTH-01 marked Complete)_
+_Last updated: 2026-02-01 after Phase 26 complete (QRA-04 + AUTH-02,03,04,05 marked Complete)_
