@@ -64,12 +64,12 @@ See milestones/v1.3-ROADMAP.md for details.
 3. All new and extended tables have RLS policies that prevent cross-tenant data access
 4. Service order tables exist with proper foreign keys to bookings and services
 5. Stripe webhook endpoint path is registered and signature verification logic is in place
-   **Plans**: TBD
+   **Plans**: 2 plans
 
 Plans:
 
-- [ ] 18-01: TBD
-- [ ] 18-02: TBD
+- [ ] 18-01-PLAN.md -- SQL migration 083: table extensions, exclusion constraint, service order tables, RLS
+- [ ] 18-02-PLAN.md -- Stripe webhook endpoint with signature verification (stubbed handlers)
 
 ### Phase 19: Property Page & Booking Flow
 
