@@ -9,22 +9,22 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ### Property Page
 
-- [ ] **PROP-01**: Guest can view property page with photo gallery (swipeable, fullscreen)
-- [ ] **PROP-02**: Guest can see property description, amenities, house rules, and host info
-- [ ] **PROP-03**: Guest can check room availability via date picker calendar
-- [ ] **PROP-04**: Guest can see price breakdown (per-night x nights + cleaning fee + discounts)
-- [ ] **PROP-05**: Guest can view property location (static map or Google Maps link)
-- [ ] **PROP-06**: Property page is server-rendered for SEO (OG meta tags, structured data)
+- [x] **PROP-01**: Guest can view property page with photo gallery (swipeable, fullscreen)
+- [x] **PROP-02**: Guest can see property description, amenities, house rules, and host info
+- [x] **PROP-03**: Guest can check room availability via date picker calendar
+- [x] **PROP-04**: Guest can see price breakdown (per-night x nights + cleaning fee + discounts)
+- [x] **PROP-05**: Guest can view property location (static map or Google Maps link)
+- [x] **PROP-06**: Property page is server-rendered for SEO (OG meta tags, structured data)
 
 ### Booking Flow
 
-- [ ] **BOOK-01**: Guest can submit booking request with name, email, phone, dates, guest count
-- [ ] **BOOK-02**: Property supports hybrid booking mode (instant-confirm or inquiry, owner-configured)
+- [x] **BOOK-01**: Guest can submit booking request with name, email, phone, dates, guest count
+- [x] **BOOK-02**: Property supports hybrid booking mode (instant-confirm or inquiry, owner-configured)
 - [ ] **BOOK-03**: Guest can select payment method (cash, bank transfer, card via Stripe, crypto)
-- [ ] **BOOK-04**: Guest receives booking confirmation via WhatsApp and email with booking code
-- [ ] **BOOK-05**: Inquiry bookings auto-expire after configurable timeout (default 24h)
-- [ ] **BOOK-06**: Double booking is prevented at database level (exclusion constraint on date ranges)
-- [ ] **BOOK-07**: Guest can book without creating an account (guest checkout)
+- [x] **BOOK-04**: Guest receives booking confirmation via WhatsApp and email with booking code
+- [x] **BOOK-05**: Inquiry bookings auto-expire after configurable timeout (default 24h)
+- [x] **BOOK-06**: Double booking is prevented at database level (exclusion constraint on date ranges)
+- [x] **BOOK-07**: Guest can book without creating an account (guest checkout)
 
 ### Payments
 
@@ -138,19 +138,19 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 | Requirement | Phase    | Status   |
 | ----------- | -------- | -------- |
-| PROP-01     | Phase 19 | Pending  |
-| PROP-02     | Phase 19 | Pending  |
-| PROP-03     | Phase 19 | Pending  |
-| PROP-04     | Phase 19 | Pending  |
-| PROP-05     | Phase 19 | Pending  |
-| PROP-06     | Phase 19 | Pending  |
-| BOOK-01     | Phase 19 | Pending  |
-| BOOK-02     | Phase 19 | Pending  |
+| PROP-01     | Phase 19 | Complete |
+| PROP-02     | Phase 19 | Complete |
+| PROP-03     | Phase 19 | Complete |
+| PROP-04     | Phase 19 | Complete |
+| PROP-05     | Phase 19 | Complete |
+| PROP-06     | Phase 19 | Complete |
+| BOOK-01     | Phase 19 | Complete |
+| BOOK-02     | Phase 19 | Complete |
 | BOOK-03     | Phase 20 | Pending  |
-| BOOK-04     | Phase 19 | Pending  |
-| BOOK-05     | Phase 19 | Pending  |
-| BOOK-06     | Phase 19 | Pending  |
-| BOOK-07     | Phase 19 | Pending  |
+| BOOK-04     | Phase 19 | Complete |
+| BOOK-05     | Phase 19 | Complete |
+| BOOK-06     | Phase 19 | Complete |
+| BOOK-07     | Phase 19 | Complete |
 | PAY-01      | Phase 20 | Pending  |
 | PAY-02      | Phase 20 | Pending  |
 | PAY-03      | Phase 20 | Pending  |
@@ -212,4 +212,4 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 ---
 
 _Requirements defined: 2026-01-31_
-_Last updated: 2026-01-31 after roadmap creation (traceability populated)_
+_Last updated: 2026-01-31 after Phase 19 completion (12 requirements marked Complete)_
