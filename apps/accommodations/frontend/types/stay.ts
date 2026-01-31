@@ -11,7 +11,10 @@ export type ApiError =
   | 'booking_expired'
   | 'verification_failed'
   | 'session_expired'
-  | 'internal_error';
+  | 'internal_error'
+  | 'order_not_found'
+  | 'invalid_transition'
+  | 'outside_hours';
 
 export interface ApiResponse<T> {
   data?: T;
@@ -91,6 +94,7 @@ export interface ServiceCategoryWithItems {
   icon: string | null;
   description: string | null;
   sortOrder: number;
+  automationLevel: string;
   items: ServiceItemResponse[];
 }
 
@@ -103,6 +107,9 @@ export interface ServiceItemResponse {
   priceType: string;
   image: string | null;
   inStock: boolean;
+  isAlwaysAvailable: boolean;
+  availableFrom: string | null;
+  availableUntil: string | null;
 }
 
 // --- GET /api/stay/[code]/useful-numbers ---
@@ -153,4 +160,56 @@ export interface DealResponse {
   description: string | null;
   validUntil: string | null;
   bookingAction: string | null;
+}
+
+// --- Service Ordering Types ---
+
+export interface CartItem {
+  serviceItemId: string;
+  name: string;
+  unitPrice: number;
+  currency: string;
+  quantity: number;
+  notes: string;
+}
+
+export interface ServiceOrder {
+  id: string;
+  status: string;
+  requestedTime: string | null;
+  deliveryNotes: string | null;
+  subtotal: number;
+  tax: number;
+  total: number;
+  currency: string;
+  items: ServiceOrderItem[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ServiceOrderItem {
+  id: string;
+  name: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+  notes: string | null;
+}
+
+export interface CreateOrderRequest {
+  items: {
+    serviceItemId: string;
+    quantity: number;
+    notes?: string;
+  }[];
+  requestedTime?: string;
+  deliveryNotes?: string;
+}
+
+export interface OrdersResponse {
+  orders: ServiceOrder[];
+}
+
+export interface ServiceCategoryResponseWithTimezone extends ServiceCategoryResponse {
+  timezone: string;
 }
