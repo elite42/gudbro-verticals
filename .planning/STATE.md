@@ -9,21 +9,21 @@ See: .planning/PROJECT.md (updated 2026-01-31)
 
 ## Current Position
 
-Phase: 18 of 24 (Database Foundation) -- first of 7 phases in v1.4
-Plan: 2 of 2 in current phase
-Status: Phase 18 verified (14/14 must-haves), ready to plan Phase 19
-Last activity: 2026-01-31 -- Phase 18 verified and complete
+Phase: 19 of 24 (Property Page & Booking Flow)
+Plan: 2 of 5 in current phase
+Status: In progress - Plan 19-02 complete, Plan 19-03 next
+Last activity: 2026-01-31 -- Completed 19-02-PLAN.md (client components)
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [██░░░░░░░░░░░░░░░░] 2/18
-████████████████████████████████████████ prior | ██░░░░░░░░░░░░░░░░ v1.4
+Progress: v1.0-v1.3 [36/36] | v1.4 [████░░░░░░░░░░░░░░] 4/18
+████████████████████████████████████████ prior | ████░░░░░░░░░░░░░░ v1.4
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 38 (+ 1 quick task)
+- Total plans completed: 40 (+ 1 quick task)
 - Average duration: ~2.8 min/plan
-- Total execution time: ~2.5 hours
+- Total execution time: ~2.6 hours
 
 **By Milestone:**
 
@@ -33,7 +33,7 @@ Progress: v1.0-v1.3 [36/36] | v1.4 [██░░░░░░░░░░░░�
 | v1.1      | 12+1  | ~32 min    | 2.7 min  |
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
-| v1.4      | 2     | ~2 min     | 1.0 min  |
+| v1.4      | 4     | ~7 min     | 1.8 min  |
 
 ## Accumulated Context
 
@@ -52,6 +52,9 @@ Key v1.4 architectural decisions:
 - All prices INTEGER minor currency units (not NUMERIC/DECIMAL)
 - Service order items snapshot name/unit_price for historical accuracy
 - Separate STRIPE_ACCOM_WEBHOOK_SECRET env var (not shared with wallet webhook)
+- Phosphor SSR imports: @phosphor-icons/react/dist/ssr for server components, @phosphor-icons/react for client
+- BookingCalendar is presentational -- receives bookedRanges as props, useBookingForm owns fetch lifecycle
+- OpenStreetMap embed for map preview (no API key); Google Maps link for navigation
 
 ### Pending Todos
 
@@ -65,10 +68,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Phase 18 verified and complete, ready for Phase 19
+Stopped at: Completed 19-02-PLAN.md (client components)
 Resume file: None
-Next: `/gsd:discuss-phase 19` or `/gsd:plan-phase 19`
+Next: `/gsd:execute-phase 19` (plan 03 - page composition)
 
 ---
 
-_Last updated: 2026-01-31 after Phase 18 verification_
+_Last updated: 2026-01-31 after Plan 19-02 execution_
