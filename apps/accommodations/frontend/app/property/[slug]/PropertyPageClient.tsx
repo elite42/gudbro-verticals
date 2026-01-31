@@ -44,6 +44,8 @@ export default function PropertyPageClient({ property }: PropertyPageClientProps
     setGuestCount,
     specialRequests,
     setSpecialRequests,
+    selectedPaymentMethod,
+    setSelectedPaymentMethod,
     isSubmitting,
     submitError,
     bookingResult,
@@ -57,6 +59,8 @@ export default function PropertyPageClient({ property }: PropertyPageClientProps
     weeklyDiscountPercent: property.weekly_discount_percent,
     monthlyDiscountPercent: property.monthly_discount_percent,
     minNights: property.min_nights,
+    acceptedPaymentMethods: property.accepted_payment_methods,
+    depositPercent: property.deposit_percent,
   });
 
   const activeRooms = property.rooms.filter((r) => r.is_active);
@@ -139,6 +143,12 @@ export default function PropertyPageClient({ property }: PropertyPageClientProps
             submitError={submitError}
             isFormValid={isFormValid}
             onSubmit={handleSubmit}
+            acceptedPaymentMethods={property.accepted_payment_methods}
+            selectedPaymentMethod={selectedPaymentMethod}
+            onSelectPaymentMethod={setSelectedPaymentMethod}
+            depositPercent={property.deposit_percent}
+            totalPrice={priceBreakdown?.totalPrice || 0}
+            currency={selectedRoom?.currency || 'VND'}
           />
         </>
       )}

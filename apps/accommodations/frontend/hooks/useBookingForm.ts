@@ -5,7 +5,13 @@ import type { DateRange } from 'react-day-picker';
 import { fetchAvailability } from '@/lib/property-api';
 import { submitBooking } from '@/lib/booking-api';
 import { calculatePriceBreakdown } from '@/lib/price-utils';
-import type { PropertyRoom, BookedRange, PriceBreakdown, BookingResponse } from '@/types/property';
+import type {
+  PropertyRoom,
+  BookedRange,
+  PriceBreakdown,
+  BookingResponse,
+  AccomPaymentMethod,
+} from '@/types/property';
 
 interface UseBookingFormProps {
   propertySlug: string;
@@ -15,6 +21,8 @@ interface UseBookingFormProps {
   weeklyDiscountPercent: number;
   monthlyDiscountPercent: number;
   minNights: number;
+  acceptedPaymentMethods: string[];
+  depositPercent: number;
 }
 
 interface UseBookingFormReturn {
@@ -45,6 +53,10 @@ interface UseBookingFormReturn {
   specialRequests: string;
   setSpecialRequests: (v: string) => void;
 
+  // Payment method
+  selectedPaymentMethod: AccomPaymentMethod | null;
+  setSelectedPaymentMethod: (m: AccomPaymentMethod) => void;
+
   // Submission
   isSubmitting: boolean;
   submitError: string | null;
@@ -64,6 +76,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   validation_error: 'Please check your booking details and try again.',
   property_not_found: 'This property is no longer available.',
   property_disabled: 'This property is not accepting bookings.',
+  payment_method_not_accepted: 'This payment method is not accepted by this property.',
   network_error: 'Network error. Please check your connection and try again.',
   internal_error: 'Something went wrong. Please try again.',
 };
@@ -80,6 +93,8 @@ export function useBookingForm({
   weeklyDiscountPercent,
   monthlyDiscountPercent,
   minNights,
+  acceptedPaymentMethods,
+  depositPercent,
 }: UseBookingFormProps): UseBookingFormReturn {
   // Room selection -- auto-select if single room
   const [selectedRoom, setSelectedRoom] = useState<PropertyRoom | null>(
@@ -100,6 +115,11 @@ export function useBookingForm({
   const [phone, setPhone] = useState('');
   const [guestCount, setGuestCount] = useState(1);
   const [specialRequests, setSpecialRequests] = useState('');
+
+  // Payment method -- auto-select if only one accepted
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<AccomPaymentMethod | null>(
+    acceptedPaymentMethods.length === 1 ? (acceptedPaymentMethods[0] as AccomPaymentMethod) : null
+  );
 
   // Submission
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -165,8 +185,21 @@ export function useBookingForm({
     if (!phone || phone.length < 7) return false;
     if (guestCount < 1 || guestCount > selectedRoom.capacity) return false;
     if (bookingMode === 'disabled') return false;
+    // Require payment method if property has accepted methods configured
+    if (acceptedPaymentMethods.length > 0 && !selectedPaymentMethod) return false;
     return true;
-  }, [selectedRoom, dateRange, firstName, lastName, email, phone, guestCount, bookingMode]);
+  }, [
+    selectedRoom,
+    dateRange,
+    firstName,
+    lastName,
+    email,
+    phone,
+    guestCount,
+    bookingMode,
+    acceptedPaymentMethods,
+    selectedPaymentMethod,
+  ]);
 
   // Submit handler
   const handleSubmit = useCallback(async () => {
@@ -188,11 +221,11 @@ export function useBookingForm({
       checkIn: formatDate(dateRange.from),
       checkOut: formatDate(dateRange.to),
       specialRequests: specialRequests.trim() || undefined,
+      paymentMethod: selectedPaymentMethod || undefined,
     });
 
-    setIsSubmitting(false);
-
     if (error) {
+      setIsSubmitting(false);
       setSubmitError(ERROR_MESSAGES[error] || ERROR_MESSAGES.internal_error);
       return;
     }
@@ -204,7 +237,35 @@ export function useBookingForm({
       } catch {
         // localStorage may be unavailable in private browsing
       }
+
+      // Handle card payment: redirect to Stripe Checkout
+      if (data.paymentMethod === 'card') {
+        if (data.stripeCheckoutUrl) {
+          // Stripe session URL returned directly from booking API
+          window.location.href = data.stripeCheckoutUrl;
+          return; // Keep isSubmitting true during redirect
+        }
+        // Fallback: create checkout session via separate endpoint
+        try {
+          const checkoutRes = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bookingId: data.bookingCode }),
+          });
+          const checkoutData = await checkoutRes.json();
+          if (checkoutData.data?.url) {
+            window.location.href = checkoutData.data.url;
+            return; // Keep isSubmitting true during redirect
+          }
+        } catch {
+          // If checkout creation fails, still show confirmation
+        }
+      }
+
+      setIsSubmitting(false);
       setBookingResult(data);
+    } else {
+      setIsSubmitting(false);
     }
   }, [
     isFormValid,
@@ -217,6 +278,7 @@ export function useBookingForm({
     phone,
     guestCount,
     specialRequests,
+    selectedPaymentMethod,
   ]);
 
   return {
@@ -239,6 +301,8 @@ export function useBookingForm({
     setGuestCount,
     specialRequests,
     setSpecialRequests,
+    selectedPaymentMethod,
+    setSelectedPaymentMethod,
     isSubmitting,
     submitError,
     bookingResult,

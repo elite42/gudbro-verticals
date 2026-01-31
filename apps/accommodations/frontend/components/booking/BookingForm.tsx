@@ -3,6 +3,8 @@
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { SpinnerGap, WarningCircle } from '@phosphor-icons/react';
+import PaymentMethodSelector from './PaymentMethodSelector';
+import type { AccomPaymentMethod } from '@/types/property';
 
 interface BookingFormProps {
   firstName: string;
@@ -23,6 +25,13 @@ interface BookingFormProps {
   submitError: string | null;
   isFormValid: boolean;
   onSubmit: () => void;
+  // Payment method props
+  acceptedPaymentMethods: string[];
+  selectedPaymentMethod: AccomPaymentMethod | null;
+  onSelectPaymentMethod: (m: AccomPaymentMethod) => void;
+  depositPercent: number;
+  totalPrice: number;
+  currency: string;
 }
 
 export default function BookingForm({
@@ -44,6 +53,12 @@ export default function BookingForm({
   submitError,
   isFormValid,
   onSubmit,
+  acceptedPaymentMethods,
+  selectedPaymentMethod,
+  onSelectPaymentMethod,
+  depositPercent,
+  totalPrice,
+  currency,
 }: BookingFormProps) {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,6 +167,18 @@ export default function BookingForm({
           />
         </div>
 
+        {/* Payment method selector */}
+        {acceptedPaymentMethods.length > 0 && (
+          <PaymentMethodSelector
+            acceptedMethods={acceptedPaymentMethods}
+            selectedMethod={selectedPaymentMethod}
+            onSelect={onSelectPaymentMethod}
+            depositPercent={depositPercent}
+            totalPrice={totalPrice}
+            currency={currency}
+          />
+        )}
+
         {/* Error message */}
         {submitError && (
           <div className="bg-error-light text-error flex items-start gap-2 rounded-lg p-3 text-sm">
@@ -171,6 +198,12 @@ export default function BookingForm({
               <SpinnerGap size={18} className="animate-spin" />
               Processing...
             </span>
+          ) : selectedPaymentMethod === 'card' ? (
+            'Pay Deposit via Card'
+          ) : selectedPaymentMethod === 'cash' ? (
+            'Book Now'
+          ) : selectedPaymentMethod === 'bank_transfer' || selectedPaymentMethod === 'crypto' ? (
+            'Request Booking'
           ) : bookingMode === 'instant' ? (
             'Book Now'
           ) : (
