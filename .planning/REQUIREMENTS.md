@@ -20,7 +20,7 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 - [x] **BOOK-01**: Guest can submit booking request with name, email, phone, dates, guest count
 - [x] **BOOK-02**: Property supports hybrid booking mode (instant-confirm or inquiry, owner-configured)
-- [ ] **BOOK-03**: Guest can select payment method (cash, bank transfer, card via Stripe, crypto)
+- [x] **BOOK-03**: Guest can select payment method (cash, bank transfer, card via Stripe, crypto)
 - [x] **BOOK-04**: Guest receives booking confirmation via WhatsApp and email with booking code
 - [x] **BOOK-05**: Inquiry bookings auto-expire after configurable timeout (default 24h)
 - [x] **BOOK-06**: Double booking is prevented at database level (exclusion constraint on date ranges)
@@ -28,13 +28,13 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ### Payments
 
-- [ ] **PAY-01**: Owner can configure accepted payment methods per property
-- [ ] **PAY-02**: Cash payment: booking confirmed, guest pays at check-in
-- [ ] **PAY-03**: Bank transfer: booking pending, owner confirms payment manually
-- [ ] **PAY-04**: Stripe card payment: deposit collected at booking via Stripe Checkout
-- [ ] **PAY-05**: Crypto payment: deep-link to crypto payment via @shared/payment
-- [ ] **PAY-06**: Stripe webhook handles payment confirmation and failure
-- [ ] **PAY-07**: Owner can update payment status manually in dashboard
+- [x] **PAY-01**: Owner can configure accepted payment methods per property
+- [x] **PAY-02**: Cash payment: booking confirmed, guest pays at check-in
+- [x] **PAY-03**: Bank transfer: booking pending, owner confirms payment manually
+- [x] **PAY-04**: Stripe card payment: deposit collected at booking via Stripe Checkout
+- [x] **PAY-05**: Crypto payment: deep-link to crypto payment via @shared/payment
+- [x] **PAY-06**: Stripe webhook handles payment confirmation and failure
+- [x] **PAY-07**: Owner can update payment status manually in dashboard
 
 ### Owner Dashboard -- Bookings
 
@@ -146,18 +146,18 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 | PROP-06     | Phase 19 | Complete |
 | BOOK-01     | Phase 19 | Complete |
 | BOOK-02     | Phase 19 | Complete |
-| BOOK-03     | Phase 20 | Pending  |
+| BOOK-03     | Phase 20 | Complete |
 | BOOK-04     | Phase 19 | Complete |
 | BOOK-05     | Phase 19 | Complete |
 | BOOK-06     | Phase 19 | Complete |
 | BOOK-07     | Phase 19 | Complete |
-| PAY-01      | Phase 20 | Pending  |
-| PAY-02      | Phase 20 | Pending  |
-| PAY-03      | Phase 20 | Pending  |
-| PAY-04      | Phase 20 | Pending  |
-| PAY-05      | Phase 20 | Pending  |
-| PAY-06      | Phase 20 | Pending  |
-| PAY-07      | Phase 20 | Pending  |
+| PAY-01      | Phase 20 | Complete |
+| PAY-02      | Phase 20 | Complete |
+| PAY-03      | Phase 20 | Complete |
+| PAY-04      | Phase 20 | Complete |
+| PAY-05      | Phase 20 | Complete |
+| PAY-06      | Phase 20 | Complete |
+| PAY-07      | Phase 20 | Complete |
 | OBOOK-01    | Phase 21 | Pending  |
 | OBOOK-02    | Phase 21 | Pending  |
 | OBOOK-03    | Phase 21 | Pending  |

@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-31)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** Phase 20 - Payments (v1.4 Accommodations v2)
+**Current focus:** Phase 21 - Owner Dashboard: Bookings & Property (v1.4 Accommodations v2)
 
 ## Current Position
 
-Phase: 20 of 24 (Payments)
+Phase: 20 of 24 (Payments) -- COMPLETE
 Plan: 3 of 3 in current phase
-Status: Phase 20 complete -- All 3 plans executed
-Last activity: 2026-01-31 -- Completed 20-03-PLAN.md (Stripe Integration & Payment Management)
+Status: Phase 20 verified (5/5 must-haves), ready to plan Phase 21
+Last activity: 2026-01-31 -- Phase 20 verified and complete
 
-Progress: v1.0-v1.3 [36/36] | v1.4 [████████████░░░░░░] 9/18
+Progress: v1.0-v1.3 [36/36] | v1.4 [████████████░░░░░░] 8/18
 ████████████████████████████████████████ prior | ████████████░░░░░░ v1.4
 
 ## Performance Metrics
@@ -79,10 +79,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 20-03-PLAN.md (Stripe Integration & Payment Management)
+Stopped at: Phase 20 verified and complete, ready for Phase 21
 Resume file: None
-Next: `/gsd:execute-phase 21` (next phase)
+Next: `/gsd:discuss-phase 21` or `/gsd:plan-phase 21`
 
 ---
 
-_Last updated: 2026-01-31 after 20-03 execution_
+_Last updated: 2026-01-31 after Phase 20 verification_

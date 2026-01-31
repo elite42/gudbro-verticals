@@ -44,7 +44,7 @@ See milestones/v1.3-ROADMAP.md for details.
 
 - [x] **Phase 18: Database Foundation** - Schema extensions, availability constraint, service order tables, RLS (completed 2026-01-31)
 - [x] **Phase 19: Property Page & Booking Flow** - Public property page with SEO, guest booking submission (completed 2026-01-31)
-- [ ] **Phase 20: Payments** - Payment method configuration, Stripe checkout, webhook handling
+- [x] **Phase 20: Payments** - Payment method configuration, Stripe checkout, webhook handling (completed 2026-01-31)
 - [ ] **Phase 21: Owner Dashboard - Bookings & Property** - Booking management, room CRUD, property settings, QR codes
 - [ ] **Phase 22: Owner Dashboard - Calendar & Pricing** - Availability calendar, date blocking, seasonal pricing
 - [ ] **Phase 23: Service Ordering** - Guest service catalog, cart, order lifecycle, owner order management
@@ -107,9 +107,9 @@ Plans:
 
 Plans:
 
-- [ ] 20-01-PLAN.md -- DB migration 084 (payment config columns, status extension) + TypeScript types
-- [ ] 20-02-PLAN.md -- Guest payment UI (PaymentMethodSelector, BankTransferInstructions, CryptoPaymentOptions) + booking API integration
-- [ ] 20-03-PLAN.md -- Stripe Checkout session + webhook handler + manual payment confirmation + booking page status
+- [x] 20-01-PLAN.md -- DB migration 084 (payment config columns, status extension) + TypeScript types
+- [x] 20-02-PLAN.md -- Guest payment UI (PaymentMethodSelector, BankTransferInstructions, CryptoPaymentOptions) + booking API integration
+- [x] 20-03-PLAN.md -- Stripe Checkout session + webhook handler + manual payment confirmation + booking page status
 
 ### Phase 21: Owner Dashboard - Bookings & Property
 
@@ -215,7 +215,7 @@ Plans:
 | 17. Analytics Dashboard                   | v1.3      | 2/2            | Complete    | 2026-01-30 |
 | 18. Database Foundation                   | v1.4      | 2/2            | Complete    | 2026-01-31 |
 | 19. Property Page & Booking Flow          | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 20. Payments                              | v1.4      | 0/3            | Not started | -          |
+| 20. Payments                              | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 21. Owner Dashboard - Bookings & Property | v1.4      | 0/3            | Not started | -          |
 | 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 0/2            | Not started | -          |
 | 23. Service Ordering                      | v1.4      | 0/3            | Not started | -          |
@@ -224,4 +224,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-01-31 after Phase 19 completion_
+_Last updated: 2026-01-31 after Phase 20 completion_
