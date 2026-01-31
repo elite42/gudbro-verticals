@@ -19,17 +19,14 @@ import {
   Broom,
   CheckCircle,
 } from '@phosphor-icons/react/dist/ssr';
-import type { ComponentType } from 'react';
+import type { Icon } from '@phosphor-icons/react';
 
 interface AmenityGridProps {
   amenities: string[];
 }
 
 // Map amenity names (lowercase) to Phosphor Icons
-const AMENITY_ICON_MAP: Record<
-  string,
-  ComponentType<{ size?: number; weight?: string; className?: string }>
-> = {
+const AMENITY_ICON_MAP: Record<string, Icon> = {
   wifi: WifiHigh,
   parking: Car,
   pool: SwimmingPool,
@@ -59,9 +56,7 @@ const AMENITY_ICON_MAP: Record<
   'air conditioner': Snowflake,
 };
 
-function getAmenityIcon(
-  amenity: string
-): ComponentType<{ size?: number; weight?: string; className?: string }> {
+function getAmenityIcon(amenity: string): Icon {
   const key = amenity.toLowerCase().trim();
   return AMENITY_ICON_MAP[key] || CheckCircle;
 }
