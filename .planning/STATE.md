@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access — Phase 26 Progressive Authentication (COMPLETE)
+**Current focus:** v1.5 Frictionless Guest Access — Phase 27 Owner Security Configuration
 
 ## Current Position
 
-Phase: 26 of 29 (Progressive Authentication)
-Plan: 2 of 2 in current phase
-Status: Phase complete — verified 8/8 must-haves
-Last activity: 2026-02-01 — Phase 26 verified and complete
+Phase: 27 of 29 (Owner Security Configuration)
+Plan: 1 of 2 in current phase
+Status: In progress — Plan 01 complete
+Last activity: 2026-02-01 — Completed 27-01-PLAN.md
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [████░░░░░░] 4/10 plans (40%)
+Progress: v1.5 [█████░░░░░] 5/10 plans (50%)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 61 (+ 1 quick task)
+- Total plans completed: 62 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
 - Total execution time: ~4.5 hours
 
@@ -34,7 +34,7 @@ Progress: v1.5 [████░░░░░░] 4/10 plans (40%)
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 4/10  | ~17 min    | 4.3 min  |
+| v1.5      | 5/10  | ~20 min    | 4.0 min  |
 
 ## Accumulated Context
 
@@ -61,6 +61,10 @@ Recent decisions for v1.5:
 - Cart proxy pattern: spread cart object but override addItem to gate behind verification in browse tier
 - CSS-only success animation (scale-in keyframe) for verification — zero new dependencies
 - Cooldown state replaces input entirely with countdown timer for clear UX feedback
+- access_settings JSONB stores preset name + individual action booleans for custom overrides beyond presets
+- Preset definitions duplicated in backoffice (not cross-app import) to avoid cross-app dependency
+- CHECK constraint allows NULL access_settings for backward compat with existing properties
+- Boolean convention: true = gated (requires verification), false = free for browse tier
 
 ### Pending Todos
 
@@ -76,10 +80,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Phase 26 complete and verified (8/8 must-haves passed)
+Stopped at: Completed 27-01-PLAN.md (access_settings schema + backoffice security page)
 Resume file: None
-Next: `/gsd:discuss-phase 27` (Owner Security Configuration)
+Next: `/gsd:execute-phase 27` plan 02 (Frontend enforcement of access_settings)
 
 ---
 
-_Last updated: 2026-02-01 after Phase 26 verified and complete_
+_Last updated: 2026-02-01 after 27-01 plan complete_
