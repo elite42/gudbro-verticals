@@ -48,6 +48,11 @@ async function fetchProperty(slug: string): Promise<PropertyPageData | null> {
       cleaning_fee,
       weekly_discount_percent,
       monthly_discount_percent,
+      deposit_percent,
+      bank_transfer_info,
+      crypto_wallets,
+      cancellation_window_hours,
+      cancellation_penalty_percent,
       has_linked_fnb,
       linked_fnb_slug,
       accom_rooms (
@@ -100,6 +105,11 @@ async function fetchProperty(slug: string): Promise<PropertyPageData | null> {
     cleaning_fee: data.cleaning_fee || 0,
     weekly_discount_percent: data.weekly_discount_percent || 0,
     monthly_discount_percent: data.monthly_discount_percent || 0,
+    deposit_percent: data.deposit_percent ?? 100,
+    bank_transfer_info: data.bank_transfer_info || null,
+    crypto_wallets: data.crypto_wallets || null,
+    cancellation_window_hours: data.cancellation_window_hours ?? 48,
+    cancellation_penalty_percent: data.cancellation_penalty_percent ?? 100,
     has_linked_fnb: data.has_linked_fnb || false,
     linked_fnb_slug: data.linked_fnb_slug,
     rooms: ((data.accom_rooms as unknown as PropertyRoom[]) || []).map((r) => ({

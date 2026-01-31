@@ -26,13 +26,15 @@ export type BedType = 'single' | 'double' | 'queen' | 'king' | 'bunk' | 'sofa_be
 
 export type BookingStatus =
   | 'pending'
+  | 'pending_payment'
   | 'confirmed'
   | 'checked_in'
   | 'checked_out'
   | 'cancelled'
-  | 'no_show';
+  | 'no_show'
+  | 'payment_failed';
 
-export type PaymentStatus = 'unpaid' | 'partial' | 'paid' | 'refunded';
+export type PaymentStatus = 'unpaid' | 'pending' | 'partial' | 'paid' | 'refunded';
 
 export type AvailabilityStatus = 'available' | 'booked' | 'blocked';
 

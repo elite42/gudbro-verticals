@@ -5,6 +5,48 @@
  * All prices are INTEGER minor currency units (e.g., 50000 = $500.00 or 500,000 VND)
  */
 
+// --- Payment Method Types ---
+
+export type AccomPaymentMethod = 'cash' | 'bank_transfer' | 'card' | 'crypto';
+
+export interface BankTransferInfo {
+  bank_name: string;
+  account_number: string;
+  account_holder: string;
+  swift_code?: string;
+  notes?: string;
+}
+
+export const PAYMENT_METHOD_CONFIG: Record<
+  AccomPaymentMethod,
+  { label: string; description: string; icon: string; color: string }
+> = {
+  cash: {
+    label: 'Cash',
+    description: 'Pay at check-in',
+    icon: 'Money',
+    color: 'bg-emerald-500',
+  },
+  bank_transfer: {
+    label: 'Bank Transfer',
+    description: 'Transfer before arrival',
+    icon: 'Bank',
+    color: 'bg-blue-500',
+  },
+  card: {
+    label: 'Credit/Debit Card',
+    description: 'Secure payment via Stripe',
+    icon: 'CreditCard',
+    color: 'bg-indigo-600',
+  },
+  crypto: {
+    label: 'Cryptocurrency',
+    description: 'BTC, ETH, USDC & more',
+    icon: 'CurrencyBtc',
+    color: 'bg-orange-500',
+  },
+};
+
 // --- Generic API wrapper (self-contained, mirrors stay.ts pattern) ---
 
 export type PropertyApiError =
@@ -17,6 +59,8 @@ export type PropertyApiError =
   | 'min_nights_not_met'
   | 'max_nights_exceeded'
   | 'max_guests_exceeded'
+  | 'payment_method_not_accepted'
+  | 'stripe_checkout_failed'
   | 'validation_error'
   | 'internal_error';
 
@@ -56,6 +100,11 @@ export interface PropertyPageData {
   cleaning_fee: number; // INTEGER minor units
   weekly_discount_percent: number;
   monthly_discount_percent: number;
+  deposit_percent: number;
+  bank_transfer_info: BankTransferInfo | null;
+  crypto_wallets: Record<string, string> | null;
+  cancellation_window_hours: number;
+  cancellation_penalty_percent: number;
   has_linked_fnb: boolean;
   linked_fnb_slug: string | null;
   rooms: PropertyRoom[];
@@ -116,15 +165,22 @@ export interface BookingSubmission {
   checkIn: string; // YYYY-MM-DD
   checkOut: string; // YYYY-MM-DD
   specialRequests?: string;
+  paymentMethod?: AccomPaymentMethod;
 }
 
 export interface BookingResponse {
   bookingCode: string;
   token: string;
-  status: 'confirmed' | 'pending';
+  status: 'confirmed' | 'pending' | 'pending_payment';
   expiresAt: string | null;
   priceBreakdown: PriceBreakdown;
   propertyName: string;
   hostPhone: string | null;
   hostWhatsapp: string | null;
+  paymentMethod?: AccomPaymentMethod;
+  depositAmount?: number;
+  depositPercent?: number;
+  stripeCheckoutUrl?: string | null;
+  bankTransferInfo?: BankTransferInfo | null;
+  cryptoWallets?: Record<string, string> | null;
 }
