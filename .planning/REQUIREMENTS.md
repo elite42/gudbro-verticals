@@ -38,12 +38,12 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ### Owner Dashboard -- Bookings
 
-- [ ] **OBOOK-01**: Owner can view list of all bookings with status filters
-- [ ] **OBOOK-02**: Owner can view booking detail (guest info, dates, payment, special requests)
-- [ ] **OBOOK-03**: Owner can confirm or decline inquiry bookings
-- [ ] **OBOOK-04**: Owner can mark guest as checked-in or checked-out
-- [ ] **OBOOK-05**: Owner can cancel a booking with reason
-- [ ] **OBOOK-06**: Owner receives WhatsApp notification on new booking/inquiry
+- [x] **OBOOK-01**: Owner can view list of all bookings with status filters
+- [x] **OBOOK-02**: Owner can view booking detail (guest info, dates, payment, special requests)
+- [x] **OBOOK-03**: Owner can confirm or decline inquiry bookings
+- [x] **OBOOK-04**: Owner can mark guest as checked-in or checked-out
+- [x] **OBOOK-05**: Owner can cancel a booking with reason
+- [x] **OBOOK-06**: Owner receives WhatsApp notification on new booking/inquiry
 
 ### Owner Dashboard -- Calendar & Pricing
 
@@ -55,10 +55,10 @@ Requirements for Accommodations v2 milestone. Each maps to roadmap phases.
 
 ### Owner Dashboard -- Property Management
 
-- [ ] **OMGMT-01**: Owner can manage rooms (CRUD: add, edit, deactivate rooms with capacity, description, images)
-- [ ] **OMGMT-02**: Owner can edit property settings (booking mode, check-in/out times, policies)
+- [x] **OMGMT-01**: Owner can manage rooms (CRUD: add, edit, deactivate rooms with capacity, description, images)
+- [x] **OMGMT-02**: Owner can edit property settings (booking mode, check-in/out times, policies)
 - [ ] **OMGMT-03**: Owner can manage service categories and items (CRUD with pricing, availability hours)
-- [ ] **OMGMT-04**: Owner can generate QR codes for property and individual rooms
+- [x] **OMGMT-04**: Owner can generate QR codes for property and individual rooms
 - [ ] **OMGMT-05**: Owner can configure automation level per service category (auto-confirm, manual, WhatsApp)
 
 ### Owner Dashboard -- Analytics
