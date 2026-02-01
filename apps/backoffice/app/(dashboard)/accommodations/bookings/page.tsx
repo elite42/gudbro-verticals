@@ -35,7 +35,7 @@ interface DashboardBooking {
   room: { id: string; room_number: string; room_type: string } | null;
 }
 
-type TabKey = 'all' | 'pending' | 'confirmed' | 'checked_in' | 'cancelled';
+type TabKey = 'all' | 'pending' | 'confirmed' | 'checked_in' | 'cancelled' | 'history';
 
 // ---------------------------------------------------------------------------
 // Config
@@ -103,13 +103,14 @@ export default function AccommodationBookingsPage() {
 
   // ---- Tab counts ----
   const counts = useMemo(() => {
-    const c = { all: 0, pending: 0, confirmed: 0, checked_in: 0, cancelled: 0 };
+    const c = { all: 0, pending: 0, confirmed: 0, checked_in: 0, cancelled: 0, history: 0 };
     for (const b of bookings) {
       c.all++;
       if (b.status === 'pending' || b.status === 'pending_payment') c.pending++;
       else if (b.status === 'confirmed') c.confirmed++;
       else if (b.status === 'checked_in') c.checked_in++;
       else if (b.status === 'cancelled') c.cancelled++;
+      else if (b.status === 'checked_out') c.history++;
     }
     return c;
   }, [bookings]);
@@ -123,6 +124,7 @@ export default function AccommodationBookingsPage() {
       result = result.filter((b) => {
         if (activeTab === 'pending')
           return b.status === 'pending' || b.status === 'pending_payment';
+        if (activeTab === 'history') return b.status === 'checked_out';
         return b.status === activeTab;
       });
     }
@@ -164,6 +166,7 @@ export default function AccommodationBookingsPage() {
     { key: 'confirmed', label: 'Confirmed' },
     { key: 'checked_in', label: 'Checked-in' },
     { key: 'cancelled', label: 'Cancelled' },
+    { key: 'history', label: 'History' },
   ];
 
   return (
