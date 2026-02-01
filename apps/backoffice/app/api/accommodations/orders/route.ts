@@ -33,6 +33,7 @@ export async function GET(request: NextRequest) {
       .from('accom_service_orders')
       .select(
         `id, status, subtotal, total, currency, delivery_notes, requested_time,
+         is_minibar_consumption, owner_confirmed,
          created_at, updated_at,
          booking:accom_bookings!inner(
            id, guest_name, guest_last_name, guest_phone, guest_email,
@@ -85,6 +86,8 @@ export async function GET(request: NextRequest) {
         subtotal: order.subtotal,
         total: order.total,
         currency: order.currency,
+        isMinibarConsumption: (order.is_minibar_consumption as boolean) || false,
+        ownerConfirmed: (order.owner_confirmed as boolean | null) ?? null,
         deliveryNotes: order.delivery_notes,
         requestedTime: order.requested_time,
         createdAt: order.created_at,

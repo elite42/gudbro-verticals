@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { createClient } from '@/lib/supabase-browser';
 import {
   MagnifyingGlass,
   SpinnerGap,
@@ -33,6 +34,8 @@ interface OrderSummary {
   subtotal: number;
   total: number;
   currency: string;
+  isMinibarConsumption: boolean;
+  ownerConfirmed: boolean | null;
   deliveryNotes: string | null;
   requestedTime: string | null;
   createdAt: string;
@@ -166,6 +169,52 @@ export default function OrderManagement({ propertyId }: OrderManagementProps) {
       if (pollRef.current) clearInterval(pollRef.current);
     };
   }, [fetchOrders]);
+
+  // Supabase Realtime subscription for new minibar orders
+  useEffect(() => {
+    const supabase = createClient();
+    const channel = supabase
+      .channel('minibar-orders')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'accom_service_orders',
+          filter: `property_id=eq.${propertyId}`,
+        },
+        (payload) => {
+          if ((payload.new as Record<string, unknown>).is_minibar_consumption) {
+            fetchOrders();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [propertyId, fetchOrders]);
+
+  // Confirm minibar consumption (owner acknowledges)
+  const handleConfirmMinibar = async (orderId: string) => {
+    setQuickActionLoading(orderId);
+    try {
+      const supabase = createClient();
+      const { error: updateError } = await supabase
+        .from('accom_service_orders')
+        .update({ owner_confirmed: true })
+        .eq('id', orderId);
+
+      if (updateError) throw new Error(updateError.message);
+      await fetchOrders();
+    } catch (err) {
+      console.error('[OrderManagement] confirm minibar error:', err);
+      setError(err instanceof Error ? err.message : 'Confirm failed');
+    } finally {
+      setQuickActionLoading(null);
+    }
+  };
 
   // Reset page when tab or search changes
   useEffect(() => {
@@ -326,7 +375,14 @@ export default function OrderManagement({ propertyId }: OrderManagementProps) {
                       {formatPrice(order.total, order.currency)}
                     </td>
                     <td className="whitespace-nowrap px-4 py-3">
-                      <OrderStatusBadge status={order.status} />
+                      <div className="flex items-center gap-1.5">
+                        <OrderStatusBadge status={order.status} />
+                        {order.isMinibarConsumption && (
+                          <span className="rounded-full bg-pink-100 px-2 py-0.5 text-[10px] font-medium text-pink-700">
+                            Minibar
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-600">
                       {formatTime(order.createdAt)}
@@ -336,6 +392,15 @@ export default function OrderManagement({ propertyId }: OrderManagementProps) {
                         className="flex items-center justify-end gap-2"
                         onClick={(e) => e.stopPropagation()}
                       >
+                        {order.isMinibarConsumption && order.ownerConfirmed === null && (
+                          <button
+                            onClick={() => handleConfirmMinibar(order.id)}
+                            disabled={quickActionLoading === order.id}
+                            className="rounded-md bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700 hover:bg-green-100 disabled:opacity-50"
+                          >
+                            {quickActionLoading === order.id ? '...' : 'Confirm'}
+                          </button>
+                        )}
                         {quickAction && (
                           <button
                             onClick={() => handleQuickAction(order.id, quickAction.action)}

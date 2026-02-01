@@ -10,6 +10,7 @@ import {
   IdentificationCard,
   ClipboardText,
   Compass,
+  Wine,
 } from '@phosphor-icons/react';
 import { useStaySession } from '@/hooks/useStaySession';
 import { useServiceCart } from '@/hooks/useServiceCart';
@@ -26,6 +27,7 @@ import ContactSheet from '@/components/stay/ContactSheet';
 import ProfileView from '@/components/stay/ProfileView';
 import ReturnGuestBanner from '@/components/stay/ReturnGuestBanner';
 import RestaurantSection from '@/components/stay/RestaurantSection';
+import MinibarSection from '@/components/stay/MinibarSection';
 import ServicesCarousel from '@/components/stay/ServicesCarousel';
 import ServiceCatalog from '@/components/stay/ServiceCatalog';
 import ActiveOrders from '@/components/stay/ActiveOrders';
@@ -252,6 +254,18 @@ export default function InStayDashboard({ params }: { params: { code: string } }
                   document.getElementById('orders-section')?.scrollIntoView({ behavior: 'smooth' })
                 }
               />
+              {serviceCategories.some((c) => c.automationLevel === 'self_service') && (
+                <DashboardCard
+                  icon={Wine}
+                  label="Minibar"
+                  color="#E07A5F"
+                  onClick={() =>
+                    document
+                      .getElementById('minibar-section')
+                      ?.scrollIntoView({ behavior: 'smooth' })
+                  }
+                />
+              )}
               <DashboardCard
                 icon={Compass}
                 label="Concierge"
@@ -289,6 +303,21 @@ export default function InStayDashboard({ params }: { params: { code: string } }
                   onCategoriesLoaded={handleCategoriesLoaded}
                 />
               </div>
+
+              {/* Minibar self-service section */}
+              {serviceCategories.some((c) => c.automationLevel === 'self_service') && (
+                <div
+                  id="minibar-section"
+                  className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm"
+                >
+                  <MinibarSection
+                    categories={serviceCategories}
+                    bookingCode={params.code}
+                    token={token!}
+                    onOrderCreated={refetchOrders}
+                  />
+                </div>
+              )}
 
               {/* Active orders quick status */}
               <ActiveOrders orders={orders} currency={propertyCurrency} />
