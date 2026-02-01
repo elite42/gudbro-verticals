@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 32 of 39 (Owner Dashboard Enhancements)
-Plan: 1 of 2
-Status: In progress
-Last activity: 2026-02-01 — Completed 32-01-PLAN.md
+Plan: 2 of 2
+Status: Phase complete
+Last activity: 2026-02-01 — Completed 32-02-PLAN.md
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [███████████░░░░░░░░░] 14/27 plans
+Progress: v1.5 [████████████░░░░░░░░] 15/27 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 71 (+ 1 quick task)
+- Total plans completed: 72 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~5.3 hours
+- Total execution time: ~5.5 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [███████████░░░░░░░░░] 14
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 14/27 | ~70 min    | 5.0 min  |
+| v1.5      | 15/27 | ~79 min    | 5.3 min  |
 
 ## Accumulated Context
 
@@ -66,6 +66,9 @@ Recent decisions for v1.5 extended roadmap:
 - IMG-03: Added feedback-screenshots to ImageUploadFolder type (was in route but missing from type)
 - GANTT-01: GanttCalendar manages own date navigation, notifies parent via onDateRangeChange callback
 - GANTT-02: 14-day desktop / 7-day mobile view with CSS Grid and sticky room labels
+- ONBOARD-01: Onboarding wizard uses link-out pattern for rooms/photos/wifi steps (not embedded components)
+- ONBOARD-02: shouldShowWizard checks name + contact as minimum configured threshold
+- POLICY-01: StructuredPolicies stores house_rules as string[] (backward compatible with existing data)
 
 ### Pending Todos
 
@@ -83,10 +86,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 32-01-PLAN.md (Gantt calendar, history tab, floor field)
+Stopped at: Phase 32 completed (Owner Dashboard Enhancements)
 Resume file: None
-Next: `/gsd:execute-phase 32` plan 02 (Owner Dashboard Enhancements)
+Next: `/gsd:plan-phase 33` (Dashboard Redesign)
 
 ---
 
-_Last updated: 2026-02-01 after 32-01 plan completion_
+_Last updated: 2026-02-01 after Phase 32 completion_
