@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 35 plan 01 complete
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 35 complete
 
 ## Current Position
 
 Phase: 35 of 39 (Guest Feedback System)
-Plan: 1 of 2
-Status: In progress
-Last activity: 2026-02-02 — Completed 35-01-PLAN.md (in-stay guest feedback system)
+Plan: 2 of 2
+Status: Phase complete
+Last activity: 2026-02-02 — Completed 35-02-PLAN.md (post-stay feedback + AI pipeline)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [███████████████████████████░░░] 25/29 plans
+Progress: v1.5 [██████████████████████████████░░] 26/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 82 (+ 1 quick task)
+- Total plans completed: 83 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~6.4 hours
+- Total execution time: ~6.5 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████████████████████�
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 25/29 | ~123 min   | 4.9 min  |
+| v1.5      | 26/29 | ~130 min   | 5.0 min  |
 
 ## Accumulated Context
 
@@ -89,6 +89,7 @@ Recent decisions for v1.5 extended roadmap:
 - FB-03: Complaints trigger high-priority notifications, other categories use normal priority
 - FB-04: Feedback card shown only when booking exists (not browse-tier sessions)
 - FB-05: Added checked_out_at column to accom_bookings for future post-stay feedback cron timing
+- FB-06: Feedback token reuses GUEST_JWT_SECRET with type='feedback' claim for differentiation
 
 ### Blockers/Concerns
 
@@ -109,10 +110,10 @@ Recent decisions for v1.5 extended roadmap:
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 35-01-PLAN.md
+Stopped at: Completed 35-02-PLAN.md (Phase 35 complete)
 Resume file: None
-Next: `/gsd:execute-phase 35` (plan 02)
+Next: `/gsd:plan-phase 36` or `/gsd:execute-phase 36` (Tourist Concierge)
 
 ---
 
-_Last updated: 2026-02-02 after 35-01 execution complete_
+_Last updated: 2026-02-02 after 35-02 execution complete_
