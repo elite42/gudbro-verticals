@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 34 of 39 (Service Expansion + Minibar)
-Plan: 1 of 5
+Plan: 2 of 5
 Status: In progress
-Last activity: 2026-02-02 — Completed 34-01-PLAN.md (Service Catalog Enhancements DB + API)
+Last activity: 2026-02-02 — Completed 34-02-PLAN.md (Service Catalog UI Redesign)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [████████████████████░░░░░░░░] 20/29 plans
+Progress: v1.5 [█████████████████████░░░░░░░] 21/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 77 (+ 1 quick task)
+- Total plans completed: 78 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
 - Total execution time: ~6.0 hours
 
@@ -34,7 +34,7 @@ Progress: v1.5 [████████████████████░�
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 20/29 | ~104 min   | 5.2 min  |
+| v1.5      | 21/29 | ~106 min   | 5.0 min  |
 
 ## Accumulated Context
 
@@ -78,6 +78,8 @@ Recent decisions for v1.5 extended roadmap:
 - NAV-04: ProfileView preferences section is a stub for Phase 38 returning guest detection
 - SVC-01: Migration renumbered from 088 to 095 (088 already existed as room-codes)
 - SVC-02: category_tag denormalized on order items for query performance
+- SVC-UI-01: Vertical card layout with h-36 image area for photo-forward design
+- SVC-UI-02: includedInRate as optional prop for backward compatibility
 
 ### Blockers/Concerns
 
@@ -95,10 +97,10 @@ Recent decisions for v1.5 extended roadmap:
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 34-01-PLAN.md (Service Catalog Enhancements DB + API)
+Stopped at: Completed 34-02-PLAN.md (Service Catalog UI Redesign)
 Resume file: None
-Next: Phase 34-02 execution
+Next: Phase 34-03 execution
 
 ---
 
-_Last updated: 2026-02-02 after 34-01 execution complete_
+_Last updated: 2026-02-02 after 34-02 execution complete_
