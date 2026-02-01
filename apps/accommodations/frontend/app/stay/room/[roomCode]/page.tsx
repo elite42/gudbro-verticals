@@ -46,6 +46,7 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
   // Cart state (only used in full tier, but initialized always for hook rules)
   const cart = useServiceCart();
   const [showCart, setShowCart] = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
   // Service categories from carousel (used to determine currency)
   const [serviceCategories, setServiceCategories] = useState<ServiceCategoryWithItems[]>([]);
@@ -185,14 +186,24 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
           {/* House rules + checkout time */}
           <CheckoutInfo checkoutTime={property.checkoutTime} houseRules={property.houseRules} />
 
-          {/* Contact host */}
+          {/* Contact host trigger */}
           {hostPhone && (
-            <ContactSheet
-              phone={hostPhone}
-              whatsapp={property.contactWhatsapp}
-              roomNumber={room.number}
-              propertyName={property.name}
-            />
+            <section className="mb-5 px-4">
+              <button
+                onClick={() => setShowContact(true)}
+                className="flex w-full items-center gap-3 rounded-2xl bg-gradient-to-r from-[#3D8B87] to-[#2D7A76] p-4 transition-all active:scale-[0.98]"
+              >
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/20">
+                  <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02A11.36 11.36 0 018.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z" />
+                  </svg>
+                </div>
+                <div className="flex-1 text-left">
+                  <span className="text-sm font-semibold text-white">Contact Host</span>
+                  <p className="text-[10px] text-white/70">WhatsApp or Call</p>
+                </div>
+              </button>
+            </section>
           )}
 
           {/* F&B link if available */}
@@ -356,14 +367,24 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
         </section>
       )}
 
-      {/* Contact host */}
+      {/* Contact host trigger */}
       {hostPhone && (
-        <ContactSheet
-          phone={hostPhone}
-          whatsapp={property.contactWhatsapp}
-          roomNumber={room.number}
-          propertyName={property.name}
-        />
+        <section className="mb-5 px-4">
+          <button
+            onClick={() => setShowContact(true)}
+            className="flex w-full items-center gap-3 rounded-2xl bg-gradient-to-r from-[#3D8B87] to-[#2D7A76] p-4 transition-all active:scale-[0.98]"
+          >
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/20">
+              <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02A11.36 11.36 0 018.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z" />
+              </svg>
+            </div>
+            <div className="flex-1 text-left">
+              <span className="text-sm font-semibold text-white">Contact Host</span>
+              <p className="text-[10px] text-white/70">WhatsApp or Call</p>
+            </div>
+          </button>
+        </section>
       )}
 
       {/* F&B link */}
@@ -413,6 +434,18 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
             />
           )}
         </>
+      )}
+
+      {/* Contact sheet overlay */}
+      {hostPhone && (
+        <ContactSheet
+          isOpen={showContact}
+          onClose={() => setShowContact(false)}
+          phone={hostPhone}
+          whatsapp={property.contactWhatsapp}
+          roomNumber={room.number}
+          propertyName={property.name}
+        />
       )}
 
       {/* Inline verification modal */}

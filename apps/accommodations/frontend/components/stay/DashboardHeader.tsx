@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { CaretDown } from '@phosphor-icons/react';
+import { CaretDown, ChatCircleDots } from '@phosphor-icons/react';
 import { SUPPORTED_CURRENCIES } from '@shared/payment';
 import type { CurrencyConfig } from '@shared/payment';
 import type { PropertyInfo } from '@/types/stay';
@@ -29,12 +29,14 @@ interface DashboardHeaderProps {
   property: PropertyInfo;
   defaultCurrency?: string;
   onCurrencyChange?: (currency: string) => void;
+  onContactHost?: () => void;
 }
 
 export default function DashboardHeader({
   property,
   defaultCurrency = 'USD',
   onCurrencyChange,
+  onContactHost,
 }: DashboardHeaderProps) {
   const headerImage = property.images?.[0];
   const { currency, setCurrency } = useCurrencyPreference(defaultCurrency);
@@ -82,25 +84,38 @@ export default function DashboardHeader({
             </div>
           </div>
 
-          {/* Currency selector */}
-          <div className="relative flex items-center">
-            <select
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value)}
-              className="appearance-none rounded-lg border border-gray-200 bg-gray-50 py-1.5 pl-2.5 pr-7 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100 focus:border-[#3D8B87] focus:outline-none focus:ring-1 focus:ring-[#3D8B87]"
-              aria-label="Select currency"
-            >
-              {SUPPORTED_CURRENCIES.map((c: CurrencyConfig) => (
-                <option key={c.code} value={c.code}>
-                  {c.symbol} {c.code}
-                </option>
-              ))}
-            </select>
-            <CaretDown
-              size={12}
-              weight="bold"
-              className="pointer-events-none absolute right-2 text-gray-400"
-            />
+          <div className="flex items-center gap-2">
+            {/* Contact Host button */}
+            {onContactHost && (
+              <button
+                onClick={onContactHost}
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#3D8B87]/10 text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/20"
+                aria-label="Contact host"
+              >
+                <ChatCircleDots size={20} weight="duotone" />
+              </button>
+            )}
+
+            {/* Currency selector */}
+            <div className="relative flex items-center">
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className="appearance-none rounded-lg border border-gray-200 bg-gray-50 py-1.5 pl-2.5 pr-7 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100 focus:border-[#3D8B87] focus:outline-none focus:ring-1 focus:ring-[#3D8B87]"
+                aria-label="Select currency"
+              >
+                {SUPPORTED_CURRENCIES.map((c: CurrencyConfig) => (
+                  <option key={c.code} value={c.code}>
+                    {c.symbol} {c.code}
+                  </option>
+                ))}
+              </select>
+              <CaretDown
+                size={12}
+                weight="bold"
+                className="pointer-events-none absolute right-2 text-gray-400"
+              />
+            </div>
           </div>
         </div>
       </div>

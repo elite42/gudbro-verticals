@@ -60,7 +60,7 @@ export async function GET(_request: NextRequest, { params }: { params: { roomCod
         `
         name, slug, type, description,
         contact_phone, contact_email, contact_whatsapp,
-        checkout_time, house_rules, amenities, images,
+        check_in_time, checkout_time, house_rules, amenities, images,
         wifi_network, wifi_password, wifi_zones,
         has_linked_fnb, linked_fnb_slug
       `
@@ -82,7 +82,10 @@ export async function GET(_request: NextRequest, { params }: { params: { roomCod
       contactPhone: propertyData.contact_phone || null,
       contactEmail: propertyData.contact_email || null,
       contactWhatsapp: propertyData.contact_whatsapp || null,
+      checkInTime: propertyData.check_in_time || null,
       checkoutTime: propertyData.checkout_time || '11:00',
+      checkoutProcedure:
+        ((propertyData as Record<string, unknown>).checkout_procedure as string) || null,
       houseRules: propertyData.house_rules || [],
       amenities: propertyData.amenities || [],
       images: propertyData.images || [],

@@ -145,7 +145,9 @@ export interface PropertyInfo {
   contactPhone: string | null;
   contactEmail: string | null;
   contactWhatsapp: string | null;
+  checkInTime: string | null;
   checkoutTime: string;
+  checkoutProcedure: string | null;
   houseRules: string[];
   amenities: string[];
   images: string[];

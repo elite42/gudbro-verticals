@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
         accom_properties!inner(
           name, slug, type, description,
           contact_phone, contact_email, contact_whatsapp,
-          checkout_time, house_rules, amenities, images,
+          check_in_time, checkout_time, house_rules, amenities, images,
           wifi_network, wifi_password, wifi_zones,
           has_linked_fnb, linked_fnb_slug
         )
@@ -112,7 +112,9 @@ export async function POST(request: NextRequest) {
       contactPhone: (rawProperty.contact_phone as string) || null,
       contactEmail: (rawProperty.contact_email as string) || null,
       contactWhatsapp: (rawProperty.contact_whatsapp as string) || null,
+      checkInTime: (rawProperty.check_in_time as string) || null,
       checkoutTime: (rawProperty.checkout_time as string) || '11:00',
+      checkoutProcedure: (rawProperty.checkout_procedure as string) || null,
       houseRules: (rawProperty.house_rules as string[]) || [],
       amenities: (rawProperty.amenities as string[]) || [],
       images: (rawProperty.images as string[]) || [],

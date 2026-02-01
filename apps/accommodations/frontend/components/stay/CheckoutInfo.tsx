@@ -1,6 +1,7 @@
 'use client';
 
 interface CheckoutInfoProps {
+  checkInTime?: string;
   checkoutTime: string;
   checkoutProcedure?: string;
   houseRules?: string[];
