@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 
 ## Current Position
 
-Phase: 30 of 39 (Shared Module Audit)
-Plan: 1 of 1
-Status: Phase complete
-Last activity: 2026-02-01 — Completed 30-01-PLAN.md (Shared Module Catalog)
+Phase: 31 of 39 (Bug Fixes + Image Foundation)
+Plan: 2 of 2
+Status: In progress
+Last activity: 2026-02-01 — Completed 31-02-PLAN.md (Image Upload Foundation)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██████░░░░░░░░░░░░░░] 11/27 plans
+Progress: v1.5 [███████░░░░░░░░░░░░░] 12/27 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 68 (+ 1 quick task)
+- Total plans completed: 69 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
 - Total execution time: ~4.9 hours
 
@@ -34,7 +34,7 @@ Progress: v1.5 [██████░░░░░░░░░░░░░░] 11
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 11/27 | ~47 min    | 4.3 min  |
+| v1.5      | 12/27 | ~49 min    | 4.1 min  |
 
 ## Accumulated Context
 
@@ -61,6 +61,9 @@ Recent decisions for v1.5 extended roadmap:
 - AUDIT-02: QR extraction: move generator + types to shared, leave CRUD service in backoffice
 - AUDIT-03: Phase 31 currency selector should use @shared/payment directly (not copy converter pattern)
 - AUDIT-04: Notification Dispatcher is highest-priority extraction (needed by phases 34, 35, 38)
+- IMG-01: Room images stored as string[] in room.images JSONB, single primary image for now
+- IMG-02: New rooms show 'save first' message instead of upload (no room ID yet)
+- IMG-03: Added feedback-screenshots to ImageUploadFolder type (was in route but missing from type)
 
 ### Pending Todos
 
@@ -78,10 +81,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Phase 30 completed (Shared Module Audit)
+Stopped at: Completed 31-02-PLAN.md (Image Upload Foundation)
 Resume file: None
-Next: `/gsd:plan-phase 31` (Bug Fixes + Image Foundation)
+Next: Remaining 31 plans or `/gsd:plan-phase 32`
 
 ---
 
-_Last updated: 2026-02-01 after Phase 30 completion and verification_
+_Last updated: 2026-02-01 after 31-02 completion_
