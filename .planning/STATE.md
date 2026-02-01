@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 34 of 39 (Service Expansion + Minibar)
-Plan: 3 of 5
+Plan: 4 of 5
 Status: In progress
-Last activity: 2026-02-02 — Completed 34-03-PLAN.md (Order Management UI)
+Last activity: 2026-02-02 — Completed 34-04-PLAN.md (Minibar Self-Service)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██████████████████████░░░░░░] 22/29 plans
+Progress: v1.5 [████████████████████████░░░░] 23/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 79 (+ 1 quick task)
+- Total plans completed: 80 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~6.1 hours
+- Total execution time: ~6.2 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████████████████████�
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 22/29 | ~109 min   | 5.0 min  |
+| v1.5      | 23/29 | ~113 min   | 4.9 min  |
 
 ## Accumulated Context
 
@@ -80,6 +80,8 @@ Recent decisions for v1.5 extended roadmap:
 - SVC-02: category_tag denormalized on order items for query performance
 - SVC-UI-01: Vertical card layout with h-36 image area for photo-forward design
 - SVC-UI-02: includedInRate as optional prop for backward compatibility
+- MINIBAR-01: Migration numbered 096 (not 089 as plan stated) since 095 was latest
+- MINIBAR-02: self_service auto-confirms orders like auto_confirm/whatsapp_notify
 
 ### Blockers/Concerns
 
@@ -93,14 +95,15 @@ Recent decisions for v1.5 extended roadmap:
 ### Pending Todos
 
 - Migration 095 needs to be applied to live database (Supabase MCP/CLI not available during execution)
+- Migration 096 needs to be applied to live database
 
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 34-03-PLAN.md (Order Management UI)
+Stopped at: Completed 34-04-PLAN.md (Minibar Self-Service)
 Resume file: None
-Next: Phase 34-04 execution
+Next: Phase 34-05 execution
 
 ---
 
-_Last updated: 2026-02-02 after 34-03 execution complete_
+_Last updated: 2026-02-02 after 34-04 execution complete_
