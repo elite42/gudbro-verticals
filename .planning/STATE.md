@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 34 (Service Expansion + Minibar)
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 34 complete, ready for Phase 35
 
 ## Current Position
 
 Phase: 34 of 39 (Service Expansion + Minibar)
-Plan: 4 of 5
-Status: In progress
-Last activity: 2026-02-02 — Completed 34-04-PLAN.md (Minibar Self-Service)
+Plan: 5 of 5
+Status: Phase complete
+Last activity: 2026-02-02 — Completed 34-05-PLAN.md (Dashboard Wiring + Minibar Backoffice + F&B Import)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [████████████████████████░░░░] 23/29 plans
+Progress: v1.5 [██████████████████████████░░░░] 24/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 80 (+ 1 quick task)
+- Total plans completed: 81 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~6.2 hours
+- Total execution time: ~6.3 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████████████████████�
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 23/29 | ~113 min   | 4.9 min  |
+| v1.5      | 24/29 | ~117 min   | 4.9 min  |
 
 ## Accumulated Context
 
@@ -82,6 +82,8 @@ Recent decisions for v1.5 extended roadmap:
 - SVC-UI-02: includedInRate as optional prop for backward compatibility
 - MINIBAR-01: Migration numbered 096 (not 089 as plan stated) since 095 was latest
 - MINIBAR-02: self_service auto-confirms orders like auto_confirm/whatsapp_notify
+- SVC-10-01: Import API uses validateAdminApiKey pattern consistent with existing accommodation APIs
+- SVC-10-02: ImportFromMenuDialog is standalone component (not embedded in OrderManagement) for reusability
 
 ### Blockers/Concerns
 
@@ -100,10 +102,10 @@ Recent decisions for v1.5 extended roadmap:
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 34-04-PLAN.md (Minibar Self-Service)
+Stopped at: Completed 34-05-PLAN.md (Dashboard Wiring + Minibar Backoffice + F&B Import) -- Phase 34 complete
 Resume file: None
-Next: Phase 34-05 execution
+Next: Phase 35 planning
 
 ---
 
-_Last updated: 2026-02-02 after 34-04 execution complete_
+_Last updated: 2026-02-02 after 34-05 execution complete (Phase 34 done)_
