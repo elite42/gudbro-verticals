@@ -1,13 +1,48 @@
 'use client';
 
+import { useState, useEffect, useCallback } from 'react';
+import { CaretDown } from '@phosphor-icons/react';
+import { SUPPORTED_CURRENCIES } from '@shared/payment';
+import type { CurrencyConfig } from '@shared/payment';
 import type { PropertyInfo } from '@/types/stay';
+
+/** Read preferred currency from localStorage, falling back to property default. */
+function useCurrencyPreference(fallbackCurrency: string) {
+  const [currency, setCurrencyState] = useState<string>(fallbackCurrency);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('preferred-currency');
+    if (stored && SUPPORTED_CURRENCIES.some((c: CurrencyConfig) => c.code === stored)) {
+      setCurrencyState(stored);
+    }
+  }, []);
+
+  const setCurrency = useCallback((code: string) => {
+    setCurrencyState(code);
+    localStorage.setItem('preferred-currency', code);
+  }, []);
+
+  return { currency, setCurrency };
+}
 
 interface DashboardHeaderProps {
   property: PropertyInfo;
+  defaultCurrency?: string;
+  onCurrencyChange?: (currency: string) => void;
 }
 
-export default function DashboardHeader({ property }: DashboardHeaderProps) {
+export default function DashboardHeader({
+  property,
+  defaultCurrency = 'USD',
+  onCurrencyChange,
+}: DashboardHeaderProps) {
   const headerImage = property.images?.[0];
+  const { currency, setCurrency } = useCurrencyPreference(defaultCurrency);
+
+  // Notify parent when currency changes
+  useEffect(() => {
+    onCurrencyChange?.(currency);
+  }, [currency, onCurrencyChange]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-gray-100 bg-white/95 backdrop-blur-xl">
@@ -47,26 +82,25 @@ export default function DashboardHeader({ property }: DashboardHeaderProps) {
             </div>
           </div>
 
-          {/* Language selector placeholder */}
-          <div className="flex items-center gap-1">
-            <button
-              className="flex h-10 w-10 items-center justify-center text-gray-400"
-              aria-label="Language"
+          {/* Currency selector */}
+          <div className="relative flex items-center">
+            <select
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              className="appearance-none rounded-lg border border-gray-200 bg-gray-50 py-1.5 pl-2.5 pr-7 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100 focus:border-[#3D8B87] focus:outline-none focus:ring-1 focus:ring-[#3D8B87]"
+              aria-label="Select currency"
             >
-              <svg
-                className="h-6 w-6"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
-                />
-              </svg>
-            </button>
+              {SUPPORTED_CURRENCIES.map((c: CurrencyConfig) => (
+                <option key={c.code} value={c.code}>
+                  {c.symbol} {c.code}
+                </option>
+              ))}
+            </select>
+            <CaretDown
+              size={12}
+              weight="bold"
+              className="pointer-events-none absolute right-2 text-gray-400"
+            />
           </div>
         </div>
       </div>

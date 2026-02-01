@@ -44,6 +44,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   const [showCart, setShowCart] = useState(false);
   const [serviceCategories, setServiceCategories] = useState<ServiceCategoryWithItems[]>([]);
   const [serviceTimezone, setServiceTimezone] = useState('UTC');
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
 
   // Order polling
   const { orders, refetch: refetchOrders } = useOrderPolling({
@@ -338,7 +339,11 @@ export default function InStayDashboard({ params }: { params: { code: string } }
 
   return (
     <div className="min-h-screen bg-[#FAF8F5]">
-      <DashboardHeader property={property} />
+      <DashboardHeader
+        property={property}
+        defaultCurrency={propertyCurrency}
+        onCurrencyChange={setSelectedCurrency}
+      />
 
       <div className="pb-20">{renderTabContent()}</div>
 

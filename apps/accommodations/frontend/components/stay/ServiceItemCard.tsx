@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, Minus, Clock, Package } from '@phosphor-icons/react';
+import { Plus, Minus, Clock } from '@phosphor-icons/react';
 
 /** Format a HH:MM:SS or HH:MM time string to 12-hour format. */
 function formatServiceTime(time: string): string {
@@ -44,6 +44,7 @@ interface ServiceItemCardProps {
     currency: string;
     priceType: string;
     image: string | null;
+    categoryEmoji?: string;
     inStock: boolean;
     isAlwaysAvailable: boolean;
     availableFrom: string | null;
@@ -77,8 +78,10 @@ export default function ServiceItemCard({
         {item.image ? (
           <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <Package size={28} weight="duotone" className="text-[#C4B9A8]" />
+          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#F5F0E8] to-[#E8E2D9]">
+            <span className="text-2xl opacity-70" role="img" aria-label={item.name}>
+              {item.categoryEmoji || '📦'}
+            </span>
           </div>
         )}
       </div>
