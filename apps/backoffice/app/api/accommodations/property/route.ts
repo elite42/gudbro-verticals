@@ -29,7 +29,9 @@ export async function GET(request: NextRequest) {
        contact_email, deposit_percent, cancellation_penalty_percent,
        accepted_payment_methods, bank_transfer_info, crypto_wallets,
        weekly_discount_percent, monthly_discount_percent, is_active,
-       wifi_zones`
+       wifi_zones,
+       social_links, google_maps_url, communication_methods,
+       operating_hours, staff_languages, onboarding_progress`
     )
     .eq('id', propertyId)
     .single();
@@ -87,6 +89,18 @@ export async function PUT(request: NextRequest) {
     'guest_verification_method',
     'access_settings',
     'wifi_zones',
+    'name',
+    'description',
+    'address',
+    'city',
+    'host_name',
+    'amenities',
+    'social_links',
+    'google_maps_url',
+    'communication_methods',
+    'operating_hours',
+    'staff_languages',
+    'onboarding_progress',
   ];
 
   const update: Record<string, unknown> = {};
