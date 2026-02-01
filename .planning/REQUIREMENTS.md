@@ -191,64 +191,64 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WIFI-01     | 29    | Pending  |
 | WIFI-02     | 29    | Pending  |
 | WIFI-03     | 29    | Pending  |
-| INF-01      | TBD   | Pending  |
-| INF-02      | TBD   | Pending  |
-| INF-03      | TBD   | Pending  |
-| BUG-01      | TBD   | Pending  |
-| BUG-02      | TBD   | Pending  |
-| BUG-03      | TBD   | Pending  |
-| BUG-04      | TBD   | Pending  |
-| BUG-05      | TBD   | Pending  |
-| BUG-06      | TBD   | Pending  |
-| BUG-07      | TBD   | Pending  |
-| BUG-08      | TBD   | Pending  |
-| BUG-09      | TBD   | Pending  |
-| NAV-01      | TBD   | Pending  |
-| NAV-02      | TBD   | Pending  |
-| NAV-03      | TBD   | Pending  |
-| NAV-04      | TBD   | Pending  |
-| NAV-05      | TBD   | Pending  |
-| NAV-06      | TBD   | Pending  |
-| NAV-07      | TBD   | Pending  |
-| NAV-08      | TBD   | Pending  |
-| SVC-01      | TBD   | Pending  |
-| SVC-02      | TBD   | Pending  |
-| SVC-03      | TBD   | Pending  |
-| SVC-04      | TBD   | Pending  |
-| SVC-05      | TBD   | Pending  |
-| SVC-06      | TBD   | Pending  |
-| SVC-07      | TBD   | Pending  |
-| SVC-08      | TBD   | Pending  |
-| SVC-09      | TBD   | Pending  |
-| SVC-10      | TBD   | Pending  |
-| OWN-01      | TBD   | Pending  |
-| OWN-02      | TBD   | Pending  |
-| OWN-03      | TBD   | Pending  |
-| OWN-04      | TBD   | Pending  |
-| OWN-05      | TBD   | Pending  |
-| OWN-06      | TBD   | Pending  |
-| OWN-07      | TBD   | Pending  |
-| OWN-08      | TBD   | Pending  |
-| OWN-09      | TBD   | Pending  |
-| GXP-01      | TBD   | Pending  |
-| GXP-02      | TBD   | Pending  |
-| GXP-03      | TBD   | Pending  |
-| GXP-04      | TBD   | Pending  |
-| GXP-05      | TBD   | Pending  |
-| CON-01      | TBD   | Pending  |
-| CON-02      | TBD   | Pending  |
-| CON-03      | TBD   | Pending  |
-| CON-04      | TBD   | Pending  |
-| CON-05      | TBD   | Pending  |
+| INF-01      | 30    | Pending  |
+| INF-02      | 31    | Pending  |
+| INF-03      | 37    | Pending  |
+| BUG-01      | 31    | Pending  |
+| BUG-02      | 31    | Pending  |
+| BUG-03      | 31    | Pending  |
+| BUG-04      | 31    | Pending  |
+| BUG-05      | 31    | Pending  |
+| BUG-06      | 31    | Pending  |
+| BUG-07      | 31    | Pending  |
+| BUG-08      | 31    | Pending  |
+| BUG-09      | 31    | Pending  |
+| NAV-01      | 33    | Pending  |
+| NAV-02      | 33    | Pending  |
+| NAV-03      | 36    | Pending  |
+| NAV-04      | 33    | Pending  |
+| NAV-05      | 33    | Pending  |
+| NAV-06      | 36    | Pending  |
+| NAV-07      | 36    | Pending  |
+| NAV-08      | 33    | Pending  |
+| SVC-01      | 34    | Pending  |
+| SVC-02      | 34    | Pending  |
+| SVC-03      | 34    | Pending  |
+| SVC-04      | 34    | Pending  |
+| SVC-05      | 34    | Pending  |
+| SVC-06      | 34    | Pending  |
+| SVC-07      | 39    | Pending  |
+| SVC-08      | 39    | Pending  |
+| SVC-09      | 34    | Pending  |
+| SVC-10      | 34    | Pending  |
+| OWN-01      | 32    | Pending  |
+| OWN-02      | 31    | Pending  |
+| OWN-03      | 32    | Pending  |
+| OWN-04      | 32    | Pending  |
+| OWN-05      | 32    | Pending  |
+| OWN-06      | 32    | Pending  |
+| OWN-07      | 32    | Pending  |
+| OWN-08      | 38    | Pending  |
+| OWN-09      | 38    | Pending  |
+| GXP-01      | 38    | Pending  |
+| GXP-02      | 35    | Pending  |
+| GXP-03      | 35    | Pending  |
+| GXP-04      | 38    | Pending  |
+| GXP-05      | 37    | Pending  |
+| CON-01      | 36    | Pending  |
+| CON-02      | 36    | Pending  |
+| CON-03      | 36    | Pending  |
+| CON-04      | 36    | Pending  |
+| CON-05      | 36    | Pending  |
 
 **Coverage:**
 
 - v1.5 requirements: 71 total (22 original + 49 extended)
 - Completed: 14 (phases 25-27)
-- Mapped to phases: 22 (phases 25-29)
-- Unmapped (TBD): 49 (pending roadmap creation for phases 30+)
+- Mapped to phases: 71/71 (100% coverage)
+- Unmapped (TBD): 0
 
 ---
 
 _Requirements defined: 2026-01-31_
-_Last updated: 2026-02-01 after scope extension (49 new requirements from manual test + Tourist Concierge)_
+_Last updated: 2026-02-01 after roadmap extension (all 49 new requirements mapped to phases 30-39)_

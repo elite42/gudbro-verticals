@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Defining extended requirements
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 28 (Document Upload) ready to plan
 
 ## Current Position
 
-Phase: 27 of 29+ (extending milestone with bug fixes + features from manual test)
+Phase: 28 of 39 (Document Upload + Visa Tracking)
 Plan: —
-Status: Defining extended requirements (phases 25-27 complete, 28-29 pending, 30+ being defined)
-Last activity: 2026-02-01 — Milestone scope extended with manual test results
+Status: Ready to plan
+Last activity: 2026-02-01 — Extended roadmap created (phases 30-39, 49 requirements mapped)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██████░░░░] 6/10+ plans (extending)
+Progress: v1.5 [███░░░░░░░░░░░░░░░░░] 6/27 plans
 
 ## Performance Metrics
 
@@ -34,7 +34,7 @@ Progress: v1.5 [██████░░░░] 6/10+ plans (extending)
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 6/10  | ~22 min    | 3.7 min  |
+| v1.5      | 6/27  | ~22 min    | 3.7 min  |
 
 ## Accumulated Context
 
@@ -42,32 +42,15 @@ Progress: v1.5 [██████░░░░] 6/10+ plans (extending)
 
 Full history in PROJECT.md Key Decisions table and milestone archives.
 
-Recent decisions for v1.5:
+Recent decisions for v1.5 extended roadmap:
 
-- Additive architecture: new /stay/room/[roomCode] route alongside existing /stay/[code] (never break backward compat)
-- Two-tier JWT with accessTier claim (browse vs full) in single token, not two separate tokens
-- SECURITY DEFINER resolve_room_access() for room-to-booking resolution (follows existing pattern)
-- Zero new dependencies except browser-image-compression and heic2any for document upload
-- 8-char room codes (RM-XXXXXXXX) for larger permanent keyspace vs 6-char booking codes
-- Timezone-aware date resolution: (NOW() AT TIME ZONE property.timezone)::DATE, not CURRENT_DATE
-- No guest_last_name in resolve_room_access return (browse tier privacy)
-- Browse tier hides all PII (guest name, booking code, guest count) for privacy
-- signGuestToken accepts null bookingId for no-booking room sessions
-- No-booking token expires 7 days from now; active-booking token expires checkout+24h
-- Room session shares localStorage keys with booking session (latest wins)
-- Partial last name match (startsWith) with min 3 chars for flexible international name verification
-- In-memory rate limiting (Map-based, 5 attempts/5 min) sufficient for Phase 26; hardened in Phase 27
-- NFD normalization strips diacritics for robust name matching across character sets
-- Cart proxy pattern: spread cart object but override addItem to gate behind verification in browse tier
-- CSS-only success animation (scale-in keyframe) for verification — zero new dependencies
-- Cooldown state replaces input entirely with countdown timer for clear UX feedback
-- access_settings JSONB stores preset name + individual action booleans for custom overrides beyond presets
-- Preset definitions duplicated in backoffice (not cross-app import) to avoid cross-app dependency
-- CHECK constraint allows NULL access_settings for backward compat with existing properties
-- Boolean convention: true = gated (requires verification), false = free for browse tier
-- Legacy fallback uses standard preset when access_settings is null (backward compatible)
-- isActionGated pattern: centralized per-action gating check with tier, settings, and fallback logic
-- hasAnyGatedAction controls verify prompt visibility (Family preset hides it entirely)
+- Phase 30 = Shared Module Audit (user-approved prerequisite before implementation)
+- Bug fixes BEFORE features (from pitfalls research, Phase 31 before 33)
+- Dashboard refactor BEFORE adding new sections (Phase 33 before 34/35/36)
+- Tourist Concierge for accommodations only (5 CON-\* requirements in Phase 36)
+- Gantt/Timeline calendar via CSS Grid, not library (Phase 32)
+- Zero new npm packages confirmed by research
+- Backoffice multi-verticale and fatturazione DEFERRED (out of scope)
 
 ### Pending Todos
 
@@ -79,14 +62,16 @@ None.
 - ADMIN_API_KEY auth pattern needs migration to session-based auth
 - Phase 28: HEIC conversion reliability on Android needs device testing (Samsung, Xiaomi, Oppo)
 - Phase 28: Vietnam-specific document retention rules (NA17) need local legal validation
+- Phase 33: Dashboard redesign deployment must preserve InStayDashboard state contracts (15+ state vars)
+- Phase 32: Gantt calendar mobile UX needs validation on phone screens
 
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Defining extended v1.5 requirements (manual test results)
+Stopped at: Extended roadmap created (phases 30-39)
 Resume file: None
-Next: Define REQUIREMENTS.md for extended scope, then create roadmap phases 28+
+Next: `/gsd:plan-phase 28` (Document Upload + Visa Tracking)
 
 ---
 
-_Last updated: 2026-02-01 after v1.5 scope extension_
+_Last updated: 2026-02-01 after extended roadmap creation_
