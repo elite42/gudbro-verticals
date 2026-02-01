@@ -2,7 +2,16 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { MapPin, UserCircle } from '@phosphor-icons/react';
+import {
+  MapPin,
+  UserCircle,
+  WifiHigh,
+  CallBell,
+  BookOpen,
+  IdentificationCard,
+  ClipboardText,
+  Compass,
+} from '@phosphor-icons/react';
 import { useStaySession } from '@/hooks/useStaySession';
 import { useServiceCart } from '@/hooks/useServiceCart';
 import { useOrderPolling } from '@/hooks/useOrderPolling';
@@ -10,12 +19,19 @@ import { fetchProperty, fetchDocuments } from '@/lib/stay-api';
 import type { PropertyExtended, ServiceCategoryWithItems, GuestDocument } from '@/types/stay';
 
 import DashboardHeader from '@/components/stay/DashboardHeader';
-import WifiCard from '@/components/stay/WifiCard';
-import WelcomeCard from '@/components/stay/WelcomeCard';
-import QuickActions from '@/components/stay/QuickActions';
-import CheckoutInfo from '@/components/stay/CheckoutInfo';
-import ContactSheet from '@/components/stay/ContactSheet';
-import VisaStatusCard from '@/components/stay/VisaStatusCard';
+import DashboardGrid from '@/components/stay/DashboardGrid';
+import DashboardCard from '@/components/stay/DashboardCard';
+import WifiCard, { isWifiDismissed } from '@/components/stay/WifiCard';
+// Moved to profile in 33-02
+// import WelcomeCard from '@/components/stay/WelcomeCard';
+// Absorbed by card grid
+// import QuickActions from '@/components/stay/QuickActions';
+// Moves into HouseRulesSheet in 33-02
+// import CheckoutInfo from '@/components/stay/CheckoutInfo';
+// Moves to header in 33-02
+// import ContactSheet from '@/components/stay/ContactSheet';
+// Move to Profile in 33-02
+// import VisaStatusCard from '@/components/stay/VisaStatusCard';
 import ReturnGuestBanner from '@/components/stay/ReturnGuestBanner';
 import RestaurantSection from '@/components/stay/RestaurantSection';
 import ServicesCarousel from '@/components/stay/ServicesCarousel';
@@ -27,7 +43,8 @@ import LocalDeals from '@/components/stay/LocalDeals';
 import UsefulNumbers from '@/components/stay/UsefulNumbers';
 import BottomNav from '@/components/BottomNav';
 import DocumentUpload from '@/components/stay/DocumentUpload';
-import VisaExpiryAlert from '@/components/stay/VisaExpiryAlert';
+// Move to Profile in 33-02
+// import VisaExpiryAlert from '@/components/stay/VisaExpiryAlert';
 
 export default function InStayDashboard({ params }: { params: { code: string } }) {
   const router = useRouter();
@@ -57,6 +74,9 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   const [documents, setDocuments] = useState<GuestDocument[]>([]);
   const [showUpload, setShowUpload] = useState(false);
 
+  // WiFi dismiss state for card grid visibility
+  const [wifiDismissed, setWifiDismissed] = useState(true); // start hidden to avoid flash
+
   const loadDocuments = useCallback(async () => {
     if (!token || !isAuthenticated) return;
     const { data } = await fetchDocuments(params.code, token);
@@ -67,8 +87,13 @@ export default function InStayDashboard({ params }: { params: { code: string } }
     loadDocuments();
   }, [loadDocuments]);
 
-  // Find latest active visa document
-  const activeVisa = documents.find((d) => d.documentType === 'visa' && !d.supersededBy);
+  // Initialize wifi dismissed state from localStorage
+  useEffect(() => {
+    setWifiDismissed(isWifiDismissed());
+  }, []);
+
+  // Find latest active visa document (used by Profile in 33-02)
+  const _activeVisa = documents.find((d) => d.documentType === 'visa' && !d.supersededBy);
 
   // Callback for ServicesCarousel when categories load
   const handleCategoriesLoaded = useCallback(
@@ -171,169 +196,201 @@ export default function InStayDashboard({ params }: { params: { code: string } }
         );
 
       case 'home':
-      default:
+      default: {
+        const hasWifi = !!(wifi.network || (wifi.zones && wifi.zones.length > 0));
+        const activeOrderCount = orders.filter(
+          (o) => o.status !== 'delivered' && o.status !== 'cancelled'
+        ).length;
+        const documentCount = documents.filter((d) => !d.supersededBy).length;
+
         return (
-          <div className="flex flex-col gap-4 px-4 py-4">
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-              <WifiCard wifi={wifi} />
-            </div>
-
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-              <WelcomeCard booking={booking} room={room} />
-            </div>
-
-            {booking.guestCountry && (
-              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                <VisaStatusCard
-                  guestCountry={booking.guestCountry}
-                  checkInDate={booking.checkIn}
-                  uploadedVisaExpiry={activeVisa?.visaExpiryDate}
+          <div className="flex flex-col gap-4">
+            {/* Card Grid -- main navigation */}
+            <DashboardGrid>
+              {/* Row 1: WiFi + Services */}
+              {hasWifi && !wifiDismissed && (
+                <DashboardCard
+                  icon={WifiHigh}
+                  label="WiFi"
+                  color="#3D8B87"
+                  onClick={() =>
+                    document.getElementById('wifi-section')?.scrollIntoView({ behavior: 'smooth' })
+                  }
                 />
-              </div>
-            )}
-
-            {activeVisa?.visaExpiryDate && (
-              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                <VisaExpiryAlert
-                  visaExpiryDate={activeVisa.visaExpiryDate}
-                  checkInDate={booking.checkIn}
-                />
-              </div>
-            )}
-
-            {hostPhone && (
-              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                <QuickActions
-                  actions={propertyExtended?.quickActions}
-                  phone={hostPhone}
-                  roomNumber={room.number}
-                  propertyName={property.name}
-                />
-              </div>
-            )}
-
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-              <RestaurantSection
-                hasLinkedFnb={propertyExtended?.hasLinkedFnb ?? false}
-                linkedFnbSlug={propertyExtended?.linkedFnbSlug ?? null}
-                bookingCode={params.code}
-                token={token!}
+              )}
+              <DashboardCard
+                icon={CallBell}
+                label="Services"
+                color="#E07A5F"
+                badge={serviceCategories.length > 0 ? `${serviceCategories.length}` : undefined}
+                onClick={() => setShowCatalog(true)}
               />
-            </div>
 
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-              <ServicesCarousel
-                bookingCode={params.code}
-                token={token!}
-                cart={cart}
-                onViewAll={() => setShowCatalog(true)}
-                onCategoriesLoaded={handleCategoriesLoaded}
+              {/* Row 2: House Rules + Documents */}
+              <DashboardCard
+                icon={BookOpen}
+                label="House Rules"
+                color="#8B6914"
+                onClick={() => {
+                  /* 33-02 will wire HouseRulesSheet */
+                }}
               />
-            </div>
+              <DashboardCard
+                icon={IdentificationCard}
+                label="Documents"
+                color="#6366F1"
+                badge={documentCount > 0 ? `${documentCount}` : undefined}
+                onClick={() =>
+                  document
+                    .getElementById('documents-section')
+                    ?.scrollIntoView({ behavior: 'smooth' })
+                }
+              />
 
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-              <ActiveOrders orders={orders} currency={propertyCurrency} />
-            </div>
+              {/* Row 3: Orders + Concierge */}
+              <DashboardCard
+                icon={ClipboardText}
+                label="Orders"
+                color="#059669"
+                badge={activeOrderCount > 0 ? `${activeOrderCount}` : undefined}
+                onClick={() =>
+                  document.getElementById('orders-section')?.scrollIntoView({ behavior: 'smooth' })
+                }
+              />
+              <DashboardCard
+                icon={Compass}
+                label="Concierge"
+                color="#D97706"
+                onClick={() => {
+                  /* Phase 36 will build Concierge hub */
+                }}
+              />
+            </DashboardGrid>
 
-            {/* Documents section */}
-            {token && (
+            {/* Detail sections below the card grid */}
+            <div className="flex flex-col gap-4 px-4 pb-4">
+              {/* WiFi section -- scroll target */}
+              <div id="wifi-section">
+                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                  <WifiCard wifi={wifi} onDismiss={() => setWifiDismissed(true)} />
+                </div>
+              </div>
+
               <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                {showUpload ? (
-                  <DocumentUpload
-                    bookingCode={params.code}
-                    token={token}
-                    onUploadComplete={() => {
-                      loadDocuments();
-                      setShowUpload(false);
-                    }}
-                    existingDocuments={documents}
-                  />
-                ) : (
-                  <>
-                    <div className="mb-3 flex items-center justify-between">
-                      <h3 className="text-sm font-semibold text-[#2D2016]">Documents</h3>
-                      <button
-                        onClick={() => setShowUpload(true)}
-                        className="rounded-lg bg-[#3D8B87]/10 px-3 py-1.5 text-xs font-medium text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/20"
-                      >
-                        Upload Document
-                      </button>
-                    </div>
-                    {documents.length === 0 ? (
-                      <p className="text-xs text-[#8B7355]">
-                        No documents uploaded yet. Upload your passport for residence registration.
-                      </p>
+                <RestaurantSection
+                  hasLinkedFnb={propertyExtended?.hasLinkedFnb ?? false}
+                  linkedFnbSlug={propertyExtended?.linkedFnbSlug ?? null}
+                  bookingCode={params.code}
+                  token={token!}
+                />
+              </div>
+
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <ServicesCarousel
+                  bookingCode={params.code}
+                  token={token!}
+                  cart={cart}
+                  onViewAll={() => setShowCatalog(true)}
+                  onCategoriesLoaded={handleCategoriesLoaded}
+                />
+              </div>
+
+              {/* Orders section -- scroll target */}
+              <div id="orders-section">
+                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                  <ActiveOrders orders={orders} currency={propertyCurrency} />
+                </div>
+              </div>
+
+              {/* Documents section -- scroll target */}
+              <div id="documents-section">
+                {token && (
+                  <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                    {showUpload ? (
+                      <DocumentUpload
+                        bookingCode={params.code}
+                        token={token}
+                        onUploadComplete={() => {
+                          loadDocuments();
+                          setShowUpload(false);
+                        }}
+                        existingDocuments={documents}
+                      />
                     ) : (
-                      <div className="space-y-2">
-                        {documents
-                          .filter((d) => !d.supersededBy)
-                          .map((doc) => (
-                            <div
-                              key={doc.id}
-                              className="flex items-center justify-between rounded-xl bg-[#FAF8F5] px-3 py-2"
-                            >
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm">
-                                  {doc.documentType === 'passport' ? '🛂' : '📄'}
-                                </span>
-                                <div>
-                                  <p className="text-xs font-medium capitalize text-[#2D2016]">
-                                    {doc.documentType}
-                                  </p>
-                                  {doc.visaExpiryDate && (
-                                    <p className="text-[10px] text-[#8B7355]">
-                                      Expires: {doc.visaExpiryDate}
-                                    </p>
+                      <>
+                        <div className="mb-3 flex items-center justify-between">
+                          <h3 className="text-sm font-semibold text-[#2D2016]">Documents</h3>
+                          <button
+                            onClick={() => setShowUpload(true)}
+                            className="rounded-lg bg-[#3D8B87]/10 px-3 py-1.5 text-xs font-medium text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/20"
+                          >
+                            Upload Document
+                          </button>
+                        </div>
+                        {documents.length === 0 ? (
+                          <p className="text-xs text-[#8B7355]">
+                            No documents uploaded yet. Upload your passport for residence
+                            registration.
+                          </p>
+                        ) : (
+                          <div className="space-y-2">
+                            {documents
+                              .filter((d) => !d.supersededBy)
+                              .map((doc) => (
+                                <div
+                                  key={doc.id}
+                                  className="flex items-center justify-between rounded-xl bg-[#FAF8F5] px-3 py-2"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm">
+                                      {doc.documentType === 'passport' ? '\u{1F6C2}' : '\u{1F4C4}'}
+                                    </span>
+                                    <div>
+                                      <p className="text-xs font-medium capitalize text-[#2D2016]">
+                                        {doc.documentType}
+                                      </p>
+                                      {doc.visaExpiryDate && (
+                                        <p className="text-[10px] text-[#8B7355]">
+                                          Expires: {doc.visaExpiryDate}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {doc.registeredWithAuthorities && (
+                                    <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
+                                      Registered
+                                    </span>
                                   )}
                                 </div>
-                              </div>
-                              {doc.registeredWithAuthorities && (
-                                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
-                                  Registered
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                      </div>
+                              ))}
+                          </div>
+                        )}
+                      </>
                     )}
-                  </>
+                  </div>
                 )}
               </div>
-            )}
 
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-              <LocalDeals bookingCode={params.code} token={token!} />
-            </div>
-
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-              <UsefulNumbers bookingCode={params.code} token={token!} />
-            </div>
-
-            {propertyExtended?.returnBannerText && propertyExtended?.returnBannerUrl && (
               <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                <ReturnGuestBanner
-                  text={propertyExtended.returnBannerText}
-                  url={propertyExtended.returnBannerUrl}
-                />
+                <LocalDeals bookingCode={params.code} token={token!} />
               </div>
-            )}
 
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-              <CheckoutInfo checkoutTime={property.checkoutTime} houseRules={property.houseRules} />
-            </div>
-
-            {hostPhone && (
               <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                <ContactSheet
-                  phone={hostPhone}
-                  whatsapp={property.contactWhatsapp}
-                  roomNumber={room.number}
-                  propertyName={property.name}
-                />
+                <UsefulNumbers bookingCode={params.code} token={token!} />
               </div>
-            )}
+
+              {propertyExtended?.returnBannerText && propertyExtended?.returnBannerUrl && (
+                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                  <ReturnGuestBanner
+                    text={propertyExtended.returnBannerText}
+                    url={propertyExtended.returnBannerUrl}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         );
+      }
     }
   };
 

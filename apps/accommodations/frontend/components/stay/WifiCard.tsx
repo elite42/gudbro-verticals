@@ -15,6 +15,7 @@ import {
   CopySimple,
   Check,
   QrCode,
+  X,
 } from '@phosphor-icons/react';
 import QRCodeLib from 'qrcode';
 import { generateWiFiString } from '@shared/utils/qr/wifi';
@@ -57,21 +58,57 @@ function useWifiQR(ssid: string, password: string) {
   return qrDataUrl;
 }
 
-interface WifiCardProps {
-  wifi: WifiInfo;
+const WIFI_DISMISS_KEY = 'gudbro_wifi_dismissed';
+
+/** Check if WiFi card has been dismissed (for use by other components like Concierge hub). */
+export function isWifiDismissed(): boolean {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem(WIFI_DISMISS_KEY) === 'true';
 }
 
-export default function WifiCard({ wifi }: WifiCardProps) {
+interface WifiCardProps {
+  wifi: WifiInfo;
+  /** Called when the user dismisses the WiFi card */
+  onDismiss?: () => void;
+}
+
+export default function WifiCard({ wifi, onDismiss }: WifiCardProps) {
+  // Dismiss state: start hidden to avoid flash, then check localStorage
+  const [dismissed, setDismissed] = useState(true);
+
+  useEffect(() => {
+    setDismissed(localStorage.getItem(WIFI_DISMISS_KEY) === 'true');
+  }, []);
+
+  const handleDismiss = useCallback(() => {
+    localStorage.setItem(WIFI_DISMISS_KEY, 'true');
+    setDismissed(true);
+    onDismiss?.();
+  }, [onDismiss]);
+
+  if (dismissed) return null;
   // Determine display mode
   const zones = wifi.zones;
   const hasZones = zones && zones.length > 0;
   const isMultiZone = zones && zones.length >= 2;
 
+  // Dismiss button (shared across all modes)
+  const dismissButton = (
+    <button
+      onClick={handleDismiss}
+      className="absolute right-2 top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-black/10 text-white/80 transition-colors hover:bg-black/20"
+      aria-label="Dismiss WiFi card"
+    >
+      <X size={14} weight="bold" />
+    </button>
+  );
+
   // Legacy mode: no zones, use network/password
   if (!hasZones) {
     if (!wifi.network || !wifi.password) return null;
     return (
-      <section className="px-4 py-3">
+      <section className="relative px-4 py-3">
+        {dismissButton}
         <SingleNetworkCard ssid={wifi.network} password={wifi.password} />
       </section>
     );
@@ -81,7 +118,8 @@ export default function WifiCard({ wifi }: WifiCardProps) {
   if (!isMultiZone) {
     const zone = zones[0];
     return (
-      <section className="px-4 py-3">
+      <section className="relative px-4 py-3">
+        {dismissButton}
         <SingleNetworkCard
           ssid={zone.ssid}
           password={zone.password}
@@ -96,7 +134,8 @@ export default function WifiCard({ wifi }: WifiCardProps) {
   const otherZones = zones.filter((z) => !z.isRoomNetwork);
 
   return (
-    <section className="space-y-2 px-4 py-3">
+    <section className="relative space-y-2 px-4 py-3">
+      {dismissButton}
       {/* Room network as highlighted gradient card */}
       {roomZone && (
         <SingleNetworkCard ssid={roomZone.ssid} password={roomZone.password} badge="Your Room" />
