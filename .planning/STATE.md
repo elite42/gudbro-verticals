@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 33 (Guest Dashboard Redesign)
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 34 (Service Expansion + Minibar)
 
 ## Current Position
 
-Phase: 33 of 39 (Guest Dashboard Redesign)
-Plan: 2 of 2
-Status: Phase complete (verified)
-Last activity: 2026-02-01 — Completed 33-02-PLAN.md (Navigation Restructure + Profile)
+Phase: 34 of 39 (Service Expansion + Minibar)
+Plan: 1 of 5
+Status: In progress
+Last activity: 2026-02-02 — Completed 34-01-PLAN.md (Service Catalog Enhancements DB + API)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [████████████████░░░░] 19/29 plans
+Progress: v1.5 [████████████████████░░░░░░░░] 20/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 76 (+ 1 quick task)
+- Total plans completed: 77 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~5.9 hours
+- Total execution time: ~6.0 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [████████████████░░░░] 19
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 19/29 | ~101 min   | 5.3 min  |
+| v1.5      | 20/29 | ~104 min   | 5.2 min  |
 
 ## Accumulated Context
 
@@ -76,10 +76,8 @@ Recent decisions for v1.5 extended roadmap:
 - NAV-02: checkInTime and checkoutProcedure added to PropertyInfo type and all 4 API routes
 - NAV-03: BottomNav reduced from 5 to 4 tabs, Menu removed, Map renamed to Explore
 - NAV-04: ProfileView preferences section is a stub for Phase 38 returning guest detection
-
-### Pending Todos
-
-None.
+- SVC-01: Migration renumbered from 088 to 095 (088 already existed as room-codes)
+- SVC-02: category_tag denormalized on order items for query performance
 
 ### Blockers/Concerns
 
@@ -90,13 +88,17 @@ None.
 - Phase 32: Gantt calendar mobile UX needs validation on phone screens
 - Pre-existing @shared/ module resolution errors in DashboardHeader.tsx and WifiCard.tsx (project-level config issue)
 
+### Pending Todos
+
+- Migration 095 needs to be applied to live database (Supabase MCP/CLI not available during execution)
+
 ## Session Continuity
 
-Last session: 2026-02-01
-Stopped at: Phase 33 fully complete (2 plans, verified)
+Last session: 2026-02-02
+Stopped at: Completed 34-01-PLAN.md (Service Catalog Enhancements DB + API)
 Resume file: None
-Next: `/gsd:plan-phase 34` (Service Expansion + Minibar)
+Next: Phase 34-02 execution
 
 ---
 
-_Last updated: 2026-02-01 after Phase 33 execution complete_
+_Last updated: 2026-02-02 after 34-01 execution complete_
