@@ -45,7 +45,7 @@
 
 ### Shared Infrastructure
 
-- [ ] **INF-01**: Audit of reusable modules across verticals produces catalog with status (ready/adaptable/to-build)
+- [x] **INF-01**: Audit of reusable modules across verticals produces catalog with status (ready/adaptable/to-build)
 - [ ] **INF-02**: QR code generation extracted for WiFi QR in PWA guest dashboard
 - [ ] **INF-03**: Conventions system adapted for accommodations (breakfast vouchers with date, benefit_scope column)
 
@@ -191,7 +191,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WIFI-01     | 29    | Complete |
 | WIFI-02     | 29    | Complete |
 | WIFI-03     | 29    | Complete |
-| INF-01      | 30    | Pending  |
+| INF-01      | 30    | Complete |
 | INF-02      | 31    | Pending  |
 | INF-03      | 37    | Pending  |
 | BUG-01      | 31    | Pending  |

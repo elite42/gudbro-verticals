@@ -55,7 +55,7 @@ See milestones/v1.4-ROADMAP.md for details.
 - [x] **Phase 27: Owner Security Configuration** - Security presets, configurable verification methods, action-level gating
 - [x] **Phase 28: Document Upload + Visa Tracking** - Passport/visa photo upload, expiry reminders, GDPR auto-delete
 - [x] **Phase 29: Multi-Zone WiFi** - Per-zone WiFi credentials, room overrides, zone-organized display
-- [ ] **Phase 30: Shared Module Audit** - Catalog of reusable modules across verticals (ready/adaptable/to-build)
+- [x] **Phase 30: Shared Module Audit** - Catalog of reusable modules across verticals (ready/adaptable/to-build)
 - [ ] **Phase 31: Bug Fixes + Image Foundation** - 9 bugs fixed, service/item image upload, WiFi QR extraction
 - [ ] **Phase 32: Owner Dashboard Enhancements** - Gantt calendar, onboarding wizard, property data, policies, booking history
 - [ ] **Phase 33: Guest Dashboard Redesign** - Card-based homepage, dismissible WiFi box, profile page, navigation restructure
@@ -379,7 +379,7 @@ Notes:
 | 27. Owner Security Configuration          | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 28. Document Upload + Visa Tracking       | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 29. Multi-Zone WiFi                       | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 30. Shared Module Audit                   | v1.5      | 0/1            | Not started | -          |
+| 30. Shared Module Audit                   | v1.5      | 1/1            | Complete    | 2026-02-01 |
 | 31. Bug Fixes + Image Foundation          | v1.5      | 0/2            | Not started | -          |
 | 32. Owner Dashboard Enhancements          | v1.5      | 0/2            | Not started | -          |
 | 33. Guest Dashboard Redesign              | v1.5      | 0/2            | Not started | -          |
@@ -393,4 +393,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after Phase 29 completion (Multi-Zone WiFi verified)_
+_Last updated: 2026-02-01 after Phase 30 completion (Shared Module Audit verified)_
