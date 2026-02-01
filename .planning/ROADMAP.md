@@ -60,7 +60,7 @@ See milestones/v1.4-ROADMAP.md for details.
 - [x] **Phase 32: Owner Dashboard Enhancements** - Gantt calendar, onboarding wizard, property data, policies, booking history
 - [x] **Phase 33: Guest Dashboard Redesign** - Card-based homepage, dismissible WiFi box, profile page, navigation restructure
 - [x] **Phase 34: Service Expansion + Minibar** - Catalog redesign, minibar self-service, included-in-rate, order improvements
-- [ ] **Phase 35: Guest Feedback System** - In-stay complaints channel, post-stay category ratings with AI pipeline
+- [x] **Phase 35: Guest Feedback System** - In-stay complaints channel, post-stay category ratings with AI pipeline
 - [ ] **Phase 36: Guest Requests + Concierge** - Tourist Concierge hub, Explore page, bottom nav overhaul, useful numbers
 - [ ] **Phase 37: Conventions + Vouchers** - Benefit scope adaptation, convention cards, voucher validation in booking flow
 - [ ] **Phase 38: Guest Lifecycle** - Returning guest badge, early/late checkout requests, visa alerts, delivery apps
@@ -386,7 +386,7 @@ Notes:
 | 32. Owner Dashboard Enhancements          | v1.5      | 4/4            | Complete    | 2026-02-01 |
 | 33. Guest Dashboard Redesign              | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 34. Service Expansion + Minibar           | v1.5      | 5/5            | Complete    | 2026-02-02 |
-| 35. Guest Feedback System                 | v1.5      | 0/2            | Not started | -          |
+| 35. Guest Feedback System                 | v1.5      | 2/2            | Complete    | 2026-02-02 |
 | 36. Guest Requests + Concierge            | v1.5      | 0/3            | Not started | -          |
 | 37. Conventions + Vouchers                | v1.5      | 0/2            | Not started | -          |
 | 38. Guest Lifecycle                       | v1.5      | 0/2            | Not started | -          |
@@ -395,4 +395,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-02 after Phase 34 execution complete_
+_Last updated: 2026-02-02 after Phase 35 execution complete_

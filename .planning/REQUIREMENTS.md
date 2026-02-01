@@ -100,8 +100,8 @@
 ### Guest Experience
 
 - [ ] **GXP-01**: Early check-in / late checkout request via PWA (owner approves/rejects from backoffice)
-- [ ] **GXP-02**: In-stay feedback/complaints channel (direct guest → owner, with categories and photo upload)
-- [ ] **GXP-03**: Post-stay feedback with category ratings and comments (sent 2-24h after checkout)
+- [x] **GXP-02**: In-stay feedback/complaints channel (direct guest → owner, with categories and photo upload)
+- [x] **GXP-03**: Post-stay feedback with category ratings and comments (sent 2-24h after checkout)
 - [ ] **GXP-04**: Delivery apps section with Grab, ShopeeFood, Baemin cards and deep-links
 - [ ] **GXP-05**: Convention restaurant cards with visual display (linked to conventions module)
 
@@ -231,8 +231,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | OWN-08      | 38    | Pending  |
 | OWN-09      | 38    | Pending  |
 | GXP-01      | 38    | Pending  |
-| GXP-02      | 35    | Pending  |
-| GXP-03      | 35    | Pending  |
+| GXP-02      | 35    | Complete |
+| GXP-03      | 35    | Complete |
 | GXP-04      | 38    | Pending  |
 | GXP-05      | 37    | Pending  |
 | CON-01      | 36    | Pending  |
