@@ -229,8 +229,8 @@ Plans:
 
 Plans:
 
-- [ ] 33-01: DashboardGrid wrapper component with card-based layout (dashboard_layout JSONB config, show/hide per card), homepage redesign with visual cards, WiFi box dismiss/recover logic (NAV-01, NAV-02)
-- [ ] 33-02: Navigation restructure (check-in/out into house rules, contact host to header/menu) + Profile page (personal data, documents, history, preferences) (NAV-04, NAV-05, NAV-08)
+- [ ] 33-01-PLAN.md — DashboardGrid + DashboardCard components, card-based homepage layout, WiFi dismiss/recover logic (NAV-01, NAV-02)
+- [ ] 33-02-PLAN.md — HouseRulesSheet + Contact Host in header + ProfileView + BottomNav restructure (NAV-04, NAV-05, NAV-08)
 
 ### Phase 34: Service Expansion + Minibar
 
@@ -395,4 +395,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after Phase 32 complete (including gap closure)_
+_Last updated: 2026-02-01 after Phase 33 planning complete_
