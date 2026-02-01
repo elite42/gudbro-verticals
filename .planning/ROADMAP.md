@@ -156,8 +156,8 @@ Plans:
 
 Plans:
 
-- [ ] 29-01: wifi_zones JSONB schema + room WiFi override columns + backoffice WiFi zone management
-- [ ] 29-02: Guest-facing multi-zone WifiCard (zone accordion, room highlight, resolution logic)
+- [ ] 29-01-PLAN.md — Migration 092 (wifi_zones JSONB + room override columns + data migration) + backoffice WiFi zone management UI + property/rooms API updates
+- [ ] 29-02-PLAN.md — WifiZoneInfo types + buildWifiInfo() shared helper + 4 guest API route updates + multi-zone WifiCard component + email template update
 
 ### Phase 30: Shared Module Audit
 
@@ -393,4 +393,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after extended roadmap (phases 30-39) for manual test results + Tourist Concierge_
+_Last updated: 2026-02-01 after Phase 29 planning (2 plans in 2 waves)_
