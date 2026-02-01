@@ -57,7 +57,7 @@ See milestones/v1.4-ROADMAP.md for details.
 - [x] **Phase 29: Multi-Zone WiFi** - Per-zone WiFi credentials, room overrides, zone-organized display
 - [x] **Phase 30: Shared Module Audit** - Catalog of reusable modules across verticals (ready/adaptable/to-build)
 - [x] **Phase 31: Bug Fixes + Image Foundation** - 9 bugs fixed, service/item image upload, WiFi QR extraction
-- [ ] **Phase 32: Owner Dashboard Enhancements** - Gantt calendar, onboarding wizard, property data, policies, booking history
+- [x] **Phase 32: Owner Dashboard Enhancements** - Gantt calendar, onboarding wizard, property data, policies, booking history
 - [ ] **Phase 33: Guest Dashboard Redesign** - Card-based homepage, dismissible WiFi box, profile page, navigation restructure
 - [ ] **Phase 34: Service Expansion + Minibar** - Catalog redesign, minibar self-service, included-in-rate, order improvements
 - [ ] **Phase 35: Guest Feedback System** - In-stay complaints channel, post-stay category ratings with AI pipeline
@@ -383,7 +383,7 @@ Notes:
 | 29. Multi-Zone WiFi                       | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 30. Shared Module Audit                   | v1.5      | 1/1            | Complete    | 2026-02-01 |
 | 31. Bug Fixes + Image Foundation          | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 32. Owner Dashboard Enhancements          | v1.5      | 2/4            | Gap closure | -          |
+| 32. Owner Dashboard Enhancements          | v1.5      | 4/4            | Complete    | 2026-02-01 |
 | 33. Guest Dashboard Redesign              | v1.5      | 0/2            | Not started | -          |
 | 34. Service Expansion + Minibar           | v1.5      | 0/2            | Not started | -          |
 | 35. Guest Feedback System                 | v1.5      | 0/2            | Not started | -          |
@@ -395,4 +395,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after Phase 32 gap closure plans created_
+_Last updated: 2026-02-01 after Phase 32 complete (including gap closure)_
