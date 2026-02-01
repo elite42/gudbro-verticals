@@ -291,6 +291,8 @@ export interface ServiceOrder {
   total: number;
   currency: string;
   categoryTag: string;
+  isMinibarConsumption: boolean;
+  ownerConfirmed: boolean | null;
   items: ServiceOrderItem[];
   createdAt: string;
   updatedAt: string;
@@ -314,6 +316,10 @@ export interface CreateOrderRequest {
   }[];
   requestedTime?: string;
   deliveryNotes?: string;
+}
+
+export interface CreateMinibarOrderRequest {
+  items: { serviceItemId: string; quantity: number }[];
 }
 
 export interface OrdersResponse {

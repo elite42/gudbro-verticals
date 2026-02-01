@@ -70,6 +70,8 @@ function mapOrder(
     total: row.total as number,
     currency: row.currency as string,
     categoryTag: primaryCategoryTag(items),
+    isMinibarConsumption: (row.is_minibar_consumption as boolean) || false,
+    ownerConfirmed: (row.owner_confirmed as boolean | null) ?? null,
     items,
     createdAt: row.created_at as string,
     updatedAt: row.updated_at as string,
@@ -95,7 +97,7 @@ export async function GET(request: NextRequest) {
       .from('accom_service_orders')
       .select(
         `
-        id, status, requested_time, delivery_notes, subtotal, tax, total, currency, created_at, updated_at,
+        id, status, requested_time, delivery_notes, subtotal, tax, total, currency, is_minibar_consumption, owner_confirmed, created_at, updated_at,
         accom_service_order_items(
           id, name, quantity, unit_price, total, notes, category_tag
         )
@@ -246,6 +248,7 @@ export async function POST(request: NextRequest) {
     // Validate stock and availability, build order items
     let subtotal = 0;
     let allAutoConfirm = true;
+    let isMinibarOrder = false;
 
     const orderItems: Array<{
       service_item_id: string;
@@ -288,11 +291,18 @@ export async function POST(request: NextRequest) {
 
       // Check automation level
       const category = dbItem.accom_service_categories as unknown as Record<string, unknown>;
+      const automationLevel = category?.automation_level as string;
       if (
-        category?.automation_level !== 'auto_confirm' &&
-        category?.automation_level !== 'whatsapp_notify'
+        automationLevel !== 'auto_confirm' &&
+        automationLevel !== 'whatsapp_notify' &&
+        automationLevel !== 'self_service'
       ) {
         allAutoConfirm = false;
+      }
+
+      // Track if any item is from a self_service category
+      if (automationLevel === 'self_service') {
+        isMinibarOrder = true;
       }
 
       const itemTotal = dbItem.price * reqItem.quantity;
@@ -330,9 +340,11 @@ export async function POST(request: NextRequest) {
         tax,
         total,
         currency: propertyCurrency,
+        is_minibar_consumption: isMinibarOrder,
+        owner_confirmed: isMinibarOrder ? null : undefined,
       })
       .select(
-        'id, status, requested_time, delivery_notes, subtotal, tax, total, currency, created_at, updated_at'
+        'id, status, requested_time, delivery_notes, subtotal, tax, total, currency, is_minibar_consumption, owner_confirmed, created_at, updated_at'
       )
       .single();
 

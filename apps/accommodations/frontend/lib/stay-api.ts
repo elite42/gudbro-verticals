@@ -160,6 +160,21 @@ export function createOrderAPI(
 }
 
 /**
+ * Create a minibar consumption order (self-service honor system).
+ * POST /api/stay/[code]/orders
+ *
+ * Convenience wrapper that sends minibar items as a standard order.
+ * The API auto-detects self_service category and sets minibar flags.
+ */
+export function createMinibarOrder(
+  bookingCode: string,
+  token: string,
+  items: { serviceItemId: string; quantity: number }[]
+): Promise<FetchResult<{ order: ServiceOrder }>> {
+  return postStayAPI<{ order: ServiceOrder }>(`/api/stay/${bookingCode}/orders`, token, { items });
+}
+
+/**
  * Fetch a single order by ID.
  * GET /api/stay/[code]/orders/[orderId]
  */

@@ -44,7 +44,7 @@ export async function GET(
       .from('accom_service_orders')
       .select(
         `
-        id, status, requested_time, delivery_notes, subtotal, tax, total, currency, created_at, updated_at,
+        id, status, requested_time, delivery_notes, subtotal, tax, total, currency, is_minibar_consumption, owner_confirmed, created_at, updated_at,
         accom_service_order_items(
           id, name, quantity, unit_price, total, notes, category_tag
         )
@@ -101,6 +101,9 @@ export async function GET(
       total: data.total,
       currency: data.currency,
       categoryTag: orderCategoryTag,
+      isMinibarConsumption:
+        ((data as Record<string, unknown>).is_minibar_consumption as boolean) ?? false,
+      ownerConfirmed: ((data as Record<string, unknown>).owner_confirmed as boolean | null) ?? null,
       items,
       createdAt: data.created_at,
       updatedAt: data.updated_at,
