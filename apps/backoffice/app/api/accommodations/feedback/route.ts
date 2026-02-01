@@ -44,6 +44,17 @@ export async function GET(request: NextRequest) {
       guestRoomNumber: row.guest_room_number,
       feedbackType: row.feedback_type,
       createdAt: row.created_at,
+      // Post-stay ratings
+      ratingCleanliness: row.rating_cleanliness,
+      ratingLocation: row.rating_location,
+      ratingValue: row.rating_value,
+      ratingCommunication: row.rating_communication,
+      ratingWifi: row.rating_wifi,
+      ratingOverall: row.rating_overall,
+      // AI fields
+      aiTags: row.ai_tags,
+      aiSentiment: row.ai_sentiment,
+      aiPriority: row.ai_priority,
     }));
 
     return NextResponse.json({ feedback });
