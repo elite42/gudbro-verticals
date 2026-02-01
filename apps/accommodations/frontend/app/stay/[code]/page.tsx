@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   MapPin,
-  UserCircle,
   WifiHigh,
   CallBell,
   BookOpen,
@@ -22,16 +21,9 @@ import DashboardHeader from '@/components/stay/DashboardHeader';
 import DashboardGrid from '@/components/stay/DashboardGrid';
 import DashboardCard from '@/components/stay/DashboardCard';
 import WifiCard, { isWifiDismissed } from '@/components/stay/WifiCard';
-// Moved to profile in 33-02
-// import WelcomeCard from '@/components/stay/WelcomeCard';
-// Absorbed by card grid
-// import QuickActions from '@/components/stay/QuickActions';
-// Moves into HouseRulesSheet in 33-02
-// import CheckoutInfo from '@/components/stay/CheckoutInfo';
-// Moves to header in 33-02
-// import ContactSheet from '@/components/stay/ContactSheet';
-// Move to Profile in 33-02
-// import VisaStatusCard from '@/components/stay/VisaStatusCard';
+import HouseRulesSheet from '@/components/stay/HouseRulesSheet';
+import ContactSheet from '@/components/stay/ContactSheet';
+import ProfileView from '@/components/stay/ProfileView';
 import ReturnGuestBanner from '@/components/stay/ReturnGuestBanner';
 import RestaurantSection from '@/components/stay/RestaurantSection';
 import ServicesCarousel from '@/components/stay/ServicesCarousel';
@@ -43,8 +35,6 @@ import LocalDeals from '@/components/stay/LocalDeals';
 import UsefulNumbers from '@/components/stay/UsefulNumbers';
 import BottomNav from '@/components/BottomNav';
 import DocumentUpload from '@/components/stay/DocumentUpload';
-// Move to Profile in 33-02
-// import VisaExpiryAlert from '@/components/stay/VisaExpiryAlert';
 
 export default function InStayDashboard({ params }: { params: { code: string } }) {
   const router = useRouter();
@@ -77,6 +67,10 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   // WiFi dismiss state for card grid visibility
   const [wifiDismissed, setWifiDismissed] = useState(true); // start hidden to avoid flash
 
+  // Sheet overlay states
+  const [showHouseRules, setShowHouseRules] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+
   const loadDocuments = useCallback(async () => {
     if (!token || !isAuthenticated) return;
     const { data } = await fetchDocuments(params.code, token);
@@ -92,8 +86,8 @@ export default function InStayDashboard({ params }: { params: { code: string } }
     setWifiDismissed(isWifiDismissed());
   }, []);
 
-  // Find latest active visa document (used by Profile in 33-02)
-  const _activeVisa = documents.find((d) => d.documentType === 'visa' && !d.supersededBy);
+  // Find latest active visa document (used by ProfileView)
+  const activeVisa = documents.find((d) => d.documentType === 'visa' && !d.supersededBy);
 
   // Callback for ServicesCarousel when categories load
   const handleCategoriesLoaded = useCallback(
@@ -186,13 +180,15 @@ export default function InStayDashboard({ params }: { params: { code: string } }
 
       case 'profile':
         return (
-          <div className="px-4 py-6">
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-8 text-center shadow-sm">
-              <UserCircle size={48} weight="duotone" className="mx-auto mb-3 text-[#3D8B87]" />
-              <h3 className="mb-1 text-base font-semibold text-[#2D2016]">Guest Profile</h3>
-              <p className="text-sm text-[#8B7355]">Your profile and preferences. Coming soon.</p>
-            </div>
-          </div>
+          <ProfileView
+            booking={booking}
+            room={room}
+            property={property}
+            documents={documents}
+            orders={orders}
+            activeVisa={activeVisa}
+            onUploadDocument={() => setShowUpload(true)}
+          />
         );
 
       case 'home':
@@ -231,9 +227,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
                 icon={BookOpen}
                 label="House Rules"
                 color="#8B6914"
-                onClick={() => {
-                  /* 33-02 will wire HouseRulesSheet */
-                }}
+                onClick={() => setShowHouseRules(true)}
               />
               <DashboardCard
                 icon={IdentificationCard}
@@ -400,6 +394,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
         property={property}
         defaultCurrency={propertyCurrency}
         onCurrencyChange={setSelectedCurrency}
+        onContactHost={() => setShowContact(true)}
       />
 
       <div className="pb-20">{renderTabContent()}</div>
@@ -437,7 +432,27 @@ export default function InStayDashboard({ params }: { params: { code: string } }
         />
       )}
 
-      <BottomNav activeTab={activeTab} onTabChange={handleTabChange} onMenuToggle={() => {}} />
+      {/* House Rules bottom sheet */}
+      <HouseRulesSheet
+        isOpen={showHouseRules}
+        onClose={() => setShowHouseRules(false)}
+        checkInTime={property.checkInTime}
+        checkoutTime={property.checkoutTime}
+        checkoutProcedure={property.checkoutProcedure}
+        houseRules={property.houseRules}
+      />
+
+      {/* Contact Host bottom sheet */}
+      <ContactSheet
+        isOpen={showContact}
+        onClose={() => setShowContact(false)}
+        phone={hostPhone}
+        whatsapp={property.contactWhatsapp}
+        roomNumber={room.number}
+        propertyName={property.name}
+      />
+
+      <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
     </div>
   );
 }
