@@ -15,6 +15,9 @@ import {
   ArrowClockwise,
   Envelope,
   Phone,
+  FileText,
+  CheckCircle,
+  Circle,
 } from '@phosphor-icons/react';
 import BookingStatusBadge from '@/components/accommodations/BookingStatusBadge';
 import BookingActions from '@/components/accommodations/BookingActions';
@@ -63,6 +66,16 @@ interface PropertyInfo {
   host_whatsapp: string | null;
 }
 
+interface BookingDocument {
+  id: string;
+  document_type: 'passport' | 'visa';
+  file_name: string;
+  visa_expiry_date: string | null;
+  registered_with_authorities: boolean;
+  superseded_by: string | null;
+  created_at: string;
+}
+
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
@@ -108,9 +121,11 @@ export default function BookingDetailPage() {
 
   const [booking, setBooking] = useState<BookingDetail | null>(null);
   const [property, setProperty] = useState<PropertyInfo | null>(null);
+  const [documents, setDocuments] = useState<BookingDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [docTogglingIds, setDocTogglingIds] = useState<Set<string>>(new Set());
 
   // ---- Fetch booking + property ----
   useEffect(() => {
@@ -145,6 +160,19 @@ export default function BookingDetailPage() {
             const propData = await propRes.json();
             setProperty(propData.property);
           }
+        }
+
+        // Fetch documents for this booking
+        const docsRes = await fetch('/api/accommodations/documents', {
+          headers: AUTH_HEADERS,
+        });
+        if (docsRes.ok) {
+          const docsData = await docsRes.json();
+          // Filter documents for this specific booking
+          const bookingDocs = (docsData.documents || []).filter(
+            (d: BookingDocument & { booking: { id: string } }) => d.booking?.id === bookingId
+          );
+          setDocuments(bookingDocs);
         }
       } catch (err) {
         console.error('[BookingDetailPage] fetch error:', err);
@@ -190,6 +218,30 @@ export default function BookingDetailPage() {
     setLoading(true);
     // Re-trigger effect
     window.location.reload();
+  };
+
+  // ---- Toggle document registration ----
+  const handleToggleRegistered = async (docId: string, currentValue: boolean) => {
+    setDocTogglingIds((prev) => new Set(prev).add(docId));
+    try {
+      const res = await fetch('/api/accommodations/documents', {
+        method: 'PATCH',
+        headers: { ...AUTH_HEADERS, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ docId, registeredWithAuthorities: !currentValue }),
+      });
+      if (!res.ok) throw new Error('Failed to update');
+      setDocuments((prev) =>
+        prev.map((d) => (d.id === docId ? { ...d, registered_with_authorities: !currentValue } : d))
+      );
+    } catch {
+      alert('Failed to update registration status');
+    } finally {
+      setDocTogglingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(docId);
+        return next;
+      });
+    }
   };
 
   // ---- Loading ----
@@ -406,6 +458,64 @@ export default function BookingDetailPage() {
             icon={<ClockCounterClockwise size={20} weight="duotone" className="text-purple-600" />}
           >
             <BookingTimeline booking={booking} />
+          </Card>
+
+          {/* Documents */}
+          <Card
+            title="Documents"
+            icon={<FileText size={20} weight="duotone" className="text-teal-600" />}
+          >
+            {documents.filter((d) => !d.superseded_by).length === 0 ? (
+              <p className="text-sm text-gray-500">No documents uploaded by guest.</p>
+            ) : (
+              <div className="space-y-2">
+                {documents
+                  .filter((d) => !d.superseded_by)
+                  .map((doc) => (
+                    <div
+                      key={doc.id}
+                      className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-2"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">
+                          {doc.document_type === 'passport' ? '🛂' : '📄'}
+                        </span>
+                        <div>
+                          <p className="text-sm font-medium capitalize text-gray-900">
+                            {doc.document_type}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {new Date(doc.created_at).toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                            })}
+                            {doc.visa_expiry_date &&
+                              ` | Expires: ${new Date(doc.visa_expiry_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`}
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() =>
+                          handleToggleRegistered(doc.id, doc.registered_with_authorities)
+                        }
+                        disabled={docTogglingIds.has(doc.id)}
+                        className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium transition-colors ${
+                          doc.registered_with_authorities
+                            ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        }`}
+                      >
+                        {doc.registered_with_authorities ? (
+                          <CheckCircle size={12} weight="fill" />
+                        ) : (
+                          <Circle size={12} />
+                        )}
+                        {doc.registered_with_authorities ? 'Registered' : 'Pending'}
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            )}
           </Card>
         </div>
       </div>

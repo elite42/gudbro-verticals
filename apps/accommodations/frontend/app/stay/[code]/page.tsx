@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useStaySession } from '@/hooks/useStaySession';
 import { useServiceCart } from '@/hooks/useServiceCart';
 import { useOrderPolling } from '@/hooks/useOrderPolling';
-import { fetchProperty } from '@/lib/stay-api';
-import type { PropertyExtended, ServiceCategoryWithItems } from '@/types/stay';
+import { fetchProperty, fetchDocuments } from '@/lib/stay-api';
+import type { PropertyExtended, ServiceCategoryWithItems, GuestDocument } from '@/types/stay';
 
 import DashboardHeader from '@/components/stay/DashboardHeader';
 import WifiCard from '@/components/stay/WifiCard';
@@ -25,6 +25,8 @@ import CartDrawer from '@/components/stay/CartDrawer';
 import LocalDeals from '@/components/stay/LocalDeals';
 import UsefulNumbers from '@/components/stay/UsefulNumbers';
 import BottomNav from '@/components/BottomNav';
+import DocumentUpload from '@/components/stay/DocumentUpload';
+import VisaExpiryAlert from '@/components/stay/VisaExpiryAlert';
 
 export default function InStayDashboard({ params }: { params: { code: string } }) {
   const router = useRouter();
@@ -48,6 +50,23 @@ export default function InStayDashboard({ params }: { params: { code: string } }
     token: token ?? '',
     enabled: isAuthenticated,
   });
+
+  // Document state
+  const [documents, setDocuments] = useState<GuestDocument[]>([]);
+  const [showUpload, setShowUpload] = useState(false);
+
+  const loadDocuments = useCallback(async () => {
+    if (!token || !isAuthenticated) return;
+    const { data } = await fetchDocuments(params.code, token);
+    if (data?.documents) setDocuments(data.documents);
+  }, [params.code, token, isAuthenticated]);
+
+  useEffect(() => {
+    loadDocuments();
+  }, [loadDocuments]);
+
+  // Find latest active visa document
+  const activeVisa = documents.find((d) => d.documentType === 'visa' && !d.supersededBy);
 
   // Callback for ServicesCarousel when categories load
   const handleCategoriesLoaded = useCallback(
@@ -132,7 +151,19 @@ export default function InStayDashboard({ params }: { params: { code: string } }
         <WelcomeCard booking={booking} room={room} />
 
         {booking.guestCountry && (
-          <VisaStatusCard guestCountry={booking.guestCountry} checkInDate={booking.checkIn} />
+          <VisaStatusCard
+            guestCountry={booking.guestCountry}
+            checkInDate={booking.checkIn}
+            uploadedVisaExpiry={activeVisa?.visaExpiryDate}
+          />
+        )}
+
+        {/* Visa expiry alert from uploaded visa */}
+        {activeVisa?.visaExpiryDate && (
+          <VisaExpiryAlert
+            visaExpiryDate={activeVisa.visaExpiryDate}
+            checkInDate={booking.checkIn}
+          />
         )}
 
         {hostPhone && (
@@ -160,6 +191,74 @@ export default function InStayDashboard({ params }: { params: { code: string } }
         />
 
         <ActiveOrders orders={orders} currency={propertyCurrency} />
+
+        {/* Documents section */}
+        {token && (
+          <section className="mb-5 px-4">
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              {showUpload ? (
+                <DocumentUpload
+                  bookingCode={params.code}
+                  token={token}
+                  onUploadComplete={() => {
+                    loadDocuments();
+                    setShowUpload(false);
+                  }}
+                  existingDocuments={documents}
+                />
+              ) : (
+                <>
+                  <div className="mb-3 flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-[#2D2016]">Documents</h3>
+                    <button
+                      onClick={() => setShowUpload(true)}
+                      className="rounded-lg bg-[#3D8B87]/10 px-3 py-1.5 text-xs font-medium text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/20"
+                    >
+                      Upload Document
+                    </button>
+                  </div>
+                  {documents.length === 0 ? (
+                    <p className="text-xs text-[#8B7355]">
+                      No documents uploaded yet. Upload your passport for residence registration.
+                    </p>
+                  ) : (
+                    <div className="space-y-2">
+                      {documents
+                        .filter((d) => !d.supersededBy)
+                        .map((doc) => (
+                          <div
+                            key={doc.id}
+                            className="flex items-center justify-between rounded-xl bg-[#FAF8F5] px-3 py-2"
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm">
+                                {doc.documentType === 'passport' ? '🛂' : '📄'}
+                              </span>
+                              <div>
+                                <p className="text-xs font-medium capitalize text-[#2D2016]">
+                                  {doc.documentType}
+                                </p>
+                                {doc.visaExpiryDate && (
+                                  <p className="text-[10px] text-[#8B7355]">
+                                    Expires: {doc.visaExpiryDate}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            {doc.registeredWithAuthorities && (
+                              <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
+                                Registered
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </section>
+        )}
 
         <LocalDeals bookingCode={params.code} token={token!} />
 

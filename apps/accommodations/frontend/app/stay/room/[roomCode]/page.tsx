@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRoomSession } from '@/hooks/useRoomSession';
 import { useServiceCart } from '@/hooks/useServiceCart';
 import { useOrderPolling } from '@/hooks/useOrderPolling';
-import type { ServiceCategoryWithItems, AccessSettings } from '@/types/stay';
+import { fetchDocuments } from '@/lib/stay-api';
+import type { ServiceCategoryWithItems, AccessSettings, GuestDocument } from '@/types/stay';
 import { ACCESS_PRESETS } from '@/types/stay';
 
 import WifiCard from '@/components/stay/WifiCard';
@@ -16,6 +17,8 @@ import ActiveOrders from '@/components/stay/ActiveOrders';
 import CartFAB from '@/components/stay/CartFAB';
 import CartDrawer from '@/components/stay/CartDrawer';
 import InlineVerification from '@/components/stay/InlineVerification';
+import DocumentUpload from '@/components/stay/DocumentUpload';
+import VisaExpiryAlert from '@/components/stay/VisaExpiryAlert';
 
 /**
  * Room QR Dashboard - Progressive Authentication
@@ -63,6 +66,23 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
     token: token ?? '',
     enabled: accessTier === 'full' && !!bookingCode,
   });
+
+  // Document state (full tier only)
+  const [documents, setDocuments] = useState<GuestDocument[]>([]);
+  const [showUpload, setShowUpload] = useState(false);
+
+  const loadDocuments = useCallback(async () => {
+    if (!bookingCode || !token || accessTier !== 'full') return;
+    const { data } = await fetchDocuments(bookingCode, token);
+    if (data?.documents) setDocuments(data.documents);
+  }, [bookingCode, token, accessTier]);
+
+  useEffect(() => {
+    loadDocuments();
+  }, [loadDocuments]);
+
+  // Find latest active visa document
+  const activeVisa = documents.find((d) => d.documentType === 'visa' && !d.supersededBy);
 
   /**
    * Gate paid actions behind verification.
@@ -220,6 +240,11 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
         )}
       </div>
 
+      {/* Visa expiry alert — above WiFi when visa document exists */}
+      {isFullTier && activeVisa?.visaExpiryDate && booking && (
+        <VisaExpiryAlert visaExpiryDate={activeVisa.visaExpiryDate} checkInDate={booking.checkIn} />
+      )}
+
       {/* WiFi card - prominent, first thing guest needs */}
       <WifiCard wifi={wifi} />
 
@@ -248,6 +273,74 @@ export default function RoomDashboard({ params }: { params: { roomCode: string }
       {/* Active orders - visible when full tier OR view_orders is not gated */}
       {(isFullTier || !isActionGated('view_orders')) && (
         <ActiveOrders orders={orders} currency={propertyCurrency} />
+      )}
+
+      {/* Documents section — full tier only (legal requirement, always available) */}
+      {isFullTier && booking && token && (
+        <section className="mb-5 px-4">
+          <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+            {showUpload ? (
+              <DocumentUpload
+                bookingCode={booking.code}
+                token={token}
+                onUploadComplete={() => {
+                  loadDocuments();
+                  setShowUpload(false);
+                }}
+                existingDocuments={documents}
+              />
+            ) : (
+              <>
+                <div className="mb-3 flex items-center justify-between">
+                  <h3 className="text-sm font-semibold text-[#2D2016]">Documents</h3>
+                  <button
+                    onClick={() => setShowUpload(true)}
+                    className="rounded-lg bg-[#3D8B87]/10 px-3 py-1.5 text-xs font-medium text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/20"
+                  >
+                    Upload Document
+                  </button>
+                </div>
+                {documents.length === 0 ? (
+                  <p className="text-xs text-[#8B7355]">
+                    No documents uploaded yet. Upload your passport for residence registration.
+                  </p>
+                ) : (
+                  <div className="space-y-2">
+                    {documents
+                      .filter((d) => !d.supersededBy)
+                      .map((doc) => (
+                        <div
+                          key={doc.id}
+                          className="flex items-center justify-between rounded-xl bg-[#FAF8F5] px-3 py-2"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm">
+                              {doc.documentType === 'passport' ? '🛂' : '📄'}
+                            </span>
+                            <div>
+                              <p className="text-xs font-medium capitalize text-[#2D2016]">
+                                {doc.documentType}
+                              </p>
+                              {doc.visaExpiryDate && (
+                                <p className="text-[10px] text-[#8B7355]">
+                                  Expires: {doc.visaExpiryDate}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          {doc.registeredWithAuthorities && (
+                            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
+                              Registered
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </section>
       )}
 
       {/* House rules + checkout time */}
