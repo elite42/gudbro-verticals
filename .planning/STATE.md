@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 34 complete, ready for Phase 35
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 35 plan 01 complete
 
 ## Current Position
 
-Phase: 34 of 39 (Service Expansion + Minibar)
-Plan: 5 of 5
-Status: Phase complete (verified)
-Last activity: 2026-02-02 — Phase 34 complete and verified (5/5 plans, 4/4 success criteria)
+Phase: 35 of 39 (Guest Feedback System)
+Plan: 1 of 2
+Status: In progress
+Last activity: 2026-02-02 — Completed 35-01-PLAN.md (in-stay guest feedback system)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██████████████████████████░░░░] 24/29 plans
+Progress: v1.5 [███████████████████████████░░░] 25/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 81 (+ 1 quick task)
+- Total plans completed: 82 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~6.3 hours
+- Total execution time: ~6.4 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████████████████████�
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 24/29 | ~117 min   | 4.9 min  |
+| v1.5      | 25/29 | ~123 min   | 4.9 min  |
 
 ## Accumulated Context
 
@@ -84,6 +84,11 @@ Recent decisions for v1.5 extended roadmap:
 - MINIBAR-02: self_service auto-confirms orders like auto_confirm/whatsapp_notify
 - SVC-10-01: Import API uses validateAdminApiKey pattern consistent with existing accommodation APIs
 - SVC-10-02: ImportFromMenuDialog is standalone component (not embedded in OrderManagement) for reusability
+- FB-01: feedback-screenshots storage bucket (separate from guest-documents for access control)
+- FB-02: Denormalized guest_name and guest_room_number on feedback for display without joins
+- FB-03: Complaints trigger high-priority notifications, other categories use normal priority
+- FB-04: Feedback card shown only when booking exists (not browse-tier sessions)
+- FB-05: Added checked_out_at column to accom_bookings for future post-stay feedback cron timing
 
 ### Blockers/Concerns
 
@@ -98,14 +103,16 @@ Recent decisions for v1.5 extended roadmap:
 
 - Migration 095 needs to be applied to live database (Supabase MCP/CLI not available during execution)
 - Migration 096 needs to be applied to live database
+- Migration 097 needs to be applied to live database
+- Storage bucket `feedback-screenshots` needs to be created in Supabase dashboard
 
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Phase 34 fully complete (5 plans, verified)
+Stopped at: Completed 35-01-PLAN.md
 Resume file: None
-Next: `/gsd:plan-phase 35` (Guest Feedback System)
+Next: `/gsd:execute-phase 35` (plan 02)
 
 ---
 
-_Last updated: 2026-02-02 after Phase 34 execution complete_
+_Last updated: 2026-02-02 after 35-01 execution complete_
