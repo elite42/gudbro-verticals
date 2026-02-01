@@ -81,3 +81,48 @@ export async function verifyGuestToken(token: string): Promise<GuestTokenPayload
     roomCode: (payload.roomCode as string) || undefined,
   };
 }
+
+// =============================================================================
+// Feedback Token (post-stay email link auth)
+// =============================================================================
+
+export interface FeedbackTokenPayload {
+  bookingId: string;
+  propertyId: string;
+  type: 'feedback';
+}
+
+/**
+ * Generate a short-lived JWT for post-stay feedback email links.
+ * Expires in 72 hours so guests have time to complete the review.
+ */
+export async function generateFeedbackToken(booking: {
+  id: string;
+  property_id: string;
+}): Promise<string> {
+  return new SignJWT({
+    bookingId: booking.id,
+    propertyId: booking.property_id,
+    type: 'feedback',
+  })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('72h')
+    .sign(getSecret());
+}
+
+/**
+ * Verify a feedback token from email link.
+ * Returns the decoded payload with bookingId and propertyId.
+ */
+export async function verifyFeedbackToken(token: string): Promise<FeedbackTokenPayload> {
+  const { payload } = await jwtVerify(token, getSecret());
+  if (payload.type !== 'feedback') {
+    throw new Error('Invalid token type');
+  }
+  return {
+    bookingId: payload.bookingId as string,
+    propertyId: payload.propertyId as string,
+    type: 'feedback',
+  };
+}
