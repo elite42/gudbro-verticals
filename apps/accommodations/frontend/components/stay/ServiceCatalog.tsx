@@ -140,7 +140,7 @@ export default function ServiceCatalog({
           <p className="mb-3 text-xs text-[#8B7355]">{selectedCategory.description}</p>
         )}
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-2 gap-3">
           {sortedItems.map((item) => {
             const available =
               item.inStock &&

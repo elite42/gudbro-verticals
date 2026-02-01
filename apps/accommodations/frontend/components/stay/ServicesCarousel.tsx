@@ -126,10 +126,10 @@ export default function ServicesCarousel({
                 return (
                   <div
                     key={item.id}
-                    className="relative flex w-40 flex-shrink-0 flex-col rounded-2xl border border-[#E8E2D9] bg-white p-3 shadow-sm"
+                    className="relative flex w-44 flex-shrink-0 flex-col rounded-2xl border border-[#E8E2D9] bg-white p-3 shadow-sm"
                   >
                     {item.image && (
-                      <div className="mb-2 h-20 w-full overflow-hidden rounded-xl bg-[#FAF8F5]">
+                      <div className="mb-2 h-28 w-full overflow-hidden rounded-xl bg-[#FAF8F5]">
                         <img
                           src={item.image}
                           alt={item.name}
@@ -145,11 +145,19 @@ export default function ServicesCarousel({
                     )}
                     <div className="mt-auto flex items-center justify-between">
                       <div>
-                        <span className="text-sm font-semibold text-[#3D8B87]">
-                          {formatPrice(item.price, item.currency)}
-                        </span>
-                        {item.priceType !== 'fixed' && (
-                          <span className="ml-1 text-[10px] text-[#8B7355]">/{item.priceType}</span>
+                        {item.includedInRate ? (
+                          <span className="text-xs font-semibold text-emerald-600">Included</span>
+                        ) : (
+                          <>
+                            <span className="text-sm font-semibold text-[#3D8B87]">
+                              {formatPrice(item.price, item.currency)}
+                            </span>
+                            {item.priceType !== 'fixed' && (
+                              <span className="ml-1 text-[10px] text-[#8B7355]">
+                                /{item.priceType}
+                              </span>
+                            )}
+                          </>
                         )}
                       </div>
 
