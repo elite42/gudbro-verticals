@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await supabaseAdmin
     .from('accom_rooms')
     .select(
-      `id, room_number, room_type, capacity, description, base_price_per_night,
+      `id, room_number, room_type, floor, capacity, description, base_price_per_night,
        currency, images, beds, is_active, room_code,
        wifi_ssid_override, wifi_password_override`
     )
@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
     propertyId,
     room_number,
     room_type,
+    floor,
     capacity,
     description,
     base_price_per_night,
@@ -70,6 +71,7 @@ export async function POST(request: NextRequest) {
     propertyId: string;
     room_number: string;
     room_type: string;
+    floor?: string;
     capacity: number;
     description?: string;
     base_price_per_night: number;
@@ -103,6 +105,7 @@ export async function POST(request: NextRequest) {
       property_id: propertyId,
       room_number,
       room_type,
+      floor: floor || null,
       capacity,
       description: description || null,
       base_price_per_night,
@@ -151,6 +154,7 @@ export async function PUT(request: NextRequest) {
   const allowedFields = [
     'room_number',
     'room_type',
+    'floor',
     'capacity',
     'description',
     'base_price_per_night',

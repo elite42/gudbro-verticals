@@ -17,6 +17,8 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const propertyId = searchParams.get('propertyId');
   const status = searchParams.get('status');
+  const dateFrom = searchParams.get('dateFrom');
+  const dateTo = searchParams.get('dateTo');
 
   if (!propertyId) {
     return NextResponse.json({ error: 'Missing required parameter: propertyId' }, { status: 400 });
@@ -26,14 +28,20 @@ export async function GET(request: NextRequest) {
     .from('accom_bookings')
     .select(
       `id, booking_code, guest_name, guest_last_name, guest_email, guest_phone,
-       check_in_date, check_out_date, num_nights, num_guests, total_price, currency,
+       check_in_date, check_out_date, num_nights, guest_count, total_price, currency,
        status, payment_method, payment_status, deposit_amount, deposit_percent,
        special_requests, created_at,
        room:accom_rooms(id, room_number, room_type)`
     )
     .eq('property_id', propertyId)
-    .order('check_in_date', { ascending: false })
-    .limit(200);
+    .order('check_in_date', { ascending: false });
+
+  // Date range overlap filter for Gantt/timeline view
+  if (dateFrom && dateTo) {
+    query = query.lte('check_in_date', dateTo).gte('check_out_date', dateFrom);
+  } else {
+    query = query.limit(200);
+  }
 
   if (status && status !== 'all') {
     query = query.eq('status', status);

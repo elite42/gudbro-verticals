@@ -13,6 +13,7 @@ interface Room {
   id: string;
   room_number: string;
   room_type: string;
+  floor: string | null;
   capacity: number;
   description: string | null;
   base_price_per_night: number;
@@ -27,6 +28,7 @@ interface Room {
 interface RoomFormData {
   room_number: string;
   room_type: string;
+  floor: string;
   capacity: number;
   base_price_per_night: number; // In major units (user-facing)
   currency: string;
@@ -51,6 +53,7 @@ const ROOM_TYPES = [
 const DEFAULT_FORM: RoomFormData = {
   room_number: '',
   room_type: 'double',
+  floor: '',
   capacity: 2,
   base_price_per_night: 0,
   currency: 'USD',
@@ -110,6 +113,7 @@ export function RoomManager({ propertyId }: RoomManagerProps) {
   const roomToFormData = (room: Room): RoomFormData => ({
     room_number: room.room_number,
     room_type: room.room_type,
+    floor: room.floor || '',
     capacity: room.capacity,
     base_price_per_night: room.base_price_per_night / 100,
     currency: room.currency,
@@ -341,6 +345,11 @@ export function RoomManager({ propertyId }: RoomManagerProps) {
                         <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium capitalize text-blue-700">
                           {room.room_type}
                         </span>
+                        {room.floor && (
+                          <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
+                            Floor: {room.floor}
+                          </span>
+                        )}
                         {!room.is_active && (
                           <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
                             Inactive
@@ -459,6 +468,18 @@ function RoomForm({
             ))}
           </select>
         </div>
+      </div>
+
+      {/* Floor / Level */}
+      <div>
+        <label className="mb-1 block text-sm font-medium text-gray-700">Floor / Level</label>
+        <input
+          type="text"
+          value={form.floor}
+          onChange={(e) => setForm({ ...form, floor: e.target.value })}
+          placeholder="e.g. Ground, 1st, 2nd, Rooftop"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+        />
       </div>
 
       <div className="grid grid-cols-3 gap-4">
