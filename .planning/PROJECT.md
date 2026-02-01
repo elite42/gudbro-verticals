@@ -63,35 +63,48 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ### Active
 
-## Current Milestone: v1.5 Frictionless Guest Access
+## Current Milestone: v1.5 Frictionless Guest Access + Accommodations Polish
 
-**Goal:** Replace booking code + last name verification with room-based QR access, progressive authentication for paid actions, and owner-configurable security levels.
+**Goal:** Room-based QR access with progressive auth (phases 25-27 done), document upload, multi-zone WiFi, PLUS comprehensive bug fixes and feature additions from manual testing session.
 
-**Target features:**
+**Target features (original — phases 25-29):**
 
-- QR room-based access (scan → immediate dashboard, no login)
-- Progressive authentication (free browsing, verify only for paid actions)
-- Owner-configurable security levels (none/light/standard/full)
-- Multi-zone WiFi support (room, restaurant, pool, lobby)
-- Passport/visa document upload with expiry reminders
-- QR lifecycle management (deactivation after checkout, regeneration)
+- ~~QR room-based access (scan → immediate dashboard, no login)~~ ✓ Phase 25
+- ~~Progressive authentication (free browsing, verify only for paid actions)~~ ✓ Phase 26
+- ~~Owner-configurable security levels (none/light/standard/full)~~ ✓ Phase 27
+- Passport/visa document upload with expiry reminders (Phase 28)
+- Multi-zone WiFi support (room, restaurant, pool, lobby) (Phase 29)
+
+**Target features (extended — from manual test 2026-02-01):**
+
+- Audit moduli riutilizzabili cross-verticale (Phase 30)
+- 13 bug fixes: guest name duplication, broken bottom nav tabs, homepage redesign, service icons, time formatting, image placeholders
+- PWA homepage redesign with visual cards instead of text wall
+- Bottom nav overhaul: Map → Explore page, Menu → quick hub, Profile → full page, correct icons
+- Service catalog redesign with images, categories, included-in-rate flag
+- Backoffice improvements: order detail view, room floor field, image uploads, policies form, property data
+- Guest features: early check-in/late checkout requests, in-stay feedback, delivery apps, conventions cards
+- Advanced features: minibar self-service, returning guest badge, booking history, visa alert, order performance tracking
+- Timeline/Gantt calendar view for multi-room properties
+- Owner onboarding wizard with progress tracking
 
 ### Out of Scope
 
-- Visa Tracker -- deferred to later milestone
-- Digital Laundry Form -- deferred to later milestone
+- Backoffice multi-verticale (1 account N verticali) -- milestone dedicato, progetto enorme
+- Sistema fatturazione multi-verticale (PDF, dati fiscali) -- milestone dedicato, va fatto bene
 - GUDBRO Network integration -- future
-- Review system -- future
 - Calendar sync (external calendars) -- future
 - Offline/Service Worker testing -- Playwright PWA install limited
 - Cross-browser parity testing -- Chromium-only sufficient for smoke tests
 - Property page premium version (vetrina completa) -- future upsell option
 - Channel manager (OTA sync) -- enterprise complexity, not needed for 1-5 property owners
 - Built-in chat system -- WhatsApp dominates SEA
-- Guest account system -- friction kills conversion; booking code is sufficient
+- Guest account system -- friction kills conversion; room QR is sufficient
 - Stripe Connect marketplace -- commission splits manual for MVP
 - Multi-property portfolio page -- most target owners have 1-2 properties
 - Automated check-in (keyless entry) -- hardware integration, different domain
+- OCR passport extraction -- ML complexity, manual upload sufficient
+- NA17 police report export -- follow-up after document upload validated
 
 ## Context
 
@@ -108,6 +121,8 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 - PWA manifests for all 8 verticals
 - 5 milestones shipped: v1.0 (QA), v1.1 (Backend), v1.2 (Tech Debt + Testing), v1.3 (Feedback Intelligence), v1.4 (Accommodations v2)
 - Accommodations v1.4: 161 files, 29,211 LOC added, 7 phases, 20 plans, 86 commits in 1 day
+- v1.5 phases 25-27 complete: room codes, progressive auth, owner security config
+- Manual test session 2026-02-01: 13 bugs + 41 feature requests documented
 
 ## Constraints
 
@@ -153,4 +168,4 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ---
 
-_Last updated: 2026-01-31 after v1.5 milestone start_
+_Last updated: 2026-02-01 after v1.5 scope extension (manual test results incorporated)_

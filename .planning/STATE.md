@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access — Phase 27 Owner Security Configuration (COMPLETE)
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Defining extended requirements
 
 ## Current Position
 
-Phase: 27 of 29 (Owner Security Configuration)
-Plan: 2 of 2 in current phase
-Status: Phase complete — verified 9/9 must-haves
-Last activity: 2026-02-01 — Phase 27 verified and complete
+Phase: 27 of 29+ (extending milestone with bug fixes + features from manual test)
+Plan: —
+Status: Defining extended requirements (phases 25-27 complete, 28-29 pending, 30+ being defined)
+Last activity: 2026-02-01 — Milestone scope extended with manual test results
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██████░░░░] 6/10 plans (60%)
+Progress: v1.5 [██████░░░░] 6/10+ plans (extending)
 
 ## Performance Metrics
 
@@ -83,10 +83,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Phase 27 complete and verified (9/9 must-haves passed)
+Stopped at: Defining extended v1.5 requirements (manual test results)
 Resume file: None
-Next: `/gsd:discuss-phase 28` (Document Upload + Visa Tracking)
+Next: Define REQUIREMENTS.md for extended scope, then create roadmap phases 28+
 
 ---
 
-_Last updated: 2026-02-01 after Phase 27 verified and complete_
+_Last updated: 2026-02-01 after v1.5 scope extension_
