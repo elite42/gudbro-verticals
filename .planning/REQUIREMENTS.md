@@ -74,16 +74,16 @@
 
 ### Services & Orders
 
-- [ ] **SVC-01**: Service catalog redesign with large photos and visible add-to-cart button
-- [ ] **SVC-02**: "Included in rate" flag for breakfast and other complimentary items
-- [ ] **SVC-03**: Minibar self-service: guest marks consumed items, owner receives notification and confirms
-- [ ] **SVC-04**: Order detail view with items, notes, prices breakdown
-- [ ] **SVC-05**: Order category tag in order list (food, beverage, laundry, etc.)
-- [ ] **SVC-06**: Remove "All" tab from orders, show counts on filtered tabs
+- [x] **SVC-01**: Service catalog redesign with large photos and visible add-to-cart button
+- [x] **SVC-02**: "Included in rate" flag for breakfast and other complimentary items
+- [x] **SVC-03**: Minibar self-service: guest marks consumed items, owner receives notification and confirms
+- [x] **SVC-04**: Order detail view with items, notes, prices breakdown
+- [x] **SVC-05**: Order category tag in order list (food, beverage, laundry, etc.)
+- [x] **SVC-06**: Remove "All" tab from orders, show counts on filtered tabs
 - [ ] **SVC-07**: Order performance tracking (order-to-delivery average time)
 - [ ] **SVC-08**: Guest receipt confirmation via PWA (optional toggle in Settings, auto-confirm with timeout)
-- [ ] **SVC-09**: Dry cleaning option in laundry services
-- [ ] **SVC-10**: F&B catalog import picker for minibar/breakfast items
+- [x] **SVC-09**: Dry cleaning option in laundry services
+- [x] **SVC-10**: F&B catalog import picker for minibar/breakfast items
 
 ### Backoffice Owner
 
@@ -211,16 +211,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-06      | 36    | Pending  |
 | NAV-07      | 36    | Pending  |
 | NAV-08      | 33    | Complete |
-| SVC-01      | 34    | Pending  |
-| SVC-02      | 34    | Pending  |
-| SVC-03      | 34    | Pending  |
-| SVC-04      | 34    | Pending  |
-| SVC-05      | 34    | Pending  |
-| SVC-06      | 34    | Pending  |
+| SVC-01      | 34    | Complete |
+| SVC-02      | 34    | Complete |
+| SVC-03      | 34    | Complete |
+| SVC-04      | 34    | Complete |
+| SVC-05      | 34    | Complete |
+| SVC-06      | 34    | Complete |
 | SVC-07      | 39    | Pending  |
 | SVC-08      | 39    | Pending  |
-| SVC-09      | 34    | Pending  |
-| SVC-10      | 34    | Pending  |
+| SVC-09      | 34    | Complete |
+| SVC-10      | 34    | Complete |
 | OWN-01      | 32    | Complete |
 | OWN-02      | 31    | Complete |
 | OWN-03      | 32    | Complete |
