@@ -7,6 +7,10 @@ import type {
   OrdersResponse,
   ServiceOrder,
   CreateOrderRequest,
+  DocumentUploadRequest,
+  DocumentUploadResponse,
+  DocumentListResponse,
+  DocumentUrlResponse,
 } from '@/types/stay';
 
 /**
@@ -165,4 +169,97 @@ export function fetchOrderStatusAPI(
   orderId: string
 ): Promise<FetchResult<{ order: ServiceOrder }>> {
   return fetchStayAPI<{ order: ServiceOrder }>(`/api/stay/${bookingCode}/orders/${orderId}`, token);
+}
+
+/**
+ * Generic DELETE wrapper for authenticated stay API routes.
+ */
+async function deleteStayAPI<T>(path: string, token: string): Promise<FetchResult<T>> {
+  try {
+    const res = await fetch(path, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}));
+      return {
+        data: null,
+        error: json.error || `Request failed (${res.status})`,
+      };
+    }
+
+    const json = await res.json();
+
+    if (json.error) {
+      return { data: null, error: json.error };
+    }
+
+    return { data: json.data as T, error: null };
+  } catch {
+    return { data: null, error: 'Network error. Please check your connection.' };
+  }
+}
+
+// --- Document API functions (Phase 28) ---
+
+/**
+ * Request a signed upload URL for a guest document.
+ * POST /api/stay/[code]/documents/upload-url
+ */
+export function requestDocumentUploadUrl(
+  code: string,
+  token: string,
+  body: DocumentUploadRequest
+): Promise<FetchResult<DocumentUploadResponse>> {
+  return postStayAPI<DocumentUploadResponse>(`/api/stay/${code}/documents/upload-url`, token, body);
+}
+
+/**
+ * Confirm a document upload (update file size).
+ * POST /api/stay/[code]/documents
+ */
+export function confirmDocumentUpload(
+  code: string,
+  token: string,
+  body: { docId: string; fileSizeBytes: number }
+): Promise<FetchResult<{ success: boolean }>> {
+  return postStayAPI<{ success: boolean }>(`/api/stay/${code}/documents`, token, body);
+}
+
+/**
+ * Fetch all documents for a booking.
+ * GET /api/stay/[code]/documents
+ */
+export function fetchDocuments(
+  code: string,
+  token: string
+): Promise<FetchResult<DocumentListResponse>> {
+  return fetchStayAPI<DocumentListResponse>(`/api/stay/${code}/documents`, token);
+}
+
+/**
+ * Fetch a signed download URL for a specific document.
+ * GET /api/stay/[code]/documents/[docId]
+ */
+export function fetchDocumentUrl(
+  code: string,
+  token: string,
+  docId: string
+): Promise<FetchResult<DocumentUrlResponse>> {
+  return fetchStayAPI<DocumentUrlResponse>(`/api/stay/${code}/documents/${docId}`, token);
+}
+
+/**
+ * Delete a guest document.
+ * DELETE /api/stay/[code]/documents/[docId]
+ */
+export function deleteDocument(
+  code: string,
+  token: string,
+  docId: string
+): Promise<FetchResult<{ success: boolean }>> {
+  return deleteStayAPI<{ success: boolean }>(`/api/stay/${code}/documents/${docId}`, token);
 }

@@ -1,8 +1,18 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "installCommand": "cd ../../.. && pnpm install",
+  "buildCommand": "cd ../../.. && pnpm turbo build --filter=@gudbro/accommodations-frontend",
+  "regions": ["sin1"],
   "crons": [
     {
       "path": "/api/cron/pre-arrival-emails",
       "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/document-lifecycle",
+      "schedule": "0 9 * * *"
     }
   ]
 }
