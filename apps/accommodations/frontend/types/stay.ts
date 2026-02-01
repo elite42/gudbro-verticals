@@ -18,7 +18,10 @@ export type ApiError =
   | 'invalid_room_code'
   | 'verification_required'
   | 'too_many_attempts'
-  | 'no_active_booking';
+  | 'no_active_booking'
+  | 'consent_missing'
+  | 'upload_failed'
+  | 'document_not_found';
 
 export interface ApiResponse<T> {
   data?: T;
@@ -301,4 +304,39 @@ export interface OrdersResponse {
 
 export interface ServiceCategoryResponseWithTimezone extends ServiceCategoryResponse {
   timezone: string;
+}
+
+// --- Guest Document Types (Phase 28) ---
+
+export interface GuestDocument {
+  id: string;
+  documentType: 'passport' | 'visa';
+  fileName: string;
+  fileSizeBytes: number | null;
+  visaExpiryDate: string | null;
+  registeredWithAuthorities: boolean;
+  supersededBy: string | null;
+  createdAt: string;
+}
+
+export interface DocumentUploadRequest {
+  documentType: 'passport' | 'visa';
+  consentTextHash: string;
+  visaExpiryDate?: string;
+}
+
+export interface DocumentUploadResponse {
+  docId: string;
+  signedUrl: string;
+  path: string;
+  token: string;
+}
+
+export interface DocumentListResponse {
+  documents: GuestDocument[];
+}
+
+export interface DocumentUrlResponse {
+  signedUrl: string;
+  expiresIn: number;
 }
