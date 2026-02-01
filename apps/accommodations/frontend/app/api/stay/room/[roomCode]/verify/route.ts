@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { differenceInCalendarDays } from 'date-fns';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { signGuestToken } from '@/lib/auth';
+import { buildWifiInfo } from '@/lib/wifi-utils';
 import type {
   ApiResponse,
   VerifyRoomResponse,
@@ -9,7 +10,6 @@ import type {
   PropertyInfo,
   RoomInfo,
   BookingInfo,
-  WifiInfo,
   VerificationMethod,
 } from '@/types/stay';
 
@@ -148,12 +148,12 @@ export async function POST(request: NextRequest, { params }: { params: { roomCod
         `
         id, booking_code, guest_name, guest_last_name, guest_count,
         guest_country, check_in_date, check_out_date, status, verification_pin,
-        accom_rooms!inner(room_number, room_type, floor),
+        accom_rooms!inner(room_number, room_type, floor, wifi_ssid_override, wifi_password_override),
         accom_properties!inner(
           name, slug, type, description,
           contact_phone, contact_email, contact_whatsapp,
           checkout_time, house_rules, amenities, images,
-          wifi_network, wifi_password,
+          wifi_network, wifi_password, wifi_zones,
           has_linked_fnb, linked_fnb_slug
         )
       `
@@ -243,10 +243,27 @@ export async function POST(request: NextRequest, { params }: { params: { roomCod
       guestCountry: (bookingData.guest_country as string) || null,
     };
 
-    const wifi: WifiInfo = {
-      network: (rawProperty.wifi_network as string) || null,
-      password: (rawProperty.wifi_password as string) || null,
-    };
+    const wifi = buildWifiInfo(
+      {
+        wifi_network: (rawProperty.wifi_network as string) || null,
+        wifi_password: (rawProperty.wifi_password as string) || null,
+        wifi_zones: rawProperty.wifi_zones as unknown[] as
+          | null
+          | {
+              zone_id: string;
+              label: string;
+              zone_type: string;
+              icon: string;
+              ssid: string;
+              password: string;
+              sort_order: number;
+            }[],
+      },
+      {
+        wifi_ssid_override: (rawRoom.wifi_ssid_override as string) || null,
+        wifi_password_override: (rawRoom.wifi_password_override as string) || null,
+      }
+    );
 
     const stay: StayData = { property, room, booking, wifi };
 

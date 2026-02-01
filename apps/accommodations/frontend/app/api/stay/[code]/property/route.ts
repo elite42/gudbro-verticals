@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { verifyGuestToken } from '@/lib/auth';
+import { buildWifiInfo } from '@/lib/wifi-utils';
 import type { ApiResponse, PropertyInfo, WifiInfo } from '@/types/stay';
 
 export const dynamic = 'force-dynamic';
@@ -49,7 +50,7 @@ export async function GET(request: NextRequest) {
         contact_phone, contact_whatsapp, contact_email,
         check_in_time, checkout_time, house_rules, amenities,
         images, cover_image, rating, review_count,
-        wifi_network, wifi_password,
+        wifi_network, wifi_password, wifi_zones,
         has_linked_fnb, linked_fnb_slug
       `
       )
@@ -84,10 +85,7 @@ export async function GET(request: NextRequest) {
       linkedFnbSlug: data.linked_fnb_slug || null,
     };
 
-    const wifi: WifiInfo = {
-      network: data.wifi_network || null,
-      password: data.wifi_password || null,
-    };
+    const wifi: WifiInfo = buildWifiInfo(data);
 
     return NextResponse.json<ApiResponse<{ property: PropertyInfo; wifi: WifiInfo }>>({
       data: { property, wifi },

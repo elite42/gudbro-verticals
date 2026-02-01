@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { addDays, differenceInCalendarDays } from 'date-fns';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { signGuestToken } from '@/lib/auth';
+import { buildWifiInfo } from '@/lib/wifi-utils';
 import type {
   ApiResponse,
   RoomResolveResponse,
@@ -9,7 +10,6 @@ import type {
   PropertyInfo,
   RoomInfo,
   BookingInfo,
-  WifiInfo,
   VerificationMethod,
   AccessSettings,
 } from '@/types/stay';
@@ -61,7 +61,7 @@ export async function GET(_request: NextRequest, { params }: { params: { roomCod
         name, slug, type, description,
         contact_phone, contact_email, contact_whatsapp,
         checkout_time, house_rules, amenities, images,
-        wifi_network, wifi_password,
+        wifi_network, wifi_password, wifi_zones,
         has_linked_fnb, linked_fnb_slug
       `
       )
@@ -96,10 +96,23 @@ export async function GET(_request: NextRequest, { params }: { params: { roomCod
       floor: null, // Floor not returned by resolve_room_access for simplicity
     };
 
-    const wifi: WifiInfo = {
-      network: propertyData.wifi_network || null,
-      password: propertyData.wifi_password || null,
-    };
+    // Fetch room WiFi overrides if room_id is available
+    let roomOverride: {
+      wifi_ssid_override: string | null;
+      wifi_password_override: string | null;
+    } | null = null;
+    if (result.room_id) {
+      const { data: roomRow } = await supabase
+        .from('accom_rooms')
+        .select('wifi_ssid_override, wifi_password_override')
+        .eq('id', result.room_id)
+        .single();
+      if (roomRow) {
+        roomOverride = roomRow;
+      }
+    }
+
+    const wifi = buildWifiInfo(propertyData, roomOverride);
 
     // Build booking info if active booking exists
     let booking: BookingInfo | null = null;

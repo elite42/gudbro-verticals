@@ -170,9 +170,21 @@ export interface BookingInfo {
   guestCountry: string | null;
 }
 
+export interface WifiZoneInfo {
+  zoneId: string;
+  label: string;
+  zoneType: string;
+  icon: string;
+  ssid: string;
+  password: string;
+  sortOrder: number;
+  isRoomNetwork?: boolean;
+}
+
 export interface WifiInfo {
   network: string | null;
   password: string | null;
+  zones?: WifiZoneInfo[];
 }
 
 // --- GET /api/stay/[code]/services ---

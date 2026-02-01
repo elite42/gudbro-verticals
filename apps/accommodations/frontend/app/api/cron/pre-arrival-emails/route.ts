@@ -6,6 +6,7 @@ import {
   buildPreArrivalText,
   type PreArrivalEmailData,
 } from '@/lib/email-templates';
+import { buildWifiInfo } from '@/lib/wifi-utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -86,7 +87,7 @@ export async function GET(request: NextRequest) {
         const { data: property } = await supabase
           .from('accom_properties')
           .select(
-            'name, address, check_in_time, contact_phone, contact_whatsapp, host_name, wifi_network, wifi_password'
+            'name, address, check_in_time, contact_phone, contact_whatsapp, host_name, wifi_network, wifi_password, wifi_zones'
           )
           .eq('id', booking.property_id)
           .single();
@@ -104,13 +105,16 @@ export async function GET(request: NextRequest) {
           margin: 2,
         });
 
+        // Resolve primary WiFi zone for email (no room override context in cron)
+        const wifiResolved = buildWifiInfo(property);
+
         const emailData: PreArrivalEmailData = {
           propertyName: property.name,
           checkInTime: property.check_in_time || '14:00',
           qrDataUrl,
           propertyAddress: property.address,
-          wifiName: property.wifi_network || null,
-          wifiPassword: property.wifi_password || null,
+          wifiName: wifiResolved.network,
+          wifiPassword: wifiResolved.password,
           hostPhone: property.contact_whatsapp || property.contact_phone,
           hostName: property.host_name,
           brandColor: '#3D8B87',
