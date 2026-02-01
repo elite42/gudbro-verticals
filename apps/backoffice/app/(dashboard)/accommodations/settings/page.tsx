@@ -1,7 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Check, FloppyDisk } from '@phosphor-icons/react';
+import {
+  Check,
+  FloppyDisk,
+  WifiHigh,
+  ArrowUp,
+  ArrowDown,
+  Trash,
+  Eye,
+  EyeSlash,
+  Plus,
+} from '@phosphor-icons/react';
 import { Loader2 } from 'lucide-react';
 
 const PROPERTY_ID = process.env.NEXT_PUBLIC_ACCOM_PROPERTY_ID || '';
@@ -29,6 +39,38 @@ interface PropertySettings {
   host_whatsapp: string | null;
   host_email: string | null;
   contact_email: string | null;
+  wifi_zones: WifiZone[] | null;
+}
+
+interface WifiZone {
+  zone_id: string;
+  label: string;
+  zone_type: string;
+  icon: string;
+  ssid: string;
+  password: string;
+  sort_order: number;
+}
+
+const ZONE_TYPE_OPTIONS = [
+  { value: 'room', label: 'Room', icon: 'Bed' },
+  { value: 'restaurant', label: 'Restaurant', icon: 'ForkKnife' },
+  { value: 'pool', label: 'Pool', icon: 'SwimmingPool' },
+  { value: 'lobby', label: 'Lobby', icon: 'Buildings' },
+  { value: 'garden', label: 'Garden', icon: 'Tree' },
+  { value: 'rooftop', label: 'Rooftop', icon: 'CloudSun' },
+  { value: 'coworking', label: 'Coworking', icon: 'Laptop' },
+  { value: 'custom', label: 'Other', icon: 'WifiHigh' },
+] as const;
+
+function getIconForZoneType(zoneType: string): string {
+  const match = ZONE_TYPE_OPTIONS.find((o) => o.value === zoneType);
+  return match ? match.icon : 'WifiHigh';
+}
+
+function getLabelForZoneType(zoneType: string): string {
+  const match = ZONE_TYPE_OPTIONS.find((o) => o.value === zoneType);
+  return match ? match.label : 'Other';
 }
 
 export default function PropertySettingsPage() {
@@ -50,6 +92,11 @@ export default function PropertySettingsPage() {
   const [hostWhatsapp, setHostWhatsapp] = useState('');
   const [hostEmail, setHostEmail] = useState('');
   const [contactEmail, setContactEmail] = useState('');
+
+  // WiFi Zones state
+  const [wifiZones, setWifiZones] = useState<WifiZone[]>([]);
+  const [wifiZoneErrors, setWifiZoneErrors] = useState<Record<string, string>>({});
+  const [showPasswords, setShowPasswords] = useState<Record<string, boolean>>({});
 
   // Load settings
   useEffect(() => {
@@ -79,6 +126,7 @@ export default function PropertySettingsPage() {
           setHostWhatsapp(p.host_whatsapp || '');
           setHostEmail(p.host_email || '');
           setContactEmail(p.contact_email || '');
+          setWifiZones(Array.isArray(p.wifi_zones) ? p.wifi_zones : []);
         }
       } catch (err) {
         console.error('Error loading property:', err);
@@ -91,9 +139,89 @@ export default function PropertySettingsPage() {
     load();
   }, []);
 
+  // WiFi Zone handlers
+  const addWifiZone = () => {
+    if (wifiZones.length >= 8) return;
+    const newZone: WifiZone = {
+      zone_id: crypto.randomUUID(),
+      label: '',
+      zone_type: 'custom',
+      icon: 'WifiHigh',
+      ssid: '',
+      password: '',
+      sort_order: wifiZones.length,
+    };
+    setWifiZones([...wifiZones, newZone]);
+  };
+
+  const removeWifiZone = (zoneId: string) => {
+    const updated = wifiZones
+      .filter((z) => z.zone_id !== zoneId)
+      .map((z, i) => ({ ...z, sort_order: i }));
+    setWifiZones(updated);
+    // Clear errors for removed zone
+    const newErrors = { ...wifiZoneErrors };
+    delete newErrors[zoneId];
+    setWifiZoneErrors(newErrors);
+  };
+
+  const updateWifiZone = (zoneId: string, field: keyof WifiZone, value: string) => {
+    setWifiZones(
+      wifiZones.map((z) => {
+        if (z.zone_id !== zoneId) return z;
+        if (field === 'zone_type') {
+          const icon = getIconForZoneType(value);
+          const label = z.label || getLabelForZoneType(value);
+          return { ...z, zone_type: value, icon, label };
+        }
+        return { ...z, [field]: value };
+      })
+    );
+    // Clear error on edit
+    if (field === 'ssid' && value.trim()) {
+      const newErrors = { ...wifiZoneErrors };
+      delete newErrors[zoneId];
+      setWifiZoneErrors(newErrors);
+    }
+  };
+
+  const moveWifiZone = (zoneId: string, direction: 'up' | 'down') => {
+    const idx = wifiZones.findIndex((z) => z.zone_id === zoneId);
+    if (idx < 0) return;
+    if (direction === 'up' && idx === 0) return;
+    if (direction === 'down' && idx === wifiZones.length - 1) return;
+
+    const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+    const updated = [...wifiZones];
+    [updated[idx], updated[swapIdx]] = [updated[swapIdx], updated[idx]];
+    setWifiZones(updated.map((z, i) => ({ ...z, sort_order: i })));
+  };
+
+  const togglePasswordVisibility = (zoneId: string) => {
+    setShowPasswords((prev) => ({ ...prev, [zoneId]: !prev[zoneId] }));
+  };
+
+  // Validate WiFi zones before save
+  const validateWifiZones = (): boolean => {
+    const errors: Record<string, string> = {};
+    for (const zone of wifiZones) {
+      if (!zone.ssid.trim()) {
+        errors[zone.zone_id] = 'SSID is required';
+      }
+    }
+    setWifiZoneErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   // Save settings
   const handleSave = async () => {
     if (!settings) return;
+
+    // Validate WiFi zones
+    if (!validateWifiZones()) {
+      setError('Please fill in all required WiFi zone fields');
+      return;
+    }
 
     setSaving(true);
     setError(null);
@@ -120,6 +248,7 @@ export default function PropertySettingsPage() {
           host_whatsapp: hostWhatsapp || null,
           host_email: hostEmail || null,
           contact_email: contactEmail || null,
+          wifi_zones: wifiZones.length > 0 ? wifiZones : null,
         }),
       });
 
@@ -252,6 +381,159 @@ export default function PropertySettingsPage() {
               />
             </div>
           </div>
+        </section>
+
+        {/* WiFi Zones */}
+        <section className="rounded-xl border border-gray-200 bg-white p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <WifiHigh className="h-5 w-5 text-blue-600" weight="duotone" />
+              <h2 className="text-lg font-semibold text-gray-900">WiFi Zones</h2>
+            </div>
+            <span className="text-xs text-gray-400">{wifiZones.length}/8 zones</span>
+          </div>
+
+          <p className="mb-4 text-sm text-gray-500">
+            Configure WiFi networks for different areas of your property. Guests will see the
+            relevant network based on their location.
+          </p>
+
+          {wifiZones.length === 0 && (
+            <div className="mb-4 rounded-lg border border-dashed border-gray-300 bg-gray-50 p-6 text-center">
+              <WifiHigh className="mx-auto h-8 w-8 text-gray-300" weight="duotone" />
+              <p className="mt-2 text-sm text-gray-500">No WiFi zones configured yet</p>
+              <p className="text-xs text-gray-400">Add zones so guests can connect easily</p>
+            </div>
+          )}
+
+          <div className="space-y-4">
+            {wifiZones.map((zone, idx) => (
+              <div
+                key={zone.zone_id}
+                className={`rounded-lg border p-4 ${
+                  wifiZoneErrors[zone.zone_id] ? 'border-red-300 bg-red-50/50' : 'border-gray-200'
+                }`}
+              >
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="text-xs font-medium text-gray-400">Zone {idx + 1}</span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => moveWifiZone(zone.zone_id, 'up')}
+                      disabled={idx === 0}
+                      className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 disabled:opacity-30"
+                      title="Move up"
+                    >
+                      <ArrowUp className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => moveWifiZone(zone.zone_id, 'down')}
+                      disabled={idx === wifiZones.length - 1}
+                      className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 disabled:opacity-30"
+                      title="Move down"
+                    >
+                      <ArrowDown className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => removeWifiZone(zone.zone_id)}
+                      className="rounded p-1 text-gray-400 hover:bg-red-50 hover:text-red-500"
+                      title="Remove zone"
+                    >
+                      <Trash className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Zone Type */}
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-gray-600">
+                      Zone Type
+                    </label>
+                    <select
+                      value={zone.zone_type}
+                      onChange={(e) => updateWifiZone(zone.zone_id, 'zone_type', e.target.value)}
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    >
+                      {ZONE_TYPE_OPTIONS.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Label */}
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-gray-600">Label</label>
+                    <input
+                      type="text"
+                      value={zone.label}
+                      onChange={(e) => updateWifiZone(zone.zone_id, 'label', e.target.value)}
+                      placeholder={getLabelForZoneType(zone.zone_type)}
+                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  {/* SSID */}
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-gray-600">
+                      SSID (Network Name) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={zone.ssid}
+                      onChange={(e) => updateWifiZone(zone.zone_id, 'ssid', e.target.value)}
+                      placeholder="e.g. MyProperty-Guest"
+                      className={`w-full rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 ${
+                        wifiZoneErrors[zone.zone_id] ? 'border-red-400' : 'border-gray-300'
+                      }`}
+                    />
+                    {wifiZoneErrors[zone.zone_id] && (
+                      <p className="mt-1 text-xs text-red-500">{wifiZoneErrors[zone.zone_id]}</p>
+                    )}
+                  </div>
+
+                  {/* Password */}
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-gray-600">Password</label>
+                    <div className="relative">
+                      <input
+                        type={showPasswords[zone.zone_id] ? 'text' : 'password'}
+                        value={zone.password}
+                        onChange={(e) => updateWifiZone(zone.zone_id, 'password', e.target.value)}
+                        placeholder="Leave empty if open"
+                        className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-9 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => togglePasswordVisibility(zone.zone_id)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      >
+                        {showPasswords[zone.zone_id] ? (
+                          <EyeSlash className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={addWifiZone}
+            disabled={wifiZones.length >= 8}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 px-4 py-3 text-sm font-medium text-gray-500 transition-colors hover:border-blue-400 hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <Plus className="h-4 w-4" />
+            Add WiFi Zone
+          </button>
         </section>
 
         {/* Financial */}

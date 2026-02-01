@@ -24,10 +24,10 @@ export async function GET(request: NextRequest) {
     .from('accom_rooms')
     .select(
       `id, room_number, room_type, capacity, description, base_price_per_night,
-       currency, images, beds, amenities, is_active, sort_order`
+       currency, images, beds, is_active, room_code,
+       wifi_ssid_override, wifi_password_override`
     )
     .eq('property_id', propertyId)
-    .order('sort_order', { ascending: true })
     .order('room_number', { ascending: true });
 
   if (error) {
@@ -64,8 +64,8 @@ export async function POST(request: NextRequest) {
     currency,
     images,
     beds,
-    amenities,
-    sort_order,
+    wifi_ssid_override,
+    wifi_password_override,
   } = body as {
     propertyId: string;
     room_number: string;
@@ -76,8 +76,8 @@ export async function POST(request: NextRequest) {
     currency: string;
     images?: string[];
     beds?: unknown;
-    amenities?: string[];
-    sort_order?: number;
+    wifi_ssid_override?: string;
+    wifi_password_override?: string;
   };
 
   if (
@@ -109,9 +109,9 @@ export async function POST(request: NextRequest) {
       currency,
       images: images || [],
       beds: beds || null,
-      amenities: amenities || [],
       is_active: true,
-      sort_order: sort_order ?? 0,
+      wifi_ssid_override: wifi_ssid_override || null,
+      wifi_password_override: wifi_password_override || null,
     })
     .select()
     .single();
@@ -157,9 +157,9 @@ export async function PUT(request: NextRequest) {
     'currency',
     'images',
     'beds',
-    'amenities',
     'is_active',
-    'sort_order',
+    'wifi_ssid_override',
+    'wifi_password_override',
   ];
 
   const update: Record<string, unknown> = {};

@@ -24,12 +24,12 @@ export async function GET(request: NextRequest) {
     .from('accom_properties')
     .select(
       `id, name, slug, description, address, city, country, latitude, longitude,
-       property_type, booking_mode, check_in_time, check_out_time, house_rules,
-       cancellation_policy, amenities, images, host_name, host_phone, host_whatsapp,
-       host_email, contact_email, deposit_percent, cancellation_penalty_percent,
-       accepted_payment_methods, bank_transfer_info, crypto_wallet_addresses,
+       property_type, booking_mode, check_in_time, checkout_time, house_rules,
+       cancellation_policy, amenities, images, host_name, contact_phone, contact_whatsapp,
+       contact_email, deposit_percent, cancellation_penalty_percent,
+       accepted_payment_methods, bank_transfer_info, crypto_wallets,
        weekly_discount_percent, monthly_discount_percent, is_active,
-       guest_verification_method, access_settings`
+       wifi_zones`
     )
     .eq('id', propertyId)
     .single();
@@ -72,21 +72,21 @@ export async function PUT(request: NextRequest) {
   const allowedFields = [
     'booking_mode',
     'check_in_time',
-    'check_out_time',
+    'checkout_time',
     'house_rules',
     'cancellation_policy',
     'deposit_percent',
     'cancellation_penalty_percent',
     'accepted_payment_methods',
     'bank_transfer_info',
-    'host_phone',
-    'host_whatsapp',
-    'host_email',
+    'contact_phone',
+    'contact_whatsapp',
     'contact_email',
     'weekly_discount_percent',
     'monthly_discount_percent',
     'guest_verification_method',
     'access_settings',
+    'wifi_zones',
   ];
 
   const update: Record<string, unknown> = {};
