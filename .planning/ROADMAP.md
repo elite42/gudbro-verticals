@@ -173,7 +173,7 @@ Plans:
 
 Plans:
 
-- [ ] 30-01: Audit codebase shared modules (backoffice lib, shared/, cross-vertical patterns) and produce catalog document
+- [ ] 30-01-PLAN.md — Audit codebase shared modules and produce SHARED-MODULE-CATALOG.md
 
 ### Phase 31: Bug Fixes + Image Foundation
 
