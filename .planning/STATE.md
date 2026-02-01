@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 30 (Shared Module Audit) next
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 31 (Bug Fixes + Image Foundation) next
 
 ## Current Position
 
 Phase: 30 of 39 (Shared Module Audit)
-Plan: —
-Status: Ready to plan
-Last activity: 2026-02-01 — Phase 29 (Multi-Zone WiFi) completed and verified
+Plan: 1 of 1
+Status: Phase complete
+Last activity: 2026-02-01 — Completed 30-01-PLAN.md (Shared Module Catalog)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██████░░░░░░░░░░░░░░] 10/27 plans
+Progress: v1.5 [██████░░░░░░░░░░░░░░] 11/27 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 67 (+ 1 quick task)
+- Total plans completed: 68 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~4.8 hours
+- Total execution time: ~4.9 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [██████░░░░░░░░░░░░░░] 10
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 10/27 | ~42 min    | 4.2 min  |
+| v1.5      | 11/27 | ~47 min    | 4.3 min  |
 
 ## Accumulated Context
 
@@ -57,6 +57,10 @@ Recent decisions for v1.5 extended roadmap:
 - WIFI-04: buildWifiInfo() shared helper ensures all routes return identical WifiInfo shape
 - WIFI-05: Property route returns zones without room override (no room context in JWT)
 - WIFI-06: Pre-arrival email uses primary zone via buildWifiInfo, not all zones
+- AUDIT-01: Do NOT consolidate duplicated patterns during v1.5 (use @shared/payment for new work)
+- AUDIT-02: QR extraction: move generator + types to shared, leave CRUD service in backoffice
+- AUDIT-03: Phase 31 currency selector should use @shared/payment directly (not copy converter pattern)
+- AUDIT-04: Notification Dispatcher is highest-priority extraction (needed by phases 34, 35, 38)
 
 ### Pending Todos
 
@@ -74,10 +78,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Phase 29 completed and verified
+Stopped at: Phase 30 completed (Shared Module Audit)
 Resume file: None
-Next: `/gsd:discuss-phase 30` (Shared Module Audit)
+Next: `/gsd:plan-phase 31` (Bug Fixes + Image Foundation)
 
 ---
 
-_Last updated: 2026-02-01 after Phase 29 execution and verification_
+_Last updated: 2026-02-01 after Phase 30 execution (Shared Module Catalog)_
