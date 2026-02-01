@@ -205,12 +205,14 @@ Plans:
 2. New property owners are guided through an onboarding wizard (Basic Info, Photos, Rooms, WiFi, Services, Contact) with progress tracking, while existing configured properties skip the wizard
 3. Owner can manage structured policies (checkbox house rules, dropdown cancellation policy) and complete property data (social links, Google Maps, communication methods, hours, staff languages)
 4. Room CRUD includes a floor/level field, and booking history tab shows past stays with guest details
-   **Plans**: 2 plans
+   **Plans**: 4 plans
 
 Plans:
 
-- [ ] 32-01: Gantt calendar view (CSS Grid rooms-by-dates, color-coded bookings, click-to-detail, mobile horizontal scroll) + booking history tab + room floor/level field (OWN-06, OWN-07, OWN-01)
-- [ ] 32-02: Onboarding wizard (multi-step wrapping existing CRUD, onboarding_progress JSONB, skip for configured properties) + structured policies form + complete property data fields (OWN-05, OWN-03, OWN-04)
+- [x] 32-01: Gantt calendar component + booking history component + room floor/level field + migrations (OWN-06, OWN-07, OWN-01)
+- [x] 32-02: Onboarding wizard + structured policies component + property data form component (OWN-05, OWN-03, OWN-04)
+- [ ] 32-03: [Gap closure] Wire GanttCalendar into calendar page + add History tab to bookings page
+- [ ] 32-04: [Gap closure] Wire StructuredPolicies + PropertyDataForm into settings page
 
 ### Phase 33: Guest Dashboard Redesign
 
@@ -381,7 +383,7 @@ Notes:
 | 29. Multi-Zone WiFi                       | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 30. Shared Module Audit                   | v1.5      | 1/1            | Complete    | 2026-02-01 |
 | 31. Bug Fixes + Image Foundation          | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 32. Owner Dashboard Enhancements          | v1.5      | 0/2            | Not started | -          |
+| 32. Owner Dashboard Enhancements          | v1.5      | 2/4            | Gap closure | -          |
 | 33. Guest Dashboard Redesign              | v1.5      | 0/2            | Not started | -          |
 | 34. Service Expansion + Minibar           | v1.5      | 0/2            | Not started | -          |
 | 35. Guest Feedback System                 | v1.5      | 0/2            | Not started | -          |
@@ -393,4 +395,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after Phase 31 completion (Bug Fixes + Image Foundation verified)_
+_Last updated: 2026-02-01 after Phase 32 gap closure plans created_
