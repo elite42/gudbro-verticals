@@ -1,260 +1,602 @@
-# Feature Landscape: Frictionless Guest Access & Progressive Authentication
+# Feature Landscape: Accommodations Extended Features
 
-**Domain:** Hotel/accommodation guest access, QR-based entry, progressive authentication, document management
-**Researched:** 2026-01-31
-**Confidence:** MEDIUM-HIGH (patterns well-established in hospitality tech; progressive auth is novel combination of web UX patterns applied to hospitality)
+**Domain:** Hospitality guest experience, property management, in-stay services for small SEA accommodations (1-25 rooms)
+**Researched:** 2026-02-01
+**Confidence:** MEDIUM-HIGH (patterns well-established in hospitality tech; some features are novel combinations for small properties)
 
 ## Context
 
-GUDBRO Accommodations v1 already has:
+GUDBRO Accommodations already has:
 
-- In-Stay Dashboard with QR scan entry (`/stay/BK-{code}`)
-- Booking verification via booking code + last name (returns JWT)
-- Service ordering with cart and order state machine
-- QR code generation in backoffice
-- Guest communication (emails, WhatsApp)
-- WiFi credential display (single network/password)
+- Public property page with SEO, photo gallery, availability calendar
+- Hybrid booking flow (instant-confirm or inquiry), multi-payment
+- Owner dashboard: booking management, room CRUD, property settings, QR codes, calendar, pricing, analytics
+- Service ordering: guest catalog + cart, order state machine, owner order management
+- In-Stay Dashboard: WiFi card, stay summary, services, deals, contact, checkout
+- Room-based QR access with progressive authentication
+- Owner-configurable security presets (Family/Standard/Structured)
+- Analytics: occupancy, revenue, ADR, service breakdown
+- Local deals CRUD with referral tracking
+- Guest communication: confirmation + pre-arrival emails, WhatsApp
 
-This milestone adds **frictionless access** -- the insight that physical presence in the room (having the key, seeing the QR, being on the WiFi) is already authentication. The owner verified identity at reception. Different property types need different security levels.
+This milestone adds 15 extended features across guest experience, owner operations, and service refinements.
 
 ### Industry Context
 
-The hospitality guest app market is booming. Duve (voted #1 Hotel Guest App 2026) and Canary Technologies (#1 Contactless Check-in 2026) both use **web-based, no-download, QR-scan access** as their primary guest entry point. 73% of hotel guests prefer mobile app check-in over front desk. The contactless check-in market is projected to reach $4.8B by 2032 (15.7% CAGR).
+The hospitality guest app market continues to consolidate around web-based, no-download experiences. Duve (#1 Hotel Guest App 2026, $85M raised) and Canary Technologies lead. For small properties (1-25 rooms), the competitive set is Little Hotelier, eviivo, Smoobu, and Mini Hotel PMS -- but none offer the integrated guest-facing PWA + owner backoffice that GUDBRO provides. Most small property solutions focus on PMS/channel management and lack in-stay guest experience features.
 
-Key industry pattern: guests receive a **unique, reservation-specific link or QR code** that serves as their authentication token, eliminating credentials entirely. Duve, STAY App, and mycloud all follow this pattern.
+Key 2025-2026 trends: AI concierge, instant loyalty (not points-based), digital voucher redemption via QR, card-based mobile UX, and order-to-delivery performance tracking.
 
 ---
 
 ## Table Stakes
 
-Features that are baseline expectations in this feature area. Missing these makes the experience feel broken or insecure.
+Features that guests and owners expect once you offer the adjacent capability. Missing these creates friction or feels incomplete given what GUDBRO already has.
 
-### A. QR-Based Room Access (No Login Barriers)
-
-| Feature                                        | Why Expected                                                                                                            | Complexity           | Dependencies                          | Notes                                                                                                                                                          |
-| ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | -------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Instant dashboard on QR scan (no login screen) | Duve, STAY App, mycloud all do this. Guest scans QR in room, sees dashboard immediately. Any login wall = abandonment.  | Medium               | Existing QR generation, JWT system    | Current flow requires booking code + last name. New flow: QR encodes a time-limited token that maps to active booking. Guest sees dashboard instantly on scan. |
-| WiFi credentials visible immediately           | This is THE reason guests scan the QR. If WiFi is behind a login wall, the feature fails. 90% of QR scans are for WiFi. | Low                  | Existing WiFi card component          | WiFi must be the FIRST thing visible, before any verification step. Already true in current UI but must remain true with new auth model.                       |
-| No app download required                       | Web-based PWA is already the standard. Duve and STAY App both emphasize "no download." Guest uses phone browser.        | None (already built) | Existing PWA architecture             | GUDBRO already does this. Maintain this advantage. Never require app store install for guest access.                                                           |
-| Unique URL per active booking                  | Each QR code resolves to a booking-specific URL. The URL IS the credential. Duve uses this pattern.                     | Low                  | Existing URL structure `/stay/{code}` | Already implemented with `/stay/BK-{code}`. The booking code in the URL serves as the access token.                                                            |
-| Session persistence via cookie/localStorage    | Guest shouldn't re-verify every time they open the page. Once verified, remember for duration of stay.                  | Low                  | JWT system already exists             | Current JWT already handles this. Ensure token expiry aligns with checkout date.                                                                               |
-
-### B. Progressive/Lazy Authentication for Paid Actions
-
-| Feature                                          | Why Expected                                                                                                                    | Complexity        | Dependencies                          | Notes                                                                                                                                                |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tiered access levels (view vs. transact)         | Standard web UX pattern. Amazon lets you browse without login, asks for auth at checkout. Same principle for hotels.            | Medium            | Existing JWT system, service ordering | Tier 1 (scan QR): View WiFi, stay info, house rules, deals. Tier 2 (verify identity): Order services, request laundry, make purchases.               |
-| Lightweight verification prompt (not full login) | When guest tries to order a service, prompt for last name or room number -- not a full registration form. Keep it to ONE field. | Low               | Existing booking data                 | "Confirm your last name to place orders" is sufficient. Physical presence + last name = good enough for a 3-night B&B stay.                          |
-| Graceful upgrade from anonymous to verified      | Transition should feel like a natural part of the flow, not an interruption. "To order breakfast, please confirm your name."    | Medium            | UI/UX work                            | The verification prompt should appear inline in the ordering flow, not as a redirect to a separate login page. Modal or inline expansion.            |
-| No account creation ever (for guests)            | Guests are transient. Forcing account creation for a 3-night stay is hostile UX. Booking code IS the account.                   | None (philosophy) | --                                    | Duve, STAY App, and Bbot all avoid guest account creation. The booking/reservation is the identity anchor. GUDBRO should never require guest signup. |
-
-### C. QR Code Lifecycle Management
-
-| Feature                                             | Why Expected                                                                                                                              | Complexity | Dependencies                        | Notes                                                                                                                                                                         |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| QR activation on check-in                           | QR code for a room should only work when a guest is checked in. Prevents previous guest from accessing current guest's dashboard.         | Medium     | Booking state machine, backoffice   | Tie QR validity to booking status. When booking moves to `checked_in`, the room QR becomes active for that booking.                                                           |
-| QR deactivation on check-out                        | When guest checks out, QR should stop working (or redirect to property page). Security requirement.                                       | Medium     | Booking state machine               | On checkout: invalidate JWT, redirect QR to generic property page or "your stay has ended" screen.                                                                            |
-| Permanent physical QR in room (dynamic destination) | Owners print QR once, stick it in the room. It always works but routes to the CURRENT guest's booking.                                    | High       | Room-to-booking mapping, middleware | This is the key technical challenge. Physical QR encodes `/room/{room-id}`. Middleware resolves room-id to active booking. If no active booking, shows generic check-in form. |
-| Manual override (owner can activate/deactivate)     | Owner may need to disable a room QR (maintenance, dispute, etc.). Must be controllable from backoffice.                                   | Low        | Backoffice UI                       | Simple toggle in room management. `qr_active: boolean` on room record.                                                                                                        |
-| Grace period after checkout                         | Guest may need to access dashboard briefly after checkout (retrieve WiFi password for lobby, check receipt). Allow 2-4 hour grace period. | Low        | JWT expiry logic                    | Set JWT expiry to checkout time + grace period (configurable per property).                                                                                                   |
-
-### D. Guest Document Upload (Passport/Visa)
-
-| Feature                             | Why Expected                                                                                                                        | Complexity | Dependencies                                        | Notes                                                                                                                                                    |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Photo upload of passport/ID         | HelloShift, RoomRaccoon, Klippa all offer this. Legal requirement in Vietnam (NA17 registration). OCR technology makes it seamless. | Medium     | Storage (Supabase Storage), upload UI               | Guest takes photo or uploads image. Store securely. OCR extraction is a differentiator (see below), not table stakes. Manual entry fallback is required. |
-| Manual entry of document details    | Not all guests will photograph their passport. Must allow manual entry of: document type, number, nationality, expiry date.         | Low        | Form UI, database schema                            | Fields: document_type, document_number, nationality, issue_date, expiry_date, full_name_on_document.                                                     |
-| Secure storage with access controls | Guest documents are PII. Must be encrypted at rest, access-logged, and only visible to property owner + guest.                      | Medium     | Supabase Storage policies, RLS                      | Store in dedicated Supabase Storage bucket with RLS. Auto-delete X days after checkout (configurable, default 30 days). GDPR compliance.                 |
-| Expiry date tracking with alerts    | Already in PRD (visa tracker). Owner needs to know if guest's visa expires during stay. 14/7/3 day alert schedule.                  | Medium     | Cron job or scheduled function, notification system | Use existing notification patterns. Alert both guest and owner. Integration with existing visa tracker feature in PRD.                                   |
+| #   | Feature                                      | Why Expected                                                                                                                                                                                                                                               | Complexity | Dependencies                                           | Notes                                                                                                                       |
+| --- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| 9   | **Guest PWA homepage redesign (card-based)** | Current text-wall layout feels dated; every competitor (Duve, STAY, DigitalGuest) uses card-based grids with icons. Guests expect visual, tappable navigation -- not scrolling text.                                                                       | Medium     | Existing In-Stay Dashboard                             | Must work on all phone sizes. Card order should be configurable per owner. This is the "front door" for all other features. |
+| 13  | **Order detail view with items breakdown**   | Owners already manage orders but see no line-item detail. Standard in any order management system -- without it, disputes are unresolvable.                                                                                                                | Low        | Existing order state machine                           | Simple UI addition. Both guest-side (receipt) and owner-side (management).                                                  |
+| 11  | **Service items "included in rate" flag**    | Properties that include breakfast or airport transfer need to distinguish "included" from "purchasable" items. Without this, guests are confused about what they already paid for. Standard in Duve, STAY, DigitalGuest.                                   | Low        | Existing service catalog                               | Boolean flag on service items + "Included" badge in UI. May need per-booking or per-room-type configuration.                |
+| 12  | **Room floor/level field**                   | Basic property data. Every PMS has this. Guests expect to know which floor their room is on, especially for accessibility. Owners need it for housekeeping routing.                                                                                        | Low        | Existing room CRUD                                     | Simple field addition to room schema + display in guest dashboard.                                                          |
+| 15  | **Guest receipt confirmation via PWA**       | Guests expect a digital record of what they ordered/consumed. 68% of travelers prefer mobile confirmations (Skift/Oracle). Without receipts, trust erodes.                                                                                                 | Low-Medium | Order detail view (#13)                                | Show in PWA + optional email. Include itemized charges, dates, payment method.                                              |
+| 7   | **Owner onboarding wizard**                  | 92% of hotels reduce staff onboarding time with guided setup (HotelTechReport 2026). Non-technical SEA property owners will abandon GUDBRO if setup feels overwhelming. Every competitor (Cloudbeds, eviivo, Little Hotelier) has step-by-step onboarding. | Medium     | Existing property settings, room CRUD, service catalog | Progress indicator showing completion %. Checklist: property info, photos, rooms, pricing, services, payment, QR codes.     |
 
 ---
 
 ## Differentiators
 
-Features that set GUDBRO apart from competitors. Not expected, but create real competitive advantage for the target market (small SEA property owners).
+Features that set GUDBRO apart. Not expected at this price point for small properties, but deliver outsized value.
 
-### E. Configurable Security Levels per Property Type
-
-| Feature                                              | Value Proposition                                                                                                                                        | Complexity       | Dependencies                                | Notes                                                                                                                                                                                                                                           |
-| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Security presets (B&B / Guesthouse / Hotel / Hostel) | No competitor offers this. A 2-room B&B where the owner sleeps next door has different security needs than a 100-room hotel. One-size-fits-all is wrong. | Medium           | Settings UI in backoffice, middleware logic | **B&B preset**: QR scan = full access, no verification needed (owner is right there). **Hotel preset**: QR scan = view only, verify for orders. **Hostel preset**: QR scan = view only, verify for everything (shared spaces, multiple guests). |
-| Per-feature auth requirements                        | Owner can decide which features need verification. WiFi always free. Ordering might need verification. Document upload always needs verification.        | High             | Feature-level middleware, settings schema   | Config table: `{feature: 'service_ordering', requires_verification: true/false}`. Let the owner toggle per feature. Presets set defaults, owner can customize.                                                                                  |
-| Physical presence as authentication factor           | The insight that "you are in the room, you have the key, you can see the QR" IS authentication. No competitor frames it this way explicitly.             | Low (conceptual) | Documentation, UX messaging                 | This is a philosophy, not a feature. But it should be communicated to owners: "Your guests already proved who they are at reception. The QR code is their access pass."                                                                         |
-| Custom verification methods per property             | Some owners want PIN, some want last name, some want room number. Let them choose.                                                                       | Medium           | Configurable verification form              | Options: (a) last name only, (b) booking code, (c) PIN set by owner, (d) room number + last name. Default: last name (simplest).                                                                                                                |
-
-### F. Multi-Zone WiFi Credential Display
-
-| Feature                                         | Value Proposition                                                                                                   | Complexity | Dependencies                                     | Notes                                                                                                                                                            |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Multiple WiFi networks per property             | Hotels have lobby WiFi, pool WiFi, room WiFi. Currently GUDBRO shows one network. Real properties have zones.       | Low-Medium | Schema change (array of WiFi configs), UI update | Change from single `wifi_name/wifi_password` to array: `wifi_zones: [{name, network, password, location}]`. Display as cards or tabs.                            |
-| Zone-specific credentials (per room floor/area) | Some properties give different passwords per floor for security. Display the relevant one based on room assignment. | Medium     | Room-to-zone mapping                             | Room 201-210 = "Floor2_Guest", Room 301-310 = "Floor3_Guest". Map rooms to WiFi zones. Show only the relevant zone(s) to each guest.                             |
-| "Connect" deep link / auto-copy                 | One-tap WiFi connection. On iOS/Android, can generate WiFi QR or copy credentials. Reduces friction.                | Low        | Clipboard API, WiFi QR generation                | Already have copy button. Add: generate WiFi-config QR code that phone can scan to auto-connect (standard WiFi QR format: `WIFI:T:WPA;S:{ssid};P:{password};;`). |
-| Staff/IoT network separation display            | Show guests which network is theirs (vs. staff-only). Avoid confusion.                                              | Low        | UI only                                          | Label zones clearly: "Guest WiFi", "Pool Area", "Restaurant". Don't show staff networks.                                                                         |
-
-### G. Smart Document Processing
-
-| Feature                              | Value Proposition                                                                                                         | Complexity | Dependencies                                                    | Notes                                                                                                                                                                                              |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| OCR extraction from passport photo   | HelloShift, RoomRaccoon, Horus all offer this. Auto-extract name, nationality, document number, expiry. Saves guest time. | High       | OCR service (Tesseract, Google Vision, or MRZ-specific library) | MRZ (Machine Readable Zone) on passports is standardized. Libraries exist for MRZ parsing. Could use client-side (privacy) or server-side (accuracy). Start with manual entry, add OCR as upgrade. |
-| Liveness/selfie verification         | Jumeirah uses facial recognition. Prevents identity fraud.                                                                | Very High  | Third-party KYC service                                         | DO NOT build this for MVP. This is enterprise-grade. For small SEA properties, passport photo + manual verification at reception is sufficient. Flag for future if scaling to large hotels.        |
-| NA17 data pre-fill for Vietnam       | Auto-generate the police registration data from uploaded documents. Saves owner hours of manual data entry.               | Medium     | Understanding NA17 format, document data extraction             | Unique to Vietnam market. Export guest data in format needed for provincial police registration. Major time-saver for owners with multiple guests.                                                 |
-| Document expiry monitoring dashboard | Owner sees all guests with expiring documents at a glance. Color-coded: green (>14 days), yellow (7-14), red (<7).        | Medium     | Backoffice UI, existing visa tracker logic                      | Extends the visa tracker already in PRD. Dashboard view with filterable guest document status.                                                                                                     |
-
-### H. QR Intelligence Features
-
-| Feature                                       | Value Proposition                                                                                                               | Complexity | Dependencies                            | Notes                                                                                                                                        |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Scan analytics (when, how often, which rooms) | Owner sees which rooms scan QR most, peak scan times, engagement rate. No competitor provides this for small properties.        | Low-Medium | Analytics logging on QR scan endpoint   | Log each scan: timestamp, room_id, booking_id, user_agent. Aggregate in backoffice analytics. Helps owner understand guest engagement.       |
-| Multi-QR per room (bathroom, bedside, desk)   | Different QR placements with different default views. Bathroom QR opens WiFi. Desk QR opens services. Bedside QR opens contact. | Medium     | QR type parameter, routing logic        | QR URL includes `?ctx=wifi` or `?ctx=services`. Same booking, different initial view. Owner generates multiple QRs per room from backoffice. |
-| Guest re-engagement via QR post-stay          | After checkout, room QR shows "Had a great stay? Book again with 10% off" or "Leave a review."                                  | Low        | Checkout state handling, redirect logic | When no active booking on room, QR shows property page with return-guest discount. Free marketing channel.                                   |
+| #   | Feature                                                    | Value Proposition                                                                                                                                                                                                                                                                                                                  | Complexity  | Dependencies                                                   | Notes                                                                                                                                                                                                                                                              |
+| --- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | **Minibar self-service via PWA**                           | No competitor in the small-property space offers digital minibar tracking. Large hotel solutions (INTELITY, Bowo) do, but cost 10-50x more. Guests mark consumed items on their phone -- no honor bar confusion, no staff counting bottles. Owner gets real-time consumption data.                                                 | Medium      | Service catalog, order state machine, room assignment          | Display as checklist/counter per item (not cart-style). Auto-adds to guest folio. Should support "mark as consumed" not "add to cart" UX. Real differentiator for hostels/guesthouses.                                                                             |
+| 2   | **Timeline/Gantt calendar for room bookings**              | The #1 most-requested feature in small property PMS tools. Cloudbeds, RoomRaccoon, Little Hotelier all have it. GUDBRO's current calendar is date-based, not visual-timeline. A drag-and-drop Gantt view with color-coded bookings is the industry standard for 5+ room properties.                                                | High        | Existing booking data, room list                               | Rooms on Y-axis, dates on X-axis, color-coded reservation bars. Needs drag-and-drop for date changes, click to open booking. This is the "wow" feature for owner onboarding. Consider using a library (e.g., react-calendar-timeline).                             |
+| 3   | **In-stay guest requests/complaints channel**              | Flexkeeping, Botshot ComplaintTrackr, and Xenia all offer this for large hotels. For small properties, nobody does it well. Most rely on WhatsApp which is unstructured. A simple in-app request system (categories: maintenance, housekeeping, question, complaint) with owner notification creates accountability.               | Medium      | In-Stay Dashboard, push notifications or WhatsApp integration  | Categories with optional photo upload. Owner sees queue with timestamps. Resolution tracking (open/in-progress/resolved). Key: must be SIMPLER than WhatsApp, not more complex.                                                                                    |
+| 4   | **Post-stay feedback with category ratings**               | GuestRevu, Customer Alliance, and Zonka dominate this space but charge $100-500/month. A built-in feedback system that sends automatically at checkout with category ratings (cleanliness, location, value, communication, facilities) gives owners actionable data. DigitalGuest uses NPS + star ratings + conditional questions. | Medium      | Booking lifecycle (checkout trigger), guest email              | Auto-triggered at checkout. Star ratings per category + free text. Owner dashboard with aggregate scores. Optional: prompt happy guests to leave Google/TripAdvisor review (redirect). This drives retention and improvement.                                      |
+| 6   | **Returning guest detection and badge**                    | Revinate's badge system is the gold standard but costs $10k+/year. For small properties, recognizing returning guests is deeply personal -- "Welcome back, Sarah!" with a loyalty badge. Staff sees returning guest flag on arrivals. No points, no tiers -- just recognition.                                                     | Low-Medium  | Guest email/phone matching across bookings                     | Match by email or phone number. Show badge in owner's booking view + arrivals list. Guest sees "Welcome back" in PWA. Track visit count. Consider small perk: "Returning guest discount" option for owner.                                                         |
+| 8   | **Voucher system for accommodations**                      | DigitalGuest's voucher feature shows strong adoption (3,856 redeems at a single hotel). Breakfast vouchers with date, welcome drink vouchers, partner discount vouchers -- all redeemable via QR scan. Brandnamic and STAAH offer this for large properties. For small properties, this is unique.                                 | Medium-High | Service catalog, booking lifecycle, QR infrastructure          | Voucher types: included-in-stay (breakfast per date), promotional (welcome drink), partner (local deals). QR scan to redeem. Track redemption. Must support date-specific vouchers (breakfast Day 1, Day 2, etc.).                                                 |
+| 5   | **Early check-in / late checkout request flow**            | Revenue opportunity that small properties leave on the table. Little Hotelier and RoomRaccoon support this natively. Guest requests via PWA, owner approves/denies based on availability. Auto-charges fee to folio. Industry data: late checkout bundled with upsells increases room revenue.                                     | Medium      | Booking lifecycle, room availability logic, payment/folio      | Guest sees option in PWA pre-arrival or during stay. Owner gets notification with availability context. Configurable pricing (free/fixed fee/hourly). Must check next booking on that room before approving.                                                       |
+| 10  | **Delivery app integration (Grab, ShopeeFood deep-links)** | No hospitality platform does this yet -- verified by research. In SEA, Grab has 50%+ food delivery market share. ShopeeFood is #2. A simple deep-link to GrabFood/ShopeeFood pre-filled with property address saves guests the hassle of typing addresses in a foreign language. Zero API integration needed -- just URL schemes.  | Low         | In-Stay Dashboard                                              | Deep-link URLs: `grab://food?dropoff_lat=X&dropoff_lng=Y` or web fallback `food.grab.com/...`. Show as card in guest dashboard: "Order food delivery to your room". Include property address for copy-paste fallback. Unique GUDBRO differentiator for SEA market. |
+| 14  | **Order performance tracking (order-to-delivery time)**    | No small-property tool tracks this. Large hotel ops tools (Flexkeeping, ALICE) do. Gives owners data on service speed. Tracks time from order placed to order delivered. Helps identify slow services, peak times, and staff performance.                                                                                          | Low-Medium  | Order state machine (needs timestamp on each state transition) | Calculate from order_created to order_delivered timestamps. Show average times per service category. Dashboard widget: "Average delivery time: 12 min". Alert if order exceeds threshold.                                                                          |
 
 ---
 
 ## Anti-Features
 
-Features to deliberately NOT build. Common mistakes in this domain that GUDBRO should avoid.
+Features to explicitly NOT build. Common mistakes in this domain that would waste effort or harm the product.
 
-### Things to NOT Build
-
-| Anti-Feature                                                | Why Avoid                                                                                                                                                                                                     | What to Do Instead                                                                                                                                      |
-| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Full account/registration system for guests                 | Guests are transient (3-14 day stays). Account creation is hostile UX that kills conversion. Duve and STAY App both avoid this. Booking code IS the identity.                                                 | Use booking-code-as-identity pattern. JWT tied to booking, not to a user account. Guest never creates username/password.                                |
-| Native mobile app for guests                                | App store install is a barrier. 80%+ abandonment rate for "download our app" prompts. All leading hotel apps (Duve, STAY, mycloud) are web-based.                                                             | PWA is already the right choice. Maintain web-first. Add "Add to Home Screen" prompt but never require it.                                              |
-| Biometric authentication (face/fingerprint) for room access | Requires hardware (smart locks), complex integration, privacy concerns. Overkill for B&Bs and guesthouses. Even large hotels struggle with this.                                                              | Physical key/card at reception + digital QR for services. Don't try to replace the room key -- just replace the information card.                       |
-| Full KYC/AML compliance system                              | Blockpass-style identity verification is for large hotel chains and financial institutions. Small B&Bs in Vietnam don't need AML screening. Over-engineering kills simplicity.                                | Simple document upload + manual owner verification. Owner already sees the guest at reception. Digital just replaces the photocopy machine.             |
-| Email/SMS OTP for guest verification                        | Adds friction, requires phone number collection, SMS costs money, delivery is unreliable in SEA (especially for foreign SIMs). Solves a problem that doesn't exist when physical presence is the auth factor. | Use physical-presence-as-auth: QR code visibility = you are in the room. For paid actions, simple last-name verification (already known from booking).  |
-| Complex role-based access within a single booking           | Multi-guest role management (primary guest vs. companion vs. child) adds complexity with minimal value. A 3-night booking doesn't need RBAC.                                                                  | All guests on a booking get the same access level. If companion scans QR, they see the same dashboard. Keep it simple.                                  |
-| Blockchain-based identity or credential verification        | Some hospitality KYC providers pitch blockchain identity. Zero value for small properties. Adds complexity, cost, and confusion.                                                                              | Standard database storage with encryption. Supabase RLS for access control. Delete documents after configurable retention period.                       |
-| Real-time door lock integration                             | Smart lock APIs (ASSA ABLOY, Salto, etc.) are expensive, require hardware, and are unreliable. Small properties use physical keys.                                                                            | If owner has smart locks, provide a webhook/API endpoint they can integrate with. Don't build lock vendor integrations into core product.               |
-| Comprehensive ID verification with liveness detection       | Services like Horus Check and Regula offer liveness detection, deepfake prevention, and 14,000+ document templates. This is enterprise-grade.                                                                 | Passport photo upload + manual review by owner at reception. The owner is literally standing in front of the guest. Digital tools just create a record. |
+| Anti-Feature                               | Why Avoid                                                                                                                                                                                                                                                                     | What to Do Instead                                                                                                                                      |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Full loyalty program with points/tiers** | Points-based loyalty is dying (70% of travelers prefer personalized experiences over points -- Amadeus 2025). Complex to build, confusing for 1-5 property owners, and guests at small SEA properties rarely return enough to accumulate meaningful points.                   | Simple returning guest badge + optional owner-configured discount. Recognition, not gamification.                                                       |
+| **Built-in chat/messaging system**         | WhatsApp is ubiquitous in SEA. Building a proprietary chat means competing with WhatsApp's reliability, notification delivery, and user familiarity. Botshot and Kipsu exist because large hotels need omnichannel -- small properties just need WhatsApp.                    | Deep-link to WhatsApp with pre-filled message. Keep the request/complaint system structured (categories, not chat).                                     |
+| **Complex voucher marketplace**            | Brandnamic and The Hotels Network build voucher marketplaces with gifting, multi-currency, expiration management. This is B2C gifting complexity that small properties don't need.                                                                                            | Simple voucher system: owner creates vouchers tied to bookings. No marketplace, no gifting to third parties, no complex expiration rules.               |
+| **AI-powered review response generation**  | Duve invested heavily in AI agents ($60M Series B). Tempting to add, but small property owners write authentic, personal responses that guests value more than AI-generated ones. Over-automation erodes the "personal touch" that is their competitive advantage vs. chains. | Provide review notification + easy response prompts/templates. Let the owner's personality shine through.                                               |
+| **Channel manager / OTA sync**             | This is the domain of Cloudbeds, Little Hotelier, and Smoobu. Building a channel manager requires maintaining integrations with 400+ OTAs, handling rate parity, and managing inventory sync. Massive ongoing maintenance burden.                                             | GUDBRO focuses on direct bookings. If owners need OTA sync, they use a dedicated channel manager alongside GUDBRO.                                      |
+| **Housekeeping management system**         | Flexkeeping, Optii, and ALICE own this space. Room status boards, task assignment, cleaning checklists -- this is operational software that requires real-time staff coordination tools. Overkill for 1-10 room properties where the owner IS the housekeeper.                | Show room status (occupied/vacant/checkout-today) on timeline calendar. That's enough for small properties.                                             |
+| **Dynamic pricing engine**                 | Beyond Pricing, Wheelhouse, and PriceLabs are mature products. Building dynamic pricing requires demand forecasting, competitor rate monitoring, and market data feeds.                                                                                                       | Let owners set manual rates with simple weekly/monthly discounts (already built). Link to external pricing tools via documentation if owners want more. |
+| **Minibar IoT/sensor integration**         | Some luxury hotels use smart fridges with weight sensors. Massive hardware dependency, unreliable in SEA environments, and overkill for a hostel minibar.                                                                                                                     | Self-report via PWA is the right abstraction. Trust + occasional spot-check is how small properties work.                                               |
 
 ---
 
 ## Feature Dependencies
 
 ```
-QR-Based Room Access (no login)
-  |
-  +-- Permanent Room QR (dynamic destination)
-  |     |
-  |     +-- Room-to-Active-Booking Resolution (middleware)
-  |     |     |
-  |     |     +-- Booking State Machine (check-in/check-out states)
-  |     |
-  |     +-- QR Activation/Deactivation
-  |           |
-  |           +-- Backoffice Room Management (toggle)
-  |
-  +-- Progressive Authentication
-  |     |
-  |     +-- Tiered Access (view tier / transact tier)
-  |     |     |
-  |     |     +-- Configurable Security Levels (presets)
-  |     |           |
-  |     |           +-- Per-Feature Auth Config (advanced)
-  |     |
-  |     +-- Inline Verification Prompt
-  |           |
-  |           +-- Custom Verification Methods (owner choice)
-  |
-  +-- Session Management
-        |
-        +-- JWT with Checkout-Aligned Expiry
-        +-- Grace Period Configuration
+                    ┌──────────────────────────┐
+                    │  9. Homepage Redesign     │ ← Foundation for all guest-facing features
+                    │     (card-based PWA)      │
+                    └────────────┬─────────────┘
+                                 │
+              ┌──────────────────┼──────────────────┐
+              │                  │                   │
+     ┌────────▼───────┐  ┌──────▼──────┐  ┌────────▼────────┐
+     │ 1. Minibar     │  │ 3. Requests │  │ 10. Delivery    │
+     │    Self-Service │  │    Channel  │  │     App Links   │
+     └────────┬───────┘  └─────────────┘  └─────────────────┘
+              │
+     ┌────────▼───────┐
+     │ 11. Included   │ ← Needed to distinguish minibar items
+     │     in Rate    │    that are complimentary
+     └────────────────┘
 
-Multi-Zone WiFi
-  |
-  +-- Schema Change (single -> array)
-  +-- Room-to-Zone Mapping
-  +-- WiFi Config QR Generation
+     ┌────────────────┐
+     │ 13. Order      │ ← Prerequisite for receipts and performance
+     │     Detail     │
+     └───────┬────────┘
+             │
+     ┌───────┼────────────────┐
+     │       │                │
+     ▼       ▼                ▼
+  ┌──────┐ ┌──────────┐ ┌──────────┐
+  │ 15.  │ │ 14.      │ │ 8.       │
+  │Recpt │ │ Perf     │ │ Voucher  │ ← Vouchers need order/redemption tracking
+  └──────┘ │ Tracking │ │ System   │
+           └──────────┘ └──────────┘
 
-Guest Documents
-  |
-  +-- Photo Upload (Supabase Storage)
-  |     |
-  |     +-- OCR Extraction (future enhancement)
-  |
-  +-- Manual Entry Form
-  +-- Expiry Tracking + Alerts
-  |     |
-  |     +-- Existing Visa Tracker (PRD section 13)
-  |
-  +-- Secure Storage + Auto-Delete
-  +-- NA17 Export (Vietnam-specific)
+     ┌────────────────┐       ┌────────────────┐
+     │ 12. Room       │       │ 2. Timeline    │
+     │     Floor/Level│───────▶   Calendar     │ ← Floor info enriches timeline display
+     └────────────────┘       └────────────────┘
+
+     ┌────────────────┐       ┌────────────────┐
+     │ 6. Returning   │       │ 4. Post-Stay   │
+     │    Guest Badge │       │    Feedback     │ ← Both need booking lifecycle hooks
+     └────────────────┘       └────────────────┘
+
+     ┌────────────────┐
+     │ 5. Early/Late  │ ← Needs room availability + timeline calendar for owner decision
+     │    Check-in/out│
+     └────────────────┘
+
+     ┌────────────────┐
+     │ 7. Onboarding  │ ← Independent, but should showcase all other features
+     │    Wizard      │
+     └────────────────┘
 ```
+
+---
+
+## Detailed Feature Analysis
+
+### Feature 1: Minibar Self-Service via PWA
+
+**How it works in hospitality:**
+
+- Large hotels: INTELITY, Bowo offer tablet-based minibar with real-time billing. Some use IoT sensors (weight-based detection). Costs $50-200/room/month.
+- Mid-range: Honor bar with manual staff count at checkout. Error-prone, labor-intensive.
+- Small properties: Paper checklist or nothing. Guests forget to report consumption.
+
+**GUDBRO approach:**
+
+- Guest opens minibar section in PWA (card on homepage)
+- Sees list of items with prices and photos
+- Taps "I consumed this" with quantity selector
+- Item added to stay folio automatically
+- Owner sees real-time consumption in booking detail
+- At checkout, minibar charges are part of receipt
+
+**Key UX decisions:**
+
+- Use "mark consumed" pattern, NOT shopping cart. Guest is reporting, not ordering.
+- Show running total: "Your minibar: $12.50"
+- Allow owner to configure: trust guest (auto-charge) vs. verify first
+- Include "Report empty/missing item" for restocking
+
+**Complexity: MEDIUM** -- Needs new UI component, folio integration, real-time sync.
+
+---
+
+### Feature 2: Timeline/Gantt Calendar
+
+**How it works in hospitality:**
+
+- Industry standard: Rooms on Y-axis, dates on X-axis, colored bars per booking
+- Drag to extend/shorten stay, drag between rooms to reassign
+- Color coding: confirmed (green), pending (yellow), checked-in (blue), checked-out (gray)
+- Click bar to open booking details
+- Cloudbeds, RoomRaccoon, Little Hotelier, Beds24, Lodgify, Hostaway ALL have this
+
+**GUDBRO approach:**
+
+- Replace or augment current date-based calendar in backoffice
+- Show all rooms with booking bars
+- Click to open booking detail sidebar
+- Drag to change dates (with availability check)
+- Color code by status
+- Show today line, occupancy percentage per day
+
+**Key UX decisions:**
+
+- Mobile-responsive is hard for Gantt -- consider "list view" on mobile, Gantt on desktop/tablet
+- Zoom levels: day, week, month
+- Must handle 1-25 rooms without scrolling issues
+- Consider library: `react-calendar-timeline` or custom with canvas
+
+**Complexity: HIGH** -- Most complex feature in this set. Drag-and-drop, responsive, performance.
+
+---
+
+### Feature 3: In-Stay Guest Requests/Complaints
+
+**How it works in hospitality:**
+
+- Large hotels: Flexkeeping, ALICE, Xenia -- full ticketing systems with department routing, escalation, SLA tracking
+- Mid-range: Botshot ComplaintTrackr -- AI-powered omnichannel
+- Small properties: WhatsApp messages, verbal requests, forgotten promises
+
+**GUDBRO approach:**
+
+- Guest taps "Request" card on homepage
+- Selects category: Maintenance, Housekeeping, Question, Complaint, Other
+- Adds description + optional photo
+- Owner gets push notification / WhatsApp alert
+- Owner sees request queue with status: New > In Progress > Resolved
+- Guest sees status updates in PWA
+- Resolution time tracked automatically
+
+**Key UX decisions:**
+
+- Must be FASTER than WhatsApp for the guest (2 taps + text, not "open WhatsApp, find contact, type message")
+- Categories help owner triage without reading every message
+- Photo upload is critical for maintenance (show the broken thing)
+- Do NOT build chat -- this is structured requests, not conversation
+- Auto-close after 24h of "Resolved" status
+
+**Complexity: MEDIUM** -- New data model (requests table), notification integration, simple state machine.
+
+---
+
+### Feature 4: Post-Stay Feedback
+
+**How it works in hospitality:**
+
+- Industry standard: Auto-email at checkout with link to survey
+- Categories: Cleanliness, Location, Value, Communication, Facilities (Booking.com standard)
+- Scale: 1-5 stars or 1-10 (NPS)
+- Smart redirect: Happy guests (4-5 stars) → prompted to leave Google/TripAdvisor review
+- Unhappy guests (1-3 stars) → private feedback to owner only
+- DigitalGuest, GuestRevu, Customer Alliance charge $100-500/month for this
+
+**GUDBRO approach:**
+
+- Auto-trigger email/WhatsApp 2 hours after checkout
+- Link opens feedback form in PWA (no login needed, token-based)
+- Rate 5 categories: Cleanliness, Comfort, Location, Value, Communication
+- Overall rating + free text comment
+- If overall >= 4: "Would you share this on Google?" with direct link
+- If overall < 4: "Thank you, we'll improve" (private to owner)
+- Owner dashboard: average scores per category, trend over time
+
+**Key UX decisions:**
+
+- Keep it SHORT: 5 category stars + 1 comment field. No multi-page surveys.
+- Mobile-first: big tap targets for stars
+- Anonymous option for honest feedback
+- Owner sees aggregate, not just individual reviews
+
+**Complexity: MEDIUM** -- New data model, email trigger, dashboard widget, optional Google review redirect.
+
+---
+
+### Feature 5: Early Check-in / Late Checkout
+
+**How it works in hospitality:**
+
+- Revenue opportunity: typically $10-30 for small properties, $50-150 for hotels
+- Flow: Guest requests > System checks availability > Owner approves > Fee added to folio
+- Little Hotelier: guests set expected arrival time, owner sees and manages
+- RoomRaccoon: automated approval based on room availability + pricing rules
+- Key constraint: Must check if room is available (no incoming booking before the request time)
+
+**GUDBRO approach:**
+
+- Guest sees option in PWA pre-arrival ("Request early check-in") or during stay ("Request late checkout")
+- Selects desired time
+- System checks: is the room free before/after?
+- If free: Owner gets notification with recommendation ("Room is available, suggest $15 fee")
+- Owner approves with price, or denies with message
+- Guest sees approval + fee in PWA
+- Fee added to folio
+
+**Key UX decisions:**
+
+- Show availability context to owner (not just the request)
+- Allow free, fixed-price, or custom price per request
+- Pre-arrival: include in pre-arrival email as option
+- During stay: show only if room availability allows late checkout
+- Auto-deny if room has same-day incoming booking (save owner's time)
+
+**Complexity: MEDIUM** -- Needs availability check logic, request/approval flow, folio integration.
+
+---
+
+### Feature 6: Returning Guest Detection
+
+**How it works in hospitality:**
+
+- Revinate: automatic badges on guest profiles, arrivals report shows loyalty tier
+- Daniel Thwaites hotels: "invisible loyalty" -- staff sees badge, guest gets perks without formal enrollment
+- Industry shift: away from points/tiers toward recognition and personalization
+- 5% increase in retention = up to 75% profit increase (Cornell study)
+
+**GUDBRO approach:**
+
+- Match guests by email or phone across bookings
+- First return: "Welcome back!" badge on booking (visible to owner)
+- Guest PWA shows "Welcome back, Sarah! Visit #3" on homepage
+- Owner configurable: auto-apply returning guest discount (e.g., 5% off)
+- Arrivals list shows returning guest icon
+- Track: visit count, total spent, last visit date
+
+**Key UX decisions:**
+
+- No enrollment, no points, no tiers. Pure recognition.
+- Owner controls perks (optional discount, room upgrade priority)
+- Guest matching must handle email changes (phone as fallback)
+- Show on arrivals report so staff knows before guest arrives
+
+**Complexity: LOW-MEDIUM** -- Guest matching logic, badge display, optional discount mechanism.
+
+---
+
+### Feature 7: Owner Onboarding Wizard
+
+**How it works in hospitality:**
+
+- eviivo: guided step-by-step, no IT required, fast go-live
+- Cloudbeds: claims 88% training time reduction
+- Hotelogix: quick onboarding, properties live fast
+- Industry standard: progress bar with checklist sections
+
+**GUDBRO approach:**
+
+- New property setup → wizard activates
+- Steps: (1) Property info + photos, (2) Rooms + floor/level, (3) Pricing + availability, (4) Services + menu, (5) Payment setup, (6) QR codes + WiFi, (7) Test guest view
+- Progress bar showing X/7 complete
+- Each step validates before allowing next
+- "Skip for now" option on optional steps
+- Dashboard shows overall setup completion %
+- Reminder notifications for incomplete setup
+
+**Key UX decisions:**
+
+- Must work on mobile (owners in SEA often don't have desktop)
+- Preview of guest view at each step ("This is what your guest will see")
+- Photo upload with compression (SEA bandwidth can be limited)
+- Pre-filled templates for common service items (breakfast, laundry, minibar)
+
+**Complexity: MEDIUM** -- Multi-step wizard UI, validation, progress tracking. Mostly orchestration of existing features.
+
+---
+
+### Feature 8: Voucher System
+
+**How it works in hospitality:**
+
+- DigitalGuest: vouchers tied to guest stay, redeemable via slide-to-redeem in PWA, tracked per guest
+- Brandnamic: voucher app with templates, QR redemption, automated reminders
+- STAAH: QR-scanned vouchers for packages and offers
+- Common types: breakfast voucher (per night), welcome drink, partner discount, late checkout
+
+**GUDBRO approach:**
+
+- Owner creates voucher templates: name, type, quantity per stay, valid dates
+- Types: (a) Included services (breakfast Day 1, Day 2...), (b) Welcome perks (free drink), (c) Partner deals (10% off tour)
+- At check-in, vouchers auto-assigned to booking
+- Guest sees vouchers in PWA with status (available/redeemed/expired)
+- Redemption: guest shows PWA screen to staff, staff marks as redeemed (or guest self-redeems for digital services)
+- Date-specific vouchers: "Breakfast - Jan 15" can only be used on Jan 15
+
+**Key UX decisions:**
+
+- Visual voucher cards with clear status
+- Date-locked vouchers prevent "saving up" breakfasts
+- Easy owner creation: "Add breakfast voucher for every night of stay" (auto-generate)
+- Partner vouchers link to local deals system (existing)
+
+**Complexity: MEDIUM-HIGH** -- New data model (voucher templates, voucher instances, redemptions), date logic, auto-generation.
+
+---
+
+### Feature 9: Guest PWA Homepage Redesign
+
+**How it works in hospitality:**
+
+- Duve: card-based grid with branded colors, icon per service category
+- STAY App: tiled layout with property branding, quick-access buttons
+- DigitalGuest: modular cards, configurable order, property-branded
+- All competitors: visual, tappable, icon-heavy, minimal text
+
+**GUDBRO approach:**
+
+- Replace current text-list layout with card grid
+- Cards: WiFi, Services, Requests, Vouchers, Local Deals, Minibar, Contact, Check-out Info
+- Owner configurable: card order, visibility (show/hide per card)
+- Property branding: colors from property settings
+- Quick-info bar at top: guest name, room, checkout date
+- Responsive: 2-column grid on phone, 3-4 on tablet
+
+**Key UX decisions:**
+
+- WiFi card ALWAYS first (most common first action)
+- Cards show preview info (e.g., "2 active vouchers", "3 local deals")
+- Animation: subtle, not distracting
+- Must load fast on 3G (SEA rural areas)
+- Icon library: Phosphor Icons (duotone weight) per GUDBRO standards
+
+**Complexity: MEDIUM** -- Frontend redesign, configurable card system, responsive grid.
+
+---
+
+### Feature 10: Delivery App Integration
+
+**How it works in hospitality:**
+
+- No hospitality platform currently does this (verified by research). This is a true GUDBRO innovation.
+- Grab dominates SEA food delivery (50%+ market share, $22.7B regional GMV)
+- ShopeeFood is #2 (14% share), strong in Vietnam and Indonesia
+- Guests struggle with: typing foreign addresses, navigating unfamiliar apps, finding their accommodation
+
+**GUDBRO approach:**
+
+- Card on guest homepage: "Order food delivery to your room"
+- Shows available delivery apps for the property's country
+- Deep-link to GrabFood/ShopeeFood with pre-filled property address
+- Fallback: copy address to clipboard + open web version
+- Country-specific: Grab (all SEA), ShopeeFood (VN, ID, MY, TH), Foodpanda (where available)
+
+**Key UX decisions:**
+
+- Deep-link format: `grab://food?lat=X&lng=Y` with web fallback
+- Pre-fill delivery address in the guest's language AND local language
+- Show property name + room number as delivery note suggestion
+- No API integration needed -- just URLs. Keep it simple.
+- Owner configures: which apps to show, property address for delivery
+
+**Complexity: LOW** -- Just deep-links and address copy. The value is in the idea, not the implementation.
+
+---
+
+### Feature 11: "Included in Rate" Flag
+
+**How it works in hospitality:**
+
+- Standard in every hotel: "Breakfast included", "Airport transfer included"
+- Duve/STAY: show included items clearly separated from purchasable items
+- Booking.com: "Free breakfast" badge on listing
+- Key distinction: included items are per-booking or per-room-type, not universal
+
+**GUDBRO approach:**
+
+- Boolean flag on service items: `included_in_rate`
+- Display in guest PWA: "Included" badge, no price shown, cannot add to cart
+- Configuration: per-room-type or per-booking (e.g., deluxe rooms include breakfast, standard don't)
+- Owner sets in service catalog: "Breakfast - Included for Deluxe Room"
+- Interacts with voucher system: included items could generate date-specific vouchers
+
+**Key UX decisions:**
+
+- Green "Included" badge, clearly distinct from purchasable items
+- Show included items FIRST in service catalog (guest sees value immediately)
+- If per-room-type: auto-detect from guest's booking which items are included
+- Don't hide purchasable items -- show them below included items
+
+**Complexity: LOW** -- Flag on service items, conditional display logic. Slightly more complex if per-room-type.
+
+---
+
+### Feature 12: Room Floor/Level Field
+
+**How it works in hospitality:**
+
+- Every PMS has floor/level as a room attribute
+- Used for: housekeeping routing, guest preference (high floor), accessibility (ground floor)
+- Displayed in: room assignment, guest confirmation, timeline calendar
+
+**GUDBRO approach:**
+
+- Add `floor` field to room schema (integer or string for "Ground", "1", "2", "Rooftop")
+- Display in: guest PWA (room info card), owner booking detail, timeline calendar (group by floor)
+- Optional: owner can label floors ("Ground Floor", "Pool Level", "Rooftop Suite")
+
+**Key UX decisions:**
+
+- String field, not integer (to support "Ground", "Mezzanine", "Rooftop")
+- Optional field (some properties are single-floor)
+- Timeline calendar can optionally group rooms by floor
+
+**Complexity: LOW** -- Single field addition to schema + display.
+
+---
+
+### Feature 14: Order Performance Tracking
+
+**How it works in hospitality:**
+
+- Large hotel ops: ALICE, Flexkeeping track task completion time, SLA breaches
+- Industry KPIs: room turnaround time, check-in efficiency, request resolution time
+- No small-property tool tracks service delivery time
+
+**GUDBRO approach:**
+
+- Timestamps already exist on order state transitions (order_created, order_accepted, order_delivered)
+- Calculate: order-to-acceptance time, acceptance-to-delivery time, total fulfillment time
+- Dashboard widget: "Average delivery time: 12 min" (today/week/month)
+- Per-service breakdown: "Breakfast avg 18 min, Laundry avg 2 hours"
+- Alert threshold: configurable "notify if order not accepted in X minutes"
+
+**Key UX decisions:**
+
+- Show only to owner (not guest-facing)
+- Simple metrics: average time, slowest order, orders exceeding threshold
+- Weekly digest: "This week: 23 orders, avg 15 min, 2 exceeded 30 min threshold"
+- Don't over-engineer: start with averages, add percentiles later
+
+**Complexity: LOW-MEDIUM** -- Mostly analytics queries on existing timestamp data. Dashboard widget.
 
 ---
 
 ## MVP Recommendation
 
-For this milestone, prioritize in this order:
+### Phase 1: Foundation (do first)
 
-### Must Have (Core of "Frictionless Access")
+These unlock or enhance everything else:
 
-1. **Permanent Room QR with dynamic destination** -- The foundation. Physical QR in room resolves to current guest's booking. This is the technical enabler for everything else.
-2. **Instant dashboard on QR scan (no login for view tier)** -- WiFi, stay info, house rules, deals visible immediately. This IS the value proposition.
-3. **Progressive auth for paid actions** -- Simple inline verification (last name) when guest tries to order services. Not before.
-4. **QR activation/deactivation tied to booking lifecycle** -- Security basics. QR works during stay, stops after checkout.
-5. **Security presets (B&B / Guesthouse / Hotel)** -- Three presets with sensible defaults. Owner picks one during setup.
+1. **#9 Homepage redesign** -- All new features need a home in the card grid
+2. **#12 Room floor/level** -- Simple, enriches timeline calendar
+3. **#13 Order detail view** -- Prerequisite for receipts and performance tracking
+4. **#11 Included in rate flag** -- Simple, high guest satisfaction impact
 
-### Should Have (High Value, Reasonable Effort)
+### Phase 2: Guest Experience
 
-6. **Multi-zone WiFi** -- Schema change + UI. Low-medium complexity, high practical value for real properties.
-7. **Guest document photo upload** -- Simple upload to Supabase Storage. Manual entry fallback. Expiry tracking from existing visa tracker.
-8. **Grace period after checkout** -- Configurable hours. Small feature, prevents frustration.
-9. **QR scan analytics** -- Log scans, show in backoffice. Low effort, informs owner engagement.
+High-value guest-facing features:
 
-### Defer to Post-Milestone
+5. **#1 Minibar self-service** -- True differentiator, medium effort
+6. **#3 Requests channel** -- Structured alternative to WhatsApp chaos
+7. **#15 Guest receipts** -- Trust and transparency
+8. **#10 Delivery app links** -- Low effort, high SEA value
 
-- **OCR document extraction** -- High complexity, needs third-party service evaluation. Manual entry works for now.
-- **Per-feature auth configuration** -- Presets are enough for v1. Custom per-feature toggles add UI complexity.
-- **Multi-QR per room** -- Nice to have but not essential. Single room QR is sufficient initially.
-- **NA17 export** -- Vietnam-specific. Important but can be a focused follow-up.
-- **Liveness/biometric verification** -- Not for this market segment. Ever, possibly.
+### Phase 3: Owner Operations
+
+Owner-facing improvements:
+
+9. **#2 Timeline calendar** -- Highest complexity, but highest impact for owners
+10. **#7 Onboarding wizard** -- Improves activation for new properties
+11. **#14 Performance tracking** -- Analytics on existing data
+
+### Phase 4: Lifecycle & Retention
+
+Features that drive repeat business:
+
+12. **#4 Post-stay feedback** -- Drives improvement and reviews
+13. **#6 Returning guest badge** -- Recognition without complexity
+14. **#5 Early/late check-in/out** -- Revenue opportunity
+15. **#8 Voucher system** -- Most complex, but ties everything together
+
+### Defer to post-milestone:
+
+- AI-powered anything (review responses, concierge)
+- Channel manager integration
+- Dynamic pricing
+- Full housekeeping management
 
 ---
 
-## Competitive Landscape Summary
+## Complexity Summary
 
-| Competitor              | QR Access | No Login                | Progressive Auth         | Doc Upload       | Multi-Zone WiFi | Security Config        |
-| ----------------------- | --------- | ----------------------- | ------------------------ | ---------------- | --------------- | ---------------------- |
-| **Duve**                | Yes       | Yes (web-based)         | Implicit (PMS-linked)    | Via integrations | Not visible     | No (one-size-fits-all) |
-| **STAY App**            | Yes       | Yes (web-based)         | Unknown                  | Via integrations | Not visible     | No                     |
-| **Canary Technologies** | Yes       | Partial (check-in form) | No                       | Yes (built-in)   | No              | No                     |
-| **HelloShift**          | Yes       | Partial                 | No                       | Yes (AI-powered) | No              | No                     |
-| **mycloud**             | Yes       | Yes                     | No                       | Limited          | No              | No                     |
-| **GUDBRO (proposed)**   | Yes       | Yes                     | **Yes (explicit tiers)** | Yes (simple)     | **Yes**         | **Yes (presets)**      |
+| Complexity      | Features                                                                        | Count |
+| --------------- | ------------------------------------------------------------------------------- | ----- |
+| **Low**         | #10 Delivery links, #11 Included flag, #12 Floor/level                          | 3     |
+| **Low-Medium**  | #6 Returning guest, #13 Order detail, #14 Performance, #15 Receipts             | 4     |
+| **Medium**      | #1 Minibar, #3 Requests, #4 Feedback, #5 Early/late, #7 Onboarding, #9 Homepage | 6     |
+| **Medium-High** | #8 Vouchers                                                                     | 1     |
+| **High**        | #2 Timeline calendar                                                            | 1     |
 
-GUDBRO's differentiators in this space:
-
-1. **Explicit progressive authentication** -- No competitor frames this as a deliberate design choice
-2. **Configurable security by property type** -- Everyone else is one-size-fits-all
-3. **Multi-zone WiFi** -- Surprisingly absent from guest app competitors
-4. **No enterprise overhead** -- Competitors charge $3-15/room/month. GUDBRO targets simplicity for small operators.
+**Total estimate:** 15 features, weighted toward medium complexity. The timeline calendar (#2) is the riskiest and should be carefully scoped.
 
 ---
 
 ## Sources
 
-### HIGH Confidence (Official docs, multiple sources)
-
-- [Hotel Tech Report - Hotel Guest Apps 2026](https://hoteltechreport.com/guest-experience/hotel-guest-apps) -- Market landscape, Duve #1 ranking
-- [Hotel Tech Report - Contactless Check-in 2026](https://hoteltechreport.com/guest-experience/contactless-checkin) -- Canary Technologies #1, market size $4.8B
-- [Duve Guest App FAQ](https://helpcenter.duve.com/hc/en-us/articles/12448420827677-Guest-App-FAQ) -- How Duve authentication works
-- [RoomRaccoon Digital ID Scanner](https://roomraccoon.com/platform/digital-id-scanner/) -- Document scanning patterns
-- [HelloShift Contactless Check-in](https://www.helloshift.com/contactless-checkin) -- AI-powered ID verification
-- [Klippa Mobile Hotel Check-in](https://www.klippa.com/en/blog/information/mobile-hotel-check-in/) -- OCR for passport scanning
-
-### MEDIUM Confidence (Single authoritative source)
-
-- [SiteMinder Hotel Keyless Entry](https://www.siteminder.com/r/hotel-keyless-entry/) -- Digital key patterns
-- [Uniqode QR Codes for Hotels](https://www.uniqode.com/blog/trending-use-cases/qr-codes-for-hotels) -- Dynamic QR lifecycle
-- [StayFi Hotel WiFi Solutions 2025](https://stayfi.com/vrm-insider/2025/11/10/best-hotel-wifi-solutions/) -- WiFi multi-zone patterns
-- [Regula Identity Verification for Travel](https://regulaforensics.com/blog/identity-verification-travel-hospitality/) -- KYC patterns in hospitality
-- [Blockpass KYC for Hospitality](https://www.blockpass.org/kyc-for-hospitality/) -- Hospitality KYC requirements
-
-### LOW Confidence (Pattern inference, single blog)
-
-- Progressive authentication pattern applied to hospitality -- No direct hospitality source found. Pattern extrapolated from e-commerce (Amazon, Shopify) and mobile banking UX patterns. The concept is sound but novel in this domain.
-- Configurable security levels per property type -- No competitor offers this explicitly. Recommendation based on access control research (360Connect) showing different property types need different approaches (DAC for small, MAC for large).
-- Multi-QR per room with context parameter -- No industry source. Original feature idea based on QR placement logic.
+- [INTELITY - PWA vs Mobile Apps in Hotels 2026](https://intelity.com/blog/pwa-vs-mobile-apps-hotel-industry-what-hotels-need-to-know-2026/)
+- [HotelTechReport - Best Hotel Guest Apps 2026](https://hoteltechreport.com/guest-experience/hotel-guest-apps)
+- [HotelTechReport - Best PMS 2026](https://hoteltechreport.com/operations/property-management-systems)
+- [Canary Technologies - Hospitality Trends 2026](https://www.canarytechnologies.com/post/hospitality-technology-trends-for-2026)
+- [LobbyPMS - Booking Calendar](https://lobbypms.com/en/learn-about-hotel-software/booking-calendar-and-its-importance-within-a-pms/)
+- [RoomRaccoon PMS](https://roomraccoon.com/platform/pms)
+- [STAY App](https://www.stay-app.com/)
+- [Botshot ComplaintTrackr](https://botshot.ai/products/complainttrackr)
+- [Flexkeeping Guest Feedback](https://flexkeeping.com/products/hotel-guest-feedback-software/)
+- [DigitalGuest Voucher Cases](https://digitalguest.com/voucher-cases/)
+- [DigitalGuest Room Service](https://digitalguest.com/room-service/)
+- [Brandnamic Voucher App](https://www.brandnamic.com/en/voucher-app)
+- [Duve Platform](https://duve.com/)
+- [Duve $60M Raise](https://hoteltechnologynews.com/2025/12/duve-raises-60-million-to-scale-its-unified-ai-driven-hotel-guest-experience-platform-globally/)
+- [Amadeus - Hotel Guest Loyalty 2025](https://www.amadeus-hospitality.com/guest-loyalty/)
+- [Revinate - Loyalty Programs](https://www.revinate.com/blog/next-level-hotel-loyalty-programs-what-we-learned-at-navigate-2024/)
+- [HotelTechReport - Guest Survey Software](https://hoteltechreport.com/operations/guest-feedback)
+- [HotelTechReport - PMS Impact Study 2026](https://www.hospitalitynet.org/opinion/4130137.html)
+- [Grab SEA Market Data](https://www.dealstreetasia.com/stories/southeast-asia-food-delivery-470756)
+- [Little Hotelier](https://www.littlehotelier.com/best-hotel-check-in-software/)
+- [Roommaster Guest Engagement](https://www.roommaster.com/guest-engagement-software)
+- [Priority Software - Hotel Metrics 2026](https://www.priority-software.com/resources/hotel-performance-metrics/)

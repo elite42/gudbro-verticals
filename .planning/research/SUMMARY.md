@@ -1,222 +1,312 @@
 # Project Research Summary
 
-**Project:** v1.5 Accommodations — Frictionless Guest Access
-**Domain:** Hotel/accommodation guest experience, QR-based room access, progressive authentication
-**Researched:** 2026-01-31
-**Confidence:** HIGH
+**Project:** Accommodations v1.5 Extended Milestone
+**Domain:** Hospitality guest experience + property management (small SEA properties, 1-25 rooms)
+**Researched:** 2026-02-01
+**Overall Confidence:** HIGH
 
 ## Executive Summary
 
-This milestone transforms the accommodations PWA from a booking-code-gated dashboard into a frictionless QR-based room access system with progressive authentication. The core insight: physical presence in the room (having the key, seeing the QR) is already authentication for browsing. Financial actions require identity verification, but WiFi and property info should be instant.
+This is an **extension milestone** for an existing, working accommodations vertical. Phases 25-27 are complete (room codes, progressive auth, security config). Phases 28-29 are pending (document upload, multi-zone WiFi). This research covers 38 new features and 13 bug fixes from a comprehensive manual test session.
 
-The recommended approach is additive, not replacement. Existing booking-code URLs continue working unchanged. Room-based QR codes add a new entry point with two authentication tiers: browse (instant, for WiFi and catalog) and verified (identity-checked, for orders). This requires zero new dependencies for core features — the existing jose JWT system, Supabase RLS, and Next.js middleware handle everything. Only document upload requires new packages (browser-image-compression and heic2any).
+The research confirms a critical strategic finding: **no new npm packages are needed**. Every feature can be built with the existing stack (Next.js 14, Supabase, Stripe, Radix UI, Phosphor Icons) plus native browser APIs. This is not a greenfield project requiring technology selection—it's an incremental expansion of a mature codebase (~30k LOC, 15 migrations) with established patterns. The primary challenge is **integration complexity**, not technological uncertainty. Adding 38 features to a working system with active guest sessions requires surgical precision, not broad strokes.
 
-Key risk: stale QR reuse. When Guest A checks out and Guest B checks in, the permanent room QR must resolve correctly to the current booking — never exposing previous guest data or allowing previous guest actions. Mitigation: JWT invalidation on check-in, date-based booking resolution in SECURITY DEFINER functions, and explicit vacancy state handling. This must be architected correctly before any implementation.
+The dominant risk is **mid-stay breakage**: deploying UI redesigns or state structure changes while guests are actively using the in-stay dashboard. The PWA has 15+ state variables managing tabs, cart, orders, and catalog overlays. A careless deployment can break the cart for active guests, which destroys the core revenue feature (service ordering). Prevention: additive redesign phases with preserved state contracts, deployment during low-traffic windows (Tuesday/Wednesday, not Friday/weekend), and explicit mid-deploy testing (load old version, deploy new version, reload tab—everything must still work).
 
 ## Key Findings
 
 ### Recommended Stack
 
-**Zero new dependencies for 5 of 6 core features.** The frictionless QR routing, progressive authentication, multi-zone WiFi, QR lifecycle management, and owner-configurable security levels require only architectural changes to existing systems. The only genuinely new packages are for document upload.
+**Zero new packages required.** All 38 features leverage existing dependencies verified in `apps/accommodations/frontend/package.json` and `apps/backoffice/package.json`. The only conditional addition is `@radix-ui/react-progress` for the accommodations frontend IF the onboarding wizard needs guest-facing progress UI—but the wizard is backoffice-only, so even this is unnecessary.
 
-**Core technologies (all already in package.json):**
+**Core technologies (already installed):**
 
-- jose ^6.0.8: JWT signing/verification — extends to support two-tier tokens (browse vs. verified) via custom claims
-- @supabase/supabase-js ^2.39.0: Database queries, Storage for documents, RLS enforcement — no version upgrade needed
-- Next.js 14.2.33: Middleware for QR routing interception, API routes for room-based access — native route interception
-- date-fns ^3.3.1: Token expiry calculations, checkout date validation — existing patterns continue
+- **Next.js 14.2.33** — All features (routing, API routes, middleware). Pattern established across 22 stay components and 10+ API routes.
+- **Supabase** — Database (15 migrations, accom\_ prefix convention), Storage (guest-documents bucket exists, property-images bucket needed), Realtime (for minibar notifications via `.channel().on('postgres_changes')`).
+- **date-fns + react-day-picker** — Gantt timeline date math and navigation. Custom CSS Grid layout with booking bars spanning columns, NOT a heavy Gantt library.
+- **Phosphor Icons** — Star ratings (Star icon with fill/regular weights), all new UI. Preferred over Lucide per GUDBRO standards.
+- **jose** — JWT auth for returning guest detection and voucher validation (already used for room session tokens).
+- **Stripe** — Payment flows for early check-in/late checkout upsells.
+- **qrcode** — WiFi QR generation (package installed, `generateWiFiString()` utility exists in backoffice, needs extraction to shared).
+- **browser-image-compression + heic2any** — Image upload with HEIC conversion (iPhone photos). Pattern proven in document upload (Phase 28).
+- **@radix-ui/react-dialog** — Modals for feedback forms, early check-in requests.
+- **recharts (backoffice)** — Feedback analytics, occupancy charts, performance tracking.
+- **web-push (backoffice)** — Minibar consumption notifications to owner.
 
-**New packages (document upload only):**
+**External APIs (HTTP, no npm packages):**
 
-- browser-image-compression ^2.0.2: Client-side image compression before Supabase Storage upload (passport photos are 3-8MB, must compress to ~1MB)
-- heic2any ^0.0.4: Convert iPhone HEIC photos to JPEG in browser (iPhones shoot HEIC by default)
-
-**What NOT to add:** next-auth (overkill for guest JWT), tesseract.js (OCR unreliable, adds 10MB), uppy/dropzone (single-file upload needs simple input), @radix-ui/react-accordion (native details/summary works for WiFi zones).
-
-**Source confidence:** HIGH — all current packages verified in codebase, new package versions verified on npm.
+- **frankfurter.app** (free, no auth) — Currency conversion via ECB rates. Display-time conversion only, base prices stored in property currency. 1-hour cache TTL.
 
 ### Expected Features
 
-**Must have (table stakes — every competitor does this):**
+**Must have (table stakes):**
 
-- Instant dashboard on QR scan with no login barrier — WiFi must be visible immediately, or guests abandon
-- Progressive authentication for paid actions — browse free, verify for orders (e-commerce UX pattern applied to hospitality)
-- QR activation/deactivation tied to booking lifecycle — security requirement to prevent previous guest access
-- Unique URL per active booking — the URL IS the credential (Duve, STAY App, mycloud all use this)
-- Document upload for passport/visa with secure storage — legal requirement in Vietnam (NA17 registration)
+- **Homepage redesign (card-based PWA)** — Current text-wall layout feels dated. Every competitor (Duve, STAY, DigitalGuest) uses visual card grids. Guests expect tappable navigation, not scrolling text. This is the "front door" for all other features.
+- **Order detail view** — Owners manage orders but cannot see line-item breakdown. Standard in any order system. Without it, disputes are unresolvable. Guest receipts depend on this.
+- **Service items "included in rate" flag** — Properties with included breakfast or transfers need to distinguish complimentary from purchasable. Without this, guests are confused about what they already paid for.
+- **Room floor/level field** — Basic property data. Every PMS has this. Guests expect to know their floor (accessibility), owners need it for housekeeping routing.
+- **Guest receipt confirmation** — 68% of travelers prefer mobile confirmations (Skift/Oracle). Digital record of what they ordered/consumed. Trust requirement.
+- **Owner onboarding wizard** — 92% of hotels reduce onboarding time with guided setup (HotelTechReport). Non-technical SEA owners will abandon GUDBRO if setup feels overwhelming.
 
-**Should have (competitive differentiators):**
+**Should have (differentiators):**
 
-- Owner-configurable security levels per property type — B&B (trust-based) vs. Hotel (verification-required) have different needs, no competitor offers this
-- Multi-zone WiFi credential display — hotels have lobby/pool/room WiFi, currently GUDBRO shows one network
-- Visa expiry tracking with alerts — extends existing visa tracker (PRD section 13), 14/7/3 day alert schedule
-- QR scan analytics — owner sees engagement rate, peak scan times, which rooms scan most (no competitor provides this for small properties)
-- Grace period after checkout — guest may need WiFi in lobby or receipt after checkout (configurable 2-4 hours)
+- **Minibar self-service** — No competitor in small-property space offers digital minibar tracking. Large hotel solutions (INTELITY, Bowo) cost 10-50x more. Guest marks consumed items via PWA, owner gets real-time notification. True differentiator for hostels/guesthouses.
+- **Timeline/Gantt calendar** — #1 most-requested feature in small property PMS tools. All competitors have it (Cloudbeds, RoomRaccoon, Little Hotelier). Visual timeline with color-coded bookings. The "wow" feature for owner onboarding.
+- **In-stay guest requests/complaints channel** — Flexkeeping, Xenia offer this for large hotels ($100k+). For small properties, nobody does it well. Structured alternative to WhatsApp chaos. Categories: maintenance, housekeeping, question, complaint.
+- **Post-stay feedback with category ratings** — Built-in feedback (GuestRevu, Customer Alliance charge $100-500/month). Auto-triggered at checkout, star ratings per category (cleanliness, location, value, communication), happy guests redirected to Google/TripAdvisor.
+- **Returning guest detection** — Revinate's badge system costs $10k+/year. For small properties, recognizing returning guests is deeply personal. "Welcome back!" badge, no points/tiers.
+- **Voucher system** — DigitalGuest shows 3,856 redeems at single hotel. Breakfast vouchers (per date), welcome drink vouchers, partner discounts—all QR-redeemable.
+- **Early check-in / late checkout request flow** — Revenue opportunity small properties leave on the table. Guest requests via PWA, owner approves based on availability, auto-charges fee.
+- **Delivery app integration (Grab, ShopeeFood)** — No hospitality platform does this. In SEA, Grab has 50%+ food delivery market. Deep-link to delivery app with pre-filled property address. Zero API integration—just URLs. Unique GUDBRO differentiator for SEA market.
+- **Order performance tracking** — No small-property tool tracks this. Order-to-delivery time metrics. Helps identify slow services, peak times, staff performance.
 
-**Defer to post-milestone:**
+**Defer (v2+):**
 
-- OCR document extraction — high complexity, needs third-party service evaluation, manual entry works for v1
-- Per-feature auth configuration — security presets are enough for v1, custom toggles add UI complexity
-- Multi-QR per room with context parameters — nice to have but single room QR sufficient initially
-- NA17 export for Vietnam compliance — important but can be a focused follow-up
-- Liveness/biometric verification — not for small SEA properties market segment, ever
-
-**Source confidence:** MEDIUM-HIGH — patterns well-established in hospitality tech (Duve #1 Hotel Guest App 2026, Canary #1 Contactless Check-in), progressive auth is novel combination of web UX patterns.
+- Full loyalty program with points/tiers (guests prefer recognition over points—Amadeus 2025)
+- Built-in chat/messaging (WhatsApp is ubiquitous in SEA, don't compete)
+- Complex voucher marketplace (gifting, multi-currency—small properties don't need this)
+- AI-powered review response generation (small owners' authentic responses are their competitive advantage)
+- Channel manager / OTA sync (separate product category—Cloudbeds, Smoobu own this)
+- Housekeeping management system (Flexkeeping, ALICE domain—overkill for 1-10 room properties)
+- Dynamic pricing engine (Beyond Pricing, PriceLabs are mature—let owners link externally)
+- Minibar IoT/sensor integration (luxury hotel feature, unreliable in SEA, expensive hardware)
 
 ### Architecture Approach
 
-The architecture is additive layering, not replacement. Two entry points coexist: `/stay/{booking-code}` (existing, unchanged) and `/stay/room/{room-code}` (new). Both render the same dashboard components. The difference is authentication method, not UI. Room-based access introduces permanent room codes (short, human-readable like "BVA-203") that resolve to the current active booking via a SECURITY DEFINER function. JWT payload extends with `accessTier: 'browse' | 'full'` and optional `roomId`. API routes distinguish between tiers: read endpoints accept browse-tier, write endpoints enforce full-tier. Token upgrade flow is seamless: guest taps "Order," sees inline verification prompt (last name), upgrades to full-tier without page reload.
+This is **incremental expansion of a mature system**, not greenfield architecture. The accommodations vertical has 15 migrations (077-091), 22 PWA components, 11 backoffice pages, 11 API route groups, established patterns for two-tier auth (browse/full via JWT), SECURITY DEFINER functions for RLS, service role mediation for guest uploads, and JSONB for flexible configuration (dashboard_layout, onboarding_progress).
 
-**Major components:**
+**Major components (mostly reuse, minimal new):**
 
-1. **Room code resolution (SECURITY DEFINER)** — `resolve_room_access(room_code)` returns room info, property info, WiFi, and current booking if active (LEFT JOIN bookings on date range + status). Handles vacancy state explicitly.
-2. **Two-tier JWT system (lib/auth.ts extension)** — `signRoomBrowseToken()` issues 24h browse token with propertyId + roomId + optional bookingId. `signGuestToken()` extended with accessTier field. Single token with scopes, not two separate tokens.
-3. **Inline verification component** — Bottom sheet/modal triggered on paid actions. Accepts last name (or PIN, owner-configurable). Upgrades session silently on success, original action proceeds.
-4. **Document upload with GDPR compliance** — Supabase Storage private bucket + accom_guest_documents table with RLS. Upload via SECURITY DEFINER function. Auto-delete cron (checkout + 30 days retention). Signed URLs (5-min expiry) for owner access.
-5. **Multi-zone WiFi resolution** — Property has wifi_zones JSONB array, rooms can override with wifi_ssid/password. Resolution: room override → zone primary → property fallback. WifiCard displays primary prominently, other zones in accordion.
+1. **Gantt Calendar (backoffice)** — CSS Grid rooms-vs-dates layout. NOT a library. Reuses `/api/accommodations/calendar` endpoint and `CalendarDetailPanel` component. Colored cells (available/booked/blocked), click to open booking detail. 200 lines of custom code, zero bundle increase.
 
-**Source confidence:** HIGH — all findings based on direct codebase analysis (existing auth.ts, stay API routes, AccomQRGenerator, database schema in migrations 077-087).
+2. **Minibar System** — NOT a separate system. Reuses existing service ordering pipeline (accom_service_categories, accom_service_items, cart, orders). Add `automation_level: 'self_service'` flag. UI tweaks: "mark consumed" pattern instead of "add to cart," skip confirmation-wait state for self-service items. Owner confirmation step via existing order state machine (pending → confirmed).
+
+3. **Guest Feedback** — New table (`accom_guest_feedback`) + forked AI pipeline from feedback-intelligence-service.ts. Different tag taxonomy (ACCOM_FEEDBACK_TAGS: cleanliness, check-in, wifi-quality, bed-comfort vs. F&B tags). Same OpenAI processing pattern (translate + classify + tag + sentiment). PWA: FeedbackForm component. Backoffice: TanStack Table page with aggregate scores.
+
+4. **Convention/Voucher Adaptation** — Reuses existing convention system (migration 050, partner_conventions, convention_vouchers tables). Add `benefit_scope` column ('per_order' | 'per_night' | 'per_stay' | 'flat'). Booking flow integration: voucher code field, validate via existing `validate_voucher()` RPC, calculate discount based on scope + stay duration, record redemption.
+
+5. **Property Image Upload** — New public bucket (property-images) vs. existing private bucket (guest-documents). New table (accom_property_images). Forks image-utils.ts with different settings (2MB max, 2560px width for higher quality property photos vs. 0.5MB, 2048px for guest docs). Backoffice component: PropertyImageManager with drag-and-drop.
+
+6. **Homepage Redesign** — DashboardGrid wrapper component with configurable visibility (`accom_properties.dashboard_layout` JSONB). Wraps existing components (WifiCard, ServicesCarousel, ActiveOrders, CheckoutInfo). Fixed default order (WiFi first, checkout near bottom), optional owner show/hide toggles. No drag-and-drop for v1. Backward compatible: empty dashboard_layout = show all sections in current default order.
+
+7. **WiFi QR Code** — Extract `generateWiFiString()` from backoffice QR Builder to shared util. PWA: Add `<QRCode>` component to existing WifiCard (qrcode.react ~3KB). Backoffice: "Download WiFi QR" button opens full QR Builder modal with material presets (tent card, sticker).
+
+8. **Onboarding Wizard** — Wraps existing CRUD components (rooms, services, settings). Multi-step UI with progress tracking (`onboarding_progress` JSONB on accom_properties). Steps: Basic Info → Photos → Rooms → WiFi → Services → Contact → Completion. Each step links to or embeds existing management components—NOT duplicate CRUD. Detect existing config and skip wizard for already-configured properties.
+
+**Key patterns to preserve:**
+
+- Two-tier JWT auth (browse/full) via jose
+- SECURITY DEFINER functions for RLS
+- Service role mediation for guest uploads
+- accom\_ table prefix
+- JSONB for flexible config (not new tables for every setting)
+- State contracts in InStayDashboard (activeTab, showCatalog, showCart—must survive redesign)
 
 ### Critical Pitfalls
 
-**Top 5 to avoid (from research):**
+1. **UI overhaul breaks active guest sessions** — Deploying PWA homepage/bottom nav redesign while guests are mid-stay destroys cart state, tab navigation, order polling. The InStayDashboard has 15+ state variables managing complex interactions. Prevention: additive redesign (new components alongside old behind feature flag → switch → remove old), preserve state contracts (BottomNav must accept same props), persist cart to sessionStorage (survives component tree restructure), deploy on low-traffic days (Tuesday/Wednesday, not Friday/weekend), test mid-deploy (load old, deploy new, reload tab—everything must work).
 
-1. **Stale QR reuse — previous guest orders service after checkout** — Physical QR is permanent. When Guest A checks out and Guest B checks in, the room QR must resolve to Guest B's booking, never Guest A's. Prevention: `resolve_room_access()` checks `check_in_date <= CURRENT_DATE AND check_out_date + 24h >= NOW()`, invalidate previous JWT on new check-in, explicit vacancy state when no active booking.
+2. **Gantt calendar over-engineering for 1-25 rooms** — Installing heavy Gantt library (DHTMLX, Bryntum, 50-200KB+) for what should be a simple grid. Median GUDBRO customer has 3 rooms—a canvas-based Gantt chart is the wrong abstraction. Prevention: CSS Grid rooms-vs-dates layout, colored cells (available/booked/blocked), no drag-to-resize, no zoom levels. Existing AvailabilityCalendar pattern extended to show multiple rooms. Mobile-first (must work on 320px phone screen). Benchmark: existing calendar loads <1s, new grid must not regress.
 
-2. **Removing auth creates unprotected API endpoints** — Going from "all protected" to "some public, some protected" requires touching every endpoint. Miss one and service ordering becomes unauthenticated. Prevention: explicit endpoint classification matrix BEFORE coding (GET endpoints can be public, ALL POST/PUT/DELETE require full-tier auth), shared auth middleware helper, integration tests per endpoint.
+3. **Minibar self-service without inventory reconciliation creates revenue leakage** — Honor system fails. Guest takes 3 beers but reports 1. Or doesn't report at all. Owner has no way to verify. Prevention: two-step process (guest self-reports → owner confirms during room check). Minibar orders go through existing service order state machine (pending → confirmed). Checkout summary includes unconfirmed items with disclaimer. Do NOT auto-charge—cash/transfer-based checkout needs owner verification.
 
-3. **Progressive auth gate positioned wrong** — Too early (verify before WiFi) kills adoption. Too late (orders without verification) enables abuse. Prevention: action-level gates not page-level, WiFi + browsing free, orders + documents gated, inline verification not redirect, user-test the flow.
+4. **Guest feedback timing destroys response quality** — Feedback at checkout = stressed guest, rushed response, useless data. Feedback 7 days later = guest forgot details. Optimal: 2-24 hours after checkout (decompressed but still remembers). Prevention: Two feedback channels: (1) during-stay micro-feedback (happy/neutral/sad face widget, catches fixable issues NOW), (2) post-stay review (push notification 4-6 hours after checkout, 3 category ratings + optional text, <60 seconds to complete).
 
-4. **Multi-guest rooms break single-booking QR assumption** — Booking stores primary guest last name. Partner cannot verify with their name. Prevention: PIN-based verification alongside name (4-digit PIN given at check-in, same for all guests in room), or room-number verification option, owner-configurable method.
+5. **Convention/voucher becomes unauditable discount machine** — Owner creates code for 20-person retreat, organizer shares on social media, 200 people use it. No cap, no tracking, no way to disable without affecting legitimate bookings. Prevention: Every voucher code has max total uses, per-guest limit (default 1), expiration date, property ID restriction, usage log. Discount stacking rules explicit (voucher + weekly discount = pick best one, do not stack). Owner dashboard shows usage report (code, uses, remaining, revenue impact). Validate percentage discounts <50% (catch typos).
 
-5. **Backward compatibility — existing booking-code QR codes stop working** — Properties have printed QR codes pointing to `/stay/BK-ABC123`. URLs must continue working. Prevention: never break `/stay/[code]` route, add new `/stay/room/[roomCode]` route alongside, existing JWTs remain valid, pre-arrival emails keep using booking codes, owner transitions to room QR at own pace.
+**Additional moderate pitfalls:**
 
-**Source confidence:** HIGH — verified against OWASP session management patterns, existing GUDBRO codebase constraints, GDPR hospitality requirements (Marriott $52M settlement), industry QR security patterns.
+- Bottom nav overhaul confuses returning guests (muscle memory fails when tabs reorder)
+- Onboarding wizard blocks existing configured owners (needs "skip for existing" detection)
+- Early check-in / late checkout creates double-booking edge cases (needs conflict detection vs. adjacent bookings)
+- Delivery app integration creates second unmanaged order channel (link-out approach, not parallel order system)
+- Performance tracking dashboard built before enough data (charts with 2 data points mislead owners—show counters first, charts after 3 months)
+- Returning guest detection false positives for common SEA names (Nguyen = 40% of Vietnamese population, multi-signal matching needed)
+- Image upload without size/format validation slows PWA (5MB max, auto-resize to 1920px WebP ~200KB, lazy-load)
 
 ## Implications for Roadmap
 
-Based on research, recommended 5-phase structure:
+Based on research, suggested phase structure for 38 features + 13 bug fixes:
 
-### Phase 1: Room Code Foundation + Browse Entry Point
+### Phase 30: Bug Fixes + Image Foundation
 
-**Rationale:** Establishes the permanent room code system and browse-tier access — the foundation everything else builds on. Must come first to validate room-to-booking resolution and vacancy state handling before adding verification complexity.
-**Delivers:** Guests scan QR, see WiFi + property info immediately (browse mode). No ordering yet, but core value (WiFi access) is live.
-**Implements:** `room_code` column + generation function, `resolve_room_access()` SECURITY DEFINER, `/stay/room/[roomCode]` page route, `/api/stay/room/[roomCode]` API route issuing browse JWT, `useRoomSession` hook (browse tier only), AccomQRGenerator update to room codes, redirect from old /checkin URLs.
-**Avoids:** Pitfall 1 (stale QR) via date-based booking resolution, Pitfall 7 (backward compatibility) via redirect from old URLs.
-**Addresses:** Must-have features — instant dashboard on QR scan, unique URL per booking, QR activation/deactivation.
-**Research flag:** Standard patterns, skip research-phase. Well-documented Supabase RPC and Next.js routing.
+**Rationale:** Fix identified bugs before adding features (prevent compounding regressions). Establish property image upload pattern needed by onboarding wizard (Phase 33) and booking page enhancements (Phase 37).
+**Delivers:** 13 bug fixes from manual test, accom_property_images table, property-images storage bucket, PropertyImageManager backoffice component, image compression fork.
+**Addresses:** Existing system stability, foundation for visual features.
+**Avoids:** Pitfall #13 (bug fixes introducing regressions)—ship individually, typecheck after each, test adjacent features.
 
-### Phase 2: Two-Tier Authentication + Inline Verification
+### Phase 31: Owner Dashboard Enhancements
 
-**Rationale:** With browse access working, add the verification layer for paid actions. This completes the full guest flow: scan → browse → order (verify inline) → order proceeds.
-**Delivers:** Full ordering functionality via room QR. Guests can place service orders, request laundry, book tours — the full in-stay dashboard.
-**Implements:** `accessTier` field in JWT payload (backward-compatible), `InlineVerification` component, `/api/stay/room/[roomCode]/verify` route, tier checking in write API routes (orders POST returns 403 for browse-tier), token upgrade flow in useRoomSession, relax read API routes to accept browse-tier.
-**Avoids:** Pitfall 2 (unprotected endpoints) via explicit classification matrix and tier enforcement, Pitfall 9 (token conflicts) via single token with scopes.
-**Addresses:** Must-have features — progressive authentication, paid action gating. Should-have — grace period after checkout (implemented via JWT expiry).
-**Uses:** jose (JWT with custom claims), existing order API routes.
-**Research flag:** Needs light research-phase for inline verification UX patterns (modal vs. bottom sheet, error handling, retry flow).
+**Rationale:** Owner tools that don't touch guest PWA. Can be tested independently. Timeline calendar is highest-value owner feature.
+**Delivers:** Gantt calendar view (CSS Grid, not library), onboarding wizard (wraps existing CRUD), onboarding_progress JSONB, settings improvements.
+**Addresses:** Feature #2 (timeline calendar—#1 most-requested), Feature #7 (onboarding wizard—table stakes).
+**Avoids:** Pitfall #2 (Gantt over-engineering)—build colored room grid, not complex Gantt library. Pitfall #7 (wizard blocks existing owners)—detect existing config, skip wizard.
+**Dependencies:** Phase 30 (photo upload for onboarding).
 
-### Phase 3: Configurable Security Settings
+### Phase 32: Guest Dashboard Redesign
 
-**Rationale:** With both tiers working, give owners control over security posture. Different property types have different trust models (B&B owner knows every guest vs. 100-room hotel).
-**Delivers:** Owner dashboard section for access settings. Three presets (B&B/Guesthouse/Hotel) with sensible defaults. Owner can adjust verification method (last name vs. PIN vs. room number).
-**Implements:** `access_settings` JSONB column on accom_properties, property type defaults, backoffice settings page, resolve_room_access reads and returns settings, InlineVerification adapts to configured method, useRoomSession respects browse_requires_verification flag.
-**Avoids:** Pitfall 5 (owner misconfiguration) via hardcoded safe defaults and outcome-based settings labels, Pitfall 4 (multi-guest rooms) via PIN verification option.
-**Addresses:** Should-have differentiator — owner-configurable security (unique to GUDBRO).
-**Research flag:** Needs research-phase for access control patterns (DAC vs. MAC, preset design, settings UX).
+**Rationale:** Restructure dashboard BEFORE adding new cards (feedback, minibar). Foundation for all guest-facing features.
+**Delivers:** DashboardGrid wrapper, dashboard_layout JSONB, WiFi QR code on WifiCard, card-based layout with show/hide config, homepage visual refresh.
+**Addresses:** Feature #9 (homepage redesign—table stakes, all competitors have card-based UI).
+**Avoids:** Pitfall #1 (breaks active sessions)—additive redesign, preserve state contracts, sessionStorage cart persistence, deploy Tuesday/Wednesday.
+**Dependencies:** None (parallel with Phase 31).
 
-### Phase 4: Document Upload + Visa Tracking
+### Phase 33: Service Expansion + Minibar
 
-**Rationale:** With authentication solid, add the compliance features. This builds on tier-2 (verified) auth — documents can only be uploaded by verified guests.
-**Delivers:** Guest document upload (passport, visa) with photo capture, visa expiry tracking with 14/7/3 day alerts, backoffice document viewer for owners.
-**Implements:** `accom_guest_documents` table + RLS + SECURITY DEFINER upload function, Supabase Storage private bucket with policies, document upload API route + UI component, visa expiry tracking logic (extends existing VisaStatusCard), backoffice document viewer, cron for expiring visa notifications, auto-delete cron (checkout + 30 days).
-**Avoids:** Pitfall 8 (GDPR non-compliance) via private bucket, consent flow, retention policy, auto-delete.
-**Addresses:** Must-have — document upload for passport/visa. Should-have — visa expiry tracking.
-**Uses:** browser-image-compression (new), heic2any (new), Supabase Storage.
-**Research flag:** Needs research-phase for camera capture UX (native input vs. getUserMedia), HEIC conversion testing on target devices, GDPR retention rules for Vietnam/EU.
+**Rationale:** Extends guest experience with new service types. Minibar is true differentiator.
+**Delivers:** Minibar as service category (automation_level: 'self_service'), UI tweaks for minibar pattern (mark consumed, not add to cart), owner confirmation workflow.
+**Addresses:** Feature #1 (minibar self-service—differentiator), Feature #11 (included in rate flag—table stakes).
+**Avoids:** Pitfall #3 (minibar without reconciliation)—two-step process (guest reports → owner confirms).
+**Dependencies:** Phase 32 (minibar card in dashboard grid).
 
-### Phase 5: Multi-Zone WiFi
+### Phase 34: Guest Feedback System
 
-**Rationale:** With core access working, enhance WiFi display for multi-building properties. Low complexity, high practical value, safe to defer.
-**Delivers:** Owner can configure multiple WiFi zones (lobby, pool, rooms), guests see all relevant networks with labels, per-room WiFi overrides for properties with room-specific networks.
-**Implements:** `wifi_zones` JSONB on accom_properties, `wifi_ssid`/`wifi_password` on accom_rooms, WiFi resolution logic (room → zone primary → property fallback), updated WifiCard for multi-zone display (accordion or tabs), backoffice WiFi zone management UI.
-**Avoids:** Pitfall 10 (QR scanning failures) via improved WiFi accessibility.
-**Addresses:** Should-have differentiator — multi-zone WiFi (competitor gap).
-**Research flag:** Standard patterns, skip research-phase. JSONB schema + UI work.
+**Rationale:** Post-stay feedback drives improvement and reviews. During-stay feedback catches fixable issues.
+**Delivers:** accom_guest_feedback table, AI processing pipeline (forked from F&B feedback), FeedbackForm PWA component, FeedbackPrompt banner, backoffice feedback page with TanStack Table, aggregate scores.
+**Addresses:** Feature #4 (post-stay feedback—differentiator).
+**Avoids:** Pitfall #4 (bad feedback timing)—two channels (during-stay micro-feedback + post-stay review 4-6h after checkout).
+**Dependencies:** Phase 32 (feedback card in dashboard grid).
+
+### Phase 35: Guest Requests Channel
+
+**Rationale:** Structured alternative to WhatsApp chaos. Simple, high-value feature.
+**Delivers:** Request form with categories (maintenance, housekeeping, question, complaint), photo upload option, push notification to owner, request queue in backoffice with status tracking (new → in-progress → resolved).
+**Addresses:** Feature #3 (in-stay requests—differentiator).
+**Dependencies:** Phase 32 (request card in dashboard grid).
+
+### Phase 36: Conventions + Vouchers
+
+**Rationale:** Revenue features that depend on stable booking flow.
+**Delivers:** benefit_scope column on partner_conventions, voucher validation in booking flow, discount calculation based on scope + nights, usage limits + expiration, redemption tracking.
+**Addresses:** Feature #8 (voucher system—differentiator).
+**Avoids:** Pitfall #5 (unauditable discount machine)—usage limits, expiration, stacking rules, audit report from day one.
+**Dependencies:** Phase 30 (bug-free booking flow).
+
+### Phase 37: Guest Lifecycle Features
+
+**Rationale:** Features that drive repeat business and revenue optimization.
+**Delivers:** Returning guest detection (multi-signal matching), early check-in / late checkout request flow (conflict detection vs. adjacent bookings, fee to folio), guest receipts (itemized charges, payment method).
+**Addresses:** Feature #6 (returning guest—differentiator), Feature #5 (early/late checkout—revenue opportunity), Feature #15 (receipts—table stakes).
+**Avoids:** Pitfall #8 (double-booking edge cases)—conflict detection query, time-aware approval. Pitfall #11 (false positives for SEA names)—multi-signal matching (email + phone + country).
+**Dependencies:** Phase 30 (bug-free booking flow), Phase 33 (receipts need order detail view).
+
+### Phase 38: Polish + Analytics
+
+**Rationale:** Performance tracking, delivery integration, final UX refinements.
+**Delivers:** Order performance tracking (order-to-delivery time), delivery app deep-links (Grab, ShopeeFood), room floor/level field, analytics improvements.
+**Addresses:** Feature #14 (performance tracking—differentiator), Feature #10 (delivery integration—unique to GUDBRO in SEA), Feature #12 (floor/level—table stakes).
+**Avoids:** Pitfall #10 (premature charts)—show counters first, charts after 3 months. Pitfall #9 (second unmanaged order channel)—link-out approach, not parallel order system.
 
 ### Phase Ordering Rationale
 
-**Dependencies-first:** Phase 1 (room codes) must precede Phase 2 (verification) because you cannot verify access to a room-based booking without room codes existing. Phase 2 must precede Phase 3 (security config) because you cannot configure authentication tiers until both tiers exist. Phase 4 (documents) depends on Phase 2 because uploads require tier-2 (verified) auth.
-
-**Risk-first:** Stale QR reuse (Pitfall 1) is addressed in Phase 1, before any live data exists. Unprotected endpoints (Pitfall 2) addressed in Phase 2 via classification matrix. GDPR compliance (Pitfall 8) addressed in Phase 4 with retention policy baked into the upload feature from day one.
-
-**Value-first:** Phase 1 delivers immediate guest value (WiFi access) with minimal complexity. Phase 2 completes the core flow. Phase 3 adds owner control (differentiator). Phase 4 adds compliance features (visa partnership revenue opportunity). Phase 5 is pure polish (WiFi UX enhancement).
-
-**Integration points:** Each phase integrates with existing systems without breaking them. Phase 1 adds new routes alongside old ones. Phase 2 extends JWT payload backward-compatibly. Phase 3 adds JSONB column with safe defaults. Phase 4 uses existing Supabase Storage patterns. Phase 5 enhances existing WifiCard component.
+- **Bug fixes FIRST (Phase 30)** — Existing system must be stable before adding complexity. Individual deployments prevent regression stacking (Pitfall #13).
+- **Foundation before features** — Property images (Phase 30) enable onboarding wizard (Phase 31). Dashboard redesign (Phase 32) provides home for all new guest features (Phases 33-35, 37).
+- **Owner tools independent** — Phase 31 (Gantt, onboarding, settings) can be built/tested in parallel with Phase 32 (guest dashboard redesign).
+- **Service expansion before feedback** — Minibar (Phase 33) and requests channel (Phase 35) must exist before feedback system (Phase 34) can ask about them.
+- **Revenue features after stability** — Vouchers (Phase 36), early/late checkout (Phase 37) require bug-free booking flow from Phase 30.
+- **Analytics last** — Performance tracking (Phase 38) needs 3 months of data after earlier phases ship (Pitfall #10).
+- **Deployment timing critical** — UI redesigns (Phase 32) must deploy Tuesday/Wednesday during low occupancy (Pitfall #1).
 
 ### Research Flags
 
 **Phases needing deeper research during planning:**
 
-- **Phase 2 (Verification UX):** Inline auth patterns for PWAs, modal vs. bottom sheet performance on mobile, error state handling best practices. Medium complexity.
-- **Phase 3 (Security presets):** Access control preset design, hospitality security standards, owner-facing settings UX (avoid technical jargon). Niche domain.
-- **Phase 4 (Document upload):** Camera capture APIs (input file vs. getUserMedia vs. Capacitor), HEIC conversion reliability across devices, GDPR retention rules specific to Vietnam + EU tourists. High compliance risk.
+- **Phase 31 (Gantt calendar)** — Research CSS Grid timeline patterns, mobile horizontal scroll UX, color-coding conventions in PMS tools. HIGH priority—this is the most complex UI component.
+- **Phase 32 (Dashboard redesign)** — Research state preservation across component tree restructures, sessionStorage cart patterns, React hydration with dynamic layouts. CRITICAL—mid-stay breakage is unacceptable.
+- **Phase 34 (AI feedback pipeline)** — Research accommodations-specific tag taxonomy (verify ACCOM_FEEDBACK_TAGS against competitor feedback forms). MEDIUM priority—can adapt from F&B pipeline.
 
-**Phases with standard patterns (skip research-phase):**
+**Phases with standard patterns (minimal research needed):**
 
-- **Phase 1 (Room codes):** Supabase RPC functions, Next.js dynamic routes, JWT signing with jose — all well-documented, patterns exist in codebase.
-- **Phase 5 (Multi-zone WiFi):** JSONB schema patterns, Radix UI accordion (or native details/summary), form state management — standard web patterns.
+- **Phase 30 (Image upload)** — Pattern proven in document upload (Phase 28).
+- **Phase 33 (Minibar)** — Reuses service ordering pipeline.
+- **Phase 35 (Requests)** — Simple form + notification + state machine.
+- **Phase 36 (Vouchers)** — Schema exists, needs UI + booking integration.
+- **Phase 37 (Returning guest, early/late checkout)** — SQL queries + approval workflow.
+- **Phase 38 (Performance tracking)** — Analytics on existing timestamp data.
 
 ## Confidence Assessment
 
-| Area         | Confidence  | Notes                                                                                                                                                                                                                                                                                                                                        |
-| ------------ | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stack        | HIGH        | All existing packages verified in codebase, new packages verified on npm. Zero dependency on external services beyond what exists (Supabase, Vercel). jose JWT API stable across v6.x.                                                                                                                                                       |
-| Features     | MEDIUM-HIGH | Table stakes features validated against 5 competitors (Duve, STAY App, Canary, HelloShift, mycloud). Progressive auth is extrapolated from e-commerce patterns — novel in hospitality but sound. Differentiators (security config, multi-zone WiFi) are original, not competitor-validated.                                                  |
-| Architecture | HIGH        | Direct codebase analysis of all existing components. Two-tier JWT design verified against OWASP session management patterns. SECURITY DEFINER functions follow existing GUDBRO patterns (verify_booking_access). All integration points mapped.                                                                                              |
-| Pitfalls     | HIGH        | Stale QR reuse verified against hospitality security research (Partsfe, Uniqode QR lifecycle). GDPR compliance verified against hotel-specific guidance (HotelTechReport Marriott case, Hotelogix retention schedules). Endpoint protection verified against OWASP Top 10 2025. Multi-guest rooms validated against Accommodations PRD v2.3. |
+| Area         | Confidence      | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ------------ | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stack        | **HIGH**        | Zero new packages needed. All features use existing dependencies verified in package.json. Only conditional addition: @radix-ui/react-progress IF onboarding wizard needs guest-facing UI (unlikely—wizard is backoffice-only). External API (frankfurter.app) is free, well-known, ECB-backed.                                                                                                                                                                   |
+| Features     | **MEDIUM-HIGH** | Patterns well-established in hospitality tech (Duve, STAY, DigitalGuest, Cloudbeds, Little Hotelier all have similar features). Some features are novel combinations for small properties (minibar self-service, delivery app integration). Research based on official competitor sites + HotelTechReport + industry publications. Table stakes vs. differentiators distinction is clear.                                                                         |
+| Architecture | **HIGH**        | Based on direct codebase analysis (apps/accommodations/, apps/backoffice/, shared/database/migrations/). Existing patterns well-documented (~30k LOC, 15 migrations, 22 PWA components, 11 backoffice pages). Reuse opportunities identified (QR Builder, conventions, feedback pipeline). Anti-patterns explicit (separate minibar system, heavy Gantt library, direct storage upload). Integration points mapped (state management, API routes, DB migrations). |
+| Pitfalls     | **HIGH**        | Grounded in actual GUDBRO codebase structure (InStayDashboard state variables, BottomNav hardcoded IDs, service order state machine, progressive auth). Hospitality industry patterns verified (minibar revenue leakage, feedback timing, returning guest detection). SEA-specific issues identified (common Vietnamese surnames, mobile network bandwidth, WhatsApp ubiquity). Phase-specific warnings actionable.                                               |
 
-**Overall confidence:** HIGH
-
-Architecture is sound, stack requires minimal changes, pitfalls are well-documented in industry. The main uncertainty is progressive auth adoption (novel pattern) — but it degrades gracefully (worst case: owners set browse_requires_verification=true and it behaves like the current system).
+**Overall confidence:** **HIGH**
 
 ### Gaps to Address
 
-**Phase 2 (Verification UX):** Inline verification best practices for PWAs are documented in e-commerce but not hospitality-specific. Recommendation: user-test with 5 target users (tourists unfamiliar with the property) during implementation. A/B test modal vs. bottom sheet if adoption is lower than projected 90%.
+**Gap: Gantt calendar mobile UX** — Research shows timeline calendars are standard in PMS tools, but most are desktop-first. For 5-25 rooms, horizontal scroll on mobile is necessary. Need to validate touch scroll performance and test with actual property owner on phone during Phase 31 planning. Mitigation: Build desktop view first, test scroll mechanics, add mobile optimizations (pinch-to-zoom date range, room grouping).
 
-**Phase 3 (Security config):** Access control presets for different property types are original design, not validated against competitor features (no competitor offers this). Recommendation: interview 3-5 SEA property owners (representing B&B, hotel, hostel) to validate preset logic before building UI.
+**Gap: Dashboard redesign deployment strategy** — Additive redesign with feature flag is the right approach, but the exact cutover mechanism needs definition. Options: (1) property-level flag (owner opts in), (2) time-based (deploy new version, redirect old routes), (3) A/B test (50/50 split). Need to decide during Phase 32 planning based on active guest count. Mitigation: Monitor active guest sessions pre-deploy, choose lowest-impact window, have rollback plan.
 
-**Phase 4 (Document upload):** HEIC conversion reliability on Android (heic2any is primarily tested on iOS). Recommendation: test on 3 Android devices (Samsung, Xiaomi, Oppo — most common in SEA) before launch. Fallback: detect HEIC support, show "Please use JPEG mode on your camera" message if unsupported.
+**Gap: Minibar owner confirmation workflow UX** — Two-step process (guest reports → owner confirms) is necessary, but the owner interaction needs design. Options: (1) notification with inline approve/adjust, (2) review queue in backoffice, (3) checkout summary with bulk confirm. Need to validate with owner persona ("Mario", 35-55, medium tech comfort) during Phase 33 planning. Mitigation: Start with simple review queue (reuse existing order management UI), iterate based on feedback.
 
-**Phase 4 (GDPR retention):** Vietnam-specific document retention requirements for NA17 police registration are not documented in English sources. Recommendation: consult with a Vietnam-based property owner or legal advisor to confirm 30-day retention is compliant vs. required retention period.
+**Gap: Feedback tag taxonomy validation** — ACCOM_FEEDBACK_TAGS list is inferred from competitor analysis and hospitality patterns. Needs validation with actual guest feedback from existing bookings (if available) or competitor feedback forms during Phase 34 planning. Mitigation: Start with conservative taxonomy (cleanliness, check-in, location, wifi, bed-comfort, bathroom), add tags based on actual feedback themes.
 
-**Backward compatibility validation:** Existing JWTs have `{bookingId, propertyId, checkoutDate}`. New JWTs add `roomId?, accessTier`. Recommendation: write migration tests that issue old-format tokens and verify they are accepted by new API routes (accessTier defaults to 'full' if missing). Ensure no 401s on existing tokens.
+**Gap: Voucher discount stacking edge cases** — Research identified the need for explicit stacking rules (voucher + weekly/monthly discount = pick best one). But the pricing engine (`lib/price-utils.ts`) already calculates weekly/monthly discounts. Integration point needs detailed review during Phase 36 planning. Mitigation: Add voucher discount as a separate calculation step, compare with existing discounts, apply max discount, show breakdown in booking summary.
+
+**Gap: Currency conversion cache strategy** — frankfurter.app recommended with 1-hour cache TTL. But cache invalidation on server restarts or multi-region deployments needs clarification. Options: (1) in-memory cache (simple, but lost on restart), (2) Redis cache (complex, requires infrastructure), (3) response header cache (CDN-level). Need to decide during Phase 37 planning based on traffic patterns. Mitigation: Start with in-memory cache + stale-while-revalidate, add Redis if cache misses cause performance issues.
 
 ## Sources
 
 ### Primary (HIGH confidence)
 
-- Existing GUDBRO codebase (apps/accommodations/frontend/, shared/database/migrations/schema/077-087, apps/backoffice/components/AccomQRGenerator) — all architectural decisions verified via direct code reading
-- apps/accommodations/PRD.md v2.3 — visa tracker requirements, QR strategy, product context
-- npm package registries — jose v6.1.3, browser-image-compression v2.0.2, heic2any v0.0.4 versions verified
-- OWASP Session Management Cheat Sheet — anonymous-to-authenticated transitions, session ID regeneration
-- Supabase Storage documentation — private bucket patterns, RLS policies, signed URLs
+**Codebase analysis:**
+
+- apps/accommodations/frontend/package.json — verified installed packages
+- apps/backoffice/package.json — verified backoffice dependencies
+- apps/accommodations/frontend/app/stay/[code]/page.tsx — InStayDashboard state structure (320 LOC, 15 state variables)
+- apps/accommodations/frontend/components/BottomNav.tsx — current nav structure (5 items, hardcoded IDs)
+- apps/backoffice/app/(dashboard)/accommodations/calendar/page.tsx — existing calendar with AvailabilityCalendar
+- apps/backoffice/lib/qr/ — QR Builder (qr-types.ts 250 lines, qr-service.ts 382 lines)
+- apps/backoffice/lib/ai/conventions-service.ts — B2B conventions (1137 lines)
+- apps/backoffice/lib/ai/feedback-intelligence-service.ts — feedback AI pipeline
+- shared/database/migrations/schema/050-b2b-conventions.sql — convention/voucher schema
+- shared/database/migrations/schema/077-091 — 15 accommodations migrations
+- apps/accommodations/frontend/lib/image-utils.ts — HEIC conversion, compression, blur detection
+- apps/accommodations/PRD.md v2.3 — product requirements
+
+**Technology documentation:**
+
+- @svar-ui/react-gantt v2.4.4 npm page — evaluated, MIT license, rejected for this use case
+- qrcode package docs — WiFi QR format spec (WIFI:T:;S:;P:;;)
+- react-day-picker v9 docs — selection modes, range handling
+- frankfurter.app API docs — free exchange rates, ECB data source
+- Phosphor Icons docs — Star icon weights (fill, regular, duotone)
 
 ### Secondary (MEDIUM confidence)
 
-- Hotel Tech Report 2026 rankings — Duve #1 Hotel Guest App, Canary #1 Contactless Check-in, market size $4.8B
-- Duve, STAY App, Canary, HelloShift, mycloud product documentation — QR access patterns, web-based no-download approach
-- RoomRaccoon, Klippa, HelloShift product pages — document scanning and OCR patterns in hospitality
-- HotelTechReport GDPR compliance articles — Marriott $52M settlement, retention requirements
-- Uniqode, Partsfe security guides — QR lifecycle management, hospitality-specific QR security threats
+**Hospitality industry sources:**
+
+- INTELITY blog: PWA vs Mobile Apps in Hotels 2026 — PWA adoption trends
+- HotelTechReport: Best Hotel Guest Apps 2026 — Duve #1, competitor analysis
+- HotelTechReport: Best PMS 2026 — timeline calendar as standard feature
+- Canary Technologies: Hospitality Trends 2026 — instant loyalty, digital vouchers, card-based UX
+- LobbyPMS: Booking Calendar Importance — Gantt view rationale
+- RoomRaccoon platform docs — early check-in/late checkout workflow
+- STAY App product tour — card-based homepage reference
+- Botshot ComplaintTrackr — in-stay request channel patterns
+- Flexkeeping Guest Feedback Software — feedback timing research
+- DigitalGuest Voucher Cases — 3,856 redeems case study
+- Duve $60M Series B announcement — AI agent investment context
+- Amadeus Hotel Guest Loyalty 2025 — 70% prefer experiences over points
+- Revinate Loyalty Programs blog — invisible loyalty, badge system
+- HotelTechReport Guest Feedback Software category — pricing ($100-500/month)
+- DealStreetAsia: Southeast Asia food delivery market — Grab 50%+ share
+- Little Hotelier check-in software — early arrival handling
+- Roommaster Guest Engagement — post-stay feedback timing (2-24h optimal)
+- Priority Software: Hotel Performance Metrics 2026 — KPIs for small properties
 
 ### Tertiary (LOW confidence, needs validation)
 
-- Progressive authentication pattern applied to hospitality — No direct hospitality source found. Pattern extrapolated from e-commerce (Amazon checkout) and mobile banking UX. Conceptually sound but novel in this domain.
-- Configurable security levels per property type — No competitor offers this explicitly. Recommendation inferred from access control research (360Connect DAC/MAC patterns). Original feature design.
-- Multi-zone WiFi as competitive gap — No industry source confirming this is a missing feature. Observation based on property walkthroughs (hotels have multiple networks) vs. competitor demo videos (show single network).
+- AHLA estimate: minibar self-service without verification leads to 15-30% revenue leakage (industry estimate, not peer-reviewed)
+- Cornell Hospitality Research: feedback timing 2-24h post-checkout yields highest quality (cited in multiple sources, original study not linked)
+- Vietnamese surname distribution: Nguyen ~40% of population (Wikipedia-level source, validated against multiple demographics sources)
+- Skift/Oracle: 68% of travelers prefer mobile confirmations (cited in industry blogs, original study behind paywall)
 
 ---
 
-_Research completed: 2026-01-31_
-_Ready for roadmap: yes_
+**Research completed:** 2026-02-01
+**Ready for roadmap:** yes

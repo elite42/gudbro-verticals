@@ -1,1132 +1,635 @@
-# Architecture: Frictionless QR Room Access
+# Architecture Patterns: Accommodations Extended Features
 
-**Project:** Accommodations PWA - Room-Based Access with Two-Tier Auth
-**Researched:** 2026-01-31
-**Confidence:** HIGH (based on direct codebase analysis of all existing components)
-
----
-
-## 1. Current Architecture (As-Is)
-
-### Entry Flow
-
-```
-Guest arrives -> Finds QR in room
-  -> QR points to: stays.gudbro.com/checkin/{propertyId}/{roomId}
-  -> Guest enters booking code on check-in page
-  -> Redirects to: /stay/{booking-code}
-  -> Verification screen: booking code + last name
-  -> POST /api/stay/verify -> JWT issued
-  -> Dashboard renders with JWT-authenticated API calls
-```
-
-### Current Auth Chain
-
-```
-[Guest] -> POST /api/stay/verify (bookingCode + lastName)
-        -> verify_booking_access() [SECURITY DEFINER]
-        -> Validates: code + lastName + dates + status
-        -> Returns: bookingId, propertyId, roomId
-        -> signGuestToken() -> JWT {bookingId, propertyId, checkoutDate}
-        -> JWT stored in localStorage (gudbro_stay_token)
-        -> All subsequent API calls: Authorization: Bearer {JWT}
-```
-
-### Current Component Map
-
-| Layer      | Component                         | Location                                      |
-| ---------- | --------------------------------- | --------------------------------------------- |
-| Route      | `/stay/[code]/page.tsx`           | Single entry point, requires auth             |
-| Route      | `/api/stay/[code]`                | Public booking lookup (minimal info)          |
-| Route      | `/api/stay/verify`                | Auth endpoint -> JWT                          |
-| Route      | `/api/stay/[code]/services`       | Authenticated, fetches categories+items       |
-| Route      | `/api/stay/[code]/orders`         | Authenticated, GET list + POST create         |
-| Route      | `/api/stay/[code]/deals`          | Authenticated, local partner deals            |
-| Route      | `/api/stay/[code]/property`       | Authenticated, extended property info         |
-| Route      | `/api/stay/[code]/useful-numbers` | Authenticated, emergency/city numbers         |
-| Hook       | `useStaySession`                  | JWT lifecycle: store, restore, verify, logout |
-| Hook       | `useServiceCart`                  | Cart state (survives tab navigation)          |
-| Hook       | `useOrderPolling`                 | Poll for order status updates                 |
-| Lib        | `lib/auth.ts`                     | `signGuestToken` / `verifyGuestToken` (jose)  |
-| Lib        | `lib/stay-api.ts`                 | All API call wrappers with Bearer auth        |
-| Backoffice | `AccomQRGenerator`                | Generates QRs: property + per-room            |
-
-### Current QR URLs
-
-| QR Type  | URL Pattern                                      | Behavior                           |
-| -------- | ------------------------------------------------ | ---------------------------------- |
-| Property | `stays.gudbro.com/{slug}`                        | Property booking page              |
-| Room     | `stays.gudbro.com/checkin/{propertyId}/{roomId}` | Check-in page (enter booking code) |
-
-### Current Database Tables (Relevant)
-
-| Table                       | Key Columns                                                                                                |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `accom_properties`          | id, slug, wifi_network, wifi_password, owner_id, access_settings (TBD)                                     |
-| `accom_rooms`               | id, property_id, room_number, room_type, capacity, floor, is_active                                        |
-| `accom_bookings`            | id, property_id, room_id, booking_code, guest_name, guest_last_name, check_in_date, check_out_date, status |
-| `accom_service_orders`      | id, booking_id, property_id, status, total                                                                 |
-| `accom_service_order_items` | id, order_id, service_item_id, name, quantity, unit_price, total                                           |
-
-### Current JWT Payload
-
-```typescript
-interface GuestTokenPayload {
-  bookingId: string;
-  propertyId: string;
-  checkoutDate: string;
-}
-```
-
-### Key Architectural Constraints
-
-1. **Auth model:** Two separate systems -- Guest JWT (jose, custom) vs Owner Supabase Auth
-2. **API pattern:** `getSupabaseAdmin()` (service role, bypasses RLS), manual auth per-route
-3. **No middleware:** Auth checks happen inside each API route handler
-4. **Price storage:** INTEGER (minor units)
-5. **Two deployment targets:** Accommodations PWA and Backoffice are separate Next.js apps sharing one Supabase DB
+**Domain:** Accommodations vertical feature expansion (bug fixes + 38 new features)
+**Researched:** 2026-02-01
+**Confidence:** HIGH (based on direct codebase analysis, not external sources)
 
 ---
 
-## 2. Target Architecture (To-Be)
+## 1. Existing Architecture Summary
 
-### Core Principle: Additive, Not Replacement
-
-The room-based access is a NEW entry point layered on top of the existing booking-code access. Both must work simultaneously:
+The accommodations vertical has a mature, well-structured architecture after 15 migrations (077-091):
 
 ```
-ENTRY POINTS (coexist):
-  /stay/{booking-code}     <-- Existing. Pre-arrival link, email, etc.
-  /stay/room/{room-code}   <-- NEW. Physical QR in room.
-
-Both eventually render the same dashboard components.
-The difference is HOW they authenticate, not WHAT they show.
+PWA (apps/accommodations/frontend/)        Backoffice (apps/backoffice/)
+  |                                          |
+  |  Room QR scan -> useRoomSession()        |  11 pages under
+  |  Stay API (jose JWT, two-tier auth)      |  (dashboard)/accommodations/*
+  |  22 components in /stay/*                |  11 API route groups under
+  |  5 hooks, 8 lib modules                  |  /api/accommodations/*
+  |                                          |
+  +--------- shared/database/ --------------+
+             migrations 077-091 (accom_ prefix)
+             Supabase PostgreSQL + RLS
+             SECURITY DEFINER functions
+             Supabase Storage (guest-documents bucket)
 ```
 
-### New Entry Flow: Two-Tier Access
+**Established patterns (MUST follow for consistency):**
 
-```
-Guest scans QR in room -> /stay/room/{room-code}
-  -> GET /api/stay/room/{room-code}
-  -> Server: resolve_room_access(room-code)
-  -> Returns: room info, property info, WiFi, booking status
-
-  TIER 1 - ANONYMOUS BROWSING (no verification):
-  -> WiFi credentials displayed immediately
-  -> Property info, house rules, checkout time
-  -> Service catalog (browse only)
-  -> Local deals (view only)
-  -> Useful numbers
-
-  TIER 2 - AUTHENTICATED ACTIONS (verification required):
-  -> Guest taps "Order" or any paid action
-  -> InlineVerification component appears
-  -> Guest enters last name (configurable per property)
-  -> POST /api/stay/room/{room-code}/verify
-  -> Full JWT issued
-  -> Order proceeds via existing /api/stay/[code]/orders
-```
+| Pattern                | Implementation                                        | Where                          |
+| ---------------------- | ----------------------------------------------------- | ------------------------------ |
+| Two-tier auth          | browse (room code) vs full (verified booking)         | useRoomSession, JWT accessTier |
+| SECURITY DEFINER       | resolve_room_access(), verify_booking_access()        | anon-callable DB functions     |
+| Service role mediation | Guest uploads through API routes, not direct Supabase | /api/stay/\* routes            |
+| JWT via jose           | Custom tokens (NOT Supabase Auth) for guest sessions  | lib/auth.ts                    |
+| accom\_ prefix         | All accommodations tables namespaced                  | migrations 077+                |
+| Private storage        | guest-documents bucket, service_role only             | migration 091                  |
+| Image processing       | HEIC conversion, compression, blur detection          | lib/image-utils.ts             |
+| API client pattern     | fetchStayAPI/postStayAPI with FetchResult<T>          | lib/stay-api.ts                |
+| Component card pattern | rounded-2xl border-[#E8E2D9] bg-white shadow-sm       | All stay/\* components         |
 
 ---
 
-## 3. Component Changes
+## 2. Reusable Module Assessment
 
-### 3.1 New Components
+### 2.1 QR Builder (apps/backoffice/lib/qr/)
 
-| Component                                   | Type         | Purpose                                        |
-| ------------------------------------------- | ------------ | ---------------------------------------------- |
-| `/stay/room/[roomCode]/page.tsx`            | Page route   | New entry point for room-based access          |
-| `/api/stay/room/[roomCode]/route.ts`        | API route    | Resolve room code -> tier-1 data + browse JWT  |
-| `/api/stay/room/[roomCode]/verify/route.ts` | API route    | Lightweight verification -> tier-2 JWT         |
-| `useRoomSession` hook                       | Client hook  | Two-tier session management (none/browse/full) |
-| `InlineVerification` component              | UI component | Triggered when guest tries a paid action       |
-| `accom_guest_documents` table               | Database     | Document upload + visa tracking                |
+**Files:** qr-types.ts (250 lines), qr-service.ts (382 lines), qr-generator.ts
+**Reusability:** HIGH
 
-### 3.2 Modified Components
+**What it provides that accommodations needs:**
 
-| Component                            | Change                                               | Reason                            |
-| ------------------------------------ | ---------------------------------------------------- | --------------------------------- |
-| `lib/auth.ts`                        | Add `accessTier` and `roomId` to `GuestTokenPayload` | Two-tier JWT support              |
-| `lib/auth.ts`                        | Add `signRoomToken()` for tier-1 browse tokens       | Short-lived browse tokens         |
-| `AccomQRGenerator` (backoffice)      | Generate room-code URLs instead of checkin URLs      | New URL pattern                   |
-| `accom_rooms` table                  | Add `room_code` column (TEXT UNIQUE)                 | Permanent room identifier         |
-| `accom_properties` table             | Add `access_settings` JSONB                          | Per-property security config      |
-| `accom_properties` table             | Add `wifi_zones` JSONB                               | Multi-zone WiFi support           |
-| `accom_rooms` table                  | Add `wifi_ssid`, `wifi_password` columns             | Per-room WiFi override            |
-| All `/api/stay/[code]/*` read routes | Accept both browse and full tier JWTs                | Read routes work for tier-1       |
-| `/api/stay/[code]/orders` POST       | Enforce tier-2 (full) JWT                            | Write routes require verification |
+- `generateWiFiString()` -- produces `WIFI:T:WPA;S:ssid;P:pass;H:false;;` for WiFi QR codes
+- `QRDesign` interface with colors, patterns, eye styles, logos
+- `EXPORT_PRESETS` for materials (paper, sticker, tent-card, business-card)
+- CRUD for qr_codes table with scan analytics
 
-### 3.3 Unchanged Components (Reuse As-Is)
+**What to reuse vs what to simplify:**
 
-| Component                                     | Why Unchanged                        |
-| --------------------------------------------- | ------------------------------------ |
-| `WifiCard`, `WelcomeCard`, `CheckoutInfo`     | Pure display, receive props          |
-| `ServicesCarousel`, `ServiceCatalog`          | Already receive token as prop        |
-| `CartDrawer`, `CartFAB`                       | Cart logic unchanged                 |
-| `ActiveOrders`, `LocalDeals`, `UsefulNumbers` | Already receive bookingCode+token    |
-| `BottomNav`, `DashboardHeader`                | Pure layout                          |
-| `useServiceCart`                              | Client-side cart, no auth dependency |
-| `useOrderPolling`                             | Works with any valid token           |
+| Use Case                         | Approach                                                              | Why                                                         |
+| -------------------------------- | --------------------------------------------------------------------- | ----------------------------------------------------------- |
+| WiFi QR on guest dashboard (PWA) | Import only `generateWiFiString()` + use `qrcode.react` for rendering | Full QR Builder is 200KB+, overkill for a static display QR |
+| WiFi QR download in backoffice   | Use full QR Builder with material presets                             | Owner needs printable tent cards, stickers                  |
+| Room QR codes in backoffice      | Already works via AccomQRGenerator                                    | Just update URL to room code format                         |
+
+**Recommendation:** Extract `generateWiFiString()` and `WiFiConfig` type to `shared/qr/wifi.ts` as a lightweight export. Keep full QR Builder in backoffice.
+
+### 2.2 B2B Conventions (apps/backoffice/lib/ai/conventions-service.ts)
+
+**Files:** conventions-service.ts (1137 lines), migration 050
+**Tables:** office_partners, merchant_office_outreach, partner_conventions, convention_vouchers, convention_redemptions
+**Reusability:** MEDIUM
+
+**Already supports accommodations:**
+
+- `ConventionPartnerType` includes `'accommodation'`
+- Voucher system is generic (code generation, validation, redemption tracking)
+- Benefit types work for stays (percentage_discount, fixed_discount, special_price)
+
+**Gaps for accommodations use case:**
+
+1. Benefits are per-order, not per-night or per-stay
+2. AI discovery is F&B-specific (offices with canteens)
+3. Verification is POS-oriented, not booking-flow-oriented
+
+**Adaptation needed:**
+
+```sql
+-- Add benefit scope to partner_conventions
+ALTER TABLE partner_conventions
+  ADD COLUMN IF NOT EXISTS benefit_scope TEXT DEFAULT 'per_order'
+  CHECK (benefit_scope IN ('per_order', 'per_night', 'per_stay', 'flat'));
+
+-- Accommodations uses: per_night (10% off each night) or per_stay (flat $20 off)
+```
+
+**Integration point:** When creating a booking with a voucher code:
+
+1. Call existing `validate_voucher()` RPC
+2. Calculate discount based on `benefit_scope` + stay duration
+3. Apply to `accom_bookings.total_price`
+4. Record in `convention_redemptions`
+
+### 2.3 Feedback Intelligence (apps/backoffice/lib/ai/feedback-intelligence-service.ts)
+
+**Files:** feedback-intelligence-service.ts, migration 082
+**Tables:** fb_submissions, fb_tasks, fb_task_links, fb_notifications
+**Reusability:** LOW (tag taxonomy is F&B-specific)
+
+**What IS reusable (the AI processing pipeline pattern):**
+
+- OpenAI call to translate, classify, extract sentiment, assign tags
+- Task aggregation (group similar feedback into actionable tasks)
+- Notification system (alert owner about new feedback)
+
+**What is NOT reusable:**
+
+- `FEEDBACK_TAGS` array (menu, food-quality, portion-size, etc.) -- entirely F&B
+- `fb_submissions.source` types (manual, chat, email) -- guests submit differently
+- `fb_submissions.submitted_by_account_id` -- guests don't have accounts
+
+**Recommendation:** Fork the processing function, NOT the table. Create `accom_guest_feedback` with accommodations-specific fields and a new tag taxonomy:
+
+```typescript
+const ACCOM_FEEDBACK_TAGS = [
+  'cleanliness',
+  'check-in',
+  'check-out',
+  'location',
+  'noise',
+  'wifi-quality',
+  'bed-comfort',
+  'bathroom',
+  'amenities',
+  'kitchen',
+  'air-conditioning',
+  'hot-water',
+  'parking',
+  'security',
+  'host-response',
+  'value-for-money',
+  'photos-accuracy',
+  'neighborhood',
+  'view',
+  'breakfast',
+  'minibar',
+  'laundry',
+  'room-service',
+  'local-deals',
+] as const;
+```
+
+### 2.4 Order Timing Analytics (migrations 074-076)
+
+**Reusability:** NONE for accommodations. This tracks kitchen prep times, order-to-delivery metrics. Not applicable to accommodation services.
 
 ---
 
-## 4. New Data Models
+## 3. Feature Architecture (New Components)
 
-### 4.1 Room Code Design
+### 3.1 Gantt/Timeline View for Room Availability
 
-**Recommendation:** Short, permanent, human-readable codes on `accom_rooms`.
+**Current state:** Calendar page already has `AvailabilityCalendar`, `CalendarDetailPanel`, `SeasonalPricingManager`, `DiscountSettings`. Data layer returns bookings + blocks + pricing for date ranges.
+
+**Architecture decision: UI-only change, no API/DB modifications.**
+
+```
+New component: GanttCalendar.tsx
+  Location: apps/backoffice/components/accommodations/
+
+  Layout:
+  +--Room Names--+---Jan 28---+---Jan 29---+---Jan 30---+---Jan 31---+
+  | Room 101     | [===Sarah Johnson===]    |            |            |
+  | Room 203     |            | [====Marco Rossi========]|            |
+  | Room 305     | [BLOCKED - Maintenance]  | [===New Guest===]       |
+  +              +            +            +            +            +
+
+  Implementation:
+  - CSS Grid: rooms as rows, dates as columns
+  - Booking bars: absolute-positioned divs spanning date columns
+  - Color coding: confirmed=teal, checked_in=green, blocked=gray-hatched
+  - Click bar -> CalendarDetailPanel (reuse existing)
+  - Horizontal scroll with date header pinned
+```
+
+**Why NOT an external Gantt library:** The data model is simple (start date, end date, room). No task dependencies, no resource leveling, no critical path. A Gantt library (dhtmlx-gantt, frappe-gantt) adds 200KB+ for features we don't need.
+
+**Data source:** Existing `/api/accommodations/calendar` endpoint. No changes needed.
+
+### 3.2 Minibar System
+
+**Architecture decision: Minibar IS a service category, not a separate system.**
+
+The existing service ordering pipeline handles this completely:
+
+```
+accom_service_categories (e.g., "Minibar")
+  └── accom_service_items (e.g., "Water 500ml $1", "Local Beer $3")
+      └── Orders via ServicesCarousel -> useServiceCart -> CartDrawer -> API
+
+Migration 086 already added: automation_level column
+  - 'requires_confirmation' (Breakfast, Laundry)
+  - 'self_service' (Minibar - guest takes item, order is for billing)
+  - 'manual_fulfillment' (Special requests)
+```
+
+**Only UI changes needed:**
+
+1. Add "Self-Service" badge to minibar category header in `ServicesCarousel`
+2. Skip confirmation-wait state in `ActiveOrders` for self_service items
+3. Add minibar-specific onboarding prompt in backoffice ("Add your minibar items")
+
+### 3.3 Guest Feedback System
+
+**New table + new PWA component + forked AI pipeline:**
 
 ```sql
-ALTER TABLE accom_rooms
-  ADD COLUMN room_code TEXT UNIQUE;
+CREATE TABLE accom_guest_feedback (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    booking_id UUID NOT NULL REFERENCES accom_bookings(id) ON DELETE CASCADE,
+    property_id UUID NOT NULL REFERENCES accom_properties(id) ON DELETE CASCADE,
 
--- Format: {property-short-code}-{room-number}
--- Examples: BVA-203, MV-101, ZEN-A5
--- Stable across bookings (unlike booking codes which change per guest)
--- Human-readable for support calls
-```
+    -- Ratings
+    overall_rating INTEGER NOT NULL CHECK (overall_rating BETWEEN 1 AND 5),
+    category_ratings JSONB DEFAULT '{}',
+    -- { cleanliness: 4, location: 5, value: 3, communication: 5, check_in: 4 }
 
-**Why not UUID or rotating codes:**
+    -- Free text
+    comment TEXT,
+    detected_language TEXT,
+    translated_comment TEXT,
 
-- QR is physically printed in the room. Rotation means reprinting all QRs.
-- UUID in URL is ugly and hard to communicate in support scenarios.
-- Security comes from the verification step (tier-2), not code obscurity.
-- Room code alone grants tier-1 only (WiFi + browsing). No sensitive data exposed.
+    -- AI-processed
+    sentiment TEXT CHECK (sentiment IN ('positive', 'neutral', 'negative')),
+    tags TEXT[] DEFAULT '{}',
+    ai_confidence DECIMAL(3,2),
 
-**Generation strategy:**
+    -- Processing state
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'processed', 'published', 'hidden')),
+    processed_at TIMESTAMPTZ,
 
-- Owner sets a property short code (3-5 chars) during property setup
-- Room codes auto-generated: `{short_code}-{room_number}`
-- Must be globally unique (UNIQUE constraint enforced at DB level)
-- Fallback: append numeric suffix on collision
-
-**New DB function for auto-generation:**
-
-```sql
-CREATE OR REPLACE FUNCTION generate_room_code(p_property_id UUID, p_room_number TEXT)
-RETURNS TEXT
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
-AS $$
-DECLARE
-  short_code TEXT;
-  candidate TEXT;
-  suffix INTEGER := 0;
-BEGIN
-  -- Get property short code (first 3-5 chars of slug, uppercased)
-  SELECT UPPER(LEFT(slug, LEAST(LENGTH(slug), 4)))
-  INTO short_code
-  FROM accom_properties WHERE id = p_property_id;
-
-  candidate := short_code || '-' || UPPER(p_room_number);
-
-  -- Check uniqueness, append suffix if needed
-  WHILE EXISTS(SELECT 1 FROM accom_rooms WHERE room_code = candidate) LOOP
-    suffix := suffix + 1;
-    candidate := short_code || '-' || UPPER(p_room_number) || suffix::TEXT;
-  END LOOP;
-
-  RETURN candidate;
-END;
-$$;
-```
-
-### 4.2 Room-to-Booking Resolution Function
-
-**New SECURITY DEFINER function:**
-
-```sql
-CREATE OR REPLACE FUNCTION resolve_room_access(p_room_code TEXT)
-RETURNS TABLE(
-  room_id UUID,
-  property_id UUID,
-  room_number TEXT,
-  room_type TEXT,
-  floor TEXT,
-  has_active_booking BOOLEAN,
-  booking_id UUID,
-  booking_code TEXT,
-  guest_name TEXT,
-  guest_last_name TEXT,
-  guest_count INTEGER,
-  check_in DATE,
-  check_out DATE,
-  booking_status TEXT,
-  wifi_network TEXT,
-  wifi_password TEXT,
-  property_name TEXT,
-  property_slug TEXT,
-  property_type TEXT,
-  contact_phone TEXT,
-  contact_whatsapp TEXT,
-  checkout_time TIME,
-  access_settings JSONB
-)
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
-AS $$
-BEGIN
-  RETURN QUERY
-  SELECT
-    r.id AS room_id,
-    r.property_id,
-    r.room_number,
-    r.room_type,
-    r.floor,
-    (b.id IS NOT NULL)::BOOLEAN AS has_active_booking,
-    b.id AS booking_id,
-    b.booking_code,
-    b.guest_name,
-    b.guest_last_name,
-    b.guest_count,
-    b.check_in_date AS check_in,
-    b.check_out_date AS check_out,
-    b.status AS booking_status,
-    -- WiFi: prefer room-specific, fallback to property
-    COALESCE(r.wifi_ssid, p.wifi_network) AS wifi_network,
-    COALESCE(r.wifi_password, p.wifi_password) AS wifi_password,
-    p.name AS property_name,
-    p.slug AS property_slug,
-    p.type AS property_type,
-    p.contact_phone,
-    p.contact_whatsapp,
-    p.checkout_time,
-    p.access_settings
-  FROM accom_rooms r
-  JOIN accom_properties p ON p.id = r.property_id
-  LEFT JOIN accom_bookings b ON b.room_id = r.id
-    AND b.check_in_date <= CURRENT_DATE
-    AND b.check_out_date + INTERVAL '24 hours' >= NOW()
-    AND b.status IN ('confirmed', 'checked_in')
-  WHERE r.room_code = p_room_code
-    AND r.is_active = true
-    AND p.is_active = true;
-END;
-$$;
-```
-
-**Key design decisions:**
-
-- LEFT JOIN on bookings: room exists even without active booking (shows property info + WiFi)
-- Same date/status logic as existing `verify_booking_access` for consistency
-- Returns WiFi immediately (tier-1 data, no auth needed)
-- Returns `has_active_booking` flag to drive UI behavior
-- Returns `access_settings` so API can decide what tier-1 allows
-- WiFi resolution: room-specific overrides property-level (COALESCE)
-
-### 4.3 Two-Tier JWT Design
-
-**Extended token payload:**
-
-```typescript
-interface GuestTokenPayload {
-  bookingId: string; // From existing (null for tier-1 without booking)
-  propertyId: string; // From existing
-  checkoutDate: string; // From existing (null for tier-1 without booking)
-  roomId?: string; // NEW: room context
-  accessTier: 'browse' | 'full'; // NEW: what actions are allowed
-}
-```
-
-**Tier-1 token (browse):**
-
-- Issued immediately on room code scan (no verification)
-- Contains: propertyId, roomId, accessTier='browse'
-- bookingId included if active booking exists (read-only context)
-- Expires: 24 hours (short-lived, re-issued on next scan)
-- Grants: read-only access to property data, services catalog, deals, numbers, WiFi
-
-**Tier-2 token (full):**
-
-- Issued after verification (last name or configurable method)
-- Contains: all fields including bookingId, accessTier='full'
-- Expires: checkout date + 24h (same as current behavior)
-- Grants: everything tier-1 has + ordering, document upload, etc.
-
-**Implementation in `lib/auth.ts`:**
-
-```typescript
-// New function alongside existing signGuestToken
-export async function signRoomBrowseToken(payload: {
-  propertyId: string;
-  roomId: string;
-  bookingId?: string;
-  checkoutDate?: string;
-}): Promise<string> {
-  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
-
-  return new SignJWT({
-    propertyId: payload.propertyId,
-    roomId: payload.roomId,
-    bookingId: payload.bookingId || null,
-    checkoutDate: payload.checkoutDate || null,
-    accessTier: 'browse',
-  })
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .setExpirationTime(Math.floor(expiresAt.getTime() / 1000))
-    .sign(getSecret());
-}
-
-// Extend existing signGuestToken to include accessTier and roomId
-export async function signGuestToken(payload: {
-  bookingId: string;
-  propertyId: string;
-  checkoutDate: string;
-  roomId?: string;
-}): Promise<string> {
-  const checkoutDate = new Date(payload.checkoutDate);
-  const expiresAt = addHours(checkoutDate, 24);
-
-  return new SignJWT({
-    bookingId: payload.bookingId,
-    propertyId: payload.propertyId,
-    checkoutDate: payload.checkoutDate,
-    roomId: payload.roomId || null,
-    accessTier: 'full',
-  })
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .setExpirationTime(Math.floor(expiresAt.getTime() / 1000))
-    .sign(getSecret());
-}
-```
-
-**API route enforcement pattern:**
-
-```typescript
-// Shared auth helper for all routes
-interface AuthOptions {
-  requireTier?: 'browse' | 'full'; // default: 'browse'
-}
-
-async function authenticateGuest(
-  request: NextRequest,
-  options: AuthOptions = {}
-): Promise<GuestTokenPayload | { error: string; status: number }> {
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader?.startsWith('Bearer ')) {
-    return { error: 'session_expired', status: 401 };
-  }
-
-  const token = authHeader.slice(7);
-  try {
-    const payload = await verifyGuestToken(token);
-    const required = options.requireTier || 'browse';
-
-    if (required === 'full' && payload.accessTier !== 'full') {
-      return { error: 'verification_required', status: 403 };
-    }
-
-    return payload;
-  } catch {
-    return { error: 'session_expired', status: 401 };
-  }
-}
-```
-
-### 4.4 Owner-Configurable Security Settings
-
-**New JSONB column on `accom_properties`:**
-
-```sql
-ALTER TABLE accom_properties
-  ADD COLUMN access_settings JSONB NOT NULL DEFAULT '{
-    "browse_requires_verification": false,
-    "order_requires_verification": true,
-    "verification_method": "last_name",
-    "wifi_visible_without_booking": true,
-    "auto_checkin_on_verify": true
-  }'::jsonb;
-```
-
-**TypeScript interface:**
-
-```typescript
-interface AccessSettings {
-  // Tier-1 browsing behavior
-  browse_requires_verification: boolean; // false = scan QR, see everything
-  wifi_visible_without_booking: boolean; // true = WiFi shown even if no booking
-
-  // Tier-2 verification behavior
-  order_requires_verification: boolean; // true = must verify before ordering
-  verification_method: 'last_name' | 'pin' | 'room_number' | 'none';
-
-  // Side effects
-  auto_checkin_on_verify: boolean; // true = set booking status to checked_in
-}
-```
-
-**Property type defaults (applied on property creation):**
-
-| Property Type   | Browse Requires Verify | Order Requires Verify | Verification Method | WiFi Without Booking |
-| --------------- | ---------------------- | --------------------- | ------------------- | -------------------- |
-| Hostel/Dorm     | false                  | true                  | last_name           | true                 |
-| Hotel           | false                  | true                  | last_name           | true                 |
-| Villa/Apartment | false                  | false                 | none                | true                 |
-| Resort          | false                  | true                  | pin                 | false                |
-
-**How it flows through the system:**
-
-```
-1. resolve_room_access() returns access_settings from property
-2. /api/stay/room/[roomCode] reads settings
-3. If browse_requires_verification=true:
-   -> Return 403 with { error: 'verification_required' }
-   -> Client shows InlineVerification immediately
-4. If browse_requires_verification=false:
-   -> Issue tier-1 browse JWT
-   -> Client renders dashboard in read-only mode
-5. When guest tries to order:
-   -> Client checks local accessTier
-   -> If 'browse' and order_requires_verification=true:
-      -> Show InlineVerification
-      -> On success: upgrade to tier-2 JWT
-```
-
-### 4.5 Document Upload and Visa Tracking
-
-**New table:**
-
-```sql
-CREATE TABLE accom_guest_documents (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  booking_id UUID NOT NULL REFERENCES accom_bookings(id) ON DELETE CASCADE,
-  property_id UUID NOT NULL REFERENCES accom_properties(id) ON DELETE CASCADE,
-
-  -- Document info
-  document_type TEXT NOT NULL CHECK (document_type IN (
-    'passport', 'visa', 'id_card', 'driving_license', 'other'
-  )),
-
-  -- Storage (Supabase Storage)
-  storage_path TEXT NOT NULL,
-  file_name TEXT NOT NULL,
-  file_size INTEGER,
-  mime_type TEXT,
-
-  -- Visa-specific extracted data
-  visa_type TEXT,           -- 'exemption', 'e_visa', 'tourist', 'business'
-  visa_expiry_date DATE,
-  nationality TEXT,         -- ISO country code
-
-  -- Review status
-  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN (
-    'pending', 'verified', 'rejected', 'expired'
-  )),
-  verified_by UUID REFERENCES accounts(id),
-  verified_at TIMESTAMPTZ,
-  rejection_reason TEXT,
-
-  -- Timestamps
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    -- Metadata
+    submitted_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-
--- Indexes
-CREATE INDEX idx_guest_documents_booking ON accom_guest_documents(booking_id);
-CREATE INDEX idx_guest_documents_property ON accom_guest_documents(property_id);
-CREATE INDEX idx_guest_documents_visa_expiry ON accom_guest_documents(visa_expiry_date)
-  WHERE document_type = 'visa' AND status = 'verified';
-
--- RLS
-ALTER TABLE accom_guest_documents ENABLE ROW LEVEL SECURITY;
-
--- Owner manages via property_id chain (same pattern as all other accom_ tables)
-CREATE POLICY guest_documents_owner_manage ON accom_guest_documents
-  FOR ALL TO authenticated
-  USING (property_id IN (
-    SELECT id FROM accom_properties
-    WHERE owner_id IN (SELECT id FROM accounts WHERE auth_id = auth.uid())
-  ));
--- NO anon access -- guest uploads via SECURITY DEFINER function
 ```
 
-**Storage architecture:**
+**Component architecture:**
 
-- Supabase Storage bucket: `guest-documents` (private, not public)
-- Path convention: `{property_id}/{booking_id}/{document_type}_{timestamp}.{ext}`
-- Upload: guest calls SECURITY DEFINER function that writes to storage + inserts row
-- Download: owner gets time-limited signed URL via backoffice API
+```
+PWA (guest-facing):
+  FeedbackPrompt.tsx        -- Banner shown 1 day before checkout
+  FeedbackForm.tsx          -- Star ratings + categories + free text
+  /api/stay/feedback/route.ts  -- POST, requires full tier JWT
 
-**Upload SECURITY DEFINER function:**
+Backoffice (owner-facing):
+  /accommodations/feedback/page.tsx  -- TanStack Table with filters
+  FeedbackDetailPanel.tsx            -- Individual feedback view
+  FeedbackStatsCard.tsx              -- Average ratings, trends
+```
+
+**AI pipeline (forked from feedback-intelligence-service.ts):**
+
+- Same pattern: OpenAI call with translate + classify + tag
+- Different prompt: accommodations-focused tag extraction
+- Different tag taxonomy: ACCOM_FEEDBACK_TAGS (see 2.3)
+- Triggered async after guest submits
+
+### 3.4 Convention/Voucher Adaptation
+
+**Minimal changes to existing system:**
+
+1. Add `benefit_scope` column (see 2.2)
+2. New accommodations-specific API route: `/api/booking/validate-voucher`
+3. Booking flow integration: voucher code field on booking form
+4. Discount calculation based on scope + stay duration
+
+**No new tables needed.** The existing convention_vouchers and convention_redemptions tables work as-is.
+
+### 3.5 Property Image Upload
+
+**New table + new storage bucket + backoffice component:**
 
 ```sql
-CREATE OR REPLACE FUNCTION upload_guest_document(
-  p_booking_id UUID,
-  p_document_type TEXT,
-  p_storage_path TEXT,
-  p_file_name TEXT,
-  p_file_size INTEGER,
-  p_mime_type TEXT,
-  p_visa_type TEXT DEFAULT NULL,
-  p_visa_expiry_date DATE DEFAULT NULL,
-  p_nationality TEXT DEFAULT NULL
-)
-RETURNS UUID
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
-AS $$
-DECLARE
-  v_property_id UUID;
-  v_doc_id UUID;
-BEGIN
-  -- Get property_id from booking (validates booking exists)
-  SELECT property_id INTO v_property_id
-  FROM accom_bookings WHERE id = p_booking_id;
+-- New PUBLIC bucket (unlike private guest-documents)
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES ('property-images', 'property-images', true, 2097152,
+        '{"image/jpeg","image/png","image/webp"}');
 
-  IF v_property_id IS NULL THEN
-    RAISE EXCEPTION 'Booking not found';
-  END IF;
-
-  INSERT INTO accom_guest_documents (
-    booking_id, property_id, document_type,
-    storage_path, file_name, file_size, mime_type,
-    visa_type, visa_expiry_date, nationality
-  ) VALUES (
-    p_booking_id, v_property_id, p_document_type,
-    p_storage_path, p_file_name, p_file_size, p_mime_type,
-    p_visa_type, p_visa_expiry_date, p_nationality
-  )
-  RETURNING id INTO v_doc_id;
-
-  RETURN v_doc_id;
-END;
-$$;
+CREATE TABLE accom_property_images (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    property_id UUID NOT NULL REFERENCES accom_properties(id) ON DELETE CASCADE,
+    room_id UUID REFERENCES accom_rooms(id) ON DELETE CASCADE, -- null = property-level
+    storage_path TEXT NOT NULL,
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    alt_text TEXT,
+    is_cover BOOLEAN DEFAULT false,
+    width INTEGER,
+    height INTEGER,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 ```
 
-**Visa expiry tracking query (for notifications):**
+**Key distinction from guest documents:**
 
-```sql
--- Find bookings where visa expires during or before checkout
-SELECT
-  d.booking_id,
-  d.visa_expiry_date,
-  b.check_out_date,
-  b.guest_name,
-  b.guest_last_name,
-  p.name AS property_name,
-  p.contact_phone,
-  (d.visa_expiry_date - CURRENT_DATE) AS days_remaining
-FROM accom_guest_documents d
-JOIN accom_bookings b ON b.id = d.booking_id
-JOIN accom_properties p ON p.id = d.property_id
-WHERE d.document_type = 'visa'
-  AND d.status = 'verified'
-  AND d.visa_expiry_date IS NOT NULL
-  AND d.visa_expiry_date <= b.check_out_date
-  AND d.visa_expiry_date >= CURRENT_DATE
-  AND (d.visa_expiry_date - CURRENT_DATE) IN (14, 7, 3);  -- notification days
+| Aspect      | Property Images             | Guest Documents                   |
+| ----------- | --------------------------- | --------------------------------- |
+| Bucket      | property-images (PUBLIC)    | guest-documents (PRIVATE)         |
+| Uploaded by | Owner (authenticated)       | Guest (JWT + service role)        |
+| Visible to  | Everyone (booking page)     | Owner only                        |
+| Retention   | Permanent                   | GDPR auto-delete after checkout   |
+| Processing  | Compress to 2MB, strip EXIF | Compress to 0.5MB, blur detection |
+
+**Reuse from image-utils.ts:** The compression pipeline. Fork with different settings (2MB max, 2560px instead of 2048px for higher quality property photos).
+
+### 3.6 Homepage Redesign (Card-Based Dashboard)
+
+**Architecture decision: Wrap existing components in configurable grid, don't rebuild them.**
+
+```typescript
+// Owner-configurable layout stored on property
+// accom_properties.dashboard_layout JSONB DEFAULT '{}'
+
+interface DashboardLayout {
+  sections: DashboardSection[];
+}
+
+interface DashboardSection {
+  type:
+    | 'wifi'
+    | 'stay_summary'
+    | 'services'
+    | 'orders'
+    | 'deals'
+    | 'contact'
+    | 'checkout'
+    | 'documents'
+    | 'feedback'
+    | 'useful_numbers';
+  visible: boolean;
+  // No drag-and-drop ordering for v1. Fixed default order.
+  // Add priority/ordering only if owners request it.
+}
 ```
 
-### 4.6 Multi-Zone WiFi Data Model
+**Implementation:**
 
-**Two levels: property-wide zones + room-specific override.**
+```tsx
+// DashboardGrid.tsx -- new wrapper component
+function DashboardGrid({ layout, children }) {
+  // Filter children based on layout.sections[x].visible
+  // Render in fixed order (WiFi always first, checkout always near bottom)
+  // Each child wrapped in consistent card container
+}
 
-**Property-level zones:**
+// RoomDashboard page.tsx -- minimal changes
+// Replace current vertical stack with:
+<DashboardGrid layout={stay.property.dashboardLayout}>
+  <WifiCard wifi={wifi} />        {/* type: 'wifi' */}
+  <ServicesCarousel ... />         {/* type: 'services' */}
+  <ActiveOrders ... />             {/* type: 'orders' */}
+  <CheckoutInfo ... />             {/* type: 'checkout' */}
+  {/* etc */}
+</DashboardGrid>
+```
+
+**Backwards compatible:** Empty `dashboard_layout` = show all sections in current default order.
+
+### 3.7 WiFi QR Code
+
+**Add to existing WifiCard component:**
+
+```tsx
+// WifiCard.tsx modification
+import QRCode from 'qrcode.react';  // ~3KB, client-side only
+import { generateWiFiString } from '@shared/qr/wifi'; // extracted from backoffice
+
+// Inside WifiCard, below existing SSID/password display:
+const wifiQR = generateWiFiString({
+  ssid: wifi.network,
+  password: wifi.password,
+  security: 'WPA',
+});
+
+<QRCode value={wifiQR} size={120} className="mx-auto mt-3" />
+<p className="text-xs text-center text-[#8B7355] mt-1">
+  Scan to connect automatically
+</p>
+```
+
+**For backoffice (printable WiFi QR):** Add "Download WiFi QR" button on settings page that opens the full QR Builder modal with material presets.
+
+### 3.8 Onboarding Wizard
+
+**Data model: JSONB on existing table, not a separate table.**
 
 ```sql
 ALTER TABLE accom_properties
-  ADD COLUMN wifi_zones JSONB NOT NULL DEFAULT '[]'::jsonb;
+  ADD COLUMN IF NOT EXISTS onboarding_completed_at TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS onboarding_progress JSONB DEFAULT '{}';
+
+-- Progress structure:
+-- {
+--   "basic_info": true,
+--   "photos_uploaded": false,    (at least 3 photos)
+--   "rooms_created": false,      (at least 1 room)
+--   "wifi_configured": false,    (wifi_ssid set)
+--   "services_added": false,     (at least 1 service category)
+--   "contact_set": false         (phone or whatsapp set)
+-- }
 ```
 
-**JSONB schema:**
-
-```typescript
-interface WifiZone {
-  zone_id: string; // 'lobby', 'pool', 'restaurant', 'room_default'
-  label: string; // 'Lobby & Reception', 'Pool Area'
-  ssid: string; // 'Hotel_Guest'
-  password: string; // 'welcome2026'
-  is_primary: boolean; // true = shown first/prominently
-}
-```
-
-**Room-specific WiFi override:**
-
-```sql
-ALTER TABLE accom_rooms
-  ADD COLUMN wifi_ssid TEXT,
-  ADD COLUMN wifi_password TEXT;
-```
-
-**WiFi resolution logic (in resolve_room_access and in API routes):**
+**Component architecture:**
 
 ```
-1. Room has own wifi_ssid/wifi_password?
-   YES -> Return room WiFi as primary
-   NO  -> Continue to step 2
-
-2. Property has wifi_zones with entries?
-   YES -> Return zone marked is_primary=true as primary, others as secondary
-   NO  -> Continue to step 3
-
-3. Property has wifi_network/wifi_password (legacy single SSID)?
-   YES -> Return as primary
-   NO  -> Return null (no WiFi configured)
+apps/backoffice/components/accommodations/onboarding/
+  OnboardingWizard.tsx       -- Full wizard (step-by-step)
+  OnboardingBanner.tsx       -- Dashboard banner ("3 of 6 steps done")
+  steps/
+    BasicInfoStep.tsx        -- Property name, type, description
+    PhotoUploadStep.tsx      -- Drag & drop (uses PropertyImageManager)
+    RoomSetupStep.tsx        -- Add rooms (wraps existing room CRUD)
+    WifiStep.tsx             -- SSID + password
+    ServicesStep.tsx          -- Add categories (wraps ServiceCatalogManager)
+    ContactStep.tsx          -- Phone/WhatsApp
+    CompletionStep.tsx       -- Generate QR codes, share booking link
 ```
 
-**Updated WifiCard display:**
-
-- Single network: current behavior (network + password + copy button)
-- Multi-zone: show primary prominently, accordion/tabs for other zones
-- Room-specific: "Your Room WiFi" label, other zones below as "Other Networks"
+**Key principle:** Each wizard step wraps or links to existing management components. The wizard is a guided flow, NOT a duplicate of existing CRUD.
 
 ---
 
-## 5. Data Flow Diagrams
+## 4. Data Flow Changes
 
-### 5.1 Happy Path: Guest with Active Booking
-
-```
-1. Guest scans QR -> /stay/room/BVA-203
-
-2. Client: GET /api/stay/room/BVA-203
-     |
-     v
-3. Server: supabase.rpc('resolve_room_access', { p_room_code: 'BVA-203' })
-     |
-     v
-4. Returns: {
-     room_id, property_id, room_number: '203',
-     has_active_booking: true,
-     booking_id, booking_code: 'BK-A3HN7K',
-     guest_name: 'Sarah', guest_last_name: 'Johnson',
-     wifi_network: 'BeachView_Guest', wifi_password: 'welcome2026',
-     property_name: 'Beach View Apartment',
-     access_settings: { browse_requires_verification: false, ... }
-   }
-     |
-     v
-5. Server checks access_settings.browse_requires_verification
-     |
-     +--> false: Issue tier-1 JWT (browse) containing propertyId, roomId, bookingId
-     |
-     v
-6. Client: Store JWT, render dashboard
-     - WiFi card: immediate
-     - Welcome card: "Welcome Sarah" (from browse data)
-     - Services: browse catalog (order buttons show lock icon)
-     - Deals: visible
-     - Useful numbers: visible
-     |
-     v
-7. Guest taps "Order Breakfast"
-     |
-     +--> access_settings.order_requires_verification = true
-     |
-     v
-8. InlineVerification component appears:
-     "To place an order, please confirm your last name"
-     [ Johnson_______ ] [Confirm]
-     |
-     v
-9. POST /api/stay/room/BVA-203/verify { lastName: "Johnson" }
-     |
-     v
-10. Server: Validates against booking.guest_last_name
-     |
-     +--> Match: Issue tier-2 JWT (full) with bookingId + accessTier='full'
-     |
-     v
-11. Client: Replace tier-1 JWT with tier-2
-     - Order proceeds: POST /api/stay/BK-A3HN7K/orders (existing route!)
-     - All subsequent actions use tier-2 JWT
-```
-
-### 5.2 No Active Booking (Empty Room)
+### Current Flows (Unchanged)
 
 ```
-1. Guest scans QR -> /stay/room/BVA-203
-
-2. Server: resolve_room_access returns has_active_booking=false
-
-3. Server checks access_settings.wifi_visible_without_booking
-     |
-     +--> true: Include WiFi in response
-     |
-     v
-4. Issue tier-1 JWT (browse, no bookingId)
-
-5. Client renders limited dashboard:
-     - WiFi card (if configured to show)
-     - Property info, contact host
-     - "No active booking found" message
-     - "Already have a booking code?" input field
-     - Services catalog (browse only, all order actions disabled)
-     - Deals (visible, no booking context)
+Guest QR Scan -> resolve_room_access(room_code)
+  -> Returns property + room + booking info
+  -> JWT issued (browse or full tier)
+  -> All API calls use JWT via stay-api.ts
 ```
 
-### 5.3 Existing Booking Code Path (Unchanged)
+### New Flows
+
+**Guest Feedback (near checkout):**
 
 ```
-1. Guest follows link from email -> /stay/BK-A3HN7K
-2. Existing flow: lookup -> verify screen -> JWT -> dashboard
-3. NO CHANGES to this path.
-4. JWT issued by existing signGuestToken includes accessTier='full' (backward-compatible default)
+Guest dashboard detects checkout in 1 day -> FeedbackPrompt banner
+  -> Guest taps "Leave Review"
+  -> FeedbackForm renders (stars + categories + text)
+  -> POST /api/stay/feedback (full tier JWT required)
+  -> Insert into accom_guest_feedback (status: 'pending')
+  -> Async: AI processing (translate, classify, tag)
+  -> Update accom_guest_feedback (status: 'processed')
+  -> Owner sees in backoffice /accommodations/feedback
 ```
 
-### 5.4 Token Upgrade Flow
+**Property Image Upload (owner):**
 
 ```
-TIER-1 (browse)                    TIER-2 (full)
-+-----------------+                +-----------------+
-| propertyId      |    verify()    | propertyId      |
-| roomId          |  ---------->   | roomId          |
-| bookingId (ro)  |                | bookingId       |
-| accessTier:     |                | accessTier:     |
-|   'browse'      |                |   'full'        |
-| exp: 24h        |                | exp: checkout+  |
-+-----------------+                |   24h           |
-                                   +-----------------+
+Owner in backoffice -> PropertyImageManager
+  -> Drag & drop or file picker
+  -> Client: compress via forked image-utils (2MB, 2560px)
+  -> POST /api/accommodations/images (multipart, service_role auth)
+  -> Server: upload to 'property-images' bucket
+  -> Insert metadata into accom_property_images
+  -> PWA reads public URL for property gallery
+```
 
-On upgrade:
-1. Old browse JWT removed from localStorage
-2. New full JWT stored
-3. All API calls automatically use full JWT
-4. No page reload needed
+**Voucher at Booking Time:**
+
+```
+Guest on booking page -> enters voucher code in booking form
+  -> POST /api/booking/validate-voucher { code, propertyId, nights }
+  -> Server: supabase.rpc('validate_voucher', { p_voucher_code, p_merchant_id })
+  -> If valid: calculate discount based on benefit_scope + nights
+  -> Return { valid: true, discount: 45, description: "15% off 3 nights" }
+  -> Guest sees updated price breakdown
+  -> On booking submission: create redemption record
 ```
 
 ---
 
-## 6. API Route Design
+## 5. Suggested Build Order (Dependency-Driven)
 
-### New Routes
+### Phase 1: Bug Fixes + Image Foundation
 
-| Route                              | Method | Auth   | Purpose                                       |
-| ---------------------------------- | ------ | ------ | --------------------------------------------- |
-| `/api/stay/room/[roomCode]`        | GET    | None   | Resolve room code -> tier-1 data + browse JWT |
-| `/api/stay/room/[roomCode]/verify` | POST   | None   | Verify identity -> tier-2 JWT                 |
-| `/api/stay/[code]/documents`       | POST   | Tier-2 | Upload document (multipart/form-data)         |
-| `/api/stay/[code]/documents`       | GET    | Tier-2 | List guest's own documents                    |
-| `/api/stay/[code]/visa-status`     | GET    | Tier-2 | Visa expiry info + days remaining             |
+**Rationale:** Fix 13 identified bugs before adding features. Establish image upload pattern needed by onboarding wizard and booking page.
 
-### Modified Routes (Tier Check Addition)
+- All bug fixes from manual testing
+- `accom_property_images` table + `property-images` storage bucket
+- PropertyImageManager backoffice component
+- Image compression fork for property photos
 
-| Route                                 | Current Auth  | New Auth       | Change                        |
-| ------------------------------------- | ------------- | -------------- | ----------------------------- |
-| `/api/stay/[code]/services` GET       | Full JWT only | Browse or Full | Relax to accept tier-1        |
-| `/api/stay/[code]/deals` GET          | Full JWT only | Browse or Full | Relax to accept tier-1        |
-| `/api/stay/[code]/property` GET       | Full JWT only | Browse or Full | Relax to accept tier-1        |
-| `/api/stay/[code]/useful-numbers` GET | Full JWT only | Browse or Full | Relax to accept tier-1        |
-| `/api/stay/[code]/orders` GET         | Full JWT only | Browse or Full | Relax (view own orders)       |
-| `/api/stay/[code]/orders` POST        | Full JWT only | **Full only**  | Enforce tier-2 (write action) |
+**Dependencies:** None
+**Enables:** Phase 2 (onboarding needs photo upload), Phase 4 (booking page needs gallery)
 
-**Backward compatibility:** Existing JWTs without `accessTier` field are treated as `accessTier='full'` (they were issued after full verification).
+### Phase 2: Owner Dashboard Enhancements
 
-### Room Route Response Shape
+**Rationale:** Owner tools that don't touch guest PWA. Can be tested independently.
 
-```typescript
-// GET /api/stay/room/[roomCode] response
-interface RoomAccessResponse {
-  token: string; // tier-1 browse JWT
+- Gantt calendar view (new component, existing API)
+- Onboarding wizard (wraps existing CRUD + new photo upload)
+- `onboarding_progress` JSONB column
+- Settings improvements
 
-  room: {
-    id: string;
-    number: string;
-    type: string;
-    floor: string | null;
-  };
+**Dependencies:** Phase 1 (photo upload for onboarding)
+**Enables:** Phase 5 (onboarding sets up services needed for minibar)
 
-  property: {
-    name: string;
-    slug: string;
-    type: string;
-    contactPhone: string | null;
-    contactWhatsapp: string | null;
-    checkoutTime: string;
-    houseRules: string[];
-    amenities: string[];
-    images: string[];
-    hasLinkedFnb: boolean;
-    linkedFnbSlug: string | null;
-  };
+### Phase 3: Guest Dashboard Redesign
 
-  wifi: {
-    primary: { network: string; password: string } | null;
-    zones: Array<{ label: string; network: string; password: string }>;
-  };
+**Rationale:** Restructure the dashboard before adding new cards (feedback, minibar).
 
-  booking: {
-    hasActiveBooking: boolean;
-    code: string | null;
-    guestFirstName: string | null;
-    checkIn: string | null;
-    checkOut: string | null;
-    nights: number | null;
-    status: string | null;
-    guestCount: number | null;
-  };
+- DashboardGrid wrapper component
+- `dashboard_layout` JSONB column on properties
+- WiFi QR code on WifiCard (extract shared QR util)
+- Card-based layout with show/hide configuration
+- Homepage visual refresh
 
-  accessSettings: {
-    browseRequiresVerification: boolean;
-    orderRequiresVerification: boolean;
-    verificationMethod: string;
-  };
-}
-```
+**Dependencies:** None (parallel with Phase 2)
+**Enables:** Phase 4 (new cards integrate into grid)
+
+### Phase 4: Service Expansion + Feedback
+
+**Rationale:** Extends guest experience with new service types and post-stay feedback.
+
+- Minibar as service category (UI tweaks for self_service automation)
+- Digital laundry form (garment selection UI extending service ordering)
+- Guest feedback system (table + AI pipeline + PWA form + backoffice page)
+- `accom_guest_feedback` table + processing pipeline
+
+**Dependencies:** Phase 3 (feedback card in dashboard grid)
+**Enables:** Phase 5 (feedback data helps sell partnerships)
+
+### Phase 5: Partnerships & Revenue
+
+**Rationale:** Revenue features that depend on stable booking flow and guest experience.
+
+- Convention/voucher adaptation (`benefit_scope` column)
+- Voucher validation in booking flow
+- Local deals enhancement
+- Partner referral tracking improvements
+
+**Dependencies:** Phase 1 (bug-free booking flow), Phase 4 (feedback drives partnership value)
+
+### Phase 6: Polish & Analytics
+
+- Analytics dashboard improvements
+- Owner reports (occupancy, revenue, feedback trends)
+- Performance optimization (image lazy loading, bundle splitting)
 
 ---
 
-## 7. Frontend Session Management
+## 6. Anti-Patterns to Avoid
 
-### useRoomSession Hook
+### Anti-Pattern 1: Separate Minibar System
 
-```typescript
-interface RoomSession {
-  // Tier state
-  accessTier: 'none' | 'browse' | 'full';
+**What:** Building dedicated minibar tables, API routes, and components.
+**Why bad:** Duplicates the entire service ordering pipeline. Two codepaths to maintain, test, and debug.
+**Instead:** Add minibar as a service category with `automation_level: 'self_service'`. Only UI needs tweaks.
 
-  // Data (available at browse tier)
-  roomInfo: RoomInfo | null;
-  propertyInfo: PropertyInfo | null;
-  wifi: WifiInfo | null;
-  hasActiveBooking: boolean;
-  bookingPreview: BookingPreview | null; // name, dates (no sensitive data)
+### Anti-Pattern 2: Heavy Gantt Library
 
-  // Data (available at full tier only)
-  booking: BookingInfo | null;
-  token: string | null;
+**What:** Installing dhtmlx-gantt, frappe-gantt, or similar for room availability.
+**Why bad:** 200KB+ for a feature that needs: rows (rooms), horizontal bars (bookings), date scrolling. No task dependencies, no critical path, no resource leveling.
+**Instead:** CSS Grid with absolute-positioned bars. Under 200 lines of code.
 
-  // Access settings from property
-  accessSettings: AccessSettings | null;
+### Anti-Pattern 3: Direct Storage Upload from PWA
 
-  // Actions
-  initFromRoomCode: (roomCode: string) => Promise<void>;
-  verify: (input: string) => Promise<{ success: boolean; error?: string }>;
-  logout: () => void;
+**What:** Using Supabase JS client in guest browser to upload to storage.
+**Why bad:** Requires anon storage policies (security risk). Guests don't have Supabase Auth sessions.
+**Instead:** Upload through API route with service_role client. Pattern already established in document upload.
 
-  // Loading
-  isLoading: boolean;
-  error: string | null;
-}
-```
+### Anti-Pattern 4: Full QR Builder for WiFi Display
 
-**Storage keys (separate from existing session):**
+**What:** Importing the entire QR Builder (types, service, generator, modal) into the PWA for the WiFi QR.
+**Why bad:** Pulls in Supabase client, design customization, material presets -- none needed for a static display QR.
+**Instead:** Extract `generateWiFiString()` to shared util. Use `qrcode.react` (3KB) for rendering.
 
-```typescript
-const ROOM_TOKEN_KEY = 'gudbro_room_token';
-const ROOM_DATA_KEY = 'gudbro_room_data';
-```
+### Anti-Pattern 5: Drag-and-Drop Dashboard Builder
 
-**Coexistence with `useStaySession`:**
+**What:** Building a full layout editor with drag-and-drop card reordering.
+**Why bad:** Owners are small property managers, not web designers. They want "show/hide" toggles, not layout configuration.
+**Instead:** Fixed layout with visibility toggles. Add reordering only if explicitly requested.
 
-- `/stay/[code]` pages use `useStaySession` (existing, unchanged)
-- `/stay/room/[roomCode]` pages use `useRoomSession` (new)
-- Both store tokens under different localStorage keys
-- If guest uses both flows, most recent tier-2 token wins for API calls
+### Anti-Pattern 6: Separate Feedback Table Per Vertical
 
-### InlineVerification Component
-
-```typescript
-interface InlineVerificationProps {
-  method: 'last_name' | 'pin' | 'room_number';
-  roomCode: string;
-  onSuccess: (token: string, booking: BookingInfo) => void;
-  onCancel: () => void;
-}
-```
-
-**UX behavior:**
-
-- Appears as a bottom sheet or modal overlay (not a page redirect)
-- Shows property-appropriate prompt based on verification_method
-- Single input field + confirm button
-- On success: closes, session upgrades silently, original action proceeds
-- On failure: shows error inline, allows retry
-- Cancel: returns to browse mode
+**What:** `accom_guest_feedback`, `fnb_feedback`, `wellness_feedback`.
+**Why bad:** Schema diverges. Eventually all verticals need the same fields.
+**Instead:** Design `accom_guest_feedback` with a `vertical` TEXT column from day 1. When other verticals adopt feedback, the schema generalizes with minimal changes.
 
 ---
 
-## 8. QR Code Changes
+## 7. Migration Strategy
 
-### Current QR Code Generation (AccomQRGenerator)
+All new migrations follow established conventions:
 
-```typescript
-// Current: uses propertyId/roomId UUIDs
-const roomUrl = `https://stays.gudbro.com/checkin/${propertyId}/${room.id}`;
-```
+| Convention       | Value                                                         |
+| ---------------- | ------------------------------------------------------------- |
+| Table prefix     | `accom_`                                                      |
+| Primary key      | `UUID PRIMARY KEY DEFAULT gen_random_uuid()`                  |
+| Timestamps       | `created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()`, `updated_at` |
+| RLS              | ENABLE on all tables, service_role full access policy         |
+| Text constraints | `CHECK (column IN ('value1', 'value2'))` not ENUM             |
+| Naming           | `{number}-{description}.sql`                                  |
+| Current max      | 091 (guest-documents)                                         |
 
-### New QR Code Generation
+**Estimated new migrations:**
 
-```typescript
-// New: uses human-readable room code
-const roomUrl = `https://stays.gudbro.com/stay/room/${room.room_code}`;
-```
-
-**Changes to `AccomQRGenerator`:**
-
-1. Use `room_code` instead of `{propertyId}/{roomId}` (shorter URL = smaller QR = better scanning)
-2. Display room code below QR for reference
-3. Add "Copy URL" button for each room
-4. Keep property QR unchanged (`stays.gudbro.com/{slug}`)
-
-**Backward compatibility redirect:**
-
-```typescript
-// apps/accommodations/frontend/app/checkin/[propertyId]/[roomId]/page.tsx
-// Redirect old URLs to new format
-export default async function LegacyCheckinRedirect({ params }) {
-  const supabase = getSupabaseAdmin();
-  const { data } = await supabase
-    .from('accom_rooms')
-    .select('room_code')
-    .eq('id', params.roomId)
-    .single();
-
-  if (data?.room_code) {
-    redirect(`/stay/room/${data.room_code}`);
-  }
-  redirect('/'); // fallback
-}
-```
+| Number | Name                     | Purpose                                              |
+| ------ | ------------------------ | ---------------------------------------------------- |
+| 092    | property-images          | accom_property_images table + property-images bucket |
+| 093    | onboarding-progress      | onboarding_completed_at + onboarding_progress JSONB  |
+| 094    | guest-feedback           | accom_guest_feedback table + indexes + RLS           |
+| 095    | dashboard-layout         | dashboard_layout JSONB on accom_properties           |
+| 096    | convention-benefit-scope | benefit_scope column on partner_conventions          |
 
 ---
 
-## 9. Security Model
+## 8. Integration Points Summary
 
-### Threat Analysis
-
-| Threat                                    | Likelihood | Impact | Mitigation                                                                                              |
-| ----------------------------------------- | ---------- | ------ | ------------------------------------------------------------------------------------------------------- |
-| Non-guest scans QR                        | HIGH       | LOW    | Tier-1 only shows WiFi + catalog. No PII, no ordering.                                                  |
-| Previous guest revisits QR after checkout | MEDIUM     | LOW    | `resolve_room_access` checks active booking dates. Old JWT expires at checkout+24h.                     |
-| Guest orders after checkout               | LOW        | MEDIUM | JWT expires. API routes verify dates. Double protection.                                                |
-| Room code guessing/enumeration            | LOW        | LOW    | Room codes give tier-1 only. No sensitive data. Rate limit the API route.                               |
-| MITM intercepts tier-1 JWT                | LOW        | LOW    | HTTPS enforced. Tier-1 grants read-only. Limited blast radius.                                          |
-| Owner wants maximum security              | N/A        | N/A    | `browse_requires_verification=true` forces verification even for WiFi.                                  |
-| Shared room scenario (hostel dorm)        | MEDIUM     | MEDIUM | Multiple guests in room all get tier-1. Each verifies individually for tier-2 with their own last name. |
-
-### Physical Presence = Browsing Trust (Design Principle)
-
-Being physically in the room (scanning the QR) is considered sufficient authentication for **browsing**. This mirrors the hospitality standard: the WiFi password card is already physically in the room. Anyone who can see the QR can also see the WiFi card.
-
-Paid actions (ordering, document upload) require **identity verification** proportional to risk, configurable by the property owner.
-
-### Rate Limiting
-
-| Endpoint                                | Limit            | Reason               |
-| --------------------------------------- | ---------------- | -------------------- |
-| `GET /api/stay/room/[roomCode]`         | 30/min per IP    | Prevent enumeration  |
-| `POST /api/stay/room/[roomCode]/verify` | 5/min per IP     | Prevent brute force  |
-| `POST /api/stay/[code]/orders`          | 10/min per token | Prevent spam orders  |
-| `POST /api/stay/[code]/documents`       | 5/min per token  | Prevent upload abuse |
-
----
-
-## 10. Suggested Build Order
-
-Based on dependency analysis and incremental value delivery:
-
-### Phase 1: Room Code Foundation + New Entry Point
-
-**What gets built:**
-
-- `room_code` column + generation function on `accom_rooms`
-- `resolve_room_access()` SECURITY DEFINER function
-- `/stay/room/[roomCode]/page.tsx` (renders full dashboard in browse mode)
-- `/api/stay/room/[roomCode]/route.ts` (resolves room, issues browse JWT)
-- `useRoomSession` hook (browse tier only initially)
-- Update `AccomQRGenerator` to use room codes
-- Redirect from old `/checkin/{propertyId}/{roomId}` URLs
-- Migrate existing rooms to generate room_code values
-
-**Dependencies:** None (purely additive)
-**Value delivered:** Guests scan QR, see WiFi + full dashboard immediately. No verification friction for browsing.
-
-### Phase 2: Two-Tier Authentication + Inline Verification
-
-**What gets built:**
-
-- Add `accessTier` to JWT payload (backward-compatible)
-- `InlineVerification` component
-- `/api/stay/room/[roomCode]/verify/route.ts`
-- Tier checking in write API routes (orders POST returns 403 for browse tier)
-- Token upgrade flow in `useRoomSession`
-- Relax read API routes to accept browse-tier JWTs
-
-**Dependencies:** Phase 1 (room codes and browse entry exist)
-**Value delivered:** Full guest flow works from room QR scan through ordering.
-
-### Phase 3: Configurable Security Settings
-
-**What gets built:**
-
-- `access_settings` JSONB column on `accom_properties`
-- Property type defaults
-- Backoffice settings page for access configuration
-- `resolve_room_access` reads and returns settings
-- `InlineVerification` adapts to configured verification method
-- `useRoomSession` respects browse_requires_verification
-
-**Dependencies:** Phase 2 (two tiers exist to configure)
-**Value delivered:** Owners control their security posture per property type.
-
-### Phase 4: Document Upload and Visa Tracking
-
-**What gets built:**
-
-- `accom_guest_documents` table + RLS + SECURITY DEFINER
-- Supabase Storage bucket with policies
-- Document upload API route + UI component
-- Visa expiry tracking logic
-- Visa status card component (extend existing `VisaStatusCard`)
-- Backoffice document viewer for owners
-- Cron/notification for expiring visas
-
-**Dependencies:** Phase 2 (requires tier-2 auth for uploads)
-**Value delivered:** Compliance features, visa partner revenue opportunity.
-
-### Phase 5: Multi-Zone WiFi
-
-**What gets built:**
-
-- `wifi_zones` JSONB on `accom_properties`
-- `wifi_ssid`, `wifi_password` on `accom_rooms`
-- WiFi resolution logic (room > zone > property fallback)
-- Updated `WifiCard` for multi-zone display
-- Backoffice WiFi zone management UI
-
-**Dependencies:** Phase 1 (room context exists)
-**Value delivered:** Better WiFi UX for multi-building/multi-area properties.
-
----
-
-## 11. Integration Points Summary
-
-### Database Integration
-
-| New/Modified                       | Integrates With                                       | How                          |
-| ---------------------------------- | ----------------------------------------------------- | ---------------------------- |
-| `accom_rooms.room_code`            | Existing room table                                   | New UNIQUE column            |
-| `resolve_room_access()`            | `accom_rooms` + `accom_bookings` + `accom_properties` | JOINs existing tables        |
-| `accom_properties.access_settings` | All API routes                                        | Read at access-decision time |
-| `accom_guest_documents`            | `accom_bookings` + Supabase Storage                   | FK + storage path            |
-| `accom_rooms.wifi_ssid/password`   | `WifiCard` component                                  | New resolution logic         |
-| `accom_properties.wifi_zones`      | `WifiCard` component                                  | Multi-zone display           |
-
-### API Integration
-
-| New Route                          | Reuses From Existing              | Notes                          |
-| ---------------------------------- | --------------------------------- | ------------------------------ |
-| `/api/stay/room/[roomCode]`        | `getSupabaseAdmin()`, JWT signing | Same infra as existing routes  |
-| `/api/stay/room/[roomCode]/verify` | `verify_booking_access()` pattern | Reuses verification logic      |
-| All existing `/api/stay/[code]/*`  | `verifyGuestToken()`              | Extended with accessTier check |
-
-### Frontend Integration
-
-| New Component                    | Reuses From Existing                                   | Notes                                      |
-| -------------------------------- | ------------------------------------------------------ | ------------------------------------------ |
-| `/stay/room/[roomCode]/page.tsx` | All dashboard components (WifiCard, WelcomeCard, etc.) | Different session hook, same UI            |
-| `InlineVerification`             | Renders inline on any dashboard tab                    | Overlay, not page redirect                 |
-| `useRoomSession`                 | `useStaySession` patterns                              | Parallel hook, different localStorage keys |
-
-### Backoffice Integration
-
-| Change               | Integrates With                  |
-| -------------------- | -------------------------------- |
-| Room code generation | Existing room management pages   |
-| QR code update       | Existing `AccomQRGenerator`      |
-| Access settings UI   | New section in property settings |
-| Document viewer      | New section in booking detail    |
-| WiFi zone management | New section in property settings |
+| Feature           | Reuses Existing                                              | New Components                                | New DB Objects                                |
+| ----------------- | ------------------------------------------------------------ | --------------------------------------------- | --------------------------------------------- |
+| Gantt calendar    | /api/accommodations/calendar, CalendarDetailPanel            | GanttCalendar.tsx                             | None                                          |
+| Minibar           | Service ordering pipeline (categories, items, cart, orders)  | UI tweaks only                                | None                                          |
+| Guest feedback    | AI processing pattern, notification pattern                  | FeedbackForm, FeedbackPrompt, backoffice page | accom_guest_feedback table                    |
+| Conventions       | partner_conventions, convention_vouchers, validate_voucher() | Voucher field in booking form                 | benefit_scope column                          |
+| Image upload      | image-utils.ts compression, storage pattern                  | PropertyImageManager                          | accom_property_images, property-images bucket |
+| Homepage redesign | All existing stay/\* card components                         | DashboardGrid wrapper                         | dashboard_layout JSONB                        |
+| WiFi QR           | generateWiFiString() from QR Builder                         | QR display in WifiCard                        | None                                          |
+| Onboarding wizard | Existing CRUD components (rooms, services, settings)         | OnboardingWizard + steps                      | onboarding_progress JSONB                     |
 
 ---
 
@@ -1134,12 +637,11 @@ Based on dependency analysis and incremental value delivery:
 
 All findings based on direct codebase analysis (HIGH confidence):
 
-- `apps/accommodations/frontend/` -- all source files examined
-- `shared/database/migrations/schema/077-*.sql` through `087-*.sql`
-- `apps/backoffice/components/accommodations/AccomQRGenerator.tsx`
-- `apps/accommodations/frontend/lib/auth.ts` (JWT signing/verification)
-- `apps/accommodations/frontend/hooks/useStaySession.ts` (session management)
-- `apps/accommodations/frontend/types/stay.ts` (API response types)
-- `apps/accommodations/frontend/lib/stay-api.ts` (API client wrappers)
-- All 7 API routes under `/app/api/stay/`
-- `apps/accommodations/PRD.md` v2.3 (product requirements, visa tracking, QR strategy)
+- `apps/accommodations/frontend/` -- 22 stay components, 5 hooks, 8 lib modules, 10+ API routes
+- `apps/backoffice/app/(dashboard)/accommodations/` -- 11 pages (analytics, bookings, calendar, deals, documents, orders, qr-codes, rooms, security, services, settings)
+- `apps/backoffice/lib/qr/` -- QR Builder (qr-types.ts 250 lines, qr-service.ts 382 lines)
+- `apps/backoffice/lib/ai/conventions-service.ts` -- B2B conventions (1137 lines, 6 DB tables)
+- `apps/backoffice/lib/ai/feedback-intelligence-service.ts` -- Feedback pipeline (AI translate+classify+tag)
+- `shared/database/migrations/schema/077-091` -- 15 accommodations migrations
+- `apps/accommodations/frontend/lib/image-utils.ts` -- HEIC conversion, compression, blur detection
+- `apps/accommodations/PRD.md` v2.3 -- Product requirements including minibar, laundry form, visa tracking

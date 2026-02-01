@@ -1,330 +1,337 @@
-# Domain Pitfalls: Frictionless QR Room Access (Auth-Optional Migration)
+# Domain Pitfalls: Accommodations Extended Features (v1.4 Milestone)
 
-**Domain:** Removing auth barriers from existing accommodations PWA, QR-based room access, progressive authentication, configurable security, document upload, backward compatibility
-**Researched:** 2026-01-31
-**Overall Confidence:** HIGH (verified against existing GUDBRO codebase + industry patterns)
-**Context:** Adding frictionless QR scan access to existing Accommodations PWA that currently requires booking code + last name verification before showing any dashboard content.
+**Domain:** Extending existing Accommodations PWA with Gantt calendar, minibar self-service, guest feedback, conventions/vouchers, UI overhaul, onboarding wizard, returning guest detection, early check-in/late checkout, delivery integration, performance tracking, and 13 bug fixes
+**Researched:** 2026-02-01
+**Overall Confidence:** HIGH (verified against existing GUDBRO codebase patterns, 14 migrations, ~30k LOC)
+**Context:** Adding 38 features and 13 bug fixes to a working system with room-based QR access, progressive auth, service ordering state machine, and JWT-based guest sessions. Target: small SEA properties (1-25 rooms), non-technical owners.
 
 ---
 
 ## Critical Pitfalls
 
-Mistakes that cause security breaches, unauthorized service orders, or require architectural rewrites.
+Mistakes that break the existing system, cause data loss, or require architectural rewrites.
 
-### Pitfall 1: Stale QR Reuse -- Previous Guest Orders Room Service After Checkout
+### Pitfall 1: UI Overhaul Breaks Existing Guest Sessions Mid-Stay
 
-**What goes wrong:** Guest A checks out on Monday. Guest B checks in on Monday afternoon. Guest A still has the QR URL bookmarked or in browser history. They scan it (or tap the bookmark) and land on the in-stay dashboard -- now showing Guest B's room data, WiFi, and service ordering. Guest A orders room service charged to Guest B. Or worse: Guest A sees Guest B's personal data (name, booking details, country).
+**What goes wrong:** The PWA homepage redesign and bottom nav overhaul ship while guests are actively using the in-stay dashboard. Guest scans QR on Monday, gets the old layout. On Wednesday, the new layout deploys. Guest taps "Services" in the bottom nav -- but the nav item IDs changed (`services` -> `orders`), the tab handler references a state key that no longer exists, or the `showCatalog` overlay that was triggered by `activeTab === 'services'` no longer fires because the tab ID changed. The cart state stored in the hook is lost because the component tree restructured.
 
-**Why it happens:** The current system ties QR codes to booking codes (`/stay/BK-ABC123`). When switching to room-based QR codes (`/room/{propertyId}/{roomId}`), the QR is permanent and the "current guest" is resolved server-side. If the resolution logic uses "most recent active booking for this room" without verifying the requester is actually that guest, anyone with the room URL gets access.
+**Why it happens:** The `InStayDashboard` page (`app/stay/[code]/page.tsx`) manages extensive state: `activeTab`, `showCatalog`, `showCart`, `serviceCategories`, `serviceTimezone`, cart state via `useServiceCart`, orders via `useOrderPolling`. The `BottomNav` component has hardcoded nav item IDs (`home`, `map`, `menu`, `services`, `profile`). Changing any of these without preserving the state contract silently breaks the dashboard for active guests.
 
 **Warning signs:**
 
-- Room-based QR URL contains no per-guest secret or token
-- Server resolves "current guest" purely from room ID + date range
-- No re-verification required after initial QR scan
-- JWT from previous guest still valid (checkout date + 24h buffer in current `auth.ts`)
-- Browser `localStorage` retains old session tokens across guests
+- Bottom nav item IDs change without updating `handleTabChange` logic
+- Component props change shape (e.g., `BottomNav` losing `onMenuToggle`)
+- Cart hook (`useServiceCart`) state shape changes, invalidating in-memory carts
+- Service catalog overlay trigger condition changes
+- Active order polling (`useOrderPolling`) stops because props changed
 
 **Prevention:**
 
-- **Never auto-resolve guest identity from room alone.** The QR scan should land on an intermediate page: show property name, WiFi (low-risk info), and a "View your stay" button that requires lightweight verification (last name, or 4-digit PIN sent via WhatsApp at check-in).
-- **Invalidate previous JWT on new check-in.** When a new booking is checked in for a room, add the previous booking's ID to an invalidation list (using the `iat` claim approach -- store a `min_valid_after` timestamp per booking). Current `auth.ts` uses `jose` with `setIssuedAt()` -- add a server-side check that `iat > booking.invalidated_at`.
-- **Clear client-side session on checkout.** The checkout flow should explicitly clear `localStorage` and cookies. But do NOT rely on this alone -- the guest may not use the checkout flow.
-- **Short JWT expiry for free-browse mode.** If implementing an unauthenticated "browse" session for post-QR-scan, make it expire in 1-2 hours, not days.
+- **Redesign the UI in additive phases, not replacement.** Phase 1: Add new components alongside old ones behind a feature flag. Phase 2: Switch the flag. Phase 3: Remove old components. Never deploy a rewrite in one shot.
+- **Preserve all state contracts.** The `BottomNav` takes `activeTab`, `onTabChange`, `onMenuToggle`. If the new nav has different items, the new component must still accept the same prop interface (or extend it backward-compatibly).
+- **Cart state must survive redesign.** The `useServiceCart` hook is pure in-memory state. If the component tree changes and the hook remounts, the cart is lost. Consider persisting cart to `sessionStorage` keyed by booking code.
+- **Deploy UI changes on low-traffic days.** SEA accommodation check-ins cluster on Fridays and weekends. Deploy UI changes on Tuesday/Wednesday when fewest guests are mid-stay.
+- **Test the deploy scenario explicitly.** Load the old dashboard in a browser tab. Deploy the new version. Refresh the tab. Everything must still work -- nav, cart, orders, catalog overlay.
 
-**Detection:** Check out a test booking. Wait 5 minutes. Open the QR URL. If you see the dashboard with the next guest's data, this is broken. If you see ANYTHING beyond basic property info, this is broken.
+**Detection:** Open the in-stay dashboard, add items to cart, navigate between tabs. Simulate a deploy (reload the page). If the cart is empty or the tab state is wrong, the redesign will break mid-stay guests.
 
-**Severity:** CRITICAL -- privacy breach, unauthorized charges, legal liability.
-**Phase:** Must be addressed in the core architecture phase before any QR code changes.
+**Severity:** CRITICAL -- broken dashboard for active guests means they cannot order services, which is the core revenue feature.
+**Phase:** UI overhaul phase. Must be the last feature deployed, after all functional features are stable.
 
 ---
 
-### Pitfall 2: Removing Auth Creates Unprotected API Endpoints
+### Pitfall 2: Gantt Calendar Over-Engineering for 1-25 Room Properties
 
-**What goes wrong:** The current system has a clear security boundary: no JWT = no access to any `/api/stay/[code]/*` endpoints. When making the dashboard "auth-optional" (show WiFi and property info without auth), developers add `if (!token) { return public data }` branches to existing protected endpoints. But they miss some endpoints, or the "public data" branch accidentally returns private data. The service ordering endpoint (`/api/stay/[code]/orders`) suddenly accepts unauthenticated POST requests because someone added the auth-optional pattern inconsistently.
+**What goes wrong:** The team builds a full-featured Gantt chart with horizontal scrolling, drag-to-resize bookings, room swimlanes, zoom levels, and keyboard navigation. For a 3-room property (the median GUDBRO customer), the Gantt shows 3 rows with sparse bookings. The chart takes 2 seconds to render because the Gantt library initializes a canvas-based rendering engine for what could be a simple table. The owner ("Mario", 35-55, medium tech comfort) does not understand what the colored bars mean. The calendar page already exists and works (`backoffice/accommodations/calendar/page.tsx`) -- the Gantt adds confusion, not clarity.
 
-**Why it happens:** The current `verify/route.ts` is the single auth gate. Every other endpoint expects a valid JWT in the Authorization header. Going from "all protected" to "some public, some protected" requires touching every endpoint. The default-deny pattern (as recommended by OWASP) inverts to default-allow, and one missed endpoint becomes a security hole.
+**Why it happens:** "Gantt view" sounds like a pro feature. Developers reach for a Gantt library (DHTMLX, Bryntum, or build from scratch) because the requirement says "Gantt." But for 1-25 rooms, a Gantt chart is the wrong abstraction. Hotels with 200+ rooms need Gantt. A 5-room guesthouse needs a grid calendar showing "which rooms are free this week."
 
 **Warning signs:**
 
-- API routes that check `if (token)` instead of `if (!token) return 401`
-- No centralized middleware enforcing auth -- each route handles it independently
-- The same route returns different data shapes for authenticated vs unauthenticated
-- Service-ordering, deal-clicking, or order-status endpoints accessible without auth
-- No audit of which endpoints should be public vs protected
+- Installing a heavy Gantt library (50-200KB+) for a simple grid
+- Building horizontal scroll with drag-to-resize for properties where 80% have < 10 rooms
+- Gantt rendering is noticeably slow on mobile (owners often manage from their phone)
+- The existing `AvailabilityCalendar` component already shows booking/block/pricing data per room
+- Owner cannot explain what the Gantt shows without training
 
 **Prevention:**
 
-- **Explicit endpoint classification before coding.** Create a table:
+- **Do NOT install a Gantt library.** Build a simple rooms-vs-dates grid using the existing `AvailabilityCalendar` pattern. The current calendar already handles bookings, blocks, and seasonal pricing per room. Extend it to show multiple rooms simultaneously in a grid (rooms on Y-axis, dates on X-axis) instead of a single-room calendar with a room filter dropdown.
+- **Keep it simple: colored cells, not draggable bars.** Each cell = one room + one day. Colors: green (available), blue (booked with guest name), red (blocked), yellow (checkout day). Click to see details. No drag, no resize, no zoom.
+- **Mobile-first.** The current calendar page uses `lg:grid-cols-3` for the layout. The Gantt/grid must work on a phone screen (320px wide). For 5 rooms and 7 days = 35 cells. That fits. For 25 rooms and 7 days = 175 cells. That needs horizontal scroll for rooms, which is fine.
+- **If the owner asks "what does this mean?" the UI failed.** Test with a non-technical person. Show them the grid. Ask "which rooms are free this Friday?" If they cannot answer in 5 seconds, simplify.
+- **Benchmark: the existing calendar page loads in < 1s.** The new grid must not regress this.
 
-  | Endpoint                             | Auth Required | Rationale                      |
-  | ------------------------------------ | ------------- | ------------------------------ |
-  | GET /api/stay/[code] (property info) | No            | Basic info is the hook         |
-  | GET /api/stay/[code] (wifi)          | No            | WiFi is the primary value prop |
-  | GET /api/stay/[code]/services        | No            | Browsing menu is free          |
-  | POST /api/stay/[code]/orders         | YES           | Placing orders costs money     |
-  | GET /api/stay/[code]/orders          | YES           | Shows personal order history   |
-  | GET /api/stay/[code]/deals           | No            | Deals are promotional          |
-  | POST /api/deals/[id]/click           | YES           | Tracks identifiable action     |
+**Detection:** Count the rooms of your first 10 test properties. If the median is < 10, a Gantt chart is overkill. A colored grid does the job.
 
-- **Create an auth middleware helper.** Instead of checking auth in each route:
-  ```typescript
-  // lib/auth-middleware.ts
-  export function requireGuestAuth(handler) { ... }  // 401 if no valid JWT
-  export function optionalGuestAuth(handler) { ... } // proceeds with or without JWT, injects guest context if present
-  ```
-- **Default-deny for mutations.** ALL POST/PUT/DELETE endpoints require auth. No exceptions. Only GET endpoints can be auth-optional.
-- **Integration tests per endpoint.** For each protected endpoint: call without token, assert 401. This is the regression test.
-
-**Detection:** Run `grep -r "token" app/api/stay/` and verify every endpoint that uses the token has a clear 401 path when token is missing/invalid.
-
-**Severity:** CRITICAL -- one missed endpoint = unauthorized orders or data exposure.
-**Phase:** Must be the FIRST task in implementation. Classify endpoints before touching any code.
+**Severity:** CRITICAL (from a business perspective) -- over-engineering wastes development time AND confuses the primary user. Both outcomes are expensive.
+**Phase:** Calendar/Gantt phase. Descope to "room grid view" instead of "Gantt view."
 
 ---
 
-### Pitfall 3: Progressive Auth Gate Positioned Wrong -- Too Early Kills Conversion, Too Late Enables Abuse
+### Pitfall 3: Minibar Self-Service Without Inventory Reconciliation Creates Revenue Leakage
 
-**What goes wrong (too early):** Guest scans QR in room. Sees a verification form asking for booking code + last name. They do not have the booking code handy (it is in an email they cannot find). They give up. WiFi is the #1 reason they scanned -- and they cannot even see it. Adoption drops from the projected 90% to 30%.
+**What goes wrong:** Guest opens the minibar tab on the in-stay dashboard. Sees "Coca-Cola - $2, Beer Bintang - $3." Taps "I took this." The order is recorded. But the owner never restocked the minibar after the previous guest. The current guest sees items that are not physically there. Or: guest takes 3 beers but only reports 1. Or: guest does not report at all (the honor system fails). The owner has no way to reconcile what was taken vs. what was reported.
 
-**What goes wrong (too late):** Guest scans QR, sees everything -- WiFi, services, deals, and can place orders -- all without verification. A random person who found the QR URL on social media can now order breakfast to Room 203.
-
-**Why it happens:** The auth gate position is a UX/security tradeoff that requires explicit product decision. Developers default to either the existing pattern (gate everything) or the new vision (gate nothing). Neither is correct. The right answer is a specific list of actions that trigger the auth prompt.
+**Why it happens:** Minibar self-service is fundamentally an honor system. Hotels with 200+ rooms have housekeeping staff who check minibars daily. A 5-room guesthouse relies on the guest to report consumption. The system records what the guest claims, not what was actually consumed. Without physical reconciliation, the data is unreliable.
 
 **Warning signs:**
 
-- No explicit decision document listing "free actions" vs "gated actions"
-- Auth prompt appears before any value is shown to the guest
-- OR: No auth prompt appears anywhere, even for paid actions
-- The auth gate is implemented as a page-level redirect (all or nothing) rather than action-level
+- No "minibar check" workflow for housekeeping/owner after checkout
+- No inventory tracking per room (just a menu of items)
+- System assumes 100% honest reporting by guests
+- No reconciliation report comparing guest-reported vs. physically-checked consumption
+- Owner disputes with guests over minibar charges with no evidence
 
 **Prevention:**
 
-- **Define the auth gate as action-level, not page-level.** The dashboard renders for everyone. Individual actions trigger auth:
+- **Model minibar as a two-step process:**
+  1. **Guest self-reports** via the dashboard (creates a draft order)
+  2. **Owner confirms** during room check (marks the order as verified, can adjust quantities)
+     This keeps the honor system but adds a verification layer. Guest sees "Minibar items reported: 2x Beer. Pending confirmation."
+- **Per-room inventory is overkill for 1-25 rooms.** Do NOT build an inventory management system. Instead:
+  - Owner sets the minibar menu (items + prices) per room type (not per room)
+  - Guest self-reports consumption
+  - Owner reviews at checkout or during room cleaning
+  - Owner can add items the guest did not report
+- **Minibar orders go through the existing service order state machine.** The existing `ServiceOrder` model has `pending -> confirmed -> ... -> delivered` states. Minibar orders start as `pending` (guest-reported) and the owner moves them to `confirmed`. This reuses existing infrastructure.
+- **Checkout summary includes unconfirmed minibar items.** "You reported 2 beers from the minibar. These will be added to your stay total unless adjusted by your host." This creates accountability without friction.
+- **Do NOT charge guests automatically for minibar.** The current system is cash/transfer-based. Minibar charges should appear on the checkout summary as "reported by guest, confirmed by host" -- not auto-charged.
 
-  | Action                 | Auth Required | Why                                |
-  | ---------------------- | ------------- | ---------------------------------- |
-  | View WiFi              | No            | This is the hook. Must be instant. |
-  | View property info     | No            | Non-sensitive, builds engagement   |
-  | Browse services menu   | No            | Window shopping drives orders      |
-  | View local deals       | No            | Promotional, benefits partners     |
-  | Place a service order  | YES           | Costs money, needs identity        |
-  | Submit laundry request | YES           | Costs money, needs room/name       |
-  | Book a tour/activity   | YES           | Financial commitment               |
-  | View order history     | YES           | Personal data                      |
-  | Upload documents       | YES           | Sensitive personal data            |
+**Detection:** Create a minibar order as a guest. Log in as the owner. If there is no way to review/adjust the order before finalizing, reconciliation is missing.
 
-- **Inline auth prompt, not redirect.** When a guest taps "Order" without being verified, show a bottom sheet: "Verify your stay to place orders" with booking code + last name fields. After verification, complete the original action. Do NOT redirect to a separate page and lose context.
-- **Remember verification.** Once verified, store the JWT in `localStorage`. Do not re-prompt on every action. The current `useStaySession` hook already does this -- preserve this pattern.
-- **Test the flow with a non-technical person.** Give them a phone, tell them to scan the QR and order breakfast. If they cannot do it in under 60 seconds (including first-time verification), the gate is too heavy.
-
-**Detection:** User-test the QR scan flow. Count the number of screens between scan and WiFi visibility. If more than 1 (the dashboard itself), it is too many.
-
-**Severity:** CRITICAL -- wrong gate position either kills adoption (too early) or enables abuse (too late).
-**Phase:** Must be a product decision BEFORE any implementation. Document the gate matrix in the plan.
-
----
-
-### Pitfall 4: Multi-Guest Rooms Break Single-Booking QR Assumption
-
-**What goes wrong:** A room has two guests (a couple). Guest A scans QR, verifies with their last name, gets a JWT. Guest B scans the same QR, tries to verify with THEIR last name. The verification fails because the booking is under Guest A's name. Guest B cannot access the dashboard. Guest B asks Guest A to share their phone, or the host gets a support request.
-
-**Why it happens:** The current `verify_booking_access` RPC function matches `p_last_name` against the booking's `guest_last_name`. But bookings typically only store the primary guest's name. In couples, families, or group stays, secondary guests cannot verify.
-
-**Warning signs:**
-
-- Verification only accepts the primary guest's last name
-- No concept of "additional guests" with their own credentials
-- Multi-room bookings (e.g., a family booking 2 rooms) have no cross-room access
-- Host gets frequent "my partner can't access the dashboard" support requests
-
-**Prevention:**
-
-- **Allow multiple verification methods for same booking:**
-  1. Primary guest last name (current method)
-  2. Room-level PIN (4-digit code given at check-in, same for all guests in the room)
-  3. Property-wide daily code (set by owner each morning, like "today's code is BEACH")
-- **PIN-based verification is simplest for multi-guest.** Owner gives "Your room PIN is 4823" at check-in. All guests in the room use the same PIN. This sidesteps the name-matching problem entirely.
-- **Do not require individual guest registration.** The target users are tourists. Asking every guest in a 4-person family to register individually is friction that kills adoption.
-- **Store the PIN per booking, not per guest.** Add `access_pin` to the bookings table. Auto-generate on booking creation. Owner can view/change in dashboard.
-
-**Detection:** Create a test booking for "John Smith." Try verifying as "Jane Smith" (partner). If it fails with no alternative, this is the bug.
-
-**Severity:** CRITICAL -- affects every multi-guest booking (couples are the majority of accommodation bookings).
-**Phase:** Must be addressed in the verification redesign phase. PIN generation should be in the database migration.
+**Severity:** CRITICAL (revenue integrity) -- unreported minibar consumption is a known problem in hospitality. Building the self-service without reconciliation makes it worse because the owner thinks the system is tracking it (false sense of security).
+**Phase:** Minibar/services phase. Must include the owner-side confirmation workflow, not just the guest-side reporting.
 
 ---
 
 ## Moderate Pitfalls
 
-Mistakes that cause UX degradation, support overhead, or technical debt.
+Mistakes that cause UX degradation, owner confusion, or technical debt.
 
-### Pitfall 5: Configurable Security Levels Lead to Owner Misconfiguration
+### Pitfall 4: Guest Feedback Channel Timing Destroys Response Quality
 
-**What goes wrong:** Owner is given a setting: "Security Level: Low / Medium / High." They do not understand what these mean. They pick "Low" because it sounds easier. Now their guests can order room service without any verification -- including anyone who finds the QR URL. Or they pick "High" because it sounds safer. Now guests need to verify even to see WiFi -- and adoption plummets. The owner blames GUDBRO.
+**What goes wrong:** Guest gets a feedback prompt immediately at checkout. They are stressed (packing, rushing to airport, finding transport). They either skip it or tap 5 stars to dismiss it. The feedback is useless. Alternatively, guest gets a feedback request 7 days after checkout. They have already forgotten the stay details. "It was fine." Also useless.
 
-**Why it happens:** Non-technical owners (the "Mario" persona: 35-55, medium tech comfort, 1-5 properties in SEA) do not think in terms of "security levels." They think in terms of outcomes: "Can my guests order food easily?" and "Can strangers abuse my system?" Exposing security as a configurable option transfers a complex decision to someone unqualified to make it.
+**Why it happens:** Feedback timing is treated as a simple trigger ("send after checkout") without considering the guest's emotional state and memory curve. Research from hospitality industry consistently shows: the best feedback comes 2-24 hours after checkout, when the guest has decompressed but still remembers details.
 
 **Warning signs:**
 
-- Settings page shows "Security Level" with abstract labels (Low/Medium/High)
-- No explanation of consequences for each level
-- Owner can set security so low that financial actions are unprotected
-- Owner can set security so high that guests cannot access basic info
-- Default setting is not the recommended one
+- Feedback prompt appears on the checkout info screen (too early, guest is busy)
+- Feedback request is a one-time push notification with no follow-up
+- Feedback is a simple 1-5 star rating with no structured questions
+- No distinction between "during stay" micro-feedback and "post-stay" review
+- Owner never sees or responds to feedback (no closed loop)
 
 **Prevention:**
 
-- **Do NOT expose "security levels" as a user-facing concept.** Instead, bake the recommended behavior as the only behavior. The gate matrix from Pitfall 3 (WiFi free, orders gated) should be hardcoded, not configurable.
-- **If configuration is required, use outcome-based language:**
-  - Instead of "Security Level: Low" use "Guest Verification: Require PIN before ordering (recommended)"
-  - Toggle ON by default. Owner can turn OFF only with a warning: "Anyone with the QR code will be able to place orders without verification."
-- **Limit configurability to safe options.** The owner should NEVER be able to disable verification for financial actions. The only toggle should be: "Require verification to VIEW the dashboard" (default: NO) vs "Require verification only to ORDER" (default: YES).
-- **Safe defaults that cannot be accidentally changed.** The default configuration should be correct for 95% of properties. Changing it should require an explicit "I understand the risks" confirmation.
-- **Audit log for configuration changes.** If an owner changes security settings, log it. If abuse happens later, you can trace it back.
+- **Two feedback channels, not one:**
+  1. **During-stay micro-feedback:** A persistent "How is your stay?" widget on the dashboard. Simple: happy/neutral/sad face. If sad face, show a text field. This catches issues the owner can fix NOW (broken AC, noisy room, missing towels). Immediate value for both parties.
+  2. **Post-stay review:** Push notification or WhatsApp message sent 4-6 hours after checkout. "How was your stay at [property]? Your feedback helps [owner name] improve." Link to a simple form: overall rating + 3 category ratings (cleanliness, comfort, communication) + optional text.
+- **Never block checkout for feedback.** The feedback prompt must be optional and skippable. Guests who feel forced to rate will give dishonest ratings.
+- **Owner sees feedback in real-time.** During-stay feedback (especially negative) should appear in the backoffice immediately, with a suggested action: "Guest in Room 203 reported an issue. Contact them?"
+- **Keep it short.** Total feedback form: < 60 seconds to complete. 3 category ratings + optional text. No 20-question surveys.
 
-**Detection:** Set up a test property with default settings. Verify that financial actions require verification and informational actions do not. If the defaults are wrong, 95% of properties will have the wrong configuration.
+**Detection:** Time yourself completing the feedback form. If it takes more than 45 seconds, guests will not complete it.
 
-**Severity:** MODERATE -- owner misconfiguration is likely but consequences are bounded (worst case: unauthorized orders, not data breach).
-**Phase:** Must be a product decision in planning. Implementation should hardcode the recommended behavior.
+**Severity:** MODERATE -- bad feedback timing means you collect data that does not improve the product. No immediate harm, but a wasted feature.
+**Phase:** Guest feedback phase. Design the two-channel approach from the start.
 
 ---
 
-### Pitfall 6: QR Lifecycle Gap Between Checkout and Deactivation
+### Pitfall 5: Convention/Voucher System Becomes an Unauditable Discount Machine
 
-**What goes wrong:** Guest A checks out at 11:00 AM. The room is cleaned and prepared for Guest B who checks in at 14:00. During the 3-hour gap, the room QR code resolves to... what? If it shows Guest A's (now expired) data, that is a privacy leak. If it shows Guest B's data, Guest B has not checked in yet (and the booking may not exist yet for walk-ins). If it shows nothing, a guest arriving early and scanning the QR sees a broken page.
+**What goes wrong:** Owner creates a convention code "YOGA2026" that gives 15% off. They share it with the yoga retreat organizer. The organizer shares it on social media. 200 people use the code, including people not in the retreat. The owner intended it for 20 people. There is no cap, no tracking of who used it, and no way to disable it without also affecting the 15 legitimate bookings already made with it.
 
-**Why it happens:** The system assumes rooms always have an active booking. The transition period between guests is not modeled. For room-based QR codes (permanent, not per-booking), there MUST be a "no active booking" state.
+**Why it happens:** Voucher/convention systems are deceptively simple to build ("just apply a discount code") but have complex edge cases: usage limits, expiration, per-guest limits, group tracking, and reporting. Building the happy path without constraints creates an uncontrollable discount tool.
 
 **Warning signs:**
 
-- QR scan during a room vacancy shows an error page or stale data
-- No "between guests" state in the room status model
-- System crashes or returns 500 when no active booking found for a room
-- Early arriving guests see "no booking found" instead of a helpful message
+- Voucher code with no usage limit
+- No association between voucher and expected guest list
+- No per-guest usage limit (same guest uses code multiple times)
+- Owner cannot see who used the code or how many times
+- No expiration date on voucher codes
+- Voucher discount stacks with weekly/monthly discounts (double discount)
 
 **Prevention:**
 
-- **Model the room vacancy state explicitly.** When a QR is scanned and no active booking exists for the room:
-  1. Show property name and photo (welcoming, not broken)
-  2. Show WiFi credentials (the property-level WiFi, not room-specific)
-  3. Show "Check-in starts at [time]. Verify your booking to access your stay dashboard."
-  4. Provide a verification form (booking code + last name)
-- **The vacancy page is an onboarding opportunity.** Show the property's services, local deals, and check-in information. Early arrivals can browse while waiting.
-- **Time-based booking resolution.** When resolving "current booking for room X":
-  - Active booking with check-in date <= today AND check-out date >= today = current guest
-  - No match = vacancy state
-  - Multiple matches = ERROR (double booking -- alert owner)
-- **Do NOT show the previous guest's data under any circumstances.** The vacancy state must be a clean slate.
-- **Handle walk-in guests.** Owner creates a booking in the dashboard, assigns it to the room. Guest can then verify via the QR.
+- **Every voucher code must have:**
+  - Maximum total uses (e.g., 20 for a retreat group)
+  - Optional per-guest limit (default: 1)
+  - Expiration date
+  - Associated property ID (cannot be used at other properties)
+  - Creator tracking (who created it, when)
+  - Usage log (who used it, when, for which booking)
+- **Convention codes are voucher codes with a group label.** A "convention" is just a voucher with extra metadata: group name, expected headcount, contact person. Do NOT build a separate convention system -- extend vouchers.
+- **Discount stacking rules must be explicit.**
+  - Voucher discount + weekly/monthly discount: pick the best one, do not stack
+  - The pricing engine (`lib/price-utils.ts`) already calculates weekly/monthly discounts. Vouchers must integrate into this, not bypass it.
+- **Owner dashboard: voucher usage report.** Show: code, total uses, remaining uses, revenue impact (total discount given). This makes vouchers auditable.
+- **Do NOT allow percentage discounts > 50%.** A typo (150% off instead of 15%) should be caught by validation, not discovered when someone books a room for negative money.
 
-**Detection:** Check out a test booking. Scan the room QR immediately. If you see the previous guest's data or an error page, this is broken. You should see the vacancy welcome page.
+**Detection:** Create a voucher code. Use it 100 times. If the system does not stop you at the usage limit, this is broken.
 
-**Severity:** MODERATE -- causes confusion and support requests, but no security breach if implemented correctly.
-**Phase:** Must be addressed alongside the QR routing logic. The vacancy state is a first-class UI state, not an error.
+**Severity:** MODERATE -- revenue leakage from uncontrolled discounts. Fixable but embarrassing.
+**Phase:** Convention/voucher phase. Usage limits and expiration are mandatory from day one.
 
 ---
 
-### Pitfall 7: Backward Compatibility -- Existing Booking-Code QR Codes Stop Working
+### Pitfall 6: Bottom Nav Overhaul Confuses Returning Guests
 
-**What goes wrong:** Properties already using GUDBRO have printed QR codes pointing to `/stay/BK-ABC123` (booking-specific URLs). When switching to room-based QR codes (`/room/{propertyId}/{roomId}`), the old URLs break. Guests who received pre-arrival emails with the old URL format cannot access their dashboard. Owners who printed old QR codes on laminated cards in rooms now have dead links.
+**What goes wrong:** Returning guests who used the old BottomNav (Home, Map, Menu, Services, Profile) suddenly see a different nav structure. The "Services" tab they used to order breakfast is now called "Orders" and is in a different position. The "Menu" center button now does something different. Muscle memory fails. The guest taps where "Services" used to be and gets "Profile" instead. They think the app is broken.
 
-**Why it happens:** URL structure changes during the migration from booking-code-based to room-based QR codes. The old `/stay/[code]` route is modified or removed. Nobody inventoried the existing QR codes in circulation.
+**Why it happens:** The current `BottomNav.tsx` has 5 items with specific IDs (`home`, `map`, `menu`, `services`, `profile`). Changing the order, labels, or icons disrupts the spatial memory of users who have used the app during a previous stay. For returning guests (a key differentiator in the accommodation space), this is particularly damaging.
 
 **Warning signs:**
 
-- The `/stay/[code]` route handler is modified to require different parameters
-- Pre-arrival emails contain URLs that will break after the migration
-- Printed QR codes in rooms point to the old URL format
-- No redirect from old URL format to new format
-- Existing JWTs (signed with current `auth.ts`) are invalidated by new auth logic
+- Nav items reordered without considering existing users
+- Tab IDs renamed (breaking `handleTabChange` and `activeTab` state)
+- The center "Menu" button behavior changes (currently triggers `onMenuToggle`)
+- No transition period or explanation for the new nav
+- Guest-facing and owner-facing nav redesigned simultaneously (double confusion)
 
 **Prevention:**
 
-- **Never break existing URLs.** The `/stay/[code]` route MUST continue working exactly as it does today. Existing bookings with existing QR codes must function identically.
-- **Add new routes alongside old ones:**
-  - `/stay/[code]` -- existing behavior, unchanged (booking-code access)
-  - `/room/[propertyId]/[roomId]` -- NEW route for room-based QR codes
-  - Both routes lead to the same dashboard component, just with different entry points
-- **Existing JWTs must remain valid.** The current `GuestTokenPayload` has `bookingId`, `propertyId`, `checkoutDate`. Do NOT change this structure. If adding new fields, make them optional. If changing the signing secret, implement dual-secret validation during the transition.
-- **Pre-arrival emails keep using booking-code URLs.** The booking-code URL is actually BETTER for pre-arrival because it is specific to the guest. Room-based QR codes are for physical QR codes IN the room.
-- **Migration plan for physical QR codes:** Owners can transition to room-based QR codes at their own pace. The old booking-code QR codes keep working. Document "how to switch to room QR codes" in the owner dashboard.
-- **Test: access the app with an old-format URL after deploying the new code.** This must work.
+- **Keep the first and last nav items stable.** "Home" on the left, "Profile" on the right -- these are muscle memory anchors. Change middle items if needed.
+- **Maintain the `onTabChange` contract.** The new BottomNav must emit the same tab IDs that `InStayDashboard.handleTabChange` expects. If adding new tabs, extend the handler -- do not rename existing IDs.
+- **Functional parity first, visual redesign second.** If the new nav has the same items in the same order but with better icons/labels, it is a safe change. If items move or are removed, existing flows break.
+- **Test with the RoomDashboard page too.** The `RoomDashboard` (`app/stay/room/[roomCode]/page.tsx`) does NOT currently use `BottomNav`, but if the redesign adds it there, ensure progressive auth still works (browse tier users should not see tabs for gated features).
 
-**Detection:** After deploying any changes, test every existing URL format: `/stay/BK-XXXX`, `/`, property pages. If any return 404 or behave differently, backward compatibility is broken.
+**Detection:** Open the old dashboard. Memorize where "Services" is. Deploy the new nav. Tap where "Services" was. If you get a different feature, returning guests will be confused.
 
-**Severity:** MODERATE -- broken URLs cause immediate guest frustration, but are fixable with redirects if caught quickly.
-**Phase:** Must be the FIRST constraint in the architecture design. "Old URLs must keep working" is non-negotiable.
+**Severity:** MODERATE -- confusion is temporary but hurts the "returning guest" value proposition.
+**Phase:** Bottom nav overhaul. Ship as a visual refinement, not a restructure.
 
 ---
 
-### Pitfall 8: Document Upload Without GDPR-Compliant Retention and Deletion
+### Pitfall 7: Onboarding Wizard Blocks Existing Owners Who Already Configured Their Property
 
-**What goes wrong:** Guests upload passport photos and visa documents for the visa tracker feature. These documents are stored in Supabase Storage indefinitely. Six months later, the guest requests data deletion under GDPR. You cannot find all copies of their documents across storage buckets, database records, and any CDN caches. Or worse: a data breach exposes hundreds of passport photos because they were stored in a public bucket or without encryption at rest.
+**What goes wrong:** The onboarding wizard is designed for new owners setting up for the first time. After deploying, ALL owners (including those with fully configured properties) see the wizard on their next login. The wizard asks them to "add your property name" -- which they already did 3 months ago. Some owners panic: "Did my data get deleted?" Others click through impatiently, accidentally overwriting their existing configuration with wizard defaults.
 
-**Why it happens:** Document upload is treated as a simple file upload feature. Developers store the file, save the URL, and move on. But passport photos and visa documents are **special category personal data** under GDPR -- they contain biometric information (photo), government ID numbers, nationality, and visa status. They require higher protection and explicit retention policies.
+**Why it happens:** The wizard does not check if the property is already configured. It triggers for every owner who has not explicitly completed the wizard (since the wizard did not exist before, no one has "completed" it).
 
 **Warning signs:**
 
-- Documents stored in a Supabase Storage bucket without RLS policies
-- No retention period defined -- documents live forever
-- No automated deletion after checkout + grace period
-- No encryption beyond what Supabase provides by default
-- No data processing consent obtained before upload
-- Documents accessible via direct URL without auth (public bucket)
+- Wizard shows for all owners, not just new ones
+- Wizard steps pre-fill with default values instead of existing data
+- No "skip wizard" option for already-configured properties
+- Wizard overwrites existing data if the owner clicks "Save" on a pre-filled step
+- No detection of "this property is already set up"
 
 **Prevention:**
 
-- **Private bucket with strict RLS.** Documents go in a `guest-documents` bucket with RLS: only the guest (via their JWT) and the property owner can access. No public URLs.
-- **Explicit retention policy:**
-  - Guest documents retained for: checkout date + 30 days (covers disputes)
-  - Owner compliance documents (NA17 records): retained for legal minimum (varies by country, typically 1-3 years in Vietnam)
-  - After retention period: **automatically delete from storage AND nullify database references**
-- **Consent before upload.** Show a clear message: "Your document will be stored securely and automatically deleted 30 days after checkout. It will only be shared with your host for legal compliance purposes." Require explicit consent (checkbox, not pre-checked).
-- **Cron job for cleanup.** Schedule a daily cron that finds documents past their retention date and deletes them from both storage and database. Log deletions for audit trail.
-- **No thumbnails or copies.** Do not create image thumbnails or cache copies of identity documents. Store once, serve once, delete once.
-- **Signed URLs, not permanent URLs.** Use Supabase's `createSignedUrl()` with a short expiry (e.g., 5 minutes) instead of storing permanent URLs. This ensures documents cannot be accessed after the signed URL expires.
+- **Detect existing configuration and skip the wizard.** Check: does the property have a name, at least one room, and at least one service? If yes, the owner has already set up. Do NOT show the wizard.
+- **Wizard status stored per-property, not per-owner.** An owner with 3 properties: 2 configured, 1 new. The wizard should show only for the new property.
+- **Pre-fill wizard with existing data, not defaults.** If an owner does enter the wizard for an existing property (via a "Re-run setup" link), all fields should show current values.
+- **Wizard is additive, never destructive.** Completing a wizard step should only write data if the field was explicitly changed. "Step 1: Property Name [Beach View Apartment]" -- if the owner clicks Next without changing it, do not re-save.
+- **Mark existing properties as "wizard_completed" in a migration.** When deploying the wizard, run a migration that sets `wizard_completed = true` for all properties that have a name and at least one room.
 
-**Detection:** Upload a test document. Check out the booking. Wait past the retention period. Verify the document is deleted from storage. If it persists, retention policy is not working.
+**Detection:** Log in as an owner with a fully configured property. If the wizard appears, this is broken.
 
-**Severity:** MODERATE (HIGH if operating in EU or handling EU citizens) -- GDPR fines up to 4% of annual revenue or 20M EUR. Marriott paid $52M in 2024 for a data breach involving guest records.
-**Phase:** Must be designed before the document upload feature is built. Retention policy and consent flow are prerequisites, not afterthoughts.
+**Severity:** MODERATE -- confuses existing owners, potential data loss if wizard overwrites existing config.
+**Phase:** Onboarding wizard phase. The "skip for existing" logic is the first thing to implement, not the last.
 
 ---
 
-### Pitfall 9: JWT Token Conflicts Between Old Auth Flow and New Progressive Auth
+### Pitfall 8: Early Check-in / Late Checkout Creates Double-Booking Edge Cases
 
-**What goes wrong:** The current system issues a JWT after booking code + last name verification (via `/api/stay/verify`). The new system will issue tokens differently -- perhaps a "limited" token after QR scan (for browse access) and a "full" token after verification (for ordering). If both token types use the same `localStorage` key, the same header, and the same verification function, they collide. A limited token gets used for a full-access endpoint. Or a full token from a previous booking gets confused with a limited token for a new session.
+**What goes wrong:** Guest A has a booking: check-in Jan 10, check-out Jan 15. Guest B has a booking: check-in Jan 15, check-out Jan 20. Guest A requests late checkout (until 3 PM). Guest B requests early check-in (at 11 AM). The system approves both because it checks each request independently. Now two guests claim the same room on Jan 15 from 11 AM to 3 PM. The owner has to awkwardly ask one guest to wait in the lobby.
 
-**Why it happens:** Incremental changes to the auth system without a clear token strategy. The existing `useStaySession` hook stores `stayToken` in `localStorage`. Adding a second token type without renaming or namespacing creates conflicts.
+**Why it happens:** Early check-in and late checkout modify the effective occupation window but the booking system only tracks dates, not times. The existing calendar (`backoffice/accommodations/calendar/page.tsx`) resolves bookings as half-open date intervals: `check_in_date <= date < check_out_date`. Adding time-based flexibility to a date-based system creates conflicts the calendar cannot detect.
 
 **Warning signs:**
 
-- Two different token payloads stored under the same `localStorage` key
-- `verifyGuestToken()` does not distinguish between token types
-- A "browse" token accidentally grants ordering access because the ordering endpoint only checks `token !== null`
-- Existing `useStaySession` hook returns `isAuthenticated: true` for both token types
+- Early/late checkout stored as boolean flags without time specifications
+- No conflict check against adjacent bookings when approving early/late requests
+- Calendar still shows bookings by date, not by time slot
+- Owner approves early check-in without seeing that previous guest has late checkout
+- No buffer time between bookings for room cleaning
 
 **Prevention:**
 
-- **Single token with scopes, not two separate tokens.** Issue one JWT with a `scope` claim: `scope: 'browse'` (post-QR, pre-verification) or `scope: 'full'` (post-verification). The verification function checks the scope for protected actions.
-  ```typescript
-  interface GuestTokenPayload {
-    bookingId: string; // null for browse tokens
-    propertyId: string;
-    roomId: string; // NEW: for room-based access
-    checkoutDate: string; // null for browse tokens
-    scope: 'browse' | 'full'; // NEW: access level
-  }
+- **Early/late is a request, not automatic.** Guest requests early check-in or late checkout. Owner sees the request WITH a conflict warning if it overlaps an adjacent booking. Owner approves or denies. Never auto-approve.
+- **Conflict detection query:** When Guest B requests early check-in on Jan 15:
+  ```sql
+  -- Check if Room X has a booking with late checkout on Jan 15
+  SELECT * FROM accom_bookings
+  WHERE room_id = $1
+  AND check_out_date = '2026-01-15'
+  AND late_checkout_approved = true;
   ```
-- **Ordering endpoints check `scope === 'full'`.** Not just "token exists."
-- **Upgrade path:** When a browse-token user verifies their identity, issue a new full-scope token and replace the browse token in `localStorage`. Do not keep both.
-- **Namespace localStorage keys.** Use `stayToken_{propertyId}` instead of just `stayToken` to prevent cross-property token conflicts if a guest visits multiple GUDBRO properties.
+  If a result exists, show the owner: "Warning: Guest A in this room has late checkout until 3 PM. Early check-in at 11 AM would overlap."
+- **Add a cleaning buffer.** Between any checkout and the next check-in, require a minimum gap (configurable, default: 2 hours). This is independent of early/late checkout -- it is a property-level setting.
+- **Do NOT modify the booking date fields.** `check_in_date` and `check_out_date` remain pure dates. Add separate fields: `early_checkin_time`, `late_checkout_time`, `early_checkin_approved`, `late_checkout_approved`. This preserves the existing date-based calendar logic.
+- **Display in the calendar as a visual indicator**, not a date change. A booking with late checkout shows a small "Late CO 3PM" badge on the checkout date cell. The cell is still "available" for date-based queries, but the owner sees the time constraint.
 
-**Detection:** Issue a browse token. Try calling the order-creation endpoint with it. If it succeeds, scope enforcement is missing.
+**Detection:** Create two adjacent bookings (A checks out Jan 15, B checks in Jan 15). Approve late checkout for A and early check-in for B. If the system does not warn about the overlap, this is broken.
 
-**Severity:** MODERATE -- scope confusion enables unauthorized actions. Fixable but embarrassing.
-**Phase:** Must be designed in the auth architecture phase, before touching any endpoint.
+**Severity:** MODERATE -- creates real-world conflicts but does not break the system. Owner must resolve manually.
+**Phase:** Early/late checkout phase. Conflict detection is mandatory, not a nice-to-have.
+
+---
+
+### Pitfall 9: Delivery App Integration Creates a Second Order Channel That Owners Cannot Manage
+
+**What goes wrong:** Guest can now order via the in-stay dashboard (existing) AND via a delivery app integration (new). Owner receives orders in two places. They fulfill the delivery order but forget to mark the dashboard order as delivered. Or: guest orders via dashboard, then re-orders the same thing via the delivery app because the dashboard order was slow. Owner prepares both. Guest gets double food. Revenue from the delivery app order has a 30% commission. Revenue from the dashboard order is 100%. The owner cannot reconcile which channel is better.
+
+**Why it happens:** Adding a second order channel without unified order management creates operational chaos for a small property owner who does not have a staff to monitor multiple systems.
+
+**Warning signs:**
+
+- Orders from delivery app and dashboard appear in different dashboards
+- No unified order view for the owner
+- Guest can place duplicate orders across channels with no dedup warning
+- Delivery app orders not reflected in the in-stay order history
+- No analytics comparing revenue/margin by channel
+
+**Prevention:**
+
+- **Delivery app integration should be a LINK, not a parallel system.** The in-stay dashboard shows: "Want food delivered? Order via [DeliveryApp]" with a deep link. The order happens entirely in the delivery app. GUDBRO does not track it, does not duplicate it, and does not try to reconcile it.
+- **If you MUST track delivery orders:** ingest them via webhook/API and show them in the same order list with a "via [App]" badge. But do NOT build a parallel order-taking system.
+- **Clear channel separation for the guest:** Dashboard = property's own services (breakfast, minibar, laundry). Delivery app = external food delivery. These are different things. Do not let the guest order the same breakfast through both channels.
+- **Analytics: track which channel guests prefer.** Simple counter: "Orders via dashboard: 45. Orders via delivery app: 12." This informs whether the delivery integration is useful.
+- **For the owner: one inbox.** All orders (dashboard + delivery if tracked) appear in the same backoffice order page (`backoffice/accommodations/orders/page.tsx`). No separate dashboards.
+
+**Detection:** Place an order via the dashboard and an order via the delivery integration. Log in as the owner. If these appear in different places, the owner will miss one.
+
+**Severity:** MODERATE -- operational confusion for the owner. Not a system failure, but a UX failure.
+**Phase:** Delivery integration phase. Start with "link out" approach, not "ingest orders."
+
+---
+
+### Pitfall 10: Performance Tracking Dashboard Built Before There Is Enough Data
+
+**What goes wrong:** The performance tracking feature ships with beautiful charts: occupancy rate, revenue per room, average booking value, service order conversion. For a property with 3 rooms and 2 months of data, every chart is either empty or misleading. "Occupancy rate: 100%" because the property had one booking last week and it filled 1 of 1 active rooms. "Average booking value: $450" based on a single luxury booking. The owner draws incorrect conclusions from statistically insignificant data.
+
+**Why it happens:** Analytics features are designed for mature products with months of data. Shipping analytics on day one of a feature launch means showing charts with insufficient sample sizes, which is worse than showing no charts.
+
+**Warning signs:**
+
+- Charts render with 1-2 data points
+- Percentage metrics calculated from sample sizes < 10
+- Trend lines showing "growth" based on 2 weeks of data
+- No minimum data threshold before showing analytics
+- Owner makes pricing decisions based on 3 bookings worth of data
+
+**Prevention:**
+
+- **Minimum data thresholds for each metric.** Do not show:
+  - Occupancy rate until at least 30 days of data
+  - Average booking value until at least 10 bookings
+  - Trend lines until at least 3 months of data
+  - Conversion rates until at least 50 dashboard views
+- **Show raw numbers first, charts later.** Instead of a misleading pie chart, show: "This month: 3 bookings, $450 total revenue, 2 service orders." Simple, accurate, useful.
+- **Contextual benchmarks, not absolute metrics.** "Your occupancy this month: 60%. Similar properties in Da Nang: 72%." This gives the owner context. Without benchmarks, "60% occupancy" means nothing to a first-time property owner.
+- **Phase the analytics:**
+  - Month 1-3: Simple counters (bookings, revenue, orders)
+  - Month 3-6: Monthly comparisons ("This month vs last month")
+  - Month 6+: Trend charts, conversion funnels, revenue per room
+
+**Detection:** Create a property with 2 bookings. Open the analytics dashboard. If you see charts with trend lines, the analytics are premature.
+
+**Severity:** MODERATE -- misleading data is worse than no data. Owner makes bad decisions.
+**Phase:** Performance tracking phase. Ship counters first, charts later.
 
 ---
 
@@ -332,125 +339,175 @@ Mistakes that cause UX degradation, support overhead, or technical debt.
 
 Mistakes that cause annoyance but are fixable without major rework.
 
-### Pitfall 10: QR Code Physical Placement Causes Scanning Failures
+### Pitfall 11: Returning Guest Detection Based on Email Matching Fails for Asian Names
 
-**What goes wrong:** The QR code is printed too small, placed behind a lamp, laminated with glossy film that causes glare, or positioned where there is poor lighting. 20% of guests cannot scan it on first try. They give up or call the host.
+**What goes wrong:** Guest "Nguyen Van Anh" books in January with email `anh123@gmail.com`. In March, they book again with `nguyenvananh@gmail.com` (different email, same person). The system does not detect them as a returning guest. Separately, "John Smith" books with `john@company.com`. A different "John Smith" books with `johnsmith@gmail.com`. The system incorrectly flags them as the same returning guest because both are "John Smith."
 
-**Prevention:**
-
-- **Minimum QR size: 3cm x 3cm** for close-range scanning (guest holds phone 10-15cm away)
-- **Matte lamination, not glossy** -- reduces glare from phone flashlight
-- **Place at eye level near the door or on the nightstand** -- consistent location guests can find
-- **Include fallback text below QR:** "Can't scan? Visit stays.gudbro.com/r/ROOM-CODE"
-- **Test with 3 different phone models** before mass printing
-
-**Phase:** Address in the QR code generation/documentation phase. Include placement guidelines for owners.
-
----
-
-### Pitfall 11: Room Changes Invalidate QR-Based Access
-
-**What goes wrong:** Guest A is moved from Room 201 to Room 305 mid-stay (plumbing issue, upgrade, etc.). The QR code in Room 305 is linked to Room 305, but Guest A's booking is still linked to Room 201. Guest A scans the QR in Room 305 and gets a vacancy page or a different guest's data.
+**Why it happens:** Name-based matching is unreliable due to common names (especially in SEA: Nguyen, Tran, Le are extremely common Vietnamese surnames). Email-based matching fails because guests use different emails. Phone-based matching is better but guests may use different numbers.
 
 **Prevention:**
 
-- **Room changes must update the booking's room assignment.** When the owner changes a guest's room in the dashboard, the booking record is updated.
-- **The room-based QR resolves via booking, not room.** The flow is: QR -> room ID -> find active booking for this room -> show that booking's dashboard. If the booking's room was updated, the resolution works automatically.
-- **Notify the guest.** When room changes happen, send a WhatsApp/notification: "You've been moved to Room 305. Scan the QR in your new room to access your dashboard."
-- **Old room QR shows vacancy page after room change** -- this is correct behavior.
+- **Multi-signal matching with confidence scoring:**
+  - Same email = HIGH confidence (likely same person)
+  - Same phone = HIGH confidence
+  - Same name + same country = MEDIUM confidence (could be different person)
+  - Same name only = LOW confidence (too many false positives for SEA names)
+- **Never auto-apply returning guest benefits on LOW confidence.** Only HIGH confidence matches get automatic recognition. MEDIUM confidence: show the owner "Possible returning guest?" for manual confirmation.
+- **Store a guest fingerprint hash.** Combine: email (normalized) + phone (normalized) + country. Hash it. Match on hash for fast lookup.
+- **Do NOT use name alone for matching in Vietnam/Thailand/Indonesia.** Common family names (Nguyen: ~40% of Vietnamese population) make name-based matching useless.
 
-**Phase:** Address in the booking management/owner dashboard phase.
+**Detection:** Create two bookings with different emails but the same Vietnamese name. If the system flags them as returning, false positive rate is too high.
+
+**Severity:** MINOR -- false positives are annoying but not harmful. False negatives (missing returning guests) are a missed opportunity, not a bug.
+**Phase:** Returning guest detection phase. Multi-signal matching from the start.
 
 ---
 
-### Pitfall 12: Browser Back Button and Deep Linking Break Progressive Auth Flow
+### Pitfall 12: Image Upload Without Size/Format Validation Slows Down the PWA
 
-**What goes wrong:** Guest scans QR, sees dashboard (browse mode). Taps "Order breakfast." Auth prompt appears. Guest verifies. Order form opens. Guest taps browser back button. They land on... the auth prompt again? The QR scan page? The browser back button behavior in a single-page app with modals and drawers is unpredictable.
+**What goes wrong:** Owner uploads a 12MB DSLR photo as a property image. Or a guest uploads a 20MB RAW scan of their passport. The PWA loads these full-size images, causing 3-5 second load times on SEA mobile networks (which average 10-30 Mbps in urban areas, much less in rural tourism areas).
 
 **Prevention:**
 
-- **Auth prompt as a modal/bottom-sheet, not a route.** If verification is a modal overlay on the dashboard (not a separate URL), the back button closes the modal and returns to the dashboard -- expected behavior.
-- **Use `history.replaceState` for auth state changes.** When the user verifies, do not push a new history entry. Replace the current one so back button does not re-trigger verification.
-- **Deep link support:** If a verified guest shares `/stay/BK-ABC123` with their partner, the partner should see the dashboard and get an auth prompt on action -- not a redirect to the home page.
-- **Test the back button explicitly** at every stage of the flow. This is the most overlooked UX test.
+- **Max upload size: 5MB for property images, 10MB for documents.**
+- **Auto-resize property images server-side** to max 1920px wide, WebP format, ~200KB each.
+- **Lazy-load images** below the fold (especially in property gallery).
+- **Document images: store original for compliance, serve compressed thumbnail for display.**
+- **Validate on the client before upload.** The existing `image-utils.ts` should handle this. Show an error immediately, do not wait for the server.
 
-**Phase:** Address in the frontend implementation phase.
+**Detection:** Upload a 15MB image. If the upload succeeds and the full-size image is served to PWA users, this is broken.
+
+**Severity:** MINOR -- slow load times on mobile. Fixable with image processing pipeline.
+**Phase:** Image upload phase. Validation and resize are part of the upload API, not a follow-up.
 
 ---
 
-## Phase-Specific Warnings
+### Pitfall 13: Bug Fixes to Existing Features Introduce Regressions in Adjacent Features
 
-| Phase Topic                 | Likely Pitfall                   | Mitigation                                                   |
-| --------------------------- | -------------------------------- | ------------------------------------------------------------ |
-| Architecture Design         | Stale QR reuse (P1)              | Session invalidation on new check-in, vacancy state          |
-| Architecture Design         | Backward compatibility (P7)      | Old URLs keep working, new routes added alongside            |
-| Auth System Redesign        | Unprotected endpoints (P2)       | Endpoint classification matrix, default-deny for mutations   |
-| Auth System Redesign        | Token conflicts (P9)             | Single token with scopes, not two token types                |
-| Product Decision (Pre-code) | Auth gate position (P3)          | Document "free vs gated" actions matrix before coding        |
-| Product Decision (Pre-code) | Security level config (P5)       | Hardcode recommended behavior, do not expose as user setting |
-| Verification Flow           | Multi-guest rooms (P4)           | PIN-based verification alongside name verification           |
-| QR Routing Logic            | Vacancy state (P6)               | First-class "no active booking" UI, not error page           |
-| Document Upload             | GDPR retention (P8)              | Private bucket, auto-delete cron, consent flow               |
-| Frontend Implementation     | Back button / deep linking (P12) | Auth as modal, not route; test back button at every stage    |
-| QR Code Deployment          | Physical scanning issues (P10)   | Size/placement guidelines, fallback URL                      |
-| Booking Management          | Room changes (P11)               | Update booking room assignment, notify guest                 |
+**What goes wrong:** Fix #7 corrects the booking calendar date handling. The fix changes how `check_in_date` is parsed in the API. This subtly breaks the in-stay dashboard's `WelcomeCard` component, which also parses `checkIn` from the booking object. The bug fix is tested in isolation (calendar works!) but the regression in the dashboard is not caught until a guest reports their stay dates look wrong.
+
+**Why it happens:** The accommodations codebase has tight coupling between features. The booking object is shared across: booking page, in-stay dashboard, backoffice bookings list, calendar page, order system (for date validation), and analytics. A change to the booking data shape or parsing logic in one place can affect all others.
+
+**Warning signs:**
+
+- Bug fix changes a shared utility (e.g., `price-utils.ts`, `types.ts`, `stay-api.ts`)
+- Bug fix modifies an API response shape
+- Bug fix touches a Supabase query that multiple routes depend on
+- No regression test for the adjacent features
+- The 13 bug fixes are batched into one deploy
+
+**Prevention:**
+
+- **Ship bug fixes individually, not batched.** Each fix = one commit, one deploy, one verification. If fix #7 breaks something, you know exactly which commit caused it.
+- **For each bug fix, list affected surfaces.** Before fixing a booking date bug, list: "This date is used in: calendar page, in-stay dashboard, backoffice booking detail, order validation, analytics." Test all of them.
+- **Type safety is your friend.** The existing `types/stay.ts` defines shared types. If a bug fix changes a type, TypeScript will catch most downstream breakage. Run `tsc --noEmit` after every fix.
+- **Keep shared utilities immutable when possible.** If `price-utils.ts` has a bug, fix it in place. But if the fix changes the function signature, create a new function and migrate callers one at a time.
+
+**Detection:** After each bug fix, run the full typecheck (`pnpm tsc --noEmit`) and test the in-stay dashboard, booking page, and backoffice booking list. If any behave differently, the fix introduced a regression.
+
+**Severity:** MINOR individually, but 13 bug fixes deployed together = HIGH regression risk collectively.
+**Phase:** Bug fix phase. Ship one at a time, earliest in the milestone timeline.
 
 ---
 
 ## Integration Pitfalls with Existing System
 
-These are specific to adding frictionless access to the EXISTING GUDBRO accommodations codebase.
+These are specific to adding features to the EXISTING GUDBRO accommodations codebase (~30k LOC, 14 migrations, working progressive auth).
 
-### Existing Code That Must Not Break
+### State Management in InStayDashboard
 
-| File                                    | Current Behavior                                                  | Risk If Modified                                                         |
-| --------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| `lib/auth.ts`                           | Signs/verifies JWT with `bookingId`, `propertyId`, `checkoutDate` | Changing payload structure breaks existing tokens                        |
-| `app/stay/[code]/page.tsx`              | Redirects to `/` if `!isAuthenticated`                            | Must NOT redirect for browse mode -- needs conditional logic             |
-| `hooks/useStaySession.ts`               | Returns `isAuthenticated` boolean                                 | Must distinguish between "browse" and "full" auth                        |
-| `app/api/stay/verify/route.ts`          | Only entry point for getting a JWT                                | Must remain functional; new entry point added for QR-based browse tokens |
-| `app/api/stay/[code]/orders/route.ts`   | Requires JWT for all operations                                   | Must continue requiring JWT; do NOT make auth optional here              |
-| `app/api/stay/[code]/services/route.ts` | Requires JWT to list services                                     | CANDIDATE for auth-optional (browsing services is low-risk)              |
-| `components/stay/*.tsx`                 | All assume `stay` data is available (post-auth)                   | Some components need a "limited data" mode for browse access             |
+The `app/stay/[code]/page.tsx` file is already 320+ lines with 15 state variables and 10+ components. Adding minibar, feedback, voucher display, and order detail view to this page will push it past maintainability limits.
 
-### Migration Safety Checklist
+| Current State Variables | Used By                                            |
+| ----------------------- | -------------------------------------------------- |
+| `activeTab`             | BottomNav, handleTabChange                         |
+| `showCatalog`           | ServiceCatalog overlay                             |
+| `showCart`              | CartDrawer                                         |
+| `serviceCategories`     | ServicesCarousel, ServiceCatalog, CartDrawer       |
+| `serviceTimezone`       | CartDrawer, ServiceCatalog                         |
+| `documents`             | DocumentUpload section                             |
+| `showUpload`            | DocumentUpload toggle                              |
+| `propertyExtended`      | QuickActions, ReturnGuestBanner, RestaurantSection |
+| `propertyLoading`       | Loading state                                      |
 
-- [ ] All existing `/stay/[code]` URLs continue to work identically
-- [ ] Existing JWTs (issued before migration) are still accepted
-- [ ] `useStaySession` hook backward compatible (existing pages work unchanged)
-- [ ] No existing protected endpoint becomes unprotected
-- [ ] No existing component crashes when `stay` data is partially available
-- [ ] Pre-arrival emails with booking-code URLs still function
-- [ ] Existing E2E tests pass without modification
+**Prevention:** Extract the dashboard into a compound component pattern BEFORE adding features:
+
+- `DashboardProvider` (context with all shared state)
+- `DashboardHome` (WiFi, welcome, quick actions)
+- `DashboardServices` (carousel, catalog, cart, orders)
+- `DashboardLocal` (deals, useful numbers, restaurant)
+- `DashboardDocuments` (upload, visa status)
+
+Add NEW features (minibar, feedback, voucher) as new dashboard sections that consume the provider. Do not add more state to the monolithic page component.
+
+### Database Migration Risk
+
+14 migrations (077-090) already exist. Adding 38 features will require 5-10 more migrations. Each migration runs against production data.
+
+| Risk                                                                  | Prevention                                                             |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Migration adds NOT NULL column without default                        | Always add with DEFAULT, then backfill, then optionally remove DEFAULT |
+| Migration modifies existing RLS policies                              | Test with both browse and full tier tokens                             |
+| Migration adds FK to a table that does not exist yet (ordering issue) | Number migrations carefully, test in order                             |
+| Migration is not idempotent                                           | Use `IF NOT EXISTS` for all CREATE statements                          |
+
+### Existing API Routes That New Features Must Not Break
+
+| Route                           | Current Behavior                                  | Risk from New Features                                                                                   |
+| ------------------------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `POST /api/stay/[code]/orders`  | Creates service order with items                  | Minibar orders must use SAME endpoint, not a new one                                                     |
+| `GET /api/stay/[code]/services` | Returns service categories + items                | Minibar items must be a service category, not a separate model                                           |
+| `GET /api/stay/[code]`          | Returns stay data (booking, room, wifi, property) | New fields (voucher, feedback URL, early checkout) must be added to existing response, not new endpoints |
+| `GET /api/property/[slug]`      | Returns property page data                        | Convention info must extend this response                                                                |
+
+---
+
+## Phase-Specific Warnings
+
+| Phase Topic                  | Likely Pitfall                             | Mitigation                                            |
+| ---------------------------- | ------------------------------------------ | ----------------------------------------------------- |
+| Bug Fixes (first)            | Regression in adjacent features (P13)      | Ship individually, typecheck after each               |
+| Gantt Calendar               | Over-engineering for small properties (P2) | Build a colored room grid, not a Gantt library        |
+| Minibar Self-Service         | No inventory reconciliation (P3)           | Two-step: guest reports, owner confirms               |
+| Guest Feedback               | Bad timing kills response quality (P4)     | Two channels: during-stay micro + post-stay review    |
+| Conventions/Vouchers         | Unauditable discount machine (P5)          | Usage limits, expiration, stacking rules from day one |
+| PWA Homepage Redesign        | Breaks active guest sessions (P1)          | Additive redesign, preserve state contracts           |
+| Bottom Nav Overhaul          | Confuses returning guests (P6)             | Keep anchor positions, maintain tab IDs               |
+| Onboarding Wizard            | Blocks existing configured owners (P7)     | Detect existing config, skip wizard                   |
+| Early Check-in/Late Checkout | Double-booking edge cases (P8)             | Conflict detection against adjacent bookings          |
+| Delivery Integration         | Second unmanaged order channel (P9)        | Link-out approach, not parallel order system          |
+| Performance Tracking         | Premature charts mislead owners (P10)      | Counters first, charts after 3 months of data         |
+| Returning Guest Detection    | False positives for common SEA names (P11) | Multi-signal matching with confidence scoring         |
+| Image Uploads                | Large images slow PWA on mobile (P12)      | Size limits, auto-resize, lazy loading                |
 
 ---
 
 ## Summary: Top 5 Mistakes to Avoid
 
-1. **Do not let room-based QR codes auto-resolve to the current guest without verification.** The QR scan landing page must show only low-risk info (WiFi, property name). Identity-bound actions (ordering, personal data) require verification. One stale QR reuse = privacy breach.
+1. **Do not build a full Gantt chart for 1-25 room properties.** A colored rooms-vs-dates grid is the right abstraction. Gantt libraries add 50-200KB, render slowly on mobile, and confuse non-technical owners. The existing calendar component pattern is the right foundation.
 
-2. **Do not make existing protected endpoints auth-optional without an explicit classification matrix.** Every endpoint must be labeled "public" or "protected" BEFORE coding. Default-deny for all mutations (POST/PUT/DELETE). Test each protected endpoint without a token.
+2. **Do not ship the UI overhaul in one big deploy.** The in-stay dashboard has 15+ state variables and 10+ components that depend on specific state contracts. Break the redesign into additive phases (new components alongside old, then switch, then remove old). Mid-stay guests must never see a broken dashboard.
 
-3. **Do not forget multi-guest rooms.** Booking code + last name only works for the primary guest. Add PIN-based verification as an alternative. Couples are the majority of accommodation bookings.
+3. **Do not build minibar self-service without an owner confirmation step.** Self-reporting is an honor system. Without a "owner reviews and confirms" workflow, you create a false sense of tracking while revenue leaks through unreported consumption. Use the existing service order state machine (`pending -> confirmed`).
 
-4. **Do not break existing URLs or existing JWTs.** The `/stay/[code]` route must continue working. Existing tokens must remain valid. Add new routes alongside old ones. This is a non-negotiable constraint.
+4. **Do not batch all 13 bug fixes into one deploy.** The accommodations codebase has tight coupling. Each bug fix should be a separate commit with regression testing on adjacent features. One bad fix in a batch of 13 is very hard to isolate.
 
-5. **Do not expose "security levels" as a configurable setting for non-technical owners.** Hardcode the recommended behavior (info free, orders gated). If a setting is needed, use outcome-based language with safe defaults that require explicit confirmation to change.
+5. **Do not show analytics charts before you have enough data.** A trend line based on 2 data points is worse than no trend line. Ship simple counters (bookings, revenue, orders) first. Add charts after 3 months of data accumulation.
 
 ---
 
 ## Sources
 
-- [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) -- Session ID regeneration on privilege change, anonymous-to-authenticated transitions
-- [SlashID: Backend Auth Patterns](https://www.slashid.dev/blog/auth-patterns/) -- Edge auth, token enrichment, lateral movement risks
-- [Default Deny Auth Strategy (Geek Culture)](https://medium.com/geekculture/backend-design-software-pattern-for-authentication-authorization-ed86bbd17c9) -- Middleware-based default-deny for endpoint protection
-- [How to Invalidate JWT Tokens (DEV)](https://dev.to/webjose/how-to-invalidate-jwt-tokens-without-collecting-tokens-47pk) -- Using `iat` claim for bulk invalidation without blacklists
-- [5 Approaches to JWT Invalidation (Medium)](https://medium.com/@mmichaelb/5-different-approaches-to-invalidate-json-web-tokens-e4cc4e027343) -- Counter-based, per-user secret, refresh token approaches
-- [OWASP Top 10 2025: Security Misconfiguration](https://owasp.org/Top10/2025/A02_2025-Security_Misconfiguration/) -- Safe defaults, 100% of apps tested had misconfigurations
-- [GDPR for Hotels (HotelTechReport)](https://hoteltechreport.com/news/data-protection-act) -- Retention requirements, automated deletion, $52M Marriott settlement
-- [GDPR Compliance Tips for Hotels (Hotelogix)](https://blog.hotelogix.com/gdpr-compliance-tips/) -- Data minimization, retention schedules, staff training
-- [How to Handle Guest Data Safely (Deliverback)](https://deliverback.com/blog/handle-guest-data-safely/) -- Secure deletion across all platforms, vendor compliance
-- [Secure QR Codes in Hospitality (Partsfe)](https://partsfe.com/blog/post/secure-qr-payments-hospitality) -- QR phishing, duplicate codes, trusted environment exploitation
-- [QR Code Comeback and Mistakes to Avoid (IRIS)](https://www.iris.net/articles/qr-code-come-back-and-mistakes-to-avoid) -- Cluttered codes, broken URLs, unoptimized landing pages
-- [Microsoft Security Defaults](https://learn.microsoft.com/en-us/entra/fundamentals/security-defaults) -- Example of "safe defaults for non-technical users" approach
-- Existing GUDBRO codebase: `apps/accommodations/frontend/lib/auth.ts`, `app/api/stay/verify/route.ts`, `app/stay/[code]/page.tsx`
+- Existing GUDBRO codebase analysis:
+  - `apps/accommodations/frontend/app/stay/[code]/page.tsx` -- InStayDashboard (320 LOC, 15 state variables)
+  - `apps/accommodations/frontend/app/stay/room/[roomCode]/page.tsx` -- RoomDashboard with progressive auth
+  - `apps/accommodations/frontend/components/BottomNav.tsx` -- Current nav structure (5 items, hardcoded IDs)
+  - `apps/backoffice/app/(dashboard)/accommodations/calendar/page.tsx` -- Existing calendar with AvailabilityCalendar component
+  - `apps/accommodations/frontend/hooks/useServiceCart.ts` -- In-memory cart state
+  - `apps/accommodations/frontend/hooks/useOrderPolling.ts` -- Order polling pattern
+  - `apps/accommodations/frontend/lib/price-utils.ts` -- Pricing engine
+  - `shared/database/migrations/schema/077-090` -- 14 existing migrations
+- Hospitality industry patterns:
+  - Minibar reconciliation is a known problem in hospitality -- self-service without verification leads to 15-30% revenue leakage (industry estimate from AHLA)
+  - Guest feedback timing: 2-24 hours post-checkout yields highest quality responses (Cornell Hospitality Research)
+  - Vietnamese surname distribution: Nguyen accounts for ~40% of the population, making name-based matching unreliable
