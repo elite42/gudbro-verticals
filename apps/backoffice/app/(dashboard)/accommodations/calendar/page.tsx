@@ -20,6 +20,7 @@ import AvailabilityCalendar, {
 import CalendarDetailPanel from '@/components/accommodations/CalendarDetailPanel';
 import SeasonalPricingManager from '@/components/accommodations/SeasonalPricingManager';
 import DiscountSettings from '@/components/accommodations/DiscountSettings';
+import GanttCalendar from '@/components/accommodations/GanttCalendar';
 
 export const dynamic = 'force-dynamic';
 
@@ -84,11 +85,26 @@ const AUTH_HEADERS = { Authorization: `Bearer ${ADMIN_API_KEY}` };
 
 export default function CalendarPricingPage() {
   // State
+  const [calendarView, setCalendarView] = useState<'monthly' | 'timeline'>('monthly');
   const [currentMonth, setCurrentMonth] = useState(() => new Date());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [rangeStart, setRangeStart] = useState<string | null>(null);
   const [rangeEnd, setRangeEnd] = useState<string | null>(null);
   const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null);
+
+  // Timeline-specific state
+  const [timelineBookings, setTimelineBookings] = useState<
+    {
+      id: string;
+      guest_name: string;
+      guest_last_name: string;
+      status: string;
+      check_in_date: string;
+      check_out_date: string;
+      room_id: string;
+    }[]
+  >([]);
+  const [loadingTimeline, setLoadingTimeline] = useState(false);
 
   const [rooms, setRooms] = useState<Room[]>([]);
   const [property, setProperty] = useState<Property | null>(null);
@@ -192,6 +208,56 @@ export default function CalendarPricingPage() {
   useEffect(() => {
     fetchCalendar();
   }, [fetchCalendar]);
+
+  // ---- Fetch timeline bookings (for Gantt view) ----
+  const fetchTimelineBookings = useCallback(async (dateFrom: string, dateTo: string) => {
+    if (!PROPERTY_ID) return;
+    setLoadingTimeline(true);
+    try {
+      const params = new URLSearchParams({ propertyId: PROPERTY_ID, dateFrom, dateTo });
+      const res = await fetch(`/api/accommodations/bookings?${params}`, {
+        headers: AUTH_HEADERS,
+      });
+      if (!res.ok) throw new Error(`Failed (${res.status})`);
+      const data = await res.json();
+      // Map API response to GanttBooking shape
+      setTimelineBookings(
+        (data.bookings || []).map((b: Record<string, unknown>) => ({
+          id: b.id as string,
+          guest_name: b.guest_name as string,
+          guest_last_name: b.guest_last_name as string,
+          status: b.status as string,
+          check_in_date: b.check_in_date as string,
+          check_out_date: b.check_out_date as string,
+          room_id: (b.room as { id: string } | null)?.id || '',
+        }))
+      );
+    } catch (err) {
+      console.error('[CalendarPage] timeline bookings fetch error:', err);
+    } finally {
+      setLoadingTimeline(false);
+    }
+  }, []);
+
+  // Fetch timeline bookings when the Gantt reports its date range
+  const handleDateRangeChange = useCallback(
+    (dateFrom: string, dateTo: string) => {
+      fetchTimelineBookings(dateFrom, dateTo);
+    },
+    [fetchTimelineBookings]
+  );
+
+  // Map rooms to GanttRoom shape
+  const ganttRooms = useMemo(
+    () =>
+      activeRooms.map((r) => ({
+        id: r.id,
+        room_number: r.room_number,
+        room_type: r.room_type,
+        floor: null,
+      })),
+    [activeRooms]
+  );
 
   // ---- Transform data into CalendarDay[] ----
   const days: CalendarDay[] = useMemo(() => {
@@ -369,21 +435,50 @@ export default function CalendarPricingPage() {
     <div className="space-y-6">
       <Header />
 
-      {/* Room Filter */}
-      <div className="flex items-center gap-3">
-        <label className="text-sm font-medium text-gray-700">Room:</label>
-        <select
-          value={selectedRoomId || ''}
-          onChange={(e) => setSelectedRoomId(e.target.value || null)}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        >
-          <option value="">All Rooms</option>
-          {activeRooms.map((room) => (
-            <option key={room.id} value={room.id}>
-              {room.room_number} ({room.room_type})
-            </option>
-          ))}
-        </select>
+      {/* View Toggle + Room Filter */}
+      <div className="flex flex-wrap items-center gap-4">
+        {/* View Toggle */}
+        <div className="flex rounded-lg border border-gray-300 bg-gray-50 p-0.5">
+          <button
+            onClick={() => setCalendarView('monthly')}
+            className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+              calendarView === 'monthly'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setCalendarView('timeline')}
+            className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+              calendarView === 'timeline'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            Timeline
+          </button>
+        </div>
+
+        {/* Room Filter (monthly view only) */}
+        {calendarView === 'monthly' && (
+          <div className="flex items-center gap-3">
+            <label className="text-sm font-medium text-gray-700">Room:</label>
+            <select
+              value={selectedRoomId || ''}
+              onChange={(e) => setSelectedRoomId(e.target.value || null)}
+              className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            >
+              <option value="">All Rooms</option>
+              {activeRooms.map((room) => (
+                <option key={room.id} value={room.id}>
+                  {room.room_number} ({room.room_type})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       {/* Loading Skeleton */}
@@ -397,65 +492,80 @@ export default function CalendarPricingPage() {
       {/* Main Content */}
       {!isLoading && (
         <>
-          {/* Calendar + Detail Panel */}
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {/* Calendar (2/3 width on desktop) */}
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm lg:col-span-2">
-              <AvailabilityCalendar
-                currentMonth={currentMonth}
-                onMonthChange={setCurrentMonth}
-                days={days}
-                selectedDate={selectedDate}
-                onDateClick={setSelectedDate}
-                rangeStart={rangeStart}
-                rangeEnd={rangeEnd}
-                onRangeSelect={handleRangeSelect}
-                basePricePerNight={basePricePerNight}
-                currency={currency}
+          {calendarView === 'timeline' ? (
+            /* ---- Timeline / Gantt View ---- */
+            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+              <GanttCalendar
+                rooms={ganttRooms}
+                bookings={timelineBookings}
+                loading={loadingTimeline}
+                onDateRangeChange={handleDateRangeChange}
               />
             </div>
-
-            {/* Detail Panel (1/3 width on desktop) */}
-            <div>
-              {selectedDay ? (
-                <CalendarDetailPanel
-                  selectedDate={selectedDate!}
-                  day={selectedDay}
-                  rangeStart={rangeStart}
-                  rangeEnd={rangeEnd}
-                  onBlock={handleBlock}
-                  onUnblock={handleUnblock}
-                  loading={loadingCalendar}
-                  currency={currency}
-                  basePricePerNight={basePricePerNight}
-                />
-              ) : (
-                <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50 p-8 text-center">
-                  <CalendarDots size={32} className="mx-auto text-gray-300" weight="duotone" />
-                  <p className="mt-2 text-sm text-gray-400">Select a date to view details</p>
+          ) : (
+            /* ---- Monthly View (existing) ---- */
+            <>
+              {/* Calendar + Detail Panel */}
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                {/* Calendar (2/3 width on desktop) */}
+                <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm lg:col-span-2">
+                  <AvailabilityCalendar
+                    currentMonth={currentMonth}
+                    onMonthChange={setCurrentMonth}
+                    days={days}
+                    selectedDate={selectedDate}
+                    onDateClick={setSelectedDate}
+                    rangeStart={rangeStart}
+                    rangeEnd={rangeEnd}
+                    onRangeSelect={handleRangeSelect}
+                    basePricePerNight={basePricePerNight}
+                    currency={currency}
+                  />
                 </div>
+
+                {/* Detail Panel (1/3 width on desktop) */}
+                <div>
+                  {selectedDay ? (
+                    <CalendarDetailPanel
+                      selectedDate={selectedDate!}
+                      day={selectedDay}
+                      rangeStart={rangeStart}
+                      rangeEnd={rangeEnd}
+                      onBlock={handleBlock}
+                      onUnblock={handleUnblock}
+                      loading={loadingCalendar}
+                      currency={currency}
+                      basePricePerNight={basePricePerNight}
+                    />
+                  ) : (
+                    <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50 p-8 text-center">
+                      <CalendarDots size={32} className="mx-auto text-gray-300" weight="duotone" />
+                      <p className="mt-2 text-sm text-gray-400">Select a date to view details</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Seasonal Pricing */}
+              <SeasonalPricingManager
+                propertyId={PROPERTY_ID}
+                roomId={selectedRoomId}
+                currency={currency}
+                onRefresh={fetchCalendar}
+              />
+
+              {/* Discount Settings */}
+              {property && (
+                <DiscountSettings
+                  propertyId={PROPERTY_ID}
+                  weeklyDiscount={property.weekly_discount_percent ?? 0}
+                  monthlyDiscount={property.monthly_discount_percent ?? 0}
+                  basePricePerNight={basePricePerNight}
+                  currency={currency}
+                  onSave={handleDiscountSave}
+                />
               )}
-            </div>
-          </div>
-
-          {/* Seasonal Pricing */}
-          <SeasonalPricingManager
-            propertyId={PROPERTY_ID}
-            roomId={selectedRoomId}
-            currency={currency}
-            onRefresh={fetchCalendar}
-          />
-
-          {/* Discount Settings */}
-          {property && (
-            <DiscountSettings
-              propertyId={PROPERTY_ID}
-              weeklyDiscount={property.weekly_discount_percent ?? 0}
-              monthlyDiscount={property.monthly_discount_percent ?? 0}
-              basePricePerNight={basePricePerNight}
-              currency={currency}
-              onSave={handleDiscountSave}
-            />
+            </>
           )}
         </>
       )}
