@@ -52,7 +52,7 @@ See milestones/v1.4-ROADMAP.md for details.
 
 - [x] **Phase 25: Room Code Foundation** - Permanent room codes, browse-tier QR access, instant WiFi/info dashboard
 - [x] **Phase 26: Progressive Authentication** - Two-tier JWT, inline verification for paid actions, multi-guest PIN support
-- [ ] **Phase 27: Owner Security Configuration** - Security presets, configurable verification methods, action-level gating
+- [x] **Phase 27: Owner Security Configuration** - Security presets, configurable verification methods, action-level gating
 - [ ] **Phase 28: Document Upload + Visa Tracking** - Passport/visa photo upload, expiry reminders, GDPR auto-delete
 - [ ] **Phase 29: Multi-Zone WiFi** - Per-zone WiFi credentials, room overrides, zone-organized display
 
@@ -111,8 +111,8 @@ Plans:
 
 Plans:
 
-- [ ] 27-01-PLAN.md — Migration 090 (access_settings JSONB + resolve_room_access update) + backoffice security settings page with preset selector and action toggles
-- [ ] 27-02-PLAN.md — Frontend integration: room resolve returns access_settings, room dashboard uses isActionGated() for conditional verification
+- [x] 27-01-PLAN.md — Migration 090 (access_settings JSONB + resolve_room_access update) + backoffice security settings page with preset selector and action toggles
+- [x] 27-02-PLAN.md — Frontend integration: room resolve returns access_settings, room dashboard uses isActionGated() for conditional verification
 
 ### Phase 28: Document Upload + Visa Tracking
 
@@ -184,11 +184,11 @@ Note: Phase 28 and Phase 29 are independent of each other (both depend on Phase 
 | 24. Analytics, Deals & Communication      | v1.4      | 3/3            | Complete    | 2026-01-31 |
 | 25. Room Code Foundation                  | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 26. Progressive Authentication            | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 27. Owner Security Configuration          | v1.5      | 0/2            | Not started | -          |
+| 27. Owner Security Configuration          | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 28. Document Upload + Visa Tracking       | v1.5      | 0/2            | Not started | -          |
 | 29. Multi-Zone WiFi                       | v1.5      | 0/2            | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after Phase 26 complete_
+_Last updated: 2026-02-01 after Phase 27 complete_

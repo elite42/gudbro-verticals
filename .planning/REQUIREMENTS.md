@@ -25,10 +25,10 @@ Requirements for frictionless guest access milestone. Each maps to roadmap phase
 
 ### Owner Configuration
 
-- [ ] **CONF-01**: Owner selects a security preset (Family/Standard/Structured) from backoffice
-- [ ] **CONF-02**: Each preset defines which actions require verification and which are free
-- [ ] **CONF-03**: Owner can customize gated actions beyond the preset
-- [ ] **CONF-04**: Safe defaults: "Family" preset requires no verification, "Structured" requires verification for all orders
+- [x] **CONF-01**: Owner selects a security preset (Family/Standard/Structured) from backoffice
+- [x] **CONF-02**: Each preset defines which actions require verification and which are free
+- [x] **CONF-03**: Owner can customize gated actions beyond the preset
+- [x] **CONF-04**: Safe defaults: "Family" preset requires no verification, "Structured" requires verification for all orders
 
 ### Multi-Zone WiFi
 
@@ -93,10 +93,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-03     | 26    | Complete |
 | AUTH-04     | 26    | Complete |
 | AUTH-05     | 26    | Complete |
-| CONF-01     | 27    | Pending  |
-| CONF-02     | 27    | Pending  |
-| CONF-03     | 27    | Pending  |
-| CONF-04     | 27    | Pending  |
+| CONF-01     | 27    | Complete |
+| CONF-02     | 27    | Complete |
+| CONF-03     | 27    | Complete |
+| CONF-04     | 27    | Complete |
 | WIFI-01     | 29    | Pending  |
 | WIFI-02     | 29    | Pending  |
 | WIFI-03     | 29    | Pending  |
@@ -115,4 +115,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 _Requirements defined: 2026-01-31_
-_Last updated: 2026-02-01 after Phase 26 complete (QRA-04 + AUTH-02,03,04,05 marked Complete)_
+_Last updated: 2026-02-01 after Phase 27 complete (CONF-01,02,03,04 marked Complete)_
