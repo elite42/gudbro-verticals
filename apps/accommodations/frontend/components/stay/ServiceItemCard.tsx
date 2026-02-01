@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, Minus, Clock } from '@phosphor-icons/react';
+import { Plus, Minus, Clock, Check } from '@phosphor-icons/react';
 
 /** Format a HH:MM:SS or HH:MM time string to 12-hour format. */
 function formatServiceTime(time: string): string {
@@ -46,6 +46,7 @@ interface ServiceItemCardProps {
     image: string | null;
     categoryEmoji?: string;
     inStock: boolean;
+    includedInRate?: boolean;
     isAlwaysAvailable: boolean;
     availableFrom: string | null;
     availableUntil: string | null;
@@ -69,17 +70,17 @@ export default function ServiceItemCard({
 
   return (
     <div
-      className={`relative flex gap-3 rounded-2xl border border-[#E8E2D9] bg-white p-3 shadow-sm transition-opacity ${
+      className={`relative flex flex-col overflow-hidden rounded-2xl border border-[#E8E2D9] bg-white shadow-sm transition-opacity ${
         disabled ? 'opacity-50' : ''
       }`}
     >
-      {/* Image or fallback */}
-      <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-[#FAF8F5]">
+      {/* Large product photo */}
+      <div className="h-36 w-full overflow-hidden bg-[#FAF8F5]">
         {item.image ? (
           <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#F5F0E8] to-[#E8E2D9]">
-            <span className="text-2xl opacity-70" role="img" aria-label={item.name}>
+            <span className="text-4xl opacity-70" role="img" aria-label={item.name}>
               {item.categoryEmoji || '📦'}
             </span>
           </div>
@@ -87,23 +88,13 @@ export default function ServiceItemCard({
       </div>
 
       {/* Content */}
-      <div className="flex min-w-0 flex-1 flex-col">
-        <p className="text-sm font-medium text-[#2D2016]">{item.name}</p>
+      <div className="flex flex-1 flex-col p-3">
+        <p className="text-sm font-semibold text-[#2D2016]">{item.name}</p>
         {item.description && (
-          <p className="mb-1 line-clamp-2 text-[11px] leading-tight text-[#8B7355]">
+          <p className="mb-1 line-clamp-2 text-xs leading-tight text-[#8B7355]">
             {item.description}
           </p>
         )}
-
-        {/* Price */}
-        <div className="mt-auto flex items-center gap-1">
-          <span className="text-sm font-semibold text-[#3D8B87]">
-            {formatPrice(item.price, item.currency)}
-          </span>
-          {item.priceType !== 'fixed' && (
-            <span className="text-[10px] text-[#8B7355]">/{item.priceType}</span>
-          )}
-        </div>
 
         {/* Unavailability badges */}
         {!item.inStock && (
@@ -117,39 +108,57 @@ export default function ServiceItemCard({
             {formatTimeRange(item.availableFrom, item.availableUntil)}
           </span>
         )}
-      </div>
 
-      {/* Add / Quantity stepper */}
-      <div className="flex flex-shrink-0 items-end">
-        {disabled ? null : cartQuantity > 0 ? (
-          <div className="flex items-center gap-1.5 rounded-full border border-[#3D8B87] bg-[#3D8B87]/5 px-1.5 py-0.5">
-            <button
-              onClick={onRemove}
-              className="flex h-6 w-6 items-center justify-center rounded-full text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/10"
-              aria-label={`Remove one ${item.name}`}
-            >
-              <Minus size={14} weight="bold" />
-            </button>
-            <span className="min-w-[18px] text-center text-sm font-semibold text-[#3D8B87]">
-              {cartQuantity}
+        {/* Price row */}
+        <div className="mt-auto flex items-center justify-between pt-2">
+          {/* Price or Included badge */}
+          {item.includedInRate ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+              <Check size={12} weight="bold" />
+              Included
             </span>
+          ) : (
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-semibold text-[#3D8B87]">
+                {formatPrice(item.price, item.currency)}
+              </span>
+              {item.priceType !== 'fixed' && (
+                <span className="text-[10px] text-[#8B7355]">/{item.priceType}</span>
+              )}
+            </div>
+          )}
+
+          {/* Add / Quantity stepper */}
+          {disabled ? null : cartQuantity > 0 ? (
+            <div className="flex items-center gap-1.5 rounded-full border border-[#3D8B87] bg-[#3D8B87]/5 px-1.5 py-0.5">
+              <button
+                onClick={onRemove}
+                className="flex h-6 w-6 items-center justify-center rounded-full text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/10"
+                aria-label={`Remove one ${item.name}`}
+              >
+                <Minus size={14} weight="bold" />
+              </button>
+              <span className="min-w-[18px] text-center text-sm font-semibold text-[#3D8B87]">
+                {cartQuantity}
+              </span>
+              <button
+                onClick={onAdd}
+                className="flex h-6 w-6 items-center justify-center rounded-full text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/10"
+                aria-label={`Add one more ${item.name}`}
+              >
+                <Plus size={14} weight="bold" />
+              </button>
+            </div>
+          ) : (
             <button
               onClick={onAdd}
-              className="flex h-6 w-6 items-center justify-center rounded-full text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/10"
-              aria-label={`Add one more ${item.name}`}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#3D8B87] text-white shadow-sm transition-transform hover:scale-105 active:scale-95"
+              aria-label={`Add ${item.name} to cart`}
             >
-              <Plus size={14} weight="bold" />
+              <Plus size={18} weight="bold" />
             </button>
-          </div>
-        ) : (
-          <button
-            onClick={onAdd}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-[#3D8B87] text-white shadow-sm transition-transform hover:scale-105 active:scale-95"
-            aria-label={`Add ${item.name} to cart`}
-          >
-            <Plus size={16} weight="bold" />
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
