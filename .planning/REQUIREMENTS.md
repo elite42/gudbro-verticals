@@ -46,20 +46,20 @@
 ### Shared Infrastructure
 
 - [x] **INF-01**: Audit of reusable modules across verticals produces catalog with status (ready/adaptable/to-build)
-- [ ] **INF-02**: QR code generation extracted for WiFi QR in PWA guest dashboard
+- [x] **INF-02**: QR code generation extracted for WiFi QR in PWA guest dashboard
 - [ ] **INF-03**: Conventions system adapted for accommodations (breakfast vouchers with date, benefit_scope column)
 
 ### Bug Fixes
 
-- [ ] **BUG-01**: Guest name displays correctly without duplication ("John Smith" not "John Smith Smith")
-- [ ] **BUG-02**: Bottom nav tabs Map, Menu, Profile, Services have working content and correct icons
-- [ ] **BUG-03**: Homepage shows visual cards instead of text wall
-- [ ] **BUG-04**: Service category names display without Phosphor icon name prefix ("Breakfast" not "CookingPot Breakfast")
-- [ ] **BUG-05**: Time formats display as "7:00 - 10:30 AM" not "07:00:00 - 10:30:00"
-- [ ] **BUG-06**: Service items show product images instead of grey placeholder boxes
-- [ ] **BUG-07**: Currency selector available in PWA guest header
-- [ ] **BUG-08**: WiFi section includes scannable QR code (not just copy password)
-- [ ] **BUG-09**: Room image upload works in backoffice (replacing "coming soon" placeholder)
+- [x] **BUG-01**: Guest name displays correctly without duplication ("John Smith" not "John Smith Smith")
+- [x] **BUG-02**: Bottom nav tabs Map, Menu, Profile, Services have working content and correct icons
+- [x] **BUG-03**: Homepage shows visual cards instead of text wall
+- [x] **BUG-04**: Service category names display without Phosphor icon name prefix ("Breakfast" not "CookingPot Breakfast")
+- [x] **BUG-05**: Time formats display as "7:00 - 10:30 AM" not "07:00:00 - 10:30:00"
+- [x] **BUG-06**: Service items show product images instead of grey placeholder boxes
+- [x] **BUG-07**: Currency selector available in PWA guest header
+- [x] **BUG-08**: WiFi section includes scannable QR code (not just copy password)
+- [x] **BUG-09**: Room image upload works in backoffice (replacing "coming soon" placeholder)
 
 ### PWA Homepage & Navigation
 
@@ -88,7 +88,7 @@
 ### Backoffice Owner
 
 - [ ] **OWN-01**: Room floor/level field in room CRUD
-- [ ] **OWN-02**: Service/item image upload (replacing Image URL field with direct upload)
+- [x] **OWN-02**: Service/item image upload (replacing Image URL field with direct upload)
 - [ ] **OWN-03**: Structured policies form (checkbox house rules, dropdown cancellation policy)
 - [ ] **OWN-04**: Complete property data (social links, Google Maps, communication methods, hours, staff languages)
 - [ ] **OWN-05**: Onboarding wizard with required vs optional fields and progress bar
@@ -192,17 +192,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WIFI-02     | 29    | Complete |
 | WIFI-03     | 29    | Complete |
 | INF-01      | 30    | Complete |
-| INF-02      | 31    | Pending  |
+| INF-02      | 31    | Complete |
 | INF-03      | 37    | Pending  |
-| BUG-01      | 31    | Pending  |
-| BUG-02      | 31    | Pending  |
-| BUG-03      | 31    | Pending  |
-| BUG-04      | 31    | Pending  |
-| BUG-05      | 31    | Pending  |
-| BUG-06      | 31    | Pending  |
-| BUG-07      | 31    | Pending  |
-| BUG-08      | 31    | Pending  |
-| BUG-09      | 31    | Pending  |
+| BUG-01      | 31    | Complete |
+| BUG-02      | 31    | Complete |
+| BUG-03      | 31    | Complete |
+| BUG-04      | 31    | Complete |
+| BUG-05      | 31    | Complete |
+| BUG-06      | 31    | Complete |
+| BUG-07      | 31    | Complete |
+| BUG-08      | 31    | Complete |
+| BUG-09      | 31    | Complete |
 | NAV-01      | 33    | Pending  |
 | NAV-02      | 33    | Pending  |
 | NAV-03      | 36    | Pending  |
@@ -222,7 +222,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SVC-09      | 34    | Pending  |
 | SVC-10      | 34    | Pending  |
 | OWN-01      | 32    | Pending  |
-| OWN-02      | 31    | Pending  |
+| OWN-02      | 31    | Complete |
 | OWN-03      | 32    | Pending  |
 | OWN-04      | 32    | Pending  |
 | OWN-05      | 32    | Pending  |
