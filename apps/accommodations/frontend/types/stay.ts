@@ -364,3 +364,49 @@ export interface DocumentUrlResponse {
   signedUrl: string;
   expiresIn: number;
 }
+
+// --- Guest Feedback Types (Phase 35) ---
+
+export type FeedbackCategory =
+  | 'maintenance'
+  | 'housekeeping'
+  | 'question'
+  | 'complaint'
+  | 'compliment'
+  | 'other';
+
+export type FeedbackStatus = 'new' | 'acknowledged' | 'in_progress' | 'resolved' | 'dismissed';
+
+export interface GuestFeedback {
+  id: string;
+  propertyId: string;
+  bookingId: string | null;
+  roomId: string | null;
+  feedbackType: 'in_stay' | 'post_stay';
+  category: FeedbackCategory;
+  message: string;
+  photoUrl: string | null;
+  status: FeedbackStatus;
+  ownerResponse: string | null;
+  respondedAt: string | null;
+  guestName: string | null;
+  guestRoomNumber: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FeedbackSubmitRequest {
+  category: FeedbackCategory;
+  message: string;
+  photoUrl?: string;
+}
+
+export interface FeedbackUploadUrlResponse {
+  signedUrl: string;
+  path: string;
+  token: string;
+}
+
+export interface FeedbackListResponse {
+  feedback: GuestFeedback[];
+}
