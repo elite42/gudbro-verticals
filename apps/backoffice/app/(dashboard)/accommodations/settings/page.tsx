@@ -14,6 +14,7 @@ import {
 } from '@phosphor-icons/react';
 import { Loader2 } from 'lucide-react';
 import StructuredPolicies from '@/components/accommodations/StructuredPolicies';
+import PropertyDataForm from '@/components/accommodations/PropertyDataForm';
 
 const PROPERTY_ID = process.env.NEXT_PUBLIC_ACCOM_PROPERTY_ID || '';
 const ADMIN_API_KEY = process.env.NEXT_PUBLIC_ADMIN_API_KEY || '';
@@ -41,6 +42,23 @@ interface PropertySettings {
   host_email: string | null;
   contact_email: string | null;
   wifi_zones: WifiZone[] | null;
+  social_links: SocialLinks | null;
+  google_maps_url: string | null;
+  communication_methods: string[] | null;
+  operating_hours: OperatingHours | null;
+  staff_languages: string[] | null;
+}
+
+interface SocialLinks {
+  instagram?: string;
+  facebook?: string;
+  tiktok?: string;
+  website?: string;
+}
+
+interface OperatingHours {
+  reception?: { open: string; close: string };
+  restaurant?: { open: string; close: string };
 }
 
 interface WifiZone {
@@ -94,6 +112,13 @@ export default function PropertySettingsPage() {
   const [hostEmail, setHostEmail] = useState('');
   const [contactEmail, setContactEmail] = useState('');
 
+  // Property data state
+  const [socialLinks, setSocialLinks] = useState<SocialLinks>({});
+  const [googleMapsUrl, setGoogleMapsUrl] = useState('');
+  const [communicationMethods, setCommunicationMethods] = useState<string[]>([]);
+  const [operatingHours, setOperatingHours] = useState<OperatingHours>({});
+  const [staffLanguages, setStaffLanguages] = useState<string[]>([]);
+
   // WiFi Zones state
   const [wifiZones, setWifiZones] = useState<WifiZone[]>([]);
   const [wifiZoneErrors, setWifiZoneErrors] = useState<Record<string, string>>({});
@@ -128,6 +153,13 @@ export default function PropertySettingsPage() {
           setHostEmail(p.host_email || '');
           setContactEmail(p.contact_email || '');
           setWifiZones(Array.isArray(p.wifi_zones) ? p.wifi_zones : []);
+          setSocialLinks(p.social_links || {});
+          setGoogleMapsUrl(p.google_maps_url || '');
+          setCommunicationMethods(
+            Array.isArray(p.communication_methods) ? p.communication_methods : []
+          );
+          setOperatingHours(p.operating_hours || {});
+          setStaffLanguages(Array.isArray(p.staff_languages) ? p.staff_languages : []);
         }
       } catch (err) {
         console.error('Error loading property:', err);
@@ -245,6 +277,11 @@ export default function PropertySettingsPage() {
           host_email: hostEmail || null,
           contact_email: contactEmail || null,
           wifi_zones: wifiZones.length > 0 ? wifiZones : null,
+          social_links: Object.values(socialLinks).some((v) => v) ? socialLinks : null,
+          google_maps_url: googleMapsUrl || null,
+          communication_methods: communicationMethods.length > 0 ? communicationMethods : null,
+          operating_hours: Object.keys(operatingHours).length > 0 ? operatingHours : null,
+          staff_languages: staffLanguages.length > 0 ? staffLanguages : null,
         }),
       });
 
@@ -584,6 +621,29 @@ export default function PropertySettingsPage() {
             onChange={(data) => {
               setHouseRules(data.houseRules);
               setCancellationPolicy(data.cancellationPolicy);
+            }}
+          />
+        </section>
+
+        {/* Property Information */}
+        <section className="rounded-xl border border-gray-200 bg-white p-6">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900">Property Information</h2>
+          <p className="mb-4 text-sm text-gray-500">
+            Social links, location, communication preferences, hours, and languages.
+          </p>
+
+          <PropertyDataForm
+            socialLinks={socialLinks}
+            googleMapsUrl={googleMapsUrl}
+            communicationMethods={communicationMethods}
+            operatingHours={operatingHours}
+            staffLanguages={staffLanguages}
+            onChange={(data) => {
+              setSocialLinks(data.socialLinks);
+              setGoogleMapsUrl(data.googleMapsUrl);
+              setCommunicationMethods(data.communicationMethods);
+              setOperatingHours(data.operatingHours);
+              setStaffLanguages(data.staffLanguages);
             }}
           />
         </section>
