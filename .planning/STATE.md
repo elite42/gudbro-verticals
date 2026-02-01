@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 29 (Multi-Zone WiFi) ready to plan
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 29 (Multi-Zone WiFi) in progress
 
 ## Current Position
 
 Phase: 29 of 39 (Multi-Zone WiFi)
-Plan: —
-Status: Ready to plan
-Last activity: 2026-02-01 — Phase 28 (Document Upload + Visa Tracking) completed and verified
+Plan: 1 of 2
+Status: In progress
+Last activity: 2026-02-01 — Completed 29-01-PLAN.md
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [████░░░░░░░░░░░░░░░░] 8/27 plans
+Progress: v1.5 [█████░░░░░░░░░░░░░░░] 9/27 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 65 (+ 1 quick task)
+- Total plans completed: 66 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
 - Total execution time: ~4.7 hours
 
@@ -34,7 +34,7 @@ Progress: v1.5 [████░░░░░░░░░░░░░░░░] 8/
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 8/27  | ~32 min    | 4.0 min  |
+| v1.5      | 9/27  | ~35 min    | 3.9 min  |
 
 ## Accumulated Context
 
@@ -51,6 +51,9 @@ Recent decisions for v1.5 extended roadmap:
 - Gantt/Timeline calendar via CSS Grid, not library (Phase 32)
 - Zero new npm packages confirmed by research (except browser-image-compression + heic2any for Phase 28)
 - Backoffice multi-verticale and fatturazione DEFERRED (out of scope)
+- WIFI-01: wifi_zones as JSONB array on accom_properties (max 8 zones)
+- WIFI-02: Legacy wifi_network/wifi_password columns preserved (not dropped)
+- WIFI-03: Room WiFi overrides as simple nullable TEXT columns
 
 ### Pending Todos
 
@@ -68,10 +71,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Phase 28 completed and verified
+Stopped at: Completed 29-01-PLAN.md
 Resume file: None
-Next: `/gsd:plan-phase 29` (Multi-Zone WiFi)
+Next: `/gsd:execute-phase 29` plan 02 (Guest-Facing WiFi Display)
 
 ---
 
-_Last updated: 2026-02-01 after Phase 28 execution and verification_
+_Last updated: 2026-02-01 after 29-01 execution_
