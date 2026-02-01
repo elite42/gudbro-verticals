@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 32 (Owner Dashboard Enhancements)
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 33 (Guest Dashboard Redesign)
 
 ## Current Position
 
-Phase: 32 of 39 (Owner Dashboard Enhancements)
-Plan: 4 of 4 (includes gap closure plans 03, 04)
-Status: Phase complete (gap closure done)
-Last activity: 2026-02-01 — Completed 32-04-PLAN.md (gap closure)
+Phase: 33 of 39 (Guest Dashboard Redesign)
+Plan: 1 of 2
+Status: In progress
+Last activity: 2026-02-01 — Completed 33-01-PLAN.md (Card-Based Homepage)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██████████████░░░░░░] 17/29 plans
+Progress: v1.5 [███████████████░░░░░] 18/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 74 (+ 1 quick task)
+- Total plans completed: 75 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~5.6 hours
+- Total execution time: ~5.7 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [██████████████░░░░░░] 17
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 17/29 | ~85 min    | 5.0 min  |
+| v1.5      | 18/29 | ~89 min    | 4.9 min  |
 
 ## Accumulated Context
 
@@ -69,6 +69,9 @@ Recent decisions for v1.5 extended roadmap:
 - ONBOARD-01: Onboarding wizard uses link-out pattern for rooms/photos/wifi steps (not embedded components)
 - ONBOARD-02: shouldShowWizard checks name + contact as minimum configured threshold
 - POLICY-01: StructuredPolicies stores house_rules as string[] (backward compatible with existing data)
+- GRID-01: Cards use borderTop 3px color accent instead of full background tint for cleaner look
+- GRID-02: Commented out WelcomeCard/CheckoutInfo/ContactSheet/QuickActions/VisaStatusCard/VisaExpiryAlert with migration notes for 33-02
+- GRID-03: WiFi dismiss starts hidden (dismissed=true) then checks localStorage in useEffect to avoid flash
 
 ### Pending Todos
 
@@ -86,10 +89,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Phase 32 fully complete (all 4 plans including gap closure 32-03, 32-04)
+Stopped at: Completed 33-01-PLAN.md (Card-Based Homepage)
 Resume file: None
-Next: `/gsd:plan-phase 33` (Dashboard Redesign)
+Next: Execute 33-02-PLAN.md (Bottom Navigation + House Rules)
 
 ---
 
-_Last updated: 2026-02-01 after 32-03 gap closure completion_
+_Last updated: 2026-02-01 after 33-01 plan completion_
