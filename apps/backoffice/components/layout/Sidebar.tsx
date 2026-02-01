@@ -375,6 +375,7 @@ const navigation: NavItem[] = [
     children: [
       { name: 'Bookings', href: '/accommodations/bookings' },
       { name: 'Orders', href: '/accommodations/orders' },
+      { name: 'Feedback', href: '/accommodations/feedback' },
       { name: 'Calendar & Pricing', href: '/accommodations/calendar' },
       { name: 'Rooms', href: '/accommodations/rooms' },
       { name: 'Services', href: '/accommodations/services' },

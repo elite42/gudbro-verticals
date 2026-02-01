@@ -11,6 +11,7 @@ import {
   ClipboardText,
   Compass,
   Wine,
+  ChatDots,
 } from '@phosphor-icons/react';
 import { useStaySession } from '@/hooks/useStaySession';
 import { useServiceCart } from '@/hooks/useServiceCart';
@@ -38,6 +39,7 @@ import LocalDeals from '@/components/stay/LocalDeals';
 import UsefulNumbers from '@/components/stay/UsefulNumbers';
 import BottomNav from '@/components/BottomNav';
 import DocumentUpload from '@/components/stay/DocumentUpload';
+import FeedbackForm from '@/components/stay/FeedbackForm';
 
 export default function InStayDashboard({ params }: { params: { code: string } }) {
   const router = useRouter();
@@ -73,6 +75,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   // Sheet overlay states
   const [showHouseRules, setShowHouseRules] = useState(false);
   const [showContact, setShowContact] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   const loadDocuments = useCallback(async () => {
     if (!token || !isAuthenticated) return;
@@ -274,6 +277,14 @@ export default function InStayDashboard({ params }: { params: { code: string } }
                   /* Phase 36 will build Concierge hub */
                 }}
               />
+              {stay.booking && (
+                <DashboardCard
+                  icon={ChatDots}
+                  label="Feedback"
+                  color="#8B5CF6"
+                  onClick={() => setShowFeedback(true)}
+                />
+              )}
             </DashboardGrid>
 
             {/* Detail sections below the card grid */}
@@ -474,6 +485,16 @@ export default function InStayDashboard({ params }: { params: { code: string } }
         checkoutProcedure={property.checkoutProcedure}
         houseRules={property.houseRules}
       />
+
+      {/* Feedback bottom sheet */}
+      {token && (
+        <FeedbackForm
+          isOpen={showFeedback}
+          onClose={() => setShowFeedback(false)}
+          stayCode={params.code}
+          token={token}
+        />
+      )}
 
       {/* Contact Host bottom sheet */}
       <ContactSheet
