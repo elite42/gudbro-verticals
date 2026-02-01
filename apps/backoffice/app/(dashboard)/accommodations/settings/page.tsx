@@ -13,6 +13,7 @@ import {
   Plus,
 } from '@phosphor-icons/react';
 import { Loader2 } from 'lucide-react';
+import StructuredPolicies from '@/components/accommodations/StructuredPolicies';
 
 const PROPERTY_ID = process.env.NEXT_PUBLIC_ACCOM_PROPERTY_ID || '';
 const ADMIN_API_KEY = process.env.NEXT_PUBLIC_ADMIN_API_KEY || '';
@@ -86,7 +87,7 @@ export default function PropertySettingsPage() {
   const [checkOutTime, setCheckOutTime] = useState('11:00');
   const [depositPercent, setDepositPercent] = useState(100);
   const [cancellationPenalty, setCancellationPenalty] = useState(0);
-  const [houseRulesText, setHouseRulesText] = useState('');
+  const [houseRules, setHouseRules] = useState<string[]>([]);
   const [cancellationPolicy, setCancellationPolicy] = useState('');
   const [hostPhone, setHostPhone] = useState('');
   const [hostWhatsapp, setHostWhatsapp] = useState('');
@@ -120,7 +121,7 @@ export default function PropertySettingsPage() {
           setCheckOutTime(p.check_out_time || '11:00');
           setDepositPercent(p.deposit_percent ?? 100);
           setCancellationPenalty(p.cancellation_penalty_percent ?? 0);
-          setHouseRulesText(p.house_rules ? p.house_rules.join('\n') : '');
+          setHouseRules(Array.isArray(p.house_rules) ? p.house_rules : []);
           setCancellationPolicy(p.cancellation_policy || '');
           setHostPhone(p.host_phone || '');
           setHostWhatsapp(p.host_whatsapp || '');
@@ -225,11 +226,6 @@ export default function PropertySettingsPage() {
 
     setSaving(true);
     setError(null);
-
-    const houseRules = houseRulesText
-      .split('\n')
-      .map((r) => r.trim())
-      .filter((r) => r.length > 0);
 
     try {
       const res = await fetch('/api/accommodations/property', {
@@ -582,31 +578,14 @@ export default function PropertySettingsPage() {
         <section className="rounded-xl border border-gray-200 bg-white p-6">
           <h2 className="mb-4 text-lg font-semibold text-gray-900">Policies</h2>
 
-          <div className="space-y-4">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">House Rules</label>
-              <textarea
-                value={houseRulesText}
-                onChange={(e) => setHouseRulesText(e.target.value)}
-                placeholder="One rule per line, e.g.&#10;No smoking indoors&#10;Quiet hours: 22:00-08:00&#10;No pets"
-                rows={4}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-              />
-              <p className="mt-1 text-xs text-gray-500">Enter one rule per line</p>
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
-                Cancellation Policy
-              </label>
-              <textarea
-                value={cancellationPolicy}
-                onChange={(e) => setCancellationPolicy(e.target.value)}
-                placeholder="e.g. Free cancellation up to 48 hours before check-in. After that, the deposit is non-refundable."
-                rows={3}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          </div>
+          <StructuredPolicies
+            houseRules={houseRules}
+            cancellationPolicy={cancellationPolicy}
+            onChange={(data) => {
+              setHouseRules(data.houseRules);
+              setCancellationPolicy(data.cancellationPolicy);
+            }}
+          />
         </section>
 
         {/* Contact */}
