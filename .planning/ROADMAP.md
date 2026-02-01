@@ -125,12 +125,12 @@ Plans:
 2. Guest can upload a visa page with expiry date, and receives reminders at 14, 7, and 3 days before expiry if the visa expires during their stay
 3. Owner sees uploaded documents in backoffice and receives a notification when a new document is uploaded
 4. All guest documents are automatically deleted 30 days after checkout (no manual intervention, GDPR compliant)
-   **Plans**: TBD
+   **Plans**: 2 plans
 
 Plans:
 
-- [ ] 28-01: accom_guest_documents table + Supabase Storage private bucket + RLS + upload API + GDPR auto-delete cron
-- [ ] 28-02: Guest upload UI (camera capture, HEIC conversion, compression) + visa expiry tracking + owner backoffice viewer + notification
+- [ ] 28-01-PLAN.md — Database migration (accom_guest_documents + storage bucket + property retention columns) + API routes (upload URL, list, download, delete) + cron job (visa reminders + GDPR auto-delete)
+- [ ] 28-02-PLAN.md — Image processing (HEIC + compression + blur detection) + guest upload UI (consent, camera, upload flow) + visa expiry alert + backoffice document urgency dashboard + booking detail integration
 
 ### Phase 29: Multi-Zone WiFi
 
