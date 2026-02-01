@@ -64,10 +64,10 @@ export async function GET(request: NextRequest) {
       .from('accom_service_categories')
       .select(
         `
-        id, name, icon, description, sort_order, automation_level,
+        id, name, icon, description, sort_order, automation_level, category_tag,
         accom_service_items(
           id, name, description, price, currency, price_type, image, in_stock, is_active, sort_order,
-          is_always_available, available_from, available_until
+          is_always_available, available_from, available_until, included_in_rate
         )
       `
       )
@@ -97,6 +97,7 @@ export async function GET(request: NextRequest) {
           priceType: item.price_type as string,
           image: (item.image as string) || null,
           inStock: item.in_stock as boolean,
+          includedInRate: (item.included_in_rate as boolean) || false,
           isAlwaysAvailable: item.is_always_available as boolean,
           availableFrom: (item.available_from as string) || null,
           availableUntil: (item.available_until as string) || null,
@@ -109,6 +110,8 @@ export async function GET(request: NextRequest) {
         description: cat.description || null,
         sortOrder: cat.sort_order,
         automationLevel: (cat as unknown as Record<string, unknown>).automation_level as string,
+        categoryTag:
+          ((cat as unknown as Record<string, unknown>).category_tag as string) || 'general',
         items,
       };
     });

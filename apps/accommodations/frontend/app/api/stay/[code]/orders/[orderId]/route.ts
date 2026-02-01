@@ -46,7 +46,7 @@ export async function GET(
         `
         id, status, requested_time, delivery_notes, subtotal, tax, total, currency, created_at, updated_at,
         accom_service_order_items(
-          id, name, quantity, unit_price, total, notes
+          id, name, quantity, unit_price, total, notes, category_tag
         )
       `
       )
@@ -73,7 +73,23 @@ export async function GET(
       unitPrice: item.unit_price as number,
       total: item.total as number,
       notes: (item.notes as string) || null,
+      categoryTag: (item.category_tag as string) || 'general',
     }));
+
+    // Compute primary category tag from item majority
+    const counts: Record<string, number> = {};
+    for (const item of items) {
+      const tag = item.categoryTag || 'general';
+      counts[tag] = (counts[tag] || 0) + 1;
+    }
+    let orderCategoryTag = 'general';
+    let maxCount = 0;
+    for (const [tag, count] of Object.entries(counts)) {
+      if (count > maxCount) {
+        orderCategoryTag = tag;
+        maxCount = count;
+      }
+    }
 
     const order: ServiceOrder = {
       id: data.id,
@@ -84,6 +100,7 @@ export async function GET(
       tax: data.tax,
       total: data.total,
       currency: data.currency,
+      categoryTag: orderCategoryTag,
       items,
       createdAt: data.created_at,
       updatedAt: data.updated_at,

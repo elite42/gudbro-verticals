@@ -23,6 +23,27 @@ async function authenticateGuest(request: NextRequest) {
 }
 
 /**
+ * Compute the primary category tag for an order based on item majority.
+ * Returns the most frequent categoryTag among items, defaulting to 'general'.
+ */
+function primaryCategoryTag(items: ServiceOrderItem[]): string {
+  const counts: Record<string, number> = {};
+  for (const item of items) {
+    const tag = item.categoryTag || 'general';
+    counts[tag] = (counts[tag] || 0) + 1;
+  }
+  let maxTag = 'general';
+  let maxCount = 0;
+  for (const [tag, count] of Object.entries(counts)) {
+    if (count > maxCount) {
+      maxTag = tag;
+      maxCount = count;
+    }
+  }
+  return maxTag;
+}
+
+/**
  * Map a raw DB order row + items to a ServiceOrder response object
  */
 function mapOrder(
@@ -36,6 +57,7 @@ function mapOrder(
     unitPrice: item.unit_price as number,
     total: item.total as number,
     notes: (item.notes as string) || null,
+    categoryTag: (item.category_tag as string) || 'general',
   }));
 
   return {
@@ -47,6 +69,7 @@ function mapOrder(
     tax: row.tax as number,
     total: row.total as number,
     currency: row.currency as string,
+    categoryTag: primaryCategoryTag(items),
     items,
     createdAt: row.created_at as string,
     updatedAt: row.updated_at as string,
@@ -74,7 +97,7 @@ export async function GET(request: NextRequest) {
         `
         id, status, requested_time, delivery_notes, subtotal, tax, total, currency, created_at, updated_at,
         accom_service_order_items(
-          id, name, quantity, unit_price, total, notes
+          id, name, quantity, unit_price, total, notes, category_tag
         )
       `
       )
@@ -199,7 +222,7 @@ export async function POST(request: NextRequest) {
         `
         id, name, price, currency, in_stock, is_always_available, available_from, available_until,
         category_id,
-        accom_service_categories!inner(automation_level)
+        accom_service_categories!inner(automation_level, category_tag)
       `
       )
       .in('id', itemIds)
@@ -231,6 +254,7 @@ export async function POST(request: NextRequest) {
       unit_price: number;
       total: number;
       notes: string | null;
+      category_tag: string;
     }> = [];
 
     for (const reqItem of body.items) {
@@ -274,6 +298,9 @@ export async function POST(request: NextRequest) {
       const itemTotal = dbItem.price * reqItem.quantity;
       subtotal += itemTotal;
 
+      const categoryData = dbItem.accom_service_categories as unknown as Record<string, unknown>;
+      const itemCategoryTag = (categoryData?.category_tag as string) || 'general';
+
       orderItems.push({
         service_item_id: dbItem.id,
         name: dbItem.name,
@@ -281,6 +308,7 @@ export async function POST(request: NextRequest) {
         unit_price: dbItem.price,
         total: itemTotal,
         notes: reqItem.notes || null,
+        category_tag: itemCategoryTag,
       });
     }
 
@@ -322,7 +350,7 @@ export async function POST(request: NextRequest) {
     const { data: insertedItems, error: itemsInsertError } = await supabase
       .from('accom_service_order_items')
       .insert(itemsToInsert)
-      .select('id, name, quantity, unit_price, total, notes');
+      .select('id, name, quantity, unit_price, total, notes, category_tag');
 
     if (itemsInsertError) {
       console.error('POST /api/stay/[code]/orders items insert error:', itemsInsertError);

@@ -202,6 +202,7 @@ export interface ServiceCategoryWithItems {
   description: string | null;
   sortOrder: number;
   automationLevel: string;
+  categoryTag: string;
   items: ServiceItemResponse[];
 }
 
@@ -214,6 +215,7 @@ export interface ServiceItemResponse {
   priceType: string;
   image: string | null;
   inStock: boolean;
+  includedInRate: boolean;
   isAlwaysAvailable: boolean;
   availableFrom: string | null;
   availableUntil: string | null;
@@ -288,6 +290,7 @@ export interface ServiceOrder {
   tax: number;
   total: number;
   currency: string;
+  categoryTag: string;
   items: ServiceOrderItem[];
   createdAt: string;
   updatedAt: string;
@@ -300,6 +303,7 @@ export interface ServiceOrderItem {
   unitPrice: number;
   total: number;
   notes: string | null;
+  categoryTag?: string;
 }
 
 export interface CreateOrderRequest {
