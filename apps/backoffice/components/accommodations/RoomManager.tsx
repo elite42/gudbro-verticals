@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Plus, Pencil, Check, X, Power, Bed, Users, CurrencyDollar } from '@phosphor-icons/react';
 import { Loader2 } from 'lucide-react';
+import { ImageUpload } from '@/components/ui/image-upload';
 
 // ============================================================================
 // Types
@@ -189,6 +190,33 @@ export function RoomManager({ propertyId }: RoomManagerProps) {
     return `${major} ${currency.toUpperCase()}`;
   };
 
+  // Update room image via API
+  const handleRoomImageUpdate = async (roomId: string, imageUrl: string) => {
+    setSaving(true);
+    setError(null);
+
+    try {
+      const images = imageUrl ? [imageUrl] : [];
+      const res = await fetch('/api/accommodations/rooms', {
+        method: 'PUT',
+        headers: authHeaders(),
+        body: JSON.stringify({ id: roomId, images }),
+      });
+
+      if (!res.ok) {
+        const result = await res.json();
+        throw new Error(result.error || 'Failed to update room image');
+      }
+
+      await loadRooms();
+    } catch (err) {
+      console.error('Error updating room image:', err);
+      setError(err instanceof Error ? err.message : 'Failed to update room image');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -294,6 +322,9 @@ export function RoomManager({ propertyId }: RoomManagerProps) {
                       setFormData(DEFAULT_FORM);
                     }}
                     isSaving={saving}
+                    roomId={room.id}
+                    roomImages={room.images}
+                    onImageChange={handleRoomImageUpdate}
                   />
                 </div>
               ) : (
@@ -364,10 +395,9 @@ export function RoomManager({ propertyId }: RoomManagerProps) {
         </div>
       )}
 
-      {/* TODO: Image upload for rooms (Phase 22) */}
-      {/* TODO: Beds configuration UI (Phase 22) */}
-      {/* TODO: Amenities multi-select (Phase 22) */}
-      {/* TODO: Drag-to-reorder sort (Phase 22) */}
+      {/* TODO: Beds configuration UI */}
+      {/* TODO: Amenities multi-select */}
+      {/* TODO: Drag-to-reorder sort */}
     </div>
   );
 }
@@ -382,9 +412,21 @@ interface RoomFormProps {
   onSave: () => void;
   onCancel: () => void;
   isSaving: boolean;
+  roomId?: string;
+  roomImages?: string[];
+  onImageChange?: (roomId: string, url: string) => void;
 }
 
-function RoomForm({ form, setForm, onSave, onCancel, isSaving }: RoomFormProps) {
+function RoomForm({
+  form,
+  setForm,
+  onSave,
+  onCancel,
+  isSaving,
+  roomId,
+  roomImages,
+  onImageChange,
+}: RoomFormProps) {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
@@ -478,11 +520,21 @@ function RoomForm({ form, setForm, onSave, onCancel, isSaving }: RoomFormProps) 
         />
       </div>
 
-      {/* Image upload placeholder */}
-      <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-3 text-center text-sm text-gray-400">
-        {/* TODO: Image upload coming soon (Phase 22) */}
-        Image upload coming soon
-      </div>
+      {/* Room Photo Upload */}
+      {roomId && onImageChange ? (
+        <ImageUpload
+          value={roomImages?.[0] || ''}
+          onChange={(url) => onImageChange(roomId, url)}
+          folder="room-images"
+          entityId={roomId}
+          label="Room Photo"
+          maxSizeMB={5}
+        />
+      ) : (
+        <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-3 text-center text-sm text-gray-400">
+          Save the room first, then add photos
+        </div>
+      )}
 
       {/* Active toggle */}
       <div className="flex items-center justify-between">

@@ -73,6 +73,16 @@ const FOLDER_CONFIGS: Record<
     allowedTypes: ['image/png', 'image/jpeg', 'image/webp'],
     subfolder: 'feedback',
   },
+  'room-images': {
+    maxSize: 5 * 1024 * 1024, // 5MB
+    allowedTypes: ['image/png', 'image/jpeg', 'image/webp'],
+    subfolder: 'rooms',
+  },
+  'service-items': {
+    maxSize: 5 * 1024 * 1024, // 5MB
+    allowedTypes: ['image/png', 'image/jpeg', 'image/webp'],
+    subfolder: 'services',
+  },
 };
 
 const DEFAULT_CONFIG = {

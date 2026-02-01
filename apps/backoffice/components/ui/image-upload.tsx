@@ -11,7 +11,10 @@ export type ImageUploadFolder =
   | 'site-assets'
   | 'events'
   | 'promotions'
-  | 'challenges';
+  | 'challenges'
+  | 'feedback-screenshots'
+  | 'room-images'
+  | 'service-items';
 
 interface ImageUploadProps {
   value?: string;
