@@ -43,7 +43,7 @@ export default function ActiveOrders({ orders, currency }: ActiveOrdersProps) {
   const [primaryOrder, ...otherOrders] = activeOrders;
 
   return (
-    <section className="mb-5 px-4">
+    <div>
       <div className="mb-3 flex items-center gap-2">
         <span className="text-lg">📋</span>
         <h3 className="font-semibold text-[#2D2016]">Active Orders</h3>
@@ -99,6 +99,6 @@ export default function ActiveOrders({ orders, currency }: ActiveOrdersProps) {
           })}
         </div>
       )}
-    </section>
+    </div>
   );
 }

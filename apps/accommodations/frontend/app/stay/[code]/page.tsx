@@ -29,6 +29,7 @@ import RestaurantSection from '@/components/stay/RestaurantSection';
 import ServicesCarousel from '@/components/stay/ServicesCarousel';
 import ServiceCatalog from '@/components/stay/ServiceCatalog';
 import ActiveOrders from '@/components/stay/ActiveOrders';
+import OrderListView from '@/components/stay/OrderListView';
 import CartFAB from '@/components/stay/CartFAB';
 import CartDrawer from '@/components/stay/CartDrawer';
 import LocalDeals from '@/components/stay/LocalDeals';
@@ -289,10 +290,13 @@ export default function InStayDashboard({ params }: { params: { code: string } }
                 />
               </div>
 
-              {/* Orders section -- scroll target */}
+              {/* Active orders quick status */}
+              <ActiveOrders orders={orders} currency={propertyCurrency} />
+
+              {/* Full order history with category tabs */}
               <div id="orders-section">
                 <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                  <ActiveOrders orders={orders} currency={propertyCurrency} />
+                  <OrderListView orders={orders} currency={propertyCurrency} />
                 </div>
               </div>
 
