@@ -54,7 +54,7 @@ See milestones/v1.4-ROADMAP.md for details.
 - [x] **Phase 26: Progressive Authentication** - Two-tier JWT, inline verification for paid actions, multi-guest PIN support
 - [x] **Phase 27: Owner Security Configuration** - Security presets, configurable verification methods, action-level gating
 - [x] **Phase 28: Document Upload + Visa Tracking** - Passport/visa photo upload, expiry reminders, GDPR auto-delete
-- [ ] **Phase 29: Multi-Zone WiFi** - Per-zone WiFi credentials, room overrides, zone-organized display
+- [x] **Phase 29: Multi-Zone WiFi** - Per-zone WiFi credentials, room overrides, zone-organized display
 - [ ] **Phase 30: Shared Module Audit** - Catalog of reusable modules across verticals (ready/adaptable/to-build)
 - [ ] **Phase 31: Bug Fixes + Image Foundation** - 9 bugs fixed, service/item image upload, WiFi QR extraction
 - [ ] **Phase 32: Owner Dashboard Enhancements** - Gantt calendar, onboarding wizard, property data, policies, booking history
@@ -156,8 +156,8 @@ Plans:
 
 Plans:
 
-- [ ] 29-01-PLAN.md — Migration 092 (wifi_zones JSONB + room override columns + data migration) + backoffice WiFi zone management UI + property/rooms API updates
-- [ ] 29-02-PLAN.md — WifiZoneInfo types + buildWifiInfo() shared helper + 4 guest API route updates + multi-zone WifiCard component + email template update
+- [x] 29-01-PLAN.md — Migration 092 (wifi_zones JSONB + room override columns + data migration) + backoffice WiFi zone management UI + property/rooms API updates
+- [x] 29-02-PLAN.md — WifiZoneInfo types + buildWifiInfo() shared helper + 4 guest API route updates + multi-zone WifiCard component + email template update
 
 ### Phase 30: Shared Module Audit
 
@@ -378,7 +378,7 @@ Notes:
 | 26. Progressive Authentication            | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 27. Owner Security Configuration          | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 28. Document Upload + Visa Tracking       | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 29. Multi-Zone WiFi                       | v1.5      | 0/2            | Not started | -          |
+| 29. Multi-Zone WiFi                       | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 30. Shared Module Audit                   | v1.5      | 0/1            | Not started | -          |
 | 31. Bug Fixes + Image Foundation          | v1.5      | 0/2            | Not started | -          |
 | 32. Owner Dashboard Enhancements          | v1.5      | 0/2            | Not started | -          |
@@ -393,4 +393,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after Phase 29 planning (2 plans in 2 waves)_
+_Last updated: 2026-02-01 after Phase 29 completion (Multi-Zone WiFi verified)_

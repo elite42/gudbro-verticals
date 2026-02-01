@@ -29,11 +29,11 @@
 - [x] **CONF-03**: Owner can customize gated actions beyond the preset
 - [x] **CONF-04**: Safe defaults: "Family" preset requires no verification, "Structured" requires verification for all orders
 
-### Multi-Zone WiFi
+### Multi-Zone WiFi (Complete)
 
-- [ ] **WIFI-01**: Owner can configure multiple WiFi networks per zone (room, restaurant, pool, lobby)
-- [ ] **WIFI-02**: Guest sees WiFi credentials organized by zone in dashboard
-- [ ] **WIFI-03**: Room WiFi network is highlighted at the top
+- [x] **WIFI-01**: Owner can configure multiple WiFi networks per zone (room, restaurant, pool, lobby)
+- [x] **WIFI-02**: Guest sees WiFi credentials organized by zone in dashboard
+- [x] **WIFI-03**: Room WiFi network is highlighted at the top
 
 ### Document Upload (Complete)
 
@@ -188,9 +188,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DOC-03      | 28    | Pending  |
 | DOC-04      | 28    | Pending  |
 | DOC-05      | 28    | Pending  |
-| WIFI-01     | 29    | Pending  |
-| WIFI-02     | 29    | Pending  |
-| WIFI-03     | 29    | Pending  |
+| WIFI-01     | 29    | Complete |
+| WIFI-02     | 29    | Complete |
+| WIFI-03     | 29    | Complete |
 | INF-01      | 30    | Pending  |
 | INF-02      | 31    | Pending  |
 | INF-03      | 37    | Pending  |

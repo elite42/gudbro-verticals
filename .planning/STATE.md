@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 29 (Multi-Zone WiFi) in progress
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 30 (Shared Module Audit) next
 
 ## Current Position
 
-Phase: 29 of 39 (Multi-Zone WiFi)
-Plan: 1 of 2
-Status: In progress
-Last activity: 2026-02-01 — Completed 29-01-PLAN.md
+Phase: 30 of 39 (Shared Module Audit)
+Plan: —
+Status: Ready to plan
+Last activity: 2026-02-01 — Phase 29 (Multi-Zone WiFi) completed and verified
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [█████░░░░░░░░░░░░░░░] 9/27 plans
+Progress: v1.5 [██████░░░░░░░░░░░░░░] 10/27 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 66 (+ 1 quick task)
+- Total plans completed: 67 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~4.7 hours
+- Total execution time: ~4.8 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████░░░░░░░░░░░░░░░] 9/
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 9/27  | ~35 min    | 3.9 min  |
+| v1.5      | 10/27 | ~42 min    | 4.2 min  |
 
 ## Accumulated Context
 
@@ -54,6 +54,9 @@ Recent decisions for v1.5 extended roadmap:
 - WIFI-01: wifi_zones as JSONB array on accom_properties (max 8 zones)
 - WIFI-02: Legacy wifi_network/wifi_password columns preserved (not dropped)
 - WIFI-03: Room WiFi overrides as simple nullable TEXT columns
+- WIFI-04: buildWifiInfo() shared helper ensures all routes return identical WifiInfo shape
+- WIFI-05: Property route returns zones without room override (no room context in JWT)
+- WIFI-06: Pre-arrival email uses primary zone via buildWifiInfo, not all zones
 
 ### Pending Todos
 
@@ -71,10 +74,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 29-01-PLAN.md
+Stopped at: Phase 29 completed and verified
 Resume file: None
-Next: `/gsd:execute-phase 29` plan 02 (Guest-Facing WiFi Display)
+Next: `/gsd:discuss-phase 30` (Shared Module Audit)
 
 ---
 
-_Last updated: 2026-02-01 after 29-01 execution_
+_Last updated: 2026-02-01 after Phase 29 execution and verification_
