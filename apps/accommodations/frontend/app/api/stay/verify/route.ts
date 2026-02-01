@@ -133,7 +133,10 @@ export async function POST(request: NextRequest) {
 
     const booking: BookingInfo = {
       code: bookingData.booking_code,
-      guestName: `${bookingData.guest_name} ${bookingData.guest_last_name}`,
+      guestName:
+        bookingData.guest_last_name && !bookingData.guest_name.includes(bookingData.guest_last_name)
+          ? `${bookingData.guest_name} ${bookingData.guest_last_name}`
+          : bookingData.guest_name,
       guestCount: bookingData.guest_count,
       checkIn: bookingData.check_in_date,
       checkOut: bookingData.check_out_date,

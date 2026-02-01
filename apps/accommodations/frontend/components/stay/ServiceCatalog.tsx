@@ -27,10 +27,37 @@ function isItemAvailableNow(
   return now >= availableFrom && now <= availableUntil;
 }
 
+/** Map Phosphor icon names (from DB seed) to emoji for display. */
+const ICON_NAME_TO_EMOJI: Record<string, string> = {
+  CookingPot: '🍳',
+  Broom: '🧹',
+  ShoppingCart: '🛒',
+  Bed: '🛏️',
+  Coffee: '☕',
+  Swim: '🏊',
+  SwimmingPool: '🏊',
+  Car: '🚗',
+  Shirt: '👔',
+  TShirt: '👔',
+  WashingMachine: '🧺',
+  Wine: '🍷',
+  ForkKnife: '🍽️',
+  Taxi: '🚕',
+  Bicycle: '🚲',
+  FirstAid: '🏥',
+  Barbell: '🏋️',
+  Bathtub: '🛁',
+  Flower: '🌸',
+  Package: '📦',
+};
+
 /** Category icon mapping -- emoji fallback from icon field or default. */
 function getCategoryIcon(icon: string | null): string {
-  if (icon) return icon;
-  return '📦';
+  if (!icon) return '📦';
+  // If already an emoji (non-ASCII or short), return as-is
+  if (/[^\u0020-\u007E]/.test(icon)) return icon;
+  // Map Phosphor icon name to emoji
+  return ICON_NAME_TO_EMOJI[icon] ?? '📦';
 }
 
 interface ServiceCatalogProps {

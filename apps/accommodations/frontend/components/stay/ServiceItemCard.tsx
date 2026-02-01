@@ -2,6 +2,24 @@
 
 import { Plus, Minus, Clock, Package } from '@phosphor-icons/react';
 
+/** Format a HH:MM:SS or HH:MM time string to 12-hour format. */
+function formatServiceTime(time: string): string {
+  const [hours, minutes] = time.split(':').map(Number);
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+  return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+}
+
+/** Format a time range, omitting redundant AM/PM when both are the same. */
+function formatTimeRange(from: string, until: string): string {
+  const fromFormatted = formatServiceTime(from);
+  const untilFormatted = formatServiceTime(until);
+  const [fromTime, fromPeriod] = fromFormatted.split(' ');
+  const [_untilTime, untilPeriod] = untilFormatted.split(' ');
+  if (fromPeriod === untilPeriod) return `${fromTime} - ${untilFormatted}`;
+  return `${fromFormatted} - ${untilFormatted}`;
+}
+
 /** Currencies with 0 decimal places (minor unit = major unit). */
 const ZERO_DECIMAL_CURRENCIES = new Set(['VND', 'JPY', 'KRW', 'CLP', 'ISK', 'UGX', 'RWF']);
 
@@ -93,7 +111,7 @@ export default function ServiceItemCard({
         {item.inStock && !isAvailable && item.availableFrom && item.availableUntil && (
           <span className="mt-1 inline-flex w-fit items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-700">
             <Clock size={10} weight="bold" />
-            {item.availableFrom} - {item.availableUntil}
+            {formatTimeRange(item.availableFrom, item.availableUntil)}
           </span>
         )}
       </div>

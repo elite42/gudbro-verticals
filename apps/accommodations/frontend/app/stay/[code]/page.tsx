@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { MapPin, UserCircle } from '@phosphor-icons/react';
 import { useStaySession } from '@/hooks/useStaySession';
 import { useServiceCart } from '@/hooks/useServiceCart';
 import { useOrderPolling } from '@/hooks/useOrderPolling';
@@ -32,7 +33,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   const router = useRouter();
   const { token, stay, isLoading, isAuthenticated } = useStaySession();
   const [propertyExtended, setPropertyExtended] = useState<PropertyExtended | null>(null);
-  const [propertyLoading, setPropertyLoading] = useState(true);
+  const [_propertyLoading, setPropertyLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('home');
 
   // Cart state at page level -- survives tab navigation
@@ -141,147 +142,205 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   // Use first item currency or fallback
   const propertyCurrency = serviceCategories[0]?.items[0]?.currency ?? 'EUR';
 
+  // Render tab content
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'map':
+        return (
+          <div className="px-4 py-6">
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-8 text-center shadow-sm">
+              <MapPin size={48} weight="duotone" className="mx-auto mb-3 text-[#3D8B87]" />
+              <h3 className="mb-1 text-base font-semibold text-[#2D2016]">Map</h3>
+              <p className="text-sm text-[#8B7355]">
+                Explore the local area around {property.name}. Coming soon.
+              </p>
+            </div>
+          </div>
+        );
+
+      case 'profile':
+        return (
+          <div className="px-4 py-6">
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-8 text-center shadow-sm">
+              <UserCircle size={48} weight="duotone" className="mx-auto mb-3 text-[#3D8B87]" />
+              <h3 className="mb-1 text-base font-semibold text-[#2D2016]">Guest Profile</h3>
+              <p className="text-sm text-[#8B7355]">Your profile and preferences. Coming soon.</p>
+            </div>
+          </div>
+        );
+
+      case 'home':
+      default:
+        return (
+          <div className="flex flex-col gap-4 px-4 py-4">
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <WifiCard wifi={wifi} />
+            </div>
+
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <WelcomeCard booking={booking} room={room} />
+            </div>
+
+            {booking.guestCountry && (
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <VisaStatusCard
+                  guestCountry={booking.guestCountry}
+                  checkInDate={booking.checkIn}
+                  uploadedVisaExpiry={activeVisa?.visaExpiryDate}
+                />
+              </div>
+            )}
+
+            {activeVisa?.visaExpiryDate && (
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <VisaExpiryAlert
+                  visaExpiryDate={activeVisa.visaExpiryDate}
+                  checkInDate={booking.checkIn}
+                />
+              </div>
+            )}
+
+            {hostPhone && (
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <QuickActions
+                  actions={propertyExtended?.quickActions}
+                  phone={hostPhone}
+                  roomNumber={room.number}
+                  propertyName={property.name}
+                />
+              </div>
+            )}
+
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <RestaurantSection
+                hasLinkedFnb={propertyExtended?.hasLinkedFnb ?? false}
+                linkedFnbSlug={propertyExtended?.linkedFnbSlug ?? null}
+                bookingCode={params.code}
+                token={token!}
+              />
+            </div>
+
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <ServicesCarousel
+                bookingCode={params.code}
+                token={token!}
+                cart={cart}
+                onViewAll={() => setShowCatalog(true)}
+                onCategoriesLoaded={handleCategoriesLoaded}
+              />
+            </div>
+
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <ActiveOrders orders={orders} currency={propertyCurrency} />
+            </div>
+
+            {/* Documents section */}
+            {token && (
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                {showUpload ? (
+                  <DocumentUpload
+                    bookingCode={params.code}
+                    token={token}
+                    onUploadComplete={() => {
+                      loadDocuments();
+                      setShowUpload(false);
+                    }}
+                    existingDocuments={documents}
+                  />
+                ) : (
+                  <>
+                    <div className="mb-3 flex items-center justify-between">
+                      <h3 className="text-sm font-semibold text-[#2D2016]">Documents</h3>
+                      <button
+                        onClick={() => setShowUpload(true)}
+                        className="rounded-lg bg-[#3D8B87]/10 px-3 py-1.5 text-xs font-medium text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/20"
+                      >
+                        Upload Document
+                      </button>
+                    </div>
+                    {documents.length === 0 ? (
+                      <p className="text-xs text-[#8B7355]">
+                        No documents uploaded yet. Upload your passport for residence registration.
+                      </p>
+                    ) : (
+                      <div className="space-y-2">
+                        {documents
+                          .filter((d) => !d.supersededBy)
+                          .map((doc) => (
+                            <div
+                              key={doc.id}
+                              className="flex items-center justify-between rounded-xl bg-[#FAF8F5] px-3 py-2"
+                            >
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm">
+                                  {doc.documentType === 'passport' ? '🛂' : '📄'}
+                                </span>
+                                <div>
+                                  <p className="text-xs font-medium capitalize text-[#2D2016]">
+                                    {doc.documentType}
+                                  </p>
+                                  {doc.visaExpiryDate && (
+                                    <p className="text-[10px] text-[#8B7355]">
+                                      Expires: {doc.visaExpiryDate}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                              {doc.registeredWithAuthorities && (
+                                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
+                                  Registered
+                                </span>
+                              )}
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <LocalDeals bookingCode={params.code} token={token!} />
+            </div>
+
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <UsefulNumbers bookingCode={params.code} token={token!} />
+            </div>
+
+            {propertyExtended?.returnBannerText && propertyExtended?.returnBannerUrl && (
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <ReturnGuestBanner
+                  text={propertyExtended.returnBannerText}
+                  url={propertyExtended.returnBannerUrl}
+                />
+              </div>
+            )}
+
+            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <CheckoutInfo checkoutTime={property.checkoutTime} houseRules={property.houseRules} />
+            </div>
+
+            {hostPhone && (
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <ContactSheet
+                  phone={hostPhone}
+                  whatsapp={property.contactWhatsapp}
+                  roomNumber={room.number}
+                  propertyName={property.name}
+                />
+              </div>
+            )}
+          </div>
+        );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF8F5]">
       <DashboardHeader property={property} />
 
-      <div className="pb-20">
-        <WifiCard wifi={wifi} />
-
-        <WelcomeCard booking={booking} room={room} />
-
-        {booking.guestCountry && (
-          <VisaStatusCard
-            guestCountry={booking.guestCountry}
-            checkInDate={booking.checkIn}
-            uploadedVisaExpiry={activeVisa?.visaExpiryDate}
-          />
-        )}
-
-        {/* Visa expiry alert from uploaded visa */}
-        {activeVisa?.visaExpiryDate && (
-          <VisaExpiryAlert
-            visaExpiryDate={activeVisa.visaExpiryDate}
-            checkInDate={booking.checkIn}
-          />
-        )}
-
-        {hostPhone && (
-          <QuickActions
-            actions={propertyExtended?.quickActions}
-            phone={hostPhone}
-            roomNumber={room.number}
-            propertyName={property.name}
-          />
-        )}
-
-        <RestaurantSection
-          hasLinkedFnb={propertyExtended?.hasLinkedFnb ?? false}
-          linkedFnbSlug={propertyExtended?.linkedFnbSlug ?? null}
-          bookingCode={params.code}
-          token={token!}
-        />
-
-        <ServicesCarousel
-          bookingCode={params.code}
-          token={token!}
-          cart={cart}
-          onViewAll={() => setShowCatalog(true)}
-          onCategoriesLoaded={handleCategoriesLoaded}
-        />
-
-        <ActiveOrders orders={orders} currency={propertyCurrency} />
-
-        {/* Documents section */}
-        {token && (
-          <section className="mb-5 px-4">
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-              {showUpload ? (
-                <DocumentUpload
-                  bookingCode={params.code}
-                  token={token}
-                  onUploadComplete={() => {
-                    loadDocuments();
-                    setShowUpload(false);
-                  }}
-                  existingDocuments={documents}
-                />
-              ) : (
-                <>
-                  <div className="mb-3 flex items-center justify-between">
-                    <h3 className="text-sm font-semibold text-[#2D2016]">Documents</h3>
-                    <button
-                      onClick={() => setShowUpload(true)}
-                      className="rounded-lg bg-[#3D8B87]/10 px-3 py-1.5 text-xs font-medium text-[#3D8B87] transition-colors hover:bg-[#3D8B87]/20"
-                    >
-                      Upload Document
-                    </button>
-                  </div>
-                  {documents.length === 0 ? (
-                    <p className="text-xs text-[#8B7355]">
-                      No documents uploaded yet. Upload your passport for residence registration.
-                    </p>
-                  ) : (
-                    <div className="space-y-2">
-                      {documents
-                        .filter((d) => !d.supersededBy)
-                        .map((doc) => (
-                          <div
-                            key={doc.id}
-                            className="flex items-center justify-between rounded-xl bg-[#FAF8F5] px-3 py-2"
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm">
-                                {doc.documentType === 'passport' ? '🛂' : '📄'}
-                              </span>
-                              <div>
-                                <p className="text-xs font-medium capitalize text-[#2D2016]">
-                                  {doc.documentType}
-                                </p>
-                                {doc.visaExpiryDate && (
-                                  <p className="text-[10px] text-[#8B7355]">
-                                    Expires: {doc.visaExpiryDate}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {doc.registeredWithAuthorities && (
-                              <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
-                                Registered
-                              </span>
-                            )}
-                          </div>
-                        ))}
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          </section>
-        )}
-
-        <LocalDeals bookingCode={params.code} token={token!} />
-
-        <UsefulNumbers bookingCode={params.code} token={token!} />
-
-        {propertyExtended?.returnBannerText && propertyExtended?.returnBannerUrl && (
-          <ReturnGuestBanner
-            text={propertyExtended.returnBannerText}
-            url={propertyExtended.returnBannerUrl}
-          />
-        )}
-
-        <CheckoutInfo checkoutTime={property.checkoutTime} houseRules={property.houseRules} />
-
-        {hostPhone && (
-          <ContactSheet
-            phone={hostPhone}
-            whatsapp={property.contactWhatsapp}
-            roomNumber={room.number}
-            propertyName={property.name}
-          />
-        )}
-      </div>
+      <div className="pb-20">{renderTabContent()}</div>
 
       {/* CartFAB -- visible when cart has items */}
       <CartFAB itemCount={cart.itemCount} onClick={() => setShowCart(true)} />
