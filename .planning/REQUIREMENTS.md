@@ -35,13 +35,13 @@
 - [ ] **WIFI-02**: Guest sees WiFi credentials organized by zone in dashboard
 - [ ] **WIFI-03**: Room WiFi network is highlighted at the top
 
-### Document Upload
+### Document Upload (Complete)
 
-- [ ] **DOC-01**: Guest can photograph and upload passport from dashboard
-- [ ] **DOC-02**: Guest can upload visa page with expiry date
-- [ ] **DOC-03**: System sends automatic reminders if visa expires during stay (14, 7, 3 days before)
-- [ ] **DOC-04**: Owner sees uploaded documents in backoffice and receives notification of new uploads
-- [ ] **DOC-05**: Documents are automatically deleted 30 days after checkout (GDPR compliance)
+- [x] **DOC-01**: Guest can photograph and upload passport from dashboard
+- [x] **DOC-02**: Guest can upload visa page with expiry date
+- [x] **DOC-03**: System sends automatic reminders if visa expires during stay (14, 7, 3 days before)
+- [x] **DOC-04**: Owner sees uploaded documents in backoffice and receives notification of new uploads
+- [x] **DOC-05**: Documents are automatically deleted 30 days after checkout (GDPR compliance)
 
 ### Shared Infrastructure
 

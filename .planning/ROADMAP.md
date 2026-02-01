@@ -53,7 +53,7 @@ See milestones/v1.4-ROADMAP.md for details.
 - [x] **Phase 25: Room Code Foundation** - Permanent room codes, browse-tier QR access, instant WiFi/info dashboard
 - [x] **Phase 26: Progressive Authentication** - Two-tier JWT, inline verification for paid actions, multi-guest PIN support
 - [x] **Phase 27: Owner Security Configuration** - Security presets, configurable verification methods, action-level gating
-- [ ] **Phase 28: Document Upload + Visa Tracking** - Passport/visa photo upload, expiry reminders, GDPR auto-delete
+- [x] **Phase 28: Document Upload + Visa Tracking** - Passport/visa photo upload, expiry reminders, GDPR auto-delete
 - [ ] **Phase 29: Multi-Zone WiFi** - Per-zone WiFi credentials, room overrides, zone-organized display
 - [ ] **Phase 30: Shared Module Audit** - Catalog of reusable modules across verticals (ready/adaptable/to-build)
 - [ ] **Phase 31: Bug Fixes + Image Foundation** - 9 bugs fixed, service/item image upload, WiFi QR extraction
@@ -139,8 +139,8 @@ Plans:
 
 Plans:
 
-- [ ] 28-01-PLAN.md — Database migration (accom_guest_documents + storage bucket + property retention columns) + API routes (upload URL, list, download, delete) + cron job (visa reminders + GDPR auto-delete)
-- [ ] 28-02-PLAN.md — Image processing (HEIC + compression + blur detection) + guest upload UI (consent, camera, upload flow) + visa expiry alert + backoffice document urgency dashboard + booking detail integration
+- [x] 28-01-PLAN.md — Database migration (accom_guest_documents + storage bucket + property retention columns) + API routes (upload URL, list, download, delete) + cron job (visa reminders + GDPR auto-delete)
+- [x] 28-02-PLAN.md — Image processing (HEIC + compression + blur detection) + guest upload UI (consent, camera, upload flow) + visa expiry alert + backoffice document urgency dashboard + booking detail integration
 
 ### Phase 29: Multi-Zone WiFi
 
@@ -377,7 +377,7 @@ Notes:
 | 25. Room Code Foundation                  | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 26. Progressive Authentication            | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 27. Owner Security Configuration          | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 28. Document Upload + Visa Tracking       | v1.5      | 0/2            | Not started | -          |
+| 28. Document Upload + Visa Tracking       | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 29. Multi-Zone WiFi                       | v1.5      | 0/2            | Not started | -          |
 | 30. Shared Module Audit                   | v1.5      | 0/1            | Not started | -          |
 | 31. Bug Fixes + Image Foundation          | v1.5      | 0/2            | Not started | -          |

@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 28 (Document Upload) ready to plan
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 29 (Multi-Zone WiFi) ready to plan
 
 ## Current Position
 
-Phase: 28 of 39 (Document Upload + Visa Tracking)
+Phase: 29 of 39 (Multi-Zone WiFi)
 Plan: —
 Status: Ready to plan
-Last activity: 2026-02-01 — Extended roadmap created (phases 30-39, 49 requirements mapped)
+Last activity: 2026-02-01 — Phase 28 (Document Upload + Visa Tracking) completed and verified
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [███░░░░░░░░░░░░░░░░░] 6/27 plans
+Progress: v1.5 [████░░░░░░░░░░░░░░░░] 8/27 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 63 (+ 1 quick task)
+- Total plans completed: 65 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~4.5 hours
+- Total execution time: ~4.7 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [███░░░░░░░░░░░░░░░░░] 6/
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 6/27  | ~22 min    | 3.7 min  |
+| v1.5      | 8/27  | ~32 min    | 4.0 min  |
 
 ## Accumulated Context
 
@@ -49,7 +49,7 @@ Recent decisions for v1.5 extended roadmap:
 - Dashboard refactor BEFORE adding new sections (Phase 33 before 34/35/36)
 - Tourist Concierge for accommodations only (5 CON-\* requirements in Phase 36)
 - Gantt/Timeline calendar via CSS Grid, not library (Phase 32)
-- Zero new npm packages confirmed by research
+- Zero new npm packages confirmed by research (except browser-image-compression + heic2any for Phase 28)
 - Backoffice multi-verticale and fatturazione DEFERRED (out of scope)
 
 ### Pending Todos
@@ -68,10 +68,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Extended roadmap created (phases 30-39)
+Stopped at: Phase 28 completed and verified
 Resume file: None
-Next: `/gsd:plan-phase 28` (Document Upload + Visa Tracking)
+Next: `/gsd:plan-phase 29` (Multi-Zone WiFi)
 
 ---
 
-_Last updated: 2026-02-01 after extended roadmap creation_
+_Last updated: 2026-02-01 after Phase 28 execution and verification_
