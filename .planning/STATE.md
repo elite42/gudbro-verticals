@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 33 of 39 (Guest Dashboard Redesign)
-Plan: 1 of 2
-Status: In progress
-Last activity: 2026-02-01 — Completed 33-01-PLAN.md (Card-Based Homepage)
+Plan: 2 of 2
+Status: Phase complete (verified)
+Last activity: 2026-02-01 — Completed 33-02-PLAN.md (Navigation Restructure + Profile)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [███████████████░░░░░] 18/29 plans
+Progress: v1.5 [████████████████░░░░] 19/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 75 (+ 1 quick task)
+- Total plans completed: 76 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~5.7 hours
+- Total execution time: ~5.9 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [███████████████░░░░░] 18
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 18/29 | ~89 min    | 4.9 min  |
+| v1.5      | 19/29 | ~101 min   | 5.3 min  |
 
 ## Accumulated Context
 
@@ -72,6 +72,10 @@ Recent decisions for v1.5 extended roadmap:
 - GRID-01: Cards use borderTop 3px color accent instead of full background tint for cleaner look
 - GRID-02: Commented out WelcomeCard/CheckoutInfo/ContactSheet/QuickActions/VisaStatusCard/VisaExpiryAlert with migration notes for 33-02
 - GRID-03: WiFi dismiss starts hidden (dismissed=true) then checks localStorage in useEffect to avoid flash
+- NAV-01: ContactSheet refactored to controlled mode (isOpen/onClose) -- room page updated too
+- NAV-02: checkInTime and checkoutProcedure added to PropertyInfo type and all 4 API routes
+- NAV-03: BottomNav reduced from 5 to 4 tabs, Menu removed, Map renamed to Explore
+- NAV-04: ProfileView preferences section is a stub for Phase 38 returning guest detection
 
 ### Pending Todos
 
@@ -83,16 +87,16 @@ None.
 - ADMIN_API_KEY auth pattern needs migration to session-based auth
 - Phase 28: HEIC conversion reliability on Android needs device testing (Samsung, Xiaomi, Oppo)
 - Phase 28: Vietnam-specific document retention rules (NA17) need local legal validation
-- Phase 33: Dashboard redesign deployment must preserve InStayDashboard state contracts (15+ state vars)
 - Phase 32: Gantt calendar mobile UX needs validation on phone screens
+- Pre-existing @shared/ module resolution errors in DashboardHeader.tsx and WifiCard.tsx (project-level config issue)
 
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 33-01-PLAN.md (Card-Based Homepage)
+Stopped at: Phase 33 fully complete (2 plans, verified)
 Resume file: None
-Next: Execute 33-02-PLAN.md (Bottom Navigation + House Rules)
+Next: `/gsd:plan-phase 34` (Service Expansion + Minibar)
 
 ---
 
-_Last updated: 2026-02-01 after 33-01 plan completion_
+_Last updated: 2026-02-01 after Phase 33 execution complete_

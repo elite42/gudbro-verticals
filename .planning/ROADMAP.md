@@ -58,7 +58,7 @@ See milestones/v1.4-ROADMAP.md for details.
 - [x] **Phase 30: Shared Module Audit** - Catalog of reusable modules across verticals (ready/adaptable/to-build)
 - [x] **Phase 31: Bug Fixes + Image Foundation** - 9 bugs fixed, service/item image upload, WiFi QR extraction
 - [x] **Phase 32: Owner Dashboard Enhancements** - Gantt calendar, onboarding wizard, property data, policies, booking history
-- [ ] **Phase 33: Guest Dashboard Redesign** - Card-based homepage, dismissible WiFi box, profile page, navigation restructure
+- [x] **Phase 33: Guest Dashboard Redesign** - Card-based homepage, dismissible WiFi box, profile page, navigation restructure
 - [ ] **Phase 34: Service Expansion + Minibar** - Catalog redesign, minibar self-service, included-in-rate, order improvements
 - [ ] **Phase 35: Guest Feedback System** - In-stay complaints channel, post-stay category ratings with AI pipeline
 - [ ] **Phase 36: Guest Requests + Concierge** - Tourist Concierge hub, Explore page, bottom nav overhaul, useful numbers
@@ -229,8 +229,8 @@ Plans:
 
 Plans:
 
-- [ ] 33-01-PLAN.md — DashboardGrid + DashboardCard components, card-based homepage layout, WiFi dismiss/recover logic (NAV-01, NAV-02)
-- [ ] 33-02-PLAN.md — HouseRulesSheet + Contact Host in header + ProfileView + BottomNav restructure (NAV-04, NAV-05, NAV-08)
+- [x] 33-01-PLAN.md — DashboardGrid + DashboardCard components, card-based homepage layout, WiFi dismiss/recover logic (NAV-01, NAV-02)
+- [x] 33-02-PLAN.md — HouseRulesSheet + Contact Host in header + ProfileView + BottomNav restructure (NAV-04, NAV-05, NAV-08)
 
 ### Phase 34: Service Expansion + Minibar
 
@@ -384,7 +384,7 @@ Notes:
 | 30. Shared Module Audit                   | v1.5      | 1/1            | Complete    | 2026-02-01 |
 | 31. Bug Fixes + Image Foundation          | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 32. Owner Dashboard Enhancements          | v1.5      | 4/4            | Complete    | 2026-02-01 |
-| 33. Guest Dashboard Redesign              | v1.5      | 0/2            | Not started | -          |
+| 33. Guest Dashboard Redesign              | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 34. Service Expansion + Minibar           | v1.5      | 0/2            | Not started | -          |
 | 35. Guest Feedback System                 | v1.5      | 0/2            | Not started | -          |
 | 36. Guest Requests + Concierge            | v1.5      | 0/3            | Not started | -          |
@@ -395,4 +395,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-01 after Phase 33 planning complete_
+_Last updated: 2026-02-01 after Phase 33 execution complete_

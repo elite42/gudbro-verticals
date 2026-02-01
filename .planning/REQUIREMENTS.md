@@ -63,14 +63,14 @@
 
 ### PWA Homepage & Navigation
 
-- [ ] **NAV-01**: Homepage redesign with max 6-8 colored clickable cards (visual, not text wall)
-- [ ] **NAV-02**: WiFi box is dismissible and recoverable from Concierge hub
+- [x] **NAV-01**: Homepage redesign with max 6-8 colored clickable cards (visual, not text wall)
+- [x] **NAV-02**: WiFi box is dismissible and recoverable from Concierge hub
 - [ ] **NAV-03**: Useful numbers moved to dedicated page, linked from Concierge hub
-- [ ] **NAV-04**: Check-in/out times shown inside House Rules section, not separate
-- [ ] **NAV-05**: Contact Host moved to menu/header, not prominent homepage section
+- [x] **NAV-04**: Check-in/out times shown inside House Rules section, not separate
+- [x] **NAV-05**: Contact Host moved to menu/header, not prominent homepage section
 - [ ] **NAV-06**: Explore/Map page with local attractions, tours, experiences
 - [ ] **NAV-07**: Central bottom nav button opens Concierge hub (Discover, Emergency, Safety, Culture, Transport + WiFi, Documents, Contacts)
-- [ ] **NAV-08**: Profile page with personal data, documents, history, preferences, feedback
+- [x] **NAV-08**: Profile page with personal data, documents, history, preferences, feedback
 
 ### Services & Orders
 
@@ -203,14 +203,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BUG-07      | 31    | Complete |
 | BUG-08      | 31    | Complete |
 | BUG-09      | 31    | Complete |
-| NAV-01      | 33    | Pending  |
-| NAV-02      | 33    | Pending  |
+| NAV-01      | 33    | Complete |
+| NAV-02      | 33    | Complete |
 | NAV-03      | 36    | Pending  |
-| NAV-04      | 33    | Pending  |
-| NAV-05      | 33    | Pending  |
+| NAV-04      | 33    | Complete |
+| NAV-05      | 33    | Complete |
 | NAV-06      | 36    | Pending  |
 | NAV-07      | 36    | Pending  |
-| NAV-08      | 33    | Pending  |
+| NAV-08      | 33    | Complete |
 | SVC-01      | 34    | Pending  |
 | SVC-02      | 34    | Pending  |
 | SVC-03      | 34    | Pending  |
