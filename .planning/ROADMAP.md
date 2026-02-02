@@ -61,7 +61,7 @@ See milestones/v1.4-ROADMAP.md for details.
 - [x] **Phase 33: Guest Dashboard Redesign** - Card-based homepage, dismissible WiFi box, profile page, navigation restructure
 - [x] **Phase 34: Service Expansion + Minibar** - Catalog redesign, minibar self-service, included-in-rate, order improvements
 - [x] **Phase 35: Guest Feedback System** - In-stay complaints channel, post-stay category ratings with AI pipeline
-- [ ] **Phase 36: Guest Requests + Concierge** - Tourist Concierge hub, Explore page, bottom nav overhaul, useful numbers
+- [x] **Phase 36: Guest Requests + Concierge** - Tourist Concierge hub, Explore page, bottom nav overhaul, useful numbers
 - [ ] **Phase 37: Conventions + Vouchers** - Benefit scope adaptation, convention cards, voucher validation in booking flow
 - [ ] **Phase 38: Guest Lifecycle** - Returning guest badge, early/late checkout requests, visa alerts, delivery apps
 - [ ] **Phase 39: Polish + Analytics** - Order performance tracking, guest receipt confirmation, final refinements
@@ -282,9 +282,9 @@ Plans:
 
 Plans:
 
-- [ ] 36-01-PLAN.md — DB migration (concierge_sections JSONB) + BottomNav center button to Concierge + ConciergeHub overlay + guest/backoffice APIs + backoffice toggle settings (CON-01, CON-02, NAV-07)
-- [ ] 36-02-PLAN.md — Emergency contacts with click-to-call (CON-03) + safety tips accordion (CON-04) + cultural tips and recommended apps (CON-05) + useful numbers dedicated page (NAV-03)
-- [ ] 36-03-PLAN.md — Explore/Map page with card-based local attractions, tours, experiences, and cross-vertical deep-links (NAV-06)
+- [x] 36-01-PLAN.md — DB migration (concierge_sections JSONB) + BottomNav center button to Concierge + ConciergeHub overlay + guest/backoffice APIs + backoffice toggle settings (CON-01, CON-02, NAV-07)
+- [x] 36-02-PLAN.md — Emergency contacts with click-to-call (CON-03) + safety tips accordion (CON-04) + cultural tips and recommended apps (CON-05) + useful numbers dedicated page (NAV-03)
+- [x] 36-03-PLAN.md — Explore/Map page with card-based local attractions, tours, experiences, and cross-vertical deep-links (NAV-06)
 
 ### Phase 37: Conventions + Vouchers
 
@@ -387,7 +387,7 @@ Notes:
 | 33. Guest Dashboard Redesign              | v1.5      | 2/2            | Complete    | 2026-02-01 |
 | 34. Service Expansion + Minibar           | v1.5      | 5/5            | Complete    | 2026-02-02 |
 | 35. Guest Feedback System                 | v1.5      | 2/2            | Complete    | 2026-02-02 |
-| 36. Guest Requests + Concierge            | v1.5      | 0/3            | Not started | -          |
+| 36. Guest Requests + Concierge            | v1.5      | 3/3            | Complete    | 2026-02-02 |
 | 37. Conventions + Vouchers                | v1.5      | 0/2            | Not started | -          |
 | 38. Guest Lifecycle                       | v1.5      | 0/2            | Not started | -          |
 | 39. Polish + Analytics                    | v1.5      | 0/1            | Not started | -          |
@@ -395,4 +395,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-02 after Phase 36 planning complete_
+_Last updated: 2026-02-02 after Phase 36 execution complete_

@@ -65,11 +65,11 @@
 
 - [x] **NAV-01**: Homepage redesign with max 6-8 colored clickable cards (visual, not text wall)
 - [x] **NAV-02**: WiFi box is dismissible and recoverable from Concierge hub
-- [ ] **NAV-03**: Useful numbers moved to dedicated page, linked from Concierge hub
+- [x] **NAV-03**: Useful numbers moved to dedicated page, linked from Concierge hub
 - [x] **NAV-04**: Check-in/out times shown inside House Rules section, not separate
 - [x] **NAV-05**: Contact Host moved to menu/header, not prominent homepage section
-- [ ] **NAV-06**: Explore/Map page with local attractions, tours, experiences
-- [ ] **NAV-07**: Central bottom nav button opens Concierge hub (Discover, Emergency, Safety, Culture, Transport + WiFi, Documents, Contacts)
+- [x] **NAV-06**: Explore/Map page with local attractions, tours, experiences
+- [x] **NAV-07**: Central bottom nav button opens Concierge hub (Discover, Emergency, Safety, Culture, Transport + WiFi, Documents, Contacts)
 - [x] **NAV-08**: Profile page with personal data, documents, history, preferences, feedback
 
 ### Services & Orders
@@ -107,11 +107,11 @@
 
 ### Tourist Concierge (Accommodations only)
 
-- [ ] **CON-01**: Concierge hub accessible from center bottom nav button with 5 sections (Discover, Emergency, Safety, Culture, Transport)
-- [ ] **CON-02**: Merchant can toggle on/off each Concierge section from backoffice settings
-- [ ] **CON-03**: Emergency numbers and embassy contacts displayed with click-to-call
-- [ ] **CON-04**: Safety tips organized by category (transport, money, food, street, hotels, tours, digital) with accordion expand
-- [ ] **CON-05**: Cultural tips (dos/don'ts) and recommended apps section
+- [x] **CON-01**: Concierge hub accessible from center bottom nav button with 5 sections (Discover, Emergency, Safety, Culture, Transport)
+- [x] **CON-02**: Merchant can toggle on/off each Concierge section from backoffice settings
+- [x] **CON-03**: Emergency numbers and embassy contacts displayed with click-to-call
+- [x] **CON-04**: Safety tips organized by category (transport, money, food, street, hotels, tours, digital) with accordion expand
+- [x] **CON-05**: Cultural tips (dos/don'ts) and recommended apps section
 
 ## v2+ Requirements
 
@@ -205,11 +205,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BUG-09      | 31    | Complete |
 | NAV-01      | 33    | Complete |
 | NAV-02      | 33    | Complete |
-| NAV-03      | 36    | Pending  |
+| NAV-03      | 36    | Complete |
 | NAV-04      | 33    | Complete |
 | NAV-05      | 33    | Complete |
-| NAV-06      | 36    | Pending  |
-| NAV-07      | 36    | Pending  |
+| NAV-06      | 36    | Complete |
+| NAV-07      | 36    | Complete |
 | NAV-08      | 33    | Complete |
 | SVC-01      | 34    | Complete |
 | SVC-02      | 34    | Complete |
@@ -235,11 +235,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GXP-03      | 35    | Complete |
 | GXP-04      | 38    | Pending  |
 | GXP-05      | 37    | Pending  |
-| CON-01      | 36    | Pending  |
-| CON-02      | 36    | Pending  |
-| CON-03      | 36    | Pending  |
-| CON-04      | 36    | Pending  |
-| CON-05      | 36    | Pending  |
+| CON-01      | 36    | Complete |
+| CON-02      | 36    | Complete |
+| CON-03      | 36    | Complete |
+| CON-04      | 36    | Complete |
+| CON-05      | 36    | Complete |
 
 **Coverage:**
 
