@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-02-02)
 ## Current Position
 
 Phase: 41 of 45 (Shared Foundation)
-Plan: 2 of 6 in current phase (41-01 and 41-02 complete)
+Plan: 3 of 6 in current phase (41-01, 41-02, 41-03 complete)
 Status: In progress
-Last activity: 2026-02-02 — Completed 41-01-PLAN.md
+Last activity: 2026-02-02 — Completed 41-03-PLAN.md
 
 Progress: v1.0-v1.5 [##################################################] 92/92 plans
-Progress: v2.0 [#####.........] 5/13 plans
+Progress: v2.0 [######........] 6/13 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 97 (+ 1 quick task)
+- Total plans completed: 98 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~7.6 hours
+- Total execution time: ~7.7 hours
 
 **By Milestone:**
 
@@ -35,7 +35,7 @@ Progress: v2.0 [#####.........] 5/13 plans
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
 | v1.5      | 35    | ~176 min   | 5.0 min  |
-| v2.0      | 5     | ~16 min    | 3.2 min  |
+| v2.0      | 6     | ~19 min    | 3.2 min  |
 
 ## Accumulated Context
 
@@ -50,6 +50,9 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 - createNextConfig factory pattern with domain appending for Next.js config standardization
 - Factory pattern for currency preferences (storageKeyPrefix) and converter (optional fetchRates)
 - usePriceFormat hook uses dependency injection (store + converter) not global imports
+- BottomNav center item: button mode (onCenterClick) vs Link mode for navigation
+- MenuItem re-exported from custom.ts in domain.ts (no duplication)
+- MerchantCharge sub-types extracted as named union types for granular imports
 
 ### Blockers/Concerns
 
@@ -67,10 +70,10 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 41-01-PLAN.md
+Stopped at: Completed 41-03-PLAN.md
 Resume file: None
-Next: 41-03-PLAN.md — Continue Shared Foundation
+Next: 41-04-PLAN.md — Continue Shared Foundation (Wave 2)
 
 ---
 
-_Last updated: 2026-02-02 after 41-01 shared hooks & currency utils plan completed_
+_Last updated: 2026-02-02 after 41-03 shared BottomNav & domain types plan completed_
