@@ -1,0 +1,23 @@
+{
+  "name": "Iron Paradise Gym & Fitness",
+  "short_name": "Iron Paradise",
+  "description": "Modern gym & fitness center in Da Nang - Day passes, memberships, group classes",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAF8",
+  "theme_color": "#E85D04",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["fitness", "health", "sports"]
+}
