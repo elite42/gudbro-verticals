@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-02)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v2.0 Codebase Hardening — Phase 41 Shared Foundation in progress
+**Current focus:** v2.0 Codebase Hardening — Phase 41 Shared Foundation COMPLETE
 
 ## Current Position
 
-Phase: 41 of 45 (Shared Foundation)
-Plan: 5 of 6 in current phase (41-01, 41-02, 41-03, 41-04, 41-05 complete)
-Status: In progress
-Last activity: 2026-02-02 — Completed 41-05-PLAN.md
+Phase: 41 of 45 (Shared Foundation) — COMPLETE
+Plan: 6 of 6 in current phase (all complete)
+Status: Phase complete
+Last activity: 2026-02-02 — Completed 41-06-PLAN.md (config migration for 5 PWAs)
 
 Progress: v1.0-v1.5 [##################################################] 92/92 plans
-Progress: v2.0 [#########.....] 8/13 plans
+Progress: v2.0 [###########...] 10/13 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 100 (+ 1 quick task)
+- Total plans completed: 102 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~8.0 hours
+- Total execution time: ~8.2 hours
 
 **By Milestone:**
 
@@ -35,7 +35,7 @@ Progress: v2.0 [#########.....] 8/13 plans
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
 | v1.5      | 35    | ~176 min   | 5.0 min  |
-| v2.0      | 8     | ~35 min    | 4.4 min  |
+| v2.0      | 10    | ~45 min    | 4.5 min  |
 
 ## Accumulated Context
 
@@ -59,6 +59,10 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 - Workshops currency key changed to shared store format (old key was unused)
 - Bag count logic in laundry moved to ClientShell (shared BottomNav takes centerBadge prop)
 - Nav items defined as NavItem[] arrays inline in each app's ClientShell
+- tsconfig extends shared base with per-app @/\* path alias only
+- createNextConfig({ port }) factory pattern for all PWA next.config.js
+- Tailwind presets array with shared preset + shared/ui content path
+- Coffeeshop keeps nested theme.\* color namespace for backward compat
 
 ### Blockers/Concerns
 
@@ -76,10 +80,10 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 41-05-PLAN.md
+Stopped at: Completed Phase 41 (all 6 plans)
 Resume file: None
-Next: 41-06-PLAN.md — Complete Shared Foundation
+Next: Phase 42 — next phase in v2.0 Codebase Hardening
 
 ---
 
-_Last updated: 2026-02-02 after 41-05 pharmacy/workshops currency + BottomNav migration plan completed_
+_Last updated: 2026-02-02 after Phase 41 Shared Foundation completed (all 6 plans)_
