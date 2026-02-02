@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 37 in progress
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 37 complete, ready for Phase 38
 
 ## Current Position
 
 Phase: 37 of 39 (Conventions + Vouchers)
-Plan: 1 of 2
-Status: In progress
-Last activity: 2026-02-02 — Completed 37-01-PLAN.md (voucher validation + booking integration)
+Plan: 2 of 2
+Status: Phase complete
+Last activity: 2026-02-02 — Completed 37-02-PLAN.md (convention display: guest cards + backoffice view)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [███████████████████████████████████░] 30/31 plans
+Progress: v1.5 [████████████████████████████████████] 31/31 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 87 (+ 1 quick task)
+- Total plans completed: 88 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
 - Total execution time: ~6.9 hours
 
@@ -103,6 +103,8 @@ Recent decisions for v1.5 extended roadmap:
 - VOUCHER-02: Voucher discount applied AFTER existing weekly/monthly discounts with Math.max(0) floor
 - VOUCHER-03: Convention redemption insert is fire-and-forget (non-blocking) to not break booking flow
 - VOUCHER-04: validate-voucher endpoint is public (no auth) matching property page booking flow pattern
+- CONV-01: Backoffice conventions API uses owner_id lookup on accom_properties (not merchant_id) to find property IDs
+- CONV-02: ConventionPartnerCards returns null when empty (section hidden, not error state)
 
 ### Blockers/Concerns
 
@@ -125,10 +127,10 @@ Recent decisions for v1.5 extended roadmap:
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 37-01-PLAN.md (voucher validation + booking integration)
+Stopped at: Phase 37 fully complete (2 plans, convention display shipped)
 Resume file: None
-Next: `/gsd:execute-phase 37` plan 02 (convention partner cards)
+Next: `/gsd:plan-phase 38` (next phase in roadmap)
 
 ---
 
-_Last updated: 2026-02-02 after 37-01 execution complete_
+_Last updated: 2026-02-02 after Phase 37 execution complete_
