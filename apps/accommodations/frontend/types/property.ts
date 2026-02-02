@@ -163,6 +163,7 @@ export interface BookingSubmission {
   lastName: string;
   email: string;
   phone: string;
+  guestCountry?: string;
   guestCount: number;
   checkIn: string; // YYYY-MM-DD
   checkOut: string; // YYYY-MM-DD

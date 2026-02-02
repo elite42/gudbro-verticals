@@ -40,6 +40,8 @@ export default function PropertyPageClient({ property }: PropertyPageClientProps
     setEmail,
     phone,
     setPhone,
+    guestCountry,
+    setGuestCountry,
     guestCount,
     setGuestCount,
     specialRequests,
@@ -135,6 +137,8 @@ export default function PropertyPageClient({ property }: PropertyPageClientProps
             setEmail={setEmail}
             phone={phone}
             setPhone={setPhone}
+            guestCountry={guestCountry}
+            setGuestCountry={setGuestCountry}
             guestCount={guestCount}
             setGuestCount={setGuestCount}
             maxGuests={selectedRoom.capacity}

@@ -16,6 +16,8 @@ interface BookingFormProps {
   setEmail: (v: string) => void;
   phone: string;
   setPhone: (v: string) => void;
+  guestCountry: string;
+  setGuestCountry: (v: string) => void;
   guestCount: number;
   setGuestCount: (v: number) => void;
   maxGuests: number;
@@ -51,6 +53,8 @@ export default function BookingForm({
   setEmail,
   phone,
   setPhone,
+  guestCountry,
+  setGuestCountry,
   guestCount,
   setGuestCount,
   maxGuests,
@@ -145,6 +149,48 @@ export default function BookingForm({
               buttonClassName: '!rounded-l-lg !border-border !bg-background !px-2 !py-2.5',
             }}
           />
+        </div>
+
+        {/* Country / Nationality (optional) */}
+        <div>
+          <label htmlFor="guestCountry" className="text-foreground-muted mb-1 block text-sm">
+            Nationality (optional)
+          </label>
+          <select
+            id="guestCountry"
+            value={guestCountry}
+            onChange={(e) => setGuestCountry(e.target.value)}
+            className="border-border bg-background text-foreground focus:border-primary focus:ring-primary w-full rounded-lg border px-3 py-2.5 text-sm outline-none transition-colors focus:ring-1"
+          >
+            <option value="">Select country</option>
+            <option value="VN">Vietnam</option>
+            <option value="TH">Thailand</option>
+            <option value="KH">Cambodia</option>
+            <option value="LA">Laos</option>
+            <option value="MM">Myanmar</option>
+            <option value="ID">Indonesia</option>
+            <option value="MY">Malaysia</option>
+            <option value="PH">Philippines</option>
+            <option value="SG">Singapore</option>
+            <option value="KR">South Korea</option>
+            <option value="JP">Japan</option>
+            <option value="CN">China</option>
+            <option value="TW">Taiwan</option>
+            <option value="IN">India</option>
+            <option value="US">United States</option>
+            <option value="GB">United Kingdom</option>
+            <option value="AU">Australia</option>
+            <option value="NZ">New Zealand</option>
+            <option value="CA">Canada</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="IT">Italy</option>
+            <option value="ES">Spain</option>
+            <option value="NL">Netherlands</option>
+            <option value="SE">Sweden</option>
+            <option value="RU">Russia</option>
+            <option value="OTHER">Other</option>
+          </select>
         </div>
 
         {/* Guest count */}

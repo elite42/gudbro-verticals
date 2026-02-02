@@ -49,6 +49,8 @@ interface UseBookingFormReturn {
   setEmail: (v: string) => void;
   phone: string;
   setPhone: (v: string) => void;
+  guestCountry: string;
+  setGuestCountry: (v: string) => void;
   guestCount: number;
   setGuestCount: (v: number) => void;
   specialRequests: string;
@@ -120,6 +122,7 @@ export function useBookingForm({
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [guestCountry, setGuestCountry] = useState('');
   const [guestCount, setGuestCount] = useState(1);
   const [specialRequests, setSpecialRequests] = useState('');
 
@@ -242,6 +245,7 @@ export function useBookingForm({
       lastName: lastName.trim(),
       email: email.trim(),
       phone,
+      guestCountry: guestCountry || undefined,
       guestCount,
       checkIn: formatDate(dateRange.from),
       checkOut: formatDate(dateRange.to),
@@ -302,6 +306,7 @@ export function useBookingForm({
     lastName,
     email,
     phone,
+    guestCountry,
     guestCount,
     specialRequests,
     selectedPaymentMethod,
@@ -324,6 +329,8 @@ export function useBookingForm({
     setEmail,
     phone,
     setPhone,
+    guestCountry,
+    setGuestCountry,
     guestCount,
     setGuestCount,
     specialRequests,

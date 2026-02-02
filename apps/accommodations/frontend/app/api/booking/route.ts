@@ -250,6 +250,7 @@ export async function POST(request: NextRequest) {
         guest_count: guestCount,
         check_in_date: checkIn,
         check_out_date: checkOut,
+        guest_country: body.guestCountry || null,
         special_requests: body.specialRequests || null,
         status,
         booking_source: 'direct',
