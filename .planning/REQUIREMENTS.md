@@ -2,7 +2,7 @@
 
 **Defined:** 2026-02-02
 **Core Value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Driver:** 360° audit scored 6.7/10. Target: 8.5+/10.
+**Driver:** 360-degree audit scored 6.7/10. Target: 8.5+/10.
 
 ## v2.0 Requirements
 
@@ -93,47 +93,47 @@ Requirements derived from AUDIT-360.md findings (Critical + High severity).
 
 | Requirement | Phase | Status  |
 | ----------- | ----- | ------- |
-| SEC-01      | TBD   | Pending |
-| SEC-02      | TBD   | Pending |
-| SEC-03      | TBD   | Pending |
-| SEC-04      | TBD   | Pending |
-| SEC-05      | TBD   | Pending |
-| SHR-01      | TBD   | Pending |
-| SHR-02      | TBD   | Pending |
-| SHR-03      | TBD   | Pending |
-| SHR-04      | TBD   | Pending |
-| SHR-05      | TBD   | Pending |
-| SHR-06      | TBD   | Pending |
-| SHR-07      | TBD   | Pending |
-| SHR-08      | TBD   | Pending |
-| SHR-09      | TBD   | Pending |
-| FE-01       | TBD   | Pending |
-| FE-02       | TBD   | Pending |
-| FE-03       | TBD   | Pending |
-| FE-04       | TBD   | Pending |
-| FE-05       | TBD   | Pending |
-| FE-06       | TBD   | Pending |
-| FE-07       | TBD   | Pending |
-| FE-08       | TBD   | Pending |
-| FE-09       | TBD   | Pending |
-| ARC-01      | TBD   | Pending |
-| ARC-02      | TBD   | Pending |
-| ARC-03      | TBD   | Pending |
-| ARC-04      | TBD   | Pending |
-| ARC-05      | TBD   | Pending |
-| DOC-01      | TBD   | Pending |
-| DOC-02      | TBD   | Pending |
-| DOC-03      | TBD   | Pending |
-| DOC-04      | TBD   | Pending |
-| DOC-05      | TBD   | Pending |
+| SEC-01      | 40    | Pending |
+| SEC-02      | 40    | Pending |
+| SEC-03      | 40    | Pending |
+| SEC-04      | 40    | Pending |
+| SEC-05      | 40    | Pending |
+| SHR-01      | 41    | Pending |
+| SHR-02      | 41    | Pending |
+| SHR-03      | 41    | Pending |
+| SHR-04      | 41    | Pending |
+| SHR-05      | 41    | Pending |
+| SHR-06      | 41    | Pending |
+| SHR-07      | 41    | Pending |
+| SHR-08      | 41    | Pending |
+| SHR-09      | 41    | Pending |
+| FE-01       | 43    | Pending |
+| FE-02       | 43    | Pending |
+| FE-03       | 43    | Pending |
+| FE-04       | 43    | Pending |
+| FE-05       | 43    | Pending |
+| FE-06       | 43    | Pending |
+| FE-07       | 43    | Pending |
+| FE-08       | 43    | Pending |
+| FE-09       | 43    | Pending |
+| ARC-01      | 44    | Pending |
+| ARC-02      | 42    | Pending |
+| ARC-03      | 44    | Pending |
+| ARC-04      | 42    | Pending |
+| ARC-05      | 44    | Pending |
+| DOC-01      | 45    | Pending |
+| DOC-02      | 45    | Pending |
+| DOC-03      | 45    | Pending |
+| DOC-04      | 45    | Pending |
+| DOC-05      | 45    | Pending |
 
 **Coverage:**
 
 - v2.0 requirements: 33 total
-- Mapped to phases: 0
-- Unmapped: 33
+- Mapped to phases: 33
+- Unmapped: 0
 
 ---
 
 _Requirements defined: 2026-02-02_
-_Last updated: 2026-02-02 after initial definition_
+_Last updated: 2026-02-02 after roadmap phase mapping_
