@@ -18,6 +18,9 @@ import {
   FileText,
   CheckCircle,
   Circle,
+  Clock,
+  Warning,
+  UserSwitch,
 } from '@phosphor-icons/react';
 import BookingStatusBadge from '@/components/accommodations/BookingStatusBadge';
 import BookingActions from '@/components/accommodations/BookingActions';
@@ -55,6 +58,7 @@ interface BookingDetail {
   actual_check_in: string | null;
   actual_check_out: string | null;
   created_at: string;
+  guest_country: string | null;
   room: { id: string; room_number: string; room_type: string } | null;
   property_id?: string;
 }
@@ -73,6 +77,26 @@ interface BookingDocument {
   visa_expiry_date: string | null;
   registered_with_authorities: boolean;
   superseded_by: string | null;
+  created_at: string;
+}
+
+interface ReturningGuestInfo {
+  previous_visits: number;
+  last_visit_date: string | null;
+}
+
+interface CheckoutRequest {
+  id: string;
+  booking_id: string;
+  property_id: string;
+  request_type: 'early_checkin' | 'late_checkout';
+  requested_time: string;
+  reason: string | null;
+  status: 'pending' | 'approved' | 'rejected';
+  owner_response: string | null;
+  responded_at: string | null;
+  has_conflict: boolean;
+  conflict_booking_id: string | null;
   created_at: string;
 }
 
@@ -122,6 +146,9 @@ export default function BookingDetailPage() {
   const [booking, setBooking] = useState<BookingDetail | null>(null);
   const [property, setProperty] = useState<PropertyInfo | null>(null);
   const [documents, setDocuments] = useState<BookingDocument[]>([]);
+  const [returningGuest, setReturningGuest] = useState<ReturningGuestInfo | null>(null);
+  const [checkoutRequests, setCheckoutRequests] = useState<CheckoutRequest[]>([]);
+  const [respondingId, setRespondingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -173,6 +200,47 @@ export default function BookingDetailPage() {
             (d: BookingDocument & { booking: { id: string } }) => d.booking?.id === bookingId
           );
           setDocuments(bookingDocs);
+        }
+
+        // Fetch returning guest info via RPC
+        if (bookingData.booking) {
+          const b = bookingData.booking;
+          try {
+            const rgRes = await fetch(
+              `/api/accommodations/returning-guest?` +
+                new URLSearchParams({
+                  bookingId: b.id,
+                  propertyId: b.property_id || PROPERTY_ID,
+                  email: b.guest_email || '',
+                  name: b.guest_name || '',
+                  lastName: b.guest_last_name || '',
+                  country: b.guest_country || '',
+                  phone: b.guest_phone || '',
+                }),
+              { headers: AUTH_HEADERS }
+            );
+            if (rgRes.ok) {
+              const rgData = await rgRes.json();
+              if (rgData.data?.previous_visits > 0) {
+                setReturningGuest(rgData.data);
+              }
+            }
+          } catch {
+            // Non-blocking — returning guest is informational
+          }
+
+          // Fetch checkout requests
+          try {
+            const crRes = await fetch(`/api/accommodations/checkout-requests?booking_id=${b.id}`, {
+              headers: AUTH_HEADERS,
+            });
+            if (crRes.ok) {
+              const crData = await crRes.json();
+              setCheckoutRequests(crData.data?.requests || []);
+            }
+          } catch {
+            // Non-blocking
+          }
         }
       } catch (err) {
         console.error('[BookingDetailPage] fetch error:', err);
@@ -244,6 +312,32 @@ export default function BookingDetailPage() {
     }
   };
 
+  // ---- Handle checkout request action ----
+  const handleCheckoutRequestAction = async (
+    requestId: string,
+    action: 'approve' | 'reject',
+    ownerResponse?: string
+  ) => {
+    setRespondingId(requestId);
+    try {
+      const res = await fetch('/api/accommodations/checkout-requests', {
+        method: 'PATCH',
+        headers: { ...AUTH_HEADERS, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ requestId, action, ownerResponse }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCheckoutRequests((prev) =>
+          prev.map((r) => (r.id === requestId ? data.data.request : r))
+        );
+      }
+    } catch {
+      alert('Failed to update request');
+    } finally {
+      setRespondingId(null);
+    }
+  };
+
   // ---- Loading ----
   if (loading) {
     return (
@@ -297,6 +391,46 @@ export default function BookingDetailPage() {
 
   return (
     <div className="space-y-6">
+      {/* Visa Expiry Alert for Owner */}
+      {(() => {
+        const activeVisa = documents.find(
+          (d) => d.document_type === 'visa' && !d.superseded_by && d.visa_expiry_date
+        );
+        if (activeVisa && activeVisa.visa_expiry_date && booking) {
+          const visaExpiry = new Date(activeVisa.visa_expiry_date);
+          const checkOut = new Date(booking.check_out_date);
+          const checkIn = new Date(booking.check_in_date);
+          if (visaExpiry < checkOut && visaExpiry >= checkIn) {
+            return (
+              <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4">
+                <Warning size={22} weight="fill" className="mt-0.5 flex-shrink-0 text-amber-600" />
+                <div>
+                  <p className="font-medium text-amber-800">
+                    Guest visa expires on{' '}
+                    {visaExpiry.toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}{' '}
+                    &mdash; before checkout on{' '}
+                    {checkOut.toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                    .
+                  </p>
+                  <p className="mt-1 text-sm text-amber-700">
+                    Consider advising guest about visa extension options.
+                  </p>
+                </div>
+              </div>
+            );
+          }
+        }
+        return null;
+      })()}
+
       {/* Back link + title */}
       <div>
         <Link
@@ -320,6 +454,29 @@ export default function BookingDetailPage() {
             title="Guest Information"
             icon={<User size={20} weight="duotone" className="text-blue-600" />}
           >
+            {returningGuest && (
+              <div className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-indigo-100 px-3 py-1">
+                <UserSwitch size={14} weight="fill" className="text-indigo-600" />
+                <span className="text-xs font-medium text-indigo-700">
+                  Returning Guest ({returningGuest.previous_visits + 1}
+                  {returningGuest.previous_visits + 1 === 2
+                    ? 'nd'
+                    : returningGuest.previous_visits + 1 === 3
+                      ? 'rd'
+                      : 'th'}{' '}
+                  visit)
+                </span>
+                {returningGuest.last_visit_date && (
+                  <span className="text-[10px] text-indigo-500">
+                    &middot; Last:{' '}
+                    {new Date(returningGuest.last_visit_date).toLocaleDateString('en-US', {
+                      month: 'short',
+                      year: 'numeric',
+                    })}
+                  </span>
+                )}
+              </div>
+            )}
             <div className="grid gap-4 sm:grid-cols-2">
               <InfoRow label="Name" value={`${booking.guest_name} ${booking.guest_last_name}`} />
               <InfoRow
@@ -514,6 +671,86 @@ export default function BookingDetailPage() {
                       </button>
                     </div>
                   ))}
+              </div>
+            )}
+          </Card>
+
+          {/* Checkout Requests */}
+          <Card
+            title="Check-in/out Requests"
+            icon={<Clock size={20} weight="duotone" className="text-cyan-600" />}
+          >
+            {checkoutRequests.length === 0 ? (
+              <p className="text-sm text-gray-500">No requests from guest.</p>
+            ) : (
+              <div className="space-y-3">
+                {checkoutRequests.map((req) => (
+                  <div
+                    key={req.id}
+                    className={`rounded-lg border px-3 py-2.5 ${
+                      req.has_conflict
+                        ? 'border-red-200 bg-red-50'
+                        : req.status === 'pending'
+                          ? 'border-amber-200 bg-amber-50'
+                          : req.status === 'approved'
+                            ? 'border-green-200 bg-green-50'
+                            : 'border-gray-200 bg-gray-50'
+                    }`}
+                  >
+                    <div className="mb-1 flex items-center justify-between">
+                      <span className="text-xs font-semibold uppercase text-gray-700">
+                        {req.request_type === 'early_checkin' ? 'Early Check-in' : 'Late Checkout'}
+                      </span>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-medium capitalize ${
+                          req.status === 'pending'
+                            ? 'bg-amber-100 text-amber-700'
+                            : req.status === 'approved'
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-red-100 text-red-700'
+                        }`}
+                      >
+                        {req.status}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-900">
+                      Requested time: <strong>{req.requested_time.slice(0, 5)}</strong>
+                    </p>
+                    {req.reason && (
+                      <p className="mt-0.5 text-xs italic text-gray-600">{req.reason}</p>
+                    )}
+                    {req.has_conflict && (
+                      <div className="mt-1.5 flex items-center gap-1 text-xs font-medium text-red-700">
+                        <Warning size={12} weight="fill" />
+                        Conflict: adjacent booking on same room
+                      </div>
+                    )}
+                    {req.owner_response && (
+                      <p className="mt-1 text-xs text-gray-600">Response: {req.owner_response}</p>
+                    )}
+                    {req.status === 'pending' && (
+                      <div className="mt-2 flex gap-2">
+                        <button
+                          onClick={() => handleCheckoutRequestAction(req.id, 'approve')}
+                          disabled={respondingId === req.id}
+                          className="rounded bg-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-green-700 disabled:opacity-50"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => {
+                            const reason = prompt('Rejection reason (optional):');
+                            handleCheckoutRequestAction(req.id, 'reject', reason || undefined);
+                          }}
+                          disabled={respondingId === req.id}
+                          className="rounded bg-red-100 px-3 py-1 text-xs font-medium text-red-700 hover:bg-red-200 disabled:opacity-50"
+                        >
+                          Reject
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
           </Card>

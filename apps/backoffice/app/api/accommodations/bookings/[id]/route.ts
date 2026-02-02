@@ -20,11 +20,11 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   const { data, error } = await supabaseAdmin
     .from('accom_bookings')
     .select(
-      `id, booking_code, guest_name, guest_last_name, guest_email, guest_phone,
+      `id, booking_code, guest_name, guest_last_name, guest_email, guest_phone, guest_country,
        check_in_date, check_out_date, num_nights, num_guests, total_price, currency,
        status, payment_method, payment_status, deposit_amount, deposit_percent,
        special_requests, internal_notes, booking_source, cancellation_reason,
-       actual_check_in, actual_check_out, created_at,
+       actual_check_in, actual_check_out, created_at, property_id,
        room:accom_rooms(id, room_number, room_type)`
     )
     .eq('id', params.id)
