@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-02-02)
 ## Current Position
 
 Phase: 41 of 45 (Shared Foundation)
-Plan: 3 of 6 in current phase (41-01, 41-02, 41-03 complete)
+Plan: 4 of 6 in current phase (41-01, 41-02, 41-03, 41-04 complete)
 Status: In progress
-Last activity: 2026-02-02 — Completed 41-03-PLAN.md
+Last activity: 2026-02-02 — Completed 41-04-PLAN.md
 
 Progress: v1.0-v1.5 [##################################################] 92/92 plans
-Progress: v2.0 [######........] 6/13 plans
+Progress: v2.0 [########......] 7/13 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 98 (+ 1 quick task)
+- Total plans completed: 99 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~7.7 hours
+- Total execution time: ~7.9 hours
 
 **By Milestone:**
 
@@ -35,7 +35,7 @@ Progress: v2.0 [######........] 6/13 plans
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
 | v1.5      | 35    | ~176 min   | 5.0 min  |
-| v2.0      | 6     | ~19 min    | 3.2 min  |
+| v2.0      | 7     | ~29 min    | 4.1 min  |
 
 ## Accumulated Context
 
@@ -53,6 +53,9 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 - BottomNav center item: button mode (onCenterClick) vs Link mode for navigation
 - MenuItem re-exported from custom.ts in domain.ts (no duplication)
 - MerchantCharge sub-types extracted as named union types for granular imports
+- App-specific lib/currency.ts setup files wire shared factories with DI for each app
+- useAppPriceFormat wrapper hook pre-wires shared usePriceFormat with app-specific stores
+- Re-export CURRENCIES as AVAILABLE_CURRENCIES for coffeeshop backward compat
 
 ### Blockers/Concerns
 
@@ -70,10 +73,10 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 41-03-PLAN.md
+Stopped at: Completed 41-04-PLAN.md
 Resume file: None
-Next: 41-04-PLAN.md — Continue Shared Foundation (Wave 2)
+Next: 41-05-PLAN.md — Continue Shared Foundation (Wave 2)
 
 ---
 
-_Last updated: 2026-02-02 after 41-03 shared BottomNav & domain types plan completed_
+_Last updated: 2026-02-02 after 41-04 currency migration plan completed_
