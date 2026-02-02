@@ -3,6 +3,8 @@ packages:
   - 'apps/coffeeshop/*'
   - 'apps/gym/*'
   - 'apps/laundry/*'
+  - 'apps/pharmacy/*'
+  - 'apps/workshops/*'
   - 'apps/wellness/*'
   - 'apps/rentals/*'
   - 'apps/waiter'
