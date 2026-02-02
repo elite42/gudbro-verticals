@@ -14,6 +14,7 @@ import {
   Legend,
 } from 'recharts';
 import { KPICard } from './KPICard';
+import { OrderPerformancePanel } from './OrderPerformancePanel';
 
 // --- Constants ---
 
@@ -427,6 +428,9 @@ export function AccommodationAnalytics({
           )}
         </div>
       )}
+
+      {/* Order Performance — always shown when propertyId is set, has own loading/empty state */}
+      {propertyId && <OrderPerformancePanel propertyId={propertyId} days={selectedDays} />}
     </div>
   );
 }
