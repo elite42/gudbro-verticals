@@ -62,7 +62,7 @@ See milestones/v1.4-ROADMAP.md for details.
 - [x] **Phase 34: Service Expansion + Minibar** - Catalog redesign, minibar self-service, included-in-rate, order improvements
 - [x] **Phase 35: Guest Feedback System** - In-stay complaints channel, post-stay category ratings with AI pipeline
 - [x] **Phase 36: Guest Requests + Concierge** - Tourist Concierge hub, Explore page, bottom nav overhaul, useful numbers
-- [ ] **Phase 37: Conventions + Vouchers** - Benefit scope adaptation, convention cards, voucher validation in booking flow
+- [x] **Phase 37: Conventions + Vouchers** - Benefit scope adaptation, convention cards, voucher validation in booking flow
 - [ ] **Phase 38: Guest Lifecycle** - Returning guest badge, early/late checkout requests, visa alerts, delivery apps
 - [ ] **Phase 39: Polish + Analytics** - Order performance tracking, guest receipt confirmation, final refinements
 
@@ -388,11 +388,11 @@ Notes:
 | 34. Service Expansion + Minibar           | v1.5      | 5/5            | Complete    | 2026-02-02 |
 | 35. Guest Feedback System                 | v1.5      | 2/2            | Complete    | 2026-02-02 |
 | 36. Guest Requests + Concierge            | v1.5      | 3/3            | Complete    | 2026-02-02 |
-| 37. Conventions + Vouchers                | v1.5      | 0/2            | Not started | -          |
+| 37. Conventions + Vouchers                | v1.5      | 2/2            | Complete    | 2026-02-02 |
 | 38. Guest Lifecycle                       | v1.5      | 0/2            | Not started | -          |
 | 39. Polish + Analytics                    | v1.5      | 0/1            | Not started | -          |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-02 after Phase 36 execution complete_
+_Last updated: 2026-02-02 after Phase 37 execution complete_

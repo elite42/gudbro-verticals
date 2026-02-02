@@ -193,7 +193,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WIFI-03     | 29    | Complete |
 | INF-01      | 30    | Complete |
 | INF-02      | 31    | Complete |
-| INF-03      | 37    | Pending  |
+| INF-03      | 37    | Complete |
 | BUG-01      | 31    | Complete |
 | BUG-02      | 31    | Complete |
 | BUG-03      | 31    | Complete |
@@ -234,7 +234,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GXP-02      | 35    | Complete |
 | GXP-03      | 35    | Complete |
 | GXP-04      | 38    | Pending  |
-| GXP-05      | 37    | Pending  |
+| GXP-05      | 37    | Complete |
 | CON-01      | 36    | Complete |
 | CON-02      | 36    | Complete |
 | CON-03      | 36    | Complete |
