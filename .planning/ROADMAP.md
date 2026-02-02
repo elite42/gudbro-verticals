@@ -85,19 +85,22 @@ Plans:
 **Requirements**: SHR-01, SHR-02, SHR-03, SHR-04, SHR-05, SHR-06, SHR-07, SHR-08, SHR-09
 **Success Criteria** (what must be TRUE):
 
-1. shared/hooks/ exports usePriceFormat and all 4 original app copies are deleted
+1. shared/hooks/ exports usePriceFormat and all 5 original app copies are deleted
 2. shared/utils/ exports currency-converter and currency-preferences with zero local duplicates remaining
-3. shared/config/ provides base tsconfig, tailwind preset, and next.config that all 8 PWAs extend
+3. shared/config/ provides base tsconfig, tailwind preset, and next.config that all 5 core PWAs extend
 4. shared/ui/ exports a BottomNav component used by the 4 PWAs that previously had separate implementations
 5. shared/types/ exports consolidated domain types (MenuItem, Order, MerchantCharge) imported by all apps
 
-**Plans:** 3 plans
+**Plans:** 6 plans
 
 Plans:
 
 - [ ] 41-01-PLAN.md — Shared hooks (@gudbro/hooks) and currency utils in @gudbro/utils (SHR-01, SHR-02, SHR-03)
 - [ ] 41-02-PLAN.md — Shared config: base tsconfig, Tailwind preset, Next.js factory (SHR-04, SHR-05, SHR-06)
-- [ ] 41-03-PLAN.md — Shared BottomNav, domain types, and full PWA migration (SHR-07, SHR-08, SHR-09)
+- [ ] 41-03-PLAN.md — Shared BottomNav component and domain types (SHR-07, SHR-09)
+- [ ] 41-04-PLAN.md — Migrate coffeeshop, gym, laundry to shared hooks/utils (SHR-08)
+- [ ] 41-05-PLAN.md — Migrate pharmacy, workshops + BottomNav migration for 4 apps (SHR-08)
+- [ ] 41-06-PLAN.md — Migrate all config files for 5 PWAs (SHR-04, SHR-05, SHR-06)
 
 #### Phase 42: Error Handling Library
 
@@ -214,7 +217,7 @@ Plans:
 | 38. Guest Lifecycle                       | v1.5      | 2/2            | Complete    | 2026-02-02 |
 | 39. Polish + Analytics                    | v1.5      | 2/2            | Complete    | 2026-02-02 |
 | 40. Security Hardening                    | v2.0      | 2/2            | Complete    | 2026-02-02 |
-| 41. Shared Foundation                     | v2.0      | 0/3            | Not started | -          |
+| 41. Shared Foundation                     | v2.0      | 0/6            | Not started | -          |
 | 42. Error Handling Library                | v2.0      | 0/1            | Not started | -          |
 | 43. Frontend Resilience                   | v2.0      | 0/3            | Not started | -          |
 | 44. Architecture Cleanup                  | v2.0      | 0/2            | Not started | -          |
@@ -223,4 +226,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-02 after Phase 41 Shared Foundation planned_
+_Last updated: 2026-02-02 after Phase 41 Shared Foundation plans revised (3 -> 6 plans)_
