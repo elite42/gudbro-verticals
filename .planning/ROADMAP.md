@@ -75,7 +75,7 @@ See milestones/v1.5-ROADMAP.md for details.
 
 Plans:
 
-- [ ] 40-01-PLAN.md — Rate limiting + booking code throttle (SEC-01, SEC-05)
+- [x] 40-01-PLAN.md — Rate limiting + booking code throttle (SEC-01, SEC-05)
 - [ ] 40-02-PLAN.md — RLS fix, timing-safe admin key, ANON key fallback removal (SEC-02, SEC-03, SEC-04)
 
 #### Phase 41: Shared Foundation
@@ -212,7 +212,7 @@ Plans:
 | 37. Conventions + Vouchers                | v1.5      | 2/2            | Complete    | 2026-02-02 |
 | 38. Guest Lifecycle                       | v1.5      | 2/2            | Complete    | 2026-02-02 |
 | 39. Polish + Analytics                    | v1.5      | 2/2            | Complete    | 2026-02-02 |
-| 40. Security Hardening                    | v2.0      | 0/2            | Not started | -          |
+| 40. Security Hardening                    | v2.0      | 1/2            | In progress | -          |
 | 41. Shared Foundation                     | v2.0      | 0/3            | Not started | -          |
 | 42. Error Handling Library                | v2.0      | 0/1            | Not started | -          |
 | 43. Frontend Resilience                   | v2.0      | 0/3            | Not started | -          |
@@ -222,4 +222,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-02 after v2.0 Codebase Hardening roadmap created_
+_Last updated: 2026-02-02 after 40-01 rate limiting plan completed_
