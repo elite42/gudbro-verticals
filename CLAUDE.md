@@ -435,25 +435,25 @@ git push origin main   # Auto-deploy Vercel
 
 ## Slash Commands (Custom)
 
-| Comando                | Descrizione                                            |
-| ---------------------- | ------------------------------------------------------ |
-| `/qa-quick`            | Check veloce (typecheck, build, advisors)              |
-| `/verify`              | Verifica completa pre-deploy                           |
-| `/deploy`              | Build + push + verifica                                |
-| `/start-session`       | Avvio sessione GUDBRO (legge backlog e focus)          |
-| `/end-session`         | Checklist fine sessione per categoria                  |
-| `/new-feature`         | Workflow completo nuova feature (plan→build→test→doc)  |
-| `/db-status`           | Stato database, traduzioni, security e performance     |
-| `/inventory`           | Inventario progetto (DB, backlog, features, repo)      |
-| `/typecheck`           | TypeScript typecheck con guida errori                  |
-| `/translate-batch`     | Continua traduzioni ingredienti (9 lingue, batch 50)   |
-| `/gsd:new-project`     | GSD: inizializza nuovo progetto                        |
-| `/gsd:plan-phase N`    | GSD: pianifica fase N                                  |
-| `/gsd:execute-phase N` | GSD: esegui fase N                                     |
-| `/gsd:progress`        | GSD: stato avanzamento                                 |
-| `/gsd:quick`           | GSD: task rapido con garanzie atomiche                 |
-| `/techdebt`            | Scan tech debt (TODO, deprecated, duplicati, >300 LOC) |
-| `/context-sync`        | Dump unificato contesto (GitHub, backlog, Pieces, GSD) |
+| Comando                | Descrizione                                                      |
+| ---------------------- | ---------------------------------------------------------------- |
+| `/qa-quick`            | Check veloce (typecheck, build, advisors)                        |
+| `/verify`              | Verifica completa pre-deploy                                     |
+| `/deploy`              | Build + push + verifica                                          |
+| `/start-session`       | Avvio sessione GUDBRO (legge backlog e focus)                    |
+| `/end-session`         | Checklist fine sessione per categoria                            |
+| `/new-feature`         | Workflow completo nuova feature (plan→build→test→doc)            |
+| `/db-status`           | Stato database, traduzioni, security e performance               |
+| `/inventory`           | Inventario progetto (DB, backlog, features, repo)                |
+| `/typecheck`           | TypeScript typecheck con guida errori                            |
+| `/translate-batch`     | Continua traduzioni ingredienti (9 lingue, batch 50)             |
+| `/gsd:new-project`     | GSD: inizializza nuovo progetto                                  |
+| `/gsd:plan-phase N`    | GSD: pianifica fase N                                            |
+| `/gsd:execute-phase N` | GSD: esegui fase N                                               |
+| `/gsd:progress`        | GSD: stato avanzamento                                           |
+| `/gsd:quick`           | GSD: task rapido con garanzie atomiche                           |
+| `/techdebt`            | Scan tech debt strutturale (3 livelli: structural/types/hygiene) |
+| `/context-sync`        | Dump unificato contesto (GitHub, backlog, Pieces, GSD)           |
 
 ---
 
