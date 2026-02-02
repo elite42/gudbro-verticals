@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 36 of 39 (Guest Requests & Concierge)
-Plan: 3 of 3 (36-02 running in parallel)
-Status: In progress
-Last activity: 2026-02-02 — Completed 36-03-PLAN.md (Explore & Discover Attractions)
+Plan: 3 of 3
+Status: Phase complete
+Last activity: 2026-02-02 — Completed 36-02-PLAN.md (Section Content Components)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [█████████████████████████████████░] 28/29 plans
+Progress: v1.5 [██████████████████████████████████] 29/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 85 (+ 1 quick task)
+- Total plans completed: 86 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~6.7 hours
+- Total execution time: ~6.8 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████████████████████�
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 28/29 | ~142 min   | 5.1 min  |
+| v1.5      | 29/29 | ~148 min   | 5.1 min  |
 
 ## Accumulated Context
 
@@ -96,6 +96,9 @@ Recent decisions for v1.5 extended roadmap:
 - CON-04: Backoffice uses user.id as merchantId (AuthContextType has no merchantId field)
 - DISC-01: ConciergeDiscover uses dual-mode via optional onBack prop (tab mode vs sub-view mode)
 - DISC-02: Attractions data uses country-keyed registry pattern matching concierge-data.ts
+- CON-05: Sub-view components manage their own full-screen overlay (z-60) rather than rendering inside ConciergeHub container
+- CON-06: activeSection type extended with 'useful-numbers' union (not added to ConciergeSection type which controls merchant toggles)
+- CON-07: Emergency contacts split into 3 visual groups (emergency/hotlines/embassies) with color-coded cards
 
 ### Blockers/Concerns
 
@@ -117,10 +120,10 @@ Recent decisions for v1.5 extended roadmap:
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 36-03-PLAN.md (Explore & Discover Attractions)
+Stopped at: Completed 36-02-PLAN.md (Section Content Components) - Phase 36 complete
 Resume file: None
-Next: Await 36-02 completion, then phase 36 complete
+Next: v1.5 milestone complete (29/29 plans). Ready for next milestone.
 
 ---
 
-_Last updated: 2026-02-02 after 36-03 execution complete_
+_Last updated: 2026-02-02 after 36-02 execution complete — Phase 36 and v1.5 milestone complete_
