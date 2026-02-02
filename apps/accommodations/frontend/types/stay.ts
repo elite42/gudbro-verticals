@@ -410,3 +410,23 @@ export interface FeedbackUploadUrlResponse {
 export interface FeedbackListResponse {
   feedback: GuestFeedback[];
 }
+
+// --- Concierge Hub Types (Phase 36) ---
+
+export type ConciergeSection = 'discover' | 'emergency' | 'safety' | 'culture' | 'transport';
+
+export type ConciergeSections = Record<ConciergeSection, boolean>;
+
+export interface ConciergeConfig {
+  sections: ConciergeSections;
+  country: string;
+  city: string;
+}
+
+export const DEFAULT_CONCIERGE_SECTIONS: ConciergeSections = {
+  discover: true,
+  emergency: true,
+  safety: true,
+  culture: true,
+  transport: true,
+};
