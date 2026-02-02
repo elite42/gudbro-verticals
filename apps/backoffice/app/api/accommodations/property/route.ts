@@ -31,7 +31,8 @@ export async function GET(request: NextRequest) {
        weekly_discount_percent, monthly_discount_percent, is_active,
        wifi_zones,
        social_links, google_maps_url, communication_methods,
-       operating_hours, staff_languages, onboarding_progress`
+       operating_hours, staff_languages, onboarding_progress,
+       receipt_enabled, receipt_auto_confirm_hours`
     )
     .eq('id', propertyId)
     .single();
@@ -101,6 +102,8 @@ export async function PUT(request: NextRequest) {
     'operating_hours',
     'staff_languages',
     'onboarding_progress',
+    'receipt_enabled',
+    'receipt_auto_confirm_hours',
   ];
 
   const update: Record<string, unknown> = {};

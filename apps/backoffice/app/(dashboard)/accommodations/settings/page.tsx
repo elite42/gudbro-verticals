@@ -47,6 +47,8 @@ interface PropertySettings {
   communication_methods: string[] | null;
   operating_hours: OperatingHours | null;
   staff_languages: string[] | null;
+  receipt_enabled: boolean;
+  receipt_auto_confirm_hours: number;
 }
 
 interface SocialLinks {
@@ -119,6 +121,10 @@ export default function PropertySettingsPage() {
   const [operatingHours, setOperatingHours] = useState<OperatingHours>({});
   const [staffLanguages, setStaffLanguages] = useState<string[]>([]);
 
+  // Receipt confirmation state
+  const [receiptEnabled, setReceiptEnabled] = useState(false);
+  const [receiptAutoConfirmHours, setReceiptAutoConfirmHours] = useState(24);
+
   // WiFi Zones state
   const [wifiZones, setWifiZones] = useState<WifiZone[]>([]);
   const [wifiZoneErrors, setWifiZoneErrors] = useState<Record<string, string>>({});
@@ -152,6 +158,8 @@ export default function PropertySettingsPage() {
           setHostWhatsapp(p.host_whatsapp || '');
           setHostEmail(p.host_email || '');
           setContactEmail(p.contact_email || '');
+          setReceiptEnabled(p.receipt_enabled || false);
+          setReceiptAutoConfirmHours(p.receipt_auto_confirm_hours ?? 24);
           setWifiZones(Array.isArray(p.wifi_zones) ? p.wifi_zones : []);
           setSocialLinks(p.social_links || {});
           setGoogleMapsUrl(p.google_maps_url || '');
@@ -282,6 +290,8 @@ export default function PropertySettingsPage() {
           communication_methods: communicationMethods.length > 0 ? communicationMethods : null,
           operating_hours: Object.keys(operatingHours).length > 0 ? operatingHours : null,
           staff_languages: staffLanguages.length > 0 ? staffLanguages : null,
+          receipt_enabled: receiptEnabled,
+          receipt_auto_confirm_hours: receiptAutoConfirmHours,
         }),
       });
 
@@ -609,6 +619,61 @@ export default function PropertySettingsPage() {
               <p className="mt-1 text-xs text-gray-500">0-100% of deposit kept on cancellation</p>
             </div>
           </div>
+        </section>
+
+        {/* Receipt Confirmation (SVC-08) */}
+        <section className="rounded-xl border border-gray-200 bg-white p-6">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900">Guest Receipts</h2>
+          <p className="mb-4 text-sm text-gray-500">
+            When enabled, guests can review and confirm itemized receipts for delivered orders.
+            Receipts auto-confirm after the timeout period.
+          </p>
+
+          {/* Toggle */}
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <p className="font-medium text-gray-900">Enable receipt confirmation</p>
+              <p className="text-sm text-gray-500">
+                Guests will see a &quot;Confirm Receipt&quot; button after delivery
+              </p>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={receiptEnabled}
+              onClick={() => setReceiptEnabled(!receiptEnabled)}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                receiptEnabled ? 'bg-blue-600' : 'bg-gray-200'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  receiptEnabled ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Auto-confirm timeout (only visible when enabled) */}
+          {receiptEnabled && (
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700">
+                Auto-confirm after (hours)
+              </label>
+              <input
+                type="number"
+                min={1}
+                max={168}
+                value={receiptAutoConfirmHours}
+                onChange={(e) => setReceiptAutoConfirmHours(parseInt(e.target.value) || 24)}
+                className="w-32 rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                If the guest doesn&apos;t confirm, the receipt auto-confirms after this period
+                (1-168 hours)
+              </p>
+            </div>
+          )}
         </section>
 
         {/* Policies */}
