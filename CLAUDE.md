@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-01-30
-> **Version:** 9.3 (New plugins: superpowers, backend-development, debugging-toolkit, developer-essentials)
+> **Last Updated:** 2026-02-02
+> **Version:** 9.4 (Audit fix: synced current focus with v2.0 Codebase Hardening progress)
 
 ---
 
@@ -28,14 +28,19 @@
 
 # 0. CURRENT FOCUS
 
-> **Task attiva:** Nessuna — pronto per nuovo milestone
-> **Stato:** v1.3 Merchant Feedback Intelligence completato e archiviato. 4 milestones shipped (v1.0-v1.3).
-> **Ultima completata:** v1.3 Merchant Feedback Intelligence - 2026-01-30
+> **Task attiva:** v2.0 Codebase Hardening — Phase 42 (Error Handling Library) next
+> **Stato:** 6 milestones shipped (v1.0-v1.5). v2.0 in corso: Phase 40-41 complete (10/13 piani).
+> **Ultima completata:** Phase 41 Shared Foundation (6/6 piani) - 2026-02-02
 
-**Prossimo milestone (da strategia):**
+**Milestone in corso: v2.0 Codebase Hardening**
 
-- Definire con `/gsd:new-milestone`
-- Vedi `docs/roadmaps/MULTI-VERTICAL-STRATEGY.md` per roadmap completa
+- Phase 40 Security Hardening — Complete (2/2 piani)
+- Phase 41 Shared Foundation — Complete (6/6 piani)
+- Phase 42 Error Handling Library — Next (`/gsd:plan-phase 42`)
+- Phase 43 Frontend Resilience — Pending
+- Phase 44 Architecture Cleanup — Pending
+- Phase 45 Documentation — Pending
+- Vedi `.planning/ROADMAP.md` per dettagli
 - GitHub Board: https://github.com/users/elite42/projects/1
 
 ---
@@ -590,9 +595,10 @@ Ogni piano ha max 3 task. Ogni commit è atomico, indipendentemente revertabile,
 
 ---
 
-**Version:** 9.0
+**Version:** 9.4
 **Changes:**
 
+- v9.4 - Audit Fix: synced Section 0 current focus from v1.3 to v2.0 Phase 41 complete. CLAUDE.md was 4 milestones behind (v1.4, v1.5 shipped + v2.0 started). Root cause: no GSD workflow step updates CLAUDE.md after milestone/phase completion.
 - v9.3 - New Plugins: installed superpowers (TDD, debugging, collaboration), backend-development (API design, architecture, GraphQL), debugging-toolkit (smart debug, DX), developer-essentials (Git, SQL, monorepo, E2E, auth). Added to skills table.
 - v9.2 - Complete Documentation: added all 5 local agents (analyst, backoffice-specialist, proposer, pwa-specialist, verify-app), 6 missing custom commands (db-status, inventory, start-session, new-feature, translate-batch, typecheck) to CLAUDE.md.
 - v9.1 - GSD Framework: added GSD (Get Shit Done) to skills, commands, and workflow. Updated ai-employee.md (M4→M5, Clawdbot→Moltbot→OpenClaw, timeline Luglio-Ottobre 2026).

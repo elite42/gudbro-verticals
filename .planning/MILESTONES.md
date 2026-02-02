@@ -25,7 +25,7 @@
 
 **Audit:** 65/65 requirements, 15/15 phases, 10/10 integration flows — all passed
 
-**What's next:** TBD (next milestone via `/gsd:new-milestone`)
+**What's next:** v2.0 Codebase Hardening (in progress — Phases 40-41 complete, 42-45 remaining)
 
 **Archive:** `milestones/v1.5-ROADMAP.md`, `milestones/v1.5-REQUIREMENTS.md`
 
