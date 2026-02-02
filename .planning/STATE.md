@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 36 of 39 (Guest Requests & Concierge)
-Plan: 1 of 2
+Plan: 3 of 3 (36-02 running in parallel)
 Status: In progress
-Last activity: 2026-02-02 — Completed 36-01-PLAN.md (Concierge Hub Foundation)
+Last activity: 2026-02-02 — Completed 36-03-PLAN.md (Explore & Discover Attractions)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [████████████████████████████████░] 27/29 plans
+Progress: v1.5 [█████████████████████████████████░] 28/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 84 (+ 1 quick task)
+- Total plans completed: 85 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~6.6 hours
+- Total execution time: ~6.7 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████████████████████�
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 27/29 | ~138 min   | 5.1 min  |
+| v1.5      | 28/29 | ~142 min   | 5.1 min  |
 
 ## Accumulated Context
 
@@ -94,6 +94,8 @@ Recent decisions for v1.5 extended roadmap:
 - CON-02: Country data keyed by ISO code (VN) with getConciergeData() helper
 - CON-03: Section card tap shows coming-soon placeholder (content in 36-02)
 - CON-04: Backoffice uses user.id as merchantId (AuthContextType has no merchantId field)
+- DISC-01: ConciergeDiscover uses dual-mode via optional onBack prop (tab mode vs sub-view mode)
+- DISC-02: Attractions data uses country-keyed registry pattern matching concierge-data.ts
 
 ### Blockers/Concerns
 
@@ -115,10 +117,10 @@ Recent decisions for v1.5 extended roadmap:
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 36-01-PLAN.md (Concierge Hub Foundation)
+Stopped at: Completed 36-03-PLAN.md (Explore & Discover Attractions)
 Resume file: None
-Next: `/gsd:execute-phase 36` plan 02 (Section Content Components)
+Next: Await 36-02 completion, then phase 36 complete
 
 ---
 
-_Last updated: 2026-02-02 after 36-01 execution complete_
+_Last updated: 2026-02-02 after 36-03 execution complete_
