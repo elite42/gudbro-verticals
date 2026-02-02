@@ -90,13 +90,14 @@ Plans:
 3. shared/config/ provides base tsconfig, tailwind preset, and next.config that all 8 PWAs extend
 4. shared/ui/ exports a BottomNav component used by the 4 PWAs that previously had separate implementations
 5. shared/types/ exports consolidated domain types (MenuItem, Order, MerchantCharge) imported by all apps
-   **Plans**: TBD
+
+**Plans:** 3 plans
 
 Plans:
 
-- [ ] 41-01: Shared hooks and utils consolidation (SHR-01, SHR-02, SHR-03)
-- [ ] 41-02: Shared config standardization (SHR-04, SHR-05, SHR-06)
-- [ ] 41-03: Shared BottomNav, types, and migration of all apps (SHR-07, SHR-08, SHR-09)
+- [ ] 41-01-PLAN.md — Shared hooks (@gudbro/hooks) and currency utils in @gudbro/utils (SHR-01, SHR-02, SHR-03)
+- [ ] 41-02-PLAN.md — Shared config: base tsconfig, Tailwind preset, Next.js factory (SHR-04, SHR-05, SHR-06)
+- [ ] 41-03-PLAN.md — Shared BottomNav, domain types, and full PWA migration (SHR-07, SHR-08, SHR-09)
 
 #### Phase 42: Error Handling Library
 
@@ -222,4 +223,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-02 after Phase 40 Security Hardening completed_
+_Last updated: 2026-02-02 after Phase 41 Shared Foundation planned_
