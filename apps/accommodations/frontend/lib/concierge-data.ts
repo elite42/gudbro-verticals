@@ -631,3 +631,258 @@ export const CONCIERGE_DATA: Record<string, CountryConciergeData> = {
 export function getConciergeData(country: string): CountryConciergeData | null {
   return CONCIERGE_DATA[country?.toUpperCase()] ?? null;
 }
+
+// ---------------------------------------------------------------------------
+// Local Attractions & Tour Experiences (Phase 36-03)
+// ---------------------------------------------------------------------------
+
+export interface LocalAttraction {
+  id: string;
+  name: string;
+  description: string;
+  category: 'landmark' | 'market' | 'temple' | 'museum' | 'beach' | 'nature' | 'nightlife' | 'food';
+  distance?: string;
+  deepLink?: string;
+  imageEmoji?: string;
+}
+
+export interface TourExperience {
+  id: string;
+  name: string;
+  description: string;
+  duration: string;
+  priceRange: string;
+  deepLink?: string;
+}
+
+const VN_ATTRACTIONS: LocalAttraction[] = [
+  {
+    id: 'vn-ben-thanh',
+    name: 'Ben Thanh Market',
+    description:
+      'Iconic indoor market with local crafts, street food, and souvenirs. Bustling night market outside after 6 PM.',
+    category: 'market',
+    distance: '1.2 km',
+    imageEmoji: '\u{1F6CD}\u{FE0F}',
+  },
+  {
+    id: 'vn-war-museum',
+    name: 'War Remnants Museum',
+    description:
+      'Powerful museum documenting the Vietnam War through photographs, artifacts, and military equipment.',
+    category: 'museum',
+    distance: '1.5 km',
+    imageEmoji: '\u{1F3DB}\u{FE0F}',
+  },
+  {
+    id: 'vn-cu-chi',
+    name: 'Cu Chi Tunnels',
+    description:
+      'Extensive network of underground tunnels used during the war. Half-day trip with guided tours.',
+    category: 'museum',
+    distance: '60 km',
+    deepLink: '/tours?q=cu-chi-tunnels',
+    imageEmoji: '\u{1F573}\u{FE0F}',
+  },
+  {
+    id: 'vn-jade-emperor',
+    name: 'Jade Emperor Pagoda',
+    description:
+      'Ornate Taoist temple built in 1909 with intricate wood carvings and ceramic figurines.',
+    category: 'temple',
+    distance: '3 km',
+    imageEmoji: '\u{26E9}\u{FE0F}',
+  },
+  {
+    id: 'vn-notre-dame',
+    name: 'Notre-Dame Cathedral',
+    description:
+      'French colonial-era cathedral built with materials imported from Marseille. A District 1 landmark.',
+    category: 'landmark',
+    distance: '1.8 km',
+    imageEmoji: '\u{26EA}',
+  },
+  {
+    id: 'vn-bitexco',
+    name: 'Bitexco Financial Tower',
+    description:
+      'Iconic 68-story skyscraper with Saigon Skydeck on the 49th floor offering panoramic city views.',
+    category: 'landmark',
+    distance: '0.8 km',
+    imageEmoji: '\u{1F3D9}\u{FE0F}',
+  },
+  {
+    id: 'vn-bui-vien',
+    name: 'Bui Vien Walking Street',
+    description:
+      'Vibrant backpacker street with bars, live music, and street food. Pedestrian-only after 7 PM on weekends.',
+    category: 'nightlife',
+    distance: '0.5 km',
+    imageEmoji: '\u{1F389}',
+  },
+  {
+    id: 'vn-thien-hau',
+    name: 'Thien Hau Temple',
+    description:
+      'Beautiful Chinese-style temple in Cholon dedicated to the sea goddess. Incense coils hang from the ceiling.',
+    category: 'temple',
+    distance: '5 km',
+    imageEmoji: '\u{1F3EF}',
+  },
+  {
+    id: 'vn-pham-ngu-lao',
+    name: 'Pham Ngu Lao Area',
+    description:
+      'Budget traveler hub with hostels, travel agencies, cafes, and street food vendors around every corner.',
+    category: 'food',
+    distance: '0.3 km',
+    imageEmoji: '\u{1F35C}',
+  },
+  {
+    id: 'vn-saigon-river',
+    name: 'Saigon River',
+    description:
+      'Scenic waterfront for evening walks and sunset dinner cruises. Bach Dang Wharf is the main departure point.',
+    category: 'nature',
+    distance: '1 km',
+    deepLink: '/tours?q=saigon-river-cruise',
+    imageEmoji: '\u{1F30A}',
+  },
+  {
+    id: 'vn-d1-food-streets',
+    name: 'District 1 Food Streets',
+    description:
+      'Winding alleys packed with pho, banh mi, and com tam stalls. Best explored on foot or by motorbike tour.',
+    category: 'food',
+    distance: '0.5 km',
+    imageEmoji: '\u{1F962}',
+  },
+  {
+    id: 'vn-post-office',
+    name: 'Central Post Office',
+    description:
+      'Stunning French colonial building designed by Gustave Eiffel. Still a working post office with souvenir shops.',
+    category: 'landmark',
+    distance: '1.8 km',
+    imageEmoji: '\u{1F3E4}',
+  },
+  {
+    id: 'vn-mekong',
+    name: 'Mekong Delta',
+    description:
+      'Lush river delta with floating markets, coconut villages, and fruit orchards. Full-day trip from the city.',
+    category: 'nature',
+    distance: '70 km',
+    deepLink: '/tours?q=mekong-delta',
+    imageEmoji: '\u{1F334}',
+  },
+  {
+    id: 'vn-independence-palace',
+    name: 'Independence Palace',
+    description:
+      'Historic government building with preserved war rooms, vintage cars, and rooftop helicopter on display.',
+    category: 'museum',
+    distance: '2 km',
+    imageEmoji: '\u{1F3DB}\u{FE0F}',
+  },
+];
+
+const VN_TOURS: TourExperience[] = [
+  {
+    id: 'tour-street-food',
+    name: 'Street Food Tour',
+    description:
+      'Guided walking tour through hidden alleys tasting pho, banh mi, banh xeo, and local desserts.',
+    duration: '3-4 hours',
+    priceRange: '$25-45',
+    deepLink: '/tours?q=street-food-tour',
+  },
+  {
+    id: 'tour-motorbike',
+    name: 'Motorbike City Tour',
+    description:
+      'See HCMC like a local on the back of a vintage Vespa or Honda. Includes food stops and hidden gems.',
+    duration: '4 hours',
+    priceRange: '$40-65',
+    deepLink: '/tours?q=motorbike-city-tour',
+  },
+  {
+    id: 'tour-mekong',
+    name: 'Mekong Delta Day Trip',
+    description:
+      'Visit floating markets, sample tropical fruits, and cruise narrow canals through coconut villages.',
+    duration: 'Full day',
+    priceRange: '$35-60',
+    deepLink: '/tours?q=mekong-delta',
+  },
+  {
+    id: 'tour-cu-chi',
+    name: 'Cu Chi Tunnels',
+    description:
+      'Half-day excursion exploring the famous underground tunnel network with expert guides.',
+    duration: 'Half day',
+    priceRange: '$20-40',
+    deepLink: '/tours?q=cu-chi-tunnels',
+  },
+  {
+    id: 'tour-cooking',
+    name: 'Vietnamese Cooking Class',
+    description:
+      'Market visit followed by hands-on cooking. Learn to make pho, spring rolls, and Vietnamese coffee.',
+    duration: '3-4 hours',
+    priceRange: '$30-50',
+    deepLink: '/tours?q=cooking-class',
+  },
+  {
+    id: 'tour-coffee',
+    name: 'Coffee Workshop',
+    description:
+      "Discover Vietnam's coffee culture from bean to cup. Includes ca phe sua da tasting and latte art.",
+    duration: '2 hours',
+    priceRange: '$15-30',
+  },
+  {
+    id: 'tour-night-market',
+    name: 'Night Market Tour',
+    description:
+      'Evening walking tour through Ben Thanh night market and surrounding street food stalls.',
+    duration: '2-3 hours',
+    priceRange: '$20-35',
+    deepLink: '/tours?q=night-market',
+  },
+  {
+    id: 'tour-temples',
+    name: 'Temple & Pagoda Tour',
+    description:
+      'Visit the most beautiful temples and pagodas in the city including Jade Emperor and Thien Hau.',
+    duration: '3 hours',
+    priceRange: '$20-35',
+    deepLink: '/tours?q=temple-tour',
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Attractions / Tours Data Registry
+// ---------------------------------------------------------------------------
+
+const ATTRACTIONS_DATA: Record<string, LocalAttraction[]> = {
+  VN: VN_ATTRACTIONS,
+};
+
+const TOURS_DATA: Record<string, TourExperience[]> = {
+  VN: VN_TOURS,
+};
+
+/**
+ * Get local attractions for a given country code.
+ */
+export function getLocalAttractions(country: string): LocalAttraction[] {
+  return ATTRACTIONS_DATA[country?.toUpperCase()] ?? [];
+}
+
+/**
+ * Get tour experiences for a given country code.
+ */
+export function getTourExperiences(country: string): TourExperience[] {
+  return TOURS_DATA[country?.toUpperCase()] ?? [];
+}
