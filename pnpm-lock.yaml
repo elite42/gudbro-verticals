@@ -291,6 +291,21 @@ importers:
 
   apps/coffeeshop/frontend:
     dependencies:
+      '@gudbro/config':
+        specifier: workspace:*
+        version: link:../../../shared/config
+      '@gudbro/hooks':
+        specifier: workspace:*
+        version: link:../../../shared/hooks
+      '@gudbro/types':
+        specifier: workspace:*
+        version: link:../../../shared/types
+      '@gudbro/ui':
+        specifier: workspace:*
+        version: link:../../../shared/ui
+      '@gudbro/utils':
+        specifier: workspace:*
+        version: link:../../../shared/utils
       '@simplewebauthn/browser':
         specifier: ^13.2.2
         version: 13.2.2
@@ -678,6 +693,9 @@ importers:
       lucide-react:
         specifier: ^0.400.0
         version: 0.400.0(react@18.3.1)
+      next:
+        specifier: '>=14.0.0'
+        version: 14.2.35(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.0.0
         version: 18.3.1

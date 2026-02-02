@@ -12,6 +12,11 @@
     "clean": "rm -rf .next .turbo node_modules"
   },
   "dependencies": {
+    "@gudbro/config": "workspace:*",
+    "@gudbro/hooks": "workspace:*",
+    "@gudbro/types": "workspace:*",
+    "@gudbro/ui": "workspace:*",
+    "@gudbro/utils": "workspace:*",
     "@simplewebauthn/browser": "^13.2.2",
     "@simplewebauthn/server": "^13.2.2",
     "@simplewebauthn/types": "^12.0.0",
