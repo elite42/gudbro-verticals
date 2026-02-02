@@ -10,20 +10,20 @@ See: .planning/PROJECT.md (updated 2026-02-02)
 ## Current Position
 
 Phase: 41 of 45 (Shared Foundation)
-Plan: 4 of 6 in current phase (41-01, 41-02, 41-03, 41-04 complete)
+Plan: 5 of 6 in current phase (41-01, 41-02, 41-03, 41-04, 41-05 complete)
 Status: In progress
-Last activity: 2026-02-02 — Completed 41-04-PLAN.md
+Last activity: 2026-02-02 — Completed 41-05-PLAN.md
 
 Progress: v1.0-v1.5 [##################################################] 92/92 plans
-Progress: v2.0 [########......] 7/13 plans
+Progress: v2.0 [#########.....] 8/13 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 99 (+ 1 quick task)
+- Total plans completed: 100 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~7.9 hours
+- Total execution time: ~8.0 hours
 
 **By Milestone:**
 
@@ -35,7 +35,7 @@ Progress: v2.0 [########......] 7/13 plans
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
 | v1.5      | 35    | ~176 min   | 5.0 min  |
-| v2.0      | 7     | ~29 min    | 4.1 min  |
+| v2.0      | 8     | ~35 min    | 4.4 min  |
 
 ## Accumulated Context
 
@@ -56,6 +56,9 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 - App-specific lib/currency.ts setup files wire shared factories with DI for each app
 - useAppPriceFormat wrapper hook pre-wires shared usePriceFormat with app-specific stores
 - Re-export CURRENCIES as AVAILABLE_CURRENCIES for coffeeshop backward compat
+- Workshops currency key changed to shared store format (old key was unused)
+- Bag count logic in laundry moved to ClientShell (shared BottomNav takes centerBadge prop)
+- Nav items defined as NavItem[] arrays inline in each app's ClientShell
 
 ### Blockers/Concerns
 
@@ -73,10 +76,10 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 41-04-PLAN.md
+Stopped at: Completed 41-05-PLAN.md
 Resume file: None
-Next: 41-05-PLAN.md — Continue Shared Foundation (Wave 2)
+Next: 41-06-PLAN.md — Complete Shared Foundation
 
 ---
 
-_Last updated: 2026-02-02 after 41-04 currency migration plan completed_
+_Last updated: 2026-02-02 after 41-05 pharmacy/workshops currency + BottomNav migration plan completed_
