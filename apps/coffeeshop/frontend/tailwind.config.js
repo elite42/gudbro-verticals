@@ -1,15 +1,23 @@
+/* global require, module */
+/* eslint-disable @typescript-eslint/no-require-imports */
+const sharedPreset = require('../../../shared/config/tailwind.preset');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  presets: [sharedPreset],
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    '../../../shared/ui/**/*.{ts,tsx}',
   ],
-  darkMode: 'class', // Enable dark mode with class strategy
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Theme system colors using CSS variables
+        // Coffeeshop uses nested 'theme' namespace (theme.bg, theme.text, etc.)
+        // while the shared preset uses 'theme-bg', 'theme-text' flat namespace.
+        // Keep coffeeshop's nested structure for backward compatibility.
         theme: {
           bg: {
             primary: 'var(--color-bg-primary)',
@@ -56,12 +64,9 @@ module.exports = {
         accent: '#3a3a3a',
       },
       animation: {
-        'bounce-once': 'bounce 0.5s ease-in-out 1',
+        // Coffeeshop-specific animations not in the shared preset
         'toast-slide-up': 'toast-slide 0.3s ease-out',
         'slide-down': 'slide-down 0.3s ease-out',
-        'slide-up': 'slide-up 0.3s ease-out',
-        'fade-in': 'fade-in 0.2s ease-out',
-        'scale-in': 'scale-in 0.2s ease-out',
       },
       keyframes: {
         'toast-slide': {
@@ -72,20 +77,8 @@ module.exports = {
           '0%': { maxHeight: '0', opacity: '0' },
           '100%': { maxHeight: '800px', opacity: '1' },
         },
-        'slide-up': {
-          '0%': { transform: 'translateY(100%)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        'scale-in': {
-          '0%': { transform: 'scale(0.95)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
-        }
-      }
+      },
     },
   },
   plugins: [],
-}
+};
