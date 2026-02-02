@@ -1,6 +1,6 @@
 'use client';
 
-import { House, MapPin, CallBell, UserCircle } from '@phosphor-icons/react';
+import { House, MapPin, Compass, UserCircle } from '@phosphor-icons/react';
 
 interface BottomNavProps {
   activeTab: string;
@@ -10,7 +10,7 @@ interface BottomNavProps {
 const navItems = [
   { id: 'home', label: 'Home', Icon: House },
   { id: 'map', label: 'Explore', Icon: MapPin },
-  { id: 'services', label: 'Services', Icon: CallBell, isCenter: true },
+  { id: 'concierge', label: 'Concierge', Icon: Compass, isCenter: true },
   { id: 'profile', label: 'Profile', Icon: UserCircle },
 ];
 

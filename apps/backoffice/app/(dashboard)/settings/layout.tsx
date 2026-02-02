@@ -12,6 +12,7 @@ import {
   CreditCard,
   Share2,
   Layout,
+  Compass,
 } from 'lucide-react';
 
 const settingsTabs = [
@@ -24,6 +25,7 @@ const settingsTabs = [
   { name: 'Auth', href: '/settings/auth', icon: Shield },
   { name: 'Payments', href: '/settings/payments', icon: CreditCard },
   { name: 'Social', href: '/settings/social', icon: Share2 },
+  { name: 'Concierge', href: '/settings/concierge', icon: Compass },
 ];
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {

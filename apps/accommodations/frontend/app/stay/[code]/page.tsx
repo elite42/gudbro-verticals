@@ -40,6 +40,7 @@ import UsefulNumbers from '@/components/stay/UsefulNumbers';
 import BottomNav from '@/components/BottomNav';
 import DocumentUpload from '@/components/stay/DocumentUpload';
 import FeedbackForm from '@/components/stay/FeedbackForm';
+import ConciergeHub from '@/components/stay/ConciergeHub';
 
 export default function InStayDashboard({ params }: { params: { code: string } }) {
   const router = useRouter();
@@ -76,6 +77,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   const [showHouseRules, setShowHouseRules] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [showConcierge, setShowConcierge] = useState(false);
 
   const loadDocuments = useCallback(async () => {
     if (!token || !isAuthenticated) return;
@@ -104,16 +106,14 @@ export default function InStayDashboard({ params }: { params: { code: string } }
     []
   );
 
-  // Handle BottomNav tab changes -- "services" opens catalog
-  const handleTabChange = useCallback(
-    (tab: string) => {
-      setActiveTab(tab);
-      if (tab === 'services' && serviceCategories.length > 0) {
-        setShowCatalog(true);
-      }
-    },
-    [serviceCategories.length]
-  );
+  // Handle BottomNav tab changes -- "concierge" opens hub overlay
+  const handleTabChange = useCallback((tab: string) => {
+    if (tab === 'concierge') {
+      setShowConcierge(true);
+      return;
+    }
+    setActiveTab(tab);
+  }, []);
 
   // Redirect to landing if not authenticated
   useEffect(() => {
@@ -273,9 +273,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
                 icon={Compass}
                 label="Concierge"
                 color="#D97706"
-                onClick={() => {
-                  /* Phase 36 will build Concierge hub */
-                }}
+                onClick={() => setShowConcierge(true)}
               />
               {stay.booking && (
                 <DashboardCard
@@ -472,6 +470,22 @@ export default function InStayDashboard({ params }: { params: { code: string } }
           onClose={() => {
             setShowCatalog(false);
             setActiveTab('home');
+          }}
+        />
+      )}
+
+      {/* Concierge hub overlay */}
+      {showConcierge && token && (
+        <ConciergeHub
+          bookingCode={params.code}
+          token={token}
+          onClose={() => {
+            setShowConcierge(false);
+            setActiveTab('home');
+          }}
+          onOpenServices={() => {
+            setShowConcierge(false);
+            setShowCatalog(true);
           }}
         />
       )}
