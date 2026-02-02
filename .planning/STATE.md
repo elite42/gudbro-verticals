@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 35 complete, ready for Phase 36
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 36 in progress
 
 ## Current Position
 
-Phase: 35 of 39 (Guest Feedback System)
-Plan: 2 of 2
-Status: Phase complete (verified)
-Last activity: 2026-02-02 — Phase 35 complete and verified (2/2 plans, 3/3 success criteria)
+Phase: 36 of 39 (Guest Requests & Concierge)
+Plan: 1 of 2
+Status: In progress
+Last activity: 2026-02-02 — Completed 36-01-PLAN.md (Concierge Hub Foundation)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██████████████████████████████░░] 26/29 plans
+Progress: v1.5 [████████████████████████████████░] 27/29 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 83 (+ 1 quick task)
+- Total plans completed: 84 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~6.5 hours
+- Total execution time: ~6.6 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████████████████████�
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 26/29 | ~130 min   | 5.0 min  |
+| v1.5      | 27/29 | ~138 min   | 5.1 min  |
 
 ## Accumulated Context
 
@@ -90,6 +90,10 @@ Recent decisions for v1.5 extended roadmap:
 - FB-04: Feedback card shown only when booking exists (not browse-tier sessions)
 - FB-05: Added checked_out_at column to accom_bookings for future post-stay feedback cron timing
 - FB-06: Feedback token reuses GUEST_JWT_SECRET with type='feedback' claim for differentiation
+- CON-01: ConciergeHub uses full-screen overlay (z-60) matching ServiceCatalog pattern
+- CON-02: Country data keyed by ISO code (VN) with getConciergeData() helper
+- CON-03: Section card tap shows coming-soon placeholder (content in 36-02)
+- CON-04: Backoffice uses user.id as merchantId (AuthContextType has no merchantId field)
 
 ### Blockers/Concerns
 
@@ -105,15 +109,16 @@ Recent decisions for v1.5 extended roadmap:
 - Migration 095 needs to be applied to live database (Supabase MCP/CLI not available during execution)
 - Migration 096 needs to be applied to live database
 - Migration 097 needs to be applied to live database
+- Migration 098 needs to be applied to live database
 - Storage bucket `feedback-screenshots` needs to be created in Supabase dashboard
 
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Phase 35 fully complete (2 plans, verified)
+Stopped at: Completed 36-01-PLAN.md (Concierge Hub Foundation)
 Resume file: None
-Next: `/gsd:plan-phase 36` (Guest Requests + Concierge)
+Next: `/gsd:execute-phase 36` plan 02 (Section Content Components)
 
 ---
 
-_Last updated: 2026-02-02 after Phase 35 execution complete_
+_Last updated: 2026-02-02 after 36-01 execution complete_
