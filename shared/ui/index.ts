@@ -46,13 +46,9 @@ export {
 } from './components/toast';
 export { Toaster } from './components/toaster';
 export { useToast, toast } from './hooks/use-toast';
-export {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-} from './components/tooltip';
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './components/tooltip';
 export { Spinner } from './components/spinner';
 export { Badge, badgeVariants } from './components/badge';
 export { Avatar, AvatarImage, AvatarFallback } from './components/avatar';
 export { Skeleton } from './components/skeleton';
+export { BottomNav, type NavItem, type BottomNavProps } from './components/bottom-nav';
