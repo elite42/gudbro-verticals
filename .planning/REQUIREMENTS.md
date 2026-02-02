@@ -80,8 +80,8 @@
 - [x] **SVC-04**: Order detail view with items, notes, prices breakdown
 - [x] **SVC-05**: Order category tag in order list (food, beverage, laundry, etc.)
 - [x] **SVC-06**: Remove "All" tab from orders, show counts on filtered tabs
-- [ ] **SVC-07**: Order performance tracking (order-to-delivery average time)
-- [ ] **SVC-08**: Guest receipt confirmation via PWA (optional toggle in Settings, auto-confirm with timeout)
+- [x] **SVC-07**: Order performance tracking (order-to-delivery average time)
+- [x] **SVC-08**: Guest receipt confirmation via PWA (optional toggle in Settings, auto-confirm with timeout)
 - [x] **SVC-09**: Dry cleaning option in laundry services
 - [x] **SVC-10**: F&B catalog import picker for minibar/breakfast items
 
@@ -217,8 +217,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SVC-04      | 34    | Complete |
 | SVC-05      | 34    | Complete |
 | SVC-06      | 34    | Complete |
-| SVC-07      | 39    | Pending  |
-| SVC-08      | 39    | Pending  |
+| SVC-07      | 39    | Complete |
+| SVC-08      | 39    | Complete |
 | SVC-09      | 34    | Complete |
 | SVC-10      | 34    | Complete |
 | OWN-01      | 32    | Complete |

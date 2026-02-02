@@ -5,7 +5,7 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 39 in progress
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — SHIPPED 2026-02-02
 
 ## Current Position
 

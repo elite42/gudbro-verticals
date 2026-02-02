@@ -7,7 +7,7 @@
 - ✅ **v1.2 Tech Debt Cleanup** - Phases 9-12 (shipped 2026-01-30)
 - ✅ **v1.3 Merchant Feedback Intelligence** - Phases 13-17 (shipped 2026-01-30)
 - ✅ **v1.4 Accommodations v2** - Phases 18-24 (shipped 2026-01-31)
-- 🚧 **v1.5 Frictionless Guest Access + Accommodations Polish** - Phases 25-39 (in progress)
+- ✅ **v1.5 Frictionless Guest Access + Accommodations Polish** - Phases 25-39 (shipped 2026-02-02)
 
 ## Phases
 
@@ -46,7 +46,7 @@ See milestones/v1.4-ROADMAP.md for details.
 
 </details>
 
-### 🚧 v1.5 Frictionless Guest Access + Accommodations Polish (In Progress)
+### ✅ v1.5 Frictionless Guest Access + Accommodations Polish (Shipped 2026-02-02)
 
 **Milestone Goal:** Replace booking-code verification with room-based QR access, progressive authentication for paid actions, owner-configurable security levels, document upload with GDPR compliance, multi-zone WiFi display, PLUS comprehensive bug fixes and feature additions from manual testing session (13 bugs, 38 features across guest PWA, backoffice owner dashboard, service ordering, Tourist Concierge, and guest lifecycle).
 
@@ -64,7 +64,7 @@ See milestones/v1.4-ROADMAP.md for details.
 - [x] **Phase 36: Guest Requests + Concierge** - Tourist Concierge hub, Explore page, bottom nav overhaul, useful numbers
 - [x] **Phase 37: Conventions + Vouchers** - Benefit scope adaptation, convention cards, voucher validation in booking flow
 - [x] **Phase 38: Guest Lifecycle** - Returning guest badge, early/late checkout requests, visa alerts, delivery apps
-- [ ] **Phase 39: Polish + Analytics** - Order performance tracking, guest receipt confirmation, final refinements
+- [x] **Phase 39: Polish + Analytics** - Order performance tracking, guest receipt confirmation, final refinements
 
 ## Phase Details
 
@@ -330,11 +330,12 @@ Plans:
 
 1. Order performance dashboard shows order-to-delivery average time, with counters (not charts) until sufficient data accumulates (3+ months), segmented by service category
 2. Guest receipt confirmation is available via PWA (optional toggle in owner Settings, with auto-confirm timeout), showing itemized charges and payment method
-   **Plans**: 1-2 plans
+   **Plans**: 2 plans
 
 Plans:
 
-- [ ] 39-01: Order performance tracking (timestamp-based metrics, backoffice counters/dashboard) + guest receipt confirmation (toggle in settings, PWA receipt view, auto-confirm with timeout) (SVC-07, SVC-08)
+- [ ] 39-01-PLAN.md — Order performance tracking: migration, timestamp recording, analytics API + counters panel (SVC-07)
+- [ ] 39-02-PLAN.md — Guest receipt confirmation: settings toggle, PWA receipt view, confirm action (SVC-08)
 
 ## Progress
 
@@ -350,49 +351,49 @@ Notes:
 - Phases 35, 36, 37 depend on Phase 33 (dashboard redesign) for card placement.
 - Phase 38 depends on Phase 28 (document upload) for visa data and Phase 34 (orders) for receipt context.
 
-| Phase                                     | Milestone | Plans Complete | Status      | Completed  |
-| ----------------------------------------- | --------- | -------------- | ----------- | ---------- |
-| 1. TypeScript QA                          | v1.0      | 2/2            | Complete    | 2026-01-29 |
-| 2. UI/UX QA                               | v1.0      | 2/2            | Complete    | 2026-01-29 |
-| 3. Build & Nav QA                         | v1.0      | 2/2            | Complete    | 2026-01-29 |
-| 4. Accommodations Schema                  | v1.1      | 2/2            | Complete    | 2026-01-30 |
-| 5. Seed Data                              | v1.1      | 2/2            | Complete    | 2026-01-30 |
-| 6. API Routes                             | v1.1      | 2/2            | Complete    | 2026-01-30 |
-| 7. Dashboard Frontend                     | v1.1      | 4/4            | Complete    | 2026-01-30 |
-| 8. Integration & Polish                   | v1.1      | 2/2            | Complete    | 2026-01-30 |
-| 9. Code Fixes                             | v1.2      | 2/2            | Complete    | 2026-01-30 |
-| 10. E2E Test Infrastructure               | v1.2      | 2/2            | Complete    | 2026-01-30 |
-| 11. E2E Smoke Tests                       | v1.2      | 2/2            | Complete    | 2026-01-30 |
-| 12. Visual and Quality                    | v1.2      | 2/2            | Complete    | 2026-01-30 |
-| 13. Foundation and AI Pipeline            | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 14. Merchant Submission UI                | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 15. Merchant Notifications                | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 16. Admin Kanban                          | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 17. Analytics Dashboard                   | v1.3      | 2/2            | Complete    | 2026-01-30 |
-| 18. Database Foundation                   | v1.4      | 2/2            | Complete    | 2026-01-31 |
-| 19. Property Page & Booking Flow          | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 20. Payments                              | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 21. Owner Dashboard - Bookings & Property | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 2/2            | Complete    | 2026-01-31 |
-| 23. Service Ordering                      | v1.4      | 4/4            | Complete    | 2026-01-31 |
-| 24. Analytics, Deals & Communication      | v1.4      | 3/3            | Complete    | 2026-01-31 |
-| 25. Room Code Foundation                  | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 26. Progressive Authentication            | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 27. Owner Security Configuration          | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 28. Document Upload + Visa Tracking       | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 29. Multi-Zone WiFi                       | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 30. Shared Module Audit                   | v1.5      | 1/1            | Complete    | 2026-02-01 |
-| 31. Bug Fixes + Image Foundation          | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 32. Owner Dashboard Enhancements          | v1.5      | 4/4            | Complete    | 2026-02-01 |
-| 33. Guest Dashboard Redesign              | v1.5      | 2/2            | Complete    | 2026-02-01 |
-| 34. Service Expansion + Minibar           | v1.5      | 5/5            | Complete    | 2026-02-02 |
-| 35. Guest Feedback System                 | v1.5      | 2/2            | Complete    | 2026-02-02 |
-| 36. Guest Requests + Concierge            | v1.5      | 3/3            | Complete    | 2026-02-02 |
-| 37. Conventions + Vouchers                | v1.5      | 2/2            | Complete    | 2026-02-02 |
-| 38. Guest Lifecycle                       | v1.5      | 2/2            | Complete    | 2026-02-02 |
-| 39. Polish + Analytics                    | v1.5      | 0/1            | Not started | -          |
+| Phase                                     | Milestone | Plans Complete | Status   | Completed  |
+| ----------------------------------------- | --------- | -------------- | -------- | ---------- |
+| 1. TypeScript QA                          | v1.0      | 2/2            | Complete | 2026-01-29 |
+| 2. UI/UX QA                               | v1.0      | 2/2            | Complete | 2026-01-29 |
+| 3. Build & Nav QA                         | v1.0      | 2/2            | Complete | 2026-01-29 |
+| 4. Accommodations Schema                  | v1.1      | 2/2            | Complete | 2026-01-30 |
+| 5. Seed Data                              | v1.1      | 2/2            | Complete | 2026-01-30 |
+| 6. API Routes                             | v1.1      | 2/2            | Complete | 2026-01-30 |
+| 7. Dashboard Frontend                     | v1.1      | 4/4            | Complete | 2026-01-30 |
+| 8. Integration & Polish                   | v1.1      | 2/2            | Complete | 2026-01-30 |
+| 9. Code Fixes                             | v1.2      | 2/2            | Complete | 2026-01-30 |
+| 10. E2E Test Infrastructure               | v1.2      | 2/2            | Complete | 2026-01-30 |
+| 11. E2E Smoke Tests                       | v1.2      | 2/2            | Complete | 2026-01-30 |
+| 12. Visual and Quality                    | v1.2      | 2/2            | Complete | 2026-01-30 |
+| 13. Foundation and AI Pipeline            | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 14. Merchant Submission UI                | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 15. Merchant Notifications                | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 16. Admin Kanban                          | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 17. Analytics Dashboard                   | v1.3      | 2/2            | Complete | 2026-01-30 |
+| 18. Database Foundation                   | v1.4      | 2/2            | Complete | 2026-01-31 |
+| 19. Property Page & Booking Flow          | v1.4      | 3/3            | Complete | 2026-01-31 |
+| 20. Payments                              | v1.4      | 3/3            | Complete | 2026-01-31 |
+| 21. Owner Dashboard - Bookings & Property | v1.4      | 3/3            | Complete | 2026-01-31 |
+| 22. Owner Dashboard - Calendar & Pricing  | v1.4      | 2/2            | Complete | 2026-01-31 |
+| 23. Service Ordering                      | v1.4      | 4/4            | Complete | 2026-01-31 |
+| 24. Analytics, Deals & Communication      | v1.4      | 3/3            | Complete | 2026-01-31 |
+| 25. Room Code Foundation                  | v1.5      | 2/2            | Complete | 2026-02-01 |
+| 26. Progressive Authentication            | v1.5      | 2/2            | Complete | 2026-02-01 |
+| 27. Owner Security Configuration          | v1.5      | 2/2            | Complete | 2026-02-01 |
+| 28. Document Upload + Visa Tracking       | v1.5      | 2/2            | Complete | 2026-02-01 |
+| 29. Multi-Zone WiFi                       | v1.5      | 2/2            | Complete | 2026-02-01 |
+| 30. Shared Module Audit                   | v1.5      | 1/1            | Complete | 2026-02-01 |
+| 31. Bug Fixes + Image Foundation          | v1.5      | 2/2            | Complete | 2026-02-01 |
+| 32. Owner Dashboard Enhancements          | v1.5      | 4/4            | Complete | 2026-02-01 |
+| 33. Guest Dashboard Redesign              | v1.5      | 2/2            | Complete | 2026-02-01 |
+| 34. Service Expansion + Minibar           | v1.5      | 5/5            | Complete | 2026-02-02 |
+| 35. Guest Feedback System                 | v1.5      | 2/2            | Complete | 2026-02-02 |
+| 36. Guest Requests + Concierge            | v1.5      | 3/3            | Complete | 2026-02-02 |
+| 37. Conventions + Vouchers                | v1.5      | 2/2            | Complete | 2026-02-02 |
+| 38. Guest Lifecycle                       | v1.5      | 2/2            | Complete | 2026-02-02 |
+| 39. Polish + Analytics                    | v1.5      | 2/2            | Complete | 2026-02-02 |
 
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-02 after Phase 38 execution complete_
+_Last updated: 2026-02-02 after Phase 39 execution complete — v1.5 milestone shipped_
