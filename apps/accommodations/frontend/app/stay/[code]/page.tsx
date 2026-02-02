@@ -35,6 +35,7 @@ import ActiveOrders from '@/components/stay/ActiveOrders';
 import OrderListView from '@/components/stay/OrderListView';
 import CartFAB from '@/components/stay/CartFAB';
 import CartDrawer from '@/components/stay/CartDrawer';
+import ConventionPartnerCards from '@/components/stay/ConventionPartnerCards';
 import LocalDeals from '@/components/stay/LocalDeals';
 import UsefulNumbers from '@/components/stay/UsefulNumbers';
 import BottomNav from '@/components/BottomNav';
@@ -396,6 +397,10 @@ export default function InStayDashboard({ params }: { params: { code: string } }
                     )}
                   </div>
                 )}
+              </div>
+
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <ConventionPartnerCards bookingCode={params.code} token={token!} />
               </div>
 
               <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">

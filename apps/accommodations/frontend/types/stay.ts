@@ -411,6 +411,18 @@ export interface FeedbackListResponse {
   feedback: GuestFeedback[];
 }
 
+// --- Convention Partner Types (Phase 37) ---
+
+export interface ConventionPartner {
+  id: string;
+  partnerName: string;
+  conventionName: string;
+  benefitType: string;
+  benefitValue: number;
+  benefitScope: string;
+  benefitDescription: string | null;
+}
+
 // --- Concierge Hub Types (Phase 36) ---
 
 export type ConciergeSection = 'discover' | 'emergency' | 'safety' | 'culture' | 'transport';

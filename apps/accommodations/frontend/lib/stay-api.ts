@@ -1,6 +1,7 @@
 import type {
   ServiceCategoryResponseWithTimezone,
   DealResponse,
+  ConventionPartner,
   PropertyInfo,
   WifiInfo,
   UsefulNumbersResponse,
@@ -109,6 +110,17 @@ export function fetchServices(
  */
 export function fetchDeals(code: string, token: string): Promise<FetchResult<DealResponse[]>> {
   return fetchStayAPI<DealResponse[]>(`/api/stay/${code}/deals`, token);
+}
+
+/**
+ * Fetch active convention partners for a stay.
+ * GET /api/stay/[code]/conventions
+ */
+export function fetchConventions(
+  code: string,
+  token: string
+): Promise<FetchResult<ConventionPartner[]>> {
+  return fetchStayAPI<ConventionPartner[]>(`/api/stay/${code}/conventions`, token);
 }
 
 /**
