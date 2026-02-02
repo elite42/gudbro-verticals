@@ -278,13 +278,13 @@ Plans:
 2. Emergency numbers and embassy contacts display with click-to-call functionality, and safety tips are organized by category (transport, money, food, street, hotels, tours, digital) with accordion expand
 3. Cultural tips (dos/don'ts) and recommended apps section are available, and merchant can toggle on/off each Concierge section from backoffice settings
 4. Useful numbers live on a dedicated page linked from the Concierge hub, and the Explore/Map page shows local attractions, tours, and experiences
-   **Plans**: 2-3 plans
+   **Plans**: 3 plans
 
 Plans:
 
-- [ ] 36-01: Bottom nav overhaul (center button = Concierge hub) + Concierge hub page with 5 sections (CON-01, NAV-07) + backoffice section toggles (CON-02)
-- [ ] 36-02: Emergency contacts with click-to-call (CON-03) + safety tips accordion (CON-04) + cultural tips and recommended apps (CON-05) + useful numbers dedicated page (NAV-03)
-- [ ] 36-03: Explore/Map page with local attractions, tours, experiences, and cross-vertical deep-links (NAV-06)
+- [ ] 36-01-PLAN.md — DB migration (concierge_sections JSONB) + BottomNav center button to Concierge + ConciergeHub overlay + guest/backoffice APIs + backoffice toggle settings (CON-01, CON-02, NAV-07)
+- [ ] 36-02-PLAN.md — Emergency contacts with click-to-call (CON-03) + safety tips accordion (CON-04) + cultural tips and recommended apps (CON-05) + useful numbers dedicated page (NAV-03)
+- [ ] 36-03-PLAN.md — Explore/Map page with card-based local attractions, tours, experiences, and cross-vertical deep-links (NAV-06)
 
 ### Phase 37: Conventions + Vouchers
 
@@ -395,4 +395,4 @@ Notes:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-02 after Phase 35 execution complete_
+_Last updated: 2026-02-02 after Phase 36 planning complete_
