@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { publicApiLimiter, withRateLimit } from '@/lib/rate-limiter';
 
 export const dynamic = 'force-dynamic';
 
@@ -53,6 +54,10 @@ function generateOrderCode(): string {
 
 // POST /api/orders - Submit a new order
 export async function POST(request: NextRequest) {
+  // Rate limit: 30 requests per minute per IP
+  const rateLimitResult = await withRateLimit(request, publicApiLimiter);
+  if (rateLimitResult) return rateLimitResult;
+
   try {
     const body: OrderData = await request.json();
     const {
@@ -167,6 +172,10 @@ export async function POST(request: NextRequest) {
 
 // GET /api/orders - Get orders for a session
 export async function GET(request: NextRequest) {
+  // Rate limit: 30 requests per minute per IP
+  const rateLimitResult = await withRateLimit(request, publicApiLimiter);
+  if (rateLimitResult) return rateLimitResult;
+
   try {
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get('sessionId');

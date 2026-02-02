@@ -3,6 +3,7 @@ import { differenceInDays, parseISO, addHours, isBefore, startOfDay } from 'date
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { signGuestToken } from '@/lib/auth';
 import { calculatePriceBreakdown } from '@/lib/price-utils';
+import { bookingLimiter, withRateLimit } from '@/lib/rate-limiter';
 import type {
   ApiResponse,
   BookingResponse,
@@ -27,6 +28,10 @@ export const dynamic = 'force-dynamic';
  * - inquiry: status = 'pending' with expires_at deadline
  */
 export async function POST(request: NextRequest) {
+  // Rate limit: 20 requests per minute per IP
+  const rateLimitResult = await withRateLimit(request, bookingLimiter);
+  if (rateLimitResult) return rateLimitResult;
+
   try {
     let body: BookingSubmission;
     try {

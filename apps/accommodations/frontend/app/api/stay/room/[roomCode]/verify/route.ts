@@ -3,6 +3,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import { getSupabaseAdmin } from '@/lib/supabase';
 import { signGuestToken } from '@/lib/auth';
 import { buildWifiInfo } from '@/lib/wifi-utils';
+import { bookingCodeLimiter, withStrictRateLimit } from '@/lib/rate-limiter';
 import type {
   ApiResponse,
   VerifyRoomResponse,
@@ -14,51 +15,6 @@ import type {
 } from '@/types/stay';
 
 export const dynamic = 'force-dynamic';
-
-// ---------------------------------------------------------------------------
-// Lightweight in-memory rate limiting (per room code)
-// Sufficient for Phase 26 -- hardened rate limiting in Phase 27
-// ---------------------------------------------------------------------------
-
-interface RateLimitEntry {
-  attempts: number;
-  firstAttempt: number;
-}
-
-const rateLimitMap = new Map<string, RateLimitEntry>();
-const MAX_ATTEMPTS = 5;
-const WINDOW_MS = 5 * 60 * 1000; // 5 minutes
-
-/**
- * Check and update rate limit for a room code.
- * Returns remaining cooldown in seconds if blocked, or 0 if allowed.
- */
-function checkRateLimit(roomCode: string): number {
-  const now = Date.now();
-
-  // Clean expired entries opportunistically
-  rateLimitMap.forEach((entry, key) => {
-    if (now - entry.firstAttempt > WINDOW_MS) {
-      rateLimitMap.delete(key);
-    }
-  });
-
-  const entry = rateLimitMap.get(roomCode);
-
-  if (!entry || now - entry.firstAttempt > WINDOW_MS) {
-    // New window
-    rateLimitMap.set(roomCode, { attempts: 1, firstAttempt: now });
-    return 0;
-  }
-
-  if (entry.attempts >= MAX_ATTEMPTS) {
-    const remaining = Math.ceil((entry.firstAttempt + WINDOW_MS - now) / 1000);
-    return remaining > 0 ? remaining : 0;
-  }
-
-  entry.attempts++;
-  return 0;
-}
 
 /**
  * Normalize a name string for comparison.
@@ -93,14 +49,9 @@ export async function POST(request: NextRequest, { params }: { params: { roomCod
       return NextResponse.json<ApiResponse<null>>({ error: 'invalid_room_code' }, { status: 400 });
     }
 
-    // Step 2: Check rate limit
-    const cooldown = checkRateLimit(roomCode);
-    if (cooldown > 0) {
-      return NextResponse.json(
-        { error: 'too_many_attempts', retryAfter: cooldown },
-        { status: 429 }
-      );
-    }
+    // Step 2: Check rate limit (Upstash, strict — fails closed for brute-force protection)
+    const rateLimitResult = await withStrictRateLimit(request, bookingCodeLimiter);
+    if (rateLimitResult) return rateLimitResult;
 
     // Step 3: Parse request body
     let body: { method?: string; value?: string };
