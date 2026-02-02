@@ -182,4 +182,10 @@ public/uploads/
 
 # pnpm store (not the lockfile!)
 .pnpm-store/
+
+# Test output
 test-results/
+playwright-report/
+
+# Next.js generated
+**/next-env.d.ts
