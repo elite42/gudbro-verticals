@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
-
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // Merchant ID for ROOTS My Khe - in production this would come from config/auth
 const MERCHANT_ID = '00000000-0000-0000-0000-000000000001';
@@ -31,6 +24,8 @@ interface FeedbackData {
 
 // POST /api/feedback - Submit customer feedback
 export async function POST(request: NextRequest) {
+  const supabase = getSupabaseAdmin();
+
   try {
     const body: FeedbackData = await request.json();
     const {
@@ -114,6 +109,8 @@ export async function POST(request: NextRequest) {
 
 // GET /api/feedback - Get feedback for display (public reviews)
 export async function GET(request: NextRequest) {
+  const supabase = getSupabaseAdmin();
+
   try {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '10');

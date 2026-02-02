@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { chargesLimiter, withRateLimit } from '@/lib/rate-limiter';
 
 export const dynamic = 'force-dynamic';
-
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // ============================================================================
 // GET - Fetch enabled charges for a merchant
@@ -19,6 +12,8 @@ export async function GET(request: NextRequest) {
   // Rate limit: 60 requests per minute per IP
   const rateLimitResult = await withRateLimit(request, chargesLimiter);
   if (rateLimitResult) return rateLimitResult;
+
+  const supabase = getSupabaseAdmin();
 
   try {
     const { searchParams } = new URL(request.url);

@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
-
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // Review categories
 const REVIEW_CATEGORIES = [
@@ -24,6 +17,8 @@ const REVIEW_CATEGORIES = [
 
 // GET /api/staff/reviews - Get public staff list for customers
 export async function GET(request: NextRequest) {
+  const supabase = getSupabaseAdmin();
+
   try {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type') || 'publicStaff';
@@ -75,6 +70,8 @@ export async function GET(request: NextRequest) {
 
 // POST /api/staff/reviews - Submit a staff review (public endpoint)
 export async function POST(request: NextRequest) {
+  const supabase = getSupabaseAdmin();
+
   try {
     const body = await request.json();
     const {

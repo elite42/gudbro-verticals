@@ -3,25 +3,12 @@
  * CRUD operations for QR codes
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { QRCode, CreateQRCodeInput, UpdateQRCodeInput, ListQRCodesOptions } from './qr-types';
 
-// Lazy init Supabase client
-let supabaseInstance: ReturnType<typeof createClient> | null = null;
-
+// Use shared admin client — throws if SERVICE_ROLE_KEY is missing (no ANON fallback)
 function getSupabase() {
-  if (supabaseInstance) return supabaseInstance;
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
-    throw new Error('Missing Supabase configuration');
-  }
-
-  supabaseInstance = createClient(supabaseUrl, supabaseKey);
-  return supabaseInstance;
+  return getSupabaseAdmin();
 }
 
 /**

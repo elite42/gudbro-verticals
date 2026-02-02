@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
 // ---------------------------------------------------------------------------
@@ -16,7 +17,23 @@ export function validateAdminApiKey(
 
   const apiKey = process.env.ADMIN_API_KEY;
 
-  if (!apiKey || !token || token !== apiKey) {
+  if (!apiKey || !token) {
+    return {
+      valid: false,
+      response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
+    };
+  }
+
+  try {
+    const isValid = crypto.timingSafeEqual(Buffer.from(token), Buffer.from(apiKey));
+    if (!isValid) {
+      return {
+        valid: false,
+        response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
+      };
+    }
+  } catch {
+    // Different length buffers throw — treat as invalid
     return {
       valid: false,
       response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),

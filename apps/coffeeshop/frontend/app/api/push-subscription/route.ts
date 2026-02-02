@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
-
-// Initialize Supabase client with service role for bypassing RLS
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 interface PushSubscriptionData {
   endpoint: string;
@@ -30,6 +23,8 @@ interface SubscriptionRequest {
  * Save a new push subscription
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabaseAdmin();
+
   try {
     const body: SubscriptionRequest = await request.json();
     const { subscription, sessionId } = body;
@@ -124,6 +119,8 @@ export async function POST(request: NextRequest) {
  * Remove a push subscription
  */
 export async function DELETE(request: NextRequest) {
+  const supabase = getSupabaseAdmin();
+
   try {
     const body = await request.json();
     const { endpoint } = body;
@@ -162,6 +159,8 @@ export async function DELETE(request: NextRequest) {
  * Check subscription status
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabaseAdmin();
+
   try {
     const { searchParams } = new URL(request.url);
     const endpoint = searchParams.get('endpoint');

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,11 +9,6 @@ export const dynamic = 'force-dynamic';
  * Uses Web Push protocol to send notifications to subscribed devices.
  * Called when order status changes to 'ready'.
  */
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // VAPID keys for web push authentication
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || '';
@@ -87,6 +82,8 @@ async function sendWebPush(
  * Send push notification for an order
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabaseAdmin();
+
   try {
     const body: SendPushRequest = await request.json();
     const { orderId, sessionId, orderCode } = body;

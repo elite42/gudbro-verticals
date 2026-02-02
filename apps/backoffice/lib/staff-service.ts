@@ -4,12 +4,12 @@
  * Handles staff invitations and role management
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Lazy accessor — throws if SERVICE_ROLE_KEY is missing (no ANON fallback)
+function supabase() {
+  return getSupabaseAdmin();
+}
 
 export interface StaffMember {
   roleId: string;
@@ -54,7 +54,7 @@ export interface RoleTemplate {
  * Get staff members for an organization
  */
 export async function getStaffMembers(organizationId: string): Promise<StaffMember[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabase()
     .from('v_organization_staff')
     .select('*')
     .eq('organization_id', organizationId)
@@ -87,7 +87,7 @@ export async function getStaffMembers(organizationId: string): Promise<StaffMemb
  * Get pending invitations for an organization
  */
 export async function getPendingInvitations(organizationId: string): Promise<StaffInvitation[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabase()
     .from('v_pending_staff_invitations')
     .select('*')
     .eq('organization_id', organizationId)
@@ -118,7 +118,7 @@ export async function getPendingInvitations(organizationId: string): Promise<Sta
  * Get role templates
  */
 export async function getRoleTemplates(): Promise<RoleTemplate[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabase()
     .from('role_templates')
     .select('*')
     .order('display_order', { ascending: true });
@@ -155,11 +155,15 @@ export async function inviteStaffMember(
 ): Promise<{ success: boolean; invitationId?: string; inviteToken?: string; error?: string }> {
   // Get inviter and organization details for email
   const [inviterResult, orgResult] = await Promise.all([
-    supabase.from('accounts').select('email, display_name, first_name').eq('id', inviterAccountId).single(),
-    supabase.from('organizations').select('name').eq('id', organizationId).single(),
+    supabase()
+      .from('accounts')
+      .select('email, display_name, first_name')
+      .eq('id', inviterAccountId)
+      .single(),
+    supabase().from('organizations').select('name').eq('id', organizationId).single(),
   ]);
 
-  const { data, error } = await supabase.rpc('invite_staff_member', {
+  const { data, error } = await supabase().rpc('invite_staff_member', {
     p_inviter_account_id: inviterAccountId,
     p_organization_id: organizationId,
     p_email: email,
@@ -287,12 +291,16 @@ async function sendStaffInviteEmail(params: {
           </div>
         </div>
 
-        ${params.message ? `
+        ${
+          params.message
+            ? `
         <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
           <p style="margin: 0; font-size: 14px; color: #92400e;">Messaggio personale:</p>
           <p style="margin: 8px 0 0 0; color: #78350f; font-style: italic;">"${params.message}"</p>
         </div>
-        ` : ''}
+        `
+            : ''
+        }
 
         <div style="text-align: center; margin: 30px 0;">
           <a href="${inviteUrl}" style="display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">Accetta Invito</a>
@@ -323,7 +331,7 @@ async function sendStaffInviteEmail(params: {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${RESEND_API_KEY}`,
+      Authorization: `Bearer ${RESEND_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -350,7 +358,7 @@ export async function revokeInvitation(
   invitationId: string,
   revokerAccountId: string
 ): Promise<boolean> {
-  const { data, error } = await supabase.rpc('revoke_staff_invitation', {
+  const { data, error } = await supabase().rpc('revoke_staff_invitation', {
     p_invitation_id: invitationId,
     p_revoker_account_id: revokerAccountId,
   });
@@ -370,7 +378,7 @@ export async function removeStaffMember(
   roleId: string,
   removerAccountId: string
 ): Promise<boolean> {
-  const { data, error } = await supabase.rpc('remove_staff_member', {
+  const { data, error } = await supabase().rpc('remove_staff_member', {
     p_role_id: roleId,
     p_remover_account_id: removerAccountId,
   });
@@ -392,7 +400,7 @@ export async function updateStaffPermissions(
   newPermissions: Record<string, boolean>,
   newTitle?: string
 ): Promise<boolean> {
-  const { data, error } = await supabase.rpc('update_staff_permissions', {
+  const { data, error } = await supabase().rpc('update_staff_permissions', {
     p_role_id: roleId,
     p_updater_account_id: updaterAccountId,
     p_new_permissions: newPermissions,
@@ -414,7 +422,7 @@ export async function acceptInvitation(
   inviteToken: string,
   authId?: string
 ): Promise<{ success: boolean; accountId?: string; organizationId?: string; error?: string }> {
-  const { data, error } = await supabase.rpc('accept_staff_invitation', {
+  const { data, error } = await supabase().rpc('accept_staff_invitation', {
     p_invite_token: inviteToken,
     p_auth_id: authId || null,
   });
@@ -441,13 +449,15 @@ export async function acceptInvitation(
  * Get invitation by token (for invite page)
  */
 export async function getInvitationByToken(token: string): Promise<StaffInvitation | null> {
-  const { data, error } = await supabase
+  const { data, error } = await supabase()
     .from('staff_invitations')
-    .select(`
+    .select(
+      `
       *,
       organizations!inner(name),
       accounts!staff_invitations_inviter_account_id_fkey(email, display_name)
-    `)
+    `
+    )
     .eq('invite_token', token)
     .eq('status', 'pending')
     .gt('expires_at', new Date().toISOString())
@@ -480,7 +490,10 @@ export const PERMISSION_LABELS: Record<string, { label: string; description: str
   menu_view: { label: 'View Menu', description: 'Can view menu items' },
   menu_edit: { label: 'Edit Menu', description: 'Can add, edit, and remove menu items' },
   orders_view: { label: 'View Orders', description: 'Can see incoming orders' },
-  orders_manage: { label: 'Manage Orders', description: 'Can accept, prepare, and complete orders' },
+  orders_manage: {
+    label: 'Manage Orders',
+    description: 'Can accept, prepare, and complete orders',
+  },
   analytics_view: { label: 'View Analytics', description: 'Can see reports and statistics' },
   staff_manage: { label: 'Manage Staff', description: 'Can invite and remove team members' },
   billing_manage: { label: 'Manage Billing', description: 'Can access subscription and payments' },

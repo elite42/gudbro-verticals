@@ -4,12 +4,12 @@
  * Admin functions for reviewing ingredient contributions
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+// Lazy accessor — throws if SERVICE_ROLE_KEY is missing (no ANON fallback)
+function supabase() {
+  return getSupabaseAdmin();
+}
 
 export interface PendingContribution {
   id: string;
@@ -47,7 +47,7 @@ export interface ContributionAction {
  * Get pending contributions for review
  */
 export async function getPendingContributions(): Promise<PendingContribution[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabase()
     .from('v_pending_contributions')
     .select('*')
     .order('created_at', { ascending: true });
@@ -82,16 +82,19 @@ export async function getContributions(filters?: {
   limit?: number;
   offset?: number;
 }): Promise<{ data: PendingContribution[]; total: number }> {
-  let query = supabase
+  let query = supabase()
     .from('ingredient_contributions')
-    .select(`
+    .select(
+      `
       *,
       accounts!ingredient_contributions_account_id_fkey (
         email,
         display_name,
         contributor_points
       )
-    `, { count: 'exact' });
+    `,
+      { count: 'exact' }
+    );
 
   if (filters?.status) {
     query = query.eq('status', filters.status);
@@ -146,9 +149,10 @@ export async function approveContribution(
   }
 ): Promise<{ success: boolean; pointsAwarded?: number; error?: string }> {
   // Get contribution details for email
-  const { data: contribution } = await supabase
+  const { data: contribution } = await supabase()
     .from('ingredient_contributions')
-    .select(`
+    .select(
+      `
       ingredient_name,
       accounts!ingredient_contributions_account_id_fkey (
         email,
@@ -156,11 +160,12 @@ export async function approveContribution(
         first_name,
         contributor_points
       )
-    `)
+    `
+    )
     .eq('id', contributionId)
     .single();
 
-  const { data, error } = await supabase.rpc('approve_ingredient_contribution', {
+  const { data, error } = await supabase().rpc('approve_ingredient_contribution', {
     p_contribution_id: contributionId,
     p_reviewer_account_id: reviewerAccountId,
     p_merged_into_id: options?.mergedIntoId || null,
@@ -201,20 +206,22 @@ export async function rejectContribution(
   notes?: string
 ): Promise<{ success: boolean; error?: string }> {
   // Get contribution details for email
-  const { data: contribution } = await supabase
+  const { data: contribution } = await supabase()
     .from('ingredient_contributions')
-    .select(`
+    .select(
+      `
       ingredient_name,
       accounts!ingredient_contributions_account_id_fkey (
         email,
         display_name,
         first_name
       )
-    `)
+    `
+    )
     .eq('id', contributionId)
     .single();
 
-  const { error } = await supabase.rpc('reject_ingredient_contribution', {
+  const { error } = await supabase().rpc('reject_ingredient_contribution', {
     p_contribution_id: contributionId,
     p_reviewer_account_id: reviewerAccountId,
     p_reason: reason,
@@ -252,7 +259,7 @@ export async function markAsDuplicate(
   existingIngredientId: string,
   notes?: string
 ): Promise<{ success: boolean; error?: string }> {
-  const { error } = await supabase.rpc('mark_contribution_duplicate', {
+  const { error } = await supabase().rpc('mark_contribution_duplicate', {
     p_contribution_id: contributionId,
     p_reviewer_account_id: reviewerAccountId,
     p_existing_ingredient_id: existingIngredientId,
@@ -276,9 +283,7 @@ export async function getContributionStats(): Promise<{
   rejected: number;
   total: number;
 }> {
-  const { data, error } = await supabase
-    .from('ingredient_contributions')
-    .select('status');
+  const { data, error } = await supabase().from('ingredient_contributions').select('status');
 
   if (error) {
     console.error('[ContributionAdminService] Stats error:', error);
@@ -309,7 +314,7 @@ export async function getContributionStats(): Promise<{
  * Search existing ingredients
  */
 export async function searchIngredients(query: string): Promise<{ id: string; name: string }[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabase()
     .from('ingredients')
     .select('id, name')
     .ilike('name', `%${query}%`)
@@ -432,12 +437,16 @@ async function sendContributionEmail(params: ContributionEmailParams): Promise<v
           Purtroppo il tuo contributo per l'ingrediente <strong>"${params.ingredientName}"</strong> non è stato approvato.
         </p>
 
-        ${params.reason ? `
+        ${
+          params.reason
+            ? `
         <div style="background: #f9fafb; border-radius: 12px; padding: 20px; margin: 20px 0;">
           <p style="margin: 0; font-size: 14px; color: #6b7280;">Motivo:</p>
           <p style="margin: 8px 0 0 0; color: #111827;">${params.reason}</p>
         </div>
-        ` : ''}
+        `
+            : ''
+        }
 
         <p style="font-size: 16px; line-height: 1.6; color: #4b5563; margin: 0 0 16px 0;">
           Non scoraggiarti! Puoi sempre provare a contribuire con altri ingredienti.
@@ -462,7 +471,7 @@ async function sendContributionEmail(params: ContributionEmailParams): Promise<v
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${RESEND_API_KEY}`,
+      Authorization: `Bearer ${RESEND_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
