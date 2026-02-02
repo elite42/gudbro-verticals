@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 37 complete, ready for Phase 38
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 38 complete
 
 ## Current Position
 
-Phase: 37 of 39 (Conventions + Vouchers)
-Plan: 2 of 2
+Phase: 38 of 39 (Guest Lifecycle)
+Plan: 1 of 2 (38-01 complete, 38-02 already complete)
 Status: Phase complete
-Last activity: 2026-02-02 — Phase 37 complete and verified (2/2 plans, 3/3 success criteria, +1 orchestrator fix)
+Last activity: 2026-02-02 — Completed 38-01-PLAN.md (Guest Lifecycle Foundation)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [████████████████████████████████████] 31/31 plans
+Progress: v1.5 [██████████████████████████████████████] 33/33 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 88 (+ 1 quick task)
+- Total plans completed: 89 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~6.9 hours
+- Total execution time: ~7.1 hours
 
 **By Milestone:**
 
@@ -34,7 +34,7 @@ Progress: v1.5 [█████████████████████�
 | v1.2      | 8     | ~62 min    | 7.8 min  |
 | v1.3      | 10    | ~33 min    | 3.3 min  |
 | v1.4      | 21    | ~87 min    | 4.1 min  |
-| v1.5      | 29/29 | ~148 min   | 5.1 min  |
+| v1.5      | 33/33 | ~168 min   | 5.1 min  |
 
 ## Accumulated Context
 
@@ -105,6 +105,10 @@ Recent decisions for v1.5 extended roadmap:
 - VOUCHER-04: validate-voucher endpoint is public (no auth) matching property page booking flow pattern
 - CONV-01: Backoffice conventions API uses owner_id lookup on accom_properties (not merchant_id) to find property IDs
 - CONV-02: ConventionPartnerCards returns null when empty (section hidden, not error state)
+- GUEST-01: Returning guest detection uses SECURITY DEFINER SQL function with 3 OR signals (never name alone)
+- GUEST-02: Checkout request unique constraint per booking+type (one request per type)
+- GUEST-03: Conflict detection runs on GET (lazy evaluation) not on insert
+- GUEST-04: Guest country field uses static select with ~27 common countries + Other
 
 ### Blockers/Concerns
 
@@ -123,14 +127,15 @@ Recent decisions for v1.5 extended roadmap:
 - Migration 098 needs to be applied to live database
 - Migration 099 needs to be applied to live database
 - Storage bucket `feedback-screenshots` needs to be created in Supabase dashboard
+- Migration 100 needs to be applied to live database (guest lifecycle)
 
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Phase 37 fully complete and verified (2 plans + orchestrator VoucherInput wiring fix)
+Stopped at: Phase 38 fully complete (2/2 plans, guest lifecycle foundation + delivery apps)
 Resume file: None
-Next: `/gsd:plan-phase 38` (Guest Lifecycle)
+Next: `/gsd:plan-phase 39` or next milestone
 
 ---
 
-_Last updated: 2026-02-02 after Phase 37 execution complete_
+_Last updated: 2026-02-02 after Phase 38-01 execution complete_
