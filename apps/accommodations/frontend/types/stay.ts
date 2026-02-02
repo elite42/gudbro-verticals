@@ -142,6 +142,9 @@ export interface PropertyInfo {
   slug: string;
   type: string;
   description: string | null;
+  address: string | null;
+  city: string | null;
+  country: string | null;
   contactPhone: string | null;
   contactEmail: string | null;
   contactWhatsapp: string | null;

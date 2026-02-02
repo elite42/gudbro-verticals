@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
         guest_country, check_in_date, check_out_date, status,
         accom_rooms!inner(room_number, room_type, floor, wifi_ssid_override, wifi_password_override),
         accom_properties!inner(
-          name, slug, type, description,
+          name, slug, type, description, address, city, country,
           contact_phone, contact_email, contact_whatsapp,
           check_in_time, checkout_time, house_rules, amenities, images,
           wifi_network, wifi_password, wifi_zones,
@@ -109,6 +109,9 @@ export async function POST(request: NextRequest) {
       slug: rawProperty.slug as string,
       type: rawProperty.type as string,
       description: (rawProperty.description as string) || null,
+      address: (rawProperty.address as string) || null,
+      city: (rawProperty.city as string) || null,
+      country: (rawProperty.country as string) || null,
       contactPhone: (rawProperty.contact_phone as string) || null,
       contactEmail: (rawProperty.contact_email as string) || null,
       contactWhatsapp: (rawProperty.contact_whatsapp as string) || null,

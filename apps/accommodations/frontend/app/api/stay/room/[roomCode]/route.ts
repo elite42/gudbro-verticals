@@ -58,7 +58,7 @@ export async function GET(_request: NextRequest, { params }: { params: { roomCod
       .from('accom_properties')
       .select(
         `
-        name, slug, type, description,
+        name, slug, type, description, address, city, country,
         contact_phone, contact_email, contact_whatsapp,
         check_in_time, checkout_time, house_rules, amenities, images,
         wifi_network, wifi_password, wifi_zones,
@@ -79,6 +79,9 @@ export async function GET(_request: NextRequest, { params }: { params: { roomCod
       slug: propertyData.slug,
       type: propertyData.type,
       description: propertyData.description || null,
+      address: propertyData.address || null,
+      city: propertyData.city || null,
+      country: propertyData.country || null,
       contactPhone: propertyData.contact_phone || null,
       contactEmail: propertyData.contact_email || null,
       contactWhatsapp: propertyData.contact_whatsapp || null,
