@@ -65,7 +65,7 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 Last session: 2026-02-02
 Stopped at: Completed 40-02-PLAN.md (Phase 40 complete)
 Resume file: None
-Next: Phase 41 or next v2.0 phase
+Next: `/gsd:plan-phase 41` — Shared Foundation
 
 ---
 

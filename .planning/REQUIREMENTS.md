@@ -10,11 +10,11 @@ Requirements derived from AUDIT-360.md findings (Critical + High severity).
 
 ### Security
 
-- [ ] **SEC-01**: Rate limiting applied to all public API endpoints (/api/booking POST, /api/orders POST, /api/charges GET)
-- [ ] **SEC-02**: Orders RLS policy filters by session_id and merchant_id instead of USING (true)
-- [ ] **SEC-03**: Admin API key validation uses crypto.timingSafeEqual() instead of string comparison
-- [ ] **SEC-04**: Supabase client removes fallback to ANON key when SERVICE_ROLE_KEY is missing (throws error)
-- [ ] **SEC-05**: Booking code lookup endpoint has rate limiting (max 5 attempts per IP per minute)
+- [x] **SEC-01**: Rate limiting applied to all public API endpoints (/api/booking POST, /api/orders POST, /api/charges GET)
+- [x] **SEC-02**: Orders RLS policy filters by session_id and merchant_id instead of USING (true)
+- [x] **SEC-03**: Admin API key validation uses crypto.timingSafeEqual() instead of string comparison
+- [x] **SEC-04**: Supabase client removes fallback to ANON key when SERVICE_ROLE_KEY is missing (throws error)
+- [x] **SEC-05**: Booking code lookup endpoint has rate limiting (max 5 attempts per IP per minute)
 
 ### Shared Foundation
 
@@ -91,41 +91,41 @@ Requirements derived from AUDIT-360.md findings (Critical + High severity).
 
 ## Traceability
 
-| Requirement | Phase | Status  |
-| ----------- | ----- | ------- |
-| SEC-01      | 40    | Pending |
-| SEC-02      | 40    | Pending |
-| SEC-03      | 40    | Pending |
-| SEC-04      | 40    | Pending |
-| SEC-05      | 40    | Pending |
-| SHR-01      | 41    | Pending |
-| SHR-02      | 41    | Pending |
-| SHR-03      | 41    | Pending |
-| SHR-04      | 41    | Pending |
-| SHR-05      | 41    | Pending |
-| SHR-06      | 41    | Pending |
-| SHR-07      | 41    | Pending |
-| SHR-08      | 41    | Pending |
-| SHR-09      | 41    | Pending |
-| FE-01       | 43    | Pending |
-| FE-02       | 43    | Pending |
-| FE-03       | 43    | Pending |
-| FE-04       | 43    | Pending |
-| FE-05       | 43    | Pending |
-| FE-06       | 43    | Pending |
-| FE-07       | 43    | Pending |
-| FE-08       | 43    | Pending |
-| FE-09       | 43    | Pending |
-| ARC-01      | 44    | Pending |
-| ARC-02      | 42    | Pending |
-| ARC-03      | 44    | Pending |
-| ARC-04      | 42    | Pending |
-| ARC-05      | 44    | Pending |
-| DOC-01      | 45    | Pending |
-| DOC-02      | 45    | Pending |
-| DOC-03      | 45    | Pending |
-| DOC-04      | 45    | Pending |
-| DOC-05      | 45    | Pending |
+| Requirement | Phase | Status   |
+| ----------- | ----- | -------- |
+| SEC-01      | 40    | Complete |
+| SEC-02      | 40    | Complete |
+| SEC-03      | 40    | Complete |
+| SEC-04      | 40    | Complete |
+| SEC-05      | 40    | Complete |
+| SHR-01      | 41    | Pending  |
+| SHR-02      | 41    | Pending  |
+| SHR-03      | 41    | Pending  |
+| SHR-04      | 41    | Pending  |
+| SHR-05      | 41    | Pending  |
+| SHR-06      | 41    | Pending  |
+| SHR-07      | 41    | Pending  |
+| SHR-08      | 41    | Pending  |
+| SHR-09      | 41    | Pending  |
+| FE-01       | 43    | Pending  |
+| FE-02       | 43    | Pending  |
+| FE-03       | 43    | Pending  |
+| FE-04       | 43    | Pending  |
+| FE-05       | 43    | Pending  |
+| FE-06       | 43    | Pending  |
+| FE-07       | 43    | Pending  |
+| FE-08       | 43    | Pending  |
+| FE-09       | 43    | Pending  |
+| ARC-01      | 44    | Pending  |
+| ARC-02      | 42    | Pending  |
+| ARC-03      | 44    | Pending  |
+| ARC-04      | 42    | Pending  |
+| ARC-05      | 44    | Pending  |
+| DOC-01      | 45    | Pending  |
+| DOC-02      | 45    | Pending  |
+| DOC-03      | 45    | Pending  |
+| DOC-04      | 45    | Pending  |
+| DOC-05      | 45    | Pending  |
 
 **Coverage:**
 
