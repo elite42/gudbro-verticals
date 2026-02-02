@@ -19,6 +19,7 @@
 | **Customizations**  | `docs/knowledge/systems/CUSTOMIZATIONS-SYSTEM.md` |
 | Database/SQL        | 3 + 5 + `docs/core/lessons/database.md`           |
 | AI Co-Manager       | `docs/core/AI-SYSTEM.md`                          |
+| Git Worktrees       | 2.1                                               |
 | Deploy/Vercel       | 9 + `docs/core/lessons/vercel.md`                 |
 | Errori/Debug        | `docs/core/lessons/` (file per argomento)         |
 | Fine sessione       | 12                                                |
@@ -102,6 +103,52 @@ Vuoi continuare o fare altro?
 
 **GSD Framework:** Per feature complesse o nuovi progetti, usa GSD (Get Shit Done) per planning e building strutturato con sub-agent e context pulito. Vedi sezione 10.4.
 
+**Auto-Update Lessons (OBBLIGATORIO):**
+Dopo ogni correzione di errore, aggiorna il file lezione pertinente in `docs/core/lessons/`.
+Formato: tabella `| Errore | Causa | Soluzione |`. Conferma sempre: "Aggiornato lessons/[file].md".
+
+---
+
+## 2.1 GIT WORKTREES (Sessioni Parallele)
+
+> **Quando usare worktree paralleli vs lavoro sequenziale.**
+
+| Scenario                        | Strategia                         | Esempio                                 |
+| ------------------------------- | --------------------------------- | --------------------------------------- |
+| Fasi SENZA dipendenze           | **Parallelo** (worktree separati) | Phase 42 + Phase 44 insieme             |
+| Fasi CON dipendenze             | **Sequenziale** (stesso worktree) | Phase 42 prima di Phase 43              |
+| Bug fix urgente durante feature | **Parallelo** (worktree per fix)  | Hotfix su main mentre feature su branch |
+| Analisi/debug read-only         | **Worktree dedicato**             | Un worktree solo per log e BigQuery     |
+
+### Shell Aliases
+
+```bash
+# In ~/.zshrc
+alias za='cd ~/Desktop/gudbro-verticals'           # Main worktree
+alias zb='cd ~/Desktop/gudbro-verticals-b'          # Worktree B
+alias zc='cd ~/Desktop/gudbro-verticals-c'          # Worktree C
+```
+
+### Comandi Essenziali
+
+```bash
+# Crea worktree per branch
+git worktree add ../gudbro-verticals-b -b feature/phase-44
+
+# Lista worktree attivi
+git worktree list
+
+# Rimuovi worktree completato
+git worktree remove ../gudbro-verticals-b
+```
+
+### Regole
+
+- **MAI** modificare lo stesso file in due worktree contemporaneamente
+- Ogni worktree ha il suo `node_modules` — esegui `pnpm install` dopo creazione
+- Committa e mergia dal worktree secondario PRIMA di cancellarlo
+- Usa `/statusline` per vedere branch e context usage in ogni tab
+
 ---
 
 # 3. VALIDATION GATES
@@ -123,6 +170,7 @@ VERIFICA SEMPRE:
 - [ ] Types importati correttamente (@/types/)
 - [ ] Pattern esistenti seguiti
 - [ ] Error handling presente
+- [ ] Lesson file aggiornato (se corretto un errore)
 ```
 
 > **Errori comuni?** Vedi `docs/core/lessons/` (file per argomento)
@@ -387,23 +435,25 @@ git push origin main   # Auto-deploy Vercel
 
 ## Slash Commands (Custom)
 
-| Comando                | Descrizione                                           |
-| ---------------------- | ----------------------------------------------------- |
-| `/qa-quick`            | Check veloce (typecheck, build, advisors)             |
-| `/verify`              | Verifica completa pre-deploy                          |
-| `/deploy`              | Build + push + verifica                               |
-| `/start-session`       | Avvio sessione GUDBRO (legge backlog e focus)         |
-| `/end-session`         | Checklist fine sessione per categoria                 |
-| `/new-feature`         | Workflow completo nuova feature (plan→build→test→doc) |
-| `/db-status`           | Stato database, traduzioni, security e performance    |
-| `/inventory`           | Inventario progetto (DB, backlog, features, repo)     |
-| `/typecheck`           | TypeScript typecheck con guida errori                 |
-| `/translate-batch`     | Continua traduzioni ingredienti (9 lingue, batch 50)  |
-| `/gsd:new-project`     | GSD: inizializza nuovo progetto                       |
-| `/gsd:plan-phase N`    | GSD: pianifica fase N                                 |
-| `/gsd:execute-phase N` | GSD: esegui fase N                                    |
-| `/gsd:progress`        | GSD: stato avanzamento                                |
-| `/gsd:quick`           | GSD: task rapido con garanzie atomiche                |
+| Comando                | Descrizione                                            |
+| ---------------------- | ------------------------------------------------------ |
+| `/qa-quick`            | Check veloce (typecheck, build, advisors)              |
+| `/verify`              | Verifica completa pre-deploy                           |
+| `/deploy`              | Build + push + verifica                                |
+| `/start-session`       | Avvio sessione GUDBRO (legge backlog e focus)          |
+| `/end-session`         | Checklist fine sessione per categoria                  |
+| `/new-feature`         | Workflow completo nuova feature (plan→build→test→doc)  |
+| `/db-status`           | Stato database, traduzioni, security e performance     |
+| `/inventory`           | Inventario progetto (DB, backlog, features, repo)      |
+| `/typecheck`           | TypeScript typecheck con guida errori                  |
+| `/translate-batch`     | Continua traduzioni ingredienti (9 lingue, batch 50)   |
+| `/gsd:new-project`     | GSD: inizializza nuovo progetto                        |
+| `/gsd:plan-phase N`    | GSD: pianifica fase N                                  |
+| `/gsd:execute-phase N` | GSD: esegui fase N                                     |
+| `/gsd:progress`        | GSD: stato avanzamento                                 |
+| `/gsd:quick`           | GSD: task rapido con garanzie atomiche                 |
+| `/techdebt`            | Scan tech debt (TODO, deprecated, duplicati, >300 LOC) |
+| `/context-sync`        | Dump unificato contesto (GitHub, backlog, Pieces, GSD) |
 
 ---
 
@@ -476,6 +526,7 @@ Quando lavoro su UI/UX DEVO usare skill `frontend-design`:
 | `proposer`              | Genera suggerimenti miglioramento basati su dati (prioritizzati per impatto)    | Dopo report analyst, sprint planning, ottimizzazioni |
 | `pwa-specialist`        | Sviluppo Coffeeshop PWA (multi-locale, RTL, currency, UI)                       | Feature menu digitale, multi-lingua, PWA             |
 | `verify-app`            | Verifica completa post-modifiche (typecheck, build, security, test)             | Dopo feature, prima di commit/PR, QA                 |
+| `plan-reviewer`         | Review piani GSD come Staff Engineer (completezza, rischi, dipendenze)          | Dopo /gsd:plan-phase, prima di execute               |
 
 ### Quando Claude USA gli Agents
 
@@ -486,6 +537,7 @@ Quando lavoro su UI/UX DEVO usare skill `frontend-design`:
 - backoffice-specialist → lavoro su admin dashboard
 - analyst → richiesta analisi dati
 - proposer → dopo report analyst, prima di sprint planning
+- plan-reviewer → dopo /gsd:plan-phase, prima di execute
 
 ❌ NON serve agent:
 - Fix rapidi (usa direttamente)
@@ -595,9 +647,11 @@ Ogni piano ha max 3 task. Ogni commit è atomico, indipendentemente revertabile,
 
 ---
 
-**Version:** 9.4
+**Version:** 9.6
 **Changes:**
 
+- v9.6 - Boris Cherny Tips: added Git Worktrees guide (section 2.1), auto-update lessons rule (section 2), /techdebt and /context-sync slash commands, plan-reviewer agent for GSD plan validation
+- v9.5 - OpenClaw separation: moved ai-employee.md and ai-manga-project.md to `~/openclaw/docs/`. Created `~/openclaw/CLAUDE.md` for dedicated Claude Code session. Simplified AI Infrastructure references in backlog to point to `~/openclaw/`.
 - v9.4 - Audit Fix: synced Section 0 current focus from v1.3 to v2.0 Phase 41 complete. CLAUDE.md was 4 milestones behind (v1.4, v1.5 shipped + v2.0 started). Root cause: no GSD workflow step updates CLAUDE.md after milestone/phase completion.
 - v9.3 - New Plugins: installed superpowers (TDD, debugging, collaboration), backend-development (API design, architecture, GraphQL), debugging-toolkit (smart debug, DX), developer-essentials (Git, SQL, monorepo, E2E, auth). Added to skills table.
 - v9.2 - Complete Documentation: added all 5 local agents (analyst, backoffice-specialist, proposer, pwa-specialist, verify-app), 6 missing custom commands (db-status, inventory, start-session, new-feature, translate-batch, typecheck) to CLAUDE.md.
