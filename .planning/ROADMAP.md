@@ -70,12 +70,13 @@ See milestones/v1.5-ROADMAP.md for details.
 3. Admin API key comparison is timing-safe (no timing side-channel)
 4. Supabase client throws on missing SERVICE_ROLE_KEY instead of silently falling back to ANON key
 5. Booking code lookup rejects after 5 attempts per IP per minute
-   **Plans**: TBD
+
+**Plans:** 2 plans
 
 Plans:
 
-- [ ] 40-01: Rate limiting + booking code throttle (SEC-01, SEC-05)
-- [ ] 40-02: RLS fix, timing-safe admin key, ANON key fallback removal (SEC-02, SEC-03, SEC-04)
+- [ ] 40-01-PLAN.md — Rate limiting + booking code throttle (SEC-01, SEC-05)
+- [ ] 40-02-PLAN.md — RLS fix, timing-safe admin key, ANON key fallback removal (SEC-02, SEC-03, SEC-04)
 
 #### Phase 41: Shared Foundation
 
