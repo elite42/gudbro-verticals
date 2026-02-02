@@ -2,7 +2,7 @@
 
 ## What This Is
 
-GUDBRO is a multi-vertical platform providing standalone PWAs for hospitality businesses (F&B, accommodations, gym, wellness, laundry, pharmacy, workshops, tours). Each merchant gets their own branded PWA with QR/link access. The platform includes a backoffice admin dashboard, AI Co-Manager, and a convention system linking merchants together. The Accommodations vertical is now a complete end-to-end product: public property pages with SEO, hybrid booking flow (instant or inquiry), multi-payment support (cash/transfer/Stripe/crypto), full owner dashboard (bookings, rooms, calendar, pricing, analytics, services, deals), service ordering from In-Stay Dashboard, and automated guest communication (confirmation + pre-arrival emails). All 8 verticals are QA-verified with automated E2E smoke tests, visual regression baselines, and PWA manifest validation.
+GUDBRO is a multi-vertical platform providing standalone PWAs for hospitality businesses (F&B, accommodations, gym, wellness, laundry, pharmacy, workshops, tours). Each merchant gets their own branded PWA with QR/link access. The platform includes a backoffice admin dashboard, AI Co-Manager, and a convention system linking merchants together. The Accommodations vertical is a complete end-to-end product: public property pages with SEO, hybrid booking flow, multi-payment support, full owner dashboard (bookings, rooms, Gantt calendar, pricing, analytics, services, onboarding wizard), room-based QR access with progressive authentication, Tourist Concierge hub (emergency/safety/culture), minibar self-service, guest feedback (in-stay + post-stay with AI), guest lifecycle (returning guest detection, checkout requests, visa alerts), and order analytics with receipt confirmation. All 8 verticals are QA-verified with automated E2E smoke tests.
 
 ## Core Value
 
@@ -60,33 +60,31 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 - Guest communication: booking confirmation email, pre-arrival email with QR (Vercel cron), WhatsApp deep-links -- v1.4
 - Database: exclusion constraint double-booking prevention, 5 migrations (083-087), RLS on all new tables -- v1.4
 - Cross-vertical deep-links from In-Stay Dashboard (F&B, tours, wellness) -- v1.4
+- ✓ Room-based QR access: permanent room codes, browse-tier JWT, instant WiFi/info dashboard — v1.5
+- ✓ Progressive authentication: inline verification modal (last name or PIN), token upgrade without reload — v1.5
+- ✓ Owner security configuration: 3 presets (Family/Standard/Structured), per-action gating — v1.5
+- ✓ Document upload: passport/visa photo upload, visa expiry reminders (14/7/3d), GDPR auto-delete 30d — v1.5
+- ✓ Multi-zone WiFi: per-zone credentials (room/restaurant/pool/lobby), room WiFi highlighted — v1.5
+- ✓ Shared module audit: catalog of reusable modules (ready/adaptable/to-build) — v1.5
+- ✓ 9 bug fixes: guest name, bottom nav, homepage cards, icon prefix, time format, images, currency, WiFi QR, room upload — v1.5
+- ✓ Guest dashboard redesign: card-based homepage (6-8 cards), dismissible WiFi, profile page — v1.5
+- ✓ Tourist Concierge hub: emergency contacts, safety tips, cultural tips, recommended apps, Explore page — v1.5
+- ✓ Service catalog redesign: large photos, add-to-cart, included-in-rate badge, dry cleaning — v1.5
+- ✓ Minibar self-service: guest marks consumed items, owner confirms, Realtime notifications — v1.5
+- ✓ F&B catalog import picker for minibar/breakfast items — v1.5
+- ✓ Order detail view with items/prices breakdown, category tags, filtered tabs with counts — v1.5
+- ✓ Guest feedback: in-stay complaints (categories + photo) + post-stay category ratings with AI pipeline — v1.5
+- ✓ Conventions + vouchers: benefit_scope, voucher validation in booking flow, convention partner cards — v1.5
+- ✓ Guest lifecycle: returning guest badge, early/late checkout requests, visa alerts, delivery apps — v1.5
+- ✓ Owner dashboard: Gantt calendar, onboarding wizard, structured policies, property data form, booking history — v1.5
+- ✓ Order performance tracking: order-to-delivery time counters by category — v1.5
+- ✓ Guest receipt confirmation: optional toggle, PWA receipt view, auto-confirm timeout — v1.5
+- ✓ Bottom nav overhaul: 4 tabs (Home/Orders/Concierge/Profile), Explore page replaces Map — v1.5
+- ✓ 14 database migrations (088-101) for v1.5 features — v1.5
 
 ### Active
 
-## Current Milestone: v1.5 Frictionless Guest Access + Accommodations Polish
-
-**Goal:** Room-based QR access with progressive auth (phases 25-27 done), document upload, multi-zone WiFi, PLUS comprehensive bug fixes and feature additions from manual testing session.
-
-**Target features (original — phases 25-29):**
-
-- ~~QR room-based access (scan → immediate dashboard, no login)~~ ✓ Phase 25
-- ~~Progressive authentication (free browsing, verify only for paid actions)~~ ✓ Phase 26
-- ~~Owner-configurable security levels (none/light/standard/full)~~ ✓ Phase 27
-- Passport/visa document upload with expiry reminders (Phase 28)
-- Multi-zone WiFi support (room, restaurant, pool, lobby) (Phase 29)
-
-**Target features (extended — from manual test 2026-02-01):**
-
-- Audit moduli riutilizzabili cross-verticale (Phase 30)
-- 13 bug fixes: guest name duplication, broken bottom nav tabs, homepage redesign, service icons, time formatting, image placeholders
-- PWA homepage redesign with visual cards instead of text wall
-- Bottom nav overhaul: Map → Explore page, Menu → quick hub, Profile → full page, correct icons
-- Service catalog redesign with images, categories, included-in-rate flag
-- Backoffice improvements: order detail view, room floor field, image uploads, policies form, property data
-- Guest features: early check-in/late checkout requests, in-stay feedback, delivery apps, conventions cards
-- Advanced features: minibar self-service, returning guest badge, booking history, visa alert, order performance tracking
-- Timeline/Gantt calendar view for multi-room properties
-- Owner onboarding wizard with progress tracking
+(No active milestone — ready for next via `/gsd:new-milestone`)
 
 ### Out of Scope
 
@@ -105,24 +103,24 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 - Automated check-in (keyless entry) -- hardware integration, different domain
 - OCR passport extraction -- ML complexity, manual upload sufficient
 - NA17 police report export -- follow-up after document upload validated
+- Captive portal WiFi integration -- hardware integration, different domain
+- Biometric verification -- overkill for target market (small SEA accommodations)
+- Dashboard section reordering -- nice to have, defer to v2+
 
 ## Context
 
 - 8 vertical PWAs, all QA-verified with automated E2E smoke tests (v1.2)
-- Accommodations vertical is now complete end-to-end: property page, booking, payments, owner dashboard, service ordering, analytics, communication (v1.4)
-- Coffeeshop is most mature (v1+v2 coexistence, production data)
+- Accommodations vertical is the most complete: property page → booking → payment → in-stay dashboard → services → feedback → analytics (v1.4 + v1.5)
+- Coffeeshop is most mature for F&B (v1+v2 coexistence, production data)
 - All new verticals share DM Sans body font and CSS variable theming
-- 4 BottomNav patterns documented: Coffeeshop v2 (advanced), Tours (bento), Template (6 verticals), Accommodations (tab-based)
 - @shared/payment workspace package established as pattern for shared modules
-- Icons: mix of Phosphor (coffeeshop) and custom SVG (other verticals)
-- Migration chain: 077-087 (11 migrations for accommodations)
-- E2E test infrastructure: 8 smoke specs, 16 Playwright projects, vertical registry, shared fixtures
-- Visual regression: 26 baseline PNGs, screenshot stabilization CSS, 3x zero-flaky validation
-- PWA manifests for all 8 verticals
-- 5 milestones shipped: v1.0 (QA), v1.1 (Backend), v1.2 (Tech Debt + Testing), v1.3 (Feedback Intelligence), v1.4 (Accommodations v2)
-- Accommodations v1.4: 161 files, 29,211 LOC added, 7 phases, 20 plans, 86 commits in 1 day
-- v1.5 phases 25-27 complete: room codes, progressive auth, owner security config
-- Manual test session 2026-02-01: 13 bugs + 41 feature requests documented
+- Migration chain: 077-101 (25 migrations for accommodations, 14 in v1.5)
+- 6 milestones shipped: v1.0 (QA), v1.1 (Backend), v1.2 (Tech Debt), v1.3 (Feedback Intelligence), v1.4 (Accommodations v2), v1.5 (Guest Access + Polish)
+- v1.5: 242 files, +40,420 LOC, 15 phases, 35 plans, 148 commits in 2 days
+- Total GSD plans completed: 92 across 6 milestones
+- Icons: Phosphor preferred (coffeeshop, accommodations), custom SVG (other verticals)
+- Guest access model: room QR → browse-tier → progressive auth for paid actions
+- Tourist Concierge: accommodations-only, 5 sections (Discover, Emergency, Safety, Culture, Transport)
 
 ## Constraints
 
@@ -165,7 +163,17 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 | Vercel cron for pre-arrival emails | Daily cron checks tomorrow's check-ins; no external scheduler needed            | Good       |
 | Order state machine                | Explicit state transitions prevent invalid order status changes                 | Good       |
 | Automation levels per service      | Owner controls auto-confirm vs manual vs WhatsApp per category                  | Good       |
+| Permanent room codes (not booking) | QR never expires; resolves to current active booking via date-based SQL         | Good       |
+| Two-tier JWT (browse/full)         | Browse for free info, full after verification for paid actions                  | Good       |
+| Security presets (3 levels)        | Family/Standard/Structured covers 95% of property types with safe defaults      | Good       |
+| Card-based dashboard layout        | 6-8 cards replace text wall; mobile-first, visually clear                       | Good       |
+| Concierge as overlay (not page)    | Full-screen overlay (z-60) matching ServiceCatalog pattern for consistency      | Good       |
+| Country-keyed concierge data       | ISO code (VN) registry allows multi-country expansion                           | Good       |
+| Separate voucher RPC for accom     | validate_accommodation_voucher() preserves coffeeshop backward compat           | Good       |
+| Multi-signal returning guest       | 3 OR signals (never name alone) avoids false positives with common surnames     | Good       |
+| Self-service minibar auto-confirm  | Matches auto_confirm behavior; owner reviews in queue, no blocking step         | Good       |
+| Feedback token reuses JWT secret   | type='feedback' claim differentiates; no second secret needed                   | Good       |
 
 ---
 
-_Last updated: 2026-02-01 after v1.5 scope extension (manual test results incorporated)_
+_Last updated: 2026-02-02 after v1.5 milestone_

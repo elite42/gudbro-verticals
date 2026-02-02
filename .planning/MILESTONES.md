@@ -1,5 +1,36 @@
 # Milestones
 
+## v1.5 — Frictionless Guest Access + Accommodations Polish (Shipped: 2026-02-02)
+
+**Delivered:** Room-based QR access with progressive authentication, complete guest dashboard redesign with Tourist Concierge hub, service expansion with minibar self-service, guest lifecycle features (returning guest detection, checkout requests, feedback system), and owner dashboard enhancements (Gantt calendar, onboarding wizard, order analytics).
+
+**Phases completed:** 25-39 (35 plans total)
+
+**Key accomplishments:**
+
+- Room-based QR access with permanent room codes, browse-tier JWT, and progressive authentication (scan → immediate dashboard → verify only for paid actions)
+- Owner security configuration with 3 presets (Family/Standard/Structured) and per-action gating customization
+- Complete guest dashboard redesign — card-based homepage, Tourist Concierge hub (emergency/safety/culture/transport), Explore page, bottom nav overhaul
+- Service expansion — catalog redesign with large photos, minibar self-service (mark consumed → owner confirms), F&B catalog import, order category filtering, dry cleaning
+- Guest lifecycle features — returning guest detection, early/late checkout requests, visa alerts, delivery apps, in-stay + post-stay feedback with AI pipeline, conventions + vouchers
+- Owner dashboard enhancements — Gantt calendar, onboarding wizard, structured policies, property data form, booking history, order performance analytics, receipt confirmation
+
+**Stats:**
+
+- 242 files created/modified (+40,420 / -2,474 lines)
+- 15 phases, 35 plans, 148 commits
+- 2 days (2026-02-01 → 2026-02-02)
+
+**Git range:** `4440b39` → `53fc4f9`
+
+**Audit:** 65/65 requirements, 15/15 phases, 10/10 integration flows — all passed
+
+**What's next:** TBD (next milestone via `/gsd:new-milestone`)
+
+**Archive:** `milestones/v1.5-ROADMAP.md`, `milestones/v1.5-REQUIREMENTS.md`
+
+---
+
 ## v1.4 — Accommodations v2 (Shipped: 2026-01-31)
 
 **Delivered:** Complete Accommodations vertical end-to-end: public property page with hybrid booking, multi-payment support (cash/transfer/Stripe/crypto), full owner dashboard with calendar/pricing/analytics, configurable service ordering with cross-vertical deep-links, and automated guest communication.
