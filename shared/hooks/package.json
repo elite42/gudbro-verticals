@@ -1,0 +1,21 @@
+{
+  "name": "@gudbro/hooks",
+  "version": "1.0.0",
+  "description": "Shared React hooks for GUDBRO applications",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@gudbro/utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "typescript": "^5.2.2"
+  }
+}
