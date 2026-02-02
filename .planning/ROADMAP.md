@@ -318,8 +318,8 @@ Plans:
 
 Plans:
 
-- [ ] 38-01: Returning guest detection (multi-signal SQL matching, badge in booking detail) + visa expiry alert for owner (query against uploaded visa dates) + early/late checkout request flow (guest form, owner approval queue, conflict detection) (OWN-08, OWN-09, GXP-01)
-- [ ] 38-02: Delivery apps section in guest dashboard (Grab, ShopeeFood, Baemin cards with deep-links, property address pre-fill) (GXP-04)
+- [ ] 38-01-PLAN.md — Returning guest detection (multi-signal SQL, badge) + visa expiry alert for owner + early/late checkout request flow (guest form, owner approval, conflict detection) + guest_country in BookingForm (OWN-08, OWN-09, GXP-01)
+- [ ] 38-02-PLAN.md — Delivery apps section in guest dashboard (Grab, ShopeeFood, Baemin cards with deep-links, copy-address) (GXP-04)
 
 ### Phase 39: Polish + Analytics
 
