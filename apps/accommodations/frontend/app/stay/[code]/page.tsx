@@ -41,6 +41,7 @@ import BottomNav from '@/components/BottomNav';
 import DocumentUpload from '@/components/stay/DocumentUpload';
 import FeedbackForm from '@/components/stay/FeedbackForm';
 import ConciergeHub from '@/components/stay/ConciergeHub';
+import ConciergeDiscover from '@/components/stay/ConciergeDiscover';
 
 export default function InStayDashboard({ params }: { params: { code: string } }) {
   const router = useRouter();
@@ -172,17 +173,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   const renderTabContent = () => {
     switch (activeTab) {
       case 'map':
-        return (
-          <div className="px-4 py-6">
-            <div className="rounded-2xl border border-[#E8E2D9] bg-white p-8 text-center shadow-sm">
-              <MapPin size={48} weight="duotone" className="mx-auto mb-3 text-[#3D8B87]" />
-              <h3 className="mb-1 text-base font-semibold text-[#2D2016]">Map</h3>
-              <p className="text-sm text-[#8B7355]">
-                Explore the local area around {property.name}. Coming soon.
-              </p>
-            </div>
-          </div>
-        );
+        return <ConciergeDiscover country={propertyExtended?.country || 'VN'} />;
 
       case 'profile':
         return (

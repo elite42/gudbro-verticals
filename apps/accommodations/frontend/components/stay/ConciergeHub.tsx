@@ -12,12 +12,18 @@ import {
   IdentificationCard,
   ChatDots,
   CallBell,
-  ArrowLeft,
   SpinnerGap,
+  PhoneList,
 } from '@phosphor-icons/react';
 import type { ConciergeSection, ConciergeSections } from '@/types/stay';
 import { DEFAULT_CONCIERGE_SECTIONS } from '@/types/stay';
 import { getConciergeData, type CountryConciergeData } from '@/lib/concierge-data';
+import ConciergeDiscover from '@/components/stay/ConciergeDiscover';
+import ConciergeEmergency from './ConciergeEmergency';
+import ConciergeSafety from './ConciergeSafety';
+import ConciergeCulture from './ConciergeCulture';
+import ConciergeTransport from './ConciergeTransport';
+import UsefulNumbersPage from './UsefulNumbersPage';
 
 interface ConciergeHubProps {
   bookingCode: string;
@@ -93,7 +99,9 @@ export default function ConciergeHub({
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [loading, setLoading] = useState(true);
-  const [activeSection, setActiveSection] = useState<ConciergeSection | null>(null);
+  const [activeSection, setActiveSection] = useState<ConciergeSection | 'useful-numbers' | null>(
+    null
+  );
 
   // Fetch concierge config on mount
   useEffect(() => {
@@ -130,44 +138,32 @@ export default function ConciergeHub({
   // Visible sections based on merchant toggles
   const visibleCards = SECTION_CARDS.filter((card) => sections[card.id]);
 
-  // Sub-section placeholder view
-  if (activeSection) {
-    const card = SECTION_CARDS.find((c) => c.id === activeSection);
-    return (
-      <div className="fixed inset-0 z-[60] flex flex-col bg-[#FAF8F5]">
-        {/* Header */}
-        <div className="flex items-center gap-3 border-b border-[#E8E2D9] bg-white px-4 py-3">
-          <button
-            onClick={() => setActiveSection(null)}
-            className="rounded-full p-1.5 transition-colors hover:bg-[#F5F0EB]"
-          >
-            <ArrowLeft size={20} weight="bold" className="text-[#2D2016]" />
-          </button>
-          <div>
-            <h2 className="text-base font-semibold text-[#2D2016]">{card?.label}</h2>
-            {city && <p className="text-xs text-[#8B7355]">{city}</p>}
-          </div>
-        </div>
+  const handleBack = () => setActiveSection(null);
 
-        {/* Coming soon placeholder */}
-        <div className="flex flex-1 items-center justify-center px-6">
-          <div className="text-center">
-            {card && (
-              <card.Icon
-                size={48}
-                weight="duotone"
-                style={{ color: card.color }}
-                className="mx-auto mb-3"
-              />
-            )}
-            <h3 className="mb-1 text-base font-semibold text-[#2D2016]">{card?.label}</h3>
-            <p className="text-sm text-[#8B7355]">
-              Detailed {card?.label?.toLowerCase()} information coming soon.
-            </p>
+  // ---------------------------------------------------------------------------
+  // Render active sub-view
+  // ---------------------------------------------------------------------------
+  if (activeSection) {
+    switch (activeSection) {
+      case 'discover':
+        return (
+          <div className="fixed inset-0 z-[60] flex flex-col bg-[#FAF8F5]">
+            <div className="flex-1 overflow-y-auto">
+              <ConciergeDiscover country={country} onBack={handleBack} />
+            </div>
           </div>
-        </div>
-      </div>
-    );
+        );
+      case 'emergency':
+        return <ConciergeEmergency country={country} city={city} onBack={handleBack} />;
+      case 'safety':
+        return <ConciergeSafety country={country} city={city} onBack={handleBack} />;
+      case 'culture':
+        return <ConciergeCulture country={country} city={city} onBack={handleBack} />;
+      case 'transport':
+        return <ConciergeTransport country={country} city={city} onBack={handleBack} />;
+      case 'useful-numbers':
+        return <UsefulNumbersPage bookingCode={bookingCode} token={token} onBack={handleBack} />;
+    }
   }
 
   return (
@@ -225,6 +221,22 @@ export default function ConciergeHub({
                 );
               })}
             </div>
+
+            {/* Useful Numbers card */}
+            <button
+              onClick={() => setActiveSection('useful-numbers')}
+              className="flex items-center gap-3 rounded-2xl border border-[#E8E2D9] bg-white px-4 py-3 shadow-sm transition-all active:scale-[0.98]"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50">
+                <PhoneList size={22} weight="duotone" style={{ color: '#0D9488' }} />
+              </div>
+              <div className="text-left">
+                <span className="text-sm font-semibold text-[#2D2016]">Useful Numbers</span>
+                <span className="mt-0.5 block text-[11px] leading-tight text-[#8B7355]">
+                  Emergency, city services & property contacts
+                </span>
+              </div>
+            </button>
 
             {/* Quick links */}
             <div className="mt-2">
