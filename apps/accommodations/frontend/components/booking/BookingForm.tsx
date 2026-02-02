@@ -4,7 +4,8 @@ import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { SpinnerGap, WarningCircle } from '@phosphor-icons/react';
 import PaymentMethodSelector from './PaymentMethodSelector';
-import type { AccomPaymentMethod } from '@/types/property';
+import { VoucherInput } from './VoucherInput';
+import type { AccomPaymentMethod, ValidatedVoucher } from '@/types/property';
 
 interface BookingFormProps {
   firstName: string;
@@ -32,6 +33,13 @@ interface BookingFormProps {
   depositPercent: number;
   totalPrice: number;
   currency: string;
+  // Voucher props
+  propertyId: string;
+  numNights: number;
+  subtotal: number;
+  voucherDetails: ValidatedVoucher | null;
+  onVoucherApplied: (voucher: ValidatedVoucher | null) => void;
+  formatPrice: (amount: number) => string;
 }
 
 export default function BookingForm({
@@ -59,6 +67,12 @@ export default function BookingForm({
   depositPercent,
   totalPrice,
   currency,
+  propertyId,
+  numNights,
+  subtotal,
+  voucherDetails,
+  onVoucherApplied,
+  formatPrice,
 }: BookingFormProps) {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -166,6 +180,17 @@ export default function BookingForm({
             placeholder="Early check-in, extra pillows, etc."
           />
         </div>
+
+        {/* Voucher code */}
+        <VoucherInput
+          propertyId={propertyId}
+          numNights={numNights}
+          subtotal={subtotal}
+          onVoucherApplied={onVoucherApplied}
+          appliedVoucher={voucherDetails}
+          formatPrice={formatPrice}
+          disabled={isSubmitting}
+        />
 
         {/* Payment method selector */}
         {acceptedPaymentMethods.length > 0 && (

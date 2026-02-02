@@ -51,6 +51,8 @@ export default function PropertyPageClient({ property }: PropertyPageClientProps
     bookingResult,
     handleSubmit,
     isFormValid,
+    voucherDetails,
+    setVoucherDetails,
   } = useBookingForm({
     propertySlug: property.slug,
     rooms: property.rooms,
@@ -149,6 +151,19 @@ export default function PropertyPageClient({ property }: PropertyPageClientProps
             depositPercent={property.deposit_percent}
             totalPrice={priceBreakdown?.totalPrice || 0}
             currency={selectedRoom?.currency || 'VND'}
+            propertyId={property.id}
+            numNights={priceBreakdown?.nights || 1}
+            subtotal={priceBreakdown?.subtotal || 0}
+            voucherDetails={voucherDetails}
+            onVoucherApplied={setVoucherDetails}
+            formatPrice={(amount) => {
+              const curr = selectedRoom?.currency || 'VND';
+              return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: curr,
+                maximumFractionDigits: curr === 'VND' ? 0 : 2,
+              }).format(curr === 'VND' ? amount : amount / 100);
+            }}
           />
         </>
       )}
