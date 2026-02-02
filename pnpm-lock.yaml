@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  tailwindcss: 3.3.5
-  postcss: 8.4.31
-  autoprefixer: 10.4.16
-
 importers:
 
   .:
@@ -137,6 +132,12 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.39.0
         version: 2.91.1
+      '@upstash/ratelimit':
+        specifier: ^2.0.8
+        version: 2.0.8(@upstash/redis@1.36.1)
+      '@upstash/redis':
+        specifier: ^1.36.1
+        version: 1.36.1
       browser-image-compression:
         specifier: ^2.0.2
         version: 2.0.2
@@ -157,7 +158,7 @@ importers:
         version: 6.1.3
       next:
         specifier: 14.2.33
-        version: 14.2.33(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 14.2.33(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       qrcode:
         specifier: ^1.5.4
         version: 1.5.4
@@ -196,14 +197,14 @@ importers:
         specifier: ^18
         version: 18.3.7(@types/react@18.3.27)
       autoprefixer:
-        specifier: 10.4.16
-        version: 10.4.16(postcss@8.4.31)
+        specifier: ^10.4.17
+        version: 10.4.24(postcss@8.5.6)
       postcss:
-        specifier: 8.4.31
-        version: 8.4.31
+        specifier: ^8.4.35
+        version: 8.5.6
       tailwindcss:
-        specifier: 3.3.5
-        version: 3.3.5
+        specifier: ^3.4.1
+        version: 3.4.19
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -376,9 +377,6 @@ importers:
 
   apps/coffeeshop/frontend:
     dependencies:
-      '@phosphor-icons/react':
-        specifier: ^2.1.10
-        version: 2.1.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@simplewebauthn/browser':
         specifier: ^13.2.2
         version: 13.2.2
@@ -397,6 +395,12 @@ importers:
       '@types/qrcode':
         specifier: ^1.5.6
         version: 1.5.6
+      '@upstash/ratelimit':
+        specifier: ^2.0.8
+        version: 2.0.8(@upstash/redis@1.36.1)
+      '@upstash/redis':
+        specifier: ^1.36.1
+        version: 1.36.1
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -3596,6 +3600,13 @@ packages:
     peerDependencies:
       postcss: 8.4.31
 
+  autoprefixer@10.4.24:
+    resolution: {integrity: sha512-uHZg7N9ULTVbutaIsDRoUkoS8/h3bdsmVJYZ5l3wv8Cp/6UIIoRDm90hZ+BwxUj/hGBEzLxdHNSKuFpn8WOyZw==}
+    engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
+    peerDependencies:
+      postcss: ^8.1.0
+
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
@@ -4574,6 +4585,9 @@ packages:
 
   fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
+
+  fraction.js@5.3.4:
+    resolution: {integrity: sha512-1X1NTtiJphryn/uLQz3whtY6jK3fTqoE3ohKs0tT+Ujr1W59oopxmoEh7Lu5p6vBaPbgoM0bzveAW4Qi5RyWDQ==}
 
   framer-motion@12.29.0:
     resolution: {integrity: sha512-1gEFGXHYV2BD42ZPTFmSU9buehppU+bCuOnHU0AD18DKh9j4DuTx47MvqY5ax+NNWRtK32qIcJf1UxKo1WwjWg==}
@@ -5922,6 +5936,10 @@ packages:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
 
+  postcss@8.5.6:
+    resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
+    engines: {node: ^10 || ^12 || >=14}
+
   postgres-array@2.0.0:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
     engines: {node: '>=4'}
@@ -6697,6 +6715,11 @@ packages:
 
   tailwindcss@3.3.5:
     resolution: {integrity: sha512-5SEZU4J7pxZgSkv7FP1zY8i2TIAOooNZ1e/OGtxIEv6GltpoiXUqWvLy89+a10qYTB1N5Ifkuw9lqQkN9sscvA==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+
+  tailwindcss@3.4.19:
+    resolution: {integrity: sha512-3ofp+LL8E+pK/JuPLPggVAIaEuhvIz4qNcf3nA1Xn2o/7fb7s/TYpHhwGDv1ZU3PkBluUVaF8PyCHcm48cKLWQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -10178,6 +10201,15 @@ snapshots:
       postcss: 8.4.31
       postcss-value-parser: 4.2.0
 
+  autoprefixer@10.4.24(postcss@8.5.6):
+    dependencies:
+      browserslist: 4.28.1
+      caniuse-lite: 1.0.30001766
+      fraction.js: 5.3.4
+      picocolors: 1.1.1
+      postcss: 8.5.6
+      postcss-value-parser: 4.2.0
+
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.1.0
@@ -11364,6 +11396,8 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
+  fraction.js@5.3.4: {}
+
   framer-motion@12.29.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       motion-dom: 12.29.0
@@ -12504,6 +12538,33 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
+  next@14.2.33(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@next/env': 14.2.33
+      '@swc/helpers': 0.5.5
+      busboy: 1.6.0
+      caniuse-lite: 1.0.30001766
+      graceful-fs: 4.2.11
+      postcss: 8.4.31
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      styled-jsx: 5.1.1(react@18.3.1)
+    optionalDependencies:
+      '@next/swc-darwin-arm64': 14.2.33
+      '@next/swc-darwin-x64': 14.2.33
+      '@next/swc-linux-arm64-gnu': 14.2.33
+      '@next/swc-linux-arm64-musl': 14.2.33
+      '@next/swc-linux-x64-gnu': 14.2.33
+      '@next/swc-linux-x64-musl': 14.2.33
+      '@next/swc-win32-arm64-msvc': 14.2.33
+      '@next/swc-win32-ia32-msvc': 14.2.33
+      '@next/swc-win32-x64-msvc': 14.2.33
+      '@opentelemetry/api': 1.9.0
+      '@playwright/test': 1.58.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - babel-plugin-macros
+
   next@14.2.35(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@next/env': 14.2.35
@@ -12832,10 +12893,22 @@ snapshots:
       read-cache: 1.0.0
       resolve: 1.22.11
 
+  postcss-import@15.1.0(postcss@8.5.6):
+    dependencies:
+      postcss: 8.5.6
+      postcss-value-parser: 4.2.0
+      read-cache: 1.0.0
+      resolve: 1.22.11
+
   postcss-js@4.1.0(postcss@8.4.31):
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.31
+
+  postcss-js@4.1.0(postcss@8.5.6):
+    dependencies:
+      camelcase-css: 2.0.1
+      postcss: 8.5.6
 
   postcss-load-config@4.0.2(postcss@8.4.31):
     dependencies:
@@ -12844,9 +12917,21 @@ snapshots:
     optionalDependencies:
       postcss: 8.4.31
 
+  postcss-load-config@4.0.2(postcss@8.5.6):
+    dependencies:
+      lilconfig: 3.1.3
+      yaml: 2.8.2
+    optionalDependencies:
+      postcss: 8.5.6
+
   postcss-nested@6.2.0(postcss@8.4.31):
     dependencies:
       postcss: 8.4.31
+      postcss-selector-parser: 6.1.2
+
+  postcss-nested@6.2.0(postcss@8.5.6):
+    dependencies:
+      postcss: 8.5.6
       postcss-selector-parser: 6.1.2
 
   postcss-selector-parser@6.1.2:
@@ -12857,6 +12942,12 @@ snapshots:
   postcss-value-parser@4.2.0: {}
 
   postcss@8.4.31:
+    dependencies:
+      nanoid: 3.3.11
+      picocolors: 1.1.1
+      source-map-js: 1.2.1
+
+  postcss@8.5.6:
     dependencies:
       nanoid: 3.3.11
       picocolors: 1.1.1
@@ -13612,6 +13703,11 @@ snapshots:
     optionalDependencies:
       '@babel/core': 7.28.6
 
+  styled-jsx@5.1.1(react@18.3.1):
+    dependencies:
+      client-only: 0.0.1
+      react: 18.3.1
+
   sucrase@3.35.1:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
@@ -13713,6 +13809,33 @@ snapshots:
       postcss-js: 4.1.0(postcss@8.4.31)
       postcss-load-config: 4.0.2(postcss@8.4.31)
       postcss-nested: 6.2.0(postcss@8.4.31)
+      postcss-selector-parser: 6.1.2
+      resolve: 1.22.11
+      sucrase: 3.35.1
+    transitivePeerDependencies:
+      - ts-node
+
+  tailwindcss@3.4.19:
+    dependencies:
+      '@alloc/quick-lru': 5.2.0
+      arg: 5.0.2
+      chokidar: 3.6.0
+      didyoumean: 1.2.2
+      dlv: 1.1.3
+      fast-glob: 3.3.3
+      glob-parent: 6.0.2
+      is-glob: 4.0.3
+      jiti: 1.21.7
+      lilconfig: 3.1.3
+      micromatch: 4.0.8
+      normalize-path: 3.0.0
+      object-hash: 3.0.0
+      picocolors: 1.1.1
+      postcss: 8.5.6
+      postcss-import: 15.1.0(postcss@8.5.6)
+      postcss-js: 4.1.0(postcss@8.5.6)
+      postcss-load-config: 4.0.2(postcss@8.5.6)
+      postcss-nested: 6.2.0(postcss@8.5.6)
       postcss-selector-parser: 6.1.2
       resolve: 1.22.11
       sucrase: 3.35.1
