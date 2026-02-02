@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-02-02)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** Planning next milestone
+**Current focus:** v2.0 Codebase Hardening
 
 ## Current Position
 
-Phase: 39 of 39 (all phases complete)
-Plan: N/A
-Status: v1.5 milestone archived — ready for next milestone
-Last activity: 2026-02-02 — v1.5 milestone complete and archived
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements for v2.0
+Last activity: 2026-02-02 — Milestone v2.0 Codebase Hardening started
 
 Progress: v1.0-v1.5 [██████████████████████████████████████████████████] 92/92 plans
 
@@ -56,10 +56,10 @@ Full history in PROJECT.md Key Decisions table and milestone archives.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: v1.5 milestone archived
+Stopped at: Defining v2.0 requirements
 Resume file: None
-Next: New milestone — see docs/roadmaps/MULTI-VERTICAL-STRATEGY.md
+Next: Define requirements and roadmap for v2.0 Codebase Hardening
 
 ---
 
-_Last updated: 2026-02-02 after v1.5 milestone archived_
+_Last updated: 2026-02-02 after v2.0 milestone started_

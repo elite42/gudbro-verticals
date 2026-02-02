@@ -84,7 +84,17 @@ Every vertical PWA must deliver a polished, consistent, mobile-first experience 
 
 ### Active
 
-(No active milestone — ready for next via `/gsd:new-milestone`)
+## Current Milestone: v2.0 Codebase Hardening
+
+**Goal:** Resolve all critical and high-severity findings from the 360° audit to bring the codebase from 6.7/10 to 8.5+/10 across security, consistency, frontend resilience, architecture, and documentation.
+
+**Target features:**
+
+- Security hardening: rate limiting on public endpoints, RLS orders fix, timing-safe admin key, remove ANON key fallback
+- Shared foundation: consolidate duplicated hooks/utils/config into shared/, create shared BottomNav, standardize tsconfig/tailwind/next.config
+- Frontend resilience: error boundaries on all PWAs, TypeScript strict mode enforcement, image optimization, accessibility gaps
+- Architecture cleanup: refactor ModernChatMenuV3 god component, create error handling standard library, consolidate types with codegen
+- Documentation: API documentation index, missing PRDs (Gym, Waiter, Rentals), Knowledge Base ADRs
 
 ### Out of Scope
 
