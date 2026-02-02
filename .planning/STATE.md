@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Every vertical PWA must deliver a polished, consistent, mobile-first experience that makes the merchant look professional and helps tourists/customers navigate services in their language.
-**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 36 complete (verified), ready for Phase 37
+**Current focus:** v1.5 Frictionless Guest Access + Accommodations Polish — Phase 37 in progress
 
 ## Current Position
 
-Phase: 36 of 39 (Guest Requests & Concierge)
-Plan: 3 of 3
-Status: Phase complete
-Last activity: 2026-02-02 — Phase 36 complete and verified (3/3 plans, 4/4 success criteria)
+Phase: 37 of 39 (Conventions + Vouchers)
+Plan: 1 of 2
+Status: In progress
+Last activity: 2026-02-02 — Completed 37-01-PLAN.md (voucher validation + booking integration)
 
 Progress: v1.0-v1.4 [██████████████████████████████████████████████████] 57/57 plans
-Progress: v1.5 [██████████████████████████████████] 29/29 plans
+Progress: v1.5 [███████████████████████████████████░] 30/31 plans
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 86 (+ 1 quick task)
+- Total plans completed: 87 (+ 1 quick task)
 - Average duration: ~3.4 min/plan
-- Total execution time: ~6.8 hours
+- Total execution time: ~6.9 hours
 
 **By Milestone:**
 
@@ -99,6 +99,10 @@ Recent decisions for v1.5 extended roadmap:
 - CON-05: Sub-view components manage their own full-screen overlay (z-60) rather than rendering inside ConciergeHub container
 - CON-06: activeSection type extended with 'useful-numbers' union (not added to ConciergeSection type which controls merchant toggles)
 - CON-07: Emergency contacts split into 3 visual groups (emergency/hotlines/embassies) with color-coded cards
+- VOUCHER-01: New validate_accommodation_voucher() RPC instead of extending validate_voucher() (coffeeshop backward compat)
+- VOUCHER-02: Voucher discount applied AFTER existing weekly/monthly discounts with Math.max(0) floor
+- VOUCHER-03: Convention redemption insert is fire-and-forget (non-blocking) to not break booking flow
+- VOUCHER-04: validate-voucher endpoint is public (no auth) matching property page booking flow pattern
 
 ### Blockers/Concerns
 
@@ -115,15 +119,16 @@ Recent decisions for v1.5 extended roadmap:
 - Migration 096 needs to be applied to live database
 - Migration 097 needs to be applied to live database
 - Migration 098 needs to be applied to live database
+- Migration 099 needs to be applied to live database
 - Storage bucket `feedback-screenshots` needs to be created in Supabase dashboard
 
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Phase 36 fully complete (3 plans, verified)
+Stopped at: Completed 37-01-PLAN.md (voucher validation + booking integration)
 Resume file: None
-Next: `/gsd:plan-phase 37` (Conventions + Vouchers)
+Next: `/gsd:execute-phase 37` plan 02 (convention partner cards)
 
 ---
 
-_Last updated: 2026-02-02 after Phase 36 execution complete_
+_Last updated: 2026-02-02 after 37-01 execution complete_
