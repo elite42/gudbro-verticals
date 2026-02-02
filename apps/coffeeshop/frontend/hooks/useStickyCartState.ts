@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { cartStore, CartItem } from '@/lib/cart-store';
-import { currencyPreferencesStore } from '@/lib/currency-preferences';
+import { currencyPreferencesStore } from '@/lib/currency';
 import { orderHistoryStore } from '@/lib/order-history-store';
 
 /**

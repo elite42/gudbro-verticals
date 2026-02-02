@@ -7,7 +7,7 @@ import { cartStore } from '../lib/cart-store';
 import { submitOrder, SubmittedOrder } from '../lib/order-service';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { DishItem } from './DishCard';
-import { usePriceFormat } from '../hooks/usePriceFormat';
+import { useAppPriceFormat as usePriceFormat } from '../lib/currency';
 
 interface SelectionsSidebarProps {
   isOpen: boolean;

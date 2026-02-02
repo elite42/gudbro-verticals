@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { DishItem, Extra } from '@/types/dish';
-import { currencyPreferencesStore } from '@/lib/currency-preferences';
+import { currencyPreferencesStore } from '@/lib/currency';
 import { tableContextStore } from '@/lib/table-context-store';
 import { dishPreferencesStore, DishPreference } from '@/lib/dish-preferences';
 import {

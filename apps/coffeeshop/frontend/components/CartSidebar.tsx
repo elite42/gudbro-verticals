@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { cartStore, CartItem } from '../lib/cart-store';
-import { currencyPreferencesStore } from '../lib/currency-preferences';
-import { formatConvertedPrice } from '../lib/currency-converter';
+import { currencyPreferencesStore, formatConvertedPrice } from '../lib/currency';
 import { tableContextStore } from '../lib/table-context-store';
 import { orderHistoryStore } from '../lib/order-history-store';
 import { coffeeshopConfig } from '../config/coffeeshop.config';

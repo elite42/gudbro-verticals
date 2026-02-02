@@ -9,9 +9,15 @@ import {
   createCurrencyPreferencesStore,
   createCurrencyConverter,
   DEFAULT_FALLBACK_RATES,
+  CURRENCIES,
   type ExchangeRates,
+  type CurrencyPreferences,
 } from '@gudbro/utils';
 import { usePriceFormat as useSharedPriceFormat } from '@gudbro/hooks';
+
+// Re-export for consumers that need the currencies list and types
+export { CURRENCIES as AVAILABLE_CURRENCIES };
+export type { CurrencyPreferences };
 
 // --- App-specific instances ---
 

@@ -3,7 +3,7 @@
 import React, { useId } from 'react';
 import { CartItem } from '@/lib/cart-store';
 import { useStickyCartState } from '@/hooks/useStickyCartState';
-import { usePriceFormat } from '@/hooks/usePriceFormat';
+import { useAppPriceFormat as usePriceFormat } from '@/lib/currency';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
 import { coffeeshopConfig } from '@/config/coffeeshop.config';
@@ -46,7 +46,7 @@ export function StickyCartBar() {
     handleRemoveItem,
     handlePlaceOrder,
     handleConfirmOrder,
-    calculateItemTotal
+    calculateItemTotal,
   } = useStickyCartState();
 
   // Accessibility: Focus trap for confirmation modal
@@ -56,7 +56,7 @@ export function StickyCartBar() {
   useKeyboardNavigation({
     isOpen: showConfirmModal,
     onClose: () => setShowConfirmModal(false),
-    onEscape: () => setShowConfirmModal(false)
+    onEscape: () => setShowConfirmModal(false),
   });
 
   // Don't render until client-side
@@ -69,44 +69,61 @@ export function StickyCartBar() {
     <div>
       {/* Collapsed State - Compact Bar */}
       {!isExpanded && (
-        <div className="fixed bottom-20 left-0 right-0 z-[9998] animate-slide-up">
-            <div className="max-w-screen-xl mx-auto px-4">
-              <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] border-2 border-white">
-                <div className="px-4 py-3 flex items-center justify-between gap-3">
+        <div className="animate-slide-up fixed bottom-20 left-0 right-0 z-[9998]">
+          <div className="mx-auto max-w-screen-xl px-4">
+            <div className="rounded-t-2xl border-2 border-white bg-gradient-to-r from-green-500 to-green-600 shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
+              <div className="flex items-center justify-between gap-3 px-4 py-3">
                 {/* Left - Cart Icon + Count (clickable to expand) */}
                 <div
                   onClick={() => setIsExpanded(true)}
-                  className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity flex-1"
+                  className="flex flex-1 cursor-pointer items-center gap-3 transition-opacity hover:opacity-90"
                 >
-                  <div className="bg-white rounded-full p-2 flex-shrink-0">
-                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m1 0v12a2 2 0 01-2 2H9a2 2 0 01-2-2V6h10z" />
+                  <div className="flex-shrink-0 rounded-full bg-white p-2">
+                    <svg
+                      className="h-6 w-6 text-green-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m1 0v12a2 2 0 01-2 2H9a2 2 0 01-2-2V6h10z"
+                      />
                     </svg>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-white font-bold text-base truncate">
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate text-base font-bold text-white">
                       {cartCount} {cartCount === 1 ? 'Item' : 'Items'}
                     </div>
-                    <div className="text-white/80 text-xs">Visualizza</div>
+                    <div className="text-xs text-white/80">Visualizza</div>
                   </div>
                 </div>
 
                 {/* Right - Total + Procedi Button */}
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex flex-shrink-0 items-center gap-2">
                   <div className="text-right">
-                    <div className="text-white text-xs opacity-80">Totale</div>
-                    <div className="text-white font-bold text-lg">{formatPriceCompact(cartTotal)}</div>
+                    <div className="text-xs text-white opacity-80">Totale</div>
+                    <div className="text-lg font-bold text-white">
+                      {formatPriceCompact(cartTotal)}
+                    </div>
                   </div>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handlePlaceOrder();
                     }}
-                    className="bg-white text-green-600 px-4 py-2 rounded-xl font-bold text-sm hover:bg-green-50 transition-colors flex items-center gap-1 whitespace-nowrap shadow-md"
+                    className="flex items-center gap-1 whitespace-nowrap rounded-xl bg-white px-4 py-2 text-sm font-bold text-green-600 shadow-md transition-colors hover:bg-green-50"
                   >
                     Procedi
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -118,48 +135,65 @@ export function StickyCartBar() {
 
       {/* Expanded State - Full Cart View */}
       {isExpanded && (
-        <div className="fixed bottom-20 left-0 right-0 z-[9998] animate-slide-up">
-            <div className="max-w-screen-xl mx-auto px-4">
-              <div className="bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.15)] border-2 border-gray-200 max-h-[60vh] flex flex-col">
+        <div className="animate-slide-up fixed bottom-20 left-0 right-0 z-[9998]">
+          <div className="mx-auto max-w-screen-xl px-4">
+            <div className="flex max-h-[60vh] flex-col rounded-t-2xl border-2 border-gray-200 bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
               {/* Header */}
-              <div className="bg-gradient-to-r from-green-500 to-green-600 px-4 py-3 flex items-center justify-between rounded-t-xl">
+              <div className="flex items-center justify-between rounded-t-xl bg-gradient-to-r from-green-500 to-green-600 px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m1 0v12a2 2 0 01-2 2H9a2 2 0 01-2-2V6h10z" />
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m1 0v12a2 2 0 01-2 2H9a2 2 0 01-2-2V6h10z"
+                    />
                   </svg>
                   <div>
-                    <div className="text-white font-bold">Il Tuo Ordine</div>
-                    <div className="text-white/80 text-xs">{cartCount} {cartCount === 1 ? 'item' : 'items'}</div>
+                    <div className="font-bold text-white">Il Tuo Ordine</div>
+                    <div className="text-xs text-white/80">
+                      {cartCount} {cartCount === 1 ? 'item' : 'items'}
+                    </div>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsExpanded(false)}
-                  className="text-white hover:bg-white/20 rounded-full p-1 transition-colors"
+                  className="rounded-full p-1 text-white transition-colors hover:bg-white/20"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </button>
               </div>
 
               {/* Items List - Scrollable */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[40vh]">
+              <div className="max-h-[40vh] flex-1 space-y-3 overflow-y-auto p-4">
                 {cartItems.map((item) => (
-                  <div key={item.id} className="bg-gray-50 rounded-xl p-3 border border-gray-200">
+                  <div key={item.id} className="rounded-xl border border-gray-200 bg-gray-50 p-3">
                     <div className="flex items-start gap-3">
                       {/* Item Info */}
                       <div className="flex-1">
                         <div className="font-bold text-gray-900">{item.dish.name}</div>
                         {item.extras.length > 0 && (
-                          <div className="text-xs text-gray-600 mt-1">
-                            {item.extras.map(extra => `+ ${extra.name}`).join(', ')}
+                          <div className="mt-1 text-xs text-gray-600">
+                            {item.extras.map((extra) => `+ ${extra.name}`).join(', ')}
                           </div>
                         )}
 
                         {/* Bottom Row: Quantity Badge, Edit, Delete, Price */}
-                        <div className="flex items-center gap-3 mt-2">
+                        <div className="mt-2 flex items-center gap-3">
                           {/* Quantity Badge */}
-                          <div className="bg-gray-900 text-white px-3 py-1 rounded-full font-bold text-sm">
+                          <div className="rounded-full bg-gray-900 px-3 py-1 text-sm font-bold text-white">
                             {item.quantity}
                           </div>
 
@@ -169,28 +203,50 @@ export function StickyCartBar() {
                               // TODO: Reopen customization for this item
                               alert('Funzionalità di modifica in arrivo');
                             }}
-                            className="p-1.5 hover:bg-gray-200 rounded-full transition-colors"
+                            className="rounded-full p-1.5 transition-colors hover:bg-gray-200"
                             title="Modifica"
                           >
-                            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            <svg
+                              className="h-5 w-5 text-gray-600"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                              />
                             </svg>
                           </button>
 
                           {/* Delete Button */}
                           <button
                             onClick={() => handleRemoveItem(item.id)}
-                            className="p-1.5 hover:bg-red-100 rounded-full transition-colors"
+                            className="rounded-full p-1.5 transition-colors hover:bg-red-100"
                             title="Rimuovi"
                           >
-                            <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            <svg
+                              className="h-5 w-5 text-red-600"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
                             </svg>
                           </button>
 
                           {/* Price (right-aligned) */}
                           <div className="ml-auto">
-                            <span className="font-bold text-green-700 text-base">{formatPriceCompact(calculateItemTotal(item))}</span>
+                            <span className="text-base font-bold text-green-700">
+                              {formatPriceCompact(calculateItemTotal(item))}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -200,14 +256,16 @@ export function StickyCartBar() {
               </div>
 
               {/* Footer - Total + Place Order Button */}
-              <div className="border-t-2 border-gray-200 p-4 bg-white rounded-b-xl">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-gray-700 font-semibold">Totale Ordine</span>
-                  <span className="text-2xl font-bold text-green-600">{formatPriceCompact(cartTotal)}</span>
+              <div className="rounded-b-xl border-t-2 border-gray-200 bg-white p-4">
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="font-semibold text-gray-700">Totale Ordine</span>
+                  <span className="text-2xl font-bold text-green-600">
+                    {formatPriceCompact(cartTotal)}
+                  </span>
                 </div>
                 <button
                   onClick={handlePlaceOrder}
-                  className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-4 rounded-xl font-bold text-lg shadow-lg transition-all transform active:scale-95"
+                  className="w-full transform rounded-xl bg-gradient-to-r from-green-500 to-green-600 py-4 text-lg font-bold text-white shadow-lg transition-all hover:from-green-600 hover:to-green-700 active:scale-95"
                 >
                   Procedi con l'Ordine
                 </button>
@@ -219,7 +277,7 @@ export function StickyCartBar() {
 
       {/* Confirmation Modal */}
       {showConfirmModal && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 animate-fade-in">
+        <div className="animate-fade-in fixed inset-0 z-[10000] flex items-center justify-center p-4">
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
@@ -227,37 +285,50 @@ export function StickyCartBar() {
           />
 
           {/* Modal */}
-          <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-scale-in">
+          <div className="animate-scale-in relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
             <div className="text-center">
               {/* Icon */}
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                <svg
+                  className="h-8 w-8 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
               </div>
 
               {/* Title */}
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                Conferma il tuo ordine
-              </h3>
+              <h3 className="mb-2 text-2xl font-bold text-gray-900">Conferma il tuo ordine</h3>
 
               {/* Order Items List */}
-              <div className="bg-gray-50 rounded-xl p-4 mb-4 text-left max-h-60 overflow-y-auto">
-                <div className="text-xs font-semibold text-gray-500 uppercase mb-3">Il tuo ordine</div>
+              <div className="mb-4 max-h-60 overflow-y-auto rounded-xl bg-gray-50 p-4 text-left">
+                <div className="mb-3 text-xs font-semibold uppercase text-gray-500">
+                  Il tuo ordine
+                </div>
                 <div className="space-y-2">
                   {cartItems.map((item, index) => (
-                    <div key={item.id} className="flex justify-between items-start py-2 border-b border-gray-200 last:border-0">
+                    <div
+                      key={item.id}
+                      className="flex items-start justify-between border-b border-gray-200 py-2 last:border-0"
+                    >
                       <div className="flex-1">
-                        <div className="font-semibold text-gray-900 text-sm">
+                        <div className="text-sm font-semibold text-gray-900">
                           {item.quantity}x {item.dish.name}
                         </div>
                         {item.extras.length > 0 && (
-                          <div className="text-xs text-gray-600 mt-0.5">
-                            {item.extras.map(extra => extra.name).join(', ')}
+                          <div className="mt-0.5 text-xs text-gray-600">
+                            {item.extras.map((extra) => extra.name).join(', ')}
                           </div>
                         )}
                       </div>
-                      <div className="font-bold text-gray-900 text-sm ml-3">
+                      <div className="ml-3 text-sm font-bold text-gray-900">
                         {formatPriceCompact(calculateItemTotal(item))}
                       </div>
                     </div>
@@ -266,19 +337,21 @@ export function StickyCartBar() {
               </div>
 
               {/* Total Summary */}
-              <div className="bg-green-50 rounded-xl p-4 mb-6 text-left border-2 border-green-200">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-600 text-sm">Articoli</span>
+              <div className="mb-6 rounded-xl border-2 border-green-200 bg-green-50 p-4 text-left">
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Articoli</span>
                   <span className="font-bold text-gray-900">{cartCount}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-700 font-semibold">Totale</span>
-                  <span className="font-bold text-green-600 text-xl">{formatPriceCompact(cartTotal)}</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-gray-700">Totale</span>
+                  <span className="text-xl font-bold text-green-600">
+                    {formatPriceCompact(cartTotal)}
+                  </span>
                 </div>
               </div>
 
               {/* Message */}
-              <p className="text-gray-600 mb-6">
+              <p className="mb-6 text-gray-600">
                 Il tuo ordine verrà inviato in cucina immediatamente
               </p>
 
@@ -287,20 +360,36 @@ export function StickyCartBar() {
                 <button
                   onClick={() => setShowConfirmModal(false)}
                   disabled={isSubmitting}
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 rounded-xl bg-gray-100 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Annulla
                 </button>
                 <button
                   onClick={handleConfirmOrder}
                   disabled={isSubmitting}
-                  className="flex-[2] bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 rounded-xl font-bold shadow-lg transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                  className="flex flex-[2] transform items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-green-500 to-green-600 py-3 font-bold text-white shadow-lg transition-all hover:from-green-600 hover:to-green-700 active:scale-95 disabled:transform-none disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
-                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="h-5 w-5 animate-spin text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                       Invio in corso...
                     </>
@@ -316,15 +405,19 @@ export function StickyCartBar() {
 
       {/* Success Toast */}
       {showSuccessToast && (
-        <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-[10001] animate-toast-slide-up">
-          <div className="bg-green-500 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border-2 border-white">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-              <svg className="w-7 h-7 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+        <div className="animate-toast-slide-up fixed left-1/2 top-24 z-[10001] -translate-x-1/2 transform">
+          <div className="flex items-center gap-4 rounded-2xl border-2 border-white bg-green-500 px-8 py-4 text-white shadow-2xl">
+            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-white">
+              <svg className="h-7 w-7 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             <div>
-              <div className="font-bold text-lg">Ordine Inviato!</div>
+              <div className="text-lg font-bold">Ordine Inviato!</div>
               <div className="text-sm text-white/90">Il tuo ordine è in preparazione</div>
             </div>
           </div>

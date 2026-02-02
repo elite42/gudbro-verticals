@@ -8,7 +8,7 @@ import { cartStore } from '../lib/cart-store';
 import { orderHistoryStore } from '../lib/order-history-store';
 import { favoritesStore } from '../lib/favorites-store';
 import { languagePreferencesStore } from '../lib/language-preferences';
-import { currencyPreferencesStore } from '../lib/currency-preferences';
+import { currencyPreferencesStore } from '../lib/currency';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { CallStaffModal } from './CallStaffModal';
 import { Event } from '@/types/event';

@@ -10,8 +10,7 @@ import {
   OrderStatus,
   OrderETA,
 } from '../../lib/order-service';
-import { currencyPreferencesStore } from '../../lib/currency-preferences';
-import { formatConvertedPrice } from '../../lib/currency-converter';
+import { currencyPreferencesStore, formatConvertedPrice } from '../../lib/currency';
 import { BottomNavLocal } from '../../components/BottomNavLocal';
 import { HomeHeader } from '../../components/HomeHeader';
 import { usePushNotifications } from '../../hooks/usePushNotifications';

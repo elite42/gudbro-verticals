@@ -20,7 +20,7 @@ import {
 import { favoritesStore } from '@/lib/favorites-store';
 import { orderHistoryStore } from '@/lib/order-history-store';
 import { languagePreferencesStore } from '@/lib/language-preferences';
-import { currencyPreferencesStore } from '@/lib/currency-preferences';
+import { currencyPreferencesStore } from '@/lib/currency';
 import { useTheme } from '@/lib/theme/theme-context';
 import { LoyaltyCard, EarnPointsModal } from '@/components/loyalty';
 import { UserLoyaltyState } from '@/types/loyalty';

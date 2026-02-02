@@ -10,7 +10,7 @@ import { AllergenIcon, getIconNameFromFilterId } from './ui/allergen-icon';
 import { safetyFilters } from '@/database/safety-filters';
 import { ProductIndicators } from './ProductIndicators';
 import { useTranslation } from '../lib/use-translation';
-import { usePriceFormat } from '../hooks/usePriceFormat';
+import { useAppPriceFormat as usePriceFormat } from '../lib/currency';
 import { SocialShareButton } from './SocialShareButton';
 import { track, trackAddToCart } from '@/lib/analytics-service';
 

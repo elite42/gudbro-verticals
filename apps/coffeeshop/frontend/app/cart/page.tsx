@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cartStore, CartItem } from '../../lib/cart-store';
-import { currencyPreferencesStore } from '../../lib/currency-preferences';
-import { formatConvertedPrice } from '../../lib/currency-converter';
+import { currencyPreferencesStore, formatConvertedPrice } from '../../lib/currency';
 import { submitOrder, SubmittedOrder } from '../../lib/order-service';
 import { tableContextStore } from '../../lib/table-context-store';
 import { BottomNavLocal } from '../../components/BottomNavLocal';
@@ -99,27 +98,26 @@ export default function CartPage() {
   // Order submitted success state
   if (submittedOrder) {
     return (
-      <div className="min-h-screen bg-theme-bg-secondary pb-28">
+      <div className="bg-theme-bg-secondary min-h-screen pb-28">
         <HomeHeader />
 
         <div className="container mx-auto px-4 py-16">
           <div className="text-center">
-            <div className="text-8xl mb-6">✅</div>
-            <h2 className="text-3xl font-bold text-theme-text-primary mb-4">
-              Order Submitted!
-            </h2>
-            <div className="bg-theme-bg-elevated rounded-2xl p-6 mb-8 inline-block">
+            <div className="mb-6 text-8xl">✅</div>
+            <h2 className="text-theme-text-primary mb-4 text-3xl font-bold">Order Submitted!</h2>
+            <div className="bg-theme-bg-elevated mb-8 inline-block rounded-2xl p-6">
               <p className="text-theme-text-secondary mb-2">Your order number</p>
               <p className="text-5xl font-bold text-amber-600">{submittedOrder.order_code}</p>
             </div>
             <p className="text-theme-text-secondary mb-8">
-              Your order has been sent to the kitchen.<br />
+              Your order has been sent to the kitchen.
+              <br />
               We&apos;ll notify you when it&apos;s ready!
             </p>
             <div className="space-y-3">
               <button
                 onClick={() => router.push('/orders')}
-                className="w-full max-w-xs mx-auto bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover transition-all block"
+                className="from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover mx-auto block w-full max-w-xs rounded-2xl bg-gradient-to-r px-8 py-4 text-lg font-bold text-white shadow-lg transition-all"
               >
                 Track Order Status
               </button>
@@ -128,7 +126,7 @@ export default function CartPage() {
                   setSubmittedOrder(null);
                   router.push('/menu');
                 }}
-                className="w-full max-w-xs mx-auto bg-theme-bg-tertiary text-theme-text-primary px-8 py-4 rounded-2xl font-bold text-lg block"
+                className="bg-theme-bg-tertiary text-theme-text-primary mx-auto block w-full max-w-xs rounded-2xl px-8 py-4 text-lg font-bold"
               >
                 Back to Menu
               </button>
@@ -144,21 +142,19 @@ export default function CartPage() {
   // Empty cart state
   if (!isClient || cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-theme-bg-secondary pb-28">
+      <div className="bg-theme-bg-secondary min-h-screen pb-28">
         <HomeHeader />
 
         <div className="container mx-auto px-4 py-16">
           <div className="text-center">
-            <div className="text-8xl mb-6">🛒</div>
-            <h2 className="text-3xl font-bold text-theme-text-primary mb-4">
-              Your order is empty
-            </h2>
+            <div className="mb-6 text-8xl">🛒</div>
+            <h2 className="text-theme-text-primary mb-4 text-3xl font-bold">Your order is empty</h2>
             <p className="text-theme-text-secondary mb-8">
               Add some delicious plant-based items to start your order!
             </p>
             <button
               onClick={() => router.push('/menu')}
-              className="bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover transition-all transform hover:scale-105"
+              className="from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover transform rounded-2xl bg-gradient-to-r px-8 py-4 text-lg font-bold text-white shadow-lg transition-all hover:scale-105"
             >
               View Menu
             </button>
@@ -171,13 +167,13 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-theme-bg-secondary pb-32">
+    <div className="bg-theme-bg-secondary min-h-screen pb-32">
       <HomeHeader />
 
       {/* Hero */}
-      <div className="bg-primary text-white py-6 px-4">
+      <div className="bg-primary px-4 py-6 text-white">
         <div className="container mx-auto">
-          <h1 className="text-3xl font-bold mb-2">🍽️ Your Order</h1>
+          <h1 className="mb-2 text-3xl font-bold">🍽️ Your Order</h1>
           <p className="text-lg opacity-90">
             {itemCount} {itemCount === 1 ? 'item' : 'items'}
           </p>
@@ -186,27 +182,28 @@ export default function CartPage() {
 
       {/* Cart Items */}
       <div className="container mx-auto px-4 py-6">
-        <div className="space-y-4 mb-6">
+        <div className="mb-6 space-y-4">
           {cartItems.map((item) => {
-            const itemTotal = item.dish.price * item.quantity +
+            const itemTotal =
+              item.dish.price * item.quantity +
               item.extras.reduce((sum, extra) => sum + extra.price, 0) * item.quantity;
 
             return (
-              <div key={item.id} className="bg-theme-bg-elevated rounded-xl shadow-md p-4">
+              <div key={item.id} className="bg-theme-bg-elevated rounded-xl p-4 shadow-md">
                 <div className="flex gap-4">
                   {/* Image */}
                   <img
                     src={item.dish.image}
                     alt={item.dish.name}
-                    className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
+                    className="h-24 w-24 flex-shrink-0 rounded-lg object-cover"
                   />
 
                   {/* Details */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-lg text-theme-text-primary mb-1">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-theme-text-primary mb-1 text-lg font-bold">
                       {item.dish.name}
                     </h3>
-                    <p className="text-sm text-theme-text-secondary mb-2">
+                    <p className="text-theme-text-secondary mb-2 text-sm">
                       {formatPriceCompact(item.dish.price)} each
                     </p>
 
@@ -214,7 +211,7 @@ export default function CartPage() {
                     {item.extras.length > 0 && (
                       <div className="mb-2">
                         {item.extras.map((extra) => (
-                          <div key={extra.id} className="text-xs text-theme-text-tertiary">
+                          <div key={extra.id} className="text-theme-text-tertiary text-xs">
                             + {extra.name} ({formatPriceCompact(extra.price)})
                           </div>
                         ))}
@@ -223,19 +220,19 @@ export default function CartPage() {
 
                     {/* Quantity Controls */}
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-2 bg-theme-bg-secondary rounded-full px-2 py-1">
+                      <div className="bg-theme-bg-secondary flex items-center gap-2 rounded-full px-2 py-1">
                         <button
                           onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                          className="w-8 h-8 bg-theme-bg-elevated rounded-full font-bold text-theme-text-primary hover:bg-theme-bg-tertiary transition-colors flex items-center justify-center"
+                          className="bg-theme-bg-elevated text-theme-text-primary hover:bg-theme-bg-tertiary flex h-8 w-8 items-center justify-center rounded-full font-bold transition-colors"
                         >
                           −
                         </button>
-                        <span className="font-bold text-theme-text-primary min-w-[20px] text-center">
+                        <span className="text-theme-text-primary min-w-[20px] text-center font-bold">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                          className="w-8 h-8 bg-theme-brand-primary rounded-full font-bold text-white hover:bg-theme-brand-primary-hover transition-colors flex items-center justify-center"
+                          className="bg-theme-brand-primary hover:bg-theme-brand-primary-hover flex h-8 w-8 items-center justify-center rounded-full font-bold text-white transition-colors"
                         >
                           +
                         </button>
@@ -246,18 +243,28 @@ export default function CartPage() {
                       {/* Remove button */}
                       <button
                         onClick={() => handleRemoveItem(item.id)}
-                        className="text-red-500 hover:text-red-700 transition-colors p-2"
+                        className="p-2 text-red-500 transition-colors hover:text-red-700"
                         aria-label="Remove item"
                       >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        <svg
+                          className="h-6 w-6"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
                         </svg>
                       </button>
                     </div>
 
                     {/* Item Total */}
                     <div className="mt-2 text-right">
-                      <span className="font-bold text-amber-700 text-lg">
+                      <span className="text-lg font-bold text-amber-700">
                         {formatPriceCompact(itemTotal)}
                       </span>
                     </div>
@@ -269,40 +276,50 @@ export default function CartPage() {
         </div>
 
         {/* Special Instructions */}
-        <div className="bg-theme-bg-elevated rounded-xl shadow-md p-4 mb-4">
-          <label className="block text-sm font-medium text-theme-text-secondary mb-2">
+        <div className="bg-theme-bg-elevated mb-4 rounded-xl p-4 shadow-md">
+          <label className="text-theme-text-secondary mb-2 block text-sm font-medium">
             Special Instructions (optional)
           </label>
           <textarea
             value={customerNotes}
             onChange={(e) => setCustomerNotes(e.target.value)}
             placeholder="Allergies, special requests, etc."
-            className="w-full px-4 py-3 bg-theme-bg-secondary rounded-lg text-theme-text-primary placeholder-theme-text-tertiary resize-none"
+            className="bg-theme-bg-secondary text-theme-text-primary placeholder-theme-text-tertiary w-full resize-none rounded-lg px-4 py-3"
             rows={2}
           />
         </div>
 
         {/* Order Summary */}
-        <div className="bg-theme-bg-elevated rounded-xl shadow-lg p-6 sticky bottom-20">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-theme-bg-elevated sticky bottom-20 rounded-xl p-6 shadow-lg">
+          <div className="mb-6 flex items-center justify-between">
             <div>
               <p className="text-theme-text-secondary mb-1">Order Total ({itemCount} items)</p>
-              <p className="text-3xl font-bold text-amber-700">
-                {formatPriceCompact(total)}
-              </p>
+              <p className="text-3xl font-bold text-amber-700">{formatPriceCompact(total)}</p>
             </div>
           </div>
 
           <button
             onClick={handlePlaceOrder}
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover w-full transform rounded-2xl bg-gradient-to-r py-4 text-lg font-bold text-white shadow-lg transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24">
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 Submitting...
               </span>
@@ -313,7 +330,7 @@ export default function CartPage() {
 
           <button
             onClick={() => router.push('/menu')}
-            className="w-full mt-3 bg-theme-bg-secondary text-theme-text-primary py-3 rounded-2xl font-semibold hover:bg-theme-bg-tertiary transition-colors"
+            className="bg-theme-bg-secondary text-theme-text-primary hover:bg-theme-bg-tertiary mt-3 w-full rounded-2xl py-3 font-semibold transition-colors"
           >
             Add More Items
           </button>

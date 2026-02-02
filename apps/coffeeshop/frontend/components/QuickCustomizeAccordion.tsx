@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { DishItem, Extra } from '@/types/dish';
-import { usePriceFormat } from '@/hooks/usePriceFormat';
+import { useAppPriceFormat as usePriceFormat } from '@/lib/currency';
 import { useQuickCustomizeState } from '@/hooks/useQuickCustomizeState';
 import { DynamicCustomizationRenderer } from './customizations';
 import { ConflictModal } from './QuickCustomize/ConflictModal';
@@ -11,7 +11,12 @@ interface QuickCustomizeAccordionProps {
   dish: DishItem;
   isOpen: boolean;
   onClose: () => void;
-  onAddToCart: (dish: DishItem, quantity: number, extras: Extra[], saveAsPreference: boolean) => void;
+  onAddToCart: (
+    dish: DishItem,
+    quantity: number,
+    extras: Extra[],
+    saveAsPreference: boolean
+  ) => void;
 }
 
 /**
@@ -26,7 +31,7 @@ export function QuickCustomizeAccordion({
   dish,
   isOpen,
   onClose,
-  onAddToCart
+  onAddToCart,
 }: QuickCustomizeAccordionProps) {
   const { formatPriceCompact } = usePriceFormat();
 
@@ -57,7 +62,7 @@ export function QuickCustomizeAccordion({
     validateCustomizations,
     hasExistingPreference,
     getExistingPreference,
-    savePreference
+    savePreference,
   } = useQuickCustomizeState({ dish, isOpen });
 
   const handleAddToCart = () => {
@@ -113,41 +118,49 @@ export function QuickCustomizeAccordion({
   };
 
   // Group extras by type (old system)
-  const groupedExtras = dish.availableExtras?.reduce((acc, extra) => {
-    if (!acc[extra.type]) {
-      acc[extra.type] = [];
-    }
-    acc[extra.type].push(extra);
-    return acc;
-  }, {} as Record<string, Extra[]>);
+  const groupedExtras = dish.availableExtras?.reduce(
+    (acc, extra) => {
+      if (!acc[extra.type]) {
+        acc[extra.type] = [];
+      }
+      acc[extra.type].push(extra);
+      return acc;
+    },
+    {} as Record<string, Extra[]>
+  );
 
   if (!isOpen) return null;
 
   return (
     <>
-      <div className="bg-gradient-to-br from-theme-brand-secondary to-theme-brand-secondary rounded-xl shadow-lg border-2 border-theme-brand-accent overflow-hidden animate-slide-down">
+      <div className="from-theme-brand-secondary to-theme-brand-secondary border-theme-brand-accent animate-slide-down overflow-hidden rounded-xl border-2 bg-gradient-to-br shadow-lg">
         {/* Header */}
-        <div className="bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary text-white px-4 py-3 flex items-center justify-between">
+        <div className="from-theme-brand-primary to-theme-brand-primary flex items-center justify-between bg-gradient-to-r px-4 py-3 text-white">
           <div className="flex items-center gap-3">
             <span className="text-2xl">⚙️</span>
             <div>
-              <h3 className="font-bold text-lg">Customize Your Order</h3>
+              <h3 className="text-lg font-bold">Customize Your Order</h3>
               <p className="text-xs opacity-90">{dish.name}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/30"
             aria-label="Close"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-4 space-y-4 max-h-[60vh] overflow-y-auto">
+        <div className="max-h-[60vh] space-y-4 overflow-y-auto p-4">
           {/* Database-Driven Customizations (NEW SYSTEM) */}
           {hasCustomizations && (
             <DynamicCustomizationRenderer
@@ -159,55 +172,66 @@ export function QuickCustomizeAccordion({
           )}
 
           {/* Legacy Extras Selection (OLD SYSTEM) */}
-          {!hasCustomizations && groupedExtras && Object.entries(groupedExtras).map(([type, extras]) => (
-            <div key={type}>
-              <h4 className="font-bold text-gray-900 mb-2 capitalize text-sm">
-                {type === 'milk' ? '🥛 Milk' :
-                 type === 'size' ? '📏 Size' :
-                 type === 'shot' ? '☕ Espresso Shots' :
-                 type === 'sweetener' ? '🍯 Sweetener' :
-                 type === 'addon' ? '➕ Add-ons' :
-                 type === 'liquor' ? '🥃 Liquor' : type}
-              </h4>
-              <div className="space-y-2">
-                {extras.map((extra) => (
-                  <label
-                    key={extra.id}
-                    className="flex items-center justify-between p-3 bg-theme-bg-elevated rounded-lg cursor-pointer hover:bg-amber-50 transition-colors border border-theme-bg-tertiary"
-                  >
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        checked={selectedExtras.some(e => e.id === extra.id)}
-                        onChange={() => handleToggleExtra(extra)}
-                        className="w-5 h-5 text-theme-brand-primary rounded focus:ring-2 focus:ring-theme-brand-primary"
-                      />
-                      <span className="font-medium text-theme-text-primary">{extra.name}</span>
-                    </div>
-                    <span className="font-bold text-theme-brand-primary">+{formatPriceCompact(extra.price)}</span>
-                  </label>
-                ))}
+          {!hasCustomizations &&
+            groupedExtras &&
+            Object.entries(groupedExtras).map(([type, extras]) => (
+              <div key={type}>
+                <h4 className="mb-2 text-sm font-bold capitalize text-gray-900">
+                  {type === 'milk'
+                    ? '🥛 Milk'
+                    : type === 'size'
+                      ? '📏 Size'
+                      : type === 'shot'
+                        ? '☕ Espresso Shots'
+                        : type === 'sweetener'
+                          ? '🍯 Sweetener'
+                          : type === 'addon'
+                            ? '➕ Add-ons'
+                            : type === 'liquor'
+                              ? '🥃 Liquor'
+                              : type}
+                </h4>
+                <div className="space-y-2">
+                  {extras.map((extra) => (
+                    <label
+                      key={extra.id}
+                      className="bg-theme-bg-elevated border-theme-bg-tertiary flex cursor-pointer items-center justify-between rounded-lg border p-3 transition-colors hover:bg-amber-50"
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          checked={selectedExtras.some((e) => e.id === extra.id)}
+                          onChange={() => handleToggleExtra(extra)}
+                          className="text-theme-brand-primary focus:ring-theme-brand-primary h-5 w-5 rounded focus:ring-2"
+                        />
+                        <span className="text-theme-text-primary font-medium">{extra.name}</span>
+                      </div>
+                      <span className="text-theme-brand-primary font-bold">
+                        +{formatPriceCompact(extra.price)}
+                      </span>
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
 
           {/* Quantity Controls */}
           <div>
-            <h4 className="font-bold text-theme-text-primary mb-2 text-sm">🔢 Quantity</h4>
-            <div className="flex items-center justify-center gap-4 bg-theme-bg-elevated rounded-xl p-3 border border-theme-bg-tertiary">
+            <h4 className="text-theme-text-primary mb-2 text-sm font-bold">🔢 Quantity</h4>
+            <div className="bg-theme-bg-elevated border-theme-bg-tertiary flex items-center justify-center gap-4 rounded-xl border p-3">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-10 h-10 bg-theme-bg-secondary hover:bg-theme-bg-tertiary rounded-full font-bold text-theme-text-primary transition-colors flex items-center justify-center text-xl"
+                className="bg-theme-bg-secondary hover:bg-theme-bg-tertiary text-theme-text-primary flex h-10 w-10 items-center justify-center rounded-full text-xl font-bold transition-colors"
                 disabled={quantity <= 1}
               >
                 −
               </button>
-              <span className="font-bold text-theme-text-primary text-2xl min-w-[40px] text-center">
+              <span className="text-theme-text-primary min-w-[40px] text-center text-2xl font-bold">
                 {quantity}
               </span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="w-10 h-10 bg-theme-brand-primary hover:bg-theme-brand-primary-hover rounded-full font-bold text-white transition-colors flex items-center justify-center text-xl"
+                className="bg-theme-brand-primary hover:bg-theme-brand-primary-hover flex h-10 w-10 items-center justify-center rounded-full text-xl font-bold text-white transition-colors"
               >
                 +
               </button>
@@ -215,24 +239,42 @@ export function QuickCustomizeAccordion({
           </div>
 
           {/* Save as Preference or Add to Favorites */}
-          <div className={hasAnyCustomization ? "bg-blue-50 border border-blue-200 rounded-lg p-3" : "bg-red-50 border border-red-200 rounded-lg p-3"}>
-            <label className="flex items-center gap-3 cursor-pointer">
+          <div
+            className={
+              hasAnyCustomization
+                ? 'rounded-lg border border-blue-200 bg-blue-50 p-3'
+                : 'rounded-lg border border-red-200 bg-red-50 p-3'
+            }
+          >
+            <label className="flex cursor-pointer items-center gap-3">
               <input
                 type="checkbox"
                 checked={saveAsPreference}
                 onChange={(e) => setSaveAsPreference(e.target.checked)}
-                className={hasAnyCustomization ? "w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500" : "w-5 h-5 text-red-600 rounded focus:ring-2 focus:ring-red-500"}
+                className={
+                  hasAnyCustomization
+                    ? 'h-5 w-5 rounded text-blue-600 focus:ring-2 focus:ring-blue-500'
+                    : 'h-5 w-5 rounded text-red-600 focus:ring-2 focus:ring-red-500'
+                }
               />
               <div className="flex-1">
                 {hasAnyCustomization ? (
                   <>
-                    <span className="font-semibold text-theme-text-primary text-sm">Ricorda la mia scelta</span>
-                    <p className="text-xs text-theme-text-secondary">Quick reorder next time with these settings</p>
+                    <span className="text-theme-text-primary text-sm font-semibold">
+                      Ricorda la mia scelta
+                    </span>
+                    <p className="text-theme-text-secondary text-xs">
+                      Quick reorder next time with these settings
+                    </p>
                   </>
                 ) : (
                   <>
-                    <span className="font-semibold text-theme-text-primary text-sm">Aggiungi ai Favoriti</span>
-                    <p className="text-xs text-theme-text-secondary">Mark as favorite for quick access</p>
+                    <span className="text-theme-text-primary text-sm font-semibold">
+                      Aggiungi ai Favoriti
+                    </span>
+                    <p className="text-theme-text-secondary text-xs">
+                      Mark as favorite for quick access
+                    </p>
                   </>
                 )}
               </div>
@@ -242,17 +284,17 @@ export function QuickCustomizeAccordion({
         </div>
 
         {/* Footer - Add to Cart */}
-        <div className="p-4 bg-theme-bg-elevated border-t-2 border-theme-bg-tertiary">
+        <div className="bg-theme-bg-elevated border-theme-bg-tertiary border-t-2 p-4">
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
-              className="flex-1 bg-theme-bg-secondary hover:bg-theme-bg-tertiary text-theme-text-primary py-3 rounded-xl font-semibold transition-colors"
+              className="bg-theme-bg-secondary hover:bg-theme-bg-tertiary text-theme-text-primary flex-1 rounded-xl py-3 font-semibold transition-colors"
             >
               Cancel
             </button>
             <button
               onClick={handleAddToCart}
-              className="flex-[2] bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover text-white py-3 rounded-xl font-bold text-lg shadow-lg transition-all transform active:scale-95 flex items-center justify-center gap-2"
+              className="from-theme-brand-primary to-theme-brand-primary hover:from-theme-brand-primary-hover hover:to-theme-brand-primary-hover flex flex-[2] transform items-center justify-center gap-2 rounded-xl bg-gradient-to-r py-3 text-lg font-bold text-white shadow-lg transition-all active:scale-95"
             >
               <span>Add to Order</span>
               <span className="text-xl">{formatPriceCompact(calculateTotal(dish.price))}</span>

@@ -389,6 +389,110 @@ importers:
         specifier: ^5.2.2
         version: 5.9.3
 
+  apps/gym/frontend:
+    dependencies:
+      '@gudbro/config':
+        specifier: workspace:*
+        version: link:../../../shared/config
+      '@gudbro/hooks':
+        specifier: workspace:*
+        version: link:../../../shared/hooks
+      '@gudbro/menu-template':
+        specifier: workspace:*
+        version: link:../../../shared/menu-template
+      '@gudbro/types':
+        specifier: workspace:*
+        version: link:../../../shared/types
+      '@gudbro/ui':
+        specifier: workspace:*
+        version: link:../../../shared/ui
+      '@gudbro/utils':
+        specifier: workspace:*
+        version: link:../../../shared/utils
+      next:
+        specifier: ^14.0.0
+        version: 14.2.35(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.30
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.27
+      '@types/react-dom':
+        specifier: ^18.2.0
+        version: 18.3.7(@types/react@18.3.27)
+      autoprefixer:
+        specifier: 10.4.16
+        version: 10.4.16(postcss@8.4.31)
+      postcss:
+        specifier: 8.4.31
+        version: 8.4.31
+      tailwindcss:
+        specifier: 3.3.5
+        version: 3.3.5
+      typescript:
+        specifier: ^5.2.2
+        version: 5.9.3
+
+  apps/laundry/frontend:
+    dependencies:
+      '@gudbro/config':
+        specifier: workspace:*
+        version: link:../../../shared/config
+      '@gudbro/hooks':
+        specifier: workspace:*
+        version: link:../../../shared/hooks
+      '@gudbro/menu-template':
+        specifier: workspace:*
+        version: link:../../../shared/menu-template
+      '@gudbro/types':
+        specifier: workspace:*
+        version: link:../../../shared/types
+      '@gudbro/ui':
+        specifier: workspace:*
+        version: link:../../../shared/ui
+      '@gudbro/utils':
+        specifier: workspace:*
+        version: link:../../../shared/utils
+      next:
+        specifier: ^14.0.0
+        version: 14.2.35(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(@playwright/test@1.58.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.30
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.27
+      '@types/react-dom':
+        specifier: ^18.2.0
+        version: 18.3.7(@types/react@18.3.27)
+      autoprefixer:
+        specifier: 10.4.16
+        version: 10.4.16(postcss@8.4.31)
+      postcss:
+        specifier: 8.4.31
+        version: 8.4.31
+      tailwindcss:
+        specifier: 3.3.5
+        version: 3.3.5
+      typescript:
+        specifier: ^5.2.2
+        version: 5.9.3
+
   apps/rentals:
     dependencies:
       axios:

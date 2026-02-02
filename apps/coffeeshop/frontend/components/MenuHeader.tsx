@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { coffeeshopConfig } from '../config/coffeeshop.config';
 import { languagePreferencesStore } from '../lib/language-preferences';
-import { currencyPreferencesStore } from '../lib/currency-preferences';
+import { currencyPreferencesStore } from '../lib/currency';
 import { useKeyboardNavigation } from '../hooks/useKeyboardNavigation';
 import { useTheme } from '../lib/theme/theme-context';
 import { CheckinButton } from './CheckinButton';

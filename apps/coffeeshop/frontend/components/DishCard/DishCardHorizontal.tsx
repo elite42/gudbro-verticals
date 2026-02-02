@@ -3,7 +3,7 @@
 import React from 'react';
 import { DishItem, Extra } from '@/types/dish';
 import { useDishCardState } from '@/hooks/useDishCardState';
-import { usePriceFormat } from '@/hooks/usePriceFormat';
+import { useAppPriceFormat as usePriceFormat } from '@/lib/currency';
 import { getOriginFlag } from '@/utils/dishCardHelpers';
 import { coffeeshopConfig } from '@/config/coffeeshop.config';
 import { ExtrasModal } from '../ExtrasModal';
@@ -29,7 +29,7 @@ export function DishCardHorizontal({ dish, onAddToCart, onCardClick }: DishCardH
     imageError,
     setImageError,
     showDietaryInfo,
-    setShowDietaryInfo
+    setShowDietaryInfo,
   } = useDishCardState(dish);
 
   const { formatPrice } = usePriceFormat();
@@ -70,59 +70,71 @@ export function DishCardHorizontal({ dish, onAddToCart, onCardClick }: DishCardH
 
   return (
     <>
-      <div className="bg-theme-bg-elevated rounded-lg shadow-sm hover:shadow-md transition-all p-3 flex gap-3 relative">
+      <div className="bg-theme-bg-elevated relative flex gap-3 rounded-lg p-3 shadow-sm transition-all hover:shadow-md">
         {/* Image with category above */}
-        <div className="flex-shrink-0 flex flex-col gap-1">
-          <span className="text-xs text-theme-text-secondary px-2 py-0.5 bg-theme-bg-secondary rounded font-medium self-start">
+        <div className="flex flex-shrink-0 flex-col gap-1">
+          <span className="text-theme-text-secondary bg-theme-bg-secondary self-start rounded px-2 py-0.5 text-xs font-medium">
             {dish.category}
           </span>
           <img
             src={imageError ? fallbackImage : dish.image}
             alt={dish.name}
-            className="w-24 h-24 rounded-lg object-cover"
+            className="h-24 w-24 rounded-lg object-cover"
             onError={() => setImageError(true)}
           />
         </div>
 
         {/* Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2 mb-1">
+        <div className="min-w-0 flex-1">
+          <div className="mb-1 flex items-start justify-between gap-2">
             <div className="flex-1">
-              <h3 className="font-bold text-theme-text-primary">{dish.name}</h3>
+              <h3 className="text-theme-text-primary font-bold">{dish.name}</h3>
               {dish.origin && getOriginFlag(dish.origin) && (
-                <span className="text-2xl inline-block mt-1">
-                  {getOriginFlag(dish.origin)}
-                </span>
+                <span className="mt-1 inline-block text-2xl">{getOriginFlag(dish.origin)}</span>
               )}
             </div>
             {/* Favorite heart button */}
             <button
               onClick={toggleFavorite}
-              className="flex-shrink-0 hover:scale-110 transition-transform"
+              className="flex-shrink-0 transition-transform hover:scale-110"
               aria-label="Add to favorites"
             >
               {isFavorite ? (
-                <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </svg>
               ) : (
-                <svg className="w-6 h-6 text-theme-text-tertiary hover:text-theme-text-secondary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                <svg
+                  className="text-theme-text-tertiary hover:text-theme-text-secondary h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
                 </svg>
               )}
             </button>
           </div>
 
-          <p className="text-sm text-theme-text-secondary line-clamp-2 mb-1">{dish.description}</p>
+          <p className="text-theme-text-secondary mb-1 line-clamp-2 text-sm">{dish.description}</p>
 
           {/* Info button */}
           {hasSafetyInfo && (
             <button
               onClick={() => setShowDietaryInfo(!showDietaryInfo)}
-              className="text-xs text-blue-600 hover:text-blue-700 font-medium mb-1 flex items-center gap-1"
+              className="mb-1 flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
               </svg>
               {showDietaryInfo ? 'Nascondi info' : 'Info nutrizionali'}
               {!showDietaryInfo && (
@@ -143,7 +155,7 @@ export function DishCardHorizontal({ dish, onAddToCart, onCardClick }: DishCardH
               carbs_g={dish.carbs_g}
               fat_g={dish.fat_g}
               variant="compact"
-              className="mt-1 mb-1"
+              className="mb-1 mt-1"
             />
           )}
 
@@ -155,34 +167,48 @@ export function DishCardHorizontal({ dish, onAddToCart, onCardClick }: DishCardH
               dietary={dish.dietary}
               variant="compact"
               maxVisible={4}
-              className="mt-1 mb-1"
+              className="mb-1 mt-1"
             />
           )}
 
-          <div className="flex items-center justify-between mt-2">
-            <span className="font-bold text-lg text-amber-700">{formatPrice(dish.price)}</span>
+          <div className="mt-2 flex items-center justify-between">
+            <span className="text-lg font-bold text-amber-700">{formatPrice(dish.price)}</span>
 
             {/* Quantity controls */}
-            <div className="flex items-center gap-2 bg-theme-bg-secondary rounded-full px-2 py-1">
+            <div className="bg-theme-bg-secondary flex items-center gap-2 rounded-full px-2 py-1">
               <button
                 onClick={handleDecrement}
-                className="w-8 h-8 bg-theme-bg-elevated rounded-full font-bold text-theme-text-primary hover:bg-theme-bg-tertiary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-theme-bg-elevated text-theme-text-primary hover:bg-theme-bg-tertiary h-8 w-8 rounded-full font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={quantity === 0}
               >
                 −
               </button>
-              <span className="font-bold text-theme-text-primary min-w-[20px] text-center">{quantity}</span>
+              <span className="text-theme-text-primary min-w-[20px] text-center font-bold">
+                {quantity}
+              </span>
               <button
                 onClick={handleIncrement}
-                className={`w-8 h-8 rounded-full font-bold transition-colors flex items-center justify-center text-xs ${
+                className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-colors ${
                   !coffeeshopConfig.features.enableCart
                     ? 'bg-theme-bg-tertiary text-theme-text-secondary cursor-not-allowed'
-                    : 'bg-theme-brand-primary text-white hover:bg-theme-brand-primary-hover'
+                    : 'bg-theme-brand-primary hover:bg-theme-brand-primary-hover text-white'
                 }`}
                 disabled={!coffeeshopConfig.features.enableCart}
-                title={!coffeeshopConfig.features.enableCart ? 'Pre-ordering coming soon' : ((dish.customizations && dish.customizations.length > 0) || (dish.availableExtras && dish.availableExtras.length > 0) ? 'Customize order' : 'Add to cart')}
+                title={
+                  !coffeeshopConfig.features.enableCart
+                    ? 'Pre-ordering coming soon'
+                    : (dish.customizations && dish.customizations.length > 0) ||
+                        (dish.availableExtras && dish.availableExtras.length > 0)
+                      ? 'Customize order'
+                      : 'Add to cart'
+                }
               >
-                {!coffeeshopConfig.features.enableCart ? '🔒' : ((dish.customizations && dish.customizations.length > 0) || (dish.availableExtras && dish.availableExtras.length > 0) ? '⚙️' : '+')}
+                {!coffeeshopConfig.features.enableCart
+                  ? '🔒'
+                  : (dish.customizations && dish.customizations.length > 0) ||
+                      (dish.availableExtras && dish.availableExtras.length > 0)
+                    ? '⚙️'
+                    : '+'}
               </button>
             </div>
           </div>

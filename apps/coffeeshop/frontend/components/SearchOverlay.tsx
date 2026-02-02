@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { DishItem } from './DishCard';
-import { usePriceFormat } from '@/hooks/usePriceFormat';
+import { useAppPriceFormat as usePriceFormat } from '@/lib/currency';
 import { selectionsStore } from '@/lib/selections-store';
 
 interface SearchOverlayProps {
@@ -18,9 +18,13 @@ function highlightMatch(text: string, query: string): React.ReactNode {
 
   const parts = text.split(new RegExp(`(${query})`, 'gi'));
   return parts.map((part, i) =>
-    part.toLowerCase() === query.toLowerCase()
-      ? <mark key={i} className="bg-yellow-200 font-semibold">{part}</mark>
-      : part
+    part.toLowerCase() === query.toLowerCase() ? (
+      <mark key={i} className="bg-yellow-200 font-semibold">
+        {part}
+      </mark>
+    ) : (
+      part
+    )
   );
 }
 
@@ -35,7 +39,7 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
     if (isOpen) {
       const updateQuantities = () => {
         const newQuantities: Record<string, number> = {};
-        items.forEach(item => {
+        items.forEach((item) => {
           newQuantities[item.id] = selectionsStore.getQuantity(item.id);
         });
         setQuantities(newQuantities);
@@ -49,38 +53,43 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
 
   // Filter and sort items based on search query
   const filteredItems = searchQuery.trim()
-    ? items.filter((item) => {
-        const query = searchQuery.toLowerCase();
-        return (
-          item.name.toLowerCase().includes(query) ||
-          item.description.toLowerCase().includes(query) ||
-          item.category.toLowerCase().includes(query) ||
-          item.allergens?.some((a: string) => a.toLowerCase().includes(query)) ||
-          item.dietary?.some((l: string) => l.toLowerCase().includes(query))
-        );
-      }).sort((a, b) => {
-        // Smart sorting: items starting with query first
-        const query = searchQuery.toLowerCase();
-        const aStartsWith = a.name.toLowerCase().startsWith(query);
-        const bStartsWith = b.name.toLowerCase().startsWith(query);
+    ? items
+        .filter((item) => {
+          const query = searchQuery.toLowerCase();
+          return (
+            item.name.toLowerCase().includes(query) ||
+            item.description.toLowerCase().includes(query) ||
+            item.category.toLowerCase().includes(query) ||
+            item.allergens?.some((a: string) => a.toLowerCase().includes(query)) ||
+            item.dietary?.some((l: string) => l.toLowerCase().includes(query))
+          );
+        })
+        .sort((a, b) => {
+          // Smart sorting: items starting with query first
+          const query = searchQuery.toLowerCase();
+          const aStartsWith = a.name.toLowerCase().startsWith(query);
+          const bStartsWith = b.name.toLowerCase().startsWith(query);
 
-        if (aStartsWith && !bStartsWith) return -1;
-        if (!aStartsWith && bStartsWith) return 1;
+          if (aStartsWith && !bStartsWith) return -1;
+          if (!aStartsWith && bStartsWith) return 1;
 
-        // Then alphabetically
-        return a.name.localeCompare(b.name);
-      })
+          // Then alphabetically
+          return a.name.localeCompare(b.name);
+        })
     : [];
 
   // Group filtered items by category
-  const groupedItems = filteredItems.reduce((groups, item) => {
-    const category = item.category || 'Altri';
-    if (!groups[category]) {
-      groups[category] = [];
-    }
-    groups[category].push(item);
-    return groups;
-  }, {} as Record<string, DishItem[]>);
+  const groupedItems = filteredItems.reduce(
+    (groups, item) => {
+      const category = item.category || 'Altri';
+      if (!groups[category]) {
+        groups[category] = [];
+      }
+      groups[category].push(item);
+      return groups;
+    },
+    {} as Record<string, DishItem[]>
+  );
 
   const categories = Object.keys(groupedItems).sort();
 
@@ -123,9 +132,9 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm animate-fadeIn">
+    <div className="animate-fadeIn fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
       {/* Overlay Content */}
-      <div className="h-full bg-theme-bg-secondary animate-slideUp">
+      <div className="bg-theme-bg-secondary animate-slideUp h-full">
         {/* Header */}
         <div className="bg-theme-bg-elevated shadow-md">
           <div className="container mx-auto px-4 py-4">
@@ -133,28 +142,38 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
               {/* Back Button */}
               <button
                 onClick={handleClose}
-                className="flex-shrink-0 p-2 hover:bg-theme-bg-tertiary rounded-full transition-colors"
+                className="hover:bg-theme-bg-tertiary flex-shrink-0 rounded-full p-2 transition-colors"
                 aria-label="Chiudi ricerca"
               >
-                <svg className="w-6 h-6 text-theme-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="text-theme-text-primary h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
 
               {/* Search Input */}
-              <div className="flex-1 relative">
+              <div className="relative flex-1">
                 <input
                   ref={inputRef}
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Cerca nel menu..."
-                  className="w-full px-4 py-3 pl-12 rounded-full border-2 border-theme-bg-tertiary focus:border-theme-brand-accent focus:outline-none bg-theme-bg-secondary text-theme-text-primary placeholder-theme-text-tertiary"
+                  className="border-theme-bg-tertiary focus:border-theme-brand-accent bg-theme-bg-secondary text-theme-text-primary placeholder-theme-text-tertiary w-full rounded-full border-2 px-4 py-3 pl-12 focus:outline-none"
                   aria-label="Cerca prodotti"
                 />
                 {/* Search Icon */}
                 <svg
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-theme-text-tertiary"
+                  className="text-theme-text-tertiary absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 transform"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -170,11 +189,16 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-theme-text-tertiary hover:text-theme-text-secondary"
+                    className="text-theme-text-tertiary hover:text-theme-text-secondary absolute right-4 top-1/2 -translate-y-1/2 transform"
                     aria-label="Cancella ricerca"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 )}
@@ -184,11 +208,11 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
         </div>
 
         {/* Results */}
-        <div className="overflow-y-auto h-[calc(100vh-80px)] pb-20">
+        <div className="h-[calc(100vh-80px)] overflow-y-auto pb-20">
           {/* Search Info */}
           {searchQuery && (
-            <div className="px-4 py-3 bg-theme-bg-elevated border-b border-theme-bg-tertiary">
-              <p className="text-sm text-theme-text-secondary">
+            <div className="bg-theme-bg-elevated border-theme-bg-tertiary border-b px-4 py-3">
+              <p className="text-theme-text-secondary text-sm">
                 {filteredItems.length > 0
                   ? `${filteredItems.length} risultat${filteredItems.length !== 1 ? 'i' : 'o'} in ${categories.length} categori${categories.length !== 1 ? 'e' : 'a'} per "${searchQuery}"`
                   : `Nessun risultato per "${searchQuery}"`}
@@ -198,9 +222,9 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
 
           {/* Empty State - No query */}
           {!searchQuery && (
-            <div className="flex flex-col items-center justify-center h-full text-center px-6">
-              <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-bold text-theme-text-primary mb-2">Cerca nel menu</h3>
+            <div className="flex h-full flex-col items-center justify-center px-6 text-center">
+              <div className="mb-4 text-6xl">🔍</div>
+              <h3 className="text-theme-text-primary mb-2 text-xl font-bold">Cerca nel menu</h3>
               <p className="text-theme-text-secondary max-w-sm">
                 Inizia a digitare per cercare prodotti, categorie, ingredienti...
               </p>
@@ -209,9 +233,9 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
 
           {/* Empty State - No results */}
           {searchQuery && filteredItems.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-full text-center px-6">
-              <div className="text-6xl mb-4">🤷</div>
-              <h3 className="text-xl font-bold text-theme-text-primary mb-2">Nessun risultato</h3>
+            <div className="flex h-full flex-col items-center justify-center px-6 text-center">
+              <div className="mb-4 text-6xl">🤷</div>
+              <h3 className="text-theme-text-primary mb-2 text-xl font-bold">Nessun risultato</h3>
               <p className="text-theme-text-secondary max-w-sm">
                 Prova con parole diverse o cerca per categoria
               </p>
@@ -224,21 +248,24 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
               {categories.map((category) => (
                 <div key={category} className="mb-4">
                   {/* Category Header */}
-                  <div className="sticky top-0 bg-theme-bg-secondary px-4 py-2 border-b border-theme-bg-tertiary">
-                    <h3 className="font-bold text-theme-text-primary uppercase text-sm tracking-wide">
-                      {category} <span className="text-theme-text-tertiary">({groupedItems[category].length})</span>
+                  <div className="bg-theme-bg-secondary border-theme-bg-tertiary sticky top-0 border-b px-4 py-2">
+                    <h3 className="text-theme-text-primary text-sm font-bold uppercase tracking-wide">
+                      {category}{' '}
+                      <span className="text-theme-text-tertiary">
+                        ({groupedItems[category].length})
+                      </span>
                     </h3>
                   </div>
 
                   {/* Category Items */}
-                  <div className="divide-y divide-theme-bg-tertiary">
+                  <div className="divide-theme-bg-tertiary divide-y">
                     {groupedItems[category].map((item) => {
                       const quantity = quantities[item.id] || 0;
 
                       return (
                         <div
                           key={item.id}
-                          className="px-4 py-4 flex items-start gap-4 hover:bg-theme-bg-tertiary transition-colors"
+                          className="hover:bg-theme-bg-tertiary flex items-start gap-4 px-4 py-4 transition-colors"
                         >
                           {/* Image */}
                           <button
@@ -246,12 +273,12 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
                               onItemClick(item);
                               handleClose();
                             }}
-                            className="flex-shrink-0 w-20 h-20 bg-gray-900 rounded-xl overflow-hidden"
+                            className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-gray-900"
                           >
                             <img
                               src={item.image}
                               alt={item.name}
-                              className="w-full h-full object-cover"
+                              className="h-full w-full object-cover"
                             />
                           </button>
 
@@ -261,16 +288,16 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
                               onItemClick(item);
                               handleClose();
                             }}
-                            className="flex-1 min-w-0 text-left"
+                            className="min-w-0 flex-1 text-left"
                           >
-                            <h4 className="font-bold text-theme-text-primary mb-1 line-clamp-2">
+                            <h4 className="text-theme-text-primary mb-1 line-clamp-2 font-bold">
                               {highlightMatch(item.name, searchQuery)}
                             </h4>
-                            <p className="text-sm text-theme-text-secondary line-clamp-1 mb-2">
+                            <p className="text-theme-text-secondary mb-2 line-clamp-1 text-sm">
                               {highlightMatch(item.description, searchQuery)}
                             </p>
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-bold text-theme-brand-primary">
+                              <span className="text-theme-brand-primary text-sm font-bold">
                                 {formatPriceCompact(item.price)}₫
                               </span>
                             </div>
@@ -285,25 +312,25 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
                                   e.stopPropagation();
                                   selectionsStore.increment(item);
                                 }}
-                                className="w-10 h-10 bg-theme-brand-primary text-white rounded-full font-bold hover:bg-theme-brand-primary-hover transition-colors flex items-center justify-center"
+                                className="bg-theme-brand-primary hover:bg-theme-brand-primary-hover flex h-10 w-10 items-center justify-center rounded-full font-bold text-white transition-colors"
                                 aria-label="Aggiungi alla lista"
                               >
                                 +
                               </button>
                             ) : (
                               // Show - number + controls when quantity > 0
-                              <div className="flex items-center gap-2 bg-theme-bg-secondary rounded-full px-2 py-1">
+                              <div className="bg-theme-bg-secondary flex items-center gap-2 rounded-full px-2 py-1">
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     selectionsStore.decrement(item.id);
                                   }}
-                                  className="w-7 h-7 bg-theme-bg-elevated rounded-full font-bold text-theme-text-primary hover:bg-theme-bg-tertiary transition-colors text-sm"
+                                  className="bg-theme-bg-elevated text-theme-text-primary hover:bg-theme-bg-tertiary h-7 w-7 rounded-full text-sm font-bold transition-colors"
                                   aria-label="Rimuovi dalla lista"
                                 >
                                   −
                                 </button>
-                                <span className="font-bold text-theme-text-primary min-w-[20px] text-center text-sm">
+                                <span className="text-theme-text-primary min-w-[20px] text-center text-sm font-bold">
                                   {quantity}
                                 </span>
                                 <button
@@ -311,7 +338,7 @@ export function SearchOverlay({ isOpen, onClose, items, onItemClick }: SearchOve
                                     e.stopPropagation();
                                     selectionsStore.increment(item);
                                   }}
-                                  className="w-7 h-7 bg-theme-brand-primary text-white rounded-full font-bold hover:bg-theme-brand-primary-hover transition-colors flex items-center justify-center text-sm"
+                                  className="bg-theme-brand-primary hover:bg-theme-brand-primary-hover flex h-7 w-7 items-center justify-center rounded-full text-sm font-bold text-white transition-colors"
                                   aria-label="Aggiungi alla lista"
                                 >
                                   +

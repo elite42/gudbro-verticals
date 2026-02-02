@@ -16,8 +16,7 @@ import { ChallengesCarousel } from '../components/challenges';
 import { userProfileStore } from '../lib/user-profile-store';
 import { getROOTSMenuItemsSync } from '../lib/roots-menu';
 import { DishItem } from '../components/DishCard';
-import { currencyPreferencesStore } from '../lib/currency-preferences';
-import { formatConvertedPrice } from '../lib/currency-converter';
+import { currencyPreferencesStore, formatConvertedPrice } from '../lib/currency';
 import { useTranslation } from '../lib/use-translation';
 
 // Site Sections

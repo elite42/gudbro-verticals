@@ -1,6 +1,8 @@
 packages:
   - 'apps/*'
   - 'apps/coffeeshop/*'
+  - 'apps/gym/*'
+  - 'apps/laundry/*'
   - 'apps/wellness/*'
   - 'apps/rentals/*'
   - 'apps/waiter'

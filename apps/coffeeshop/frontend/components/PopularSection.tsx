@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { DishItem } from './DishCard';
 import { favoritesStore } from '../lib/favorites-store';
 import { useTranslation } from '../lib/use-translation';
-import { usePriceFormat } from '../hooks/usePriceFormat';
+import { useAppPriceFormat as usePriceFormat } from '../lib/currency';
 
 interface PopularSectionProps {
   items: DishItem[];

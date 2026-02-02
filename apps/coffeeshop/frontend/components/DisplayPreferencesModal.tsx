@@ -1,14 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  AVAILABLE_CURRENCIES,
-  currencyPreferencesStore
-} from '../lib/currency-preferences';
-import {
-  AVAILABLE_LANGUAGES,
-  languagePreferencesStore
-} from '../lib/language-preferences';
+import { AVAILABLE_CURRENCIES, currencyPreferencesStore } from '../lib/currency';
+import { AVAILABLE_LANGUAGES, languagePreferencesStore } from '../lib/language-preferences';
 
 interface DisplayPreferencesModalProps {
   onClose: () => void;
@@ -21,7 +15,7 @@ export function DisplayPreferencesModal({
   onClose,
   onSave,
   onBack,
-  showAsOnboarding = false
+  showAsOnboarding = false,
 }: DisplayPreferencesModalProps) {
   const currentCurrencyPrefs = currencyPreferencesStore.get();
   const currentLanguagePrefs = languagePreferencesStore.get();
@@ -50,45 +44,46 @@ export function DisplayPreferencesModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-theme-bg-elevated rounded-2xl max-w-md w-full overflow-hidden flex flex-col relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+      <div className="bg-theme-bg-elevated relative flex w-full max-w-md flex-col overflow-hidden rounded-2xl">
         {/* Header */}
-        <div className="p-6 border-b border-theme-bg-tertiary relative">
+        <div className="border-theme-bg-tertiary relative border-b p-6">
           {/* Emoji Icon - Left */}
-          <div className="absolute left-6 top-6 flex items-center justify-center w-6 h-6 text-xl">
+          <div className="absolute left-6 top-6 flex h-6 w-6 items-center justify-center text-xl">
             ⚙️
           </div>
 
           {/* Close Button - Right */}
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 text-theme-text-tertiary hover:text-theme-text-secondary
-              active:scale-90 focus:outline-none focus:ring-2 focus:ring-theme-bg-tertiary rounded
-              transition-all duration-150"
+            className="text-theme-text-tertiary hover:text-theme-text-secondary focus:ring-theme-bg-tertiary absolute right-6 top-6 rounded transition-all duration-150 focus:outline-none focus:ring-2 active:scale-90"
             aria-label="Chiudi"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
 
           {/* Centered Title */}
-          <div className="text-center mb-4">
-            <h2 className="text-2xl font-bold text-theme-text-primary">
-              Visualizzazione
-            </h2>
-            <p className="text-sm text-theme-text-tertiary">
+          <div className="mb-4 text-center">
+            <h2 className="text-theme-text-primary text-2xl font-bold">Visualizzazione</h2>
+            <p className="text-theme-text-tertiary text-sm">
               {showAsOnboarding ? 'Step 4 di 4' : 'Impostazioni'}
             </p>
           </div>
 
           {/* Progress Bar - only for onboarding */}
           {showAsOnboarding && (
-            <div className="flex gap-2 mb-4">
+            <div className="mb-4 flex gap-2">
               {[1, 2, 3, 4].map((step) => (
                 <div
                   key={step}
-                  className={`flex-1 h-2 rounded-full transition-all ${
+                  className={`h-2 flex-1 rounded-full transition-all ${
                     step <= 4 ? 'bg-green-500' : 'bg-theme-bg-tertiary'
                   }`}
                 />
@@ -96,23 +91,23 @@ export function DisplayPreferencesModal({
             </div>
           )}
 
-          <p className="text-sm text-theme-text-secondary">
+          <p className="text-theme-text-secondary text-sm">
             Scegli come visualizzare prezzi e contenuti.
           </p>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="space-y-6 p-6">
           {/* Language Selection */}
           <div>
-            <label className="block text-sm font-medium text-theme-text-secondary mb-2 flex items-center gap-2">
+            <label className="text-theme-text-secondary mb-2 block flex items-center gap-2 text-sm font-medium">
               <span className="text-lg">🌍</span>
               Lingua
             </label>
             <select
               value={selectedLanguage}
               onChange={(e) => setSelectedLanguage(e.target.value)}
-              className="w-full p-3 border-2 border-theme-bg-tertiary rounded-lg text-lg focus:border-blue-500 focus:outline-none"
+              className="border-theme-bg-tertiary w-full rounded-lg border-2 p-3 text-lg focus:border-blue-500 focus:outline-none"
             >
               {AVAILABLE_LANGUAGES.map((language) => (
                 <option key={language.code} value={language.code}>
@@ -124,14 +119,14 @@ export function DisplayPreferencesModal({
 
           {/* Currency Selection */}
           <div>
-            <label className="block text-sm font-medium text-theme-text-secondary mb-2 flex items-center gap-2">
+            <label className="text-theme-text-secondary mb-2 block flex items-center gap-2 text-sm font-medium">
               <span className="text-lg">💱</span>
               Valuta
             </label>
             <select
               value={selectedCurrency}
               onChange={(e) => setSelectedCurrency(e.target.value)}
-              className="w-full p-3 border-2 border-theme-bg-tertiary rounded-lg text-lg focus:border-blue-500 focus:outline-none"
+              className="border-theme-bg-tertiary w-full rounded-lg border-2 p-3 text-lg focus:border-blue-500 focus:outline-none"
             >
               {AVAILABLE_CURRENCIES.map((currency) => (
                 <option key={currency.code} value={currency.code}>
@@ -143,12 +138,13 @@ export function DisplayPreferencesModal({
 
           {/* Warning if currency not VND */}
           {selectedCurrency !== 'VND' && (
-            <div className="p-3 bg-theme-brand-secondary border border-theme-brand-accent rounded-lg">
+            <div className="bg-theme-brand-secondary border-theme-brand-accent rounded-lg border p-3">
               <div className="flex gap-2">
                 <div className="text-theme-brand-primary text-lg">⚠️</div>
                 <div className="flex-1">
-                  <p className="text-sm text-theme-brand-primary">
-                    Il pagamento verrà effettuato in <strong>VND</strong>. La conversione è solo informativa.
+                  <p className="text-theme-brand-primary text-sm">
+                    Il pagamento verrà effettuato in <strong>VND</strong>. La conversione è solo
+                    informativa.
                   </p>
                 </div>
               </div>
@@ -157,25 +153,21 @@ export function DisplayPreferencesModal({
         </div>
 
         {/* Footer with buttons */}
-        <div className="p-6 border-t border-theme-bg-tertiary bg-theme-bg-secondary">
+        <div className="border-theme-bg-tertiary bg-theme-bg-secondary border-t p-6">
           <div className="flex gap-3">
             {showAsOnboarding ? (
               <>
                 {onBack && (
                   <button
                     onClick={onBack}
-                    className="flex-1 py-3 px-4 border border-theme-bg-tertiary rounded-lg text-theme-text-secondary font-medium
-                      hover:bg-theme-bg-tertiary active:scale-95 focus:outline-none focus:ring-2 focus:ring-theme-bg-tertiary
-                      transition-all duration-150"
+                    className="border-theme-bg-tertiary text-theme-text-secondary hover:bg-theme-bg-tertiary focus:ring-theme-bg-tertiary flex-1 rounded-lg border px-4 py-3 font-medium transition-all duration-150 focus:outline-none focus:ring-2 active:scale-95"
                   >
                     Indietro
                   </button>
                 )}
                 <button
                   onClick={handleSave}
-                  className="flex-1 py-3 px-4 bg-blue-500 text-white rounded-lg font-bold
-                    hover:bg-blue-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-400
-                    transition-all duration-150"
+                  className="flex-1 rounded-lg bg-blue-500 px-4 py-3 font-bold text-white transition-all duration-150 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 active:scale-95"
                 >
                   Conferma
                 </button>
@@ -184,17 +176,13 @@ export function DisplayPreferencesModal({
               <>
                 <button
                   onClick={onClose}
-                  className="flex-1 py-3 px-4 border border-theme-bg-tertiary rounded-lg text-theme-text-secondary font-medium
-                    hover:bg-theme-bg-tertiary active:scale-95 focus:outline-none focus:ring-2 focus:ring-theme-bg-tertiary
-                    transition-all duration-150"
+                  className="border-theme-bg-tertiary text-theme-text-secondary hover:bg-theme-bg-tertiary focus:ring-theme-bg-tertiary flex-1 rounded-lg border px-4 py-3 font-medium transition-all duration-150 focus:outline-none focus:ring-2 active:scale-95"
                 >
                   Annulla
                 </button>
                 <button
                   onClick={handleSave}
-                  className="flex-1 py-3 px-4 bg-blue-500 text-white rounded-lg font-bold
-                    hover:bg-blue-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-400
-                    transition-all duration-150"
+                  className="flex-1 rounded-lg bg-blue-500 px-4 py-3 font-bold text-white transition-all duration-150 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 active:scale-95"
                 >
                   Conferma
                 </button>
