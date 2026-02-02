@@ -72,6 +72,9 @@ function mapOrder(
     categoryTag: primaryCategoryTag(items),
     isMinibarConsumption: (row.is_minibar_consumption as boolean) || false,
     ownerConfirmed: (row.owner_confirmed as boolean | null) ?? null,
+    receiptConfirmedAt: (row.receipt_confirmed_at as string) || null,
+    receiptAutoConfirmAt: (row.receipt_auto_confirm_at as string) || null,
+    paymentMethod: (row.payment_method as string) || 'room_charge',
     items,
     createdAt: row.created_at as string,
     updatedAt: row.updated_at as string,
@@ -97,7 +100,7 @@ export async function GET(request: NextRequest) {
       .from('accom_service_orders')
       .select(
         `
-        id, status, requested_time, delivery_notes, subtotal, tax, total, currency, is_minibar_consumption, owner_confirmed, created_at, updated_at,
+        id, status, requested_time, delivery_notes, subtotal, tax, total, currency, is_minibar_consumption, owner_confirmed, receipt_confirmed_at, receipt_auto_confirm_at, payment_method, created_at, updated_at,
         accom_service_order_items(
           id, name, quantity, unit_price, total, notes, category_tag
         )
@@ -380,6 +383,78 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     console.error('POST /api/stay/[code]/orders error:', err);
+    return NextResponse.json<ApiResponse<null>>({ error: 'internal_error' }, { status: 500 });
+  }
+}
+
+/**
+ * PATCH /api/stay/[code]/orders
+ *
+ * Confirm receipt for a delivered order.
+ * Body: { orderId: string }
+ */
+export async function PATCH(request: NextRequest) {
+  try {
+    const guest = await authenticateGuest(request);
+    if (!guest) {
+      return NextResponse.json<ApiResponse<null>>({ error: 'session_expired' }, { status: 401 });
+    }
+
+    if (!requireFullAccess(guest)) {
+      return NextResponse.json<ApiResponse<null>>(
+        { error: 'verification_required' },
+        { status: 403 }
+      );
+    }
+
+    const body = (await request.json()) as { orderId: string };
+    if (!body.orderId) {
+      return NextResponse.json<ApiResponse<null>>({ error: 'Missing orderId' }, { status: 400 });
+    }
+
+    const supabase = getSupabaseAdmin();
+
+    // Verify order belongs to this booking and is delivered
+    const { data: order, error: orderError } = await supabase
+      .from('accom_service_orders')
+      .select('id, status, booking_id, receipt_confirmed_at')
+      .eq('id', body.orderId)
+      .eq('booking_id', guest.bookingId)
+      .single();
+
+    if (orderError || !order) {
+      return NextResponse.json<ApiResponse<null>>({ error: 'order_not_found' }, { status: 404 });
+    }
+
+    if (order.status !== 'delivered') {
+      return NextResponse.json<ApiResponse<null>>(
+        { error: 'Only delivered orders can be confirmed' },
+        { status: 400 }
+      );
+    }
+
+    if (order.receipt_confirmed_at) {
+      return NextResponse.json<ApiResponse<null>>(
+        { error: 'Receipt already confirmed' },
+        { status: 400 }
+      );
+    }
+
+    const { error: updateError } = await supabase
+      .from('accom_service_orders')
+      .update({ receipt_confirmed_at: new Date().toISOString() })
+      .eq('id', body.orderId);
+
+    if (updateError) {
+      console.error('PATCH /api/stay/[code]/orders receipt confirm error:', updateError);
+      return NextResponse.json<ApiResponse<null>>({ error: 'internal_error' }, { status: 500 });
+    }
+
+    return NextResponse.json<ApiResponse<{ confirmed: true }>>({
+      data: { confirmed: true },
+    });
+  } catch (err) {
+    console.error('PATCH /api/stay/[code]/orders error:', err);
     return NextResponse.json<ApiResponse<null>>({ error: 'internal_error' }, { status: 500 });
   }
 }

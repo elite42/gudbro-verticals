@@ -104,6 +104,11 @@ export async function GET(
       isMinibarConsumption:
         ((data as Record<string, unknown>).is_minibar_consumption as boolean) ?? false,
       ownerConfirmed: ((data as Record<string, unknown>).owner_confirmed as boolean | null) ?? null,
+      receiptConfirmedAt:
+        ((data as Record<string, unknown>).receipt_confirmed_at as string) || null,
+      receiptAutoConfirmAt:
+        ((data as Record<string, unknown>).receipt_auto_confirm_at as string) || null,
+      paymentMethod: ((data as Record<string, unknown>).payment_method as string) || 'room_charge',
       items,
       createdAt: data.created_at,
       updatedAt: data.updated_at,

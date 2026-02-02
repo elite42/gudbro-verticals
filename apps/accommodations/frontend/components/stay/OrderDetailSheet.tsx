@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import type { ServiceOrder } from '@/types/stay';
 import OrderStatusTimeline from './OrderStatusTimeline';
+import ReceiptView from './ReceiptView';
 
 /** Currencies with 0 decimal places (minor unit = major unit). */
 const ZERO_DECIMAL_CURRENCIES = new Set(['VND', 'JPY', 'KRW', 'CLP', 'ISK', 'UGX', 'RWF']);
@@ -43,6 +45,10 @@ interface OrderDetailSheetProps {
   order: ServiceOrder | null;
   currency: string;
   onClose: () => void;
+  propertyName?: string;
+  bookingCode?: string;
+  token?: string;
+  onOrderUpdated?: () => void;
 }
 
 function formatDate(dateStr: string): string {
@@ -55,8 +61,38 @@ function formatDate(dateStr: string): string {
   });
 }
 
-export default function OrderDetailSheet({ order, currency, onClose }: OrderDetailSheetProps) {
+export default function OrderDetailSheet({
+  order,
+  currency,
+  onClose,
+  propertyName,
+  bookingCode,
+  token,
+  onOrderUpdated,
+}: OrderDetailSheetProps) {
+  const [confirmingReceipt, setConfirmingReceipt] = useState(false);
+
   if (!order) return null;
+
+  async function handleConfirmReceipt() {
+    if (!order || !bookingCode || !token) return;
+    setConfirmingReceipt(true);
+    try {
+      const res = await fetch(`/api/stay/${bookingCode}/orders`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ orderId: order.id }),
+      });
+      if (res.ok) {
+        onOrderUpdated?.();
+      }
+    } finally {
+      setConfirmingReceipt(false);
+    }
+  }
 
   const badge = STATUS_BADGES[order.status] ?? STATUS_BADGES.pending;
   const categoryTag = CATEGORY_TAG_CONFIG[order.categoryTag] ?? CATEGORY_TAG_CONFIG.general;
@@ -179,6 +215,19 @@ export default function OrderDetailSheet({ order, currency, onClose }: OrderDeta
             </h4>
             <OrderStatusTimeline status={order.status} createdAt={order.createdAt} />
           </div>
+
+          {/* Receipt confirmation (shown for delivered orders with receipt enabled) */}
+          {order.status === 'delivered' && order.receiptAutoConfirmAt && propertyName && (
+            <div className="mt-4 border-t border-[#E8E2D9] pt-4">
+              <ReceiptView
+                order={order}
+                currency={currency}
+                propertyName={propertyName}
+                onConfirm={handleConfirmReceipt}
+                isConfirming={confirmingReceipt}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

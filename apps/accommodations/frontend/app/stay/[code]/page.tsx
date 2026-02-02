@@ -327,7 +327,14 @@ export default function InStayDashboard({ params }: { params: { code: string } }
               {/* Full order history with category tabs */}
               <div id="orders-section">
                 <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                  <OrderListView orders={orders} currency={propertyCurrency} />
+                  <OrderListView
+                    orders={orders}
+                    currency={propertyCurrency}
+                    propertyName={property.name}
+                    bookingCode={params.code}
+                    token={token ?? undefined}
+                    onOrderUpdated={refetchOrders}
+                  />
                 </div>
               </div>
 

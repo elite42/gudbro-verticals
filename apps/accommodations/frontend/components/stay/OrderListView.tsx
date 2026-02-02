@@ -46,9 +46,20 @@ function summarizeItems(items: ServiceOrder['items']): string {
 interface OrderListViewProps {
   orders: ServiceOrder[];
   currency: string;
+  propertyName?: string;
+  bookingCode?: string;
+  token?: string;
+  onOrderUpdated?: () => void;
 }
 
-export default function OrderListView({ orders, currency }: OrderListViewProps) {
+export default function OrderListView({
+  orders,
+  currency,
+  propertyName,
+  bookingCode,
+  token,
+  onOrderUpdated,
+}: OrderListViewProps) {
   const [selectedOrder, setSelectedOrder] = useState<ServiceOrder | null>(null);
 
   // Group orders by category
@@ -183,6 +194,13 @@ export default function OrderListView({ orders, currency }: OrderListViewProps) 
         order={selectedOrder}
         currency={currency}
         onClose={() => setSelectedOrder(null)}
+        propertyName={propertyName}
+        bookingCode={bookingCode}
+        token={token}
+        onOrderUpdated={() => {
+          onOrderUpdated?.();
+          setSelectedOrder(null);
+        }}
       />
     </>
   );

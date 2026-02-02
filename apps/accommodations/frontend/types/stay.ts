@@ -296,6 +296,9 @@ export interface ServiceOrder {
   categoryTag: string;
   isMinibarConsumption: boolean;
   ownerConfirmed: boolean | null;
+  receiptConfirmedAt: string | null;
+  receiptAutoConfirmAt: string | null;
+  paymentMethod: string;
   items: ServiceOrderItem[];
   createdAt: string;
   updatedAt: string;
