@@ -7,7 +7,6 @@
     "paths": {
       "@/*": ["./*"],
       "@/components/*": ["./components/*"],
-      "@/database/*": ["../../../shared/database/*"],
       "@gudbro/types": ["../../../shared/types"],
       "@gudbro/config": ["../../../shared/config"],
       "@gudbro/utils": ["../../../shared/utils"],
@@ -16,5 +15,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "_archive"]
+  "exclude": ["node_modules"]
 }
