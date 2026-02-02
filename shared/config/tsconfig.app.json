@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "_comment": "Base TypeScript config for PWA frontend apps. Apps at apps/X/frontend/ (3 levels deep) extend this directly. Apps at apps/X/ (2 levels, like backoffice/waiter) must override paths to adjust relative depths.",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"],
+      "@gudbro/types": ["../../shared/types"],
+      "@gudbro/config": ["../../shared/config"],
+      "@gudbro/utils": ["../../shared/utils"],
+      "@gudbro/ui": ["../../shared/ui"],
+      "@gudbro/hooks": ["../../shared/hooks"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
