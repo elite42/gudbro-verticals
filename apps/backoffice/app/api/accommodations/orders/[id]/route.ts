@@ -4,6 +4,7 @@ import {
   validateAdminApiKey,
   isValidOrderTransition,
   ORDER_ACTION_TO_STATUS,
+  STATUS_TIMESTAMP_COLUMN,
 } from '@/lib/accommodations/helpers';
 
 export const dynamic = 'force-dynamic';
@@ -22,6 +23,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     .select(
       `id, status, subtotal, total, currency, delivery_notes, requested_time,
        created_at, updated_at, property_id,
+       confirmed_at, preparing_at, ready_at, delivered_at,
+       receipt_confirmed_at, receipt_auto_confirm_at,
        booking:accom_bookings(
          id, guest_name, guest_last_name, guest_email, guest_phone,
          room:accom_rooms(id, room_number, room_type)
@@ -66,6 +69,12 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     createdAt: data.created_at,
     updatedAt: data.updated_at,
     propertyId: data.property_id,
+    confirmedAt: data.confirmed_at,
+    preparingAt: data.preparing_at,
+    readyAt: data.ready_at,
+    deliveredAt: data.delivered_at,
+    receiptConfirmedAt: data.receipt_confirmed_at,
+    receiptAutoConfirmAt: data.receipt_auto_confirm_at,
     guest: booking
       ? {
           name: `${booking.guest_name || ''} ${booking.guest_last_name || ''}`.trim(),
@@ -129,10 +138,10 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     );
   }
 
-  // Fetch current status
+  // Fetch current status and property_id (needed for receipt settings)
   const { data: current, error: fetchError } = await supabaseAdmin
     .from('accom_service_orders')
-    .select('status')
+    .select('status, property_id')
     .eq('id', params.id)
     .single();
 
@@ -164,6 +173,29 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   // Store rejection reason in delivery_notes
   if (action === 'reject' && reason) {
     update.delivery_notes = reason;
+  }
+
+  // Record per-status timestamp for performance tracking (SVC-07)
+  const timestampCol = STATUS_TIMESTAMP_COLUMN[newStatus];
+  if (timestampCol) {
+    update[timestampCol] = new Date().toISOString();
+  }
+
+  // When delivered, set receipt_auto_confirm_at if property has receipts enabled (SVC-08)
+  if (newStatus === 'delivered') {
+    const { data: propData } = await supabaseAdmin
+      .from('accom_properties')
+      .select('receipt_enabled, receipt_auto_confirm_hours')
+      .eq('id', current.property_id)
+      .single();
+
+    if (propData?.receipt_enabled) {
+      const autoConfirmAt = new Date();
+      autoConfirmAt.setHours(
+        autoConfirmAt.getHours() + (propData.receipt_auto_confirm_hours || 24)
+      );
+      update.receipt_auto_confirm_at = autoConfirmAt.toISOString();
+    }
   }
 
   const { data, error: updateError } = await supabaseAdmin

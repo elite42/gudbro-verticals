@@ -92,6 +92,14 @@ export const ORDER_ACTION_TO_STATUS: Record<string, string> = {
   mark_delivered: 'delivered',
 };
 
+/** Maps order status to the timestamp column that should be set on transition */
+export const STATUS_TIMESTAMP_COLUMN: Record<string, string> = {
+  confirmed: 'confirmed_at',
+  preparing: 'preparing_at',
+  ready: 'ready_at',
+  delivered: 'delivered_at',
+};
+
 /** Badge colors for order statuses */
 export const ORDER_STATUS_COLORS: Record<string, string> = {
   pending: 'bg-amber-100 text-amber-800',
