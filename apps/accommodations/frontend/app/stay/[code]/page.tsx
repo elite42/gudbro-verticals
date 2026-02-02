@@ -43,6 +43,7 @@ import DocumentUpload from '@/components/stay/DocumentUpload';
 import FeedbackForm from '@/components/stay/FeedbackForm';
 import ConciergeHub from '@/components/stay/ConciergeHub';
 import ConciergeDiscover from '@/components/stay/ConciergeDiscover';
+import DeliveryAppsSection from '@/components/stay/DeliveryAppsSection';
 
 export default function InStayDashboard({ params }: { params: { code: string } }) {
   const router = useRouter();
@@ -410,6 +411,17 @@ export default function InStayDashboard({ params }: { params: { code: string } }
               <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
                 <UsefulNumbers bookingCode={params.code} token={token!} />
               </div>
+
+              {/* Delivery apps -- country-specific food delivery links */}
+              {propertyExtended?.country && propertyExtended?.address && (
+                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                  <DeliveryAppsSection
+                    countryCode={propertyExtended.country}
+                    propertyAddress={propertyExtended.address}
+                    propertyCity={propertyExtended.city ?? undefined}
+                  />
+                </div>
+              )}
 
               {propertyExtended?.returnBannerText && propertyExtended?.returnBannerUrl && (
                 <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
