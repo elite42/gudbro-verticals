@@ -8,6 +8,7 @@ import type {
   BookingResponse,
   BookingSubmission,
   AccomPaymentMethod,
+  PropertyApiError,
 } from '@/types/property';
 
 export const dynamic = 'force-dynamic';
@@ -138,6 +139,65 @@ export async function POST(request: NextRequest) {
       room.currency
     );
 
+    // --- Voucher validation (server-authoritative re-validation) ---
+    let voucherDiscount = 0;
+    let voucherResult: {
+      convention_id: string;
+      voucher_id: string;
+      discount_amount: number;
+      benefit_type: string;
+      benefit_value: number;
+      benefit_scope: string;
+      partner_name: string;
+      convention_name: string;
+    } | null = null;
+
+    if (body.voucherCode) {
+      const { data: voucherData, error: voucherError } = await supabase.rpc(
+        'validate_accommodation_voucher',
+        {
+          p_voucher_code: body.voucherCode.trim().toUpperCase(),
+          p_property_id: property.id,
+          p_num_nights: nights,
+          p_subtotal: priceBreakdown.subtotal,
+        }
+      );
+
+      if (voucherError) {
+        console.error('Voucher re-validation RPC error:', voucherError);
+        return NextResponse.json<ApiResponse<null>>(
+          { error: 'invalid_voucher' as PropertyApiError },
+          { status: 400 }
+        );
+      }
+
+      const row = Array.isArray(voucherData) ? voucherData[0] : voucherData;
+
+      if (!row || !row.is_valid) {
+        return NextResponse.json<ApiResponse<null>>(
+          { error: 'invalid_voucher' as PropertyApiError },
+          { status: 400 }
+        );
+      }
+
+      voucherDiscount = row.discount_amount || 0;
+      voucherResult = {
+        convention_id: row.convention_id,
+        voucher_id: row.voucher_id,
+        discount_amount: row.discount_amount,
+        benefit_type: row.benefit_type,
+        benefit_value: Number(row.benefit_value),
+        benefit_scope: row.benefit_scope,
+        partner_name: row.partner_name,
+        convention_name: row.convention_name,
+      };
+
+      // Apply voucher discount to price breakdown
+      priceBreakdown.voucherDiscount = voucherDiscount;
+      priceBreakdown.voucherLabel = `${row.partner_name} - ${row.convention_name}`;
+      priceBreakdown.totalPrice = Math.max(0, priceBreakdown.totalPrice - voucherDiscount);
+    }
+
     // --- Payment method validation ---
     const acceptedMethods: string[] = property.accepted_payment_methods || [];
     let paymentMethod: AccomPaymentMethod | null = body.paymentMethod || null;
@@ -197,7 +257,7 @@ export async function POST(request: NextRequest) {
         num_nights: priceBreakdown.nights,
         subtotal: priceBreakdown.subtotal,
         cleaning_fee: priceBreakdown.cleaningFee,
-        discount_amount: priceBreakdown.discountAmount,
+        discount_amount: priceBreakdown.discountAmount + voucherDiscount,
         total_price: priceBreakdown.totalPrice,
         currency: priceBreakdown.currency,
         expires_at: expiresAt?.toISOString() || null,
@@ -218,6 +278,32 @@ export async function POST(request: NextRequest) {
       }
       console.error('Booking insert error:', insertError);
       return NextResponse.json<ApiResponse<null>>({ error: 'internal_error' }, { status: 500 });
+    }
+
+    // Record convention redemption if voucher was used
+    if (voucherResult && booking) {
+      try {
+        await supabase.from('convention_redemptions').insert({
+          voucher_id: voucherResult.voucher_id,
+          convention_id: voucherResult.convention_id,
+          merchant_id: (
+            await supabase
+              .from('partner_conventions')
+              .select('merchant_id')
+              .eq('id', voucherResult.convention_id)
+              .single()
+          ).data?.merchant_id,
+          order_id: booking.id,
+          original_amount: priceBreakdown.subtotal,
+          discount_amount: voucherDiscount,
+          final_amount: priceBreakdown.totalPrice,
+          verification_method: 'link',
+          verification_code: body.voucherCode?.trim().toUpperCase(),
+        });
+      } catch (redemptionErr) {
+        // Redemption tracking failure must never block the booking response
+        console.error('Convention redemption insert error (non-blocking):', redemptionErr);
+      }
     }
 
     // Sign JWT for guest

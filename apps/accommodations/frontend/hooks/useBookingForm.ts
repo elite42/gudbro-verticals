@@ -11,6 +11,7 @@ import type {
   PriceBreakdown,
   BookingResponse,
   AccomPaymentMethod,
+  ValidatedVoucher,
 } from '@/types/property';
 
 interface UseBookingFormProps {
@@ -57,6 +58,11 @@ interface UseBookingFormReturn {
   selectedPaymentMethod: AccomPaymentMethod | null;
   setSelectedPaymentMethod: (m: AccomPaymentMethod) => void;
 
+  // Voucher
+  voucherDetails: ValidatedVoucher | null;
+  setVoucherDetails: (voucher: ValidatedVoucher | null) => void;
+  voucherDiscount: number;
+
   // Submission
   isSubmitting: boolean;
   submitError: string | null;
@@ -77,6 +83,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   property_not_found: 'This property is no longer available.',
   property_disabled: 'This property is not accepting bookings.',
   payment_method_not_accepted: 'This payment method is not accepted by this property.',
+  invalid_voucher: 'The voucher code is invalid, expired, or not valid for this property.',
   network_error: 'Network error. Please check your connection and try again.',
   internal_error: 'Something went wrong. Please try again.',
 };
@@ -121,6 +128,14 @@ export function useBookingForm({
     acceptedPaymentMethods.length === 1 ? (acceptedPaymentMethods[0] as AccomPaymentMethod) : null
   );
 
+  // Voucher
+  const [voucherDetails, setVoucherDetailsState] = useState<ValidatedVoucher | null>(null);
+  const voucherDiscount = voucherDetails?.discountAmount || 0;
+
+  const setVoucherDetails = useCallback((voucher: ValidatedVoucher | null) => {
+    setVoucherDetailsState(voucher);
+  }, []);
+
   // Submission
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -160,7 +175,7 @@ export function useBookingForm({
     };
   }, [propertySlug, selectedRoom]);
 
-  // Calculate price breakdown when dates change
+  // Calculate price breakdown when dates or voucher change
   const priceBreakdown = useMemo(() => {
     if (!selectedRoom || !dateRange?.from || !dateRange?.to) return null;
 
@@ -171,9 +186,19 @@ export function useBookingForm({
       cleaningFee,
       weeklyDiscountPercent,
       monthlyDiscountPercent,
-      selectedRoom.currency
+      selectedRoom.currency,
+      voucherDiscount,
+      voucherDetails ? `${voucherDetails.partnerName} - ${voucherDetails.conventionName}` : null
     );
-  }, [selectedRoom, dateRange, cleaningFee, weeklyDiscountPercent, monthlyDiscountPercent]);
+  }, [
+    selectedRoom,
+    dateRange,
+    cleaningFee,
+    weeklyDiscountPercent,
+    monthlyDiscountPercent,
+    voucherDiscount,
+    voucherDetails,
+  ]);
 
   // Form validation
   const isFormValid = useMemo(() => {
@@ -222,6 +247,7 @@ export function useBookingForm({
       checkOut: formatDate(dateRange.to),
       specialRequests: specialRequests.trim() || undefined,
       paymentMethod: selectedPaymentMethod || undefined,
+      voucherCode: voucherDetails?.code || undefined,
     });
 
     if (error) {
@@ -279,6 +305,7 @@ export function useBookingForm({
     guestCount,
     specialRequests,
     selectedPaymentMethod,
+    voucherDetails,
   ]);
 
   return {
@@ -303,6 +330,9 @@ export function useBookingForm({
     setSpecialRequests,
     selectedPaymentMethod,
     setSelectedPaymentMethod,
+    voucherDetails,
+    setVoucherDetails,
+    voucherDiscount,
     isSubmitting,
     submitError,
     bookingResult,

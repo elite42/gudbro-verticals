@@ -148,6 +148,8 @@ export interface PriceBreakdown {
   cleaningFee: number;
   discountAmount: number;
   discountLabel: string | null; // e.g., "10% weekly discount"
+  voucherDiscount?: number; // INTEGER minor units (from convention voucher)
+  voucherLabel?: string | null; // e.g., "Partner X - 10% off"
   totalPrice: number;
   currency: string;
 }
@@ -166,6 +168,21 @@ export interface BookingSubmission {
   checkOut: string; // YYYY-MM-DD
   specialRequests?: string;
   paymentMethod?: AccomPaymentMethod;
+  voucherCode?: string;
+}
+
+// --- Validated Voucher (from validate_accommodation_voucher RPC) ---
+
+export interface ValidatedVoucher {
+  code: string;
+  conventionId: string;
+  voucherId: string;
+  benefitType: string;
+  benefitValue: number;
+  benefitScope: string;
+  discountAmount: number; // INTEGER minor units
+  partnerName: string;
+  conventionName: string;
 }
 
 export interface BookingResponse {

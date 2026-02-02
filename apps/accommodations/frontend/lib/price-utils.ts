@@ -18,7 +18,9 @@ export function calculatePriceBreakdown(
   cleaningFee: number,
   weeklyDiscountPercent: number,
   monthlyDiscountPercent: number,
-  currency: string
+  currency: string,
+  voucherDiscount?: number,
+  voucherLabel?: string | null
 ): PriceBreakdown {
   const nights = differenceInDays(checkOut, checkIn);
   const subtotal = pricePerNight * nights;
@@ -34,7 +36,8 @@ export function calculatePriceBreakdown(
   }
 
   const discountAmount = Math.round((subtotal * discountPercent) / 100);
-  const totalPrice = subtotal + cleaningFee - discountAmount;
+  // Voucher discount applied AFTER existing discounts, total never below 0
+  const totalPrice = Math.max(0, subtotal + cleaningFee - discountAmount - (voucherDiscount || 0));
 
   return {
     pricePerNight,
@@ -43,6 +46,8 @@ export function calculatePriceBreakdown(
     cleaningFee,
     discountAmount,
     discountLabel,
+    voucherDiscount: voucherDiscount || undefined,
+    voucherLabel: voucherLabel || undefined,
     totalPrice,
     currency,
   };
