@@ -155,7 +155,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
   }, [token, stay, params.code]);
 
   // Loading state
-  if (isLoading || !stay) {
+  if (isLoading || !stay || !token) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FAF8F5]">
         <div className="flex flex-col items-center gap-3">
@@ -282,24 +282,24 @@ export default function InStayDashboard({ params }: { params: { code: string } }
             <div className="flex flex-col gap-4 px-4 pb-4">
               {/* WiFi section -- scroll target */}
               <div id="wifi-section">
-                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
                   <WifiCard wifi={wifi} onDismiss={() => setWifiDismissed(true)} />
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
                 <RestaurantSection
                   hasLinkedFnb={propertyExtended?.hasLinkedFnb ?? false}
                   linkedFnbSlug={propertyExtended?.linkedFnbSlug ?? null}
                   bookingCode={params.code}
-                  token={token!}
+                  token={token}
                 />
               </div>
 
-              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
                 <ServicesCarousel
                   bookingCode={params.code}
-                  token={token!}
+                  token={token}
                   cart={cart}
                   onViewAll={() => setShowCatalog(true)}
                   onCategoriesLoaded={handleCategoriesLoaded}
@@ -310,12 +310,12 @@ export default function InStayDashboard({ params }: { params: { code: string } }
               {serviceCategories.some((c) => c.automationLevel === 'self_service') && (
                 <div
                   id="minibar-section"
-                  className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm"
+                  className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden"
                 >
                   <MinibarSection
                     categories={serviceCategories}
                     bookingCode={params.code}
-                    token={token!}
+                    token={token}
                     onOrderCreated={refetchOrders}
                   />
                 </div>
@@ -326,13 +326,13 @@ export default function InStayDashboard({ params }: { params: { code: string } }
 
               {/* Full order history with category tabs */}
               <div id="orders-section">
-                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
                   <OrderListView
                     orders={orders}
                     currency={propertyCurrency}
                     propertyName={property.name}
                     bookingCode={params.code}
-                    token={token ?? undefined}
+                    token={token}
                     onOrderUpdated={refetchOrders}
                   />
                 </div>
@@ -341,7 +341,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
               {/* Documents section -- scroll target */}
               <div id="documents-section">
                 {token && (
-                  <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                  <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
                     {showUpload ? (
                       <DocumentUpload
                         bookingCode={params.code}
@@ -407,21 +407,21 @@ export default function InStayDashboard({ params }: { params: { code: string } }
                 )}
               </div>
 
-              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                <ConventionPartnerCards bookingCode={params.code} token={token!} />
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
+                <ConventionPartnerCards bookingCode={params.code} token={token} />
               </div>
 
-              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                <LocalDeals bookingCode={params.code} token={token!} />
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
+                <LocalDeals bookingCode={params.code} token={token} />
               </div>
 
-              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
-                <UsefulNumbers bookingCode={params.code} token={token!} />
+              <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
+                <UsefulNumbers bookingCode={params.code} token={token} />
               </div>
 
               {/* Delivery apps -- country-specific food delivery links */}
               {propertyExtended?.country && propertyExtended?.address && (
-                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
                   <DeliveryAppsSection
                     countryCode={propertyExtended.country}
                     propertyAddress={propertyExtended.address}
@@ -431,7 +431,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
               )}
 
               {propertyExtended?.returnBannerText && propertyExtended?.returnBannerUrl && (
-                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm">
+                <div className="rounded-2xl border border-[#E8E2D9] bg-white p-4 shadow-sm empty:hidden">
                   <ReturnGuestBanner
                     text={propertyExtended.returnBannerText}
                     url={propertyExtended.returnBannerUrl}
@@ -464,7 +464,7 @@ export default function InStayDashboard({ params }: { params: { code: string } }
         <CartDrawer
           cart={cart}
           bookingCode={params.code}
-          token={token!}
+          token={token}
           currency={propertyCurrency}
           timezone={serviceTimezone}
           onClose={() => setShowCart(false)}

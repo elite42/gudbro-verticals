@@ -4,13 +4,60 @@
 > **Max 3 task** alla volta per focus.
 > Quando completata → spostala in `3-TESTING.md` o `4-DONE.md`
 
-**Last Updated:** 2026-01-27 (no active tasks)
+**Last Updated:** 2026-02-02
 
 ---
 
-| ID  | Feature | Descrizione | Priority | Started | Assignee |
-| --- | ------- | ----------- | -------- | ------- | -------- |
-|     |         |             |          |         |          |
+| ID             | Feature                 | Descrizione                                               | Priority | Started    | Assignee |
+| -------------- | ----------------------- | --------------------------------------------------------- | -------- | ---------- | -------- |
+| ACCOM-PWA-TEST | Test PWA Accommodations | Test completo della PWA in-stay dopo bugfix session       | P0       | 2026-02-02 | Claude   |
+| BO-DEPLOY-FIX  | Fix Backoffice Vercel   | Deploy backoffice in errore su Vercel (stale build cache) | P0       | 2026-02-02 | Claude   |
+
+---
+
+## ACCOM-PWA-TEST — Dettaglio
+
+**Contesto:** Session del 2026-02-02 — trovati e fixati bug critici nella PWA accommodations.
+
+### Fix già applicate (non committate)
+
+1. **Token null safety** — aggiunto `!token` al guard in `page.tsx:158`, rimossi tutti `token!`
+2. **Empty card spaces** — aggiunto `empty:hidden` Tailwind ai wrapper div (nasconde card vuote quando componente ritorna null)
+3. **Workspace resolution** — aggiunto `apps/accommodations/*` a `pnpm-workspace.yaml` (mancava, impediva la risoluzione di `@gudbro/utils`)
+4. **Path alias** — aggiunto `@shared/*` al tsconfig di accommodations (risolveva `@shared/payment` not found)
+5. **WiFi import** — cambiato import in `WifiCard.tsx` da `@shared/utils/qr/wifi` a `@gudbro/utils`, esportato `qr/wifi` da `shared/utils/index.ts`
+
+### Da testare domani
+
+- [ ] Ri-autenticarsi su `/stay/BK-T3ST01` (token probabilmente scaduto — serve login dalla landing page)
+- [ ] Verificare che i Services si caricano (Breakfast, Minibar, Laundry sono nel DB)
+- [ ] Verificare che le card vuote non appaiono (ConventionPartnerCards, LocalDeals, UsefulNumbers nascosti quando vuoti)
+- [ ] Verificare che la WiFi card si mostra correttamente
+- [ ] Verificare che il QR code WiFi funziona
+- [ ] Test Restaurant section
+- [ ] Test Documents upload
+- [ ] Test Orders view
+- [ ] Test Concierge hub
+- [ ] Test bottom nav (home, map, profile)
+- [ ] Test responsive su mobile viewport
+
+### Da investigare
+
+- [ ] Se "Loading your stay..." persiste dopo login, controllare console browser per errori
+- [ ] Conventions date filter — verificato che la sintassi `.or()` è corretta, ma testare con dati reali
+- [ ] Deals vuoti (0 righe nel DB) — è previsto o mancano seed data?
+
+---
+
+## BO-DEPLOY-FIX — Dettaglio
+
+**Contesto:** Backoffice su Vercel dà errore `ENOENT` per file `.next` cache stale dopo push dei 42 commit.
+
+### Da fare
+
+- [ ] Triggare redeploy su Vercel senza cache (`vercel deployments` → cancel + redeploy)
+- [ ] Verificare che il backoffice si carica su Vercel dopo redeploy
+- [ ] Configurare Vercel per accommodations (attualmente non configurato)
 
 ---
 
@@ -28,45 +75,9 @@
 **Audit Log:** Migration 064, AuditService, /settings/audit-log page
 **Alerts Dashboard:** /settings/system-alerts, /api/health/alerts, role-based access (system:alerts)
 
-**⚠️ USER ACTION REQUIRED:**
+### 📋 v2.0 Codebase Hardening — In Pausa
 
-```bash
-# Add to Vercel Environment Variables:
-
-# Phase 1 - Redis (Upstash - https://console.upstash.com/)
-UPSTASH_REDIS_REST_URL=
-UPSTASH_REDIS_REST_TOKEN=
-
-# Phase 1 - Sentry (https://sentry.io/)
-SENTRY_DSN=
-SENTRY_AUTH_TOKEN=
-SENTRY_ORG=
-SENTRY_PROJECT=
-
-# Phase 2 - Trigger.dev (https://trigger.dev/)
-TRIGGER_API_KEY=
-
-# Phase 3 - Vercel KV (optional, uses LRU fallback)
-KV_REST_API_URL=
-KV_REST_API_TOKEN=
-
-# Phase 3 - Cron Security
-CRON_SECRET=
-
-# Security - Two-Factor Auth (SEC-2FA)
-TOTP_ENCRYPTION_KEY=b28833a0024a56c899aa968ed60611868bb92c5350a824bd09d12e097b339380
-```
-
-### 📋 Next Up: Phase 4 (100K→1M users)
-
-Quando pronto per Phase 4, vedere `1-TODO.md` sezione "SCALING INITIATIVE - Phase 4":
-
-- SCALE-CITUS - Database sharding con Citus
-- SCALE-EVENT-BUS - Event-driven architecture con Kafka
-- SCALE-CQRS - CQRS pattern implementation
-- SCALE-FEATURE-FLAGS - Feature flags system
-- SCALE-AUDIT - Comprehensive audit logging
-- SCALE-GDPR - GDPR compliance features
+Phases 42-45 (Error Handling, Frontend Resilience, Architecture Cleanup, Documentation) in attesa dopo test delle app. Basate su `docs/AUDIT-360.md` (score 6.7/10). Decidere se procedere dopo i test.
 
 ---
 
@@ -76,11 +87,3 @@ Quando pronto per Phase 4, vedere `1-TODO.md` sezione "SCALING INITIATIVE - Phas
 - ✅ PWA-V2-PARITY - PWA v2 Feature Parity (14 feature: navigation, tracking, notifications, info pages) - 2026-01-25
 - ✅ AI-KNOWLEDGE - AI Platform Knowledge (navigation, features, how-to) - 2026-01-20
 - ✅ DATA-CONSISTENCY - Fix cross-merchant data leak in Intelligence Map - 2026-01-20
-- ✅ BACKOFFICE-TOOLTIPS - Contextual Help System (~65 pages) - 2026-01-20
-- ✅ BACKOFFICE-I18N - Internazionalizzazione EN/IT - 2026-01-20
-- ✅ SECURITY Phase 1 (3 task: headers, audit-log, alerts) - 2026-01-18
-- ✅ SCALING Phase 2 & 3 (13 task) - 2026-01-18
-- ✅ SCALING Phase 1 (12 task) - 2026-01-17
-- ✅ SMART-MAP - Business Intelligence Map - 2026-01-16
-- ✅ AI-CUSTOMER-CHAT (6 sprint) - 2026-01-15
-- ✅ RESERVATIONS-SYSTEM (14 sprint) - 2026-01-15

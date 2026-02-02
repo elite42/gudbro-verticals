@@ -1,5 +1,6 @@
 packages:
   - 'apps/*'
+  - 'apps/accommodations/*'
   - 'apps/coffeeshop/*'
   - 'apps/gym/*'
   - 'apps/laundry/*'

@@ -9,3 +9,4 @@ export * from './result';
 export * from './api-response';
 export * from './currency-preferences';
 export * from './currency-converter';
+export * from './qr/wifi';

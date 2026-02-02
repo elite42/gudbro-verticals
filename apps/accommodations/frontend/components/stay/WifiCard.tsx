@@ -18,7 +18,7 @@ import {
   X,
 } from '@phosphor-icons/react';
 import QRCodeLib from 'qrcode';
-import { generateWiFiString } from '@shared/utils/qr/wifi';
+import { generateWiFiString } from '@gudbro/utils';
 import type { WifiInfo, WifiZoneInfo } from '@/types/stay';
 import type { Icon as PhosphorIcon } from '@phosphor-icons/react';
 
