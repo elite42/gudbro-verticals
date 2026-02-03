@@ -228,8 +228,6 @@ Description: ${feedback.description}
     is_read: false,
     created_at: notification.createdAt,
   });
-
-  console.log('[AI Feedback] New feedback submitted:', notification.subject);
 }
 
 // Get feedback for a merchant (for their own history)
@@ -465,5 +463,4 @@ export async function respondToFeedback(
     .eq('status', 'new');
 
   // TODO: Send notification to merchant about the response
-  console.log(`[AI Feedback] Response sent for feedback ${feedbackId}`);
 }

@@ -790,10 +790,6 @@ async function copyGeoCacheToLocation(
   latitude: number,
   longitude: number
 ): Promise<void> {
-  console.log(
-    `[Weather] Using geo cache from location ${geoCache.source_location_id} for location ${locationId}`
-  );
-
   const { error } = await supabaseAdmin.from('location_weather_cache').upsert(
     {
       location_id: locationId,
@@ -1017,7 +1013,6 @@ export async function getWeatherForLocation(
   }
 
   // Step 6: Fetch fresh data from Visual Crossing API
-  console.log(`[Weather] API call for geo key ${geoCacheKey} (location ${locationId})`);
   const apiResponse = await fetchFromVisualCrossing(location.latitude, location.longitude, apiKey);
 
   // Build venue context from location attributes

@@ -6,7 +6,12 @@ import { exportQRCode } from '@/lib/qr/qr-generator';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { DownloadIcon, PrinterIcon, ImageIcon, FileIcon } from 'lucide-react';
+import {
+  DownloadSimple as DownloadIcon,
+  Printer as PrinterIcon,
+  Image as ImageIcon,
+  File as FileIcon,
+} from '@phosphor-icons/react';
 
 interface QRExportPanelProps {
   content: string;

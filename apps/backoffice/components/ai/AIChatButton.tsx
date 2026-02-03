@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkle } from '@phosphor-icons/react';
 import { AIChatPanel } from './AIChatPanel';
 
 interface AIChatButtonProps {
@@ -21,7 +21,7 @@ export function AIChatButton({ merchantId, accountId, merchantName }: AIChatButt
           onClick={() => setIsOpen(true)}
           className="group fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-white shadow-lg transition-all hover:scale-105 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl"
         >
-          <Sparkles className="h-5 w-5 group-hover:animate-pulse" />
+          <Sparkle className="h-5 w-5 group-hover:animate-pulse" />
           <span className="font-medium">AI Co-Manager</span>
         </button>
       )}

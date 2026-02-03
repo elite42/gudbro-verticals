@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { MessageCircle, X, Send, ChevronDown, Wifi } from 'lucide-react';
+import { ChatCircle, X, PaperPlaneTilt, CaretDown, WifiHigh } from '@phosphor-icons/react';
 import { createClient } from '@supabase/supabase-js';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 
@@ -250,7 +250,7 @@ export function ChatWidget({
           style={{ backgroundColor: primaryColor }}
           aria-label="Open chat"
         >
-          <MessageCircle className="h-6 w-6 text-white" />
+          <ChatCircle className="h-6 w-6 text-white" />
         </button>
       )}
 
@@ -266,7 +266,7 @@ export function ChatWidget({
           >
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
-                <MessageCircle className="h-5 w-5 text-white" />
+                <ChatCircle className="h-5 w-5 text-white" />
               </div>
               <div>
                 <h3 className="font-semibold text-white">Chat Support</h3>
@@ -275,7 +275,7 @@ export function ChatWidget({
                     'Typing...'
                   ) : (
                     <>
-                      {isRealtimeConnected && <Wifi className="h-3 w-3" />}
+                      {isRealtimeConnected && <WifiHigh className="h-3 w-3" />}
                       {isRealtimeConnected ? 'Live' : 'Online'}
                     </>
                   )}
@@ -343,7 +343,7 @@ export function ChatWidget({
                 onClick={scrollToBottom}
                 className="absolute bottom-24 left-1/2 -translate-x-1/2 rounded-full bg-white p-2 shadow-lg"
               >
-                <ChevronDown className="h-5 w-5" />
+                <CaretDown className="h-5 w-5" />
               </button>
             )}
           </div>
@@ -387,7 +387,7 @@ export function ChatWidget({
                 className="flex h-10 w-10 items-center justify-center rounded-full text-white disabled:opacity-50"
                 style={{ backgroundColor: primaryColor }}
               >
-                <Send className="h-5 w-5" />
+                <PaperPlaneTilt className="h-5 w-5" />
               </button>
             </div>
           </form>

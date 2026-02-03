@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, ChevronRight, Brain, Loader2 } from 'lucide-react';
+import { X, CaretRight, Brain, SpinnerGap } from '@phosphor-icons/react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import type { AIPriority, PriorityCategory } from './AIPriorityCard';
 
@@ -139,7 +139,7 @@ export function AIInlineTrigger({
                   className={`flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium ${config.button}`}
                 >
                   {trigger.actionLabel}
-                  <ChevronRight className="h-3 w-3" />
+                  <CaretRight className="h-3 w-3" />
                 </a>
                 <button
                   onClick={() => handleDismiss(trigger.id)}
@@ -212,7 +212,7 @@ export function AIInlineTrigger({
               className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium ${config.button}`}
             >
               {trigger.actionLabel}
-              <ChevronRight className="h-4 w-4" />
+              <CaretRight className="h-4 w-4" />
             </a>
           </div>
         );

@@ -4,7 +4,7 @@
 > Quando inizi una task → spostala in `2-IN-PROGRESS.md`
 > **Specs dettagliate:** `specs/` folder
 
-**Last Updated:** 2026-01-26
+**Last Updated:** 2026-02-03
 
 ---
 
@@ -361,57 +361,13 @@ grep -rn "const.*=.*createClient(" --include="*.ts" apps/backoffice/app/api/
 
 ---
 
-## AI INFRASTRUCTURE - Mac Studio + Clawdbot
+## AI INFRASTRUCTURE - OpenClaw (progetto separato)
 
-> **🤖 AI Employee 24/7** - Automazione locale con LLM + Image + Video + Development
-> Target: Febbraio-Maggio 2026 | Ricerca: `docs/research/ai-employee.md`
-
-| ID                 | Feature          | Descrizione                                   | Effort | Status  |
-| ------------------ | ---------------- | --------------------------------------------- | ------ | ------- |
-| AI-INFRA-HW        | Mac Studio M4    | Acquisto Mac Studio M4 Max 64GB ($2,899)      | -      | Pending |
-| AI-INFRA-CLAWDBOT  | Clawdbot Setup   | Installazione Clawdbot + LLM locale (Llama 4) | 2 days | Pending |
-| AI-INFRA-FLUX      | FLUX Setup       | FLUX.1 Schnell + FLUX.2 Klein 4B per immagini | 1 day  | Pending |
-| AI-INFRA-REMOTION  | Remotion Setup   | Video generation con React + FFmpeg           | 1 day  | Pending |
-| AI-INFRA-SKILL-IMG | Food Image Skill | Skill per generazione immagini prodotti       | 3 days | Pending |
-| AI-INFRA-SKILL-VID | Video Skill      | Skill per generazione video marketing         | 2 days | Pending |
-| AI-INFRA-SKILL-DEV | Dev Orchestrator | Skill per arricchimento prompt Claude         | 2 days | Pending |
-| AI-INFRA-BATCH     | Batch Generation | Generazione ~4653 immagini prodotti (~6 ore)  | 1 day  | Pending |
-
-### Architettura
-
-```
-Mac Studio M4 (64GB) + Clawdbot + FLUX + Remotion
-         │
-         ├── LLM locale (Llama 4 8B) → comprensione, orchestrazione
-         ├── FLUX.1 Schnell (12B) → immagini qualità
-         ├── FLUX.2 Klein 4B → immagini veloci
-         ├── Remotion + FFmpeg → video marketing
-         └── Skills custom
-                 │
-                 ├── food_images.py → genera immagini prodotti
-                 ├── video_creator.py → crea video marketing
-                 ├── code_assistant.py → arricchisce prompt Claude
-                 ├── content_writer.py → blog, social posts
-                 └── publisher.py → pubblica su canali
-```
-
-### Costi
-
-| Voce                   | Costo     | Frequenza  |
-| ---------------------- | --------- | ---------- |
-| Mac Studio M4 Max 64GB | $2,899    | Una tantum |
-| Elettricità            | ~$25/mese | Ricorrente |
-| Immagini               | $0        | -          |
-| LLM                    | $0        | -          |
-
-### Benefici
-
-- ✅ 100% copertura immagini prodotti (~4653)
-- ✅ Video marketing automatizzati
-- ✅ Sviluppo: 93% meno token, prompt perfetti
-- ✅ Zero costi ricorrenti (tutto locale)
-- ✅ Autonomo 24/7 (cron jobs)
-- ✅ ROI < 2 mesi
+> **Progetto spostato in `~/openclaw/`** — gestito da sessione Claude Code dedicata.
+> Vedi `~/openclaw/CLAUDE.md` per stato e piano completo.
+>
+> **Stato:** Phase 0 — Step 1 completato, Step 2 (installazione) next.
+> **Non mischiare:** OpenClaw non tocca il codice GUDBRO e viceversa.
 
 ---
 

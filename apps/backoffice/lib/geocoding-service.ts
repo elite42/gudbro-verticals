@@ -201,7 +201,6 @@ export async function geocodeCompetitors(
         success++;
       }
     } else {
-      console.log(`[Geocoding] No result for: ${competitor.address}`);
       failed++;
     }
 

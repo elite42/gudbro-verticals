@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { DownloadSimple, Printer, Link as LinkIcon, Bed } from '@phosphor-icons/react';
-import { Loader2 } from 'lucide-react';
+import { DownloadSimple, Printer, Link as LinkIcon, Bed, SpinnerGap } from '@phosphor-icons/react';
 import { generateQRDataUrl, SIZE_PRESETS } from '@/lib/qr/qr-generator';
 
 const ADMIN_API_KEY = process.env.NEXT_PUBLIC_ADMIN_API_KEY || '';
@@ -118,7 +117,7 @@ export function AccomQRGenerator({ propertyId }: AccomQRGeneratorProps) {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <SpinnerGap className="h-8 w-8 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -162,7 +161,7 @@ export function AccomQRGenerator({ propertyId }: AccomQRGeneratorProps) {
               />
             ) : (
               <div className="flex h-48 w-48 items-center justify-center rounded-lg border border-gray-200 bg-gray-50">
-                <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+                <SpinnerGap className="h-6 w-6 animate-spin text-gray-400" />
               </div>
             )}
             <p className="mt-2 text-center text-sm font-medium text-gray-700">{property.name}</p>
@@ -229,7 +228,7 @@ export function AccomQRGenerator({ propertyId }: AccomQRGeneratorProps) {
                     />
                   ) : (
                     <div className="mx-auto flex h-40 w-40 items-center justify-center rounded border border-gray-200 bg-gray-50">
-                      <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
+                      <SpinnerGap className="h-5 w-5 animate-spin text-gray-400" />
                     </div>
                   )}
 

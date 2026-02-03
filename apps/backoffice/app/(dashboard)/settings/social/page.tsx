@@ -1,7 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Loader2, Check, AlertCircle, ExternalLink, Plus, Trash2 } from 'lucide-react';
+import {
+  SpinnerGap,
+  Check,
+  WarningCircle,
+  ArrowSquareOut,
+  Plus,
+  Trash,
+} from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
 import { MessagingChannelsSection } from '@/components/settings/MessagingChannelsSection';
 import { useTenant } from '@/lib/contexts/TenantContext';
@@ -374,7 +381,7 @@ export default function SocialSettingsPage() {
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <SpinnerGap className="h-8 w-8 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -404,7 +411,7 @@ export default function SocialSettingsPage() {
       {/* Error Banner */}
       {error && (
         <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
-          <AlertCircle className="h-5 w-5 text-red-600" />
+          <WarningCircle className="h-5 w-5 text-red-600" />
           <p className="text-red-800">{error}</p>
         </div>
       )}
@@ -488,7 +495,7 @@ export default function SocialSettingsPage() {
                   onClick={() => removeCustomLink(index)}
                   className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash className="h-4 w-4" />
                 </button>
               </div>
             ))}
@@ -543,7 +550,7 @@ export default function SocialSettingsPage() {
         >
           {isSaving ? (
             <>
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <SpinnerGap className="h-4 w-4 animate-spin" />
               {t('saving')}
             </>
           ) : (
@@ -621,7 +628,7 @@ function PlatformSection({ title, description, platforms, links, onUpdate }: Pla
                     rel="noopener noreferrer"
                     className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
                   >
-                    <ExternalLink className="h-4 w-4" />
+                    <ArrowSquareOut className="h-4 w-4" />
                   </a>
                 )}
               </div>

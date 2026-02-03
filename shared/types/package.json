@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "supabase": "^1.200.0",
-    "typescript": "^5.2.2"
+    "supabase": "^1.226.4",
+    "typescript": "^5.9.3"
   }
 }

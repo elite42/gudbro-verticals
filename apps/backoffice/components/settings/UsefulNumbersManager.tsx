@@ -18,7 +18,7 @@ import {
   Buildings,
   MapPin,
 } from '@phosphor-icons/react';
-import { Loader2 } from 'lucide-react';
+import { SpinnerGap } from '@phosphor-icons/react';
 
 // ============================================================================
 // Types
@@ -284,7 +284,7 @@ export function UsefulNumbersManager({
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <SpinnerGap className="h-8 w-8 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -674,7 +674,7 @@ export function UsefulNumbersManager({
                 disabled={isSaving}
                 className="flex items-center gap-2 rounded-lg bg-orange-600 px-4 py-2 text-sm font-medium text-white hover:bg-orange-700 disabled:opacity-50"
               >
-                {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                {isSaving ? <SpinnerGap className="h-4 w-4 animate-spin" /> : null}
                 Invia Segnalazione
               </button>
             </div>
@@ -756,7 +756,11 @@ function NumberForm({ form, setForm, onSave, onCancel, isSaving, isNew }: Number
           disabled={isSaving || !form.label || !form.phone_number}
           className="flex items-center gap-1 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700 disabled:opacity-50"
         >
-          {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+          {isSaving ? (
+            <SpinnerGap className="h-4 w-4 animate-spin" />
+          ) : (
+            <Check className="h-4 w-4" />
+          )}
           {isNew ? 'Aggiungi' : 'Salva'}
         </button>
       </div>

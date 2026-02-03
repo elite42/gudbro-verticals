@@ -1,8 +1,17 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Plus, Trash, Pencil, Check, X, Info, Package, Clock } from '@phosphor-icons/react';
-import { Loader2 } from 'lucide-react';
+import {
+  Plus,
+  Trash,
+  Pencil,
+  Check,
+  X,
+  Info,
+  Package,
+  Clock,
+  SpinnerGap,
+} from '@phosphor-icons/react';
 import { formatPriceFromMinor as formatPrice } from '@gudbro/utils';
 
 // ============================================================================
@@ -428,7 +437,7 @@ export function ServiceCatalogManager({ propertyId }: ServiceCatalogManagerProps
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <SpinnerGap className="h-8 w-8 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -839,7 +848,7 @@ function CategoryForm({ form, setForm, onSave, onCancel, isSaving, isNew }: Cate
           className="flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
         >
           {isSaving ? (
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            <SpinnerGap className="h-3.5 w-3.5 animate-spin" />
           ) : (
             <Check className="h-3.5 w-3.5" />
           )}
@@ -972,7 +981,7 @@ function ItemForm({ form, setForm, onSave, onCancel, isSaving, isNew }: ItemForm
           className="flex items-center gap-1 rounded-lg bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
         >
           {isSaving ? (
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            <SpinnerGap className="h-3.5 w-3.5 animate-spin" />
           ) : (
             <Check className="h-3.5 w-3.5" />
           )}

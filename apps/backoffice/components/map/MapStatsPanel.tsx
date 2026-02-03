@@ -9,14 +9,14 @@
 import { formatPriceFromMinor } from '@gudbro/utils';
 import {
   Users,
-  Building2,
+  BuildingOffice,
   Handshake,
-  TrendingUp,
-  AlertTriangle,
-  Target,
-  Euro,
+  TrendUp,
+  Warning,
+  Crosshair,
+  CurrencyEur,
   ArrowRight,
-} from 'lucide-react';
+} from '@phosphor-icons/react';
 import type { MapData, MapEntity, CustomerEntity } from './hooks/useMapData';
 import type { FilterState } from './MapFilters';
 
@@ -86,7 +86,7 @@ export function MapStatsPanel({
 
             <div className="rounded-lg bg-yellow-50 p-3">
               <div className="flex items-center gap-2 text-yellow-600">
-                <AlertTriangle className="h-4 w-4" />
+                <Warning className="h-4 w-4" />
                 <span className="text-xs font-medium">At Risk</span>
               </div>
               <p className="mt-1 text-2xl font-bold text-yellow-700">{stats.atRiskCustomers}</p>
@@ -99,7 +99,7 @@ export function MapStatsPanel({
         {filters.entities.customers && (
           <div className="col-span-2 rounded-lg bg-gray-50 p-3">
             <div className="flex items-center gap-2 text-gray-600">
-              <Euro className="h-4 w-4" />
+              <CurrencyEur className="h-4 w-4" />
               <span className="text-xs font-medium">Revenue in Radius</span>
             </div>
             <p className="mt-1 text-2xl font-bold text-gray-900">
@@ -117,7 +117,7 @@ export function MapStatsPanel({
         {filters.entities.competitors && (
           <div className="rounded-lg bg-red-50 p-3">
             <div className="flex items-center gap-2 text-red-600">
-              <Building2 className="h-4 w-4" />
+              <BuildingOffice className="h-4 w-4" />
               <span className="text-xs font-medium">Competitors</span>
             </div>
             <p className="mt-1 text-2xl font-bold text-red-700">{stats.totalCompetitors}</p>
@@ -139,7 +139,7 @@ export function MapStatsPanel({
         {filters.entities.leads && (
           <div className="rounded-lg bg-gray-100 p-3">
             <div className="flex items-center gap-2 text-gray-600">
-              <Target className="h-4 w-4" />
+              <Crosshair className="h-4 w-4" />
               <span className="text-xs font-medium">Leads</span>
             </div>
             <p className="mt-1 text-2xl font-bold text-gray-700">{stats.totalLeads}</p>

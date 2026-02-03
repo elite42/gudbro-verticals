@@ -4,18 +4,18 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Calculator,
-  ChefHat,
-  TrendingUp,
-  TrendingDown,
-  Target,
-  Sparkles,
+  CookingPot,
+  TrendUp,
+  TrendDown,
+  Crosshair,
+  Sparkle,
   Plus,
-  Filter,
+  Funnel,
   ArrowUpRight,
-  AlertTriangle,
+  Warning,
   CheckCircle,
-  DollarSign,
-} from 'lucide-react';
+  CurrencyDollar,
+} from '@phosphor-icons/react';
 import { FoodCostProgress } from '@/components/food-cost';
 import { AIInlineTrigger } from '@/components/ai';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
@@ -207,7 +207,7 @@ export default function FoodCostPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="rounded-lg bg-green-100 p-2">
-              <TrendingUp className="h-5 w-5 text-green-600" />
+              <TrendUp className="h-5 w-5 text-green-600" />
             </div>
           </div>
           <p className="mt-4 text-2xl font-bold text-gray-900">{avgMargin.toFixed(1)}%</p>
@@ -217,7 +217,7 @@ export default function FoodCostPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="rounded-lg bg-purple-100 p-2">
-              <DollarSign className="h-5 w-5 text-purple-600" />
+              <CurrencyDollar className="h-5 w-5 text-purple-600" />
             </div>
           </div>
           <p className="mt-4 text-2xl font-bold text-gray-900">
@@ -229,7 +229,7 @@ export default function FoodCostPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="rounded-lg bg-emerald-100 p-2">
-              <Target className="h-5 w-5 text-emerald-600" />
+              <Crosshair className="h-5 w-5 text-emerald-600" />
             </div>
           </div>
           <p className="mt-4 text-2xl font-bold text-gray-900">
@@ -351,7 +351,7 @@ export default function FoodCostPage() {
           {bcgCounts.dog > 0 && (
             <div className="rounded-xl border border-red-100 bg-gradient-to-r from-red-50 to-rose-50 p-4">
               <div className="flex items-start gap-3">
-                <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" />
+                <Warning className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" />
                 <div>
                   <p className="font-medium text-red-900">
                     Attenzione: {bcgCounts.dog} piatti "Dog"
@@ -373,7 +373,7 @@ export default function FoodCostPage() {
           {/* AI Suggestions */}
           <div className="rounded-xl border border-purple-100 bg-gradient-to-br from-purple-50 to-indigo-50 p-5">
             <div className="mb-3 flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-purple-600" />
+              <Sparkle className="h-5 w-5 text-purple-600" />
               <h3 className="font-semibold text-purple-900">Suggerimenti AI</h3>
             </div>
             <ul className="space-y-3 text-sm text-purple-800">
@@ -384,14 +384,14 @@ export default function FoodCostPage() {
                 </span>
               </li>
               <li className="flex items-start gap-2">
-                <TrendingUp className="mt-0.5 h-4 w-4 flex-shrink-0 text-blue-500" />
+                <TrendUp className="mt-0.5 h-4 w-4 flex-shrink-0 text-blue-500" />
                 <span>
                   Promuovi il <strong>Risotto ai Funghi</strong> (Puzzle) - alto margine, basse
                   vendite
                 </span>
               </li>
               <li className="flex items-start gap-2">
-                <TrendingDown className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-500" />
+                <TrendDown className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-500" />
                 <span>
                   La <strong>Tagliata</strong> ha food cost 50% - considera aumento prezzo €2-3
                 </span>
@@ -418,7 +418,7 @@ export default function FoodCostPage() {
                 className="flex items-center justify-between rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100"
               >
                 <div className="flex items-center gap-2">
-                  <ChefHat className="h-4 w-4 text-gray-500" />
+                  <CookingPot className="h-4 w-4 text-gray-500" />
                   <span className="text-sm font-medium text-gray-700">Libreria Ricette</span>
                 </div>
                 <ArrowUpRight className="h-4 w-4 text-gray-400" />

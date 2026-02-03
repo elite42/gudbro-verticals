@@ -8,22 +8,22 @@ import { QRCode as QRCodeEntity, QRContext, QRType } from '@/lib/qr/qr-types';
 import { listQRCodes, toggleQRCodeActive, deleteQRCode } from '@/lib/qr/qr-service';
 import { buildQRContent, generateQRDataUrl } from '@/lib/qr/qr-generator';
 import {
-  PlusIcon,
-  DownloadIcon,
-  LinkIcon,
-  WifiIcon,
-  TableIcon,
-  ShareIcon,
-  EyeIcon,
-  EyeOffIcon,
-  TrashIcon,
-  CopyIcon,
-  QrCodeIcon,
-  BarChart3Icon,
-  FilterIcon,
-  PencilIcon,
-  ChevronDownIcon,
-} from 'lucide-react';
+  Plus as PlusIcon,
+  DownloadSimple as DownloadIcon,
+  LinkSimple as LinkIcon,
+  WifiHigh as WifiIcon,
+  Table as TableIcon,
+  ShareNetwork as ShareIcon,
+  Eye as EyeIcon,
+  EyeSlash as EyeOffIcon,
+  Trash as TrashIcon,
+  Copy as CopyIcon,
+  QrCode as QrCodeIcon,
+  ChartBar as BarChart3Icon,
+  Funnel as FilterIcon,
+  PencilSimple as PencilIcon,
+  CaretDown as ChevronDownIcon,
+} from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { InfoTooltip } from '@/components/ui/info-tooltip';

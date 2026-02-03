@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
+import { formatDate } from '@gudbro/utils';
 
 const promotions = [
   {
@@ -16,15 +16,13 @@ const promotions = [
     validFrom: '2026-01-01',
     validTo: '2026-03-31',
     services: ['Wash & Fold (up to 3kg)'],
-    image:
-      'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=400&h=250&fit=crop',
+    image: 'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=400&h=250&fit=crop',
     active: true,
   },
   {
     id: 'promo-2',
     name: 'Midweek 20% Off',
-    description:
-      'Drop off your laundry Tuesday to Thursday and save 20% on all wash services.',
+    description: 'Drop off your laundry Tuesday to Thursday and save 20% on all wash services.',
     originalPrice: 25000,
     discountedPrice: 20000,
     discountType: 'percentage' as const,
@@ -33,29 +31,25 @@ const promotions = [
     validTo: '2026-06-30',
     services: ['Wash & Fold', 'Wash & Iron', 'Express Wash'],
     conditions: 'Tuesday - Thursday drop-off only',
-    image:
-      'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=250&fit=crop',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=250&fit=crop',
     active: true,
   },
   {
     id: 'promo-3',
     name: 'Loyalty: 10th Wash Free',
-    description:
-      'After 9 paid washes, your 10th wash & fold is on us! Ask for your loyalty card.',
+    description: 'After 9 paid washes, your 10th wash & fold is on us! Ask for your loyalty card.',
     discountType: 'loyalty' as const,
     discountValue: 'FREE',
     validFrom: '2026-01-01',
     validTo: '2026-12-31',
     services: ['All wash services'],
-    image:
-      'https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=400&h=250&fit=crop',
+    image: 'https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=400&h=250&fit=crop',
     active: true,
   },
   {
     id: 'promo-4',
     name: 'Dry Cleaning Bundle',
-    description:
-      'Bring 3+ items for dry cleaning and get 15% off the total.',
+    description: 'Bring 3+ items for dry cleaning and get 15% off the total.',
     originalPrice: 190000,
     discountedPrice: 161500,
     discountType: 'percentage' as const,
@@ -63,27 +57,12 @@ const promotions = [
     validFrom: '2026-02-01',
     validTo: '2026-04-30',
     services: ['Suit', 'Jacket', 'Dress (Dry Clean)'],
-    image:
-      'https://images.unsplash.com/photo-1507679799987-c73b1160fdc7?w=400&h=250&fit=crop',
+    image: 'https://images.unsplash.com/photo-1507679799987-c73b1160fdc7?w=400&h=250&fit=crop',
     active: true,
   },
 ];
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
-
-function DiscountBadge({
-  type,
-  value,
-}: {
-  type: string;
-  value: string | number;
-}) {
+function DiscountBadge({ type, value }: { type: string; value: string | number }) {
   let label = '';
   if (type === 'free') label = 'FREE';
   else if (type === 'loyalty') label = 'LOYALTY';
@@ -92,7 +71,7 @@ function DiscountBadge({
 
   return (
     <span
-      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide"
+      className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide"
       style={{ backgroundColor: 'var(--gold)', color: '#fff' }}
     >
       {label}
@@ -104,19 +83,16 @@ export default function PromotionsPage() {
   const activePromos = promotions.filter((p) => p.active);
 
   return (
-    <div
-      className="min-h-screen pb-24"
-      style={{ backgroundColor: 'var(--cloud)' }}
-    >
+    <div className="min-h-screen pb-24" style={{ backgroundColor: 'var(--cloud)' }}>
       {/* Header */}
       <header
-        className="sticky top-0 z-40 bg-white border-b"
+        className="sticky top-0 z-40 border-b bg-white"
         style={{ borderColor: 'var(--cloud-dark)' }}
       >
-        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-3">
+        <div className="mx-auto flex max-w-2xl items-center gap-3 px-4 py-4">
           <Link
             href="/"
-            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
             aria-label="Go back"
           >
             <svg
@@ -134,15 +110,12 @@ export default function PromotionsPage() {
             </svg>
           </Link>
           <div className="flex-1">
-            <h1
-              className="text-xl font-bold font-display"
-              style={{ color: 'var(--charcoal)' }}
-            >
+            <h1 className="font-display text-xl font-bold" style={{ color: 'var(--charcoal)' }}>
               Special Offers
             </h1>
           </div>
           <span
-            className="text-xs font-semibold px-2.5 py-1 rounded-full"
+            className="rounded-full px-2.5 py-1 text-xs font-semibold"
             style={{
               backgroundColor: 'var(--gold-light)',
               color: 'var(--gold)',
@@ -154,11 +127,11 @@ export default function PromotionsPage() {
       </header>
 
       {/* Promotions List */}
-      <main className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+      <main className="mx-auto max-w-2xl space-y-6 px-4 py-6">
         {activePromos.map((promo, index) => (
           <article
             key={promo.id}
-            className="bg-white rounded-2xl overflow-hidden shadow-soft hover-lift animate-fade-in-up"
+            className="shadow-soft hover-lift animate-fade-in-up overflow-hidden rounded-2xl bg-white"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             {/* Image with badge */}
@@ -171,31 +144,22 @@ export default function PromotionsPage() {
                 sizes="(max-width: 640px) 100vw, 640px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-              <div className="absolute top-3 left-3">
-                <DiscountBadge
-                  type={promo.discountType}
-                  value={promo.discountValue}
-                />
+              <div className="absolute left-3 top-3">
+                <DiscountBadge type={promo.discountType} value={promo.discountValue} />
               </div>
               <div className="absolute bottom-3 right-3">
-                <span className="text-xs text-white/90 bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded-full">
+                <span className="rounded-full bg-black/30 px-2.5 py-1 text-xs text-white/90 backdrop-blur-sm">
                   {formatDate(promo.validFrom)} - {formatDate(promo.validTo)}
                 </span>
               </div>
             </div>
 
             {/* Content */}
-            <div className="p-5 space-y-3">
-              <h2
-                className="text-lg font-bold font-display"
-                style={{ color: 'var(--charcoal)' }}
-              >
+            <div className="space-y-3 p-5">
+              <h2 className="font-display text-lg font-bold" style={{ color: 'var(--charcoal)' }}>
                 {promo.name}
               </h2>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: 'var(--charcoal-light)' }}
-              >
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--charcoal-light)' }}>
                 {promo.description}
               </p>
 
@@ -204,7 +168,7 @@ export default function PromotionsPage() {
                 {promo.services.map((service) => (
                   <span
                     key={service}
-                    className="text-xs px-2.5 py-1 rounded-full font-medium"
+                    className="rounded-full px-2.5 py-1 text-xs font-medium"
                     style={{
                       backgroundColor: 'var(--blue-light)',
                       color: 'var(--blue-dark)',
@@ -218,7 +182,7 @@ export default function PromotionsPage() {
               {/* Conditions */}
               {promo.conditions && (
                 <p
-                  className="text-xs flex items-center gap-1.5"
+                  className="flex items-center gap-1.5 text-xs"
                   style={{ color: 'var(--charcoal-muted)' }}
                 >
                   <svg
@@ -241,7 +205,7 @@ export default function PromotionsPage() {
 
               {/* CTA */}
               <button
-                className="w-full mt-2 py-3 rounded-xl text-white text-sm font-semibold transition-all hover:opacity-90 active:scale-[0.98]"
+                className="mt-2 w-full rounded-xl py-3 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-[0.98]"
                 style={{ backgroundColor: 'var(--blue-hex)' }}
               >
                 Claim Offer
@@ -252,25 +216,22 @@ export default function PromotionsPage() {
 
         {/* Never Miss an Offer CTA */}
         <section
-          className="rounded-2xl p-6 text-center space-y-4 animate-fade-in-up"
+          className="animate-fade-in-up space-y-4 rounded-2xl p-6 text-center"
           style={{
             backgroundColor: 'var(--charcoal)',
             animationDelay: `${activePromos.length * 100 + 100}ms`,
           }}
         >
-          <h3 className="text-lg font-bold font-display text-white">
-            Never Miss an Offer
-          </h3>
+          <h3 className="font-display text-lg font-bold text-white">Never Miss an Offer</h3>
           <p className="text-sm text-gray-300">
-            Get notified about new promotions and exclusive deals directly on
-            your phone.
+            Get notified about new promotions and exclusive deals directly on your phone.
           </p>
-          <div className="flex gap-3 justify-center">
+          <div className="flex justify-center gap-3">
             <a
               href="https://wa.me/84935123456?text=Hi!%20I%27d%20like%20to%20receive%20promo%20updates"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
+              className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90"
               style={{ backgroundColor: '#25D366' }}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -282,7 +243,7 @@ export default function PromotionsPage() {
               href="https://zalo.me/0935123456"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
+              className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90"
               style={{ backgroundColor: '#0068FF' }}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">

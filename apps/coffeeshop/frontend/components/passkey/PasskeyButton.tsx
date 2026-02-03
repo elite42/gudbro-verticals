@@ -8,7 +8,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Fingerprint, Loader2 } from 'lucide-react';
+import { Fingerprint, SpinnerGap } from '@phosphor-icons/react';
 import {
   isPasskeySupported,
   isPasskeyEnabled,
@@ -82,7 +82,7 @@ export function PasskeyButton({
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
     >
       {isLoading ? (
-        <Loader2 className="h-5 w-5 animate-spin" />
+        <SpinnerGap className="h-5 w-5 animate-spin" />
       ) : (
         <Fingerprint className="h-5 w-5" />
       )}

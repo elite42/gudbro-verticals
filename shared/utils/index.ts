@@ -10,4 +10,5 @@ export * from './api-response';
 export * from './currency-preferences';
 export * from './currency-converter';
 export * from './format-price';
+export * from './format-date';
 export * from './qr/wifi';

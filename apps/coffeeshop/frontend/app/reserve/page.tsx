@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { coffeeshopConfig } from '../../config/coffeeshop.config';
 import { ReservationWidget } from '../../components/reservations';
 import { useTranslation } from '../../lib/use-translation';
-import { Calendar, ArrowLeft, Loader2 } from 'lucide-react';
+import { CalendarBlank, ArrowLeft, SpinnerGap } from '@phosphor-icons/react';
 import Link from 'next/link';
 
 // Inner component that uses useSearchParams
@@ -50,7 +50,7 @@ function ReservePageContent() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="flex animate-pulse flex-col items-center gap-4">
-          <Calendar className="h-12 w-12 text-gray-300" />
+          <CalendarBlank className="h-12 w-12 text-gray-300" />
           <div className="h-4 w-32 rounded bg-gray-200" />
         </div>
       </div>
@@ -84,7 +84,7 @@ function ReservePageContent() {
               onClick={() => setShowWidget(true)}
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-500 py-4 font-semibold text-white transition-colors hover:bg-blue-600"
             >
-              <Calendar className="h-5 w-5" />
+              <CalendarBlank className="h-5 w-5" />
               {(tr?.makeReservation as string) || 'Make a Reservation'}
             </button>
 
@@ -140,7 +140,7 @@ function ReservePageLoading() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="flex flex-col items-center gap-4">
-        <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
+        <SpinnerGap className="h-12 w-12 animate-spin text-blue-500" />
         <p className="text-gray-500">Loading...</p>
       </div>
     </div>

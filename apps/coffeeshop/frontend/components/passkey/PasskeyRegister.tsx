@@ -8,7 +8,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Fingerprint, Plus, Loader2, X, Check } from 'lucide-react';
+import { Fingerprint, Plus, SpinnerGap, X, Check } from '@phosphor-icons/react';
 import { isPasskeySupported, isPasskeyEnabled, registerPasskey } from '@/lib/passkey-service';
 
 interface PasskeyRegisterProps {
@@ -82,7 +82,7 @@ export function PasskeyRegister({
         className={`inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700 disabled:opacity-50 ${className}`}
       >
         {isLoading ? (
-          <Loader2 className="h-5 w-5 animate-spin" />
+          <SpinnerGap className="h-5 w-5 animate-spin" />
         ) : success ? (
           <Check className="h-5 w-5" />
         ) : (
@@ -155,7 +155,7 @@ export function PasskeyRegister({
                   className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
                 >
                   {isLoading ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <SpinnerGap className="h-4 w-4 animate-spin" />
                   ) : (
                     <Fingerprint className="h-4 w-4" />
                   )}

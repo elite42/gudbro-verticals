@@ -15,14 +15,14 @@
 import { useState, useRef, useEffect } from 'react';
 import {
   Users,
-  Building2,
+  BuildingOffice,
   Handshake,
-  Target,
+  Crosshair,
   Calendar,
   MapPin,
-  ChevronDown,
+  CaretDown,
   X,
-} from 'lucide-react';
+} from '@phosphor-icons/react';
 
 export interface FilterState {
   entities: {
@@ -60,7 +60,7 @@ const ENTITY_CONFIG = [
   {
     key: 'competitors' as const,
     label: 'Competitors',
-    icon: Building2,
+    icon: BuildingOffice,
     activeColor: 'bg-rose-500 text-white border-rose-500',
     dotColor: 'bg-rose-500',
   },
@@ -74,7 +74,7 @@ const ENTITY_CONFIG = [
   {
     key: 'leads' as const,
     label: 'Leads',
-    icon: Target,
+    icon: Crosshair,
     activeColor: 'bg-slate-500 text-white border-slate-500',
     dotColor: 'bg-slate-400',
   },
@@ -213,7 +213,7 @@ export function MapFilters({ filters, onChange }: MapFiltersProps) {
           <span>
             {DATE_PRESETS.find((p) => p.key === filters.dateRange.preset)?.label || '30d'}
           </span>
-          <ChevronDown className="h-3 w-3 text-gray-400" />
+          <CaretDown className="h-3 w-3 text-gray-400" />
         </button>
 
         {showDateDropdown && (
@@ -243,7 +243,7 @@ export function MapFilters({ filters, onChange }: MapFiltersProps) {
         >
           <MapPin className="h-3.5 w-3.5 text-gray-400" />
           <span>{filters.radiusKm} km</span>
-          <ChevronDown className="h-3 w-3 text-gray-400" />
+          <CaretDown className="h-3 w-3 text-gray-400" />
         </button>
 
         {showRadiusDropdown && (

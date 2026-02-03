@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Users } from 'lucide-react';
+import { Users } from '@phosphor-icons/react';
 
 export type TableShapeType = 'round' | 'square' | 'rectangle';
 export type TableStatus = 'available' | 'occupied' | 'reserved' | 'blocked';

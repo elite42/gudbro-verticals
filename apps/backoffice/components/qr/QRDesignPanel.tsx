@@ -6,7 +6,7 @@ import { validateColorContrast } from '@/lib/qr/qr-generator';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { Upload, X, Image as ImageIcon, Type, Square, Circle } from 'lucide-react';
+import { UploadSimple, X, Image as ImageIcon, TextT, Square, Circle } from '@phosphor-icons/react';
 
 interface QRDesignPanelProps {
   design: QRDesign;
@@ -368,7 +368,7 @@ export function QRDesignPanel({ design, onChange, className }: QRDesignPanelProp
                 Frame Text
               </Label>
               <div className="flex items-center gap-2">
-                <Type className="h-4 w-4 text-gray-400" />
+                <TextT className="h-4 w-4 text-gray-400" />
                 <Input
                   id="frame-text"
                   type="text"

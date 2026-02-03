@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronUp, CheckCircle2, ExternalLink } from 'lucide-react';
+import { CaretDown, CaretUp, CheckCircle, ArrowSquareOut } from '@phosphor-icons/react';
 import type { OperationalScenario, ScenarioAction } from '@/lib/ai/scenario-detection';
 
 interface ScenarioBannerProps {
@@ -20,7 +20,7 @@ export function ScenarioBanner({ scenario, compact = false }: ScenarioBannerProp
         className={`flex items-center gap-3 rounded-xl border-2 p-4 ${scenario.bgColor} ${scenario.borderColor}`}
       >
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-100">
-          <CheckCircle2 className="h-5 w-5 text-purple-600" />
+          <CheckCircle className="h-5 w-5 text-purple-600" />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2">
@@ -88,9 +88,9 @@ export function ScenarioBanner({ scenario, compact = false }: ScenarioBannerProp
             </span>
           )}
           {expanded ? (
-            <ChevronUp className="h-5 w-5 text-gray-400" />
+            <CaretUp className="h-5 w-5 text-gray-400" />
           ) : (
-            <ChevronDown className="h-5 w-5 text-gray-400" />
+            <CaretDown className="h-5 w-5 text-gray-400" />
           )}
         </div>
       </button>
@@ -150,7 +150,7 @@ function ActionButton({ action, scenarioType }: ActionButtonProps) {
           <span>{action.icon}</span>
           <span className="text-sm text-gray-900">{action.label}</span>
         </div>
-        <ExternalLink className="h-4 w-4 text-gray-400" />
+        <ArrowSquareOut className="h-4 w-4 text-gray-400" />
       </Link>
     );
   }

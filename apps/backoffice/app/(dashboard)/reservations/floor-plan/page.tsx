@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, RefreshCw, LayoutGrid, Plus } from 'lucide-react';
+import { ArrowLeft, ArrowsClockwise, SquaresFour, Plus } from '@phosphor-icons/react';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   FloorPlanEditor,
@@ -207,7 +207,7 @@ export default function FloorPlanPage() {
             disabled={isLoading}
             className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
-            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+            <ArrowsClockwise className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
           </button>
         </div>
@@ -236,7 +236,7 @@ export default function FloorPlanPage() {
           <div className="flex h-full items-center justify-center">
             <div className="max-w-md text-center">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-                <LayoutGrid className="h-8 w-8 text-gray-400" />
+                <SquaresFour className="h-8 w-8 text-gray-400" />
               </div>
               <h3 className="mt-4 text-lg font-semibold text-gray-900">No floor plan yet</h3>
               <p className="mt-2 text-sm text-gray-500">

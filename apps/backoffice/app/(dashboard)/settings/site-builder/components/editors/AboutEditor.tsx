@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash } from '@phosphor-icons/react';
 import { AboutContent } from '@/lib/supabase';
 
 interface AboutEditorProps {
@@ -99,7 +99,7 @@ export function AboutEditor({ content, onChange }: AboutEditorProps) {
                   onClick={() => removeTeamMember(index)}
                   className="text-red-500 hover:text-red-600"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash className="h-4 w-4" />
                 </button>
               </div>
               <div className="grid gap-3">
@@ -152,7 +152,7 @@ export function AboutEditor({ content, onChange }: AboutEditorProps) {
                   onClick={() => removeValue(index)}
                   className="text-red-500 hover:text-red-600"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash className="h-4 w-4" />
                 </button>
               </div>
               <div className="grid gap-3">

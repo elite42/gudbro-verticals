@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Plus, Trash, Pencil, Check, X, Info, CaretDown, CaretUp } from '@phosphor-icons/react';
-import { Loader2 } from 'lucide-react';
+import { SpinnerGap } from '@phosphor-icons/react';
 
 // ============================================================================
 // Types
@@ -85,7 +85,12 @@ const CHARGE_TYPES = {
 const AMOUNT_TYPE_OPTIONS = [
   { value: 'percentage', label: 'Percentuale', description: 'Es: 10% del subtotale', symbol: '%' },
   { value: 'fixed', label: 'Importo Fisso', description: 'Es: €2.00 per ordine', symbol: '€' },
-  { value: 'per_person', label: 'Per Persona', description: 'Es: €2.50 × N persone', symbol: '€/pers' },
+  {
+    value: 'per_person',
+    label: 'Per Persona',
+    description: 'Es: €2.50 × N persone',
+    symbol: '€/pers',
+  },
 ];
 
 const APPLIES_TO_OPTIONS = [
@@ -100,7 +105,11 @@ const APPLIES_TO_OPTIONS = [
 const CALCULATION_BASE_OPTIONS = [
   { value: 'subtotal', label: 'Subtotale', description: 'Calcolato sul totale prodotti' },
   { value: 'after_taxes', label: 'Dopo Tasse', description: 'Calcolato dopo le tasse' },
-  { value: 'after_fees', label: 'Dopo Tasse e Fee', description: 'Calcolato dopo tasse e altri addebiti' },
+  {
+    value: 'after_fees',
+    label: 'Dopo Tasse e Fee',
+    description: 'Calcolato dopo tasse e altri addebiti',
+  },
 ];
 
 // ============================================================================
@@ -230,7 +239,7 @@ export function ChargesManager({ merchantId, onChargesChange }: ChargesManagerPr
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <SpinnerGap className="h-8 w-8 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -275,10 +284,7 @@ export function ChargesManager({ merchantId, onChargesChange }: ChargesManagerPr
         const isExpanded = expandedType === type;
 
         return (
-          <div
-            key={type}
-            className="overflow-hidden rounded-xl border border-gray-200 bg-white"
-          >
+          <div key={type} className="overflow-hidden rounded-xl border border-gray-200 bg-white">
             {/* Section Header */}
             <button
               onClick={() => setExpandedType(isExpanded ? null : type)}
@@ -350,7 +356,9 @@ export function ChargesManager({ merchantId, onChargesChange }: ChargesManagerPr
                                   className="peer sr-only"
                                   disabled={isSaving}
                                 />
-                                <div className={`peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-${config.color}-500 peer-checked:after:translate-x-full peer-checked:after:border-white`}></div>
+                                <div
+                                  className={`peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-${config.color}-500 peer-checked:after:translate-x-full peer-checked:after:border-white`}
+                                ></div>
                               </label>
 
                               {/* Info */}
@@ -531,8 +539,9 @@ function ChargeForm({ form, setForm, type, onSave, onCancel, isSaving, isNew }: 
                   setForm({
                     ...form,
                     amount_type: e.target.value as 'percentage' | 'fixed' | 'per_person',
-                    percentage: e.target.value === 'percentage' ? (form.percentage || 0) : undefined,
-                    fixed_amount: e.target.value !== 'percentage' ? (form.fixed_amount || 0) : undefined,
+                    percentage: e.target.value === 'percentage' ? form.percentage || 0 : undefined,
+                    fixed_amount:
+                      e.target.value !== 'percentage' ? form.fixed_amount || 0 : undefined,
                   })
                 }
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
@@ -554,7 +563,7 @@ function ChargeForm({ form, setForm, type, onSave, onCancel, isSaving, isNew }: 
 
       {/* Amount Value Input */}
       <div>
-        {(form.amount_type === 'percentage' || !form.amount_type) ? (
+        {form.amount_type === 'percentage' || !form.amount_type ? (
           <div>
             {showAmountTypeSelector && (
               <label className="mb-1 block text-sm font-medium text-gray-700">Percentuale *</label>
@@ -584,7 +593,9 @@ function ChargeForm({ form, setForm, type, onSave, onCancel, isSaving, isNew }: 
                 min={0}
                 step={0.01}
                 value={form.fixed_amount || 0}
-                onChange={(e) => setForm({ ...form, fixed_amount: parseFloat(e.target.value) || 0 })}
+                onChange={(e) =>
+                  setForm({ ...form, fixed_amount: parseFloat(e.target.value) || 0 })
+                }
                 className="w-full rounded-lg border border-gray-300 py-2 pl-8 pr-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -612,7 +623,9 @@ function ChargeForm({ form, setForm, type, onSave, onCancel, isSaving, isNew }: 
       {/* Display Mode (only for tax) */}
       {type === 'tax' && (
         <div>
-          <label className="mb-2 block text-sm font-medium text-gray-700">Modalità Visualizzazione</label>
+          <label className="mb-2 block text-sm font-medium text-gray-700">
+            Modalità Visualizzazione
+          </label>
           <div className="flex gap-3">
             <button
               type="button"
@@ -649,7 +662,10 @@ function ChargeForm({ form, setForm, type, onSave, onCancel, isSaving, isNew }: 
           <select
             value={form.calculation_base}
             onChange={(e) =>
-              setForm({ ...form, calculation_base: e.target.value as ChargeFormData['calculation_base'] })
+              setForm({
+                ...form,
+                calculation_base: e.target.value as ChargeFormData['calculation_base'],
+              })
             }
             className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
           >
@@ -742,13 +758,15 @@ function ChargeForm({ form, setForm, type, onSave, onCancel, isSaving, isNew }: 
           disabled={
             isSaving ||
             !form.name ||
-            (form.amount_type === 'percentage' && (form.percentage === undefined || form.percentage < 0)) ||
-            (form.amount_type !== 'percentage' && (form.fixed_amount === undefined || form.fixed_amount < 0))
+            (form.amount_type === 'percentage' &&
+              (form.percentage === undefined || form.percentage < 0)) ||
+            (form.amount_type !== 'percentage' &&
+              (form.fixed_amount === undefined || form.fixed_amount < 0))
           }
           className={`flex items-center gap-1 rounded-lg bg-${config.color}-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-${config.color}-700 disabled:opacity-50`}
         >
           {isSaving ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <SpinnerGap className="h-4 w-4 animate-spin" />
           ) : (
             <Check className="h-4 w-4" />
           )}
@@ -775,7 +793,13 @@ function ReceiptPreview({ charges, subtotal, personCount = 2 }: ReceiptPreviewPr
   let taxesTotal = 0;
   let feesTotal = 0;
 
-  const breakdown: Array<{ name: string; amount: number; included?: boolean; type: string; detail?: string }> = [];
+  const breakdown: Array<{
+    name: string;
+    amount: number;
+    included?: boolean;
+    type: string;
+    detail?: string;
+  }> = [];
 
   // Process taxes first
   charges
@@ -864,7 +888,11 @@ function ReceiptPreview({ charges, subtotal, personCount = 2 }: ReceiptPreviewPr
           <span className={item.included ? '' : 'text-gray-600'}>
             {item.included ? `di cui ${item.name}` : item.name}
           </span>
-          <span className={item.included ? '' : item.type === 'tip' ? 'text-amber-600' : 'text-gray-900'}>
+          <span
+            className={
+              item.included ? '' : item.type === 'tip' ? 'text-amber-600' : 'text-gray-900'
+            }
+          >
             €{item.amount.toFixed(2)}
           </span>
         </div>

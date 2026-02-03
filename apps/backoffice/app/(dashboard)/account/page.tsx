@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { useAccountRoles } from '@/lib/hooks/useAccountRoles';
-import { User, Mail, Shield, Star, Camera, Save } from 'lucide-react';
+import { User, Envelope, Shield, Star, Camera, FloppyDisk } from '@phosphor-icons/react';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export default function AccountPage() {
@@ -118,7 +118,7 @@ export default function AccountPage() {
               disabled={isSaving}
               className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
             >
-              <Save className="h-4 w-4" />
+              <FloppyDisk className="h-4 w-4" />
               {isSaving ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
@@ -127,7 +127,7 @@ export default function AccountPage() {
         {/* Email Section */}
         <div className="rounded-xl border border-gray-200 bg-white p-6">
           <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900">
-            <Mail className="h-5 w-5 text-gray-400" />
+            <Envelope className="h-5 w-5 text-gray-400" />
             Email Address
           </h2>
 

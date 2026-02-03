@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Copy, Check, ExternalLink, AlertCircle } from 'lucide-react';
+import { Copy, Check, ArrowSquareOut, WarningCircle } from '@phosphor-icons/react';
 import QRCode from 'qrcode';
 
 // ============================================================================
@@ -233,7 +233,7 @@ export function CryptoWalletInput({
                         className="rounded p-1.5 text-gray-400 hover:text-gray-600"
                         title={`View on ${crypto.explorerName}`}
                       >
-                        <ExternalLink className="h-4 w-4" />
+                        <ArrowSquareOut className="h-4 w-4" />
                       </button>
                     )}
                   </>
@@ -244,7 +244,7 @@ export function CryptoWalletInput({
             {/* Validation Message */}
             {isValid === false && (
               <div className="mt-1 flex items-center gap-1 text-sm text-red-600">
-                <AlertCircle className="h-4 w-4" />
+                <WarningCircle className="h-4 w-4" />
                 <span>Invalid {crypto.symbol} address format</span>
               </div>
             )}

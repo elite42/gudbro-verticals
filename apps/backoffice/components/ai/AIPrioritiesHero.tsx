@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Brain, Sparkles, CheckCircle2, RefreshCw } from 'lucide-react';
+import { Brain, Sparkle, CheckCircle, ArrowsClockwise } from '@phosphor-icons/react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { AIPriorityCard, AIPriority, PriorityLevel } from './AIPriorityCard';
 import { ScenarioBanner } from './ScenarioBanner';
@@ -427,7 +427,7 @@ export function AIPrioritiesHero() {
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-semibold text-gray-900">AI Co-Manager</h2>
-              <Sparkles className="h-4 w-4 text-purple-500" />
+              <Sparkle className="h-4 w-4 text-purple-500" />
             </div>
             <p className="mt-1 text-gray-600">
               Seleziona una location dal menu in alto a sinistra per attivare i suggerimenti AI
@@ -463,7 +463,7 @@ export function AIPrioritiesHero() {
       <div className="rounded-xl border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-6">
         <div className="flex items-center gap-4">
           <div className="rounded-xl bg-green-100 p-3">
-            <CheckCircle2 className="h-8 w-8 text-green-600" />
+            <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2">
@@ -482,7 +482,7 @@ export function AIPrioritiesHero() {
             className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-white/50 hover:text-gray-600"
             title="Aggiorna"
           >
-            <RefreshCw className="h-5 w-5" />
+            <ArrowsClockwise className="h-5 w-5" />
           </button>
         </div>
         {lastUpdated && (
@@ -533,7 +533,7 @@ export function AIPrioritiesHero() {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-bold text-gray-900">AI Priorities</h2>
-              <Sparkles className="h-4 w-4 text-purple-500" />
+              <Sparkle className="h-4 w-4 text-purple-500" />
             </div>
             <p className="text-sm text-gray-500">
               {criticalCount > 0 && (
@@ -555,7 +555,7 @@ export function AIPrioritiesHero() {
           className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
           title="Aggiorna"
         >
-          <RefreshCw className="h-5 w-5" />
+          <ArrowsClockwise className="h-5 w-5" />
         </button>
       </div>
 

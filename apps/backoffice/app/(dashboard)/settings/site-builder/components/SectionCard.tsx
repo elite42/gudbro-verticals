@@ -2,7 +2,7 @@
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, Pencil, Eye, EyeOff, Clock } from 'lucide-react';
+import { DotsSixVertical, PencilSimple, Eye, EyeSlash, Clock } from '@phosphor-icons/react';
 import { SiteSectionType } from '@/lib/supabase';
 
 // ============================================================================
@@ -76,7 +76,7 @@ export function SectionCard({
         className="cursor-grab touch-none text-gray-400 hover:text-gray-600"
         disabled={disabled}
       >
-        <GripVertical className="h-5 w-5" />
+        <DotsSixVertical className="h-5 w-5" />
       </button>
 
       {/* Icon */}
@@ -121,7 +121,7 @@ export function SectionCard({
           }`}
           title={section.isEnabled ? 'Hide section' : 'Show section'}
         >
-          {section.isEnabled ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+          {section.isEnabled ? <Eye className="h-5 w-5" /> : <EyeSlash className="h-5 w-5" />}
         </button>
 
         {/* Edit Button */}
@@ -131,7 +131,7 @@ export function SectionCard({
           className="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
           title="Edit section"
         >
-          <Pencil className="h-5 w-5" />
+          <PencilSimple className="h-5 w-5" />
         </button>
       </div>
     </div>

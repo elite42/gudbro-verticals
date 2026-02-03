@@ -327,10 +327,12 @@ export default function BarDisplayPage() {
                 orderCode: order.order_code,
                 message: 'Your drinks are ready! 🍹',
               }),
-            }).catch((err) => console.log('[Push] Notification skipped:', err.message));
+            }).catch(() => {
+              /* Push non-blocking */
+            });
           }
-        } catch (pushErr) {
-          console.log('[Push] Notification error (non-blocking):', pushErr);
+        } catch {
+          // Push notification non-blocking
         }
       }
     } catch (err) {

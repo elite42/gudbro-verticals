@@ -2,7 +2,7 @@
 // AI processing pipeline for merchant feedback submissions
 // Translates, classifies, tags, and links submissions to tasks
 
-import { getOpenAIClient, calculateCost } from './openai';
+import { getOpenAIClient } from './openai';
 import { supabaseAdmin } from '../supabase-admin';
 import { createFeedbackNotification } from '../feedback/notification-utils';
 
@@ -131,11 +131,6 @@ export async function processSubmission(submissionId: string): Promise<void> {
 
   // 2. Guard: only process pending submissions
   if (sub.status !== 'pending') {
-    console.log(
-      '[FeedbackIntelligence] Skipping non-pending submission:',
-      submissionId,
-      sub.status
-    );
     return;
   }
 
@@ -192,8 +187,6 @@ export async function processSubmission(submissionId: string): Promise<void> {
         processed_at: new Date().toISOString(),
       } as Record<string, unknown>)
       .eq('id', submissionId);
-
-    console.log('[FeedbackIntelligence] Processed submission:', submissionId, '-> task:', taskId);
 
     // Create "acknowledged" notification for the submitter
     if (sub.submitted_by_account_id) {
@@ -268,18 +261,6 @@ Respond with valid JSON only.`;
     max_tokens: 800,
     response_format: { type: 'json_object' },
   });
-
-  // Track cost (logging only for now)
-  if (completion.usage) {
-    const cost = calculateCost(
-      'gpt-4o-mini',
-      completion.usage.prompt_tokens,
-      completion.usage.completion_tokens
-    );
-    console.log(
-      `[FeedbackIntelligence] AI cost: $${cost.toFixed(6)} (${completion.usage.prompt_tokens}+${completion.usage.completion_tokens} tokens)`
-    );
-  }
 
   const responseText = completion.choices[0]?.message?.content || '{}';
 

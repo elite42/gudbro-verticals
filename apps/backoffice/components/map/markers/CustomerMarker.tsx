@@ -8,7 +8,15 @@
 
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { User, Phone, Mail, Star, Wallet, ShoppingBag, Clock } from 'lucide-react';
+import {
+  User,
+  Phone,
+  EnvelopeSimple,
+  Star,
+  Wallet,
+  ShoppingBag,
+  Clock,
+} from '@phosphor-icons/react';
 import type { CustomerEntity } from '../hooks/useMapData';
 
 interface CustomerMarkerProps {
@@ -79,7 +87,7 @@ export function CustomerMarker({ customer, icon, isSelected, onClick }: Customer
             )}
             {customer.email && (
               <div className="flex items-center gap-1 text-gray-600">
-                <Mail className="h-3 w-3" />
+                <EnvelopeSimple className="h-3 w-3" />
                 <span className="truncate">{customer.email}</span>
               </div>
             )}

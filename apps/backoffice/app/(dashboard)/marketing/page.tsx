@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Calendar, Tag, Trophy, Gift, Percent, Ticket } from 'lucide-react';
+import { CalendarBlank, Tag, Trophy, Gift, Percent, Ticket } from '@phosphor-icons/react';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 export default function MarketingPage() {
@@ -13,7 +13,7 @@ export default function MarketingPage() {
       name: t('events'),
       description: t('eventsDesc'),
       href: '/marketing/events',
-      icon: Calendar,
+      icon: CalendarBlank,
       color: 'from-blue-500 to-indigo-500',
       bgColor: 'bg-blue-50',
     },
@@ -107,7 +107,7 @@ export default function MarketingPage() {
       <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
         <div className="flex items-start gap-3">
           <div className="rounded-full bg-blue-100 p-2">
-            <Calendar className="h-5 w-5 text-blue-600" />
+            <CalendarBlank className="h-5 w-5 text-blue-600" />
           </div>
           <div>
             <h3 className="font-medium text-blue-900">{t('aiPoweredMarketing')}</h3>

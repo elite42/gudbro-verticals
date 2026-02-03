@@ -57,20 +57,20 @@ export async function getPendingContributions(): Promise<PendingContribution[]> 
     return [];
   }
 
-  return (data || []).map((c: any) => ({
-    id: c.id,
-    ingredientName: c.ingredient_name,
-    ingredientNameLocal: c.ingredient_name_local,
-    category: c.category,
-    submittedJson: c.submitted_json || {},
-    sourcePhotos: c.source_photos || [],
-    sourceType: c.source_type,
-    aiConfidenceScore: c.ai_confidence_score,
-    contributorLocale: c.contributor_locale,
-    createdAt: c.created_at,
-    contributorEmail: c.contributor_email,
-    contributorName: c.contributor_name,
-    contributorTotalPoints: c.contributor_total_points || 0,
+  return (data || []).map((c: Record<string, unknown>) => ({
+    id: c.id as string,
+    ingredientName: c.ingredient_name as string,
+    ingredientNameLocal: c.ingredient_name_local as string | undefined,
+    category: c.category as string | undefined,
+    submittedJson: (c.submitted_json as PendingContribution['submittedJson']) || { name: '' },
+    sourcePhotos: (c.source_photos as string[]) || [],
+    sourceType: c.source_type as 'manual' | 'photo_ai' | 'barcode' | 'import',
+    aiConfidenceScore: c.ai_confidence_score as number | undefined,
+    contributorLocale: c.contributor_locale as string,
+    createdAt: c.created_at as string,
+    contributorEmail: c.contributor_email as string,
+    contributorName: c.contributor_name as string | undefined,
+    contributorTotalPoints: (c.contributor_total_points as number) || 0,
   }));
 }
 
@@ -117,21 +117,28 @@ export async function getContributions(filters?: {
   }
 
   return {
-    data: (data || []).map((c: any) => ({
-      id: c.id,
-      ingredientName: c.ingredient_name,
-      ingredientNameLocal: c.ingredient_name_local,
-      category: c.category,
-      submittedJson: c.submitted_json || {},
-      sourcePhotos: c.source_photos || [],
-      sourceType: c.source_type,
-      aiConfidenceScore: c.ai_confidence_score,
-      contributorLocale: c.contributor_locale,
-      createdAt: c.created_at,
-      contributorEmail: c.accounts?.email || '',
-      contributorName: c.accounts?.display_name,
-      contributorTotalPoints: c.accounts?.contributor_points || 0,
-    })),
+    data: (data || []).map((c: Record<string, unknown>) => {
+      const accountsData = c.accounts as
+        | Record<string, unknown>
+        | Record<string, unknown>[]
+        | undefined;
+      const accounts = Array.isArray(accountsData) ? accountsData[0] : accountsData;
+      return {
+        id: c.id as string,
+        ingredientName: c.ingredient_name as string,
+        ingredientNameLocal: c.ingredient_name_local as string | undefined,
+        category: c.category as string | undefined,
+        submittedJson: (c.submitted_json as PendingContribution['submittedJson']) || { name: '' },
+        sourcePhotos: (c.source_photos as string[]) || [],
+        sourceType: c.source_type as 'manual' | 'photo_ai' | 'barcode' | 'import',
+        aiConfidenceScore: c.ai_confidence_score as number | undefined,
+        contributorLocale: c.contributor_locale as string,
+        createdAt: c.created_at as string,
+        contributorEmail: (accounts?.email as string) || '',
+        contributorName: accounts?.display_name as string | undefined,
+        contributorTotalPoints: (accounts?.contributor_points as number) || 0,
+      };
+    }),
     total: count || 0,
   };
 }
@@ -180,14 +187,18 @@ export async function approveContribution(
 
   // Send email notification (async, don't wait)
   if (contribution) {
-    const account = contribution.accounts as any;
+    const accountsData = contribution.accounts as
+      | Record<string, unknown>
+      | Record<string, unknown>[]
+      | undefined;
+    const account = Array.isArray(accountsData) ? accountsData[0] : accountsData;
     sendContributionEmail({
       type: 'approved',
-      email: account?.email || '',
-      name: account?.display_name || account?.first_name || 'Contributor',
+      email: (account?.email as string) || '',
+      name: (account?.display_name as string) || (account?.first_name as string) || 'Contributor',
       ingredientName: contribution.ingredient_name,
       pointsEarned: data || 50,
-      totalPoints: (account?.contributor_points || 0) + (data || 50),
+      totalPoints: ((account?.contributor_points as number) || 0) + (data || 50),
     }).catch((err) => {
       console.error('[ContributionAdminService] Email failed:', err);
     });
@@ -235,11 +246,15 @@ export async function rejectContribution(
 
   // Send email notification (async, don't wait)
   if (contribution) {
-    const account = contribution.accounts as any;
+    const accountsData = contribution.accounts as
+      | Record<string, unknown>
+      | Record<string, unknown>[]
+      | undefined;
+    const account = Array.isArray(accountsData) ? accountsData[0] : accountsData;
     sendContributionEmail({
       type: 'rejected',
-      email: account?.email || '',
-      name: account?.display_name || account?.first_name || 'Contributor',
+      email: (account?.email as string) || '',
+      name: (account?.display_name as string) || (account?.first_name as string) || 'Contributor',
       ingredientName: contribution.ingredient_name,
       reason: reason,
     }).catch((err) => {
@@ -297,12 +312,13 @@ export async function getContributionStats(): Promise<{
     total: data?.length || 0,
   };
 
-  data?.forEach((c: any) => {
-    if (c.status === 'pending' || c.status === 'in_review') {
+  data?.forEach((c: Record<string, unknown>) => {
+    const status = c.status as string;
+    if (status === 'pending' || status === 'in_review') {
       stats.pending++;
-    } else if (c.status === 'approved' || c.status === 'merged') {
+    } else if (status === 'approved' || status === 'merged') {
       stats.approved++;
-    } else if (c.status === 'rejected' || c.status === 'duplicate') {
+    } else if (status === 'rejected' || status === 'duplicate') {
       stats.rejected++;
     }
   });
@@ -487,6 +503,5 @@ async function sendContributionEmail(params: ContributionEmailParams): Promise<v
     throw new Error(errorData.message || `HTTP ${response.status}`);
   }
 
-  const data = await response.json();
-  console.log('[ContributionAdminService] Email sent:', data.id);
+  await response.json();
 }

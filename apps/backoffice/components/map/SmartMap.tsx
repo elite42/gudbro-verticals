@@ -14,7 +14,7 @@
 
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { SpinnerGap } from '@phosphor-icons/react';
 import { MapFilters, type FilterState } from './MapFilters';
 import { MapStatsPanel } from './MapStatsPanel';
 import { MapLegend } from './MapLegend';
@@ -26,7 +26,7 @@ const MapContainer = dynamic(() => import('./MapContainer'), {
   loading: () => (
     <div className="flex h-[600px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50">
       <div className="flex flex-col items-center gap-2">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <SpinnerGap className="h-8 w-8 animate-spin text-gray-400" />
         <span className="text-sm text-gray-500">Loading map...</span>
       </div>
     </div>

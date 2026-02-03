@@ -7,16 +7,16 @@ import {
   Cloud,
   Snowflake,
   Wind,
-  AlertTriangle,
-  ChevronDown,
-  RefreshCw,
+  Warning,
+  CaretDown,
+  ArrowsClockwise,
   Coffee,
   IceCream,
   Users,
-  Utensils,
+  ForkKnife,
   Megaphone,
-  ThermometerSun,
-} from 'lucide-react';
+  Thermometer,
+} from '@phosphor-icons/react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 
 // Types
@@ -216,9 +216,9 @@ function getMenuCategoryIcon(category: MenuSuggestion['category']) {
       return <IceCream className="h-3 w-3" />;
     case 'soups':
     case 'comfort':
-      return <Utensils className="h-3 w-3" />;
+      return <ForkKnife className="h-3 w-3" />;
     default:
-      return <Utensils className="h-3 w-3" />;
+      return <ForkKnife className="h-3 w-3" />;
   }
 }
 
@@ -347,7 +347,7 @@ export function WeatherWidget() {
         className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-gray-400"
         title={retryCount > 0 ? `Retry ${retryCount}/${MAX_RETRIES}...` : 'Loading weather...'}
       >
-        <RefreshCw className="h-4 w-4 animate-spin" />
+        <ArrowsClockwise className="h-4 w-4 animate-spin" />
         {retryCount > 0 && <span className="text-xs">{retryCount}</span>}
       </div>
     );
@@ -361,7 +361,7 @@ export function WeatherWidget() {
         className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-amber-600 transition-colors hover:bg-amber-50"
         title={`Weather ${error}${errorDetails ? `: ${errorDetails}` : ''}. Click to retry.`}
       >
-        <AlertTriangle className="h-4 w-4" />
+        <Warning className="h-4 w-4" />
         <span className="text-xs font-medium">!</span>
       </button>
     );
@@ -410,7 +410,7 @@ export function WeatherWidget() {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
           </span>
         )}
-        <ChevronDown
+        <CaretDown
           className={`h-3.5 w-3.5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
@@ -440,7 +440,7 @@ export function WeatherWidget() {
                 className="rounded-lg p-1.5 text-gray-400 hover:bg-white/50 hover:text-gray-600"
                 title="Refresh"
               >
-                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                <ArrowsClockwise className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
               </button>
             </div>
           </div>
@@ -450,7 +450,7 @@ export function WeatherWidget() {
             <div className="border-b border-amber-100 bg-amber-50 px-4 py-2">
               {weather.alerts.map((alert, i) => (
                 <div key={i} className="flex items-start gap-2">
-                  <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
+                  <Warning className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
                   <div>
                     <p className="text-sm font-medium text-amber-800">{alert.title}</p>
                     <p className="text-xs text-amber-700">{alert.description}</p>
@@ -537,7 +537,7 @@ export function WeatherWidget() {
                 ) : weather.businessImpact.beverageFocus === 'cold' ? (
                   <IceCream className="h-4 w-4 text-cyan-500" />
                 ) : (
-                  <ThermometerSun className="h-4 w-4 text-gray-500" />
+                  <Thermometer className="h-4 w-4 text-gray-500" />
                 )}
                 <p className="text-xs text-gray-600">
                   Push{' '}
@@ -619,7 +619,7 @@ export function WeatherWidget() {
                 weather.businessImpact.menuSuggestions.length > 0 && (
                   <div>
                     <div className="mb-1.5 flex items-center gap-1.5">
-                      <Utensils className="h-3.5 w-3.5 text-gray-400" />
+                      <ForkKnife className="h-3.5 w-3.5 text-gray-400" />
                       <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
                         Menu Focus
                       </p>

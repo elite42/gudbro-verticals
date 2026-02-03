@@ -8,7 +8,7 @@
 
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { Building2, MapPin, Star, DollarSign } from 'lucide-react';
+import { BuildingOffice, MapPin, Star, CurrencyDollar } from '@phosphor-icons/react';
 import type { CompetitorEntity } from '../hooks/useMapData';
 import { formatDistance } from '../MapStatsPanel';
 
@@ -33,7 +33,7 @@ export function CompetitorMarker({ competitor, icon, isSelected, onClick }: Comp
           {/* Header */}
           <div className="flex items-start gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-100">
-              <Building2 className="h-4 w-4 text-red-600" />
+              <BuildingOffice className="h-4 w-4 text-red-600" />
             </div>
             <div className="flex-1">
               <h3 className="font-medium text-gray-900">{competitor.name}</h3>
@@ -55,7 +55,7 @@ export function CompetitorMarker({ competitor, icon, isSelected, onClick }: Comp
             <div className="flex items-center gap-4">
               {competitor.price_range && (
                 <div className="flex items-center gap-1 text-gray-600">
-                  <DollarSign className="h-3 w-3" />
+                  <CurrencyDollar className="h-3 w-3" />
                   <span>{competitor.price_range}</span>
                 </div>
               )}

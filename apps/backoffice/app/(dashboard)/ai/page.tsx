@@ -5,23 +5,23 @@ import { useTenant } from '@/lib/contexts/TenantContext';
 import Link from 'next/link';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
-  Sparkles,
+  Sparkle,
   Sun,
-  CheckCircle2,
-  AlertTriangle,
-  TrendingUp,
-  Calendar,
+  CheckCircle,
+  Warning,
+  TrendUp,
+  CalendarBlank,
   Package,
-  DollarSign,
+  CurrencyDollar,
   Users,
-  MessageSquare,
-  RefreshCw,
-  ChevronRight,
+  ChatTeardrop,
+  ArrowsClockwise,
+  CaretRight,
   Clock,
   Lightbulb,
-  Zap,
+  Lightning,
   UserMinus,
-} from 'lucide-react';
+} from '@phosphor-icons/react';
 import { LearningProgressWidget } from '@/components/ai/LearningProgressWidget';
 
 // Types
@@ -174,7 +174,7 @@ export default function AIPage() {
     return (
       <div className="flex h-96 items-center justify-center">
         <div className="text-center">
-          <Sparkles className="mx-auto h-12 w-12 animate-pulse text-blue-500" />
+          <Sparkle className="mx-auto h-12 w-12 animate-pulse text-blue-500" />
           <p className="mt-4 text-gray-500">Caricamento AI Co-Manager...</p>
         </div>
       </div>
@@ -187,7 +187,7 @@ export default function AIPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600">
-            <Sparkles className="h-6 w-6 text-white" />
+            <Sparkle className="h-6 w-6 text-white" />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -202,7 +202,7 @@ export default function AIPage() {
           disabled={refreshing}
           className="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 disabled:opacity-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
         >
-          <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+          <ArrowsClockwise className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
           Aggiorna
         </button>
       </div>
@@ -210,26 +210,26 @@ export default function AIPage() {
       {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          icon={CheckCircle2}
+          icon={CheckCircle}
           label="Task Completati"
           value={tasks.filter((t) => t.status === 'completed').length}
           total={tasks.length}
           color="green"
         />
         <StatCard
-          icon={AlertTriangle}
+          icon={Warning}
           label="Alert Attivi"
           value={inventoryAlerts.length}
           color="yellow"
         />
         <StatCard
-          icon={TrendingUp}
+          icon={TrendUp}
           label="Margine Profitto"
           value={financialSummary ? `${financialSummary.profit_margin.toFixed(1)}%` : '-'}
           color="blue"
         />
         <StatCard
-          icon={MessageSquare}
+          icon={ChatTeardrop}
           label="Conversazioni AI"
           value="12"
           subtitle="questa settimana"
@@ -321,11 +321,11 @@ export default function AIPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
+              <CheckCircle className="h-5 w-5 text-green-500" />
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Task Delegati</h2>
             </div>
             <button className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400">
-              Vedi tutti <ChevronRight className="h-4 w-4" />
+              Vedi tutti <CaretRight className="h-4 w-4" />
             </button>
           </div>
 
@@ -374,7 +374,7 @@ export default function AIPage() {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <CheckCircle2 className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+              <CheckCircle className="h-12 w-12 text-gray-300 dark:text-gray-600" />
               <p className="mt-3 text-gray-500">Nessun task delegato</p>
               <p className="mt-1 text-sm text-gray-400">
                 Chiedi all&apos;AI di creare task per il tuo team
@@ -432,7 +432,7 @@ export default function AIPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5 text-emerald-500" />
+              <CurrencyDollar className="h-5 w-5 text-emerald-500" />
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Riepilogo Finanziario
               </h2>
@@ -484,7 +484,7 @@ export default function AIPage() {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <DollarSign className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+              <CurrencyDollar className="h-12 w-12 text-gray-300 dark:text-gray-600" />
               <p className="mt-3 text-gray-500">Dati finanziari non disponibili</p>
             </div>
           )}
@@ -506,7 +506,7 @@ export default function AIPage() {
               href="/customers/intelligence"
               className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400"
             >
-              View All <ChevronRight className="h-4 w-4" />
+              View All <CaretRight className="h-4 w-4" />
             </Link>
           </div>
 
@@ -515,7 +515,7 @@ export default function AIPage() {
               {customerIntel.highRiskCount > 0 && (
                 <div className="rounded-lg bg-red-50 p-3 dark:bg-red-900/20">
                   <div className="flex items-center gap-2">
-                    <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                    <Warning className="h-4 w-4 text-red-600 dark:text-red-400" />
                     <span className="font-medium text-red-700 dark:text-red-300">
                       {customerIntel.highRiskCount} customers at risk
                     </span>
@@ -570,7 +570,7 @@ export default function AIPage() {
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Zap className="h-5 w-5 text-purple-500" />
+              <Lightning className="h-5 w-5 text-purple-500" />
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Automated Triggers
               </h2>
@@ -579,7 +579,7 @@ export default function AIPage() {
               href="/ai/triggers"
               className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400"
             >
-              Manage <ChevronRight className="h-4 w-4" />
+              Manage <CaretRight className="h-4 w-4" />
             </Link>
           </div>
 
@@ -613,7 +613,7 @@ export default function AIPage() {
 
               <div className="rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 p-3 dark:from-purple-900/10 dark:to-blue-900/10">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                  <Sparkle className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                   <span className="text-sm font-medium text-purple-700 dark:text-purple-300">
                     AI Suggestion
                   </span>
@@ -627,13 +627,13 @@ export default function AIPage() {
                 href="/ai/triggers"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
               >
-                <Zap className="h-4 w-4" />
+                <Lightning className="h-4 w-4" />
                 Create New Trigger
               </Link>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <Zap className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+              <Lightning className="h-12 w-12 text-gray-300 dark:text-gray-600" />
               <p className="mt-3 text-gray-500">No triggers configured</p>
               <Link
                 href="/ai/triggers"

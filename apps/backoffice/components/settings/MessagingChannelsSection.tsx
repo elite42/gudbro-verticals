@@ -19,17 +19,17 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  Loader2,
+  SpinnerGap,
   Check,
-  AlertCircle,
-  ExternalLink,
+  WarningCircle,
+  ArrowSquareOut,
   Eye,
-  EyeOff,
-  RefreshCw,
+  EyeSlash,
+  ArrowsClockwise,
   QrCode,
-  Settings2,
-  MessageCircle,
-} from 'lucide-react';
+  GearSix,
+  ChatCircle,
+} from '@phosphor-icons/react';
 
 interface ChannelConfig {
   key: string;
@@ -397,7 +397,7 @@ export function MessagingChannelsSection({ merchantId }: MessagingChannelsSectio
   if (isLoading) {
     return (
       <div className="flex h-32 items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+        <SpinnerGap className="h-6 w-6 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -408,7 +408,7 @@ export function MessagingChannelsSection({ merchantId }: MessagingChannelsSectio
       <div className="mb-6 flex items-start justify-between">
         <div>
           <h3 className="flex items-center gap-2 font-semibold text-gray-900">
-            <MessageCircle className="h-5 w-5 text-blue-600" />
+            <ChatCircle className="h-5 w-5 text-blue-600" />
             Messaging Channels
           </h3>
           <p className="mt-1 text-sm text-gray-500">
@@ -423,7 +423,7 @@ export function MessagingChannelsSection({ merchantId }: MessagingChannelsSectio
       {/* Error/Success Messages */}
       {error && (
         <div className="mb-4 flex items-center gap-2 rounded-lg bg-red-50 p-3 text-sm text-red-700">
-          <AlertCircle className="h-4 w-4" />
+          <WarningCircle className="h-4 w-4" />
           {error}
         </div>
       )}
@@ -499,7 +499,7 @@ export function MessagingChannelsSection({ merchantId }: MessagingChannelsSectio
                     onClick={() => setExpandedChannel(isExpanded ? null : channel.key)}
                     className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"
                   >
-                    <Settings2 className="h-4 w-4" />
+                    <GearSix className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -545,7 +545,7 @@ export function MessagingChannelsSection({ merchantId }: MessagingChannelsSectio
                               className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600"
                             >
                               {showPasswords[`${channel.key}_${field.key}`] ? (
-                                <EyeOff className="h-4 w-4" />
+                                <EyeSlash className="h-4 w-4" />
                               ) : (
                                 <Eye className="h-4 w-4" />
                               )}
@@ -567,7 +567,7 @@ export function MessagingChannelsSection({ merchantId }: MessagingChannelsSectio
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700"
                     >
-                      <ExternalLink className="h-3 w-3" />
+                      <ArrowSquareOut className="h-3 w-3" />
                       Setup Guide
                     </a>
 
@@ -578,9 +578,9 @@ export function MessagingChannelsSection({ merchantId }: MessagingChannelsSectio
                         className="flex items-center gap-1 rounded-lg border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
                       >
                         {isTesting ? (
-                          <Loader2 className="h-3 w-3 animate-spin" />
+                          <SpinnerGap className="h-3 w-3 animate-spin" />
                         ) : (
-                          <RefreshCw className="h-3 w-3" />
+                          <ArrowsClockwise className="h-3 w-3" />
                         )}
                         Test
                       </button>
@@ -590,7 +590,7 @@ export function MessagingChannelsSection({ merchantId }: MessagingChannelsSectio
                         className="flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
                       >
                         {isSaving ? (
-                          <Loader2 className="h-3 w-3 animate-spin" />
+                          <SpinnerGap className="h-3 w-3 animate-spin" />
                         ) : (
                           <Check className="h-3 w-3" />
                         )}
@@ -616,7 +616,7 @@ export function MessagingChannelsSection({ merchantId }: MessagingChannelsSectio
                   {/* Verification Error */}
                   {status.verificationError && (
                     <div className="mt-3 flex items-start gap-2 rounded-lg bg-red-50 p-3 text-sm text-red-700">
-                      <AlertCircle className="mt-0.5 h-4 w-4" />
+                      <WarningCircle className="mt-0.5 h-4 w-4" />
                       <div>
                         <p className="font-medium">Connection Error</p>
                         <p>{status.verificationError}</p>

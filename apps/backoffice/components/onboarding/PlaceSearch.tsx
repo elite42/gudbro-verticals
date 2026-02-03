@@ -12,7 +12,7 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, MapPin, Building2, Loader2, X } from 'lucide-react';
+import { MagnifyingGlass, MapPin, Buildings, SpinnerGap, X } from '@phosphor-icons/react';
 
 export interface PlaceResult {
   placeId: string;
@@ -201,7 +201,7 @@ export function PlaceSearch({
     setSelectedPlace(null); // Clear selection when typing
   };
 
-  const Icon = type === 'lodging' ? Building2 : MapPin;
+  const Icon = type === 'lodging' ? Buildings : MapPin;
 
   return (
     <div ref={containerRef} className="relative w-full">
@@ -231,13 +231,13 @@ export function PlaceSearch({
         {/* Right side: loading or clear button */}
         <div className="absolute inset-y-0 right-0 flex items-center pr-3">
           {isLoading ? (
-            <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
+            <SpinnerGap className="h-5 w-5 animate-spin text-gray-400" />
           ) : query && !disabled ? (
             <button type="button" onClick={handleClear} className="rounded p-0.5 hover:bg-gray-100">
               <X className="h-4 w-4 text-gray-400" />
             </button>
           ) : (
-            <Search className="h-5 w-5 text-gray-400" />
+            <MagnifyingGlass className="h-5 w-5 text-gray-400" />
           )}
         </div>
       </div>

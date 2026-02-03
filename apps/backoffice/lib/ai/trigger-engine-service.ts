@@ -556,23 +556,16 @@ async function performAction(execution: TriggerExecution, trigger: CustomerTrigg
     switch (trigger.actionType) {
       case 'notification':
         // TODO: Integrate with notification service
-        console.log(`[Trigger] Sending notification to ${execution.accountId}`);
         await updateExecutionStatus(execution.id, 'sent');
         break;
 
       case 'promo':
         // TODO: Create promo in promotions table
-        console.log(
-          `[Trigger] Creating promo for ${execution.accountId}: ${execution.actionDetails.promoCode}`
-        );
         await updateExecutionStatus(execution.id, 'sent');
         break;
 
       case 'loyalty_reward':
         // TODO: Add points to loyalty account
-        console.log(
-          `[Trigger] Awarding ${execution.actionDetails.pointsAmount} points to ${execution.accountId}`
-        );
         await updateExecutionStatus(execution.id, 'sent');
         break;
 
@@ -594,22 +587,15 @@ async function performAction(execution: TriggerExecution, trigger: CustomerTrigg
 
       case 'workflow':
         // TODO: Start workflow execution
-        console.log(
-          `[Trigger] Starting workflow ${execution.actionDetails.workflowId} for ${execution.accountId}`
-        );
         await updateExecutionStatus(execution.id, 'sent');
         break;
 
       case 'tag':
         // TODO: Add tags to customer
-        console.log(
-          `[Trigger] Adding tags to ${execution.accountId}: ${execution.actionDetails.tags?.join(', ')}`
-        );
         await updateExecutionStatus(execution.id, 'delivered');
         break;
 
       default:
-        console.log(`[Trigger] Custom action for ${execution.accountId}`);
         await updateExecutionStatus(execution.id, 'sent');
     }
   } catch (error) {

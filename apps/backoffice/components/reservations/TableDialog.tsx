@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, Users, Hash, LayoutGrid } from 'lucide-react';
+import { X, Users, Hash, GridFour } from '@phosphor-icons/react';
 import { TableData, TableShapeType } from './TableShape';
 
 interface Section {
@@ -178,7 +178,7 @@ export function TableDialog({
             {/* Shape */}
             <div>
               <label className="mb-1 flex items-center gap-1.5 text-sm font-medium text-gray-700">
-                <LayoutGrid className="h-4 w-4" /> Table Shape
+                <GridFour className="h-4 w-4" /> Table Shape
               </label>
               <div className="flex gap-2">
                 {SHAPE_OPTIONS.map((option) => (

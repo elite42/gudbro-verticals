@@ -1,6 +1,6 @@
 'use client';
 
-import { Filter, X } from 'lucide-react';
+import { Funnel, X } from '@phosphor-icons/react';
 import { ReservationStatus } from './ReservationCard';
 
 export interface ReservationFiltersState {
@@ -59,7 +59,7 @@ export function ReservationFilters({
   return (
     <div className="flex flex-wrap items-center gap-3 border-b border-gray-200 bg-gray-50 px-4 py-3">
       <div className="flex items-center gap-1.5 text-sm text-gray-600">
-        <Filter className="h-4 w-4" />
+        <Funnel className="h-4 w-4" />
         <span>Filters:</span>
       </div>
 

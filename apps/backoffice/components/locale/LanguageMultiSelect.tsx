@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Search, X, Check, Languages } from 'lucide-react';
+import { MagnifyingGlass, X, Check, Translate } from '@phosphor-icons/react';
 import { Language } from '@/lib/supabase';
 
 interface LanguageMultiSelectProps {
@@ -19,7 +19,7 @@ export function LanguageMultiSelect({
   primaryLanguage,
   maxSelections = 10,
   placeholder = 'Select languages...',
-  disabled = false
+  disabled = false,
 }: LanguageMultiSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -64,7 +64,7 @@ export function LanguageMultiSelect({
     if (value.includes(code)) {
       // Don't allow removing primary language
       if (code === primaryLanguage) return;
-      onChange(value.filter(v => v !== code));
+      onChange(value.filter((v) => v !== code));
     } else {
       if (value.length >= maxSelections) return;
       onChange([...value, code]);
@@ -74,43 +74,37 @@ export function LanguageMultiSelect({
   const removeLanguage = (code: string, e: React.MouseEvent) => {
     e.stopPropagation();
     if (code === primaryLanguage) return;
-    onChange(value.filter(v => v !== code));
+    onChange(value.filter((v) => v !== code));
   };
 
-  const selectedLanguages = languages.filter(l => value.includes(l.code));
-  const availableLanguages = languages.filter(l => !value.includes(l.code));
+  const selectedLanguages = languages.filter((l) => value.includes(l.code));
+  const availableLanguages = languages.filter((l) => !value.includes(l.code));
 
   // Separate RTL and LTR
-  const rtlLanguages = availableLanguages.filter(l => l.direction === 'rtl');
-  const ltrLanguages = availableLanguages.filter(l => l.direction === 'ltr');
+  const rtlLanguages = availableLanguages.filter((l) => l.direction === 'rtl');
+  const ltrLanguages = availableLanguages.filter((l) => l.direction === 'ltr');
 
   return (
     <div className="relative">
       {/* Trigger / Selected Tags */}
       <div
         onClick={() => !disabled && setIsOpen(!isOpen)}
-        className={`
-          min-h-[42px] flex flex-wrap gap-1 p-2 border rounded-md bg-white
-          ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'hover:border-gray-400 cursor-pointer'}
-          ${isOpen ? 'border-blue-500 ring-1 ring-blue-500' : 'border-gray-300'}
-        `}
+        className={`flex min-h-[42px] flex-wrap gap-1 rounded-md border bg-white p-2 ${disabled ? 'cursor-not-allowed bg-gray-100' : 'cursor-pointer hover:border-gray-400'} ${isOpen ? 'border-blue-500 ring-1 ring-blue-500' : 'border-gray-300'} `}
       >
         {selectedLanguages.length === 0 ? (
           <div className="flex items-center gap-2 text-gray-500">
-            <Languages className="w-4 h-4" />
+            <Translate className="h-4 w-4" />
             <span>{placeholder}</span>
           </div>
         ) : (
-          selectedLanguages.map(lang => (
+          selectedLanguages.map((lang) => (
             <span
               key={lang.code}
-              className={`
-                inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-sm
-                ${lang.code === primaryLanguage
+              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-sm ${
+                lang.code === primaryLanguage
                   ? 'bg-blue-100 text-blue-800'
                   : 'bg-gray-100 text-gray-700'
-                }
-              `}
+              } `}
             >
               {lang.direction === 'rtl' && <span className="text-xs">RTL</span>}
               {lang.name_en}
@@ -122,7 +116,7 @@ export function LanguageMultiSelect({
                   onClick={(e) => removeLanguage(lang.code, e)}
                   className="ml-1 hover:text-red-500"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="h-3 w-3" />
                 </button>
               )}
             </span>
@@ -132,17 +126,17 @@ export function LanguageMultiSelect({
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-80 overflow-hidden">
+        <div className="absolute z-50 mt-1 max-h-80 w-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg">
           {/* Search */}
-          <div className="p-2 border-b">
+          <div className="border-b p-2">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <MagnifyingGlass className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search languages..."
-                className="w-full pl-9 pr-3 py-2 border rounded-md text-sm focus:outline-none focus:border-blue-500"
+                className="w-full rounded-md border py-2 pl-9 pr-3 text-sm focus:border-blue-500 focus:outline-none"
                 autoFocus
               />
             </div>
@@ -152,7 +146,7 @@ export function LanguageMultiSelect({
           </div>
 
           {/* List */}
-          <div className="overflow-y-auto max-h-56">
+          <div className="max-h-56 overflow-y-auto">
             {loading ? (
               <div className="p-4 text-center text-gray-500">Loading...</div>
             ) : (
@@ -160,10 +154,10 @@ export function LanguageMultiSelect({
                 {/* RTL Languages Section */}
                 {rtlLanguages.length > 0 && (
                   <>
-                    <div className="px-3 py-1 text-xs font-semibold text-orange-600 bg-orange-50 sticky top-0">
+                    <div className="sticky top-0 bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-600">
                       RTL Languages ({rtlLanguages.length})
                     </div>
-                    {rtlLanguages.map(lang => (
+                    {rtlLanguages.map((lang) => (
                       <LanguageOption
                         key={lang.code}
                         language={lang}
@@ -177,10 +171,10 @@ export function LanguageMultiSelect({
                 )}
 
                 {/* LTR Languages Section */}
-                <div className="px-3 py-1 text-xs font-semibold text-gray-500 bg-gray-50 sticky top-0">
+                <div className="sticky top-0 bg-gray-50 px-3 py-1 text-xs font-semibold text-gray-500">
                   Languages ({ltrLanguages.length})
                 </div>
-                {ltrLanguages.map(lang => (
+                {ltrLanguages.map((lang) => (
                   <LanguageOption
                     key={lang.code}
                     language={lang}
@@ -204,7 +198,7 @@ function LanguageOption({
   isSelected,
   isPrimary,
   disabled,
-  onClick
+  onClick,
 }: {
   language: Language;
   isSelected: boolean;
@@ -216,34 +210,24 @@ function LanguageOption({
     <button
       onClick={onClick}
       disabled={disabled || isPrimary}
-      className={`
-        w-full flex items-center gap-2 px-3 py-2 text-left
-        ${isSelected ? 'bg-blue-50' : 'hover:bg-gray-50'}
-        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-        ${isPrimary ? 'cursor-not-allowed' : ''}
-      `}
+      className={`flex w-full items-center gap-2 px-3 py-2 text-left ${isSelected ? 'bg-blue-50' : 'hover:bg-gray-50'} ${disabled ? 'cursor-not-allowed opacity-50' : ''} ${isPrimary ? 'cursor-not-allowed' : ''} `}
     >
-      <div className={`
-        w-5 h-5 rounded border flex items-center justify-center flex-shrink-0
-        ${isSelected ? 'bg-blue-500 border-blue-500' : 'border-gray-300'}
-      `}>
-        {isSelected && <Check className="w-3 h-3 text-white" />}
+      <div
+        className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border ${isSelected ? 'border-blue-500 bg-blue-500' : 'border-gray-300'} `}
+      >
+        {isSelected && <Check className="h-3 w-3 text-white" />}
       </div>
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span className="truncate">{language.name_en}</span>
-          <span className="text-gray-400 text-sm">{language.name_native}</span>
+          <span className="text-sm text-gray-400">{language.name_native}</span>
           {language.direction === 'rtl' && (
-            <span className="px-1 py-0.5 text-xs bg-orange-100 text-orange-700 rounded">RTL</span>
+            <span className="rounded bg-orange-100 px-1 py-0.5 text-xs text-orange-700">RTL</span>
           )}
         </div>
-        <div className="text-xs text-gray-400">
-          {language.code}
-        </div>
+        <div className="text-xs text-gray-400">{language.code}</div>
       </div>
-      {isPrimary && (
-        <span className="text-xs text-blue-600">Primary</span>
-      )}
+      {isPrimary && <span className="text-xs text-blue-600">Primary</span>}
     </button>
   );
 }

@@ -2,16 +2,16 @@
 
 import { useState, useMemo } from 'react';
 import {
-  Search,
-  ChevronRight,
-  ChevronDown,
-  ExternalLink,
+  MagnifyingGlass,
+  CaretRight,
+  CaretDown,
+  ArrowSquareOut,
   BookOpen,
-  HelpCircle,
+  Question,
   Lightbulb,
-  List,
-  MessageSquare,
-} from 'lucide-react';
+  ListBullets,
+  ChatCircle,
+} from '@phosphor-icons/react';
 import { KB_SECTIONS, getPage, searchKB, type KBSection, type KBPage } from '@/lib/kb/kb-content';
 
 export default function HelpPage() {
@@ -56,7 +56,7 @@ export default function HelpPage() {
 
           {/* Search */}
           <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <MagnifyingGlass className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
               placeholder="Search help..."
@@ -102,9 +102,9 @@ export default function HelpPage() {
                   <span>{section.icon}</span>
                   <span className="flex-1">{section.title}</span>
                   {expandedSections[section.id] ? (
-                    <ChevronDown className="h-4 w-4 text-gray-400" />
+                    <CaretDown className="h-4 w-4 text-gray-400" />
                   ) : (
-                    <ChevronRight className="h-4 w-4 text-gray-400" />
+                    <CaretRight className="h-4 w-4 text-gray-400" />
                   )}
                 </button>
 
@@ -138,7 +138,7 @@ export default function HelpPage() {
         ) : (
           <div className="flex h-full items-center justify-center text-gray-500">
             <div className="text-center">
-              <HelpCircle className="mx-auto mb-4 h-12 w-12 text-gray-300" />
+              <Question className="mx-auto mb-4 h-12 w-12 text-gray-300" />
               <p>Select a topic from the sidebar</p>
             </div>
           </div>
@@ -157,7 +157,7 @@ function PageContent({ page }: { page: KBPage }) {
         <div className="mb-2 flex items-center gap-2 text-sm text-gray-500">
           <code className="rounded bg-gray-100 px-2 py-0.5">{page.path}</code>
           <a href={page.path} className="flex items-center gap-1 text-blue-600 hover:underline">
-            Open page <ExternalLink className="h-3 w-3" />
+            Open page <ArrowSquareOut className="h-3 w-3" />
           </a>
         </div>
         <h1 className="text-3xl font-bold text-gray-900">{page.title}</h1>
@@ -178,7 +178,7 @@ function PageContent({ page }: { page: KBPage }) {
       <section className="mb-8">
         <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold text-gray-900">
           <div className="rounded bg-green-100 p-1">
-            <ChevronRight className="h-4 w-4 text-green-600" />
+            <CaretRight className="h-4 w-4 text-green-600" />
           </div>
           How to Get There
         </h2>
@@ -197,7 +197,7 @@ function PageContent({ page }: { page: KBPage }) {
         <section className="mb-8">
           <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold text-gray-900">
             <div className="rounded bg-purple-100 p-1">
-              <List className="h-4 w-4 text-purple-600" />
+              <ListBullets className="h-4 w-4 text-purple-600" />
             </div>
             What You See
           </h2>
@@ -231,7 +231,7 @@ function PageContent({ page }: { page: KBPage }) {
         <section className="mb-8">
           <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold text-gray-900">
             <div className="rounded bg-orange-100 p-1">
-              <ChevronRight className="h-4 w-4 text-orange-600" />
+              <CaretRight className="h-4 w-4 text-orange-600" />
             </div>
             Available Actions
           </h2>
@@ -264,7 +264,7 @@ function PageContent({ page }: { page: KBPage }) {
         <section className="mb-8">
           <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold text-gray-900">
             <div className="rounded bg-cyan-100 p-1">
-              <List className="h-4 w-4 text-cyan-600" />
+              <ListBullets className="h-4 w-4 text-cyan-600" />
             </div>
             Typical Workflows
           </h2>
@@ -293,7 +293,7 @@ function PageContent({ page }: { page: KBPage }) {
         <section className="mb-8">
           <h2 className="mb-3 flex items-center gap-2 text-lg font-semibold text-gray-900">
             <div className="rounded bg-amber-100 p-1">
-              <MessageSquare className="h-4 w-4 text-amber-600" />
+              <ChatCircle className="h-4 w-4 text-amber-600" />
             </div>
             Frequently Asked Questions
           </h2>

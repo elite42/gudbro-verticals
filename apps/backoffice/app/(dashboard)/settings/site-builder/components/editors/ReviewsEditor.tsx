@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, Trash2, Star } from 'lucide-react';
+import { Plus, Trash, Star } from '@phosphor-icons/react';
 import { ReviewsContent } from '@/lib/supabase';
 
 interface ReviewsEditorProps {
@@ -111,7 +111,7 @@ export function ReviewsEditor({ content, onChange }: ReviewsEditorProps) {
                   onClick={() => removeTestimonial(index)}
                   className="text-red-500 hover:text-red-600"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <Trash className="h-4 w-4" />
                 </button>
               </div>
 

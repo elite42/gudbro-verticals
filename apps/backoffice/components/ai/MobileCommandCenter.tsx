@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { RefreshCw, CheckCircle2 } from 'lucide-react';
+import { ArrowsClockwise, CheckCircle } from '@phosphor-icons/react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { MobileDecisionCard, MobileDecision } from './MobileDecisionCard';
 import { ScenarioChip } from './ScenarioBanner';
@@ -289,14 +289,14 @@ export function MobileCommandCenter() {
       {loading ? (
         <div className="flex flex-1 items-center justify-center">
           <div className="text-center">
-            <RefreshCw className="mx-auto mb-3 h-8 w-8 animate-spin text-gray-400" />
+            <ArrowsClockwise className="mx-auto mb-3 h-8 w-8 animate-spin text-gray-400" />
             <p className="text-sm text-gray-500">Analizzo la situazione...</p>
           </div>
         </div>
       ) : allDone || decisions.length === 0 ? (
         <div className="flex flex-1 flex-col items-center justify-center">
           <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-            <CheckCircle2 className="h-10 w-10 text-green-600" />
+            <CheckCircle className="h-10 w-10 text-green-600" />
           </div>
           <h2 className="mb-2 text-xl font-bold text-gray-900">Tutto sotto controllo!</h2>
           <p className="text-center text-gray-500">
@@ -308,7 +308,7 @@ export function MobileCommandCenter() {
             onClick={fetchDecisions}
             className="mt-6 flex items-center gap-2 rounded-xl bg-gray-100 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200 active:bg-gray-300"
           >
-            <RefreshCw className="h-4 w-4" />
+            <ArrowsClockwise className="h-4 w-4" />
             Aggiorna
           </button>
         </div>
@@ -338,7 +338,7 @@ export function MobileCommandCenter() {
               onClick={fetchDecisions}
               className="flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm text-gray-500 shadow-sm transition-colors hover:bg-gray-50"
             >
-              <RefreshCw className="h-4 w-4" />
+              <ArrowsClockwise className="h-4 w-4" />
               Aggiorna
             </button>
           </div>

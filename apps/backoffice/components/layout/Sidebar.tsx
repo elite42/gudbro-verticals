@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { useAuth } from '@/lib/auth';
 import { useSidebar } from '@/lib/contexts/SidebarContext';
-import { Pin, PinOff, ChevronDown } from 'lucide-react';
+import { PushPin, PushPinSlash, CaretDown } from '@phosphor-icons/react';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import type { Permission } from '@/lib/auth/types';
 
@@ -538,7 +538,7 @@ export function Sidebar() {
             className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
             title={isPinned ? 'Unpin sidebar' : 'Pin sidebar'}
           >
-            {isPinned ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />}
+            {isPinned ? <PushPinSlash className="h-4 w-4" /> : <PushPin className="h-4 w-4" />}
           </button>
         )}
       </div>
@@ -589,7 +589,7 @@ export function Sidebar() {
                       </span>
                     )}
                     {hasChildren && (
-                      <ChevronDown
+                      <CaretDown
                         className={`h-4 w-4 transition-transform ${isMenuExpanded ? 'rotate-180' : ''}`}
                       />
                     )}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Users, Clock, Phone, Mail, MessageSquare } from 'lucide-react';
+import { Users, Clock, Phone, EnvelopeSimple, ChatTeardrop } from '@phosphor-icons/react';
 
 export type ReservationStatus =
   | 'pending'
@@ -148,14 +148,14 @@ export function ReservationCard({
 
         {reservation.guest_email && (
           <div className="flex items-center gap-1.5 text-sm text-gray-600">
-            <Mail className="h-4 w-4" />
+            <EnvelopeSimple className="h-4 w-4" />
             {reservation.guest_email}
           </div>
         )}
 
         {reservation.special_requests && (
           <div className="flex items-start gap-1.5 text-sm text-gray-600">
-            <MessageSquare className="mt-0.5 h-4 w-4" />
+            <ChatTeardrop className="mt-0.5 h-4 w-4" />
             <span className="italic">{reservation.special_requests}</span>
           </div>
         )}

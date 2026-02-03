@@ -3,16 +3,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  MessageSquare,
-  AlertTriangle,
+  ChatCircle,
+  Warning,
   Clock,
   User,
   Phone,
-  Mail,
+  Envelope,
   Check,
   ArrowRight,
-  RefreshCw,
-} from 'lucide-react';
+  ArrowsClockwise,
+} from '@phosphor-icons/react';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 
 interface Escalation {
@@ -166,7 +166,7 @@ export default function EscalationsPage() {
           disabled={isLoading}
           className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50"
         >
-          <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+          <ArrowsClockwise className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
           Refresh
         </button>
       </div>
@@ -208,7 +208,7 @@ export default function EscalationsPage() {
       {/* Empty state */}
       {!isLoading && escalations.length === 0 && (
         <div className="rounded-lg border border-gray-200 bg-white py-12 text-center">
-          <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
+          <ChatCircle className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-4 text-lg font-medium text-gray-900">No escalations</h3>
           <p className="mt-1 text-sm text-gray-500">
             {statusFilter === 'pending'
@@ -246,7 +246,7 @@ export default function EscalationsPage() {
                         )}
                         {escalation.conversation.customer_email && (
                           <span className="flex items-center gap-1">
-                            <Mail className="h-3 w-3" />
+                            <Envelope className="h-3 w-3" />
                             {escalation.conversation.customer_email}
                           </span>
                         )}
@@ -259,7 +259,7 @@ export default function EscalationsPage() {
                     <span
                       className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${PRIORITY_STYLES[escalation.priority]}`}
                     >
-                      {escalation.priority === 'urgent' && <AlertTriangle className="h-3 w-3" />}
+                      {escalation.priority === 'urgent' && <Warning className="h-3 w-3" />}
                       {escalation.priority.toUpperCase()}
                     </span>
                     <span
@@ -291,7 +291,7 @@ export default function EscalationsPage() {
                       {formatTime(escalation.created_at)}
                     </span>
                     <span className="flex items-center gap-1">
-                      <MessageSquare className="h-3 w-3" />
+                      <ChatCircle className="h-3 w-3" />
                       {escalation.conversation.total_messages} messages
                     </span>
                     {escalation.assigned_user && (

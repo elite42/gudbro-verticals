@@ -3,7 +3,6 @@
 import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
-import { ImageUpload } from '@/components/ui/image-upload';
 import { formatPrice as _fp } from '@gudbro/utils';
 import type {
   MultiLangText,
@@ -16,7 +15,13 @@ import type {
   MenuItemIngredient,
   TabId,
 } from './components/types';
-import { allergensList, intolerancesList, dietaryList, spiceLevels } from './components/types';
+import { EditorHeader } from './components/EditorHeader';
+import { BasicInfoTab } from './components/BasicInfoTab';
+import { IngredientsTab } from './components/IngredientsTab';
+import { SafetyDietaryTab } from './components/SafetyDietaryTab';
+import { CustomizationsTab } from './components/CustomizationsTab';
+import { AvailabilityTab } from './components/AvailabilityTab';
+import { SeoTagsTab } from './components/SeoTagsTab';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -33,7 +38,6 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
-  const [allergenRegionFilter, setAllergenRegionFilter] = useState<string>('all');
   const [isNewItem, setIsNewItem] = useState(false);
   const [ingredientSearch, setIngredientSearch] = useState('');
   const [showIngredientPicker, setShowIngredientPicker] = useState(false);
@@ -63,13 +67,11 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         // Check if this is a new item
         if (resolvedParams.slug === 'new') {
           setIsNewItem(true);
-          // Get merchant_id from first category
           const merchantId = catsData?.[0]?.id
             ? (await supabase.from('menu_categories').select('merchant_id').limit(1).single()).data
                 ?.merchant_id
             : null;
 
-          // Create empty item for new entry
           setItem({
             id: '',
             merchantId: merchantId || '',
@@ -97,7 +99,6 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             updatedAt: new Date().toISOString(),
           });
         } else {
-          // Fetch existing item
           const { data: itemData, error } = await supabase
             .from('menu_items')
             .select('*')
@@ -110,21 +111,18 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
             return;
           }
 
-          // Fetch item's ingredients
           const { data: itemIngredientsData } = await supabase
             .from('menu_item_ingredients')
             .select('id, ingredient_id, quantity_grams, is_optional, display_order')
             .eq('menu_item_id', itemData.id)
             .order('display_order');
 
-          // Enrich with ingredient details
           const enrichedIngredients = (itemIngredientsData || []).map((ii) => ({
             ...ii,
             ingredient: ingredientsData?.find((i) => i.id === ii.ingredient_id),
           }));
           setItemIngredients(enrichedIngredients);
 
-          // Convert DB format to component format
           setItem({
             id: itemData.id,
             merchantId: itemData.merchant_id,
@@ -166,20 +164,15 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
     fetchData();
   }, [resolvedParams.slug, router]);
 
+  // --- State updaters ---
+
   const updateItem = <K extends keyof MenuItem>(key: K, value: MenuItem[K]) => {
     setItem((prev) => (prev ? { ...prev, [key]: value } : prev));
     setHasChanges(true);
   };
 
   const updateName = (lang: keyof MultiLangText, value: string) => {
-    setItem((prev) =>
-      prev
-        ? {
-            ...prev,
-            name: { ...prev.name, [lang]: value },
-          }
-        : prev
-    );
+    setItem((prev) => (prev ? { ...prev, name: { ...prev.name, [lang]: value } } : prev));
     setHasChanges(true);
   };
 
@@ -197,12 +190,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
 
   const toggleAllergen = (key: keyof AllergenFlags) => {
     setItem((prev) =>
-      prev
-        ? {
-            ...prev,
-            allergens: { ...prev.allergens, [key]: !prev.allergens[key] },
-          }
-        : prev
+      prev ? { ...prev, allergens: { ...prev.allergens, [key]: !prev.allergens[key] } } : prev
     );
     setHasChanges(true);
   };
@@ -210,10 +198,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
   const toggleIntolerance = (key: keyof IntoleranceFlags) => {
     setItem((prev) =>
       prev
-        ? {
-            ...prev,
-            intolerances: { ...prev.intolerances, [key]: !prev.intolerances[key] },
-          }
+        ? { ...prev, intolerances: { ...prev.intolerances, [key]: !prev.intolerances[key] } }
         : prev
     );
     setHasChanges(true);
@@ -222,19 +207,56 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
   const toggleDietary = (key: keyof DietaryFlags) => {
     setItem((prev) =>
       prev
+        ? { ...prev, dietaryFlags: { ...prev.dietaryFlags, [key]: !prev.dietaryFlags[key] } }
+        : prev
+    );
+    setHasChanges(true);
+  };
+
+  // --- Ingredient management ---
+
+  const computeFromIngredients = (ingredients: MenuItemIngredient[]) => {
+    if (!item) return;
+
+    const computedAllergens: AllergenFlags = {};
+    const computedIntolerances: IntoleranceFlags = {};
+    const computedDietary: DietaryFlags = {};
+    let totalCalories = 0;
+
+    ingredients.forEach((ii) => {
+      if (!ii.ingredient || ii.is_optional) return;
+      const ing = ii.ingredient;
+      const factor = ii.quantity_grams / 100;
+
+      Object.entries(ing.allergens || {}).forEach(([key, value]) => {
+        if (value) computedAllergens[key as keyof AllergenFlags] = true;
+      });
+      Object.entries(ing.intolerances || {}).forEach(([key, value]) => {
+        if (value) computedIntolerances[key as keyof IntoleranceFlags] = true;
+      });
+      Object.entries(ing.dietary_flags || {}).forEach(([key, value]) => {
+        if (value) computedDietary[key as keyof DietaryFlags] = true;
+      });
+      if (ing.calories_per_100g) totalCalories += ing.calories_per_100g * factor;
+    });
+
+    setItem((prev) =>
+      prev
         ? {
             ...prev,
-            dietaryFlags: { ...prev.dietaryFlags, [key]: !prev.dietaryFlags[key] },
+            allergens: computedAllergens,
+            intolerances: computedIntolerances,
+            dietaryFlags: computedDietary,
+            calories: Math.round(totalCalories),
+            safetyDataSource: 'computed' as const,
           }
         : prev
     );
     setHasChanges(true);
   };
 
-  // Ingredient management functions
   const addIngredient = async (ingredientId: string) => {
     if (!item?.id || isNewItem) {
-      // For new items, just add to local state
       const ingredient = allIngredients.find((i) => i.id === ingredientId);
       if (!ingredient) return;
 
@@ -252,7 +274,6 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
       return;
     }
 
-    // For existing items, save to DB immediately
     try {
       const { data, error } = await supabase
         .from('menu_item_ingredients')
@@ -279,7 +300,6 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
 
   const removeIngredient = async (itemIngredientId: string) => {
     if (itemIngredientId.startsWith('temp-')) {
-      // Temp item, just remove from state
       setItemIngredients((prev) => prev.filter((i) => i.id !== itemIngredientId));
       setHasChanges(true);
       return;
@@ -290,7 +310,6 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
         .from('menu_item_ingredients')
         .delete()
         .eq('id', itemIngredientId);
-
       if (error) throw error;
 
       const remaining = itemIngredients.filter((i) => i.id !== itemIngredientId);
@@ -355,61 +374,8 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
     }
   };
 
-  // Compute allergens, intolerances, dietary flags, and nutrition from ingredients
-  const computeFromIngredients = (ingredients: MenuItemIngredient[]) => {
-    if (!item) return;
+  // --- Derived state ---
 
-    // Aggregate allergens (OR logic - if any ingredient has it, product has it)
-    const computedAllergens: AllergenFlags = {};
-    const computedIntolerances: IntoleranceFlags = {};
-    const computedDietary: DietaryFlags = {};
-    let totalCalories = 0;
-
-    ingredients.forEach((ii) => {
-      if (!ii.ingredient || ii.is_optional) return;
-
-      const ing = ii.ingredient;
-      const factor = ii.quantity_grams / 100;
-
-      // Merge allergens
-      Object.entries(ing.allergens || {}).forEach(([key, value]) => {
-        if (value) computedAllergens[key as keyof AllergenFlags] = true;
-      });
-
-      // Merge intolerances
-      Object.entries(ing.intolerances || {}).forEach(([key, value]) => {
-        if (value) computedIntolerances[key as keyof IntoleranceFlags] = true;
-      });
-
-      // Merge dietary flags (for positive flags: ALL ingredients must have it, for negative: ANY)
-      // For simplicity, we'll just aggregate - the UI can show computed vs manual
-      Object.entries(ing.dietary_flags || {}).forEach(([key, value]) => {
-        if (value) computedDietary[key as keyof DietaryFlags] = true;
-      });
-
-      // Calculate nutrition
-      if (ing.calories_per_100g) {
-        totalCalories += ing.calories_per_100g * factor;
-      }
-    });
-
-    // Update item with computed values
-    setItem((prev) =>
-      prev
-        ? {
-            ...prev,
-            allergens: computedAllergens,
-            intolerances: computedIntolerances,
-            dietaryFlags: computedDietary,
-            calories: Math.round(totalCalories),
-            safetyDataSource: 'computed' as const,
-          }
-        : prev
-    );
-    setHasChanges(true);
-  };
-
-  // Get ingredients not yet added
   const availableIngredients = allIngredients.filter(
     (ing) => !itemIngredients.some((ii) => ii.ingredient_id === ing.id)
   );
@@ -421,6 +387,10 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
           ing.slug.toLowerCase().includes(ingredientSearch.toLowerCase())
       )
     : availableIngredients;
+
+  const formatPrice = (price: number) => _fp(price, 'VND');
+
+  // --- Save handler ---
 
   const handleSave = async () => {
     if (!item) return;
@@ -453,21 +423,15 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
       };
 
       if (isNewItem) {
-        // Insert new item
         const { data, error } = await supabase
           .from('menu_items')
           .insert({ ...dbData, merchant_id: item.merchantId })
           .select()
           .single();
-
         if (error) throw error;
-
-        // Navigate to the new item's page
         router.push(`/content/menu/${data.slug}`);
       } else {
-        // Update existing item
         const { error } = await supabase.from('menu_items').update(dbData).eq('id', item.id);
-
         if (error) throw error;
       }
 
@@ -480,23 +444,8 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
     }
   };
 
-  const formatPrice = (price: number) => _fp(price, 'VND');
+  // --- Render ---
 
-  const filteredAllergens =
-    allergenRegionFilter === 'all'
-      ? allergensList
-      : allergensList.filter((a) => a.region === allergenRegionFilter);
-
-  const tabs: { id: TabId; label: string; icon: string }[] = [
-    { id: 'basic', label: 'Basic Info', icon: '📝' },
-    { id: 'ingredients', label: 'Ingredients', icon: '🥗' },
-    { id: 'safety', label: 'Safety & Dietary', icon: '⚠️' },
-    { id: 'customizations', label: 'Customizations', icon: '⚙️' },
-    { id: 'availability', label: 'Availability', icon: '📅' },
-    { id: 'seo', label: 'SEO & Tags', icon: '🏷️' },
-  ];
-
-  // Loading state
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -508,7 +457,6 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
     );
   }
 
-  // Error state - item not found
   if (!item) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -531,1004 +479,64 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="sticky top-0 z-10 border-b border-gray-200 bg-white">
-        <div className="px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => router.back()}
-                className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-              >
-                ← Back
-              </button>
-              <div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <a href="/content/menu" className="hover:text-gray-700">
-                    Menu
-                  </a>
-                  <span>/</span>
-                  <span className="text-gray-900">{item.name.en}</span>
-                </div>
-                <h1 className="mt-1 flex items-center gap-2 text-xl font-bold text-gray-900">
-                  {item.name.en}
-                  {item.isFeatured && <span className="text-yellow-500">⭐</span>}
-                  {item.isNew && (
-                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
-                      NEW
-                    </span>
-                  )}
-                </h1>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              {hasChanges && (
-                <span className="flex items-center gap-1 text-sm text-amber-600">
-                  <span className="h-2 w-2 rounded-full bg-amber-500"></span>
-                  Unsaved changes
-                </span>
-              )}
-              <button
-                onClick={() => router.push(`/preview/${item.slug}`)}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Preview
-              </button>
-              <button
-                onClick={handleSave}
-                disabled={!hasChanges || isSaving}
-                className={`rounded-lg px-4 py-2 text-sm font-medium ${
-                  hasChanges
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'cursor-not-allowed bg-gray-200 text-gray-500'
-                }`}
-              >
-                {isSaving ? 'Saving...' : 'Save Changes'}
-              </button>
-            </div>
-          </div>
+      <EditorHeader
+        item={item}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        hasChanges={hasChanges}
+        isSaving={isSaving}
+        onSave={handleSave}
+        onBack={() => router.back()}
+        onPreview={() => router.push(`/preview/${item.slug}`)}
+      />
 
-          {/* Tabs */}
-          <div className="-mb-px mt-4 flex gap-1 border-b border-gray-200">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
-                  activeTab === tab.id
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                <span className="mr-1.5">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Content */}
       <div className="mx-auto max-w-5xl p-6">
-        {/* Basic Info Tab */}
         {activeTab === 'basic' && (
-          <div className="space-y-6">
-            {/* Two Column Layout */}
-            <div className="grid grid-cols-3 gap-6">
-              {/* Left Column - Main Info */}
-              <div className="col-span-2 space-y-6">
-                {/* Names */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6">
-                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Product Name</h3>
-                  <div className="space-y-4">
-                    {(['en', 'vi', 'it'] as const).map((lang) => (
-                      <div key={lang}>
-                        <label className="mb-1 block text-sm font-medium text-gray-700">
-                          {lang === 'en'
-                            ? '🇬🇧 English'
-                            : lang === 'vi'
-                              ? '🇻🇳 Vietnamese'
-                              : '🇮🇹 Italian'}
-                          {lang === 'en' && <span className="text-red-500">*</span>}
-                        </label>
-                        <input
-                          type="text"
-                          value={item.name[lang] || ''}
-                          onChange={(e) => updateName(lang, e.target.value)}
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          placeholder={`Name in ${lang.toUpperCase()}`}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Descriptions */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6">
-                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Description</h3>
-                  <div className="space-y-4">
-                    {(['en', 'vi', 'it'] as const).map((lang) => (
-                      <div key={lang}>
-                        <label className="mb-1 block text-sm font-medium text-gray-700">
-                          {lang === 'en'
-                            ? '🇬🇧 English'
-                            : lang === 'vi'
-                              ? '🇻🇳 Vietnamese'
-                              : '🇮🇹 Italian'}
-                        </label>
-                        <textarea
-                          value={item.description?.[lang] || ''}
-                          onChange={(e) => updateDescription(lang, e.target.value)}
-                          rows={3}
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          placeholder={`Description in ${lang.toUpperCase()}`}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Category */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6">
-                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Category</h3>
-                  <div className="grid grid-cols-3 gap-3">
-                    {categories.map((cat) => (
-                      <button
-                        key={cat.id}
-                        onClick={() => updateItem('categoryId', cat.id)}
-                        className={`rounded-lg border p-3 text-left transition-colors ${
-                          item.categoryId === cat.id
-                            ? 'border-blue-500 bg-blue-50 text-blue-700'
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        <span className="text-2xl">{cat.icon}</span>
-                        <p className="mt-1 text-sm font-medium">
-                          {cat.name_multilang?.en || cat.slug}
-                        </p>
-                        <p className="text-xs text-gray-500">{cat.name_multilang?.vi}</p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column - Image & Pricing */}
-              <div className="space-y-6">
-                {/* Image */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6">
-                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Image</h3>
-                  <ImageUpload
-                    value={item.imageUrl || ''}
-                    onChange={(url) => updateItem('imageUrl', url || undefined)}
-                    folder="menu-items"
-                    entityId={item.id || 'new'}
-                    maxSizeMB={5}
-                    aspectRatio="square"
-                    previewSize="lg"
-                    helpText="Recommended: 800x800px square image"
-                  />
-                </div>
-
-                {/* Pricing */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6">
-                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Pricing</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="mb-1 block text-sm font-medium text-gray-700">
-                        Price <span className="text-red-500">*</span>
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="number"
-                          value={item.price}
-                          onChange={(e) => updateItem('price', Number(e.target.value))}
-                          className="w-full rounded-lg border border-gray-300 px-3 py-2 pr-16 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
-                          {item.currency}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-sm text-gray-500">{formatPrice(item.price)}</p>
-                    </div>
-                    <div>
-                      <label className="mb-1 block text-sm font-medium text-gray-700">
-                        Compare at Price
-                      </label>
-                      <input
-                        type="number"
-                        value={item.compareAtPrice || ''}
-                        onChange={(e) =>
-                          updateItem(
-                            'compareAtPrice',
-                            e.target.value ? Number(e.target.value) : undefined
-                          )
-                        }
-                        placeholder="Original price for discounts"
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quick Stats */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6">
-                  <h3 className="mb-4 text-lg font-semibold text-gray-900">Stats</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-500">Total Orders</span>
-                      <span className="font-semibold">{item.totalOrders.toLocaleString()}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-500">Created</span>
-                      <span className="text-sm">
-                        {new Date(item.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-500">Last Updated</span>
-                      <span className="text-sm">
-                        {new Date(item.updatedAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BasicInfoTab
+            item={item}
+            categories={categories}
+            updateItem={updateItem}
+            updateName={updateName}
+            updateDescription={updateDescription}
+            formatPrice={formatPrice}
+          />
         )}
 
-        {/* Ingredients Tab */}
         {activeTab === 'ingredients' && (
-          <div className="space-y-6">
-            {/* Ingredients List */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Recipe Ingredients</h3>
-                  <p className="text-sm text-gray-500">
-                    Add ingredients to auto-calculate allergens, nutrition & dietary flags
-                  </p>
-                </div>
-                <button
-                  onClick={() => setShowIngredientPicker(true)}
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-                >
-                  + Add Ingredient
-                </button>
-              </div>
-
-              {itemIngredients.length === 0 ? (
-                <div className="rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 py-12 text-center">
-                  <span className="text-4xl">🥗</span>
-                  <p className="mt-2 text-gray-500">No ingredients added yet</p>
-                  <p className="text-sm text-gray-400">
-                    Add ingredients to auto-compute safety data
-                  </p>
-                  <button
-                    onClick={() => setShowIngredientPicker(true)}
-                    className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white"
-                  >
-                    Add First Ingredient
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {itemIngredients.map((ii, index) => (
-                    <div
-                      key={ii.id}
-                      className={`flex items-center gap-4 rounded-lg border p-4 ${
-                        ii.is_optional ? 'border-gray-200 bg-gray-50' : 'border-gray-200 bg-white'
-                      }`}
-                    >
-                      {/* Order */}
-                      <span className="w-6 text-sm text-gray-400">{index + 1}.</span>
-
-                      {/* Ingredient Info */}
-                      <div className="flex-1">
-                        <p className="font-medium text-gray-900">
-                          {ii.ingredient?.name_multilang?.en || ii.ingredient_id}
-                        </p>
-                        <div className="mt-1 flex gap-2">
-                          {Object.entries(ii.ingredient?.allergens || {})
-                            .filter(([, v]) => v)
-                            .slice(0, 3)
-                            .map(([key]) => (
-                              <span
-                                key={key}
-                                className="rounded bg-red-100 px-1.5 py-0.5 text-xs text-red-700"
-                              >
-                                {allergensList.find((a) => a.key === key)?.icon} {key}
-                              </span>
-                            ))}
-                          {Object.entries(ii.ingredient?.allergens || {}).filter(([, v]) => v)
-                            .length > 3 && (
-                            <span className="text-xs text-gray-400">
-                              +
-                              {Object.entries(ii.ingredient?.allergens || {}).filter(([, v]) => v)
-                                .length - 3}{' '}
-                              more
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Quantity */}
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="number"
-                          value={ii.quantity_grams}
-                          onChange={(e) => updateIngredientQuantity(ii.id, Number(e.target.value))}
-                          className="w-20 rounded border border-gray-300 px-2 py-1 text-center text-sm"
-                          min="1"
-                        />
-                        <span className="text-sm text-gray-500">g</span>
-                      </div>
-
-                      {/* Optional Toggle */}
-                      <button
-                        onClick={() => toggleIngredientOptional(ii.id)}
-                        className={`rounded px-3 py-1 text-xs font-medium ${
-                          ii.is_optional
-                            ? 'bg-gray-200 text-gray-600'
-                            : 'bg-green-100 text-green-700'
-                        }`}
-                      >
-                        {ii.is_optional ? 'Optional' : 'Required'}
-                      </button>
-
-                      {/* Nutrition Preview */}
-                      {ii.ingredient?.calories_per_100g && (
-                        <span className="text-xs text-gray-400">
-                          {Math.round((ii.ingredient.calories_per_100g * ii.quantity_grams) / 100)}{' '}
-                          kcal
-                        </span>
-                      )}
-
-                      {/* Remove */}
-                      <button
-                        onClick={() => removeIngredient(ii.id)}
-                        className="rounded p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Computed Summary */}
-              {itemIngredients.length > 0 && (
-                <div className="mt-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
-                  <div className="mb-3 flex items-center justify-between">
-                    <h4 className="font-medium text-blue-900">
-                      Computed from {itemIngredients.filter((i) => !i.is_optional).length}{' '}
-                      Ingredients
-                    </h4>
-                    <button
-                      onClick={() => computeFromIngredients(itemIngredients)}
-                      className="text-sm text-blue-600 hover:text-blue-800"
-                    >
-                      Recalculate
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-3 gap-4 text-sm">
-                    <div>
-                      <p className="text-blue-600">Allergens</p>
-                      <p className="font-semibold text-blue-900">
-                        {Object.entries(item.allergens).filter(([, v]) => v).length || 0} detected
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-blue-600">Intolerances</p>
-                      <p className="font-semibold text-blue-900">
-                        {Object.entries(item.intolerances).filter(([, v]) => v).length || 0}{' '}
-                        detected
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-blue-600">Calories</p>
-                      <p className="font-semibold text-blue-900">{item.calories || 0} kcal</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Ingredient Picker Modal */}
-            {showIngredientPicker && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                <div className="flex max-h-[80vh] w-full max-w-lg flex-col rounded-xl bg-white p-6">
-                  <div className="mb-4 flex items-center justify-between">
-                    <h3 className="text-lg font-semibold">Add Ingredient</h3>
-                    <button
-                      onClick={() => {
-                        setShowIngredientPicker(false);
-                        setIngredientSearch('');
-                      }}
-                      className="p-2 text-gray-400 hover:text-gray-600"
-                    >
-                      ✕
-                    </button>
-                  </div>
-
-                  <input
-                    type="text"
-                    value={ingredientSearch}
-                    onChange={(e) => setIngredientSearch(e.target.value)}
-                    placeholder="Search ingredients..."
-                    className="mb-4 w-full rounded-lg border border-gray-300 px-4 py-2"
-                    autoFocus
-                  />
-
-                  <div className="flex-1 space-y-1 overflow-y-auto">
-                    {filteredAvailableIngredients.length === 0 ? (
-                      <p className="py-8 text-center text-gray-500">
-                        {ingredientSearch
-                          ? 'No ingredients match your search'
-                          : 'All ingredients already added'}
-                      </p>
-                    ) : (
-                      filteredAvailableIngredients.map((ing) => (
-                        <button
-                          key={ing.id}
-                          onClick={() => addIngredient(ing.id)}
-                          className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-blue-50"
-                        >
-                          <div className="flex-1">
-                            <p className="font-medium text-gray-900">
-                              {ing.name_multilang?.en || ing.slug}
-                            </p>
-                            <div className="mt-1 flex gap-2">
-                              {Object.entries(ing.allergens || {})
-                                .filter(([, v]) => v)
-                                .slice(0, 4)
-                                .map(([key]) => (
-                                  <span key={key} className="text-xs text-red-600">
-                                    {allergensList.find((a) => a.key === key)?.icon}
-                                  </span>
-                                ))}
-                              {ing.calories_per_100g && (
-                                <span className="text-xs text-gray-400">
-                                  {ing.calories_per_100g} kcal/100g
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                          <span className="text-blue-600">+ Add</span>
-                        </button>
-                      ))
-                    )}
-                  </div>
-
-                  <div className="mt-4 border-t pt-4 text-center">
-                    <a
-                      href="/content/ingredients"
-                      className="text-sm text-blue-600 hover:underline"
-                    >
-                      Manage Ingredients Database →
-                    </a>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+          <IngredientsTab
+            item={item}
+            itemIngredients={itemIngredients}
+            ingredientSearch={ingredientSearch}
+            setIngredientSearch={setIngredientSearch}
+            showIngredientPicker={showIngredientPicker}
+            setShowIngredientPicker={setShowIngredientPicker}
+            filteredAvailableIngredients={filteredAvailableIngredients}
+            addIngredient={addIngredient}
+            removeIngredient={removeIngredient}
+            updateIngredientQuantity={updateIngredientQuantity}
+            toggleIngredientOptional={toggleIngredientOptional}
+            computeFromIngredients={computeFromIngredients}
+          />
         )}
 
-        {/* Safety & Dietary Tab */}
         {activeTab === 'safety' && (
-          <div className="space-y-6">
-            {/* Data Source Info */}
-            {item.safetyDataSource === 'computed' && itemIngredients.length > 0 && (
-              <div className="rounded-xl border border-green-200 bg-green-50 p-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">✅</span>
-                  <div>
-                    <h3 className="font-medium text-green-900">Auto-Computed from Ingredients</h3>
-                    <p className="text-sm text-green-700">
-                      Safety data is automatically calculated from{' '}
-                      {itemIngredients.filter((i) => !i.is_optional).length} ingredients. You can
-                      still override values manually below.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Allergens */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Allergens</h3>
-                  <p className="text-sm text-gray-500">
-                    Sistema 5 Dimensioni - 30 allergens from EU, Korea, Japan + GUDBRO
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  {['all', 'EU', 'Korea', 'Japan', 'GUDBRO'].map((region) => (
-                    <button
-                      key={region}
-                      onClick={() => setAllergenRegionFilter(region)}
-                      className={`rounded-full px-3 py-1 text-xs ${
-                        allergenRegionFilter === region
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                      }`}
-                    >
-                      {region === 'all' ? 'All' : region}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="grid grid-cols-5 gap-2">
-                {filteredAllergens.map((allergen) => (
-                  <button
-                    key={allergen.key}
-                    onClick={() => toggleAllergen(allergen.key)}
-                    className={`rounded-lg border p-3 text-center transition-colors ${
-                      item.allergens[allergen.key]
-                        ? 'border-red-400 bg-red-50 text-red-700'
-                        : 'border-gray-200 text-gray-600 hover:border-gray-300'
-                    }`}
-                  >
-                    <span className="text-2xl">{allergen.icon}</span>
-                    <p className="mt-1 text-xs font-medium">{allergen.label}</p>
-                    <p className="text-xs text-gray-400">{allergen.region}</p>
-                  </button>
-                ))}
-              </div>
-              {Object.entries(item.allergens).filter(([, v]) => v).length > 0 && (
-                <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3">
-                  <p className="text-sm text-red-700">
-                    ⚠️ <strong>Contains:</strong>{' '}
-                    {Object.entries(item.allergens)
-                      .filter(([, v]) => v)
-                      .map(([k]) => allergensList.find((a) => a.key === k)?.label)
-                      .join(', ')}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Intolerances */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-2 text-lg font-semibold text-gray-900">Intolerances</h3>
-              <p className="mb-4 text-sm text-gray-500">
-                Select intolerances that may affect sensitive customers
-              </p>
-              <div className="grid grid-cols-5 gap-2">
-                {intolerancesList.map((intolerance) => (
-                  <button
-                    key={intolerance.key}
-                    onClick={() => toggleIntolerance(intolerance.key)}
-                    className={`rounded-lg border p-3 text-center transition-colors ${
-                      item.intolerances[intolerance.key]
-                        ? 'border-amber-400 bg-amber-50 text-amber-700'
-                        : 'border-gray-200 text-gray-600 hover:border-gray-300'
-                    }`}
-                  >
-                    <span className="text-2xl">{intolerance.icon}</span>
-                    <p className="mt-1 text-xs font-medium">{intolerance.label}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Dietary Flags */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-2 text-lg font-semibold text-gray-900">Dietary Compatibility</h3>
-              <p className="mb-4 text-sm text-gray-500">
-                Mark which diets this item is suitable for
-              </p>
-              <div className="grid grid-cols-4 gap-2">
-                {dietaryList.map((diet) => (
-                  <button
-                    key={diet.key}
-                    onClick={() => toggleDietary(diet.key)}
-                    className={`rounded-lg border p-3 text-center transition-colors ${
-                      item.dietaryFlags[diet.key]
-                        ? diet.positive
-                          ? 'border-green-400 bg-green-50 text-green-700'
-                          : 'border-red-400 bg-red-50 text-red-700'
-                        : 'border-gray-200 text-gray-600 hover:border-gray-300'
-                    }`}
-                  >
-                    <span className="text-2xl">{diet.icon}</span>
-                    <p className="mt-1 text-xs font-medium">{diet.label}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Spice Level */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-2 text-lg font-semibold text-gray-900">Spice Level</h3>
-              <p className="mb-4 text-sm text-gray-500">Select the heat level (Scoville scale)</p>
-              <div className="flex gap-2">
-                {spiceLevels.map((spice) => (
-                  <button
-                    key={spice.level}
-                    onClick={() => updateItem('spiceLevel', spice.level)}
-                    className={`flex-1 rounded-lg border p-4 text-center transition-colors ${
-                      item.spiceLevel === spice.level
-                        ? spice.level === 0
-                          ? 'border-gray-400 bg-gray-100'
-                          : 'border-orange-400 bg-orange-50 text-orange-700'
-                        : 'border-gray-200 text-gray-600 hover:border-gray-300'
-                    }`}
-                  >
-                    <span className="text-2xl">{spice.icon}</span>
-                    <p className="mt-1 text-sm font-medium">{spice.label}</p>
-                    <p className="text-xs text-gray-400">{spice.description}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Nutrition */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Nutrition Info</h3>
-                  <p className="text-sm text-gray-500">
-                    {item.safetyDataSource === 'computed'
-                      ? '✅ Auto-calculated from ingredients'
-                      : '✏️ Manual entry (add ingredients to auto-calculate)'}
-                  </p>
-                </div>
-                {item.calories && (
-                  <div className="text-right">
-                    <p className="text-3xl font-bold text-blue-600">{item.calories}</p>
-                    <p className="text-sm text-gray-500">kcal / serving</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    Calories (kcal)
-                  </label>
-                  <input
-                    type="number"
-                    value={item.calories || ''}
-                    onChange={(e) =>
-                      updateItem('calories', e.target.value ? Number(e.target.value) : undefined)
-                    }
-                    placeholder="e.g. 150"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    Protein (g)
-                  </label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    placeholder="e.g. 5.2"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">Carbs (g)</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    placeholder="e.g. 20.5"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">Fat (g)</label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    placeholder="e.g. 8.0"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-
-              <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4">
-                <p className="text-sm text-blue-700">
-                  💡 <strong>Tip:</strong> Add ingredients with quantities in the Ingredients
-                  section to automatically calculate nutrition values. Each ingredient has
-                  pre-defined nutrition data per 100g.
-                </p>
-              </div>
-            </div>
-          </div>
+          <SafetyDietaryTab
+            item={item}
+            itemIngredients={itemIngredients}
+            updateItem={updateItem}
+            toggleAllergen={toggleAllergen}
+            toggleIntolerance={toggleIntolerance}
+            toggleDietary={toggleDietary}
+          />
         )}
 
-        {/* Customizations Tab */}
         {activeTab === 'customizations' && (
-          <div className="space-y-6">
-            {item.customizations.map((customization, index) => (
-              <div
-                key={customization.id}
-                className="rounded-xl border border-gray-200 bg-white p-6"
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{customization.name.en}</h3>
-                    <p className="text-sm text-gray-500">
-                      {customization.type === 'radio' ? 'Single choice' : 'Multiple choice'} •{' '}
-                      {customization.required ? 'Required' : 'Optional'}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <button className="rounded p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
-                      ✏️
-                    </button>
-                    <button className="rounded p-2 text-gray-400 hover:bg-red-50 hover:text-red-600">
-                      🗑️
-                    </button>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  {customization.options.map((option) => (
-                    <div
-                      key={option.id}
-                      className={`flex items-center justify-between rounded-lg p-3 ${
-                        option.is_default ? 'border border-blue-200 bg-blue-50' : 'bg-gray-50'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        {option.is_default && (
-                          <span className="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
-                            Default
-                          </span>
-                        )}
-                        <span className="font-medium">{option.name.en}</span>
-                        <span className="text-sm text-gray-400">{option.name.vi}</span>
-                      </div>
-                      <span
-                        className={option.price_modifier > 0 ? 'text-green-600' : 'text-gray-500'}
-                      >
-                        {option.price_modifier > 0 && '+'}
-                        {formatPrice(option.price_modifier)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-            <button className="w-full rounded-xl border-2 border-dashed border-gray-300 p-4 text-gray-500 transition-colors hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600">
-              + Add Customization Group
-            </button>
-          </div>
+          <CustomizationsTab item={item} formatPrice={formatPrice} />
         )}
 
-        {/* Availability Tab */}
-        {activeTab === 'availability' && (
-          <div className="space-y-6">
-            {/* Status */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">Status</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
-                  <div>
-                    <p className="font-medium text-gray-900">Active</p>
-                    <p className="text-sm text-gray-500">Show this item in the menu</p>
-                  </div>
-                  <label className="relative inline-flex cursor-pointer items-center">
-                    <input
-                      type="checkbox"
-                      checked={item.isActive}
-                      onChange={(e) => updateItem('isActive', e.target.checked)}
-                      className="peer sr-only"
-                    />
-                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
-                  </label>
-                </div>
-                <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
-                  <div>
-                    <p className="font-medium text-gray-900">Available</p>
-                    <p className="text-sm text-gray-500">Currently in stock and can be ordered</p>
-                  </div>
-                  <label className="relative inline-flex cursor-pointer items-center">
-                    <input
-                      type="checkbox"
-                      checked={item.isAvailable}
-                      onChange={(e) => updateItem('isAvailable', e.target.checked)}
-                      className="peer sr-only"
-                    />
-                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
-                  </label>
-                </div>
-                <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
-                  <div>
-                    <p className="font-medium text-gray-900">Featured ⭐</p>
-                    <p className="text-sm text-gray-500">Show in featured section</p>
-                  </div>
-                  <label className="relative inline-flex cursor-pointer items-center">
-                    <input
-                      type="checkbox"
-                      checked={item.isFeatured}
-                      onChange={(e) => updateItem('isFeatured', e.target.checked)}
-                      className="peer sr-only"
-                    />
-                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-yellow-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
-                  </label>
-                </div>
-                <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4">
-                  <div>
-                    <p className="font-medium text-gray-900">New Item 🆕</p>
-                    <p className="text-sm text-gray-500">Display &quot;New&quot; badge</p>
-                  </div>
-                  <label className="relative inline-flex cursor-pointer items-center">
-                    <input
-                      type="checkbox"
-                      checked={item.isNew}
-                      onChange={(e) => updateItem('isNew', e.target.checked)}
-                      className="peer sr-only"
-                    />
-                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
-                  </label>
-                </div>
-              </div>
-            </div>
+        {activeTab === 'availability' && <AvailabilityTab item={item} updateItem={updateItem} />}
 
-            {/* Time-based Availability */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">Time-based Availability</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    Available From
-                  </label>
-                  <input
-                    type="time"
-                    value={item.availableFrom || ''}
-                    onChange={(e) => updateItem('availableFrom', e.target.value || undefined)}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    Available To
-                  </label>
-                  <input
-                    type="time"
-                    value={item.availableTo || ''}
-                    onChange={(e) => updateItem('availableTo', e.target.value || undefined)}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-              <p className="mt-2 text-sm text-gray-500">Leave empty for all-day availability</p>
-            </div>
-
-            {/* Inventory */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">Inventory</h3>
-              <div className="mb-4 flex items-center justify-between rounded-lg bg-gray-50 p-4">
-                <div>
-                  <p className="font-medium text-gray-900">Track Inventory</p>
-                  <p className="text-sm text-gray-500">Enable stock tracking for this item</p>
-                </div>
-                <label className="relative inline-flex cursor-pointer items-center">
-                  <input
-                    type="checkbox"
-                    checked={item.trackInventory}
-                    onChange={(e) => updateItem('trackInventory', e.target.checked)}
-                    className="peer sr-only"
-                  />
-                  <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
-                </label>
-              </div>
-              {item.trackInventory && (
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700">
-                      Current Stock
-                    </label>
-                    <input
-                      type="number"
-                      value={item.inventoryCount || 0}
-                      onChange={(e) => updateItem('inventoryCount', Number(e.target.value))}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700">
-                      Low Stock Alert
-                    </label>
-                    <input
-                      type="number"
-                      value={item.lowStockThreshold}
-                      onChange={(e) => updateItem('lowStockThreshold', Number(e.target.value))}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* SEO & Tags Tab */}
-        {activeTab === 'seo' && (
-          <div className="space-y-6">
-            {/* Slug */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">URL Slug</h3>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-500">/menu/</span>
-                <input
-                  type="text"
-                  value={item.slug}
-                  onChange={(e) =>
-                    updateItem('slug', e.target.value.toLowerCase().replace(/\s+/g, '-'))
-                  }
-                  className="flex-1 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <p className="mt-2 text-sm text-gray-500">
-                Full URL: https://demo-cafe.gudbro.com/menu/{item.slug}
-              </p>
-            </div>
-
-            {/* Tags */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">Tags</h3>
-              <div className="mb-4 flex flex-wrap gap-2">
-                {item.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700"
-                  >
-                    {tag}
-                    <button
-                      onClick={() =>
-                        updateItem(
-                          'tags',
-                          item.tags.filter((_, i) => i !== index)
-                        )
-                      }
-                      className="text-gray-400 hover:text-red-500"
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Add a tag..."
-                  className="flex-1 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      const input = e.target as HTMLInputElement;
-                      const tag = input.value.trim().toLowerCase();
-                      if (tag && !item.tags.includes(tag)) {
-                        updateItem('tags', [...item.tags, tag]);
-                        input.value = '';
-                      }
-                    }
-                  }}
-                />
-              </div>
-              <p className="mt-2 text-sm text-gray-500">Press Enter to add a tag</p>
-            </div>
-
-            {/* Display Order */}
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">Display Order</h3>
-              <input
-                type="number"
-                value={item.displayOrder}
-                onChange={(e) => updateItem('displayOrder', Number(e.target.value))}
-                className="w-32 rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <p className="mt-2 text-sm text-gray-500">
-                Lower numbers appear first in the category
-              </p>
-            </div>
-          </div>
-        )}
+        {activeTab === 'seo' && <SeoTagsTab item={item} updateItem={updateItem} />}
       </div>
     </div>
   );

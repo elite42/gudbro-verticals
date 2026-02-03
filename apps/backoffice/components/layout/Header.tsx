@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Sparkles, Settings, LogOut, User, ChevronDown } from 'lucide-react';
+import { Sparkle, Gear, SignOut, User, CaretDown } from '@phosphor-icons/react';
 import { TenantSwitcher } from '@/components/tenant';
 import { RoleSwitcher, DevRoleSwitcher } from '@/components/account';
 import { WeatherWidget } from '@/components/ai/WeatherWidget';
@@ -214,7 +214,7 @@ export function Header() {
           className="relative rounded-lg p-2 text-blue-600 transition-colors hover:bg-blue-50 hover:text-blue-700"
           title={t('aiCoManager')}
         >
-          <Sparkles className="h-5 w-5" />
+          <Sparkle className="h-5 w-5" />
           {hasNotification && (
             <span className="absolute right-1.5 top-1.5 h-2 w-2 animate-pulse rounded-full bg-red-500" />
           )}
@@ -236,7 +236,7 @@ export function Header() {
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-red-500 text-xs font-medium text-white">
               {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || 'U'}
             </div>
-            <ChevronDown
+            <CaretDown
               className={`h-3.5 w-3.5 text-gray-400 transition-transform ${showUserMenu ? 'rotate-180' : ''}`}
             />
           </button>
@@ -283,7 +283,7 @@ export function Header() {
                         <p className="text-xs text-gray-500">{t('switchAccountType')}</p>
                       </div>
                     </div>
-                    <ChevronDown
+                    <CaretDown
                       className={`h-4 w-4 text-gray-400 transition-transform ${showRoleSection ? 'rotate-180' : ''}`}
                     />
                   </button>
@@ -383,7 +383,7 @@ export function Header() {
                   className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
                   onClick={() => setShowUserMenu(false)}
                 >
-                  <Settings className="h-4 w-4 text-gray-400" />
+                  <Gear className="h-4 w-4 text-gray-400" />
                   {t('settings')}
                 </a>
               </div>
@@ -394,7 +394,7 @@ export function Header() {
                   onClick={handleLogout}
                   className="flex w-full items-center gap-3 px-4 py-2 text-sm text-red-600 transition-colors hover:bg-red-50"
                 >
-                  <LogOut className="h-4 w-4" />
+                  <SignOut className="h-4 w-4" />
                   {t('signOut')}
                 </button>
               </div>

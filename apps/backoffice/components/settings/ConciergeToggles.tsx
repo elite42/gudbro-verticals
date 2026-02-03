@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { useToast } from '@/lib/contexts/ToastContext';
-import { MapPin, Phone, Shield, Globe, Bus } from 'lucide-react';
+import { MapPin, Phone, Shield, Globe, Bus } from '@phosphor-icons/react';
 
 interface SectionToggle {
   id: string;

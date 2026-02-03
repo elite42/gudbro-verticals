@@ -8,7 +8,15 @@
 
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { Handshake, Building, MapPin, Phone, Mail, Ticket, Target } from 'lucide-react';
+import {
+  Handshake,
+  Building,
+  MapPin,
+  Phone,
+  EnvelopeSimple,
+  Ticket,
+  Crosshair,
+} from '@phosphor-icons/react';
 import type { PartnerEntity } from '../hooks/useMapData';
 import { formatDistance } from '../MapStatsPanel';
 
@@ -35,7 +43,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 export function PartnerMarker({ partner, icon, isSelected, onClick }: PartnerMarkerProps) {
   const isLead = partner.type === 'lead' || partner.status === 'lead';
-  const IconComponent = isLead ? Target : Handshake;
+  const IconComponent = isLead ? Crosshair : Handshake;
   const iconBgColor = isLead ? 'bg-gray-100' : 'bg-blue-100';
   const iconColor = isLead ? 'text-gray-600' : 'text-blue-600';
 
@@ -85,7 +93,7 @@ export function PartnerMarker({ partner, icon, isSelected, onClick }: PartnerMar
               )}
               {partner.contact_email && (
                 <div className="flex items-center gap-1 text-gray-600">
-                  <Mail className="h-3 w-3" />
+                  <EnvelopeSimple className="h-3 w-3" />
                   <span className="truncate">{partner.contact_email}</span>
                 </div>
               )}

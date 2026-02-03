@@ -13,14 +13,14 @@ import { useTenant } from '@/lib/contexts/TenantContext';
 import { EmptyState } from '@/components/ui/empty-state';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
-  ArrowLeftIcon,
-  QrCodeIcon,
-  ScanLineIcon,
-  TrendingUpIcon,
-  SmartphoneIcon,
-  GlobeIcon,
-  MapPinIcon,
-} from 'lucide-react';
+  ArrowLeft as ArrowLeftIcon,
+  QrCode as QrCodeIcon,
+  Scan as ScanLineIcon,
+  TrendUp as TrendingUpIcon,
+  DeviceMobile as SmartphoneIcon,
+  Globe as GlobeIcon,
+  MapPin as MapPinIcon,
+} from '@phosphor-icons/react';
 
 type TimeRange = '7d' | '30d' | '90d' | '1y';
 

@@ -8,7 +8,13 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Map, List, RefreshCw, Download, Mail } from 'lucide-react';
+import {
+  MapTrifold,
+  ListBullets,
+  ArrowsClockwise,
+  DownloadSimple,
+  Envelope,
+} from '@phosphor-icons/react';
 import { SmartMap } from '@/components/map';
 import type { MapEntity } from '@/components/map/hooks/useMapData';
 import { QuickActionPanel } from '@/components/map/panels/QuickActionPanel';
@@ -59,7 +65,7 @@ export default function IntelligenceMapPage() {
                 viewMode === 'map' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
-              <Map className="h-4 w-4" />
+              <MapTrifold className="h-4 w-4" />
               Map
             </button>
             <button
@@ -68,18 +74,18 @@ export default function IntelligenceMapPage() {
                 viewMode === 'list' ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
-              <List className="h-4 w-4" />
+              <ListBullets className="h-4 w-4" />
               List
             </button>
           </div>
 
           {/* Actions */}
           <button className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-            <Download className="h-4 w-4" />
+            <DownloadSimple className="h-4 w-4" />
             Export
           </button>
           <button className="flex items-center gap-1.5 rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-800">
-            <Mail className="h-4 w-4" />
+            <Envelope className="h-4 w-4" />
             Campaign
           </button>
         </div>
@@ -91,7 +97,7 @@ export default function IntelligenceMapPage() {
       {/* List View (placeholder) */}
       {viewMode === 'list' && (
         <div className="rounded-lg border border-gray-200 bg-white p-8 text-center">
-          <List className="mx-auto h-12 w-12 text-gray-400" />
+          <ListBullets className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-4 text-lg font-medium text-gray-900">List View</h3>
           <p className="mt-1 text-sm text-gray-500">
             Table view with sorting and filtering coming soon

@@ -7,7 +7,7 @@ import {
   ReservationFormData,
   ReservationStatus,
 } from '@/components/reservations';
-import { Calendar, List, Settings } from 'lucide-react';
+import { CalendarBlank, ListBullets, Gear } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 
@@ -207,7 +207,7 @@ export default function ReservationsPage() {
                 : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
             }`}
           >
-            <Calendar className="h-4 w-4" />
+            <CalendarBlank className="h-4 w-4" />
             Calendar
           </button>
           <button
@@ -218,7 +218,7 @@ export default function ReservationsPage() {
                 : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
             }`}
           >
-            <List className="h-4 w-4" />
+            <ListBullets className="h-4 w-4" />
             List View
           </button>
           <Link
@@ -243,7 +243,7 @@ export default function ReservationsPage() {
                 : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
             }`}
           >
-            <Settings className="h-4 w-4" />
+            <Gear className="h-4 w-4" />
             Settings
           </button>
         </nav>

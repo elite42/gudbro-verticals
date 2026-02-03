@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, X, ArrowRight, Loader2 } from 'lucide-react';
+import { Sparkle, X, ArrowRight, SpinnerGap } from '@phosphor-icons/react';
 
 export interface Opportunity {
   id: string;
@@ -45,7 +45,7 @@ export function OpportunityBanner({ opportunity }: OpportunityBannerProps) {
       <div className="relative flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="rounded-lg bg-white/20 p-2">
-            <Sparkles className="h-5 w-5" />
+            <Sparkle className="h-5 w-5" />
           </div>
           <div>
             <p className="font-medium">{opportunity.message}</p>
@@ -62,7 +62,7 @@ export function OpportunityBanner({ opportunity }: OpportunityBannerProps) {
             className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-purple-600 transition-all hover:bg-white/90 disabled:opacity-50"
           >
             {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <SpinnerGap className="h-4 w-4 animate-spin" />
             ) : (
               <>
                 {opportunity.actionLabel}

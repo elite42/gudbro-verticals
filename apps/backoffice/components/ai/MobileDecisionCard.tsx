@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { SpinnerGap } from '@phosphor-icons/react';
 
 export type DecisionLevel = 'critical' | 'warning';
 
@@ -99,7 +99,7 @@ export function MobileDecisionCard({ decision, number }: MobileDecisionCardProps
           className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-base font-bold text-white shadow-sm transition-all disabled:opacity-50 ${config.primaryBtn}`}
         >
           {loading === 'primary' ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
+            <SpinnerGap className="h-5 w-5 animate-spin" />
           ) : (
             <>
               <span>{decision.actions.primary.icon || '✔️'}</span>
@@ -113,7 +113,7 @@ export function MobileDecisionCard({ decision, number }: MobileDecisionCardProps
           className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-gray-200 bg-white px-4 py-3.5 text-base font-bold text-gray-700 shadow-sm transition-all hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50"
         >
           {loading === 'secondary' ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
+            <SpinnerGap className="h-5 w-5 animate-spin" />
           ) : (
             <>
               <span>{decision.actions.secondary.icon || '❌'}</span>

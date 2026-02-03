@@ -14,13 +14,13 @@ import {
   Star,
   Wallet,
   Gift,
-  MessageCircle,
+  ChatCircle,
   Phone,
-  Mail,
-  ExternalLink,
+  EnvelopeSimple,
+  ArrowSquareOut,
   Check,
-  Loader2,
-} from 'lucide-react';
+  SpinnerGap,
+} from '@phosphor-icons/react';
 import type { MapEntity, CustomerEntity } from '../hooks/useMapData';
 
 interface QuickActionPanelProps {
@@ -262,7 +262,7 @@ export function QuickActionPanel({ entity, merchantId, onClose }: QuickActionPan
             {/* Contact Section */}
             <div className="mb-6">
               <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-900">
-                <MessageCircle className="h-4 w-4 text-green-500" />
+                <ChatCircle className="h-4 w-4 text-green-500" />
                 Contact
               </h3>
               <div className="space-y-2">
@@ -283,7 +283,7 @@ export function QuickActionPanel({ entity, merchantId, onClose }: QuickActionPan
                     href={`mailto:${customer.email}`}
                     className="flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm hover:border-blue-500 hover:bg-blue-50"
                   >
-                    <Mail className="h-4 w-4 text-blue-600" />
+                    <EnvelopeSimple className="h-4 w-4 text-blue-600" />
                     <span>Email</span>
                     <span className="ml-auto truncate text-gray-500">{customer.email}</span>
                   </a>
@@ -312,7 +312,7 @@ export function QuickActionPanel({ entity, merchantId, onClose }: QuickActionPan
               href={`/customers/${customer.id}`}
               className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
-              <ExternalLink className="h-4 w-4" />
+              <ArrowSquareOut className="h-4 w-4" />
               View Full Profile
             </a>
           </div>
@@ -320,7 +320,7 @@ export function QuickActionPanel({ entity, merchantId, onClose }: QuickActionPan
           {/* Loading overlay */}
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-white/80">
-              <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+              <SpinnerGap className="h-8 w-8 animate-spin text-gray-400" />
             </div>
           )}
         </div>

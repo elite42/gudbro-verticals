@@ -9,19 +9,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import {
-  ArrowLeft,
-  Tag,
-  Clock,
-  Percent,
-  Gift,
-  Copy,
-  Check,
-} from '@phosphor-icons/react';
+import { ArrowLeft, Tag, Clock, Percent, Gift, Copy, Check } from '@phosphor-icons/react';
 import { Header } from '@/components/v2/Header';
 import { BottomNav } from '@/components/v2/BottomNav';
 import { coffeeshopConfig } from '@/config/coffeeshop.config';
 import { cartStore } from '@/lib/cart-store';
+import { formatDate } from '@gudbro/utils';
 
 interface Offer {
   id: string;
@@ -107,12 +100,24 @@ export default function V2OffersClient() {
 
   const handleNavigate = (pageId: string) => {
     switch (pageId) {
-      case 'home': router.push('/v2'); break;
-      case 'menu': router.push('/v2/menu'); break;
-      case 'cart': router.push('/v2/cart'); break;
-      case 'favorites': router.push('/v2/favorites'); break;
-      case 'orders': router.push('/v2/orders'); break;
-      case 'account': router.push('/v2/account'); break;
+      case 'home':
+        router.push('/v2');
+        break;
+      case 'menu':
+        router.push('/v2/menu');
+        break;
+      case 'cart':
+        router.push('/v2/cart');
+        break;
+      case 'favorites':
+        router.push('/v2/favorites');
+        break;
+      case 'orders':
+        router.push('/v2/orders');
+        break;
+      case 'account':
+        router.push('/v2/account');
+        break;
     }
   };
 
@@ -126,14 +131,6 @@ export default function V2OffersClient() {
     }
   };
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  };
-
   if (!isClient) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -143,7 +140,11 @@ export default function V2OffersClient() {
   }
 
   return (
-    <div data-theme={isDark ? 'dark' : 'light'} className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
+    <div
+      data-theme={isDark ? 'dark' : 'light'}
+      className="min-h-screen"
+      style={{ background: 'var(--bg-primary)' }}
+    >
       <Header
         merchantName={coffeeshopConfig.business.name}
         merchantLogo={coffeeshopConfig.business.logo}
@@ -164,15 +165,8 @@ export default function V2OffersClient() {
         </button>
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
-        >
-          <h1
-            className="font-display text-2xl font-bold"
-            style={{ color: 'var(--text-primary)' }}
-          >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+          <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
             Special Offers
           </h1>
           <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>
@@ -218,10 +212,7 @@ export default function V2OffersClient() {
                         <h3 className="text-lg font-bold" style={{ color: 'white' }}>
                           {offer.title}
                         </h3>
-                        <p
-                          className="mt-1 text-sm"
-                          style={{ color: 'rgba(255,255,255,0.9)' }}
-                        >
+                        <p className="mt-1 text-sm" style={{ color: 'rgba(255,255,255,0.9)' }}>
                           {offer.description}
                         </p>
                       </div>
@@ -263,10 +254,7 @@ export default function V2OffersClient() {
 
                     {/* Terms & Validity */}
                     <div className="mt-4 space-y-1">
-                      <p
-                        className="text-xs"
-                        style={{ color: 'rgba(255,255,255,0.7)' }}
-                      >
+                      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>
                         {offer.terms}
                       </p>
                       <p

@@ -15,24 +15,24 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import {
-  AlertCircle,
+  WarningCircle,
   UserMinus,
   Calendar,
   Star,
   Target,
-  Settings,
+  Gear,
   Bell,
   Gift,
   Users,
-  ChevronLeft,
+  CaretLeft,
   Check,
-  Loader2,
-  DollarSign,
-  Mail,
-  MessageSquare,
-  Smartphone,
-  Zap,
-} from 'lucide-react';
+  SpinnerGap,
+  CurrencyDollar,
+  EnvelopeSimple,
+  Chat,
+  DeviceMobile,
+  Lightning,
+} from '@phosphor-icons/react';
 
 // Types
 type Step = 'type' | 'conditions' | 'action' | 'budget' | 'review';
@@ -169,14 +169,14 @@ const TRIGGER_TYPES: {
   value: TriggerType;
   label: string;
   description: string;
-  icon: any;
+  icon: React.ElementType;
   color: string;
 }[] = [
   {
     value: 'churn_risk',
     label: 'Churn Risk',
     description: 'Alert when customer risk is high',
-    icon: AlertCircle,
+    icon: WarningCircle,
     color: 'text-red-600 bg-red-100',
   },
   {
@@ -211,7 +211,7 @@ const TRIGGER_TYPES: {
     value: 'custom',
     label: 'Custom',
     description: 'Build your own rules',
-    icon: Settings,
+    icon: Gear,
     color: 'text-gray-600 bg-gray-100',
   },
 ];
@@ -221,7 +221,7 @@ const ACTION_TYPES: {
   value: ActionType;
   label: string;
   description: string;
-  icon: any;
+  icon: React.ElementType;
 }[] = [
   {
     value: 'notification',
@@ -250,11 +250,11 @@ const ACTION_TYPES: {
 ];
 
 // Channel options
-const CHANNELS: { value: Channel; label: string; icon: any }[] = [
-  { value: 'push', label: 'Push', icon: Smartphone },
-  { value: 'email', label: 'Email', icon: Mail },
-  { value: 'whatsapp', label: 'WhatsApp', icon: MessageSquare },
-  { value: 'sms', label: 'SMS', icon: MessageSquare },
+const CHANNELS: { value: Channel; label: string; icon: React.ElementType }[] = [
+  { value: 'push', label: 'Push', icon: DeviceMobile },
+  { value: 'email', label: 'Email', icon: EnvelopeSimple },
+  { value: 'whatsapp', label: 'WhatsApp', icon: Chat },
+  { value: 'sms', label: 'SMS', icon: Chat },
 ];
 
 // Segment options
@@ -1073,7 +1073,7 @@ export function TriggerModal({
         <DialogFooter className="gap-2">
           {step !== 'type' && (
             <Button variant="outline" onClick={handleBack}>
-              <ChevronLeft className="mr-2 h-4 w-4" />
+              <CaretLeft className="mr-2 h-4 w-4" />
               Back
             </Button>
           )}
@@ -1083,9 +1083,9 @@ export function TriggerModal({
           {step === 'review' && (
             <Button onClick={handleSave} disabled={isSubmitting}>
               {isSubmitting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <SpinnerGap className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                <Zap className="mr-2 h-4 w-4" />
+                <Lightning className="mr-2 h-4 w-4" />
               )}
               {isEditMode ? 'Update' : 'Create'} Trigger
             </Button>

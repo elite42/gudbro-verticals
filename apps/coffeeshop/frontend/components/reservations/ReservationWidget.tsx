@@ -3,18 +3,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from '../../lib/use-translation';
 import {
-  ChevronLeft,
+  CaretLeft,
   Users,
-  Calendar,
+  CalendarBlank,
   Clock,
   User,
   Phone,
-  Mail,
+  Envelope,
   Check,
   X,
   MapPin,
-  Sparkles,
-} from 'lucide-react';
+  Sparkle,
+} from '@phosphor-icons/react';
 
 // Types
 interface ReservationSettings {
@@ -298,7 +298,7 @@ export function ReservationWidget({
             onClick={goBack}
             className="-ml-2 rounded-full p-2 transition-colors hover:bg-gray-100"
           >
-            <ChevronLeft className="h-6 w-6" />
+            <CaretLeft className="h-6 w-6" />
           </button>
           <h2 className="text-lg font-semibold">
             {currentStep === 'success'
@@ -402,7 +402,7 @@ export function ReservationWidget({
               {/* Date selection */}
               <div>
                 <div className="mb-3 flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-blue-500" />
+                  <CalendarBlank className="h-5 w-5 text-blue-500" />
                   <h3 className="font-semibold">{(tr?.selectDate as string) || 'Select Date'}</h3>
                 </div>
                 <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2">
@@ -566,7 +566,7 @@ export function ReservationWidget({
                   {(tr?.email as string) || 'Email'} {settings?.requireEmail ? '*' : ''}
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                  <Envelope className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
                   <input
                     type="email"
                     value={guestEmail}
@@ -662,7 +662,7 @@ export function ReservationWidget({
 
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
-                    <Calendar className="h-5 w-5 text-blue-600" />
+                    <CalendarBlank className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
                     <div className="text-sm text-gray-500">{(tr?.date as string) || 'Date'}</div>
@@ -709,7 +709,7 @@ export function ReservationWidget({
                 {occasion && (
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
-                      <Sparkles className="h-5 w-5 text-blue-600" />
+                      <Sparkle className="h-5 w-5 text-blue-600" />
                     </div>
                     <div>
                       <div className="text-sm text-gray-500">

@@ -8,22 +8,22 @@ import { useTranslations } from 'next-intl';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   Users,
-  TrendingUp,
-  AlertTriangle,
-  Target,
-  RefreshCw,
-  ChevronRight,
-  Sparkles,
-  DollarSign,
+  TrendUp,
+  Warning,
+  Crosshair,
+  ArrowsClockwise,
+  CaretRight,
+  Sparkle,
+  CurrencyDollar,
   Clock,
-  UserX,
+  UserMinus,
   Crown,
   Heart,
-  Sprout,
-  AlertCircle,
+  Plant,
+  WarningCircle,
   Moon,
   XCircle,
-} from 'lucide-react';
+} from '@phosphor-icons/react';
 
 // Types
 interface CustomerIntelligenceSummary {
@@ -48,23 +48,24 @@ interface CustomerAtRisk {
 }
 
 // Segment config with icons and colors
-const SEGMENT_CONFIG: Record<string, { icon: any; color: string; bgColor: string }> = {
-  champion: {
-    icon: Crown,
-    color: 'text-yellow-600',
-    bgColor: 'bg-yellow-100',
-  },
-  loyal: { icon: Heart, color: 'text-green-600', bgColor: 'bg-green-100' },
-  potential: { icon: Sprout, color: 'text-blue-600', bgColor: 'bg-blue-100' },
-  new: { icon: Sparkles, color: 'text-purple-600', bgColor: 'bg-purple-100' },
-  at_risk: {
-    icon: AlertCircle,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-100',
-  },
-  dormant: { icon: Moon, color: 'text-gray-600', bgColor: 'bg-gray-100' },
-  lost: { icon: XCircle, color: 'text-red-600', bgColor: 'bg-red-100' },
-};
+const SEGMENT_CONFIG: Record<string, { icon: React.ElementType; color: string; bgColor: string }> =
+  {
+    champion: {
+      icon: Crown,
+      color: 'text-yellow-600',
+      bgColor: 'bg-yellow-100',
+    },
+    loyal: { icon: Heart, color: 'text-green-600', bgColor: 'bg-green-100' },
+    potential: { icon: Plant, color: 'text-blue-600', bgColor: 'bg-blue-100' },
+    new: { icon: Sparkle, color: 'text-purple-600', bgColor: 'bg-purple-100' },
+    at_risk: {
+      icon: WarningCircle,
+      color: 'text-orange-600',
+      bgColor: 'bg-orange-100',
+    },
+    dormant: { icon: Moon, color: 'text-gray-600', bgColor: 'bg-gray-100' },
+    lost: { icon: XCircle, color: 'text-red-600', bgColor: 'bg-red-100' },
+  };
 
 import { formatPrice as _fp } from '@gudbro/utils';
 
@@ -202,7 +203,7 @@ export default function CustomerIntelligencePage() {
             disabled={isSyncing}
             className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
           >
-            <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
+            <ArrowsClockwise className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
             {t('sync')}
           </button>
           <button
@@ -210,7 +211,7 @@ export default function CustomerIntelligencePage() {
             disabled={isAnalyzing}
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
           >
-            <Sparkles className={`h-4 w-4 ${isAnalyzing ? 'animate-pulse' : ''}`} />
+            <Sparkle className={`h-4 w-4 ${isAnalyzing ? 'animate-pulse' : ''}`} />
             {isAnalyzing ? t('analyzing') : t('analyzeAll')}
           </button>
         </div>
@@ -219,7 +220,7 @@ export default function CustomerIntelligencePage() {
       {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          icon={DollarSign}
+          icon={CurrencyDollar}
           label={t('stats.totalClv')}
           value={formatCurrency(summary?.totalClv || 0, currencyCode)}
           color="green"
@@ -231,14 +232,14 @@ export default function CustomerIntelligencePage() {
           color="blue"
         />
         <StatCard
-          icon={AlertTriangle}
+          icon={Warning}
           label={t('stats.atRisk')}
           value={summary?.highRiskCount || 0}
           subtitle={t('stats.highPriority')}
           color="red"
         />
         <StatCard
-          icon={TrendingUp}
+          icon={TrendUp}
           label={t('stats.averageClv')}
           value={formatCurrency(summary?.avgClv || 0, currencyCode)}
           color="purple"
@@ -251,7 +252,7 @@ export default function CustomerIntelligencePage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="rounded-full bg-red-100 p-2 dark:bg-red-900/50">
-                <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+                <Warning className="h-5 w-5 text-red-600 dark:text-red-400" />
               </div>
               <div>
                 <p className="font-semibold text-red-900 dark:text-red-100">
@@ -269,7 +270,7 @@ export default function CustomerIntelligencePage() {
               className="inline-flex items-center gap-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
             >
               {t('urgentBanner.viewAtRisk')}
-              <ChevronRight className="h-4 w-4" />
+              <CaretRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -281,7 +282,7 @@ export default function CustomerIntelligencePage() {
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Target className="h-5 w-5 text-blue-500" />
+              <Crosshair className="h-5 w-5 text-blue-500" />
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {t('segments.title')}
               </h2>
@@ -339,7 +340,7 @@ export default function CustomerIntelligencePage() {
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-purple-500" />
+              <Sparkle className="h-5 w-5 text-purple-500" />
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {t('recommendations.title')}
               </h2>
@@ -390,7 +391,7 @@ export default function CustomerIntelligencePage() {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <Sparkles className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+              <Sparkle className="h-12 w-12 text-gray-300 dark:text-gray-600" />
               <p className="mt-3 text-gray-500">{t('recommendations.noActions')}</p>
               <button
                 onClick={handleAnalyzeAll}
@@ -410,7 +411,7 @@ export default function CustomerIntelligencePage() {
       >
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <UserX className="h-5 w-5 text-red-500" />
+            <UserMinus className="h-5 w-5 text-red-500" />
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
               {t('atRiskTable.title')}
             </h2>
@@ -490,7 +491,7 @@ export default function CustomerIntelligencePage() {
                         className="inline-flex items-center gap-1 rounded-lg bg-blue-100 px-3 py-1.5 text-xs font-medium text-blue-700 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300"
                       >
                         {t('atRiskTable.viewDetails')}
-                        <ChevronRight className="h-3 w-3" />
+                        <CaretRight className="h-3 w-3" />
                       </Link>
                     </td>
                   </tr>
@@ -520,7 +521,7 @@ function StatCard({
   subtitle,
   color,
 }: {
-  icon: any;
+  icon: React.ElementType;
   label: string;
   value: string | number;
   subtitle?: string;

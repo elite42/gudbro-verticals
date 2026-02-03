@@ -3,28 +3,28 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  Settings,
+  GearSix,
   Clock,
-  Calendar,
+  CalendarBlank,
   Globe,
-  DollarSign,
+  CurrencyDollar,
   Shield,
   CreditCard,
-  Share2,
+  ShareNetwork,
   Layout,
   Compass,
-} from 'lucide-react';
+} from '@phosphor-icons/react';
 
 const settingsTabs = [
-  { name: 'General', href: '/settings', icon: Settings },
+  { name: 'General', href: '/settings', icon: GearSix },
   { name: 'Site Builder', href: '/settings/site-builder', icon: Layout },
   { name: 'Hours', href: '/settings/hours', icon: Clock },
-  { name: 'Calendar', href: '/settings/calendar', icon: Calendar },
+  { name: 'Calendar', href: '/settings/calendar', icon: CalendarBlank },
   { name: 'Languages', href: '/settings/languages', icon: Globe },
-  { name: 'Currency', href: '/settings/currency', icon: DollarSign },
+  { name: 'Currency', href: '/settings/currency', icon: CurrencyDollar },
   { name: 'Auth', href: '/settings/auth', icon: Shield },
   { name: 'Payments', href: '/settings/payments', icon: CreditCard },
-  { name: 'Social', href: '/settings/social', icon: Share2 },
+  { name: 'Social', href: '/settings/social', icon: ShareNetwork },
   { name: 'Concierge', href: '/settings/concierge', icon: Compass },
 ];
 

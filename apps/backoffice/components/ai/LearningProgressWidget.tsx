@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import {
   Brain,
-  ChevronDown,
-  ChevronUp,
-  Sparkles,
-  TrendingUp,
+  CaretDown,
+  CaretUp,
+  Sparkle,
+  TrendUp,
   Lock,
-  Unlock,
-  Settings2,
-} from 'lucide-react';
+  LockOpen,
+  GearSix,
+} from '@phosphor-icons/react';
 import { useTenant } from '@/lib/contexts/TenantContext';
 
 // Types
@@ -269,7 +269,7 @@ export function LearningProgressWidget({ compact = false }: { compact?: boolean 
               <p className="text-xs text-gray-500">{progress.overallProgress}% learned</p>
             </div>
           </div>
-          <ChevronDown className="h-4 w-4 text-gray-400" />
+          <CaretDown className="h-4 w-4 text-gray-400" />
         </div>
       </button>
     );
@@ -301,14 +301,14 @@ export function LearningProgressWidget({ compact = false }: { compact?: boolean 
               className="rounded-lg p-1.5 text-gray-400 hover:bg-white/50 hover:text-gray-600"
               title="Settings"
             >
-              <Settings2 className="h-4 w-4" />
+              <GearSix className="h-4 w-4" />
             </button>
             {compact && (
               <button
                 onClick={() => setExpanded(false)}
                 className="rounded-lg p-1.5 text-gray-400 hover:bg-white/50 hover:text-gray-600"
               >
-                <ChevronUp className="h-4 w-4" />
+                <CaretUp className="h-4 w-4" />
               </button>
             )}
           </div>
@@ -331,7 +331,7 @@ export function LearningProgressWidget({ compact = false }: { compact?: boolean 
         {/* Autonomy Level Description */}
         <div className="mt-3 flex items-center gap-2 rounded-lg bg-white/50 px-3 py-2">
           {progress.autonomyLevel >= 3 ? (
-            <Unlock className="h-4 w-4 text-green-600" />
+            <LockOpen className="h-4 w-4 text-green-600" />
           ) : (
             <Lock className="h-4 w-4 text-gray-400" />
           )}
@@ -342,7 +342,7 @@ export function LearningProgressWidget({ compact = false }: { compact?: boolean 
       {/* Knowledge Areas */}
       <div className="border-t border-gray-200/50 bg-white/30 p-4">
         <h4 className="mb-3 flex items-center gap-2 text-sm font-medium text-gray-700">
-          <TrendingUp className="h-4 w-4" />
+          <TrendUp className="h-4 w-4" />
           Knowledge Areas
         </h4>
         <div className="space-y-4">
@@ -356,7 +356,7 @@ export function LearningProgressWidget({ compact = false }: { compact?: boolean 
       {milestones.length > 0 && (
         <div className="border-t border-gray-200/50 bg-white/30 p-4">
           <h4 className="mb-3 flex items-center gap-2 text-sm font-medium text-gray-700">
-            <Sparkles className="h-4 w-4" />
+            <Sparkle className="h-4 w-4" />
             Recent Milestones
           </h4>
           <div className="space-y-2">
@@ -366,7 +366,7 @@ export function LearningProgressWidget({ compact = false }: { compact?: boolean 
                 className="flex items-center gap-2 rounded-lg bg-white/50 px-3 py-2"
               >
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100">
-                  <Sparkles className="h-3 w-3 text-green-600" />
+                  <Sparkle className="h-3 w-3 text-green-600" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium text-gray-700">{milestone.name}</p>

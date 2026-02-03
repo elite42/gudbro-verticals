@@ -63,7 +63,7 @@ export function useUpdateOrderStatus() {
           });
         } catch (pushErr) {
           // Don't fail the mutation if push fails
-          console.log('[Push] Notification error (non-blocking):', pushErr);
+          console.warn('[Push] Notification error (non-blocking):', pushErr);
         }
       }
 

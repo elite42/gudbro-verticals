@@ -2,24 +2,24 @@
 
 import { useState } from 'react';
 import {
-  AlertTriangle,
-  TrendingUp,
-  TrendingDown,
+  Warning,
+  TrendUp,
+  TrendDown,
   Users,
-  Utensils,
+  ForkKnife,
   CloudRain,
   Sun,
-  DollarSign,
+  CurrencyDollar,
   Clock,
   CheckCircle,
   X,
-  HelpCircle,
-  Loader2,
-  MessageCircle,
-  AlertCircle,
+  Question,
+  SpinnerGap,
+  ChatCircle,
+  WarningCircle,
   ThumbsUp,
   ThumbsDown,
-} from 'lucide-react';
+} from '@phosphor-icons/react';
 
 export type PriorityLevel = 'critical' | 'warning' | 'opportunity';
 export type PriorityCategory =
@@ -131,10 +131,10 @@ const levelConfig = {
 const categoryIcons = {
   staffing: Users,
   weather: Sun,
-  promo: TrendingUp,
-  food_cost: DollarSign,
+  promo: TrendUp,
+  food_cost: CurrencyDollar,
   customer: Users, // Same as staffing but different category
-  general: AlertTriangle,
+  general: Warning,
 };
 
 // Confidence level configuration
@@ -217,7 +217,11 @@ export function AIPriorityCard({ priority, compact = false }: AIPriorityCardProp
           disabled={loading}
           className={`rounded-lg px-3 py-1.5 text-xs font-medium ${config.primaryBtn} disabled:opacity-50`}
         >
-          {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : priority.actions.primary.label}
+          {loading ? (
+            <SpinnerGap className="h-3 w-3 animate-spin" />
+          ) : (
+            priority.actions.primary.label
+          )}
         </button>
       </div>
     );
@@ -329,7 +333,7 @@ export function AIPriorityCard({ priority, compact = false }: AIPriorityCardProp
       {priority.previousError && (
         <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 p-2">
           <div className="flex items-start gap-2">
-            <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
+            <WarningCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
             <div>
               <p className="text-xs font-medium text-amber-800">{priority.previousError.message}</p>
               {priority.previousError.learningNote && (
@@ -346,7 +350,7 @@ export function AIPriorityCard({ priority, compact = false }: AIPriorityCardProp
       {priority.lowConfidenceMessage && (
         <div className="mb-3 rounded-lg border border-gray-200 bg-gray-50 p-2">
           <div className="flex items-start gap-2">
-            <HelpCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-500" />
+            <Question className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-500" />
             <p className="text-xs text-gray-600">{priority.lowConfidenceMessage}</p>
           </div>
         </div>
@@ -370,7 +374,7 @@ export function AIPriorityCard({ priority, compact = false }: AIPriorityCardProp
                 onClick={() => setShowExplanation(!showExplanation)}
                 className="flex items-center gap-1 rounded px-2 py-1 text-xs text-gray-500 hover:bg-gray-100"
               >
-                <MessageCircle className="h-3 w-3" />
+                <ChatCircle className="h-3 w-3" />
                 {showExplanation ? 'Nascondi' : 'Perché?'}
               </button>
             )}
@@ -437,7 +441,7 @@ export function AIPriorityCard({ priority, compact = false }: AIPriorityCardProp
           className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${config.primaryBtn} disabled:opacity-50`}
         >
           {loading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <SpinnerGap className="h-4 w-4 animate-spin" />
           ) : (
             <>
               <CheckCircle className="h-4 w-4" />
@@ -461,7 +465,7 @@ export function AIPriorityCard({ priority, compact = false }: AIPriorityCardProp
             className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-white/50 hover:text-gray-600"
             title="Perché me lo consigli?"
           >
-            <HelpCircle className="h-4 w-4" />
+            <Question className="h-4 w-4" />
           </button>
         )}
       </div>

@@ -6,15 +6,15 @@ import { useTenant } from '@/lib/contexts/TenantContext';
 import {
   Calculator,
   ChefHat,
-  TrendingUp,
+  TrendUp,
   Lock,
-  Unlock,
-  Sparkles,
+  LockOpen,
+  Sparkle,
   ArrowRight,
   Trophy,
-  Target,
-  Zap,
-} from 'lucide-react';
+  Crosshair,
+  Lightning,
+} from '@phosphor-icons/react';
 
 interface FoodCostStats {
   totalDishes: number;
@@ -114,7 +114,7 @@ export function FoodCostProgress() {
       id: 'margin-analysis',
       name: 'Analisi Margini',
       description: 'Scopri quali piatti ti fanno guadagnare di più',
-      icon: TrendingUp,
+      icon: TrendUp,
       requiredProgress: 20,
       unlocked: overallProgress >= 20,
       color: 'emerald',
@@ -123,7 +123,7 @@ export function FoodCostProgress() {
       id: 'menu-engineering',
       name: 'Menu Engineering',
       description: 'Classifica BCG: Stars, Puzzles, Plowhorses, Dogs',
-      icon: Target,
+      icon: Crosshair,
       requiredProgress: 50,
       unlocked: overallProgress >= 50,
       color: 'purple',
@@ -132,7 +132,7 @@ export function FoodCostProgress() {
       id: 'ai-suggestions',
       name: 'Suggerimenti AI',
       description: "L'AI ti dice come ottimizzare i margini",
-      icon: Sparkles,
+      icon: Sparkle,
       requiredProgress: 75,
       unlocked: overallProgress >= 75,
       color: 'blue',
@@ -141,7 +141,7 @@ export function FoodCostProgress() {
       id: 'variance-alerts',
       name: 'Alert Varianza',
       description: 'Notifiche quando i costi deviano dal teorico',
-      icon: Zap,
+      icon: Lightning,
       requiredProgress: 90,
       unlocked: overallProgress >= 90,
       color: 'amber',
@@ -332,7 +332,7 @@ export function FoodCostProgress() {
                 </div>
                 {feature.unlocked && (
                   <div className="absolute right-1 top-1">
-                    <Unlock className="h-3 w-3 text-green-500" />
+                    <LockOpen className="h-3 w-3 text-green-500" />
                   </div>
                 )}
               </div>
@@ -361,7 +361,7 @@ export function FoodCostProgress() {
         >
           {overallProgress === 0 ? (
             <>
-              <Sparkles className="h-4 w-4" />
+              <Sparkle className="h-4 w-4" />
               Inizia il Setup Food Cost
             </>
           ) : overallProgress < 100 ? (
@@ -371,7 +371,7 @@ export function FoodCostProgress() {
             </>
           ) : (
             <>
-              <TrendingUp className="h-4 w-4" />
+              <TrendUp className="h-4 w-4" />
               Vai all'Analisi Margini
             </>
           )}

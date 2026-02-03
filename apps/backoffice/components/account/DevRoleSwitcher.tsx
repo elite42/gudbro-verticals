@@ -12,7 +12,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Users } from 'lucide-react';
+import { Users } from '@phosphor-icons/react';
 
 // Cookie name must match middleware
 const DEV_SESSION_COOKIE = 'gudbro_dev_session';

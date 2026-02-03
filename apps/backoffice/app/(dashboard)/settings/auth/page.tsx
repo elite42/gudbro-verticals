@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
-import { Shield, AlertTriangle, Check, RefreshCw, Key, Trash2 } from 'lucide-react';
+import { Shield, Warning, Check, ArrowsClockwise, Key, Trash } from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
 import TwoFactorSetup from '@/components/auth/TwoFactorSetup';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
@@ -640,7 +640,7 @@ export default function AuthSettingsPage() {
             </div>
             <div className="flex items-center gap-3">
               {twoFactorLoading ? (
-                <RefreshCw className="h-5 w-5 animate-spin text-gray-400" />
+                <ArrowsClockwise className="h-5 w-5 animate-spin text-gray-400" />
               ) : !twoFactorConfigured ? (
                 <span className="text-sm text-gray-500">Not configured on server</span>
               ) : twoFactorEnabled ? (
@@ -678,7 +678,7 @@ export default function AuthSettingsPage() {
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
               <div className="w-full max-w-md rounded-xl bg-white p-6">
                 <div className="mb-4 flex items-center gap-3 text-red-600">
-                  <AlertTriangle className="h-6 w-6" />
+                  <Warning className="h-6 w-6" />
                   <h3 className="text-lg font-semibold">Disable Two-Factor Authentication</h3>
                 </div>
                 <p className="mb-4 text-gray-600">
@@ -715,12 +715,12 @@ export default function AuthSettingsPage() {
                   >
                     {isDisabling ? (
                       <>
-                        <RefreshCw className="h-4 w-4 animate-spin" />
+                        <ArrowsClockwise className="h-4 w-4 animate-spin" />
                         Disabling...
                       </>
                     ) : (
                       <>
-                        <Trash2 className="h-4 w-4" />
+                        <Trash className="h-4 w-4" />
                         Disable 2FA
                       </>
                     )}
@@ -820,7 +820,7 @@ export default function AuthSettingsPage() {
                           >
                             {isRegenerating ? (
                               <>
-                                <RefreshCw className="h-4 w-4 animate-spin" />
+                                <ArrowsClockwise className="h-4 w-4 animate-spin" />
                                 Generating...
                               </>
                             ) : (

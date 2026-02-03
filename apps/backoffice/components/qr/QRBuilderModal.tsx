@@ -36,17 +36,17 @@ import { QRDesignPanel } from './QRDesignPanel';
 import { QRExportPanel } from './QRExportPanel';
 import { cn } from '@/lib/utils';
 import {
-  LinkIcon,
-  WifiIcon,
-  TableIcon,
-  ShareIcon,
-  PackageIcon,
-  TruckIcon,
-  ChevronLeftIcon,
-  CheckIcon,
-  Loader2Icon,
-  PaletteIcon,
-} from 'lucide-react';
+  Link as LinkIcon,
+  WifiHigh as WifiIcon,
+  Table as TableIcon,
+  ShareNetwork as ShareIcon,
+  Package as PackageIcon,
+  Truck as TruckIcon,
+  CaretLeft as ChevronLeftIcon,
+  Check as CheckIcon,
+  SpinnerGap as Loader2Icon,
+  Palette as PaletteIcon,
+} from '@phosphor-icons/react';
 
 type Step = 'type' | 'details' | 'design' | 'export';
 

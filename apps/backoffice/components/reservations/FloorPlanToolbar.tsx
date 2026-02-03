@@ -1,6 +1,15 @@
 'use client';
 
-import { Plus, ZoomIn, ZoomOut, RotateCcw, Edit3, Eye, Trash2, Save } from 'lucide-react';
+import {
+  Plus,
+  MagnifyingGlassPlus,
+  MagnifyingGlassMinus,
+  ArrowCounterClockwise,
+  PencilSimple,
+  Eye,
+  Trash,
+  FloppyDisk,
+} from '@phosphor-icons/react';
 import { TableShapeType } from './TableShape';
 
 interface FloorPlanToolbarProps {
@@ -45,7 +54,7 @@ export function FloorPlanToolbar({
         >
           {isEditing ? (
             <>
-              <Edit3 className="h-4 w-4" />
+              <PencilSimple className="h-4 w-4" />
               Editing
             </>
           ) : (
@@ -93,7 +102,7 @@ export function FloorPlanToolbar({
             onClick={onDeleteSelected}
             className="flex items-center gap-1.5 rounded-lg bg-red-100 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-200"
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash className="h-4 w-4" />
             Delete
           </button>
         )}
@@ -109,7 +118,7 @@ export function FloorPlanToolbar({
             disabled={scale <= 0.5}
             title="Zoom out"
           >
-            <ZoomOut className="h-4 w-4" />
+            <MagnifyingGlassMinus className="h-4 w-4" />
           </button>
           <span className="min-w-[50px] text-center text-sm text-gray-600">
             {Math.round(scale * 100)}%
@@ -120,14 +129,14 @@ export function FloorPlanToolbar({
             disabled={scale >= 2}
             title="Zoom in"
           >
-            <ZoomIn className="h-4 w-4" />
+            <MagnifyingGlassPlus className="h-4 w-4" />
           </button>
           <button
             onClick={onResetZoom}
             className="rounded border-l border-gray-200 p-1.5 hover:bg-white"
             title="Reset zoom"
           >
-            <RotateCcw className="h-4 w-4" />
+            <ArrowCounterClockwise className="h-4 w-4" />
           </button>
         </div>
 
@@ -138,7 +147,7 @@ export function FloorPlanToolbar({
             disabled={isSaving}
             className="flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
           >
-            <Save className="h-4 w-4" />
+            <FloppyDisk className="h-4 w-4" />
             {isSaving ? 'Saving...' : 'Save Changes'}
           </button>
         )}

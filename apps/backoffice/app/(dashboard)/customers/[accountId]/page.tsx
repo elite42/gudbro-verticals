@@ -7,29 +7,29 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import {
   ArrowLeft,
-  Mail,
+  Envelope,
   Gift,
   User,
-  DollarSign,
-  ShoppingBag,
+  CurrencyDollar,
+  Bag,
   Calculator,
-  Award,
-  AlertTriangle,
-  TrendingUp,
-  Calendar,
+  Trophy,
+  Warning,
+  TrendUp,
+  CalendarBlank,
   Clock,
-  Sparkles,
+  Sparkle,
   CheckCircle,
   XCircle,
-  Send,
+  PaperPlaneTilt,
   Crown,
   Heart,
-  Sprout,
-  AlertCircle,
+  Plant,
+  WarningCircle,
   Moon,
   Star,
   Wallet,
-} from 'lucide-react';
+} from '@phosphor-icons/react';
 import { WalletDashboard } from '@/components/wallet';
 
 // Types
@@ -92,23 +92,24 @@ interface CustomerDetailData {
 }
 
 // Segment config
-const SEGMENT_CONFIG: Record<string, { icon: any; color: string; bgColor: string }> = {
-  champion: {
-    icon: Crown,
-    color: 'text-yellow-600',
-    bgColor: 'bg-yellow-100',
-  },
-  loyal: { icon: Heart, color: 'text-green-600', bgColor: 'bg-green-100' },
-  potential: { icon: Sprout, color: 'text-blue-600', bgColor: 'bg-blue-100' },
-  new: { icon: Sparkles, color: 'text-purple-600', bgColor: 'bg-purple-100' },
-  at_risk: {
-    icon: AlertCircle,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-100',
-  },
-  dormant: { icon: Moon, color: 'text-gray-600', bgColor: 'bg-gray-100' },
-  lost: { icon: XCircle, color: 'text-red-600', bgColor: 'bg-red-100' },
-};
+const SEGMENT_CONFIG: Record<string, { icon: React.ElementType; color: string; bgColor: string }> =
+  {
+    champion: {
+      icon: Crown,
+      color: 'text-yellow-600',
+      bgColor: 'bg-yellow-100',
+    },
+    loyal: { icon: Heart, color: 'text-green-600', bgColor: 'bg-green-100' },
+    potential: { icon: Plant, color: 'text-blue-600', bgColor: 'bg-blue-100' },
+    new: { icon: Sparkle, color: 'text-purple-600', bgColor: 'bg-purple-100' },
+    at_risk: {
+      icon: WarningCircle,
+      color: 'text-orange-600',
+      bgColor: 'bg-orange-100',
+    },
+    dormant: { icon: Moon, color: 'text-gray-600', bgColor: 'bg-gray-100' },
+    lost: { icon: XCircle, color: 'text-red-600', bgColor: 'bg-red-100' },
+  };
 
 import { formatPrice as _fp } from '@gudbro/utils';
 
@@ -304,7 +305,7 @@ export default function CustomerDetailPage() {
         {/* Action Buttons */}
         <div className="flex gap-2">
           <button className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300">
-            <Mail className="h-4 w-4" />
+            <Envelope className="h-4 w-4" />
             {t('message')}
           </button>
           <button className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
@@ -317,7 +318,7 @@ export default function CustomerDetailPage() {
       {/* Metrics Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
-          icon={DollarSign}
+          icon={CurrencyDollar}
           label={t('metrics.lifetimeValue')}
           value={formatCurrency(
             intelligence?.clvEstimated || analytics?.totalSpent || 0,
@@ -331,7 +332,7 @@ export default function CustomerDetailPage() {
           color="green"
         />
         <MetricCard
-          icon={ShoppingBag}
+          icon={Bag}
           label={t('metrics.totalOrders')}
           value={analytics?.totalOrders || 0}
           color="blue"
@@ -343,7 +344,7 @@ export default function CustomerDetailPage() {
           color="purple"
         />
         <MetricCard
-          icon={Award}
+          icon={Trophy}
           label={t('metrics.loyaltyPoints')}
           value={analytics?.loyaltyPoints || 0}
           color="yellow"
@@ -355,7 +356,7 @@ export default function CustomerDetailPage() {
         {/* Churn Risk */}
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <div className="mb-4 flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-orange-500" />
+            <Warning className="h-5 w-5 text-orange-500" />
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
               {t('churnRisk.title')}
             </h2>
@@ -414,7 +415,7 @@ export default function CustomerDetailPage() {
                   )}
                 {intelligence?.predictedNextVisitAt && (
                   <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <Calendar className="h-4 w-4" />
+                    <CalendarBlank className="h-4 w-4" />
                     <span>
                       {t('churnRisk.predictedNextVisit', {
                         date: formatDate(intelligence?.predictedNextVisitAt),
@@ -446,7 +447,7 @@ export default function CustomerDetailPage() {
             </>
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <AlertTriangle className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+              <Warning className="h-12 w-12 text-gray-300 dark:text-gray-600" />
               <p className="mt-3 text-gray-500">{t('churnRisk.noAnalysis')}</p>
               <p className="text-sm text-gray-400">{t('churnRisk.runAnalysis')}</p>
             </div>
@@ -456,7 +457,7 @@ export default function CustomerDetailPage() {
         {/* AI Recommendations */}
         <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
           <div className="mb-4 flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-purple-500" />
+            <Sparkle className="h-5 w-5 text-purple-500" />
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
               {t('recommendations.title')}
             </h2>
@@ -497,7 +498,7 @@ export default function CustomerDetailPage() {
                       )}
                     </div>
                     <button className="ml-2 rounded-lg bg-purple-100 p-2 text-purple-600 hover:bg-purple-200 dark:bg-purple-900/30 dark:text-purple-400">
-                      <Send className="h-4 w-4" />
+                      <PaperPlaneTilt className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
@@ -505,7 +506,7 @@ export default function CustomerDetailPage() {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <Sparkles className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+              <Sparkle className="h-12 w-12 text-gray-300 dark:text-gray-600" />
               <p className="mt-3 text-gray-500">{t('recommendations.noRecommendations')}</p>
               <p className="text-sm text-gray-400">{t('recommendations.aiWillGenerate')}</p>
             </div>
@@ -516,7 +517,7 @@ export default function CustomerDetailPage() {
       {/* Activity Stats */}
       <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
         <div className="mb-4 flex items-center gap-2">
-          <TrendingUp className="h-5 w-5 text-blue-500" />
+          <TrendUp className="h-5 w-5 text-blue-500" />
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             {t('activity.title')}
           </h2>
@@ -561,7 +562,7 @@ export default function CustomerDetailPage() {
       <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Send className="h-5 w-5 text-green-500" />
+            <PaperPlaneTilt className="h-5 w-5 text-green-500" />
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
               {t('triggers.title')}
             </h2>
@@ -645,7 +646,7 @@ export default function CustomerDetailPage() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-8 text-center">
-            <Send className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+            <PaperPlaneTilt className="h-12 w-12 text-gray-300 dark:text-gray-600" />
             <p className="mt-3 text-gray-500">{t('triggers.noHistory')}</p>
             <Link
               href="/ai/triggers"
@@ -681,7 +682,7 @@ function MetricCard({
   subtitle,
   color,
 }: {
-  icon: any;
+  icon: React.ElementType;
   label: string;
   value: string | number;
   subtitle?: string;

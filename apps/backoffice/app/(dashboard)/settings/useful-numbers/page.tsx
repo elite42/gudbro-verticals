@@ -3,7 +3,7 @@
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { UsefulNumbersManager } from '@/components/settings/UsefulNumbersManager';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
-import { Loader2 } from 'lucide-react';
+import { SpinnerGap } from '@phosphor-icons/react';
 
 export default function UsefulNumbersPage() {
   const { brand, location, isLoading } = useTenant();
@@ -16,7 +16,7 @@ export default function UsefulNumbersPage() {
   if (isLoading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <SpinnerGap className="h-8 w-8 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -48,11 +48,7 @@ export default function UsefulNumbersPage() {
       </div>
 
       {/* Manager Component */}
-      <UsefulNumbersManager
-        merchantId={merchantId}
-        countryCode={countryCode}
-        cityName={cityName}
-      />
+      <UsefulNumbersManager merchantId={merchantId} countryCode={countryCode} cityName={cityName} />
     </div>
   );
 }

@@ -1,8 +1,17 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Plus, PencilSimple, Check, X, Power, Handshake, Link, Trash } from '@phosphor-icons/react';
-import { Loader2 } from 'lucide-react';
+import {
+  Plus,
+  PencilSimple,
+  Check,
+  X,
+  Power,
+  Handshake,
+  Link,
+  Trash,
+  SpinnerGap,
+} from '@phosphor-icons/react';
 
 // ============================================================================
 // Types
@@ -197,7 +206,7 @@ export function DealsManager({ propertyId }: DealsManagerProps) {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <SpinnerGap className="h-8 w-8 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -534,7 +543,11 @@ function DealForm({ form, setForm, onSave, onCancel, isSaving }: DealFormProps) 
           disabled={isSaving || !form.partner_name || !form.discount_description}
           className="flex items-center gap-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
         >
-          {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+          {isSaving ? (
+            <SpinnerGap className="h-4 w-4 animate-spin" />
+          ) : (
+            <Check className="h-4 w-4" />
+          )}
           Save
         </button>
       </div>

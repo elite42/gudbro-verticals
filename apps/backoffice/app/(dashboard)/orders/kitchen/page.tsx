@@ -259,10 +259,12 @@ export default function KitchenDisplayPage() {
                 sessionId: orderData.session_id,
                 orderCode: order.order_code,
               }),
-            }).catch((err) => console.log('[Push] Notification skipped:', err.message));
+            }).catch(() => {
+              /* Push non-blocking */
+            });
           }
-        } catch (pushErr) {
-          console.log('[Push] Notification error (non-blocking):', pushErr);
+        } catch {
+          // Push notification non-blocking
         }
       }
     } catch (err) {

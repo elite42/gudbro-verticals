@@ -1,6 +1,6 @@
 'use client';
 
-import { HelpCircle } from 'lucide-react';
+import { Question } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip';
@@ -31,7 +31,7 @@ export function InfoTooltip({
           className={`ml-1.5 inline-flex cursor-pointer rounded-sm text-gray-400 hover:text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 ${className || ''}`}
           aria-label="More information"
         >
-          <HelpCircle size={iconSize} />
+          <Question size={iconSize} />
         </span>
       </TooltipTrigger>
       <TooltipContent side={side} className="max-w-xs">

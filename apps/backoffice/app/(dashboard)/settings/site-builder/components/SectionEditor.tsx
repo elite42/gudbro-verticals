@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, Save, Loader2 } from 'lucide-react';
+import { X, FloppyDisk, SpinnerGap } from '@phosphor-icons/react';
 import { SiteSectionType } from '@/lib/supabase';
 
 // Import editors
@@ -146,12 +146,12 @@ export function SectionEditor({ section, metadata, onSave, onClose, saving }: Se
           >
             {saving ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <SpinnerGap className="h-4 w-4 animate-spin" />
                 Saving...
               </>
             ) : (
               <>
-                <Save className="h-4 w-4" />
+                <FloppyDisk className="h-4 w-4" />
                 Save Changes
               </>
             )}

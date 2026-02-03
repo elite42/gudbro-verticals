@@ -4,7 +4,7 @@
 > **Max 3 task** alla volta per focus.
 > Quando completata → spostala in `3-TESTING.md` o `4-DONE.md`
 
-**Last Updated:** 2026-02-02
+**Last Updated:** 2026-02-03
 
 ---
 
@@ -12,6 +12,7 @@
 | -------------- | ----------------------- | --------------------------------------------------------- | -------- | ---------- | -------- |
 | ACCOM-PWA-TEST | Test PWA Accommodations | Test completo della PWA in-stay dopo bugfix session       | P0       | 2026-02-02 | Claude   |
 | BO-DEPLOY-FIX  | Fix Backoffice Vercel   | Deploy backoffice in errore su Vercel (stale build cache) | P0       | 2026-02-02 | Claude   |
+| OPENCLAW-SETUP | OpenClaw Installazione  | Progetto separato in `~/openclaw/` — vedi CLAUDE.md li'   | P1       | 2026-02-03 | Claude   |
 
 ---
 
@@ -58,6 +59,13 @@
 - [ ] Triggare redeploy su Vercel senza cache (`vercel deployments` → cancel + redeploy)
 - [ ] Verificare che il backoffice si carica su Vercel dopo redeploy
 - [ ] Configurare Vercel per accommodations (attualmente non configurato)
+
+---
+
+## OPENCLAW-SETUP — Progetto Separato
+
+> **Tutto spostato in `~/openclaw/`** — aprire sessione Claude Code dedicata su quella cartella.
+> Step 1 completato (2026-02-03). Step 2 (installazione) e' il prossimo.
 
 ---
 

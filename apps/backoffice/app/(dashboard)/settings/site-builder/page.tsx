@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Globe, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
+import { Globe, WarningCircle, CheckCircle, SpinnerGap } from '@phosphor-icons/react';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { SectionList } from './components/SectionList';
 import { SectionEditor } from './components/SectionEditor';
@@ -316,7 +316,7 @@ export default function SiteBuilderPage() {
           >
             {publishing ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <SpinnerGap className="h-4 w-4 animate-spin" />
                 Publishing...
               </>
             ) : (
@@ -332,7 +332,7 @@ export default function SiteBuilderPage() {
       {/* Status Messages */}
       {error && (
         <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
-          <AlertCircle className="h-5 w-5 flex-shrink-0" />
+          <WarningCircle className="h-5 w-5 flex-shrink-0" />
           <p>{error}</p>
         </div>
       )}
@@ -347,7 +347,7 @@ export default function SiteBuilderPage() {
       {/* Main Content */}
       {loading ? (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <SpinnerGap className="h-8 w-8 animate-spin text-blue-600" />
         </div>
       ) : (
         <div className="rounded-lg border border-gray-200 bg-white">

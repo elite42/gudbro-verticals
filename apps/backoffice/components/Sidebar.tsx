@@ -4,15 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
-import {
-  LayoutDashboard,
-  ShoppingBag,
-  Box,
-  BarChart3,
-  Settings,
-  Coffee,
-  Handshake,
-} from 'lucide-react';
+import { SquaresFour, Bag, Cube, ChartBar, Gear, Coffee, Handshake } from '@phosphor-icons/react';
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -36,7 +28,7 @@ export function Sidebar() {
             variant={pathname === '/' ? 'secondary' : 'ghost'}
             className="w-full justify-start"
           >
-            <LayoutDashboard className="mr-2 h-4 w-4" />
+            <SquaresFour className="mr-2 h-4 w-4" />
             {t('dashboard')}
           </Button>
         </Link>
@@ -45,7 +37,7 @@ export function Sidebar() {
             variant={isActive('/orders') ? 'secondary' : 'ghost'}
             className="w-full justify-start"
           >
-            <ShoppingBag className="mr-2 h-4 w-4" />
+            <Bag className="mr-2 h-4 w-4" />
             {t('orders')}
           </Button>
         </Link>
@@ -54,7 +46,7 @@ export function Sidebar() {
             variant={isActive('/products') ? 'secondary' : 'ghost'}
             className="w-full justify-start"
           >
-            <Box className="mr-2 h-4 w-4" />
+            <Cube className="mr-2 h-4 w-4" />
             {t('products')}
           </Button>
         </Link>
@@ -63,7 +55,7 @@ export function Sidebar() {
             variant={isActive('/catalog') ? 'secondary' : 'ghost'}
             className="w-full justify-start"
           >
-            <Box className="mr-2 h-4 w-4" />
+            <Cube className="mr-2 h-4 w-4" />
             {t('catalog')}
           </Button>
         </Link>
@@ -72,7 +64,7 @@ export function Sidebar() {
             variant={isActive('/analytics') ? 'secondary' : 'ghost'}
             className="w-full justify-start"
           >
-            <BarChart3 className="mr-2 h-4 w-4" />
+            <ChartBar className="mr-2 h-4 w-4" />
             {t('analytics')}
           </Button>
         </Link>
@@ -90,7 +82,7 @@ export function Sidebar() {
             variant={isActive('/settings') ? 'secondary' : 'ghost'}
             className="w-full justify-start"
           >
-            <Settings className="mr-2 h-4 w-4" />
+            <Gear className="mr-2 h-4 w-4" />
             {t('settings')}
           </Button>
         </Link>

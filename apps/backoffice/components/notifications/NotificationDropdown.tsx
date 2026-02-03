@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bell, CheckCircle, X, ChevronRight, AlertCircle, Loader2 } from 'lucide-react';
+import { Bell, CheckCircle, X, CaretRight, WarningCircle, SpinnerGap } from '@phosphor-icons/react';
 import { formatDistanceToNow } from 'date-fns';
 import { it } from 'date-fns/locale';
 import { useNotifications } from '@/hooks/useNotifications';
@@ -21,12 +21,12 @@ export interface Notification {
 
 const typeConfig: Record<NotificationType, { icon: typeof Bell; color: string; bg: string }> = {
   acknowledged: { icon: CheckCircle, color: 'text-green-600', bg: 'bg-green-100' },
-  status_changed: { icon: ChevronRight, color: 'text-blue-600', bg: 'bg-blue-100' },
+  status_changed: { icon: CaretRight, color: 'text-blue-600', bg: 'bg-blue-100' },
   resolved: { icon: CheckCircle, color: 'text-emerald-600', bg: 'bg-emerald-100' },
   rejected: { icon: X, color: 'text-red-600', bg: 'bg-red-100' },
 };
 
-const defaultTypeConfig = { icon: AlertCircle, color: 'text-gray-600', bg: 'bg-gray-100' };
+const defaultTypeConfig = { icon: WarningCircle, color: 'text-gray-600', bg: 'bg-gray-100' };
 
 function getTypeConfig(type: string) {
   return typeConfig[type as NotificationType] || defaultTypeConfig;
@@ -116,7 +116,7 @@ export function NotificationDropdown({ merchantId }: NotificationDropdownProps =
           <div className="max-h-96 overflow-y-auto">
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-                <Loader2 className="mb-2 h-6 w-6 animate-spin text-gray-400" />
+                <SpinnerGap className="mb-2 h-6 w-6 animate-spin text-gray-400" />
                 <p className="text-sm">Caricamento...</p>
               </div>
             ) : notifications.length === 0 ? (
@@ -202,7 +202,7 @@ export function NotificationDropdown({ merchantId }: NotificationDropdownProps =
                 className="flex items-center justify-center gap-1 rounded-lg py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
               >
                 Vedi tutte le notifiche
-                <ChevronRight className="h-4 w-4" />
+                <CaretRight className="h-4 w-4" />
               </a>
             </div>
           )}

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { AccommodationEditModal, type AccommodationData } from '@/components/customers';
-import { Pencil } from 'lucide-react';
+import { PencilSimple } from '@phosphor-icons/react';
 import { useTranslations } from 'next-intl';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { formatPrice as _fp } from '@gudbro/utils';
@@ -230,47 +230,56 @@ export default function FollowersPage() {
         }
 
         // Transform the data
-        const transformedData: FollowerWithAnalytics[] = (data || []).map((row: any) => {
-          const analytics = row.follower_analytics?.[0] || {};
-          const account = Array.isArray(row.accounts) ? row.accounts[0] : row.accounts;
+        const transformedData: FollowerWithAnalytics[] = (data || []).map(
+          (row: Record<string, unknown>) => {
+            const analyticsArray = row.follower_analytics as Record<string, unknown>[] | undefined;
+            const analytics = analyticsArray?.[0] || {};
+            const accountData = row.accounts as
+              | Record<string, unknown>
+              | Record<string, unknown>[]
+              | undefined;
+            const account = Array.isArray(accountData) ? accountData[0] : accountData;
 
-          return {
-            account_id: row.account_id,
-            email: account?.email || '',
-            display_name: account?.display_name || null,
-            first_name: account?.first_name || null,
-            avatar_url: account?.avatar_url || null,
-            followed_at: row.followed_at,
-            source: row.source,
-            visitor_type: row.visitor_type || 'unknown',
-            trip_end_date: row.trip_end_date,
-            notification_status: row.notification_status || 'active',
-            visit_count: row.visit_count || 1,
-            home_country: row.home_country,
-            home_city: row.home_city,
-            // Accommodation fields
-            hotel_name: row.hotel_name,
-            hotel_place_id: row.hotel_place_id,
-            hotel_address: row.hotel_address,
-            hotel_latitude: row.hotel_latitude,
-            hotel_longitude: row.hotel_longitude,
-            room_number: row.room_number,
-            arrival_date: row.arrival_date,
-            departure_date: row.departure_date,
-            lifecycle_status: row.lifecycle_status,
-            // Analytics
-            first_visit_at: analytics.first_visit_at || null,
-            last_visit_at: analytics.last_visit_at || null,
-            total_visits: analytics.total_visits || 0,
-            total_orders: analytics.total_orders || 0,
-            total_spent: analytics.total_spent || 0,
-            average_order_value: analytics.average_order_value || 0,
-            loyalty_points: analytics.loyalty_points || 0,
-            loyalty_tier: analytics.loyalty_tier || 'bronze',
-            total_feedback_given: analytics.total_feedback_given || 0,
-            average_rating: analytics.average_rating || null,
-          };
-        });
+            return {
+              account_id: row.account_id as string,
+              email: (account?.email as string) || '',
+              display_name: (account?.display_name as string) || null,
+              first_name: (account?.first_name as string) || null,
+              avatar_url: (account?.avatar_url as string) || null,
+              followed_at: row.followed_at as string,
+              source: row.source as string,
+              visitor_type: (row.visitor_type as 'resident' | 'tourist' | 'unknown') || 'unknown',
+              trip_end_date: row.trip_end_date as string | null,
+              notification_status:
+                (row.notification_status as 'active' | 'paused' | 'stopped' | 'archived') ||
+                'active',
+              visit_count: (row.visit_count as number) || 1,
+              home_country: row.home_country as string | null,
+              home_city: row.home_city as string | null,
+              // Accommodation fields
+              hotel_name: row.hotel_name as string | null,
+              hotel_place_id: row.hotel_place_id as string | null,
+              hotel_address: row.hotel_address as string | null,
+              hotel_latitude: row.hotel_latitude as number | null,
+              hotel_longitude: row.hotel_longitude as number | null,
+              room_number: row.room_number as string | null,
+              arrival_date: row.arrival_date as string | null,
+              departure_date: row.departure_date as string | null,
+              lifecycle_status: row.lifecycle_status as 'active' | 'departed' | 'returning' | null,
+              // Analytics
+              first_visit_at: (analytics.first_visit_at as string) || null,
+              last_visit_at: (analytics.last_visit_at as string) || null,
+              total_visits: (analytics.total_visits as number) || 0,
+              total_orders: (analytics.total_orders as number) || 0,
+              total_spent: (analytics.total_spent as number) || 0,
+              average_order_value: (analytics.average_order_value as number) || 0,
+              loyalty_points: (analytics.loyalty_points as number) || 0,
+              loyalty_tier: (analytics.loyalty_tier as string) || 'bronze',
+              total_feedback_given: (analytics.total_feedback_given as number) || 0,
+              average_rating: (analytics.average_rating as number) || null,
+            };
+          }
+        );
 
         setFollowers(transformedData);
       } catch (err) {
@@ -730,7 +739,7 @@ export default function FollowersPage() {
                         className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900"
                         title={t('table.edit')}
                       >
-                        <Pencil className="h-3.5 w-3.5" />
+                        <PencilSimple className="h-3.5 w-3.5" />
                         {t('table.edit')}
                       </button>
                     </td>

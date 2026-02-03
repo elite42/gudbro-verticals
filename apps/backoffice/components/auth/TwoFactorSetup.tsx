@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Shield, Copy, Check, AlertTriangle, RefreshCw, Key } from 'lucide-react';
+import { ShieldCheck, Copy, Check, Warning, ArrowsClockwise, Key } from '@phosphor-icons/react';
 
 interface TwoFactorSetupProps {
   onSetupComplete?: () => void;
@@ -113,7 +113,7 @@ export default function TwoFactorSetup({ onSetupComplete, onCancel }: TwoFactorS
       {step === 'initial' && (
         <div className="space-y-4 text-center">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
-            <Shield className="h-8 w-8 text-blue-600" />
+            <ShieldCheck className="h-8 w-8 text-blue-600" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900">Enable Two-Factor Authentication</h3>
           <p className="mx-auto max-w-md text-gray-600">
@@ -143,7 +143,7 @@ export default function TwoFactorSetup({ onSetupComplete, onCancel }: TwoFactorS
             >
               {isLoading ? (
                 <>
-                  <RefreshCw className="h-4 w-4 animate-spin" />
+                  <ArrowsClockwise className="h-4 w-4 animate-spin" />
                   Starting...
                 </>
               ) : (
@@ -247,7 +247,7 @@ export default function TwoFactorSetup({ onSetupComplete, onCancel }: TwoFactorS
             >
               {isLoading ? (
                 <>
-                  <RefreshCw className="h-4 w-4 animate-spin" />
+                  <ArrowsClockwise className="h-4 w-4 animate-spin" />
                   Verifying...
                 </>
               ) : (
@@ -262,7 +262,7 @@ export default function TwoFactorSetup({ onSetupComplete, onCancel }: TwoFactorS
       {step === 'recovery-codes' && (
         <div className="space-y-4">
           <div className="flex items-start gap-3 rounded-lg border border-yellow-200 bg-yellow-50 p-4">
-            <AlertTriangle className="mt-0.5 h-5 w-5 flex-shrink-0 text-yellow-600" />
+            <Warning className="mt-0.5 h-5 w-5 flex-shrink-0 text-yellow-600" />
             <div>
               <h4 className="font-medium text-yellow-800">Save Your Recovery Codes</h4>
               <p className="mt-1 text-sm text-yellow-700">

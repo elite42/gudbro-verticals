@@ -9,23 +9,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Re-export centralized formatPrice from @gudbro/utils
-export { formatPrice } from '@gudbro/utils';
-
-/**
- * Format date for display
- */
-export function formatDate(date: string | Date, options?: Intl.DateTimeFormatOptions): string {
-  const d = typeof date === 'string' ? new Date(date) : date;
-
-  return d.toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    ...options,
-  });
-}
+// Re-export centralized utils from @gudbro/utils
+export { formatPrice, formatDate } from '@gudbro/utils';
 
 /**
  * Format time for display

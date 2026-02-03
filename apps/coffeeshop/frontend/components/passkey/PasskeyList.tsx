@@ -8,16 +8,16 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  Smartphone,
+  DeviceMobile,
   Key,
   Shield,
-  Trash2,
-  Pencil,
+  Trash,
+  PencilSimple,
   Check,
   X,
-  Loader2,
-  RefreshCw,
-} from 'lucide-react';
+  SpinnerGap,
+  ArrowsClockwise,
+} from '@phosphor-icons/react';
 import {
   isPasskeySupported,
   isPasskeyEnabled,
@@ -27,6 +27,7 @@ import {
   getDeviceTypeLabel,
   type PasskeyInfo,
 } from '@/lib/passkey-service';
+import { formatDateTime } from '@gudbro/utils';
 
 interface PasskeyListProps {
   onPasskeyDeleted?: () => void;
@@ -141,7 +142,7 @@ export function PasskeyList({ onPasskeyDeleted, onError, className = '' }: Passk
   const getIcon = (deviceType: string | null) => {
     switch (deviceType) {
       case 'platform':
-        return Smartphone;
+        return DeviceMobile;
       case 'cross-platform':
         return Key;
       default:
@@ -149,19 +150,10 @@ export function PasskeyList({ onPasskeyDeleted, onError, className = '' }: Passk
     }
   };
 
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return 'Mai usata';
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('it-IT', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    }).format(date);
-  };
-
   if (isLoading) {
     return (
       <div className={`flex items-center justify-center py-8 ${className}`}>
-        <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+        <SpinnerGap className="h-6 w-6 animate-spin text-gray-400" />
       </div>
     );
   }
@@ -190,7 +182,7 @@ export function PasskeyList({ onPasskeyDeleted, onError, className = '' }: Passk
           className="p-2 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-300"
           title="Aggiorna"
         >
-          <RefreshCw className="h-4 w-4" />
+          <ArrowsClockwise className="h-4 w-4" />
         </button>
       </div>
 
@@ -241,8 +233,10 @@ export function PasskeyList({ onPasskeyDeleted, onError, className = '' }: Passk
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     {getDeviceTypeLabel(passkey.deviceType)} &middot;{' '}
                     {passkey.lastUsedAt
-                      ? `Usata: ${formatDate(passkey.lastUsedAt)}`
-                      : `Creata: ${formatDate(passkey.createdAt)}`}
+                      ? `Usata: ${formatDateTime(passkey.lastUsedAt, { locale: 'it-IT' })}`
+                      : passkey.createdAt
+                        ? `Creata: ${formatDateTime(passkey.createdAt, { locale: 'it-IT' })}`
+                        : 'Mai usata'}
                   </p>
                 </>
               )}
@@ -256,7 +250,7 @@ export function PasskeyList({ onPasskeyDeleted, onError, className = '' }: Passk
                   className="p-2 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-300"
                   title="Rinomina"
                 >
-                  <Pencil className="h-4 w-4" />
+                  <PencilSimple className="h-4 w-4" />
                 </button>
                 <button
                   type="button"
@@ -266,9 +260,9 @@ export function PasskeyList({ onPasskeyDeleted, onError, className = '' }: Passk
                   title="Elimina"
                 >
                   {isDeleting ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <SpinnerGap className="h-4 w-4 animate-spin" />
                   ) : (
-                    <Trash2 className="h-4 w-4" />
+                    <Trash className="h-4 w-4" />
                   )}
                 </button>
               </div>

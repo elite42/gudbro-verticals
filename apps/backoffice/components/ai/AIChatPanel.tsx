@@ -1,7 +1,15 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, X, Minimize2, Sparkles } from 'lucide-react';
+import {
+  PaperPlaneTilt,
+  Robot,
+  User,
+  SpinnerGap,
+  X,
+  ArrowsInSimple,
+  Sparkle,
+} from '@phosphor-icons/react';
 
 interface Message {
   id: string;
@@ -157,7 +165,7 @@ export function AIChatPanel({
             <div className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
-                  <Sparkles className="h-5 w-5 text-white" />
+                  <Sparkle className="h-5 w-5 text-white" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-white">AI Co-Manager</h3>
@@ -182,7 +190,7 @@ export function AIChatPanel({
                 >
                   {message.role === 'assistant' && (
                     <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
-                      <Bot className="h-4 w-4 text-blue-600" />
+                      <Robot className="h-4 w-4 text-blue-600" />
                     </div>
                   )}
 
@@ -217,11 +225,11 @@ export function AIChatPanel({
               {isLoading && (
                 <div className="flex gap-3">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100">
-                    <Bot className="h-4 w-4 text-blue-600" />
+                    <Robot className="h-4 w-4 text-blue-600" />
                   </div>
                   <div className="rounded-2xl rounded-bl-md bg-gray-100 px-4 py-3">
                     <div className="flex items-center gap-2 text-gray-500">
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <SpinnerGap className="h-4 w-4 animate-spin" />
                       <span className="text-sm">Sto pensando...</span>
                     </div>
                   </div>
@@ -271,9 +279,9 @@ export function AIChatPanel({
                   className="rounded-xl bg-blue-600 p-2.5 text-white transition-colors hover:bg-blue-700 disabled:bg-gray-300"
                 >
                   {isLoading ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <SpinnerGap className="h-5 w-5 animate-spin" />
                   ) : (
-                    <Send className="h-5 w-5" />
+                    <PaperPlaneTilt className="h-5 w-5" />
                   )}
                 </button>
               </div>
@@ -304,7 +312,7 @@ export function AIChatPanel({
           onClick={() => setIsMinimized(false)}
           className="flex items-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-white shadow-lg transition-all hover:scale-105 hover:bg-blue-700"
         >
-          <Sparkles className="h-5 w-5" />
+          <Sparkle className="h-5 w-5" />
           <span className="font-medium">AI Co-Manager</span>
           {messages.length > 1 && (
             <span className="rounded-full bg-white/20 px-2 py-0.5 text-sm">
@@ -323,7 +331,7 @@ export function AIChatPanel({
       <div className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
-            <Sparkles className="h-5 w-5 text-white" />
+            <Sparkle className="h-5 w-5 text-white" />
           </div>
           <div>
             <h3 className="font-semibold text-white">AI Co-Manager</h3>
@@ -336,7 +344,7 @@ export function AIChatPanel({
             className="rounded-lg p-2 transition-colors hover:bg-white/10"
             title="Minimizza"
           >
-            <Minimize2 className="h-4 w-4 text-white" />
+            <ArrowsInSimple className="h-4 w-4 text-white" />
           </button>
           <button
             onClick={onClose}
@@ -357,7 +365,7 @@ export function AIChatPanel({
           >
             {message.role === 'assistant' && (
               <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
-                <Bot className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <Robot className="h-4 w-4 text-blue-600 dark:text-blue-400" />
               </div>
             )}
 
@@ -392,11 +400,11 @@ export function AIChatPanel({
         {isLoading && (
           <div className="flex gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30">
-              <Bot className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <Robot className="h-4 w-4 text-blue-600 dark:text-blue-400" />
             </div>
             <div className="rounded-2xl rounded-bl-md bg-gray-100 px-4 py-3 dark:bg-gray-800">
               <div className="flex items-center gap-2 text-gray-500">
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <SpinnerGap className="h-4 w-4 animate-spin" />
                 <span className="text-sm">Sto pensando...</span>
               </div>
             </div>
@@ -446,9 +454,9 @@ export function AIChatPanel({
             className="rounded-xl bg-blue-600 p-2.5 text-white transition-colors hover:bg-blue-700 disabled:bg-gray-300 dark:disabled:bg-gray-700"
           >
             {isLoading ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
+              <SpinnerGap className="h-5 w-5 animate-spin" />
             ) : (
-              <Send className="h-5 w-5" />
+              <PaperPlaneTilt className="h-5 w-5" />
             )}
           </button>
         </div>

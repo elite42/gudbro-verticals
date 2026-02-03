@@ -75,11 +75,7 @@ const promotions = [
 // UTILS
 // =============================================================================
 
-import { formatPrice } from '@gudbro/utils';
-
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
+import { formatPrice, formatDate } from '@gudbro/utils';
 
 // =============================================================================
 // COMPONENT
@@ -153,7 +149,8 @@ export default function PromotionsPage() {
 
                     {/* Validity */}
                     <div className="absolute bottom-3 right-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-medium text-[var(--charcoal)] backdrop-blur-sm">
-                      {formatDate(promo.validFrom)} - {formatDate(promo.validTo)}
+                      {formatDate(promo.validFrom, { style: 'short' })} -{' '}
+                      {formatDate(promo.validTo, { style: 'short' })}
                     </div>
                   </div>
 
@@ -258,7 +255,7 @@ export default function PromotionsPage() {
                       {promo.name}
                     </h3>
                     <p className="text-xs text-[var(--charcoal-muted)]">
-                      Expired {formatDate(promo.validTo)}
+                      Expired {formatDate(promo.validTo, { style: 'short' })}
                     </p>
                   </div>
                   <span className="rounded-full bg-[var(--cream-dark)] px-2 py-0.5 text-[10px] font-medium text-[var(--charcoal-muted)]">

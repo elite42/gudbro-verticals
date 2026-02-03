@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, Trash2, GripVertical } from 'lucide-react';
+import { Plus, Trash, DotsSixVertical } from '@phosphor-icons/react';
 import { GalleryContent } from '@/lib/supabase';
 import { ImageUpload } from '@/components/ui/image-upload';
 
@@ -76,7 +76,7 @@ export function GalleryEditor({ content, onChange, locationId }: GalleryEditorPr
             <div key={index} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <GripVertical className="h-4 w-4 cursor-grab text-gray-400" />
+                  <DotsSixVertical className="h-4 w-4 cursor-grab text-gray-400" />
                   <span className="text-sm font-medium text-gray-600">Image {index + 1}</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -100,7 +100,7 @@ export function GalleryEditor({ content, onChange, locationId }: GalleryEditorPr
                     onClick={() => removeImage(index)}
                     className="text-red-500 hover:text-red-600"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash className="h-4 w-4" />
                   </button>
                 </div>
               </div>

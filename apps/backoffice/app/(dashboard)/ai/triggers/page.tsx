@@ -7,27 +7,27 @@ import { TriggerModal } from '@/components/ai/TriggerModal';
 import Link from 'next/link';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
-  Zap,
+  Lightning,
   Plus,
   Play,
   Pause,
-  Trash2,
-  Settings,
-  TrendingUp,
+  Trash,
+  GearSix,
+  TrendUp,
   Users,
-  DollarSign,
-  Sparkles,
-  RefreshCw,
-  ChevronRight,
+  CurrencyDollar,
+  Sparkle,
+  ArrowsClockwise,
+  CaretRight,
   Bell,
   Gift,
   Star,
-  AlertCircle,
-  Calendar,
+  WarningCircle,
+  CalendarBlank,
   UserMinus,
-  Target,
-  MoreVertical,
-} from 'lucide-react';
+  Crosshair,
+  DotsThreeVertical,
+} from '@phosphor-icons/react';
 
 // Types
 interface Trigger {
@@ -69,10 +69,10 @@ function formatCurrency(value: number, currencyCode: string = 'EUR'): string {
 // Trigger type config
 const TRIGGER_TYPE_CONFIG: Record<
   string,
-  { icon: any; label: string; color: string; bgColor: string }
+  { icon: React.ElementType; label: string; color: string; bgColor: string }
 > = {
   churn_risk: {
-    icon: AlertCircle,
+    icon: WarningCircle,
     label: 'Churn Risk',
     color: 'text-red-600',
     bgColor: 'bg-red-100',
@@ -83,19 +83,24 @@ const TRIGGER_TYPE_CONFIG: Record<
     color: 'text-orange-600',
     bgColor: 'bg-orange-100',
   },
-  birthday: { icon: Calendar, label: 'Birthday', color: 'text-pink-600', bgColor: 'bg-pink-100' },
+  birthday: {
+    icon: CalendarBlank,
+    label: 'Birthday',
+    color: 'text-pink-600',
+    bgColor: 'bg-pink-100',
+  },
   milestone: { icon: Star, label: 'Milestone', color: 'text-yellow-600', bgColor: 'bg-yellow-100' },
   segment_entry: {
-    icon: Target,
+    icon: Crosshair,
     label: 'Segment Entry',
     color: 'text-blue-600',
     bgColor: 'bg-blue-100',
   },
-  custom: { icon: Settings, label: 'Custom', color: 'text-gray-600', bgColor: 'bg-gray-100' },
+  custom: { icon: GearSix, label: 'Custom', color: 'text-gray-600', bgColor: 'bg-gray-100' },
 };
 
 // Action type config
-const ACTION_TYPE_CONFIG: Record<string, { icon: any; label: string }> = {
+const ACTION_TYPE_CONFIG: Record<string, { icon: React.ElementType; label: string }> = {
   notification: { icon: Bell, label: 'Notification' },
   promo: { icon: Gift, label: 'Promo Code' },
   loyalty_points: { icon: Star, label: 'Loyalty Points' },
@@ -313,7 +318,7 @@ export default function TriggersPage() {
             disabled={isRunning || activeTriggers === 0}
             className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
           >
-            <RefreshCw className={`h-4 w-4 ${isRunning ? 'animate-spin' : ''}`} />
+            <ArrowsClockwise className={`h-4 w-4 ${isRunning ? 'animate-spin' : ''}`} />
             Run All
           </button>
           <button
@@ -329,7 +334,7 @@ export default function TriggersPage() {
       {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          icon={Zap}
+          icon={Lightning}
           label="Active Triggers"
           value={activeTriggers}
           subtitle={`of ${triggers.length} total`}
@@ -337,14 +342,14 @@ export default function TriggersPage() {
         />
         <StatCard icon={Users} label="Triggered This Month" value={totalTriggered} color="purple" />
         <StatCard
-          icon={TrendingUp}
+          icon={TrendUp}
           label="Conversion Rate"
           value={`${avgConversion.toFixed(1)}%`}
           subtitle={`${totalConverted} converted`}
           color="green"
         />
         <StatCard
-          icon={DollarSign}
+          icon={CurrencyDollar}
           label="Est. Revenue"
           value={formatCurrency(totalRevenue, currencyCode)}
           subtitle="from triggers"
@@ -357,7 +362,7 @@ export default function TriggersPage() {
         <div className="rounded-xl border border-purple-200 bg-gradient-to-r from-purple-50 to-blue-50 p-4 dark:border-purple-800 dark:from-purple-900/20 dark:to-blue-900/20">
           <div className="flex items-start gap-3">
             <div className="rounded-full bg-purple-100 p-2 dark:bg-purple-900/50">
-              <Sparkles className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <Sparkle className="h-5 w-5 text-purple-600 dark:text-purple-400" />
             </div>
             <div className="flex-1">
               <h3 className="font-semibold text-purple-900 dark:text-purple-100">AI Suggestion</h3>
@@ -471,7 +476,7 @@ export default function TriggersPage() {
                         onClick={() => setOpenMenu(openMenu === trigger.id ? null : trigger.id)}
                         className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800"
                       >
-                        <MoreVertical className="h-5 w-5" />
+                        <DotsThreeVertical className="h-5 w-5" />
                       </button>
 
                       {openMenu === trigger.id && (
@@ -496,14 +501,14 @@ export default function TriggersPage() {
                             onClick={() => handleEditTrigger(trigger)}
                             className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
                           >
-                            <Settings className="h-4 w-4" />
+                            <GearSix className="h-4 w-4" />
                             Edit Trigger
                           </button>
                           <button
                             onClick={() => handleDelete(trigger.id)}
                             className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Trash className="h-4 w-4" />
                             Delete Trigger
                           </button>
                         </div>
@@ -516,7 +521,7 @@ export default function TriggersPage() {
           </div>
         ) : (
           <EmptyState
-            icon={<Zap className="h-12 w-12" />}
+            icon={<Lightning className="h-12 w-12" />}
             title="No triggers yet"
             description="Create automated triggers to engage customers and prevent churn."
             action={{
@@ -595,7 +600,7 @@ function StatCard({
   subtitle,
   color,
 }: {
-  icon: any;
+  icon: React.ElementType;
   label: string;
   value: string | number;
   subtitle?: string;

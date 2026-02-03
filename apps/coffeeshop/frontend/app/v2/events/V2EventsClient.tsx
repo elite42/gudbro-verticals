@@ -25,6 +25,7 @@ import { Header } from '@/components/v2/Header';
 import { BottomNav } from '@/components/v2/BottomNav';
 import { coffeeshopConfig } from '@/config/coffeeshop.config';
 import { cartStore } from '@/lib/cart-store';
+import { formatDate } from '@gudbro/utils';
 
 interface Event {
   id: string;
@@ -52,7 +53,8 @@ const MOCK_EVENTS: Event[] = [
   {
     id: '1',
     title: 'Acoustic Sunday',
-    description: 'Enjoy live acoustic music while sipping on your favorite drinks. Local artists perform every Sunday afternoon.',
+    description:
+      'Enjoy live acoustic music while sipping on your favorite drinks. Local artists perform every Sunday afternoon.',
     date: '2024-06-30',
     time: '3:00 PM - 6:00 PM',
     location: 'Main Hall',
@@ -64,7 +66,8 @@ const MOCK_EVENTS: Event[] = [
   {
     id: '2',
     title: 'Plant-Based Cooking Workshop',
-    description: 'Learn how to make delicious plant-based meals with our head chef. Includes all ingredients and recipes to take home.',
+    description:
+      'Learn how to make delicious plant-based meals with our head chef. Includes all ingredients and recipes to take home.',
     date: '2024-07-05',
     time: '10:00 AM - 1:00 PM',
     location: 'Kitchen Studio',
@@ -76,7 +79,8 @@ const MOCK_EVENTS: Event[] = [
   {
     id: '3',
     title: 'Coffee Tasting Session',
-    description: 'Explore the world of specialty coffee with our expert baristas. Taste different origins and brewing methods.',
+    description:
+      'Explore the world of specialty coffee with our expert baristas. Taste different origins and brewing methods.',
     date: '2024-07-10',
     time: '2:00 PM - 4:00 PM',
     location: 'Roastery Corner',
@@ -88,7 +92,8 @@ const MOCK_EVENTS: Event[] = [
   {
     id: '4',
     title: 'Grand Opening Anniversary',
-    description: 'Celebrate our 2nd anniversary with special menu items, giveaways, and live entertainment all day long!',
+    description:
+      'Celebrate our 2nd anniversary with special menu items, giveaways, and live entertainment all day long!',
     date: '2024-07-15',
     time: 'All Day',
     location: 'Entire Venue',
@@ -127,12 +132,24 @@ export default function V2EventsClient() {
 
   const handleNavigate = (pageId: string) => {
     switch (pageId) {
-      case 'home': router.push('/v2'); break;
-      case 'menu': router.push('/v2/menu'); break;
-      case 'cart': router.push('/v2/cart'); break;
-      case 'favorites': router.push('/v2/favorites'); break;
-      case 'orders': router.push('/v2/orders'); break;
-      case 'account': router.push('/v2/account'); break;
+      case 'home':
+        router.push('/v2');
+        break;
+      case 'menu':
+        router.push('/v2/menu');
+        break;
+      case 'cart':
+        router.push('/v2/cart');
+        break;
+      case 'favorites':
+        router.push('/v2/favorites');
+        break;
+      case 'orders':
+        router.push('/v2/orders');
+        break;
+      case 'account':
+        router.push('/v2/account');
+        break;
     }
   };
 
@@ -140,14 +157,6 @@ export default function V2EventsClient() {
     if (filter === 'all') return MOCK_EVENTS;
     return MOCK_EVENTS.filter((event) => event.type === filter);
   }, [filter]);
-
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
 
   const formatPrice = (price: number) => {
     if (price === 0) return 'Free';
@@ -163,7 +172,11 @@ export default function V2EventsClient() {
   }
 
   return (
-    <div data-theme={isDark ? 'dark' : 'light'} className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
+    <div
+      data-theme={isDark ? 'dark' : 'light'}
+      className="min-h-screen"
+      style={{ background: 'var(--bg-primary)' }}
+    >
       <Header
         merchantName={coffeeshopConfig.business.name}
         merchantLogo={coffeeshopConfig.business.logo}
@@ -184,15 +197,8 @@ export default function V2EventsClient() {
         </button>
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-4"
-        >
-          <h1
-            className="font-display text-2xl font-bold"
-            style={{ color: 'var(--text-primary)' }}
-          >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-4">
+          <h1 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
             Events
           </h1>
           <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>
@@ -215,16 +221,11 @@ export default function V2EventsClient() {
                 className="shrink-0 rounded-full px-4 py-2 text-sm font-medium"
                 style={{
                   background:
-                    filter === filterType
-                      ? 'var(--interactive-primary)'
-                      : 'var(--bg-secondary)',
-                  color:
-                    filter === filterType ? 'white' : 'var(--text-secondary)',
+                    filter === filterType ? 'var(--interactive-primary)' : 'var(--bg-secondary)',
+                  color: filter === filterType ? 'white' : 'var(--text-secondary)',
                 }}
               >
-                {filterType === 'all'
-                  ? 'All'
-                  : EVENT_TYPE_CONFIG[filterType].label}
+                {filterType === 'all' ? 'All' : EVENT_TYPE_CONFIG[filterType].label}
               </button>
             )
           )}
@@ -274,16 +275,13 @@ export default function V2EventsClient() {
                     <div className="min-w-0 flex-1">
                       <div className="mb-1 flex items-center gap-2">
                         <TypeIcon size={16} style={{ color: typeConfig.color }} />
-                        <span
-                          className="text-xs font-medium"
-                          style={{ color: typeConfig.color }}
-                        >
+                        <span className="text-xs font-medium" style={{ color: typeConfig.color }}>
                           {typeConfig.label}
                         </span>
                       </div>
 
                       <h3
-                        className="font-medium line-clamp-1"
+                        className="line-clamp-1 font-medium"
                         style={{ color: 'var(--text-primary)' }}
                       >
                         {event.title}
@@ -312,7 +310,9 @@ export default function V2EventsClient() {
                     {/* Price */}
                     <div
                       className="shrink-0 font-medium"
-                      style={{ color: event.price === 0 ? 'var(--status-success)' : 'var(--text-primary)' }}
+                      style={{
+                        color: event.price === 0 ? 'var(--status-success)' : 'var(--text-primary)',
+                      }}
                     >
                       {formatPrice(event.price || 0)}
                     </div>
@@ -382,20 +382,16 @@ export default function V2EventsClient() {
                 <div className="flex items-center gap-3">
                   <CalendarBlank size={20} style={{ color: 'var(--text-tertiary)' }} />
                   <span style={{ color: 'var(--text-secondary)' }}>
-                    {formatDate(selectedEvent.date)}
+                    {formatDate(selectedEvent.date, { style: 'short' })}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock size={20} style={{ color: 'var(--text-tertiary)' }} />
-                  <span style={{ color: 'var(--text-secondary)' }}>
-                    {selectedEvent.time}
-                  </span>
+                  <span style={{ color: 'var(--text-secondary)' }}>{selectedEvent.time}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPin size={20} style={{ color: 'var(--text-tertiary)' }} />
-                  <span style={{ color: 'var(--text-secondary)' }}>
-                    {selectedEvent.location}
-                  </span>
+                  <span style={{ color: 'var(--text-secondary)' }}>{selectedEvent.location}</span>
                 </div>
                 {selectedEvent.capacity && (
                   <div className="flex items-center gap-3">
@@ -409,15 +405,10 @@ export default function V2EventsClient() {
 
               {/* Description */}
               <div className="mt-6">
-                <h3
-                  className="mb-2 font-medium"
-                  style={{ color: 'var(--text-primary)' }}
-                >
+                <h3 className="mb-2 font-medium" style={{ color: 'var(--text-primary)' }}>
                   About this event
                 </h3>
-                <p style={{ color: 'var(--text-secondary)' }}>
-                  {selectedEvent.description}
-                </p>
+                <p style={{ color: 'var(--text-secondary)' }}>{selectedEvent.description}</p>
               </div>
 
               {/* Price & Register */}
@@ -428,7 +419,10 @@ export default function V2EventsClient() {
                   </p>
                   <p
                     className="font-display text-xl font-bold"
-                    style={{ color: selectedEvent.price === 0 ? 'var(--status-success)' : 'var(--text-primary)' }}
+                    style={{
+                      color:
+                        selectedEvent.price === 0 ? 'var(--status-success)' : 'var(--text-primary)',
+                    }}
                   >
                     {formatPrice(selectedEvent.price || 0)}
                   </p>

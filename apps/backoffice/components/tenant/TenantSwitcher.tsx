@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useTenant } from '@/lib/contexts/TenantContext';
-import { MapPin, Building2, ChevronDown } from 'lucide-react';
+import { MapPin, Buildings, CaretDown } from '@phosphor-icons/react';
 
 interface LocationWithContext {
   id: string;
@@ -135,7 +135,7 @@ export function TenantSwitcher() {
           <p className="truncate font-medium text-gray-900">{displayName}</p>
           <p className="truncate text-xs text-gray-500">{displaySubtext}</p>
         </div>
-        <ChevronDown
+        <CaretDown
           className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
@@ -157,7 +157,7 @@ export function TenantSwitcher() {
                 {/* Org header */}
                 <div className="border-b border-gray-100 bg-gray-50 px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <Building2 className="h-3 w-3 text-gray-400" />
+                    <Buildings className="h-3 w-3 text-gray-400" />
                     <span className="text-xs font-medium text-gray-600">{orgName}</span>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Shield, Key, RefreshCw, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Key, ArrowsClockwise, WarningCircle } from '@phosphor-icons/react';
 
 interface TwoFactorVerifyProps {
   onVerified?: () => void;
@@ -144,7 +144,7 @@ export default function TwoFactorVerify({ onVerified, onCancel, accountId }: Two
         <div className="mb-6 text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-blue-100">
             {mode === 'totp' ? (
-              <Shield className="h-7 w-7 text-blue-600" />
+              <ShieldCheck className="h-7 w-7 text-blue-600" />
             ) : (
               <Key className="h-7 w-7 text-blue-600" />
             )}
@@ -178,7 +178,7 @@ export default function TwoFactorVerify({ onVerified, onCancel, accountId }: Two
           {/* Error message */}
           {error && (
             <div className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3">
-              <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" />
+              <WarningCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-600" />
               <div>
                 <p className="text-sm text-red-700">{error}</p>
                 {remainingAttempts !== null && remainingAttempts > 0 && (
@@ -198,7 +198,7 @@ export default function TwoFactorVerify({ onVerified, onCancel, accountId }: Two
           >
             {isLoading ? (
               <>
-                <RefreshCw className="h-4 w-4 animate-spin" />
+                <ArrowsClockwise className="h-4 w-4 animate-spin" />
                 Verifying...
               </>
             ) : (

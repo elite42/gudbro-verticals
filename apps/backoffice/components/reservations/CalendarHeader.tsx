@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeft, ChevronRight, Plus, Calendar } from 'lucide-react';
+import { CaretLeft, CaretRight, Plus, Calendar } from '@phosphor-icons/react';
 import { format, addMonths, addWeeks, addDays, subMonths, subWeeks, subDays } from 'date-fns';
 
 export type ViewMode = 'day' | 'week' | 'month';
@@ -78,14 +78,14 @@ export function CalendarHeader({
             className="rounded-lg p-1.5 hover:bg-gray-100"
             aria-label="Previous"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <CaretLeft className="h-5 w-5" />
           </button>
           <button
             onClick={() => navigate('next')}
             className="rounded-lg p-1.5 hover:bg-gray-100"
             aria-label="Next"
           >
-            <ChevronRight className="h-5 w-5" />
+            <CaretRight className="h-5 w-5" />
           </button>
         </div>
 

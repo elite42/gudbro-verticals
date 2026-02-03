@@ -98,27 +98,34 @@ export default function FeedbackPage() {
           throw fetchError;
         }
 
-        // Use 'any' for Supabase response flexibility
-        const transformedData: FeedbackItem[] = (data || []).map((row: any) => {
-          const profile = Array.isArray(row.gudbro_user_profiles)
-            ? row.gudbro_user_profiles[0]
-            : row.gudbro_user_profiles;
+        const transformedData: FeedbackItem[] = (data || []).map((row: Record<string, unknown>) => {
+          const profiles = row.gudbro_user_profiles as
+            | Record<string, unknown>
+            | Record<string, unknown>[]
+            | undefined;
+          const profile = Array.isArray(profiles) ? profiles[0] : profiles;
 
           return {
-            id: row.id,
-            user_id: row.user_id,
-            user_email: profile?.email || null,
-            user_name: profile?.name || null,
-            type: row.type,
-            category: row.category,
-            rating: row.rating,
-            title: row.title,
-            message: row.message,
-            status: row.status,
-            staff_reply: row.staff_reply,
-            is_public: row.is_public,
-            is_featured: row.is_featured,
-            created_at: row.created_at,
+            id: row.id as string,
+            user_id: row.user_id as string | null,
+            user_email: (profile?.email as string) || null,
+            user_name: (profile?.name as string) || null,
+            type: row.type as 'rating' | 'review' | 'suggestion' | 'issue' | 'compliment',
+            category: row.category as string,
+            rating: row.rating as number | null,
+            title: row.title as string | null,
+            message: row.message as string | null,
+            status: row.status as
+              | 'new'
+              | 'read'
+              | 'in_progress'
+              | 'replied'
+              | 'resolved'
+              | 'dismissed',
+            staff_reply: row.staff_reply as string | null,
+            is_public: row.is_public as boolean,
+            is_featured: row.is_featured as boolean,
+            created_at: row.created_at as string,
           };
         });
 

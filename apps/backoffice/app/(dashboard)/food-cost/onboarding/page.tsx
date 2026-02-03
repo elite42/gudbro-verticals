@@ -7,23 +7,23 @@ import { useTenant } from '@/lib/contexts/TenantContext';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import {
   Calculator,
-  ChefHat,
-  TrendingUp,
-  Sparkles,
+  CookingPot,
+  TrendUp,
+  Sparkle,
   ArrowRight,
   ArrowLeft,
   CheckCircle,
   Plus,
-  Trash2,
-  DollarSign,
+  Trash,
+  CurrencyDollar,
   Clock,
-  Target,
-  AlertTriangle,
+  Crosshair,
+  Warning,
   Trophy,
   Lightbulb,
   BookOpen,
-  Loader2,
-} from 'lucide-react';
+  SpinnerGap,
+} from '@phosphor-icons/react';
 
 type OnboardingStep = 'intro' | 'education' | 'dishes' | 'ingredients' | 'results';
 
@@ -43,10 +43,10 @@ interface IngredientEntry {
 }
 
 const steps: { id: OnboardingStep; name: string; icon: typeof Calculator }[] = [
-  { id: 'intro', name: 'Benvenuto', icon: Sparkles },
+  { id: 'intro', name: 'Benvenuto', icon: Sparkle },
   { id: 'education', name: 'Perché conta', icon: BookOpen },
-  { id: 'dishes', name: 'I tuoi piatti', icon: ChefHat },
-  { id: 'ingredients', name: 'Ingredienti', icon: DollarSign },
+  { id: 'dishes', name: 'I tuoi piatti', icon: CookingPot },
+  { id: 'ingredients', name: 'Ingredienti', icon: CurrencyDollar },
   { id: 'results', name: 'Risultati', icon: Trophy },
 ];
 
@@ -64,13 +64,13 @@ const knowledgeNuggets = [
   {
     title: 'Il 90% dei ristoranti',
     fact: 'calcola SOLO il food cost ingredienti e prende decisioni su dati incompleti.',
-    icon: AlertTriangle,
+    icon: Warning,
     color: 'amber',
   },
   {
     title: 'Food Cost ideale',
     fact: '25-35% per casual dining, 30-40% per fine dining. Sopra il 40% è pericoloso.',
-    icon: Target,
+    icon: Crosshair,
     color: 'blue',
   },
   {
@@ -82,7 +82,7 @@ const knowledgeNuggets = [
   {
     title: 'Piatti Dogs',
     fact: 'Basso margine + basse vendite = RIMUOVILI dal menu. Liberano spazio per i tuoi Stars.',
-    icon: TrendingUp,
+    icon: TrendUp,
     color: 'red',
   },
 ];
@@ -403,7 +403,7 @@ export default function FoodCostOnboardingPage() {
         {currentStep === 'intro' && (
           <div className="py-12 text-center">
             <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-orange-100">
-              <Sparkles className="h-10 w-10 text-orange-600" />
+              <Sparkle className="h-10 w-10 text-orange-600" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900">Benvenuto nel Food Cost Tracker</h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-gray-600">
@@ -422,7 +422,7 @@ export default function FoodCostOnboardingPage() {
 
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
-                  <TrendingUp className="h-6 w-6 text-blue-600" />
+                  <TrendUp className="h-6 w-6 text-blue-600" />
                 </div>
                 <h3 className="font-semibold text-gray-900">Margini reali</h3>
                 <p className="mt-1 text-sm text-gray-500">Scopri il food cost % di ogni piatto</p>
@@ -430,7 +430,7 @@ export default function FoodCostOnboardingPage() {
 
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
-                  <Target className="h-6 w-6 text-purple-600" />
+                  <Crosshair className="h-6 w-6 text-purple-600" />
                 </div>
                 <h3 className="font-semibold text-gray-900">Menu Engineering</h3>
                 <p className="mt-1 text-sm text-gray-500">Stars, Puzzles, Plowhorses, Dogs</p>
@@ -516,7 +516,7 @@ export default function FoodCostOnboardingPage() {
 
             {isLoading ? (
               <div className="flex items-center justify-center py-12">
-                <Loader2 className="h-8 w-8 animate-spin text-orange-600" />
+                <SpinnerGap className="h-8 w-8 animate-spin text-orange-600" />
                 <span className="ml-2 text-gray-600">Caricamento piatti esistenti...</span>
               </div>
             ) : (
@@ -567,7 +567,7 @@ export default function FoodCostOnboardingPage() {
                     className="mt-4 flex items-center gap-2 rounded-lg bg-orange-600 px-4 py-2 font-medium text-white hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isSaving ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <SpinnerGap className="h-4 w-4 animate-spin" />
                     ) : (
                       <Plus className="h-4 w-4" />
                     )}
@@ -601,7 +601,7 @@ export default function FoodCostOnboardingPage() {
                               onClick={() => removeDish(dish.id)}
                               className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-500"
                             >
-                              <Trash2 className="h-4 w-4" />
+                              <Trash className="h-4 w-4" />
                             </button>
                           </div>
                         </div>
@@ -764,7 +764,7 @@ export default function FoodCostOnboardingPage() {
                           className="mt-3 flex items-center gap-2 rounded-lg bg-orange-600 px-4 py-2 font-medium text-white hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           {isSaving ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <SpinnerGap className="h-4 w-4 animate-spin" />
                           ) : (
                             <Plus className="h-4 w-4" />
                           )}
@@ -797,7 +797,7 @@ export default function FoodCostOnboardingPage() {
                                   onClick={() => removeIngredient(ing.id)}
                                   className="p-1 text-gray-400 hover:text-red-500"
                                 >
-                                  <Trash2 className="h-4 w-4" />
+                                  <Trash className="h-4 w-4" />
                                 </button>
                               </div>
                             </div>
@@ -937,7 +937,7 @@ export default function FoodCostOnboardingPage() {
             <div className="mt-8 rounded-xl border border-purple-100 bg-gradient-to-r from-purple-50 to-indigo-50 p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-lg bg-purple-100 p-2">
-                  <Sparkles className="h-5 w-5 text-purple-600" />
+                  <Sparkle className="h-5 w-5 text-purple-600" />
                 </div>
                 <div>
                   <p className="font-semibold text-purple-900">Suggerimento AI</p>

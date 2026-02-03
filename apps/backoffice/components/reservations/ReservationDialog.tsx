@@ -1,7 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, Users, Clock, Calendar, Phone, Mail, MessageSquare, MapPin } from 'lucide-react';
+import {
+  X,
+  Users,
+  Clock,
+  Calendar,
+  Phone,
+  EnvelopeSimple,
+  ChatTeardrop,
+  MapPin,
+} from '@phosphor-icons/react';
 import { format } from 'date-fns';
 import { Reservation, ReservationStatus } from './ReservationCard';
 
@@ -238,7 +247,7 @@ export function ReservationDialog({
               </div>
               <div>
                 <label className="mb-1 flex items-center gap-1.5 text-sm font-medium text-gray-700">
-                  <Mail className="h-4 w-4" /> Email
+                  <EnvelopeSimple className="h-4 w-4" /> Email
                 </label>
                 <input
                   type="email"
@@ -383,7 +392,7 @@ export function ReservationDialog({
             {/* Special Requests */}
             <div>
               <label className="mb-1 flex items-center gap-1.5 text-sm font-medium text-gray-700">
-                <MessageSquare className="h-4 w-4" /> Special Requests
+                <ChatTeardrop className="h-4 w-4" /> Special Requests
               </label>
               <textarea
                 value={formData.special_requests}

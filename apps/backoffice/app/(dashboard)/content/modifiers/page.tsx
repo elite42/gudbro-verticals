@@ -6,61 +6,23 @@ import { createClient } from '@supabase/supabase-js';
 import { useTranslations } from 'next-intl';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 
+import type {
+  ModifierGroup,
+  Modifier,
+  GroupFormState,
+  ModifierFormState,
+} from './components/types';
+import { GroupSidebar } from './components/GroupSidebar';
+import { ModifiersTable } from './components/ModifiersTable';
+import { GroupFormModal } from './components/GroupFormModal';
+import { ModifierFormModal } from './components/ModifierFormModal';
+
 export const dynamic = 'force-dynamic';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
-
-// Types
-interface ModifierGroup {
-  id: string;
-  merchant_id: string;
-  slug: string;
-  name_multilang: { en?: string; it?: string; vi?: string };
-  description_multilang?: { en?: string; it?: string; vi?: string };
-  selection_type: 'single' | 'multiple';
-  is_required: boolean;
-  min_selections: number;
-  max_selections: number;
-  display_order: number;
-  icon: string | null;
-  is_active: boolean;
-  modifiers_count?: number;
-}
-
-interface Modifier {
-  id: string;
-  merchant_id: string;
-  group_id: string;
-  slug: string;
-  name_multilang: { en?: string; it?: string; vi?: string };
-  description_multilang?: { en?: string; it?: string; vi?: string };
-  price_adjustment: number;
-  price_type: 'fixed' | 'percentage' | 'replace';
-  display_order: number;
-  icon: string | null;
-  color: string | null;
-  is_default: boolean;
-  calories_adjustment: number;
-  is_active: boolean;
-  is_available: boolean;
-}
-
-// Icons for groups
-const GROUP_ICONS = ['📏', '🥛', '➕', '🍬', '🧊', '🔥', '🍫', '🥜', '🍓', '🌿', '☕', '🧁'];
-
-// Colors for modifiers
-const MODIFIER_COLORS = [
-  { name: 'Default', value: null },
-  { name: 'Blue', value: 'bg-blue-100 text-blue-800' },
-  { name: 'Green', value: 'bg-green-100 text-green-800' },
-  { name: 'Yellow', value: 'bg-yellow-100 text-yellow-800' },
-  { name: 'Red', value: 'bg-red-100 text-red-800' },
-  { name: 'Purple', value: 'bg-purple-100 text-purple-800' },
-  { name: 'Orange', value: 'bg-orange-100 text-orange-800' },
-];
 
 export default function ModifiersPage() {
   const t = useTranslations('modifiersPage');
@@ -79,12 +41,12 @@ export default function ModifiersPage() {
   const [editingModifier, setEditingModifier] = useState<Modifier | null>(null);
 
   // Group form state
-  const [groupForm, setGroupForm] = useState({
+  const [groupForm, setGroupForm] = useState<GroupFormState>({
     name_en: '',
     name_it: '',
     name_vi: '',
     description_en: '',
-    selection_type: 'single' as 'single' | 'multiple',
+    selection_type: 'single',
     is_required: false,
     min_selections: 0,
     max_selections: 1,
@@ -92,16 +54,16 @@ export default function ModifiersPage() {
   });
 
   // Modifier form state
-  const [modifierForm, setModifierForm] = useState({
+  const [modifierForm, setModifierForm] = useState<ModifierFormState>({
     name_en: '',
     name_it: '',
     name_vi: '',
     price_adjustment: '',
-    price_type: 'fixed' as 'fixed' | 'percentage' | 'replace',
+    price_type: 'fixed',
     is_default: false,
     calories_adjustment: '',
     icon: '',
-    color: null as string | null,
+    color: null,
   });
 
   // Fetch data
@@ -632,602 +594,58 @@ export default function ModifiersPage() {
 
       {/* Two-column layout */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Left column: Groups */}
-        <div className="lg:col-span-1">
-          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-            <div className="flex items-center justify-between border-b border-gray-200 p-4">
-              <h2 className="font-semibold text-gray-900">{t('groups.title')}</h2>
-              <button
-                onClick={() => {
-                  resetGroupForm();
-                  setShowGroupModal(true);
-                }}
-                className="text-sm font-medium text-blue-600 hover:text-blue-700"
-              >
-                {t('groups.add')}
-              </button>
-            </div>
+        <GroupSidebar
+          groups={groups}
+          selectedGroupId={selectedGroupId}
+          onSelectGroup={setSelectedGroupId}
+          onAddGroup={() => {
+            resetGroupForm();
+            setShowGroupModal(true);
+          }}
+          onEditGroup={openEditGroupModal}
+          onDeleteGroup={handleDeleteGroup}
+          onToggleGroupActive={toggleGroupActive}
+        />
 
-            <div className="divide-y divide-gray-100">
-              {groups.map((group) => (
-                <div
-                  key={group.id}
-                  onClick={() => setSelectedGroupId(group.id)}
-                  className={`cursor-pointer p-4 transition-colors ${
-                    selectedGroupId === group.id
-                      ? 'border-l-4 border-l-blue-600 bg-blue-50'
-                      : 'hover:bg-gray-50'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{group.icon}</span>
-                      <div>
-                        <div className="font-medium text-gray-900">{group.name_multilang?.en}</div>
-                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                          <span>{t('groups.options', { count: group.modifiers_count ?? 0 })}</span>
-                          <span>•</span>
-                          <span>
-                            {group.selection_type === 'single'
-                              ? t('groups.single')
-                              : t('groups.multiple')}
-                          </span>
-                          {group.is_required && (
-                            <>
-                              <span>•</span>
-                              <span className="text-red-500">{t('groups.required')}</span>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openEditGroupModal(group);
-                        }}
-                        className="rounded p-1.5 text-gray-400 hover:text-blue-600"
-                        title={t('groups.edit')}
-                      >
-                        ✏️
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleGroupActive(group.id, group.is_active);
-                        }}
-                        className={`rounded p-1.5 ${group.is_active ? 'text-green-600' : 'text-gray-300'}`}
-                        title={group.is_active ? t('groups.active') : t('groups.inactive')}
-                      >
-                        {group.is_active ? '👁️' : '👁️‍🗨️'}
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteGroup(group.id);
-                        }}
-                        className="rounded p-1.5 text-gray-400 hover:text-red-600"
-                        title={t('groups.delete')}
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-              {groups.length === 0 && (
-                <div className="p-8 text-center text-gray-500">
-                  <p>{t('groups.empty')}</p>
-                  <button
-                    onClick={() => {
-                      resetGroupForm();
-                      setShowGroupModal(true);
-                    }}
-                    className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-700"
-                  >
-                    {t('groups.createFirst')}
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Right column: Modifiers */}
-        <div className="lg:col-span-2">
-          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
-            <div className="flex items-center justify-between gap-4 border-b border-gray-200 p-4">
-              <div className="flex items-center gap-3">
-                {selectedGroup && (
-                  <>
-                    <span className="text-2xl">{selectedGroup.icon}</span>
-                    <div>
-                      <h2 className="font-semibold text-gray-900">
-                        {selectedGroup.name_multilang?.en}
-                      </h2>
-                      <p className="text-xs text-gray-500">
-                        {selectedGroup.selection_type === 'single'
-                          ? t('modifiers.singleSelection')
-                          : t('modifiers.multipleSelection')}
-                        {selectedGroup.is_required && ` • ${t('groups.required')}`}
-                        {selectedGroup.max_selections > 1 &&
-                          ` • ${t('modifiers.max', { count: selectedGroup.max_selections })}`}
-                      </p>
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
-                  <input
-                    type="text"
-                    placeholder={t('modifiers.searchPlaceholder')}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-48 rounded-lg border border-gray-300 py-2 pl-9 pr-4 text-sm"
-                  />
-                </div>
-                <button
-                  onClick={() => {
-                    resetModifierForm();
-                    setShowModifierModal(true);
-                  }}
-                  disabled={!selectedGroupId}
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  {t('modifiers.addOption')}
-                </button>
-              </div>
-            </div>
-
-            {/* Modifiers table */}
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      {t('modifiers.tableHeaders.option')}
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      {t('modifiers.tableHeaders.price')}
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                      {t('modifiers.tableHeaders.calories')}
-                    </th>
-                    <th className="px-6 py-3 text-center text-xs font-medium uppercase text-gray-500">
-                      {t('modifiers.tableHeaders.default')}
-                    </th>
-                    <th className="px-6 py-3 text-center text-xs font-medium uppercase text-gray-500">
-                      {t('modifiers.tableHeaders.available')}
-                    </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium uppercase text-gray-500">
-                      {t('modifiers.tableHeaders.actions')}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {filteredModifiers.map((modifier) => (
-                    <tr key={modifier.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          {modifier.icon && <span className="text-xl">{modifier.icon}</span>}
-                          <div>
-                            <div className="font-medium text-gray-900">
-                              {modifier.name_multilang?.en}
-                            </div>
-                            {modifier.name_multilang?.it && (
-                              <div className="text-sm text-gray-500">
-                                {modifier.name_multilang.it}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`font-medium ${modifier.price_adjustment > 0 ? 'text-green-600' : modifier.price_adjustment < 0 ? 'text-red-600' : 'text-gray-500'}`}
-                        >
-                          {modifier.price_adjustment > 0 ? '+' : ''}
-                          {modifier.price_adjustment === 0
-                            ? t('modifiers.free')
-                            : `€${modifier.price_adjustment.toFixed(2)}`}
-                        </span>
-                        {modifier.price_type !== 'fixed' && (
-                          <span className="ml-1 text-xs text-gray-400">
-                            ({modifier.price_type})
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 text-gray-500">
-                        {modifier.calories_adjustment > 0
-                          ? `+${modifier.calories_adjustment} ${t('modifiers.kcal')}`
-                          : '-'}
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        {modifier.is_default && (
-                          <span className="inline-flex items-center rounded bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
-                            {t('modifiers.tableHeaders.default')}
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <button
-                          onClick={() =>
-                            toggleModifierAvailable(modifier.id, modifier.is_available)
-                          }
-                          className={`h-6 w-10 rounded-full transition-colors ${
-                            modifier.is_available ? 'bg-green-500' : 'bg-gray-300'
-                          }`}
-                        >
-                          <span
-                            className={`block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
-                              modifier.is_available ? 'translate-x-5' : 'translate-x-1'
-                            }`}
-                          />
-                        </button>
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => openEditModifierModal(modifier)}
-                            className="text-sm text-blue-600 hover:text-blue-900"
-                          >
-                            {t('modifiers.edit')}
-                          </button>
-                          <button
-                            onClick={() => handleDeleteModifier(modifier.id)}
-                            className="text-sm text-red-600 hover:text-red-900"
-                          >
-                            {t('modifiers.delete')}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              {filteredModifiers.length === 0 && (
-                <div className="py-12 text-center">
-                  <p className="text-gray-500">
-                    {selectedGroupId ? t('modifiers.emptyGroup') : t('modifiers.selectGroup')}
-                  </p>
-                  {selectedGroupId && (
-                    <button
-                      onClick={() => {
-                        resetModifierForm();
-                        setShowModifierModal(true);
-                      }}
-                      className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-700"
-                    >
-                      {t('modifiers.addFirst')}
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+        <ModifiersTable
+          filteredModifiers={filteredModifiers}
+          selectedGroup={selectedGroup}
+          selectedGroupId={selectedGroupId}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          onAddModifier={() => {
+            resetModifierForm();
+            setShowModifierModal(true);
+          }}
+          onEditModifier={openEditModifierModal}
+          onDeleteModifier={handleDeleteModifier}
+          onToggleModifierAvailable={toggleModifierAvailable}
+        />
       </div>
 
-      {/* Group Modal */}
-      {showGroupModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl bg-white p-6">
-            <h2 className="mb-4 text-xl font-bold">
-              {editingGroup ? t('groupModal.editTitle') : t('groupModal.addTitle')}
-            </h2>
+      <GroupFormModal
+        show={showGroupModal}
+        editingGroup={editingGroup}
+        groupForm={groupForm}
+        onFormChange={setGroupForm}
+        onSave={handleSaveGroup}
+        onClose={() => {
+          setShowGroupModal(false);
+          resetGroupForm();
+        }}
+      />
 
-            <div className="space-y-4">
-              {/* Icon picker */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  {t('groupModal.icon')}
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {GROUP_ICONS.map((icon) => (
-                    <button
-                      key={icon}
-                      type="button"
-                      onClick={() => setGroupForm({ ...groupForm, icon })}
-                      className={`h-10 w-10 rounded-lg border-2 text-xl transition-colors ${
-                        groupForm.icon === icon
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}
-                    >
-                      {icon}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Name fields */}
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  {t('groupModal.nameEn')}
-                </label>
-                <input
-                  type="text"
-                  value={groupForm.name_en}
-                  onChange={(e) => setGroupForm({ ...groupForm, name_en: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                  placeholder={t('groupModal.nameEnPlaceholder')}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {t('groupModal.nameIt')}
-                  </label>
-                  <input
-                    type="text"
-                    value={groupForm.name_it}
-                    onChange={(e) => setGroupForm({ ...groupForm, name_it: e.target.value })}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                    placeholder={t('groupModal.nameItPlaceholder')}
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {t('groupModal.nameVi')}
-                  </label>
-                  <input
-                    type="text"
-                    value={groupForm.name_vi}
-                    onChange={(e) => setGroupForm({ ...groupForm, name_vi: e.target.value })}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                    placeholder={t('groupModal.nameViPlaceholder')}
-                  />
-                </div>
-              </div>
-
-              {/* Selection type */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  {t('groupModal.selectionType')}
-                </label>
-                <div className="flex gap-4">
-                  <label className="flex cursor-pointer items-center gap-2">
-                    <input
-                      type="radio"
-                      name="selection_type"
-                      checked={groupForm.selection_type === 'single'}
-                      onChange={() =>
-                        setGroupForm({ ...groupForm, selection_type: 'single', max_selections: 1 })
-                      }
-                      className="h-4 w-4"
-                    />
-                    <span className="text-sm">{t('groupModal.singleRadio')}</span>
-                  </label>
-                  <label className="flex cursor-pointer items-center gap-2">
-                    <input
-                      type="radio"
-                      name="selection_type"
-                      checked={groupForm.selection_type === 'multiple'}
-                      onChange={() =>
-                        setGroupForm({
-                          ...groupForm,
-                          selection_type: 'multiple',
-                          max_selections: 5,
-                        })
-                      }
-                      className="h-4 w-4"
-                    />
-                    <span className="text-sm">{t('groupModal.multipleCheckbox')}</span>
-                  </label>
-                </div>
-              </div>
-
-              {/* Required & Max selections */}
-              <div className="flex gap-4">
-                <label className="flex cursor-pointer items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={groupForm.is_required}
-                    onChange={(e) => setGroupForm({ ...groupForm, is_required: e.target.checked })}
-                    className="h-4 w-4 rounded border-gray-300"
-                  />
-                  <span className="text-sm text-gray-700">{t('groupModal.required')}</span>
-                </label>
-              </div>
-
-              {groupForm.selection_type === 'multiple' && (
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {t('groupModal.maxSelections')}
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="10"
-                    value={groupForm.max_selections}
-                    onChange={(e) =>
-                      setGroupForm({ ...groupForm, max_selections: parseInt(e.target.value) || 1 })
-                    }
-                    className="w-24 rounded-lg border border-gray-300 px-3 py-2"
-                  />
-                </div>
-              )}
-            </div>
-
-            <div className="mt-6 flex justify-end gap-3 border-t pt-4">
-              <button
-                onClick={() => {
-                  setShowGroupModal(false);
-                  resetGroupForm();
-                }}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
-              >
-                {t('groupModal.cancel')}
-              </button>
-              <button
-                onClick={handleSaveGroup}
-                disabled={!groupForm.name_en}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
-              >
-                {editingGroup ? t('groupModal.saveChanges') : t('groupModal.addGroup')}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modifier Modal */}
-      {showModifierModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl bg-white p-6">
-            <h2 className="mb-4 text-xl font-bold">
-              {editingModifier ? t('modifierModal.editTitle') : t('modifierModal.addTitle')}
-            </h2>
-
-            <div className="space-y-4">
-              {/* Name fields */}
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  {t('modifierModal.nameEn')}
-                </label>
-                <input
-                  type="text"
-                  value={modifierForm.name_en}
-                  onChange={(e) => setModifierForm({ ...modifierForm, name_en: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                  placeholder={t('modifierModal.nameEnPlaceholder')}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {t('modifierModal.nameIt')}
-                  </label>
-                  <input
-                    type="text"
-                    value={modifierForm.name_it}
-                    onChange={(e) => setModifierForm({ ...modifierForm, name_it: e.target.value })}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                    placeholder={t('modifierModal.nameItPlaceholder')}
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {t('modifierModal.nameVi')}
-                  </label>
-                  <input
-                    type="text"
-                    value={modifierForm.name_vi}
-                    onChange={(e) => setModifierForm({ ...modifierForm, name_vi: e.target.value })}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                    placeholder={t('modifierModal.nameViPlaceholder')}
-                  />
-                </div>
-              </div>
-
-              {/* Price */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {t('modifierModal.priceAdjustment')}
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={modifierForm.price_adjustment}
-                    onChange={(e) =>
-                      setModifierForm({ ...modifierForm, price_adjustment: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                    placeholder={t('modifierModal.priceAdjustmentPlaceholder')}
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {t('modifierModal.priceType')}
-                  </label>
-                  <select
-                    value={modifierForm.price_type}
-                    onChange={(e) =>
-                      setModifierForm({ ...modifierForm, price_type: e.target.value as any })
-                    }
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                  >
-                    <option value="fixed">{t('modifierModal.priceTypes.fixed')}</option>
-                    <option value="percentage">{t('modifierModal.priceTypes.percentage')}</option>
-                    <option value="replace">{t('modifierModal.priceTypes.replace')}</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Calories */}
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  {t('modifierModal.caloriesAdjustment')}
-                </label>
-                <input
-                  type="number"
-                  value={modifierForm.calories_adjustment}
-                  onChange={(e) =>
-                    setModifierForm({ ...modifierForm, calories_adjustment: e.target.value })
-                  }
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                  placeholder={t('modifierModal.caloriesPlaceholder')}
-                />
-              </div>
-
-              {/* Icon */}
-              <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  {t('modifierModal.iconLabel')}
-                </label>
-                <input
-                  type="text"
-                  value={modifierForm.icon}
-                  onChange={(e) => setModifierForm({ ...modifierForm, icon: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2"
-                  placeholder={t('modifierModal.iconPlaceholder')}
-                  maxLength={2}
-                />
-              </div>
-
-              {/* Default checkbox */}
-              <label className="flex cursor-pointer items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={modifierForm.is_default}
-                  onChange={(e) =>
-                    setModifierForm({ ...modifierForm, is_default: e.target.checked })
-                  }
-                  className="h-4 w-4 rounded border-gray-300"
-                />
-                <span className="text-sm text-gray-700">{t('modifierModal.setDefault')}</span>
-              </label>
-            </div>
-
-            <div className="mt-6 flex justify-end gap-3 border-t pt-4">
-              <button
-                onClick={() => {
-                  setShowModifierModal(false);
-                  resetModifierForm();
-                }}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
-              >
-                {t('modifierModal.cancel')}
-              </button>
-              <button
-                onClick={handleSaveModifier}
-                disabled={!modifierForm.name_en}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
-              >
-                {editingModifier ? t('modifierModal.saveChanges') : t('modifierModal.addOption')}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ModifierFormModal
+        show={showModifierModal}
+        editingModifier={editingModifier}
+        modifierForm={modifierForm}
+        onFormChange={setModifierForm}
+        onSave={handleSaveModifier}
+        onClose={() => {
+          setShowModifierModal(false);
+          resetModifierForm();
+        }}
+      />
     </div>
   );
 }

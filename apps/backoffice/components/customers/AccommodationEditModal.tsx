@@ -8,7 +8,15 @@
  */
 
 import { useState, useEffect } from 'react';
-import { X, Building2, MapPin, Calendar, Home, Globe, Loader2 } from 'lucide-react';
+import {
+  X,
+  Buildings,
+  MapPin,
+  CalendarBlank,
+  House,
+  Globe,
+  SpinnerGap,
+} from '@phosphor-icons/react';
 import { HotelSearch, AddressSearch, type PlaceResult } from '@/components/onboarding';
 
 export interface AccommodationData {
@@ -200,7 +208,7 @@ export function AccommodationEditModal({
               {/* Hotel Search */}
               <div className="mb-4">
                 <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
-                  <Building2 className="h-4 w-4" />
+                  <Buildings className="h-4 w-4" />
                   Accommodation
                 </label>
                 <HotelSearch
@@ -241,7 +249,7 @@ export function AccommodationEditModal({
               <div className="mb-4 grid grid-cols-2 gap-4">
                 <div>
                   <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
-                    <Calendar className="h-4 w-4" />
+                    <CalendarBlank className="h-4 w-4" />
                     Arrival Date
                   </label>
                   <input
@@ -253,7 +261,7 @@ export function AccommodationEditModal({
                 </div>
                 <div>
                   <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
-                    <Calendar className="h-4 w-4" />
+                    <CalendarBlank className="h-4 w-4" />
                     Departure Date
                   </label>
                   <input
@@ -292,7 +300,7 @@ export function AccommodationEditModal({
               <div className="mb-4 grid grid-cols-2 gap-4">
                 <div>
                   <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
-                    <Home className="h-4 w-4" />
+                    <House className="h-4 w-4" />
                     Home City
                   </label>
                   <input
@@ -366,7 +374,7 @@ export function AccommodationEditModal({
             disabled={isSaving}
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
           >
-            {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
+            {isSaving && <SpinnerGap className="h-4 w-4 animate-spin" />}
             Save Changes
           </button>
         </div>

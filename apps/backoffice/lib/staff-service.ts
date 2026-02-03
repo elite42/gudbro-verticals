@@ -65,21 +65,21 @@ export async function getStaffMembers(organizationId: string): Promise<StaffMemb
     return [];
   }
 
-  return (data || []).map((s: any) => ({
-    roleId: s.role_id,
-    accountId: s.account_id,
-    email: s.email,
-    firstName: s.first_name,
-    lastName: s.last_name,
-    displayName: s.display_name,
-    avatarUrl: s.avatar_url,
-    permissions: s.permissions || {},
-    isActive: s.is_active,
-    invitedAt: s.invited_at,
-    acceptedAt: s.accepted_at,
-    lastLoginAt: s.last_login_at,
-    inviterEmail: s.inviter_email,
-    inviterName: s.inviter_name,
+  return (data || []).map((s: Record<string, unknown>) => ({
+    roleId: s.role_id as string,
+    accountId: s.account_id as string,
+    email: s.email as string,
+    firstName: s.first_name as string | undefined,
+    lastName: s.last_name as string | undefined,
+    displayName: s.display_name as string | undefined,
+    avatarUrl: s.avatar_url as string | undefined,
+    permissions: (s.permissions as Record<string, boolean>) || {},
+    isActive: s.is_active as boolean,
+    invitedAt: s.invited_at as string | undefined,
+    acceptedAt: s.accepted_at as string | undefined,
+    lastLoginAt: s.last_login_at as string | undefined,
+    inviterEmail: s.inviter_email as string | undefined,
+    inviterName: s.inviter_name as string | undefined,
   }));
 }
 
@@ -98,19 +98,19 @@ export async function getPendingInvitations(organizationId: string): Promise<Sta
     return [];
   }
 
-  return (data || []).map((i: any) => ({
-    id: i.id,
-    email: i.email,
-    firstName: i.first_name,
-    lastName: i.last_name,
-    roleTitle: i.role_title,
-    permissions: i.permissions || {},
-    status: i.status,
-    createdAt: i.created_at,
-    expiresAt: i.expires_at,
-    message: i.message,
-    inviterEmail: i.inviter_email,
-    inviterName: i.inviter_name,
+  return (data || []).map((i: Record<string, unknown>) => ({
+    id: i.id as string,
+    email: i.email as string,
+    firstName: i.first_name as string | undefined,
+    lastName: i.last_name as string | undefined,
+    roleTitle: i.role_title as string,
+    permissions: (i.permissions as Record<string, boolean>) || {},
+    status: i.status as 'pending' | 'accepted' | 'declined' | 'expired' | 'revoked',
+    createdAt: i.created_at as string,
+    expiresAt: i.expires_at as string,
+    message: i.message as string | undefined,
+    inviterEmail: i.inviter_email as string,
+    inviterName: i.inviter_name as string | undefined,
   }));
 }
 
@@ -128,11 +128,11 @@ export async function getRoleTemplates(): Promise<RoleTemplate[]> {
     return [];
   }
 
-  return (data || []).map((t: any) => ({
-    id: t.id,
-    name: t.name,
-    description: t.description,
-    permissions: t.permissions,
+  return (data || []).map((t: Record<string, unknown>) => ({
+    id: t.id as string,
+    name: t.name as string,
+    description: t.description as string,
+    permissions: t.permissions as Record<string, boolean>,
   }));
 }
 
@@ -347,8 +347,7 @@ async function sendStaffInviteEmail(params: {
     throw new Error(errorData.message || `HTTP ${response.status}`);
   }
 
-  const data = await response.json();
-  console.log('[StaffService] Invitation email sent:', data.id);
+  await response.json();
 }
 
 /**

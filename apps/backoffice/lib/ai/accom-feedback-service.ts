@@ -2,7 +2,7 @@
 // AI processing pipeline for guest feedback (post-stay and in-stay)
 // Forked from feedback-intelligence-service.ts with accommodations-specific taxonomy
 
-import { getOpenAIClient, calculateCost } from './openai';
+import { getOpenAIClient } from './openai';
 import { supabaseAdmin } from '../supabase-admin';
 
 // =============================================================================
@@ -143,7 +143,6 @@ export async function processAccomFeedback(): Promise<{ processed: number; faile
         .eq('id', row.id);
 
       processed++;
-      console.log('[AccomFeedback] Processed feedback:', row.id, 'tags:', result.tags.join(', '));
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       console.error('[AccomFeedback] Failed to process feedback:', row.id, errorMessage);
@@ -192,18 +191,6 @@ Respond with valid JSON only.`;
     max_tokens: 400,
     response_format: { type: 'json_object' },
   });
-
-  // Track cost
-  if (completion.usage) {
-    const cost = calculateCost(
-      'gpt-4o-mini',
-      completion.usage.prompt_tokens,
-      completion.usage.completion_tokens
-    );
-    console.log(
-      `[AccomFeedback] AI cost: $${cost.toFixed(6)} (${completion.usage.prompt_tokens}+${completion.usage.completion_tokens} tokens)`
-    );
-  }
 
   const responseText = completion.choices[0]?.message?.content || '{}';
 

@@ -25,6 +25,7 @@ import { useTheme } from '@/lib/theme/theme-context';
 import { LoyaltyCard, EarnPointsModal } from '@/components/loyalty';
 import { UserLoyaltyState } from '@/types/loyalty';
 import { PasskeyRegister, PasskeyList } from '@/components/passkey';
+import { formatDate } from '@gudbro/utils';
 
 // Wrapper component to handle Suspense for useSearchParams
 export default function AccountPage() {
@@ -129,19 +130,6 @@ function AccountPageContent() {
       selectedCurrency: currency,
       enabled: currency !== i18n.baseCurrency,
     });
-  };
-
-  // Format date
-  const formatDate = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleDateString(
-      language === 'it' ? 'it-IT' : language === 'vi' ? 'vi-VN' : 'en-US',
-      {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      }
-    );
   };
 
   if (!profile || !preferences) {
@@ -253,7 +241,11 @@ function AccountPageContent() {
           </div>
 
           <div className="text-theme-text-tertiary mt-3 text-center text-xs">
-            Prima visita: {formatDate(profile.firstVisit)}
+            Prima visita:{' '}
+            {formatDate(profile.firstVisit, {
+              locale: language === 'it' ? 'it-IT' : language === 'vi' ? 'vi-VN' : 'en-US',
+              style: 'long',
+            })}
           </div>
         </div>
 

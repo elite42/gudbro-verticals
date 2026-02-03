@@ -13,7 +13,7 @@ import {
   CaretUp,
   Image,
 } from '@phosphor-icons/react';
-import { Loader2 } from 'lucide-react';
+import { SpinnerGap } from '@phosphor-icons/react';
 
 // ============================================================================
 // Types
@@ -425,7 +425,7 @@ export function FeedbackSubmissionManager({ merchantId }: FeedbackSubmissionMana
               disabled={!canSubmit}
               className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {isSaving ? <SpinnerGap className="h-4 w-4 animate-spin" /> : null}
               Invia Segnalazione
             </button>
           </div>
@@ -450,7 +450,7 @@ export function FeedbackSubmissionManager({ merchantId }: FeedbackSubmissionMana
           {/* Loading */}
           {isLoadingHistory && (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
+              <SpinnerGap className="h-5 w-5 animate-spin text-gray-400" />
             </div>
           )}
 

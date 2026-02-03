@@ -4,16 +4,16 @@ import { useState, useEffect, useRef, use, useCallback } from 'react';
 import Link from 'next/link';
 import {
   ArrowLeft,
-  Send,
+  PaperPlaneTilt,
   Phone,
-  Mail,
-  Calendar,
+  Envelope,
+  CalendarBlank,
   Users,
   Clock,
-  MessageSquare,
-  Wifi,
-  WifiOff,
-} from 'lucide-react';
+  ChatCircle,
+  WifiHigh,
+  WifiSlash,
+} from '@phosphor-icons/react';
 import { useChatRealtime } from '@/lib/realtime/chat-channel';
 
 interface Message {
@@ -226,7 +226,11 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
                   }`}
                   title={isConnected ? 'Real-time connected' : 'Connecting...'}
                 >
-                  {isConnected ? <Wifi className="h-3 w-3" /> : <WifiOff className="h-3 w-3" />}
+                  {isConnected ? (
+                    <WifiHigh className="h-3 w-3" />
+                  ) : (
+                    <WifiSlash className="h-3 w-3" />
+                  )}
                   {isConnected ? 'Live' : 'Connecting'}
                 </span>
               </div>
@@ -292,7 +296,7 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
                   disabled={!newMessage.trim() || isSending}
                   className="flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50"
                 >
-                  <Send className="h-4 w-4" />
+                  <PaperPlaneTilt className="h-4 w-4" />
                   Send
                 </button>
               </div>
@@ -317,7 +321,7 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
             )}
             {conversation?.customer_email && (
               <div className="flex items-center gap-2 text-sm">
-                <Mail className="h-4 w-4 text-gray-400" />
+                <Envelope className="h-4 w-4 text-gray-400" />
                 <span>{conversation.customer_email}</span>
               </div>
             )}
@@ -326,7 +330,7 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
               <span>Started {formatDate(conversation?.created_at || '')}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
-              <MessageSquare className="h-4 w-4 text-gray-400" />
+              <ChatCircle className="h-4 w-4 text-gray-400" />
               <span>{conversation?.total_messages} messages</span>
             </div>
           </div>
@@ -336,7 +340,7 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
               <h4 className="mb-2 text-sm font-medium text-gray-700">Linked Reservation</h4>
               <div className="rounded-lg bg-white p-3 text-sm">
                 <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-gray-400" />
+                  <CalendarBlank className="h-4 w-4 text-gray-400" />
                   <span>
                     {conversation.reservation.reservation_date} at{' '}
                     {conversation.reservation.reservation_time}
