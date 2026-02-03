@@ -19,25 +19,10 @@ interface ServiceCardProps {
   currency?: string;
 }
 
+import { formatPriceCompact } from '@gudbro/utils';
+
 function formatPrice(price: number, currency: string = 'VND'): string {
-  if (currency === 'VND') {
-    const inThousands = Math.round(price / 1000);
-    return `${inThousands}k`;
-  }
-
-  const rates: Record<string, { rate: number; symbol: string }> = {
-    USD: { rate: 0.00004, symbol: '$' },
-    EUR: { rate: 0.000037, symbol: '\u20AC' },
-  };
-
-  const info = rates[currency];
-  if (!info) {
-    const inThousands = Math.round(price / 1000);
-    return `${inThousands}k`;
-  }
-
-  const converted = (price * info.rate).toFixed(2);
-  return `${info.symbol}${converted}`;
+  return formatPriceCompact(price, currency);
 }
 
 const categoryStyles: Record<string, { bg: string; text: string }> = {
@@ -63,10 +48,10 @@ export default function ServiceCard({
     return (
       <Link
         href={`/services/${service.slug}`}
-        className="flex bg-white rounded-xl overflow-hidden shadow-soft hover-lift transition-all"
+        className="shadow-soft hover-lift flex overflow-hidden rounded-xl bg-white transition-all"
       >
         {/* Image */}
-        <div className="relative w-28 h-32 flex-shrink-0">
+        <div className="relative h-32 w-28 flex-shrink-0">
           <Image
             src={service.image}
             alt={service.name}
@@ -75,7 +60,7 @@ export default function ServiceCard({
             sizes="112px"
           />
           <span
-            className="absolute top-1.5 left-1.5 text-[10px] font-semibold px-1.5 py-0.5 rounded-full"
+            className="absolute left-1.5 top-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
             style={{ backgroundColor: catStyle.bg, color: catStyle.text }}
           >
             {service.category}
@@ -83,38 +68,35 @@ export default function ServiceCard({
         </div>
 
         {/* Content */}
-        <div className="flex-1 p-3 flex flex-col justify-between min-w-0">
+        <div className="flex min-w-0 flex-1 flex-col justify-between p-3">
           <div>
             <h3
-              className="font-bold font-display text-sm truncate"
+              className="font-display truncate text-sm font-bold"
               style={{ color: 'var(--charcoal)' }}
             >
               {service.name}
             </h3>
             {service.description && (
               <p
-                className="text-xs mt-1 line-clamp-2 leading-relaxed"
+                className="mt-1 line-clamp-2 text-xs leading-relaxed"
                 style={{ color: 'var(--charcoal-muted)' }}
               >
                 {service.description}
               </p>
             )}
           </div>
-          <div className="flex items-center justify-between mt-2">
-            <span
-              className="text-sm font-bold"
-              style={{ color: 'var(--blue-hex)' }}
-            >
+          <div className="mt-2 flex items-center justify-between">
+            <span className="text-sm font-bold" style={{ color: 'var(--blue-hex)' }}>
               {formatPrice(service.price, currency)}
               <span
-                className="text-xs font-normal ml-0.5"
+                className="ml-0.5 text-xs font-normal"
                 style={{ color: 'var(--charcoal-muted)' }}
               >
                 /{service.unit}
               </span>
             </span>
             <span
-              className="text-[10px] font-medium flex items-center gap-1"
+              className="flex items-center gap-1 text-[10px] font-medium"
               style={{ color: 'var(--charcoal-muted)' }}
             >
               <svg
@@ -142,7 +124,7 @@ export default function ServiceCard({
   return (
     <Link
       href={`/services/${service.slug}`}
-      className="block bg-white rounded-xl overflow-hidden shadow-soft hover-lift transition-all"
+      className="shadow-soft hover-lift block overflow-hidden rounded-xl bg-white transition-all"
     >
       {/* Image */}
       <div className="relative h-48">
@@ -154,7 +136,7 @@ export default function ServiceCard({
           sizes="(max-width: 640px) 100vw, 300px"
         />
         <span
-          className="absolute top-2.5 left-2.5 text-xs font-semibold px-2.5 py-0.5 rounded-full"
+          className="absolute left-2.5 top-2.5 rounded-full px-2.5 py-0.5 text-xs font-semibold"
           style={{ backgroundColor: catStyle.bg, color: catStyle.text }}
         >
           {service.category}
@@ -162,36 +144,27 @@ export default function ServiceCard({
       </div>
 
       {/* Content */}
-      <div className="p-4 space-y-2">
-        <h3
-          className="font-bold font-display text-sm"
-          style={{ color: 'var(--charcoal)' }}
-        >
+      <div className="space-y-2 p-4">
+        <h3 className="font-display text-sm font-bold" style={{ color: 'var(--charcoal)' }}>
           {service.name}
         </h3>
         {service.description && (
           <p
-            className="text-xs leading-relaxed line-clamp-2"
+            className="line-clamp-2 text-xs leading-relaxed"
             style={{ color: 'var(--charcoal-muted)' }}
           >
             {service.description}
           </p>
         )}
         <div className="flex items-center justify-between pt-1">
-          <span
-            className="text-sm font-bold"
-            style={{ color: 'var(--blue-hex)' }}
-          >
+          <span className="text-sm font-bold" style={{ color: 'var(--blue-hex)' }}>
             {formatPrice(service.price, currency)}
-            <span
-              className="text-xs font-normal ml-0.5"
-              style={{ color: 'var(--charcoal-muted)' }}
-            >
+            <span className="ml-0.5 text-xs font-normal" style={{ color: 'var(--charcoal-muted)' }}>
               /{service.unit}
             </span>
           </span>
           <span
-            className="text-[10px] font-medium flex items-center gap-1"
+            className="flex items-center gap-1 text-[10px] font-medium"
             style={{ color: 'var(--charcoal-muted)' }}
           >
             <svg

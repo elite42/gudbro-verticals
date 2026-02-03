@@ -6,6 +6,7 @@ import { AccommodationEditModal, type AccommodationData } from '@/components/cus
 import { Pencil } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 type VisitorType = 'resident' | 'tourist' | 'unknown' | 'all';
 type NotificationStatus = 'active' | 'paused' | 'stopped' | 'archived' | 'all';
@@ -334,13 +335,7 @@ export default function FollowersPage() {
     });
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'VND',
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => _fp(amount, 'VND');
 
   const formatTimeAgo = (dateStr: string | null) => {
     if (!dateStr) return t('timeAgo.never');

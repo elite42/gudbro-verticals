@@ -53,11 +53,9 @@ function getLocalizedText(
   return multi[lang] || multi.en || fallback;
 }
 
+import { formatPriceCompact } from '@gudbro/utils';
 function formatPrice(price: number): string {
-  if (price >= 1000) {
-    return `${Math.round(price / 1000)}K`;
-  }
-  return `${price}`;
+  return formatPriceCompact(price, 'VND');
 }
 
 export default function V2PopularClient({ initialMenuItems }: V2PopularClientProps) {
@@ -208,9 +206,7 @@ export default function V2PopularClient({ initialMenuItems }: V2PopularClientPro
     }));
 
     // Sort by likesCount (descending) and take top 12
-    return converted
-      .sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0))
-      .slice(0, 12);
+    return converted.sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0)).slice(0, 12);
   }, [initialMenuItems, language]);
 
   if (!isClient) {
@@ -222,7 +218,11 @@ export default function V2PopularClient({ initialMenuItems }: V2PopularClientPro
   }
 
   return (
-    <div data-theme={isDark ? 'dark' : 'light'} className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
+    <div
+      data-theme={isDark ? 'dark' : 'light'}
+      className="min-h-screen"
+      style={{ background: 'var(--bg-primary)' }}
+    >
       <Header
         merchantName={coffeeshopConfig.business.name}
         merchantLogo={coffeeshopConfig.business.logo}

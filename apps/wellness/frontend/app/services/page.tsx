@@ -209,11 +209,7 @@ const allServices = [
 // UTILS
 // =============================================================================
 
-function formatPrice(price: number, currency: string): string {
-  if (currency === 'VND') return new Intl.NumberFormat('vi-VN').format(price) + '₫';
-  if (currency === 'USD') return '$' + (price / 24000).toFixed(0);
-  return '€' + (price / 26000).toFixed(0);
-}
+import { formatPrice } from '@gudbro/utils';
 
 function formatDuration(minutes: number): string {
   if (minutes < 60) return `${minutes} min`;

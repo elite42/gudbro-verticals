@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Plus, Pencil, Check, X, Power, Bed, Users, CurrencyDollar } from '@phosphor-icons/react';
 import { Loader2 } from 'lucide-react';
 import { ImageUpload } from '@/components/ui/image-upload';
+import { formatPriceFromMinor } from '@gudbro/utils';
 
 // ============================================================================
 // Types
@@ -188,11 +189,8 @@ export function RoomManager({ propertyId }: RoomManagerProps) {
     }
   };
 
-  // Format price for display
-  const formatPrice = (amount: number, currency: string) => {
-    const major = (amount / 100).toFixed(2);
-    return `${major} ${currency.toUpperCase()}`;
-  };
+  // Format price for display (minor units -> display string)
+  const formatPrice = (amount: number, currency: string) => formatPriceFromMinor(amount, currency);
 
   // Update room image via API
   const handleRoomImageUpdate = async (roomId: string, imageUrl: string) => {

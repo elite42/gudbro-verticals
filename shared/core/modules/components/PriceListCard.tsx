@@ -28,20 +28,7 @@ interface PriceItemRowProps {
   currency: string;
 }
 
-// Simple currency formatter
-function formatPrice(amount: number, currency: string): string {
-  const formatters: Record<string, (n: number) => string> = {
-    VND: (n) => `${n.toLocaleString('vi-VN')}₫`,
-    USD: (n) => `$${n.toFixed(2)}`,
-    EUR: (n) => `€${n.toFixed(2)}`,
-    GBP: (n) => `£${n.toFixed(2)}`,
-    KRW: (n) => `₩${n.toLocaleString('ko-KR')}`,
-    JPY: (n) => `¥${n.toLocaleString('ja-JP')}`,
-    THB: (n) => `฿${n.toFixed(0)}`,
-  };
-
-  return formatters[currency]?.(amount) || `${currency} ${amount}`;
-}
+import { formatPrice } from '@gudbro/utils';
 
 function PriceItemRow({ item, language, currency }: PriceItemRowProps) {
   const name = getLocalizedText(item.name, language);
@@ -50,30 +37,28 @@ function PriceItemRow({ item, language, currency }: PriceItemRowProps) {
 
   return (
     <div className={`flex items-start justify-between py-3 ${!item.available ? 'opacity-50' : ''}`}>
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span className="font-medium text-gray-900">{name}</span>
           {item.tags?.includes('popular') && (
-            <span className="px-1.5 py-0.5 bg-orange-100 text-orange-700 text-xs rounded">Popular</span>
+            <span className="rounded bg-orange-100 px-1.5 py-0.5 text-xs text-orange-700">
+              Popular
+            </span>
           )}
           {item.tags?.includes('new') && (
-            <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-xs rounded">New</span>
+            <span className="rounded bg-green-100 px-1.5 py-0.5 text-xs text-green-700">New</span>
           )}
           {!item.available && (
-            <span className="px-1.5 py-0.5 bg-gray-100 text-gray-500 text-xs rounded">Unavailable</span>
+            <span className="rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-500">
+              Unavailable
+            </span>
           )}
         </div>
-        {description && (
-          <p className="text-sm text-gray-500 mt-0.5 line-clamp-1">{description}</p>
-        )}
+        {description && <p className="mt-0.5 line-clamp-1 text-sm text-gray-500">{description}</p>}
       </div>
-      <div className="text-right ml-4 flex-shrink-0">
-        <span className="font-semibold text-gray-900">
-          {formatPrice(item.price, currency)}
-        </span>
-        {unit && (
-          <span className="text-xs text-gray-500 block">{unit}</span>
-        )}
+      <div className="ml-4 flex-shrink-0 text-right">
+        <span className="font-semibold text-gray-900">{formatPrice(item.price, currency)}</span>
+        {unit && <span className="block text-xs text-gray-500">{unit}</span>}
       </div>
     </div>
   );
@@ -92,21 +77,19 @@ function CategorySection({
   const name = getLocalizedText(category.name, language);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
       {/* Category Header */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+        className="flex w-full items-center justify-between p-4 transition-colors hover:bg-gray-50"
       >
         <div className="flex items-center gap-3">
-          {category.icon && (
-            <span className="text-2xl">{category.icon}</span>
-          )}
+          {category.icon && <span className="text-2xl">{category.icon}</span>}
           <span className="font-semibold text-gray-900">{name}</span>
           <span className="text-sm text-gray-400">({category.items.length})</span>
         </div>
         <svg
-          className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`h-5 w-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -117,14 +100,9 @@ function CategorySection({
 
       {/* Items */}
       {isOpen && (
-        <div className="px-4 pb-2 divide-y divide-gray-100">
+        <div className="divide-y divide-gray-100 px-4 pb-2">
           {category.items.map((item) => (
-            <PriceItemRow
-              key={item.id}
-              item={item}
-              language={language}
-              currency={currency}
-            />
+            <PriceItemRow key={item.id} item={item} language={language} currency={currency} />
           ))}
         </div>
       )}
@@ -161,28 +139,31 @@ export function PriceListCard({ config, language, className = '', title }: Price
   return (
     <div className={className}>
       {/* Header */}
-      {title && (
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">{title}</h2>
-      )}
+      {title && <h2 className="mb-4 text-lg font-semibold text-gray-900">{title}</h2>}
 
       {/* Search & Currency */}
-      <div className="flex gap-3 mb-4">
+      <div className="mb-4 flex gap-3">
         {/* Search */}
-        <div className="flex-1 relative">
+        <div className="relative flex-1">
           <input
             type="text"
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-lg border border-gray-200 py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
         </div>
 
@@ -191,7 +172,7 @@ export function PriceListCard({ config, language, className = '', title }: Price
           <select
             value={selectedCurrency}
             onChange={(e) => setSelectedCurrency(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {config.supportedCurrencies.map((curr) => (
               <option key={curr} value={curr}>
@@ -215,7 +196,7 @@ export function PriceListCard({ config, language, className = '', title }: Price
           ))}
         </div>
       ) : (
-        <div className="text-center py-8 text-gray-500">
+        <div className="py-8 text-center text-gray-500">
           {searchQuery ? 'No items found' : 'No items available'}
         </div>
       )}

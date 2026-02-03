@@ -268,23 +268,10 @@ const SEGMENTS: { value: Segment; label: string; color: string }[] = [
   { value: 'lost', label: 'Lost', color: 'bg-red-100 text-red-700' },
 ];
 
-// Currency formatting
-const CURRENCY_INFO: Record<string, { locale: string; symbol: string }> = {
-  USD: { locale: 'en-US', symbol: '$' },
-  EUR: { locale: 'de-DE', symbol: '€' },
-  GBP: { locale: 'en-GB', symbol: '£' },
-  VND: { locale: 'vi-VN', symbol: '₫' },
-  JPY: { locale: 'ja-JP', symbol: '¥' },
-};
+import { formatPrice as _fp } from '@gudbro/utils';
 
 function formatCurrency(value: number, currencyCode: string): string {
-  const info = CURRENCY_INFO[currencyCode] || { locale: 'en-US', symbol: currencyCode };
-  return new Intl.NumberFormat(info.locale, {
-    style: 'currency',
-    currency: currencyCode,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
+  return _fp(value, currencyCode, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
 
 export function TriggerModal({

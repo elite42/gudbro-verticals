@@ -43,8 +43,7 @@ const featuredServices = [
     price: 25000,
     unit: 'kg',
     turnaround: '24h',
-    image:
-      'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=400&h=300&fit=crop',
   },
   {
     id: '2',
@@ -54,8 +53,7 @@ const featuredServices = [
     price: 35000,
     unit: 'kg',
     turnaround: '24-36h',
-    image:
-      'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop',
   },
   {
     id: '6',
@@ -65,8 +63,7 @@ const featuredServices = [
     price: 80000,
     unit: 'item',
     turnaround: '48-72h',
-    image:
-      'https://images.unsplash.com/photo-1507679799987-c73b1160fdc7?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1507679799987-c73b1160fdc7?w=400&h=300&fit=crop',
   },
   {
     id: '10',
@@ -76,8 +73,7 @@ const featuredServices = [
     price: 60000,
     unit: 'pair',
     turnaround: '24-48h',
-    image:
-      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop',
   },
   {
     id: '13',
@@ -87,8 +83,7 @@ const featuredServices = [
     price: 37500,
     unit: 'kg',
     turnaround: '4-8h',
-    image:
-      'https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=400&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=400&h=300&fit=crop',
   },
 ];
 
@@ -105,11 +100,7 @@ const currencies = ['VND', 'USD', 'EUR'];
 // UTILITY FUNCTIONS
 // =============================================================================
 
-function formatPrice(price: number, currency: string): string {
-  if (currency === 'VND') return new Intl.NumberFormat('vi-VN').format(price) + '\u20AB';
-  if (currency === 'USD') return '$' + (price / 24000).toFixed(2);
-  return '\u20AC' + (price / 26000).toFixed(2);
-}
+import { formatPrice } from '@gudbro/utils';
 
 // =============================================================================
 // ICONS (SVG Components)
@@ -251,13 +242,7 @@ const Icons = {
   ),
   // Water droplet logo icon
   WaterDrop: ({ className }: { className?: string }) => (
-    <svg
-      className={className}
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
+    <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0L12 2.69zm0 2.83L8.49 9.34a5.5 5.5 0 107.02 0L12 5.52z" />
       <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0L12 2.69z" opacity="0.2" />
     </svg>
@@ -279,7 +264,7 @@ export default function LaundryHomePage() {
   return (
     <div className="min-h-screen bg-[var(--cloud)] pb-24">
       {/* ===== HEADER ===== */}
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-[var(--cloud-dark)] bg-[var(--cloud)]/90 backdrop-blur-md">
+      <header className="bg-[var(--cloud)]/90 fixed left-0 right-0 top-0 z-50 border-b border-[var(--cloud-dark)] backdrop-blur-md">
         <div className="flex items-center justify-between px-4 py-3">
           {/* Logo + Name */}
           <div className="flex items-center gap-2.5">
@@ -429,9 +414,7 @@ export default function LaundryHomePage() {
                 style={{ animationDelay: `${100 + index * 50}ms` }}
               >
                 <span className="mb-2 block text-2xl">{item.icon}</span>
-                <h3 className="font-display text-sm font-semibold leading-tight">
-                  {item.name}
-                </h3>
+                <h3 className="font-display text-sm font-semibold leading-tight">{item.name}</h3>
                 <div className="mt-2 flex items-baseline gap-1">
                   <span className="text-lg font-bold">{formatPrice(item.price, currency)}</span>
                   <span className="text-xs text-white/70">/ {item.unit}</span>
@@ -499,9 +482,7 @@ export default function LaundryHomePage() {
                       <span className="text-base font-bold text-[var(--blue-hex)]">
                         {formatPrice(service.price, currency)}
                       </span>
-                      <span className="text-xs text-[var(--charcoal-muted)]">
-                        / {service.unit}
-                      </span>
+                      <span className="text-xs text-[var(--charcoal-muted)]">/ {service.unit}</span>
                     </div>
                     <Link
                       href={`/services/${service.slug}`}
@@ -527,13 +508,27 @@ export default function LaundryHomePage() {
               {/* Step 1 */}
               <div className="flex flex-1 flex-col items-center text-center">
                 <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--blue-light)]">
-                  <svg className="h-6 w-6 text-[var(--blue-hex)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                  <svg
+                    className="h-6 w-6 text-[var(--blue-hex)]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                    />
                   </svg>
                 </div>
                 <div className="mb-1 text-xs font-bold text-[var(--blue-hex)]">1</div>
-                <h4 className="font-display text-sm font-semibold text-[var(--charcoal)]">Drop Off</h4>
-                <p className="mt-0.5 text-[11px] text-[var(--charcoal-muted)]">Bring your clothes</p>
+                <h4 className="font-display text-sm font-semibold text-[var(--charcoal)]">
+                  Drop Off
+                </h4>
+                <p className="mt-0.5 text-[11px] text-[var(--charcoal-muted)]">
+                  Bring your clothes
+                </p>
               </div>
 
               {/* Arrow */}
@@ -544,12 +539,24 @@ export default function LaundryHomePage() {
               {/* Step 2 */}
               <div className="flex flex-1 flex-col items-center text-center">
                 <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--teal-light)]">
-                  <svg className="h-6 w-6 text-[var(--teal)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+                  <svg
+                    className="h-6 w-6 text-[var(--teal)]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
+                    />
                   </svg>
                 </div>
                 <div className="mb-1 text-xs font-bold text-[var(--teal)]">2</div>
-                <h4 className="font-display text-sm font-semibold text-[var(--charcoal)]">We Clean</h4>
+                <h4 className="font-display text-sm font-semibold text-[var(--charcoal)]">
+                  We Clean
+                </h4>
                 <p className="mt-0.5 text-[11px] text-[var(--charcoal-muted)]">Professional care</p>
               </div>
 
@@ -561,12 +568,24 @@ export default function LaundryHomePage() {
               {/* Step 3 */}
               <div className="flex flex-1 flex-col items-center text-center">
                 <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--gold-light)]">
-                  <svg className="h-6 w-6 text-[var(--gold)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                  <svg
+                    className="h-6 w-6 text-[var(--gold)]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"
+                    />
                   </svg>
                 </div>
                 <div className="mb-1 text-xs font-bold text-[var(--gold)]">3</div>
-                <h4 className="font-display text-sm font-semibold text-[var(--charcoal)]">Pick Up</h4>
+                <h4 className="font-display text-sm font-semibold text-[var(--charcoal)]">
+                  Pick Up
+                </h4>
                 <p className="mt-0.5 text-[11px] text-[var(--charcoal-muted)]">Fresh & ready</p>
               </div>
             </div>
@@ -613,7 +632,7 @@ export default function LaundryHomePage() {
         </section>
 
         {/* ===== LOCATION & CONTACT ===== */}
-        <section className="animate-fade-in-up mb-8 delay-400">
+        <section className="animate-fade-in-up delay-400 mb-8">
           <h2 className="font-display mb-4 text-xl font-semibold text-[var(--charcoal)]">
             Find Us
           </h2>

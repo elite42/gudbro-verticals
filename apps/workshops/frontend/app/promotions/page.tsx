@@ -7,8 +7,9 @@ import Link from 'next/link';
    HELPERS
    ============================================================================= */
 
+import { formatPrice as _fp } from '@gudbro/utils';
 function formatPrice(amount: number): string {
-  return amount.toLocaleString('vi-VN') + '\u20AB';
+  return _fp(amount, 'VND');
 }
 
 /* =============================================================================
@@ -18,7 +19,8 @@ function formatPrice(amount: number): string {
 const FEATURED_DEAL = {
   id: 'early-bird',
   title: 'Early Bird Special',
-  description: 'Book any workshop before 10am and get 15% off the regular price. Start your morning with creativity!',
+  description:
+    'Book any workshop before 10am and get 15% off the regular price. Start your morning with creativity!',
   discount: '15% OFF',
   expiry: 'Valid until March 2026',
   cta: 'Browse Workshops',
@@ -139,10 +141,7 @@ export default function PromotionsPage() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--ivory)' }}>
       {/* ── Header ── */}
-      <header
-        className="animate-fade-in-up"
-        style={{ padding: '24px 20px 8px' }}
-      >
+      <header className="animate-fade-in-up" style={{ padding: '24px 20px 8px' }}>
         <h1
           style={{
             fontFamily: 'var(--font-display)',
@@ -166,13 +165,11 @@ export default function PromotionsPage() {
       </header>
 
       {/* ── Featured Deal (Hero) ── */}
-      <section
-        className="animate-fade-in-up delay-1"
-        style={{ padding: '16px 20px' }}
-      >
+      <section className="animate-fade-in-up delay-1" style={{ padding: '16px 20px' }}>
         <div
           style={{
-            background: 'linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%)',
+            background:
+              'linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%)',
             borderRadius: '20px',
             padding: '28px 24px',
             position: 'relative',
@@ -316,16 +313,18 @@ export default function PromotionsPage() {
                     fontSize: '11px',
                     fontWeight: 600,
                     letterSpacing: '0.02em',
-                    background: pkg.badge === 'Best Value'
-                      ? 'var(--amber-light)'
-                      : pkg.badge === 'Family'
-                        ? 'var(--sage-light)'
-                        : 'var(--terracotta)',
-                    color: pkg.badge === 'Best Value'
-                      ? 'var(--amber-dark)'
-                      : pkg.badge === 'Family'
-                        ? 'var(--sage-dark)'
-                        : 'white',
+                    background:
+                      pkg.badge === 'Best Value'
+                        ? 'var(--amber-light)'
+                        : pkg.badge === 'Family'
+                          ? 'var(--sage-light)'
+                          : 'var(--terracotta)',
+                    color:
+                      pkg.badge === 'Best Value'
+                        ? 'var(--amber-dark)'
+                        : pkg.badge === 'Family'
+                          ? 'var(--sage-dark)'
+                          : 'white',
                   }}
                 >
                   {pkg.badge}
@@ -593,7 +592,9 @@ export default function PromotionsPage() {
           Staying at a GUDBRO partner property?
         </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '18px' }}>
+        <div
+          style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '18px' }}
+        >
           {GUEST_PERKS.map((perk) => (
             <div
               key={perk.text}
@@ -681,10 +682,8 @@ export default function PromotionsPage() {
             }}
           >
             Refer a friend and you both get{' '}
-            <strong style={{ color: 'var(--terracotta)' }}>
-              {formatPrice(50000)} off
-            </strong>{' '}
-            your next workshop.
+            <strong style={{ color: 'var(--terracotta)' }}>{formatPrice(50000)} off</strong> your
+            next workshop.
           </p>
 
           <div

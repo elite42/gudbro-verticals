@@ -8,8 +8,9 @@ import { useParams } from 'next/navigation';
    HELPERS
    ============================================================================= */
 
+import { formatPrice as _fp } from '@gudbro/utils';
 function formatPrice(vnd: number): string {
-  return new Intl.NumberFormat('vi-VN').format(vnd) + '\u20AB';
+  return _fp(vnd, 'VND');
 }
 
 function StarRating({ rating, size = 14 }: { rating: number; size?: number }) {
@@ -97,9 +98,17 @@ const WORKSHOPS: Workshop[] = [
     languages: ['EN', 'VI'],
     rating: 4.9,
     reviewCount: 67,
-    description: 'Learn to make authentic Vietnamese pho from scratch \u2014 from bone broth to rice noodles. Visit the local market, select fresh herbs, and cook alongside Chef Minh in his family kitchen.',
+    description:
+      'Learn to make authentic Vietnamese pho from scratch \u2014 from bone broth to rice noodles. Visit the local market, select fresh herbs, and cook alongside Chef Minh in his family kitchen.',
     whatYouCreate: 'Recipe booklet & the knowledge to make pho at home forever.',
-    included: ['Market visit & ingredient tour', 'All ingredients & cooking tools', 'Recipe booklet', 'Bowl of pho you made', 'Vietnamese coffee', 'Professional instruction'],
+    included: [
+      'Market visit & ingredient tour',
+      'All ingredients & cooking tools',
+      'Recipe booklet',
+      'Bowl of pho you made',
+      'Vietnamese coffee',
+      'Professional instruction',
+    ],
     bring: ['Comfortable clothes', 'Camera', 'Appetite!'],
     images: [
       'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=800&h=450&fit=crop',
@@ -109,9 +118,27 @@ const WORKSHOPS: Workshop[] = [
     address: '42 Nguyen Thai Hoc, Hoi An Old Town',
     geo: { lat: 15.8801, lng: 108.338 },
     reviews: [
-      { name: 'Sarah M.', flag: '\uD83C\uDDFA\uD83C\uDDF8', rating: 5, text: 'Incredible experience! Chef Minh is so passionate and the market tour was the highlight of our trip.', date: 'Dec 2025' },
-      { name: 'Yuki T.', flag: '\uD83C\uDDEF\uD83C\uDDF5', rating: 5, text: 'Best cooking class in Vietnam. The pho was delicious and I learned so much about Vietnamese food culture.', date: 'Nov 2025' },
-      { name: 'James K.', flag: '\uD83C\uDDE6\uD83C\uDDFA', rating: 5, text: 'Chef Minh made it so easy and fun. Even I managed to make a great bowl of pho!', date: 'Nov 2025' },
+      {
+        name: 'Sarah M.',
+        flag: '\uD83C\uDDFA\uD83C\uDDF8',
+        rating: 5,
+        text: 'Incredible experience! Chef Minh is so passionate and the market tour was the highlight of our trip.',
+        date: 'Dec 2025',
+      },
+      {
+        name: 'Yuki T.',
+        flag: '\uD83C\uDDEF\uD83C\uDDF5',
+        rating: 5,
+        text: 'Best cooking class in Vietnam. The pho was delicious and I learned so much about Vietnamese food culture.',
+        date: 'Nov 2025',
+      },
+      {
+        name: 'James K.',
+        flag: '\uD83C\uDDE6\uD83C\uDDFA',
+        rating: 5,
+        text: 'Chef Minh made it so easy and fun. Even I managed to make a great bowl of pho!',
+        date: 'Nov 2025',
+      },
     ],
   },
   {
@@ -134,9 +161,17 @@ const WORKSHOPS: Workshop[] = [
     languages: ['EN', 'VI', 'KO'],
     rating: 4.8,
     reviewCount: 124,
-    description: 'Create your own traditional Hoi An silk lantern in the heart of the Old Town. Learn the bamboo frame technique passed down through 3 generations of Lan\'s family.',
+    description:
+      "Create your own traditional Hoi An silk lantern in the heart of the Old Town. Learn the bamboo frame technique passed down through 3 generations of Lan's family.",
     whatYouCreate: 'Your very own handmade silk lantern to take home.',
-    included: ['All materials (bamboo, silk, wire)', 'Tools & workspace', 'Professional instructor', 'Finished lantern to take home', 'Tea & Vietnamese snacks', 'Certificate of completion'],
+    included: [
+      'All materials (bamboo, silk, wire)',
+      'Tools & workspace',
+      'Professional instructor',
+      'Finished lantern to take home',
+      'Tea & Vietnamese snacks',
+      'Certificate of completion',
+    ],
     bring: ['Comfortable clothes', 'Camera', 'Enthusiasm!'],
     images: [
       'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?w=800&h=450&fit=crop',
@@ -144,11 +179,29 @@ const WORKSHOPS: Workshop[] = [
       'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=800&h=450&fit=crop',
     ],
     address: '15 Nguyen Thi Minh Khai, Hoi An Old Town',
-    geo: { lat: 15.8794, lng: 108.3380 },
+    geo: { lat: 15.8794, lng: 108.338 },
     reviews: [
-      { name: 'Min-ji P.', flag: '\uD83C\uDDF0\uD83C\uDDF7', rating: 5, text: 'Such a beautiful experience. Lan is so patient and kind. My lantern turned out amazing!', date: 'Jan 2026' },
-      { name: 'Emma L.', flag: '\uD83C\uDDEC\uD83C\uDDE7', rating: 5, text: 'We loved every minute. The lantern I made is now hanging in my living room.', date: 'Dec 2025' },
-      { name: 'Tom R.', flag: '\uD83C\uDDE8\uD83C\uDDE6', rating: 4, text: 'Great workshop. A bit crowded but Lan and her assistants managed well.', date: 'Dec 2025' },
+      {
+        name: 'Min-ji P.',
+        flag: '\uD83C\uDDF0\uD83C\uDDF7',
+        rating: 5,
+        text: 'Such a beautiful experience. Lan is so patient and kind. My lantern turned out amazing!',
+        date: 'Jan 2026',
+      },
+      {
+        name: 'Emma L.',
+        flag: '\uD83C\uDDEC\uD83C\uDDE7',
+        rating: 5,
+        text: 'We loved every minute. The lantern I made is now hanging in my living room.',
+        date: 'Dec 2025',
+      },
+      {
+        name: 'Tom R.',
+        flag: '\uD83C\uDDE8\uD83C\uDDE6',
+        rating: 4,
+        text: 'Great workshop. A bit crowded but Lan and her assistants managed well.',
+        date: 'Dec 2025',
+      },
     ],
   },
   {
@@ -171,10 +224,18 @@ const WORKSHOPS: Workshop[] = [
     languages: ['EN', 'VI'],
     rating: 4.7,
     reviewCount: 52,
-    description: 'Shape clay on a traditional kick-wheel in Vietnam\'s oldest pottery village. Master Toan\'s family has been potting for 500 years. You\'ll learn wedging, centering, and throwing your own piece.',
+    description:
+      "Shape clay on a traditional kick-wheel in Vietnam's oldest pottery village. Master Toan's family has been potting for 500 years. You'll learn wedging, centering, and throwing your own piece.",
     whatYouCreate: 'A hand-thrown pottery piece fired and shipped to your address.',
-    included: ['All clay & materials', 'Pottery wheel access', 'Professional instruction', 'Firing & glazing of your piece', 'Shipping worldwide (included)', 'Refreshments'],
-    bring: ['Clothes you don\'t mind getting muddy', 'Camera', 'Patience & curiosity'],
+    included: [
+      'All clay & materials',
+      'Pottery wheel access',
+      'Professional instruction',
+      'Firing & glazing of your piece',
+      'Shipping worldwide (included)',
+      'Refreshments',
+    ],
+    bring: ["Clothes you don't mind getting muddy", 'Camera', 'Patience & curiosity'],
     images: [
       'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&h=450&fit=crop',
       'https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?w=800&h=450&fit=crop',
@@ -183,9 +244,27 @@ const WORKSHOPS: Workshop[] = [
     address: 'Thanh Ha Pottery Village, Hoi An',
     geo: { lat: 15.8726, lng: 108.3156 },
     reviews: [
-      { name: 'Alex D.', flag: '\uD83C\uDDE9\uD83C\uDDEA', rating: 5, text: 'An unforgettable experience. Master Toan is a true artist and a wonderful teacher.', date: 'Jan 2026' },
-      { name: 'Lisa W.', flag: '\uD83C\uDDFA\uD83C\uDDF8', rating: 5, text: 'So cool to use a kick wheel! My pot actually turned out pretty decent.', date: 'Dec 2025' },
-      { name: 'Pierre F.', flag: '\uD83C\uDDEB\uD83C\uDDF7', rating: 4, text: 'Beautiful village, great experience. The shipping took 3 weeks but my vase arrived perfectly.', date: 'Nov 2025' },
+      {
+        name: 'Alex D.',
+        flag: '\uD83C\uDDE9\uD83C\uDDEA',
+        rating: 5,
+        text: 'An unforgettable experience. Master Toan is a true artist and a wonderful teacher.',
+        date: 'Jan 2026',
+      },
+      {
+        name: 'Lisa W.',
+        flag: '\uD83C\uDDFA\uD83C\uDDF8',
+        rating: 5,
+        text: 'So cool to use a kick wheel! My pot actually turned out pretty decent.',
+        date: 'Dec 2025',
+      },
+      {
+        name: 'Pierre F.',
+        flag: '\uD83C\uDDEB\uD83C\uDDF7',
+        rating: 4,
+        text: 'Beautiful village, great experience. The shipping took 3 weeks but my vase arrived perfectly.',
+        date: 'Nov 2025',
+      },
     ],
   },
   {
@@ -208,9 +287,17 @@ const WORKSHOPS: Workshop[] = [
     languages: ['EN', 'VI'],
     rating: 4.9,
     reviewCount: 89,
-    description: 'Discover why Vietnamese coffee is unique. Learn to brew traditional phin coffee, make egg coffee, and taste rare weasel coffee. Visit Hung\'s roastery and understand the bean-to-cup journey.',
+    description:
+      "Discover why Vietnamese coffee is unique. Learn to brew traditional phin coffee, make egg coffee, and taste rare weasel coffee. Visit Hung's roastery and understand the bean-to-cup journey.",
     whatYouCreate: 'Your own phin filter set & coffee blend to take home.',
-    included: ['Phin filter set to take home', 'Coffee tasting (5 varieties)', 'Roastery tour', 'Professional instruction', 'All brewing equipment', 'Light snacks'],
+    included: [
+      'Phin filter set to take home',
+      'Coffee tasting (5 varieties)',
+      'Roastery tour',
+      'Professional instruction',
+      'All brewing equipment',
+      'Light snacks',
+    ],
     bring: ['Comfortable clothes', 'Camera', 'Love of coffee!'],
     images: [
       'https://images.unsplash.com/photo-1514432324607-a09d9b4aefda?w=800&h=450&fit=crop',
@@ -220,9 +307,27 @@ const WORKSHOPS: Workshop[] = [
     address: '88 Tran Phu, Hai Chau, Da Nang',
     geo: { lat: 16.0471, lng: 108.2068 },
     reviews: [
-      { name: 'Mark S.', flag: '\uD83C\uDDFA\uD83C\uDDF8', rating: 5, text: 'Hung is amazing. I never knew coffee could taste so different. The egg coffee blew my mind!', date: 'Jan 2026' },
-      { name: 'Sakura N.', flag: '\uD83C\uDDEF\uD83C\uDDF5', rating: 5, text: 'Perfect activity for coffee lovers. I use my phin filter every morning now.', date: 'Dec 2025' },
-      { name: 'Ben T.', flag: '\uD83C\uDDE6\uD83C\uDDFA', rating: 5, text: 'Great value for money. Hung really knows his stuff and the roastery tour was a bonus.', date: 'Nov 2025' },
+      {
+        name: 'Mark S.',
+        flag: '\uD83C\uDDFA\uD83C\uDDF8',
+        rating: 5,
+        text: 'Hung is amazing. I never knew coffee could taste so different. The egg coffee blew my mind!',
+        date: 'Jan 2026',
+      },
+      {
+        name: 'Sakura N.',
+        flag: '\uD83C\uDDEF\uD83C\uDDF5',
+        rating: 5,
+        text: 'Perfect activity for coffee lovers. I use my phin filter every morning now.',
+        date: 'Dec 2025',
+      },
+      {
+        name: 'Ben T.',
+        flag: '\uD83C\uDDE6\uD83C\uDDFA',
+        rating: 5,
+        text: 'Great value for money. Hung really knows his stuff and the roastery tour was a bonus.',
+        date: 'Nov 2025',
+      },
     ],
   },
   {
@@ -245,9 +350,17 @@ const WORKSHOPS: Workshop[] = [
     languages: ['EN'],
     rating: 4.8,
     reviewCount: 38,
-    description: 'Paint the golden streets of Hoi An in watercolor with Artist Mai. Set up your easel by the Thu Bon river and learn wet-on-wet, dry brush, and color mixing techniques while capturing the magic of this UNESCO town.',
+    description:
+      'Paint the golden streets of Hoi An in watercolor with Artist Mai. Set up your easel by the Thu Bon river and learn wet-on-wet, dry brush, and color mixing techniques while capturing the magic of this UNESCO town.',
     whatYouCreate: 'Your finished watercolor painting, professionally mounted.',
-    included: ['Professional watercolor set', 'Paper & easel', 'Professional instruction', 'Mounted painting to take home', 'Iced tea & snacks', 'Certificate of completion'],
+    included: [
+      'Professional watercolor set',
+      'Paper & easel',
+      'Professional instruction',
+      'Mounted painting to take home',
+      'Iced tea & snacks',
+      'Certificate of completion',
+    ],
     bring: ['Comfortable clothes (may get paint on them)', 'Sun hat', 'Water bottle'],
     images: [
       'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=450&fit=crop',
@@ -257,9 +370,27 @@ const WORKSHOPS: Workshop[] = [
     address: 'Meeting point: An Hoi Bridge, Hoi An',
     geo: { lat: 15.8753, lng: 108.3286 },
     reviews: [
-      { name: 'Claire B.', flag: '\uD83C\uDDEB\uD83C\uDDF7', rating: 5, text: 'Mai is an incredible teacher. I had no idea I could paint like that. The setting was magical.', date: 'Jan 2026' },
-      { name: 'David H.', flag: '\uD83C\uDDEC\uD83C\uDDE7', rating: 5, text: 'Best activity in Hoi An. My painting is now framed on my wall back home.', date: 'Dec 2025' },
-      { name: 'Soo-yeon K.', flag: '\uD83C\uDDF0\uD83C\uDDF7', rating: 4, text: 'Beautiful experience but intermediate level is accurate \u2014 some painting experience helps.', date: 'Nov 2025' },
+      {
+        name: 'Claire B.',
+        flag: '\uD83C\uDDEB\uD83C\uDDF7',
+        rating: 5,
+        text: 'Mai is an incredible teacher. I had no idea I could paint like that. The setting was magical.',
+        date: 'Jan 2026',
+      },
+      {
+        name: 'David H.',
+        flag: '\uD83C\uDDEC\uD83C\uDDE7',
+        rating: 5,
+        text: 'Best activity in Hoi An. My painting is now framed on my wall back home.',
+        date: 'Dec 2025',
+      },
+      {
+        name: 'Soo-yeon K.',
+        flag: '\uD83C\uDDF0\uD83C\uDDF7',
+        rating: 4,
+        text: 'Beautiful experience but intermediate level is accurate \u2014 some painting experience helps.',
+        date: 'Nov 2025',
+      },
     ],
   },
   {
@@ -282,9 +413,17 @@ const WORKSHOPS: Workshop[] = [
     languages: ['EN', 'VI', 'KO', 'ZH'],
     rating: 5.0,
     reviewCount: 76,
-    description: 'Eat your way through Hoi An with Guide Thao. Visit 7 iconic food spots locals love \u2014 from cao lau and white rose dumplings to banh mi and che desserts. Includes history, culture, and plenty of food.',
+    description:
+      'Eat your way through Hoi An with Guide Thao. Visit 7 iconic food spots locals love \u2014 from cao lau and white rose dumplings to banh mi and che desserts. Includes history, culture, and plenty of food.',
     whatYouCreate: 'Memories, a full belly, and a Hoi An food map.',
-    included: ['All food tastings (7 stops)', 'Drinks at each stop', 'Local food guide', 'Hoi An food map', 'Motorbike transfer between stops', 'Vegetarian options available'],
+    included: [
+      'All food tastings (7 stops)',
+      'Drinks at each stop',
+      'Local food guide',
+      'Hoi An food map',
+      'Motorbike transfer between stops',
+      'Vegetarian options available',
+    ],
     bring: ['Comfortable walking shoes', 'Empty stomach!', 'Camera'],
     images: [
       'https://images.unsplash.com/photo-1583077874340-47e13b4c5bcd?w=800&h=450&fit=crop',
@@ -292,11 +431,29 @@ const WORKSHOPS: Workshop[] = [
       'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=450&fit=crop',
     ],
     address: 'Meeting point: Hoi An Central Market',
-    geo: { lat: 15.8773, lng: 108.3380 },
+    geo: { lat: 15.8773, lng: 108.338 },
     reviews: [
-      { name: 'Anna P.', flag: '\uD83C\uDDE9\uD83C\uDDEA', rating: 5, text: 'Thao is the best! We ate SO much and everything was delicious. Must-do in Hoi An.', date: 'Jan 2026' },
-      { name: 'Kevin L.', flag: '\uD83C\uDDFA\uD83C\uDDF8', rating: 5, text: 'This tour was the highlight of our Vietnam trip. Thao knows every food stall by name.', date: 'Dec 2025' },
-      { name: 'Ji-hye C.', flag: '\uD83C\uDDF0\uD83C\uDDF7', rating: 5, text: 'Perfect tour! Thao speaks Korean which made it even better. The cao lau was incredible.', date: 'Dec 2025' },
+      {
+        name: 'Anna P.',
+        flag: '\uD83C\uDDE9\uD83C\uDDEA',
+        rating: 5,
+        text: 'Thao is the best! We ate SO much and everything was delicious. Must-do in Hoi An.',
+        date: 'Jan 2026',
+      },
+      {
+        name: 'Kevin L.',
+        flag: '\uD83C\uDDFA\uD83C\uDDF8',
+        rating: 5,
+        text: 'This tour was the highlight of our Vietnam trip. Thao knows every food stall by name.',
+        date: 'Dec 2025',
+      },
+      {
+        name: 'Ji-hye C.',
+        flag: '\uD83C\uDDF0\uD83C\uDDF7',
+        rating: 5,
+        text: 'Perfect tour! Thao speaks Korean which made it even better. The cao lau was incredible.',
+        date: 'Dec 2025',
+      },
     ],
   },
 ];
@@ -317,14 +474,15 @@ function getNext7Days() {
       month: d.toLocaleDateString('en-US', { month: 'short' }),
       full: d.toISOString().split('T')[0],
       isToday: i === 0,
-      slots: i === 2 || i === 5
-        ? [{ time: '9:00 AM', status: 'full' as const }]
-        : i === 6
-          ? []
-          : [
-              { time: '9:00 AM', status: 'available' as const },
-              ...(i % 2 === 0 ? [{ time: '2:00 PM', status: 'available' as const }] : []),
-            ],
+      slots:
+        i === 2 || i === 5
+          ? [{ time: '9:00 AM', status: 'full' as const }]
+          : i === 6
+            ? []
+            : [
+                { time: '9:00 AM', status: 'available' as const },
+                ...(i % 2 === 0 ? [{ time: '2:00 PM', status: 'available' as const }] : []),
+              ],
     });
   }
   return days;
@@ -351,7 +509,9 @@ export default function WorkshopDetailPage() {
   // Set default selected day
   useEffect(() => {
     if (availableDays.length > 0 && !selectedDay) {
-      const firstAvailable = availableDays.find((d) => d.slots.some((s) => s.status === 'available'));
+      const firstAvailable = availableDays.find((d) =>
+        d.slots.some((s) => s.status === 'available')
+      );
       if (firstAvailable) setSelectedDay(firstAvailable.full);
     }
   }, []);
@@ -359,21 +519,24 @@ export default function WorkshopDetailPage() {
   /* ---- Not Found ---- */
   if (!workshop) {
     return (
-      <div className="min-h-screen pb-24 flex items-center justify-center" style={{ background: 'var(--ivory)' }}>
-        <div className="text-center px-6">
-          <p className="text-6xl mb-4">{'\uD83C\uDFA8'}</p>
+      <div
+        className="flex min-h-screen items-center justify-center pb-24"
+        style={{ background: 'var(--ivory)' }}
+      >
+        <div className="px-6 text-center">
+          <p className="mb-4 text-6xl">{'\uD83C\uDFA8'}</p>
           <h2
-            className="text-xl font-bold mb-2"
+            className="mb-2 text-xl font-bold"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
           >
             Workshop Not Found
           </h2>
-          <p className="text-sm mb-6" style={{ color: 'var(--charcoal-muted)' }}>
+          <p className="mb-6 text-sm" style={{ color: 'var(--charcoal-muted)' }}>
             We couldn&apos;t find this workshop. It may have been removed or the link is incorrect.
           </p>
           <Link
             href="/workshops"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
+            className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
             style={{ background: 'var(--terracotta)' }}
           >
             {'\u2190'} Browse Workshops
@@ -385,7 +548,8 @@ export default function WorkshopDetailPage() {
 
   /* ---- Similar Workshops ---- */
   const similarWorkshops = WORKSHOPS.filter(
-    (w) => w.slug !== workshop.slug && (w.type === workshop.type || w.areaSlug === workshop.areaSlug)
+    (w) =>
+      w.slug !== workshop.slug && (w.type === workshop.type || w.areaSlug === workshop.areaSlug)
   ).slice(0, 3);
 
   /* ---- WhatsApp message ---- */
@@ -408,23 +572,23 @@ export default function WorkshopDetailPage() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--ivory)' }}>
-
       {/* ================================================================
          1. HERO IMAGE GALLERY
          ================================================================ */}
       <section className="relative w-full" style={{ aspectRatio: '16/9' }}>
-        <div className="w-full h-full overflow-hidden relative">
+        <div className="relative h-full w-full overflow-hidden">
           <img
             src={workshop.images[currentImage]}
             alt={`${workshop.name} - Photo ${currentImage + 1}`}
-            className="w-full h-full object-cover transition-opacity duration-500"
+            className="h-full w-full object-cover transition-opacity duration-500"
             style={{ opacity: mounted ? 1 : 0 }}
           />
           {/* Gradient overlay */}
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.3) 100%)',
+              background:
+                'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.3) 100%)',
             }}
           />
         </div>
@@ -432,17 +596,26 @@ export default function WorkshopDetailPage() {
         {/* Back button */}
         <Link
           href="/workshops"
-          className="absolute top-4 left-4 glass flex items-center justify-center w-10 h-10 rounded-full z-10"
+          className="glass absolute left-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full"
           style={{ backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.7)' }}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--charcoal)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--charcoal)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </Link>
 
         {/* Share button */}
         <button
-          className="absolute top-4 right-4 glass flex items-center justify-center w-10 h-10 rounded-full z-10"
+          className="glass absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full"
           style={{ backdropFilter: 'blur(12px)', background: 'rgba(255,255,255,0.7)' }}
           onClick={() => {
             if (navigator.share) {
@@ -450,7 +623,16 @@ export default function WorkshopDetailPage() {
             }
           }}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--charcoal)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--charcoal)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <circle cx="18" cy="5" r="3" />
             <circle cx="6" cy="12" r="3" />
             <circle cx="18" cy="19" r="3" />
@@ -460,7 +642,7 @@ export default function WorkshopDetailPage() {
         </button>
 
         {/* Image dots */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
           {workshop.images.map((_, idx) => (
             <button
               key={idx}
@@ -477,26 +659,25 @@ export default function WorkshopDetailPage() {
 
         {/* Swipe areas */}
         <button
-          className="absolute left-0 top-0 w-1/3 h-full z-[5] cursor-default"
+          className="absolute left-0 top-0 z-[5] h-full w-1/3 cursor-default"
           onClick={() => setCurrentImage((p) => (p === 0 ? workshop.images.length - 1 : p - 1))}
           aria-label="Previous image"
         />
         <button
-          className="absolute right-0 top-0 w-1/3 h-full z-[5] cursor-default"
+          className="absolute right-0 top-0 z-[5] h-full w-1/3 cursor-default"
           onClick={() => setCurrentImage((p) => (p + 1) % workshop.images.length)}
           aria-label="Next image"
         />
       </section>
 
-      <main className="max-w-lg mx-auto px-4">
-
+      <main className="mx-auto max-w-lg px-4">
         {/* ================================================================
            2. TYPE BADGE + TITLE
            ================================================================ */}
         <section className={`mt-5 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}>
           {/* Type badge */}
           <span
-            className="badge-amber inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+            className="badge-amber inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
             style={{ background: 'var(--amber-light)', color: 'var(--amber-dark)' }}
           >
             <span>{workshop.typeEmoji}</span>
@@ -506,18 +687,23 @@ export default function WorkshopDetailPage() {
           {/* Workshop name */}
           <h1
             className="mt-2 text-2xl leading-tight"
-            style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)', letterSpacing: '-0.02em' }}
+            style={{
+              fontFamily: 'var(--font-display)',
+              color: 'var(--charcoal)',
+              letterSpacing: '-0.02em',
+            }}
           >
             {workshop.name}
           </h1>
 
           {/* Operator */}
           <p className="mt-1 text-sm" style={{ color: 'var(--charcoal-muted)' }}>
-            with <span style={{ color: 'var(--terracotta)', fontWeight: 600 }}>{workshop.operator}</span>
+            with{' '}
+            <span style={{ color: 'var(--terracotta)', fontWeight: 600 }}>{workshop.operator}</span>
           </p>
 
           {/* Rating */}
-          <div className="flex items-center gap-2 mt-2">
+          <div className="mt-2 flex items-center gap-2">
             <StarRating rating={workshop.rating} size={16} />
             <span className="text-sm font-semibold" style={{ color: 'var(--charcoal)' }}>
               {workshop.rating}
@@ -532,25 +718,29 @@ export default function WorkshopDetailPage() {
            3. QUICK FACTS BAR
            ================================================================ */}
         <section
-          className={`mt-5 flex gap-3 overflow-x-auto hide-scrollbar py-3 px-1 -mx-1 ${mounted ? 'animate-fade-in-up delay-1' : 'opacity-0'}`}
+          className={`hide-scrollbar -mx-1 mt-5 flex gap-3 overflow-x-auto px-1 py-3 ${mounted ? 'animate-fade-in-up delay-1' : 'opacity-0'}`}
         >
           {[
             { icon: '\uD83D\uDD50', label: 'Duration', value: workshop.duration },
             { icon: '\uD83D\uDCB0', label: 'Price', value: formatPrice(workshop.price) },
             { icon: '\uD83D\uDC65', label: 'Max Group', value: `${workshop.maxGroup} people` },
             { icon: '\uD83D\uDCCA', label: 'Level', value: workshop.skill },
-            { icon: '\uD83C\uDF10', label: 'Languages', value: workshop.languages.map((l) => LANGUAGE_MAP[l]?.flag || l).join(' ') },
+            {
+              icon: '\uD83C\uDF10',
+              label: 'Languages',
+              value: workshop.languages.map((l) => LANGUAGE_MAP[l]?.flag || l).join(' '),
+            },
           ].map((fact) => (
             <div
               key={fact.label}
-              className="flex-shrink-0 flex flex-col items-center gap-1 px-4 py-3 rounded-xl"
+              className="flex flex-shrink-0 flex-col items-center gap-1 rounded-xl px-4 py-3"
               style={{ background: 'var(--cream)', minWidth: 90 }}
             >
               <span className="text-lg">{fact.icon}</span>
               <span className="text-[10px] font-medium" style={{ color: 'var(--charcoal-muted)' }}>
                 {fact.label}
               </span>
-              <span className="text-xs font-bold text-center" style={{ color: 'var(--charcoal)' }}>
+              <span className="text-center text-xs font-bold" style={{ color: 'var(--charcoal)' }}>
                 {fact.value}
               </span>
             </div>
@@ -562,7 +752,7 @@ export default function WorkshopDetailPage() {
            ================================================================ */}
         <section className={`mt-6 ${mounted ? 'animate-fade-in-up delay-2' : 'opacity-0'}`}>
           <h2
-            className="text-lg mb-3"
+            className="mb-3 text-lg"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
           >
             What You&apos;ll Do
@@ -573,10 +763,10 @@ export default function WorkshopDetailPage() {
 
           {/* What You'll Create */}
           <div
-            className="mt-4 p-4 rounded-xl"
+            className="mt-4 rounded-xl p-4"
             style={{ background: 'var(--amber-light)', borderLeft: '3px solid var(--amber)' }}
           >
-            <p className="text-xs font-bold mb-1" style={{ color: 'var(--amber-dark)' }}>
+            <p className="mb-1 text-xs font-bold" style={{ color: 'var(--amber-dark)' }}>
               {'\uD83C\uDF81'} What You&apos;ll Create
             </p>
             <p className="text-sm" style={{ color: 'var(--charcoal)' }}>
@@ -590,7 +780,7 @@ export default function WorkshopDetailPage() {
            ================================================================ */}
         <section className={`mt-6 ${mounted ? 'animate-fade-in-up delay-3' : 'opacity-0'}`}>
           <h2
-            className="text-lg mb-3"
+            className="mb-3 text-lg"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
           >
             What&apos;s Included
@@ -599,14 +789,25 @@ export default function WorkshopDetailPage() {
             {workshop.included.map((item, i) => (
               <div key={i} className="flex items-start gap-3">
                 <span
-                  className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-0.5"
+                  className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full"
                   style={{ background: 'var(--sage-light)' }}
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--sage-dark)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--sage-dark)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </span>
-                <span className="text-sm" style={{ color: 'var(--charcoal-light)' }}>{item}</span>
+                <span className="text-sm" style={{ color: 'var(--charcoal-light)' }}>
+                  {item}
+                </span>
               </div>
             ))}
           </div>
@@ -617,19 +818,20 @@ export default function WorkshopDetailPage() {
            ================================================================ */}
         <section className={`mt-6 ${mounted ? 'animate-fade-in-up delay-4' : 'opacity-0'}`}>
           <h2
-            className="text-lg mb-3"
+            className="mb-3 text-lg"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
           >
             What to Bring
           </h2>
-          <div
-            className="p-4 rounded-xl space-y-2"
-            style={{ background: 'var(--cream)' }}
-          >
+          <div className="space-y-2 rounded-xl p-4" style={{ background: 'var(--cream)' }}>
             {workshop.bring.map((item, i) => (
               <div key={i} className="flex items-center gap-3">
-                <span className="text-sm" style={{ color: 'var(--terracotta)' }}>{'\u2022'}</span>
-                <span className="text-sm" style={{ color: 'var(--charcoal-light)' }}>{item}</span>
+                <span className="text-sm" style={{ color: 'var(--terracotta)' }}>
+                  {'\u2022'}
+                </span>
+                <span className="text-sm" style={{ color: 'var(--charcoal-light)' }}>
+                  {item}
+                </span>
               </div>
             ))}
           </div>
@@ -640,12 +842,12 @@ export default function WorkshopDetailPage() {
            ================================================================ */}
         <section className={`mt-6 ${mounted ? 'animate-fade-in-up delay-5' : 'opacity-0'}`}>
           <h2
-            className="text-lg mb-3"
+            className="mb-3 text-lg"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
           >
             Availability
           </h2>
-          <div className="flex gap-2.5 overflow-x-auto hide-scrollbar pb-2 -mx-1 px-1">
+          <div className="hide-scrollbar -mx-1 flex gap-2.5 overflow-x-auto px-1 pb-2">
             {availableDays.map((day) => {
               const isSelected = selectedDay === day.full;
               const hasAvailable = day.slots.some((s) => s.status === 'available');
@@ -655,8 +857,8 @@ export default function WorkshopDetailPage() {
               return (
                 <button
                   key={day.full}
-                  onClick={() => hasAvailable ? setSelectedDay(day.full) : undefined}
-                  className="flex-shrink-0 flex flex-col items-center gap-1 p-3 rounded-xl transition-all"
+                  onClick={() => (hasAvailable ? setSelectedDay(day.full) : undefined)}
+                  className="flex flex-shrink-0 flex-col items-center gap-1 rounded-xl p-3 transition-all"
                   style={{
                     minWidth: 72,
                     background: isSelected
@@ -671,7 +873,9 @@ export default function WorkshopDetailPage() {
                 >
                   <span
                     className="text-[10px] font-semibold uppercase"
-                    style={{ color: isSelected ? 'rgba(255,255,255,0.7)' : 'var(--charcoal-muted)' }}
+                    style={{
+                      color: isSelected ? 'rgba(255,255,255,0.7)' : 'var(--charcoal-muted)',
+                    }}
                   >
                     {day.isToday ? 'Today' : day.dayName}
                   </span>
@@ -686,24 +890,36 @@ export default function WorkshopDetailPage() {
                   </span>
                   <span
                     className="text-[9px] font-medium"
-                    style={{ color: isSelected ? 'rgba(255,255,255,0.8)' : 'var(--charcoal-muted)' }}
+                    style={{
+                      color: isSelected ? 'rgba(255,255,255,0.8)' : 'var(--charcoal-muted)',
+                    }}
                   >
                     {day.month}
                   </span>
 
                   {/* Slots */}
-                  <div className="flex flex-col gap-0.5 mt-1">
+                  <div className="mt-1 flex flex-col gap-0.5">
                     {day.slots.map((slot, si) => (
                       <span
                         key={si}
-                        className="text-[8px] font-semibold px-1.5 py-0.5 rounded"
+                        className="rounded px-1.5 py-0.5 text-[8px] font-semibold"
                         style={{
-                          background: slot.status === 'available'
-                            ? isSelected ? 'rgba(255,255,255,0.2)' : 'var(--sage-light)'
-                            : isSelected ? 'rgba(255,255,255,0.15)' : 'var(--sand)',
-                          color: slot.status === 'available'
-                            ? isSelected ? 'white' : 'var(--sage-dark)'
-                            : isSelected ? 'rgba(255,255,255,0.6)' : 'var(--charcoal-muted)',
+                          background:
+                            slot.status === 'available'
+                              ? isSelected
+                                ? 'rgba(255,255,255,0.2)'
+                                : 'var(--sage-light)'
+                              : isSelected
+                                ? 'rgba(255,255,255,0.15)'
+                                : 'var(--sand)',
+                          color:
+                            slot.status === 'available'
+                              ? isSelected
+                                ? 'white'
+                                : 'var(--sage-dark)'
+                              : isSelected
+                                ? 'rgba(255,255,255,0.6)'
+                                : 'var(--charcoal-muted)',
                         }}
                       >
                         {slot.time}
@@ -711,7 +927,7 @@ export default function WorkshopDetailPage() {
                     ))}
                     {noSlots && (
                       <span
-                        className="text-[8px] font-semibold px-1.5 py-0.5 rounded"
+                        className="rounded px-1.5 py-0.5 text-[8px] font-semibold"
                         style={{ background: 'var(--sand)', color: 'var(--charcoal-muted)' }}
                       >
                         Closed
@@ -719,7 +935,7 @@ export default function WorkshopDetailPage() {
                     )}
                     {isFull && (
                       <span
-                        className="text-[8px] font-semibold px-1.5 py-0.5 rounded"
+                        className="rounded px-1.5 py-0.5 text-[8px] font-semibold"
                         style={{ background: 'var(--sand)', color: 'var(--charcoal-muted)' }}
                       >
                         Full
@@ -737,58 +953,73 @@ export default function WorkshopDetailPage() {
            ================================================================ */}
         <section className={`mt-6 ${mounted ? 'animate-fade-in-up delay-6' : 'opacity-0'}`}>
           <h2
-            className="text-lg mb-3"
+            className="mb-3 text-lg"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
           >
             Your Instructor
           </h2>
           <div
-            className="card p-5 rounded-2xl"
+            className="card rounded-2xl p-5"
             style={{ background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
           >
             <div className="flex items-center gap-4">
               {/* Photo placeholder */}
               <div
-                className="w-16 h-16 rounded-full flex-shrink-0 flex items-center justify-center text-2xl"
+                className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full text-2xl"
                 style={{ background: 'var(--terracotta-light)', color: 'var(--terracotta-dark)' }}
               >
                 {workshop.operator.charAt(0)}
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-base" style={{ color: 'var(--charcoal)' }}>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-base font-bold" style={{ color: 'var(--charcoal)' }}>
                   {workshop.operator}
                 </h3>
-                <p className="text-xs mt-0.5" style={{ color: 'var(--charcoal-muted)' }}>
+                <p className="mt-0.5 text-xs" style={{ color: 'var(--charcoal-muted)' }}>
                   {workshop.operatorTagline}
                 </p>
               </div>
             </div>
 
             {/* Stats */}
-            <div className="flex gap-4 mt-4 pt-4" style={{ borderTop: '1px solid var(--sand)' }}>
+            <div className="mt-4 flex gap-4 pt-4" style={{ borderTop: '1px solid var(--sand)' }}>
               <div className="flex-1 text-center">
-                <p className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--terracotta)' }}>
+                <p
+                  className="text-lg font-bold"
+                  style={{ fontFamily: 'var(--font-display)', color: 'var(--terracotta)' }}
+                >
                   {workshop.operatorYears}
                 </p>
-                <p className="text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>Years Exp.</p>
+                <p className="text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>
+                  Years Exp.
+                </p>
               </div>
               <div className="flex-1 text-center">
-                <p className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--terracotta)' }}>
+                <p
+                  className="text-lg font-bold"
+                  style={{ fontFamily: 'var(--font-display)', color: 'var(--terracotta)' }}
+                >
                   {workshop.operatorWorkshops}+
                 </p>
-                <p className="text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>Workshops</p>
+                <p className="text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>
+                  Workshops
+                </p>
               </div>
               <div className="flex-1 text-center">
-                <p className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--terracotta)' }}>
+                <p
+                  className="text-lg font-bold"
+                  style={{ fontFamily: 'var(--font-display)', color: 'var(--terracotta)' }}
+                >
                   {workshop.operatorRating}
                 </p>
-                <p className="text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>Avg. Rating</p>
+                <p className="text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>
+                  Avg. Rating
+                </p>
               </div>
             </div>
 
             <Link
               href={`/operator/${workshop.operatorSlug}`}
-              className="block mt-4 text-center text-sm font-semibold py-2.5 rounded-xl transition-colors"
+              className="mt-4 block rounded-xl py-2.5 text-center text-sm font-semibold transition-colors"
               style={{
                 color: 'var(--terracotta)',
                 background: 'var(--terracotta-light)',
@@ -804,7 +1035,7 @@ export default function WorkshopDetailPage() {
            ================================================================ */}
         <section className={`mt-6 ${mounted ? 'animate-fade-in-up delay-7' : 'opacity-0'}`}>
           <h2
-            className="text-lg mb-3"
+            className="mb-3 text-lg"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
           >
             Location
@@ -812,25 +1043,25 @@ export default function WorkshopDetailPage() {
 
           {/* Map placeholder */}
           <div
-            className="w-full h-40 rounded-xl flex items-center justify-center relative overflow-hidden"
+            className="relative flex h-40 w-full items-center justify-center overflow-hidden rounded-xl"
             style={{ background: 'var(--sand)' }}
           >
             <div className="text-center">
               <span className="text-3xl">{'\uD83D\uDCCD'}</span>
-              <p className="text-xs mt-1 font-medium" style={{ color: 'var(--charcoal-muted)' }}>
+              <p className="mt-1 text-xs font-medium" style={{ color: 'var(--charcoal-muted)' }}>
                 Map Preview
               </p>
             </div>
           </div>
 
           <div className="mt-3 flex items-start gap-3">
-            <span className="text-lg mt-0.5">{'\uD83D\uDCCD'}</span>
+            <span className="mt-0.5 text-lg">{'\uD83D\uDCCD'}</span>
             <div className="flex-1">
               <p className="text-sm font-medium" style={{ color: 'var(--charcoal)' }}>
                 {workshop.address}
               </p>
               <span
-                className="inline-block mt-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium"
+                className="mt-1.5 inline-block rounded-full px-2.5 py-1 text-[11px] font-medium"
                 style={{ background: 'var(--cream)', color: 'var(--charcoal-light)' }}
               >
                 {workshop.area}
@@ -842,13 +1073,22 @@ export default function WorkshopDetailPage() {
             href={`https://www.google.com/maps/dir/?api=1&destination=${workshop.geo.lat},${workshop.geo.lng}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+            className="mt-3 flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-colors"
             style={{
               color: 'var(--terracotta)',
               border: '1.5px solid var(--terracotta)',
             }}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <polygon points="3 11 22 2 13 21 11 13 3 11" />
             </svg>
             Get Directions
@@ -860,7 +1100,7 @@ export default function WorkshopDetailPage() {
            ================================================================ */}
         <section className={`mt-6 ${mounted ? 'animate-fade-in-up delay-8' : 'opacity-0'}`}>
           <h2
-            className="text-lg mb-3"
+            className="mb-3 text-lg"
             style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
           >
             Reviews
@@ -868,10 +1108,10 @@ export default function WorkshopDetailPage() {
 
           {/* Overall rating + breakdown */}
           <div
-            className="p-4 rounded-xl flex gap-6 items-center"
+            className="flex items-center gap-6 rounded-xl p-4"
             style={{ background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
           >
-            <div className="text-center flex-shrink-0">
+            <div className="flex-shrink-0 text-center">
               <p
                 className="text-4xl font-bold"
                 style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
@@ -879,18 +1119,21 @@ export default function WorkshopDetailPage() {
                 {workshop.rating}
               </p>
               <StarRating rating={workshop.rating} size={14} />
-              <p className="text-[10px] mt-1" style={{ color: 'var(--charcoal-muted)' }}>
+              <p className="mt-1 text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>
                 {workshop.reviewCount} reviews
               </p>
             </div>
             <div className="flex-1 space-y-1.5">
               {ratingBreakdown.map((row) => (
                 <div key={row.stars} className="flex items-center gap-2">
-                  <span className="text-[10px] w-3 text-right" style={{ color: 'var(--charcoal-muted)' }}>
+                  <span
+                    className="w-3 text-right text-[10px]"
+                    style={{ color: 'var(--charcoal-muted)' }}
+                  >
                     {row.stars}
                   </span>
                   <div
-                    className="flex-1 h-2 rounded-full overflow-hidden"
+                    className="h-2 flex-1 overflow-hidden rounded-full"
                     style={{ background: 'var(--sand)' }}
                   >
                     <div
@@ -908,7 +1151,7 @@ export default function WorkshopDetailPage() {
             {workshop.reviews.map((review, i) => (
               <div
                 key={i}
-                className="p-4 rounded-xl"
+                className="rounded-xl p-4"
                 style={{ background: 'white', boxShadow: '0 1px 6px rgba(0,0,0,0.04)' }}
               >
                 <div className="flex items-center justify-between">
@@ -918,12 +1161,17 @@ export default function WorkshopDetailPage() {
                       {review.name}
                     </span>
                   </div>
-                  <span className="text-xs" style={{ color: 'var(--charcoal-muted)' }}>{review.date}</span>
+                  <span className="text-xs" style={{ color: 'var(--charcoal-muted)' }}>
+                    {review.date}
+                  </span>
                 </div>
                 <div className="mt-1.5">
                   <StarRating rating={review.rating} size={12} />
                 </div>
-                <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--charcoal-light)' }}>
+                <p
+                  className="mt-2 text-sm leading-relaxed"
+                  style={{ color: 'var(--charcoal-light)' }}
+                >
                   {review.text}
                 </p>
               </div>
@@ -931,7 +1179,7 @@ export default function WorkshopDetailPage() {
           </div>
 
           <button
-            className="mt-3 w-full text-center text-sm font-semibold py-2.5 rounded-xl"
+            className="mt-3 w-full rounded-xl py-2.5 text-center text-sm font-semibold"
             style={{ color: 'var(--terracotta)', background: 'var(--terracotta-light)' }}
           >
             See All {workshop.reviewCount} Reviews
@@ -944,17 +1192,17 @@ export default function WorkshopDetailPage() {
         {similarWorkshops.length > 0 && (
           <section className={`mt-6 ${mounted ? 'animate-fade-in-up delay-9' : 'opacity-0'}`}>
             <h2
-              className="text-lg mb-3"
+              className="mb-3 text-lg"
               style={{ fontFamily: 'var(--font-display)', color: 'var(--charcoal)' }}
             >
               Similar Workshops
             </h2>
-            <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 -mx-1 px-1">
+            <div className="hide-scrollbar -mx-1 flex gap-3 overflow-x-auto px-1 pb-2">
               {similarWorkshops.map((w) => (
                 <Link
                   key={w.slug}
                   href={`/workshops/${w.slug}`}
-                  className="flex-shrink-0 rounded-xl overflow-hidden"
+                  className="flex-shrink-0 overflow-hidden rounded-xl"
                   style={{
                     width: 200,
                     background: 'white',
@@ -962,11 +1210,7 @@ export default function WorkshopDetailPage() {
                   }}
                 >
                   <div className="h-28 overflow-hidden">
-                    <img
-                      src={w.images[0]}
-                      alt={w.name}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={w.images[0]} alt={w.name} className="h-full w-full object-cover" />
                   </div>
                   <div className="p-3">
                     <span
@@ -976,15 +1220,18 @@ export default function WorkshopDetailPage() {
                       {w.typeEmoji} {w.type}
                     </span>
                     <h3
-                      className="text-sm font-bold mt-0.5 line-clamp-1"
+                      className="mt-0.5 line-clamp-1 text-sm font-bold"
                       style={{ color: 'var(--charcoal)' }}
                     >
                       {w.name}
                     </h3>
-                    <div className="flex items-center justify-between mt-1.5">
+                    <div className="mt-1.5 flex items-center justify-between">
                       <div className="flex items-center gap-1">
                         <StarRating rating={w.rating} size={10} />
-                        <span className="text-[10px] font-medium" style={{ color: 'var(--charcoal-muted)' }}>
+                        <span
+                          className="text-[10px] font-medium"
+                          style={{ color: 'var(--charcoal-muted)' }}
+                        >
                           {w.rating}
                         </span>
                       </div>
@@ -1017,7 +1264,10 @@ export default function WorkshopDetailPage() {
         }}
       >
         {/* Push above BottomNav */}
-        <div className="max-w-lg mx-auto px-4 py-3 flex items-center gap-3" style={{ marginBottom: 'env(safe-area-inset-bottom)' }}>
+        <div
+          className="mx-auto flex max-w-lg items-center gap-3 px-4 py-3"
+          style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
+        >
           {/* Price */}
           <div className="flex-shrink-0">
             <p
@@ -1026,16 +1276,18 @@ export default function WorkshopDetailPage() {
             >
               {formatPrice(workshop.price)}
             </p>
-            <p className="text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>per person</p>
+            <p className="text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>
+              per person
+            </p>
           </div>
 
           {/* Buttons */}
-          <div className="flex-1 flex gap-2">
+          <div className="flex flex-1 gap-2">
             <a
               href={`https://wa.me/+84905456789?text=${whatsappText}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl text-sm font-bold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              className="flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: 'var(--terracotta)' }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -1047,7 +1299,7 @@ export default function WorkshopDetailPage() {
               href="https://zalo.me/0905456789"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl text-sm font-bold transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center justify-center gap-1.5 rounded-xl px-4 py-3 text-sm font-bold transition-transform hover:scale-[1.02] active:scale-[0.98]"
               style={{
                 color: 'var(--terracotta)',
                 border: '2px solid var(--terracotta)',

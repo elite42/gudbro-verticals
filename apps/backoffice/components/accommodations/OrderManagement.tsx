@@ -62,9 +62,7 @@ const TABS: { key: TabKey; label: string; statusFilter: string | null }[] = [
 // Helpers
 // ---------------------------------------------------------------------------
 
-function formatPrice(amount: number, currency: string): string {
-  return `${(amount / 100).toFixed(2)} ${currency.toUpperCase()}`;
-}
+import { formatPriceFromMinor as formatPrice } from '@gudbro/utils';
 
 function formatTime(iso: string): string {
   return new Date(iso).toLocaleString('en-US', {

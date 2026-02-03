@@ -5,20 +5,7 @@ import { ForkKnife, CaretRight } from '@phosphor-icons/react';
 import { fetchServices } from '@/lib/stay-api';
 import type { ServiceCategoryWithItems } from '@/types/stay';
 
-/** Currencies with 0 decimal places (minor unit = major unit). */
-const ZERO_DECIMAL_CURRENCIES = new Set(['VND', 'JPY', 'KRW', 'CLP', 'ISK', 'UGX', 'RWF']);
-
-function formatPrice(minorUnits: number, currency: string): string {
-  const isZeroDecimal = ZERO_DECIMAL_CURRENCIES.has(currency.toUpperCase());
-  const amount = isZeroDecimal ? minorUnits : minorUnits / 100;
-
-  return new Intl.NumberFormat('en', {
-    style: 'currency',
-    currency: currency.toUpperCase(),
-    minimumFractionDigits: isZeroDecimal ? 0 : 2,
-    maximumFractionDigits: isZeroDecimal ? 0 : 2,
-  }).format(amount);
-}
+import { formatPriceFromMinor as formatPrice } from '@gudbro/utils';
 
 /** F&B category slugs used to filter service categories for the static menu. */
 const FNB_SLUGS = ['breakfast', 'restaurant', 'minibar', 'bar', 'cafe'];

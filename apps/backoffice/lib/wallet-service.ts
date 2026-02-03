@@ -709,17 +709,12 @@ export async function updateWalletSettings(
 // =====================================================
 
 /**
- * Format cents to currency string
+ * Format cents to currency string.
+ * Wraps @gudbro/utils formatPriceFromMinor with EUR default for backward compatibility.
  */
+import { formatPriceFromMinor } from '@gudbro/utils';
 export function formatCurrency(cents: number, currency: string = 'EUR'): string {
-  const amount = cents / 100;
-
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
+  return formatPriceFromMinor(cents, currency);
 }
 
 /**

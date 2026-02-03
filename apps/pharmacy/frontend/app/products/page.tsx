@@ -203,8 +203,9 @@ const PRODUCTS: Product[] = [
    HELPERS
    ============================================================================= */
 
+import { formatPriceCompact } from '@gudbro/utils';
 function formatPrice(vnd: number): string {
-  return `${Math.round(vnd / 1000)}k\u20AB`;
+  return formatPriceCompact(vnd, 'VND');
 }
 
 function getBadgeStyle(type: string): { background: string; color: string } {
@@ -257,22 +258,16 @@ export default function ProductsPage() {
   }, [searchQuery, activeCategory, activeType]);
 
   return (
-    <div
-      className="min-h-screen pb-24"
-      style={{ background: 'var(--cloud)' }}
-    >
-      <main className="max-w-lg mx-auto px-4">
-
+    <div className="min-h-screen pb-24" style={{ background: 'var(--cloud)' }}>
+      <main className="mx-auto max-w-lg px-4">
         {/* ================================================================
             BACK NAVIGATION
             ================================================================ */}
-        <section
-          className={`pt-5 mb-4 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}
-        >
+        <section className={`mb-4 pt-5 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}>
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-xl transition-colors"
               style={{ background: 'var(--green-light)' }}
             >
               <svg
@@ -301,9 +296,7 @@ export default function ProductsPage() {
         {/* ================================================================
             SEARCH BAR
             ================================================================ */}
-        <section
-          className={`mb-4 ${mounted ? 'animate-fade-in-up delay-100' : 'opacity-0'}`}
-        >
+        <section className={`mb-4 ${mounted ? 'animate-fade-in-up delay-100' : 'opacity-0'}`}>
           <div className="relative">
             <svg
               className="absolute left-3.5 top-1/2 -translate-y-1/2"
@@ -324,18 +317,17 @@ export default function ProductsPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, symptom, or brand..."
-              className="w-full pl-11 pr-4 py-3 rounded-xl text-sm border-0 focus:ring-2 focus:ring-[var(--green)] transition-shadow"
+              className="w-full rounded-xl border-0 py-3 pl-11 pr-4 text-sm transition-shadow focus:ring-2 focus:ring-[var(--green)]"
               style={{
                 background: 'white',
                 color: 'var(--charcoal)',
-                boxShadow:
-                  '0 1px 4px rgba(0,0,0,0.06), inset 0 0 0 1px rgba(45, 159, 131, 0.15)',
+                boxShadow: '0 1px 4px rgba(0,0,0,0.06), inset 0 0 0 1px rgba(45, 159, 131, 0.15)',
               }}
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center"
+                className="absolute right-3.5 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full"
                 style={{ background: 'var(--cloud-dark)' }}
               >
                 <svg
@@ -359,20 +351,16 @@ export default function ProductsPage() {
         {/* ================================================================
             CATEGORY FILTER — Horizontal scrollable pills
             ================================================================ */}
-        <section
-          className={`mb-3 ${mounted ? 'animate-fade-in-up delay-200' : 'opacity-0'}`}
-        >
-          <div className="flex gap-2 overflow-x-auto hide-scrollbar snap-x pb-1 -mx-1 px-1">
+        <section className={`mb-3 ${mounted ? 'animate-fade-in-up delay-200' : 'opacity-0'}`}>
+          <div className="hide-scrollbar -mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-1">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.key}
                 onClick={() => setActiveCategory(cat.key)}
-                className="flex-shrink-0 px-3.5 py-2 rounded-full text-xs font-semibold transition-all snap-start"
+                className="flex-shrink-0 snap-start rounded-full px-3.5 py-2 text-xs font-semibold transition-all"
                 style={{
-                  background:
-                    activeCategory === cat.key ? 'var(--green)' : 'white',
-                  color:
-                    activeCategory === cat.key ? 'white' : 'var(--charcoal)',
+                  background: activeCategory === cat.key ? 'var(--green)' : 'white',
+                  color: activeCategory === cat.key ? 'white' : 'var(--charcoal)',
                   boxShadow:
                     activeCategory === cat.key
                       ? '0 2px 8px rgba(45, 159, 131, 0.35)'
@@ -388,29 +376,17 @@ export default function ProductsPage() {
         {/* ================================================================
             TYPE FILTER — Toggle: All / OTC Only / Prescription
             ================================================================ */}
-        <section
-          className={`mb-5 ${mounted ? 'animate-fade-in-up delay-300' : 'opacity-0'}`}
-        >
-          <div
-            className="flex rounded-xl p-1"
-            style={{ background: 'var(--cloud-dark)' }}
-          >
+        <section className={`mb-5 ${mounted ? 'animate-fade-in-up delay-300' : 'opacity-0'}`}>
+          <div className="flex rounded-xl p-1" style={{ background: 'var(--cloud-dark)' }}>
             {TYPE_FILTERS.map((filter) => (
               <button
                 key={filter.key}
                 onClick={() => setActiveType(filter.key)}
-                className="flex-1 py-2 rounded-lg text-xs font-semibold transition-all"
+                className="flex-1 rounded-lg py-2 text-xs font-semibold transition-all"
                 style={{
-                  background:
-                    activeType === filter.key ? 'white' : 'transparent',
-                  color:
-                    activeType === filter.key
-                      ? 'var(--green-dark)'
-                      : 'var(--charcoal-muted)',
-                  boxShadow:
-                    activeType === filter.key
-                      ? '0 1px 3px rgba(0,0,0,0.1)'
-                      : 'none',
+                  background: activeType === filter.key ? 'white' : 'transparent',
+                  color: activeType === filter.key ? 'var(--green-dark)' : 'var(--charcoal-muted)',
+                  boxShadow: activeType === filter.key ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
                 }}
               >
                 {filter.label}
@@ -422,13 +398,8 @@ export default function ProductsPage() {
         {/* ================================================================
             RESULTS COUNT
             ================================================================ */}
-        <div
-          className={`mb-3 ${mounted ? 'animate-fade-in-up delay-300' : 'opacity-0'}`}
-        >
-          <p
-            className="text-xs font-medium"
-            style={{ color: 'var(--charcoal-muted)' }}
-          >
+        <div className={`mb-3 ${mounted ? 'animate-fade-in-up delay-300' : 'opacity-0'}`}>
+          <p className="text-xs font-medium" style={{ color: 'var(--charcoal-muted)' }}>
             {filteredProducts.length} product
             {filteredProducts.length !== 1 ? 's' : ''} found
           </p>
@@ -437,9 +408,7 @@ export default function ProductsPage() {
         {/* ================================================================
             PRODUCT GRID — 2 columns
             ================================================================ */}
-        <section
-          className={`${mounted ? 'animate-fade-in-up delay-400' : 'opacity-0'}`}
-        >
+        <section className={`${mounted ? 'animate-fade-in-up delay-400' : 'opacity-0'}`}>
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-2 gap-3">
               {filteredProducts.map((product) => {
@@ -447,11 +416,11 @@ export default function ProductsPage() {
                 return (
                   <div
                     key={product.id}
-                    className="bg-white rounded-2xl overflow-hidden shadow-soft hover-lift"
+                    className="shadow-soft hover-lift overflow-hidden rounded-2xl bg-white"
                   >
                     {/* Image placeholder with green gradient */}
                     <div
-                      className="h-28 relative flex items-center justify-center"
+                      className="relative flex h-28 items-center justify-center"
                       style={{
                         background:
                           'linear-gradient(135deg, var(--green-light) 0%, #d1ede4 50%, var(--cloud-dark) 100%)',
@@ -474,7 +443,7 @@ export default function ProductsPage() {
 
                       {/* Type badge */}
                       <span
-                        className="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider"
+                        className="absolute left-2 top-2 rounded-md px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
                         style={{
                           background: badge.background,
                           color: badge.color,
@@ -487,25 +456,19 @@ export default function ProductsPage() {
                     {/* Details */}
                     <div className="p-3">
                       <p
-                        className="text-[13px] font-semibold leading-tight mb-0.5"
+                        className="mb-0.5 text-[13px] font-semibold leading-tight"
                         style={{ color: 'var(--charcoal)' }}
                       >
                         {product.nameEn}
                       </p>
-                      <p
-                        className="text-[10px] mb-0.5"
-                        style={{ color: 'var(--charcoal-muted)' }}
-                      >
+                      <p className="mb-0.5 text-[10px]" style={{ color: 'var(--charcoal-muted)' }}>
                         {product.nameVi}
                       </p>
-                      <p
-                        className="text-[10px] mb-0.5"
-                        style={{ color: 'var(--charcoal-light)' }}
-                      >
+                      <p className="mb-0.5 text-[10px]" style={{ color: 'var(--charcoal-light)' }}>
                         ({product.nameBrand})
                       </p>
                       <p
-                        className="text-[10px] italic mb-2"
+                        className="mb-2 text-[10px] italic"
                         style={{
                           color: 'var(--charcoal-muted)',
                           opacity: 0.7,
@@ -516,25 +479,17 @@ export default function ProductsPage() {
 
                       {/* Price + Contact */}
                       <div className="flex items-center justify-between">
-                        <p
-                          className="text-sm font-bold"
-                          style={{ color: 'var(--green-dark)' }}
-                        >
+                        <p className="text-sm font-bold" style={{ color: 'var(--green-dark)' }}>
                           {formatPrice(product.price)}
                         </p>
                         <a
                           href={`https://wa.me/+84905456789?text=${encodeURIComponent(`Hi MediViet! I'd like to order: ${product.nameEn} (${product.nameBrand})`)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-white transition-transform hover:scale-105"
+                          className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[10px] font-semibold text-white transition-transform hover:scale-105"
                           style={{ background: '#25D366' }}
                         >
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                          >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                           </svg>
                           Contact
@@ -548,11 +503,11 @@ export default function ProductsPage() {
           ) : (
             /* Empty state */
             <div
-              className="flex flex-col items-center justify-center py-16 rounded-2xl"
+              className="flex flex-col items-center justify-center rounded-2xl py-16"
               style={{ background: 'white' }}
             >
               <div
-                className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
+                className="mb-4 flex h-16 w-16 items-center justify-center rounded-full"
                 style={{ background: 'var(--green-light)' }}
               >
                 <svg
@@ -570,13 +525,13 @@ export default function ProductsPage() {
                 </svg>
               </div>
               <p
-                className="font-display text-sm font-semibold mb-1"
+                className="font-display mb-1 text-sm font-semibold"
                 style={{ color: 'var(--charcoal)' }}
               >
                 No products found
               </p>
               <p
-                className="text-xs text-center max-w-[220px]"
+                className="max-w-[220px] text-center text-xs"
                 style={{ color: 'var(--charcoal-muted)' }}
               >
                 Try adjusting your search or filters to find what you need
@@ -587,7 +542,7 @@ export default function ProductsPage() {
                   setActiveCategory('all');
                   setActiveType('all');
                 }}
-                className="mt-4 px-4 py-2 rounded-xl text-xs font-semibold transition-colors"
+                className="mt-4 rounded-xl px-4 py-2 text-xs font-semibold transition-colors"
                 style={{
                   background: 'var(--green-light)',
                   color: 'var(--green-dark)',

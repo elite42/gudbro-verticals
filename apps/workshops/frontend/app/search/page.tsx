@@ -33,12 +33,13 @@ type SortOption = 'recommended' | 'price-low' | 'price-high' | 'rating' | 'durat
    HELPERS
    ============================================================================= */
 
+import { formatPrice as _fp, formatPriceCompact } from '@gudbro/utils';
 function formatPrice(vnd: number): string {
-  return new Intl.NumberFormat('vi-VN').format(vnd) + '\u20AB';
+  return _fp(vnd, 'VND');
 }
 
 function formatPriceShort(vnd: number): string {
-  return Math.round(vnd / 1000) + 'k\u20AB';
+  return formatPriceCompact(vnd, 'VND');
 }
 
 /* =============================================================================
@@ -61,7 +62,7 @@ const WORKSHOPS: Workshop[] = [
     image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=600&h=400&fit=crop',
     skillLevel: 'beginner',
     languages: ['en', 'vi'],
-    shortDesc: 'Master Vietnam\'s iconic soup from scratch with a local chef.',
+    shortDesc: "Master Vietnam's iconic soup from scratch with a local chef.",
     operatorName: 'Chef Minh',
     availability: ['today', 'tomorrow', 'this-week'],
   },
@@ -137,7 +138,7 @@ const WORKSHOPS: Workshop[] = [
     image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&h=400&fit=crop',
     skillLevel: 'intermediate',
     languages: ['en', 'vi'],
-    shortDesc: 'Paint the ancient town\'s iconic yellow walls and lantern streets.',
+    shortDesc: "Paint the ancient town's iconic yellow walls and lantern streets.",
     operatorName: 'Artist Hoa',
     availability: ['this-week'],
   },
@@ -175,7 +176,7 @@ const WORKSHOPS: Workshop[] = [
     image: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?w=600&h=400&fit=crop',
     skillLevel: 'beginner',
     languages: ['en', 'vi'],
-    shortDesc: 'Learn Vietnam\'s national martial art from a certified master.',
+    shortDesc: "Learn Vietnam's national martial art from a certified master.",
     operatorName: 'Master Hung',
     availability: ['today', 'tomorrow', 'this-week'],
   },
@@ -194,7 +195,7 @@ const WORKSHOPS: Workshop[] = [
     image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop',
     skillLevel: 'beginner',
     languages: ['en', 'vi', 'ko'],
-    shortDesc: 'Taste 10+ local dishes on a guided walk through Hoi An\'s hidden alleys.',
+    shortDesc: "Taste 10+ local dishes on a guided walk through Hoi An's hidden alleys.",
     operatorName: 'Guide Bao',
     availability: ['today', 'this-week'],
   },
@@ -406,31 +407,66 @@ export default function SearchPage() {
 
   selectedCategories.forEach((c) => {
     const cat = CATEGORIES.find((x) => x.value === c);
-    if (cat) activeFilterChips.push({ key: `cat-${c}`, label: `${cat.emoji} ${cat.label}`, remove: () => setSelectedCategories((prev) => prev.filter((v) => v !== c)) });
+    if (cat)
+      activeFilterChips.push({
+        key: `cat-${c}`,
+        label: `${cat.emoji} ${cat.label}`,
+        remove: () => setSelectedCategories((prev) => prev.filter((v) => v !== c)),
+      });
   });
   selectedAreas.forEach((a) => {
     const area = AREAS.find((x) => x.value === a);
-    if (area) activeFilterChips.push({ key: `area-${a}`, label: `${area.emoji} ${area.label}`, remove: () => setSelectedAreas((prev) => prev.filter((v) => v !== a)) });
+    if (area)
+      activeFilterChips.push({
+        key: `area-${a}`,
+        label: `${area.emoji} ${area.label}`,
+        remove: () => setSelectedAreas((prev) => prev.filter((v) => v !== a)),
+      });
   });
   if (selectedPriceRange) {
     const pr = PRICE_RANGES.find((x) => x.value === selectedPriceRange);
-    if (pr) activeFilterChips.push({ key: 'price', label: pr.label, remove: () => setSelectedPriceRange(null) });
+    if (pr)
+      activeFilterChips.push({
+        key: 'price',
+        label: pr.label,
+        remove: () => setSelectedPriceRange(null),
+      });
   }
   if (selectedDuration) {
     const dur = DURATIONS.find((x) => x.value === selectedDuration);
-    if (dur) activeFilterChips.push({ key: 'duration', label: dur.label, remove: () => setSelectedDuration(null) });
+    if (dur)
+      activeFilterChips.push({
+        key: 'duration',
+        label: dur.label,
+        remove: () => setSelectedDuration(null),
+      });
   }
   selectedLanguages.forEach((l) => {
     const lang = LANGUAGES.find((x) => x.value === l);
-    if (lang) activeFilterChips.push({ key: `lang-${l}`, label: `${lang.flag} ${lang.label}`, remove: () => setSelectedLanguages((prev) => prev.filter((v) => v !== l)) });
+    if (lang)
+      activeFilterChips.push({
+        key: `lang-${l}`,
+        label: `${lang.flag} ${lang.label}`,
+        remove: () => setSelectedLanguages((prev) => prev.filter((v) => v !== l)),
+      });
   });
   if (selectedSkillLevel) {
     const sk = SKILL_LEVELS.find((x) => x.value === selectedSkillLevel);
-    if (sk) activeFilterChips.push({ key: 'skill', label: sk.label, remove: () => setSelectedSkillLevel(null) });
+    if (sk)
+      activeFilterChips.push({
+        key: 'skill',
+        label: sk.label,
+        remove: () => setSelectedSkillLevel(null),
+      });
   }
   if (selectedAvailability) {
     const av = AVAILABILITY.find((x) => x.value === selectedAvailability);
-    if (av) activeFilterChips.push({ key: 'avail', label: av.label, remove: () => setSelectedAvailability(null) });
+    if (av)
+      activeFilterChips.push({
+        key: 'avail',
+        label: av.label,
+        remove: () => setSelectedAvailability(null),
+      });
   }
 
   /* ---- Filtered + sorted results ---- */
@@ -504,11 +540,23 @@ export default function SearchPage() {
         break;
       default:
         // recommended = by rating * reviews weight
-        results.sort((a, b) => b.rating * Math.log(b.reviews + 1) - a.rating * Math.log(a.reviews + 1));
+        results.sort(
+          (a, b) => b.rating * Math.log(b.reviews + 1) - a.rating * Math.log(a.reviews + 1)
+        );
     }
 
     return results;
-  }, [searchQuery, selectedCategories, selectedAreas, selectedPriceRange, selectedDuration, selectedLanguages, selectedSkillLevel, selectedAvailability, sortBy]);
+  }, [
+    searchQuery,
+    selectedCategories,
+    selectedAreas,
+    selectedPriceRange,
+    selectedDuration,
+    selectedLanguages,
+    selectedSkillLevel,
+    selectedAvailability,
+    sortBy,
+  ]);
 
   /* ---- Render helpers ---- */
 
@@ -526,7 +574,7 @@ export default function SearchPage() {
       <div style={{ borderBottom: '1px solid var(--sand)' }}>
         <button
           onClick={() => toggleSection(id)}
-          className="w-full flex items-center justify-between py-3 px-1"
+          className="flex w-full items-center justify-between px-1 py-3"
           style={{ color: 'var(--charcoal)' }}
         >
           <span style={{ fontSize: 13, fontWeight: 600 }}>{title}</span>
@@ -548,7 +596,7 @@ export default function SearchPage() {
           </svg>
         </button>
         {isOpen && (
-          <div className="pb-3 animate-fade-in" style={{ paddingLeft: 1 }}>
+          <div className="animate-fade-in pb-3" style={{ paddingLeft: 1 }}>
             {children}
           </div>
         )}
@@ -569,7 +617,7 @@ export default function SearchPage() {
   }) => (
     <button
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
+      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-all"
       style={{
         background: active ? 'var(--terracotta)' : 'white',
         color: active ? 'white' : 'var(--charcoal-light)',
@@ -587,19 +635,16 @@ export default function SearchPage() {
      =========================================================================== */
 
   return (
-    <div className="min-h-screen page-content" style={{ background: 'var(--ivory)' }}>
+    <div className="page-content min-h-screen" style={{ background: 'var(--ivory)' }}>
       {/* ================================================================
           HEADER
           ================================================================ */}
-      <header
-        className="sticky top-0 z-40 glass border-b"
-        style={{ borderColor: 'var(--sand)' }}
-      >
-        <div className="max-w-lg mx-auto px-4 py-3">
+      <header className="glass sticky top-0 z-40 border-b" style={{ borderColor: 'var(--sand)' }}>
+        <div className="mx-auto max-w-lg px-4 py-3">
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="flex items-center justify-center w-9 h-9 rounded-xl transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-xl transition-colors"
               style={{ background: 'var(--cream)' }}
             >
               <svg
@@ -627,10 +672,7 @@ export default function SearchPage() {
               >
                 Explore
               </h1>
-              <p
-                className="text-[11px] font-medium"
-                style={{ color: 'var(--charcoal-muted)' }}
-              >
+              <p className="text-[11px] font-medium" style={{ color: 'var(--charcoal-muted)' }}>
                 Find your perfect workshop
               </p>
             </div>
@@ -638,11 +680,11 @@ export default function SearchPage() {
         </div>
       </header>
 
-      <main className="max-w-lg mx-auto px-4">
+      <main className="mx-auto max-w-lg px-4">
         {/* ================================================================
             SEARCH INPUT
             ================================================================ */}
-        <section className="mt-5 animate-fade-in-up">
+        <section className="animate-fade-in-up mt-5">
           <div className="relative">
             <svg
               className="absolute left-4 top-1/2 -translate-y-1/2"
@@ -663,13 +705,12 @@ export default function SearchPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search workshops, operators, areas..."
-              className="w-full pl-12 pr-10 py-4 rounded-2xl text-[15px] border-0 focus:outline-none focus:ring-2 transition-shadow"
+              className="w-full rounded-2xl border-0 py-4 pl-12 pr-10 text-[15px] transition-shadow focus:outline-none focus:ring-2"
               style={{
                 fontFamily: 'var(--font-body)',
                 background: 'white',
                 color: 'var(--charcoal)',
-                boxShadow:
-                  '0 2px 12px rgba(45, 42, 38, 0.08), inset 0 0 0 1.5px var(--sand)',
+                boxShadow: '0 2px 12px rgba(45, 42, 38, 0.08), inset 0 0 0 1.5px var(--sand)',
                 // @ts-expect-error CSS variable for focus ring
                 '--tw-ring-color': 'var(--terracotta)',
               }}
@@ -677,7 +718,7 @@ export default function SearchPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full flex items-center justify-center transition-colors"
+                className="absolute right-4 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full transition-colors"
                 style={{ background: 'var(--sand)', color: 'var(--charcoal-muted)' }}
               >
                 <svg
@@ -702,9 +743,9 @@ export default function SearchPage() {
             POPULAR SEARCHES (when no search text)
             ================================================================ */}
         {!searchQuery.trim() && !hasActiveFilters && (
-          <section className="mt-5 animate-fade-in-up delay-1">
+          <section className="animate-fade-in-up delay-1 mt-5">
             <p
-              className="text-[11px] font-semibold uppercase tracking-[0.12em] mb-3"
+              className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em]"
               style={{ color: 'var(--charcoal-muted)' }}
             >
               Popular Searches
@@ -714,17 +755,14 @@ export default function SearchPage() {
                 <button
                   key={ps.label}
                   onClick={() => setSearchQuery(ps.label)}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all card-hover"
+                  className="card-hover flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all"
                   style={{
                     background: 'white',
                     boxShadow: '0 1px 4px rgba(45, 42, 38, 0.06)',
                   }}
                 >
                   <span className="text-lg">{ps.icon}</span>
-                  <span
-                    className="text-[13px] font-medium"
-                    style={{ color: 'var(--charcoal)' }}
-                  >
+                  <span className="text-[13px] font-medium" style={{ color: 'var(--charcoal)' }}>
                     {ps.label}
                   </span>
                   <svg
@@ -749,9 +787,9 @@ export default function SearchPage() {
         {/* ================================================================
             QUICK FILTERS (collapsible sections)
             ================================================================ */}
-        <section className="mt-5 animate-fade-in-up delay-2">
+        <section className="animate-fade-in-up delay-2 mt-5">
           <div
-            className="rounded-2xl overflow-hidden"
+            className="overflow-hidden rounded-2xl"
             style={{
               background: 'white',
               boxShadow: '0 2px 8px rgba(45, 42, 38, 0.06)',
@@ -767,9 +805,7 @@ export default function SearchPage() {
                       label={cat.label}
                       emoji={cat.emoji}
                       active={selectedCategories.includes(cat.value)}
-                      onClick={() =>
-                        setSelectedCategories((prev) => toggleMulti(prev, cat.value))
-                      }
+                      onClick={() => setSelectedCategories((prev) => toggleMulti(prev, cat.value))}
                     />
                   ))}
                 </div>
@@ -784,9 +820,7 @@ export default function SearchPage() {
                       label={area.label}
                       emoji={area.emoji}
                       active={selectedAreas.includes(area.value)}
-                      onClick={() =>
-                        setSelectedAreas((prev) => toggleMulti(prev, area.value))
-                      }
+                      onClick={() => setSelectedAreas((prev) => toggleMulti(prev, area.value))}
                     />
                   ))}
                 </div>
@@ -801,9 +835,7 @@ export default function SearchPage() {
                       label={pr.label}
                       active={selectedPriceRange === pr.value}
                       onClick={() =>
-                        setSelectedPriceRange(
-                          selectedPriceRange === pr.value ? null : pr.value
-                        )
+                        setSelectedPriceRange(selectedPriceRange === pr.value ? null : pr.value)
                       }
                     />
                   ))}
@@ -819,9 +851,7 @@ export default function SearchPage() {
                       label={dur.label}
                       active={selectedDuration === dur.value}
                       onClick={() =>
-                        setSelectedDuration(
-                          selectedDuration === dur.value ? null : dur.value
-                        )
+                        setSelectedDuration(selectedDuration === dur.value ? null : dur.value)
                       }
                     />
                   ))}
@@ -837,9 +867,7 @@ export default function SearchPage() {
                       label={lang.label}
                       emoji={lang.flag}
                       active={selectedLanguages.includes(lang.value)}
-                      onClick={() =>
-                        setSelectedLanguages((prev) => toggleMulti(prev, lang.value))
-                      }
+                      onClick={() => setSelectedLanguages((prev) => toggleMulti(prev, lang.value))}
                     />
                   ))}
                 </div>
@@ -854,9 +882,7 @@ export default function SearchPage() {
                       label={sk.label}
                       active={selectedSkillLevel === sk.value}
                       onClick={() =>
-                        setSelectedSkillLevel(
-                          selectedSkillLevel === sk.value ? null : sk.value
-                        )
+                        setSelectedSkillLevel(selectedSkillLevel === sk.value ? null : sk.value)
                       }
                     />
                   ))}
@@ -872,9 +898,7 @@ export default function SearchPage() {
                       label={av.label}
                       active={selectedAvailability === av.value}
                       onClick={() =>
-                        setSelectedAvailability(
-                          selectedAvailability === av.value ? null : av.value
-                        )
+                        setSelectedAvailability(selectedAvailability === av.value ? null : av.value)
                       }
                     />
                   ))}
@@ -888,8 +912,8 @@ export default function SearchPage() {
             ACTIVE FILTERS BAR
             ================================================================ */}
         {hasActiveFilters && (
-          <section className="mt-4 animate-fade-in">
-            <div className="flex items-center justify-between mb-2">
+          <section className="animate-fade-in mt-4">
+            <div className="mb-2 flex items-center justify-between">
               <p
                 className="text-[11px] font-semibold uppercase tracking-[0.1em]"
                 style={{ color: 'var(--charcoal-muted)' }}
@@ -904,12 +928,12 @@ export default function SearchPage() {
                 Clear all
               </button>
             </div>
-            <div className="flex flex-wrap gap-2 hide-scrollbar">
+            <div className="hide-scrollbar flex flex-wrap gap-2">
               {activeFilterChips.map((chip) => (
                 <button
                   key={chip.key}
                   onClick={chip.remove}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all"
+                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-all"
                   style={{
                     background: 'var(--amber-light)',
                     color: 'var(--amber-dark)',
@@ -940,12 +964,9 @@ export default function SearchPage() {
             RESULTS HEADER (count + sort)
             ================================================================ */}
         {(searchQuery.trim() || hasActiveFilters) && (
-          <section className="mt-5 animate-fade-in">
-            <div className="flex items-center justify-between mb-3">
-              <p
-                className="text-[13px] font-semibold"
-                style={{ color: 'var(--charcoal)' }}
-              >
+          <section className="animate-fade-in mt-5">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-[13px] font-semibold" style={{ color: 'var(--charcoal)' }}>
                 {filteredWorkshops.length}{' '}
                 {filteredWorkshops.length === 1 ? 'workshop' : 'workshops'} found
               </p>
@@ -953,7 +974,7 @@ export default function SearchPage() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className="appearance-none text-[11px] font-semibold pl-2 pr-6 py-1.5 rounded-lg border-0 focus:outline-none cursor-pointer"
+                  className="cursor-pointer appearance-none rounded-lg border-0 py-1.5 pl-2 pr-6 text-[11px] font-semibold focus:outline-none"
                   style={{
                     background: 'var(--cream)',
                     color: 'var(--charcoal-light)',
@@ -966,7 +987,7 @@ export default function SearchPage() {
                   ))}
                 </select>
                 <svg
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2"
                   width="10"
                   height="10"
                   viewBox="0 0 24 24"
@@ -992,26 +1013,24 @@ export default function SearchPage() {
               <Link
                 key={workshop.slug}
                 href={`/workshops/${workshop.slug}`}
-                className={`block card card-hover animate-fade-in-up delay-${Math.min(idx + 1, 10)}`}
+                className={`card card-hover animate-fade-in-up block delay-${Math.min(idx + 1, 10)}`}
               >
                 {/* Image */}
                 <div className="relative" style={{ height: 180 }}>
                   <img
                     src={workshop.image}
                     alt={workshop.name}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                     loading="lazy"
                   />
                   {/* Category badge */}
-                  <div
-                    className="absolute top-3 left-3 badge badge-amber"
-                  >
+                  <div className="badge badge-amber absolute left-3 top-3">
                     <span>{workshop.categoryEmoji}</span>
                     <span>{workshop.category}</span>
                   </div>
                   {/* Rating badge */}
                   <div
-                    className="absolute top-3 right-3 badge"
+                    className="badge absolute right-3 top-3"
                     style={{
                       background: 'rgba(255,255,255,0.95)',
                       backdropFilter: 'blur(8px)',
@@ -1037,7 +1056,7 @@ export default function SearchPage() {
                 {/* Content */}
                 <div className="p-4">
                   <h3
-                    className="text-[15px] font-bold leading-tight mb-1"
+                    className="mb-1 text-[15px] font-bold leading-tight"
                     style={{
                       fontFamily: 'var(--font-display)',
                       color: 'var(--charcoal)',
@@ -1047,7 +1066,7 @@ export default function SearchPage() {
                     {workshop.name}
                   </h3>
                   <p
-                    className="text-[12px] leading-relaxed mb-3"
+                    className="mb-3 text-[12px] leading-relaxed"
                     style={{ color: 'var(--charcoal-light)' }}
                   >
                     {workshop.shortDesc}
@@ -1097,48 +1116,34 @@ export default function SearchPage() {
                         {workshop.durationLabel}
                       </span>
                       {/* Skill level */}
-                      <span
-                        className="badge-sage badge text-[9px]"
-                        style={{ padding: '2px 7px' }}
-                      >
-                        {workshop.skillLevel.charAt(0).toUpperCase() +
-                          workshop.skillLevel.slice(1)}
+                      <span className="badge-sage badge text-[9px]" style={{ padding: '2px 7px' }}>
+                        {workshop.skillLevel.charAt(0).toUpperCase() + workshop.skillLevel.slice(1)}
                       </span>
                     </div>
 
                     {/* Price */}
                     <div className="text-right">
-                      <p
-                        className="text-[15px] font-bold"
-                        style={{ color: 'var(--terracotta)' }}
-                      >
+                      <p className="text-[15px] font-bold" style={{ color: 'var(--terracotta)' }}>
                         {formatPriceShort(workshop.price)}
                       </p>
-                      <p
-                        className="text-[9px]"
-                        style={{ color: 'var(--charcoal-muted)' }}
-                      >
+                      <p className="text-[9px]" style={{ color: 'var(--charcoal-muted)' }}>
                         {formatPrice(workshop.price)}
                       </p>
                     </div>
                   </div>
 
                   {/* Languages */}
-                  <div className="flex items-center gap-1.5 mt-2.5">
+                  <div className="mt-2.5 flex items-center gap-1.5">
                     {workshop.languages.map((langCode) => {
                       const lang = LANGUAGES.find((l) => l.value === langCode);
                       return lang ? (
-                        <span
-                          key={langCode}
-                          className="text-[11px]"
-                          title={lang.label}
-                        >
+                        <span key={langCode} className="text-[11px]" title={lang.label}>
                           {lang.flag}
                         </span>
                       ) : null;
                     })}
                     <span
-                      className="text-[10px] font-medium ml-1"
+                      className="ml-1 text-[10px] font-medium"
                       style={{ color: 'var(--charcoal-muted)' }}
                     >
                       by {workshop.operatorName}
@@ -1153,94 +1158,93 @@ export default function SearchPage() {
         {/* ================================================================
             EMPTY STATE
             ================================================================ */}
-        {(searchQuery.trim() || hasActiveFilters) &&
-          filteredWorkshops.length === 0 && (
-            <section className="mt-8 mb-8 animate-fade-in-up">
+        {(searchQuery.trim() || hasActiveFilters) && filteredWorkshops.length === 0 && (
+          <section className="animate-fade-in-up mb-8 mt-8">
+            <div
+              className="rounded-2xl p-8 text-center"
+              style={{ background: 'white', boxShadow: '0 2px 8px rgba(45,42,38,0.06)' }}
+            >
+              {/* Illustration placeholder */}
               <div
-                className="rounded-2xl p-8 text-center"
-                style={{ background: 'white', boxShadow: '0 2px 8px rgba(45,42,38,0.06)' }}
+                className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full"
+                style={{ background: 'var(--cream)' }}
               >
-                {/* Illustration placeholder */}
-                <div
-                  className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center"
-                  style={{ background: 'var(--cream)' }}
+                <svg
+                  width="36"
+                  height="36"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--charcoal-muted)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  <svg
-                    width="36"
-                    height="36"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="var(--charcoal-muted)"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="m21 21-4.3-4.3" />
-                    <path d="M8 11h6" />
-                  </svg>
-                </div>
-                <h3
-                  className="text-[16px] font-bold mb-1"
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    color: 'var(--charcoal)',
-                  }}
-                >
-                  No workshops match your search
-                </h3>
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3" />
+                  <path d="M8 11h6" />
+                </svg>
+              </div>
+              <h3
+                className="mb-1 text-[16px] font-bold"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  color: 'var(--charcoal)',
+                }}
+              >
+                No workshops match your search
+              </h3>
+              <p
+                className="mb-4 text-[12px] leading-relaxed"
+                style={{ color: 'var(--charcoal-muted)' }}
+              >
+                Try adjusting your filters or searching for something different.
+              </p>
+              <div className="flex flex-col gap-2">
                 <p
-                  className="text-[12px] leading-relaxed mb-4"
+                  className="text-[11px] font-semibold uppercase tracking-[0.1em]"
                   style={{ color: 'var(--charcoal-muted)' }}
                 >
-                  Try adjusting your filters or searching for something different.
+                  Suggestions
                 </p>
-                <div className="flex flex-col gap-2">
-                  <p
-                    className="text-[11px] font-semibold uppercase tracking-[0.1em]"
-                    style={{ color: 'var(--charcoal-muted)' }}
-                  >
-                    Suggestions
-                  </p>
-                  <div className="flex flex-wrap gap-2 justify-center">
-                    {['Cooking class', 'Lantern making', 'Pottery'].map((s) => (
-                      <button
-                        key={s}
-                        onClick={() => {
-                          clearAllFilters();
-                          setSearchQuery(s);
-                        }}
-                        className="px-3 py-1.5 rounded-full text-[11px] font-semibold"
-                        style={{
-                          background: 'var(--cream)',
-                          color: 'var(--terracotta)',
-                          border: '1px solid var(--sand)',
-                        }}
-                      >
-                        {s}
-                      </button>
-                    ))}
-                  </div>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {['Cooking class', 'Lantern making', 'Pottery'].map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => {
+                        clearAllFilters();
+                        setSearchQuery(s);
+                      }}
+                      className="rounded-full px-3 py-1.5 text-[11px] font-semibold"
+                      style={{
+                        background: 'var(--cream)',
+                        color: 'var(--terracotta)',
+                        border: '1px solid var(--sand)',
+                      }}
+                    >
+                      {s}
+                    </button>
+                  ))}
                 </div>
-                {hasActiveFilters && (
-                  <button
-                    onClick={clearAllFilters}
-                    className="mt-4 px-5 py-2.5 rounded-xl text-[13px] font-semibold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
-                    style={{ background: 'var(--terracotta)' }}
-                  >
-                    Clear all filters
-                  </button>
-                )}
               </div>
-            </section>
-          )}
+              {hasActiveFilters && (
+                <button
+                  onClick={clearAllFilters}
+                  className="mt-4 rounded-xl px-5 py-2.5 text-[13px] font-semibold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                  style={{ background: 'var(--terracotta)' }}
+                >
+                  Clear all filters
+                </button>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* ================================================================
             DEFAULT RESULTS (no filters, no search = show all)
             ================================================================ */}
         {!searchQuery.trim() && !hasActiveFilters && (
-          <section className="mt-6 animate-fade-in-up delay-3">
-            <div className="flex items-center justify-between mb-3">
+          <section className="animate-fade-in-up delay-3 mt-6">
+            <div className="mb-3 flex items-center justify-between">
               <p
                 className="text-[11px] font-semibold uppercase tracking-[0.12em]"
                 style={{ color: 'var(--charcoal-muted)' }}
@@ -1251,7 +1255,7 @@ export default function SearchPage() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  className="appearance-none text-[11px] font-semibold pl-2 pr-6 py-1.5 rounded-lg border-0 focus:outline-none cursor-pointer"
+                  className="cursor-pointer appearance-none rounded-lg border-0 py-1.5 pl-2 pr-6 text-[11px] font-semibold focus:outline-none"
                   style={{
                     background: 'var(--cream)',
                     color: 'var(--charcoal-light)',
@@ -1264,7 +1268,7 @@ export default function SearchPage() {
                   ))}
                 </select>
                 <svg
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                  className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2"
                   width="10"
                   height="10"
                   viewBox="0 0 24 24"
@@ -1284,22 +1288,22 @@ export default function SearchPage() {
                 <Link
                   key={workshop.slug}
                   href={`/workshops/${workshop.slug}`}
-                  className={`block card card-hover animate-fade-in-up delay-${Math.min(idx + 1, 10)}`}
+                  className={`card card-hover animate-fade-in-up block delay-${Math.min(idx + 1, 10)}`}
                 >
                   {/* Image */}
                   <div className="relative" style={{ height: 180 }}>
                     <img
                       src={workshop.image}
                       alt={workshop.name}
-                      className="w-full h-full object-cover"
+                      className="h-full w-full object-cover"
                       loading="lazy"
                     />
-                    <div className="absolute top-3 left-3 badge badge-amber">
+                    <div className="badge badge-amber absolute left-3 top-3">
                       <span>{workshop.categoryEmoji}</span>
                       <span>{workshop.category}</span>
                     </div>
                     <div
-                      className="absolute top-3 right-3 badge"
+                      className="badge absolute right-3 top-3"
                       style={{
                         background: 'rgba(255,255,255,0.95)',
                         backdropFilter: 'blur(8px)',
@@ -1324,7 +1328,7 @@ export default function SearchPage() {
 
                   <div className="p-4">
                     <h3
-                      className="text-[15px] font-bold leading-tight mb-1"
+                      className="mb-1 text-[15px] font-bold leading-tight"
                       style={{
                         fontFamily: 'var(--font-display)',
                         color: 'var(--charcoal)',
@@ -1334,7 +1338,7 @@ export default function SearchPage() {
                       {workshop.name}
                     </h3>
                     <p
-                      className="text-[12px] leading-relaxed mb-3"
+                      className="mb-3 text-[12px] leading-relaxed"
                       style={{ color: 'var(--charcoal-light)' }}
                     >
                       {workshop.shortDesc}
@@ -1390,36 +1394,26 @@ export default function SearchPage() {
                       </div>
 
                       <div className="text-right">
-                        <p
-                          className="text-[15px] font-bold"
-                          style={{ color: 'var(--terracotta)' }}
-                        >
+                        <p className="text-[15px] font-bold" style={{ color: 'var(--terracotta)' }}>
                           {formatPriceShort(workshop.price)}
                         </p>
-                        <p
-                          className="text-[9px]"
-                          style={{ color: 'var(--charcoal-muted)' }}
-                        >
+                        <p className="text-[9px]" style={{ color: 'var(--charcoal-muted)' }}>
                           {formatPrice(workshop.price)}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5 mt-2.5">
+                    <div className="mt-2.5 flex items-center gap-1.5">
                       {workshop.languages.map((langCode) => {
                         const lang = LANGUAGES.find((l) => l.value === langCode);
                         return lang ? (
-                          <span
-                            key={langCode}
-                            className="text-[11px]"
-                            title={lang.label}
-                          >
+                          <span key={langCode} className="text-[11px]" title={lang.label}>
                             {lang.flag}
                           </span>
                         ) : null;
                       })}
                       <span
-                        className="text-[10px] font-medium ml-1"
+                        className="ml-1 text-[10px] font-medium"
                         style={{ color: 'var(--charcoal-muted)' }}
                       >
                         by {workshop.operatorName}

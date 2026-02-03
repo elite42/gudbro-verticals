@@ -53,18 +53,6 @@ export function calculatePriceBreakdown(
   };
 }
 
-/**
- * Format integer minor units to display string.
- * VND: 500000 -> "500,000 VND" (no decimals, minor unit = 1)
- * USD: 4500 -> "$45.00" (2 decimals, minor unit = 100)
- */
-export function formatPrice(amount: number, currency: string): string {
-  const minorUnits = currency === 'VND' ? 1 : 100;
-  const value = amount / minorUnits;
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: currency === 'VND' ? 0 : 2,
-    maximumFractionDigits: currency === 'VND' ? 0 : 2,
-  }).format(value);
-}
+// Re-export centralized formatPriceFromMinor as formatPrice for backward compatibility.
+// This module stores prices in minor units (cents), so we use formatPriceFromMinor.
+export { formatPriceFromMinor as formatPrice } from '@gudbro/utils';

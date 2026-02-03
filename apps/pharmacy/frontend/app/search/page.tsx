@@ -234,8 +234,9 @@ const SYMPTOM_MAP: Record<string, string[]> = {
    HELPERS
    ============================================================================= */
 
+import { formatPriceCompact } from '@gudbro/utils';
 function formatPrice(vnd: number): string {
-  return `${Math.round(vnd / 1000)}k\u20AB`;
+  return formatPriceCompact(vnd, 'VND');
 }
 
 function buildWhatsAppLink(productName: string): string {
@@ -263,9 +264,7 @@ export default function SymptomSearchPage() {
     if (!searchQuery.trim()) return SYMPTOMS;
     const q = searchQuery.toLowerCase();
     return SYMPTOMS.filter(
-      (s) =>
-        s.label.toLowerCase().includes(q) ||
-        s.key.toLowerCase().includes(q)
+      (s) => s.label.toLowerCase().includes(q) || s.key.toLowerCase().includes(q)
     );
   }, [searchQuery]);
 
@@ -273,30 +272,25 @@ export default function SymptomSearchPage() {
   const recommendedProducts = useMemo(() => {
     if (!activeSymptom) return [];
     const productKeys = SYMPTOM_MAP[activeSymptom] || [];
-    return productKeys
-      .map((key) => PRODUCTS[key])
-      .filter(Boolean);
+    return productKeys.map((key) => PRODUCTS[key]).filter(Boolean);
   }, [activeSymptom]);
 
   const activeSymptomData = SYMPTOMS.find((s) => s.key === activeSymptom);
 
   return (
-    <div
-      className="min-h-screen pb-24"
-      style={{ background: 'var(--cloud)' }}
-    >
+    <div className="min-h-screen pb-24" style={{ background: 'var(--cloud)' }}>
       {/* ================================================================
           HEADER
           ================================================================ */}
       <header
-        className="sticky top-0 z-40 glass border-b"
+        className="glass sticky top-0 z-40 border-b"
         style={{ borderColor: 'rgba(45, 159, 131, 0.12)' }}
       >
-        <div className="max-w-lg mx-auto px-4 py-3">
+        <div className="mx-auto max-w-lg px-4 py-3">
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="flex items-center justify-center w-9 h-9 rounded-xl transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-xl transition-colors"
               style={{ background: 'var(--green-light)' }}
             >
               <svg
@@ -320,10 +314,7 @@ export default function SymptomSearchPage() {
               >
                 Symptom Search
               </h1>
-              <p
-                className="text-[10px] font-medium"
-                style={{ color: 'var(--charcoal-muted)' }}
-              >
+              <p className="text-[10px] font-medium" style={{ color: 'var(--charcoal-muted)' }}>
                 Find the right medicine for how you feel
               </p>
             </div>
@@ -331,8 +322,7 @@ export default function SymptomSearchPage() {
         </div>
       </header>
 
-      <main className="max-w-lg mx-auto px-4">
-
+      <main className="mx-auto max-w-lg px-4">
         {/* ================================================================
             SEARCH INPUT
             ================================================================ */}
@@ -362,7 +352,7 @@ export default function SymptomSearchPage() {
                 }
               }}
               placeholder="What's bothering you?"
-              className="w-full pl-11 pr-4 py-3.5 rounded-2xl text-sm border-0 focus:outline-none focus:ring-2 transition-shadow"
+              className="w-full rounded-2xl border-0 py-3.5 pl-11 pr-4 text-sm transition-shadow focus:outline-none focus:ring-2"
               style={{
                 background: 'white',
                 color: 'var(--charcoal)',
@@ -374,10 +364,19 @@ export default function SymptomSearchPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center transition-colors"
+                className="absolute right-3.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full transition-colors"
                 style={{ background: 'var(--cloud-dark)', color: 'var(--charcoal-muted)' }}
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M18 6L6 18" />
                   <path d="M6 6l12 12" />
                 </svg>
@@ -391,7 +390,7 @@ export default function SymptomSearchPage() {
             ================================================================ */}
         <section className={`mt-5 ${mounted ? 'animate-fade-in-up delay-100' : 'opacity-0'}`}>
           <p
-            className="text-[11px] font-semibold uppercase tracking-[0.12em] mb-3"
+            className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em]"
             style={{ color: 'var(--charcoal-muted)' }}
           >
             Common Symptoms
@@ -407,7 +406,7 @@ export default function SymptomSearchPage() {
                     setActiveSymptom(isActive ? null : symptom.key);
                     setSearchQuery('');
                   }}
-                  className="flex flex-col items-center justify-center gap-1.5 py-3.5 px-1 rounded-2xl transition-all"
+                  className="flex flex-col items-center justify-center gap-1.5 rounded-2xl px-1 py-3.5 transition-all"
                   style={{
                     background: isActive ? 'var(--green)' : 'white',
                     color: isActive ? 'white' : 'var(--charcoal)',
@@ -419,7 +418,7 @@ export default function SymptomSearchPage() {
                 >
                   <span className="text-2xl leading-none">{symptom.emoji}</span>
                   <span
-                    className="text-[10px] font-semibold leading-tight text-center"
+                    className="text-center text-[10px] font-semibold leading-tight"
                     style={{
                       color: isActive ? 'white' : 'var(--charcoal)',
                     }}
@@ -432,18 +431,12 @@ export default function SymptomSearchPage() {
           </div>
 
           {filteredSymptoms.length === 0 && searchQuery && (
-            <div className="text-center py-8">
-              <p className="text-3xl mb-2">🔍</p>
-              <p
-                className="text-sm font-medium"
-                style={{ color: 'var(--charcoal-muted)' }}
-              >
+            <div className="py-8 text-center">
+              <p className="mb-2 text-3xl">🔍</p>
+              <p className="text-sm font-medium" style={{ color: 'var(--charcoal-muted)' }}>
                 No symptoms match &ldquo;{searchQuery}&rdquo;
               </p>
-              <p
-                className="text-xs mt-1"
-                style={{ color: 'var(--charcoal-muted)', opacity: 0.7 }}
-              >
+              <p className="mt-1 text-xs" style={{ color: 'var(--charcoal-muted)', opacity: 0.7 }}>
                 Try different keywords or browse the grid above
               </p>
             </div>
@@ -455,7 +448,7 @@ export default function SymptomSearchPage() {
             ================================================================ */}
         {activeSymptom && activeSymptomData && recommendedProducts.length > 0 && (
           <section className={`mt-6 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}>
-            <div className="flex items-center gap-2 mb-3">
+            <div className="mb-3 flex items-center gap-2">
               <span className="text-lg">{activeSymptomData.emoji}</span>
               <h2
                 className="font-display text-[15px] font-bold"
@@ -469,20 +462,21 @@ export default function SymptomSearchPage() {
               {recommendedProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white rounded-2xl p-4 shadow-soft relative overflow-hidden"
+                  className="shadow-soft relative overflow-hidden rounded-2xl bg-white p-4"
                 >
                   {/* Subtle green accent line */}
                   <div
-                    className="absolute top-0 left-0 right-0 h-[2px]"
+                    className="absolute left-0 right-0 top-0 h-[2px]"
                     style={{
-                      background: 'linear-gradient(90deg, var(--green) 0%, var(--green-light) 100%)',
+                      background:
+                        'linear-gradient(90deg, var(--green) 0%, var(--green-light) 100%)',
                     }}
                   />
 
                   <div className="flex items-start justify-between gap-3">
                     {/* Product info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex items-center gap-2">
                         <h3
                           className="text-[14px] font-semibold leading-tight"
                           style={{ color: 'var(--charcoal)' }}
@@ -490,9 +484,10 @@ export default function SymptomSearchPage() {
                           {product.nameEn}
                         </h3>
                         <span
-                          className="flex-shrink-0 px-1.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider"
+                          className="flex-shrink-0 rounded-md px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider"
                           style={{
-                            background: product.type === 'otc' ? 'var(--green-light)' : 'var(--amber-light)',
+                            background:
+                              product.type === 'otc' ? 'var(--green-light)' : 'var(--amber-light)',
                             color: product.type === 'otc' ? 'var(--green)' : 'var(--amber)',
                           }}
                         >
@@ -500,10 +495,7 @@ export default function SymptomSearchPage() {
                         </span>
                       </div>
 
-                      <p
-                        className="text-[11px] mb-0.5"
-                        style={{ color: 'var(--charcoal-muted)' }}
-                      >
+                      <p className="mb-0.5 text-[11px]" style={{ color: 'var(--charcoal-muted)' }}>
                         {product.nameVi} &middot; {product.nameBrand}
                       </p>
                       <p
@@ -515,18 +507,15 @@ export default function SymptomSearchPage() {
                     </div>
 
                     {/* Price + Order */}
-                    <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                      <p
-                        className="text-[15px] font-bold"
-                        style={{ color: 'var(--green-dark)' }}
-                      >
+                    <div className="flex flex-shrink-0 flex-col items-end gap-2">
+                      <p className="text-[15px] font-bold" style={{ color: 'var(--green-dark)' }}>
                         {formatPrice(product.price)}
                       </p>
                       <a
                         href={buildWhatsAppLink(product.nameEn)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[11px] font-semibold text-white transition-transform hover:scale-[1.03] active:scale-[0.97]"
+                        className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[11px] font-semibold text-white transition-transform hover:scale-[1.03] active:scale-[0.97]"
                         style={{ background: '#25D366' }}
                       >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -545,32 +534,26 @@ export default function SymptomSearchPage() {
         {/* ================================================================
             DISCLAIMER BANNER — Always visible
             ================================================================ */}
-        <section className={`mt-6 mb-4 ${mounted ? 'animate-fade-in-up delay-200' : 'opacity-0'}`}>
+        <section className={`mb-4 mt-6 ${mounted ? 'animate-fade-in-up delay-200' : 'opacity-0'}`}>
           <div
-            className="rounded-2xl p-4 flex items-start gap-3"
+            className="flex items-start gap-3 rounded-2xl p-4"
             style={{
               background: 'var(--amber-light)',
               border: '1px solid rgba(232, 168, 56, 0.3)',
             }}
           >
-            <span className="text-lg flex-shrink-0 mt-0.5">&#9888;&#65039;</span>
+            <span className="mt-0.5 flex-shrink-0 text-lg">&#9888;&#65039;</span>
             <div>
-              <p
-                className="text-xs font-semibold mb-0.5"
-                style={{ color: 'var(--charcoal)' }}
-              >
+              <p className="mb-0.5 text-xs font-semibold" style={{ color: 'var(--charcoal)' }}>
                 Medical Disclaimer
               </p>
-              <p
-                className="text-[11px] leading-relaxed"
-                style={{ color: 'var(--charcoal-light)' }}
-              >
-                This is for informational purposes only. Always consult a pharmacist before taking any medication. Dosage, interactions, and suitability may vary.
+              <p className="text-[11px] leading-relaxed" style={{ color: 'var(--charcoal-light)' }}>
+                This is for informational purposes only. Always consult a pharmacist before taking
+                any medication. Dosage, interactions, and suitability may vary.
               </p>
             </div>
           </div>
         </section>
-
       </main>
     </div>
   );

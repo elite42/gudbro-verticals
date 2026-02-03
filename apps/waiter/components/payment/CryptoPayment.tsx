@@ -8,6 +8,7 @@
 
 import { useState } from 'react';
 import { CurrencyBtc, QrCode, CheckCircle, Spinner, Copy, Check } from '@phosphor-icons/react';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 interface CryptoPaymentProps {
   total: number;
@@ -36,12 +37,7 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
   const [isWaiting, setIsWaiting] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('it-IT', {
-      style: 'currency',
-      currency: 'EUR',
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => _fp(amount, 'EUR');
 
   const selectedChainInfo = availableChains.find((c) => c.id === selectedChain);
 
@@ -80,30 +76,28 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
       <div className="space-y-6">
         {/* QR Code display */}
         <div className="text-center">
-          <div className="inline-block p-4 bg-white rounded-2xl shadow-lg">
+          <div className="inline-block rounded-2xl bg-white p-4 shadow-lg">
             {/* Placeholder QR - in production use actual QR library */}
-            <div className="w-48 h-48 bg-gray-100 rounded-xl flex items-center justify-center">
+            <div className="flex h-48 w-48 items-center justify-center rounded-xl bg-gray-100">
               <QrCode size={120} weight="duotone" className="text-gray-800" />
             </div>
           </div>
-          <p className="mt-4 text-sm text-theme-text-secondary">
-            Mostra questo QR al cliente
-          </p>
+          <p className="text-theme-text-secondary mt-4 text-sm">Mostra questo QR al cliente</p>
         </div>
 
         {/* Payment details */}
-        <div className="p-4 bg-theme-bg-secondary rounded-2xl space-y-2">
+        <div className="bg-theme-bg-secondary space-y-2 rounded-2xl p-4">
           <div className="flex justify-between text-sm">
             <span className="text-theme-text-secondary">Importo</span>
-            <span className="font-bold text-theme-text-primary">{formatCurrency(total)}</span>
+            <span className="text-theme-text-primary font-bold">{formatCurrency(total)}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-theme-text-secondary">Chain</span>
-            <span className="font-medium text-theme-text-primary">{selectedChainInfo?.name}</span>
+            <span className="text-theme-text-primary font-medium">{selectedChainInfo?.name}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-theme-text-secondary">Token</span>
-            <span className="font-medium text-theme-text-primary">
+            <span className="text-theme-text-primary font-medium">
               {selectedToken === 'native' ? selectedChainInfo?.symbol : selectedToken.toUpperCase()}
             </span>
           </div>
@@ -112,11 +106,9 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
         {/* Wallet address */}
         <button
           onClick={handleCopyAddress}
-          className="w-full p-3 bg-theme-bg-secondary rounded-xl flex items-center justify-between"
+          className="bg-theme-bg-secondary flex w-full items-center justify-between rounded-xl p-3"
         >
-          <span className="text-sm font-mono text-theme-text-secondary">
-            0x1234...5678
-          </span>
+          <span className="text-theme-text-secondary font-mono text-sm">0x1234...5678</span>
           {copied ? (
             <Check size={20} weight="bold" className="text-green-500" />
           ) : (
@@ -126,13 +118,17 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
 
         {/* Status */}
         {isWaiting ? (
-          <div className="text-center py-4">
-            <Spinner size={32} weight="bold" className="animate-spin text-theme-brand-primary mx-auto mb-2" />
+          <div className="py-4 text-center">
+            <Spinner
+              size={32}
+              weight="bold"
+              className="text-theme-brand-primary mx-auto mb-2 animate-spin"
+            />
             <p className="text-theme-text-secondary">In attesa del pagamento...</p>
             {/* Dev button to simulate payment */}
             <button
               onClick={handleSimulatePayment}
-              className="mt-4 text-xs text-theme-text-tertiary underline"
+              className="text-theme-text-tertiary mt-4 text-xs underline"
             >
               (Dev: Simula pagamento ricevuto)
             </button>
@@ -140,7 +136,7 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
         ) : (
           <button
             onClick={handleConfirmPayment}
-            className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-lg bg-green-500 text-white"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-500 py-4 text-lg font-bold text-white"
           >
             <CheckCircle size={24} weight="bold" />
             Pagamento confermato
@@ -153,8 +149,12 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
   return (
     <div className="space-y-6">
       {/* Total */}
-      <div className="text-center py-4 bg-orange-50 dark:bg-orange-900/20 rounded-2xl">
-        <CurrencyBtc size={40} weight="duotone" className="mx-auto text-orange-600 dark:text-orange-400 mb-2" />
+      <div className="rounded-2xl bg-orange-50 py-4 text-center dark:bg-orange-900/20">
+        <CurrencyBtc
+          size={40}
+          weight="duotone"
+          className="mx-auto mb-2 text-orange-600 dark:text-orange-400"
+        />
         <p className="text-sm text-orange-700 dark:text-orange-300">Totale</p>
         <p className="text-3xl font-bold text-orange-800 dark:text-orange-200">
           {formatCurrency(total)}
@@ -163,9 +163,7 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
 
       {/* Chain selection */}
       <div className="space-y-3">
-        <p className="text-sm font-medium text-theme-text-secondary">
-          Seleziona blockchain
-        </p>
+        <p className="text-theme-text-secondary text-sm font-medium">Seleziona blockchain</p>
         <div className="grid grid-cols-2 gap-2">
           {availableChains.map((chain) => (
             <button
@@ -174,19 +172,21 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
                 setSelectedChain(chain.id);
                 setSelectedToken('native');
               }}
-              className={`p-3 rounded-xl border-2 transition-all ${
+              className={`rounded-xl border-2 p-3 transition-all ${
                 selectedChain === chain.id
                   ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
                   : 'border-theme-border-light hover:border-theme-border-medium'
               }`}
             >
               <div className="flex items-center gap-2">
-                <span className={`w-8 h-8 rounded-lg ${chain.color} flex items-center justify-center text-white font-bold`}>
+                <span
+                  className={`h-8 w-8 rounded-lg ${chain.color} flex items-center justify-center font-bold text-white`}
+                >
                   {chain.icon}
                 </span>
                 <div className="text-left">
-                  <p className="font-semibold text-sm text-theme-text-primary">{chain.name}</p>
-                  <p className="text-xs text-theme-text-tertiary">{chain.symbol}</p>
+                  <p className="text-theme-text-primary text-sm font-semibold">{chain.name}</p>
+                  <p className="text-theme-text-tertiary text-xs">{chain.symbol}</p>
                 </div>
               </div>
             </button>
@@ -197,19 +197,17 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
       {/* Token selection */}
       {selectedChain && (
         <div className="space-y-3">
-          <p className="text-sm font-medium text-theme-text-secondary">
-            Seleziona token
-          </p>
+          <p className="text-theme-text-secondary text-sm font-medium">Seleziona token</p>
           <div className="flex gap-2">
             <button
               onClick={() => setSelectedToken('native')}
-              className={`flex-1 p-3 rounded-xl border-2 transition-all ${
+              className={`flex-1 rounded-xl border-2 p-3 transition-all ${
                 selectedToken === 'native'
                   ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
                   : 'border-theme-border-light'
               }`}
             >
-              <span className="font-semibold text-sm">{selectedChainInfo?.symbol}</span>
+              <span className="text-sm font-semibold">{selectedChainInfo?.symbol}</span>
             </button>
             {stablecoins
               .filter((s) => s.chains.includes(selectedChain))
@@ -217,13 +215,13 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
                 <button
                   key={stable.id}
                   onClick={() => setSelectedToken(stable.id as 'usdc' | 'usdt')}
-                  className={`flex-1 p-3 rounded-xl border-2 transition-all ${
+                  className={`flex-1 rounded-xl border-2 p-3 transition-all ${
                     selectedToken === stable.id
                       ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
                       : 'border-theme-border-light'
                   }`}
                 >
-                  <span className="font-semibold text-sm">{stable.name}</span>
+                  <span className="text-sm font-semibold">{stable.name}</span>
                 </button>
               ))}
           </div>
@@ -234,7 +232,7 @@ export function CryptoPayment({ total, tableNumber, onConfirm }: CryptoPaymentPr
       <button
         onClick={handleGenerateQR}
         disabled={!selectedChain || isGenerating}
-        className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-lg bg-orange-500 text-white hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 py-4 text-lg font-bold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isGenerating ? (
           <>

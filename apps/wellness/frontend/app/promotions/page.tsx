@@ -75,11 +75,7 @@ const promotions = [
 // UTILS
 // =============================================================================
 
-function formatPrice(price: number, currency: string): string {
-  if (currency === 'VND') return new Intl.NumberFormat('vi-VN').format(price) + '₫';
-  if (currency === 'USD') return '$' + (price / 24000).toFixed(0);
-  return '€' + (price / 26000).toFixed(0);
-}
+import { formatPrice } from '@gudbro/utils';
 
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });

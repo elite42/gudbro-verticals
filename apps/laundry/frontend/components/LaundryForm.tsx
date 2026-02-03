@@ -76,8 +76,9 @@ function saveToStorage(items: LaundryItem[]) {
   }
 }
 
+import { formatPrice as _fp } from '@gudbro/utils';
 function formatPrice(amount: number): string {
-  return amount.toLocaleString('vi-VN') + '\u20AB';
+  return _fp(amount, 'VND');
 }
 
 function buildMessageText(items: LaundryItem[], expressGlobal: boolean): string {
@@ -143,13 +144,10 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
   }, []);
 
   // Auto-save on every change
-  const persist = useCallback(
-    (newItems: LaundryItem[]) => {
-      setItems(newItems);
-      saveToStorage(newItems);
-    },
-    []
-  );
+  const persist = useCallback((newItems: LaundryItem[]) => {
+    setItems(newItems);
+    saveToStorage(newItems);
+  }, []);
 
   // ── Item operations ────────────────────────────────────────────────────────
   const addItem = () => {
@@ -208,17 +206,15 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
   return (
     <div className="fixed inset-0 z-50">
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
       {/* Panel */}
-      <div className="pb-safe animate-slide-up absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white"
+      <div
+        className="pb-safe animate-slide-up absolute bottom-0 left-0 right-0 rounded-t-3xl bg-white"
         style={{ maxHeight: '92vh', display: 'flex', flexDirection: 'column' }}
       >
         {/* Drag handle */}
-        <div className="mx-auto mt-3 mb-2 h-1 w-12 rounded-full bg-[var(--cloud-dark)]" />
+        <div className="mx-auto mb-2 mt-3 h-1 w-12 rounded-full bg-[var(--cloud-dark)]" />
 
         {/* ── Header ────────────────────────────────────────────────────── */}
         <div className="flex items-center justify-between px-6 pb-3">
@@ -228,7 +224,7 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
               My Laundry Bag
             </h2>
             {totalItems > 0 && (
-              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--blue)] px-1.5 text-[11px] font-bold text-white">
+              <span className="min-w-5 flex h-5 items-center justify-center rounded-full bg-[var(--blue)] px-1.5 text-[11px] font-bold text-white">
                 {totalItems}
               </span>
             )}
@@ -238,7 +234,15 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
             className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--cloud)] text-[var(--charcoal-muted)] transition-colors hover:bg-[var(--cloud-dark)]"
             aria-label="Close"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            >
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
@@ -246,7 +250,6 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
 
         {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto px-6" style={{ overscrollBehavior: 'contain' }}>
-
           {/* ── Add Item Section ─────────────────────────────────────────── */}
           <div className="mb-4 rounded-2xl bg-[var(--cloud)] p-4">
             <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--charcoal-muted)]">
@@ -261,10 +264,8 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
                   onClick={() => setSelectedGarment(g.key)}
                   className="flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium transition-all"
                   style={{
-                    background:
-                      selectedGarment === g.key ? 'var(--blue)' : 'white',
-                    color:
-                      selectedGarment === g.key ? 'white' : 'var(--charcoal)',
+                    background: selectedGarment === g.key ? 'var(--blue)' : 'white',
+                    color: selectedGarment === g.key ? 'white' : 'var(--charcoal)',
                     boxShadow:
                       selectedGarment === g.key
                         ? '0 2px 8px rgba(74,144,217,0.3)'
@@ -285,10 +286,8 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
                   onClick={() => setSelectedService(s.key)}
                   className="rounded-full px-3 py-1.5 text-sm font-medium transition-all"
                   style={{
-                    background:
-                      selectedService === s.key ? 'var(--teal)' : 'white',
-                    color:
-                      selectedService === s.key ? 'white' : 'var(--charcoal)',
+                    background: selectedService === s.key ? 'var(--teal)' : 'white',
+                    color: selectedService === s.key ? 'white' : 'var(--charcoal)',
                     boxShadow:
                       selectedService === s.key
                         ? '0 2px 8px rgba(56,178,172,0.3)'
@@ -296,7 +295,7 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
                   }}
                 >
                   {s.label}
-                  <span className="ml-1 opacity-70 text-xs">({s.price})</span>
+                  <span className="ml-1 text-xs opacity-70">({s.price})</span>
                 </button>
               ))}
             </div>
@@ -329,7 +328,15 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
                 onClick={() => setShowNotes(!showNotes)}
                 className="flex items-center gap-1 text-xs font-medium text-[var(--charcoal-muted)] transition-colors hover:text-[var(--blue)]"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                >
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                 </svg>
@@ -341,7 +348,7 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
                   value={itemNotes}
                   onChange={(e) => setItemNotes(e.target.value)}
                   placeholder="e.g. stain on collar"
-                  className="mt-2 h-9 w-full rounded-xl bg-white px-3 text-sm text-[var(--charcoal)] shadow-sm outline-none placeholder:text-[var(--charcoal-muted)]/50"
+                  className="placeholder:text-[var(--charcoal-muted)]/50 mt-2 h-9 w-full rounded-xl bg-white px-3 text-sm text-[var(--charcoal)] shadow-sm outline-none"
                 />
               )}
             </div>
@@ -352,7 +359,15 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
               className="flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold text-white transition-all active:scale-[0.98]"
               style={{ background: 'var(--blue)' }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              >
                 <path d="M12 5v14M5 12h14" />
               </svg>
               Add to Bag
@@ -375,7 +390,7 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
                       className="flex items-center gap-3 rounded-xl bg-[var(--cloud)] p-3"
                     >
                       <span className="text-lg">{garment?.icon || '\u{1F4E6}'}</span>
-                      <div className="flex-1 min-w-0">
+                      <div className="min-w-0 flex-1">
                         <div className="flex items-baseline gap-1">
                           <span className="text-sm font-semibold text-[var(--charcoal)]">
                             {item.quantity}x {garment?.label || item.garmentType}
@@ -398,7 +413,15 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
                         className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-[var(--charcoal-muted)] transition-colors hover:bg-red-50 hover:text-red-500"
                         aria-label="Remove item"
                       >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                        >
                           <path d="M18 6L6 18M6 6l12 12" />
                         </svg>
                       </button>
@@ -459,7 +482,15 @@ export default function LaundryForm({ isOpen, onClose }: LaundryFormProps) {
               className="flex w-full items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-semibold transition-all disabled:opacity-40"
               style={{ borderColor: 'var(--blue)', color: 'var(--blue)' }}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              >
                 <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
                 <polyline points="17 21 17 13 7 13 7 21" />
                 <polyline points="7 3 7 8 15 8" />

@@ -4,6 +4,7 @@ import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import { ImageUpload } from '@/components/ui/image-upload';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -794,9 +795,7 @@ export default function ProductEditorPage({ params }: { params: Promise<{ slug: 
     }
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN').format(price) + ' ₫';
-  };
+  const formatPrice = (price: number) => _fp(price, 'VND');
 
   const filteredAllergens =
     allergenRegionFilter === 'all'

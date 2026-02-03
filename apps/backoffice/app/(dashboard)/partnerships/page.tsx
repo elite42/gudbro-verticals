@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -86,8 +87,9 @@ export default function PartnershipsPage() {
   };
 
   const formatCurrency = (num: number | undefined) => {
-    if (num === undefined) return '€0';
-    return `€${num.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+    if (num === undefined)
+      return _fp(0, 'EUR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return _fp(num, 'EUR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
   };
 
   return (

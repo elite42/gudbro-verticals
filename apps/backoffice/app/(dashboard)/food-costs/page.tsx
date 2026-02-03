@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -112,10 +113,7 @@ export default function FoodCostsPage() {
 
   const formatCurrency = (amount: number | null, currency = 'VND'): string => {
     if (amount === null) return '-';
-    if (currency === 'VND') {
-      return `${amount.toLocaleString()}₫`;
-    }
-    return `$${amount.toFixed(2)}`;
+    return _fp(amount, currency);
   };
 
   // Filter and sort

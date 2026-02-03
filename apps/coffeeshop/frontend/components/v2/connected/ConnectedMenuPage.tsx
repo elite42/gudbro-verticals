@@ -59,15 +59,9 @@ interface ConnectedMenuPageProps {
   initialCategory?: string;
 }
 
-/**
- * Format price in VND
- */
+import { formatPriceCompact } from '@gudbro/utils';
 function formatPrice(price: number): string {
-  // Format as Vietnamese Dong
-  if (price >= 1000) {
-    return `${Math.round(price / 1000)}K`;
-  }
-  return `${price}`;
+  return formatPriceCompact(price, 'VND');
 }
 
 export function ConnectedMenuPage({

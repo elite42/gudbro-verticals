@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -167,13 +168,7 @@ export default function IngredientCostsPage() {
 
   const formatCurrency = (amount: number | null, currency: string): string => {
     if (amount === null) return '-';
-    const curr = CURRENCIES.find((c) => c.code === currency);
-    const symbol = curr?.symbol || currency;
-
-    if (currency === 'VND') {
-      return `${symbol}${amount.toLocaleString()}`;
-    }
-    return `${symbol}${amount.toFixed(2)}`;
+    return _fp(amount, currency);
   };
 
   const formatDate = (dateStr: string | null): string => {

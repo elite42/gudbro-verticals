@@ -4,20 +4,7 @@ import { useMemo, useState } from 'react';
 import type { ServiceOrder } from '@/types/stay';
 import OrderDetailSheet, { CATEGORY_TAG_CONFIG } from './OrderDetailSheet';
 
-/** Currencies with 0 decimal places (minor unit = major unit). */
-const ZERO_DECIMAL_CURRENCIES = new Set(['VND', 'JPY', 'KRW', 'CLP', 'ISK', 'UGX', 'RWF']);
-
-function formatPrice(minorUnits: number, currency: string): string {
-  const isZeroDecimal = ZERO_DECIMAL_CURRENCIES.has(currency.toUpperCase());
-  const amount = isZeroDecimal ? minorUnits : minorUnits / 100;
-
-  return new Intl.NumberFormat('en', {
-    style: 'currency',
-    currency: currency.toUpperCase(),
-    minimumFractionDigits: isZeroDecimal ? 0 : 2,
-    maximumFractionDigits: isZeroDecimal ? 0 : 2,
-  }).format(amount);
-}
+import { formatPriceFromMinor as formatPrice } from '@gudbro/utils';
 
 const STATUS_BADGES: Record<string, { label: string; color: string }> = {
   pending: { label: 'Submitted', color: 'bg-amber-50 text-amber-700' },

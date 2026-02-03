@@ -60,39 +60,10 @@ interface TriggerSuggestion {
   actionType: string;
 }
 
-// Currency info for formatting
-const CURRENCY_INFO: Record<string, { locale: string; symbol: string }> = {
-  USD: { locale: 'en-US', symbol: '$' },
-  EUR: { locale: 'de-DE', symbol: '€' },
-  GBP: { locale: 'en-GB', symbol: '£' },
-  VND: { locale: 'vi-VN', symbol: '₫' },
-  JPY: { locale: 'ja-JP', symbol: '¥' },
-  CNY: { locale: 'zh-CN', symbol: '¥' },
-  KRW: { locale: 'ko-KR', symbol: '₩' },
-  THB: { locale: 'th-TH', symbol: '฿' },
-  SGD: { locale: 'en-SG', symbol: 'S$' },
-  AUD: { locale: 'en-AU', symbol: 'A$' },
-  CAD: { locale: 'en-CA', symbol: 'C$' },
-  CHF: { locale: 'de-CH', symbol: 'CHF' },
-  MXN: { locale: 'es-MX', symbol: 'MX$' },
-  BRL: { locale: 'pt-BR', symbol: 'R$' },
-  INR: { locale: 'en-IN', symbol: '₹' },
-  RUB: { locale: 'ru-RU', symbol: '₽' },
-  TRY: { locale: 'tr-TR', symbol: '₺' },
-  PLN: { locale: 'pl-PL', symbol: 'zł' },
-  IDR: { locale: 'id-ID', symbol: 'Rp' },
-  MYR: { locale: 'ms-MY', symbol: 'RM' },
-  PHP: { locale: 'en-PH', symbol: '₱' },
-};
+import { formatPrice as _fp } from '@gudbro/utils';
 
 function formatCurrency(value: number, currencyCode: string = 'EUR'): string {
-  const info = CURRENCY_INFO[currencyCode] || { locale: 'en-US', symbol: currencyCode };
-  return new Intl.NumberFormat(info.locale, {
-    style: 'currency',
-    currency: currencyCode,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
+  return _fp(value, currencyCode, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 }
 
 // Trigger type config

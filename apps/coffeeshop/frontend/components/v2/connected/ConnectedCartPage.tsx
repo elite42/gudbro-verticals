@@ -34,14 +34,9 @@ interface ConnectedCartPageProps {
   onPlaceOrder?: (notes: string) => Promise<{ success: boolean; orderCode?: string }>;
 }
 
-/**
- * Format price in VND
- */
+import { formatPriceCompact } from '@gudbro/utils';
 function formatPrice(price: number): string {
-  if (price >= 1000) {
-    return `${Math.round(price / 1000)}K`;
-  }
-  return `${price}`;
+  return formatPriceCompact(price, 'VND');
 }
 
 /**

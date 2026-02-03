@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 interface FleetItem {
   id: string;
@@ -26,7 +27,7 @@ interface FleetGalleryProps {
 export const FleetGallery: React.FC<FleetGalleryProps> = ({
   hubId,
   apiUrl = '/api/rentals',
-  onSelectBike
+  onSelectBike,
 }) => {
   const [fleet, setFleet] = useState<FleetItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -49,12 +50,7 @@ export const FleetGallery: React.FC<FleetGalleryProps> = ({
     fetchFleet();
   }, [hubId, apiUrl]);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND'
-    }).format(price);
-  };
+  const formatPrice = (price: number) => _fp(price, 'VND');
 
   if (loading) {
     return (
@@ -75,28 +71,34 @@ export const FleetGallery: React.FC<FleetGalleryProps> = ({
   return (
     <section className="fleet-gallery" style={{ padding: '4rem 2rem', backgroundColor: '#f9fafb' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 style={{
-          fontSize: '2.5rem',
-          fontWeight: 'bold',
-          textAlign: 'center',
-          marginBottom: '1rem'
-        }}>
+        <h2
+          style={{
+            fontSize: '2.5rem',
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginBottom: '1rem',
+          }}
+        >
           Our Fleet
         </h2>
-        <p style={{
-          textAlign: 'center',
-          color: '#6b7280',
-          marginBottom: '3rem',
-          fontSize: '1.1rem'
-        }}>
+        <p
+          style={{
+            textAlign: 'center',
+            color: '#6b7280',
+            marginBottom: '3rem',
+            fontSize: '1.1rem',
+          }}
+        >
           Choose from our well-maintained bikes and scooters
         </p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '2rem'
-        }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+            gap: '2rem',
+          }}
+        >
           {fleet.map((bike) => (
             <div
               key={bike.id}
@@ -106,7 +108,7 @@ export const FleetGallery: React.FC<FleetGalleryProps> = ({
                 overflow: 'hidden',
                 boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
                 transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                cursor: 'pointer'
+                cursor: 'pointer',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-8px)';
@@ -119,14 +121,16 @@ export const FleetGallery: React.FC<FleetGalleryProps> = ({
               onClick={() => onSelectBike?.(bike)}
             >
               {/* Bike Image */}
-              <div style={{
-                height: '200px',
-                backgroundColor: '#e5e7eb',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden'
-              }}>
+              <div
+                style={{
+                  height: '200px',
+                  backgroundColor: '#e5e7eb',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                }}
+              >
                 {bike.thumbnail || bike.photos?.[0] ? (
                   <img
                     src={bike.thumbnail || bike.photos?.[0]}
@@ -134,7 +138,7 @@ export const FleetGallery: React.FC<FleetGalleryProps> = ({
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover'
+                      objectFit: 'cover',
                     }}
                   />
                 ) : (
@@ -147,11 +151,13 @@ export const FleetGallery: React.FC<FleetGalleryProps> = ({
 
               {/* Bike Info */}
               <div style={{ padding: '1.5rem' }}>
-                <h3 style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold',
-                  marginBottom: '0.5rem'
-                }}>
+                <h3
+                  style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold',
+                    marginBottom: '0.5rem',
+                  }}
+                >
                   {bike.brand} {bike.model}
                 </h3>
 
@@ -163,30 +169,36 @@ export const FleetGallery: React.FC<FleetGalleryProps> = ({
 
                 {/* Specs */}
                 {bike.specs && (
-                  <div style={{
-                    display: 'flex',
-                    gap: '1rem',
-                    marginBottom: '1rem',
-                    fontSize: '0.9rem',
-                    color: '#4b5563'
-                  }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: '1rem',
+                      marginBottom: '1rem',
+                      fontSize: '0.9rem',
+                      color: '#4b5563',
+                    }}
+                  >
                     {bike.specs.engine && <span>⚙️ {bike.specs.engine}</span>}
                     {bike.specs.transmission && <span>🔧 {bike.specs.transmission}</span>}
                   </div>
                 )}
 
                 {/* Price */}
-                <div style={{
-                  borderTop: '1px solid #e5e7eb',
-                  paddingTop: '1rem',
-                  marginTop: '1rem'
-                }}>
-                  <div style={{
-                    fontSize: '1.75rem',
-                    fontWeight: 'bold',
-                    color: '#f97316',
-                    marginBottom: '0.5rem'
-                  }}>
+                <div
+                  style={{
+                    borderTop: '1px solid #e5e7eb',
+                    paddingTop: '1rem',
+                    marginTop: '1rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: '1.75rem',
+                      fontWeight: 'bold',
+                      color: '#f97316',
+                      marginBottom: '0.5rem',
+                    }}
+                  >
                     {formatPrice(bike.dailyRate)}/day
                   </div>
 
@@ -215,7 +227,7 @@ export const FleetGallery: React.FC<FleetGalleryProps> = ({
                     fontSize: '1rem',
                     fontWeight: '600',
                     cursor: 'pointer',
-                    transition: 'background-color 0.3s ease'
+                    transition: 'background-color 0.3s ease',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = '#ea580c';

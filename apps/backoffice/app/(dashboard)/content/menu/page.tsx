@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { useToast } from '@/lib/contexts/ToastContext';
+import { formatPrice as _fp } from '@gudbro/utils';
 import { useTranslations } from 'next-intl';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 
@@ -383,12 +384,7 @@ export default function MenuPage() {
     return matchesCategory && matchesSearch;
   });
 
-  const formatPrice = (price: number, currency: string = 'VND') => {
-    if (currency === 'VND') {
-      return new Intl.NumberFormat('vi-VN').format(price) + ' ₫';
-    }
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price);
-  };
+  const formatPrice = (price: number, currency: string = 'VND') => _fp(price, currency);
 
   const getName = (multilang: MultiLangText | null): string => {
     if (!multilang) return 'Unnamed';

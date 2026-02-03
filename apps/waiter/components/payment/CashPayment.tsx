@@ -8,6 +8,7 @@
 
 import { useState } from 'react';
 import { Money, Calculator, CheckCircle } from '@phosphor-icons/react';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 interface CashPaymentProps {
   total: number;
@@ -20,12 +21,7 @@ export function CashPayment({ total, onConfirm }: CashPaymentProps) {
   const [receivedAmount, setReceivedAmount] = useState<number | ''>('');
   const [isConfirming, setIsConfirming] = useState(false);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('it-IT', {
-      style: 'currency',
-      currency: 'EUR',
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => _fp(amount, 'EUR');
 
   const change = typeof receivedAmount === 'number' ? receivedAmount - total : 0;
   const isValidAmount = typeof receivedAmount === 'number' && receivedAmount >= total;
@@ -60,8 +56,12 @@ export function CashPayment({ total, onConfirm }: CashPaymentProps) {
   return (
     <div className="space-y-6">
       {/* Total */}
-      <div className="text-center py-4 bg-green-50 dark:bg-green-900/20 rounded-2xl">
-        <Money size={40} weight="duotone" className="mx-auto text-green-600 dark:text-green-400 mb-2" />
+      <div className="rounded-2xl bg-green-50 py-4 text-center dark:bg-green-900/20">
+        <Money
+          size={40}
+          weight="duotone"
+          className="mx-auto mb-2 text-green-600 dark:text-green-400"
+        />
         <p className="text-sm text-green-700 dark:text-green-300">Totale</p>
         <p className="text-3xl font-bold text-green-800 dark:text-green-200">
           {formatCurrency(total)}
@@ -70,11 +70,11 @@ export function CashPayment({ total, onConfirm }: CashPaymentProps) {
 
       {/* Received amount input */}
       <div>
-        <label className="block text-sm font-medium text-theme-text-secondary mb-2">
+        <label className="text-theme-text-secondary mb-2 block text-sm font-medium">
           Importo ricevuto (opzionale)
         </label>
         <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-theme-text-tertiary text-xl">
+          <span className="text-theme-text-tertiary absolute left-4 top-1/2 -translate-y-1/2 text-xl">
             €
           </span>
           <input
@@ -85,14 +85,14 @@ export function CashPayment({ total, onConfirm }: CashPaymentProps) {
             value={receivedAmount}
             onChange={handleInputChange}
             placeholder={total.toFixed(2)}
-            className="w-full pl-10 pr-4 py-4 text-2xl font-bold text-center rounded-xl bg-theme-bg-secondary border-2 border-theme-border-medium focus:border-theme-brand-primary focus:ring-2 focus:ring-theme-brand-secondary transition-colors"
+            className="bg-theme-bg-secondary border-theme-border-medium focus:border-theme-brand-primary focus:ring-theme-brand-secondary w-full rounded-xl border-2 py-4 pl-10 pr-4 text-center text-2xl font-bold transition-colors focus:ring-2"
           />
         </div>
       </div>
 
       {/* Quick amounts */}
       <div>
-        <p className="text-sm text-theme-text-tertiary mb-2">Importi rapidi</p>
+        <p className="text-theme-text-tertiary mb-2 text-sm">Importi rapidi</p>
         <div className="flex flex-wrap gap-2">
           {quickAmounts
             .filter((amount) => amount >= total)
@@ -100,7 +100,7 @@ export function CashPayment({ total, onConfirm }: CashPaymentProps) {
               <button
                 key={amount}
                 onClick={() => handleQuickAmount(amount)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                className={`rounded-lg px-4 py-2 font-medium transition-colors ${
                   receivedAmount === amount
                     ? 'bg-theme-brand-primary text-white'
                     : 'bg-theme-bg-secondary text-theme-text-secondary hover:bg-theme-bg-tertiary'
@@ -114,11 +114,17 @@ export function CashPayment({ total, onConfirm }: CashPaymentProps) {
 
       {/* Change calculation */}
       {isValidAmount && change > 0 && (
-        <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl">
+        <div className="rounded-2xl bg-yellow-50 p-4 dark:bg-yellow-900/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Calculator size={20} weight="bold" className="text-yellow-600 dark:text-yellow-400" />
-              <span className="font-medium text-yellow-700 dark:text-yellow-300">Resto da dare</span>
+              <Calculator
+                size={20}
+                weight="bold"
+                className="text-yellow-600 dark:text-yellow-400"
+              />
+              <span className="font-medium text-yellow-700 dark:text-yellow-300">
+                Resto da dare
+              </span>
             </div>
             <span className="text-2xl font-bold text-yellow-800 dark:text-yellow-200">
               {formatCurrency(change)}
@@ -131,7 +137,7 @@ export function CashPayment({ total, onConfirm }: CashPaymentProps) {
       <button
         onClick={handleConfirm}
         disabled={isConfirming}
-        className="w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-lg bg-green-500 text-white hover:bg-green-600 disabled:opacity-50 transition-colors"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-500 py-4 text-lg font-bold text-white transition-colors hover:bg-green-600 disabled:opacity-50"
       >
         {isConfirming ? (
           <span>Elaborazione...</span>

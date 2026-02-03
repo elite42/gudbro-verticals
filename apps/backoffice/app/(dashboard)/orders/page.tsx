@@ -85,11 +85,9 @@ const paymentStatusConfig: Record<
   refunded: { label: 'Refunded', color: 'text-gray-700', bgColor: 'bg-gray-100' },
 };
 
+import { formatPrice as _fp } from '@gudbro/utils';
 function formatCurrency(amount: number, currency: string = 'VND'): string {
-  if (currency === 'VND') {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-  }
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
+  return _fp(amount, currency);
 }
 
 function formatTime(dateString: string): string {

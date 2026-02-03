@@ -218,8 +218,9 @@ const serviceNames: Record<
 // UTILS
 // =============================================================================
 
+import { formatPrice as _fp } from '@gudbro/utils';
 function formatPrice(price: number): string {
-  return new Intl.NumberFormat('vi-VN').format(price) + '₫';
+  return _fp(price, 'VND');
 }
 
 function formatDuration(minutes: number): string {

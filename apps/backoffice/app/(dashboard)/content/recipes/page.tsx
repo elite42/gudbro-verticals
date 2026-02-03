@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 interface Product {
   id: string;
@@ -68,7 +69,7 @@ function formatTime(seconds?: number | null): string {
 
 function formatPrice(price?: number | null): string {
   if (!price) return '-';
-  return `$${price.toFixed(2)}`;
+  return _fp(price, 'USD');
 }
 
 export default function RecipesPage() {

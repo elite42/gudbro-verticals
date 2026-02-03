@@ -54,44 +54,23 @@ const priceData = [
   },
 ];
 
+import { formatPriceCompact } from '@gudbro/utils';
+
 function formatPrice(price: number, currency: string = 'VND'): string {
-  if (currency === 'VND') {
-    const inThousands = Math.round(price / 1000);
-    return `${inThousands.toLocaleString()}k`;
-  }
-
-  const rates: Record<string, { rate: number; symbol: string }> = {
-    USD: { rate: 0.00004, symbol: '$' },
-    EUR: { rate: 0.000037, symbol: '\u20AC' },
-  };
-
-  const info = rates[currency];
-  if (!info) {
-    const inThousands = Math.round(price / 1000);
-    return `${inThousands.toLocaleString()}k`;
-  }
-
-  const converted = (price * info.rate).toFixed(2);
-  return `${info.symbol}${converted}`;
+  return formatPriceCompact(price, currency);
 }
 
 export default function PriceTable({ currency = 'VND' }: PriceTableProps) {
   return (
     <div className="space-y-4">
       {priceData.map((group) => (
-        <div
-          key={group.category}
-          className="bg-white rounded-xl shadow-soft overflow-hidden"
-        >
+        <div key={group.category} className="shadow-soft overflow-hidden rounded-xl bg-white">
           {/* Category Header */}
           <div
             className="flex items-center gap-3 px-4 py-3"
             style={{ borderLeft: `4px solid ${group.color}` }}
           >
-            <h3
-              className="font-bold font-display text-sm"
-              style={{ color: 'var(--charcoal)' }}
-            >
+            <h3 className="font-display text-sm font-bold" style={{ color: 'var(--charcoal)' }}>
               {group.category}
             </h3>
           </div>
@@ -107,11 +86,9 @@ export default function PriceTable({ currency = 'VND' }: PriceTableProps) {
                     backgroundColor: 'var(--cloud)',
                   }}
                 >
-                  <th className="text-left px-4 py-2 font-semibold">
-                    Service
-                  </th>
-                  <th className="text-right px-4 py-2 font-semibold">Price</th>
-                  <th className="text-right px-4 py-2 font-semibold">Unit</th>
+                  <th className="px-4 py-2 text-left font-semibold">Service</th>
+                  <th className="px-4 py-2 text-right font-semibold">Price</th>
+                  <th className="px-4 py-2 text-right font-semibold">Unit</th>
                 </tr>
               </thead>
               <tbody>
@@ -119,23 +96,20 @@ export default function PriceTable({ currency = 'VND' }: PriceTableProps) {
                   <tr
                     key={item.name}
                     style={{
-                      backgroundColor:
-                        idx % 2 === 1 ? 'var(--cloud)' : 'transparent',
+                      backgroundColor: idx % 2 === 1 ? 'var(--cloud)' : 'transparent',
                     }}
                   >
-                    <td
-                      className="px-4 py-2.5 text-sm"
-                      style={{ color: 'var(--charcoal-light)' }}
-                    >
+                    <td className="px-4 py-2.5 text-sm" style={{ color: 'var(--charcoal-light)' }}>
                       {item.name}
                     </td>
-                    <td className="px-4 py-2.5 text-sm text-right font-bold"
+                    <td
+                      className="px-4 py-2.5 text-right text-sm font-bold"
                       style={{ color: 'var(--blue-hex)' }}
                     >
                       {formatPrice(item.price, currency)}
                     </td>
                     <td
-                      className="px-4 py-2.5 text-xs text-right"
+                      className="px-4 py-2.5 text-right text-xs"
                       style={{ color: 'var(--charcoal-muted)' }}
                     >
                       /{item.unit}
@@ -147,33 +121,23 @@ export default function PriceTable({ currency = 'VND' }: PriceTableProps) {
           </div>
 
           {/* Mobile: Card list */}
-          <div className="sm:hidden divide-y" style={{ borderColor: 'var(--cloud-dark)' }}>
+          <div className="divide-y sm:hidden" style={{ borderColor: 'var(--cloud-dark)' }}>
             {group.items.map((item, idx) => (
               <div
                 key={item.name}
                 className="flex items-center justify-between px-4 py-3"
                 style={{
-                  backgroundColor:
-                    idx % 2 === 1 ? 'var(--cloud)' : 'transparent',
+                  backgroundColor: idx % 2 === 1 ? 'var(--cloud)' : 'transparent',
                 }}
               >
-                <span
-                  className="text-sm"
-                  style={{ color: 'var(--charcoal-light)' }}
-                >
+                <span className="text-sm" style={{ color: 'var(--charcoal-light)' }}>
                   {item.name}
                 </span>
                 <div className="flex items-baseline gap-1">
-                  <span
-                    className="text-sm font-bold"
-                    style={{ color: 'var(--blue-hex)' }}
-                  >
+                  <span className="text-sm font-bold" style={{ color: 'var(--blue-hex)' }}>
                     {formatPrice(item.price, currency)}
                   </span>
-                  <span
-                    className="text-xs"
-                    style={{ color: 'var(--charcoal-muted)' }}
-                  >
+                  <span className="text-xs" style={{ color: 'var(--charcoal-muted)' }}>
                     /{item.unit}
                   </span>
                 </div>

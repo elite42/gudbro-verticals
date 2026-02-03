@@ -31,7 +31,12 @@ interface Workshop {
 
 const CATEGORIES = [
   { key: 'all', label: 'All', emoji: '', color: 'var(--terracotta)' },
-  { key: 'cooking', label: 'Cooking', emoji: '\u{1F468}\u200D\u{1F373}', color: 'var(--cat-cooking)' },
+  {
+    key: 'cooking',
+    label: 'Cooking',
+    emoji: '\u{1F468}\u200D\u{1F373}',
+    color: 'var(--cat-cooking)',
+  },
   { key: 'craft', label: 'Crafts', emoji: '\u{1F3EE}', color: 'var(--cat-craft)' },
   { key: 'art', label: 'Art', emoji: '\u{1F3A8}', color: 'var(--cat-art)' },
   { key: 'jewelry', label: 'Jewelry', emoji: '\u{1F48E}', color: 'var(--cat-jewelry)' },
@@ -74,7 +79,7 @@ const WORKSHOPS: Workshop[] = [
   {
     slug: 'traditional-pho-making',
     name: 'Traditional Pho Making',
-    operator: 'Chef Lan\'s Kitchen',
+    operator: "Chef Lan's Kitchen",
     category: 'cooking',
     area: 'Hoi An',
     areaSlug: 'hoi-an',
@@ -91,7 +96,7 @@ const WORKSHOPS: Workshop[] = [
   {
     slug: 'lantern-making',
     name: 'Hoi An Lantern Making',
-    operator: 'Minh\'s Lantern Workshop',
+    operator: "Minh's Lantern Workshop",
     category: 'craft',
     area: 'Hoi An Old Town',
     areaSlug: 'hoi-an',
@@ -261,7 +266,7 @@ const WORKSHOPS: Workshop[] = [
   {
     slug: 'banh-mi-class',
     name: 'Banh Mi Masterclass',
-    operator: 'Madam Khanh\'s Kitchen',
+    operator: "Madam Khanh's Kitchen",
     category: 'cooking',
     area: 'Da Nang',
     areaSlug: 'da-nang',
@@ -281,8 +286,9 @@ const WORKSHOPS: Workshop[] = [
    HELPERS
    ============================================================================= */
 
+import { formatPrice as _fp } from '@gudbro/utils';
 function formatPrice(vnd: number): string {
-  return new Intl.NumberFormat('vi-VN').format(vnd) + '\u20AB';
+  return _fp(vnd, 'VND');
 }
 
 function getCategoryInfo(key: string) {
@@ -305,7 +311,7 @@ export default function WorkshopsPage() {
   }, []);
 
   const filteredWorkshops = useMemo(() => {
-    let results = WORKSHOPS.filter((w) => {
+    const results = WORKSHOPS.filter((w) => {
       // Category filter
       if (activeCategory !== 'all' && w.category !== activeCategory) return false;
 
@@ -354,22 +360,21 @@ export default function WorkshopsPage() {
 
   return (
     <div className="min-h-screen pb-24" style={{ background: 'var(--ivory)' }}>
-      <main className="max-w-lg mx-auto">
-
+      <main className="mx-auto max-w-lg">
         {/* ================================================================
             STICKY SEARCH BAR
             ================================================================ */}
         <div
-          className="sticky top-0 z-40 glass px-4 pt-4 pb-3"
+          className="glass sticky top-0 z-40 px-4 pb-3 pt-4"
           style={{ borderBottom: '1px solid var(--sand)' }}
         >
           {/* Page Title */}
           <div
-            className={`flex items-center gap-3 mb-3 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}
+            className={`mb-3 flex items-center gap-3 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}
           >
             <Link
               href="/"
-              className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+              className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl"
               style={{ background: 'var(--sand)' }}
             >
               <svg
@@ -415,7 +420,7 @@ export default function WorkshopsPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search workshops..."
-              className="w-full pl-11 pr-10 py-3 rounded-xl text-sm border-0 outline-none"
+              className="w-full rounded-xl border-0 py-3 pl-11 pr-10 text-sm outline-none"
               style={{
                 background: 'white',
                 color: 'var(--charcoal)',
@@ -426,7 +431,7 @@ export default function WorkshopsPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center"
+                className="absolute right-3.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full"
                 style={{ background: 'var(--sand)' }}
               >
                 <svg
@@ -448,21 +453,18 @@ export default function WorkshopsPage() {
         </div>
 
         <div className="px-4">
-
           {/* ================================================================
               CATEGORY FILTER PILLS
               ================================================================ */}
-          <section
-            className={`mt-4 mb-3 ${mounted ? 'animate-fade-in-up delay-2' : 'opacity-0'}`}
-          >
-            <div className="flex gap-2 overflow-x-auto hide-scrollbar snap-x pb-1 -mx-1 px-1">
+          <section className={`mb-3 mt-4 ${mounted ? 'animate-fade-in-up delay-2' : 'opacity-0'}`}>
+            <div className="hide-scrollbar -mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-1">
               {CATEGORIES.map((cat) => {
                 const isActive = activeCategory === cat.key;
                 return (
                   <button
                     key={cat.key}
                     onClick={() => setActiveCategory(cat.key)}
-                    className="flex-shrink-0 px-3.5 py-2 rounded-full text-xs font-semibold transition-all snap-start whitespace-nowrap"
+                    className="flex-shrink-0 snap-start whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-semibold transition-all"
                     style={{
                       background: isActive ? cat.color : 'white',
                       color: isActive ? 'white' : 'var(--charcoal)',
@@ -481,17 +483,15 @@ export default function WorkshopsPage() {
           {/* ================================================================
               AREA FILTER CHIPS
               ================================================================ */}
-          <section
-            className={`mb-3 ${mounted ? 'animate-fade-in-up delay-3' : 'opacity-0'}`}
-          >
-            <div className="flex gap-2 overflow-x-auto hide-scrollbar snap-x pb-1 -mx-1 px-1">
+          <section className={`mb-3 ${mounted ? 'animate-fade-in-up delay-3' : 'opacity-0'}`}>
+            <div className="hide-scrollbar -mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-1">
               {AREAS.map((area) => {
                 const isActive = activeArea === area.key;
                 return (
                   <button
                     key={area.key}
                     onClick={() => setActiveArea(area.key)}
-                    className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-all snap-start whitespace-nowrap"
+                    className="flex-shrink-0 snap-start whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition-all"
                     style={{
                       background: isActive ? 'rgba(194, 112, 62, 0.1)' : 'transparent',
                       color: isActive ? 'var(--terracotta)' : 'var(--charcoal-muted)',
@@ -511,12 +511,9 @@ export default function WorkshopsPage() {
               SORT & RESULTS COUNT ROW
               ================================================================ */}
           <section
-            className={`flex items-center justify-between mb-4 ${mounted ? 'animate-fade-in-up delay-4' : 'opacity-0'}`}
+            className={`mb-4 flex items-center justify-between ${mounted ? 'animate-fade-in-up delay-4' : 'opacity-0'}`}
           >
-            <p
-              className="text-xs font-medium"
-              style={{ color: 'var(--charcoal-muted)' }}
-            >
+            <p className="text-xs font-medium" style={{ color: 'var(--charcoal-muted)' }}>
               {filteredWorkshops.length} workshop{filteredWorkshops.length !== 1 ? 's' : ''} found
             </p>
 
@@ -525,7 +522,7 @@ export default function WorkshopsPage() {
                 <button
                   key={opt.key}
                   onClick={() => setActiveSort(opt.key)}
-                  className="px-2.5 py-1 rounded-lg text-[10px] font-semibold transition-all"
+                  className="rounded-lg px-2.5 py-1 text-[10px] font-semibold transition-all"
                   style={{
                     background: activeSort === opt.key ? 'var(--charcoal)' : 'var(--cream)',
                     color: activeSort === opt.key ? 'white' : 'var(--charcoal-muted)',
@@ -540,9 +537,7 @@ export default function WorkshopsPage() {
           {/* ================================================================
               WORKSHOP CARDS
               ================================================================ */}
-          <section
-            className={`${mounted ? 'animate-fade-in-up delay-5' : 'opacity-0'}`}
-          >
+          <section className={`${mounted ? 'animate-fade-in-up delay-5' : 'opacity-0'}`}>
             {filteredWorkshops.length > 0 ? (
               <div className="flex flex-col gap-4">
                 {filteredWorkshops.map((workshop) => {
@@ -562,28 +557,24 @@ export default function WorkshopsPage() {
                         <img
                           src={workshop.image}
                           alt={workshop.name}
-                          className="w-full h-full object-cover"
+                          className="h-full w-full object-cover"
                           loading="lazy"
                         />
 
                         {/* Category badge */}
-                        <span
-                          className="badge badge-amber absolute top-3 left-3"
-                        >
+                        <span className="badge badge-amber absolute left-3 top-3">
                           {catInfo?.emoji} {catInfo?.label}
                         </span>
 
                         {/* Availability badge */}
                         {workshop.availability === 'today' && (
-                          <span
-                            className="badge badge-sage absolute top-3 right-3"
-                          >
+                          <span className="badge badge-sage absolute right-3 top-3">
                             Available today
                           </span>
                         )}
                         {workshop.availability === 'tomorrow' && (
                           <span
-                            className="badge absolute top-3 right-3"
+                            className="badge absolute right-3 top-3"
                             style={{
                               background: 'var(--sage-light)',
                               color: 'var(--sage-dark)',
@@ -595,7 +586,7 @@ export default function WorkshopsPage() {
                         )}
                         {workshop.availability === 'booked' && (
                           <span
-                            className="badge absolute top-3 right-3"
+                            className="badge absolute right-3 top-3"
                             style={{
                               background: 'rgba(45, 42, 38, 0.6)',
                               color: 'rgba(255,255,255,0.85)',
@@ -610,22 +601,19 @@ export default function WorkshopsPage() {
                       <div className="p-4">
                         {/* Workshop Name */}
                         <h2
-                          className="font-display text-base leading-tight mb-1"
+                          className="font-display mb-1 text-base leading-tight"
                           style={{ color: 'var(--clay)' }}
                         >
                           {workshop.name}
                         </h2>
 
                         {/* Operator */}
-                        <p
-                          className="text-xs mb-2"
-                          style={{ color: 'var(--charcoal-light)' }}
-                        >
+                        <p className="mb-2 text-xs" style={{ color: 'var(--charcoal-light)' }}>
                           {workshop.operator}
                         </p>
 
                         {/* Rating */}
-                        <div className="flex items-center gap-1.5 mb-2.5">
+                        <div className="mb-2.5 flex items-center gap-1.5">
                           <div className="flex items-center gap-0.5">
                             {[...Array(5)].map((_, i) => (
                               <svg
@@ -633,7 +621,13 @@ export default function WorkshopsPage() {
                                 width="12"
                                 height="12"
                                 viewBox="0 0 24 24"
-                                fill={i < Math.floor(workshop.rating) ? 'var(--amber)' : (i < workshop.rating ? 'var(--amber-light)' : 'var(--sand)')}
+                                fill={
+                                  i < Math.floor(workshop.rating)
+                                    ? 'var(--amber)'
+                                    : i < workshop.rating
+                                      ? 'var(--amber-light)'
+                                      : 'var(--sand)'
+                                }
                                 stroke="none"
                               >
                                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -646,16 +640,13 @@ export default function WorkshopsPage() {
                           >
                             {workshop.rating}
                           </span>
-                          <span
-                            className="text-xs"
-                            style={{ color: 'var(--charcoal-muted)' }}
-                          >
+                          <span className="text-xs" style={{ color: 'var(--charcoal-muted)' }}>
                             ({workshop.reviewCount})
                           </span>
                         </div>
 
                         {/* Duration + Price Row */}
-                        <div className="flex items-center justify-between mb-2.5">
+                        <div className="mb-2.5 flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             {/* Duration */}
                             <div className="flex items-center gap-1">
@@ -672,10 +663,7 @@ export default function WorkshopsPage() {
                                 <circle cx="12" cy="12" r="10" />
                                 <polyline points="12 6 12 12 16 14" />
                               </svg>
-                              <span
-                                className="text-xs"
-                                style={{ color: 'var(--charcoal-light)' }}
-                              >
+                              <span className="text-xs" style={{ color: 'var(--charcoal-light)' }}>
                                 {workshop.duration}
                               </span>
                             </div>
@@ -695,10 +683,7 @@ export default function WorkshopsPage() {
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                                 <circle cx="12" cy="10" r="3" />
                               </svg>
-                              <span
-                                className="text-xs"
-                                style={{ color: 'var(--charcoal-light)' }}
-                              >
+                              <span className="text-xs" style={{ color: 'var(--charcoal-light)' }}>
                                 {workshop.area}
                               </span>
                             </div>
@@ -727,16 +712,19 @@ export default function WorkshopsPage() {
                             <span
                               className="badge"
                               style={{
-                                background: workshop.skillLevel === 'intermediate'
-                                  ? 'var(--amber-light)'
-                                  : 'var(--terracotta-light)',
-                                color: workshop.skillLevel === 'intermediate'
-                                  ? 'var(--amber-dark)'
-                                  : 'var(--terracotta-dark)',
+                                background:
+                                  workshop.skillLevel === 'intermediate'
+                                    ? 'var(--amber-light)'
+                                    : 'var(--terracotta-light)',
+                                color:
+                                  workshop.skillLevel === 'intermediate'
+                                    ? 'var(--amber-dark)'
+                                    : 'var(--terracotta-dark)',
                                 fontSize: '10px',
                               }}
                             >
-                              {workshop.skillLevel.charAt(0).toUpperCase() + workshop.skillLevel.slice(1)}
+                              {workshop.skillLevel.charAt(0).toUpperCase() +
+                                workshop.skillLevel.slice(1)}
                             </span>
                           )}
                         </div>
@@ -750,11 +738,11 @@ export default function WorkshopsPage() {
                   EMPTY STATE
                   ================================================================ */
               <div
-                className="flex flex-col items-center justify-center py-16 rounded-2xl"
+                className="flex flex-col items-center justify-center rounded-2xl py-16"
                 style={{ background: 'white' }}
               >
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
+                  className="mb-4 flex h-16 w-16 items-center justify-center rounded-full"
                   style={{ background: 'var(--sand)' }}
                 >
                   <svg
@@ -771,21 +759,18 @@ export default function WorkshopsPage() {
                     <path d="m21 21-4.3-4.3" />
                   </svg>
                 </div>
-                <p
-                  className="font-display text-sm mb-1"
-                  style={{ color: 'var(--charcoal)' }}
-                >
+                <p className="font-display mb-1 text-sm" style={{ color: 'var(--charcoal)' }}>
                   No workshops found
                 </p>
                 <p
-                  className="text-xs text-center max-w-[240px] mb-4"
+                  className="mb-4 max-w-[240px] text-center text-xs"
                   style={{ color: 'var(--charcoal-muted)' }}
                 >
                   Try different filters or search terms to discover workshops near you
                 </p>
                 <button
                   onClick={clearFilters}
-                  className="px-5 py-2.5 rounded-xl text-xs font-semibold transition-all hover-lift"
+                  className="hover-lift rounded-xl px-5 py-2.5 text-xs font-semibold transition-all"
                   style={{
                     background: 'var(--terracotta)',
                     color: 'white',

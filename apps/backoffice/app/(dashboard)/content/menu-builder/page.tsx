@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 // Types based on our food-database
 type DietaryTag = 'vegan' | 'vegetarian' | 'gluten_free' | 'dairy_free' | 'keto' | 'halal';
@@ -234,9 +235,7 @@ export default function MenuBuilderPage() {
     return true;
   });
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN').format(price) + ' ₫';
-  };
+  const formatPrice = (price: number) => _fp(price, 'VND');
 
   const toggleDietary = (tag: DietaryTag) => {
     if (selectedDietary.includes(tag)) {

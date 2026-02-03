@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { EmptyState } from '@/components/ui/empty-state';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { formatPrice as _fp } from '@gudbro/utils';
 
 // Types
 interface StaffProfile {
@@ -109,12 +110,7 @@ export default function MyTipsPage() {
   });
 
   // Format currency
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('it-IT', {
-      style: 'currency',
-      currency: 'EUR',
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => _fp(amount, 'EUR');
 
   // Format date
   const formatDate = (dateStr: string) => {

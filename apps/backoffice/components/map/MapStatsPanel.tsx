@@ -6,6 +6,7 @@
  * Stats sidebar showing aggregate data within the selected radius.
  */
 
+import { formatPriceFromMinor } from '@gudbro/utils';
 import {
   Users,
   Building2,
@@ -56,15 +57,8 @@ export function MapStatsPanel({
 
   const { stats, entities } = data;
 
-  // Format currency
-  const formatCurrency = (cents: number) => {
-    return new Intl.NumberFormat('it-IT', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(cents / 100);
-  };
+  // Format currency (cents -> display)
+  const formatCurrency = (cents: number) => formatPriceFromMinor(cents, 'EUR');
 
   return (
     <div className="flex h-full flex-col rounded-lg border border-gray-200 bg-white">

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Plus, Trash, Pencil, Check, X, Info, Package, Clock } from '@phosphor-icons/react';
 import { Loader2 } from 'lucide-react';
+import { formatPriceFromMinor as formatPrice } from '@gudbro/utils';
 
 // ============================================================================
 // Types
@@ -131,13 +132,7 @@ function majorToMinor(major: number, currency: string): number {
   return isZeroDecimal(currency) ? Math.round(major) : Math.round(major * 100);
 }
 
-function formatPrice(minor: number, currency: string): string {
-  const major = minorToMajor(minor, currency);
-  if (isZeroDecimal(currency)) {
-    return `${major.toLocaleString()} ${currency.toUpperCase()}`;
-  }
-  return `${major.toFixed(2)} ${currency.toUpperCase()}`;
-}
+// formatPrice imported from @gudbro/utils (formatPriceFromMinor)
 
 // ============================================================================
 // Component
