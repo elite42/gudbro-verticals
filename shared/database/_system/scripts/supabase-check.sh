@@ -14,10 +14,11 @@
 # NOTA: Questo script usa il pattern TESTATO che funziona con Supabase REST API
 # =============================================================================
 
-# Credenziali (dalla documentazione CLAUDE.md)
-# URL CORRETTO: nota "ezrz" nel mezzo, NON "eezr"
-SUPABASE_URL="https://vnaonebbuezrzvjekqxs.supabase.co/rest/v1"
-API_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZuYW9uZWJidWV6cnp2amVrcXhzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NDM1NDA0OSwiZXhwIjoyMDc5OTMwMDQ5fQ.tVvhJiYaSTYoKRPXDCV6Q2-jr5w2oMM-oOJ_VxtlgPI"
+# Credenziali from environment variables
+# Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before running this script.
+# Example: export SUPABASE_SERVICE_ROLE_KEY="your-key-here"
+SUPABASE_URL="${SUPABASE_URL:-https://vnaonebbuezrzvjekqxs.supabase.co}/rest/v1"
+API_KEY="${SUPABASE_SERVICE_ROLE_KEY:?Error: SUPABASE_SERVICE_ROLE_KEY environment variable is not set}"
 
 # Lista tabelle food
 FOOD_TABLES="cocktails wines sushi pasta coffee mexican vegetarian breakfast indian seafood pizzas tea steaks salads appetizers sandwiches fried beers burgers soups desserts risotti dumplings"
