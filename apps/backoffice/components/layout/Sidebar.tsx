@@ -46,6 +46,7 @@ interface NavItem {
   badge?: 'live' | 'new' | 'ai' | 'admin';
   children?: { name: string; href: string; requiredPermission?: Permission }[];
   requiredPermission?: Permission; // Permission needed to see this item
+  hidden?: boolean; // MVP: hide from sidebar without removing code
 }
 
 const navigation: NavItem[] = [
@@ -257,6 +258,7 @@ const navigation: NavItem[] = [
     href: '/partnerships',
     tooltipKey: 'partnerships',
     kbPageId: 'partnerships-overview',
+    hidden: true, // MVP: B2B features deferred
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -362,6 +364,7 @@ const navigation: NavItem[] = [
   {
     name: 'Accommodations',
     href: '/accommodations/bookings',
+    hidden: true, // MVP: Hotel/Airbnb vertical deferred
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
         <path
@@ -450,9 +453,11 @@ export function Sidebar() {
   // Check if user is staff (has limited permissions)
   const isStaffOnly = user?.role === 'staff';
 
-  // Filter navigation based on user permissions
+  // Filter navigation based on user permissions and hidden flag
   const filteredNavigation = useMemo(() => {
     return navigation.filter((item) => {
+      // MVP: Hide items marked as hidden (deferred verticals)
+      if (item.hidden) return false;
       // If no permission required, show to everyone
       if (!item.requiredPermission) return true;
       // Check if user has the required permission

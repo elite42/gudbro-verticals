@@ -137,6 +137,36 @@ export async function middleware(request: NextRequest) {
     response.headers.set('x-white-label', 'true');
   }
 
+  // MVP: Block API routes for deferred verticals (return 404)
+  const deferredApiRoutes = [
+    '/api/accommodations',
+    '/api/ai/conventions',
+    '/api/ai/tourism-partnerships',
+    '/api/ai/tourism-products',
+    '/api/ai/tourism-bookings',
+    '/api/partners',
+    '/api/partner-branding',
+    '/api/enterprise-leads',
+  ];
+
+  // MVP: Block page routes for deferred verticals (redirect to dashboard)
+  const deferredPageRoutes = ['/accommodations', '/partnerships'];
+
+  // Check if accessing deferred API route
+  const isDeferredApi = deferredApiRoutes.some((route) => pathname.startsWith(route));
+  if (isDeferredApi) {
+    return new NextResponse(JSON.stringify({ error: 'Feature coming soon' }), {
+      status: 404,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Check if accessing deferred page route
+  const isDeferredPage = deferredPageRoutes.some((route) => pathname.startsWith(route));
+  if (isDeferredPage) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
   // Public routes that don't require authentication
   const publicRoutes = [
     '/login',
