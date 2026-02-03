@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { getLocale, getMessages } from 'next-intl/server';
+import { APP_NAME } from '@gudbro/config';
 import './globals.css';
 import { Providers } from './providers';
 
@@ -10,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'GUDBRO Dashboard',
+  title: `${APP_NAME} Dashboard`,
   description: 'Manage your digital hospitality experience',
 };
 

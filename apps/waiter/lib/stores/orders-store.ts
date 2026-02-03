@@ -2,11 +2,13 @@
  * Orders Store
  *
  * Manages orders for assigned tables using Zustand.
+ * Uses shared OrderStatus and OrderItemStatus types from @gudbro/types.
  */
 
 import { create } from 'zustand';
+import type { OrderStatus, OrderItemStatus } from '@gudbro/types';
 
-export type OrderStatus = 'pending' | 'confirmed' | 'preparing' | 'ready' | 'served' | 'completed' | 'cancelled';
+export type { OrderStatus, OrderItemStatus };
 
 export interface OrderItem {
   id: string;
@@ -17,7 +19,7 @@ export interface OrderItem {
   totalPrice: number;
   notes?: string;
   modifiers?: string[];
-  status: 'pending' | 'preparing' | 'ready' | 'served';
+  status: OrderItemStatus;
 }
 
 export interface Order {
@@ -86,9 +88,7 @@ export const useOrdersStore = create<OrdersState>((set) => ({
 
   updateOrder: (id, updates) =>
     set((state) => ({
-      orders: sortOrders(
-        state.orders.map((o) => (o.id === id ? { ...o, ...updates } : o))
-      ),
+      orders: sortOrders(state.orders.map((o) => (o.id === id ? { ...o, ...updates } : o))),
     })),
 
   updateOrderItem: (orderId, itemId, updates) =>
@@ -97,9 +97,7 @@ export const useOrdersStore = create<OrdersState>((set) => ({
         o.id === orderId
           ? {
               ...o,
-              items: o.items.map((item) =>
-                item.id === itemId ? { ...item, ...updates } : item
-              ),
+              items: o.items.map((item) => (item.id === itemId ? { ...item, ...updates } : item)),
             }
           : o
       ),
@@ -119,9 +117,7 @@ export const useOrdersStore = create<OrdersState>((set) => ({
 
 // Selectors
 export const selectActiveOrders = (state: OrdersState) =>
-  state.orders.filter((o) =>
-    ['pending', 'confirmed', 'preparing', 'ready'].includes(o.status)
-  );
+  state.orders.filter((o) => ['pending', 'confirmed', 'preparing', 'ready'].includes(o.status));
 
 export const selectOrdersByTable = (tableId: string) => (state: OrdersState) =>
   state.orders.filter((o) => o.tableId === tableId);
@@ -130,6 +126,5 @@ export const selectReadyOrders = (state: OrdersState) =>
   state.orders.filter((o) => o.status === 'ready');
 
 export const selectActiveOrdersCount = (state: OrdersState) =>
-  state.orders.filter((o) =>
-    ['pending', 'confirmed', 'preparing', 'ready'].includes(o.status)
-  ).length;
+  state.orders.filter((o) => ['pending', 'confirmed', 'preparing', 'ready'].includes(o.status))
+    .length;

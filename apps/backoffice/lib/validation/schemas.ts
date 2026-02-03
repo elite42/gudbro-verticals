@@ -17,6 +17,7 @@
  */
 
 import { z } from 'zod';
+import { API } from '@gudbro/config';
 
 // =============================================================================
 // Common Validators
@@ -66,7 +67,7 @@ export const timeOnly = z
 /** Pagination parameters */
 export const pagination = z.object({
   page: z.number().int().min(1).default(1),
-  limit: z.number().int().min(1).max(100).default(20),
+  limit: z.number().int().min(1).max(API.MAX_PAGE_SIZE).default(API.DEFAULT_PAGE_SIZE),
 });
 
 // =============================================================================

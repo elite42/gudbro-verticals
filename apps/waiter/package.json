@@ -12,6 +12,8 @@
     "clean": "rm -rf .next .turbo node_modules"
   },
   "dependencies": {
+    "@gudbro/types": "workspace:*",
+    "@gudbro/utils": "workspace:*",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.39.0",
     "class-variance-authority": "^0.7.1",
