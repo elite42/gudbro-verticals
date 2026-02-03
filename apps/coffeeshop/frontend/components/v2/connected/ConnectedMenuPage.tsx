@@ -55,6 +55,8 @@ interface ConnectedMenuPageProps {
   /** Navigation for demo mode */
   activePage?: string;
   onNavigate?: (pageId: string) => void;
+  /** Initial category to display */
+  initialCategory?: string;
 }
 
 /**
@@ -77,6 +79,7 @@ export function ConnectedMenuPage({
   onThemeToggle,
   activePage,
   onNavigate,
+  initialCategory,
 }: ConnectedMenuPageProps) {
   // State
   const [cartCount, setCartCount] = useState(0);

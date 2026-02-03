@@ -339,6 +339,21 @@ export interface Translations {
     confirmationCode: string;
     successNote: string;
   };
+
+  // Useful Numbers page
+  usefulNumbers?: {
+    title?: string;
+    heroTitle?: string;
+    heroSubtitle?: string;
+    loading?: string;
+    retry?: string;
+    emergency?: string;
+    categories?: Record<string, string>;
+    cityServices?: string;
+    localServices?: string;
+    noNumbers?: string;
+    noNumbersDesc?: string;
+  };
 }
 
 export const translations: Record<Language, Translations> = {
