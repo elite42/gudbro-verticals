@@ -10,7 +10,7 @@ export default function Verify2FAPage() {
 
   const handleVerified = useCallback(() => {
     // Redirect to dashboard after successful 2FA verification
-    router.push('/');
+    router.push('/dashboard');
   }, [router]);
 
   const handleCancel = useCallback(async () => {

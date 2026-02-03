@@ -345,12 +345,12 @@ export default function OnboardingPage() {
               >
                 Go Back
               </button>
-              <button
-                onClick={() => router.push('/enterprise-contact')}
-                className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700"
+              <a
+                href="mailto:enterprise@gudbro.com?subject=Enterprise%20Inquiry"
+                className="inline-block rounded-lg bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700"
               >
                 Contact Sales
-              </button>
+              </a>
             </div>
           </div>
         </div>
