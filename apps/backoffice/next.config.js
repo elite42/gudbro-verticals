@@ -8,11 +8,10 @@ const withNextIntl = createNextIntlPlugin('./lib/i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    // Skip type checking for now due to monorepo type conflicts
-    ignoreBuildErrors: true,
+    // Type checking enforced — errors must be fixed, not ignored
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    // ESLint checking enforced during builds
   },
   // Enable instrumentation hook for Sentry
   experimental: {
