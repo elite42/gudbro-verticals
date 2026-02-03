@@ -13,9 +13,36 @@ const nextConfig = {
   eslint: {
     // ESLint checking enforced during builds
   },
-  // Enable instrumentation hook for Sentry
   experimental: {
     instrumentationHook: true,
+    // Exclude server-only packages from Server Components bundling
+    // This prevents @opentelemetry from being included in client bundle
+    serverComponentsExternalPackages: [
+      '@opentelemetry/instrumentation',
+      '@opentelemetry/api',
+      '@opentelemetry/sdk-trace-base',
+      '@opentelemetry/sdk-trace-node',
+      '@opentelemetry/resources',
+      '@sentry/node',
+    ],
+  },
+  // Custom webpack config to exclude server modules from client bundle
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Prevent server-only modules from being bundled in client
+      // These modules use Node.js APIs not available in browser
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        child_process: false,
+        perf_hooks: false,
+        async_hooks: false,
+        diagnostics_channel: false,
+      };
+    }
+    return config;
   },
   // Security and caching headers
   headers: async () => {

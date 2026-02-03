@@ -45,5 +45,8 @@ export default getRequestConfig(async () => {
   return {
     locale,
     messages: (await import(`../../messages/${locale}.json`)).default,
+    // Prevent hydration mismatch from environment timezone differences
+    // Using UTC as default, client will display in user's local time where needed
+    timeZone: 'UTC',
   };
 });
