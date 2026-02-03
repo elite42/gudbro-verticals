@@ -87,7 +87,6 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
       return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 });
     }
 
-    console.log(`Payment ${action}ed for booking ${bookingId}`);
     return NextResponse.json({ data: updated });
   } catch (err) {
     console.error('PATCH /api/bookings/[id]/payment error:', err);

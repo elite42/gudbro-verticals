@@ -215,12 +215,12 @@ async function submitToSupabaseWithRetry(orderData: SubmitOrderData): Promise<Su
 
       // Wait before retrying (exponential backoff)
       await sleep(RETRY_DELAY_MS * attempt);
-      console.log(`[OrderService] Retry attempt ${attempt + 1}/${MAX_RETRIES}...`);
+      console.warn(`[OrderService] Retry attempt ${attempt + 1}/${MAX_RETRIES}...`);
     }
   }
 
   // All retries failed - fallback to localStorage
-  console.log('[OrderService] All retries failed, falling back to localStorage');
+  console.warn('[OrderService] All retries failed, falling back to localStorage');
   try {
     const fallbackOrder = await submitToLocalStorage(orderData);
     return {

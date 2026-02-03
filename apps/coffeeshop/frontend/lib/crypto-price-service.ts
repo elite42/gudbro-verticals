@@ -187,7 +187,6 @@ async function fetchFromCoinGecko(): Promise<CryptoPrices | null> {
       }
     }
 
-    console.log('[CryptoPrice] Loaded prices from CoinGecko');
     return {
       prices,
       lastUpdated: Date.now(),
@@ -224,7 +223,6 @@ async function fetchFromSupabase(): Promise<CryptoPrices | null> {
       prices[row.symbol] = row.price_eur;
     }
 
-    console.log('[CryptoPrice] Loaded prices from Supabase');
     return {
       prices,
       lastUpdated: new Date(data[0].fetched_at).getTime(),
@@ -264,7 +262,7 @@ export async function getCryptoPrices(): Promise<CryptoPrices> {
   }
 
   // Fallback to hardcoded prices
-  console.log('[CryptoPrice] Using fallback prices');
+  console.warn('[CryptoPrice] Using fallback prices');
   return {
     ...FALLBACK_PRICES,
     lastUpdated: Date.now(),
@@ -394,8 +392,6 @@ export function getSupportedSymbols(): string[] {
  * Manually refresh crypto prices
  */
 export async function refreshCryptoPrices(): Promise<CryptoPrices> {
-  console.log('[CryptoPrice] Manually refreshing prices...');
-
   // Clear cache to force refresh
   if (typeof window !== 'undefined') {
     localStorage.removeItem(STORAGE_KEY);

@@ -203,7 +203,6 @@ export default function AccountSwitcher({
             <button
               onClick={() => {
                 // In production, call logout
-                console.log('Logout');
               }}
               className="flex w-full items-center gap-3 px-3 py-2 text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
             >

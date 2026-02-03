@@ -11,12 +11,6 @@ export const dynamic = 'force-dynamic';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-// Log Supabase config on load (without exposing full key)
-console.log('🔧 Supabase config:', {
-  url: supabaseUrl ? `${supabaseUrl.substring(0, 30)}...` : 'MISSING',
-  keyPresent: !!supabaseAnonKey,
-});
-
 const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
 // Types
@@ -116,8 +110,6 @@ export default function ModifiersPage() {
   }, []);
 
   async function fetchData() {
-    console.log('📥 fetchData() called');
-
     try {
       setLoading(true);
 
@@ -128,22 +120,17 @@ export default function ModifiersPage() {
         return;
       }
 
-      console.log('🔍 Querying merchants table...');
-
       // Get merchant
       const { data: merchants, error: merchantError } = await supabase
         .from('merchants')
         .select('id')
         .limit(1);
 
-      console.log('🏪 Merchants query result:', { merchants, error: merchantError });
-
       if (merchantError) {
         console.error('❌ Error fetching merchant:', merchantError);
       }
 
       if (merchants && merchants.length > 0) {
-        console.log('✅ Setting merchantId:', merchants[0].id);
         setMerchantId(merchants[0].id);
       } else {
         console.warn('⚠️ No merchants found - creating default merchant...');
@@ -162,32 +149,24 @@ export default function ModifiersPage() {
         if (createError) {
           console.error('❌ Error creating default merchant:', createError);
         } else if (newMerchant) {
-          console.log('✅ Created default merchant:', newMerchant.id);
           setMerchantId(newMerchant.id);
         }
       }
 
       // Fetch groups
-      console.log('🔍 Querying modifier_groups table...');
       const { data: groupsData, error: groupsError } = await supabase
         .from('modifier_groups')
         .select('*')
         .order('display_order');
 
-      console.log('📦 Groups query result:', { count: groupsData?.length, error: groupsError });
       if (groupsError) throw groupsError;
 
       // Fetch modifiers
-      console.log('🔍 Querying modifiers table...');
       const { data: modifiersData, error: modifiersError } = await supabase
         .from('modifiers')
         .select('*')
         .order('display_order');
 
-      console.log('📦 Modifiers query result:', {
-        count: modifiersData?.length,
-        error: modifiersError,
-      });
       if (modifiersError) throw modifiersError;
 
       // Count modifiers per group
@@ -269,12 +248,6 @@ export default function ModifiersPage() {
     const FALLBACK_MERCHANT_ID = 'f8bf7ceb-0923-437b-bc7a-1af3b82f3049';
     const effectiveMerchantId = merchantId || FALLBACK_MERCHANT_ID;
 
-    console.log('🔵 handleSaveGroup called', {
-      merchantId,
-      effectiveMerchantId,
-      name: groupForm.name_en,
-    });
-
     if (!effectiveMerchantId) {
       console.error('❌ No merchantId - cannot save group');
       alert(t('errors.noMerchant'));
@@ -344,15 +317,12 @@ export default function ModifiersPage() {
         throw new Error('Supabase client not initialized');
       }
 
-      console.log('💾 Saving group to database...', { editing: !!editingGroup });
-
       if (editingGroup) {
         const { error } = await supabase
           .from('modifier_groups')
           .update(groupData)
           .eq('id', editingGroup.id);
         if (error) throw error;
-        console.log('✅ Group updated successfully');
       } else {
         const { data, error } = await supabase
           .from('modifier_groups')
@@ -360,7 +330,6 @@ export default function ModifiersPage() {
           .select()
           .single();
         if (error) throw error;
-        console.log('✅ Group created successfully:', data?.id);
         // Replace temp ID with real ID
         if (data) {
           setGroups((prev) => prev.map((g) => (g.id === tempId ? { ...g, id: data.id } : g)));

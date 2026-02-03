@@ -225,7 +225,7 @@ export async function fetchSiteConfig(locationId?: string): Promise<SiteConfig> 
   // Return static fallback if Supabase not configured
   if (!isSupabaseConfigured || !supabase) {
     if (process.env.NODE_ENV === 'development') {
-      console.log('[SiteConfig] Supabase not configured, using static fallback');
+      console.warn('[SiteConfig] Supabase not configured');
     }
     const fallback = getStaticFallback();
     cachedConfig = fallback;
@@ -258,7 +258,7 @@ export async function fetchSiteConfig(locationId?: string): Promise<SiteConfig> 
     // If no sections found, return defaults
     if (!data || data.length === 0) {
       if (process.env.NODE_ENV === 'development') {
-        console.log('[SiteConfig] No published sections found, using defaults');
+        // Silently ignore
       }
       return getStaticFallback();
     }

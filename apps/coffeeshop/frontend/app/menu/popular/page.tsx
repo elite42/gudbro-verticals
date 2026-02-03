@@ -20,22 +20,27 @@ export default function PopularPage() {
   }, []);
 
   // TIER 2 only - currently disabled for TIER 1
-  const handleAddToCart = (dish: DishItem, quantity: number, extras: Extra[], saveAsPreference?: boolean) => {
-    console.log('⚠️ Cart is disabled for TIER 1');
-  };
+  const handleAddToCart = (
+    dish: DishItem,
+    quantity: number,
+    extras: Extra[],
+    saveAsPreference?: boolean
+  ) => {};
 
   return (
-    <div className="min-h-screen bg-theme-bg-secondary pb-28">
+    <div className="bg-theme-bg-secondary min-h-screen pb-28">
       {/* Header with Back Button */}
-      <div className="bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary text-white px-4 py-6 shadow-md sticky top-0 z-20">
+      <div className="from-theme-brand-primary to-theme-brand-primary sticky top-0 z-20 bg-gradient-to-r px-4 py-6 text-white shadow-md">
         <div className="container mx-auto flex items-center gap-4">
           {/* Back Button */}
-          <Link
-            href="/menu"
-            className="p-2 hover:bg-white/20 rounded-full transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <Link href="/menu" className="rounded-full p-2 transition-colors hover:bg-white/20">
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </Link>
 

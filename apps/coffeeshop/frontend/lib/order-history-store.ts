@@ -91,7 +91,6 @@ export const orderHistoryStore = {
     current.orders.unshift(newOrder); // Add to beginning of array
     this.set(current);
 
-    console.log('📝 Order saved to history:', newOrder);
     return newOrder;
   },
 
@@ -107,14 +106,14 @@ export const orderHistoryStore = {
    */
   getSessionOrders(): Order[] {
     const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
-    return this.get().orders.filter(order => order.submittedAt > oneDayAgo);
+    return this.get().orders.filter((order) => order.submittedAt > oneDayAgo);
   },
 
   /**
    * Get order by ID
    */
   getById(orderId: string): Order | undefined {
-    return this.get().orders.find(order => order.id === orderId);
+    return this.get().orders.find((order) => order.id === orderId);
   },
 
   /**
@@ -122,7 +121,7 @@ export const orderHistoryStore = {
    */
   updateStatus(orderId: string, status: Order['status']): void {
     const current = this.get();
-    const orderIndex = current.orders.findIndex(order => order.id === orderId);
+    const orderIndex = current.orders.findIndex((order) => order.id === orderId);
 
     if (orderIndex >= 0) {
       current.orders[orderIndex].status = status;

@@ -36,7 +36,11 @@ export default function TablesPage() {
 
   // Calculate effective view mode
   const activeAssignments = assignments.filter((a) => a.status !== 'completed');
-  const effectiveViewMode = getEffectiveViewMode(viewMode, activeAssignments.length, autoSwitchThreshold);
+  const effectiveViewMode = getEffectiveViewMode(
+    viewMode,
+    activeAssignments.length,
+    autoSwitchThreshold
+  );
 
   // Get requests and orders for selected table
   const selectedTableRequests = useMemo(() => {
@@ -89,21 +93,21 @@ export default function TablesPage() {
     setSelectedTable(null);
   }, []);
 
-  const handlePaymentComplete = useCallback((method: PaymentMethod, details?: Record<string, unknown>) => {
-    console.log('Payment completed:', { method, details, table: selectedTable?.tableNumber });
+  const handlePaymentComplete = useCallback(
+    (method: PaymentMethod, details?: Record<string, unknown>) => {
+      // In production: update order status, close table, etc.
+      if (selectedTable) {
+        // Mark as completed
+        removeAssignment(selectedTable.id);
+      }
 
-    // In production: update order status, close table, etc.
-    if (selectedTable) {
-      // Mark as completed
-      removeAssignment(selectedTable.id);
-    }
-
-    handleClosePayment();
-  }, [selectedTable, removeAssignment, handleClosePayment]);
+      handleClosePayment();
+    },
+    [selectedTable, removeAssignment, handleClosePayment]
+  );
 
   const handleOpenMore = useCallback(() => {
     // TODO: Implement more options menu
-    console.log('Open more options for table:', selectedTable?.tableNumber);
   }, [selectedTable]);
 
   const handleToggleView = useCallback(() => {
@@ -120,12 +124,15 @@ export default function TablesPage() {
 
   // Calculate request counts per table (for card view)
   const requestCounts = useMemo(() => {
-    return requests.reduce((acc, req) => {
-      if (req.status === 'pending' || req.status === 'acknowledged') {
-        acc[req.tableId] = (acc[req.tableId] || 0) + 1;
-      }
-      return acc;
-    }, {} as Record<string, number>);
+    return requests.reduce(
+      (acc, req) => {
+        if (req.status === 'pending' || req.status === 'acknowledged') {
+          acc[req.tableId] = (acc[req.tableId] || 0) + 1;
+        }
+        return acc;
+      },
+      {} as Record<string, number>
+    );
   }, [requests]);
 
   return (
@@ -146,8 +153,8 @@ export default function TablesPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold text-theme-text-primary">I miei tavoli</h1>
-              <p className="text-sm text-theme-text-secondary">
+              <h1 className="text-theme-text-primary text-xl font-bold">I miei tavoli</h1>
+              <p className="text-theme-text-secondary text-sm">
                 {activeAssignments.length} tavoli attivi
               </p>
             </div>
@@ -182,7 +189,7 @@ export default function TablesPage() {
         isOpen={isPaymentSheetOpen}
         onClose={handleClosePayment}
         tableNumber={selectedTable?.tableNumber || ''}
-        total={selectedTableTotal || 45.50} // Default for demo
+        total={selectedTableTotal || 45.5} // Default for demo
         onPaymentComplete={handlePaymentComplete}
       />
     </div>

@@ -11,20 +11,20 @@ import { useTranslation } from '@/lib/use-translation';
 
 // Category metadata mapping
 const categoryMetadata: Record<string, { name: string; icon: string }> = {
-  'coffee': { name: 'Coffee', icon: '☕' },
-  'tea': { name: 'Tea', icon: '🍵' },
-  'smoothie': { name: 'Smoothies', icon: '🥤' },
-  'bowl': { name: 'Bowls', icon: '🥗' },
-  'lunch': { name: 'Food', icon: '🍽️' },
-  'dessert': { name: 'Desserts', icon: '🍰' },
-  'wellness': { name: 'Wellness', icon: '💚' },
-  'breakfast': { name: 'Breakfast', icon: '🍳' },
-  'beverage': { name: 'Beverages', icon: '🧃' },
-  'antipasti': { name: 'Antipasti', icon: '🥙' },
-  'primi': { name: 'Primi', icon: '🍝' },
-  'secondi': { name: 'Secondi', icon: '🥩' },
+  coffee: { name: 'Coffee', icon: '☕' },
+  tea: { name: 'Tea', icon: '🍵' },
+  smoothie: { name: 'Smoothies', icon: '🥤' },
+  bowl: { name: 'Bowls', icon: '🥗' },
+  lunch: { name: 'Food', icon: '🍽️' },
+  dessert: { name: 'Desserts', icon: '🍰' },
+  wellness: { name: 'Wellness', icon: '💚' },
+  breakfast: { name: 'Breakfast', icon: '🍳' },
+  beverage: { name: 'Beverages', icon: '🧃' },
+  antipasti: { name: 'Antipasti', icon: '🥙' },
+  primi: { name: 'Primi', icon: '🍝' },
+  secondi: { name: 'Secondi', icon: '🥩' },
   'piatti-unici': { name: 'Piatti Unici', icon: '🍽️' },
-  'pizza': { name: 'Pizza', icon: '🍕' }
+  pizza: { name: 'Pizza', icon: '🍕' },
 };
 
 export default function CategoryPage() {
@@ -36,12 +36,14 @@ export default function CategoryPage() {
 
   // Load all menu items and filter by category
   const allMenuItems: DishItem[] = getROOTSMenuItemsSync();
-  const menuItems = allMenuItems.filter(item => item.category.toLowerCase() === categoryId.toLowerCase());
+  const menuItems = allMenuItems.filter(
+    (item) => item.category.toLowerCase() === categoryId.toLowerCase()
+  );
 
   // Get category metadata
   const metadata = categoryMetadata[categoryId.toLowerCase()] || {
     name: categoryId,
-    icon: '📦'
+    icon: '📦',
   };
 
   useEffect(() => {
@@ -49,22 +51,27 @@ export default function CategoryPage() {
   }, []);
 
   // TIER 2 only - currently disabled for TIER 1
-  const handleAddToCart = (dish: DishItem, quantity: number, extras: Extra[], saveAsPreference?: boolean) => {
-    console.log('⚠️ Cart is disabled for TIER 1');
-  };
+  const handleAddToCart = (
+    dish: DishItem,
+    quantity: number,
+    extras: Extra[],
+    saveAsPreference?: boolean
+  ) => {};
 
   return (
-    <div className="min-h-screen bg-theme-bg-secondary pb-28">
+    <div className="bg-theme-bg-secondary min-h-screen pb-28">
       {/* Header with Back Button */}
-      <div className="bg-gradient-to-r from-theme-brand-primary to-theme-brand-primary text-white px-4 py-6 shadow-md sticky top-0 z-20">
+      <div className="from-theme-brand-primary to-theme-brand-primary sticky top-0 z-20 bg-gradient-to-r px-4 py-6 text-white shadow-md">
         <div className="container mx-auto flex items-center gap-4">
           {/* Back Button */}
-          <Link
-            href="/menu"
-            className="p-2 hover:bg-white/20 rounded-full transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <Link href="/menu" className="rounded-full p-2 transition-colors hover:bg-white/20">
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </Link>
 
@@ -97,9 +104,11 @@ export default function CategoryPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
-            <h2 className="text-2xl font-bold text-theme-text-primary mb-2">{t.emptyState.noProducts}</h2>
+          <div className="py-16 text-center">
+            <div className="mb-4 text-6xl">🔍</div>
+            <h2 className="text-theme-text-primary mb-2 text-2xl font-bold">
+              {t.emptyState.noProducts}
+            </h2>
             <p className="text-theme-text-secondary">{t.emptyState.noProductsInCategory}</p>
           </div>
         )}

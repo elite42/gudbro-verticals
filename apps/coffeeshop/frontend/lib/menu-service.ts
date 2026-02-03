@@ -353,7 +353,7 @@ function transformJsonItem(item: any, lang: string = 'en'): NormalizedProduct {
  */
 async function fetchCoffeeFromSupabase(): Promise<SupabaseCoffeeItem[] | null> {
   if (!isSupabaseConfigured || !supabase) {
-    console.log('[MenuService] Supabase not configured, using JSON fallback');
+    console.warn('[MenuService] Supabase not configured, using JSON fallback');
     return null;
   }
 
@@ -370,11 +370,9 @@ async function fetchCoffeeFromSupabase(): Promise<SupabaseCoffeeItem[] | null> {
     }
 
     if (!data || data.length === 0) {
-      console.log('[MenuService] No coffee items in Supabase, using JSON fallback');
       return null;
     }
 
-    console.log(`[MenuService] Loaded ${data.length} coffee items from Supabase`);
     return data as SupabaseCoffeeItem[];
   } catch (err) {
     console.error('[MenuService] Supabase coffee fetch failed:', err);
@@ -402,7 +400,6 @@ async function fetchTeaFromSupabase(): Promise<SupabaseCoffeeItem[] | null> {
       return null;
     }
 
-    console.log(`[MenuService] Loaded ${data?.length || 0} tea items from Supabase`);
     return data as SupabaseCoffeeItem[];
   } catch (err) {
     console.error('[MenuService] Supabase tea fetch failed:', err);
@@ -416,7 +413,7 @@ async function fetchTeaFromSupabase(): Promise<SupabaseCoffeeItem[] | null> {
  */
 async function fetchFromSupabase(): Promise<NormalizedProduct[] | null> {
   if (!isSupabaseConfigured || !supabase) {
-    console.log('[MenuService] Supabase not configured, using JSON fallback');
+    console.warn('[MenuService] Supabase not configured, using JSON fallback');
     return null;
   }
 
@@ -446,11 +443,9 @@ async function fetchFromSupabase(): Promise<NormalizedProduct[] | null> {
     }
 
     if (allItems.length === 0) {
-      console.log('[MenuService] No items from Supabase, using JSON fallback');
       return null;
     }
 
-    console.log(`[MenuService] Total ${allItems.length} items loaded from Supabase`);
     return allItems;
   } catch (err) {
     console.error('[MenuService] Supabase fetch failed:', err);
@@ -470,7 +465,6 @@ export async function getMenuProducts(lang: string = 'en'): Promise<NormalizedPr
   }
 
   // Fallback to JSON
-  console.log(`[MenuService] Using JSON fallback (${coffeeHouseProducts.length} items)`);
   return (coffeeHouseProducts as any[])
     .filter((item) => item.isVisible !== false)
     .map((item) => transformJsonItem(item, lang));
@@ -548,7 +542,7 @@ export async function getMenuSource(): Promise<'supabase' | 'json'> {
  */
 export function subscribeToMenuChanges(onUpdate: (items: NormalizedProduct[]) => void): () => void {
   if (!isSupabaseConfigured || !supabase) {
-    console.log('[MenuService] Real-time not available (Supabase not configured)');
+    console.warn('[MenuService] Real-time not available');
     return () => {};
   }
 
@@ -556,7 +550,6 @@ export function subscribeToMenuChanges(onUpdate: (items: NormalizedProduct[]) =>
   const coffeeSubscription = supabase
     .channel('coffee_changes')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'coffee' }, async (payload) => {
-      console.log('[MenuService] Coffee menu changed:', payload.eventType);
       const items = await getMenuProductsRaw();
       onUpdate(items);
     })
@@ -566,7 +559,6 @@ export function subscribeToMenuChanges(onUpdate: (items: NormalizedProduct[]) =>
   const teaSubscription = supabase
     .channel('tea_changes')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tea' }, async (payload) => {
-      console.log('[MenuService] Tea menu changed:', payload.eventType);
       const items = await getMenuProductsRaw();
       onUpdate(items);
     })

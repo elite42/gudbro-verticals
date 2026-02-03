@@ -42,8 +42,6 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error && data.session) {
-      console.log('Auth callback success for user:', data.user?.email);
-
       // Handle password reset redirect
       if (type === 'recovery') {
         return NextResponse.redirect(`${origin}/auth/reset-password`);

@@ -72,7 +72,11 @@ export function useMenuStores(): UseMenuStoresResult {
 
     if (typeof window !== 'undefined') {
       window.addEventListener('table-context-updated', handleTableContextUpdate as EventListener);
-      return () => window.removeEventListener('table-context-updated', handleTableContextUpdate as EventListener);
+      return () =>
+        window.removeEventListener(
+          'table-context-updated',
+          handleTableContextUpdate as EventListener
+        );
     }
   }, []);
 
@@ -86,7 +90,6 @@ export function useMenuStores(): UseMenuStoresResult {
     if (tableParam) {
       const tableNumber = tableContextStore.parseQR(tableParam);
       if (tableNumber) {
-        console.log('[useMenuStores] QR Code scanned - Table:', tableNumber);
         tableContextStore.setFromQR(tableNumber);
         setTableContext(tableContextStore.get());
       }

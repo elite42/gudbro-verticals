@@ -97,9 +97,7 @@ export async function GET(request: NextRequest) {
             console.error(`document-lifecycle cron: ${days}d reminder update error`, updateError);
           } else {
             remindersSent += docIds.length;
-            console.log(
-              `document-lifecycle cron: marked ${docIds.length} visa docs for ${days}d reminder`
-            );
+            // Reminder docs marked successfully
           }
         }
       }

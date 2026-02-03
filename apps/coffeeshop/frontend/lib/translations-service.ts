@@ -60,12 +60,12 @@ export async function fetchTranslatedMenuItems(
 
   // Check cache
   const cached = translationsCache.menuItems.get(cacheKey);
-  if (cached && (Date.now() - translationsCache.lastUpdated) < CACHE_TTL) {
+  if (cached && Date.now() - translationsCache.lastUpdated < CACHE_TTL) {
     return cached;
   }
 
   if (!isSupabaseConfigured || !supabase) {
-    console.log('[TranslationsService] Supabase not configured, returning empty');
+    console.warn('[TranslationsService] Supabase not configured');
     return [];
   }
 
@@ -88,7 +88,7 @@ export async function fetchTranslatedMenuItems(
     translationsCache.lastUpdated = Date.now();
 
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[TranslationsService] Fetched ${items.length} menu items for ${languageCode}`);
+      // Silently ignore
     }
 
     return items;
@@ -112,12 +112,12 @@ export async function fetchTranslatedCategories(
 
   // Check cache
   const cached = translationsCache.categories.get(cacheKey);
-  if (cached && (Date.now() - translationsCache.lastUpdated) < CACHE_TTL) {
+  if (cached && Date.now() - translationsCache.lastUpdated < CACHE_TTL) {
     return cached;
   }
 
   if (!isSupabaseConfigured || !supabase) {
-    console.log('[TranslationsService] Supabase not configured, returning empty');
+    console.warn('[TranslationsService] Supabase not configured');
     return [];
   }
 
@@ -140,7 +140,7 @@ export async function fetchTranslatedCategories(
     translationsCache.lastUpdated = Date.now();
 
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[TranslationsService] Fetched ${categories.length} categories for ${languageCode}`);
+      // Silently ignore
     }
 
     return categories;
@@ -195,10 +195,7 @@ export function clearTranslationsCache(): void {
  *
  * Useful for warming the cache on app load.
  */
-export async function preloadTranslations(
-  merchantId: string,
-  languageCode: string
-): Promise<void> {
+export async function preloadTranslations(merchantId: string, languageCode: string): Promise<void> {
   await Promise.all([
     fetchTranslatedMenuItems(merchantId, languageCode),
     fetchTranslatedCategories(merchantId, languageCode),

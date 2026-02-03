@@ -156,7 +156,6 @@ async function flushEvents(): Promise<void> {
 
   if (!isSupabaseConfigured || !supabase) {
     // Store locally if Supabase not configured
-    console.log('[Analytics] Stored locally:', eventsToSend.length, 'events');
     return;
   }
 
@@ -178,7 +177,7 @@ async function flushEvents(): Promise<void> {
       // Re-queue failed events
       eventQueue = [...eventsToSend, ...eventQueue];
     } else {
-      console.log('[Analytics] Sent', eventsToSend.length, 'events');
+      // Silently ignore
     }
   } catch (err) {
     console.error('[Analytics] Error sending events:', err);
@@ -388,8 +387,6 @@ export function initAnalytics(): void {
       trackPerformance('page_load', loadTime);
     }
   }
-
-  console.log('[Analytics] Initialized');
 }
 
 // ============================================

@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
       await supabase.from('loyalty_transactions').insert(transactionData);
     } catch (logError) {
       // Table might not exist or have different schema
-      console.log('Transaction log skipped:', logError);
+      console.warn('[Loyalty] Transaction log skipped:', logError);
     }
 
     return NextResponse.json({

@@ -158,7 +158,7 @@ export async function getModifiersForCategory(categoryId: string): Promise<Produ
   }
 
   if (!isSupabaseConfigured || !supabase) {
-    console.log('[ModifierService] Supabase not configured, returning empty array');
+    console.warn('[ModifierService] Supabase not configured');
     return [];
   }
 

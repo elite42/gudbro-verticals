@@ -69,7 +69,8 @@ export function useAccountRoles(): UseAccountRolesResult {
       // Fetch account by auth_id
       const { data: accountData, error: accountError } = await supabase
         .from('accounts')
-        .select(`
+        .select(
+          `
           id,
           email,
           first_name,
@@ -78,13 +79,14 @@ export function useAccountRoles(): UseAccountRolesResult {
           avatar_url,
           total_points,
           loyalty_tier
-        `)
+        `
+        )
         .eq('auth_id', supabaseUser.id)
         .single();
 
       if (accountError) {
         // Account might not exist yet in the new system
-        console.log('Account not found in unified system:', accountError.message);
+        console.warn('[AccountRoles] Account not found:', accountError.message);
         setIsLoading(false);
         return;
       }
@@ -92,7 +94,8 @@ export function useAccountRoles(): UseAccountRolesResult {
       // Fetch roles for this account
       const { data: rolesData, error: rolesError } = await supabase
         .from('account_roles')
-        .select(`
+        .select(
+          `
           id,
           role_type,
           tenant_id,
@@ -100,7 +103,8 @@ export function useAccountRoles(): UseAccountRolesResult {
           is_primary,
           is_active,
           permissions
-        `)
+        `
+        )
         .eq('account_id', accountData.id)
         .eq('is_active', true);
 
@@ -142,8 +146,8 @@ export function useAccountRoles(): UseAccountRolesResult {
 
       // Restore current role from localStorage or use primary
       const savedRoleId = localStorage.getItem(CURRENT_ROLE_KEY);
-      const savedRole = rolesWithTenantNames.find(r => r.id === savedRoleId);
-      const primaryRole = rolesWithTenantNames.find(r => r.is_primary);
+      const savedRole = rolesWithTenantNames.find((r) => r.id === savedRoleId);
+      const primaryRole = rolesWithTenantNames.find((r) => r.is_primary);
       const defaultRole = savedRole || primaryRole || rolesWithTenantNames[0] || null;
 
       setCurrentRole(defaultRole);
@@ -159,32 +163,32 @@ export function useAccountRoles(): UseAccountRolesResult {
     fetchAccountRoles();
   }, [fetchAccountRoles]);
 
-  const switchRole = useCallback((roleId: string) => {
-    if (!account) return;
+  const switchRole = useCallback(
+    (roleId: string) => {
+      if (!account) return;
 
-    const role = account.roles.find(r => r.id === roleId);
-    if (role) {
-      setCurrentRole(role);
-      localStorage.setItem(CURRENT_ROLE_KEY, roleId);
+      const role = account.roles.find((r) => r.id === roleId);
+      if (role) {
+        setCurrentRole(role);
+        localStorage.setItem(CURRENT_ROLE_KEY, roleId);
 
-      // Update primary role in database
-      supabase
-        .from('account_roles')
-        .update({ is_primary: true })
-        .eq('id', roleId)
-        .then(() => {
-          // Reset other roles' is_primary
-          account.roles
-            .filter(r => r.id !== roleId)
-            .forEach(r => {
-              supabase
-                .from('account_roles')
-                .update({ is_primary: false })
-                .eq('id', r.id);
-            });
-        });
-    }
-  }, [account, supabase]);
+        // Update primary role in database
+        supabase
+          .from('account_roles')
+          .update({ is_primary: true })
+          .eq('id', roleId)
+          .then(() => {
+            // Reset other roles' is_primary
+            account.roles
+              .filter((r) => r.id !== roleId)
+              .forEach((r) => {
+                supabase.from('account_roles').update({ is_primary: false }).eq('id', r.id);
+              });
+          });
+      }
+    },
+    [account, supabase]
+  );
 
   const refreshRoles = useCallback(async () => {
     await fetchAccountRoles();

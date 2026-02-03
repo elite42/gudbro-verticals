@@ -115,7 +115,9 @@ async function fetchHealthProfile(accountId: string): Promise<HealthProfileData 
   try {
     const { data, error } = await supabase
       .from('health_profiles')
-      .select('allergens, dietary_preferences, intolerances, food_styles, custom_preferences, updated_at')
+      .select(
+        'allergens, dietary_preferences, intolerances, food_styles, custom_preferences, updated_at'
+      )
       .eq('account_id', accountId)
       .single();
 
@@ -143,15 +145,16 @@ async function updateHealthProfile(
   if (!isSupabaseConfigured || !supabase) return false;
 
   try {
-    const { error } = await supabase
-      .from('health_profiles')
-      .upsert({
+    const { error } = await supabase.from('health_profiles').upsert(
+      {
         account_id: accountId,
         ...prefs,
         updated_at: new Date().toISOString(),
-      }, {
+      },
+      {
         onConflict: 'account_id',
-      });
+      }
+    );
 
     if (error) {
       console.error('[PreferenceSync] Error updating health profile:', error);
@@ -206,7 +209,6 @@ export async function syncPreferences(): Promise<SyncResult> {
 
       if (success) {
         setLastSyncTimestamp(new Date().toISOString());
-        console.log('[PreferenceSync] Uploaded local preferences to cloud');
         return { success: true, direction: 'upload' };
       }
 
@@ -215,9 +217,7 @@ export async function syncPreferences(): Promise<SyncResult> {
 
     // Case 2: Cloud profile exists - compare timestamps
     const cloudUpdatedAt = new Date(cloudProfile.updated_at).getTime();
-    const localUpdatedAt = lastSyncTimestamp
-      ? new Date(lastSyncTimestamp).getTime()
-      : 0;
+    const localUpdatedAt = lastSyncTimestamp ? new Date(lastSyncTimestamp).getTime() : 0;
 
     // Cloud is newer → download
     if (cloudUpdatedAt > localUpdatedAt) {
@@ -230,7 +230,6 @@ export async function syncPreferences(): Promise<SyncResult> {
         window.dispatchEvent(new Event('preferences-updated'));
       }
 
-      console.log('[PreferenceSync] Downloaded preferences from cloud');
       return { success: true, direction: 'download' };
     }
 
@@ -241,7 +240,6 @@ export async function syncPreferences(): Promise<SyncResult> {
 
       if (success) {
         setLastSyncTimestamp(new Date().toISOString());
-        console.log('[PreferenceSync] Uploaded local preferences to cloud');
         return { success: true, direction: 'upload' };
       }
 
@@ -249,15 +247,13 @@ export async function syncPreferences(): Promise<SyncResult> {
     }
 
     // Same timestamp → no action needed
-    console.log('[PreferenceSync] Preferences are in sync');
     return { success: true, direction: 'none' };
-
   } catch (err) {
     console.error('[PreferenceSync] Sync failed:', err);
     return {
       success: false,
       direction: 'none',
-      error: err instanceof Error ? err.message : 'Unknown error'
+      error: err instanceof Error ? err.message : 'Unknown error',
     };
   }
 }
@@ -278,7 +274,6 @@ export async function uploadPreferences(): Promise<boolean> {
 
   if (success) {
     setLastSyncTimestamp(new Date().toISOString());
-    console.log('[PreferenceSync] Force uploaded preferences');
   }
 
   return success;
@@ -297,7 +292,6 @@ export async function downloadPreferences(): Promise<boolean> {
   const cloudProfile = await fetchHealthProfile(session.user.id);
 
   if (!cloudProfile) {
-    console.log('[PreferenceSync] No cloud profile found');
     return false;
   }
 
@@ -310,7 +304,6 @@ export async function downloadPreferences(): Promise<boolean> {
     window.dispatchEvent(new Event('preferences-updated'));
   }
 
-  console.log('[PreferenceSync] Force downloaded preferences from cloud');
   return true;
 }
 

@@ -572,7 +572,7 @@ function AccountPageContent() {
 
             const result = await response.json();
             if (result.success) {
-              console.log(`Points recorded: ${actionType} = ${result.points}`);
+              // Silently ignore
             }
           } catch (error) {
             console.error('Failed to record points:', error);

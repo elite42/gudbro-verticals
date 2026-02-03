@@ -134,28 +134,16 @@ export function useStickyCartState() {
       // Save order to local history with backend order code
       const savedOrder = orderHistoryStore.addOrder(orderData);
 
-      console.log('📦 Order submitted to backend:', {
-        orderId: result.orderId,
-        orderCode: result.orderCode,
-        orderNumber: result.orderNumber,
-        items: cartItems.length,
-        total: cartTotal,
-      });
-
       // Clear cart MULTIPLE times to ensure it's cleared
-      console.log('🗑️ Clearing cart...');
       cartStore.clear();
-      console.log('🗑️ Cart after first clear:', cartStore.get());
 
       // Force clear localStorage directly as backup
       if (typeof window !== 'undefined') {
         localStorage.removeItem('roots-cart');
-        console.log('🗑️ Cart localStorage removed directly');
       }
 
       // Verify cart is empty
       const verifyCart = cartStore.get();
-      console.log('🗑️ Final cart verification:', verifyCart);
 
       // Force state update to empty
       setCartItems([]);

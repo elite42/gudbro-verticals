@@ -274,7 +274,7 @@ export async function POST(request: NextRequest) {
         .in('status', ['pending', 'sent']);
 
       if (escalationError) {
-        console.log('Escalation update skipped:', escalationError.message);
+        console.warn('[Requests] Escalation update skipped:', escalationError.message);
       }
     }
 
@@ -290,7 +290,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (logError) {
-      console.log('Action log skipped:', logError.message);
+      console.warn('[Requests] Action log skipped:', logError.message);
     }
 
     return NextResponse.json({

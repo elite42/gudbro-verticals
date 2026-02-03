@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
           .single();
 
         if (existing?.payment_status === 'paid') {
-          console.log(`Payment already confirmed for booking ${bookingId}, skipping`);
+          // Already confirmed, skip idempotently
           break;
         }
 
@@ -75,10 +75,6 @@ export async function POST(request: NextRequest) {
 
         if (updateError) {
           console.error(`Failed to update booking ${bookingId}:`, updateError);
-        } else {
-          console.log(
-            `Payment confirmed for booking ${bookingId} (${paymentStatus}, ${depositPercent}% deposit)`
-          );
         }
       }
       break;
@@ -99,14 +95,14 @@ export async function POST(request: NextRequest) {
         if (updateError) {
           console.error(`Failed to revert booking ${bookingId}:`, updateError);
         } else {
-          console.log(`Checkout session expired for booking ${bookingId}, reverted to pending`);
+          // Reverted to pending after session expiry
         }
       }
       break;
     }
 
     default:
-      console.log(`Unhandled event type: ${event.type}`);
+      console.warn('[Stripe] Unhandled event type:', event.type);
   }
 
   return NextResponse.json({ received: true });

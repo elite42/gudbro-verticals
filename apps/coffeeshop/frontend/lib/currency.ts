@@ -44,9 +44,6 @@ async function fetchRates(): Promise<ExchangeRates> {
         .single();
 
       if (!error && data) {
-        console.log(
-          `[CurrencyConverter] Loaded rates from Supabase (${new Date(data.fetched_at).toLocaleDateString()})`
-        );
         return {
           base: data.base_currency,
           rates: data.rates as Record<string, number>,
@@ -65,7 +62,6 @@ async function fetchRates(): Promise<ExchangeRates> {
       const response = await fetch(`https://v6.exchangerate-api.com/v6/${API_KEY}/latest/VND`);
       if (response.ok) {
         const apiData = await response.json();
-        console.log('[CurrencyConverter] Loaded rates from external API');
         return {
           base: 'VND',
           rates: apiData.conversion_rates || {},
@@ -78,7 +74,7 @@ async function fetchRates(): Promise<ExchangeRates> {
   }
 
   // 3. Fallback to hardcoded rates
-  console.log('[CurrencyConverter] Using fallback exchange rates');
+  console.warn('[CurrencyConverter] Using fallback rates');
   return {
     ...DEFAULT_FALLBACK_RATES,
     lastUpdated: Date.now(),

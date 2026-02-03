@@ -115,7 +115,6 @@ export function UpgradePrompt({
       onUpgrade();
     } else {
       // Default: could open a modal or redirect to pricing page
-      console.log(`Upgrade requested: ${currentTier} → ${targetTier.id}`);
       // In production: window.location.href = '/pricing' or open modal
     }
   };

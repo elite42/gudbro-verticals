@@ -174,9 +174,7 @@ export const defaultVenueConfig: VenueOnboardingConfig = {
  *
  * TODO: Fetch from API in production
  */
-export async function getVenueConfig(
-  venueId?: string
-): Promise<VenueOnboardingConfig> {
+export async function getVenueConfig(venueId?: string): Promise<VenueOnboardingConfig> {
   // In production:
   // const response = await fetch(`/api/venues/${venueId}/onboarding-config`);
   // return response.json();
@@ -202,6 +200,5 @@ export async function updateVenueConfig(
   //   method: 'PATCH',
   //   body: JSON.stringify(config),
   // });
-
-  console.log('TODO: Implement updateVenueConfig', { venueId, config });
+  // TODO: Implement updateVenueConfig
 }

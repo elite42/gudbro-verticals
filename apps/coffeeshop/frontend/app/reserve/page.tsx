@@ -39,7 +39,6 @@ function ReservePageContent() {
     partySize: number;
   }) => {
     // Could trigger analytics, notifications, etc.
-    console.log('Reservation created:', reservation);
   };
 
   // Get translations with fallback

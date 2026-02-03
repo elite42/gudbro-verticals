@@ -229,7 +229,6 @@ export default function OrdersPage() {
     const channel = supabase
       .channel('orders-changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, (payload) => {
-        console.log('Order change:', payload);
         if (payload.eventType === 'INSERT') {
           setOrders((prev) => [payload.new as Order, ...prev]);
         } else if (payload.eventType === 'UPDATE') {

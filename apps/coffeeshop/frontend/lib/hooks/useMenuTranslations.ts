@@ -75,7 +75,7 @@ export function useMenuTranslations(
       setCategories(cats);
 
       if (process.env.NODE_ENV === 'development') {
-        console.log(`[useMenuTranslations] Loaded ${items.length} items, ${cats.length} categories for ${language}`);
+        // Silently ignore
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch translations';
@@ -129,9 +129,7 @@ export function useMenuTranslations(
 export function useTranslatedMenuItem(menuItemId: string | null) {
   const { menuItems, isLoading, error } = useMenuTranslations();
 
-  const item = menuItemId
-    ? menuItems.find((i) => i.id === menuItemId)
-    : undefined;
+  const item = menuItemId ? menuItems.find((i) => i.id === menuItemId) : undefined;
 
   return {
     item,

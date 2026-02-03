@@ -124,19 +124,19 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     // Check if QR code is active
     if (!qrCode.is_active) {
-      console.log('QR code inactive:', code);
+      console.warn('[QR] Code inactive:', code);
       return NextResponse.redirect(buildErrorRedirect('/qr-inactive', merchantInfo));
     }
 
     // Check expiration
     if (qrCode.expires_at && new Date(qrCode.expires_at) < new Date()) {
-      console.log('QR code expired:', code);
+      console.warn('[QR] Code expired:', code);
       return NextResponse.redirect(buildErrorRedirect('/qr-expired', merchantInfo));
     }
 
     // Check max scans
     if (qrCode.max_scans && qrCode.total_scans >= qrCode.max_scans) {
-      console.log('QR code max scans reached:', code);
+      console.warn('[QR] Max scans reached:', code);
       return NextResponse.redirect(buildErrorRedirect('/qr-limit-reached', merchantInfo));
     }
 

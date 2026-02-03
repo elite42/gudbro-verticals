@@ -388,7 +388,6 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
     saveAsPreference?: boolean
   ) => {
     selectionsStore.add(dish, quantity, extras);
-    console.log('✅ Added to selections:', { dish: dish.name, quantity, extras, saveAsPreference });
   };
 
   return (
@@ -591,7 +590,7 @@ export default function MenuClient({ initialMenuItems }: MenuClientProps) {
           onOpenPreferences={openPreferencesFromAccount}
           onOpenSettings={() => {
             closeAccountSidebar();
-            console.log('Settings clicked');
+            // TODO: Navigate to settings
           }}
         />
       )}

@@ -154,7 +154,7 @@ export async function fetchMerchantConfig(
   // Return static fallback if Supabase not configured
   if (!isSupabaseConfigured || !supabase) {
     if (process.env.NODE_ENV === 'development') {
-      console.log('[MerchantConfig] Supabase not configured, using static fallback');
+      console.warn('[MerchantConfig] Supabase not configured');
     }
     const fallback = getStaticFallback();
     cachedConfig = fallback;

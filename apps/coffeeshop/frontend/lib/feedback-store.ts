@@ -162,7 +162,6 @@ class FeedbackStore {
 
       if (response.ok && result.success) {
         this.markAsSynced(feedback.id);
-        console.log('Feedback synced to backend:', result.feedbackId);
       } else {
         console.warn('Feedback sync failed:', result.error);
       }

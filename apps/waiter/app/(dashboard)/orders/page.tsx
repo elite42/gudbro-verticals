@@ -24,8 +24,24 @@ const mockOrders: Order[] = [
     tableNumber: '7',
     status: 'ready',
     items: [
-      { id: 'i1', productId: 'p1', productName: 'Margherita', quantity: 2, unitPrice: 8.5, totalPrice: 17, status: 'ready' },
-      { id: 'i2', productId: 'p2', productName: 'Coca Cola', quantity: 2, unitPrice: 3, totalPrice: 6, status: 'ready' },
+      {
+        id: 'i1',
+        productId: 'p1',
+        productName: 'Margherita',
+        quantity: 2,
+        unitPrice: 8.5,
+        totalPrice: 17,
+        status: 'ready',
+      },
+      {
+        id: 'i2',
+        productId: 'p2',
+        productName: 'Coca Cola',
+        quantity: 2,
+        unitPrice: 3,
+        totalPrice: 6,
+        status: 'ready',
+      },
     ],
     subtotal: 23,
     tax: 2.3,
@@ -41,8 +57,24 @@ const mockOrders: Order[] = [
     tableNumber: '3',
     status: 'preparing',
     items: [
-      { id: 'i3', productId: 'p3', productName: 'Carbonara', quantity: 1, unitPrice: 12, totalPrice: 12, status: 'preparing' },
-      { id: 'i4', productId: 'p4', productName: 'Bruschette', quantity: 1, unitPrice: 6, totalPrice: 6, status: 'ready' },
+      {
+        id: 'i3',
+        productId: 'p3',
+        productName: 'Carbonara',
+        quantity: 1,
+        unitPrice: 12,
+        totalPrice: 12,
+        status: 'preparing',
+      },
+      {
+        id: 'i4',
+        productId: 'p4',
+        productName: 'Bruschette',
+        quantity: 1,
+        unitPrice: 6,
+        totalPrice: 6,
+        status: 'ready',
+      },
     ],
     subtotal: 18,
     tax: 1.8,
@@ -59,7 +91,15 @@ const mockOrders: Order[] = [
     tableNumber: '12',
     status: 'confirmed',
     items: [
-      { id: 'i5', productId: 'p5', productName: 'Tiramisù', quantity: 3, unitPrice: 5.5, totalPrice: 16.5, status: 'pending' },
+      {
+        id: 'i5',
+        productId: 'p5',
+        productName: 'Tiramisù',
+        quantity: 3,
+        unitPrice: 5.5,
+        totalPrice: 16.5,
+        status: 'pending',
+      },
     ],
     subtotal: 16.5,
     tax: 1.65,
@@ -91,7 +131,7 @@ export default function OrdersPage() {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     // Simulate refresh
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setOrders(mockOrders);
     setIsRefreshing(false);
   };
@@ -104,7 +144,6 @@ export default function OrdersPage() {
   // Handle order press
   const handlePress = (order: Order) => {
     // TODO: Navigate to order details
-    console.log('Order pressed:', order);
   };
 
   // Filter orders
@@ -113,8 +152,10 @@ export default function OrdersPage() {
     // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      if (!o.tableNumber.toLowerCase().includes(query) &&
-          !o.orderNumber.toLowerCase().includes(query)) {
+      if (
+        !o.tableNumber.toLowerCase().includes(query) &&
+        !o.orderNumber.toLowerCase().includes(query)
+      ) {
         return false;
       }
     }
@@ -126,25 +167,25 @@ export default function OrdersPage() {
     return true;
   });
 
-  const readyCount = activeOrders.filter(o => o.status === 'ready').length;
-  const preparingCount = activeOrders.filter(o => o.status === 'preparing').length;
+  const readyCount = activeOrders.filter((o) => o.status === 'ready').length;
+  const preparingCount = activeOrders.filter((o) => o.status === 'preparing').length;
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="space-y-4 p-4">
       {/* Search and filter bar */}
       <div className="flex gap-2">
         <div className="relative flex-1">
           <MagnifyingGlass
             size={20}
             weight="bold"
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-theme-text-tertiary"
+            className="text-theme-text-tertiary absolute left-4 top-1/2 -translate-y-1/2"
           />
           <input
             type="search"
             placeholder="Cerca per tavolo o ordine..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 rounded-xl bg-theme-bg-primary border border-theme-border-medium text-theme-text-primary placeholder:text-theme-text-tertiary focus:border-theme-brand-primary focus:ring-2 focus:ring-theme-brand-secondary transition-colors"
+            className="bg-theme-bg-primary border-theme-border-medium text-theme-text-primary placeholder:text-theme-text-tertiary focus:border-theme-brand-primary focus:ring-theme-brand-secondary w-full rounded-xl border py-3 pl-12 pr-4 transition-colors focus:ring-2"
           />
         </div>
 
@@ -154,11 +195,7 @@ export default function OrdersPage() {
           className="btn-ghost p-3"
           aria-label="Aggiorna"
         >
-          <ArrowClockwise
-            size={20}
-            weight="bold"
-            className={isRefreshing ? 'animate-spin' : ''}
-          />
+          <ArrowClockwise size={20} weight="bold" className={isRefreshing ? 'animate-spin' : ''} />
         </button>
       </div>
 
@@ -166,7 +203,7 @@ export default function OrdersPage() {
       <div className="flex gap-2">
         <button
           onClick={() => setFilterStatus('all')}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+          className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
             filterStatus === 'all'
               ? 'bg-theme-brand-primary text-white'
               : 'bg-theme-bg-secondary text-theme-text-secondary hover:bg-theme-bg-tertiary'
@@ -176,7 +213,7 @@ export default function OrdersPage() {
         </button>
         <button
           onClick={() => setFilterStatus('ready')}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+          className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
             filterStatus === 'ready'
               ? 'bg-green-500 text-white'
               : 'bg-theme-bg-secondary text-theme-text-secondary hover:bg-theme-bg-tertiary'
@@ -186,7 +223,7 @@ export default function OrdersPage() {
         </button>
         <button
           onClick={() => setFilterStatus('preparing')}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+          className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
             filterStatus === 'preparing'
               ? 'bg-amber-500 text-white'
               : 'bg-theme-bg-secondary text-theme-text-secondary hover:bg-theme-bg-tertiary'
@@ -200,12 +237,12 @@ export default function OrdersPage() {
       {isLoading && !isRefreshing ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="card overflow-hidden animate-pulse">
-              <div className="h-12 bg-theme-bg-tertiary" />
-              <div className="p-4 space-y-3">
-                <div className="h-5 bg-theme-bg-tertiary rounded w-1/3" />
-                <div className="h-4 bg-theme-bg-tertiary rounded w-2/3" />
-                <div className="h-4 bg-theme-bg-tertiary rounded w-1/2" />
+            <div key={i} className="card animate-pulse overflow-hidden">
+              <div className="bg-theme-bg-tertiary h-12" />
+              <div className="space-y-3 p-4">
+                <div className="bg-theme-bg-tertiary h-5 w-1/3 rounded" />
+                <div className="bg-theme-bg-tertiary h-4 w-2/3 rounded" />
+                <div className="bg-theme-bg-tertiary h-4 w-1/2 rounded" />
               </div>
             </div>
           ))}

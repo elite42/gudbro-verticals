@@ -622,7 +622,7 @@ export default function CalendarPage() {
         events={events}
         overrides={overrides}
         operatingHours={operatingHours}
-        onDateClick={(date) => console.log('Date clicked:', date)}
+        onDateClick={() => {}}
         onEventClick={(event) => setSelectedEvent(event)}
         onOverrideClick={(override) => setSelectedOverride(override)}
         onCreateEvent={(date) => {

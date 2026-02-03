@@ -84,7 +84,7 @@ export function useDirection(): UseDirectionResult {
 
     // Log for debugging in development
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[i18n] Direction set to ${direction} for language: ${selectedLanguage}`);
+      // Silently ignore
     }
   }, [direction, selectedLanguage, isClient, isRTL]);
 

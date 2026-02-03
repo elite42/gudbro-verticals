@@ -157,11 +157,7 @@ async function handleWebhook(request: NextRequest) {
         const transactionId = await completeStripeTopUp(topupSessionId, paymentIntentId);
 
         if (transactionId) {
-          console.log('Wallet top-up completed:', {
-            topupSessionId,
-            transactionId,
-            amount: session.amount_total,
-          });
+          // Top-up completed successfully
         } else {
           console.error('Failed to complete wallet top-up:', topupSessionId);
         }
@@ -188,12 +184,12 @@ async function handleWebhook(request: NextRequest) {
 
     case 'payment_intent.payment_failed': {
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
-      console.log('Payment failed:', paymentIntent.id);
+      console.warn('[Stripe] Payment failed:', paymentIntent.id);
       break;
     }
 
     default:
-      console.log(`Unhandled event type: ${event.type}`);
+      console.warn('[Stripe] Unhandled event type:', event.type);
   }
 
   return NextResponse.json({ received: true });

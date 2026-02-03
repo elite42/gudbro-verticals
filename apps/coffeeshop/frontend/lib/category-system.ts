@@ -19,7 +19,7 @@ import {
   getCategoryById,
   getCategoryMenuType as getCategoryMenuTypeFromData,
   MenuType,
-  Category
+  Category,
 } from '@/data/categories';
 
 // =============================================================================
@@ -30,18 +30,18 @@ import {
  * All valid static category IDs from categories.ts
  * This is auto-generated from the categories array
  */
-export const VALID_CATEGORY_IDS = categories.map(c => c.id) as readonly string[];
+export const VALID_CATEGORY_IDS = categories.map((c) => c.id) as readonly string[];
 
 /**
  * Type representing a valid category ID
  */
-export type ValidCategoryId = typeof VALID_CATEGORY_IDS[number];
+export type ValidCategoryId = (typeof VALID_CATEGORY_IDS)[number];
 
 /**
  * Dynamic/virtual category IDs (not in database, computed at runtime)
  */
 export const DYNAMIC_CATEGORY_IDS = ['popular', 'new', 'favorites', 'all'] as const;
-export type DynamicCategoryId = typeof DYNAMIC_CATEGORY_IDS[number];
+export type DynamicCategoryId = (typeof DYNAMIC_CATEGORY_IDS)[number];
 
 /**
  * All category IDs (static + dynamic)
@@ -108,7 +108,7 @@ export function validateProducts<T extends { id: string; name: string; category:
         warnings.push({
           type: 'legacy_category',
           category: product.category,
-          message: `Category "${product.category}" not found in categories.ts. Product "${product.name}" defaulted to 'drinks' tab.`
+          message: `Category "${product.category}" not found in categories.ts. Product "${product.name}" defaulted to 'drinks' tab.`,
         });
       } else {
         errors.push({
@@ -116,7 +116,7 @@ export function validateProducts<T extends { id: string; name: string; category:
           productId: product.id,
           productName: product.name,
           category: product.category,
-          message: `Product "${product.name}" has unknown category "${product.category}" not defined in categories.ts`
+          message: `Product "${product.name}" has unknown category "${product.category}" not defined in categories.ts`,
         });
       }
     } else if (!categoryData.menuType) {
@@ -125,7 +125,7 @@ export function validateProducts<T extends { id: string; name: string; category:
         productId: product.id,
         productName: product.name,
         category: product.category,
-        message: `Category "${product.category}" exists but has no menuType defined`
+        message: `Category "${product.category}" exists but has no menuType defined`,
       });
     }
   }
@@ -136,7 +136,7 @@ export function validateProducts<T extends { id: string; name: string; category:
       warnings.push({
         type: 'empty_category',
         category: category.id,
-        message: `Category "${category.id}" is visible but has no products`
+        message: `Category "${category.id}" is visible but has no products`,
       });
     }
   }
@@ -152,13 +152,13 @@ export function validateProducts<T extends { id: string; name: string; category:
   }
 
   if (throwOnError && errors.length > 0) {
-    throw new Error(`Category validation failed: ${errors.map(e => e.message).join('; ')}`);
+    throw new Error(`Category validation failed: ${errors.map((e) => e.message).join('; ')}`);
   }
 
   return {
     isValid: errors.length === 0,
     errors,
-    warnings
+    warnings,
   };
 }
 
@@ -186,8 +186,18 @@ export function getProductMenuType(categoryId: string): MenuType {
 
   // Known food categories (legacy)
   const legacyFoodCategories = [
-    'antipasti', 'primi', 'secondi', 'contorni', 'piatti-unici', 'pizza',
-    'bowl', 'lunch', 'breakfast', 'brunch', 'dinner', 'snack'
+    'antipasti',
+    'primi',
+    'secondi',
+    'contorni',
+    'piatti-unici',
+    'pizza',
+    'bowl',
+    'lunch',
+    'breakfast',
+    'brunch',
+    'dinner',
+    'snack',
   ];
 
   // Known merchandise categories (legacy)
@@ -254,8 +264,8 @@ export const DYNAMIC_CATEGORIES: Record<DynamicCategoryId, DynamicCategoryConfig
     description: {
       en: 'View all menu items',
       it: 'Vedi tutti gli articoli',
-      vi: 'Xem tất cả món'
-    }
+      vi: 'Xem tất cả món',
+    },
   },
   popular: {
     id: 'popular',
@@ -267,8 +277,8 @@ export const DYNAMIC_CATEGORIES: Record<DynamicCategoryId, DynamicCategoryConfig
     description: {
       en: 'Most ordered items',
       it: 'Articoli più ordinati',
-      vi: 'Món được đặt nhiều nhất'
-    }
+      vi: 'Món được đặt nhiều nhất',
+    },
   },
   new: {
     id: 'new',
@@ -280,8 +290,8 @@ export const DYNAMIC_CATEGORIES: Record<DynamicCategoryId, DynamicCategoryConfig
     description: {
       en: 'Recently added items',
       it: 'Articoli aggiunti di recente',
-      vi: 'Món mới thêm gần đây'
-    }
+      vi: 'Món mới thêm gần đây',
+    },
   },
   favorites: {
     id: 'favorites',
@@ -293,9 +303,9 @@ export const DYNAMIC_CATEGORIES: Record<DynamicCategoryId, DynamicCategoryConfig
     description: {
       en: 'Your saved favorites',
       it: 'I tuoi preferiti salvati',
-      vi: 'Món yêu thích đã lưu'
-    }
-  }
+      vi: 'Món yêu thích đã lưu',
+    },
+  },
 };
 
 /**
@@ -340,7 +350,7 @@ export function getCategoryInfo(categoryId: string): CategoryInfo | null {
       icon: dynamic.icon,
       menuType: null,
       isDynamic: true,
-      isVisible: true
+      isVisible: true,
     };
   }
 
@@ -353,7 +363,7 @@ export function getCategoryInfo(categoryId: string): CategoryInfo | null {
       icon: staticCategory.icon,
       menuType: staticCategory.menuType,
       isDynamic: false,
-      isVisible: staticCategory.isVisible
+      isVisible: staticCategory.isVisible,
     };
   }
 
@@ -373,15 +383,15 @@ export function logCategorySystemStatus(): void {
 
   console.group('📁 Category System Status');
 
-  console.log('Static Categories:', VALID_CATEGORY_IDS.length);
-  console.table(categories.map(c => ({
-    id: c.id,
-    menuType: c.menuType,
-    visible: c.isVisible,
-    subcategories: c.subcategories?.length || 0
-  })));
+  console.table(
+    categories.map((c) => ({
+      id: c.id,
+      menuType: c.menuType,
+      visible: c.isVisible,
+      subcategories: c.subcategories?.length || 0,
+    }))
+  );
 
-  console.log('Dynamic Categories:', DYNAMIC_CATEGORY_IDS.length);
   console.table(DYNAMIC_CATEGORIES);
 
   console.groupEnd();
