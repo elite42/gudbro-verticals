@@ -1,0 +1,92 @@
+# Dependabot configuration for gudbro-verticals monorepo
+# Docs: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+
+updates:
+  # ─── Root (pnpm workspace) ───────────────────────────────────
+  # Covers the root pnpm-lock.yaml which includes all workspace packages.
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+    open-pull-requests-limit: 10
+    labels:
+      - 'infrastructure'
+    groups:
+      # Group minor + patch updates to reduce PR noise
+      npm-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+      # Keep major updates as individual PRs for careful review
+    # Focus on security-relevant updates
+    allow:
+      - dependency-type: 'direct'
+
+  # ─── Backoffice (Admin Dashboard) ────────────────────────────
+  - package-ecosystem: 'npm'
+    directory: '/apps/backoffice'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+    open-pull-requests-limit: 5
+    labels:
+      - 'infrastructure'
+    groups:
+      backoffice-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+    allow:
+      - dependency-type: 'direct'
+
+  # ─── Coffeeshop Frontend (Digital Menu PWA) ──────────────────
+  - package-ecosystem: 'npm'
+    directory: '/apps/coffeeshop/frontend'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+    open-pull-requests-limit: 5
+    labels:
+      - 'infrastructure'
+      - 'F&B'
+    groups:
+      coffeeshop-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+    allow:
+      - dependency-type: 'direct'
+
+  # ─── Shared packages ─────────────────────────────────────────
+  - package-ecosystem: 'npm'
+    directory: '/shared/ui'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+    open-pull-requests-limit: 3
+    labels:
+      - 'infrastructure'
+    groups:
+      shared-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+    allow:
+      - dependency-type: 'direct'
+
+  # ─── GitHub Actions ──────────────────────────────────────────
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+    open-pull-requests-limit: 5
+    labels:
+      - 'infrastructure'
+    groups:
+      actions-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
