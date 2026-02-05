@@ -20,6 +20,11 @@
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/post-edit.sh",
             "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/sql-validator.sh",
+            "timeout": 15
           }
         ]
       }
@@ -30,6 +35,15 @@
           {
             "type": "command",
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/stop-hook.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "You are a completion checker for a coding session. Analyze the conversation transcript and determine if Claude should stop.\n\nCheck these conditions:\n1. Was the user's most recent request fully completed?\n2. Are there unresolved errors or failed operations that need attention?\n3. If the user asked for a commit, was it made?\n4. If the user asked for verification (/verify, /qa-quick), was it run?\n\nIMPORTANT: If stop_hook_active is true in the context, that means this hook already continued the session once. In that case, respond {\"ok\": true} to avoid infinite loops unless there is a clear critical issue.\n\nContext: $ARGUMENTS\n\nRespond with {\"ok\": true} if work is complete, or {\"ok\": false, \"reason\": \"brief explanation of what's missing\"} if Claude should continue.",
+            "timeout": 30
           }
         ]
       }

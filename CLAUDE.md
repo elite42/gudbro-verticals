@@ -2,8 +2,8 @@
 
 > **Contesto essenziale per Claude Code**
 >
-> **Last Updated:** 2026-02-02
-> **Version:** 9.4 (Audit fix: synced current focus with v2.0 Codebase Hardening progress)
+> **Last Updated:** 2026-02-05
+> **Version:** 9.7 (Self-Validation Hooks, claude-mem, agent memory)
 
 ---
 
@@ -75,12 +75,14 @@ Vuoi continuare o fare altro?
 
 > **Queste regole sono OBBLIGATORIE. Ignorarle causa errori ripetuti e spreco di token.**
 
-| Tool                                | Azione       | Note                         |
-| ----------------------------------- | ------------ | ---------------------------- |
-| `mcp__Pieces__ask_pieces_ltm`       | ✅ USA       | Interroga memoria storica    |
-| `mcp__Pieces__create_pieces_memory` | ❌ MAI USARE | Pieces salva automaticamente |
+| Tool                                | Azione       | Note                                                                              |
+| ----------------------------------- | ------------ | --------------------------------------------------------------------------------- |
+| `mcp__Pieces__ask_pieces_ltm`       | ✅ USA       | Interroga memoria storica                                                         |
+| `mcp__Pieces__create_pieces_memory` | ❌ MAI USARE | Pieces salva automaticamente                                                      |
+| `claude-mem` (search/timeline/get)  | ✅ USA       | Memoria persistente cross-sessione. Cerca contesto prima di rileggere file grandi |
 
 **Per salvare ricerche/note:** Scrivi in `docs/research/` o `docs/knowledge/`, NON tentare di salvare in Pieces.
+**Memoria cross-sessione:** claude-mem salva automaticamente. Usa `search` → `timeline` → `get_observations` per recuperare contesto da sessioni precedenti.
 
 ---
 
@@ -519,14 +521,14 @@ Quando lavoro su UI/UX DEVO usare skill `frontend-design`:
 
 > **Agent specializzati in `.claude/agents/`.** Claude li usa come sub-agent per task specifici.
 
-| Agent                   | Funzione                                                                        | Quando Usare                                         |
-| ----------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| `analyst`               | Analizza dati analytics, genera report settimanali, identifica trend e anomalie | Report, analisi metriche, funnel conversion          |
-| `backoffice-specialist` | Sviluppo Backoffice Admin (CRUD, TanStack Table, Prisma, multi-tenant)          | Nuove pagine admin, gestione dati, import/export     |
-| `proposer`              | Genera suggerimenti miglioramento basati su dati (prioritizzati per impatto)    | Dopo report analyst, sprint planning, ottimizzazioni |
-| `pwa-specialist`        | Sviluppo Coffeeshop PWA (multi-locale, RTL, currency, UI)                       | Feature menu digitale, multi-lingua, PWA             |
-| `verify-app`            | Verifica completa post-modifiche (typecheck, build, security, test)             | Dopo feature, prima di commit/PR, QA                 |
-| `plan-reviewer`         | Review piani GSD come Staff Engineer (completezza, rischi, dipendenze)          | Dopo /gsd:plan-phase, prima di execute               |
+| Agent                   | Funzione                                                                                      | Quando Usare                                         |
+| ----------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `analyst`               | Analizza dati analytics, genera report settimanali, identifica trend e anomalie               | Report, analisi metriche, funnel conversion          |
+| `backoffice-specialist` | Sviluppo Backoffice Admin (CRUD, TanStack Table, Prisma, multi-tenant)                        | Nuove pagine admin, gestione dati, import/export     |
+| `proposer`              | Genera suggerimenti miglioramento basati su dati (prioritizzati per impatto)                  | Dopo report analyst, sprint planning, ottimizzazioni |
+| `pwa-specialist`        | Sviluppo Coffeeshop PWA (multi-locale, RTL, currency, UI)                                     | Feature menu digitale, multi-lingua, PWA             |
+| `verify-app`            | Verifica completa post-modifiche (typecheck, build, security, test). **Ha `memory: project`** | Dopo feature, prima di commit/PR, QA                 |
+| `plan-reviewer`         | Review piani GSD come Staff Engineer (completezza, rischi, dipendenze)                        | Dopo /gsd:plan-phase, prima di execute               |
 
 ### Quando Claude USA gli Agents
 
@@ -603,6 +605,22 @@ Ogni piano ha max 3 task. Ogni commit è atomico, indipendentemente revertabile,
 
 ---
 
+# 10.5 Self-Validation Hooks
+
+> **Hook automatici in `.claude/settings.json`.** Si attivano su eventi del lifecycle di Claude Code.
+
+| Hook                        | Evento                   | Tipo    | Funzione                                                               |
+| --------------------------- | ------------------------ | ------- | ---------------------------------------------------------------------- |
+| `security_reminder_hook.py` | PreToolUse (Edit/Write)  | command | Verifica pattern di sicurezza (SQL injection, hardcoded secrets, etc.) |
+| `post-edit.sh`              | PostToolUse (Edit/Write) | command | Auto-format con Prettier + context reminders                           |
+| `sql-validator.sh`          | PostToolUse (Edit/Write) | command | Valida file .sql: UUID hex, array syntax, no ENUM, RLS obbligatorio    |
+| `stop-hook.sh`              | Stop                     | command | State machine per workflow continuity                                  |
+| Completion checker          | Stop                     | prompt  | LLM verifica se il task e stato completato prima di fermarsi           |
+
+**Riferimento completo:** `docs/knowledge/systems/CLAUDE-CODE-ADVANCED-PATTERNS.md`
+
+---
+
 # 11. ARCHITECTURAL DECISIONS
 
 | Decision     | Rule                   |
@@ -647,9 +665,10 @@ Ogni piano ha max 3 task. Ogni commit è atomico, indipendentemente revertabile,
 
 ---
 
-**Version:** 9.6
+**Version:** 9.7
 **Changes:**
 
+- v9.7 - Self-Validation Hooks & Memory: added SQL validator hook (PostToolUse), prompt-based completion checker (Stop hook), verify-app agent memory (`memory: project`), claude-mem MCP plugin for cross-session persistence. New section 10.5 Self-Validation Hooks. New reference doc `docs/knowledge/systems/CLAUDE-CODE-ADVANCED-PATTERNS.md`.
 - v9.6 - Boris Cherny Tips: added Git Worktrees guide (section 2.1), auto-update lessons rule (section 2), /techdebt and /context-sync slash commands, plan-reviewer agent for GSD plan validation
 - v9.5 - OpenClaw separation: moved ai-employee.md and ai-manga-project.md to `~/openclaw/docs/`. Created `~/openclaw/CLAUDE.md` for dedicated Claude Code session. Simplified AI Infrastructure references in backlog to point to `~/openclaw/`.
 - v9.4 - Audit Fix: synced Section 0 current focus from v1.3 to v2.0 Phase 41 complete. CLAUDE.md was 4 milestones behind (v1.4, v1.5 shipped + v2.0 started). Root cause: no GSD workflow step updates CLAUDE.md after milestone/phase completion.

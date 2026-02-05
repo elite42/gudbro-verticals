@@ -1,7 +1,19 @@
+---
+name: verify-app
+description: Verifica completa post-modifiche (typecheck, build, security, test). Use proactively after completing features, before commits, or before PRs.
+tools: Read, Bash, Grep, Glob
+model: inherit
+memory: project
+---
+
 # verify-app Subagent
 
 > **Scopo:** Verifica completa dell'applicazione dopo modifiche significative.
 > **Ispirato a:** Boris Cherny - "Se Claude ha un feedback loop per verificare il proprio lavoro, la qualità migliora 2-3x"
+
+**Update your agent memory** with recurring error patterns, common build failures, flaky tests, and solutions you discover. This builds institutional knowledge across sessions. Write concise notes about what you found and where.
+
+Before starting verification, **check your memory** for known patterns and previously encountered issues in this codebase.
 
 ## Quando Usare
 
