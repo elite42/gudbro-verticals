@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 import { useTenant } from '@/lib/contexts/TenantContext';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useIsMobile } from '@/lib/hooks/useIsMobile';
@@ -16,10 +16,6 @@ import { OpportunityBannerWrapper } from '@/components/ai/OpportunityBanner';
 import { FoodCostProgress } from '@/components/food-cost';
 
 export const dynamic = 'force-dynamic';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 interface DashboardStats {
   menuItems: number;

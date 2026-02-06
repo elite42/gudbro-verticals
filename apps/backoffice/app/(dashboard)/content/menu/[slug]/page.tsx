@@ -2,7 +2,7 @@
 
 import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 import { formatPrice as _fp } from '@gudbro/utils';
 import type {
   MultiLangText,
@@ -22,10 +22,6 @@ import { SafetyDietaryTab } from './components/SafetyDietaryTab';
 import { CustomizationsTab } from './components/CustomizationsTab';
 import { AvailabilityTab } from './components/AvailabilityTab';
 import { SeoTagsTab } from './components/SeoTagsTab';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function ProductEditorPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = use(params);
