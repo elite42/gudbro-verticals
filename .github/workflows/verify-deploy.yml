@@ -16,54 +16,73 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Wait for Vercel deployment
-        run: |
-          echo "Waiting 3 minutes for Vercel to deploy..."
-          sleep 180
-
-      - name: Check health endpoint
+      - name: Verify backoffice health
         id: health
         run: |
-          echo "Checking backoffice health endpoint..."
-          RESPONSE=$(curl -s -w "\n%{http_code}" https://admin.gudbro.com/api/health || echo "FAILED")
-          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
-          BODY=$(echo "$RESPONSE" | head -n -1)
+          MAX_ATTEMPTS=10
+          DELAY=30
+          URL="https://admin.gudbro.com/api/health"
 
-          echo "HTTP Status: $HTTP_CODE"
-          echo "Response: $BODY"
+          echo "Waiting for Vercel deploy (up to $((MAX_ATTEMPTS * DELAY))s)..."
 
-          if [ "$HTTP_CODE" != "200" ]; then
-            echo "::error::Health check failed with status $HTTP_CODE"
-            exit 1
-          fi
+          for i in $(seq 1 $MAX_ATTEMPTS); do
+            echo "Attempt $i/$MAX_ATTEMPTS..."
 
-          # Extract version from response
-          DEPLOYED_VERSION=$(echo "$BODY" | jq -r '.version // "unknown"')
-          echo "Deployed version: $DEPLOYED_VERSION"
-          echo "Expected SHA prefix: ${GITHUB_SHA:0:7}"
+            RESPONSE=$(curl -s -w "\n%{http_code}" \
+              --connect-timeout 10 --max-time 15 \
+              "$URL" 2>/dev/null || echo -e "\n000")
 
-          # Compare versions
-          if [ "$DEPLOYED_VERSION" = "unknown" ] || [ "$DEPLOYED_VERSION" = "null" ]; then
-            echo "::warning::Could not determine deployed version"
-          elif [ "$DEPLOYED_VERSION" != "${GITHUB_SHA:0:7}" ]; then
-            echo "::warning::Version mismatch - deployed: $DEPLOYED_VERSION, expected: ${GITHUB_SHA:0:7}"
-            echo "Note: This may be normal if deployment is still in progress"
-          else
-            echo "✅ Version matches! Deployment verified."
-          fi
+            HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+            BODY=$(echo "$RESPONSE" | head -n -1)
+
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "✅ Health check passed (attempt $i)"
+              echo "Response: $BODY"
+
+              # Version check
+              DEPLOYED_VERSION=$(echo "$BODY" | jq -r '.version // "unknown"')
+              echo "Deployed version: $DEPLOYED_VERSION"
+              echo "Expected SHA prefix: ${GITHUB_SHA:0:7}"
+
+              if [ "$DEPLOYED_VERSION" = "${GITHUB_SHA:0:7}" ]; then
+                echo "✅ Version matches! Deployment verified."
+              elif [ "$DEPLOYED_VERSION" = "unknown" ] || [ "$DEPLOYED_VERSION" = "null" ]; then
+                echo "::warning::Could not determine deployed version"
+              else
+                echo "::warning::Version mismatch - deployed: $DEPLOYED_VERSION, expected: ${GITHUB_SHA:0:7}"
+              fi
+              exit 0
+            fi
+
+            echo "  Status: $HTTP_CODE (waiting ${DELAY}s...)"
+            [ $i -lt $MAX_ATTEMPTS ] && sleep $DELAY
+          done
+
+          echo "::error::Health check failed after $MAX_ATTEMPTS attempts (last status: $HTTP_CODE)"
+          exit 1
 
       - name: Check PWA health endpoint
         id: pwa-health
         continue-on-error: true
         run: |
-          echo "Checking PWA health endpoint..."
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://menu.gudbro.com/api/health || echo "000")
+          MAX_ATTEMPTS=5
+          DELAY=15
+          URL="https://menu.gudbro.com/api/health"
 
-          if [ "$HTTP_CODE" = "200" ]; then
-            echo "✅ PWA health check passed"
-          else
-            echo "::warning::PWA health check returned status $HTTP_CODE (endpoint may not exist yet)"
-          fi
+          for i in $(seq 1 $MAX_ATTEMPTS); do
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+              --connect-timeout 10 --max-time 15 \
+              "$URL" 2>/dev/null || echo "000")
+
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "✅ PWA health check passed (attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i/$MAX_ATTEMPTS: status $HTTP_CODE"
+            [ $i -lt $MAX_ATTEMPTS ] && sleep $DELAY
+          done
+
+          echo "::warning::PWA health check failed after $MAX_ATTEMPTS attempts"
 
       - name: Summary
         run: |
