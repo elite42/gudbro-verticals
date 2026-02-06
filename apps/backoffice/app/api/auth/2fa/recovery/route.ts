@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSession } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
@@ -8,6 +7,15 @@ import {
   generateRecoveryCodesWithHashes,
   formatRecoveryCodes,
 } from '@/lib/auth/totp-service';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  NotFoundError,
+  ValidationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,19 +23,19 @@ export const dynamic = 'force-dynamic';
 // POST - Use a recovery code to complete 2FA
 // ============================================================================
 
-export async function POST(request: Request) {
-  try {
+export const POST = withErrorHandling(
+  async (request: Request) => {
     const body = await request.json();
     const { code, accountId: providedAccountId } = body;
 
     if (!code) {
-      return NextResponse.json({ error: 'Recovery code is required' }, { status: 400 });
+      throw new ValidationError('Recovery code is required');
     }
 
     // Get current session
     const session = await getSession();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     // Get account for user
@@ -40,7 +48,7 @@ export async function POST(request: Request) {
         .single();
 
       if (accountError || !account) {
-        return NextResponse.json({ error: 'Account not found' }, { status: 404 });
+        throw new NotFoundError('Account');
       }
       accountId = account.id;
     }
@@ -53,23 +61,17 @@ export async function POST(request: Request) {
       .single();
 
     if (configError || !totpConfig) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is not set up' },
-        { status: 400 }
-      );
+      throw new ValidationError('Two-factor authentication is not set up');
     }
 
     if (!totpConfig.is_enabled || !totpConfig.is_verified) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is not enabled' },
-        { status: 400 }
-      );
+      throw new ValidationError('Two-factor authentication is not enabled');
     }
 
     const recoveryCodes: string[] = totpConfig.recovery_codes || [];
 
     if (recoveryCodes.length === 0) {
-      return NextResponse.json({ error: 'No recovery codes available' }, { status: 400 });
+      throw new ValidationError('No recovery codes available');
     }
 
     // Verify the recovery code
@@ -77,7 +79,7 @@ export async function POST(request: Request) {
     const codeIndex = verifyRecoveryCode(cleanCode, recoveryCodes);
 
     if (codeIndex === -1) {
-      return NextResponse.json({ error: 'Invalid recovery code', success: false }, { status: 400 });
+      throw new ValidationError('Invalid recovery code');
     }
 
     // Remove used recovery code
@@ -94,8 +96,11 @@ export async function POST(request: Request) {
       .eq('account_id', accountId);
 
     if (updateError) {
-      console.error('Error updating recovery codes:', updateError);
-      return NextResponse.json({ error: 'Failed to process recovery code' }, { status: 500 });
+      throw new DatabaseError(
+        'Failed to process recovery code',
+        undefined,
+        updateError as unknown as Error
+      );
     }
 
     // Create 2FA session record (7-day validity)
@@ -128,8 +133,7 @@ export async function POST(request: Request) {
 
     const remainingCodes = updatedCodes.length;
 
-    return NextResponse.json({
-      success: true,
+    return successResponse({
       message: 'Recovery code accepted',
       remainingRecoveryCodes: remainingCodes,
       warning:
@@ -138,32 +142,27 @@ export async function POST(request: Request) {
           : null,
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     });
-  } catch (error) {
-    console.error('Error in POST /api/auth/2fa/recovery:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'auth/2fa/recovery', logger: backofficeLogger }
+);
 
 // ============================================================================
 // PUT - Regenerate recovery codes
 // ============================================================================
 
-export async function PUT(request: Request) {
-  try {
+export const PUT = withErrorHandling(
+  async (request: Request) => {
     const body = await request.json();
     const { code } = body;
 
     if (!code) {
-      return NextResponse.json(
-        { error: 'Current TOTP code is required to regenerate recovery codes' },
-        { status: 400 }
-      );
+      throw new ValidationError('Current TOTP code is required to regenerate recovery codes');
     }
 
     // Get current session
     const session = await getSession();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     // Get account for user
@@ -174,7 +173,7 @@ export async function PUT(request: Request) {
       .single();
 
     if (accountError || !account) {
-      return NextResponse.json({ error: 'Account not found' }, { status: 404 });
+      throw new NotFoundError('Account');
     }
 
     // Get TOTP config
@@ -185,17 +184,11 @@ export async function PUT(request: Request) {
       .single();
 
     if (configError || !totpConfig) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is not set up' },
-        { status: 400 }
-      );
+      throw new ValidationError('Two-factor authentication is not set up');
     }
 
     if (!totpConfig.is_enabled || !totpConfig.is_verified) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is not enabled' },
-        { status: 400 }
-      );
+      throw new ValidationError('Two-factor authentication is not enabled');
     }
 
     // Verify TOTP code before regenerating
@@ -204,19 +197,16 @@ export async function PUT(request: Request) {
     try {
       secret = decryptSecret(totpConfig.encrypted_secret);
     } catch (decryptError) {
-      console.error('Failed to decrypt TOTP secret:', decryptError);
-      return NextResponse.json(
-        { error: 'Verification failed. Please contact support.' },
-        { status: 500 }
+      throw new DatabaseError(
+        'Verification failed. Please contact support.',
+        undefined,
+        decryptError as Error
       );
     }
 
     const isValid = verifyTOTPCode(secret, code);
     if (!isValid) {
-      return NextResponse.json(
-        { error: 'Invalid verification code', success: false },
-        { status: 400 }
-      );
+      throw new ValidationError('Invalid verification code');
     }
 
     // Generate new recovery codes
@@ -232,18 +222,18 @@ export async function PUT(request: Request) {
       .eq('account_id', account.id);
 
     if (updateError) {
-      console.error('Error regenerating recovery codes:', updateError);
-      return NextResponse.json({ error: 'Failed to regenerate recovery codes' }, { status: 500 });
+      throw new DatabaseError(
+        'Failed to regenerate recovery codes',
+        undefined,
+        updateError as unknown as Error
+      );
     }
 
-    return NextResponse.json({
-      success: true,
+    return successResponse({
       message: 'Recovery codes regenerated successfully',
       recoveryCodes: formattedCodes,
       recoveryCodesWarning: 'Save these new recovery codes. Your old codes are now invalid!',
     });
-  } catch (error) {
-    console.error('Error in PUT /api/auth/2fa/recovery:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'auth/2fa/recovery', logger: backofficeLogger }
+);

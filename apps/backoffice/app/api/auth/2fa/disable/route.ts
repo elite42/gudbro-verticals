@@ -1,8 +1,16 @@
-import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSession, createClient } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { verifyTOTPCode, decryptSecret } from '@/lib/auth/totp-service';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  NotFoundError,
+  ValidationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,19 +18,19 @@ export const dynamic = 'force-dynamic';
 // POST - Disable 2FA (requires password + TOTP code)
 // ============================================================================
 
-export async function POST(request: Request) {
-  try {
+export const POST = withErrorHandling(
+  async (request: Request) => {
     const body = await request.json();
     const { password, code } = body;
 
     if (!code) {
-      return NextResponse.json({ error: 'Verification code is required' }, { status: 400 });
+      throw new ValidationError('Verification code is required');
     }
 
     // Get current session
     const session = await getSession();
     if (!session?.user?.id || !session?.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     // Get account for user
@@ -33,7 +41,7 @@ export async function POST(request: Request) {
       .single();
 
     if (accountError || !account) {
-      return NextResponse.json({ error: 'Account not found' }, { status: 404 });
+      throw new NotFoundError('Account');
     }
 
     // Get TOTP config
@@ -44,17 +52,11 @@ export async function POST(request: Request) {
       .single();
 
     if (configError || !totpConfig) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is not set up' },
-        { status: 400 }
-      );
+      throw new ValidationError('Two-factor authentication is not set up');
     }
 
     if (!totpConfig.is_enabled) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is already disabled' },
-        { status: 400 }
-      );
+      throw new ValidationError('Two-factor authentication is already disabled');
     }
 
     // Verify password (if provided and not dev mode)
@@ -66,7 +68,7 @@ export async function POST(request: Request) {
       });
 
       if (signInError) {
-        return NextResponse.json({ error: 'Invalid password' }, { status: 400 });
+        throw new ValidationError('Invalid password');
       }
     }
 
@@ -75,20 +77,17 @@ export async function POST(request: Request) {
     try {
       secret = decryptSecret(totpConfig.encrypted_secret);
     } catch (decryptError) {
-      console.error('Failed to decrypt TOTP secret:', decryptError);
-      return NextResponse.json(
-        { error: 'Verification failed. Please contact support.' },
-        { status: 500 }
+      throw new DatabaseError(
+        'Verification failed. Please contact support.',
+        undefined,
+        decryptError as Error
       );
     }
 
     const isValid = verifyTOTPCode(secret, code);
 
     if (!isValid) {
-      return NextResponse.json(
-        { error: 'Invalid verification code', success: false },
-        { status: 400 }
-      );
+      throw new ValidationError('Invalid verification code');
     }
 
     // Delete TOTP config (disables 2FA)
@@ -98,10 +97,10 @@ export async function POST(request: Request) {
       .eq('account_id', account.id);
 
     if (deleteError) {
-      console.error('Error disabling 2FA:', deleteError);
-      return NextResponse.json(
-        { error: 'Failed to disable two-factor authentication' },
-        { status: 500 }
+      throw new DatabaseError(
+        'Failed to disable two-factor authentication',
+        undefined,
+        deleteError as unknown as Error
       );
     }
 
@@ -112,12 +111,9 @@ export async function POST(request: Request) {
     const cookieStore = cookies();
     cookieStore.delete('2fa_verified');
 
-    return NextResponse.json({
-      success: true,
+    return successResponse({
       message: 'Two-factor authentication has been disabled',
     });
-  } catch (error) {
-    console.error('Error in POST /api/auth/2fa/disable:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'auth/2fa/disable', logger: backofficeLogger }
+);

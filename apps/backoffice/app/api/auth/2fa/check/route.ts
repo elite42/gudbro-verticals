@@ -1,7 +1,12 @@
-import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSession } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,15 +16,20 @@ export const dynamic = 'force-dynamic';
 // This endpoint should be called after successful login to determine
 // if the user needs to complete 2FA verification
 
-export async function GET() {
-  try {
+interface TwoFactorCheckData {
+  twoFactorRequired: boolean;
+  twoFactorVerified?: boolean;
+  reason?: string;
+  expiresAt?: string;
+  redirectTo?: string;
+}
+
+export const GET = withErrorHandling<TwoFactorCheckData>(
+  async () => {
     // Get current session
     const session = await getSession();
     if (!session?.user?.id) {
-      return NextResponse.json(
-        { twoFactorRequired: false, error: 'Not authenticated' },
-        { status: 401 }
-      );
+      throw new AuthenticationError();
     }
 
     // Get account for user
@@ -31,7 +41,7 @@ export async function GET() {
 
     if (accountError || !account) {
       // No account means no 2FA
-      return NextResponse.json({
+      return successResponse({
         twoFactorRequired: false,
         reason: 'Account not found',
       });
@@ -77,7 +87,7 @@ export async function GET() {
           path: '/',
         });
 
-        return NextResponse.json({
+        return successResponse({
           twoFactorRequired: true,
           twoFactorVerified: true,
           expiresAt: twoFaSession.expires_at,
@@ -95,7 +105,7 @@ export async function GET() {
       // Ensure 2fa_verified is cleared
       cookieStore.delete('2fa_verified');
 
-      return NextResponse.json({
+      return successResponse({
         twoFactorRequired: true,
         twoFactorVerified: false,
         redirectTo: '/verify-2fa',
@@ -106,12 +116,10 @@ export async function GET() {
     cookieStore.delete('2fa_required');
     cookieStore.delete('2fa_verified');
 
-    return NextResponse.json({
+    return successResponse({
       twoFactorRequired: false,
       twoFactorVerified: false,
     });
-  } catch (error) {
-    console.error('Error in GET /api/auth/2fa/check:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'auth/2fa/check', logger: backofficeLogger }
+);

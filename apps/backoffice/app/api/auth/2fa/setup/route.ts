@@ -1,8 +1,17 @@
-import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { generateTOTPSecret, encryptSecret, isTOTPConfigured } from '@/lib/auth/totp-service';
 import QRCode from 'qrcode';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  NotFoundError,
+  ValidationError,
+  DatabaseError,
+  ExternalServiceError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,23 +19,20 @@ export const dynamic = 'force-dynamic';
 // GET - Check 2FA status for current user
 // ============================================================================
 
-export async function GET() {
-  try {
+export const GET = withErrorHandling(
+  async () => {
     // Check if TOTP encryption is configured
     if (!isTOTPConfigured()) {
-      return NextResponse.json(
-        {
-          error: 'Two-factor authentication is not configured on this server',
-          configured: false,
-        },
-        { status: 503 }
+      throw new ExternalServiceError(
+        '2FA',
+        'Two-factor authentication is not configured on this server'
       );
     }
 
     // Get current session
     const session = await getSession();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     // Get account for user
@@ -37,7 +43,7 @@ export async function GET() {
       .single();
 
     if (accountError || !account) {
-      return NextResponse.json({ error: 'Account not found' }, { status: 404 });
+      throw new NotFoundError('Account');
     }
 
     // Check if 2FA is already set up
@@ -47,37 +53,35 @@ export async function GET() {
       .eq('account_id', account.id)
       .single();
 
-    return NextResponse.json({
+    return successResponse({
       configured: true,
       twoFactorEnabled: totpConfig?.is_enabled ?? false,
       twoFactorVerified: totpConfig?.is_verified ?? false,
       enabledAt: totpConfig?.enabled_at ?? null,
       lastUsedAt: totpConfig?.last_used_at ?? null,
     });
-  } catch (error) {
-    console.error('Error in GET /api/auth/2fa/setup:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'auth/2fa/setup', logger: backofficeLogger }
+);
 
 // ============================================================================
 // POST - Start 2FA setup (generate secret and QR code)
 // ============================================================================
 
-export async function POST() {
-  try {
+export const POST = withErrorHandling(
+  async () => {
     // Check if TOTP encryption is configured
     if (!isTOTPConfigured()) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is not configured on this server' },
-        { status: 503 }
+      throw new ExternalServiceError(
+        '2FA',
+        'Two-factor authentication is not configured on this server'
       );
     }
 
     // Get current session
     const session = await getSession();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     // Get account for user
@@ -88,7 +92,7 @@ export async function POST() {
       .single();
 
     if (accountError || !account) {
-      return NextResponse.json({ error: 'Account not found' }, { status: 404 });
+      throw new NotFoundError('Account');
     }
 
     // Check if 2FA is already enabled
@@ -99,10 +103,7 @@ export async function POST() {
       .single();
 
     if (existingConfig?.is_enabled) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is already enabled' },
-        { status: 400 }
-      );
+      throw new ValidationError('Two-factor authentication is already enabled');
     }
 
     // Generate new TOTP secret
@@ -136,18 +137,18 @@ export async function POST() {
     );
 
     if (upsertError) {
-      console.error('Error saving TOTP setup:', upsertError);
-      return NextResponse.json({ error: 'Failed to initialize 2FA setup' }, { status: 500 });
+      throw new DatabaseError(
+        'Failed to initialize 2FA setup',
+        undefined,
+        upsertError as unknown as Error
+      );
     }
 
-    return NextResponse.json({
-      success: true,
+    return successResponse({
       qrCode: qrCodeDataUrl,
       manualEntryKey: secret, // For manual entry if QR scan fails
       message: 'Scan the QR code with your authenticator app, then verify with a code',
     });
-  } catch (error) {
-    console.error('Error in POST /api/auth/2fa/setup:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'auth/2fa/setup', logger: backofficeLogger }
+);
