@@ -3,7 +3,7 @@
 > **Contesto essenziale per Claude Code**
 >
 > **Last Updated:** 2026-02-05
-> **Version:** 9.7 (Self-Validation Hooks, claude-mem, agent memory)
+> **Version:** 9.8 (Browser Automation, Chrome MCP tools)
 
 ---
 
@@ -75,13 +75,53 @@ Vuoi continuare o fare altro?
 
 > **Queste regole sono OBBLIGATORIE. Ignorarle causa errori ripetuti e spreco di token.**
 
-| Tool                               | Azione     | Note                                                                              |
-| ---------------------------------- | ---------- | --------------------------------------------------------------------------------- |
-| `claude-mem` (search/timeline/get) | ✅ USA     | Memoria persistente cross-sessione. Cerca contesto prima di rileggere file grandi |
-| Pieces                             | ❌ RIMOSSO | Rimosso per consumo RAM eccessivo. Sostituito da claude-mem                       |
+| Tool                                                 | Azione     | Note                                                                              |
+| ---------------------------------------------------- | ---------- | --------------------------------------------------------------------------------- |
+| `claude-mem` (search/timeline/get)                   | ✅ USA     | Memoria persistente cross-sessione. Cerca contesto prima di rileggere file grandi |
+| `Chrome Browser` (Claude in Chrome + Control Chrome) | ✅ USA     | Automazione browser: test UI, verifiche deploy, interazione dashboard             |
+| Pieces                                               | ❌ RIMOSSO | Rimosso per consumo RAM eccessivo. Sostituito da claude-mem                       |
 
 **Per salvare ricerche/note:** Scrivi in `docs/research/` o `docs/knowledge/`.
 **Memoria cross-sessione:** claude-mem salva automaticamente. Usa `search` → `timeline` → `get_observations` per recuperare contesto da sessioni precedenti.
+
+### 1.5.1 Browser Automation (Chrome MCP)
+
+> **Due tool complementari per interagire con Chrome direttamente.**
+
+| Tool               | Capability                                                       |
+| ------------------ | ---------------------------------------------------------------- |
+| `Claude in Chrome` | Automazione avanzata: click, form, screenshot, JS, accessibilità |
+| `Control Chrome`   | Navigazione base: apri URL, lista tab, leggi contenuto pagina    |
+
+**Prerequisito:** Estensione "Claude in Chrome" installata e connessa nel browser.
+
+**Casi d'uso concreti:**
+
+| Caso d'uso                    | Come usarlo                                                        |
+| ----------------------------- | ------------------------------------------------------------------ |
+| **Verificare deploy Vercel**  | Apri `admin.gudbro.com` o `menu.gudbro.com`, controlla che carichi |
+| **Testare PWA coffeeshop**    | Naviga il menu, prova filtri, cambia lingua, verifica UI           |
+| **Testare backoffice**        | Login con dev PIN, naviga dashboard, verifica CRUD                 |
+| **Debug visuale**             | Screenshot pagina, leggi console errors, ispeziona DOM             |
+| **Settare env su Vercel**     | Vai su vercel.com → progetto → Settings → Environment Variables    |
+| **Verificare GitHub Actions** | Apri Actions tab, controlla status workflow                        |
+| **Controllare Supabase**      | Naviga dashboard Supabase per verificare dati/RLS                  |
+| **Form testing**              | Compila e invia form, verifica validazione e feedback              |
+
+**Workflow tipico:**
+
+1. `tabs_context_mcp` → verifica connessione e tab esistenti
+2. `tabs_create_mcp` → crea nuovo tab
+3. `navigate` → apri URL target
+4. `read_page` / `computer` (screenshot) → verifica contenuto
+5. `find` + `computer` (click) → interagisci con la pagina
+
+**Regole:**
+
+- ✅ Usa per verifiche post-deploy, test UI, navigazione dashboard
+- ✅ Usa per task che richiedono interazione browser (Vercel settings, Supabase)
+- ❌ NON usare per operazioni sensibili (pagamenti, password, dati personali)
+- ❌ NON inserire credenziali reali — solo dev PIN e test accounts
 
 ---
 
@@ -650,9 +690,10 @@ Ogni piano ha max 3 task. Ogni commit è atomico, indipendentemente revertabile,
 
 ---
 
-**Version:** 9.7
+**Version:** 9.8
 **Changes:**
 
+- v9.8 - Browser Automation: added Chrome MCP tools (Claude in Chrome + Control Chrome) to section 1.5. New subsection 1.5.1 with use cases for deploy verification, UI testing, dashboard interaction, debug visuale.
 - v9.7 - Self-Validation Hooks & Memory: added SQL validator hook (PostToolUse), prompt-based completion checker (Stop hook), verify-app agent memory (`memory: project`), claude-mem MCP plugin for cross-session persistence. New section 10.5 Self-Validation Hooks. New reference doc `docs/knowledge/systems/CLAUDE-CODE-ADVANCED-PATTERNS.md`.
 - v9.6 - Boris Cherny Tips: added Git Worktrees guide (section 2.1), auto-update lessons rule (section 2), /techdebt and /context-sync slash commands, plan-reviewer agent for GSD plan validation
 - v9.5 - OpenClaw separation: moved ai-employee.md and ai-manga-project.md to `~/openclaw/docs/`. Created `~/openclaw/CLAUDE.md` for dedicated Claude Code session. Simplified AI Infrastructure references in backlog to point to `~/openclaw/`.

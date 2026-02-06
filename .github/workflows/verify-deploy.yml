@@ -21,7 +21,7 @@ jobs:
         run: |
           MAX_ATTEMPTS=10
           DELAY=30
-          URL="https://admin.gudbro.com/api/health"
+          URL="https://gudbro-backoffice.vercel.app/api/health"
 
           echo "Waiting for Vercel deploy (up to $((MAX_ATTEMPTS * DELAY))s)..."
 
@@ -67,7 +67,7 @@ jobs:
         run: |
           MAX_ATTEMPTS=5
           DELAY=15
-          URL="https://menu.gudbro.com/api/health"
+          URL="https://gudbro-coffeeshop-pwa.vercel.app/api/health"
 
           for i in $(seq 1 $MAX_ATTEMPTS); do
             HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
