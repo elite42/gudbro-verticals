@@ -3,7 +3,23 @@
 > Archivio storico delle task completate.
 > Organizzato per data (più recenti in alto).
 
-**Last Updated:** 2026-01-30
+**Last Updated:** 2026-02-06
+
+---
+
+### 2026-02-06 — Codebase Audit & Hardening
+
+- **BO-DEPLOY-FIX** — Backoffice Vercel deploy fix
+  - `--frozen-lockfile` in tutti i vercel.json (coffeeshop, backoffice, accommodations)
+  - Lazy-init supabase client con Proxy pattern (19 file migrati)
+  - Build backoffice ora passa senza env vars a build-time
+- **Codebase Audit** — Score medio 6.6/10
+  - 7 verticali inattivi archiviati in `apps/_archived/`
+  - DATABASE-SCHEMA.md aggiornato a 102 migrations (~130 tabelle)
+  - TYPE-GENERATION.md creato (workflow tipi Supabase)
+  - `no-explicit-any` impostato a warn (207 occorrenze)
+  - ESLint ignores per `apps/_archived/`
+  - Backlog ripulito (483→112 righe)
 
 ---
 

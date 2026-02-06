@@ -41,13 +41,13 @@ TOTP_ENCRYPTION_KEY=<vedi .env.local>
 
 ## Codebase Cleanup (dall'audit 2026-02-06)
 
-| ID              | Task                                                           | Effort | Priority |
-| --------------- | -------------------------------------------------------------- | ------ | -------- |
-| CLEANUP-ANY     | Abilitare `no-explicit-any` in ESLint (62 occorrenze)          | 2-3h   | Alta     |
-| CLEANUP-SCHEMA  | Aggiornare DATABASE-SCHEMA.md (61 migration indietro)          | 2h     | Alta     |
-| CLEANUP-TYPEGEN | Documentare workflow type generation Supabase                  | 30min  | Alta     |
-| CLEANUP-LOGGER  | Implementare logging strutturato (sostituire 1.658 console.\*) | 4-6h   | Media    |
-| CLEANUP-DOCS    | Consolidare docs duplicati + aggiungere timestamp              | 3-4h   | Media    |
+| ID                  | Task                                                           | Effort  | Priority | Status       |
+| ------------------- | -------------------------------------------------------------- | ------- | -------- | ------------ |
+| CLEANUP-ANY         | `no-explicit-any` → warn (207 occorrenze, fix graduale)        | 2-3h    | Media    | ⚠️ warn mode |
+| CLEANUP-LOGGER      | Implementare logging strutturato (sostituire 1.658 console.\*) | 4-6h    | Media    | TODO         |
+| CLEANUP-DOCS        | Consolidare docs duplicati + aggiungere timestamp              | 3-4h    | Media    | TODO         |
+| ~~CLEANUP-SCHEMA~~  | ~~DATABASE-SCHEMA.md aggiornato a 102 migrations~~             | ~~2h~~  | ~~Alta~~ | ✅ Done      |
+| ~~CLEANUP-TYPEGEN~~ | ~~docs/core/TYPE-GENERATION.md creato~~                        | ~~30m~~ | ~~Alta~~ | ✅ Done      |
 
 ---
 
