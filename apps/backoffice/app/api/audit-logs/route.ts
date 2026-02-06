@@ -4,18 +4,25 @@
  * GET /api/audit-logs - Get audit logs for the current merchant
  */
 
-import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
 import { getSession } from '@/lib/supabase-server';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  AuthorizationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request) {
-  try {
+export const GET = withErrorHandling(
+  async (request: Request) => {
     const session = await getSession();
 
     if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     const { searchParams } = new URL(request.url);
@@ -34,7 +41,7 @@ export async function GET(request: Request) {
 
     // Only allow owners/admins to view audit logs
     if (!merchantUser || !['owner', 'admin'].includes(merchantUser.role)) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      throw new AuthorizationError('Only owners and admins can view audit logs');
     }
 
     // Fetch audit logs
@@ -52,18 +59,15 @@ export async function GET(request: Request) {
     const { data: logs, error, count } = await query;
 
     if (error) {
-      console.error('Audit logs fetch error:', error);
-      return NextResponse.json({ error: 'Failed to fetch logs' }, { status: 500 });
+      throw new DatabaseError('Failed to fetch audit logs', { cause: error });
     }
 
-    return NextResponse.json({
+    return successResponse({
       logs: logs || [],
       total: count || 0,
       limit,
       offset,
     });
-  } catch (error) {
-    console.error('Audit logs API error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'audit-logs', logger: backofficeLogger }
+);

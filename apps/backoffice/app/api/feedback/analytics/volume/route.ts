@@ -1,14 +1,20 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { subDays, format, eachDayOfInterval } from 'date-fns';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
 const VALID_DAYS = [0, 7, 30, 90];
 
-export async function GET(request: NextRequest) {
-  try {
+export const GET = withErrorHandling(
+  async (request: Request) => {
     // Auth check (same pattern as feedback/tasks/route.ts)
     const supabase = createClient();
     const {
@@ -17,7 +23,7 @@ export async function GET(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     // Parse days query param (default 30)
@@ -42,8 +48,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching volume data:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch volume data', { cause: error });
     }
 
     // Aggregate: group by date (yyyy-MM-dd)
@@ -75,9 +80,7 @@ export async function GET(request: NextRequest) {
       volume = [];
     }
 
-    return NextResponse.json({ volume });
-  } catch (error) {
-    console.error('Error in GET /api/feedback/analytics/volume:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+    return successResponse({ volume });
+  },
+  { context: 'feedback/analytics/volume', logger: backofficeLogger }
+);

@@ -1,6 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import {
+  withErrorHandlingDynamic,
+  successResponse,
+  AuthenticationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,8 +14,10 @@ export const dynamic = 'force-dynamic';
 // GET - Fetch single feedback task by ID
 // ============================================================================
 
-export async function GET(_request: NextRequest, { params }: { params: { id: string } }) {
-  try {
+export const GET = withErrorHandlingDynamic<unknown, { id: string }>(
+  async (_request, { params }) => {
+    const { id } = await params;
+
     const supabase = createClient();
     const {
       data: { user },
@@ -17,23 +25,16 @@ export async function GET(_request: NextRequest, { params }: { params: { id: str
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
-    const { data, error } = await supabaseAdmin
-      .from('fb_tasks')
-      .select('*')
-      .eq('id', params.id)
-      .single();
+    const { data, error } = await supabaseAdmin.from('fb_tasks').select('*').eq('id', id).single();
 
     if (error) {
-      console.error('Error fetching feedback task:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch feedback task', { cause: error });
     }
 
-    return NextResponse.json({ task: data });
-  } catch (error) {
-    console.error('Error in GET /api/feedback/tasks/[id]:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+    return successResponse({ task: data });
+  },
+  { context: 'feedback/tasks/[id]', logger: backofficeLogger }
+);

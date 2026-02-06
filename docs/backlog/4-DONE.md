@@ -7,8 +7,15 @@
 
 ---
 
-### 2026-02-06 — Codebase Audit & Hardening
+### 2026-02-06 — Phase 42 Error Handling Library + Codebase Audit
 
+- **Phase 42 Error Handling Library** — Complete (1/1 piano)
+  - `withErrorHandling` esteso con `MinimalLogger`, `ErrorHandlingOptions`, `withErrorHandlingDynamic`
+  - 22 API routes migrate (auth/2fa, passkey, payments, orders, feedback, audit-logs)
+  - ~38 handlers, ~46 `console.error` eliminati
+  - 2 silent `.json().catch(() => ({}))` fixati (passkey register/authenticate)
+  - Pattern doc: `docs/knowledge/patterns/ERROR-HANDLING-MIGRATION.md`
+  - Pino→MinimalLogger adapter (`backofficeLogger`) per structured logging
 - **BO-DEPLOY-FIX** — Backoffice Vercel deploy fix
   - `--frozen-lockfile` in tutti i vercel.json (coffeeshop, backoffice, accommodations)
   - Lazy-init supabase client con Proxy pattern (19 file migrati)

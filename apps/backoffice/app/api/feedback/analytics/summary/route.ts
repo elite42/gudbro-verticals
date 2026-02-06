@@ -1,14 +1,20 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { subDays } from 'date-fns';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
 const VALID_DAYS = [0, 7, 30, 90];
 
-export async function GET(request: NextRequest) {
-  try {
+export const GET = withErrorHandling(
+  async (request: Request) => {
     // Auth check (same pattern as feedback/tasks/route.ts)
     const supabase = createClient();
     const {
@@ -17,7 +23,7 @@ export async function GET(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     // Parse days query param (default 30)
@@ -59,16 +65,17 @@ export async function GET(request: NextRequest) {
 
     // Check for errors
     if (submissionsResult.error) {
-      console.error('Error fetching submissions:', submissionsResult.error);
-      return NextResponse.json({ error: submissionsResult.error.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch submissions', { cause: submissionsResult.error });
     }
     if (topFeaturesResult.error) {
-      console.error('Error fetching top features:', topFeaturesResult.error);
-      return NextResponse.json({ error: topFeaturesResult.error.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch top features', {
+        cause: topFeaturesResult.error,
+      });
     }
     if (resolvedTasksResult.error) {
-      console.error('Error fetching resolved tasks:', resolvedTasksResult.error);
-      return NextResponse.json({ error: resolvedTasksResult.error.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch resolved tasks', {
+        cause: resolvedTasksResult.error,
+      });
     }
 
     const submissions = submissionsResult.data || [];
@@ -118,7 +125,7 @@ export async function GET(request: NextRequest) {
       avgResolutionHours = Math.round((totalHours / resolvedTasks.length) * 10) / 10;
     }
 
-    return NextResponse.json({
+    return successResponse({
       totalSubmissions: submissions.length,
       byType,
       byVertical,
@@ -126,8 +133,6 @@ export async function GET(request: NextRequest) {
       avgProcessingHours,
       avgResolutionHours,
     });
-  } catch (error) {
-    console.error('Error in GET /api/feedback/analytics/summary:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'feedback/analytics/summary', logger: backofficeLogger }
+);

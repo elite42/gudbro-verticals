@@ -1,8 +1,17 @@
-import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSession } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { verifyTOTPCode, decryptSecret } from '@/lib/auth/totp-service';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  NotFoundError,
+  ValidationError,
+  RateLimitError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,19 +50,19 @@ function resetRateLimit(accountId: string) {
 // POST - Verify TOTP code during login
 // ============================================================================
 
-export async function POST(request: Request) {
-  try {
+export const POST = withErrorHandling(
+  async (request: Request) => {
     const body = await request.json();
     const { code, accountId: providedAccountId } = body;
 
     if (!code) {
-      return NextResponse.json({ error: 'Verification code is required' }, { status: 400 });
+      throw new ValidationError('Verification code is required');
     }
 
     // Get current session
     const session = await getSession();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     // Get account for user
@@ -66,7 +75,7 @@ export async function POST(request: Request) {
         .single();
 
       if (accountError || !account) {
-        return NextResponse.json({ error: 'Account not found' }, { status: 404 });
+        throw new NotFoundError('Account');
       }
       accountId = account.id;
     }
@@ -74,13 +83,7 @@ export async function POST(request: Request) {
     // Check rate limit
     const rateLimit = checkRateLimit(accountId);
     if (!rateLimit.allowed) {
-      return NextResponse.json(
-        {
-          error: 'Too many attempts. Please wait 15 minutes.',
-          retryAfter: 15 * 60,
-        },
-        { status: 429 }
-      );
+      throw new RateLimitError('Too many attempts. Please wait 15 minutes.', 15 * 60);
     }
 
     // Get TOTP config
@@ -91,17 +94,11 @@ export async function POST(request: Request) {
       .single();
 
     if (configError || !totpConfig) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is not set up' },
-        { status: 400 }
-      );
+      throw new ValidationError('Two-factor authentication is not set up');
     }
 
     if (!totpConfig.is_enabled || !totpConfig.is_verified) {
-      return NextResponse.json(
-        { error: 'Two-factor authentication is not enabled' },
-        { status: 400 }
-      );
+      throw new ValidationError('Two-factor authentication is not enabled');
     }
 
     // Decrypt and verify the code
@@ -109,24 +106,17 @@ export async function POST(request: Request) {
     try {
       secret = decryptSecret(totpConfig.encrypted_secret);
     } catch (decryptError) {
-      console.error('Failed to decrypt TOTP secret:', decryptError);
-      return NextResponse.json(
-        { error: 'Verification failed. Please contact support.' },
-        { status: 500 }
+      throw new DatabaseError(
+        'Verification failed. Please contact support.',
+        undefined,
+        decryptError as Error
       );
     }
 
     const isValid = verifyTOTPCode(secret, code);
 
     if (!isValid) {
-      return NextResponse.json(
-        {
-          error: 'Invalid verification code',
-          success: false,
-          remainingAttempts: rateLimit.remaining,
-        },
-        { status: 400 }
-      );
+      throw new ValidationError('Invalid verification code');
     }
 
     // Reset rate limit on success
@@ -166,27 +156,32 @@ export async function POST(request: Request) {
       path: '/',
     });
 
-    return NextResponse.json({
-      success: true,
+    return successResponse({
       message: 'Two-factor authentication verified',
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     });
-  } catch (error) {
-    console.error('Error in POST /api/auth/2fa/verify:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'auth/2fa/verify', logger: backofficeLogger }
+);
 
 // ============================================================================
 // GET - Check if 2FA verification is needed for current session
 // ============================================================================
 
-export async function GET() {
-  try {
+interface TwoFactorStatusData {
+  twoFactorRequired: boolean;
+  twoFactorVerified?: boolean;
+  reason?: string;
+  verifiedAt?: string;
+  expiresAt?: string;
+}
+
+export const GET = withErrorHandling<TwoFactorStatusData>(
+  async () => {
     // Get current session
     const session = await getSession();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     // Get account for user
@@ -197,7 +192,7 @@ export async function GET() {
       .single();
 
     if (accountError || !account) {
-      return NextResponse.json({ error: 'Account not found' }, { status: 404 });
+      throw new NotFoundError('Account');
     }
 
     // Check if 2FA is enabled for this account
@@ -208,7 +203,7 @@ export async function GET() {
       .single();
 
     if (!totpConfig?.is_enabled || !totpConfig?.is_verified) {
-      return NextResponse.json({
+      return successResponse({
         twoFactorRequired: false,
         reason: '2FA not enabled for this account',
       });
@@ -225,7 +220,7 @@ export async function GET() {
       .single();
 
     if (twoFaSession) {
-      return NextResponse.json({
+      return successResponse({
         twoFactorRequired: false,
         twoFactorVerified: true,
         verifiedAt: twoFaSession.verified_at,
@@ -234,12 +229,10 @@ export async function GET() {
     }
 
     // 2FA is required but not verified for this session
-    return NextResponse.json({
+    return successResponse({
       twoFactorRequired: true,
       twoFactorVerified: false,
     });
-  } catch (error) {
-    console.error('Error in GET /api/auth/2fa/verify:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'auth/2fa/verify', logger: backofficeLogger }
+);

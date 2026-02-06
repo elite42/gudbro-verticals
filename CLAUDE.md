@@ -29,16 +29,16 @@
 
 # 0. CURRENT FOCUS
 
-> **Task attiva:** v2.0 Codebase Hardening — Phase 42 (Error Handling Library) next
-> **Stato:** 6 milestones shipped (v1.0-v1.5). v2.0 in corso: Phase 40-41 complete (10/13 piani).
-> **Ultima completata:** Phase 41 Shared Foundation (6/6 piani) - 2026-02-02
+> **Task attiva:** v2.0 Codebase Hardening — Phase 43 (Frontend Resilience) next
+> **Stato:** 6 milestones shipped (v1.0-v1.5). v2.0 in corso: Phase 40-42 complete (11/13 piani).
+> **Ultima completata:** Phase 42 Error Handling Library (1/1 piano) - 2026-02-06
 
 **Milestone in corso: v2.0 Codebase Hardening**
 
 - Phase 40 Security Hardening — Complete (2/2 piani)
 - Phase 41 Shared Foundation — Complete (6/6 piani)
-- Phase 42 Error Handling Library — Next (`/gsd:plan-phase 42`)
-- Phase 43 Frontend Resilience — Pending
+- Phase 42 Error Handling Library — Complete (1/1 piano)
+- Phase 43 Frontend Resilience — Next (`/gsd:plan-phase 43`)
 - Phase 44 Architecture Cleanup — Pending
 - Phase 45 Documentation — Pending
 - Vedi `.planning/ROADMAP.md` per dettagli

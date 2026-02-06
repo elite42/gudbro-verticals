@@ -1,5 +1,11 @@
-import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import {
+  withErrorHandling,
+  successResponse,
+  ValidationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -73,13 +79,13 @@ interface PaymentSettingsRequest {
 // GET - Fetch payment settings
 // ============================================================================
 
-export async function GET(request: Request) {
-  try {
+export const GET = withErrorHandling<unknown>(
+  async (request: Request) => {
     const { searchParams } = new URL(request.url);
     const merchantId = searchParams.get('merchantId');
 
     if (!merchantId) {
-      return NextResponse.json({ error: 'merchantId is required' }, { status: 400 });
+      throw new ValidationError('merchantId is required');
     }
 
     // Fetch payment settings
@@ -91,7 +97,7 @@ export async function GET(request: Request) {
 
     // If no settings exist, return defaults
     if (settingsError && settingsError.code === 'PGRST116') {
-      return NextResponse.json({
+      return successResponse({
         settings: null,
         isNew: true,
         message: 'No payment settings configured yet',
@@ -99,8 +105,7 @@ export async function GET(request: Request) {
     }
 
     if (settingsError) {
-      console.error('Error fetching payment settings:', settingsError);
-      return NextResponse.json({ error: settingsError.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch payment settings', { cause: settingsError });
     }
 
     // Fetch supported cryptocurrencies
@@ -111,10 +116,12 @@ export async function GET(request: Request) {
       .order('sort_order');
 
     if (cryptoError) {
-      console.error('Error fetching supported cryptos:', cryptoError);
+      throw new DatabaseError('Failed to fetch supported cryptocurrencies', {
+        cause: cryptoError,
+      });
     }
 
-    return NextResponse.json({
+    return successResponse({
       settings: {
         id: settings.id,
         merchantId: settings.merchant_id,
@@ -172,22 +179,20 @@ export async function GET(request: Request) {
       supportedCryptos: supportedCryptos || [],
       isNew: false,
     });
-  } catch (error) {
-    console.error('Error in GET /api/settings/payments:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'settings-payments-get', logger: backofficeLogger }
+);
 
 // ============================================================================
 // PUT - Update payment settings
 // ============================================================================
 
-export async function PUT(request: Request) {
-  try {
+export const PUT = withErrorHandling(
+  async (request: Request) => {
     const body: PaymentSettingsRequest = await request.json();
 
     if (!body.merchantId) {
-      return NextResponse.json({ error: 'merchantId is required' }, { status: 400 });
+      throw new ValidationError('merchantId is required');
     }
 
     // Validate crypto wallet addresses if provided
@@ -212,10 +217,9 @@ export async function PUT(request: Request) {
       }
 
       if (validationErrors.length > 0) {
-        return NextResponse.json(
-          { error: 'Validation failed', details: validationErrors },
-          { status: 400 }
-        );
+        throw new ValidationError('Crypto wallet validation failed', {
+          wallets: validationErrors,
+        });
       }
     }
 
@@ -283,26 +287,19 @@ export async function PUT(request: Request) {
       .single();
 
     if (error) {
-      console.error('Error saving payment settings:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new DatabaseError('Failed to save payment settings', { cause: error });
     }
 
-    return NextResponse.json({
-      success: true,
+    return successResponse({
       settings: data,
       message: 'Payment settings saved successfully',
     });
-  } catch (error) {
-    console.error('Error in PUT /api/settings/payments:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+  },
+  { context: 'settings-payments-put', logger: backofficeLogger }
+);
 
 // ============================================================================
 // POST - Create initial payment settings (alternative to PUT)
 // ============================================================================
 
-export async function POST(request: Request) {
-  // Delegate to PUT for upsert behavior
-  return PUT(request);
-}
+export const POST = PUT;

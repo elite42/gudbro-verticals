@@ -1,5 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
+import {
+  withErrorHandling,
+  successResponse,
+  ValidationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -7,14 +13,14 @@ export const dynamic = 'force-dynamic';
 // GET - Fetch merchant submission history
 // ============================================================================
 
-export async function GET(request: NextRequest) {
-  try {
+export const GET = withErrorHandling(
+  async (request: Request) => {
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
     const merchantId = searchParams.get('merchantId');
 
     if (!merchantId) {
-      return NextResponse.json({ error: 'merchantId is required' }, { status: 400 });
+      throw new ValidationError('merchantId is required');
     }
 
     const { data, error } = await supabase
@@ -24,13 +30,10 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching feedback history:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch feedback history', { cause: error });
     }
 
-    return NextResponse.json({ submissions: data || [] });
-  } catch (error) {
-    console.error('Error in GET /api/feedback/history:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+    return successResponse({ submissions: data || [] });
+  },
+  { context: 'feedback/history', logger: backofficeLogger }
+);

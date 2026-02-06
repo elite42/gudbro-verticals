@@ -116,7 +116,7 @@ Plans:
 
 Plans:
 
-- [ ] 42-01: Error handling library + API route migration (ARC-02, ARC-04)
+- [x] 42-01: Error handling library + API route migration (ARC-02, ARC-04)
 
 #### Phase 43: Frontend Resilience
 
@@ -218,7 +218,7 @@ Plans:
 | 39. Polish + Analytics                    | v1.5      | 2/2            | Complete    | 2026-02-02 |
 | 40. Security Hardening                    | v2.0      | 2/2            | Complete    | 2026-02-02 |
 | 41. Shared Foundation                     | v2.0      | 6/6            | Complete    | 2026-02-02 |
-| 42. Error Handling Library                | v2.0      | 0/1            | Not started | -          |
+| 42. Error Handling Library                | v2.0      | 1/1            | Complete    | 2026-02-06 |
 | 43. Frontend Resilience                   | v2.0      | 0/3            | Not started | -          |
 | 44. Architecture Cleanup                  | v2.0      | 0/2            | Not started | -          |
 | 45. Documentation                         | v2.0      | 0/2            | Not started | -          |
@@ -226,4 +226,4 @@ Plans:
 ---
 
 _Roadmap created: 2026-01-29_
-_Last updated: 2026-02-02 after Phase 41 Shared Foundation completed (6/6 plans) — audit fix_
+_Last updated: 2026-02-06 after Phase 42 Error Handling Library completed (1/1 plan)_

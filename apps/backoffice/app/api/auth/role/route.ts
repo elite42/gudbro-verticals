@@ -7,14 +7,19 @@
  * @route GET /api/auth/role
  */
 
-import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 // Map database permissions to backoffice UserRole
 type BackofficeRole = 'staff' | 'manager' | 'business_owner' | 'gudbro_owner';
 
-interface RoleResponse {
-  success: boolean;
+interface RoleData {
   role: BackofficeRole;
   permissions: string[];
   accountId?: string;
@@ -23,8 +28,8 @@ interface RoleResponse {
   error?: string;
 }
 
-export async function GET(): Promise<NextResponse<RoleResponse>> {
-  try {
+export const GET = withErrorHandling<RoleData>(
+  async () => {
     const supabase = await createClient();
 
     // Get current user
@@ -34,15 +39,7 @@ export async function GET(): Promise<NextResponse<RoleResponse>> {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        {
-          success: false,
-          role: 'staff',
-          permissions: [],
-          error: 'Not authenticated',
-        },
-        { status: 401 }
-      );
+      throw new AuthenticationError();
     }
 
     // Get account by auth_id
@@ -54,8 +51,7 @@ export async function GET(): Promise<NextResponse<RoleResponse>> {
 
     if (accountError || !account) {
       // User has Supabase auth but no account yet - treat as new user
-      return NextResponse.json({
-        success: true,
+      return successResponse<RoleData>({
         role: 'staff',
         permissions: ['content:read', 'orders:read'],
         error: 'No account found - please complete onboarding',
@@ -71,16 +67,7 @@ export async function GET(): Promise<NextResponse<RoleResponse>> {
       .order('is_primary', { ascending: false });
 
     if (rolesError) {
-      console.error('Error fetching roles:', rolesError);
-      return NextResponse.json(
-        {
-          success: false,
-          role: 'staff',
-          permissions: [],
-          error: 'Failed to fetch roles',
-        },
-        { status: 500 }
-      );
+      throw new DatabaseError('Failed to fetch roles', undefined, rolesError as unknown as Error);
     }
 
     // Find the most relevant role for backoffice
@@ -174,31 +161,19 @@ export async function GET(): Promise<NextResponse<RoleResponse>> {
 
     // If no merchant or admin role, user might just be a consumer
     if (!selectedRole) {
-      return NextResponse.json({
-        success: true,
+      return successResponse<RoleData>({
         role: 'staff',
         permissions: ['content:read', 'orders:read'],
         error: 'No merchant access - contact your manager for an invitation',
       });
     }
 
-    return NextResponse.json({
-      success: true,
+    return successResponse<RoleData>({
       role: backofficeRole,
       permissions: permissionsList,
       accountId: account.id,
       tenantId: selectedRole.tenant_id,
     });
-  } catch (error) {
-    console.error('Error in role API:', error);
-    return NextResponse.json(
-      {
-        success: false,
-        role: 'staff',
-        permissions: [],
-        error: 'Internal server error',
-      },
-      { status: 500 }
-    );
-  }
-}
+  },
+  { context: 'auth/role', logger: backofficeLogger }
+);
