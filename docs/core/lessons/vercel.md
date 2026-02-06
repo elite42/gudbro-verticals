@@ -2,16 +2,16 @@
 
 ## Errori Comuni
 
-| Errore                      | Causa                                    | Soluzione                                      |
-| --------------------------- | ---------------------------------------- | ---------------------------------------------- |
-| Vercel auto-deploy bloccato | Ignored Build Step = stringa vuota `""`  | `bash ignore-build.sh` o rimuovere             |
-| Build fail senza env vars   | Client creato a import time              | **Proxy pattern** per lazy init                |
-| Deploy fallito post-push    | Build error non catturato                | Pre-push hook con `turbo build`                |
-| Vercel Hobby blocca deploy  | Limitazioni non documentate per monorepo | **Upgrade a Pro** ($20/mo)                     |
-| ERR_PNPM_OUTDATED_LOCKFILE  | pnpm version mismatch locale/Vercel      | `--no-frozen-lockfile` o allineare versioni    |
-| pnpm 10 build scripts block | pnpm 10 blocca lifecycle scripts default | `onlyBuiltDependencies` in pnpm-workspace.yaml |
-| BUILD_UTILS_SPAWN_1         | Errore generico build - **LEGGI I LOG**  | Vercel Dashboard → Build Logs → errore esatto  |
-| Dashboard override nascosto | installCommand override in dashboard     | Verificare projectSettings in deployment API   |
+| Errore                      | Causa                                    | Soluzione                                                  |
+| --------------------------- | ---------------------------------------- | ---------------------------------------------------------- |
+| Vercel auto-deploy bloccato | Ignored Build Step = stringa vuota `""`  | `bash ignore-build.sh` o rimuovere                         |
+| Build fail senza env vars   | Client creato a import time              | **Proxy pattern** per lazy init                            |
+| Deploy fallito post-push    | Build error non catturato                | Pre-push hook con `turbo build`                            |
+| Vercel Hobby blocca deploy  | Limitazioni non documentate per monorepo | **Upgrade a Pro** ($20/mo)                                 |
+| ERR_PNPM_OUTDATED_LOCKFILE  | pnpm version mismatch locale/Vercel      | Allineare versioni pnpm (MAI usare `--no-frozen-lockfile`) |
+| pnpm 10 build scripts block | pnpm 10 blocca lifecycle scripts default | `onlyBuiltDependencies` in pnpm-workspace.yaml             |
+| BUILD_UTILS_SPAWN_1         | Errore generico build - **LEGGI I LOG**  | Vercel Dashboard → Build Logs → errore esatto              |
+| Dashboard override nascosto | installCommand override in dashboard     | Verificare projectSettings in deployment API               |
 
 ## Patterns Corretti
 

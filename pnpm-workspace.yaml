@@ -1,14 +1,10 @@
 packages:
-  - 'apps/*'
-  - 'apps/accommodations/*'
+  # Active apps
   - 'apps/coffeeshop/*'
-  - 'apps/gym/*'
-  - 'apps/laundry/*'
-  - 'apps/pharmacy/*'
-  - 'apps/workshops/*'
-  - 'apps/wellness/*'
-  - 'apps/rentals/*'
+  - 'apps/accommodations/*'
+  - 'apps/backoffice'
   - 'apps/waiter'
+  # Shared modules
   - 'shared/*'
 
 onlyBuiltDependencies:

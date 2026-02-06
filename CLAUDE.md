@@ -75,13 +75,12 @@ Vuoi continuare o fare altro?
 
 > **Queste regole sono OBBLIGATORIE. Ignorarle causa errori ripetuti e spreco di token.**
 
-| Tool                                | Azione       | Note                                                                              |
-| ----------------------------------- | ------------ | --------------------------------------------------------------------------------- |
-| `mcp__Pieces__ask_pieces_ltm`       | ✅ USA       | Interroga memoria storica                                                         |
-| `mcp__Pieces__create_pieces_memory` | ❌ MAI USARE | Pieces salva automaticamente                                                      |
-| `claude-mem` (search/timeline/get)  | ✅ USA       | Memoria persistente cross-sessione. Cerca contesto prima di rileggere file grandi |
+| Tool                               | Azione     | Note                                                                              |
+| ---------------------------------- | ---------- | --------------------------------------------------------------------------------- |
+| `claude-mem` (search/timeline/get) | ✅ USA     | Memoria persistente cross-sessione. Cerca contesto prima di rileggere file grandi |
+| Pieces                             | ❌ RIMOSSO | Rimosso per consumo RAM eccessivo. Sostituito da claude-mem                       |
 
-**Per salvare ricerche/note:** Scrivi in `docs/research/` o `docs/knowledge/`, NON tentare di salvare in Pieces.
+**Per salvare ricerche/note:** Scrivi in `docs/research/` o `docs/knowledge/`.
 **Memoria cross-sessione:** claude-mem salva automaticamente. Usa `search` → `timeline` → `get_observations` per recuperare contesto da sessioni precedenti.
 
 ---
@@ -184,47 +183,33 @@ VERIFICA SEMPRE:
 ```
 gudbro-verticals/
 ├── apps/
-│   ├── coffeeshop/frontend/  # Digital Menu PWA (:3004) - Food & Beverage
-│   ├── accommodations/       # Stays PWA - Hotels, Apartments, Hostels
+│   ├── coffeeshop/frontend/  # Digital Menu PWA (:3004) - Food & Beverage ⭐
+│   ├── accommodations/       # Stays PWA - Hotels (coming soon)
 │   │   ├── frontend/         # Booking Mode + In-Stay Dashboard
-│   │   └── PRD.md            # Product Requirements v2.2
-│   ├── tours/                # Tours PWA - Activities, Experiences
-│   ├── gym/                  # Gym PWA (:3033) - Fitness, PT, day passes, shop
-│   ├── wellness/             # Wellness PWA (:3003) - Spa, Hair, Nails, Tattoo
-│   ├── laundry/              # Laundry PWA (:3030) - Wash & fold, dry clean
-│   │   ├── frontend/         # Service catalog + LaundryForm drawer
 │   │   └── PRD.md
-│   ├── pharmacy/             # Pharmacy PWA (:3031) - Tourist medicines
-│   │   ├── frontend/         # Symptom search, product catalog
-│   │   └── PRD.md
-│   ├── workshops/            # Workshops PWA (:3032) - Artisan experiences
-│   │   ├── frontend/         # Workshop catalog, booking via WhatsApp
-│   │   └── PRD.md
+│   ├── backoffice/           # Admin Dashboard (:3023)
 │   ├── waiter/               # Waiter PWA - Staff order taking
-│   ├── rentals/              # Rentals PWA - Vehicles, Equipment
-│   ├── website/              # Landing pages
-│   └── backoffice/           # Admin Dashboard (:3023)
-├── shared/database/          # Database v6.0
-│   ├── cuisines/, beverages/, dishes/
-│   └── migrations/
+│   └── _archived/            # Verticali futuri (wellness, tours, gym, laundry, pharmacy, workshops, rentals)
+├── website/                  # Landing page società (Vercel deployed)
+├── shared/
+│   ├── database/             # Database v6.0 (cuisines, beverages, dishes, migrations)
+│   ├── utils/                # QR code, formatPrice, currency, dates
+│   ├── types/                # Shared TypeScript types
+│   ├── hooks/                # usePriceFormat, shared React hooks
+│   ├── ui/                   # Radix UI components
+│   ├── config/               # Env validation, constants, auth, payment config
+│   ├── core/                 # Translation engine, modules, templates
+│   ├── components/           # Shared ProductCard
+│   ├── menu-template/        # Vertical menu framework (per futuri verticali)
+│   ├── payment/              # Payment abstractions
+│   └── seo/                  # SEO utilities
 ├── docs/
-│   ├── core/                 # ⭐ Operativi quotidiani
-│   │   ├── lessons/          # Errori per argomento
-│   │   │   ├── database.md
-│   │   │   ├── vercel.md
-│   │   │   ├── typescript.md
-│   │   │   └── ...
-│   │   ├── RUNBOOK.md
-│   │   ├── VERCEL-SETUP.md
-│   │   └── AI-SYSTEM.md
-│   ├── reference/            # Consultazione
-│   │   ├── DATABASE-SCHEMA.md
-│   │   ├── PRODUCT.md
-│   │   └── TESTING-STRATEGY.md
-│   ├── roadmaps/             # Pianificazione
-│   ├── features/             # Feature specs
-│   ├── backlog/              # Kanban
-│   └── archive/              # File datati/obsoleti
+│   ├── core/lessons/         # ⭐ Errori per argomento (database, vercel, typescript, git)
+│   ├── reference/            # DATABASE-SCHEMA, PRODUCT, TESTING-STRATEGY
+│   ├── knowledge/            # CUSTOMIZATIONS-SYSTEM, V2-MIGRATION-GUIDE
+│   ├── roadmaps/             # MULTI-VERTICAL, SCALE, SECURITY
+│   ├── backlog/              # Kanban (1-TODO → 4-DONE)
+│   └── archive/              # File obsoleti + verticals-prd/
 └── CLAUDE.md                 # Questo file
 ```
 
