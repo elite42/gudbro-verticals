@@ -1,6 +1,6 @@
 /**
  * API Error Handler for Backoffice
- * Re-exports from shared utilities + helper functions
+ * Re-exports from shared utilities + Pino logger adapter
  */
 
 // Re-export all error types and utilities from shared
@@ -32,6 +32,7 @@ export {
   badRequest,
   rateLimited,
   withErrorHandling,
+  withErrorHandlingDynamic,
   parseBody,
   parseQuery,
 } from '@gudbro/utils';
@@ -41,35 +42,33 @@ export type {
   ApiSuccessResponse,
   ApiErrorResponse,
   ApiResponse,
+  MinimalLogger,
+  ErrorHandlingOptions,
 } from '@gudbro/utils';
 
-import { NextResponse } from 'next/server';
+// ============================================================================
+// Pino → MinimalLogger Adapter
+// ============================================================================
+
+import { logger as pinoLogger } from '@/lib/observability/logger';
+import type { MinimalLogger } from '@gudbro/utils';
 
 /**
- * Standard error response format for backoffice API routes
- * Use this in catch blocks for consistent error formatting
+ * Pino-based logger that satisfies MinimalLogger interface.
+ * Use this when calling withErrorHandling in backoffice routes:
+ *
+ * @example
+ * import { withErrorHandling, backofficeLogger } from '@/lib/api/error-handler';
+ *
+ * export const GET = withErrorHandling(async (request) => {
+ *   // ...
+ * }, { context: 'audit-logs', logger: backofficeLogger });
  */
-export function handleApiError(
-  error: unknown,
-  context?: string
-): NextResponse<{ success: false; error: { code: string; message: string } }> {
-  const message = error instanceof Error ? error.message : 'Internal server error';
-  const code = error instanceof Error && 'code' in error ? String(error.code) : 'INTERNAL_ERROR';
-
-  if (context) {
-    console.error(`[${context}]`, error);
-  } else {
-    console.error(error);
-  }
-
-  return NextResponse.json(
-    {
-      success: false,
-      error: {
-        code,
-        message,
-      },
-    },
-    { status: 500 }
-  );
-}
+export const backofficeLogger: MinimalLogger = {
+  warn(message: string, context?: Record<string, unknown>) {
+    pinoLogger.warn(context || {}, message);
+  },
+  error(message: string, error?: unknown, context?: Record<string, unknown>) {
+    pinoLogger.error({ err: error, ...context }, message);
+  },
+};

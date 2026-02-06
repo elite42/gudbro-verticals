@@ -18,6 +18,20 @@ import { createLogger } from './logger';
 const logger = createLogger({ service: 'api' });
 
 // ============================================================================
+// Logger Interface (duck-typed for Pino or shared Logger compatibility)
+// ============================================================================
+
+/**
+ * Minimal logger interface that both the shared Logger and
+ * a Pino adapter can satisfy. Allows backoffice to inject its
+ * Pino-based logger while other apps use the shared one.
+ */
+export interface MinimalLogger {
+  warn(message: string, context?: Record<string, unknown>): void;
+  error(message: string, error?: unknown, context?: Record<string, unknown>): void;
+}
+
+// ============================================================================
 // Response Types
 // ============================================================================
 
@@ -132,20 +146,26 @@ export function errorResponse(error: AppError): NextResponse<ApiErrorResponse> {
 }
 
 /**
- * Handle any error and return appropriate response
+ * Handle any error and return appropriate response.
+ * Accepts an optional custom logger (e.g. Pino adapter for backoffice).
  */
-export function handleError(error: unknown, context?: string): NextResponse<ApiErrorResponse> {
+export function handleError(
+  error: unknown,
+  context?: string,
+  customLogger?: MinimalLogger
+): NextResponse<ApiErrorResponse> {
   const appError = toAppError(error);
+  const log: MinimalLogger = customLogger || logger;
 
   // Log error
   if (appError.isOperational) {
-    logger.warn(`[${context || 'API'}] ${appError.message}`, {
+    log.warn(`[${context || 'API'}] ${appError.message}`, {
       code: appError.code,
       statusCode: appError.statusCode,
       context: appError.context,
     });
   } else {
-    logger.error(`[${context || 'API'}] Unexpected error`, error, {
+    log.error(`[${context || 'API'}] Unexpected error`, error, {
       code: appError.code,
       context: appError.context,
     });
@@ -189,15 +209,70 @@ type ApiHandler<T = unknown> = (
   request: Request
 ) => Promise<NextResponse<ApiSuccessResponse<T> | ApiErrorResponse>>;
 
+export interface ErrorHandlingOptions {
+  /** Context label for log messages (e.g. 'auth/2fa/verify') */
+  context?: string;
+  /** Custom logger — pass backofficeLogger for Pino, or omit for shared logger */
+  logger?: MinimalLogger;
+}
+
 /**
- * Wrap an API handler with automatic error handling
+ * Wrap an API handler with automatic error handling.
+ * Accepts a context string (backward-compatible) or an options object.
  */
-export function withErrorHandling<T>(handler: ApiHandler<T>, context?: string): ApiHandler<T> {
+export function withErrorHandling<T>(
+  handler: ApiHandler<T>,
+  contextOrOptions?: string | ErrorHandlingOptions
+): ApiHandler<T> {
+  const opts: ErrorHandlingOptions =
+    typeof contextOrOptions === 'string' ? { context: contextOrOptions } : contextOrOptions || {};
+
   return async (request: Request) => {
     try {
       return await handler(request);
     } catch (error) {
-      return handleError(error, context) as NextResponse<ApiSuccessResponse<T> | ApiErrorResponse>;
+      return handleError(error, opts.context, opts.logger) as NextResponse<
+        ApiSuccessResponse<T> | ApiErrorResponse
+      >;
+    }
+  };
+}
+
+// ============================================================================
+// Dynamic Route Wrapper (for routes with [id], [slug], etc.)
+// ============================================================================
+
+type DynamicApiHandler<T = unknown, P = Record<string, string>> = (
+  request: Request,
+  context: { params: Promise<P> }
+) => Promise<NextResponse<ApiSuccessResponse<T> | ApiErrorResponse>>;
+
+/**
+ * Like withErrorHandling but for routes with dynamic params.
+ *
+ * @example
+ * export const PATCH = withErrorHandlingDynamic<unknown, { itemId: string }>(
+ *   async (request, { params }) => {
+ *     const { itemId } = await params;
+ *     // ...
+ *   },
+ *   { context: 'orders/items/status', logger: backofficeLogger }
+ * );
+ */
+export function withErrorHandlingDynamic<T = unknown, P = Record<string, string>>(
+  handler: DynamicApiHandler<T, P>,
+  contextOrOptions?: string | ErrorHandlingOptions
+): DynamicApiHandler<T, P> {
+  const opts: ErrorHandlingOptions =
+    typeof contextOrOptions === 'string' ? { context: contextOrOptions } : contextOrOptions || {};
+
+  return async (request, routeContext) => {
+    try {
+      return await handler(request, routeContext);
+    } catch (error) {
+      return handleError(error, opts.context, opts.logger) as NextResponse<
+        ApiSuccessResponse<T> | ApiErrorResponse
+      >;
     }
   };
 }
