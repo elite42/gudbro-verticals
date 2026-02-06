@@ -20,7 +20,7 @@
     "@upstash/redis": "^1.36.1",
     "browser-image-compression": "^2.0.2",
     "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "heic2any": "^0.0.4",
     "jose": "^6.1.3",
