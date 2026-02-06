@@ -1,5 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import {
+  withErrorHandlingDynamic,
+  successResponse,
+  NotFoundError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,11 +32,8 @@ interface Order {
  * Get estimated time to completion for an order.
  * Uses historical prep time data to predict when order will be ready.
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ orderId: string }> }
-) {
-  try {
+export const GET = withErrorHandlingDynamic<unknown, { orderId: string }>(
+  async (request: Request, { params }) => {
     const { orderId } = await params;
     const supabase = getSupabaseAdmin();
 
@@ -59,15 +61,14 @@ export async function GET(
       .single();
 
     if (orderError || !order) {
-      return NextResponse.json({ success: false, error: 'Order not found' }, { status: 404 });
+      throw new NotFoundError('Order');
     }
 
     const typedOrder = order as unknown as Order;
 
     // If order is already ready or delivered, no ETA needed
     if (['ready', 'delivered', 'cancelled'].includes(typedOrder.status)) {
-      return NextResponse.json({
-        success: true,
+      return successResponse({
         orderId,
         status: typedOrder.status,
         eta: null,
@@ -78,18 +79,14 @@ export async function GET(
     // Calculate ETA based on item statuses and historical data
     const eta = await calculateOrderETA(supabase, typedOrder);
 
-    return NextResponse.json({
-      success: true,
+    return successResponse({
       orderId,
       status: typedOrder.status,
       ...eta,
     });
-  } catch (error) {
-    console.error('Order ETA API error:', error);
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ success: false, error: message }, { status: 500 });
-  }
-}
+  },
+  { context: 'orders-eta', logger: backofficeLogger }
+);
 
 async function calculateOrderETA(
   supabase: ReturnType<typeof getSupabaseAdmin>,

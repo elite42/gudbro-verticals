@@ -1,5 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import {
+  withErrorHandlingDynamic,
+  successResponse,
+  NotFoundError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,11 +15,8 @@ export const dynamic = 'force-dynamic';
  * Get status change history for a specific order item.
  * Useful for debugging and audit trails.
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ itemId: string }> }
-) {
-  try {
+export const GET = withErrorHandlingDynamic<unknown, { itemId: string }>(
+  async (request: Request, { params }) => {
     const { itemId } = await params;
     const { searchParams } = new URL(request.url);
 
@@ -31,7 +34,7 @@ export async function GET(
       .single();
 
     if (itemError || !item) {
-      return NextResponse.json({ success: false, error: 'Order item not found' }, { status: 404 });
+      throw new NotFoundError('Order item');
     }
 
     // Get history records
@@ -47,11 +50,7 @@ export async function GET(
       .range(offset, offset + limit - 1);
 
     if (historyError) {
-      console.error('Error fetching item history:', historyError);
-      return NextResponse.json(
-        { success: false, error: 'Failed to fetch history' },
-        { status: 500 }
-      );
+      throw new DatabaseError('Failed to fetch item history', { cause: historyError });
     }
 
     // Format history for display
@@ -70,8 +69,7 @@ export async function GET(
     // Calculate timeline summary
     const timeline = buildTimeline(history || []);
 
-    return NextResponse.json({
-      success: true,
+    return successResponse({
       item: {
         id: item.id,
         name: item.item_name,
@@ -88,12 +86,9 @@ export async function GET(
         hasMore: (count || 0) > offset + limit,
       },
     });
-  } catch (error) {
-    console.error('Item history API error:', error);
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ success: false, error: message }, { status: 500 });
-  }
-}
+  },
+  { context: 'orders-items-history', logger: backofficeLogger }
+);
 
 /**
  * Format duration in seconds to human-readable string
