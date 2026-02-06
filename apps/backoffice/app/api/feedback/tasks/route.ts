@@ -1,7 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { notifyTaskStatusChange } from '@/lib/feedback/notification-utils';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  ValidationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,8 +18,8 @@ const VALID_STATUSES = ['new', 'reviewing', 'in_progress', 'done', 'rejected'] a
 // GET - Fetch all feedback tasks (admin cross-merchant)
 // ============================================================================
 
-export async function GET() {
-  try {
+export const GET = withErrorHandling(
+  async () => {
     const supabase = createClient();
     const {
       data: { user },
@@ -20,7 +27,7 @@ export async function GET() {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     const { data, error } = await supabaseAdmin
@@ -30,23 +37,20 @@ export async function GET() {
       .order('last_submitted_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching feedback tasks:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch feedback tasks', { cause: error });
     }
 
-    return NextResponse.json({ tasks: data || [] });
-  } catch (error) {
-    console.error('Error in GET /api/feedback/tasks:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+    return successResponse({ tasks: data || [] });
+  },
+  { context: 'feedback/tasks', logger: backofficeLogger }
+);
 
 // ============================================================================
 // PATCH - Update task status
 // ============================================================================
 
-export async function PATCH(request: NextRequest) {
-  try {
+export const PATCH = withErrorHandling(
+  async (request: Request) => {
     const supabase = createClient();
     const {
       data: { user },
@@ -54,7 +58,7 @@ export async function PATCH(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     const body = await request.json();
@@ -65,14 +69,11 @@ export async function PATCH(request: NextRequest) {
     };
 
     if (!taskId || !status) {
-      return NextResponse.json({ error: 'taskId and status are required' }, { status: 400 });
+      throw new ValidationError('taskId and status are required');
     }
 
     if (!VALID_STATUSES.includes(status as (typeof VALID_STATUSES)[number])) {
-      return NextResponse.json(
-        { error: `Invalid status. Must be one of: ${VALID_STATUSES.join(', ')}` },
-        { status: 400 }
-      );
+      throw new ValidationError(`Invalid status. Must be one of: ${VALID_STATUSES.join(', ')}`);
     }
 
     // Build update payload
@@ -89,8 +90,7 @@ export async function PATCH(request: NextRequest) {
     const { error } = await supabaseAdmin.from('fb_tasks').update(payload).eq('id', taskId);
 
     if (error) {
-      console.error('Error updating task status:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new DatabaseError('Failed to update task status', { cause: error });
     }
 
     // Fire-and-forget notification for relevant status changes (D-1501-1)
@@ -98,9 +98,7 @@ export async function PATCH(request: NextRequest) {
       notifyTaskStatusChange(taskId, status);
     }
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error in PATCH /api/feedback/tasks:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+    return successResponse({ success: true });
+  },
+  { context: 'feedback/tasks', logger: backofficeLogger }
+);

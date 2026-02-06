@@ -1,6 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import {
+  withErrorHandlingDynamic,
+  successResponse,
+  AuthenticationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,8 +14,10 @@ export const dynamic = 'force-dynamic';
 // GET - Fetch submissions linked to a feedback task
 // ============================================================================
 
-export async function GET(_request: NextRequest, { params }: { params: { id: string } }) {
-  try {
+export const GET = withErrorHandlingDynamic<unknown, { id: string }>(
+  async (_request, { params }) => {
+    const { id } = await params;
+
     const supabase = createClient();
     const {
       data: { user },
@@ -17,7 +25,7 @@ export async function GET(_request: NextRequest, { params }: { params: { id: str
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      throw new AuthenticationError();
     }
 
     const { data, error } = await supabaseAdmin
@@ -25,17 +33,14 @@ export async function GET(_request: NextRequest, { params }: { params: { id: str
       .select(
         'id, merchant_id, original_title, original_body, translated_title, translated_body, detected_language, type, priority, sentiment, tags, screenshot_url, submitted_by_account_id, created_at'
       )
-      .eq('task_id', params.id)
+      .eq('task_id', id)
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching task submissions:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch task submissions', { cause: error });
     }
 
-    return NextResponse.json({ submissions: data || [] });
-  } catch (error) {
-    console.error('Error in GET /api/feedback/tasks/[id]/submissions:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+    return successResponse({ submissions: data || [] });
+  },
+  { context: 'feedback/tasks/[id]/submissions', logger: backofficeLogger }
+);

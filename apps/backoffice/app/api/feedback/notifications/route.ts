@@ -1,5 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
+import {
+  withErrorHandling,
+  successResponse,
+  ValidationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -7,14 +13,14 @@ export const dynamic = 'force-dynamic';
 // GET - Fetch merchant notifications
 // ============================================================================
 
-export async function GET(request: NextRequest) {
-  try {
+export const GET = withErrorHandling(
+  async (request: Request) => {
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
     const merchantId = searchParams.get('merchantId');
 
     if (!merchantId) {
-      return NextResponse.json({ error: 'merchantId is required' }, { status: 400 });
+      throw new ValidationError('merchantId is required');
     }
 
     const { data, error } = await supabase
@@ -25,26 +31,23 @@ export async function GET(request: NextRequest) {
       .limit(50);
 
     if (error) {
-      console.error('Error fetching notifications:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      throw new DatabaseError('Failed to fetch notifications', { cause: error });
     }
 
     const notifications = data || [];
     const unreadCount = notifications.filter((n) => !n.is_read).length;
 
-    return NextResponse.json({ notifications, unreadCount });
-  } catch (error) {
-    console.error('Error in GET /api/feedback/notifications:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+    return successResponse({ notifications, unreadCount });
+  },
+  { context: 'feedback/notifications', logger: backofficeLogger }
+);
 
 // ============================================================================
 // PATCH - Mark notifications as read
 // ============================================================================
 
-export async function PATCH(request: NextRequest) {
-  try {
+export const PATCH = withErrorHandling(
+  async (request: Request) => {
     const supabase = await createClient();
     const body = await request.json();
 
@@ -59,11 +62,10 @@ export async function PATCH(request: NextRequest) {
         .eq('is_read', false);
 
       if (error) {
-        console.error('Error marking all notifications as read:', error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        throw new DatabaseError('Failed to mark all notifications as read', { cause: error });
       }
 
-      return NextResponse.json({ success: true });
+      return successResponse({ success: true });
     }
 
     if (body.notificationId) {
@@ -74,19 +76,13 @@ export async function PATCH(request: NextRequest) {
         .eq('id', body.notificationId);
 
       if (error) {
-        console.error('Error marking notification as read:', error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        throw new DatabaseError('Failed to mark notification as read', { cause: error });
       }
 
-      return NextResponse.json({ success: true });
+      return successResponse({ success: true });
     }
 
-    return NextResponse.json(
-      { error: 'Either notificationId or markAllRead with merchantId is required' },
-      { status: 400 }
-    );
-  } catch (error) {
-    console.error('Error in PATCH /api/feedback/notifications:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+    throw new ValidationError('Either notificationId or markAllRead with merchantId is required');
+  },
+  { context: 'feedback/notifications', logger: backofficeLogger }
+);

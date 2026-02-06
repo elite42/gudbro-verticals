@@ -13,32 +13,39 @@
  * This endpoint is called by cron jobs or manual triggers.
  */
 
-import { NextRequest, NextResponse } from 'next/server';
 import { processSubmission } from '@/lib/ai/feedback-intelligence-service';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import {
+  withErrorHandling,
+  successResponse,
+  AuthenticationError,
+  ValidationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
-export async function POST(request: NextRequest) {
-  // Verify authorization (same pattern as notifications/process)
-  const cronSecret = request.headers.get('x-cron-secret');
-  const authHeader = request.headers.get('authorization');
-  const isVercelCron = request.headers.get('x-vercel-cron') === '1';
-  const cronSecretValid = !process.env.CRON_SECRET || cronSecret === process.env.CRON_SECRET;
+export const POST = withErrorHandling<unknown>(
+  async (request: Request) => {
+    // Verify authorization (same pattern as notifications/process)
+    const cronSecret = request.headers.get('x-cron-secret');
+    const authHeader = request.headers.get('authorization');
+    const isVercelCron = request.headers.get('x-vercel-cron') === '1';
+    const cronSecretValid = !process.env.CRON_SECRET || cronSecret === process.env.CRON_SECRET;
 
-  const isAuthorized =
-    (isVercelCron && cronSecretValid) ||
-    authHeader === `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`;
+    const isAuthorized =
+      (isVercelCron && cronSecretValid) ||
+      authHeader === `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`;
 
-  if (!isAuthorized) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+    if (!isAuthorized) {
+      throw new AuthenticationError();
+    }
 
-  try {
     const body = await request.json();
 
     // Mode 1: Single submission
     if (body.submissionId) {
       await processSubmission(body.submissionId);
-      return NextResponse.json({
+      return successResponse({
         success: true,
         submissionId: body.submissionId,
       });
@@ -55,11 +62,11 @@ export async function POST(request: NextRequest) {
         .limit(10);
 
       if (fetchError) {
-        return NextResponse.json({ error: fetchError.message }, { status: 500 });
+        throw new DatabaseError(fetchError.message, { cause: fetchError });
       }
 
       if (!pendingSubmissions || pendingSubmissions.length === 0) {
-        return NextResponse.json({
+        return successResponse({
           success: true,
           message: 'No pending submissions',
           processed: 0,
@@ -75,13 +82,12 @@ export async function POST(request: NextRequest) {
         try {
           await processSubmission(sub.id);
           processed++;
-        } catch (error) {
-          console.error('[FeedbackProcess] Failed to process:', sub.id, error);
+        } catch {
           failed++;
         }
       }
 
-      return NextResponse.json({
+      return successResponse({
         success: true,
         processed,
         failed,
@@ -89,15 +95,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json(
-      { error: 'Invalid request. Provide { submissionId } or { batch: true }' },
-      { status: 400 }
-    );
-  } catch (error) {
-    console.error('[FeedbackProcess] Error:', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Processing failed' },
-      { status: 500 }
-    );
-  }
-}
+    throw new ValidationError('Invalid request. Provide { submissionId } or { batch: true }');
+  },
+  { context: 'feedback/process', logger: backofficeLogger }
+);

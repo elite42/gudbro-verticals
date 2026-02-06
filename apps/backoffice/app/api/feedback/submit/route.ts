@@ -7,8 +7,14 @@
  * After successful insert, triggers AI processing asynchronously.
  */
 
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase-server';
+import {
+  withErrorHandling,
+  createdResponse,
+  ValidationError,
+  DatabaseError,
+  backofficeLogger,
+} from '@/lib/api/error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,8 +29,8 @@ function mapType(uiType: string): SubmissionType | null {
   return null;
 }
 
-export async function POST(request: NextRequest) {
-  try {
+export const POST = withErrorHandling(
+  async (request: Request) => {
     const supabase = await createClient();
 
     // Resolve account_id from auth session
@@ -55,23 +61,20 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     if (!original_title || typeof original_title !== 'string' || !original_title.trim()) {
-      return NextResponse.json({ error: 'original_title is required' }, { status: 400 });
+      throw new ValidationError('original_title is required');
     }
 
     if (!original_body || typeof original_body !== 'string' || !original_body.trim()) {
-      return NextResponse.json({ error: 'original_body is required' }, { status: 400 });
+      throw new ValidationError('original_body is required');
     }
 
     if (!merchant_id || typeof merchant_id !== 'string' || !merchant_id.trim()) {
-      return NextResponse.json({ error: 'merchant_id is required' }, { status: 400 });
+      throw new ValidationError('merchant_id is required');
     }
 
     const mappedType = mapType(type);
     if (!mappedType) {
-      return NextResponse.json(
-        { error: `Invalid type. Must be one of: bug, feature_request, feedback` },
-        { status: 400 }
-      );
+      throw new ValidationError('Invalid type. Must be one of: bug, feature_request, feedback');
     }
 
     // Insert into fb_submissions
@@ -93,8 +96,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error inserting feedback submission:', error);
-      return NextResponse.json({ error: 'Failed to create submission' }, { status: 500 });
+      throw new DatabaseError('Failed to create submission', { cause: error });
     }
 
     // Fire-and-forget: trigger AI processing asynchronously
@@ -107,17 +109,14 @@ export async function POST(request: NextRequest) {
           Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
         },
         body: JSON.stringify({ submissionId: data.id }),
-      }).catch((err) => {
-        console.error('Failed to trigger AI processing:', err);
+      }).catch(() => {
+        // Non-blocking: fire-and-forget
       });
-    } catch (processError) {
+    } catch {
       // Non-blocking: submission is already saved
-      console.error('Error triggering AI processing:', processError);
     }
 
-    return NextResponse.json({ id: data.id, message: 'Submission created' }, { status: 201 });
-  } catch (error) {
-    console.error('Error in POST /api/feedback/submit:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }
-}
+    return createdResponse({ id: data.id, message: 'Submission created' });
+  },
+  { context: 'feedback/submit', logger: backofficeLogger }
+);
