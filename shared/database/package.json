@@ -16,7 +16,7 @@
   "author": "GUDBRO",
   "license": "UNLICENSED",
   "dependencies": {
-    "@supabase/supabase-js": "^2.93.3"
+    "@supabase/supabase-js": "^2.95.3"
   },
   "devDependencies": {
     "@types/node": "^20.19.30",
